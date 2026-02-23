@@ -10,6 +10,9 @@
     let isProcessing: boolean = $state(false);
     let processPhase: 'idle' | 'thinking' | 'uploading' = $state('idle');
     
+    // NEW: The reactive variable for our changing text
+    let thinkingText: string = $state("Initializing..."); 
+    
     let uploadProgress: number = $state(0);
     let result: string | null = $state(null);
     let error: string | null = $state(null);
@@ -71,7 +74,7 @@
             };
             img.onerror = () => {
                 window.URL.revokeObjectURL(img.src);
-                resolve({ w: 0, h: 0 }); // Fallback if image is corrupt
+                resolve({ w: 0, h: 0 }); 
             };
             img.src = window.URL.createObjectURL(file);
         });
@@ -86,31 +89,40 @@
         result = null;
         error = null;
 
-        // Fake loading messages to mask the Together AI Schema delay
-        let thinkingMessages = ["Waking up the brain...", "Analyzing instructions...", "Mapping dimensions..."];
-        let msgIdx = 0;
+        // 1. SPICY UI LOGIC: Cycle through these messages to mask latency
+        const messages = [
+            "Reading image dimensions...",    
+            "Consulting the AI Brain...",     
+            "Calculating resize ratios...",   
+            "Optimizing output format...",    
+            "Preparing to squish..."          
+        ];
+        
+        thinkingText = messages[0];
+        let msgIdx = 1;
+        
+        // Change text every 800ms to make it feel fast and busy
         const msgInterval = setInterval(() => {
             if (processPhase === 'thinking') {
-                msgIdx++; // You can bind this to a UI variable if you want text to change!
-            } else {
-                clearInterval(msgInterval);
+                thinkingText = messages[msgIdx % messages.length];
+                msgIdx++;
             }
-        }, 2000);
+        }, 800);
 
         try {
-            // 1. Gather all files WITH their dimensions in parallel!
+            // 2. Gather all files WITH their dimensions in parallel!
             const fileDetails = await Promise.all(files.map(async (f) => {
                 const dims = await getDimensions(f);
                 return { name: f.name, width: dims.w, height: dims.h };
             }));
 
-            // 2. Send the rich JSON payload to the C++ Backend
+            // 3. Send the rich JSON payload to the C++ Backend
             const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     prompt: prompt.trim(),
-                    fileData: fileDetails // <-- Sending objects, not just strings
+                    fileData: fileDetails
                 })
             });
 
@@ -118,65 +130,79 @@
 
             const parsedData = await nlpResponse.json();
             
-            // 3. Convert the strict Array back into a Map for our upload loop
+            // 4. Convert the strict Array back into a Map for our upload loop
             const fileArray = parsedData.files || [];
-            const fileMap = {};
-            fileArray.forEach(item => {
+            const fileMap: Record<string, any> = {};
+            fileArray.forEach((item: any) => {
                 fileMap[item.filename] = item;
             });
 
             processPhase = 'uploading';
             let completedFiles = 0;
+            let currentFileIndex = 0;
+            const CONCURRENCY_LIMIT = 4; // Safely below browser limits
 
-            // 3. Process all images in PARALLEL (The 11s -> 4s trick)
-            const uploadPromises = files.map(async (file) => {
-                const fileConfig = fileMap[file.name] || {}; 
-                const params = new URLSearchParams();
-                
-                if (fileConfig.type) params.append('type', fileConfig.type);
-                if (fileConfig.smartCompress) params.append('smartCompress', '1');
-                if (fileConfig.removeBackground) params.append('removeBackground', '1');
-                
-                for (const [key, value] of Object.entries(fileConfig)) {
-                    if (key !== 'smartCompress' && key !== 'type' && key !== 'removeBackground') {
-                        if (value !== false && value !== 0) params.append(key, String(value));
+            // 5. The "Smart Concurrency" Pool Worker
+            const processNextFile = async () => {
+                while (currentFileIndex < files.length) {
+                    const file = files[currentFileIndex++];
+                    const fileConfig = fileMap[file.name] || {}; 
+                    
+                    const params = new URLSearchParams();
+                    if (fileConfig.type) params.append('type', fileConfig.type);
+                    if (fileConfig.smartCompress) params.append('smartCompress', '1');
+                    if (fileConfig.removeBackground) params.append('removeBackground', '1');
+                    
+                    for (const [key, value] of Object.entries(fileConfig)) {
+                        if (key !== 'smartCompress' && key !== 'type' && key !== 'removeBackground') {
+                            if (value !== false && value !== 0) params.append(key, String(value));
+                        }
                     }
+
+                    try {
+                        const response = await fetch(`https://api.mochify.xyz/v1/squish?${params.toString()}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': file.type || 'application/octet-stream' },
+                            body: file
+                        });
+
+                        if (!response.ok) throw new Error(`Failed processing ${file.name}`);
+
+                        const blob = await response.blob();
+                        
+                        // Download Logic
+                        const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+                        const newExtension = fileConfig.type || file.name.split('.').pop();
+                        const downloadUrl = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.style.display = 'none';
+                        a.href = downloadUrl;
+                        a.download = `${baseName}_mochified.${newExtension}`;
+                        document.body.appendChild(a);
+                        a.click();
+                        
+                        setTimeout(() => {
+                            window.URL.revokeObjectURL(downloadUrl);
+                            document.body.removeChild(a);
+                        }, 100);
+                    } catch (e) {
+                        console.error(`Error squishing ${file.name}:`, e);
+                    }
+
+                    // Safely update progress bar
+                    completedFiles++;
+                    uploadProgress = Math.round((completedFiles / files.length) * 100);
                 }
+            };
 
-                const response = await fetch(`https://api.mochify.xyz/v1/squish?${params.toString()}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': file.type || 'application/octet-stream' },
-                    body: file
-                });
+            // Spawn exactly 4 workers
+            const workers = [];
+            for (let i = 0; i < Math.min(CONCURRENCY_LIMIT, files.length); i++) {
+                workers.push(processNextFile());
+            }
 
-                if (!response.ok) throw new Error(`Failed processing ${file.name}`);
-
-                const blob = await response.blob();
-                
-                // Track progress
-                completedFiles++;
-                uploadProgress = Math.round((completedFiles / files.length) * 100);
-
-                // Download immediately as they finish
-                const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-                const newExtension = fileConfig.type || file.name.split('.').pop();
-                const downloadUrl = window.URL.createObjectURL(blob);
-                
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = downloadUrl;
-                a.download = `${baseName}_mochified.${newExtension}`;
-                document.body.appendChild(a);
-                a.click();
-                
-                setTimeout(() => {
-                    window.URL.revokeObjectURL(downloadUrl);
-                    document.body.removeChild(a);
-                }, 100);
-            });
-
-            // Wait for all parallel uploads to finish
-            await Promise.all(uploadPromises);
+            // Wait for all workers to finish their queues
+            await Promise.all(workers);
 
             result = `Successfully squished ${completedFiles} image${completedFiles === 1 ? '' : 's'}!`;
             
@@ -185,7 +211,7 @@
         } finally {
             isProcessing = false;
             processPhase = 'idle';
-            clearInterval(msgInterval);
+            clearInterval(msgInterval); // Clean up the interval!
         }
     }
 </script>
@@ -299,21 +325,14 @@
                     </div>
 
                     <div class="border-t border-white/20 bg-white/10 backdrop-blur-sm">
-                        {#if isProcessing}
-                            <div class="h-1.5 bg-white/20 overflow-hidden relative">
-                                {#if processPhase === 'thinking'}
-                                    <div class="absolute inset-0 bg-gradient-to-r from-[#F06292] to-[#e040a0] opacity-60 animate-pulse"></div>
-                                {:else}
-                                    <div class="h-full bg-gradient-to-r from-[#F06292] to-[#e040a0] transition-all duration-300 ease-out shadow-[0_0_10px_rgba(240,98,146,0.5)]" style="width: {uploadProgress}%"></div>
-                                {/if}
-                            </div>
-                        {/if}
-                        
                         <div class="flex items-center justify-between px-6 py-3">
-                            <span class="text-sm text-[#875F42]/70 font-medium tracking-wide">
+                            <span class="text-sm text-[#875F42]/70 font-medium tracking-wide flex items-center gap-2">
                                 {#if isProcessing}
                                     {#if processPhase === 'thinking'}
-                                        AI is analyzing instructions…
+                                        <span class="animate-pulse">✨</span> 
+                                        {#key thinkingText}
+                                            <span class="animate-fade-in">{thinkingText}</span>
+                                        {/key}
                                     {:else}
                                         {uploadProgress < 100 ? `Processing images (${uploadProgress}%)` : 'Finishing up…'}
                                     {/if}
