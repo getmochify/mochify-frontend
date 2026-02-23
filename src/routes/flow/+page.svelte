@@ -75,7 +75,7 @@
             const filenames = files.map(f => f.name);
 
             // 2. Send JSON payload to our new Bulk Endpoint
-            const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse_bulk', {
+            const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
