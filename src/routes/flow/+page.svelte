@@ -105,7 +105,7 @@
             }));
 
             // 2. Send the rich JSON payload to the C++ Backend
-            const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse_bulk', {
+            const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
