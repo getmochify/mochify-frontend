@@ -109,7 +109,7 @@
             }));
 
             // 2. Fetch AI instructions
-            const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse_bulk', {
+            const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
