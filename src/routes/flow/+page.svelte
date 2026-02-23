@@ -162,8 +162,18 @@
                             body: file
                         });
 
-                        if (!response.ok) throw new Error(`Failed processing ${file.name}`);
+                        // 1. THE GUARD: Did the server send us JSON instead of an image?
+                        const contentType = response.headers.get('content-type') || '';
+                        if (contentType.includes('application/json')) {
+                            const errorJson = await response.json();
+                            // Throw the actual backend error message to the UI
+                            throw new Error(errorJson.error || errorJson.message || `Server rejected ${file.name}`);
+                        }
 
+                        // 2. Normal HTTP error check
+                        if (!response.ok) throw new Error(`Failed processing ${file.name} (Status: ${response.status})`);
+
+                        // 3. Safe to assume it's an image now!
                         const blob = await response.blob();
                         const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
                         const newExtension = fileConfig.type || file.name.split('.').pop();
