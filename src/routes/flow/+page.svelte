@@ -325,6 +325,17 @@
                     </div>
 
                     <div class="border-t border-white/20 bg-white/10 backdrop-blur-sm">
+                        
+                        {#if isProcessing}
+                            <div class="h-1.5 bg-white/20 overflow-hidden relative">
+                                {#if processPhase === 'thinking'}
+                                    <div class="absolute inset-0 bg-gradient-to-r from-[#F06292] to-[#e040a0] opacity-60 animate-pulse"></div>
+                                {:else}
+                                    <div class="h-full bg-gradient-to-r from-[#F06292] to-[#e040a0] transition-all duration-300 ease-out shadow-[0_0_10px_rgba(240,98,146,0.5)]" style="width: {uploadProgress}%"></div>
+                                {/if}
+                            </div>
+                        {/if}
+                        
                         <div class="flex items-center justify-between px-6 py-3">
                             <span class="text-sm text-[#875F42]/70 font-medium tracking-wide flex items-center gap-2">
                                 {#if isProcessing}
