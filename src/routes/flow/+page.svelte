@@ -71,60 +71,56 @@
         error = null;
 
         try {
-            // ── NEW: Extract dimensions from the first file ──
-            let realW = 0;
-            let realH = 0;
-            
-            await new Promise<void>((resolve) => {
-                const img = new Image();
-                img.onload = () => {
-                    realW = img.width;
-                    realH = img.height;
-                    window.URL.revokeObjectURL(img.src);
-                    resolve();
-                };
-                img.onerror = () => {
-                    // Safety net: if image is corrupted, just proceed with 0x0
-                    window.URL.revokeObjectURL(img.src);
-                    resolve();
-                };
-                img.src = window.URL.createObjectURL(files[0]);
-            });
+            // 1. Gather all filenames to send to the AI Brain
+            const filenames = files.map(f => f.name);
 
-            // ── Step 1: Get the configuration from the NLP endpoint ──
-            const nlpForm = new FormData();
-            nlpForm.append('prompt', prompt.trim());
-            if (realW > 0) nlpForm.append('realWidth', String(realW));
-            if (realH > 0) nlpForm.append('realHeight', String(realH));
-
-            const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse', {
+            // 2. Send JSON payload to our new Bulk Endpoint
+            const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse_bulk', {
                 method: 'POST',
-                body: nlpForm
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    prompt: prompt.trim(),
+                    filenames: filenames
+                })
             });
 
             if (!nlpResponse.ok) {
+                // If we hit our 429 limit, we can throw a specific error here later!
                 throw new Error(`Failed to understand prompt (Status: ${nlpResponse.status})`);
             }
 
-            const parsedConfig = await nlpResponse.json();
+            // 3. This is now a Map of { "files": { "img1.jpg": {...}, "img2.png": {...} } }
+            const parsedData = await nlpResponse.json();
+            const fileMap = parsedData.files || {}; 
 
-            // ── Step 2: Build the Query String ──
-            const params = new URLSearchParams();
-            if (parsedConfig.type) params.append('type', parsedConfig.type);
-            if (parsedConfig.smartCompress) params.append('smartCompress', '1');
-            
-            for (const [key, value] of Object.entries(parsedConfig)) {
-                if (key !== 'smartCompress' && key !== 'type' && value !== false) {
-                    params.append(key, String(value));
-                }
-            }
-            const queryString = params.toString();
-
-            // ── Step 3: Process the files and trigger downloads ──
             processPhase = 'uploading';
             let completedFiles = 0;
 
+            // 4. Process each file using its SPECIFIC instructions from the AI
             for (const file of files) {
+                
+                // Fallback to default empty object if AI somehow missed it
+                const fileConfig = fileMap[file.name] || {}; 
+                
+                // Build the query string specifically for THIS file
+                const params = new URLSearchParams();
+                if (fileConfig.type) params.append('type', fileConfig.type);
+                if (fileConfig.smartCompress) params.append('smartCompress', '1');
+                if (fileConfig.removeBackground) params.append('removeBackground', '1');
+                
+                // Add any other numeric/boolean parameters safely
+                for (const [key, value] of Object.entries(fileConfig)) {
+                    if (key !== 'smartCompress' && key !== 'type' && key !== 'removeBackground') {
+                        // Ignore 0 or false values to keep URL clean
+                        if (value !== false && value !== 0) {
+                            params.append(key, String(value));
+                        }
+                    }
+                }
+                const queryString = params.toString();
+
                 const blob = await new Promise<Blob>((resolve, reject) => {
                     const xhr = new XMLHttpRequest();
 
@@ -147,15 +143,17 @@
                     xhr.addEventListener('error', () => reject(new Error('Network error during image processing.')));
                     xhr.addEventListener('abort', () => reject(new Error('Request cancelled.')));
 
+                    // Hit the Squish endpoint with the custom query string!
                     xhr.open('POST', `https://api.mochify.xyz/v1/squish?${queryString}`);
                     xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
                     xhr.responseType = 'blob'; 
                     xhr.send(file);
                 });
 
-                // ── Step 4: Automatically Download the Blob ──
+                // Dynamically set the extension based on what the AI chose
                 const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-                const newExtension = parsedConfig.type || file.name.split('.').pop();
+                const newExtension = fileConfig.type || file.name.split('.').pop();
+                
                 const downloadUrl = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 
@@ -173,7 +171,7 @@
                 completedFiles++;
             }
 
-            result = `Successfully processed and downloaded ${completedFiles} image${completedFiles === 1 ? '' : 's'}!`;
+            result = `Successfully squished ${completedFiles} image${completedFiles === 1 ? '' : 's'}!`;
             
         } catch (err) {
             error = err instanceof Error ? err.message : String(err);
@@ -189,11 +187,11 @@
     <meta name="description" content="Describe what you want done to your images, drop them in, and Mochify handles the rest.">
 </svelte:head>
 
-<div class="min-h-screen bg-[#FDFBF7] flex flex-col selection:bg-[#FFF0F3] selection:text-pink-900">
+<div class="min-h-screen bg-[#FDFBF7] flex flex-col selection:bg-[#FFF0F3] selection:text-pink-900 relative">
     <div class="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div class="animate-float absolute -top-48 -right-48 w-[560px] h-[560px] rounded-full bg-gradient-to-br from-pink-200/35 to-transparent blur-[110px]"></div>
-        <div class="animate-float-slow absolute -bottom-60 -left-48 w-[640px] h-[640px] rounded-full bg-gradient-to-tr from-rose-100/25 to-transparent blur-[130px]"></div>
-        <div class="animate-float-slow absolute top-24 right-1/4 w-[300px] h-[300px] rounded-full bg-gradient-to-bl from-purple-100/20 to-transparent blur-[70px]"></div>
+        <div class="animate-float absolute -top-48 -right-48 w-[560px] h-[560px] rounded-full bg-gradient-to-br from-pink-300/40 to-transparent blur-[110px]"></div>
+        <div class="animate-float-slow absolute -bottom-60 -left-48 w-[640px] h-[640px] rounded-full bg-gradient-to-tr from-rose-200/40 to-transparent blur-[130px]"></div>
+        <div class="animate-float-slow absolute top-24 right-1/4 w-[300px] h-[300px] rounded-full bg-gradient-to-bl from-purple-200/30 to-transparent blur-[70px]"></div>
     </div>
 
     <Navigation />
@@ -203,7 +201,7 @@
             <h1 class="text-4xl md:text-6xl font-black text-[#4A2C2C] leading-tight tracking-tight mb-3">
                 What should we do<br class="hidden sm:block"> with your images?
             </h1>
-            <p class="shimmer-text text-xl md:text-2xl font-extrabold tracking-tight mb-4">
+            <p class="shimmer-text text-xl md:text-2xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-400">
                 Prompt. Drop. Done.
             </p>
             <p class="text-[#6C3F31] text-base md:text-lg max-w-lg mx-auto leading-relaxed">
@@ -212,46 +210,46 @@
         </div>
 
         <div class="w-full max-w-2xl">
-            <div class="relative rounded-3xl transition-all duration-300 {isDragging ? 'prompt-glow' : ''}">
+            <div class="relative rounded-[2rem] transition-all duration-300 {isDragging ? 'scale-[1.02] liquid-glow' : ''}">
+                
                 <div 
-                    class="relative rounded-3xl border bg-white/65 backdrop-blur-2xl shadow-2xl shadow-pink-100/60 transition-all duration-300 overflow-hidden {isDragging ? 'border-pink-300' : 'border-white/70'}"
+                    class="liquid-glass relative rounded-[2rem] overflow-hidden transition-all duration-300"
                     ondragover={handleDragOver}
                     ondragleave={handleDragLeave}
                     ondrop={handleDrop}
                     role="region"
                     aria-label="Image processing prompt input area"
                 >
-                    
-                    <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-pink-200/80 to-transparent"></div>
+                    <div class="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-white/80 to-transparent z-10"></div>
 
                     {#if isDragging}
-                        <div class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-pink-50/80 backdrop-blur-sm pointer-events-none">
-                            <div class="w-11 h-11 rounded-xl bg-white/80 shadow-md flex items-center justify-center mb-2.5 animate-bounce">
-                                <svg class="w-5 h-5 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <div class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-white/40 backdrop-blur-md pointer-events-none rounded-[2rem]">
+                            <div class="w-14 h-14 rounded-2xl bg-white/90 shadow-xl shadow-pink-200/50 flex items-center justify-center mb-3 animate-bounce">
+                                <svg class="w-6 h-6 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/>
                                 </svg>
                             </div>
-                            <p class="text-[#4A2C2C] font-bold text-sm">Drop to add images</p>
+                            <p class="text-[#4A2C2C] font-bold text-lg tracking-tight shadow-white drop-shadow-md">Drop it like it's hot</p>
                         </div>
                     {/if}
 
                     {#if files.length > 0}
-                        <div class="flex items-center gap-2 flex-wrap px-5 pt-5 pb-2">
+                        <div class="flex items-center gap-3 flex-wrap px-6 pt-6 pb-2">
                             {#each files as file, i}
-                                <div class="relative group flex-shrink-0">
-                                    <div class="w-14 h-14 rounded-xl overflow-hidden border-2 border-pink-100 shadow-sm bg-pink-50">
+                                <div class="relative group flex-shrink-0 animate-fade-in">
+                                    <div class="liquid-bubble w-16 h-16 rounded-2xl overflow-hidden p-1">
                                         <img
                                             src={URL.createObjectURL(file)}
                                             alt={file.name}
-                                            class="w-full h-full object-cover"
+                                            class="w-full h-full object-cover rounded-xl"
                                         />
                                     </div>
                                     <button
                                         onclick={() => removeFile(i)}
-                                        class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#4A2C2C] text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md cursor-pointer"
+                                        class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-white/90 text-pink-500 hover:text-red-500 hover:bg-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg hover:scale-110 cursor-pointer backdrop-blur-sm"
                                         aria-label="Remove {file.name}"
                                     >
-                                        <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
                                         </svg>
                                     </button>
@@ -259,51 +257,52 @@
                             {/each}
                             <button
                                 onclick={() => fileInputEl?.click()}
-                                class="flex-shrink-0 w-14 h-14 rounded-xl border-2 border-dashed border-pink-200 bg-pink-50/50 hover:bg-pink-50 hover:border-pink-300 transition-all flex items-center justify-center text-pink-400 hover:text-[#F06292]"
+                                class="liquid-bubble flex-shrink-0 w-16 h-16 rounded-2xl border border-dashed border-pink-300/50 hover:bg-white/40 transition-all flex items-center justify-center text-pink-400 hover:text-[#F06292] hover:scale-105 cursor-pointer"
                                 aria-label="Add more images"
                             >
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                                 </svg>
                             </button>
                         </div>
                     {/if}
 
-                    <div class="flex items-center gap-3 px-5 py-4">
-                        <button onclick={() => fileInputEl?.click()} class="flex-shrink-0 p-2.5 rounded-xl text-[#875F42] hover:text-[#F06292] hover:bg-pink-50 transition-all">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <div class="flex items-center gap-3 px-6 py-5">
+                        <button onclick={() => fileInputEl?.click()} class="flex-shrink-0 p-3 rounded-2xl text-[#875F42]/70 hover:text-[#F06292] hover:bg-white/40 transition-all shadow-sm cursor-pointer">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"/>
                             </svg>
                         </button>
                         <input bind:this={fileInputEl} type="file" multiple accept="image/*" onchange={handleFileSelect} class="hidden"/>
-                        <textarea bind:this={textareaEl} bind:value={prompt} oninput={autoGrow} onkeydown={handleKeydown} placeholder="Describe what you want…" rows="1" class="flex-1 resize-none border-0 border-none outline-none ring-0 shadow-none bg-transparent text-[#4A2C2C] placeholder-[#875F42]/50 text-base leading-relaxed focus:outline-none focus:ring-0 focus:border-0 font-medium min-h-[28px] max-h-[200px] overflow-y-auto py-0.5 [appearance:none]"></textarea>
                         
-                        <button onclick={submit} disabled={!prompt.trim() || files.length === 0 || isProcessing} class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center font-bold transition-all duration-200 {prompt.trim() && files.length > 0 && !isProcessing ? 'bg-gradient-to-br from-[#F06292] to-[#e040a0] text-white shadow-lg shadow-pink-200 hover:scale-105' : 'bg-pink-50 text-pink-200 cursor-not-allowed'}">
+                        <textarea bind:this={textareaEl} bind:value={prompt} oninput={autoGrow} onkeydown={handleKeydown} placeholder="Describe what you want…" rows="1" class="flex-1 resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[32px] max-h-[200px] overflow-y-auto py-1 [appearance:none]"></textarea>
+                        
+                        <button onclick={submit} disabled={!prompt.trim() || files.length === 0 || isProcessing} class="flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-bold transition-all duration-300 {prompt.trim() && files.length > 0 && !isProcessing ? 'bg-gradient-to-br from-[#F06292] to-[#e040a0] text-white shadow-[0_4px_16px_rgba(240,98,146,0.4)] hover:shadow-[0_8px_24px_rgba(240,98,146,0.6)] hover:-translate-y-0.5 cursor-pointer' : 'bg-white/30 text-pink-300/50 cursor-not-allowed shadow-inner'}">
                             {#if isProcessing}
-                                <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                <svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
                                 </svg>
                             {:else}
-                                <svg class="w-4 h-4 translate-x-px" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                <svg class="w-5 h-5 translate-x-[1px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
                                 </svg>
                             {/if}
                         </button>
                     </div>
 
-                    <div class="border-t border-pink-50/80 bg-white/30">
+                    <div class="border-t border-white/20 bg-white/10 backdrop-blur-sm">
                         {#if isProcessing}
-                            <div class="h-1 bg-pink-50 overflow-hidden relative">
+                            <div class="h-1.5 bg-white/20 overflow-hidden relative">
                                 {#if processPhase === 'thinking'}
-                                    <div class="absolute inset-0 bg-gradient-to-r from-[#F06292] to-[#e040a0] opacity-40 animate-pulse"></div>
+                                    <div class="absolute inset-0 bg-gradient-to-r from-[#F06292] to-[#e040a0] opacity-60 animate-pulse"></div>
                                 {:else}
-                                    <div class="h-full bg-gradient-to-r from-[#F06292] to-[#e040a0] transition-all duration-300 ease-out" style="width: {uploadProgress}%"></div>
+                                    <div class="h-full bg-gradient-to-r from-[#F06292] to-[#e040a0] transition-all duration-300 ease-out shadow-[0_0_10px_rgba(240,98,146,0.5)]" style="width: {uploadProgress}%"></div>
                                 {/if}
                             </div>
                         {/if}
                         
-                        <div class="flex items-center justify-between px-5 py-2.5">
-                            <span class="text-xs text-[#875F42]/70 font-medium">
+                        <div class="flex items-center justify-between px-6 py-3">
+                            <span class="text-sm text-[#875F42]/70 font-medium tracking-wide">
                                 {#if isProcessing}
                                     {#if processPhase === 'thinking'}
                                         AI is analyzing instructions…
@@ -313,10 +312,10 @@
                                 {:else if files.length === 0}
                                     Drop images into this box or use the clip button
                                 {:else}
-                                    {files.length} {files.length === 1 ? 'image' : 'images'} attached · Shift+Enter for new line
+                                    {files.length} {files.length === 1 ? 'image' : 'images'} attached
                                 {/if}
                             </span>
-                            <span class="text-xs text-[#875F42]/50 font-medium">↵ enter to process</span>
+                            <span class="text-sm text-[#875F42]/50 font-medium bg-white/30 px-2 py-0.5 rounded-md shadow-sm">↵ enter</span>
                         </div>
                     </div>
                 </div>
@@ -324,18 +323,18 @@
         </div>
 
         {#if result || error}
-            <div class="w-full max-w-2xl mt-6">
-                <div class="rounded-3xl border bg-white/65 backdrop-blur-2xl shadow-xl shadow-pink-100/40 border-white/70 overflow-hidden">
-                    <div class="px-5 py-3 border-b border-pink-50/80 bg-white/30 flex items-center gap-2">
+            <div class="w-full max-w-2xl mt-8 animate-fade-in">
+                <div class="liquid-glass rounded-2xl overflow-hidden">
+                    <div class="px-5 py-3 border-b border-white/20 bg-white/10 flex items-center gap-2">
                         {#if error}
-                            <span class="w-2 h-2 rounded-full bg-red-400 flex-shrink-0"></span>
-                            <span class="text-xs font-semibold text-red-600">Error</span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-400 shadow-[0_0_8px_rgba(248,113,113,0.6)] flex-shrink-0"></span>
+                            <span class="text-sm font-bold text-red-600">Error</span>
                         {:else}
-                            <span class="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0"></span>
-                            <span class="text-xs font-semibold text-[#4A2C2C]">Response</span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)] flex-shrink-0"></span>
+                            <span class="text-sm font-bold text-[#4A2C2C]">Response</span>
                         {/if}
                     </div>
-                    <pre class="px-5 py-4 text-sm text-[#4A2C2C] whitespace-pre-wrap break-words font-mono leading-relaxed {error ? 'text-red-700' : ''}">{error ?? result}</pre>
+                    <pre class="px-5 py-4 text-sm text-[#4A2C2C] whitespace-pre-wrap break-words font-mono leading-relaxed {error ? 'text-red-700' : ''} bg-white/5">{error ?? result}</pre>
                 </div>
             </div>
         {/if}
@@ -345,8 +344,41 @@
 </div>
 
 <style>
-    .prompt-glow {
-        box-shadow: 0 0 0 3px rgba(240, 98, 146, 0.25), 0 0 40px rgba(240, 98, 146, 0.15);
-        border-radius: 1.5rem;
+    /* Centralizing the complex properties to keep HTML clean */
+    .liquid-glass {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 
+            0 8px 32px 0 rgba(240, 98, 146, 0.15),
+            inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
+            inset 0 -1px 0 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .liquid-bubble {
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        box-shadow: 
+            inset 0 2px 4px rgba(255, 255, 255, 0.6),
+            inset 0 -2px 4px rgba(0, 0, 0, 0.05),
+            0 4px 12px rgba(240, 98, 146, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .liquid-glow {
+        box-shadow: 
+            0 0 0 2px rgba(240, 98, 146, 0.4), 
+            0 0 40px rgba(240, 98, 146, 0.2),
+            inset 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+
+    @keyframes fade-in {
+        from { opacity: 0; transform: translateY(4px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+        animation: fade-in 0.3s ease-out forwards;
     }
 </style>
