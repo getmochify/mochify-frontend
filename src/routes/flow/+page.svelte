@@ -13,6 +13,9 @@
     let thinkingText: string = $state("Initializing..."); 
     
     let uploadProgress: number = $state(0);
+
+    let downloadAsZip: boolean = $state(false); 
+    
     let textareaEl: HTMLTextAreaElement;
     let fileInputEl: HTMLInputElement;
 
@@ -162,13 +165,29 @@
                         if (!response.ok) throw new Error(`Failed processing ${file.name}`);
 
                         const blob = await response.blob();
-                        const arrayBuffer = await blob.arrayBuffer();
-                        
                         const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
                         const newExtension = fileConfig.type || file.name.split('.').pop();
-                        
-                        // Store the file in memory instead of downloading immediately
-                        zipContents[`${baseName}_mochified.${newExtension}`] = new Uint8Array(arrayBuffer);
+                        const finalName = `${baseName}_mochified.${newExtension}`;
+
+                        if (downloadAsZip) {
+                            // Store in memory for the ZIP phase later
+                            const arrayBuffer = await blob.arrayBuffer();
+                            zipContents[finalName] = new Uint8Array(arrayBuffer);
+                        } else {
+                            // Download immediately as individual files
+                            const downloadUrl = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.style.display = 'none';
+                            a.href = downloadUrl;
+                            a.download = finalName;
+                            document.body.appendChild(a);
+                            a.click();
+                            
+                            setTimeout(() => {
+                                window.URL.revokeObjectURL(downloadUrl);
+                                document.body.removeChild(a);
+                            }, 100);
+                        }
 
                     } catch (e) {
                         console.error(`Error squishing ${file.name}:`, e);
@@ -186,13 +205,12 @@
 
             await Promise.all(workers);
 
-            // NEW: The zipping phase
-            if (Object.keys(zipContents).length > 0) {
-                processPhase = 'thinking'; // Reuse thinking phase for the pulsing UI
+            // 6. The Zipping phase (Only runs if they checked the box AND there are files)
+            if (downloadAsZip && Object.keys(zipContents).length > 0) {
+                processPhase = 'thinking'; 
                 thinkingText = "Packing your zip file...";
                 
                 await new Promise<void>((resolve, reject) => {
-                    // level: 0 ensures we just package them instantly without wasting CPU
                     zip(zipContents, { level: 0 }, (err, zippedData) => {
                         if (err) return reject(err);
                         
@@ -213,7 +231,7 @@
                 });
             }
 
-            // Clear the files visually so the user knows it's ready for a new batch
+            // Clean up UI on success
             prompt = '';
             files = [];
             
@@ -314,11 +332,24 @@
                     {/if}
 
                     <div class="flex items-center gap-3 px-6 py-5">
-                        <button onclick={() => fileInputEl?.click()} class="flex-shrink-0 p-3 rounded-2xl text-[#875F42]/70 hover:text-[#F06292] hover:bg-white/40 transition-all shadow-sm cursor-pointer">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"/>
-                            </svg>
-                        </button>
+                        
+                        <div class="flex flex-col items-center gap-1 flex-shrink-0">
+                            <button onclick={() => fileInputEl?.click()} class="p-3 rounded-2xl text-[#875F42]/70 hover:text-[#F06292] hover:bg-white/40 transition-all shadow-sm cursor-pointer" aria-label="Attach images">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"/>
+                                </svg>
+                            </button>
+                            
+                            <label class="flex items-center cursor-pointer group" title="Download as ZIP">
+                                <div class="relative">
+                                    <input type="checkbox" bind:checked={downloadAsZip} class="sr-only">
+                                    <div class="block w-8 h-4 rounded-full transition-colors duration-300 {downloadAsZip ? 'bg-pink-400' : 'bg-[#875F42]/20'}"></div>
+                                    <div class="dot absolute left-0.5 top-0.5 bg-white w-3 h-3 rounded-full transition-transform duration-300 {downloadAsZip ? 'transform translate-x-4' : ''}"></div>
+                                </div>
+                                <span class="ml-1.5 text-[10px] font-bold tracking-wider uppercase transition-colors duration-300 {downloadAsZip ? 'text-pink-500' : 'text-[#875F42]/50'}">ZIP</span>
+                            </label>
+                        </div>
+
                         <input bind:this={fileInputEl} type="file" multiple accept="image/*" onchange={handleFileSelect} class="hidden"/>
                         
                         <textarea bind:this={textareaEl} bind:value={prompt} oninput={autoGrow} onkeydown={handleKeydown} placeholder="Describe what you want…" rows="1" class="flex-1 resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[32px] max-h-[200px] overflow-y-auto py-1 [appearance:none]"></textarea>
