@@ -1,5 +1,6 @@
 <script lang="ts">
     import { tick } from 'svelte';
+    import { zip } from 'fflate'; // NEW: Blazing fast zip library
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
 
@@ -9,13 +10,9 @@
     
     let isProcessing: boolean = $state(false);
     let processPhase: 'idle' | 'thinking' | 'uploading' = $state('idle');
-    
-    // NEW: The reactive variable for our changing text
     let thinkingText: string = $state("Initializing..."); 
     
     let uploadProgress: number = $state(0);
-    let result: string | null = $state(null);
-    let error: string | null = $state(null);
     let textareaEl: HTMLTextAreaElement;
     let fileInputEl: HTMLInputElement;
 
@@ -64,7 +61,6 @@
         files = files.filter((_, idx) => idx !== i);
     }
 
-    // Small helper to get dimensions quickly without blocking the UI
     function getDimensions(file: File): Promise<{w: number, h: number}> {
         return new Promise((resolve) => {
             const img = new Image();
@@ -86,10 +82,7 @@
         isProcessing = true;
         processPhase = 'thinking';
         uploadProgress = 0;
-        result = null;
-        error = null;
 
-        // 1. SPICY UI LOGIC: Cycle through these messages to mask latency
         const messages = [
             "Reading image dimensions...",    
             "Consulting the AI Brain...",     
@@ -101,7 +94,6 @@
         thinkingText = messages[0];
         let msgIdx = 1;
         
-        // Change text every 800ms to make it feel fast and busy
         const msgInterval = setInterval(() => {
             if (processPhase === 'thinking') {
                 thinkingText = messages[msgIdx % messages.length];
@@ -110,14 +102,14 @@
         }, 800);
 
         try {
-            // 2. Gather all files WITH their dimensions in parallel!
+            // 1. Gather dimensions
             const fileDetails = await Promise.all(files.map(async (f) => {
                 const dims = await getDimensions(f);
                 return { name: f.name, width: dims.w, height: dims.h };
             }));
 
-            // 3. Send the rich JSON payload to the C++ Backend
-            const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse', {
+            // 2. Fetch AI instructions
+            const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse_bulk', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -130,7 +122,6 @@
 
             const parsedData = await nlpResponse.json();
             
-            // 4. Convert the strict Array back into a Map for our upload loop
             const fileArray = parsedData.files || [];
             const fileMap: Record<string, any> = {};
             fileArray.forEach((item: any) => {
@@ -140,9 +131,11 @@
             processPhase = 'uploading';
             let completedFiles = 0;
             let currentFileIndex = 0;
-            const CONCURRENCY_LIMIT = 4; // Safely below browser limits
+            const CONCURRENCY_LIMIT = 4;
+            
+            // NEW: Object to hold our downloaded blobs as Uint8Arrays for fflate
+            const zipContents: Record<string, Uint8Array> = {};
 
-            // 5. The "Smart Concurrency" Pool Worker
             const processNextFile = async () => {
                 while (currentFileIndex < files.length) {
                     const file = files[currentFileIndex++];
@@ -169,49 +162,68 @@
                         if (!response.ok) throw new Error(`Failed processing ${file.name}`);
 
                         const blob = await response.blob();
+                        const arrayBuffer = await blob.arrayBuffer();
                         
-                        // Download Logic
                         const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
                         const newExtension = fileConfig.type || file.name.split('.').pop();
-                        const downloadUrl = window.URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.style.display = 'none';
-                        a.href = downloadUrl;
-                        a.download = `${baseName}_mochified.${newExtension}`;
-                        document.body.appendChild(a);
-                        a.click();
                         
-                        setTimeout(() => {
-                            window.URL.revokeObjectURL(downloadUrl);
-                            document.body.removeChild(a);
-                        }, 100);
+                        // Store the file in memory instead of downloading immediately
+                        zipContents[`${baseName}_mochified.${newExtension}`] = new Uint8Array(arrayBuffer);
+
                     } catch (e) {
                         console.error(`Error squishing ${file.name}:`, e);
                     }
 
-                    // Safely update progress bar
                     completedFiles++;
                     uploadProgress = Math.round((completedFiles / files.length) * 100);
                 }
             };
 
-            // Spawn exactly 4 workers
             const workers = [];
             for (let i = 0; i < Math.min(CONCURRENCY_LIMIT, files.length); i++) {
                 workers.push(processNextFile());
             }
 
-            // Wait for all workers to finish their queues
             await Promise.all(workers);
 
-            result = `Successfully squished ${completedFiles} image${completedFiles === 1 ? '' : 's'}!`;
+            // NEW: The zipping phase
+            if (Object.keys(zipContents).length > 0) {
+                processPhase = 'thinking'; // Reuse thinking phase for the pulsing UI
+                thinkingText = "Packing your zip file...";
+                
+                await new Promise<void>((resolve, reject) => {
+                    // level: 0 ensures we just package them instantly without wasting CPU
+                    zip(zipContents, { level: 0 }, (err, zippedData) => {
+                        if (err) return reject(err);
+                        
+                        const zipBlob = new Blob([zippedData], { type: 'application/zip' });
+                        const url = URL.createObjectURL(zipBlob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'mochified_batch.zip';
+                        document.body.appendChild(a);
+                        a.click();
+                        
+                        setTimeout(() => {
+                            URL.revokeObjectURL(url);
+                            document.body.removeChild(a);
+                            resolve();
+                        }, 100);
+                    });
+                });
+            }
+
+            // Clear the files visually so the user knows it's ready for a new batch
+            prompt = '';
+            files = [];
             
         } catch (err) {
-            error = err instanceof Error ? err.message : String(err);
+            console.error(err);
+            alert(err instanceof Error ? err.message : "An unexpected error occurred.");
         } finally {
             isProcessing = false;
             processPhase = 'idle';
-            clearInterval(msgInterval); // Clean up the interval!
+            clearInterval(msgInterval);
         }
     }
 </script>
@@ -325,7 +337,6 @@
                     </div>
 
                     <div class="border-t border-white/20 bg-white/10 backdrop-blur-sm">
-                        
                         {#if isProcessing}
                             <div class="h-1.5 bg-white/20 overflow-hidden relative">
                                 {#if processPhase === 'thinking'}
@@ -359,23 +370,6 @@
                 </div>
             </div>
         </div>
-
-        {#if result || error}
-            <div class="w-full max-w-2xl mt-8 animate-fade-in">
-                <div class="liquid-glass rounded-2xl overflow-hidden">
-                    <div class="px-5 py-3 border-b border-white/20 bg-white/10 flex items-center gap-2">
-                        {#if error}
-                            <span class="w-2.5 h-2.5 rounded-full bg-red-400 shadow-[0_0_8px_rgba(248,113,113,0.6)] flex-shrink-0"></span>
-                            <span class="text-sm font-bold text-red-600">Error</span>
-                        {:else}
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)] flex-shrink-0"></span>
-                            <span class="text-sm font-bold text-[#4A2C2C]">Response</span>
-                        {/if}
-                    </div>
-                    <pre class="px-5 py-4 text-sm text-[#4A2C2C] whitespace-pre-wrap break-words font-mono leading-relaxed {error ? 'text-red-700' : ''} bg-white/5">{error ?? result}</pre>
-                </div>
-            </div>
-        {/if}
     </main>
 
     <Footer />
