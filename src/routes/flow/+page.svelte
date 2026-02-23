@@ -61,6 +61,22 @@
         files = files.filter((_, idx) => idx !== i);
     }
 
+    // Small helper to get dimensions quickly without blocking the UI
+    function getDimensions(file: File): Promise<{w: number, h: number}> {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => {
+                window.URL.revokeObjectURL(img.src);
+                resolve({ w: img.width, h: img.height });
+            };
+            img.onerror = () => {
+                window.URL.revokeObjectURL(img.src);
+                resolve({ w: 0, h: 0 }); // Fallback if image is corrupt
+            };
+            img.src = window.URL.createObjectURL(file);
+        });
+    }
+
     async function submit() {
         if (!prompt.trim() || files.length === 0 || isProcessing) return;
         
@@ -70,93 +86,77 @@
         result = null;
         error = null;
 
-        try {
-            // 1. Gather all filenames to send to the AI Brain
-            const filenames = files.map(f => f.name);
+        // Fake loading messages to mask the Together AI Schema delay
+        let thinkingMessages = ["Waking up the brain...", "Analyzing instructions...", "Mapping dimensions..."];
+        let msgIdx = 0;
+        const msgInterval = setInterval(() => {
+            if (processPhase === 'thinking') {
+                msgIdx++; // You can bind this to a UI variable if you want text to change!
+            } else {
+                clearInterval(msgInterval);
+            }
+        }, 2000);
 
-            // 2. Send JSON payload to our new Bulk Endpoint
-            const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse', {
+        try {
+            // 1. Gather all files WITH their dimensions in parallel!
+            const fileDetails = await Promise.all(files.map(async (f) => {
+                const dims = await getDimensions(f);
+                return { name: f.name, width: dims.w, height: dims.h };
+            }));
+
+            // 2. Send the rich JSON payload to the C++ Backend
+            const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse_bulk', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     prompt: prompt.trim(),
-                    filenames: filenames
+                    fileData: fileDetails // <-- Sending objects, not just strings
                 })
             });
 
-            if (!nlpResponse.ok) {
-                // If we hit our 429 limit, we can throw a specific error here later!
-                throw new Error(`Failed to understand prompt (Status: ${nlpResponse.status})`);
-            }
+            if (!nlpResponse.ok) throw new Error(`Failed to understand prompt (Status: ${nlpResponse.status})`);
 
-            // 3. This is now a Map of { "files": { "img1.jpg": {...}, "img2.png": {...} } }
             const parsedData = await nlpResponse.json();
             const fileMap = parsedData.files || {}; 
 
             processPhase = 'uploading';
             let completedFiles = 0;
 
-            // 4. Process each file using its SPECIFIC instructions from the AI
-            for (const file of files) {
-                
-                // Fallback to default empty object if AI somehow missed it
+            // 3. Process all images in PARALLEL (The 11s -> 4s trick)
+            const uploadPromises = files.map(async (file) => {
                 const fileConfig = fileMap[file.name] || {}; 
-                
-                // Build the query string specifically for THIS file
                 const params = new URLSearchParams();
+                
                 if (fileConfig.type) params.append('type', fileConfig.type);
                 if (fileConfig.smartCompress) params.append('smartCompress', '1');
                 if (fileConfig.removeBackground) params.append('removeBackground', '1');
                 
-                // Add any other numeric/boolean parameters safely
                 for (const [key, value] of Object.entries(fileConfig)) {
                     if (key !== 'smartCompress' && key !== 'type' && key !== 'removeBackground') {
-                        // Ignore 0 or false values to keep URL clean
-                        if (value !== false && value !== 0) {
-                            params.append(key, String(value));
-                        }
+                        if (value !== false && value !== 0) params.append(key, String(value));
                     }
                 }
-                const queryString = params.toString();
 
-                const blob = await new Promise<Blob>((resolve, reject) => {
-                    const xhr = new XMLHttpRequest();
-
-                    xhr.upload.addEventListener('progress', (e) => {
-                        if (e.lengthComputable) {
-                            const fileProgress = (e.loaded / e.total);
-                            const baseProgress = completedFiles / files.length;
-                            uploadProgress = Math.round((baseProgress + (fileProgress / files.length)) * 100);
-                        }
-                    });
-
-                    xhr.addEventListener('load', () => {
-                        if (xhr.status >= 200 && xhr.status < 300) {
-                            resolve(xhr.response);
-                        } else {
-                            reject(new Error(`Failed to process ${file.name} (Status: ${xhr.status})`));
-                        }
-                    });
-
-                    xhr.addEventListener('error', () => reject(new Error('Network error during image processing.')));
-                    xhr.addEventListener('abort', () => reject(new Error('Request cancelled.')));
-
-                    // Hit the Squish endpoint with the custom query string!
-                    xhr.open('POST', `https://api.mochify.xyz/v1/squish?${queryString}`);
-                    xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
-                    xhr.responseType = 'blob'; 
-                    xhr.send(file);
+                const response = await fetch(`https://api.mochify.xyz/v1/squish?${params.toString()}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': file.type || 'application/octet-stream' },
+                    body: file
                 });
 
-                // Dynamically set the extension based on what the AI chose
+                if (!response.ok) throw new Error(`Failed processing ${file.name}`);
+
+                const blob = await response.blob();
+                
+                // Track progress
+                completedFiles++;
+                uploadProgress = Math.round((completedFiles / files.length) * 100);
+
+                // Download immediately as they finish
                 const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
                 const newExtension = fileConfig.type || file.name.split('.').pop();
-                
                 const downloadUrl = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
                 
+                const a = document.createElement('a');
                 a.style.display = 'none';
                 a.href = downloadUrl;
                 a.download = `${baseName}_mochified.${newExtension}`;
@@ -167,9 +167,10 @@
                     window.URL.revokeObjectURL(downloadUrl);
                     document.body.removeChild(a);
                 }, 100);
+            });
 
-                completedFiles++;
-            }
+            // Wait for all parallel uploads to finish
+            await Promise.all(uploadPromises);
 
             result = `Successfully squished ${completedFiles} image${completedFiles === 1 ? '' : 's'}!`;
             
@@ -178,6 +179,7 @@
         } finally {
             isProcessing = false;
             processPhase = 'idle';
+            clearInterval(msgInterval);
         }
     }
 </script>
