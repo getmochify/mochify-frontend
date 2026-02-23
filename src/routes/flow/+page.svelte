@@ -117,7 +117,13 @@
             if (!nlpResponse.ok) throw new Error(`Failed to understand prompt (Status: ${nlpResponse.status})`);
 
             const parsedData = await nlpResponse.json();
-            const fileMap = parsedData.files || {}; 
+            
+            // 3. Convert the strict Array back into a Map for our upload loop
+            const fileArray = parsedData.files || [];
+            const fileMap = {};
+            fileArray.forEach(item => {
+                fileMap[item.filename] = item;
+            });
 
             processPhase = 'uploading';
             let completedFiles = 0;
