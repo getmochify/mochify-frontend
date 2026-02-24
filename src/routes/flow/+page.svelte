@@ -435,7 +435,7 @@
                             onkeydown={handleKeydown} 
                             placeholder="Describe what you want…" 
                             rows="1" 
-                            class="order-1 sm:order-2 w-full sm:flex-1 resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-lg sm:text-xl leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[48px] max-h-[200px] overflow-y-auto py-2.5 [appearance:none]"
+                            class="order-1 sm:order-2 w-full sm:flex-1 resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[48px] max-h-[200px] overflow-y-auto py-2.5 [appearance:none]"
                         ></textarea>
                         
                         <button onclick={submit} disabled={!prompt.trim() || files.length === 0 || isProcessing} class="order-3 ml-auto sm:ml-0 flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-bold transition-all duration-300 {prompt.trim() && files.length > 0 && !isProcessing ? 'bg-gradient-to-br from-[#F06292] to-[#e040a0] text-white shadow-[0_4px_16px_rgba(240,98,146,0.4)] hover:shadow-[0_8px_24px_rgba(240,98,146,0.6)] hover:-translate-y-0.5 cursor-pointer' : 'bg-white/30 text-pink-300/50 cursor-not-allowed shadow-inner'}">
@@ -479,7 +479,9 @@
                                     {files.length} {files.length === 1 ? 'image' : 'images'} attached
                                 {/if}
                             </span>
-                            <span class="hidden sm:inline-flex text-sm text-[#875F42]/50 font-medium bg-white/30 px-2 py-0.5 rounded-md shadow-sm">↵ enter</span>
+                            <span class="hidden sm:inline-flex text-[11px] text-[#2E5C31]/70 font-bold bg-[#e8f5e9] px-2 py-1 rounded-lg border border-[#C8E6C9]/50 shadow-sm tracking-wide">
+                                ↵ enter
+                            </span>
                         </div>
                     </div>
                 </div>
