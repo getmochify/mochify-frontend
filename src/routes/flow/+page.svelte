@@ -308,7 +308,7 @@
                     {/if}
 
                     {#if files.length > 0}
-                        <div class="flex items-center gap-3 flex-wrap px-6 pt-6 pb-5 relative">
+                        <div class="flex items-center gap-3 flex-wrap px-4 sm:px-6 pt-6 pb-2 relative">
                             {#each files as file, i}
                                 <div class="relative group flex-shrink-0 animate-fade-in">
                                     <div class="liquid-bubble w-16 h-16 rounded-2xl overflow-hidden p-1">
@@ -340,15 +340,15 @@
                             </button>
                             
                             <div class="absolute bottom-0 left-8 right-8">
-            <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-[#875F42]/15 to-transparent"></div>
-            <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
-        </div>
-    </div>
-{/if}
+                                <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-[#875F42]/15 to-transparent"></div>
+                                <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
+                            </div>
+                        </div>
+                    {/if}
 
-                    <div class="flex items-center gap-3 px-6 py-5">
+                    <div class="flex flex-wrap sm:flex-nowrap items-end gap-x-3 gap-y-4 px-4 sm:px-6 py-4 sm:py-5">
                         
-                        <div class="flex items-center gap-3 flex-shrink-0 bg-white/20 p-1.5 rounded-2xl backdrop-blur-sm shadow-inner border border-white/30">
+                        <div class="order-2 sm:order-1 flex items-center gap-2 sm:gap-3 flex-shrink-0 bg-white/20 p-1.5 rounded-2xl backdrop-blur-sm shadow-inner border border-white/30">
                             
                             <button onclick={() => fileInputEl?.click()} class="p-2 rounded-xl text-[#875F42]/80 hover:text-[#F06292] hover:bg-white/60 transition-all cursor-pointer" aria-label="Attach images">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
@@ -368,11 +368,19 @@
                             </label>
                         </div>
 
-                       <input bind:this={fileInputEl} type="file" multiple accept="image/*" onchange={handleFileSelect} class="hidden"/>
+                        <input bind:this={fileInputEl} type="file" multiple accept="image/*" onchange={handleFileSelect} class="hidden"/>
                         
-                        <textarea bind:this={textareaEl} bind:value={prompt} oninput={autoGrow} onkeydown={handleKeydown} placeholder="Describe what you want…" rows="1" class="flex-1 resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[32px] max-h-[200px] overflow-y-auto py-1 [appearance:none]"></textarea>
+                        <textarea 
+                            bind:this={textareaEl} 
+                            bind:value={prompt} 
+                            oninput={autoGrow} 
+                            onkeydown={handleKeydown} 
+                            placeholder="Describe what you want…" 
+                            rows="1" 
+                            class="order-1 sm:order-2 w-full sm:flex-1 resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-lg sm:text-xl leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[48px] max-h-[200px] overflow-y-auto py-2.5 [appearance:none]"
+                        ></textarea>
                         
-                        <button onclick={submit} disabled={!prompt.trim() || files.length === 0 || isProcessing} class="flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-bold transition-all duration-300 {prompt.trim() && files.length > 0 && !isProcessing ? 'bg-gradient-to-br from-[#F06292] to-[#e040a0] text-white shadow-[0_4px_16px_rgba(240,98,146,0.4)] hover:shadow-[0_8px_24px_rgba(240,98,146,0.6)] hover:-translate-y-0.5 cursor-pointer' : 'bg-white/30 text-pink-300/50 cursor-not-allowed shadow-inner'}">
+                        <button onclick={submit} disabled={!prompt.trim() || files.length === 0 || isProcessing} class="order-3 ml-auto sm:ml-0 flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-bold transition-all duration-300 {prompt.trim() && files.length > 0 && !isProcessing ? 'bg-gradient-to-br from-[#F06292] to-[#e040a0] text-white shadow-[0_4px_16px_rgba(240,98,146,0.4)] hover:shadow-[0_8px_24px_rgba(240,98,146,0.6)] hover:-translate-y-0.5 cursor-pointer' : 'bg-white/30 text-pink-300/50 cursor-not-allowed shadow-inner'}">
                             {#if isProcessing}
                                 <svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
@@ -383,7 +391,9 @@
                                 </svg>
                             {/if}
                         </button>
-                    </div> <div class="border-t border-white/20 bg-white/10 backdrop-blur-sm">
+                    </div> 
+
+                    <div class="border-t border-white/20 bg-white/10 backdrop-blur-sm">
                         {#if isProcessing}
                             <div class="h-1.5 bg-white/20 overflow-hidden relative">
                                 {#if processPhase === 'thinking'}
@@ -394,7 +404,7 @@
                             </div>
                         {/if}
                         
-                        <div class="flex items-center justify-between px-6 py-3">
+                        <div class="flex items-center justify-between px-4 sm:px-6 py-3">
                             <span class="text-sm text-[#875F42]/70 font-medium tracking-wide flex items-center gap-2">
                                 {#if isProcessing}
                                     {#if processPhase === 'thinking'}
@@ -406,12 +416,12 @@
                                         {uploadProgress < 100 ? `Processing images (${uploadProgress}%)` : 'Finishing up…'}
                                     {/if}
                                 {:else if files.length === 0}
-                                    Drop images into this box or use the clip button
+                                    Drop images or use the clip button
                                 {:else}
                                     {files.length} {files.length === 1 ? 'image' : 'images'} attached
                                 {/if}
                             </span>
-                            <span class="text-sm text-[#875F42]/50 font-medium bg-white/30 px-2 py-0.5 rounded-md shadow-sm">↵ enter</span>
+                            <span class="hidden sm:inline-flex text-sm text-[#875F42]/50 font-medium bg-white/30 px-2 py-0.5 rounded-md shadow-sm">↵ enter</span>
                         </div>
                     </div>
                 </div>
@@ -423,7 +433,6 @@
 </div>
 
 <style>
-    /* Centralizing the complex properties to keep HTML clean */
     .liquid-glass {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
         backdrop-filter: blur(24px);
