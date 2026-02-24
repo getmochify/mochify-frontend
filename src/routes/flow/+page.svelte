@@ -19,6 +19,41 @@
     let textareaEl: HTMLTextAreaElement;
     let fileInputEl: HTMLInputElement;
 
+    const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
+
+    // Status state
+    let statusMessage: { type: 'success' | 'error' | null, text: string } = $state({ type: null, text: '' });
+    let statusTimeout: ReturnType<typeof setTimeout>;
+
+    // Helper to show themed toast messages
+    function showStatus(type: 'success' | 'error', text: string) {
+        statusMessage = { type, text };
+        if (statusTimeout) clearTimeout(statusTimeout);
+        statusTimeout = setTimeout(() => {
+            statusMessage = { type: null, text: '' };
+        }, 5000); // Auto-hides after 5 seconds
+    }
+
+    // New validation helper
+    function validateAndAddFiles(newFiles: File[]) {
+        const validFiles = [];
+        let rejectedCount = 0;
+        
+        for (const f of newFiles) {
+            if (f.size > MAX_FILE_SIZE) {
+                rejectedCount++;
+            } else if (f.type.startsWith('image/')) {
+                validFiles.push(f);
+            }
+        }
+
+        if (rejectedCount > 0) {
+            showStatus('error', `${rejectedCount} file(s) ignored (exceeds 20MB limit)`);
+        }
+        
+        files = [...files, ...validFiles];
+    }
+
     function autoGrow() {
         if (!textareaEl) return;
         textareaEl.style.height = 'auto';
@@ -47,15 +82,15 @@
     function handleDrop(e: DragEvent) {
         e.preventDefault();
         isDragging = false;
-        const dropped = Array.from(e.dataTransfer?.files ?? []).filter(f => f.type.startsWith('image/'));
-        files = [...files, ...dropped];
+        const dropped = Array.from(e.dataTransfer?.files ?? []);
+        validateAndAddFiles(dropped);
         tick().then(() => textareaEl?.focus());
     }
 
     function handleFileSelect(e: Event) {
         const input = e.target as HTMLInputElement;
         if (input.files) {
-            files = [...files, ...Array.from(input.files)];
+            validateAndAddFiles(Array.from(input.files));
             input.value = '';
         }
     }
@@ -241,13 +276,14 @@
                 });
             }
 
-            // Clean up UI on success
             prompt = '';
             files = [];
+            showStatus('success', 'Images processed successfully! ✨'); // Add this!
             
         } catch (err) {
             console.error(err);
-            alert(err instanceof Error ? err.message : "An unexpected error occurred.");
+            // Replace the alert() with this:
+            showStatus('error', err instanceof Error ? err.message : "An unexpected error occurred.");
         } finally {
             isProcessing = false;
             processPhase = 'idle';
@@ -269,6 +305,28 @@
     </div>
 
     <Navigation />
+
+    {#if statusMessage.type}
+    <div class="fixed top-4 right-4 sm:top-24 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 z-50 animate-fade-in pointer-events-none">
+        <div class="px-5 py-3 rounded-2xl backdrop-blur-md border shadow-xl flex items-center gap-3 transition-all duration-300
+            {statusMessage.type === 'error' 
+                ? 'bg-red-50/90 border-red-200 text-red-800 shadow-red-500/10' 
+                : 'bg-[#F4FBF2]/90 border-[#A5D6A7]/50 text-[#2E5C31] shadow-green-500/10'}">
+            
+            {#if statusMessage.type === 'error'}
+                <svg class="w-5 h-5 flex-shrink-0 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+            {:else}
+                <svg class="w-5 h-5 flex-shrink-0 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            {/if}
+            
+            <span class="font-bold text-sm sm:text-base tracking-tight">{statusMessage.text}</span>
+        </div>
+    </div>
+{/if}
 
     <main class="relative z-10 flex-grow flex flex-col items-center justify-center px-4 pt-16 pb-28 sm:px-6 sm:pb-36">
         <div class="text-center mb-10">
@@ -361,10 +419,10 @@
                             <label class="flex items-center gap-2 cursor-pointer group pr-2" title="Download as ZIP">
                                 <div class="relative">
                                     <input type="checkbox" bind:checked={downloadAsZip} class="sr-only">
-                                    <div class="block w-8 h-4 rounded-full transition-colors duration-300 {downloadAsZip ? 'bg-pink-400 shadow-[0_0_8px_rgba(244,114,182,0.6)]' : 'bg-white/40 shadow-inner'}"></div>
+                                    <div class="block w-8 h-4 rounded-full transition-all duration-300 border {downloadAsZip ? 'bg-[#C8E6C9] border-[#C8E6C9] shadow-[0_0_8px_rgba(200,230,201,0.8)]' : 'bg-[#e8f5e9] border-[#C8E6C9]/40 shadow-inner'}"></div>
                                     <div class="dot absolute left-0.5 top-0.5 bg-white w-3 h-3 rounded-full transition-transform duration-300 shadow-sm {downloadAsZip ? 'transform translate-x-4' : ''}"></div>
                                 </div>
-                                <span class="text-[10px] font-extrabold tracking-widest uppercase transition-colors duration-300 {downloadAsZip ? 'text-pink-500' : 'text-[#875F42]/60'}">ZIP</span>
+                                <span class="text-[10px] font-extrabold tracking-widest uppercase transition-colors duration-300 {downloadAsZip ? 'text-[#2E5C31]' : 'text-[#875F42]/60'}">ZIP</span>
                             </label>
                         </div>
 
@@ -393,7 +451,7 @@
                         </button>
                     </div> 
 
-                    <div class="border-t border-white/20 bg-white/10 backdrop-blur-sm">
+                    <div class="border-t border-white/30 bg-[#FFF9F4]/80 backdrop-blur-md">
                         {#if isProcessing}
                             <div class="h-1.5 bg-white/20 overflow-hidden relative">
                                 {#if processPhase === 'thinking'}
