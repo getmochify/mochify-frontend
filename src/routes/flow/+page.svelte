@@ -378,7 +378,7 @@
                                     </div>
                                     <button
                                         onclick={() => removeFile(i)}
-                                        class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-white/90 text-pink-500 hover:text-red-500 hover:bg-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg hover:scale-110 cursor-pointer backdrop-blur-sm"
+                                        class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-white/90 text-[#F06292] hover:text-red-500 hover:bg-white flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all shadow-md sm:hover:scale-110 cursor-pointer backdrop-blur-sm"
                                         aria-label="Remove {file.name}"
                                     >
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
@@ -389,10 +389,10 @@
                             {/each}
                             <button
                                 onclick={() => fileInputEl?.click()}
-                                class="liquid-bubble flex-shrink-0 w-16 h-16 rounded-2xl border border-dashed border-pink-300/50 hover:bg-white/40 transition-all flex items-center justify-center text-pink-400 hover:text-[#F06292] hover:scale-105 cursor-pointer"
+                                class="liquid-bubble flex-shrink-0 w-16 h-16 rounded-2xl border border-dashed border-[#F06292]/30 hover:bg-white/60 transition-all flex items-center justify-center text-[#F06292]/60 hover:text-[#F06292] hover:scale-105 cursor-pointer shadow-sm"
                                 aria-label="Add more images"
                             >
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                                 </svg>
                             </button>
@@ -438,13 +438,20 @@
                             class="order-1 sm:order-2 w-full sm:flex-1 resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[48px] max-h-[200px] overflow-y-auto py-2.5 [appearance:none]"
                         ></textarea>
                         
-                        <button onclick={submit} disabled={!prompt.trim() || files.length === 0 || isProcessing} class="order-3 ml-auto sm:ml-0 flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-bold transition-all duration-300 {prompt.trim() && files.length > 0 && !isProcessing ? 'bg-gradient-to-br from-[#F06292] to-[#e040a0] text-white shadow-[0_4px_16px_rgba(240,98,146,0.4)] hover:shadow-[0_8px_24px_rgba(240,98,146,0.6)] hover:-translate-y-0.5 cursor-pointer' : 'bg-white/30 text-pink-300/50 cursor-not-allowed shadow-inner'}">
+                        <button 
+                            onclick={submit} 
+                            disabled={!prompt.trim() || files.length === 0 || isProcessing} 
+                            class="order-3 ml-auto sm:ml-0 flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-bold transition-all duration-300 
+                            {prompt.trim() && files.length > 0 && !isProcessing 
+                                ? 'bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_4px_16px_rgba(240,98,146,0.4)] hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),_0_8px_24px_rgba(240,98,146,0.6)] hover:-translate-y-0.5 cursor-pointer' 
+                                : 'bg-white/50 text-[#F06292]/30 border border-white/60 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] cursor-not-allowed'}"
+                        >
                             {#if isProcessing}
-                                <svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                <svg class="w-5 h-5 animate-spin drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
                                 </svg>
                             {:else}
-                                <svg class="w-5 h-5 translate-x-[1px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                <svg class="w-5 h-5 translate-x-[1px] drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
                                 </svg>
                             {/if}
