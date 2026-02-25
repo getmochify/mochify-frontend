@@ -309,13 +309,13 @@
             <div class="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-white/80 to-transparent z-10"></div>
 
             {#if isDragging}
-                <div class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-white/40 backdrop-blur-md pointer-events-none rounded-[2rem]">
-                    <div class="w-14 h-14 rounded-2xl bg-white/90 shadow-xl shadow-pink-200/50 flex items-center justify-center mb-3 animate-bounce">
+                <div class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-gradient-to-b from-pink-50/70 to-white/50 backdrop-blur-md pointer-events-none rounded-[2rem]">
+                    <div class="w-14 h-14 rounded-2xl bg-white/90 shadow-xl shadow-pink-200/60 flex items-center justify-center mb-3 animate-float">
                         <svg class="w-6 h-6 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/>
                         </svg>
                     </div>
-                    <p class="text-[#4A2C2C] font-bold text-lg tracking-tight shadow-white drop-shadow-md">Drop it like it's hot</p>
+                    <p class="text-[#4A2C2C] font-black text-lg tracking-tight">Drop to squish</p>
                 </div>
             {/if}
 

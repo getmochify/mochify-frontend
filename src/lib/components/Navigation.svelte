@@ -20,7 +20,7 @@
 
     <!-- Desktop Menu -->
     <div class="hidden sm:flex items-center gap-6">
-        <a href="/solutions" class="text-sm font-medium text-[#6C3F31] hover:text-[#F06292] transition-colors">Tools</a>
+        <a href="/solutions" class="text-sm font-medium text-[#6C3F31] hover:text-[#F06292] transition-colors">Solutions</a>
         <a href="/guides" class="text-sm font-medium text-[#6C3F31] hover:text-[#F06292] transition-colors">Guides</a>
         <a href="https://ko-fi.com/Z8Z41T1651" target="_blank" class="px-4 py-2 bg-[#FFF5F7] text-[#F06292] rounded-xl text-xs font-black border border-pink-100 hover:bg-pink-50 transition-all">
             Support ☕

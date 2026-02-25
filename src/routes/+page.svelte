@@ -65,11 +65,12 @@
     <main class="relative z-10 flex-grow w-full max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
         
         <header class="text-center mb-10">
-            <h1 class="text-5xl md:text-7xl font-black text-[#4A2C2C] leading-tight tracking-tight mb-4">
+            <h1 class="text-5xl md:text-7xl font-black text-[#4A2C2C] leading-tight tracking-tight mb-3">
                 Mochify
             </h1>
-            <p class="text-[#6C3F31] text-lg md:text-xl max-w-xl mx-auto leading-relaxed">
-                Compress up to <strong><span class="text-[#F06292]">{fileCount}</span> images ({fileSizeMB}MB each)</strong> at once with our native C++ engine. Describe what you need, drop your files, and you're done.
+            <p class="text-xs font-semibold tracking-widest uppercase text-[#F06292]/70 mb-4">Zero-Retention Image Optimization</p>
+            <p class="text-[#6C3F31] text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+                Compress up to <strong><span class="text-[#F06292]" aria-label="{fileCount} images">{fileCount}</span> images ({fileSizeMB}MB each)</strong> at once with our native C++ engine. Describe what you need, drop your files, and you're done.
             </p>
         </header>
 
@@ -79,25 +80,31 @@
 
             <div class="w-full flex justify-center items-start relative z-10">
                 {#if activeTab === 'prompt'}
-                    <div class="animate-fade-in w-full max-w-3xl drop-shadow-[0_12px_30px_rgba(240,98,146,0.08)]">
+                    <div id="tab-panel-prompt" role="tabpanel" aria-labelledby="tab-prompt" class="animate-fade-in w-full max-w-3xl drop-shadow-[0_12px_30px_rgba(240,98,146,0.08)]">
                         <PromptForm />
                     </div>
                 {:else}
-                    <div class="animate-fade-in w-full max-w-3xl">
+                    <div id="tab-panel-classic" role="tabpanel" aria-labelledby="tab-classic" class="animate-fade-in w-full max-w-3xl">
                         <ImageUploadClassic showSmartMode={true} />
                     </div>
                 {/if}
             </div>
 
             <div class="mt-7 relative z-20 flex justify-center w-full">
-                <div class="p-1 rounded-full border border-[#875F42]/10 flex items-center gap-1">
+                <div role="tablist" aria-label="Upload mode" class="p-1 rounded-full border border-[#875F42]/10 flex items-center gap-1">
                     <button
+                        role="tab"
+                        aria-selected={activeTab === 'prompt'}
+                        aria-controls="tab-panel-prompt"
                         onclick={() => activeTab = 'prompt'}
                         class="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 {activeTab === 'prompt' ? 'bg-[#F06292] text-white shadow-sm' : 'text-[#875F42]/60 hover:text-[#F06292] hover:bg-white'}"
                     >
                         Magic Flow
                     </button>
                     <button
+                        role="tab"
+                        aria-selected={activeTab === 'classic'}
+                        aria-controls="tab-panel-classic"
                         onclick={() => activeTab = 'classic'}
                         class="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 {activeTab === 'classic' ? 'bg-[#F06292] text-white shadow-sm' : 'text-[#875F42]/60 hover:text-[#F06292] hover:bg-white'}"
                     >
