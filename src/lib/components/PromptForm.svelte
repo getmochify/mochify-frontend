@@ -24,12 +24,39 @@
         'Compress everything but keep the EXIF data…',
         'Convert to JPEG at 80% quality…',
     ];
-    let placeholderIndex = $state(0);
+    let displayedPlaceholder = $state('');
     $effect(() => {
-        const interval = setInterval(() => {
-            placeholderIndex = (placeholderIndex + 1) % placeholders.length;
-        }, 3000);
-        return () => clearInterval(interval);
+        let index = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let timeoutId: ReturnType<typeof setTimeout>;
+
+        const tick = () => {
+            const full = placeholders[index];
+            if (!isDeleting) {
+                charIndex++;
+                displayedPlaceholder = full.slice(0, charIndex);
+                if (charIndex === full.length) {
+                    isDeleting = true;
+                    timeoutId = setTimeout(tick, 2200);
+                } else {
+                    timeoutId = setTimeout(tick, 55);
+                }
+            } else {
+                charIndex--;
+                displayedPlaceholder = full.slice(0, charIndex);
+                if (charIndex === 0) {
+                    isDeleting = false;
+                    index = (index + 1) % placeholders.length;
+                    timeoutId = setTimeout(tick, 350);
+                } else {
+                    timeoutId = setTimeout(tick, 28);
+                }
+            }
+        };
+
+        timeoutId = setTimeout(tick, 800);
+        return () => clearTimeout(timeoutId);
     });
 
     const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
@@ -46,14 +73,24 @@
         }, 5000); 
     }
 
+    const ACCEPTED_MIME_TYPES = new Set([
+        'image/jpeg', 'image/heic', 'image/heif', 'image/avif',
+        'image/png', 'image/jxl', 'image/webp'
+    ]);
+    const ACCEPTED_EXTENSIONS = new Set([
+        'jpg', 'jpeg', 'heic', 'heif', 'hif', 'avif', 'png', 'jxl', 'webp'
+    ]);
+
     function validateAndAddFiles(newFiles: File[]) {
         const validFiles = [];
         let rejectedCount = 0;
-        
+
         for (const f of newFiles) {
+            const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
+            const accepted = ACCEPTED_MIME_TYPES.has(f.type) || ACCEPTED_EXTENSIONS.has(ext);
             if (f.size > MAX_FILE_SIZE) {
                 rejectedCount++;
-            } else if (f.type.startsWith('image/')) {
+            } else if (accepted) {
                 validFiles.push(f);
             }
         }
@@ -399,14 +436,14 @@
                     </label>
                 </div>
 
-                <input bind:this={fileInputEl} type="file" multiple accept="image/*" onchange={handleFileSelect} class="hidden"/>
+                <input bind:this={fileInputEl} type="file" multiple accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp" onchange={handleFileSelect} class="hidden"/>
                 
                 <textarea 
                     bind:this={textareaEl} 
                     bind:value={prompt} 
                     oninput={autoGrow} 
                     onkeydown={handleKeydown} 
-                    placeholder={placeholders[placeholderIndex]}
+                    placeholder={displayedPlaceholder}
                     rows="1" 
                     class="order-1 sm:order-2 w-full sm:flex-1 resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[48px] max-h-[200px] overflow-y-auto py-2.5 [appearance:none]"
                 ></textarea>

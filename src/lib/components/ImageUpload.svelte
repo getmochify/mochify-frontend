@@ -13,7 +13,7 @@
     };
 
     const props = $props();
-    let { types = ".JPG, .JPEG, .PNG, .WEBP, .AVIF, .HEIC, .HEIF", showTypes = true, output = 'jpg', class: className = '', queryParams = '', showExifOption = false, showSmartMode = false } = props;
+    let { types = ".JPG, .JPEG, .PNG, .WEBP, .AVIF, .HEIC, .HEIF, .HIF, .JXL", showTypes = true, output = 'jpg', class: className = '', queryParams = '', showExifOption = false, showSmartMode = false } = props;
     const hasOutputOverride = 'output' in props;
 
     let stripExif: boolean = $state(false);
@@ -81,7 +81,28 @@
         }
     }
 
+    const ACCEPTED_MIME_TYPES = new Set([
+        'image/jpeg', 'image/heic', 'image/heif', 'image/avif',
+        'image/png', 'image/jxl', 'image/webp'
+    ]);
+    const ACCEPTED_EXTENSIONS = new Set([
+        'jpg', 'jpeg', 'heic', 'heif', 'hif', 'avif', 'png', 'jxl', 'webp'
+    ]);
+
     async function processFiles(allFiles: File[]) {
+        const invalidFiles = allFiles.filter(f => {
+            const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
+            return !ACCEPTED_MIME_TYPES.has(f.type) && !ACCEPTED_EXTENSIONS.has(ext);
+        });
+        if (invalidFiles.length > 0) {
+            errorMessage = `${invalidFiles.length} file(s) not supported. Accepted: JPG, PNG, WebP, AVIF, HEIC, HEIF, HIF, JXL.`;
+            allFiles = allFiles.filter(f => {
+                const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
+                return ACCEPTED_MIME_TYPES.has(f.type) || ACCEPTED_EXTENSIONS.has(ext);
+            });
+            if (allFiles.length === 0) return;
+        }
+
         const oversizedFiles = allFiles.filter(f => f.size > MAX_INDIVIDUAL_FILE_SIZE);
 
         if (oversizedFiles.length > 0) {
@@ -386,7 +407,7 @@
         bind:this={fileInputElement}
         id="file-input"
         type="file"
-        accept={types}
+        accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp"
         multiple
         onchange={handleFileSelect}
         class="hidden"
