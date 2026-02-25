@@ -46,14 +46,24 @@
         }, 5000); 
     }
 
+    const ACCEPTED_MIME_TYPES = new Set([
+        'image/jpeg', 'image/heic', 'image/heif', 'image/avif',
+        'image/png', 'image/jxl', 'image/webp'
+    ]);
+    const ACCEPTED_EXTENSIONS = new Set([
+        'jpg', 'jpeg', 'heic', 'heif', 'hif', 'avif', 'png', 'jxl', 'webp'
+    ]);
+
     function validateAndAddFiles(newFiles: File[]) {
         const validFiles = [];
         let rejectedCount = 0;
-        
+
         for (const f of newFiles) {
+            const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
+            const accepted = ACCEPTED_MIME_TYPES.has(f.type) || ACCEPTED_EXTENSIONS.has(ext);
             if (f.size > MAX_FILE_SIZE) {
                 rejectedCount++;
-            } else if (f.type.startsWith('image/')) {
+            } else if (accepted) {
                 validFiles.push(f);
             }
         }
@@ -399,7 +409,7 @@
                     </label>
                 </div>
 
-                <input bind:this={fileInputEl} type="file" multiple accept="image/*" onchange={handleFileSelect} class="hidden"/>
+                <input bind:this={fileInputEl} type="file" multiple accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp" onchange={handleFileSelect} class="hidden"/>
                 
                 <textarea 
                     bind:this={textareaEl} 
