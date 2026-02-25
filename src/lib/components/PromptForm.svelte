@@ -21,7 +21,7 @@
         'Convert all to WebP…',
         'Resize the first image to 500px, convert all to AVIF…',
         'Optimize these for Shopify…',
-        'Strip EXIF data and compress everything…',
+        'Compress everything but keep the EXIF data…',
         'Convert to JPEG at 80% quality…',
     ];
     let placeholderIndex = $state(0);
@@ -189,9 +189,12 @@
                     if (fileConfig.type) params.append('type', fileConfig.type);
                     if (fileConfig.smartCompress) params.append('smartCompress', '1');
                     if (fileConfig.removeBackground) params.append('removeBackground', '1');
-                    
+                    // Default to stripping EXIF; NLP can explicitly set stripExif: 0 to preserve it
+                    const stripExif = fileConfig.stripExif !== undefined ? fileConfig.stripExif : 1;
+                    params.append('strip_exif', stripExif ? '1' : '0');
+
                     for (const [key, value] of Object.entries(fileConfig)) {
-                        if (key !== 'smartCompress' && key !== 'type' && key !== 'removeBackground') {
+                        if (key !== 'smartCompress' && key !== 'type' && key !== 'removeBackground' && key !== 'stripExif') {
                             if (value !== false && value !== 0) params.append(key, String(value));
                         }
                     }
