@@ -16,6 +16,22 @@
     let textareaEl: HTMLTextAreaElement;
     let fileInputEl: HTMLInputElement;
 
+    const placeholders = [
+        'Describe what you want…',
+        'Convert all to WebP…',
+        'Resize the first image to 500px, convert all to AVIF…',
+        'Optimize these for Shopify…',
+        'Strip EXIF data and compress everything…',
+        'Convert to JPEG at 80% quality…',
+    ];
+    let placeholderIndex = $state(0);
+    $effect(() => {
+        const interval = setInterval(() => {
+            placeholderIndex = (placeholderIndex + 1) % placeholders.length;
+        }, 3000);
+        return () => clearInterval(interval);
+    });
+
     const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
 
     // Status state
@@ -387,7 +403,7 @@
                     bind:value={prompt} 
                     oninput={autoGrow} 
                     onkeydown={handleKeydown} 
-                    placeholder="Describe what you want…" 
+                    placeholder={placeholders[placeholderIndex]}
                     rows="1" 
                     class="order-1 sm:order-2 w-full sm:flex-1 resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[48px] max-h-[200px] overflow-y-auto py-2.5 [appearance:none]"
                 ></textarea>
