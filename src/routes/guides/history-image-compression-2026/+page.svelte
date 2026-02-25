@@ -1,6 +1,7 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
+    import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
         title: "5 Best TinyPNG Alternatives 2026: Secure & Private Optimizers",
@@ -80,10 +81,7 @@
     <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
         
         <section class="my-12">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                What's in This Guide
-            </h2>
+            <SectionHeading>What's in This Guide</SectionHeading>
 
             <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner">
                 <ul class="space-y-3">

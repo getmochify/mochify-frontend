@@ -1,7 +1,8 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
-    
+    import SectionHeading from '$lib/components/SectionHeading.svelte';
+
     const metadata = {
         category: "Image Optimization",
         readTime: "20 min read",
@@ -75,10 +76,7 @@
     <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
         
         <section class="my-12">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                What's in This Guide
-            </h2>
+            <SectionHeading>What's in This Guide</SectionHeading>
 
             <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner">
                 <ul class="space-y-3">
@@ -150,10 +148,7 @@
         </section>
 
         <section id="comparison">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                JPEG Encoder Comparison: 2026 Cheat Sheet
-            </h2>
+            <SectionHeading>JPEG Encoder Comparison: 2026 Cheat Sheet</SectionHeading>
 
             <!-- Mobile: Card Layout -->
             <div class="my-8 md:hidden space-y-4">
@@ -282,10 +277,7 @@
         </section>
 
         <section id="basics">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                JPEG Basics That Matter for Performance
-            </h2>
+            <SectionHeading>JPEG Basics That Matter for Performance</SectionHeading>
 
             <div class="space-y-8">
                 <div>
@@ -346,10 +338,7 @@
         </section>
 
         <section id="what-is-jpegli">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                What Jpegli Is: Better JPEG Encoding, Not a New Format
-            </h2>
+            <SectionHeading>What Jpegli Is: Better JPEG Encoding, Not a New Format</SectionHeading>
 
             <p class="mb-6">Jpegli is an advanced JPEG encoder (and decoder) released by Google in April 2024. It produces standard JPEG files that open in every image viewer, browser, and photo app—no special support required.</p>
 
@@ -386,10 +375,7 @@
         </section>
 
         <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Claims and Nuance: What the Tests Actually Show
-            </h2>
+            <SectionHeading>Claims and Nuance: What the Tests Actually Show</SectionHeading>
 
             <p class="mb-4">Google's announcement cited a 35% compression improvement at high quality settings. This number comes from a specific methodology: crowdsourced raters comparing images from the Cloudinary Image Dataset '22, encoded at several bitrates using jpegli, libjpeg-turbo, and MozJPEG, with results aggregated using ELO scoring.</p>
 
@@ -407,10 +393,7 @@
         </section>
 
         <section id="adoption">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Adoption Reality: Why Your Stack Probably Still Uses MozJPEG or libjpeg-turbo
-            </h2>
+            <SectionHeading>Adoption Reality: Why Your Stack Probably Still Uses MozJPEG or libjpeg-turbo</SectionHeading>
 
             <div class="space-y-8">
                 <div>
@@ -445,10 +428,7 @@
         </section>
 
         <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Stop Uploading Bloated Files and Hoping the Platform Fixes Them
-            </h2>
+            <SectionHeading>Stop Uploading Bloated Files and Hoping the Platform Fixes Them</SectionHeading>
 
             <p class="mb-4">A disturbingly common workflow: shoot a 6MB JPEG from a DSLR, drag it into the eBay listing form, and hope eBay's backend recompresses it gracefully. It won't. eBay will hammer it with a generic lossy pass that obliterates fine detail, or reject it entirely for exceeding size limits.</p>
 
@@ -456,10 +436,7 @@
         </section>
 
         <section id="workflows">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Practical Workflows: Real Scenarios Where JPEG (and Jpegli) Matter
-            </h2>
+            <SectionHeading>Practical Workflows: Real Scenarios Where JPEG (and Jpegli) Matter</SectionHeading>
 
             <div class="space-y-10">
                 <div class="bg-white p-8 rounded-[2.5rem] border border-pink-100 shadow-sm">
@@ -532,10 +509,7 @@
         </section>
 
         <section id="testing">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                A Repeatable Test Methodology: Compare Encoders on Your Content
-            </h2>
+            <SectionHeading>A Repeatable Test Methodology: Compare Encoders on Your Content</SectionHeading>
 
             <p class="mb-6">Generic benchmarks (like Google's or Gianni Rosato's) are useful, but they tested <em>their</em> images. Your product photos, your hero images, your content may behave differently. Here's a methodology you can replicate in 30 minutes.</p>
 
@@ -726,10 +700,7 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
         </section>
 
         <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Mochify's Privacy-First JPEG Optimization
-            </h2>
+            <SectionHeading>Mochify's Privacy-First JPEG Optimization</SectionHeading>
 
             <p class="mb-4">When you're forced to deliver JPEG—because eBay won't accept AVIF, or your client's print lab demands it, or the legacy CMS hasn't been updated since 2015—you want the best possible quality-per-byte without exposing your unpublished product photos or client assets to generic cloud processors that store files for "processing".</p>
 
@@ -772,10 +743,7 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
         </div>
 
         <section id="faq" class="mt-12 pt-12 border-t border-pink-50">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-8 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                FAQ: JPEG Optimization in 2026
-            </h2>
+            <SectionHeading>FAQ: JPEG Optimization in 2026</SectionHeading>
             
             <div class="space-y-6">
                 <div class="bg-white p-6 rounded-2xl border border-pink-100">

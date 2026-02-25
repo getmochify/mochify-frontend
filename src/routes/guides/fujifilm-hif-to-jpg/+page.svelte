@@ -1,5 +1,6 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
         title: "Fuji HIF Files Explained: How to Convert X‑T5 / X‑H2 / X100VI / X‑T50 HIF to JPEG",
@@ -102,10 +103,7 @@
     <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
         
         <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                What is HIF / HEIF?
-            </h2>
+            <SectionHeading>What is HIF / HEIF?</SectionHeading>
             <p>
                 High Efficiency Image File (HEIF, often saved as <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">.HIF</code>) is a modern image format that stores <strong>10‑bit</strong> data instead of the 8‑bit colour you get from a traditional JPEG, while often achieving smaller file sizes at the same perceived quality.
             </p>
@@ -148,20 +146,14 @@
 </div>
 
         <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                The catch: compatibility problems
-            </h2>
+            <SectionHeading>The catch: compatibility problems</SectionHeading>
             <p>
                 The trade‑off is that not every device or app knows what to do with .HIF files yet. Windows, older Androids, and many social platforms will simply reject the file.
             </p>
         </section>
 
         <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                The "Rename" Shortcut
-            </h2>
+            <SectionHeading>The "Rename" Shortcut</SectionHeading>
             <p class="mb-6">
                 If you are on a Mac or Windows 11 and just need to see the file, try this trick:
             </p>
@@ -201,10 +193,7 @@
 </div>
 
         <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Privacy & Performance
-            </h2>
+            <SectionHeading>Privacy & Performance</SectionHeading>
             <p>
                 Unlike generic cloud converters, Mochify uses a <strong>RAM-Only Processing</strong> model. Your photos are loaded into volatile memory, converted, and immediately wiped. They are never written to a hard drive or used for AI training.
             </p>

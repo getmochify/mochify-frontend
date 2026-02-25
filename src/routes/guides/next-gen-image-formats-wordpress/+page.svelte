@@ -1,7 +1,8 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
-    
+    import SectionHeading from '$lib/components/SectionHeading.svelte';
+
     const metadata = {
         category: "WordPress Optimization",
         readTime: "15 min read",
@@ -116,10 +117,7 @@
     <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
         
         <section class="my-12">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                What's in this Guide
-            </h2>
+            <SectionHeading>What's in this Guide</SectionHeading>
 
             <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner">
                 <ul class="space-y-3">
@@ -172,11 +170,8 @@
             </nav>
         </section>
 
-        <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3" id="understanding">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                What "Serve Images in Next-Gen Formats" Actually Means
-            </h2>
+        <section id="understanding">
+            <SectionHeading>What "Serve Images in Next-Gen Formats" Actually Means</SectionHeading>
             <p class="mb-4">
                Lighthouse flags this audit when your page serves images in older formats (typically JPEG/PNG) that could be materially smaller if you served them as modern formats like WebP or AVIF.
             </p>
@@ -190,22 +185,16 @@
             
         </section>
 
-        <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3" id="understanding">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Why this shows up next to LCP
-            </h2>
+        <section id="understanding">
+            <SectionHeading>Why this shows up next to LCP</SectionHeading>
 
             <p class="mb-4">Largest Contentful Paint (LCP) measures how long it takes for the largest element in the viewport (often a hero image, featured image, or large banner) to render.</p>
 
             <p class="mb-4">So if your LCP element is a 900KB JPEG hero, you're effectively asking the browser to download and decode a big file before you can “look fast.” Convert that hero to WebP/AVIF, and you often reduce transfer size enough to move LCP in the right direction (especially on mobile connections).</p>
         </section>
 
-        <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3" id="bloat">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Why More Image Plugins Often Make Things Worse
-            </h2>
+        <section id="bloat">
+            <SectionHeading>Why More Image Plugins Often Make Things Worse</SectionHeading>
             <p class="mb-4">
                I'm not anti-plugin. I'm anti “three plugins doing the same job with different defaults.” The most common failure mode we see on WordPress performance audits involves a stack that creates real costs:
             </p>
@@ -218,11 +207,8 @@
                If you want a clean backend, a plugin-free workflow is simple: only upload optimized images in the first place.</p>
         </section>
 
-        <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3" id="workflow">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                The Clean External Workflow (Mochify)
-            </h2>
+        <section id="workflow">
+            <SectionHeading>The Clean External Workflow (Mochify)</SectionHeading>
             <p class="mb-4">
                 Mochify is built for exactly this: pre-optimizing images before they ever hit WordPress. Here is the workflow we recommend:
             </p>
@@ -253,11 +239,8 @@
             </div>
         </section>
 
-        <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3" id="step-by-step">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Step-by-Step: Fixing One Template/Page
-            </h2>
+        <section id="step-by-step">
+            <SectionHeading>Step-by-Step: Fixing One Template/Page</SectionHeading>
             <p class="mb-6">Pick one page that matters commercially - homepage, a top category, or a best-selling product page. We're going to fix that page, not "optimize your whole site" in theory.</p>
 
             <div class="space-y-8">
@@ -302,11 +285,8 @@
             </div>
         </section>
 
-        <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3" id="settings">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Best-Practice Settings & Dimensions
-            </h2>
+        <section id="settings">
+            <SectionHeading>Best-Practice Settings & Dimensions</SectionHeading>
             <p class="mb-6">
                This is where most WordPress sites quietly lose: they upload a beautiful 5000px-wide image, then let WordPress generate a dozen derivatives, and still end up serving something too heavy for the first viewport.
             </p>
@@ -440,11 +420,8 @@
             </ol>
         </section>
 
-        <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3" id="settings">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                A Small Format Comparsion (Example)
-            </h2>
+        <section id="settings">
+            <SectionHeading>A Small Format Comparsion (Example)</SectionHeading>
             <p class="mb-6">Here's what "serve images in next-gen formats" looks like in practice-same visual image, different encodings.</p>
 <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
                 <div class="overflow-x-auto">
@@ -480,11 +457,8 @@
                     <p>The point isn't chasing perfect numbers - it's removing hundred of kilobytes from the crtical rendering path.</p>
         </section>
 
-        <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3" id="settings">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Measuring the Impact (Before vs. After)
-            </h2>
+        <section id="settings">
+            <SectionHeading>Measuring the Impact (Before vs. After)</SectionHeading>
             <p class="mb-4">After you replace the images:</p>
             <ol class="list-decimal list-outside ml-6 space-y-3 mb-6 text-[#6C3F31]">
                 <li class="mb-3">Run PageSpeed Insights again on the same URL.</li>
@@ -507,11 +481,8 @@
             </p>
 </section>
 
-<section>
-    <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3" id="settings">
-        <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-        When You Might Want Automation (Mochify Pro)
-    </h2>
+<section id="settings">
+    <SectionHeading>When You Might Want Automation (Mochify Pro)</SectionHeading>
 
     <p class="mb-6">The manual workflow is perfect for:</p>
 

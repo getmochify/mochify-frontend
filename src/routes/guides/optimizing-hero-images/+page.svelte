@@ -1,6 +1,9 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
+    import CodeBlock from '$lib/components/CodeBlock.svelte';
+    import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         category: "Image Optimization",
@@ -79,10 +82,7 @@
 
         <!-- TOC -->
         <section class="my-12">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                What's in This Guide
-            </h2>
+            <SectionHeading>What's in This Guide</SectionHeading>
             <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner">
                 <ul class="space-y-3">
                     {#each [
@@ -109,10 +109,7 @@
 
         <!-- Core Web Vitals -->
         <section id="core-web-vitals" class="my-12">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Understanding Core Web Vitals in 60 Seconds
-            </h2>
+            <SectionHeading>Understanding Core Web Vitals in 60 Seconds</SectionHeading>
             <p class="mb-6">Google evaluates your site speed using three Core Web Vitals metrics. Think of them as performance scorecards that directly influence your rankings.</p>
 
             <div class="grid md:grid-cols-3 gap-5 my-8">
@@ -144,10 +141,7 @@
 
         <!-- Why Hero Images Kill SEO -->
         <section id="why-hero-images" class="my-12">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Why Hero Images Kill SEO
-            </h2>
+            <SectionHeading>Why Hero Images Kill SEO</SectionHeading>
             <p class="mb-6">Every e-commerce site and agency portfolio we've audited in 2026 has the same problem: gorgeous 5MB hero images that tank LCP scores. Here's what that costs you.</p>
 
             <div class="space-y-6">
@@ -194,10 +188,7 @@
 
         <!-- Core Best Practices -->
         <section id="best-practices" class="my-12">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Core Best Practices for Hero Optimization
-            </h2>
+            <SectionHeading>Core Best Practices for Hero Optimization</SectionHeading>
             <p class="mb-8">Let's break down the technical steps that actually move the needle. These apply whether you're on WordPress, Shopify, or a custom stack.</p>
 
             <div class="space-y-10">
@@ -223,19 +214,11 @@
                         </div>
                     </div>
                     <p class="mb-4">Use a <code class="bg-pink-50 px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">&lt;picture&gt;</code> element with AVIF first, WebP second, and JPEG fallback:</p>
-                    <div class="my-6 bg-[#1C1C1E] rounded-2xl overflow-hidden shadow-lg">
-                        <div class="flex items-center gap-2 px-5 py-3 bg-[#2C2C2E] border-b border-white/5">
-                            <div class="w-3 h-3 rounded-full bg-[#FF5F57]"></div>
-                            <div class="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
-                            <div class="w-3 h-3 rounded-full bg-[#28C941]"></div>
-                            <span class="ml-3 text-xs text-white/40 font-mono">hero.html</span>
-                        </div>
-                        <pre class="p-5 text-sm font-mono text-[#E5E7EB] overflow-x-auto leading-relaxed"><code>&lt;picture&gt;
-  &lt;source srcset="hero.avif" type="image/avif"&gt;
-  &lt;source srcset="hero.webp" type="image/webp"&gt;
-  &lt;img src="hero.jpg" alt="Product showcase" width="1920" height="800"&gt;
-&lt;/picture&gt;</code></pre>
-                    </div>
+                    <CodeBlock filename="hero.html" code={`<picture>
+  <source srcset="hero.avif" type="image/avif">
+  <source srcset="hero.webp" type="image/webp">
+  <img src="hero.jpg" alt="Product showcase" width="1920" height="800">
+</picture>`} />
                 </div>
 
                 <!-- Size -->
@@ -259,15 +242,7 @@
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Preload Your Hero with <code class="text-[#D81B60] font-mono text-lg">fetchpriority="high"</code></h3>
                     <p class="mb-4">Browsers prioritize resources in a specific order: CSS first, then scripts, then images. Your hero image often loads with default priority — meaning it waits behind other assets.</p>
                     <p class="mb-4">Fix this by preloading the hero and setting <code class="bg-pink-50 px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">fetchpriority="high"</code>:</p>
-                    <div class="my-6 bg-[#1C1C1E] rounded-2xl overflow-hidden shadow-lg">
-                        <div class="flex items-center gap-2 px-5 py-3 bg-[#2C2C2E] border-b border-white/5">
-                            <div class="w-3 h-3 rounded-full bg-[#FF5F57]"></div>
-                            <div class="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
-                            <div class="w-3 h-3 rounded-full bg-[#28C941]"></div>
-                            <span class="ml-3 text-xs text-white/40 font-mono">&lt;head&gt;</span>
-                        </div>
-                        <pre class="p-5 text-sm font-mono text-[#E5E7EB] leading-relaxed"><code>&lt;link rel="preload" as="image" href="hero.avif" fetchpriority="high"&gt;</code></pre>
-                    </div>
+                    <CodeBlock filename="<head>" code={`<link rel="preload" as="image" href="hero.avif" fetchpriority="high">`} />
                     <InfoBox type="technical" title="Why this matters">
                         Etsy deployed this technique site-wide and improved LCP by 4%, with some pages seeing 20–30% gains. Add this <code>&lt;link&gt;</code> tag in your <code>&lt;head&gt;</code> before other stylesheets and scripts. Without <code>fetchpriority="high"</code>, some browsers treat image preloads as low priority and negate the benefit entirely.
                     </InfoBox>
@@ -277,14 +252,7 @@
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Responsive Heroes: Srcset for Different Viewports</h3>
                     <p class="mb-4">Desktop users don't need 1920px images if their screen is 1366px wide. Mobile users on 375px phones certainly don't. Serve appropriately sized variants:</p>
-                    <div class="my-6 bg-[#1C1C1E] rounded-2xl overflow-hidden shadow-lg">
-                        <div class="flex items-center gap-2 px-5 py-3 bg-[#2C2C2E] border-b border-white/5">
-                            <div class="w-3 h-3 rounded-full bg-[#FF5F57]"></div>
-                            <div class="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
-                            <div class="w-3 h-3 rounded-full bg-[#28C941]"></div>
-                            <span class="ml-3 text-xs text-white/40 font-mono">responsive-hero.html</span>
-                        </div>
-                        <pre class="p-5 text-sm font-mono text-[#E5E7EB] overflow-x-auto leading-relaxed"><code>&lt;img 
+                    <CodeBlock filename="responsive-hero.html" code={`<img
   srcset="hero-800.avif 800w, hero-1200.avif 1200w, hero-1920.avif 1920w"
   sizes="100vw"
   src="hero-1920.avif"
@@ -292,8 +260,7 @@
   width="1920"
   height="800"
   fetchpriority="high"
-&gt;</code></pre>
-                    </div>
+>`} />
                     <p>The browser picks the smallest image that fills the viewport. A phone gets 800w (~60 KB), a tablet gets 1200w (~110 KB), and a desktop gets 1920w (~150 KB). You're saving bandwidth and speeding up LCP for most visitors.</p>
                 </div>
 
@@ -309,10 +276,7 @@
 
         <!-- Platform Workflows -->
         <section id="platforms" class="my-12">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Platform-Specific Workflows
-            </h2>
+            <SectionHeading>Platform-Specific Workflows</SectionHeading>
             <p class="mb-8">Different platforms need different approaches. Here's how to pre-optimize heroes for each without adding plugins or overhead.</p>
 
             <div class="space-y-10">
@@ -431,10 +395,7 @@
 
         <!-- Cheat Sheet -->
         <section id="cheat-sheet" class="my-12">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Hero Image Optimization Cheat Sheet 2026
-            </h2>
+            <SectionHeading>Hero Image Optimization Cheat Sheet 2026</SectionHeading>
 
             <div class="overflow-x-auto mb-10">
                 <table class="w-full text-left border-collapse">
@@ -510,10 +471,7 @@
 
         <!-- Mochify Workflow -->
         <section id="mochify-workflow" class="my-12">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Mochify Workflow: Batch Process Heroes Fast
-            </h2>
+            <SectionHeading>Mochify Workflow: Batch Process Heroes Fast</SectionHeading>
             <p class="mb-6">Mochify handles up to 25 hero images per batch with zero-retention in-memory processing. Your images are compressed in RAM and discarded immediately — no disk storage, no tracking, no risk of leaks.</p>
 
             <div class="my-8 bg-gradient-to-br from-[#FFF5F7] to-white rounded-3xl border border-pink-100 p-6 md:p-8">
@@ -553,41 +511,28 @@
         </section>
 
         <!-- Related Guides -->
-        <section class="my-12">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Related Guides
-            </h2>
-            <div class="grid sm:grid-cols-2 gap-4">
-                {#each [
-                    {
-                        href: '/guides/privacy-image-optimization',
-                        title: 'Privacy & Image Optimization',
-                        desc: 'Why zero-retention beats plugins — in-memory processing protects your images from disk storage and AI training.',
-                    },
-                    {
-                        href: '/guides/next-gen-image-formats-wordpress',
-                        title: 'Fix "Serve Images in Next-Gen Formats" in WordPress',
-                        desc: 'Convert your entire WordPress media library to AVIF and WebP without plugin bloat.',
-                    },
-                    {
-                        href: '/guides/2026-guide-next-gen-formats',
-                        title: 'The 2026 Guide to Next-Gen Formats',
-                        desc: 'Deep dive into WebP, AVIF, and JPEG XL compression ratios, browser support, and when to use each format.',
-                    },
-                    {
-                        href: '/guides/jpeg-in-2026-jpegli',
-                        title: 'Jpegli Guide 2026',
-                        desc: "Master Google's modern JPEG encoder for marketplaces and legacy platforms — better quality per byte.",
-                    },
-                ] as g}
-                    <a href={g.href} class="group block p-5 rounded-2xl bg-[#FFF5F7] border border-pink-100 hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                        <h3 class="text-base font-black text-[#4A2C2C] group-hover:text-[#D81B60] transition-colors mb-2">{g.title} →</h3>
-                        <p class="text-sm text-[#6C3F31] leading-relaxed m-0">{g.desc}</p>
-                    </a>
-                {/each}
-            </div>
-        </section>
+        <RelatedGuides guides={[
+            {
+                href: '/guides/privacy-image-optimization',
+                title: 'Privacy & Image Optimization',
+                desc: 'Why zero-retention beats plugins — in-memory processing protects your images from disk storage and AI training.',
+            },
+            {
+                href: '/guides/next-gen-image-formats-wordpress',
+                title: 'Fix "Serve Images in Next-Gen Formats" in WordPress',
+                desc: 'Convert your entire WordPress media library to AVIF and WebP without plugin bloat.',
+            },
+            {
+                href: '/guides/2026-guide-next-gen-formats',
+                title: 'The 2026 Guide to Next-Gen Formats',
+                desc: 'Deep dive into WebP, AVIF, and JPEG XL compression ratios, browser support, and when to use each format.',
+            },
+            {
+                href: '/guides/jpeg-in-2026-jpegli',
+                title: 'Jpegli Guide 2026',
+                desc: "Master Google's modern JPEG encoder for marketplaces and legacy platforms — better quality per byte.",
+            },
+        ]} />
 
     </div>
 </article>

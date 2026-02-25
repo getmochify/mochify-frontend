@@ -1,6 +1,7 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    
+    import SectionHeading from '$lib/components/SectionHeading.svelte';
+
     const metadata = {
         category: "Data Privacy",
         readTime: "6 min read",
@@ -81,10 +82,7 @@
     <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
         
         <section class="my-12">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                What's in this Guide
-            </h2>
+            <SectionHeading>What's in this Guide</SectionHeading>
 
             <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner">
                 <ul class="space-y-3">
@@ -143,21 +141,15 @@
             </nav>
         </section>
 
-        <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3" id="hidden-risks">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                The Hidden Risk of "Free" Data Processing
-            </h2>
+        <section id="hidden-risks">
+            <SectionHeading>The Hidden Risk of "Free" Data Processing</SectionHeading>
             <p>
                Standard image optimizers typically operate on a "store-and-delete" model. Even if a provider claims to delete your data, the fact that your images ever touch a physical disk on a third-party server creates a security liability. For agencies handling pre-release product shots or developers managing sensitive user-generated content, this "retention window" is a critical failure point in a modern security stack.
             </p>
         </section>
 
-        <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3" id="zero-retention">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Decoding Zero-Retention Architecture
-            </h2>
+        <section id="zero-retention">
+            <SectionHeading>Decoding Zero-Retention Architecture</SectionHeading>
             <p class="mb-6">
                 Mochify utilizes a <strong>Zero-Retention Architecture</strong> powered by in-memory C++ processing. Unlike legacy tools, your images are never written to a permanent disk.
             </p>
@@ -183,11 +175,8 @@
             
         </section>
 
-        <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3" id="comparison">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Professional Scaling: Standard Access vs. Mochify Pro<sup>*</sup>
-            </h2>
+        <section id="comparison">
+            <SectionHeading>Professional Scaling: Standard Access vs. Mochify Pro<sup>*</sup></SectionHeading>
 
             <p>
                 While our <strong>Standard Access</strong> (Free) tool remains the gold standard for anonymous, quick image optimization tasks, professional workflows often require higher-volume capabilities. We have designed <strong>Mochify Pro<sup>*</sup></strong> to expand your power without compromising our core privacy values.
@@ -253,11 +242,8 @@
 </div>
         </section>
 
-        <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3" id="privacy-first-checklist">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                The 2026 Privacy-First Checklist
-            </h2>
+        <section id="privacy-first-checklist">
+            <SectionHeading>The 2026 Privacy-First Checklist</SectionHeading>
             <p>
                 When evaluating any optimization tool for your 2026 tech stack, ensure they meet these three "Expert" criteria:
             </p>
@@ -277,11 +263,8 @@
             </ul>
         </section>
 
-        <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3" id="takeaway">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                The "Expert" Takeaway
-            </h2>
+        <section id="takeaway">
+            <SectionHeading>The "Expert" Takeaway</SectionHeading>
 
             <p>
                 For a Senior Web Performance Engineer, the goal is to optimize the Largest Contentful Paint (LCP) without creating a leak. By moving your optimization to a zero-retention environment, you bypass the "Plugin Bloat" of traditional CMS tools and maintain 100% ownership of your creative IP.

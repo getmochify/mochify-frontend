@@ -1,6 +1,7 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    
+    import SectionHeading from '$lib/components/SectionHeading.svelte';
+
     const metadata = {
         category: "Image Optimization",
         readTime: "5 min read",
@@ -41,10 +42,7 @@
     <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
         
         <section class="my-12">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                What's in This Guide
-            </h2>
+            <SectionHeading>What's in This Guide</SectionHeading>
 
             <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner">
                 <ul class="space-y-3">
@@ -80,10 +78,7 @@
         </section>
 
         <section id="docker-pull">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Pulling the Image from Docker Hub
-            </h2>
+            <SectionHeading>Pulling the Image from Docker Hub</SectionHeading>
             <p class="mb-6">
                 Setting up Mochify-Lite is straightforward because it is containerized. Since it is hosted on <a href="https://hub.docker.com/r/mochify/mochify-lite" class="text-[#F06292] font-bold underline decoration-2 decoration-[#FFB3C6] underline-offset-4 hover:text-[#ec407a] hover:decoration-[#F06292] hover:bg-[#FFF0F3] hover:rounded transition-colors">Docker Hub</a>, you can pull the image and have the engine running in seconds.
             </p>
@@ -116,10 +111,7 @@ docker run -d \
         </section>
 
         <section id="using-the-api">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Using the API for Image Compression
-            </h2>
+            <SectionHeading>Using the API for Image Compression</SectionHeading>
             <p class="mb-6">
                 Once your container is running, you have a high-performance compression engine sitting at the ready. Unlike SaaS tools that force you through a web interface, Mochify-Lite exposes a clean REST API. This means you can integrate it into your build scripts, local workflows, or even a right-click "Quick Action" on your desktop.
             </p>
@@ -146,10 +138,7 @@ curl -X POST "http://localhost:5555/v1/squish" \
         </section>
 
         <section id="lite-vs-full">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Leveling Up: Mochify vs. Mochify-Lite
-            </h2>
+            <SectionHeading>Leveling Up: Mochify vs. Mochify-Lite</SectionHeading>
             <p class="mb-6">
                 While Mochify-Lite is a fantastic "drop-in" tool for standard JPEG and PNG tasks, the full Mochify engine is designed for developers who need to support the cutting edge of web performance.
             </p>

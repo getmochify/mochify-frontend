@@ -1,7 +1,8 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
-    
+    import SectionHeading from '$lib/components/SectionHeading.svelte';
+
     const metadata = {
         category: "Image Formats",
         readTime: "20 min read",
@@ -103,10 +104,7 @@
     <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
         
         <section class="my-12">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                What's in This Guide
-            </h2>
+            <SectionHeading>What's in This Guide</SectionHeading>
 
             <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner">
                 <ul class="space-y-3">
@@ -169,10 +167,7 @@
         </section>
 
         <section id="formats">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Format Comparison at a Glance
-            </h2>
+            <SectionHeading>Format Comparison at a Glance</SectionHeading>
 
             <!-- Mobile: Card Layout -->
             <div class="my-8 md:hidden space-y-4">
@@ -339,10 +334,7 @@
         </section>
 
         <section id="formats">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Understanding Modern Image Formats
-            </h2>
+            <SectionHeading>Understanding Modern Image Formats</SectionHeading>
             
             <p class="mb-6">
                 The web ran on JPEG and PNG for 30 years. Both are now legacy formats - inefficient relics that bloat your payload and tank your Lighthouse scores.
@@ -421,10 +413,7 @@
         </section>
 
         <section id="testing">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Real-World Performance Testing
-            </h2>
+            <SectionHeading>Real-World Performance Testing</SectionHeading>
             
             <p class="mb-6">
                 Theory is cheap. Let's measure actual compression with identical source images across formats.
@@ -585,10 +574,7 @@
         </section>
 
         <section id="browser-support">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Browser Compatibility Matrix: February 2026
-            </h2>
+            <SectionHeading>Browser Compatibility Matrix: February 2026</SectionHeading>
             
             <p class="mb-4">This is where theory meets production reality.</p>
 
@@ -722,10 +708,7 @@
         </section>
 
         <section id="when-to-use">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                When to Use Each Format
-            </h2>
+            <SectionHeading>When to Use Each Format</SectionHeading>
             
             <p class="mb-6">Decision fatigue is real. Here's the practical breakdown.</p>
 
@@ -777,10 +760,7 @@
         </section>
 
         <section id="seo">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                SEO and Core Web Vitals Impact
-            </h2>
+            <SectionHeading>SEO and Core Web Vitals Impact</SectionHeading>
             
             <p class="mb-4">
                 Format choice directly affects your search rankings through Core Web Vitals, particularly Largest Contentful Paint (LCP).
@@ -899,10 +879,7 @@
         </section>
 
         <section id="workflow">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
-                Conversion Workflow and Tooling
-            </h2>
+            <SectionHeading>Conversion Workflow and Tooling</SectionHeading>
             
             <p class="mb-6">Format knowledge means nothing if your tools can't deliver. Here's the production workflow.</p>
 
