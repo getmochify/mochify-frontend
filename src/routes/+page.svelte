@@ -1,11 +1,14 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import ImageUpload from '$lib/components/ImageUpload.svelte';
+    import ImageUploadClassic from '$lib/components/ImageUploadClassic.svelte';
+    import PromptForm from '$lib/components/PromptForm.svelte';
     import Footer from '$lib/components/Footer.svelte';
     import Navigation from '$lib/components/Navigation.svelte';
 
-    let fileCount = 0;
-    let fileSizeMB = 0;
+    let fileCount = $state(0);
+    let fileSizeMB = $state(0);
+    
+    let activeTab: 'prompt' | 'classic' = $state('prompt');
 
     function animateCount(from: number, to: number, duration: number, setter: (v: number) => void) {
         const start = performance.now();
@@ -19,13 +22,11 @@
     }
 
     onMount(() => {
-        // Start hero counters shortly after mount
         const t = setTimeout(() => {
             animateCount(0, 25, 1100, v => (fileCount = v));
             animateCount(0, 20, 900,  v => (fileSizeMB = v));
         }, 400);
 
-        // Scroll-triggered reveal
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach(entry => {
@@ -49,149 +50,108 @@
 <svelte:head>
     <title>Mochify | Free Bulk 500MB Image Compressor (Jpegli, AVIF, WebP)</title>
     <meta name="description" content="Free bulk image compressor for WebP, HEIC, JXL & AVIF. Mochify handles 25 files at once up to 20MB each with no quality loss. Fast, private, and Shopify ready.">
-
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mochify.xyz/">
-    <meta property="og:title" content="Mochify - The 'Heavy Duty' Image Optimizer">
-    <meta property="og:description" content="Don't get stuck with 5MB limits. Compress up to 500MB of images in seconds using our native C++ engine. Jpegli & AVIF supported.">
-    <meta property="og:image" content="https://mochify.xyz/screenshot_v2.png"> <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Mochify | High-Speed Bulk Image Optimizer">
-    <meta name="twitter:description" content="Secure, in-memory optimization with native C++ speed. Supports JXL, AVIF, and WebP with a 500MB bulk upload capacity.">
-    
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": "Mochify",
-            "alternateName": "Mochify Image Optimizer",
-            "applicationCategory": "MultimediaApplication",
-            "operatingSystem": "Any",
-            "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-            },
-            "featureList": [
-                "20MB per-file upload limit",
-                "Bulk processing for up to 25 images (500MB Total)",
-                "Advanced Jpegli encoding for 35% better ratios",
-                "Native C++ Drogon backend (No WASM lag)",
-                "Privacy-first: RAM-only processing"
-            ],
-            "fileFormat": ["image/jpeg", "image/png", "image/webp", "image/avif", "image/jxl"]
-        }
-    </script>
-</svelte:head>
+    </svelte:head>
 
 <div class="min-h-screen bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 flex flex-col relative">
     
-    <!-- Animated background orbs -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div class="animate-float absolute -top-40 -right-40 w-[520px] h-[520px] rounded-full bg-pink-200/20 blur-[80px]"></div>
         <div class="animate-float-slow absolute -bottom-56 -left-40 w-[600px] h-[600px] rounded-full bg-rose-100/15 blur-[100px]"></div>
         <div class="animate-float absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full bg-pink-50/20 blur-[70px]"></div>
     </div>
 
-
     <Navigation />
+    
     <main class="relative z-10 flex-grow w-full max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
         
-        <header class="text-center mb-16">
-            <div class="flex flex-col items-center gap-4 mb-6">
-                <h1 class="text-5xl md:text-7xl font-black text-[#4A2C2C] leading-tight">
-                    Mochify
-                </h1>
-                <h2 class="shimmer-text text-2xl md:text-3xl font-extrabold tracking-tight">
-                    Zero-Retention Image Optimization
-                </h2>
-            </div>
-            
-            <p class="mt-6 text-[#6C3F31] text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-				No more 5MB limits. Compress
-				<strong>
-					<span class="font-black text-[#F06292]">{fileCount}</span> images
-					(<span class="font-black text-[#F06292]">{fileSizeMB}MB</span> each)
-				</strong>
-				at once with our <strong>native C++ engine</strong>.
-				Get next-gen <strong>Jpegli</strong>, <strong>AVIF</strong>, and <strong>JPEG XL</strong> – smaller files, same quality, instant results.
-			</p>
-
-            <div class="flex flex-wrap justify-center gap-4 mt-8">
-    
-                <span class="pulse-glow inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFE5F0] shadow-sm text-[#BE185D] text-sm font-bold border border-pink-100">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                    </svg>
-                    No Storage (RAM Only)
-                </span>
-
-                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E8F5E9] shadow-sm text-[#15803d] text-sm font-bold border border-green-100">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z" clip-rule="evenodd"/>
-                    </svg>
-                    Low Carbon Architecture
-                </span>
-
-            </div>
+        <header class="text-center mb-10">
+            <h1 class="text-5xl md:text-7xl font-black text-[#4A2C2C] leading-tight tracking-tight mb-4">
+                Mochify
+            </h1>
+            <p class="text-[#6C3F31] text-lg md:text-xl max-w-xl mx-auto leading-relaxed">
+                Compress up to <strong><span class="text-[#F06292]">{fileCount}</span> images ({fileSizeMB}MB each)</strong> at once with our native C++ engine. Describe what you need, drop your files, and you're done.
+            </p>
         </header>
 
-        <ImageUpload showSmartMode={true} />
+        <div class="w-full flex flex-col items-center relative mt-10 mb-16">
+            
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-[250px] bg-gradient-to-r from-pink-200/0 via-pink-200/20 to-pink-200/0 blur-3xl rounded-full pointer-events-none -z-10 transition-opacity duration-500 {activeTab === 'prompt' ? 'opacity-100' : 'opacity-0'}"></div>
 
-        <section class="mt-20 max-w-4xl mx-auto reveal">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6">
-                    <div>
-                        <h3 class="text-2xl font-bold text-[#4A2C2C] mb-3">The Engineering</h3>
-                        <p class="leading-relaxed text-[#6C3F31]">
-                            Most online compressors run on slow interpreted scripts. Mochify runs on a custom C++20 engine directly on the server hardware, so we can handle much larger files (up to 20MB) and return downloads almost instantly.
-                        </p>
+            <div class="w-full flex justify-center items-start relative z-10">
+                {#if activeTab === 'prompt'}
+                    <div class="animate-fade-in w-full max-w-3xl drop-shadow-[0_12px_30px_rgba(240,98,146,0.08)]">
+                        <PromptForm />
                     </div>
+                {:else}
+                    <div class="animate-fade-in w-full max-w-3xl">
+                        <ImageUploadClassic showSmartMode={true} />
+                    </div>
+                {/if}
+            </div>
 
-                    <ul class="space-y-3">
-                        <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-[#F06292] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                            </svg>
-                            <div>
-                                <span class="font-semibold text-[#4A2C2C]">Jpegli compression</span>
-                                <span class="text-[#6C3F31]"> — Up to 35% smaller files than standard JPEG at similar visual quality</span>
-                            </div>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-[#F06292] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                            </svg>
-                            <div>
-                                <span class="font-semibold text-[#4A2C2C]">Parallel processing</span>
-                                <span class="text-[#6C3F31]"> — Compress up to 25 images simultaneously</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                
-               <div class="grid md:grid-cols-1 gap-4">
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-pink-50 hover:shadow-md hover:border-pink-100 transition-all duration-300" style="transition-delay: 0.1s">
-                        <div class="flex items-center gap-3 mb-2">
-                        <svg class="text-[#F06292] w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                        <h3 class="font-bold text-[#4A2C2C] text-lg">Privacy by Design</h3>
-                        </div>
-                        <p class="text-[#6C3F31] text-sm leading-relaxed opacity-90">
-                        Your images never touch a hard drive. They are streamed into RAM, compressed, and wiped instantly.
-                        </p>
-                    </div>
-
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-pink-50 hover:shadow-md hover:border-pink-100 transition-all duration-300" style="transition-delay: 0.2s">
-                        <div class="flex items-center gap-3 mb-2">
-                        <svg class="text-[#F06292] w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <h3 class="font-bold text-[#4A2C2C] text-lg">Pro Formats Free</h3>
-                        </div>
-                        <p class="text-[#6C3F31] text-sm leading-relaxed opacity-90">
-                        Convert to next-gen formats like AVIF and JXL for free. No "Pro" account required.
-                        </p>
-                    </div>
+            <div class="mt-7 relative z-20 flex justify-center w-full">
+                <div class="p-1 rounded-full border border-[#875F42]/10 flex items-center gap-1">
+                    <button
+                        onclick={() => activeTab = 'prompt'}
+                        class="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 {activeTab === 'prompt' ? 'bg-[#F06292] text-white shadow-sm' : 'text-[#875F42]/60 hover:text-[#F06292] hover:bg-white'}"
+                    >
+                        Magic Flow
+                    </button>
+                    <button
+                        onclick={() => activeTab = 'classic'}
+                        class="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 {activeTab === 'classic' ? 'bg-[#F06292] text-white shadow-sm' : 'text-[#875F42]/60 hover:text-[#F06292] hover:bg-white'}"
+                    >
+                        Manual Settings
+                    </button>
                 </div>
             </div>
             
+        </div>
+
+        <section class="mt-12 max-w-4xl mx-auto reveal">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+
+                <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-white/80 shadow-sm hover:shadow-md hover:bg-white/80 transition-all duration-300 group">
+                    <div class="w-9 h-9 rounded-xl bg-[#FFF0F3] flex items-center justify-center mb-3 group-hover:scale-105 transition-transform duration-200">
+                        <svg class="w-4 h-4 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">C++20 Engine</h3>
+                    <p class="text-[#875F42]/80 text-xs leading-relaxed">Processes files in milliseconds, not seconds. No interpreted scripts.</p>
+                </div>
+
+                <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-white/80 shadow-sm hover:shadow-md hover:bg-white/80 transition-all duration-300 group">
+                    <div class="w-9 h-9 rounded-xl bg-[#FFF0F3] flex items-center justify-center mb-3 group-hover:scale-105 transition-transform duration-200">
+                        <svg class="w-4 h-4 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Jpegli</h3>
+                    <p class="text-[#875F42]/80 text-xs leading-relaxed">Up to 35% smaller than standard JPEG at the same visual quality.</p>
+                </div>
+
+                <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-white/80 shadow-sm hover:shadow-md hover:bg-white/80 transition-all duration-300 group">
+                    <div class="w-9 h-9 rounded-xl bg-[#FFF0F3] flex items-center justify-center mb-3 group-hover:scale-105 transition-transform duration-200">
+                        <svg class="w-4 h-4 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Zero Retention</h3>
+                    <p class="text-[#875F42]/80 text-xs leading-relaxed">Streamed into RAM, compressed, wiped. Your images never touch a disk.</p>
+                </div>
+
+                <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-white/80 shadow-sm hover:shadow-md hover:bg-white/80 transition-all duration-300 group">
+                    <div class="w-9 h-9 rounded-xl bg-[#FFF0F3] flex items-center justify-center mb-3 group-hover:scale-105 transition-transform duration-200">
+                        <svg class="w-4 h-4 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Next-gen Free</h3>
+                    <p class="text-[#875F42]/80 text-xs leading-relaxed">AVIF, JXL, and WebP included. No Pro account, no paywalls.</p>
+                </div>
+
+            </div>
         </section>
     </main>
 
@@ -200,3 +160,13 @@
     </div>
 
 </div>
+
+<style>
+    @keyframes fade-in {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+        animation: fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+</style>
