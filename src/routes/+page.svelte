@@ -54,26 +54,39 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Mochify",
-        "url": "https://mochify.xyz",
-        "description": "Free bulk image compressor for WebP, HEIC, JXL & AVIF. Processes 25 files at once up to 20MB each with a native C++ engine. Zero retention — files never touch disk.",
-        "applicationCategory": "MultimediaApplication",
-        "operatingSystem": "Any",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "featureList": [
-            "AVIF, WebP, JXL, Jpegli compression",
-            "Batch processing up to 25 files",
-            "Zero data retention",
-            "EXIF stripping",
-            "NLP-driven Magic Flow"
-        ],
-        "isAccessibleForFree": true,
-        "inLanguage": "en"
+        "@graph": [
+            {
+                "@type": "WebApplication",
+                "name": "Mochify",
+                "url": "https://mochify.xyz",
+                "description": "Free bulk image compressor for WebP, HEIC, JXL & AVIF. Processes 25 files at once up to 20MB each with a native C++ engine. Zero retention — files never touch disk.",
+                "applicationCategory": "MultimediaApplication",
+                "operatingSystem": "Any",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "AVIF, WebP, JXL, Jpegli compression",
+                    "Batch processing up to 25 files",
+                    "Zero data retention",
+                    "EXIF stripping",
+                    "NLP-driven Magic Flow"
+                ],
+                "isAccessibleForFree": true,
+                "inLanguage": "en"
+            },
+            {
+                "@type": "SoftwareApplication",
+                "name": "Mochify CLI",
+                "description": "Rust-based CLI and MCP server for high-performance image compression compatible with Claude CLI.",
+                "applicationCategory": "DeveloperApplication",
+                "operatingSystem": "Windows, macOS, Linux",
+                "downloadUrl": "https://github.com/tliesnham/mochify-cli/releases",
+                "softwareVersion": "0.1.0-alpha"
+            }
+        ]
     }
     </script>
 </svelte:head>
