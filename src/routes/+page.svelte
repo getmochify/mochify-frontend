@@ -50,7 +50,34 @@
 <svelte:head>
     <title>Mochify | Free Bulk 500MB Image Compressor (Jpegli, AVIF, WebP)</title>
     <meta name="description" content="Free bulk image compressor for WebP, HEIC, JXL & AVIF. Mochify handles 25 files at once up to 20MB each with no quality loss. Fast, private, and Shopify ready.">
-    </svelte:head>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Mochify",
+        "url": "https://mochify.xyz",
+        "description": "Free bulk image compressor for WebP, HEIC, JXL & AVIF. Processes 25 files at once up to 20MB each with a native C++ engine. Zero retention — files never touch disk.",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "AVIF, WebP, JXL, Jpegli compression",
+            "Batch processing up to 25 files",
+            "Zero data retention",
+            "EXIF stripping",
+            "NLP-driven Magic Flow"
+        ],
+        "codeRepository": "https://github.com/tliesnham/mochify-frontend",
+        "isAccessibleForFree": true,
+        "inLanguage": "en"
+    }
+    </script>
+</svelte:head>
 
 <div class="min-h-screen bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 flex flex-col relative">
     

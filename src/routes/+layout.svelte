@@ -27,7 +27,7 @@
 	<link rel="dns-prefetch" href="https://api.mochify.xyz">
 	<link rel="preconnect" href="https://api.mochify.xyz" crossorigin="anonymous">
 
-	<script 
+	<script
 		async
 		defer
 		src="https://analytics.mochify.xyz/script.js"
@@ -35,6 +35,21 @@
 		data-host-url="https://analytics.mochify.xyz"
 		data-domains="mochify.xyz"
 	></script>
+
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Organization",
+		"name": "Mochify",
+		"url": "https://mochify.xyz",
+		"sameAs": [
+			"https://github.com/tliesnham/mochify-frontend",
+			"https://github.com/tliesnham/mochify-cli",
+			"https://github.com/tliesnham/mochify-docker",
+			"https://hub.docker.com/r/mochify/mochify-lite"
+		]
+	}
+	</script>
 </svelte:head>
 
 <div class="min-h-screen flex flex-col">
