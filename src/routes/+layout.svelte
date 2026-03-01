@@ -46,7 +46,8 @@
 			"https://github.com/tliesnham/mochify-frontend",
 			"https://github.com/tliesnham/mochify-cli",
 			"https://github.com/tliesnham/mochify-docker",
-			"https://hub.docker.com/r/mochify/mochify-lite"
+			"https://hub.docker.com/r/mochify/mochify-lite",
+			"https://x.com/GetMochify"
 		]
 	}
 	</script>
