@@ -72,7 +72,6 @@
             "EXIF stripping",
             "NLP-driven Magic Flow"
         ],
-        "codeRepository": "https://github.com/tliesnham/mochify-frontend",
         "isAccessibleForFree": true,
         "inLanguage": "en"
     }
