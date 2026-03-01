@@ -1,6 +1,7 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import CodeBlock from '$lib/components/CodeBlock.svelte';
 
     const metadata = {
         category: "Image Optimization",
@@ -85,19 +86,7 @@
             <p class="mb-6">
                 To run the engine with optimal security and performance settings, use the following command. This configuration runs the container in the background, maps the necessary ports, and secures the environment:
             </p>
-            <div class="bg-gray-800 text-white rounded-lg p-4 mb-4 overflow-x-auto">
-            <pre>
-            <code>
-docker run -d \
-    --name mochify-lite \
-    -p 5555:5555 \
-    --read-only \
-    --tmpfs /app/temp_ram_buffer:rw,size=64m,mode=1777 \
-    --security-opt=no-new-privileges \
-    mochify/mochify-lite:latest
-            </code>
-            </pre>
-            </div>
+            <CodeBlock filename="docker" code={`docker run -d --name mochify-lite -p 5555:5555 --read-only --tmpfs /app/temp_ram_buffer:rw,size=64m,mode=1777 --security-opt=no-new-privileges mochify/mochify-lite:latest`} />
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Understanding the Configuration</h3>
             <p class="mb-6">If you are new to Docker, here is a quick breakdown of what these flags are doing:</p>
             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
@@ -125,16 +114,7 @@ docker run -d \
                 The primary endpoint is <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">/v1/squish</code>. It accepts standard image formats (JPEG and PNG) up to 10MB in size. To optimize an image, you simply POST the binary data to your local endpoint:
             </p>
 
-            <div class="bg-gray-800 text-white rounded-lg p-4 mb-4 overflow-x-auto">
-            <pre>
-                <code>
-curl -X POST "http://localhost:5555/v1/squish" \
-        -H "Content-Type: image/jpeg" \
-        --data-binary "@mochi.jpg" \
-        --output mochi_optimized.jpg
-                </code>
-            </pre>
-            </div>
+            <CodeBlock filename="curl" code={`curl -X POST "http://localhost:5555/v1/squish" -H "Content-Type: image/jpeg" --data-binary "@mochi.jpg" --output mochi_optimized.jpg`} />
         </section>
 
         <section id="lite-vs-full">

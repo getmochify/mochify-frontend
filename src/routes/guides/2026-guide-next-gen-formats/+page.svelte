@@ -2,6 +2,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import CodeBlock from '$lib/components/CodeBlock.svelte';
 
     const metadata = {
         category: "Image Formats",
@@ -676,14 +677,12 @@
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Fallback Strategies</h3>
             <p class="mb-4">Production-grade implementation requires <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> elements with format cascades:</p>
 
-            <div class="bg-gray-800 text-white rounded-lg p-4 mb-4 overflow-x-auto">
-                <pre><code class="language-html">&lt;picture&gt;
-  &lt;source srcset="hero.avif" type="image/avif" /&gt;
-  &lt;source srcset="hero.webp" type="image/webp" /&gt;
-  &lt;img src="hero.jpg" width="1920" height="1080"
-       alt="Product hero showcasing WebP vs AVIF quality" /&gt;
-&lt;/picture&gt;</code></pre>
-            </div>
+            <CodeBlock filename="picture.html" code={`<picture>
+  <source srcset="hero.avif" type="image/avif" />
+  <source srcset="hero.webp" type="image/webp" />
+  <img src="hero.jpg" width="1920" height="1080"
+       alt="Product hero showcasing WebP vs AVIF quality" />
+</picture>`} />
 
             <p class="mb-4">
                 Browsers download the first format they support, falling back to JPEG for legacy environments. Don't skip the fallback. Enterprise users on locked-down systems and certain government networks still run outdated browsers.
@@ -691,14 +690,12 @@
 
             <p class="mb-4">For JPEG XL, add it at the top of the cascade if you're experimenting:</p>
 
-            <div class="bg-gray-800 text-white rounded-lg p-4 mb-6 overflow-x-auto">
-                <pre><code class="language-html">&lt;picture&gt;
-  &lt;source srcset="hero.jxl" type="image/jxl" /&gt;
-  &lt;source srcset="hero.avif" type="image/avif" /&gt;
-  &lt;source srcset="hero.webp" type="image/webp" /&gt;
-  &lt;img src="hero.jpg" alt="Hero image" /&gt;
-&lt;/picture&gt;</code></pre>
-            </div>
+            <CodeBlock filename="picture.html" code={`<picture>
+  <source srcset="hero.jxl" type="image/jxl" />;
+  <source srcset="hero.avif" type="image/avif" />;
+  <source srcset="hero.webp" type="image/webp" />;
+  <img src="hero.jpg" alt="Hero image" />;
+</picture>`} />
 
             <p class="mb-4">In our own stack, the hero.jpg in these examples is encoded with JPEGLI, which gives you smaller, better-looking JPEGs while staying 100% compatible with every browser and marketplace that only understands .jpg.</p>
 

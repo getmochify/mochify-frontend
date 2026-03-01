@@ -2,6 +2,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import CodeBlock from '$lib/components/CodeBlock.svelte';
 
     const metadata = {
         category: "WordPress Optimization",
@@ -264,15 +265,11 @@
                     <p><strong>Option A (simplest):</strong> Upload the optimized WebP and update the page/post to reference the new file.</p>
                     <p class="mt-4"><strong>Option B (developer-friendly):</strong> If you want AVIF and a clean fallback without relying on a plugin, use the <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> tag:</p>
                     
-                    <div class="mt-4 bg-[#2C1A1A] rounded-xl p-5 overflow-x-auto border border-pink-100/20 shadow-inner">
-<pre class="text-pink-100 text-sm font-mono leading-relaxed">
-&lt;picture&gt;
-    &lt;source type="image/avif" srcset="/images/hero.avif"&gt;
-    &lt;source type="image/webp" srcset="/images/hero.webp"&gt;
-    &lt;img src="/images/hero.jpg" width="1600" height="900" alt="Your descriptive alt text"&gt;
-&lt;/picture&gt;
-</pre>
-                    </div>
+                    <CodeBlock filename="picture.html" code={`<picture>
+    <source type="image/avif" srcset="/images/hero.avif">
+    <source type="image/webp" srcset="/images/hero.webp">
+    <img src="/images/hero.jpg" width="1600" height="900" alt="Your descriptive alt text">
+</picture>`} />
                 </div>
                 
                 <div>
