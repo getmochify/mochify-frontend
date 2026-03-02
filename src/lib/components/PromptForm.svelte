@@ -7,11 +7,14 @@
     let isDragging: boolean = $state(false);
     
     let isProcessing: boolean = $state(false);
-    let processPhase: 'idle' | 'thinking' | 'uploading' = $state('idle');
-    let thinkingText: string = $state("Initializing..."); 
-    
-    let uploadProgress: number = $state(0);
-    let downloadAsZip: boolean = $state(false); 
+    let processPhase: 'idle' | 'thinking' | 'uploading' | 'downloading' | 'packing' = $state('idle');
+    let thinkingText: string = $state("Initializing...");
+
+    let uploadPercent: number = $state(0);
+    let downloadPercent: number = $state(0);
+    let completedFiles: number = $state(0);
+    let totalFiles: number = $state(0);
+    let downloadAsZip: boolean = $state(false);
     
     let textareaEl: HTMLTextAreaElement;
     let fileInputEl: HTMLInputElement;
@@ -164,22 +167,24 @@
 
     async function submit() {
         if (!prompt.trim() || files.length === 0 || isProcessing) return;
-        
+
         isProcessing = true;
         processPhase = 'thinking';
-        uploadProgress = 0;
+        uploadPercent = 0;
+        downloadPercent = 0;
+        completedFiles = 0;
 
         const messages = [
-            "Reading image dimensions...",    
-            "Consulting the AI Brain...",     
-            "Calculating resize ratios...",   
-            "Optimizing output format...",    
-            "Preparing to squish..."          
+            "Reading image dimensions...",
+            "Consulting the AI Brain...",
+            "Calculating resize ratios...",
+            "Optimizing output format...",
+            "Preparing to squish..."
         ];
-        
+
         thinkingText = messages[0];
         let msgIdx = 1;
-        
+
         const msgInterval = setInterval(() => {
             if (processPhase === 'thinking') {
                 thinkingText = messages[msgIdx % messages.length];
@@ -196,10 +201,7 @@
             const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    prompt: prompt.trim(),
-                    fileData: fileDetails
-                })
+                body: JSON.stringify({ prompt: prompt.trim(), fileData: fileDetails })
             });
 
             if (!nlpResponse.ok) throw new Error(`Failed to understand prompt (Status: ${nlpResponse.status})`);
@@ -207,21 +209,70 @@
             const parsedData = await nlpResponse.json();
             const fileArray = parsedData.files || [];
             const fileMap: Record<string, any> = {};
-            fileArray.forEach((item: any) => {
-                fileMap[item.filename] = item;
-            });
+            fileArray.forEach((item: any) => { fileMap[item.filename] = item; });
 
             processPhase = 'uploading';
-            let completedFiles = 0;
+            totalFiles = files.length;
+            const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
+            let uploadedBytes = 0;
+            let processedFiles = 0;
             let currentFileIndex = 0;
             const CONCURRENCY_LIMIT = 4;
             const zipContents: Record<string, Uint8Array> = {};
 
+            const squishFile = (file: File, params: URLSearchParams): Promise<Blob> =>
+                new Promise((resolve, reject) => {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', `https://api.mochify.xyz/v1/squish?${params}`);
+                    xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+                    xhr.responseType = 'blob';
+
+                    let lastLoaded = 0;
+                    xhr.upload.onprogress = (e) => {
+                        const delta = e.loaded - lastLoaded;
+                        lastLoaded = e.loaded;
+                        uploadedBytes += delta;
+                        uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+                    };
+
+                    xhr.onload = () => {
+                        // Account for any bytes not reported via onprogress
+                        const remaining = file.size - lastLoaded;
+                        if (remaining > 0) {
+                            uploadedBytes += remaining;
+                            uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+                        }
+
+                        const contentType = xhr.getResponseHeader('content-type') || '';
+                        if (contentType.includes('application/json')) {
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                                try {
+                                    const err = JSON.parse(reader.result as string);
+                                    reject(new Error(err.error || err.message || `Server rejected ${file.name}`));
+                                } catch {
+                                    reject(new Error(`Server rejected ${file.name}`));
+                                }
+                            };
+                            reader.readAsText(xhr.response as Blob);
+                            return;
+                        }
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            resolve(xhr.response as Blob);
+                        } else {
+                            reject(new Error(`Failed processing ${file.name} (Status: ${xhr.status})`));
+                        }
+                    };
+
+                    xhr.onerror = () => reject(new Error(`Network error processing ${file.name}`));
+                    xhr.send(file);
+                });
+
             const processNextFile = async () => {
                 while (currentFileIndex < files.length) {
                     const file = files[currentFileIndex++];
-                    const fileConfig = fileMap[file.name] || {}; 
-                    
+                    const fileConfig = fileMap[file.name] || {};
+
                     const params = new URLSearchParams();
                     if (fileConfig.type) params.append('type', fileConfig.type);
                     if (fileConfig.smartCompress) params.append('smartCompress', '1');
@@ -237,21 +288,11 @@
                     }
 
                     try {
-                        const response = await fetch(`https://api.mochify.xyz/v1/squish?${params.toString()}`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': file.type || 'application/octet-stream' },
-                            body: file
-                        });
+                        const blob = await squishFile(file, params);
 
-                        const contentType = response.headers.get('content-type') || '';
-                        if (contentType.includes('application/json')) {
-                            const errorJson = await response.json();
-                            throw new Error(errorJson.error || errorJson.message || `Server rejected ${file.name}`);
-                        }
+                        // First result back from server — switch to downloading phase
+                        if (processPhase === 'uploading') processPhase = 'downloading';
 
-                        if (!response.ok) throw new Error(`Failed processing ${file.name} (Status: ${response.status})`);
-
-                        const blob = await response.blob();
                         const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
                         const newExtension = fileConfig.type || file.name.split('.').pop();
                         const finalName = `${baseName}_mochified.${newExtension}`;
@@ -267,7 +308,6 @@
                             a.download = finalName;
                             document.body.appendChild(a);
                             a.click();
-                            
                             setTimeout(() => {
                                 window.URL.revokeObjectURL(downloadUrl);
                                 document.body.removeChild(a);
@@ -277,8 +317,9 @@
                         console.error(`Error squishing ${file.name}:`, e);
                     }
 
-                    completedFiles++;
-                    uploadProgress = Math.round((completedFiles / files.length) * 100);
+                    processedFiles++;
+                    completedFiles = processedFiles;
+                    downloadPercent = Math.round((processedFiles / totalFiles) * 100);
                 }
             };
 
@@ -290,13 +331,12 @@
             await Promise.all(workers);
 
             if (downloadAsZip && Object.keys(zipContents).length > 0) {
-                processPhase = 'thinking'; 
-                thinkingText = "Packing your zip file...";
-                
+                processPhase = 'packing';
+
                 await new Promise<void>((resolve, reject) => {
                     zip(zipContents, { level: 0 }, (err, zippedData) => {
                         if (err) return reject(err);
-                        
+
                         const zipBlob = new Blob([zippedData], { type: 'application/zip' });
                         const url = URL.createObjectURL(zipBlob);
                         const a = document.createElement('a');
@@ -304,7 +344,6 @@
                         a.download = 'mochified_batch.zip';
                         document.body.appendChild(a);
                         a.click();
-                        
                         setTimeout(() => {
                             URL.revokeObjectURL(url);
                             document.body.removeChild(a);
@@ -317,7 +356,7 @@
             prompt = '';
             files = [];
             showStatus('success', 'Images processed successfully! ✨');
-            
+
         } catch (err) {
             console.error(err);
             showStatus('error', err instanceof Error ? err.message : "An unexpected error occurred.");
@@ -471,10 +510,12 @@
             <div class="bg-white/20 backdrop-blur-md">
                 {#if isProcessing}
                     <div class="h-1 bg-white/20 overflow-hidden relative">
-                        {#if processPhase === 'thinking'}
+                        {#if processPhase === 'thinking' || processPhase === 'packing'}
                             <div class="absolute inset-0 bg-gradient-to-r from-[#F06292] to-[#e040a0] opacity-60 animate-pulse"></div>
-                        {:else}
-                            <div class="h-full bg-gradient-to-r from-[#F06292] to-[#e040a0] transition-all duration-300 ease-out shadow-[0_0_10px_rgba(240,98,146,0.5)]" style="width: {uploadProgress}%"></div>
+                        {:else if processPhase === 'uploading'}
+                            <div class="h-full bg-gradient-to-r from-[#F06292] to-[#e040a0] transition-all duration-300 ease-out shadow-[0_0_10px_rgba(240,98,146,0.5)]" style="width: {uploadPercent}%"></div>
+                        {:else if processPhase === 'downloading'}
+                            <div class="h-full bg-gradient-to-r from-[#A5D6A7] to-[#66BB6A] transition-all duration-300 ease-out shadow-[0_0_10px_rgba(165,214,167,0.5)]" style="width: {downloadPercent}%"></div>
                         {/if}
                     </div>
                 {/if}
@@ -487,8 +528,12 @@
                                 {#key thinkingText}
                                     <span class="animate-fade-in">{thinkingText}</span>
                                 {/key}
-                            {:else}
-                                {uploadProgress < 100 ? `Processing images (${uploadProgress}%)` : 'Finishing up…'}
+                            {:else if processPhase === 'uploading'}
+                                Uploading your images… ({uploadPercent}%)
+                            {:else if processPhase === 'downloading'}
+                                {downloadAsZip ? 'Preparing' : 'Downloading'} results… ({completedFiles} of {totalFiles})
+                            {:else if processPhase === 'packing'}
+                                Packing your zip file…
                             {/if}
                         {:else if files.length === 0}
                             Drop images or use the clip button
