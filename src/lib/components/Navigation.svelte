@@ -59,7 +59,7 @@
                     on:click={closeMenu}
                     class="px-6 py-4 text-[#6C3F31] font-medium rounded-2xl hover:bg-[#FFF5F7] transition-all active:scale-95"
                 >
-                    Tools
+                    Solutions
                 </a>
                 <a 
                     href="/guides"

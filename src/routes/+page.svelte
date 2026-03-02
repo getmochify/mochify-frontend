@@ -5,8 +5,8 @@
     import Footer from '$lib/components/Footer.svelte';
     import Navigation from '$lib/components/Navigation.svelte';
 
-    let fileCount = $state(0);
-    let fileSizeMB = $state(0);
+    let fileCount = $state(25);
+    let fileSizeMB = $state(20);
     
     let activeTab: 'prompt' | 'classic' = $state('prompt');
 
@@ -23,8 +23,8 @@
 
     onMount(() => {
         const t = setTimeout(() => {
-            animateCount(0, 25, 1100, v => (fileCount = v));
-            animateCount(0, 20, 900,  v => (fileSizeMB = v));
+            animateCount(15, 25, 1100, v => (fileCount = v));
+            animateCount(12, 20, 900,  v => (fileSizeMB = v));
         }, 400);
 
         const observer = new IntersectionObserver(
