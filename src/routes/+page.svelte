@@ -83,7 +83,7 @@
                 "description": "Rust-based CLI and MCP server for high-performance image compression compatible with Claude CLI.",
                 "applicationCategory": "DeveloperApplication",
                 "operatingSystem": "Windows, macOS, Linux",
-                "downloadUrl": "https://github.com/tliesnham/mochify-cli/releases",
+                "downloadUrl": "https://github.com/getmochify/mochify-cli/releases",
                 "softwareVersion": "0.1.0-alpha"
             }
         ]

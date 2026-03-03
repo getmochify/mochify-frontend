@@ -43,9 +43,9 @@
 		"name": "Mochify",
 		"url": "https://mochify.xyz",
 		"sameAs": [
-			"https://github.com/tliesnham/mochify-frontend",
-			"https://github.com/tliesnham/mochify-cli",
-			"https://github.com/tliesnham/mochify-docker",
+			"https://github.com/getmochify/mochify-cli",
+			"https://github.com/getmochify/mochify-cli",
+			"https://github.com/getmochify/mochify-docker",
 			"https://hub.docker.com/r/mochify/mochify-lite",
 			"https://x.com/GetMochify"
 		]
