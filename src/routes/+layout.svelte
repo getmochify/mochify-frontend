@@ -42,6 +42,10 @@
 		"@type": "Organization",
 		"name": "Mochify",
 		"url": "https://mochify.xyz",
+		"logo": {
+			"@type": "ImageObject",
+			"url": "https://mochify.xyz/logo.png"
+		},
 		"sameAs": [
 			"https://github.com/getmochify/mochify-cli",
 			"https://github.com/getmochify/mochify-cli",
