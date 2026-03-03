@@ -15,7 +15,10 @@ const config = {
                 // 2. Allow the script to send data back to analytics
                 'connect-src': [
                     'self',
-                    process.env.PUBLIC_API_URL || 'https://api.mochify.xyz',
+                    'https://api.mochify.xyz',
+                    ...(process.env.PUBLIC_API_URL && process.env.PUBLIC_API_URL !== 'https://api.mochify.xyz'
+                        ? [process.env.PUBLIC_API_URL]
+                        : []),
                     'https://analytics.mochify.xyz',
                     'https://joxsqjvaqedvurajuavb.supabase.co',
                     'wss://joxsqjvaqedvurajuavb.supabase.co'
