@@ -14,9 +14,11 @@ const config = {
                 'style-src': ['self', 'unsafe-inline'],
                 // 2. Allow the script to send data back to analytics
                 'connect-src': [
-                    'self', 
+                    'self',
                     process.env.PUBLIC_API_URL || 'https://api.mochify.xyz',
-                    'https://analytics.mochify.xyz' 
+                    'https://analytics.mochify.xyz',
+                    'https://joxsqjvaqedvurajuavb.supabase.co',
+                    'wss://joxsqjvaqedvurajuavb.supabase.co'
                 ],
                 'img-src': ['self', 'data:', 'blob:'],
                 'frame-ancestors': ['none'],

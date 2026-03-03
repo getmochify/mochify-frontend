@@ -198,9 +198,13 @@
                 return { name: f.name, width: dims.w, height: dims.h };
             }));
 
-            const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse', {
+            const apiKey = localStorage.getItem('mochify_apikey')
+            const nlpResponse = await fetch('https://api.mochify.xyz/v1/prompt', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {})
+                },
                 body: JSON.stringify({ prompt: prompt.trim(), fileData: fileDetails })
             });
 
@@ -225,6 +229,7 @@
                     const xhr = new XMLHttpRequest();
                     xhr.open('POST', `https://api.mochify.xyz/v1/squish?${params}`);
                     xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+                    if (apiKey) xhr.setRequestHeader('Authorization', `Bearer ${apiKey}`);
                     xhr.responseType = 'blob';
 
                     let lastLoaded = 0;

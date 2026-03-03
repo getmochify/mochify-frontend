@@ -99,7 +99,10 @@
 
     async function checkTokenLimit(): Promise<void> {
         try {
-            const response = await fetch(`${API_URL}/v1/checkTokens`);
+            const apiKey = localStorage.getItem('mochify_apikey')
+            const response = await fetch(`${API_URL}/v1/checkTokens`, {
+                headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : {}
+            });
             if (!response.ok) {
                 throw new Error('Failed to check token limit');
             }
@@ -265,6 +268,8 @@
                         
                         xhr.open('POST', `${API_URL}/v1/squish?type=${imageType}&strip_exif=${stripExif}${smartCompress ? '&smartCompress=1' : ''}${queryParams ? '&' + queryParams : ''}`);
                         xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+                        const apiKey = localStorage.getItem('mochify_apikey')
+                        if (apiKey) xhr.setRequestHeader('Authorization', `Bearer ${apiKey}`);
                         xhr.responseType = 'blob';
                         xhr.send(file);
                     });
