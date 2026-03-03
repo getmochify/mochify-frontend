@@ -84,7 +84,7 @@
                 "applicationCategory": "DeveloperApplication",
                 "operatingSystem": "Windows, macOS, Linux",
                 "downloadUrl": "https://github.com/getmochify/mochify-cli/releases",
-                "softwareVersion": "0.2.0"
+                "softwareVersion": "0.2.1"
             }
         ]
     }
