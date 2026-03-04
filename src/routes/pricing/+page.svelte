@@ -10,6 +10,100 @@
     <meta property="og:url" content="https://mochify.xyz/pricing" />
     <meta property="og:title" content="Pricing — Mochify" />
     <meta property="og:description" content="Simple, transparent pricing. Start free with 25 operations per day — no account needed. Upgrade to Pro for 1,000 operations a month." />
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebPage",
+                "@id": "https://mochify.xyz/pricing",
+                "url": "https://mochify.xyz/pricing",
+                "name": "Pricing — Mochify",
+                "description": "Simple, transparent pricing. Start free with 25 operations per day — no account needed. Upgrade to Pro for 1,000 operations a month.",
+                "isPartOf": { "@id": "https://mochify.xyz" }
+            },
+            {
+                "@type": "SoftwareApplication",
+                "name": "Mochify",
+                "url": "https://mochify.xyz",
+                "applicationCategory": "MultimediaApplication",
+                "operatingSystem": "Any",
+                "offers": [
+                    {
+                        "@type": "Offer",
+                        "name": "Free",
+                        "price": "0",
+                        "priceCurrency": "USD",
+                        "description": "25 image operations per day, no account required. Includes all formats, resize, rotate, crop, MCP and API access."
+                    },
+                    {
+                        "@type": "Offer",
+                        "name": "Pro — Monthly",
+                        "price": "10.00",
+                        "priceCurrency": "USD",
+                        "priceSpecification": {
+                            "@type": "UnitPriceSpecification",
+                            "price": "10.00",
+                            "priceCurrency": "USD",
+                            "unitCode": "MON"
+                        },
+                        "description": "1,000 image operations per month. Includes all formats, resize, rotate, crop, MCP and API access."
+                    },
+                    {
+                        "@type": "Offer",
+                        "name": "Pro — Annual",
+                        "price": "100.00",
+                        "priceCurrency": "USD",
+                        "priceSpecification": {
+                            "@type": "UnitPriceSpecification",
+                            "price": "100.00",
+                            "priceCurrency": "USD",
+                            "unitCode": "ANN"
+                        },
+                        "description": "1,000 image operations per month, billed annually at $100/year. Save 17% versus monthly."
+                    }
+                ]
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What counts as an operation?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Each image processed — compressed, converted, resized, or any combination — counts as one operation. Batch uploads count one per file."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Do free operations roll over?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Free tier resets every day. Pro operations reset monthly on your billing date and do not roll over."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Can I use the API on the free tier?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Yes — both tiers have full MCP and API access. The same daily limit applies."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Can I cancel Pro anytime?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Yes. Cancel any time and you keep Pro access until the end of your billing period."
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
 </svelte:head>
 
 <div class="min-h-screen bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 flex flex-col relative">

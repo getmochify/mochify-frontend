@@ -2,7 +2,7 @@ export const prerender = true;
 
 export async function GET() {
     const site = 'https://mochify.xyz';
-    const pages = ['', '/heic-to-jpeg', '/avif-to-jpg', '/jpg-to-jpegxl', '/avif-to-jpegxl', '/solutions', '/solutions/hif-to-avif', '/solutions/ebay-image-converter', '/solutions/hif-to-jpg', '/guides', '/guides/fujifilm-hif-to-jpg', '/guides/privacy-image-optimization', '/guides/2026-guide-next-gen-formats', '/guides/next-gen-image-formats-wordpress', '/guides/jpeg-in-2026-jpegli', '/guides/exif-data-risks-image-compression-2026', '/guides/history-image-compression-2026', '/guides/top-5-secure-image-compressors-2026', '/guides/self-hosting-image-optimization-docker', '/guides/optimizing-hero-images', '/terms', '/privacy', '/service-terms', '/about'];
+    const pages = ['', '/heic-to-jpeg', '/avif-to-jpg', '/jpg-to-jpegxl', '/avif-to-jpegxl', '/solutions', '/solutions/hif-to-avif', '/solutions/ebay-image-converter', '/solutions/hif-to-jpg', '/guides', '/guides/fujifilm-hif-to-jpg', '/guides/privacy-image-optimization', '/guides/2026-guide-next-gen-formats', '/guides/next-gen-image-formats-wordpress', '/guides/jpeg-in-2026-jpegli', '/guides/exif-data-risks-image-compression-2026', '/guides/history-image-compression-2026', '/guides/top-5-secure-image-compressors-2026', '/guides/self-hosting-image-optimization-docker', '/guides/optimizing-hero-images', '/pricing', '/terms', '/privacy', '/service-terms', '/about'];
 
     // Create rows without internal tabs/newlines
     const urlRows = pages.map(page => `
