@@ -33,6 +33,7 @@
     <div class="hidden sm:flex items-center gap-6">
         <a href="/solutions" class="text-sm font-medium text-[#6C3F31] hover:text-[#F06292] transition-colors">Solutions</a>
         <a href="/guides" class="text-sm font-medium text-[#6C3F31] hover:text-[#F06292] transition-colors">Guides</a>
+        <a href="/pricing" class="text-sm font-medium text-[#6C3F31] hover:text-[#F06292] transition-colors">Pricing</a>
 
         {#if session}
             <div class="relative">
@@ -116,6 +117,9 @@
                 </a>
                 <a href="/guides" onclick={closeMenu} class="px-6 py-4 text-[#6C3F31] font-medium rounded-2xl hover:bg-[#FFF5F7] transition-all active:scale-95">
                     Guides
+                </a>
+                <a href="/pricing" onclick={closeMenu} class="px-6 py-4 text-[#6C3F31] font-medium rounded-2xl hover:bg-[#FFF5F7] transition-all active:scale-95">
+                    Pricing
                 </a>
                 {#if session}
                     <a href="/dashboard" onclick={closeMenu} class="px-6 py-4 text-[#6C3F31] font-medium rounded-2xl hover:bg-[#FFF5F7] transition-all active:scale-95 border-t border-pink-50">
