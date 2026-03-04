@@ -11,6 +11,8 @@
     let { data } = $props()
     const supabase = createClient()
 
+    let justUpgraded = $state(false)
+
     // API key state
     let hasKey = $state(false)
     let keyCreatedAt = $state<string | null>(null)
@@ -21,7 +23,9 @@
     // Usage state
     let usageLoaded = $state(false)
     let usedOps = $state(0)
-    let quotaOps = $state(1000)
+    let quotaOps = $state(25)
+
+    let isPro = $derived(data.profile?.plan === 'pro')
 
     async function loadKeyStatus() {
         const jwt = await getAccessToken()
@@ -123,6 +127,8 @@
     }
 
     onMount(() => {
+        quotaOps = data.profile?.ops_limit ?? 25
+        justUpgraded = new URLSearchParams(window.location.search).get('upgraded') === 'true'
         loadKeyStatus()
         loadUsage()
     })
@@ -153,14 +159,30 @@
             </button>
         </div>
 
+        <!-- Post-checkout success banner -->
+        {#if justUpgraded}
+        <div class="mb-6 p-4 bg-[#A5D6A7]/20 border border-[#66BB6A]/30 rounded-2xl flex items-center gap-3">
+            <span class="text-[#2E5C31] font-black text-sm">You're on Pro!</span>
+            <span class="text-[#2E5C31]/70 text-sm">Your quota has been updated. Welcome aboard.</span>
+        </div>
+        {/if}
+
         <!-- Stats row -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
             <div class="bg-white/60 backdrop-blur-sm rounded-3xl border border-white/80 shadow-sm p-6">
                 <p class="text-xs font-bold text-[#875F42]/50 tracking-widest uppercase mb-1">Plan</p>
-                <p class="text-2xl font-black text-[#4A2C2C]">Free</p>
+                {#if isPro}
+                    <p class="text-2xl font-black text-[#4A2C2C]">Pro</p>
+                    {#if data.profile?.quota_period_end}
+                        <p class="text-xs text-[#875F42]/50 mt-1">Renews {new Date(data.profile.quota_period_end).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+                    {/if}
+                {:else}
+                    <p class="text-2xl font-black text-[#4A2C2C]">Free</p>
+                    <a href="/api/checkout" class="mt-2 inline-block text-xs font-bold text-[#F06292] hover:underline">Upgrade to Pro →</a>
+                {/if}
             </div>
             <div class="bg-white/60 backdrop-blur-sm rounded-3xl border border-white/80 shadow-sm p-6">
-                <p class="text-xs font-bold text-[#875F42]/50 tracking-widest uppercase mb-2">Operations this month</p>
+                <p class="text-xs font-bold text-[#875F42]/50 tracking-widest uppercase mb-2">Operations {isPro ? 'this month' : 'today'}</p>
                 {#if usageLoaded}
                     <p class="text-2xl font-black text-[#4A2C2C] mb-3">{usedOps} <span class="text-base font-semibold text-[#875F42]/50">/ {quotaOps}</span></p>
                     <div class="h-2 bg-[#875F42]/10 rounded-full overflow-hidden">
@@ -175,6 +197,22 @@
                 {/if}
             </div>
         </div>
+
+        <!-- Upgrade CTA for free users -->
+        {#if !isPro}
+        <div class="bg-gradient-to-br from-[#FFF0F5] to-[#FFF8F0] rounded-3xl border border-[#F06292]/15 shadow-sm p-6 mb-6 flex items-center justify-between gap-4">
+            <div>
+                <p class="font-black text-[#4A2C2C] text-base">Get Pro — 1,000 operations/month</p>
+                <p class="text-sm text-[#875F42]/60 mt-0.5">Unlimited API key access, monthly quota resets, priority processing.</p>
+            </div>
+            <a
+                href="/api/checkout"
+                class="flex-shrink-0 px-5 py-2.5 rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white font-black text-sm shadow-[0_4px_16px_rgba(240,98,146,0.3)] hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] hover:-translate-y-0.5 transition-all"
+            >
+                Upgrade
+            </a>
+        </div>
+        {/if}
 
         <!-- API Key card -->
         <div class="bg-white/60 backdrop-blur-sm rounded-3xl border border-white/80 shadow-sm p-6 mb-6">
