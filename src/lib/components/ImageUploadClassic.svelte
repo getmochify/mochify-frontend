@@ -1,6 +1,7 @@
 <script lang="ts">
     import { zip } from 'fflate';
     import { env } from '$env/dynamic/public';
+    import { getAccessToken } from '$lib/supabase';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
 
@@ -99,9 +100,9 @@
 
     async function checkTokenLimit(): Promise<void> {
         try {
-            const apiKey = localStorage.getItem('mochify_apikey')
+            const jwt = await getAccessToken()
             const response = await fetch(`${API_URL}/v1/checkTokens`, {
-                headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : {}
+                headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
             });
             if (!response.ok) {
                 throw new Error('Failed to check token limit');
@@ -218,7 +219,8 @@
                 const file = selectedFiles[index];
                 fileProgress[index].status = 'processing';
                 fileProgress[index].progress = 0;
-                
+                const jwt = await getAccessToken()
+
                 try {
                     // Use XMLHttpRequest for upload progress tracking
                     const blob = await new Promise<Blob>((resolve, reject) => {
@@ -268,8 +270,7 @@
                         
                         xhr.open('POST', `${API_URL}/v1/squish?type=${imageType}&strip_exif=${stripExif}${smartCompress ? '&smartCompress=1' : ''}${queryParams ? '&' + queryParams : ''}`);
                         xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
-                        const apiKey = localStorage.getItem('mochify_apikey')
-                        if (apiKey) xhr.setRequestHeader('Authorization', `Bearer ${apiKey}`);
+                        if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
                         xhr.responseType = 'blob';
                         xhr.send(file);
                     });

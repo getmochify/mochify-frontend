@@ -1,6 +1,7 @@
 <script lang="ts">
     import { tick } from 'svelte';
     import { zip } from 'fflate';
+    import { getAccessToken } from '$lib/supabase';
 
     let prompt: string = $state('');
     let files: File[] = $state([]);
@@ -198,12 +199,12 @@
                 return { name: f.name, width: dims.w, height: dims.h };
             }));
 
-            const apiKey = localStorage.getItem('mochify_apikey')
+            const jwt = await getAccessToken()
             const nlpResponse = await fetch('https://api.mochify.xyz/v1/prompt', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {})
+                    ...(jwt ? { Authorization: `Bearer ${jwt}` } : {})
                 },
                 body: JSON.stringify({ prompt: prompt.trim(), fileData: fileDetails })
             });
@@ -229,7 +230,7 @@
                     const xhr = new XMLHttpRequest();
                     xhr.open('POST', `https://api.mochify.xyz/v1/squish?${params}`);
                     xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
-                    if (apiKey) xhr.setRequestHeader('Authorization', `Bearer ${apiKey}`);
+                    if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
                     xhr.responseType = 'blob';
 
                     let lastLoaded = 0;

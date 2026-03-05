@@ -1,7 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import { goto } from '$app/navigation'
-    import { browser } from '$app/environment'
     import { createClient, getAccessToken } from '$lib/supabase'
     import Navigation from '$lib/components/Navigation.svelte'
     import Footer from '$lib/components/Footer.svelte'
@@ -75,7 +74,6 @@
             if (res.ok) {
                 const body = await res.json()
                 newKeyPlaintext = body.key
-                localStorage.setItem('mochify_apikey', body.key)
                 hasKey = true
                 keyCreatedAt = new Date().toISOString()
                 await loadUsage()
@@ -105,7 +103,6 @@
             if (res.ok) {
                 const body = await res.json()
                 newKeyPlaintext = body.key
-                localStorage.setItem('mochify_apikey', body.key)
                 keyCreatedAt = new Date().toISOString()
             }
         } catch {
@@ -134,7 +131,6 @@
     })
 
     let usagePercent = $derived(quotaOps > 0 ? Math.min(Math.round((usedOps / quotaOps) * 100), 100) : 0)
-    let maskedKey = $derived(browser ? (localStorage.getItem('mochify_apikey')?.slice(0, 8) ?? '') + '••••••••••••••••••••••••' : '')
 </script>
 
 <svelte:head>
@@ -247,7 +243,7 @@
                 </div>
             {:else if hasKey}
                 <div class="flex items-center gap-3 p-4 bg-white/40 rounded-2xl border border-white/60">
-                    <code class="flex-1 text-sm font-mono text-[#875F42]/60">{maskedKey}</code>
+                    <code class="flex-1 text-sm font-mono text-[#875F42]/60">••••••••••••••••••••••••••••••••</code>
                     {#if keyCreatedAt}
                         <span class="text-xs text-[#875F42]/40 flex-shrink-0">Created {new Date(keyCreatedAt).toLocaleDateString()}</span>
                     {/if}

@@ -140,7 +140,7 @@
                 return { name: f.name, width: dims.w, height: dims.h };
             }));
 
-            const nlpResponse = await fetch('https://api.mochify.xyz/v1/nlp/parse', {
+            const nlpResponse = await fetch('https://api.mochify.xyz/v1/prompt', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
