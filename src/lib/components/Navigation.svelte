@@ -1,6 +1,6 @@
 <script lang="ts">
     import { page } from '$app/state'
-    import { goto } from '$app/navigation'
+    import { goto, invalidateAll } from '$app/navigation'
     import { createClient } from '$lib/supabase'
 
     const supabase = createClient()
@@ -13,6 +13,7 @@
 
     async function signOut() {
         await supabase.auth.signOut()
+        await invalidateAll()
         goto('/')
     }
 
