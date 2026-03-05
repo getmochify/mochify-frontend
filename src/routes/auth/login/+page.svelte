@@ -63,7 +63,10 @@
                     </div>
 
                     <div class="flex flex-col gap-1.5">
-                        <label for="password" class="text-xs font-bold text-[#6C3F31] tracking-wide uppercase">Password</label>
+                        <div class="flex items-center justify-between">
+                            <label for="password" class="text-xs font-bold text-[#6C3F31] tracking-wide uppercase">Password</label>
+                            <a href="/auth/forgot-password" class="text-xs text-[#F06292] font-semibold hover:underline">Forgot password?</a>
+                        </div>
                         <input
                             id="password"
                             type="password"
