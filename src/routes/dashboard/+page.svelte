@@ -45,16 +45,16 @@
     }
 
     async function loadUsage() {
-        const storedKey = localStorage.getItem('mochify_apikey')
-        if (!storedKey) return
+        const jwt = await getAccessToken()
+        if (!jwt) return
         try {
             const res = await fetch(`${API_URL}/v1/user/usage`, {
-                headers: { Authorization: `Bearer ${storedKey}` }
+                headers: { Authorization: `Bearer ${jwt}` }
             })
             if (res.ok) {
                 const body = await res.json()
                 usedOps = body.used ?? 0
-                quotaOps = body.quota ?? 1000
+                quotaOps = body.quota ?? data.profile?.ops_limit ?? 25
                 usageLoaded = true
             }
         } catch {

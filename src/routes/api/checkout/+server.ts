@@ -9,12 +9,21 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 
     const polar = new Polar({ accessToken: POLAR_ACCESS_TOKEN });
 
-    const checkout = await polar.checkouts.create({
-        products: [POLAR_PRODUCT_ID],
-        successUrl: `${url.origin}/dashboard?upgraded=true`,
-        externalCustomerId: user.id,
-        customerEmail: user.email ?? undefined,
-    });
+    let checkout;
+    try {
+        checkout = await polar.checkouts.create({
+            products: [POLAR_PRODUCT_ID],
+            successUrl: `${url.origin}/dashboard?upgraded=true`,
+            externalCustomerId: user.id,
+            customerEmail: user.email ?? undefined,
+        });
+    } catch (err) {
+        console.error('Polar checkout error:', err);
+        return new Response(JSON.stringify({ error: String(err) }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+        });
+    }
 
     throw redirect(302, checkout.url);
 };
