@@ -168,7 +168,7 @@
                                     <span class="text-[#875F42]/40 font-bold text-xs mt-0.5">optional</span>
                                     <div>
                                         <p class="text-[#6C3F31]">Strip EXIF metadata from the output.</p>
-                                        <p class="text-[#875F42]/60 text-xs mt-1">Default: <code class="font-mono">false</code></p>
+                                        <p class="text-[#875F42]/60 text-xs mt-1">Default: <code class="font-mono">1</code></p>
                                     </div>
                                 </div>
 
@@ -228,7 +228,7 @@
                                     <div class="bg-[#4A2C2C] px-4 py-2 flex items-center gap-2">
                                         <span class="text-[#FFB3C6]/60 text-xs font-bold uppercase tracking-wider">cURL</span>
                                     </div>
-                                    <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl -X POST "https://api.mochify.xyz/v1/squish?type=webp&strip_exif=true" \
+                                    <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl -X POST "https://api.mochify.xyz/v1/squish?type=webp&strip_exif=1" \
   -H "Content-Type: image/jpeg" \
   -H "Authorization: Bearer mchy_your_api_key" \
   --data-binary @photo.jpg \
@@ -242,7 +242,7 @@
                                     <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>const file = document.querySelector('input[type="file"]').files[0];
 
 const response = await fetch(
-  'https://api.mochify.xyz/v1/squish?type=avif&strip_exif=true',
+  'https://api.mochify.xyz/v1/squish?type=avif&strip_exif=1',
   &#123;
     method: 'POST',
     headers: &#123;
@@ -273,7 +273,7 @@ a.click();</code></pre>
 with open('photo.jpg', 'rb') as f:
     response = requests.post(
         'https://api.mochify.xyz/v1/squish',
-        params=&#123;'type': 'webp', 'strip_exif': 'true'&#125;,
+        params=&#123;'type': 'webp', 'strip_exif': '1'&#125;,
         headers=&#123;
             'Content-Type': 'image/jpeg',
             'Authorization': 'Bearer mchy_your_api_key',
