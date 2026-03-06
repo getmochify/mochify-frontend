@@ -1,99 +1,77 @@
 # Mochify Frontend
 
-### **The Stateless Image Vault**
 **Privacy-First • Hardware-Hardened • Green C++ Engine**
 
 ![License](https://img.shields.io/badge/License-MIT-green) ![Svelte](https://img.shields.io/badge/Svelte-5-orange) ![Security](https://img.shields.io/badge/Security-Auditable-blue) ![Analytics](https://img.shields.io/badge/Analytics-Cookie--Free-purple) ![Docker Pulls](https://img.shields.io/docker/pulls/mochify/mochify-lite?color=blue)
 
-Mochify is a high-performance image processing utility built for 2026 privacy standards. Unlike traditional "Cloud" converters that buffer images to disk and leak data to swap files, Mochify uses a **Stateless C++ Engine** to ensure your pixels never touch a permanent storage medium.
+![Mochify demo](static/mochify.gif)
 
-[🚀 Launch App (mochify.xyz)](https://mochify.xyz)
+Mochify is a high-performance image processing utility. Unlike traditional cloud converters that buffer images to disk, Mochify uses a **stateless C++ engine** to ensure your pixels never touch permanent storage.
+
+**[Launch App →](https://mochify.xyz)**
 
 ---
 
-## 🔒 The Translucent Privacy Model
+## Privacy Model
 
-We believe in **Trust through Transparency**. This frontend repository is open-source so you can verify exactly how your data is handled before it leaves your browser.
+This frontend is open-source so you can verify exactly how your data is handled before it leaves your browser.
 
 * **Public UI (SvelteKit + Cloudflare):** Auditable code. No hidden trackers. No third-party ad networks.
 * **Private Vault (C++):** A proprietary, hardware-locked engine running on native Linux kernel primitives to guarantee data volatility.
 
-### **Security Hardening**
-Mochify isn't just "private"; it's **physically incapable** of retaining data.
+### Security Hardening
 
-* **Volatile RAM Only:** We strictly prevent temporary file creation and disable container swap, guaranteeing your images are buffered fully in volatile RAM and wiped instantly.
-* **Zero-Buffer Streaming:** Request buffering is disabled. Data streams directly from the user's TLS connection into the C++ process's L3 cache.
-* **Strict CSP:** This frontend implements a rigid Content Security Policy (`connect-src`) that physically prevents the browser from sending data to any domain other than our verified API.
+* **Volatile RAM only:** Temporary file creation is disabled and container swap is off — images are buffered in volatile RAM and wiped on request completion.
+* **Zero-buffer streaming:** Data streams directly from the TLS connection into the C++ process; no intermediate disk writes.
+* **Strict CSP:** A rigid `connect-src` policy prevents the browser from sending data to any domain outside our verified API.
 
-### **Analytics Disclosure**
-We value privacy, but we also need to know if our site is online.
-* We use **Self-Hosted Umami Analytics**.
-* It is **Cookie-Free**, GDPR-compliant, and anonymized.
-* All analytics data is stored on our own infrastructure. We **do not** share traffic data with Google, Facebook, or any advertising networks.
+### Analytics
+
+We use **self-hosted [Umami](https://umami.is)** — cookie-free, GDPR-compliant, and anonymized. No data is shared with Google, Facebook, or any ad networks.
 
 ---
 
-## 🌿 Eco-Friendly High Performance
+## Performance
 
-Mochify is built with **Native C++** and `libvips`. By ditching heavy interpreted runtimes (Python/Node.js), we achieve:
+Built with native C++ and `libvips`, ditching heavy interpreted runtimes for real gains:
 
-* **50x Better Energy Efficiency:** Native code consumes significantly less electricity per megapixel than standard APIs.
-* **Low Latency:** Average internal processing time is ~822ms, outperforming industry giants by removing the Disk I/O bottleneck.
+* **Energy efficient:** Native code uses a fraction of the electricity per megapixel compared to Python/Node.js-based APIs.
+* **Low latency:** Average processing time ~822ms, with disk I/O eliminated as a bottleneck.
 
 ---
 
-## 🛠️ Developing
+## Developing
 
-This project is built with **Svelte 5** and **TailwindCSS**, configured for deployment on **Cloudflare Pages**.
+**Stack:** Svelte 5, TailwindCSS v4, Cloudflare Pages adapter.
 
-### **Prerequisites**
-* Node.js 20+
-* npm / pnpm
-
-### **Getting Started**
-
-1.  **Clone the repo:**
-    ```bash
-    git clone https://github.com/tliesnham/mochify-frontend.git
-    cd mochify-frontend
-    ```
-
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-
-3.  **Environment Setup:**
-    Create a `.env` file in the root directory.
-
-    > **⚠️ Note:** The production API (`api.mochify.xyz`) enforces strict CORS and Referrer checks. It will **reject** requests from `localhost`. To test the frontend locally, please point to a mock server.
-
-    ```env
-    # Example for local development
-    PUBLIC_API_URL=http://localhost:3000
-    ```
-
-4.  **Run Development Server:**
-    ```bash
-    npm run dev
-    # or open immediately in browser
-    npm run dev -- --open
-    ```
-
-### **Building for Production**
-To create a production build (using `@sveltejs/adapter-cloudflare`):
+**Prerequisites:** Node.js 20+
 
 ```bash
-npm run build
+git clone https://github.com/tliesnham/mochify-frontend.git
+cd mochify-frontend
+npm install
 ```
 
-## 📦 Self-Hosted Infrastructure
+Copy `.env.example` to `.env`:
 
-While this frontend is open-source for auditability, the **Mochify Lite** engine is available as a hardened Docker image for developers who want to run their own private image-optimization infrastructure.
+```env
+PUBLIC_API_URL=http://localhost:3000
+```
 
-* **Docker Hub:** [mochify/mochify-lite](https://hub.docker.com/r/mochify/mochify-lite)
-* **Hardening:** Includes the same RAM-only, zero-persistence configuration used by our production API.
-* **Compatibility:** Multi-arch support for `amd64` and `arm64` (Apple Silicon/AWS Graviton).
+> **Note:** The production API (`api.mochify.xyz`) enforces strict CORS/Referrer checks and will reject requests from `localhost`. Point `PUBLIC_API_URL` at a local mock server for development.
+
+```bash
+npm run dev          # start dev server
+npm run build        # production build
+npm run check        # type-check
+npm run lint         # lint + format check
+```
+
+## Self-Hosting
+
+The **Mochify Lite** engine is available as a hardened Docker image with the same RAM-only, zero-persistence config used in production. Multi-arch: `amd64` and `arm64` (Apple Silicon / AWS Graviton).
+
+**Docker Hub:** [mochify/mochify-lite](https://hub.docker.com/r/mochify/mochify-lite)
 
 ```bash
 docker pull mochify/mochify-lite:latest
