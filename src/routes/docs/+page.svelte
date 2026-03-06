@@ -26,6 +26,23 @@
     <meta property="og:url" content="https://mochify.xyz/docs">
     <meta property="og:title" content="API Documentation — Mochify">
     <meta property="og:description" content="Mochify REST API reference. Compress and convert images programmatically with 25 free operations per day. No account required.">
+    <script type="application/ld+json">{JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Mochify API Reference",
+        "description": "REST API for image compression and conversion. Compress, convert, and resize images programmatically with 25 free operations per day. No account required.",
+        "url": "https://mochify.xyz/docs",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Mochify",
+            "url": "https://mochify.xyz"
+        },
+        "about": {
+            "@type": "SoftwareApplication",
+            "name": "Mochify API",
+            "applicationCategory": "DeveloperApplication"
+        }
+    })}</script>
 </svelte:head>
 
 <div class="min-h-screen bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 flex flex-col relative">
