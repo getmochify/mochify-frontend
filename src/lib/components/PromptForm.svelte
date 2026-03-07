@@ -106,6 +106,22 @@
         files = [...files, ...validFiles];
     }
 
+    const suggestions = [
+        'Convert to WebP',
+        'Convert to JPEG XL',
+        'Resize to 500px wide and convert to AVIF',
+        'Compress for web, strip EXIF data',
+        'Convert to PNG',
+    ];
+
+    function fillPrompt(text: string) {
+        prompt = text;
+        tick().then(() => {
+            autoGrow();
+            textareaEl?.focus();
+        });
+    }
+
     function autoGrow() {
         if (!textareaEl) return;
         textareaEl.style.height = 'auto';
@@ -553,6 +569,17 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="flex flex-wrap gap-2 mt-3 px-1">
+        {#each suggestions as suggestion}
+            <button
+                onclick={() => fillPrompt(suggestion)}
+                class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white/50 border border-white/60 text-[#875F42]/70 hover:text-[#F06292] hover:bg-white/80 hover:border-[#F06292]/30 transition-all duration-200 backdrop-blur-sm shadow-sm cursor-pointer"
+            >
+                {suggestion}
+            </button>
+        {/each}
     </div>
 </div>
 
