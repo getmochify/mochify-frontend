@@ -358,14 +358,14 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
                                     <span>Description</span>
                                 </div>
                                 <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
-                                    <code class="font-mono text-[#F06292] font-bold">free_tokens</code>
+                                    <code class="font-mono text-[#F06292] font-bold">remaining</code>
                                     <span class="text-[#875F42]/60 text-xs font-mono mt-0.5">number</span>
-                                    <p class="text-[#6C3F31]">Remaining free (daily) operations.</p>
+                                    <p class="text-[#6C3F31]">Total remaining operations for the current IP or API key.</p>
                                 </div>
                                 <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
-                                    <code class="font-mono text-[#F06292] font-bold">paid_tokens</code>
-                                    <span class="text-[#875F42]/60 text-xs font-mono mt-0.5">number</span>
-                                    <p class="text-[#6C3F31]">Remaining Pro operations for the current billing period. <code class="text-xs">0</code> on the free tier.</p>
+                                    <code class="font-mono text-[#F06292] font-bold">available</code>
+                                    <span class="text-[#875F42]/60 text-xs font-mono mt-0.5">boolean</span>
+                                    <p class="text-[#6C3F31]"><code class="text-xs">true</code> if at least one operation remains.</p>
                                 </div>
                             </div>
                         </div>
@@ -378,7 +378,7 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
   -H "Authorization: Bearer mchy_your_api_key"
 
 # Response
-# &#123; "free_tokens": 25, "paid_tokens": 983 &#125;</code></pre>
+# &#123; "remaining": 983, "available": true &#125;</code></pre>
                         </div>
                     </div>
                 </section>

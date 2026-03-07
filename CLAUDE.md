@@ -39,7 +39,7 @@ The homepage (`/`) lets users toggle between:
 ### API endpoints used
 
 - `POST /v1/squish?type=<format>&strip_exif=<bool>&smartCompress=1` — Upload a single image (raw body), returns compressed blob. `X-Latency-Ms` header on response.
-- `GET /v1/checkTokens` — Returns `{ free_tokens, paid_tokens }`.
+- `GET /v1/checkTokens` — Returns `{ remaining, available }`. Works anonymously (IP-based) or with an API key.
 - `POST /v1/nlp/parse` — Body: `{ prompt, fileData: [{name, width, height}] }`. Returns per-file processing config.
 
 ### Route structure

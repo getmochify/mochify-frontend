@@ -108,7 +108,7 @@
                 throw new Error('Failed to check token limit');
             }
             const data = await response.json();
-            availableTokens = (data.free_tokens || 0) + (data.paid_tokens || 0);
+            availableTokens = data.remaining || 0;
             hasCheckedTokens = true;
             tokenCheckError = false;
         } catch (error) {
