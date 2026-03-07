@@ -13,10 +13,37 @@
         { id: 'errors', label: 'Errors' },
     ];
 
+    let clickScrolling = false;
+    let clickScrollTimer: ReturnType<typeof setTimeout>;
+
     function scrollTo(id: string) {
         activeSection = id;
+        clickScrolling = true;
+        clearTimeout(clickScrollTimer);
+        clickScrollTimer = setTimeout(() => { clickScrolling = false; }, 1000);
         document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+
+    $effect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (clickScrolling) return;
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        activeSection = entry.target.id;
+                    }
+                }
+            },
+            { rootMargin: '-15% 0px -75% 0px', threshold: 0 }
+        );
+
+        sections.forEach(({ id }) => {
+            const el = document.getElementById(id);
+            if (el) observer.observe(el);
+        });
+
+        return () => observer.disconnect();
+    });
 </script>
 
 <svelte:head>
@@ -357,7 +384,7 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
                 </section>
 
                 <!-- POST /v1/prompt -->
-                <section id="nlp-parse">
+                <section id="prompt">
                     <div class="flex items-center gap-3 mb-4">
                         <span class="px-2.5 py-1 rounded-lg bg-[#F06292] text-white text-xs font-black uppercase tracking-wide">POST</span>
                         <h2 class="text-2xl font-black text-[#4A2C2C] font-mono">/v1/prompt</h2>
