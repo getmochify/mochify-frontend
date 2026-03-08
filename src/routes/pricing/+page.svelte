@@ -5,11 +5,11 @@
 
 <svelte:head>
     <title>Pricing — Mochify</title>
-    <meta name="description" content="Simple, transparent pricing. Start free with 25 operations per day — no account needed. Upgrade to Pro for 1,000 operations a month." />
+    <meta name="description" content="Simple, transparent pricing. Start free with 100 operations per month — no account needed. Upgrade to Lite for 300 ops or Pro for 1,000 ops a month." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mochify.xyz/pricing" />
     <meta property="og:title" content="Pricing — Mochify" />
-    <meta property="og:description" content="Simple, transparent pricing. Start free with 25 operations per day — no account needed. Upgrade to Pro for 1,000 operations a month." />
+    <meta property="og:description" content="Simple, transparent pricing. Start free with 100 operations per month — no account needed. Upgrade to Lite for 300 ops or Pro for 1,000 ops a month." />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -19,7 +19,7 @@
                 "@id": "https://mochify.xyz/pricing",
                 "url": "https://mochify.xyz/pricing",
                 "name": "Pricing — Mochify",
-                "description": "Simple, transparent pricing. Start free with 25 operations per day — no account needed. Upgrade to Pro for 1,000 operations a month.",
+                "description": "Simple, transparent pricing. Start free with 100 operations per month — no account needed. Upgrade to Lite for 300 ops or Pro for 1,000 ops a month.",
                 "isPartOf": { "@id": "https://mochify.xyz" }
             },
             {
@@ -34,7 +34,20 @@
                         "name": "Free",
                         "price": "0",
                         "priceCurrency": "USD",
-                        "description": "25 image operations per day, no account required. Includes all formats, resize, rotate, crop, MCP and API access."
+                        "description": "100 image operations per month, no account required. Includes all formats, resize, rotate, crop, MCP and API access."
+                    },
+                    {
+                        "@type": "Offer",
+                        "name": "Lite — Monthly",
+                        "price": "5.00",
+                        "priceCurrency": "USD",
+                        "priceSpecification": {
+                            "@type": "UnitPriceSpecification",
+                            "price": "5.00",
+                            "priceCurrency": "USD",
+                            "unitCode": "MON"
+                        },
+                        "description": "300 image operations per month. Includes all formats, resize, rotate, crop, MCP and API access. Up to 75MB per file."
                     },
                     {
                         "@type": "Offer",
@@ -80,7 +93,7 @@
                         "name": "Do free operations roll over?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Free tier resets every day. Pro operations reset monthly on your billing date and do not roll over."
+                            "text": "Free tier resets every month. Lite and Pro operations reset monthly on your billing date and do not roll over."
                         }
                     },
                     {
@@ -88,15 +101,15 @@
                         "name": "Can I use the API on the free tier?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Yes — both tiers have full MCP and API access. The same daily limit applies."
+                            "text": "Yes — all tiers have full MCP and API access. The same monthly limit applies."
                         }
                     },
                     {
                         "@type": "Question",
-                        "name": "Can I cancel Pro anytime?",
+                        "name": "Can I cancel anytime?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Yes. Cancel any time and you keep Pro access until the end of your billing period."
+                            "text": "Yes. Cancel any time and you keep access until the end of your billing period."
                         }
                     }
                 ]
@@ -131,7 +144,7 @@
         </div>
 
         <!-- Pricing cards -->
-        <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+        <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
 
             <!-- Free tier -->
             <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-8 flex flex-col">
@@ -147,7 +160,7 @@
                 <ul class="space-y-3 flex-grow mb-8">
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>25 operations</strong> per day</span>
+                        <span><strong>100 operations</strong> per month</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
@@ -168,6 +181,48 @@
                     class="block text-center px-6 py-3 rounded-2xl border border-[#875F42]/15 text-sm font-black text-[#6C3F31] hover:border-[#F06292]/30 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all"
                 >
                     Start for free
+                </a>
+            </div>
+
+            <!-- Lite tier -->
+            <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-8 flex flex-col">
+                <div class="mb-6">
+                    <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-4">Lite</span>
+                    <div class="flex items-end gap-1">
+                        <span class="text-5xl font-black text-[#4A2C2C]">$5</span>
+                        <span class="text-[#6C3F31]/50 mb-2 text-sm">/ month</span>
+                    </div>
+                    <p class="text-[#6C3F31]/60 text-sm mt-2">Everything Pro offers, sized for lighter use.</p>
+                </div>
+
+                <ul class="space-y-3 flex-grow mb-8">
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span><strong>300 operations</strong> per month</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span>All image formats — JPG, WEBP, AVIF, PNG, JXL, HEIC (upload)</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span><strong>75MB</strong> per file <span class="text-[#6C3F31]/50">(up from 20MB)</span></span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span>Resize, rotate &amp; crop</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span>MCP &amp; API access</span>
+                    </li>
+                </ul>
+
+                <a
+                    href="/auth/login"
+                    class="block text-center px-6 py-3 rounded-2xl border border-[#875F42]/15 text-sm font-black text-[#6C3F31] hover:border-[#F06292]/30 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all"
+                >
+                    Get Lite
                 </a>
             </div>
 
@@ -221,51 +276,59 @@
         </div>
 
         <!-- Feature comparison table -->
-        <div class="mt-16 max-w-3xl mx-auto">
+        <div class="mt-16 max-w-4xl mx-auto">
             <h2 class="text-xl font-black text-[#4A2C2C] text-center mb-8">Full comparison</h2>
 
             <div class="bg-white rounded-3xl border border-pink-100 shadow-sm overflow-hidden">
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="border-b border-pink-50">
-                            <th class="text-left px-6 py-4 text-[#6C3F31]/50 font-medium w-1/2">Feature</th>
+                            <th class="text-left px-6 py-4 text-[#6C3F31]/50 font-medium w-2/5">Feature</th>
                             <th class="px-6 py-4 text-center font-black text-[#6C3F31]">Free</th>
+                            <th class="px-6 py-4 text-center font-black text-[#6C3F31]">Lite</th>
                             <th class="px-6 py-4 text-center font-black text-[#F06292]">Pro</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-pink-50">
                         <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">Daily / monthly operations</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]">25 / day</td>
+                            <td class="px-6 py-4 text-[#6C3F31]">Monthly operations</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]">100 / month</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]">300 / month</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]">1,000 / month</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">Account required</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]/60">No</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]/60">Yes</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]/60">Yes</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">Max file size</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]">20MB</td>
                             <td class="px-6 py-4 text-center font-bold text-[#6C3F31]">75MB</td>
+                            <td class="px-6 py-4 text-center font-bold text-[#6C3F31]">75MB</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">JPG, WEBP, AVIF, PNG, JXL</td>
+                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">HEIC upload</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
+                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">Resize, rotate &amp; crop</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
+                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">MCP &amp; API access</td>
+                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                         </tr>
@@ -290,11 +353,11 @@
 
                 <details class="bg-white rounded-2xl border border-pink-100 shadow-sm group">
                     <summary class="px-6 py-4 cursor-pointer font-semibold text-[#4A2C2C] flex justify-between items-center select-none list-none">
-                        Do free operations roll over?
+                        Do operations roll over?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-6 pb-5 text-sm text-[#6C3F31]/70 leading-relaxed">
-                        Free tier resets every day. Pro operations reset monthly on your billing date and do not roll over.
+                        All tiers reset monthly. Free resets every calendar month; Lite and Pro reset on your billing date. Operations do not roll over.
                     </p>
                 </details>
 
@@ -304,17 +367,17 @@
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-6 pb-5 text-sm text-[#6C3F31]/70 leading-relaxed">
-                        Yes — both tiers have full MCP and API access. The same daily limit applies.
+                        Yes — all tiers have full MCP and API access. The same monthly limit applies.
                     </p>
                 </details>
 
                 <details class="bg-white rounded-2xl border border-pink-100 shadow-sm group">
                     <summary class="px-6 py-4 cursor-pointer font-semibold text-[#4A2C2C] flex justify-between items-center select-none list-none">
-                        Can I cancel Pro anytime?
+                        Can I cancel anytime?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-6 pb-5 text-sm text-[#6C3F31]/70 leading-relaxed">
-                        Yes. Cancel any time and you keep Pro access until the end of your billing period.
+                        Yes. Cancel any time and you keep access until the end of your billing period.
                     </p>
                 </details>
             </div>
