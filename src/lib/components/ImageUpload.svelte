@@ -1,6 +1,7 @@
 <script lang="ts">
     import { zip } from 'fflate';
     import { env } from '$env/dynamic/public';
+    import { getIsPro } from '$lib/supabase';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
 
@@ -30,7 +31,8 @@
     let fileInputElement: HTMLInputElement;
     const MAX_FILES = 25;
     const CONCURRENT_UPLOADS = 2;
-    const MAX_INDIVIDUAL_FILE_SIZE = 20 * 1024 * 1024; // 20MB
+    let MAX_INDIVIDUAL_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro
+    $effect(() => { getIsPro().then(isPro => { MAX_INDIVIDUAL_FILE_SIZE = isPro ? 75 * 1024 * 1024 : 20 * 1024 * 1024; }); });
 
     // Token limit tracking
     let availableTokens: number = $state(0);
@@ -511,7 +513,7 @@
                 </svg>
             </div>
             <p class="text-[#4A2C2C] font-semibold text-sm">Drop images here or <span class="text-[#F06292]">browse</span></p>
-            <p class="text-[#875F42]/50 text-xs">{types} · max {MAX_FILES} files, 20MB each</p>
+            <p class="text-[#875F42]/50 text-xs">{types} · max {MAX_FILES} files, {MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB each</p>
         </label>
     {/if}
 

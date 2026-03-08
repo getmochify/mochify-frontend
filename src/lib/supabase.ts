@@ -9,3 +9,18 @@ export async function getAccessToken(): Promise<string | null> {
     const { data } = await createClient().auth.getSession()
     return data.session?.access_token ?? null
 }
+
+function decodeJwtPayload(token: string): Record<string, unknown> {
+    try {
+        return JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
+    } catch {
+        return {}
+    }
+}
+
+export async function getIsPro(): Promise<boolean> {
+    const token = await getAccessToken()
+    if (!token) return false
+    const payload = decodeJwtPayload(token)
+    return (payload?.app_metadata as Record<string, unknown>)?.plan === 'pro'
+}

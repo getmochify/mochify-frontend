@@ -47,7 +47,7 @@
                             "priceCurrency": "USD",
                             "unitCode": "MON"
                         },
-                        "description": "1,000 image operations per month. Includes all formats, resize, rotate, crop, MCP and API access."
+                        "description": "1,000 image operations per month. Includes all formats, resize, rotate, crop, MCP and API access. Up to 75MB per file."
                     },
                     {
                         "@type": "Offer",
@@ -60,7 +60,7 @@
                             "priceCurrency": "USD",
                             "unitCode": "ANN"
                         },
-                        "description": "1,000 image operations per month, billed annually at $100/year. Save 17% versus monthly."
+                        "description": "1,000 image operations per month, billed annually at $100/year. Save 17% versus monthly. Up to 75MB per file."
                     }
                 ]
             },
@@ -199,6 +199,10 @@
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#F06292] font-black">✓</span>
+                        <span><strong>75MB</strong> per file <span class="text-[#6C3F31]/50">(up from 20MB)</span></span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
                         <span>Resize, rotate &amp; crop</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
@@ -239,6 +243,11 @@
                             <td class="px-6 py-4 text-[#6C3F31]">Account required</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]/60">No</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]/60">Yes</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-[#6C3F31]">Max file size</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]">20MB</td>
+                            <td class="px-6 py-4 text-center font-bold text-[#6C3F31]">75MB</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">JPG, WEBP, AVIF, PNG, JXL</td>

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { tick } from 'svelte';
     import { zip } from 'fflate';
-    import { getAccessToken } from '$lib/supabase';
+    import { getAccessToken, getIsPro } from '$lib/supabase';
 
     let prompt: string = $state('');
     let files: File[] = $state([]);
@@ -63,7 +63,8 @@
         return () => clearTimeout(timeoutId);
     });
 
-    const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
+    let MAX_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro
+    $effect(() => { getIsPro().then(isPro => { MAX_FILE_SIZE = isPro ? 75 * 1024 * 1024 : 20 * 1024 * 1024; }); });
 
     // Status state
     let statusMessage: { type: 'success' | 'error' | null, text: string } = $state({ type: null, text: '' });
@@ -100,7 +101,7 @@
         }
 
         if (rejectedCount > 0) {
-            showStatus('error', `${rejectedCount} file(s) ignored (exceeds 20MB limit)`);
+            showStatus('error', `${rejectedCount} file(s) ignored (exceeds ${MAX_FILE_SIZE / 1024 / 1024}MB limit)`);
         }
         
         files = [...files, ...validFiles];

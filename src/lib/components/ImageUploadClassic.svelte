@@ -1,7 +1,7 @@
 <script lang="ts">
     import { zip } from 'fflate';
     import { env } from '$env/dynamic/public';
-    import { getAccessToken } from '$lib/supabase';
+    import { getAccessToken, getIsPro } from '$lib/supabase';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
 
@@ -69,7 +69,8 @@
     let fileInputElement: HTMLInputElement;
     const MAX_FILES = 25;
     const CONCURRENT_UPLOADS = 2;
-    const MAX_INDIVIDUAL_FILE_SIZE = 20 * 1024 * 1024; // 20MB
+    let MAX_INDIVIDUAL_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro
+    $effect(() => { getIsPro().then(isPro => { MAX_INDIVIDUAL_FILE_SIZE = isPro ? 75 * 1024 * 1024 : 20 * 1024 * 1024; }); });
     
     // Token limit tracking
     let availableTokens: number = $state(0);
@@ -123,7 +124,7 @@
         const oversizedFiles = allFiles.filter(f => f.size > MAX_INDIVIDUAL_FILE_SIZE);
         
         if (oversizedFiles.length > 0) {
-            errorMessage = `Individual file size limit is 20MB. ${oversizedFiles.length} file(s) exceed this limit.`;
+            errorMessage = `Individual file size limit is ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB. ${oversizedFiles.length} file(s) exceed this limit.`;
             return;
         }
         
