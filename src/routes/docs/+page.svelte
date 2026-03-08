@@ -48,16 +48,16 @@
 
 <svelte:head>
     <title>API Documentation — Mochify</title>
-    <meta name="description" content="Mochify REST API reference. Compress and convert images programmatically with 25 free operations per day. No account required.">
+    <meta name="description" content="Mochify REST API reference. Compress and convert images programmatically with 100 free operations per month. No account required.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mochify.xyz/docs">
     <meta property="og:title" content="API Documentation — Mochify">
-    <meta property="og:description" content="Mochify REST API reference. Compress and convert images programmatically with 25 free operations per day. No account required.">
+    <meta property="og:description" content="Mochify REST API reference. Compress and convert images programmatically with 100 free operations per month. No account required.">
     <script type="application/ld+json">{JSON.stringify({
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Mochify API Reference",
-        "description": "REST API for image compression and conversion. Compress, convert, and resize images programmatically with 25 free operations per day. No account required.",
+        "description": "REST API for image compression and conversion. Compress, convert, and resize images programmatically with 100 free operations per month. No account required.",
         "url": "https://mochify.xyz/docs",
         "publisher": {
             "@type": "Organization",
@@ -92,8 +92,8 @@
                 API Reference
             </h1>
             <p class="text-[#6C3F31]/70 text-lg max-w-2xl">
-                Process images programmatically. 25 free operations per day — no account required.
-                <a href="/pricing" class="text-[#F06292] font-semibold hover:underline">Pro</a> unlocks 1,000/month with an API key.
+                Process images programmatically. 100 free operations per month — no account required.
+                <a href="/pricing" class="text-[#F06292] font-semibold hover:underline">Lite and Pro</a> plans unlock more with an API key.
             </p>
         </div>
 
