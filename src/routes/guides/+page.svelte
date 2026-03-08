@@ -86,6 +86,14 @@
             category: "Image Optimization",
             readTime: "14 min read",
             date: "Feb 20, 2026"
+        },
+        {
+            title: "AI-Powered Image Compression: How Mochify's Natural Language Feature Works (2026)",
+            description: "Describe your image goal in plain English and Mochify's AI picks the right format, size, and settings automatically. Powered by Mistral Small 3.2. No tech knowledge needed.",
+            url: "/guides/ai-image-compression-natural-language-2026",
+            category: "AI & Automation",
+            readTime: "8 min read",
+            date: "Mar 08, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
