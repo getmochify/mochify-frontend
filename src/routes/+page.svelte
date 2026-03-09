@@ -126,7 +126,7 @@
                         "name": "Does Mochify have an API?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Yes. The REST API is available at api.mochify.xyz. The free tier allows 25 operations per day with no API key required. A Pro subscription provides 1,000 operations per month and a Bearer-token key for higher-volume automation."
+                            "text": "Yes. The REST API is available at api.mochify.xyz. The free tier allows 100 operations per month with no API key required. A Pro subscription provides 1,000 operations per month and a Bearer-token key for higher-volume automation."
                         }
                     },
                     {
@@ -354,7 +354,7 @@
                         <svg class="w-4 h-4 text-[#F06292] flex-shrink-0 transition-transform duration-200 group-open:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
                     </summary>
                     <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
-                        Yes. The REST API is available at <code class="font-mono text-xs text-[#F06292]">api.mochify.xyz</code>. The free tier allows 25 operations per day with no API key required — just send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">?type=</code> parameter. A Pro subscription provides 1,000 operations per month and a Bearer-token key for higher-volume automation. See the <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> for examples in cURL, JavaScript, and Python.
+                        Yes. The REST API is available at <code class="font-mono text-xs text-[#F06292]">api.mochify.xyz</code>. The free tier allows 100 operations per month with no API key required — just send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">?type=</code> parameter. A Pro subscription provides 1,000 operations per month and a Bearer-token key for higher-volume automation. See the <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> for examples in cURL, JavaScript, and Python.
                     </p>
                 </details>
 
