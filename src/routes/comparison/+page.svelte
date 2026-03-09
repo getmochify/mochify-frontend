@@ -225,8 +225,9 @@
 
     <!-- Ambient background orbs -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div class="absolute -top-40 -right-40 w-[480px] h-[480px] rounded-full bg-pink-200/20 blur-[80px]"></div>
-        <div class="absolute -bottom-56 -left-40 w-[560px] h-[560px] rounded-full bg-rose-100/15 blur-[100px]"></div>
+        <div class="animate-float absolute -top-40 -right-40 w-[480px] h-[480px] rounded-full bg-pink-200/20 blur-[80px]"></div>
+        <div class="animate-float-slow absolute -bottom-56 -left-40 w-[560px] h-[560px] rounded-full bg-rose-100/15 blur-[100px]"></div>
+        <div class="animate-float absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full bg-pink-50/20 blur-[70px]"></div>
     </div>
 
     <Navigation />
@@ -295,7 +296,7 @@
                             {#each formats as fmt}
                             <button
                                 class="px-4 py-2 rounded-xl text-sm font-bold transition-all {imageType === fmt.value
-                                    ? 'bg-gradient-to-r from-[#FFB3C6] to-[#E0ACD5] text-white shadow-sm'
+                                    ? 'bg-gradient-to-r from-[#F06292] to-[#E91E63] text-white shadow-sm'
                                     : 'bg-[#FFF5F7] text-[#6C3F31] border border-[#FFE5EC] hover:border-[#FFD6E0] hover:bg-[#FFF0F3]'}"
                                 onclick={() => { imageType = fmt.value; compressedUrl = null; compressedSize = 0; compressedRenderFailed = false; }}
                             >
@@ -376,7 +377,7 @@
                     <!-- Compress button -->
                     {#if !compressedUrl}
                     <button
-                        class="w-full py-4 rounded-2xl font-black text-lg text-white bg-gradient-to-r from-[#FFB3C6] to-[#E0ACD5] hover:from-[#F06292] hover:to-[#D89AC7] transition-all shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="w-full py-4 rounded-2xl font-black text-lg text-white bg-gradient-to-r from-[#F06292] to-[#E91E63] hover:from-[#E91E63] hover:to-[#C2185B] transition-all shadow-md hover:shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                         onclick={processImage}
                         disabled={isProcessing || jxlPolyfillActive}
                     >
@@ -510,7 +511,7 @@
                         <!-- Action buttons -->
                         <div class="flex flex-col sm:flex-row gap-3 pt-1">
                             <button
-                                class="flex-1 py-3 rounded-2xl font-bold text-white bg-gradient-to-r from-[#FFB3C6] to-[#E0ACD5] hover:from-[#F06292] hover:to-[#D89AC7] transition-all shadow-sm active:scale-[0.98]"
+                                class="flex-1 py-3 rounded-2xl font-bold text-white bg-gradient-to-r from-[#F06292] to-[#E91E63] hover:from-[#E91E63] hover:to-[#C2185B] transition-all shadow-md hover:shadow-lg active:scale-[0.98]"
                                 onclick={downloadCompressed}
                             >
                                 Download {imageType.toUpperCase()}
@@ -527,6 +528,20 @@
                             >
                                 New image
                             </button>
+                        </div>
+
+                        <!-- Upsell CTA -->
+                        <div class="mt-2 pt-5 border-t border-[#FFE5EC] text-center">
+                            <p class="text-sm text-[#875F42]/70 mb-3">Ready to compress in bulk?</p>
+                            <a
+                                href="/"
+                                class="inline-flex items-center gap-2 px-6 py-2.5 rounded-2xl bg-white border border-[#FFE5EC] hover:border-[#F06292]/40 hover:bg-[#FFF5F7] text-[#F06292] font-bold text-sm transition-all hover:-translate-y-0.5 shadow-sm hover:shadow-md"
+                            >
+                                Compress up to 25 images at once
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                                </svg>
+                            </a>
                         </div>
                     </div>
                     {/if}

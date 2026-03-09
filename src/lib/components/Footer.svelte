@@ -8,11 +8,17 @@
         <a href="/heic-to-jpeg" class="text-[#6C3F31] hover:text-[#F06292] hover:scale-105 transition-all font-semibold text-sm">
             HEIC to JPEG
         </a>
-        
+
         <span class="text-pink-200 font-bold">•</span>
-        
+
         <a href="/solutions/hif-to-jpg" class="text-[#6C3F31] hover:text-[#F06292] hover:scale-105 transition-all font-semibold text-sm">
             HIF to JPG
+        </a>
+
+        <span class="text-pink-200 font-bold">•</span>
+
+        <a href="/comparison" class="text-[#6C3F31] hover:text-[#F06292] hover:scale-105 transition-all font-semibold text-sm">
+            Quality Comparison
         </a>
     </div>
 
