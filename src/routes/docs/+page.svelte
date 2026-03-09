@@ -130,8 +130,13 @@
                         <div class="grid sm:grid-cols-3 gap-4 pt-2">
                             <div class="bg-[#FDFBF7] rounded-2xl border border-pink-50 p-4">
                                 <p class="text-xs font-black text-[#875F42]/60 uppercase tracking-wider mb-1">Free tier</p>
-                                <p class="text-2xl font-black text-[#4A2C2C]">25</p>
-                                <p class="text-xs text-[#6C3F31]/60 mt-0.5">operations / day</p>
+                                <p class="text-2xl font-black text-[#4A2C2C]">100</p>
+                                <p class="text-xs text-[#6C3F31]/60 mt-0.5">operations / month</p>
+                            </div>
+                            <div class="bg-[#FDFBF7] rounded-2xl border border-[#F06292]/15 p-4">
+                                <p class="text-xs font-black text-[#F06292]/70 uppercase tracking-wider mb-1">Lite tier</p>
+                                <p class="text-2xl font-black text-[#4A2C2C]">300</p>
+                                <p class="text-xs text-[#6C3F31]/60 mt-0.5">operations / month</p>
                             </div>
                             <div class="bg-[#FDFBF7] rounded-2xl border border-[#F06292]/15 p-4">
                                 <p class="text-xs font-black text-[#F06292]/70 uppercase tracking-wider mb-1">Pro tier</p>
