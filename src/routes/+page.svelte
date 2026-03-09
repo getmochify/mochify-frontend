@@ -85,6 +85,59 @@
                 "operatingSystem": "Windows, macOS, Linux",
                 "downloadUrl": "https://github.com/getmochify/mochify-cli/releases",
                 "softwareVersion": "0.2.1"
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "Is Mochify free to use?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Yes. The free tier lets you compress up to 25 images per day — up to 20 MB each — with no account required. Next-generation formats including AVIF, WebP, and JPEG XL are all included at no cost. A Pro plan ($10/month) unlocks 1,000 API operations per month, a dedicated API key, CLI access, and MCP server support for AI agents."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Are my images stored or shared?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "No. Mochify streams each file directly into server RAM, compresses it with a native C++ engine, and returns the result. Files are never written to disk and are wiped from memory immediately after processing. There is no cloud storage, no third-party access, and no logs containing your image data."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How much smaller will my images be?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Results depend on format and source content. Jpegli typically produces files 35% smaller than standard JPEG at equivalent visual quality. AVIF averages 50% smaller than JPEG and 20% smaller than WebP. WebP averages 26% smaller than JPEG. Smart Compress mode automatically targets the best quality-to-size balance for each individual image."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What image formats does Mochify support?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Input formats: JPEG, PNG, WebP, AVIF, HEIC/HEIF, and JPEG XL. Output formats: JPEG (via Jpegli), PNG, WebP, AVIF, and JPEG XL. You can process up to 25 files simultaneously in a single drag-and-drop session. For larger batches, use the REST API or CLI — both support scripted bulk processing."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Does Mochify have an API?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Yes. The REST API is available at api.mochify.xyz. The free tier allows 25 operations per day with no API key required. A Pro subscription provides 1,000 operations per month and a Bearer-token key for higher-volume automation."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What is Magic Flow?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Magic Flow is Mochify's NLP-driven upload interface. Instead of selecting a format and quality setting manually, you describe what you want in plain language — for example, 'convert to AVIF and strip location data' — and Mochify interprets the intent and applies the right parameters to each file automatically."
+                        }
+                    }
+                ]
             }
         ]
     }
@@ -247,6 +300,74 @@
                         {/each}
                     </tbody>
                 </table>
+            </div>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto reveal">
+            <h2 class="text-center text-2xl font-black text-[#4A2C2C] mb-2">Frequently asked questions</h2>
+            <p class="text-center text-sm text-[#875F42]/70 mb-8">Everything you need to know before compressing your first batch.</p>
+            <div class="space-y-2">
+
+                <details class="group bg-white/60 backdrop-blur-sm rounded-2xl border border-white/80 shadow-sm open:shadow-md transition-all duration-200">
+                    <summary class="flex items-center justify-between px-5 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] text-sm select-none">
+                        Is Mochify free to use?
+                        <svg class="w-4 h-4 text-[#F06292] flex-shrink-0 transition-transform duration-200 group-open:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                    </summary>
+                    <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
+                        Yes. The free tier lets you compress up to 25 images per day — up to 20 MB each — with no account required. Next-generation formats including AVIF, WebP, and JPEG XL are all included at no cost. A Pro plan ($10/month) unlocks 1,000 API operations per month, a dedicated API key, CLI access, and MCP server support for AI agents.
+                    </p>
+                </details>
+
+                <details class="group bg-white/60 backdrop-blur-sm rounded-2xl border border-white/80 shadow-sm open:shadow-md transition-all duration-200">
+                    <summary class="flex items-center justify-between px-5 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] text-sm select-none">
+                        Are my images stored or shared?
+                        <svg class="w-4 h-4 text-[#F06292] flex-shrink-0 transition-transform duration-200 group-open:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                    </summary>
+                    <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
+                        No. Mochify streams each file directly into server RAM, compresses it with a native C++ engine, and returns the result. Files are never written to disk and are wiped from memory immediately after processing. There is no cloud storage, no third-party access, and no logs containing your image data.
+                    </p>
+                </details>
+
+                <details class="group bg-white/60 backdrop-blur-sm rounded-2xl border border-white/80 shadow-sm open:shadow-md transition-all duration-200">
+                    <summary class="flex items-center justify-between px-5 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] text-sm select-none">
+                        How much smaller will my images be?
+                        <svg class="w-4 h-4 text-[#F06292] flex-shrink-0 transition-transform duration-200 group-open:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                    </summary>
+                    <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
+                        Results depend on format and source content. Jpegli typically produces files 35% smaller than standard JPEG at equivalent visual quality. AVIF averages 50% smaller than JPEG and 20% smaller than WebP. WebP averages 26% smaller than JPEG. Smart Compress mode automatically targets the best quality-to-size balance for each individual image, so you never have to guess a quality setting.
+                    </p>
+                </details>
+
+                <details class="group bg-white/60 backdrop-blur-sm rounded-2xl border border-white/80 shadow-sm open:shadow-md transition-all duration-200">
+                    <summary class="flex items-center justify-between px-5 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] text-sm select-none">
+                        What image formats does Mochify support?
+                        <svg class="w-4 h-4 text-[#F06292] flex-shrink-0 transition-transform duration-200 group-open:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                    </summary>
+                    <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
+                        Input formats: JPEG, PNG, WebP, AVIF, HEIC/HEIF, and JPEG XL. Output formats: JPEG (via Jpegli), PNG, WebP, AVIF, and JPEG XL. You can process up to 25 files simultaneously in a single drag-and-drop session. For batches larger than 25 files, use the REST API or CLI — both support scripted bulk processing with no per-file overhead.
+                    </p>
+                </details>
+
+                <details class="group bg-white/60 backdrop-blur-sm rounded-2xl border border-white/80 shadow-sm open:shadow-md transition-all duration-200">
+                    <summary class="flex items-center justify-between px-5 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] text-sm select-none">
+                        Does Mochify have an API?
+                        <svg class="w-4 h-4 text-[#F06292] flex-shrink-0 transition-transform duration-200 group-open:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                    </summary>
+                    <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
+                        Yes. The REST API is available at <code class="font-mono text-xs text-[#F06292]">api.mochify.xyz</code>. The free tier allows 25 operations per day with no API key required — just send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">?type=</code> parameter. A Pro subscription provides 1,000 operations per month and a Bearer-token key for higher-volume automation. See the <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> for examples in cURL, JavaScript, and Python.
+                    </p>
+                </details>
+
+                <details class="group bg-white/60 backdrop-blur-sm rounded-2xl border border-white/80 shadow-sm open:shadow-md transition-all duration-200">
+                    <summary class="flex items-center justify-between px-5 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] text-sm select-none">
+                        What is Magic Flow?
+                        <svg class="w-4 h-4 text-[#F06292] flex-shrink-0 transition-transform duration-200 group-open:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                    </summary>
+                    <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
+                        Magic Flow is Mochify's NLP-driven upload interface. Instead of selecting a format and quality setting manually, you describe what you want in plain language — for example, <em>"convert to AVIF and strip location data"</em> or <em>"make these web-ready, max 1600px wide"</em> — and Mochify interprets the intent and applies the right parameters to each file automatically. It uses a two-step pipeline: a language model parses the prompt, then the C++ engine executes the compression.
+                    </p>
+                </details>
+
             </div>
         </section>
     </main>
