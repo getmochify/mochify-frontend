@@ -94,6 +94,14 @@
             category: "AI & Automation",
             readTime: "8 min read",
             date: "Mar 08, 2026"
+        },
+        {
+            title: "How to Use Mochify via MCP: AI Agent Image Compression (2026)",
+            description: "Connect Mochify to your AI assistant via MCP and compress images with plain English - no manual settings, no uploads to a browser tab. For Claude Desktop, Cursor, and any MCP-compatible client.",
+            url: "/guides/mochify-mcp-image-compression-agent-2026",
+            category: "AI & Automation",
+            readTime: "7 min read",
+            date: "Mar 09, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
