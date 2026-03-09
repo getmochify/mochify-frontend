@@ -64,7 +64,7 @@
             {
             "@type": "HowToStep",
             "name": "The assistant calls Mochify with the right flags",
-            "text": "The AI identifies the compression intent and calls the Mochify MCP tool with format, resize, and EXIF parameters automatically."
+            "text": "The AI identifies the compression intent and calls the Mochify MCP tool with type, resize, and EXIF parameters automatically."
             },
             {
             "@type": "HowToStep",
@@ -134,7 +134,7 @@
                         <a href="#llm-controls" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
                                 <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">03</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">What the LLM controls: format, size, EXIF</span>
+                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">What the LLM controls: type, size, EXIF</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
@@ -201,7 +201,7 @@
 
         <section id="how-it-works" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How the MCP connection works</h2>
-            <p class="mb-4">When you describe an image optimization task to your MCP-connected assistant, it parses your prompt and identifies the compression intent. It then calls the Mochify MCP server with the appropriate flags — format, resize dimensions, quality, EXIF handling — and returns the optimized file back into your workflow.</p>
+            <p class="mb-4">When you describe an image optimization task to your MCP-connected assistant, it parses your prompt and identifies the compression intent. It then calls the Mochify MCP server with the appropriate flags — type, resize dimensions, quality, EXIF handling — and returns the optimized file back into your workflow.</p>
 
             <p class="mb-4">The flow looks like this:</p>
 
@@ -217,7 +217,7 @@
         </section>
 
         <section id="llm-controls" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">What the LLM controls: format, size, EXIF</h2>
+            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">What the LLM controls: type, size, EXIF</h2>
             <p class="mb-4">The AI assistant connected via MCP makes the same decisions as the natural language feature on the web tool — but in an agentic, automated context. Here's exactly what it can set:</p>
 
             <div class="space-y-6 mb-6">
@@ -269,7 +269,7 @@
             <p class="mb-4">Behind the scenes, the assistant calls Mochify's MCP server with roughly:</p>
 
             <ul class="space-y-2 mb-6 pl-4">
-                <li><code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--format webp</code></li>
+                <li><code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--type webp</code></li>
                 <li><code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--resize 1080x1080</code></li>
                 <li><code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--strip-exif</code></li>
             </ul>
