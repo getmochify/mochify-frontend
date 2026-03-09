@@ -51,6 +51,20 @@
     <title>Mochify | Free Bulk 500MB Image Compressor (Jpegli, AVIF, WebP)</title>
     <meta name="description" content="Free bulk image compressor for WebP, HEIC, JXL & AVIF. Mochify handles 25 files at once up to 20MB each with no quality loss. Fast, private, and Shopify ready.">
 
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mochify.xyz/" />
+    <meta property="og:title" content="Mochify | Free Bulk Image Compressor (Jpegli, AVIF, WebP)" />
+    <meta property="og:description" content="Compress up to 25 images at once — no account needed. Supports AVIF, WebP, JXL, Jpegli & HEIC. Files never touch disk." />
+    <meta property="og:image" content="https://mochify.xyz/screenshot_v3.webp" />
+    <meta property="og:image:alt" content="Mochify image compressor interface" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Mochify | Free Bulk Image Compressor (Jpegli, AVIF, WebP)" />
+    <meta name="twitter:description" content="Compress up to 25 images at once — no account needed. Supports AVIF, WebP, JXL, Jpegli & HEIC. Files never touch disk." />
+    <meta name="twitter:image" content="https://mochify.xyz/screenshot_v3.webp" />
+
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
