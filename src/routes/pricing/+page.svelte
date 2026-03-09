@@ -64,6 +64,19 @@
                     },
                     {
                         "@type": "Offer",
+                        "name": "Lite — Annual",
+                        "price": "50.00",
+                        "priceCurrency": "USD",
+                        "priceSpecification": {
+                            "@type": "UnitPriceSpecification",
+                            "price": "50.00",
+                            "priceCurrency": "USD",
+                            "unitCode": "ANN"
+                        },
+                        "description": "300 image operations per month, billed annually at $50/year. Save 17% versus monthly. Up to 75MB per file."
+                    },
+                    {
+                        "@type": "Offer",
                         "name": "Pro — Annual",
                         "price": "100.00",
                         "priceCurrency": "USD",
@@ -192,7 +205,10 @@
                         <span class="text-5xl font-black text-[#4A2C2C]">$5</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">/ month</span>
                     </div>
-                    <p class="text-[#6C3F31]/60 text-sm mt-2">Everything Pro offers, sized for lighter use.</p>
+                    <p class="text-[#6C3F31]/60 text-sm mt-1">
+                        Or <strong class="text-[#6C3F31]">$50 / year</strong>
+                        <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-[#A5D6A7]/30 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
+                    </p>
                 </div>
 
                 <ul class="space-y-3 flex-grow mb-8">
