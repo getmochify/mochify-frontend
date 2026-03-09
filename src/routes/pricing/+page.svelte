@@ -47,7 +47,7 @@
                             "priceCurrency": "USD",
                             "unitCode": "MON"
                         },
-                        "description": "300 image operations per month. Includes all formats, resize, rotate, crop, MCP and API access. Up to 75MB per file."
+                        "description": "300 image operations per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file."
                     },
                     {
                         "@type": "Offer",
@@ -60,7 +60,7 @@
                             "priceCurrency": "USD",
                             "unitCode": "MON"
                         },
-                        "description": "1,000 image operations per month. Includes all formats, resize, rotate, crop, MCP and API access. Up to 75MB per file."
+                        "description": "1,000 image operations per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file."
                     },
                     {
                         "@type": "Offer",
@@ -73,7 +73,7 @@
                             "priceCurrency": "USD",
                             "unitCode": "ANN"
                         },
-                        "description": "300 image operations per month, billed annually at $50/year. Save 17% versus monthly. Up to 75MB per file."
+                        "description": "300 image operations per month, billed annually at $50/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file."
                     },
                     {
                         "@type": "Offer",
@@ -86,7 +86,7 @@
                             "priceCurrency": "USD",
                             "unitCode": "ANN"
                         },
-                        "description": "1,000 image operations per month, billed annually at $100/year. Save 17% versus monthly. Up to 75MB per file."
+                        "description": "1,000 image operations per month, billed annually at $100/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file."
                     }
                 ]
             },
@@ -230,6 +230,10 @@
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span>Background removal</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
                         <span>MCP &amp; API access</span>
                     </li>
                 </ul>
@@ -275,6 +279,10 @@
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#F06292] font-black">✓</span>
                         <span>Resize, rotate &amp; crop</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
+                        <span>Background removal</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#F06292] font-black">✓</span>
@@ -339,6 +347,12 @@
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">Resize, rotate &amp; crop</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
+                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
+                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-[#6C3F31]">Background removal</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]/30 font-black">—</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                         </tr>
