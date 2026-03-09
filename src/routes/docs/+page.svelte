@@ -53,7 +53,8 @@
     <meta property="og:url" content="https://mochify.xyz/docs">
     <meta property="og:title" content="API Documentation — Mochify">
     <meta property="og:description" content="Mochify REST API reference. Compress and convert images programmatically with 100 free operations per month. No account required.">
-    <script type="application/ld+json">{@html JSON.stringify({
+    <script type="application/ld+json">
+    {
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Mochify API Reference",
@@ -69,7 +70,7 @@
             "name": "Mochify API",
             "applicationCategory": "DeveloperApplication"
         }
-    })}</script>
+    }</script>
 </svelte:head>
 
 <div class="min-h-screen bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 flex flex-col relative">
