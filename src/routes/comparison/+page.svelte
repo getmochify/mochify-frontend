@@ -219,6 +219,58 @@
     <meta name="description" content="Compare your original image against Mochify's compressed output with a Squoosh‑style slider. Supports WebP, AVIF, JXL and JPG with optional smart compression.">
     <meta property="og:title" content="Image Comparison Tool – See the savings in real time">
     <meta property="og:description" content="Upload once, drag to compare. Choose WebP, AVIF, JXL or JPG and see exactly how much space Mochify saves without touching quality.">
+    
+    <script type="application/ld+json">{
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Mochify Image Comparison Tool",
+            "applicationCategory": "MultimediaApplication",
+            "operatingSystem": "Web",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+            "description": "Upload an image and compare the original side-by-side with a compressed version using a drag slider. Supports WebP, AVIF, JPEG XL, and JPG output with optional smart compression.",
+            "url": "https://mochify.xyz/comparison",
+            "featureList": ["WebP compression", "AVIF compression", "JPEG XL compression", "JPG compression", "Side-by-side drag slider comparison", "Smart compression mode", "File size savings display"]
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            "name": "How to compare image quality before and after compression",
+            "description": "Use Mochify's comparison tool to visually compare an original image against its compressed version and see exactly how much file size is saved.",
+            "step": [
+                {
+                    "@type": "HowToStep",
+                    "position": 1,
+                    "name": "Upload your image",
+                    "text": "Drag and drop your image onto the tool or click to browse. Supports JPG, PNG, WebP, AVIF, and HEIC files up to 20 MB."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 2,
+                    "name": "Choose an output format",
+                    "text": "Select your target format: WebP (modern and widely supported), AVIF (best compression ratio), JPEG XL (next-generation), or JPG (universal compatibility)."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 3,
+                    "name": "Compress the image",
+                    "text": "Click 'Compress & Compare' to send the image to Mochify's compression engine. Optionally enable Smart Compress for content-aware quality tuning."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 4,
+                    "name": "Drag the slider to compare",
+                    "text": "Drag the handle left and right to reveal the original and compressed versions side by side. The stats panel shows original size, compressed size, and percentage saved."
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 5,
+                    "name": "Download the compressed image",
+                    "text": "Click 'Download' to save the compressed file. Use 'Change settings' to try a different format or toggle smart compression."
+                }
+            ]
+        }
+    }</script>
 </svelte:head>
 
 <div class="min-h-screen bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 flex flex-col relative">
