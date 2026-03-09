@@ -127,7 +127,7 @@
                         <div class="bg-[#FFF5F7] rounded-2xl px-5 py-4 font-mono text-sm text-[#4A2C2C] font-bold select-all">
                             https://api.mochify.xyz
                         </div>
-                        <div class="grid sm:grid-cols-3 gap-4 pt-2">
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
                             <div class="bg-[#FDFBF7] rounded-2xl border border-pink-50 p-4">
                                 <p class="text-xs font-black text-[#875F42]/60 uppercase tracking-wider mb-1">Free tier</p>
                                 <p class="text-2xl font-black text-[#4A2C2C]">100</p>
@@ -145,8 +145,8 @@
                             </div>
                             <div class="bg-[#FDFBF7] rounded-2xl border border-pink-50 p-4">
                                 <p class="text-xs font-black text-[#875F42]/60 uppercase tracking-wider mb-1">Max file size</p>
-                                <p class="text-2xl font-black text-[#4A2C2C]">20 MB</p>
-                                <p class="text-xs text-[#6C3F31]/60 mt-0.5">per image</p>
+                                <p class="text-2xl font-black text-[#4A2C2C]">75 MB</p>
+                                <p class="text-xs text-[#6C3F31]/60 mt-0.5">Lite & Pro · 20 MB free</p>
                             </div>
                         </div>
                         <p class="text-sm text-[#6C3F31]/70 leading-relaxed pt-2">
