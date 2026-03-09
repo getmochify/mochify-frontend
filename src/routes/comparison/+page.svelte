@@ -220,7 +220,7 @@
     <meta property="og:title" content="Image Comparison Tool – See the savings in real time">
     <meta property="og:description" content="Upload once, drag to compare. Choose WebP, AVIF, JXL or JPG and see exactly how much space Mochify saves without touching quality.">
     
-    <script type="application/ld+json">{
+    <script type="application/ld+json">
         {
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
@@ -270,7 +270,7 @@
                 }
             ]
         }
-    }</script>
+    </script>
 </svelte:head>
 
 <div class="min-h-screen bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 flex flex-col relative">
