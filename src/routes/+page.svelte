@@ -94,7 +94,7 @@
                         "name": "Is Mochify free to use?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Yes. The free tier lets you compress up to 25 images per day — up to 20 MB each — with no account required. Next-generation formats including AVIF, WebP, and JPEG XL are all included at no cost. A Pro plan ($10/month) unlocks 1,000 API operations per month, a dedicated API key, CLI access, and MCP server support for AI agents."
+                            "text": "Yes. The free tier lets you compress up to 100 images per month — up to 20 MB each — with no account required. Next-generation formats including AVIF, WebP, and JPEG XL are all included at no cost. A Pro plan ($10/month) unlocks 1,000 API operations per month, a dedicated API key, CLI access, and MCP server support for AI agents."
                         }
                     },
                     {
@@ -272,14 +272,14 @@
         <section class="mt-16 max-w-4xl mx-auto reveal">
             <h2 class="text-center text-2xl font-black text-[#4A2C2C] mb-2">How Mochify compares</h2>
             <p class="text-center text-sm text-[#875F42]/70 mb-8">No cloud storage. No per-credit paywalls. No compromises.</p>
-            <div class="overflow-x-auto rounded-2xl border border-white/80 shadow-sm">
+            <div class="rounded-2xl border border-white/80 shadow-sm overflow-hidden">
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="bg-white/80">
-                            <th class="text-left px-5 py-3.5 font-bold text-[#875F42]/60 text-xs uppercase tracking-wider w-[34%]">Feature</th>
-                            <th class="px-5 py-3.5 font-bold text-[#875F42]/60 text-xs uppercase tracking-wider text-center">TinyPNG</th>
-                            <th class="px-5 py-3.5 font-bold text-[#875F42]/60 text-xs uppercase tracking-wider text-center">Cloudinary / Imgix</th>
-                            <th class="px-5 py-3.5 font-bold text-[#F06292] text-xs uppercase tracking-wider text-center bg-[#FFF0F3]">Mochify</th>
+                            <th class="text-left px-3 py-3 md:px-5 md:py-3.5 font-bold text-[#875F42]/60 text-xs uppercase tracking-wider w-[38%] md:w-[34%]">Feature</th>
+                            <th class="px-3 py-3 md:px-5 md:py-3.5 font-bold text-[#875F42]/60 text-xs uppercase tracking-wider text-center">TinyPNG</th>
+                            <th class="hidden md:table-cell px-5 py-3.5 font-bold text-[#875F42]/60 text-xs uppercase tracking-wider text-center">Cloudinary / Imgix</th>
+                            <th class="px-3 py-3 md:px-5 md:py-3.5 font-bold text-[#F06292] text-xs uppercase tracking-wider text-center bg-[#FFF0F3]">Mochify</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -288,14 +288,14 @@
                             { feature: 'Speed', tinypng: 'Interpreted scripts', cloudinary: 'Cloud latency', mochify: 'C++20 native' },
                             { feature: 'Privacy', tinypng: 'Uploads required', cloudinary: 'Stored in cloud', mochify: 'Zero retention' },
                             { feature: 'AI Agent support', tinypng: 'None', cloudinary: 'Limited API', mochify: 'MCP server (native)' },
-                            { feature: 'Free tier', tinypng: '3 conversions / session', cloudinary: 'Trial only', mochify: 'Unlimited (rate-limited)' },
-                            { feature: 'Paid plan includes', tinypng: '$39/yr · web only', cloudinary: '$75–$99/mo', mochify: '$10/mo · API, CLI, MCP & NLP' },
+                            { feature: 'Free tier', tinypng: '3 / session', cloudinary: 'Trial only', mochify: 'Unlimited (rate-limited)' },
+                            { feature: 'Paid plan', tinypng: '$39/yr · web', cloudinary: '$75–$99/mo', mochify: '$10/mo · API, CLI & NLP' },
                         ] as row, i}
                         <tr class="{i % 2 === 0 ? 'bg-white/40' : 'bg-white/20'} border-t border-[#F5E6E8]/60">
-                            <td class="px-5 py-3.5 font-semibold text-[#4A2C2C]">{row.feature}</td>
-                            <td class="px-5 py-3.5 text-center text-[#875F42]/70">{row.tinypng}</td>
-                            <td class="px-5 py-3.5 text-center text-[#875F42]/70">{row.cloudinary}</td>
-                            <td class="px-5 py-3.5 text-center font-bold text-[#F06292] bg-[#FFF0F3]/50">{row.mochify}</td>
+                            <td class="px-3 py-3 md:px-5 md:py-3.5 font-semibold text-[#4A2C2C] text-xs md:text-sm">{row.feature}</td>
+                            <td class="px-3 py-3 md:px-5 md:py-3.5 text-center text-[#875F42]/70 text-xs md:text-sm">{row.tinypng}</td>
+                            <td class="hidden md:table-cell px-5 py-3.5 text-center text-[#875F42]/70">{row.cloudinary}</td>
+                            <td class="px-3 py-3 md:px-5 md:py-3.5 text-center font-bold text-[#F06292] bg-[#FFF0F3]/50 text-xs md:text-sm">{row.mochify}</td>
                         </tr>
                         {/each}
                     </tbody>
@@ -314,7 +314,7 @@
                         <svg class="w-4 h-4 text-[#F06292] flex-shrink-0 transition-transform duration-200 group-open:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
                     </summary>
                     <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
-                        Yes. The free tier lets you compress up to 25 images per day — up to 20 MB each — with no account required. Next-generation formats including AVIF, WebP, and JPEG XL are all included at no cost. A Pro plan ($10/month) unlocks 1,000 API operations per month, a dedicated API key, CLI access, and MCP server support for AI agents.
+                        Yes. The free tier lets you compress up to 100 images per month — up to 20 MB each — with no account required. Next-generation formats including AVIF, WebP, and JPEG XL are all included at no cost. A Pro plan ($10/month) unlocks 1,000 API operations per month, a dedicated API key, CLI access, and MCP server support for AI agents.
                     </p>
                 </details>
 
