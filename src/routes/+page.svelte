@@ -62,20 +62,20 @@
 
 <svelte:head>
     <title>Mochify | Free Bulk 500MB Image Compressor (Jpegli, AVIF, WebP)</title>
-    <meta name="description" content="Free bulk image compressor for WebP, HEIC, JXL & AVIF. Mochify handles 25 files at once up to 20MB each with no quality loss. Fast, private, and Shopify ready.">
+    <meta name="description" content="Free bulk image compressor for WebP, HEIC, JXL & AVIF. Process up to 25 files at once (3 free, no account needed) with no quality loss. Fast, private, and Shopify ready.">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mochify.xyz/" />
     <meta property="og:title" content="Mochify | Free Bulk Image Compressor (Jpegli, AVIF, WebP)" />
-    <meta property="og:description" content="Compress up to 25 images at once — no account needed. Supports AVIF, WebP, JXL, Jpegli & HEIC. Files never touch disk." />
+    <meta property="og:description" content="Process up to 25 images at once — 3 free, no account needed. Supports AVIF, WebP, JXL, Jpegli & HEIC. Files never touch disk." />
     <meta property="og:image" content="https://mochify.xyz/screenshot_v3_mochified.webp" />
     <meta property="og:image:alt" content="Mochify image compressor interface" />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Mochify | Free Bulk Image Compressor (Jpegli, AVIF, WebP)" />
-    <meta name="twitter:description" content="Compress up to 25 images at once — no account needed. Supports AVIF, WebP, JXL, Jpegli & HEIC. Files never touch disk." />
+    <meta name="twitter:description" content="Process up to 25 images at once — 3 free, no account needed. Supports AVIF, WebP, JXL, Jpegli & HEIC. Files never touch disk." />
     <meta name="twitter:image" content="https://mochify.xyz/screenshot_v3_mochified.webp" />
 
     <script type="application/ld+json">
@@ -86,7 +86,7 @@
                 "@type": "WebApplication",
                 "name": "Mochify",
                 "url": "https://mochify.xyz",
-                "description": "Free bulk image compressor for WebP, HEIC, JXL & AVIF. Processes 25 files at once up to 20MB each with a native C++ engine. Zero retention — files never touch disk.",
+                "description": "Bulk image compressor for WebP, HEIC, JXL & AVIF. Processes up to 25 files at once (3 free, no account needed) with a native C++ engine. Zero retention — files never touch disk.",
                 "applicationCategory": "MultimediaApplication",
                 "operatingSystem": "Any",
                 "offers": {
@@ -96,7 +96,7 @@
                 },
                 "featureList": [
                     "AVIF, WebP, JXL, Jpegli compression",
-                    "Batch processing up to 25 files",
+                    "Batch processing up to 25 files (Lite & Pro) or 3 files free",
                     "Zero data retention",
                     "EXIF stripping",
                     "NLP-driven Magic Flow"
@@ -145,7 +145,7 @@
                         "name": "What image formats does Mochify support?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Input formats: JPEG, PNG, WebP, AVIF, HEIC/HEIF, and JPEG XL. Output formats: JPEG (via Jpegli), PNG, WebP, AVIF, and JPEG XL. You can process up to 25 files simultaneously in a single drag-and-drop session. For larger batches, use the REST API or CLI — both support scripted bulk processing."
+                            "text": "Input formats: JPEG, PNG, WebP, AVIF, HEIC/HEIF, and JPEG XL. Output formats: JPEG (via Jpegli), PNG, WebP, AVIF, and JPEG XL. Free users can process 3 files per batch; Lite and Pro unlock batches up to 25 files. For even larger volumes, use the REST API or CLI."
                         }
                     },
                     {
@@ -191,6 +191,7 @@
             <p class="text-[#6C3F31] text-base md:text-lg max-w-xl mx-auto leading-relaxed">
                 Compress up to <strong><span class="text-[#F06292]" aria-label="{fileCount} images">{fileCount}</span> images ({fileSizeMB}MB each)</strong> at once with our native C++ engine. Describe what you need, drop your files, and you're done.
             </p>
+            <p class="text-xs text-[#875F42]/50 mt-2">3 files free per batch · 25 with <a href="/pricing" class="hover:text-[#F06292] transition-colors">Lite or Pro</a></p>
             <a
                 href="https://github.com/getmochify/mochify-cli"
                 target="_blank"
@@ -447,7 +448,7 @@
                             { feature: 'Speed', tinypng: 'Interpreted scripts', cloudinary: 'Cloud latency', mochify: 'C++20 native' },
                             { feature: 'Privacy', tinypng: 'Uploads required', cloudinary: 'Stored in cloud', mochify: 'Zero retention' },
                             { feature: 'AI Agent support', tinypng: 'None', cloudinary: 'Limited API', mochify: 'MCP server (native)' },
-                            { feature: 'Free tier', tinypng: '3 / session', cloudinary: 'Trial only', mochify: 'Unlimited (rate-limited)' },
+                            { feature: 'Free tier', tinypng: '3 / session', cloudinary: 'Trial only', mochify: '30 ops/mo · 3 files/batch' },
                             { feature: 'Paid plan', tinypng: '$39/yr · web', cloudinary: '$75–$99/mo', mochify: '$10/mo · API, CLI & NLP' },
                         ] as row, i}
                         <tr class="{i % 2 === 0 ? 'bg-white/40' : 'bg-white/20'} border-t border-[#F5E6E8]/60">
@@ -503,7 +504,7 @@
                         <svg class="w-4 h-4 text-[#F06292] flex-shrink-0 transition-transform duration-200 group-open:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
                     </summary>
                     <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
-                        Input formats: JPEG, PNG, WebP, AVIF, HEIC/HEIF, and JPEG XL. Output formats: JPEG (via Jpegli), PNG, WebP, AVIF, and JPEG XL. You can process up to 25 files simultaneously in a single drag-and-drop session. For batches larger than 25 files, use the REST API or CLI — both support scripted bulk processing with no per-file overhead.
+                        Input formats: JPEG, PNG, WebP, AVIF, HEIC/HEIF, and JPEG XL. Output formats: JPEG (via Jpegli), PNG, WebP, AVIF, and JPEG XL. Free users can process up to 3 files per batch with no account required; Lite and Pro plans unlock batches up to 25 files. For even larger volumes, use the REST API or CLI — both support scripted bulk processing with no per-file overhead.
                     </p>
                 </details>
 
