@@ -11,9 +11,16 @@
     let activeTab: 'prompt' | 'classic' = $state('prompt');
     let showUpgradeCTA: boolean = $state(false);
     let upgradeCTADismissed: boolean = $state(false);
+    let showBgRemovalCTA: boolean = $state(false);
 
     function handleSuccess() {
+        showBgRemovalCTA = false;
         if (!upgradeCTADismissed) showUpgradeCTA = true;
+    }
+
+    function handleBgRemovalUpsell() {
+        showUpgradeCTA = false;
+        showBgRemovalCTA = true;
     }
 
     function animateCount(from: number, to: number, duration: number, setter: (v: number) => void) {
@@ -207,7 +214,7 @@
             <div class="w-full flex justify-center items-start relative z-10">
                 {#if activeTab === 'prompt'}
                     <div id="tab-panel-prompt" role="tabpanel" aria-labelledby="tab-prompt" class="animate-fade-in w-full max-w-3xl drop-shadow-[0_12px_30px_rgba(240,98,146,0.08)]">
-                        <PromptForm onSuccess={handleSuccess} />
+                        <PromptForm onSuccess={handleSuccess} onBgRemovalUpsell={handleBgRemovalUpsell} />
                     </div>
                 {:else}
                     <div id="tab-panel-classic" role="tabpanel" aria-labelledby="tab-classic" class="animate-fade-in w-full max-w-3xl">
@@ -290,6 +297,68 @@
                         class="block w-full text-center py-2.5 rounded-xl bg-gradient-to-r from-[#FF9EBB] to-[#F06292] text-white text-sm font-bold shadow-[0_4px_14px_rgba(240,98,146,0.35)] hover:shadow-[0_6px_20px_rgba(240,98,146,0.5)] hover:-translate-y-px transition-all duration-200"
                     >
                         See all plans &amp; pricing →
+                    </a>
+                </div>
+            </div>
+        </div>
+        {/if}
+
+        {#if showBgRemovalCTA}
+        <div class="max-w-3xl mx-auto px-1 -mt-6 mb-4 animate-slide-up">
+            <div class="relative rounded-2xl border border-[#A5D6A7]/30 bg-gradient-to-br from-white/70 to-[#F4FBF2]/60 backdrop-blur-sm shadow-sm overflow-hidden">
+                <button
+                    onclick={() => { showBgRemovalCTA = false; }}
+                    class="absolute top-3 right-3 w-6 h-6 rounded-full bg-white/60 hover:bg-white flex items-center justify-center text-[#875F42]/40 hover:text-[#875F42]/70 transition-all cursor-pointer"
+                    aria-label="Dismiss"
+                >
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+                <div class="px-5 pt-4 pb-1 flex items-start gap-3">
+                    <div class="mt-0.5 w-8 h-8 rounded-xl bg-[#A5D6A7]/30 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-4 h-4 text-[#3A6B3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-xs font-extrabold tracking-widest uppercase text-[#3A6B3C]/70 mb-0.5">Your images are ready</p>
+                        <h3 class="text-base font-black text-[#4A2C2C] leading-snug">Background removal is a Lite &amp; Pro feature</h3>
+                        <p class="text-xs text-[#875F42]/70 mt-1">We processed your images without it. Upgrade to automatically cut out backgrounds — starting at $5/mo.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 px-5 py-3">
+                    <a
+                        href="/pricing"
+                        class="group relative rounded-xl border border-[#875F42]/12 bg-white/60 hover:bg-white hover:border-[#875F42]/20 hover:shadow-sm transition-all duration-200 px-4 py-3 flex flex-col gap-0.5"
+                    >
+                        <div class="flex items-baseline gap-1.5">
+                            <span class="text-lg font-black text-[#4A2C2C]">$5</span>
+                            <span class="text-xs font-semibold text-[#875F42]/50">/mo</span>
+                            <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#875F42]/40 bg-[#F5E6E8]/60 rounded-full px-2 py-0.5">Lite</span>
+                        </div>
+                        <p class="text-xs font-semibold text-[#6C3F31]">300 ops · background removal</p>
+                        <p class="text-[11px] text-[#875F42]/60 mt-0.5">Priority queue · 75MB files</p>
+                    </a>
+                    <a
+                        href="/pricing"
+                        class="group relative rounded-xl border border-[#F06292]/20 bg-gradient-to-br from-[#FFF0F3]/80 to-white/60 hover:from-[#FFF0F3] hover:to-white hover:border-[#F06292]/35 hover:shadow-sm transition-all duration-200 px-4 py-3 flex flex-col gap-0.5"
+                    >
+                        <div class="flex items-baseline gap-1.5">
+                            <span class="text-lg font-black text-[#4A2C2C]">$12</span>
+                            <span class="text-xs font-semibold text-[#875F42]/50">/mo</span>
+                            <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#F06292]/70 bg-[#FFF0F3] rounded-full px-2 py-0.5">Pro</span>
+                        </div>
+                        <p class="text-xs font-semibold text-[#6C3F31]">1,200 ops · background removal</p>
+                        <p class="text-[11px] text-[#875F42]/60 mt-0.5">Top priority · 75MB files</p>
+                    </a>
+                </div>
+                <div class="px-5 pb-4">
+                    <a
+                        href="/pricing"
+                        class="block w-full text-center py-2.5 rounded-xl bg-gradient-to-r from-[#A5D6A7] to-[#66BB6A] text-white text-sm font-bold shadow-[0_4px_14px_rgba(165,214,167,0.4)] hover:shadow-[0_6px_20px_rgba(165,214,167,0.55)] hover:-translate-y-px transition-all duration-200"
+                    >
+                        Unlock background removal →
                     </a>
                 </div>
             </div>

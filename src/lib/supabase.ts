@@ -24,3 +24,13 @@ export async function getIsPro(): Promise<boolean> {
     const payload = decodeJwtPayload(token)
     return (payload?.app_metadata as Record<string, unknown>)?.plan === 'pro'
 }
+
+export async function getPlan(): Promise<'free' | 'lite' | 'pro'> {
+    const token = await getAccessToken()
+    if (!token) return 'free'
+    const payload = decodeJwtPayload(token)
+    const plan = (payload?.app_metadata as Record<string, unknown>)?.plan
+    if (plan === 'pro') return 'pro'
+    if (plan === 'lite') return 'lite'
+    return 'free'
+}

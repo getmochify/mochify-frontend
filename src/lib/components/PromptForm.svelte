@@ -1,9 +1,9 @@
 <script lang="ts">
     import { tick } from 'svelte';
     import { zip } from 'fflate';
-    import { getAccessToken, getIsPro } from '$lib/supabase';
+    import { getAccessToken, getIsPro, getPlan } from '$lib/supabase';
 
-    let { onSuccess }: { onSuccess?: () => void } = $props();
+    let { onSuccess, onBgRemovalUpsell }: { onSuccess?: () => void; onBgRemovalUpsell?: () => void } = $props();
 
     let prompt: string = $state('');
     let files: File[] = $state([]);
@@ -236,6 +236,15 @@
             const fileMap: Record<string, any> = {};
             fileArray.forEach((item: any) => { fileMap[item.filename] = item; });
 
+            // Detect background removal requested by NLP
+            const bgRemovalRequested = fileArray.some((item: any) => item.removeBackground);
+            const plan = await getPlan();
+            const bgRemovalBlocked = bgRemovalRequested && plan === 'free';
+            if (bgRemovalBlocked) {
+                // Strip the param so we still process the images without it
+                fileArray.forEach((item: any) => { delete item.removeBackground; });
+            }
+
             processPhase = 'uploading';
             totalFiles = files.length;
             const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
@@ -325,7 +334,7 @@
 
                         if (downloadAsZip) {
                             const arrayBuffer = await blob.arrayBuffer();
-                            zipContents[finalName] = new Uint8Array(arrayBuffer);
+                            zipContents[finalName] = new Uint8Array(arrayBuffer as ArrayBuffer);
                         } else {
                             const downloadUrl = window.URL.createObjectURL(blob);
                             const a = document.createElement('a');
@@ -381,8 +390,13 @@
 
             prompt = '';
             files = [];
-            showStatus('success', 'Images processed successfully! ✨');
-            onSuccess?.();
+            if (bgRemovalBlocked) {
+                showStatus('success', 'Images processed! Background removal needs Lite or Pro. ✨');
+                onBgRemovalUpsell?.();
+            } else {
+                showStatus('success', 'Images processed successfully! ✨');
+                onSuccess?.();
+            }
 
         } catch (err) {
             console.error(err);
