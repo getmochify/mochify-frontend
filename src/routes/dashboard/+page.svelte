@@ -123,6 +123,12 @@
         goto('/')
     }
 
+    let showDeleteConfirm = $state(false)
+    let deleteConfirmText = $state('')
+    let deleteLoading = $state(false)
+
+    let canConfirmDelete = $derived(deleteConfirmText.trim().toLowerCase() === 'delete my account')
+
     onMount(() => {
         quotaOps = data.profile?.ops_limit ?? 30
         justUpgraded = new URLSearchParams(window.location.search).get('upgraded') === 'true'
@@ -267,9 +273,53 @@
         </div>
 
         <!-- Usage note -->
-        <div class="bg-white/60 backdrop-blur-sm rounded-3xl border border-white/80 shadow-sm p-6">
+        <div class="bg-white/60 backdrop-blur-sm rounded-3xl border border-white/80 shadow-sm p-6 mb-6">
             <h2 class="font-black text-[#4A2C2C] mb-1">Usage history</h2>
             <p class="text-sm text-[#875F42]/60">Detailed per-request history coming soon.</p>
+        </div>
+
+        <!-- Danger zone -->
+        <div class="rounded-3xl border border-red-200/60 p-6">
+            <h2 class="font-black text-red-700/80 mb-1">Danger zone</h2>
+            <p class="text-sm text-[#875F42]/60 mb-4">Permanently delete your account and all associated data. This cannot be undone.</p>
+            {#if !showDeleteConfirm}
+                <button
+                    onclick={() => { showDeleteConfirm = true }}
+                    class="px-4 py-2 rounded-xl border border-red-300/60 text-sm font-bold text-red-600/70 hover:text-red-700 hover:border-red-400/60 hover:bg-red-50/60 transition-all cursor-pointer"
+                >
+                    Delete account
+                </button>
+            {:else}
+                <div class="space-y-3">
+                    <p class="text-sm font-bold text-red-700/80">Type <span class="font-mono">delete my account</span> to confirm:</p>
+                    <input
+                        type="text"
+                        bind:value={deleteConfirmText}
+                        placeholder="delete my account"
+                        class="w-full max-w-sm px-4 py-2.5 rounded-xl border border-red-200 bg-white/70 text-sm text-[#4A2C2C] placeholder:text-[#875F42]/30 focus:outline-none focus:border-red-400 focus:ring-2 focus:ring-red-200/50"
+                    />
+                    <div class="flex gap-3">
+                        <form method="POST" action="?/deleteAccount" onsubmit={() => { deleteLoading = true }}>
+                            <button
+                                type="submit"
+                                disabled={!canConfirmDelete || deleteLoading}
+                                class="px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer
+                                    {canConfirmDelete && !deleteLoading
+                                        ? 'bg-red-600 text-white hover:bg-red-700 shadow-sm'
+                                        : 'bg-red-100 text-red-300 cursor-not-allowed'}"
+                            >
+                                {deleteLoading ? 'Deleting…' : 'Permanently delete'}
+                            </button>
+                        </form>
+                        <button
+                            onclick={() => { showDeleteConfirm = false; deleteConfirmText = '' }}
+                            class="px-4 py-2 rounded-xl border border-[#875F42]/15 text-sm font-bold text-[#875F42]/60 hover:text-[#4A2C2C] hover:border-[#875F42]/30 transition-all cursor-pointer"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            {/if}
         </div>
     </main>
 
