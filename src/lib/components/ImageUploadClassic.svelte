@@ -1,7 +1,7 @@
 <script lang="ts">
     import { zip } from 'fflate';
     import { env } from '$env/dynamic/public';
-    import { getAccessToken, getIsPro } from '$lib/supabase';
+    import { getAccessToken, getIsPro, getPlan } from '$lib/supabase';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
 
@@ -67,10 +67,13 @@
     let successMessage: string = $state('');
     let totalOriginalSize: number = $state(0);
     let fileInputElement: HTMLInputElement;
-    const MAX_FILES = 25;
+    let MAX_FILES = $state(3); // 3 for free, 25 for lite/pro
     const CONCURRENT_UPLOADS = 2;
-    let MAX_INDIVIDUAL_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro
-    $effect(() => { getIsPro().then(isPro => { MAX_INDIVIDUAL_FILE_SIZE = isPro ? 75 * 1024 * 1024 : 20 * 1024 * 1024; }); });
+    let MAX_INDIVIDUAL_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro/lite
+    $effect(() => {
+        getIsPro().then(isPro => { MAX_INDIVIDUAL_FILE_SIZE = isPro ? 75 * 1024 * 1024 : 20 * 1024 * 1024; });
+        getPlan().then(plan => { MAX_FILES = plan === 'free' ? 3 : 25; });
+    });
     
     // Token limit tracking
     let availableTokens: number = $state(0);
@@ -161,7 +164,9 @@
         if (addedCount === 0 && newFiles.length === 0) {
             errorMessage = 'All selected files are already in the list.';
         } else if (selectedFiles.length >= MAX_FILES && allFiles.length > addedCount) {
-            errorMessage = `Maximum ${MAX_FILES} files. Added ${addedCount} file(s).`;
+            errorMessage = MAX_FILES === 3
+                ? `Free plan is limited to 3 files. Upgrade to Lite or Pro for batches up to 25.`
+                : `Maximum ${MAX_FILES} files. Added ${addedCount} file(s).`;
         }
         
         // Check token limit after files are added

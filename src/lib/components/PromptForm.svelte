@@ -65,8 +65,12 @@
         return () => clearTimeout(timeoutId);
     });
 
-    let MAX_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro
-    $effect(() => { getIsPro().then(isPro => { MAX_FILE_SIZE = isPro ? 75 * 1024 * 1024 : 20 * 1024 * 1024; }); });
+    let MAX_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro/lite
+    let MAX_FILES = $state(3); // 3 for free, 25 for lite/pro
+    $effect(() => {
+        getIsPro().then(isPro => { MAX_FILE_SIZE = isPro ? 75 * 1024 * 1024 : 20 * 1024 * 1024; });
+        getPlan().then(plan => { MAX_FILES = plan === 'free' ? 3 : 25; });
+    });
 
     // Status state
     let statusMessage: { type: 'success' | 'error' | null, text: string } = $state({ type: null, text: '' });
@@ -105,8 +109,14 @@
         if (rejectedCount > 0) {
             showStatus('error', `${rejectedCount} file(s) ignored (exceeds ${MAX_FILE_SIZE / 1024 / 1024}MB limit)`);
         }
-        
-        files = [...files, ...validFiles];
+
+        const available = MAX_FILES - files.length;
+        const toAdd = validFiles.slice(0, available);
+        const overflow = validFiles.length - toAdd.length;
+        if (overflow > 0) {
+            showStatus('error', `Free plan is limited to ${MAX_FILES} files. Upgrade to Lite or Pro for batches up to 25.`);
+        }
+        files = [...files, ...toAdd];
     }
 
     const suggestions = [
