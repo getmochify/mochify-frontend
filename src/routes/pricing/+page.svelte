@@ -255,7 +255,7 @@
                 </ul>
 
                 <a
-                    href="/auth/login"
+                    href="/api/checkout?plan=lite&billing=monthly"
                     class="block text-center px-6 py-3 rounded-2xl border border-[#875F42]/15 text-sm font-black text-[#6C3F31] hover:border-[#F06292]/30 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all"
                 >
                     Get Lite
@@ -315,7 +315,7 @@
                 </ul>
 
                 <a
-                    href="/auth/login"
+                    href="/api/checkout?plan=pro&billing=monthly"
                     class="block text-center px-6 py-3 rounded-2xl bg-[#F06292] text-white text-sm font-black hover:bg-[#E0527F] transition-all shadow-sm hover:shadow-md active:scale-95"
                 >
                     Get Pro
@@ -340,9 +340,9 @@
                     <tbody class="divide-y divide-pink-50">
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">Monthly operations</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]">100 / month</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]">30 / month</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]">300 / month</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]">1,000 / month</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]">1,200 / month</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">Account required</td>

@@ -25,6 +25,8 @@
     let quotaOps = $state(30)
 
     let isPro = $derived(data.profile?.plan === 'pro')
+    let isLite = $derived(data.profile?.plan === 'lite')
+    let isPaid = $derived(isPro || isLite)
 
     async function loadKeyStatus() {
         const jwt = await getAccessToken()
@@ -164,7 +166,7 @@
         <!-- Post-checkout success banner -->
         {#if justUpgraded}
         <div class="mb-6 p-4 bg-[#A5D6A7]/20 border border-[#66BB6A]/30 rounded-2xl flex items-center gap-3">
-            <span class="text-[#2E5C31] font-black text-sm">You're on Pro!</span>
+            <span class="text-[#2E5C31] font-black text-sm">You're on {isLite ? 'Lite' : 'Pro'}!</span>
             <span class="text-[#2E5C31]/70 text-sm">Your quota has been updated. Welcome aboard.</span>
         </div>
         {/if}
@@ -178,9 +180,15 @@
                     {#if data.profile?.quota_period_end}
                         <p class="text-xs text-[#875F42]/50 mt-1">Renews {new Date(data.profile.quota_period_end).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</p>
                     {/if}
+                {:else if isLite}
+                    <p class="text-2xl font-black text-[#4A2C2C]">Lite</p>
+                    {#if data.profile?.quota_period_end}
+                        <p class="text-xs text-[#875F42]/50 mt-1">Renews {new Date(data.profile.quota_period_end).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+                    {/if}
+                    <a href="/api/checkout?plan=pro&billing=monthly" class="mt-2 inline-block text-xs font-bold text-[#F06292] hover:underline">Upgrade to Pro →</a>
                 {:else}
                     <p class="text-2xl font-black text-[#4A2C2C]">Free</p>
-                    <a href="/api/checkout" class="mt-2 inline-block text-xs font-bold text-[#F06292] hover:underline">Upgrade to Pro →</a>
+                    <a href="/api/checkout?plan=pro&billing=monthly" class="mt-2 inline-block text-xs font-bold text-[#F06292] hover:underline">Upgrade →</a>
                 {/if}
             </div>
             <div class="bg-white/60 backdrop-blur-sm rounded-3xl border border-white/80 shadow-sm p-6">
@@ -200,18 +208,37 @@
             </div>
         </div>
 
-        <!-- Upgrade CTA for free users -->
-        {#if !isPro}
+        <!-- Upgrade CTA for free/lite users -->
+        {#if !isPaid}
+        <div class="bg-gradient-to-br from-[#FFF0F5] to-[#FFF8F0] rounded-3xl border border-[#F06292]/15 shadow-sm p-6 mb-6">
+            <p class="font-black text-[#4A2C2C] text-base mb-1">Upgrade your plan</p>
+            <p class="text-sm text-[#875F42]/60 mb-4">More operations, larger files, priority queue, and API key access.</p>
+            <div class="flex flex-wrap gap-3">
+                <a
+                    href="/api/checkout?plan=lite&billing=monthly"
+                    class="px-5 py-2.5 rounded-2xl border border-[#875F42]/20 text-[#4A2C2C] font-black text-sm hover:border-[#F06292]/40 hover:text-[#F06292] hover:bg-white/60 transition-all"
+                >
+                    Lite — $5/mo <span class="font-normal text-[#875F42]/50">· 300 ops</span>
+                </a>
+                <a
+                    href="/api/checkout?plan=pro&billing=monthly"
+                    class="px-5 py-2.5 rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white font-black text-sm shadow-[0_4px_16px_rgba(240,98,146,0.3)] hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] hover:-translate-y-0.5 transition-all"
+                >
+                    Pro — $12/mo <span class="font-normal opacity-80">· 1,200 ops</span>
+                </a>
+            </div>
+        </div>
+        {:else if isLite}
         <div class="bg-gradient-to-br from-[#FFF0F5] to-[#FFF8F0] rounded-3xl border border-[#F06292]/15 shadow-sm p-6 mb-6 flex items-center justify-between gap-4">
             <div>
-                <p class="font-black text-[#4A2C2C] text-base">Get Pro — 1,200 operations/month</p>
-                <p class="text-sm text-[#875F42]/60 mt-0.5">Unlimited API key access, monthly quota resets, priority processing.</p>
+                <p class="font-black text-[#4A2C2C] text-base">Upgrade to Pro — 1,200 ops/month</p>
+                <p class="text-sm text-[#875F42]/60 mt-0.5">4× the operations, top priority queue.</p>
             </div>
             <a
-                href="/api/checkout"
+                href="/api/checkout?plan=pro&billing=monthly"
                 class="flex-shrink-0 px-5 py-2.5 rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white font-black text-sm shadow-[0_4px_16px_rgba(240,98,146,0.3)] hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] hover:-translate-y-0.5 transition-all"
             >
-                Upgrade
+                Upgrade to Pro
             </a>
         </div>
         {/if}

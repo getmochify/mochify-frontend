@@ -1,12 +1,26 @@
 import { validateEvent, WebhookVerificationError } from '@polar-sh/sdk/webhooks';
 import { createClient } from '@supabase/supabase-js';
-import { SUPABASE_SERVICE_ROLE_KEY, POLAR_WEBHOOK_SECRET } from '$env/static/private';
+import {
+    SUPABASE_SERVICE_ROLE_KEY,
+    POLAR_WEBHOOK_SECRET,
+    POLAR_PRODUCT_ID_LITE_MONTHLY,
+    POLAR_PRODUCT_ID_LITE_YEARLY,
+    POLAR_PRODUCT_ID_PRO_MONTHLY,
+    POLAR_PRODUCT_ID_PRO_YEARLY,
+} from '$env/static/private';
 import { PUBLIC_SUPABASE_URL } from '$env/static/public';
 import type { RequestHandler } from './$types';
 
 // Service-role client — bypasses RLS so webhooks can write any profile.
 function adminClient() {
     return createClient(PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+}
+
+const PRODUCT_PLAN_MAP: Record<string, { plan: 'lite' | 'pro'; ops_limit: number }> = {
+    [POLAR_PRODUCT_ID_LITE_MONTHLY]: { plan: 'lite', ops_limit: 300 },
+    [POLAR_PRODUCT_ID_LITE_YEARLY]:  { plan: 'lite', ops_limit: 300 },
+    [POLAR_PRODUCT_ID_PRO_MONTHLY]:  { plan: 'pro',  ops_limit: 1200 },
+    [POLAR_PRODUCT_ID_PRO_YEARLY]:   { plan: 'pro',  ops_limit: 1200 },
 }
 
 export const POST: RequestHandler = async ({ request }) => {
@@ -37,14 +51,16 @@ export const POST: RequestHandler = async ({ request }) => {
             if (!userId) break;
 
             const isActive = sub.status === 'active';
+            const tier = PRODUCT_PLAN_MAP[sub.product.id] ?? { plan: 'free' as const, ops_limit: 30 };
+
             await supabase.from('profiles').upsert(
                 {
                     user_id: userId,
-                    plan: isActive ? 'pro' : 'free',
+                    plan: isActive ? tier.plan : 'free',
                     polar_subscription_id: sub.id,
                     polar_customer_id: sub.customer.id,
                     quota_period_end: sub.currentPeriodEnd?.toISOString() ?? null,
-                    ops_limit: isActive ? 1000 : 25,
+                    ops_limit: isActive ? tier.ops_limit : 30,
                 },
                 { onConflict: 'user_id' }
             );
@@ -57,14 +73,16 @@ export const POST: RequestHandler = async ({ request }) => {
             const userId = sub.customer.externalId;
             if (!userId) break;
 
+            const tier = PRODUCT_PLAN_MAP[sub.product.id] ?? { plan: 'pro' as const, ops_limit: 1200 };
+
             await supabase.from('profiles').upsert(
                 {
                     user_id: userId,
-                    plan: 'pro',
+                    plan: tier.plan,
                     polar_subscription_id: sub.id,
                     polar_customer_id: sub.customer.id,
                     quota_period_end: sub.currentPeriodEnd?.toISOString() ?? null,
-                    ops_limit: 1000,
+                    ops_limit: tier.ops_limit,
                 },
                 { onConflict: 'user_id' }
             );
@@ -87,7 +105,7 @@ export const POST: RequestHandler = async ({ request }) => {
                     polar_subscription_id: null,
                     polar_customer_id: sub.customer.id,
                     quota_period_end: null,
-                    ops_limit: 25,
+                    ops_limit: 30,
                 },
                 { onConflict: 'user_id' }
             );
