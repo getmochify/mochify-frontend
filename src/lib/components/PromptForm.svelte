@@ -261,7 +261,7 @@
             let uploadedBytes = 0;
             let processedFiles = 0;
             let currentFileIndex = 0;
-            const CONCURRENCY_LIMIT = 4;
+            const CONCURRENCY_LIMIT = 1;
             const zipContents: Record<string, Uint8Array> = {};
 
             const squishFile = (file: File, params: URLSearchParams): Promise<Blob> =>

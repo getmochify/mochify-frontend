@@ -161,7 +161,7 @@
             processPhase = 'uploading';
             let completedFiles = 0;
             let currentFileIndex = 0;
-            const CONCURRENCY_LIMIT = 4;
+            const CONCURRENCY_LIMIT = 1;
             const zipContents: Record<string, Uint8Array> = {};
 
             const processNextFile = async () => {

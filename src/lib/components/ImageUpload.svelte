@@ -30,7 +30,7 @@
     let totalOriginalSize: number = $state(0);
     let fileInputElement: HTMLInputElement;
     const MAX_FILES = 25;
-    const CONCURRENT_UPLOADS = 2;
+    const CONCURRENT_UPLOADS = 1;
     let MAX_INDIVIDUAL_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro
     $effect(() => { getIsPro().then(isPro => { MAX_INDIVIDUAL_FILE_SIZE = isPro ? 75 * 1024 * 1024 : 20 * 1024 * 1024; }); });
 
