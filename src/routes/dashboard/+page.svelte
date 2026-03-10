@@ -178,7 +178,7 @@
                 {/if}
             </div>
             <div class="bg-white/60 backdrop-blur-sm rounded-3xl border border-white/80 shadow-sm p-6">
-                <p class="text-xs font-bold text-[#875F42]/50 tracking-widest uppercase mb-2">Operations {isPro ? 'this month' : 'today'}</p>
+                <p class="text-xs font-bold text-[#875F42]/50 tracking-widest uppercase mb-2">Operations this month</p>
                 {#if usageLoaded}
                     <p class="text-2xl font-black text-[#4A2C2C] mb-3">{usedOps} <span class="text-base font-semibold text-[#875F42]/50">/ {quotaOps}</span></p>
                     <div class="h-2 bg-[#875F42]/10 rounded-full overflow-hidden">
