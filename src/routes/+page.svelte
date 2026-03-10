@@ -256,7 +256,7 @@
                 <div class="px-5 pt-4 pb-1">
                     <p class="text-xs font-extrabold tracking-widest uppercase text-[#F06292]/60 mb-0.5">You're on the free plan</p>
                     <h3 class="text-base font-black text-[#4A2C2C] leading-snug">Running a lot of images? Get more headroom.</h3>
-                    <p class="text-xs text-[#875F42]/70 mt-1">Free gives you 100 ops/month. Upgrade for larger files, more volume, and background removal.</p>
+                    <p class="text-xs text-[#875F42]/70 mt-1">Free gives you 100 ops/month. Upgrade for priority processing, larger files, and more volume.</p>
                 </div>
                 <div class="grid grid-cols-2 gap-2 px-5 py-3">
                     <a
@@ -269,7 +269,7 @@
                             <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#875F42]/40 bg-[#F5E6E8]/60 rounded-full px-2 py-0.5">Lite</span>
                         </div>
                         <p class="text-xs font-semibold text-[#6C3F31]">300 ops · 75MB files</p>
-                        <p class="text-[11px] text-[#875F42]/60 mt-0.5">3× more volume, bigger files</p>
+                        <p class="text-[11px] text-[#875F42]/60 mt-0.5">3× more volume · priority queue</p>
                     </a>
                     <a
                         href="/pricing"
@@ -281,7 +281,7 @@
                             <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#F06292]/70 bg-[#FFF0F3] rounded-full px-2 py-0.5">Pro</span>
                         </div>
                         <p class="text-xs font-semibold text-[#6C3F31]">1,200 ops · 75MB · BG removal</p>
-                        <p class="text-[11px] text-[#875F42]/60 mt-0.5">12× volume + background removal</p>
+                        <p class="text-[11px] text-[#875F42]/60 mt-0.5">12× volume · top priority · BG removal</p>
                     </a>
                 </div>
                 <div class="px-5 pb-4">

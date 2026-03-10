@@ -34,7 +34,7 @@
                         "name": "Free",
                         "price": "0",
                         "priceCurrency": "USD",
-                        "description": "100 image operations per month, no account required. Includes all formats, resize, rotate, crop, MCP and API access."
+                        "description": "100 image operations per month, no account required. Includes all formats, resize, rotate, crop, MCP and API access. Standard processing queue."
                     },
                     {
                         "@type": "Offer",
@@ -47,7 +47,7 @@
                             "priceCurrency": "USD",
                             "unitCode": "MON"
                         },
-                        "description": "300 image operations per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file."
+                        "description": "300 image operations per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file. Priority processing queue."
                     },
                     {
                         "@type": "Offer",
@@ -60,7 +60,7 @@
                             "priceCurrency": "USD",
                             "unitCode": "MON"
                         },
-                        "description": "1,200 image operations per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file."
+                        "description": "1,200 image operations per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file. Top priority processing queue."
                     },
                     {
                         "@type": "Offer",
@@ -73,7 +73,7 @@
                             "priceCurrency": "USD",
                             "unitCode": "ANN"
                         },
-                        "description": "300 image operations per month, billed annually at $50/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file."
+                        "description": "300 image operations per month, billed annually at $50/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Priority processing queue."
                     },
                     {
                         "@type": "Offer",
@@ -86,7 +86,7 @@
                             "priceCurrency": "USD",
                             "unitCode": "ANN"
                         },
-                        "description": "1,200 image operations per month, billed annually at $120/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file."
+                        "description": "1,200 image operations per month, billed annually at $120/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Top priority processing queue."
                     }
                 ]
             },
@@ -187,6 +187,10 @@
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
                         <span>MCP &amp; API access</span>
                     </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]/50">
+                        <span class="mt-0.5 font-black">–</span>
+                        <span>Standard processing queue</span>
+                    </li>
                 </ul>
 
                 <a
@@ -235,6 +239,10 @@
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
                         <span>MCP &amp; API access</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span><strong>Priority queue</strong> — ahead of free users</span>
                     </li>
                 </ul>
 
@@ -287,6 +295,10 @@
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#F06292] font-black">✓</span>
                         <span>MCP &amp; API access</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
+                        <span><strong>Top priority queue</strong> — ahead of everyone</span>
                     </li>
                 </ul>
 
@@ -361,6 +373,12 @@
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-[#6C3F31]">Processing queue</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">Standard</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31] font-semibold text-xs">Priority</td>
+                            <td class="px-6 py-4 text-center text-[#F06292] font-bold text-xs">Top priority</td>
                         </tr>
                     </tbody>
                 </table>
