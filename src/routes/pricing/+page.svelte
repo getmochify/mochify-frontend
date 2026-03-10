@@ -189,6 +189,10 @@
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]/50">
                         <span class="mt-0.5 font-black">–</span>
+                        <span>Up to <strong>3 files</strong> per batch</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]/50">
+                        <span class="mt-0.5 font-black">–</span>
                         <span>Standard processing queue</span>
                     </li>
                 </ul>
@@ -239,6 +243,10 @@
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
                         <span>MCP &amp; API access</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span><strong>25 files</strong> per batch <span class="text-[#6C3F31]/50">(up from 3)</span></span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
@@ -295,6 +303,10 @@
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#F06292] font-black">✓</span>
                         <span>MCP &amp; API access</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
+                        <span><strong>25 files</strong> per batch <span class="text-[#6C3F31]/50">(up from 3)</span></span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#F06292] font-black">✓</span>
@@ -373,6 +385,12 @@
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-[#6C3F31]">Batch upload</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">3 files</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31] font-semibold text-xs">25 files</td>
+                            <td class="px-6 py-4 text-center text-[#F06292] font-bold text-xs">25 files</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">Processing queue</td>
