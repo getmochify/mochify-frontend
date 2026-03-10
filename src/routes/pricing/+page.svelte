@@ -52,11 +52,11 @@
                     {
                         "@type": "Offer",
                         "name": "Pro — Monthly",
-                        "price": "10.00",
+                        "price": "12.00",
                         "priceCurrency": "USD",
                         "priceSpecification": {
                             "@type": "UnitPriceSpecification",
-                            "price": "10.00",
+                            "price": "12.00",
                             "priceCurrency": "USD",
                             "unitCode": "MON"
                         },
@@ -78,15 +78,15 @@
                     {
                         "@type": "Offer",
                         "name": "Pro — Annual",
-                        "price": "100.00",
+                        "price": "120.00",
                         "priceCurrency": "USD",
                         "priceSpecification": {
                             "@type": "UnitPriceSpecification",
-                            "price": "100.00",
+                            "price": "120.00",
                             "priceCurrency": "USD",
                             "unitCode": "ANN"
                         },
-                        "description": "1,000 image operations per month, billed annually at $100/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file."
+                        "description": "1,000 image operations per month, billed annually at $120/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file."
                     }
                 ]
             },
@@ -254,11 +254,11 @@
                 <div class="mb-6 relative">
                     <span class="inline-block px-3 py-1 rounded-full bg-[#F06292] text-white text-xs font-black uppercase tracking-wider mb-4">Pro</span>
                     <div class="flex items-end gap-1">
-                        <span class="text-5xl font-black text-[#4A2C2C]">$10</span>
+                        <span class="text-5xl font-black text-[#4A2C2C]">$12</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">/ month</span>
                     </div>
                     <p class="text-[#6C3F31]/60 text-sm mt-1">
-                        Or <strong class="text-[#6C3F31]">$100 / year</strong>
+                        Or <strong class="text-[#6C3F31]">$120 / year</strong>
                         <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-[#A5D6A7]/30 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
                     </p>
                 </div>
