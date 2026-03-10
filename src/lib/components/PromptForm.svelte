@@ -111,6 +111,7 @@
         'Convert to WebP',
         'Convert to JPEG XL',
         'Resize to 500px wide and convert to AVIF',
+        'Make square',
         'Compress for web, strip EXIF data',
         'Convert to PNG',
     ];
