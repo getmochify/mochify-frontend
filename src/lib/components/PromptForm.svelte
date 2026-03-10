@@ -3,6 +3,8 @@
     import { zip } from 'fflate';
     import { getAccessToken, getIsPro } from '$lib/supabase';
 
+    let { onSuccess }: { onSuccess?: () => void } = $props();
+
     let prompt: string = $state('');
     let files: File[] = $state([]);
     let isDragging: boolean = $state(false);
@@ -380,6 +382,7 @@
             prompt = '';
             files = [];
             showStatus('success', 'Images processed successfully! ✨');
+            onSuccess?.();
 
         } catch (err) {
             console.error(err);

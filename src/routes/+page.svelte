@@ -9,6 +9,12 @@
     let fileSizeMB = $state(20);
     
     let activeTab: 'prompt' | 'classic' = $state('prompt');
+    let showUpgradeCTA: boolean = $state(false);
+    let upgradeCTADismissed: boolean = $state(false);
+
+    function handleSuccess() {
+        if (!upgradeCTADismissed) showUpgradeCTA = true;
+    }
 
     function animateCount(from: number, to: number, duration: number, setter: (v: number) => void) {
         const start = performance.now();
@@ -201,7 +207,7 @@
             <div class="w-full flex justify-center items-start relative z-10">
                 {#if activeTab === 'prompt'}
                     <div id="tab-panel-prompt" role="tabpanel" aria-labelledby="tab-prompt" class="animate-fade-in w-full max-w-3xl drop-shadow-[0_12px_30px_rgba(240,98,146,0.08)]">
-                        <PromptForm />
+                        <PromptForm onSuccess={handleSuccess} />
                     </div>
                 {:else}
                     <div id="tab-panel-classic" role="tabpanel" aria-labelledby="tab-classic" class="animate-fade-in w-full max-w-3xl">
@@ -234,6 +240,61 @@
             </div>
             
         </div>
+
+        {#if showUpgradeCTA}
+        <div class="max-w-3xl mx-auto px-1 -mt-6 mb-4 animate-slide-up">
+            <div class="relative rounded-2xl border border-[#F06292]/15 bg-gradient-to-br from-white/70 to-[#FFF0F3]/50 backdrop-blur-sm shadow-sm overflow-hidden">
+                <button
+                    onclick={() => { showUpgradeCTA = false; upgradeCTADismissed = true; }}
+                    class="absolute top-3 right-3 w-6 h-6 rounded-full bg-white/60 hover:bg-white flex items-center justify-center text-[#875F42]/40 hover:text-[#875F42]/70 transition-all cursor-pointer"
+                    aria-label="Dismiss"
+                >
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+                <div class="px-5 pt-4 pb-1">
+                    <p class="text-xs font-extrabold tracking-widest uppercase text-[#F06292]/60 mb-0.5">You're on the free plan</p>
+                    <h3 class="text-base font-black text-[#4A2C2C] leading-snug">Running a lot of images? Get more headroom.</h3>
+                    <p class="text-xs text-[#875F42]/70 mt-1">Free gives you 100 ops/month. Upgrade for larger files, more volume, and background removal.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-2 px-5 py-3">
+                    <a
+                        href="/pricing"
+                        class="group relative rounded-xl border border-[#875F42]/12 bg-white/60 hover:bg-white hover:border-[#875F42]/20 hover:shadow-sm transition-all duration-200 px-4 py-3 flex flex-col gap-0.5"
+                    >
+                        <div class="flex items-baseline gap-1.5">
+                            <span class="text-lg font-black text-[#4A2C2C]">$5</span>
+                            <span class="text-xs font-semibold text-[#875F42]/50">/mo</span>
+                            <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#875F42]/40 bg-[#F5E6E8]/60 rounded-full px-2 py-0.5">Lite</span>
+                        </div>
+                        <p class="text-xs font-semibold text-[#6C3F31]">300 ops · 75MB files</p>
+                        <p class="text-[11px] text-[#875F42]/60 mt-0.5">3× more volume, bigger files</p>
+                    </a>
+                    <a
+                        href="/pricing"
+                        class="group relative rounded-xl border border-[#F06292]/20 bg-gradient-to-br from-[#FFF0F3]/80 to-white/60 hover:from-[#FFF0F3] hover:to-white hover:border-[#F06292]/35 hover:shadow-sm transition-all duration-200 px-4 py-3 flex flex-col gap-0.5"
+                    >
+                        <div class="flex items-baseline gap-1.5">
+                            <span class="text-lg font-black text-[#4A2C2C]">$12</span>
+                            <span class="text-xs font-semibold text-[#875F42]/50">/mo</span>
+                            <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#F06292]/70 bg-[#FFF0F3] rounded-full px-2 py-0.5">Pro</span>
+                        </div>
+                        <p class="text-xs font-semibold text-[#6C3F31]">1,200 ops · 75MB · BG removal</p>
+                        <p class="text-[11px] text-[#875F42]/60 mt-0.5">12× volume + background removal</p>
+                    </a>
+                </div>
+                <div class="px-5 pb-4">
+                    <a
+                        href="/pricing"
+                        class="block w-full text-center py-2.5 rounded-xl bg-gradient-to-r from-[#FF9EBB] to-[#F06292] text-white text-sm font-bold shadow-[0_4px_14px_rgba(240,98,146,0.35)] hover:shadow-[0_6px_20px_rgba(240,98,146,0.5)] hover:-translate-y-px transition-all duration-200"
+                    >
+                        See all plans &amp; pricing →
+                    </a>
+                </div>
+            </div>
+        </div>
+        {/if}
 
         <section class="mt-12 max-w-4xl mx-auto reveal">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
@@ -414,5 +475,12 @@
     }
     .animate-fade-in {
         animation: fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes slide-up {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slide-up {
+        animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 </style>
