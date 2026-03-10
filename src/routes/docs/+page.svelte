@@ -48,17 +48,17 @@
 
 <svelte:head>
     <title>API Documentation — Mochify</title>
-    <meta name="description" content="Mochify REST API reference. Compress and convert images programmatically with 100 free operations per month. No account required.">
+    <meta name="description" content="Mochify REST API reference. Compress and convert images programmatically with 30 free operations per month. No account required.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mochify.xyz/docs">
     <meta property="og:title" content="API Documentation — Mochify">
-    <meta property="og:description" content="Mochify REST API reference. Compress and convert images programmatically with 100 free operations per month. No account required.">
+    <meta property="og:description" content="Mochify REST API reference. Compress and convert images programmatically with 30 free operations per month. No account required.">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Mochify API Reference",
-        "description": "REST API for image compression and conversion. Compress, convert, and resize images programmatically with 100 free operations per month. No account required.",
+        "description": "REST API for image compression and conversion. Compress, convert, and resize images programmatically with 30 free operations per month. No account required.",
         "url": "https://mochify.xyz/docs",
         "publisher": {
             "@type": "Organization",
@@ -93,7 +93,7 @@
                 API Reference
             </h1>
             <p class="text-[#6C3F31]/70 text-lg max-w-2xl">
-                Process images programmatically. 100 free operations per month — no account required.
+                Process images programmatically. 30 free operations per month — no account required.
                 <a href="/pricing" class="text-[#F06292] font-semibold hover:underline">Lite and Pro</a> plans unlock more with an API key.
             </p>
         </div>
@@ -130,7 +130,7 @@
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
                             <div class="bg-[#FDFBF7] rounded-2xl border border-pink-50 p-4">
                                 <p class="text-xs font-black text-[#875F42]/60 uppercase tracking-wider mb-1">Free tier</p>
-                                <p class="text-2xl font-black text-[#4A2C2C]">100</p>
+                                <p class="text-2xl font-black text-[#4A2C2C]">30</p>
                                 <p class="text-xs text-[#6C3F31]/60 mt-0.5">operations / month</p>
                             </div>
                             <div class="bg-[#FDFBF7] rounded-2xl border border-[#F06292]/15 p-4">
@@ -477,7 +477,7 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
                             </div>
                             <div class="grid grid-cols-[auto_1fr] gap-x-6 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
                                 <code class="font-mono font-black text-[#EF5350]">429</code>
-                                <p class="text-[#6C3F31]">Rate limit exceeded. Free tier resets daily; Pro resets monthly. <a href="/pricing" class="text-[#F06292] font-semibold hover:underline">Upgrade</a> for higher limits.</p>
+                                <p class="text-[#6C3F31]">Rate limit exceeded. Free tier resets monthly; Lite and Pro reset on your billing date. <a href="/pricing" class="text-[#F06292] font-semibold hover:underline">Upgrade</a> for higher limits.</p>
                             </div>
                             <div class="grid grid-cols-[auto_1fr] gap-x-6 px-5 py-4 items-start text-sm">
                                 <code class="font-mono font-black text-[#EF5350]">500</code>

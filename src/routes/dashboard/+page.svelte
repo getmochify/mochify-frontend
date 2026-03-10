@@ -22,7 +22,7 @@
     // Usage state
     let usageLoaded = $state(false)
     let usedOps = $state(0)
-    let quotaOps = $state(25)
+    let quotaOps = $state(30)
 
     let isPro = $derived(data.profile?.plan === 'pro')
 
@@ -53,7 +53,7 @@
             if (res.ok) {
                 const body = await res.json()
                 usedOps = body.used ?? 0
-                quotaOps = body.quota ?? data.profile?.ops_limit ?? 25
+                quotaOps = body.quota ?? data.profile?.ops_limit ?? 30
                 usageLoaded = true
             }
         } catch {
@@ -124,7 +124,7 @@
     }
 
     onMount(() => {
-        quotaOps = data.profile?.ops_limit ?? 25
+        quotaOps = data.profile?.ops_limit ?? 30
         justUpgraded = new URLSearchParams(window.location.search).get('upgraded') === 'true'
         loadKeyStatus()
         loadUsage()
@@ -198,7 +198,7 @@
         {#if !isPro}
         <div class="bg-gradient-to-br from-[#FFF0F5] to-[#FFF8F0] rounded-3xl border border-[#F06292]/15 shadow-sm p-6 mb-6 flex items-center justify-between gap-4">
             <div>
-                <p class="font-black text-[#4A2C2C] text-base">Get Pro — 1,000 operations/month</p>
+                <p class="font-black text-[#4A2C2C] text-base">Get Pro — 1,200 operations/month</p>
                 <p class="text-sm text-[#875F42]/60 mt-0.5">Unlimited API key access, monthly quota resets, priority processing.</p>
             </div>
             <a
