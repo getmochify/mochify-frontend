@@ -104,11 +104,15 @@
     }
 
     async function checkTokenLimit(): Promise<void> {
+        // Skip token check for authenticated users — IP-based limits should never
+        // block a user with valid auth. The API enforces their quota via 429.
+        const jwt = await getAccessToken();
+        if (jwt) {
+            hasCheckedTokens = false;
+            return;
+        }
         try {
-            const jwt = await getAccessToken()
-            const response = await fetch(`${API_URL}/v1/checkTokens`, {
-                headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
-            });
+            const response = await fetch(`${API_URL}/v1/checkTokens`);
             if (!response.ok) {
                 throw new Error('Failed to check token limit');
             }

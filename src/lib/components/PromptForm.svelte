@@ -204,25 +204,24 @@
     async function submit() {
         if (!prompt.trim() || files.length === 0 || isProcessing) return;
 
-        // Pre-flight: check remaining token quota
         const jwt = await getAccessToken();
-        try {
-            const tokenRes = await fetch(`${API_URL}/v1/checkTokens`, {
-                headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
-            });
-            if (tokenRes.ok) {
-                const tokenData = await tokenRes.json();
-                if (tokenData.remaining < files.length) {
-                    if (!jwt) {
+
+        // Pre-flight quota check for unauthenticated users only.
+        // Authenticated users skip this — the backend enforces limits via 429 on the actual request,
+        // and IP-based limits should never block a user with valid auth.
+        if (!jwt) {
+            try {
+                const tokenRes = await fetch(`${API_URL}/v1/checkTokens`);
+                if (tokenRes.ok) {
+                    const tokenData = await tokenRes.json();
+                    if (tokenData.remaining < files.length) {
                         showSignupCta = true;
-                    } else {
-                        showStatus('error', `Not enough tokens. You have ${tokenData.remaining} remaining this month.`);
+                        return;
                     }
-                    return;
                 }
+            } catch {
+                // Non-blocking — proceed if checkTokens fails
             }
-        } catch {
-            // Non-blocking — proceed if checkTokens fails
         }
 
         isProcessing = true;
