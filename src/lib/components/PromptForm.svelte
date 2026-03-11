@@ -4,7 +4,7 @@
     import { env } from '$env/dynamic/public';
     import { getAccessToken, getIsPro, getPlan } from '$lib/supabase';
 
-    const API_URL = env.PUBLIC_API_URL || '${API_URL}';
+    const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
 
     let { onSuccess, onBgRemovalUpsell }: { onSuccess?: () => void; onBgRemovalUpsell?: () => void } = $props();
 
@@ -233,7 +233,7 @@
             }));
 
             const jwt = await getAccessToken()
-            const nlpResponse = await fetch('${API_URL}/v1/prompt', {
+            const nlpResponse = await fetch(`${API_URL}/v1/prompt`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
