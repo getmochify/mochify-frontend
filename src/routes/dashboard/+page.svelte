@@ -4,8 +4,9 @@
     import { createClient, getAccessToken } from '$lib/supabase'
     import Navigation from '$lib/components/Navigation.svelte'
     import Footer from '$lib/components/Footer.svelte'
+    import { env } from '$env/dynamic/public'
 
-    const API_URL = env.PUBLIC_API_URL || '${API_URL}';
+    const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
 
     let { data } = $props()
     const supabase = createClient()
