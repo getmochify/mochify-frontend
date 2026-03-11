@@ -67,6 +67,7 @@
     let successMessage: string = $state('');
     let totalOriginalSize: number = $state(0);
     let fileInputElement: HTMLInputElement;
+    let showSignupCta = $state(false);
     let MAX_FILES = $state(3); // 3 for free, 25 for lite/pro
     const CONCURRENT_UPLOADS = 1;
     let MAX_INDIVIDUAL_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro/lite
@@ -293,6 +294,7 @@
                     if (error.status === 429) {
                         hitRateLimit = true;
                         fileProgress[index].error = 'Rate limit exceeded';
+                        if (!jwt) showSignupCta = true;
                     } else {
                         fileProgress[index].error = error instanceof Error ? error.message : 'Unknown error';
                     }
@@ -755,3 +757,51 @@
         {/if}
     </div>
 </div>
+
+{#if showSignupCta}
+<div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+    onclick={() => showSignupCta = false}
+    role="dialog"
+    aria-modal="true"
+>
+    <div
+        class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full relative"
+        onclick={(e) => e.stopPropagation()}
+    >
+        <button
+            onclick={() => showSignupCta = false}
+            class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-[#875F42]/50 hover:text-[#875F42] hover:bg-[#FFF5F7] transition-all cursor-pointer"
+        >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        <div class="text-center">
+            <div class="w-12 h-12 rounded-2xl bg-[#FFF0F5] flex items-center justify-center mx-auto mb-4">
+                <svg class="w-6 h-6 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+            </div>
+            <h3 class="text-lg font-black text-[#4A2C2C] mb-2">You've hit the free limit</h3>
+            <p class="text-sm text-[#875F42]/70 leading-relaxed mb-6">
+                Free tier allows 30 operations per month. Create a free account to track your usage, or upgrade for more.
+            </p>
+            <div class="flex flex-col gap-3">
+                <a
+                    href="/auth/register"
+                    class="block px-6 py-3 rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white font-black text-sm shadow-[0_4px_16px_rgba(240,98,146,0.3)] hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] hover:-translate-y-0.5 transition-all text-center"
+                >
+                    Create free account
+                </a>
+                <a
+                    href="/pricing"
+                    class="block px-6 py-3 rounded-2xl border border-[#875F42]/15 text-sm font-bold text-[#6C3F31] hover:border-[#F06292]/30 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all text-center"
+                >
+                    See plans
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
