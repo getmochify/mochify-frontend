@@ -15,9 +15,6 @@ const PRODUCTS: Record<string, Record<string, string>> = {
 }
 
 export const GET: RequestHandler = async ({ locals, url }) => {
-    const { user } = await locals.safeGetSession();
-    if (!user) throw redirect(303, '/auth/login');
-
     const plan = url.searchParams.get('plan') ?? 'pro';
     const billing = url.searchParams.get('billing') ?? 'monthly';
     const productId = PRODUCTS[plan]?.[billing];
@@ -26,8 +23,17 @@ export const GET: RequestHandler = async ({ locals, url }) => {
         return new Response('Invalid plan or billing cycle', { status: 400 });
     }
 
+    const { user } = await locals.safeGetSession();
+
+    if (!user) {
+        const loginUrl = new URL('/auth/login', url.origin);
+        loginUrl.searchParams.set('redirectTo', url.pathname + url.search);
+        throw redirect(303, loginUrl.toString());
+    }
+
     const polar = new Polar({ accessToken: POLAR_ACCESS_TOKEN });
 
+    let checkoutUrl: string;
     try {
         const checkout = await polar.checkouts.create({
             products: [productId],
@@ -35,10 +41,11 @@ export const GET: RequestHandler = async ({ locals, url }) => {
             externalCustomerId: user.id,
             customerEmail: user.email ?? undefined,
         });
-        throw redirect(302, checkout.url);
+        checkoutUrl = checkout.url;
     } catch (err) {
-        if (err instanceof Response) throw err; // rethrow SvelteKit redirects
         console.error('Polar checkout error:', err);
         throw redirect(303, '/pricing?checkout_error=1');
     }
+
+    throw redirect(302, checkoutUrl);
 };
