@@ -185,10 +185,10 @@
             <h1 class="text-5xl md:text-7xl font-black text-[#4A2C2C] leading-tight tracking-tight mb-3">
                 Mochify
             </h1>
-            <p class="text-xs font-semibold tracking-widest uppercase text-[#F06292]/70 mb-4">Zero-Retention Image Optimization</p>
-            <p class="text-[#6C3F31] text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+            <h2 class="text-xs font-semibold tracking-widest uppercase text-[#F06292]/70 mb-4">Zero-Retention Image Optimization</h2>
+            <h3 class="text-[#6C3F31] text-base md:text-lg max-w-xl mx-auto leading-relaxed font-normal">
                 Compress up to <strong><span class="text-[#F06292]" aria-label="{fileCount} images">{fileCount}</span> images ({fileSizeMB}MB each)</strong> at once with our native C++ engine. Describe what you need, drop your files, and you're done.
-            </p>
+            </h3>
             <p class="text-xs text-[#875F42]/50 mt-2">3 files free per batch · 25 with <a href="/pricing" class="hover:text-[#F06292] transition-colors">Lite or Pro</a></p>
             <a
                 href="https://github.com/getmochify/mochify-cli"
