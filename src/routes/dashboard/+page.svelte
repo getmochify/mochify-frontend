@@ -5,7 +5,7 @@
     import Navigation from '$lib/components/Navigation.svelte'
     import Footer from '$lib/components/Footer.svelte'
 
-    const API_URL = 'https://api.mochify.xyz'
+    const API_URL = env.PUBLIC_API_URL || '${API_URL}';
 
     let { data } = $props()
     const supabase = createClient()
