@@ -48,17 +48,17 @@
 
 <svelte:head>
     <title>API Documentation — Mochify</title>
-    <meta name="description" content="Mochify REST API reference. Compress and convert images programmatically with 30 free operations per month. No account required.">
+    <meta name="description" content="Mochify REST API reference. Compress and convert images programmatically — 3 ops free without an account, or 30/month with a free account.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mochify.xyz/docs">
     <meta property="og:title" content="API Documentation — Mochify">
-    <meta property="og:description" content="Mochify REST API reference. Compress and convert images programmatically with 30 free operations per month. No account required.">
+    <meta property="og:description" content="Mochify REST API reference. Compress and convert images programmatically — 3 ops free without an account, or 30/month with a free account.">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Mochify API Reference",
-        "description": "REST API for image compression and conversion. Compress, convert, and resize images programmatically with 30 free operations per month. No account required.",
+        "description": "REST API for image compression and conversion. 3 free operations per month without an account. Create a free account for 30 operations per month. Lite and Pro plans include a Bearer-token API key.",
         "url": "https://mochify.xyz/docs",
         "publisher": {
             "@type": "Organization",
@@ -93,7 +93,7 @@
                 API Reference
             </h1>
             <p class="text-[#6C3F31]/70 text-lg max-w-2xl">
-                Process images programmatically. 30 free operations per month — no account required.
+                Process images programmatically. Try 3 ops free without signing up — or create a free account for 30/month.
                 <a href="/pricing" class="text-[#F06292] font-semibold hover:underline">Lite and Pro</a> plans unlock more with an API key.
             </p>
         </div>
@@ -129,9 +129,9 @@
                         </div>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
                             <div class="bg-[#FDFBF7] rounded-2xl border border-pink-50 p-4">
-                                <p class="text-xs font-black text-[#875F42]/60 uppercase tracking-wider mb-1">Free tier</p>
+                                <p class="text-xs font-black text-[#875F42]/60 uppercase tracking-wider mb-1">Free account</p>
                                 <p class="text-2xl font-black text-[#4A2C2C]">30</p>
-                                <p class="text-xs text-[#6C3F31]/60 mt-0.5">operations / month</p>
+                                <p class="text-xs text-[#6C3F31]/60 mt-0.5">ops/mo · 3 without signup</p>
                             </div>
                             <div class="bg-[#FDFBF7] rounded-2xl border border-[#F06292]/15 p-4">
                                 <p class="text-xs font-black text-[#F06292]/70 uppercase tracking-wider mb-1">Lite tier</p>
@@ -140,7 +140,7 @@
                             </div>
                             <div class="bg-[#FDFBF7] rounded-2xl border border-[#F06292]/15 p-4">
                                 <p class="text-xs font-black text-[#F06292]/70 uppercase tracking-wider mb-1">Pro tier</p>
-                                <p class="text-2xl font-black text-[#4A2C2C]">1,000</p>
+                                <p class="text-2xl font-black text-[#4A2C2C]">1,200</p>
                                 <p class="text-xs text-[#6C3F31]/60 mt-0.5">operations / month</p>
                             </div>
                             <div class="bg-[#FDFBF7] rounded-2xl border border-pink-50 p-4">
@@ -150,7 +150,7 @@
                             </div>
                         </div>
                         <p class="text-sm text-[#6C3F31]/70 leading-relaxed pt-2">
-                            Rate limits are enforced per IP on the free tier. Pro API keys use per-key limits.
+                            Without an account: 3 ops/month (IP-based). Free account: 30 ops/month. Paid API keys use per-key limits.
                             Each image processed — regardless of operations applied — counts as one operation.
                         </p>
                     </div>
@@ -232,7 +232,7 @@
                                 </div>
 
                                 <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
-                                    <code class="font-mono text-[#F06292] font-bold">maxWidth</code>
+                                    <code class="font-mono text-[#F06292] font-bold">width</code>
                                     <span class="text-[#875F42]/40 font-bold text-xs mt-0.5">optional</span>
                                     <div>
                                         <p class="text-[#6C3F31]">Resize the image to a maximum width in pixels. Aspect ratio is preserved.</p>

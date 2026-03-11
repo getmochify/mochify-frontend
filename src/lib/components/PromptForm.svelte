@@ -78,6 +78,8 @@
     // Status state
     let statusMessage: { type: 'success' | 'error' | null, text: string } = $state({ type: null, text: '' });
     let statusTimeout: ReturnType<typeof setTimeout>;
+    let hitRateLimit: boolean = $state(false);
+    let showSignupCta: boolean = $state(false);
 
     function showStatus(type: 'success' | 'error', text: string) {
         statusMessage = { type, text };
@@ -202,6 +204,27 @@
     async function submit() {
         if (!prompt.trim() || files.length === 0 || isProcessing) return;
 
+        // Pre-flight: check remaining token quota
+        const jwt = await getAccessToken();
+        try {
+            const tokenRes = await fetch(`${API_URL}/v1/checkTokens`, {
+                headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
+            });
+            if (tokenRes.ok) {
+                const tokenData = await tokenRes.json();
+                if (tokenData.remaining < files.length) {
+                    if (!jwt) {
+                        showSignupCta = true;
+                    } else {
+                        showStatus('error', `Not enough tokens. You have ${tokenData.remaining} remaining this month.`);
+                    }
+                    return;
+                }
+            }
+        } catch {
+            // Non-blocking — proceed if checkTokens fails
+        }
+
         isProcessing = true;
         processPhase = 'thinking';
         uploadPercent = 0;
@@ -232,7 +255,6 @@
                 return { name: f.name, width: dims.w, height: dims.h };
             }));
 
-            const jwt = await getAccessToken()
             const nlpResponse = await fetch(`${API_URL}/v1/prompt`, {
                 method: 'POST',
                 headers: {
@@ -293,13 +315,18 @@
 
                         const contentType = xhr.getResponseHeader('content-type') || '';
                         if (contentType.includes('application/json')) {
+                            const status = xhr.status;
                             const reader = new FileReader();
                             reader.onload = () => {
                                 try {
-                                    const err = JSON.parse(reader.result as string);
-                                    reject(new Error(err.error || err.message || `Server rejected ${file.name}`));
+                                    const errData = JSON.parse(reader.result as string);
+                                    const e: any = new Error(errData.error || errData.message || `Server rejected ${file.name}`);
+                                    e.status = status;
+                                    reject(e);
                                 } catch {
-                                    reject(new Error(`Server rejected ${file.name}`));
+                                    const e: any = new Error(`Server rejected ${file.name}`);
+                                    e.status = status;
+                                    reject(e);
                                 }
                             };
                             reader.readAsText(xhr.response as Blob);
@@ -308,7 +335,9 @@
                         if (xhr.status >= 200 && xhr.status < 300) {
                             resolve(xhr.response as Blob);
                         } else {
-                            reject(new Error(`Failed processing ${file.name} (Status: ${xhr.status})`));
+                            const e: any = new Error(`Failed processing ${file.name} (Status: ${xhr.status})`);
+                            e.status = xhr.status;
+                            reject(e);
                         }
                     };
 
@@ -361,8 +390,13 @@
                                 document.body.removeChild(a);
                             }, 100);
                         }
-                    } catch (e) {
+                    } catch (e: any) {
                         console.error(`Error squishing ${file.name}:`, e);
+                        if (e?.status === 429) {
+                            hitRateLimit = true;
+                            if (!jwt) showSignupCta = true;
+                            break;
+                        }
                     }
 
                     processedFiles++;
@@ -614,6 +648,51 @@
         {/each}
     </div>
 </div>
+
+{#if showSignupCta}
+<div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+    onclick={() => showSignupCta = false}
+    role="dialog"
+    aria-modal="true"
+>
+    <div
+        class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full relative"
+        onclick={(e) => e.stopPropagation()}
+    >
+        <button
+            onclick={() => showSignupCta = false}
+            class="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#875F42]/8 hover:bg-[#875F42]/15 flex items-center justify-center text-[#875F42]/50 hover:text-[#875F42] transition-all cursor-pointer"
+            aria-label="Close"
+        >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FFD6E5] to-[#F06292]/20 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+        </div>
+        <h3 class="text-lg font-black text-[#4A2C2C] mb-2">You've hit the free limit</h3>
+        <p class="text-sm text-[#875F42]/70 leading-relaxed mb-6">
+            Without an account you get 3 free operations per month. Create a free account for 30 ops/month, or upgrade for even more.
+        </p>
+        <a
+            href="/auth/register"
+            class="block w-full text-center py-3 rounded-2xl font-black text-white bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-lg shadow-pink-200/50 hover:shadow-pink-300/60 hover:-translate-y-0.5 transition-all duration-200 mb-3"
+        >
+            Create free account
+        </a>
+        <a
+            href="/pricing"
+            class="block w-full text-center py-3 rounded-2xl font-bold text-[#875F42] border border-[#875F42]/15 hover:bg-[#875F42]/5 transition-all duration-200"
+        >
+            See plans
+        </a>
+    </div>
+</div>
+{/if}
 
 <style>
     .liquid-glass {

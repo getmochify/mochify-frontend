@@ -5,11 +5,11 @@
 
 <svelte:head>
     <title>Pricing — Mochify</title>
-    <meta name="description" content="Simple, transparent pricing. Start free with 30 operations per month — no account needed. Upgrade to Lite for 300 ops or Pro for 1,200 ops a month." />
+    <meta name="description" content="Simple, transparent pricing. Try 3 operations free without signing up, or create a free account for 30 ops/month. Upgrade to Lite for 300 ops or Pro for 1,200 ops a month." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mochify.xyz/pricing" />
     <meta property="og:title" content="Pricing — Mochify" />
-    <meta property="og:description" content="Simple, transparent pricing. Start free with 30 operations per month — no account needed. Upgrade to Lite for 300 ops or Pro for 1,200 ops a month." />
+    <meta property="og:description" content="Simple, transparent pricing. Try 3 operations free without signing up, or create a free account for 30 ops/month. Upgrade to Lite for 300 ops or Pro for 1,200 ops a month." />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -19,7 +19,7 @@
                 "@id": "https://mochify.xyz/pricing",
                 "url": "https://mochify.xyz/pricing",
                 "name": "Pricing — Mochify",
-                "description": "Simple, transparent pricing. Start free with 30 operations per month — no account needed. Upgrade to Lite for 300 ops or Pro for 1,200 ops a month.",
+                "description": "Simple, transparent pricing. Try 3 operations free without signing up, or create a free account for 30 ops/month. Upgrade to Lite for 300 ops or Pro for 1,200 ops a month.",
                 "isPartOf": { "@id": "https://mochify.xyz" }
             },
             {
@@ -34,7 +34,7 @@
                         "name": "Free",
                         "price": "0",
                         "priceCurrency": "USD",
-                        "description": "30 image operations per month, no account required. Includes all formats, resize, rotate, crop, MCP and API access. Standard processing queue."
+                        "description": "3 operations free without an account. Create a free account for 30 image operations per month. Includes all formats, resize, rotate, crop, MCP and API access. Standard processing queue."
                     },
                     {
                         "@type": "Offer",
@@ -167,7 +167,7 @@
                         <span class="text-5xl font-black text-[#4A2C2C]">$0</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">/ forever</span>
                     </div>
-                    <p class="text-[#6C3F31]/60 text-sm mt-2">No account required. Just drag, drop, and go.</p>
+                    <p class="text-[#6C3F31]/60 text-sm mt-2">Create a free account — no credit card needed. Just want to try? <a href="/" class="text-[#F06292] font-semibold hover:underline">3 ops free, no sign-up.</a></p>
                 </div>
 
                 <ul class="space-y-3 flex-grow mb-8">
