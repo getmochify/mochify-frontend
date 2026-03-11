@@ -1,6 +1,5 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import ImageUploadClassic from '$lib/components/ImageUploadClassic.svelte';
     import PromptForm from '$lib/components/PromptForm.svelte';
     import Footer from '$lib/components/Footer.svelte';
     import Navigation from '$lib/components/Navigation.svelte';
@@ -8,7 +7,6 @@
     let fileCount = $state(25);
     let fileSizeMB = $state(20);
     
-    let activeTab: 'prompt' | 'classic' = $state('prompt');
     let showUpgradeCTA: boolean = $state(false);
     let upgradeCTADismissed: boolean = $state(false);
     let showBgRemovalCTA: boolean = $state(false);
@@ -209,44 +207,12 @@
         </header>
 
         <div class="w-full flex flex-col items-center relative mt-10 mb-16">
-            
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-[250px] bg-gradient-to-r from-pink-200/0 via-pink-200/20 to-pink-200/0 blur-3xl rounded-full pointer-events-none -z-10 transition-opacity duration-500 {activeTab === 'prompt' ? 'opacity-100' : 'opacity-0'}"></div>
-
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-[250px] bg-gradient-to-r from-pink-200/0 via-pink-200/20 to-pink-200/0 blur-3xl rounded-full pointer-events-none -z-10"></div>
             <div class="w-full flex justify-center items-start relative z-10">
-                {#if activeTab === 'prompt'}
-                    <div id="tab-panel-prompt" role="tabpanel" aria-labelledby="tab-prompt" class="animate-fade-in w-full max-w-3xl drop-shadow-[0_12px_30px_rgba(240,98,146,0.08)]">
-                        <PromptForm onSuccess={handleSuccess} onBgRemovalUpsell={handleBgRemovalUpsell} />
-                    </div>
-                {:else}
-                    <div id="tab-panel-classic" role="tabpanel" aria-labelledby="tab-classic" class="animate-fade-in w-full max-w-3xl">
-                        <ImageUploadClassic showSmartMode={true} />
-                    </div>
-                {/if}
-            </div>
-
-            <div class="mt-7 relative z-20 flex justify-center w-full">
-                <div role="tablist" aria-label="Upload mode" class="p-1 rounded-full border border-[#875F42]/10 flex items-center gap-1">
-                    <button
-                        role="tab"
-                        aria-selected={activeTab === 'prompt'}
-                        aria-controls="tab-panel-prompt"
-                        onclick={() => activeTab = 'prompt'}
-                        class="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 {activeTab === 'prompt' ? 'bg-[#F06292] text-white shadow-sm' : 'text-[#875F42]/60 hover:text-[#F06292] hover:bg-white'}"
-                    >
-                        Magic Flow
-                    </button>
-                    <button
-                        role="tab"
-                        aria-selected={activeTab === 'classic'}
-                        aria-controls="tab-panel-classic"
-                        onclick={() => activeTab = 'classic'}
-                        class="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 {activeTab === 'classic' ? 'bg-[#F06292] text-white shadow-sm' : 'text-[#875F42]/60 hover:text-[#F06292] hover:bg-white'}"
-                    >
-                        Manual Settings
-                    </button>
+                <div class="w-full max-w-3xl drop-shadow-[0_12px_30px_rgba(240,98,146,0.08)]">
+                    <PromptForm onSuccess={handleSuccess} onBgRemovalUpsell={handleBgRemovalUpsell} />
                 </div>
             </div>
-            
         </div>
 
         {#if showUpgradeCTA}
