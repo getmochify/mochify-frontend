@@ -121,7 +121,7 @@
                         "name": "Is Mochify free to use?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Yes. The free tier lets you compress up to 30 images per month — up to 20 MB each — with no account required. Next-generation formats including AVIF, WebP, and JPEG XL are all included at no cost. A Pro plan ($10/month) unlocks 1,000 API operations per month, a dedicated API key, CLI access, and MCP server support for AI agents."
+                            "text": "Yes. The free tier lets you compress up to 30 images per month — up to 20 MB each — with no account required. Next-generation formats including AVIF, WebP, and JPEG XL are all included at no cost. Lite ($5/month) unlocks 300 operations per month and a dedicated API key. Pro ($12/month) unlocks 1,200 operations per month, CLI access, and MCP server support for AI agents."
                         }
                     },
                     {
@@ -153,7 +153,7 @@
                         "name": "Does Mochify have an API?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Yes. The REST API is available at api.mochify.xyz. The free tier allows 30 operations per month with no API key required. A Pro subscription provides 1,000 operations per month and a Bearer-token key for higher-volume automation."
+                            "text": "Yes. The REST API is available at api.mochify.xyz. The free tier allows 30 operations per month with no API key required. Lite provides 300 operations per month, and Pro provides 1,200 operations per month — both include a Bearer-token key for higher-volume automation."
                         }
                     },
                     {
@@ -449,7 +449,7 @@
                             { feature: 'Privacy', tinypng: 'Uploads required', cloudinary: 'Stored in cloud', mochify: 'Zero retention' },
                             { feature: 'AI Agent support', tinypng: 'None', cloudinary: 'Limited API', mochify: 'MCP server (native)' },
                             { feature: 'Free tier', tinypng: '3 / session', cloudinary: 'Trial only', mochify: '30 ops/mo · 3 files/batch' },
-                            { feature: 'Paid plan', tinypng: '$39/yr · web', cloudinary: '$75–$99/mo', mochify: '$10/mo · API, CLI & NLP' },
+                            { feature: 'Paid plan', tinypng: '$39/yr · web', cloudinary: '$75–$99/mo', mochify: 'from $5/mo · API, CLI & MCP' },
                         ] as row, i}
                         <tr class="{i % 2 === 0 ? 'bg-white/40' : 'bg-white/20'} border-t border-[#F5E6E8]/60">
                             <td class="px-3 py-3 md:px-5 md:py-3.5 font-semibold text-[#4A2C2C] text-xs md:text-sm">{row.feature}</td>
@@ -474,7 +474,7 @@
                         <svg class="w-4 h-4 text-[#F06292] flex-shrink-0 transition-transform duration-200 group-open:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
                     </summary>
                     <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
-                        Yes. The free tier lets you compress up to 30 images per month — up to 20 MB each — with no account required. Next-generation formats including AVIF, WebP, and JPEG XL are all included at no cost. A Pro plan ($10/month) unlocks 1,000 API operations per month, a dedicated API key, CLI access, and MCP server support for AI agents.
+                        Yes. The free tier lets you compress up to 30 images per month — up to 20 MB each — with no account required. Next-generation formats including AVIF, WebP, and JPEG XL are all included at no cost. Lite ($5/month) unlocks 300 operations per month and a dedicated API key. Pro ($12/month) unlocks 1,200 operations per month, CLI access, and MCP server support for AI agents.
                     </p>
                 </details>
 
@@ -514,7 +514,7 @@
                         <svg class="w-4 h-4 text-[#F06292] flex-shrink-0 transition-transform duration-200 group-open:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
                     </summary>
                     <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
-                        Yes. The REST API is available at <code class="font-mono text-xs text-[#F06292]">api.mochify.xyz</code>. The free tier allows 30 operations per month with no API key required — just send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">?type=</code> parameter. A Pro subscription provides 1,000 operations per month and a Bearer-token key for higher-volume automation. See the <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> for examples in cURL, JavaScript, and Python.
+                        Yes. The REST API is available at <code class="font-mono text-xs text-[#F06292]">api.mochify.xyz</code>. The free tier allows 30 operations per month with no API key required — just send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">?type=</code> parameter. Lite provides 300 operations per month and Pro provides 1,200 — both include a Bearer-token key for higher-volume automation. See the <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> for examples in cURL, JavaScript, and Python.
                     </p>
                 </details>
 

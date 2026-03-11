@@ -28,12 +28,17 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 
     const polar = new Polar({ accessToken: POLAR_ACCESS_TOKEN });
 
-    const checkout = await polar.checkouts.create({
-        products: [productId],
-        successUrl: `${url.origin}/dashboard?upgraded=true`,
-        externalCustomerId: user.id,
-        customerEmail: user.email ?? undefined,
-    });
-
-    throw redirect(302, checkout.url);
+    try {
+        const checkout = await polar.checkouts.create({
+            products: [productId],
+            successUrl: `${url.origin}/dashboard?upgraded=true`,
+            externalCustomerId: user.id,
+            customerEmail: user.email ?? undefined,
+        });
+        throw redirect(302, checkout.url);
+    } catch (err) {
+        if (err instanceof Response) throw err; // rethrow SvelteKit redirects
+        console.error('Polar checkout error:', err);
+        throw redirect(303, '/pricing?checkout_error=1');
+    }
 };

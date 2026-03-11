@@ -73,7 +73,7 @@ export const POST: RequestHandler = async ({ request }) => {
             const userId = sub.customer.externalId;
             if (!userId) break;
 
-            const tier = PRODUCT_PLAN_MAP[sub.product.id] ?? { plan: 'pro' as const, ops_limit: 1200 };
+            const tier = PRODUCT_PLAN_MAP[sub.product.id] ?? { plan: 'free' as const, ops_limit: 30 };
 
             await supabase.from('profiles').upsert(
                 {

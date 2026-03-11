@@ -1,7 +1,10 @@
 <script lang="ts">
     import { tick } from 'svelte';
     import { zip } from 'fflate';
+    import { env } from '$env/dynamic/public';
     import { getAccessToken, getIsPro, getPlan } from '$lib/supabase';
+
+    const API_URL = env.PUBLIC_API_URL || '${API_URL}';
 
     let { onSuccess, onBgRemovalUpsell }: { onSuccess?: () => void; onBgRemovalUpsell?: () => void } = $props();
 
@@ -230,7 +233,7 @@
             }));
 
             const jwt = await getAccessToken()
-            const nlpResponse = await fetch('https://api.mochify.xyz/v1/prompt', {
+            const nlpResponse = await fetch('${API_URL}/v1/prompt', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -267,7 +270,7 @@
             const squishFile = (file: File, params: URLSearchParams): Promise<Blob> =>
                 new Promise((resolve, reject) => {
                     const xhr = new XMLHttpRequest();
-                    xhr.open('POST', `https://api.mochify.xyz/v1/squish?${params}`);
+                    xhr.open('POST', `${API_URL}/v1/squish?${params}`);
                     xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
                     if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
                     xhr.responseType = 'blob';

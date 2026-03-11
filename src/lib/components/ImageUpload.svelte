@@ -108,7 +108,7 @@
         const oversizedFiles = allFiles.filter(f => f.size > MAX_INDIVIDUAL_FILE_SIZE);
 
         if (oversizedFiles.length > 0) {
-            errorMessage = `Individual file size limit is 20MB. ${oversizedFiles.length} file(s) exceed this limit.`;
+            errorMessage = `Individual file size limit is ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB. ${oversizedFiles.length} file(s) exceed this limit.`;
             return;
         }
 
