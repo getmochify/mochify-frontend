@@ -146,7 +146,7 @@
                             <div class="bg-[#FDFBF7] rounded-2xl border border-pink-50 p-4">
                                 <p class="text-xs font-black text-[#875F42]/60 uppercase tracking-wider mb-1">Max file size</p>
                                 <p class="text-2xl font-black text-[#4A2C2C]">75 MB</p>
-                                <p class="text-xs text-[#6C3F31]/60 mt-0.5">Lite & Pro · 20 MB free</p>
+                                <p class="text-xs text-[#6C3F31]/60 mt-0.5">Lite · unlimited Pro · 20 MB free</p>
                             </div>
                         </div>
                         <p class="text-sm text-[#6C3F31]/70 leading-relaxed pt-2">
@@ -200,43 +200,84 @@
 
                                 <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
                                     <span>Parameter</span>
-                                    <span>Required</span>
+                                    <span>Default</span>
                                     <span>Description</span>
                                 </div>
 
                                 <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
                                     <code class="font-mono text-[#F06292] font-bold">type</code>
-                                    <span class="text-[#A5D6A7] font-bold text-xs mt-0.5">required</span>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">jpg</span>
                                     <div>
                                         <p class="text-[#6C3F31]">Output format.</p>
-                                        <p class="text-[#875F42]/60 text-xs mt-1">One of: <code class="font-mono">jpg</code> · <code class="font-mono">png</code> · <code class="font-mono">webp</code> · <code class="font-mono">avif</code> · <code class="font-mono">jxl</code></p>
-                                    </div>
-                                </div>
-
-                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
-                                    <code class="font-mono text-[#F06292] font-bold">strip_exif</code>
-                                    <span class="text-[#875F42]/40 font-bold text-xs mt-0.5">optional</span>
-                                    <div>
-                                        <p class="text-[#6C3F31]">Strip EXIF metadata from the output.</p>
-                                        <p class="text-[#875F42]/60 text-xs mt-1">Default: <code class="font-mono">1</code></p>
-                                    </div>
-                                </div>
-
-                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
-                                    <code class="font-mono text-[#F06292] font-bold">smartCompress</code>
-                                    <span class="text-[#875F42]/40 font-bold text-xs mt-0.5">optional</span>
-                                    <div>
-                                        <p class="text-[#6C3F31]">Enable smart compression — targets optimal quality/size balance automatically.</p>
-                                        <p class="text-[#875F42]/60 text-xs mt-1">Pass <code class="font-mono">1</code> to enable.</p>
+                                        <p class="text-[#875F42]/60 text-xs mt-1">One of: <code class="font-mono">jpg</code> · <code class="font-mono">webp</code> · <code class="font-mono">avif</code> · <code class="font-mono">jxl</code></p>
                                     </div>
                                 </div>
 
                                 <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
                                     <code class="font-mono text-[#F06292] font-bold">width</code>
-                                    <span class="text-[#875F42]/40 font-bold text-xs mt-0.5">optional</span>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">—</span>
                                     <div>
-                                        <p class="text-[#6C3F31]">Resize the image to a maximum width in pixels. Aspect ratio is preserved.</p>
-                                        <p class="text-[#875F42]/60 text-xs mt-1">Example: <code class="font-mono">maxWidth=1600</code></p>
+                                        <p class="text-[#6C3F31]">Target width in pixels. Aspect ratio is preserved unless <code class="font-mono text-xs">smartCrop</code> is also set. Omit or set to <code class="font-mono text-xs">0</code> for unconstrained.</p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">height</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">—</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Target height in pixels. Omit or set to <code class="font-mono text-xs">0</code> for unconstrained.</p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">quality</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">auto</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Output quality override (1–100). Overrides smart compression. JXL maps linearly — 70 ≈ distance 3.0.</p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">smartCompress</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">false</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Saliency-guided quality selection. High-detail subjects get higher quality, flat areas lower. Accepts <code class="font-mono text-xs">1</code> or <code class="font-mono text-xs">true</code>.</p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <div>
+                                        <code class="font-mono text-[#F06292] font-bold">smartCrop</code>
+                                        <p class="text-[#875F42]/50 text-xs mt-1">alias: <code class="font-mono">crop</code></p>
+                                    </div>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">false</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Saliency-guided crop — centers the crop on the detected subject. Requires both <code class="font-mono text-xs">width</code> and <code class="font-mono text-xs">height</code>. Accepts <code class="font-mono text-xs">1</code> or <code class="font-mono text-xs">true</code>.</p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">removeBackground</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">false</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">AI background removal. Output is PNG/WebP with alpha channel. JPEG outputs flatten to white. Requires Lite or Pro plan. Accepts <code class="font-mono text-xs">1</code> or <code class="font-mono text-xs">true</code>.</p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">rotate</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">0</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Clockwise rotation in degrees.</p>
+                                        <p class="text-[#875F42]/60 text-xs mt-1">Supported values: <code class="font-mono">90</code> · <code class="font-mono">180</code> · <code class="font-mono">270</code></p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">stripExif</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">true</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Strip EXIF metadata from the output. Set to <code class="font-mono text-xs">false</code> or <code class="font-mono text-xs">0</code> to preserve metadata.</p>
                                     </div>
                                 </div>
 
@@ -258,13 +299,37 @@
                         <div>
                             <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Response</h3>
                             <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
+                                    <span>Header / Field</span>
+                                    <span>Description</span>
+                                </div>
                                 <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm">
                                     <span class="text-[#4A2C2C] font-semibold">Body</span>
-                                    <p class="text-[#6C3F31]">Raw compressed image bytes.</p>
+                                    <p class="text-[#6C3F31]">Raw compressed image bytes. Supported input formats: JPEG, PNG, WebP, AVIF, HEIF, JXL.</p>
                                 </div>
                                 <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
                                     <code class="font-mono text-[#F06292] font-bold">X-Latency-Ms</code>
-                                    <p class="text-[#6C3F31]">Processing time in milliseconds (response header).</p>
+                                    <p class="text-[#6C3F31]">Processing time in milliseconds.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Mochify-Optimized</code>
+                                    <p class="text-[#6C3F31]"><code class="font-mono text-xs">true</code> if the output is smaller or the format changed; <code class="font-mono text-xs">false</code> if the original was returned unchanged.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Mochify-Reason</code>
+                                    <p class="text-[#6C3F31]">Present when <code class="font-mono text-xs">X-Mochify-Optimized: false</code>. Explains why the original was returned, e.g. <em>"Original was smaller"</em>.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Mochify-Saliency</code>
+                                    <p class="text-[#6C3F31]">Saliency score (0.000–1.000). Only present when <code class="font-mono text-xs">smartCompress=true</code>.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Mochify-Quality</code>
+                                    <p class="text-[#6C3F31]">Effective quality value used. Only present when <code class="font-mono text-xs">smartCompress=true</code>.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Mochify-BgRemoved</code>
+                                    <p class="text-[#6C3F31]"><code class="font-mono text-xs">true</code> when background removal was applied.</p>
                                 </div>
                             </div>
                         </div>
@@ -278,7 +343,7 @@
                                     <div class="bg-[#4A2C2C] px-4 py-2 flex items-center gap-2">
                                         <span class="text-[#FFB3C6]/60 text-xs font-bold uppercase tracking-wider">cURL</span>
                                     </div>
-                                    <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl -X POST "https://api.mochify.xyz/v1/squish?type=webp&strip_exif=1" \
+                                    <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl -X POST "https://api.mochify.xyz/v1/squish?type=webp&stripExif=1" \
   -H "Content-Type: image/jpeg" \
   -H "Authorization: Bearer mchy_your_api_key" \
   --data-binary @photo.jpg \
@@ -292,7 +357,7 @@
                                     <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>const file = document.querySelector('input[type="file"]').files[0];
 
 const response = await fetch(
-  'https://api.mochify.xyz/v1/squish?type=avif&strip_exif=1',
+  'https://api.mochify.xyz/v1/squish?type=avif&stripExif=1',
   &#123;
     method: 'POST',
     headers: &#123;
@@ -323,7 +388,7 @@ a.click();</code></pre>
 with open('photo.jpg', 'rb') as f:
     response = requests.post(
         'https://api.mochify.xyz/v1/squish',
-        params=&#123;'type': 'webp', 'strip_exif': '1'&#125;,
+        params=&#123;'type': 'webp', 'stripExif': '1'&#125;,
         headers=&#123;
             'Content-Type': 'image/jpeg',
             'Authorization': 'Bearer mchy_your_api_key',
