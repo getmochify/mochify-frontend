@@ -430,6 +430,35 @@
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto reveal">
+            <div class="rounded-2xl border border-white/80 bg-white/50 backdrop-blur-sm shadow-sm overflow-hidden">
+                <div class="px-6 py-8 md:px-10 md:py-10">
+                    <p class="text-xs font-semibold tracking-widest uppercase text-[#F06292]/70 mb-2">Shopify &amp; Ecommerce</p>
+                    <h2 class="text-2xl font-black text-[#4A2C2C] mb-3">Better Core Web Vitals start with smaller product images</h2>
+                    <p class="text-sm text-[#6C3F31]/80 leading-relaxed max-w-2xl mb-8">
+                        Largest Contentful Paint (LCP) is Google's primary page speed signal — and product images are almost always the bottleneck. Converting your catalogue to AVIF or WebP can cut file sizes by up to 50% with no visible quality loss, directly improving your store's search ranking and conversion rate.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="rounded-xl bg-white/60 border border-white/80 px-4 py-4">
+                            <p class="text-xs font-bold text-[#F06292] uppercase tracking-wider mb-1">Up to 50% smaller</p>
+                            <p class="text-sm font-bold text-[#4A2C2C] mb-1">AVIF for product images</p>
+                            <p class="text-xs text-[#875F42]/70 leading-relaxed">AVIF cuts file size roughly in half versus JPEG at equivalent quality — the fastest format Shopify supports.</p>
+                        </div>
+                        <div class="rounded-xl bg-white/60 border border-white/80 px-4 py-4">
+                            <p class="text-xs font-bold text-[#F06292] uppercase tracking-wider mb-1">Bulk processing</p>
+                            <p class="text-sm font-bold text-[#4A2C2C] mb-1">Process your whole catalogue</p>
+                            <p class="text-xs text-[#875F42]/70 leading-relaxed">Drop up to 25 product images at once. Describe what you need — "convert to WebP, max 1600px wide" — and Mochify handles the rest.</p>
+                        </div>
+                        <div class="rounded-xl bg-white/60 border border-white/80 px-4 py-4">
+                            <p class="text-xs font-bold text-[#F06292] uppercase tracking-wider mb-1">Zero retention</p>
+                            <p class="text-sm font-bold text-[#4A2C2C] mb-1">Product images stay private</p>
+                            <p class="text-xs text-[#875F42]/70 leading-relaxed">Images are never stored or logged. Safe for unreleased products, private SKUs, and anything not yet live on your store.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto reveal">
             <h2 class="text-center text-2xl font-black text-[#4A2C2C] mb-2">Frequently asked questions</h2>
             <p class="text-center text-sm text-[#875F42]/70 mb-8">Everything you need to know before compressing your first batch.</p>
             <div class="space-y-2">
