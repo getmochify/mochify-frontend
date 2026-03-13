@@ -59,8 +59,8 @@
 </script>
 
 <svelte:head>
-    <title>Mochify | Free Bulk 500MB Image Compressor (Jpegli, AVIF, WebP)</title>
-    <meta name="description" content="Free bulk image compressor for WebP, HEIC, JXL & AVIF. Try 3 images free — no sign-up needed. Free account unlocks 30 ops/month. Fast, private, and Shopify ready.">
+    <title>Mochify | Intelligent Image Workflows & Next-Gen Compression</title>
+    <meta name="description" content="Bulk process images with natural language. Smart square-crop for Shopify, next-gen AVIF/JXL compression, and a native MCP server for AI agents. Fast & private.">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
