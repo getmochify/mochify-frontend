@@ -1,5 +1,6 @@
 <script lang="ts">
 	import './layout.css';
+	import { page } from '$app/stores';
 
 	let { children } = $props();
 
@@ -17,6 +18,7 @@
 </script>
 
 <svelte:head>
+	<link rel="canonical" href="https://mochify.xyz{$page.url.pathname}" />
 	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 	<link rel="shortcut icon" href="/favicon.ico" />
