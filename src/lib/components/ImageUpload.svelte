@@ -526,20 +526,6 @@
         </label>
     {/if}
 
-    <!-- Format pills -->
-    {#if showTypes && !hasOutputOverride}
-        <div class="flex items-center gap-2 flex-wrap px-4 sm:px-6 py-3">
-            {#each formats as fmt}
-                <button
-                    onclick={() => imageType = fmt.value}
-                    class="px-3 py-1 rounded-full text-xs font-bold tracking-wide transition-all duration-200 cursor-pointer {imageType === fmt.value ? 'bg-[#F06292] text-white shadow-sm' : 'bg-white/50 text-[#6C3F31] hover:bg-white/70 hover:text-[#F06292] border border-[#875F42]/20'}"
-                >
-                    {fmt.label}
-                </button>
-            {/each}
-        </div>
-    {/if}
-
     <!-- Toggles -->
     {#if showExifOption || showSmartMode}
         <div class="flex flex-wrap gap-x-6 gap-y-3 px-4 sm:px-6 pb-3">
@@ -636,22 +622,33 @@
         </div>
     {/if}
 
-    <!-- Footer hint -->
-    <div class="bg-white/20 backdrop-blur-md px-4 sm:px-6 py-2">
-        <div class="flex items-center justify-between">
-            <span class="text-xs text-[#6C3F31]/70 font-medium">
-                {#if isLoading}
-                    Processing…
-                {:else if selectedFiles.length === 0}
-                    Drop images or click to browse
-                {:else}
-                    {selectedFiles.length} {selectedFiles.length === 1 ? 'image' : 'images'} ready
-                    {#if selectedFiles.length > 1}
-                        · <button onclick={resetForm} class="text-[#F06292]/70 hover:text-[#F06292] transition-colors cursor-pointer">clear all</button>
-                    {/if}
+    <!-- Footer tray -->
+    <div class="bg-white/20 backdrop-blur-md px-4 sm:px-6 py-2 flex items-center justify-between gap-3">
+        {#if showTypes && !hasOutputOverride}
+            <div class="flex items-center gap-1.5 flex-wrap">
+                {#each formats as fmt}
+                    <button
+                        onclick={() => imageType = fmt.value}
+                        class="px-2.5 py-1 rounded-full text-xs font-bold tracking-wide transition-all duration-200 cursor-pointer {imageType === fmt.value ? 'bg-[#F06292] text-white shadow-sm' : 'bg-white/50 text-[#6C3F31] hover:bg-white/70 hover:text-[#F06292] border border-[#875F42]/20'}"
+                    >
+                        {fmt.label}
+                    </button>
+                {/each}
+            </div>
+        {:else}
+            <span></span>
+        {/if}
+
+        <span class="text-xs text-[#6C3F31]/70 font-medium whitespace-nowrap flex-shrink-0">
+            {#if isLoading}
+                Processing…
+            {:else if selectedFiles.length > 0}
+                {selectedFiles.length} {selectedFiles.length === 1 ? 'image' : 'images'} ready
+                {#if selectedFiles.length > 1}
+                    · <button onclick={resetForm} class="text-[#F06292]/70 hover:text-[#F06292] transition-colors cursor-pointer">clear all</button>
                 {/if}
-            </span>
-        </div>
+            {/if}
+        </span>
     </div>
 </div>
 
