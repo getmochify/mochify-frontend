@@ -266,7 +266,7 @@
                 <div class="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-2xl">
                     <p class="text-xs font-bold text-amber-700 mb-2">Save this key — you won't see it again</p>
                     <div class="flex items-center gap-2">
-                        <code class="flex-1 text-xs font-mono text-[#4A2C2C] bg-white/70 px-3 py-2 rounded-xl border border-amber-200/60 overflow-x-auto">{newKeyPlaintext}</code>
+                        <code class="flex-1 text-xs font-mono text-[#4A2C2C] bg-white/70 px-3 py-2 rounded-xl border border-amber-200/60 overflow-x-auto min-w-0 break-all">{newKeyPlaintext}</code>
                         <button
                             onclick={copyKey}
                             class="flex-shrink-0 px-3 py-2 rounded-xl text-xs font-bold transition-all {copied ? 'bg-[#A5D6A7]/30 text-[#2E5C31]' : 'bg-white/70 text-[#875F42]/70 hover:text-[#F06292] hover:bg-[#FFF5F7]'} border border-white/60"
@@ -296,7 +296,7 @@
             {/if}
 
             <div class="mt-4 pt-4 border-t border-[#875F42]/8">
-                <p class="text-xs text-[#875F42]/50 font-mono">curl -H "Authorization: Bearer &lt;key&gt;" -X POST https://api.mochify.xyz/v1/squish ...</p>
+                <p class="text-xs text-[#875F42]/50 font-mono break-all">curl -H "Authorization: Bearer &lt;key&gt;" -X POST https://api.mochify.xyz/v1/squish ...</p>
             </div>
         </div>
 

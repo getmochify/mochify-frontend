@@ -328,6 +328,7 @@
             <h2 class="text-xl font-black text-[#4A2C2C] text-center mb-8">Full comparison</h2>
 
             <div class="bg-white rounded-3xl border border-pink-100 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="border-b border-pink-50">
@@ -400,6 +401,7 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
             </div>
         </div>
 
