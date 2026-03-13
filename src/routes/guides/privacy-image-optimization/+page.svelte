@@ -5,7 +5,8 @@
     const metadata = {
         category: "Data Privacy",
         readTime: "6 min read",
-        date: "March 13, 2026"
+        datePublished: "February 05, 2026",
+        lastUpdated: "March 13, 2026"
     };
 </script>
 
@@ -56,7 +57,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
             </span>
         </div>
 

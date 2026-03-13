@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { title } from "process";
-
     const metadata = {
         title: "Image Optimization Guides | Mochify",
         description: "Learn about modern image formats, compression techniques, and optimization strategies with our in-depth guides."
@@ -21,7 +19,8 @@
             url: "/guides/privacy-image-optimization",
             category: "Data Privacy",
             readTime: "6 min read",
-            date: "Feb 05, 2026"
+            date: "Feb 05, 2026",
+            lastUpdated: "Mar 13, 2026"
         },
         {
             title: "Fix \"Next-Gen Formats\" in WordPress (No Plugins) & Boost LCP",
@@ -29,7 +28,8 @@
             url: "/guides/next-gen-image-formats-wordpress",
             category: "WordPress Performance",
             readTime: "15 min read",
-            date: "Feb 09, 2026"
+            date: "Feb 09, 2026",
+            lastUpdated: "Mar 13, 2026"
         },
         {
             title: "The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL",
@@ -37,7 +37,8 @@
             url: "/guides/2026-guide-next-gen-formats",
             category: "Image Formats",
             readTime: "20 min read",
-            date: "Feb 10, 2026"
+            date: "Feb 10, 2026",
+            lastUpdated: "Mar 13, 2026"
         },
         {
             title: "Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game",
@@ -69,7 +70,8 @@
             url: "/guides/top-5-secure-image-compressors-2026",
             category: "Image Optimization",
             readTime: "15 min read",
-            date: "Feb 17, 2026"
+            date: "Feb 17, 2026",
+            lastUpdated: "Mar 13, 2026"
         },
         {
             title: "How to Self-Host an Image Optimization API with Docker",
@@ -198,7 +200,7 @@
             </p>
             
             <div class="flex items-center justify-between text-xs font-bold text-[#875F42]/60 pt-6 border-t border-pink-50">
-                <span>{guide.date} · {guide.readTime}</span>
+                <span>{guide.date}{guide.lastUpdated ? ` · Updated ${guide.lastUpdated}` : ''} · {guide.readTime}</span>
                 <span class="text-[#F06292] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                     Read Guide →
                 </span>
