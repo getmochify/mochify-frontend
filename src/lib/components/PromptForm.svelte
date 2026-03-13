@@ -33,11 +33,11 @@
         'Compress everything but keep the EXIF data…',
         'Convert to JPEG at 80% quality…',
     ];
-    let displayedPlaceholder = $state('');
+    let displayedPlaceholder = $state(placeholders[0]);
     $effect(() => {
         let index = 0;
-        let charIndex = 0;
-        let isDeleting = false;
+        let charIndex = placeholders[0].length;
+        let isDeleting = true;
         let timeoutId: ReturnType<typeof setTimeout>;
 
         const tick = () => {
@@ -64,7 +64,7 @@
             }
         };
 
-        timeoutId = setTimeout(tick, 800);
+        timeoutId = setTimeout(tick, 2200);
         return () => clearTimeout(timeoutId);
     });
 

@@ -522,7 +522,7 @@
                 </svg>
             </div>
             <p class="text-[#4A2C2C] font-semibold text-sm">Drop images here or <span class="text-[#F06292]">browse</span></p>
-            <p class="text-[#875F42]/50 text-xs">{types} · max {MAX_FILES} files, {MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB each</p>
+            <p class="text-[#6C3F31]/60 text-xs">{types} · max {MAX_FILES} files, {MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB each</p>
         </label>
     {/if}
 
@@ -532,7 +532,7 @@
             {#each formats as fmt}
                 <button
                     onclick={() => imageType = fmt.value}
-                    class="px-3 py-1 rounded-full text-xs font-bold tracking-wide transition-all duration-200 cursor-pointer {imageType === fmt.value ? 'bg-[#F06292] text-white shadow-sm' : 'bg-white/30 text-[#875F42]/70 hover:bg-white/60 hover:text-[#F06292] border border-white/40'}"
+                    class="px-3 py-1 rounded-full text-xs font-bold tracking-wide transition-all duration-200 cursor-pointer {imageType === fmt.value ? 'bg-[#F06292] text-white shadow-sm' : 'bg-white/50 text-[#6C3F31] hover:bg-white/70 hover:text-[#F06292] border border-[#875F42]/20'}"
                 >
                     {fmt.label}
                 </button>
@@ -542,23 +542,23 @@
 
     <!-- Toggles -->
     {#if showExifOption || showSmartMode}
-        <div class="flex flex-wrap gap-x-6 gap-y-2 px-4 sm:px-6 pb-3">
+        <div class="flex flex-wrap gap-x-6 gap-y-3 px-4 sm:px-6 pb-3">
             {#if showExifOption}
-                <label class="flex items-center gap-2 cursor-pointer select-none group">
+                <label class="flex items-center gap-2.5 cursor-pointer select-none group">
                     <input type="checkbox" bind:checked={stripExif} class="sr-only" />
-                    <div class="relative w-8 h-4 rounded-full transition-all duration-300 border {stripExif ? 'bg-[#F06292] border-[#F06292]' : 'bg-white/30 border-white/50'}">
-                        <div class="absolute top-0.5 left-0.5 bg-white w-3 h-3 rounded-full shadow-sm transition-transform duration-300 {stripExif ? 'translate-x-4' : ''}"></div>
+                    <div class="relative w-10 h-5 rounded-full transition-all duration-300 {stripExif ? 'bg-[#F06292] shadow-[0_0_0_1px_#F06292]' : 'bg-[#875F42]/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.15),0_0_0_1px_rgba(135,95,66,0.25)]'}">
+                        <div class="absolute top-[3px] left-[3px] bg-white w-3.5 h-3.5 rounded-full shadow-md transition-transform duration-300 {stripExif ? 'translate-x-5' : ''}"></div>
                     </div>
-                    <span class="text-xs font-semibold text-[#875F42]/70 group-hover:text-[#6C3F31] transition-colors">Strip EXIF</span>
+                    <span class="text-xs font-semibold text-[#6C3F31] group-hover:text-[#4A2C2C] transition-colors">Strip EXIF</span>
                 </label>
             {/if}
             {#if showSmartMode}
-                <label class="flex items-center gap-2 cursor-pointer select-none group">
+                <label class="flex items-center gap-2.5 cursor-pointer select-none group">
                     <input type="checkbox" bind:checked={smartCompress} class="sr-only" />
-                    <div class="relative w-8 h-4 rounded-full transition-all duration-300 border {smartCompress ? 'bg-[#66BB6A] border-[#66BB6A]' : 'bg-white/30 border-white/50'}">
-                        <div class="absolute top-0.5 left-0.5 bg-white w-3 h-3 rounded-full shadow-sm transition-transform duration-300 {smartCompress ? 'translate-x-4' : ''}"></div>
+                    <div class="relative w-10 h-5 rounded-full transition-all duration-300 {smartCompress ? 'bg-[#66BB6A] shadow-[0_0_0_1px_#66BB6A]' : 'bg-[#875F42]/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.15),0_0_0_1px_rgba(135,95,66,0.25)]'}">
+                        <div class="absolute top-[3px] left-[3px] bg-white w-3.5 h-3.5 rounded-full shadow-md transition-transform duration-300 {smartCompress ? 'translate-x-5' : ''}"></div>
                     </div>
-                    <span class="text-xs font-semibold text-[#875F42]/70 group-hover:text-[#6C3F31] transition-colors">Smart Mode</span>
+                    <span class="text-xs font-semibold text-[#6C3F31] group-hover:text-[#4A2C2C] transition-colors">Smart Mode</span>
                 </label>
             {/if}
         </div>
@@ -595,7 +595,7 @@
             class="w-full py-3.5 px-6 font-bold rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group
                 {selectedFiles.length > 0 && !isLoading && !insufficientTokens
                     ? 'bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] hover:shadow-[0_8px_24px_rgba(240,98,146,0.5)] hover:-translate-y-0.5 cursor-pointer'
-                    : 'bg-white/30 text-[#875F42]/40 border border-white/40 cursor-not-allowed'}"
+                    : 'bg-white/40 text-[#875F42]/60 border border-[#875F42]/15 cursor-not-allowed'}"
         >
             {#if isLoading}
                 <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
@@ -639,7 +639,7 @@
     <!-- Footer hint -->
     <div class="bg-white/20 backdrop-blur-md px-4 sm:px-6 py-2">
         <div class="flex items-center justify-between">
-            <span class="text-xs text-[#875F42]/50 font-medium">
+            <span class="text-xs text-[#6C3F31]/70 font-medium">
                 {#if isLoading}
                     Processing…
                 {:else if selectedFiles.length === 0}
@@ -647,7 +647,7 @@
                 {:else}
                     {selectedFiles.length} {selectedFiles.length === 1 ? 'image' : 'images'} ready
                     {#if selectedFiles.length > 1}
-                        · <button onclick={resetForm} class="text-[#F06292]/60 hover:text-[#F06292] transition-colors cursor-pointer">clear all</button>
+                        · <button onclick={resetForm} class="text-[#F06292]/70 hover:text-[#F06292] transition-colors cursor-pointer">clear all</button>
                     {/if}
                 {/if}
             </span>
