@@ -247,12 +247,21 @@
             <p class="mb-6">The Mochify CLI includes the MCP server. Install it, then point your client at it.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">1. Install the CLI</h3>
-            <p class="mb-3">The easiest way on macOS is Homebrew:</p>
 
+            <p class="mb-2 font-semibold text-[#4A2C2C]">macOS (Homebrew):</p>
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>brew tap getmochify/mochify
 brew install mochify</code></pre>
 
-            <p class="mb-6">Or download the binary directly from the <a href="https://github.com/getmochify/mochify-cli/releases" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">GitHub releases page</a>.</p>
+            <p class="mb-2 font-semibold text-[#4A2C2C]">Linux / WSL:</p>
+            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code># x86_64 (most Linux / WSL)
+curl -L https://github.com/getmochify/mochify-cli/releases/latest/download/mochify-linux-x86_64 -o mochify
+chmod +x mochify && sudo mv mochify /usr/local/bin/
+
+# arm64 (Raspberry Pi, AWS Graviton, etc.)
+curl -L https://github.com/getmochify/mochify-cli/releases/latest/download/mochify-linux-arm64 -o mochify
+chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
+
+            <p class="mb-6">All binaries are statically linked — no dependencies needed. Also available on the <a href="https://github.com/getmochify/mochify-cli/releases" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">GitHub releases page</a>.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">2. Add to your MCP client config</h3>
             <p class="mb-3">For <strong>Claude Desktop</strong>, edit <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">~/Library/Application Support/Claude/claude_desktop_config.json</code>:</p>
