@@ -25,13 +25,14 @@
     let textareaEl: HTMLTextAreaElement;
     let fileInputEl: HTMLInputElement;
 
-    const placeholders = [
+  const placeholders = [
         'Describe what you want…',
-        'Convert all to WebP…',
-        'Resize the first image to 500px, convert all to AVIF…',
-        'Optimize these for Shopify…',
-        'Compress everything but keep the EXIF data…',
-        'Convert to JPEG at 80% quality…',
+        'Square-crop for Shopify and convert to WebP…',
+        'Fix my PageSpeed: convert everything to AVIF…',
+        'Remove metadata and compress for privacy…',
+        'Resize to 1200px and name them "product-ready"…',
+        'Make these 1:1, keep the subject centered…',
+        'Give me high-quality Jpegli at 85%…',
     ];
     let displayedPlaceholder = $state(placeholders[0]);
     $effect(() => {
