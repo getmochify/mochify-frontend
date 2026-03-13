@@ -346,12 +346,6 @@
                             <td class="px-6 py-4 text-center text-[#6C3F31]">1,200 / month</td>
                         </tr>
                         <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">Account required</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/60">No</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/60">Yes</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/60">Yes</td>
-                        </tr>
-                        <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">Max file size</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]">20MB</td>
                             <td class="px-6 py-4 text-center font-bold text-[#6C3F31]">75MB</td>
