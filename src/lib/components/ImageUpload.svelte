@@ -75,7 +75,10 @@
 
     async function checkTokenLimit(): Promise<void> {
         try {
-            const response = await fetch(`${API_URL}/v1/checkTokens`);
+            const jwt = await getAccessToken();
+            const response = await fetch(`${API_URL}/v1/checkTokens`, {
+                headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
+            });
             if (!response.ok) {
                 throw new Error('Failed to check token limit');
             }
@@ -167,8 +170,13 @@
         }
     });
 
+    // Pre-flight token check only applies to unauthenticated users.
+    // Authenticated users skip this — the backend enforces limits via 429.
+    let isAuthenticated: boolean = $state(false);
+    $effect(() => { getAccessToken().then(jwt => { isAuthenticated = !!jwt; }); });
+
     const insufficientTokens = $derived(
-        hasCheckedTokens && selectedFiles.length > 0 && selectedFiles.length > availableTokens
+        !isAuthenticated && hasCheckedTokens && selectedFiles.length > 0 && selectedFiles.length > availableTokens
     );
 
     async function compressImage() {
@@ -176,6 +184,8 @@
             errorMessage = 'Please select at least one image';
             return;
         }
+
+        const jwt = await getAccessToken();
 
         isLoading = true;
         errorMessage = '';
@@ -247,6 +257,7 @@
 
                         xhr.open('POST', `${API_URL}/v1/squish?type=${imageType}&strip_exif=${stripExif}${smartCompress ? '&smartCompress=1' : ''}${queryParams ? '&' + queryParams : ''}`);
                         xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+                        if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
                         xhr.responseType = 'blob';
                         xhr.send(file);
                     });
