@@ -244,18 +244,45 @@
 
         <section id="setup" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How to connect Mochify via MCP</h2>
-            <p class="mb-4">Connection instructions and the MCP server configuration are available at <a href="https://mochify.xyz" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.xyz</a>. The setup works with any MCP-compatible client — Claude Desktop, Cursor, and similar tools. Once connected, the Mochify squish tool appears as an available function your assistant can call.</p>
+            <p class="mb-6">The Mochify CLI includes the MCP server. Install it, then point your client at it.</p>
 
-            <p class="mb-4">General steps:</p>
+            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">1. Install the CLI</h3>
+            <p class="mb-3">The easiest way on macOS is Homebrew:</p>
 
-            <ol class="list-decimal pl-6 mb-6 space-y-3 marker:text-[#F06292] marker:font-bold">
-                <li>Add the Mochify MCP server to your client's configuration file</li>
-                <li>Confirm the tool shows up in your assistant's available functions</li>
-                <li>Test with a simple prompt: "Compress this image as a WebP for the web"</li>
-                <li>The assistant calls /squish with the appropriate flags and returns the result</li>
-            </ol>
+            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>brew tap getmochify/mochify
+brew install mochify</code></pre>
 
-            <p>No API key management per-image, no upload UI to navigate. It runs as a background tool call.</p>
+            <p class="mb-6">Or download the binary directly from the <a href="https://github.com/getmochify/mochify-cli/releases" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">GitHub releases page</a>.</p>
+
+            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">2. Add to your MCP client config</h3>
+            <p class="mb-3">For <strong>Claude Desktop</strong>, edit <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">~/Library/Application Support/Claude/claude_desktop_config.json</code>:</p>
+
+            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`{
+  "mcpServers": {
+    "mochify": {
+      "command": "mochify",
+      "args": ["serve"]
+    }
+  }
+}`}</code></pre>
+
+            <p class="mb-6">If you have an API key (for higher limits), pass it via the environment:</p>
+
+            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`{
+  "mcpServers": {
+    "mochify": {
+      "command": "mochify",
+      "args": ["serve"],
+      "env": { "MOCHIFY_API_KEY": "your-key" }
+    }
+  }
+}`}</code></pre>
+
+            <p class="mb-4">Restart Claude Desktop after saving. The Mochify <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">squish</code> tool will appear in your assistant's available functions — test it with: <em>"Compress this image as a WebP for the web."</em></p>
+
+            <InfoBox type="tip" title="No API key needed to start">
+                Without a key, requests run on the free tier — 25 images per day per IP. Get an API key from your <a href="/dashboard" class="text-[#F06292] hover:text-[#D81B60] underline">dashboard</a> to track usage and unlock higher limits.
+            </InfoBox>
         </section>
 
         <section id="example" class="scroll-mt-24">
