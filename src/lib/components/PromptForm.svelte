@@ -125,11 +125,11 @@
     }
 
     const suggestions = [
-        'Convert to WebP',
+        'Fix my PageSpeed (WebP)',
         'Convert to JPEG XL',
-        'Resize to 500px wide and convert to AVIF',
-        'Make square',
-        'Compress for web, strip EXIF data',
+        'Generate thumbnails (AVIF)',
+        'Smart-crop to square',
+        'Strip EXIF & Squish',
         'Convert to PNG',
     ];
 
@@ -640,9 +640,9 @@
         {#each suggestions as suggestion}
             <button
                 onclick={() => fillPrompt(suggestion)}
-                class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white/50 border border-white/60 text-[#875F42]/70 hover:text-[#F06292] hover:bg-white/80 hover:border-[#F06292]/30 transition-all duration-200 backdrop-blur-sm shadow-sm cursor-pointer"
+                class="px-3 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 border border-white/60 text-[#875F42] hover:text-[#F06292] hover:bg-white/80 hover:border-[#F06292] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 backdrop-blur-sm shadow-sm cursor-pointer"
             >
-                {suggestion}
+                ✨ {suggestion}
             </button>
         {/each}
     </div>

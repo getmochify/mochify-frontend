@@ -65,15 +65,15 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mochify.xyz/" />
-    <meta property="og:title" content="Mochify | Free Bulk Image Compressor (Jpegli, AVIF, WebP)" />
-    <meta property="og:description" content="Try 3 images free — no account needed. Free account unlocks 30 ops/month. Supports AVIF, WebP, JXL, Jpegli & HEIC. Files never touch disk." />
+    <meta property="og:title" content="Mochify | Intelligent Image Workflows & Next-Gen Compression" />
+    <meta property="og:description" content="Bulk process images with natural language. Smart square-crop for Shopify, next-gen AVIF/JXL compression, and a native MCP server for AI agents. Fast, private, and zero-retention." />
     <meta property="og:image" content="https://mochify.xyz/screenshot_v3_mochified.webp" />
     <meta property="og:image:alt" content="Mochify image compressor interface" />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Mochify | Free Bulk Image Compressor (Jpegli, AVIF, WebP)" />
-    <meta name="twitter:description" content="Try 3 images free — no account needed. Free account unlocks 30 ops/month. Supports AVIF, WebP, JXL, Jpegli & HEIC. Files never touch disk." />
+    <meta name="twitter:title" content="Mochify | Intelligent Image Workflows & Next-Gen Compression" />
+    <meta name="twitter:description" content="Bulk process images with natural language. Smart square-crop for Shopify, next-gen AVIF/JXL compression, and a native MCP server for AI agents. Fast, private, and zero-retention." />
     <meta name="twitter:image" content="https://mochify.xyz/screenshot_v3_mochified.webp" />
 
     <script type="application/ld+json">
