@@ -7,7 +7,7 @@
     const metadata = {
         category: "Image Formats",
         readTime: "20 min read",
-        date: "February 10, 2026"
+        date: "March 13, 2026"
     };
 </script>
 
@@ -70,7 +70,7 @@
             }
         ],
         "datePublished": "2026-02-05",
-        "dateModified": "2026-02-10"
+        "dateModified": "2026-03-13"
         }
     </script>
 </svelte:head>
@@ -915,7 +915,7 @@
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Batch Processing Considerations</h3>
             <p class="mb-6">
-                Single-image conversion works for one-off projects. Bulk workflows need automation. For 50-100 images, manual batch tools suffice. For 500+, you want API-driven automation. (This is the exact workflow gap we're solving with Mochify Pro - save presets like "My Shopify Products: AVIF q75, 2000px max-width" and process entire folders with zero-retention guarantees intact. Coming soon for high-volume merchants.)
+                Single-image conversion works for one-off projects. Bulk workflows need automation. For 50-100 images, manual batch tools suffice. For 500+, you want API-driven automation. Mochify Pro is built exactly for this — process entire folders via the API with zero-retention guarantees intact, available now for high-volume merchants.
             </p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Format Selection Strategy</h3>

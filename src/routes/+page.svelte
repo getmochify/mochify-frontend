@@ -243,7 +243,7 @@
                             <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#875F42]/40 bg-[#F5E6E8]/60 rounded-full px-2 py-0.5">Lite</span>
                         </div>
                         <p class="text-xs font-semibold text-[#6C3F31]">300 ops · 75MB files</p>
-                        <p class="text-[11px] text-[#875F42]/60 mt-0.5">3× more volume · priority queue</p>
+                        <p class="text-[11px] text-[#875F42]/60 mt-0.5">10× more volume · priority queue</p>
                     </a>
                     <a
                         href="/pricing"
@@ -255,7 +255,7 @@
                             <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#F06292]/70 bg-[#FFF0F3] rounded-full px-2 py-0.5">Pro</span>
                         </div>
                         <p class="text-xs font-semibold text-[#6C3F31]">1,200 ops · 75MB · BG removal</p>
-                        <p class="text-[11px] text-[#875F42]/60 mt-0.5">12× volume · top priority · BG removal</p>
+                        <p class="text-[11px] text-[#875F42]/60 mt-0.5">40× volume · top priority · BG removal</p>
                     </a>
                 </div>
                 <div class="px-5 pb-4">

@@ -5,7 +5,7 @@
     const metadata = {
         category: "Data Privacy",
         readTime: "6 min read",
-        date: "February 05, 2026"
+        date: "March 13, 2026"
     };
 </script>
 
@@ -43,7 +43,7 @@
             "2026 privacy-first vendor checklist"
         ],
         "datePublished": "2026-02-05",
-        "dateModified": "2026-02-05"
+        "dateModified": "2026-03-13"
         }
     </script>
 </svelte:head>
@@ -170,7 +170,7 @@
 
             <div class="mt-4 px-2 text-xs font-medium text-[#875F42] opacity-70 flex items-center gap-1.5">
                 <span class="text-[#F06292] font-black">*</span>
-                <span>Chroma Subsampling coming to Mochify Pro.</span>
+                <span>Chroma Subsampling available on Mochify Pro.</span>
             </div>
             
         </section>
@@ -237,7 +237,7 @@
 
     <div class="mt-4 px-2 text-xs font-medium text-[#875F42] opacity-70 flex items-center gap-1.5">
         <span class="text-[#F06292] font-black">*</span>
-        <span>Mochify Pro and Mochify API expected to launch later this year, 2026 <a href="mailto:hello@mochify.xyz" class="underline hover:text-[#F06292] transition-colors">Contact for early access.</a></span>
+        <span>Mochify Pro and the Mochify API are now live. <a href="/pricing" class="underline hover:text-[#F06292] transition-colors">See plans.</a></span>
     </div>
 </div>
         </section>

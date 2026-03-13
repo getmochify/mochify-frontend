@@ -6,7 +6,7 @@
     const metadata = {
         category: "Image Optimization",
         readTime: "15 min read",
-        date: "February 17, 2026"
+        date: "March 13, 2026"
     };
 </script>
 
@@ -79,7 +79,7 @@
             ]
             },
             "datePublished": "2026-02-17",
-            "dateModified": "2026-02-17"
+            "dateModified": "2026-03-13"
         }
     </script>
 </svelte:head>
@@ -690,8 +690,8 @@
                 
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-2">If You're a Developer Integrating Into Your Stack…</h3>
-                    <p class="mb-2"><strong>Choose Cloudinary for API-first workflows; wait for Mochify's API (coming soon) if privacy is paramount.</strong></p>
-                    <p class="mb-3">Cloudinary's API is mature, documented, and scales to millions of images. But you're trusting a CDN with long-term storage. Mochify's product roadmap includes a zero-retention API - currently in private beta. For developers who need privacy-by-design at scale, it's worth the wait.</p>
+                    <p class="mb-2"><strong>Choose Cloudinary for API-first workflows; choose Mochify's API if privacy is paramount.</strong></p>
+                    <p class="mb-3">Cloudinary's API is mature, documented, and scales to millions of images. But you're trusting a CDN with long-term storage. Mochify's zero-retention API is now live — giving developers privacy-by-design at scale without the trade-offs.</p>
                     <p class="text-sm text-red-600"><strong>Avoid:</strong> Squoosh (no API), TinyPNG (limited API, unclear encoder specs).</p>
                 </div>
                 

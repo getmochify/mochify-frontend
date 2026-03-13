@@ -7,7 +7,7 @@
     const metadata = {
         category: "WordPress Optimization",
         readTime: "15 min read",
-        date: "February 09, 2026"
+        date: "March 13, 2026"
     };
 </script>
 
@@ -75,7 +75,7 @@
             }
         ],
         "datePublished": "2026-02-09",
-        "dateModified": "2026-02-09"
+        "dateModified": "2026-03-13"
         }
     </script>
 </svelte:head>
@@ -494,7 +494,7 @@
     </p>
 
     <p class="mb-4">
-        That's where <strong>Mochify Pro (coming soon)</strong> fits:
+        That's where <strong>Mochify Pro</strong> fits:
     </p>
 
         <ul class="list-disc list-outside ml-6 space-y-2 mb-6 text-[#6C3F31]">
