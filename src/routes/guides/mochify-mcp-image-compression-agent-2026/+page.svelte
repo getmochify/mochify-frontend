@@ -310,7 +310,14 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
                 <li><code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--strip-exif</code></li>
             </ul>
 
-            <p>The result comes back in seconds — a web-optimized 1080×1080 WebP with no metadata attached. You didn't touch a settings panel or look up Instagram's recommended dimensions. The agent handled the full decision chain.</p>
+            <p class="mb-6">The result comes back in seconds — a web-optimized 1080×1080 WebP with no metadata attached. You didn't touch a settings panel or look up Instagram's recommended dimensions. The agent handled the full decision chain.</p>
+
+            <figure class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm">
+                <img src="/claude_mochified.webp" alt="Claude Desktop compressing an image via Mochify MCP — the assistant calls the squish tool and returns an optimized WebP" class="w-full" loading="lazy" />
+                <figcaption class="bg-[#FFF5F7] px-5 py-3 text-sm text-[#875F42] text-center border-t border-pink-100">
+                    Mochify in action: Here, Claude is using the Mochify MCP server to optimize a desktop screenshot. Total reduction: 96%. All handled locally via natural language.
+                </figcaption>
+            </figure>
         </section>
 
         <section id="comparison" class="scroll-mt-24">
