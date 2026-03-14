@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import { goto } from '$app/navigation'
-    import { createClient } from '$lib/supabase'
+    import { createClient, getAccessToken } from '$lib/supabase'
     import Navigation from '$lib/components/Navigation.svelte'
     import Footer from '$lib/components/Footer.svelte'
     import { env } from '$env/dynamic/public'
