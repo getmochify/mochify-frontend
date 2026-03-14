@@ -230,6 +230,7 @@
         uploadPercent = 0;
         downloadPercent = 0;
         completedFiles = 0;
+        hitRateLimit = false;
 
         const messages = [
             "Reading image dimensions...",
@@ -411,6 +412,13 @@
             }
 
             await Promise.all(workers);
+
+            if (hitRateLimit) {
+                showStatus('error', jwt
+                    ? "You've reached your processing limit. Upgrade your plan for more."
+                    : "You've hit the free limit. Sign up for more operations.");
+                return;
+            }
 
             if (downloadAsZip && Object.keys(zipContents).length > 0) {
                 processPhase = 'packing';
