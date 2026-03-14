@@ -10,6 +10,11 @@ declare global {
 			session: Session | null
 			user: User | null
 		}
+		interface Platform {
+			env: {
+				USAGE_KV: KVNamespace
+			}
+		}
 	}
 
 	interface Window {

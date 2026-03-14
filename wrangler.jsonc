@@ -7,5 +7,13 @@
   "assets": {
     "directory": ".svelte-kit/cloudflare",
     "binding": "ASSETS"
-  }
+  },
+  // KV namespace that mochify-core writes per-user token counts to after each squish.
+  // Create via: wrangler kv namespace create USAGE_KV
+  "kv_namespaces": [
+    {
+      "binding": "USAGE_KV",
+      "id": "4b0021f137aa44e4939a874276ba4d91"
+    }
+  ]
 }

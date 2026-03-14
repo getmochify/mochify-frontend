@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import { goto } from '$app/navigation'
-    import { createClient, getAccessToken } from '$lib/supabase'
+    import { createClient } from '$lib/supabase'
     import Navigation from '$lib/components/Navigation.svelte'
     import Footer from '$lib/components/Footer.svelte'
     import { env } from '$env/dynamic/public'
@@ -47,12 +47,8 @@
     }
 
     async function loadUsage() {
-        const jwt = await getAccessToken()
-        if (!jwt) return
         try {
-            const res = await fetch(`${API_URL}/v1/user/usage`, {
-                headers: { Authorization: `Bearer ${jwt}` }
-            })
+            const res = await fetch('/api/usage')
             if (res.ok) {
                 const body = await res.json()
                 usedOps = body.used ?? 0
@@ -60,7 +56,7 @@
                 usageLoaded = true
             }
         } catch {
-            // endpoint not live yet — silently ignore
+            // silently ignore
         }
     }
 
