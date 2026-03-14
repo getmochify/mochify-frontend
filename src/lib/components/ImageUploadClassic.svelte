@@ -789,7 +789,7 @@
             </div>
             <h3 class="text-lg font-black text-[#4A2C2C] mb-2">You've hit the free limit</h3>
             <p class="text-sm text-[#875F42]/70 leading-relaxed mb-6">
-                Without an account you get 3 free operations per month. Create a free account for 30 ops/month, or upgrade for even more.
+                Without an account you get 3 free images per month. Create a free account for 30 images/month, or upgrade for even more.
             </p>
             <div class="flex flex-col gap-3">
                 <a

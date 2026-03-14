@@ -5,11 +5,11 @@
 
 <svelte:head>
     <title>Pricing — Mochify</title>
-    <meta name="description" content="Simple, transparent pricing. Try 3 operations free without signing up, or create a free account for 30 ops/month. Upgrade to Lite for 300 ops or Pro for 1,200 ops a month." />
+    <meta name="description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 30 images/month. Upgrade to Lite for 300 or Pro for 1,200 images a month." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mochify.xyz/pricing" />
     <meta property="og:title" content="Pricing — Mochify" />
-    <meta property="og:description" content="Simple, transparent pricing. Try 3 operations free without signing up, or create a free account for 30 ops/month. Upgrade to Lite for 300 ops or Pro for 1,200 ops a month." />
+    <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 30 images/month. Upgrade to Lite for 300 or Pro for 1,200 images a month." />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -19,7 +19,7 @@
                 "@id": "https://mochify.xyz/pricing",
                 "url": "https://mochify.xyz/pricing",
                 "name": "Pricing — Mochify",
-                "description": "Simple, transparent pricing. Try 3 operations free without signing up, or create a free account for 30 ops/month. Upgrade to Lite for 300 ops or Pro for 1,200 ops a month.",
+                "description": "Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 30 images/month. Upgrade to Lite for 300 or Pro for 1,200 images a month.",
                 "isPartOf": { "@id": "https://mochify.xyz" }
             },
             {
@@ -34,7 +34,7 @@
                         "name": "Free",
                         "price": "0",
                         "priceCurrency": "USD",
-                        "description": "3 operations free without an account. Create a free account for 30 image operations per month. Includes all formats, resize, rotate, crop, MCP and API access. Standard processing queue."
+                        "description": "3 images free without an account. Create a free account for 30 images per month. Includes all formats, resize, rotate, crop, MCP and API access. Standard processing queue."
                     },
                     {
                         "@type": "Offer",
@@ -47,7 +47,7 @@
                             "priceCurrency": "USD",
                             "unitCode": "MON"
                         },
-                        "description": "300 image operations per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file. Priority processing queue."
+                        "description": "300 images per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file. Priority processing queue."
                     },
                     {
                         "@type": "Offer",
@@ -60,7 +60,7 @@
                             "priceCurrency": "USD",
                             "unitCode": "MON"
                         },
-                        "description": "1,200 image operations per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file. Top priority processing queue."
+                        "description": "1,200 images per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file. Top priority processing queue."
                     },
                     {
                         "@type": "Offer",
@@ -73,7 +73,7 @@
                             "priceCurrency": "USD",
                             "unitCode": "ANN"
                         },
-                        "description": "300 image operations per month, billed annually at $50/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Priority processing queue."
+                        "description": "300 images per month, billed annually at $50/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Priority processing queue."
                     },
                     {
                         "@type": "Offer",
@@ -86,7 +86,7 @@
                             "priceCurrency": "USD",
                             "unitCode": "ANN"
                         },
-                        "description": "1,200 image operations per month, billed annually at $120/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Top priority processing queue."
+                        "description": "1,200 images per month, billed annually at $120/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Top priority processing queue."
                     }
                 ]
             },
@@ -95,18 +95,18 @@
                 "mainEntity": [
                     {
                         "@type": "Question",
-                        "name": "What counts as an operation?",
+                        "name": "What counts as one image?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Each image processed — compressed, converted, resized, or any combination — counts as one operation. Batch uploads count one per file."
+                            "text": "Each image you process — compressed, converted, resized, or any combination — uses one from your monthly allowance. Batch uploads count one per file."
                         }
                     },
                     {
                         "@type": "Question",
-                        "name": "Do free operations roll over?",
+                        "name": "Do unused images roll over?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Free tier resets every month. Lite and Pro operations reset monthly on your billing date and do not roll over."
+                            "text": "Free tier resets every month. Lite and Pro images reset monthly on your billing date and do not roll over."
                         }
                     },
                     {
@@ -167,13 +167,13 @@
                         <span class="text-5xl font-black text-[#4A2C2C]">$0</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">/ forever</span>
                     </div>
-                    <p class="text-[#6C3F31]/60 text-sm mt-2">Create a free account — no credit card needed. Just want to try? <a href="/" class="text-[#F06292] font-semibold hover:underline">3 ops free, no sign-up.</a></p>
+                    <p class="text-[#6C3F31]/60 text-sm mt-2">Create a free account — no credit card needed. Just want to try? <a href="/" class="text-[#F06292] font-semibold hover:underline">3 images free, no sign-up.</a></p>
                 </div>
 
                 <ul class="space-y-3 flex-grow mb-8">
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>30 operations</strong> per month</span>
+                        <span><strong>30 images</strong> per month</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
@@ -222,7 +222,7 @@
                 <ul class="space-y-3 flex-grow mb-8">
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>300 operations</strong> per month</span>
+                        <span><strong>300 images</strong> per month</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
@@ -282,7 +282,7 @@
                 <ul class="space-y-3 flex-grow mb-8">
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span><strong>1,200 operations</strong> per month</span>
+                        <span><strong>1,200 images</strong> per month</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#F06292] font-black">✓</span>
@@ -340,7 +340,7 @@
                     </thead>
                     <tbody class="divide-y divide-pink-50">
                         <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">Monthly operations</td>
+                            <td class="px-6 py-4 text-[#6C3F31]">Monthly images</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]">30 / month</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]">300 / month</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]">1,200 / month</td>
@@ -405,21 +405,21 @@
             <div class="space-y-4">
                 <details class="bg-white rounded-2xl border border-pink-100 shadow-sm group">
                     <summary class="px-6 py-4 cursor-pointer font-semibold text-[#4A2C2C] flex justify-between items-center select-none list-none">
-                        What counts as an operation?
+                        What counts as one image?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-6 pb-5 text-sm text-[#6C3F31]/70 leading-relaxed">
-                        Each image processed — compressed, converted, resized, or any combination — counts as one operation. Batch uploads count one per file.
+                        Each image you process — compressed, converted, resized, or any combination — uses one from your monthly allowance. Batch uploads count one per file.
                     </p>
                 </details>
 
                 <details class="bg-white rounded-2xl border border-pink-100 shadow-sm group">
                     <summary class="px-6 py-4 cursor-pointer font-semibold text-[#4A2C2C] flex justify-between items-center select-none list-none">
-                        Do operations roll over?
+                        Do unused images roll over?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-6 pb-5 text-sm text-[#6C3F31]/70 leading-relaxed">
-                        All tiers reset monthly. Free resets every calendar month; Lite and Pro reset on your billing date. Operations do not roll over.
+                        All tiers reset monthly. Free resets every calendar month; Lite and Pro reset on your billing date. Unused images do not roll over.
                     </p>
                 </details>
 

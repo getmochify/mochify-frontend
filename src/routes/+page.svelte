@@ -84,7 +84,7 @@
                 "@type": "WebApplication",
                 "name": "Mochify",
                 "url": "https://mochify.xyz",
-                "description": "Bulk image compressor for WebP, HEIC, JXL & AVIF. Try 3 images free without signing up. Free account unlocks 30 operations per month. Native C++ engine — files never touch disk.",
+                "description": "Bulk image compressor for WebP, HEIC, JXL & AVIF. Try 3 images free without signing up. Free account unlocks 30 images per month. Native C++ engine — files never touch disk.",
                 "applicationCategory": "MultimediaApplication",
                 "operatingSystem": "Any",
                 "offers": {
@@ -119,7 +119,7 @@
                         "name": "Is Mochify free to use?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Yes. Try 3 images free without an account. Create a free account (no credit card) for 30 operations per month — up to 20 MB each — with all next-generation formats included. Lite ($5/month) unlocks 300 operations per month and a dedicated API key. Pro ($12/month) unlocks 1,200 operations per month, CLI access, and MCP server support for AI agents."
+                            "text": "Yes. Try 3 images free without an account. Create a free account (no credit card) for 30 images per month — up to 20 MB each — with all next-generation formats included. Lite ($5/month) unlocks 300 images per month and a dedicated API key. Pro ($12/month) unlocks 1,200 images per month, CLI access, and MCP server support for AI agents."
                         }
                     },
                     {
@@ -151,7 +151,7 @@
                         "name": "Does Mochify have an API?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Yes. The REST API is available at api.mochify.xyz. Without an API key, 3 operations per month are available (IP-based). Create a free account for 30 operations per month. Lite provides 300 and Pro provides 1,200 — both include a Bearer-token key for higher-volume automation."
+                            "text": "Yes. The REST API is available at api.mochify.xyz. Without an API key, 3 images per month are available (IP-based). Create a free account for 30 images per month. Lite provides 300 and Pro provides 1,200 — both include a Bearer-token key for higher-volume automation."
                         }
                     },
                     {
@@ -242,7 +242,7 @@
                             <span class="text-xs font-semibold text-[#875F42]/50">/mo</span>
                             <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#875F42]/40 bg-[#F5E6E8]/60 rounded-full px-2 py-0.5">Lite</span>
                         </div>
-                        <p class="text-xs font-semibold text-[#6C3F31]">300 ops · 75MB files</p>
+                        <p class="text-xs font-semibold text-[#6C3F31]">300 images · 75MB files</p>
                         <p class="text-[11px] text-[#875F42]/60 mt-0.5">10× more volume · priority queue</p>
                     </a>
                     <a
@@ -254,7 +254,7 @@
                             <span class="text-xs font-semibold text-[#875F42]/50">/mo</span>
                             <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#F06292]/70 bg-[#FFF0F3] rounded-full px-2 py-0.5">Pro</span>
                         </div>
-                        <p class="text-xs font-semibold text-[#6C3F31]">1,200 ops · 75MB · BG removal</p>
+                        <p class="text-xs font-semibold text-[#6C3F31]">1,200 images · 75MB · BG removal</p>
                         <p class="text-[11px] text-[#875F42]/60 mt-0.5">40× volume · top priority · BG removal</p>
                     </a>
                 </div>
@@ -304,7 +304,7 @@
                             <span class="text-xs font-semibold text-[#875F42]/50">/mo</span>
                             <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#875F42]/40 bg-[#F5E6E8]/60 rounded-full px-2 py-0.5">Lite</span>
                         </div>
-                        <p class="text-xs font-semibold text-[#6C3F31]">300 ops · background removal</p>
+                        <p class="text-xs font-semibold text-[#6C3F31]">300 images · background removal</p>
                         <p class="text-[11px] text-[#875F42]/60 mt-0.5">Priority queue · 75MB files</p>
                     </a>
                     <a
@@ -316,7 +316,7 @@
                             <span class="text-xs font-semibold text-[#875F42]/50">/mo</span>
                             <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#F06292]/70 bg-[#FFF0F3] rounded-full px-2 py-0.5">Pro</span>
                         </div>
-                        <p class="text-xs font-semibold text-[#6C3F31]">1,200 ops · background removal</p>
+                        <p class="text-xs font-semibold text-[#6C3F31]">1,200 images · background removal</p>
                         <p class="text-[11px] text-[#875F42]/60 mt-0.5">Top priority · 75MB files</p>
                     </a>
                 </div>
@@ -469,7 +469,7 @@
                         <svg class="w-4 h-4 text-[#F06292] flex-shrink-0 transition-transform duration-200 group-open:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
                     </summary>
                     <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
-                        Yes. Try 3 images free without an account — no sign-up needed. Create a free account (no credit card) for 30 operations per month, up to 20 MB each, with all next-generation formats included at no cost. Lite ($5/month) unlocks 300 operations per month and a dedicated API key. Pro ($12/month) unlocks 1,200 operations per month, CLI access, and MCP server support for AI agents.
+                        Yes. Try 3 images free without an account — no sign-up needed. Create a free account (no credit card) for 30 images per month, up to 20 MB each, with all next-generation formats included at no cost. Lite ($5/month) unlocks 300 images per month and a dedicated API key. Pro ($12/month) unlocks 1,200 images per month, CLI access, and MCP server support for AI agents.
                     </p>
                 </details>
 
@@ -509,7 +509,7 @@
                         <svg class="w-4 h-4 text-[#F06292] flex-shrink-0 transition-transform duration-200 group-open:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
                     </summary>
                     <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
-                        Yes. The REST API is available at <code class="font-mono text-xs text-[#F06292]">api.mochify.xyz</code>. Without an API key, 3 operations per month are available (IP-based) — just send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">?type=</code> parameter. Create a free account for 30 ops/month. Lite provides 300 and Pro provides 1,200 — both include a Bearer-token key for higher-volume automation. See the <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> for examples in cURL, JavaScript, and Python.
+                        Yes. The REST API is available at <code class="font-mono text-xs text-[#F06292]">api.mochify.xyz</code>. Without an API key, 3 images per month are available (IP-based) — just send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">?type=</code> parameter. Create a free account for 30 images/month. Lite provides 300 and Pro provides 1,200 — both include a Bearer-token key for higher-volume automation. See the <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> for examples in cURL, JavaScript, and Python.
                     </p>
                 </details>
 

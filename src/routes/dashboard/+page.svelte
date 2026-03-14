@@ -193,7 +193,7 @@
                 {/if}
             </div>
             <div class="bg-white/60 backdrop-blur-sm rounded-3xl border border-white/80 shadow-sm p-6">
-                <p class="text-xs font-bold text-[#875F42]/50 tracking-widest uppercase mb-2">Operations this month</p>
+                <p class="text-xs font-bold text-[#875F42]/50 tracking-widest uppercase mb-2">Images this month</p>
                 {#if usageLoaded}
                     <p class="text-2xl font-black text-[#4A2C2C] mb-3">{usedOps} <span class="text-base font-semibold text-[#875F42]/50">/ {quotaOps}</span></p>
                     <div class="h-2 bg-[#875F42]/10 rounded-full overflow-hidden">
@@ -213,27 +213,27 @@
         {#if !isPaid}
         <div class="bg-gradient-to-br from-[#FFF0F5] to-[#FFF8F0] rounded-3xl border border-[#F06292]/15 shadow-sm p-6 mb-6">
             <p class="font-black text-[#4A2C2C] text-base mb-1">Upgrade your plan</p>
-            <p class="text-sm text-[#875F42]/60 mb-4">More operations, larger files, priority queue, and API key access.</p>
+            <p class="text-sm text-[#875F42]/60 mb-4">More images, larger files, priority queue, and API key access.</p>
             <div class="flex flex-wrap gap-3">
                 <a
                     href="/api/checkout?plan=lite&billing=monthly"
                     class="px-5 py-2.5 rounded-2xl border border-[#875F42]/20 text-[#4A2C2C] font-black text-sm hover:border-[#F06292]/40 hover:text-[#F06292] hover:bg-white/60 transition-all"
                 >
-                    Lite — $5/mo <span class="font-normal text-[#875F42]/50">· 300 ops</span>
+                    Lite — $5/mo <span class="font-normal text-[#875F42]/50">· 300 images</span>
                 </a>
                 <a
                     href="/api/checkout?plan=pro&billing=monthly"
                     class="px-5 py-2.5 rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white font-black text-sm shadow-[0_4px_16px_rgba(240,98,146,0.3)] hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] hover:-translate-y-0.5 transition-all"
                 >
-                    Pro — $12/mo <span class="font-normal opacity-80">· 1,200 ops</span>
+                    Pro — $12/mo <span class="font-normal opacity-80">· 1,200 images</span>
                 </a>
             </div>
         </div>
         {:else if isLite}
         <div class="bg-gradient-to-br from-[#FFF0F5] to-[#FFF8F0] rounded-3xl border border-[#F06292]/15 shadow-sm p-6 mb-6 flex items-center justify-between gap-4">
             <div>
-                <p class="font-black text-[#4A2C2C] text-base">Upgrade to Pro — 1,200 ops/month</p>
-                <p class="text-sm text-[#875F42]/60 mt-0.5">4× the operations, top priority queue.</p>
+                <p class="font-black text-[#4A2C2C] text-base">Upgrade to Pro — 1,200 images/month</p>
+                <p class="text-sm text-[#875F42]/60 mt-0.5">4× the images, top priority queue.</p>
             </div>
             <a
                 href="/api/checkout?plan=pro&billing=monthly"
