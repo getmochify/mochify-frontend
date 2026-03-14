@@ -8,7 +8,8 @@
         description: "Connect Mochify to your AI assistant via MCP and compress images with plain English - no manual settings, no uploads to a browser tab. Here's how it works.",
         category: "AI & Automation",
         readTime: "7 min read",
-        date: "March 9, 2026"
+        date: "March 9, 2026",
+        lastEdited: "March 14, 2026"
     };
 </script>
 
@@ -73,7 +74,7 @@
             }
         ],
         "datePublished": "2026-03-09",
-        "dateModified": "2026-03-09"
+        "dateModified": "2026-03-14"
         }
     </script>
 </svelte:head>
@@ -86,7 +87,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastEdited}
             </span>
         </div>
 
