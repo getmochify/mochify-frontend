@@ -207,22 +207,21 @@
 
         const jwt = await getAccessToken();
 
-        // Pre-flight quota check for unauthenticated users only.
-        // Authenticated users skip this — the backend enforces limits via 429 on the actual request,
-        // and IP-based limits should never block a user with valid auth.
-        if (!jwt) {
-            try {
-                const tokenRes = await fetch(`${API_URL}/v1/checkTokens`);
-                if (tokenRes.ok) {
-                    const tokenData = await tokenRes.json();
-                    if (tokenData.remaining < files.length) {
-                        showSignupCta = true;
-                        return;
-                    }
+        // Pre-flight quota check — works for both authed and unauthed users.
+        try {
+            const tokenRes = await fetch(`${API_URL}/v1/checkTokens`, {
+                headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
+            });
+            if (tokenRes.ok) {
+                const tokenData = await tokenRes.json();
+                if (tokenData.remaining < files.length) {
+                    if (!jwt) showSignupCta = true;
+                    else showStatus('error', "You've reached your processing limit. Upgrade your plan for more.");
+                    return;
                 }
-            } catch {
-                // Non-blocking — proceed if checkTokens fails
             }
+        } catch {
+            // Non-blocking — proceed if checkTokens fails
         }
 
         isProcessing = true;
