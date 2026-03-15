@@ -1,4 +1,4 @@
 export const load = async ({ locals }) => {
-    const { session, user } = await locals.safeGetSession()
-    return { session, user }
+    const { data: { session } } = await locals.supabase.auth.getSession()
+    return { session, user: session?.user ?? null }
 }
