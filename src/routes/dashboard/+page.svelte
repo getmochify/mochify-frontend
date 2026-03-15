@@ -273,7 +273,7 @@
                 </div>
             {:else if hasKey}
                 <div class="flex items-center gap-3 p-4 bg-white/40 rounded-2xl border border-white/60">
-                    <code class="flex-1 text-sm font-mono text-[#875F42]/60">••••••••••••••••••••••••••••••••</code>
+                    <code class="flex-1 min-w-0 truncate text-sm font-mono text-[#875F42]/60">••••••••••••••••••••••••••••••••</code>
                     {#if keyCreatedAt}
                         <span class="text-xs text-[#875F42]/40 flex-shrink-0">Created {new Date(keyCreatedAt).toLocaleDateString()}</span>
                     {/if}
