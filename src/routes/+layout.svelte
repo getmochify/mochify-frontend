@@ -1,8 +1,19 @@
 <script lang="ts">
 	import './layout.css';
 	import { page } from '$app/stores';
+	import { invalidateAll } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import { createClient } from '$lib/supabase';
 
 	let { children } = $props();
+
+	onMount(() => {
+		const supabase = createClient();
+		const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+			invalidateAll();
+		});
+		return () => subscription.unsubscribe();
+	});
 
 	// Import Outfit (Weights: 600, 700, 800, 900)
 	import '@fontsource/outfit/600.css';
