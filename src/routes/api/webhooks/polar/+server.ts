@@ -7,9 +7,37 @@ import {
     POLAR_PRODUCT_ID_LITE_YEARLY,
     POLAR_PRODUCT_ID_PRO_MONTHLY,
     POLAR_PRODUCT_ID_PRO_YEARLY,
+    CF_WORKER_URL,
+    CF_WORKER_TOKEN,
 } from '$env/static/private';
 import { PUBLIC_SUPABASE_URL } from '$env/static/public';
 import type { RequestHandler } from './$types';
+
+async function sha256Hex(input: string): Promise<string> {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input))
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('')
+}
+
+async function reseedBucket(
+    userId: string,
+    plan: string,
+    opsLimit: number,
+    quotaPeriodEnd: string | null,
+): Promise<void> {
+    if (!CF_WORKER_URL || !CF_WORKER_TOKEN) return
+    const identifier = await sha256Hex(userId)
+    let ttl = 30 * 24 * 60 * 60
+    if (quotaPeriodEnd) {
+        const periodEnd = new Date(quotaPeriodEnd).getTime()
+        const now = Date.now()
+        if (periodEnd > now) ttl = Math.floor((periodEnd - now) / 1000)
+    }
+    await fetch(`${CF_WORKER_URL}/seed/${identifier}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Worker-Token': CF_WORKER_TOKEN },
+        body: JSON.stringify({ remaining: opsLimit, quota: opsLimit, plan, ttl, userId }),
+    }).catch(() => {})
+}
 
 // Service-role client — bypasses RLS so webhooks can write any profile.
 function adminClient() {
@@ -52,18 +80,22 @@ export const POST: RequestHandler = async ({ request }) => {
 
             const isActive = sub.status === 'active';
             const tier = PRODUCT_PLAN_MAP[sub.product.id] ?? { plan: 'free' as const, ops_limit: 30 };
+            const plan = isActive ? tier.plan : 'free';
+            const opsLimit = isActive ? tier.ops_limit : 30;
+            const periodEnd = sub.currentPeriodEnd?.toISOString() ?? null;
 
             await supabase.from('profiles').upsert(
                 {
                     user_id: userId,
-                    plan: isActive ? tier.plan : 'free',
+                    plan,
                     polar_subscription_id: sub.id,
                     polar_customer_id: sub.customer.id,
-                    quota_period_end: sub.currentPeriodEnd?.toISOString() ?? null,
-                    ops_limit: isActive ? tier.ops_limit : 30,
+                    quota_period_end: periodEnd,
+                    ops_limit: opsLimit,
                 },
                 { onConflict: 'user_id' }
             );
+            await reseedBucket(userId, plan, opsLimit, periodEnd);
             break;
         }
 
@@ -74,6 +106,7 @@ export const POST: RequestHandler = async ({ request }) => {
             if (!userId) break;
 
             const tier = PRODUCT_PLAN_MAP[sub.product.id] ?? { plan: 'free' as const, ops_limit: 30 };
+            const periodEnd = sub.currentPeriodEnd?.toISOString() ?? null;
 
             await supabase.from('profiles').upsert(
                 {
@@ -81,11 +114,12 @@ export const POST: RequestHandler = async ({ request }) => {
                     plan: tier.plan,
                     polar_subscription_id: sub.id,
                     polar_customer_id: sub.customer.id,
-                    quota_period_end: sub.currentPeriodEnd?.toISOString() ?? null,
+                    quota_period_end: periodEnd,
                     ops_limit: tier.ops_limit,
                 },
                 { onConflict: 'user_id' }
             );
+            await reseedBucket(userId, tier.plan, tier.ops_limit, periodEnd);
             break;
         }
 
@@ -109,6 +143,7 @@ export const POST: RequestHandler = async ({ request }) => {
                 },
                 { onConflict: 'user_id' }
             );
+            await reseedBucket(userId, 'free', 30, null);
             break;
         }
 
