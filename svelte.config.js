@@ -24,6 +24,7 @@ const config = {
                     'wss://joxsqjvaqedvurajuavb.supabase.co'
                 ],
                 'img-src': ['self', 'data:', 'blob:'],
+                'worker-src': ['self'],
                 'frame-ancestors': ['none'],
                 'upgrade-insecure-requests': true
             }

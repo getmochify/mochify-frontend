@@ -1,6 +1,12 @@
 {
   "name": "Mochify",
   "short_name": "Mochify",
+  "description": "Privacy-first, zero-persistence image optimization",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#FDFBF7",
+  "background_color": "#FDFBF7",
+  "categories": ["productivity", "utilities"],
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -14,8 +20,5 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  ]
 }

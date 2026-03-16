@@ -22,6 +22,11 @@ declare global {
 			track: (event: string, data?: Record<string, unknown>) => void;
 		};
 	}
+
+	interface BeforeInstallPromptEvent extends Event {
+		prompt(): Promise<void>;
+		readonly userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+	}
 }
 
 export {};

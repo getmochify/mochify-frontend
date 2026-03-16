@@ -11,6 +11,9 @@
     let upgradeCTADismissed: boolean = $state(false);
     let showBgRemovalCTA: boolean = $state(false);
 
+    let installPrompt: BeforeInstallPromptEvent | null = $state(null);
+    let installDismissed: boolean = $state(false);
+
     function handleSuccess() {
         showBgRemovalCTA = false;
         if (!upgradeCTADismissed) showUpgradeCTA = true;
@@ -51,11 +54,28 @@
         );
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+        const onBeforeInstall = (e: Event) => {
+            e.preventDefault();
+            installPrompt = e as BeforeInstallPromptEvent;
+        };
+        window.addEventListener('beforeinstallprompt', onBeforeInstall);
+
         return () => {
             clearTimeout(t);
             observer.disconnect();
+            window.removeEventListener('beforeinstallprompt', onBeforeInstall);
         };
     });
+
+    async function triggerInstall() {
+        if (!installPrompt) return;
+        await installPrompt.prompt();
+        const { outcome } = await installPrompt.userChoice;
+        if (outcome === 'accepted') {
+            installPrompt = null;
+            installDismissed = true;
+        }
+    }
 </script>
 
 <svelte:head>
@@ -204,6 +224,18 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
                 </svg>
             </a>
+
+            {#if installPrompt && !installDismissed}
+                <button
+                    onclick={triggerInstall}
+                    class="md:hidden inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-full border border-[#F06292]/25 bg-gradient-to-r from-[#F06292]/8 to-[#875F42]/6 hover:from-[#F06292]/15 hover:to-[#875F42]/12 hover:border-[#F06292]/40 shadow-sm hover:shadow-[0_2px_12px_rgba(240,98,146,0.15)] transition-all duration-200 group"
+                >
+                    <svg class="w-3.5 h-3.5 text-[#F06292]/70 group-hover:text-[#F06292] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                    </svg>
+                    <span class="text-xs font-semibold text-[#6C3F31]/70 group-hover:text-[#6C3F31] transition-colors">Add to Home Screen</span>
+                </button>
+            {/if}
         </header>
 
         <div class="w-full flex flex-col items-center relative mt-10 mb-16">
