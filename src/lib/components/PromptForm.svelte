@@ -208,12 +208,13 @@
         const jwt = await getAccessToken();
 
         // Pre-flight quota check — works for both authed and unauthed users.
+        let tokenData: any = null;
         try {
             const tokenRes = await fetch(`${API_URL}/v1/checkTokens`, {
                 headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
             });
             if (tokenRes.ok) {
-                const tokenData = await tokenRes.json();
+                tokenData = await tokenRes.json();
                 if (tokenData.remaining < files.length) {
                     if (!jwt) showSignupCta = true;
                     else showStatus('error', "You've reached your processing limit. Upgrade your plan for more.");
@@ -273,8 +274,9 @@
 
             // Detect background removal requested by NLP
             const bgRemovalRequested = fileArray.some((item: any) => item.removeBackground);
-            const plan = await getPlan();
-            const bgRemovalBlocked = bgRemovalRequested && plan === 'free';
+            const plan = tokenData?.plan ?? await getPlan();
+            const usedThisMonth = (tokenData?.quota > 0) ? tokenData.quota - tokenData.remaining : 0;
+            const bgRemovalBlocked = bgRemovalRequested && plan === 'free' && usedThisMonth >= 3;
             if (bgRemovalBlocked) {
                 // Strip the param so we still process the images without it
                 fileArray.forEach((item: any) => { delete item.removeBackground; });
@@ -445,7 +447,7 @@
             prompt = '';
             files = [];
             if (bgRemovalBlocked) {
-                showStatus('success', 'Images processed! Background removal needs Lite or Pro. ✨');
+                showStatus('success', 'Images processed! You\'ve used your 3 free background removals — upgrade to Lite or Pro for unlimited. ✨');
                 onBgRemovalUpsell?.();
             } else {
                 showStatus('success', 'Images processed successfully! ✨');
