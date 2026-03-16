@@ -13,6 +13,8 @@
 
     let installPrompt: BeforeInstallPromptEvent | null = $state(null);
     let installDismissed: boolean = $state(false);
+    let isIosInstall: boolean = $state(false);
+    let showIosTooltip: boolean = $state(false);
 
     function handleSuccess() {
         showBgRemovalCTA = false;
@@ -59,6 +61,12 @@
             installPrompt = e as BeforeInstallPromptEvent;
         };
         window.addEventListener('beforeinstallprompt', onBeforeInstall);
+
+        const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+        const isStandalone =
+            window.matchMedia('(display-mode: standalone)').matches ||
+            ('standalone' in navigator && (navigator as { standalone?: boolean }).standalone === true);
+        if (isIos && !isStandalone) isIosInstall = true;
 
         return () => {
             clearTimeout(t);
@@ -225,9 +233,9 @@
                 </svg>
             </a>
 
-            {#if installPrompt && !installDismissed}
+            {#if (installPrompt && !installDismissed) || isIosInstall}
                 <button
-                    onclick={triggerInstall}
+                    onclick={installPrompt ? triggerInstall : () => (showIosTooltip = true)}
                     class="md:hidden inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-full border border-[#F06292]/25 bg-gradient-to-r from-[#F06292]/8 to-[#875F42]/6 hover:from-[#F06292]/15 hover:to-[#875F42]/12 hover:border-[#F06292]/40 shadow-sm hover:shadow-[0_2px_12px_rgba(240,98,146,0.15)] transition-all duration-200 group"
                 >
                     <svg class="w-3.5 h-3.5 text-[#F06292]/70 group-hover:text-[#F06292] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -235,6 +243,39 @@
                     </svg>
                     <span class="text-xs font-semibold text-[#6C3F31]/70 group-hover:text-[#6C3F31] transition-colors">Add to Home Screen</span>
                 </button>
+            {/if}
+
+            {#if showIosTooltip}
+                <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
+                <div class="fixed inset-0 z-50 flex items-end justify-center pb-6 px-4" onclick={() => (showIosTooltip = false)}>
+                    <div class="w-full max-w-sm bg-[#FDFBF7] border border-[#F06292]/20 rounded-2xl shadow-xl p-5" onclick={(e) => e.stopPropagation()}>
+                        <div class="flex items-start justify-between mb-3">
+                            <p class="text-sm font-semibold text-[#4A2C2C]">Add Mochify to your Home Screen</p>
+                            <button onclick={() => (showIosTooltip = false)} class="text-[#875F42]/50 hover:text-[#875F42] transition-colors ml-3 shrink-0">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <ol class="space-y-2.5">
+                            <li class="flex items-center gap-3 text-xs text-[#6C3F31]">
+                                <span class="flex items-center justify-center w-5 h-5 rounded-full bg-[#F06292]/15 text-[#F06292] font-bold shrink-0">1</span>
+                                <span>Tap the <strong>Share</strong> button in Safari</span>
+                                <svg class="w-4 h-4 text-[#F06292]/70 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M12 3v12m0-12l-3 3m3-3l3 3"/>
+                                </svg>
+                            </li>
+                            <li class="flex items-center gap-3 text-xs text-[#6C3F31]">
+                                <span class="flex items-center justify-center w-5 h-5 rounded-full bg-[#F06292]/15 text-[#F06292] font-bold shrink-0">2</span>
+                                <span>Scroll down and tap <strong>Add to Home Screen</strong></span>
+                            </li>
+                            <li class="flex items-center gap-3 text-xs text-[#6C3F31]">
+                                <span class="flex items-center justify-center w-5 h-5 rounded-full bg-[#F06292]/15 text-[#F06292] font-bold shrink-0">3</span>
+                                <span>Tap <strong>Add</strong> to confirm</span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
             {/if}
         </header>
 
