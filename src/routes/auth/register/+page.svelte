@@ -45,7 +45,7 @@
 <div class="min-h-screen bg-[#FDFBF7] flex flex-col">
     <Navigation />
 
-    <main class="flex-grow flex items-center justify-center px-4 py-12">
+    <main class="flex-grow flex items-start justify-center px-4 pt-16 pb-12">
         <div class="w-full max-w-sm">
             <div class="text-center mb-8">
                 <h1 class="text-3xl font-black text-[#4A2C2C] tracking-tight mb-1">Create account</h1>
