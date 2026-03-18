@@ -39,11 +39,11 @@
                     {
                         "@type": "Offer",
                         "name": "Lite — Monthly",
-                        "price": "5.00",
+                        "price": "9.00",
                         "priceCurrency": "USD",
                         "priceSpecification": {
                             "@type": "UnitPriceSpecification",
-                            "price": "5.00",
+                            "price": "9.00",
                             "priceCurrency": "USD",
                             "unitCode": "MON"
                         },
@@ -52,11 +52,11 @@
                     {
                         "@type": "Offer",
                         "name": "Pro — Monthly",
-                        "price": "12.00",
+                        "price": "19.00",
                         "priceCurrency": "USD",
                         "priceSpecification": {
                             "@type": "UnitPriceSpecification",
-                            "price": "12.00",
+                            "price": "19.00",
                             "priceCurrency": "USD",
                             "unitCode": "MON"
                         },
@@ -65,28 +65,28 @@
                     {
                         "@type": "Offer",
                         "name": "Lite — Annual",
-                        "price": "50.00",
+                        "price": "90.00",
                         "priceCurrency": "USD",
                         "priceSpecification": {
                             "@type": "UnitPriceSpecification",
-                            "price": "50.00",
+                            "price": "90.00",
                             "priceCurrency": "USD",
                             "unitCode": "ANN"
                         },
-                        "description": "300 images per month, billed annually at $50/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Priority processing queue."
+                        "description": "300 images per month, billed annually at $90/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Priority processing queue."
                     },
                     {
                         "@type": "Offer",
                         "name": "Pro — Annual",
-                        "price": "120.00",
+                        "price": "190.00",
                         "priceCurrency": "USD",
                         "priceSpecification": {
                             "@type": "UnitPriceSpecification",
-                            "price": "120.00",
+                            "price": "190.00",
                             "priceCurrency": "USD",
                             "unitCode": "ANN"
                         },
-                        "description": "1,200 images per month, billed annually at $120/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Top priority processing queue."
+                        "description": "1,200 images per month, billed annually at $190/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Top priority processing queue."
                     }
                 ]
             },
@@ -210,11 +210,11 @@
                 <div class="mb-6">
                     <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-4">Lite</span>
                     <div class="flex items-end gap-1">
-                        <span class="text-5xl font-black text-[#4A2C2C]">$5</span>
+                        <span class="text-5xl font-black text-[#4A2C2C]">$9</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">/ month</span>
                     </div>
                     <p class="text-[#6C3F31]/60 text-sm mt-1">
-                        Or <strong class="text-[#6C3F31]">$50 / year</strong>
+                        Or <strong class="text-[#6C3F31]">$90 / year</strong>
                         <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-[#A5D6A7]/30 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
                     </p>
                 </div>
@@ -270,11 +270,11 @@
                 <div class="mb-6 relative">
                     <span class="inline-block px-3 py-1 rounded-full bg-[#F06292] text-white text-xs font-black uppercase tracking-wider mb-4">Pro</span>
                     <div class="flex items-end gap-1">
-                        <span class="text-5xl font-black text-[#4A2C2C]">$12</span>
+                        <span class="text-5xl font-black text-[#4A2C2C]">$19</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">/ month</span>
                     </div>
                     <p class="text-[#6C3F31]/60 text-sm mt-1">
-                        Or <strong class="text-[#6C3F31]">$120 / year</strong>
+                        Or <strong class="text-[#6C3F31]">$190 / year</strong>
                         <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-[#A5D6A7]/30 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
                     </p>
                 </div>
