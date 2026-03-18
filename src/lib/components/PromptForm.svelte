@@ -272,13 +272,12 @@
             const fileMap: Record<string, any> = {};
             fileArray.forEach((item: any) => { fileMap[item.filename] = item; });
 
-            // Detect background removal requested by NLP
+            // Detect background removal requested by NLP.
+            // Background removal requires authentication — strip the param for anonymous
+            // users and proceed without it (backend enforces the same rule on 403).
             const bgRemovalRequested = fileArray.some((item: any) => item.removeBackground);
-            const plan = tokenData?.plan ?? await getPlan();
-            const usedThisMonth = (tokenData?.quota > 0) ? tokenData.quota - tokenData.remaining : 0;
-            const bgRemovalBlocked = bgRemovalRequested && plan === 'free' && usedThisMonth >= 3;
+            const bgRemovalBlocked = bgRemovalRequested && !jwt;
             if (bgRemovalBlocked) {
-                // Strip the param so we still process the images without it
                 fileArray.forEach((item: any) => { delete item.removeBackground; });
             }
 
@@ -447,7 +446,7 @@
             prompt = '';
             files = [];
             if (bgRemovalBlocked) {
-                showStatus('success', 'Images processed! You\'ve used your 3 free background removals — upgrade to Lite or Pro for unlimited. ✨');
+                showStatus('success', 'Images processed without background removal — sign up for a free account to unlock it. ✨');
                 onBgRemovalUpsell?.();
             } else {
                 showStatus('success', 'Images processed successfully! ✨');
