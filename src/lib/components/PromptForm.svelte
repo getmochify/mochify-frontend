@@ -648,6 +648,15 @@
         </div>
     </div>
 
+    {#if agentMessage}
+        <div class="mt-3 px-1 animate-fade-in">
+            <div class="flex items-start gap-3 pl-4 pr-5 py-3.5 rounded-2xl bg-gradient-to-r from-[#FFF0F5] to-[#FDFBF7] border border-[#F06292]/20 border-l-[3px] border-l-[#F06292] shadow-sm shadow-pink-100/60">
+                <svg class="w-3.5 h-3.5 flex-shrink-0 mt-0.5 text-[#F06292]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+                <p class="text-xs text-[#4A2C2C]/75 leading-relaxed font-medium">{agentMessage}</p>
+            </div>
+        </div>
+    {/if}
+
     <div class="flex gap-2 mt-3 px-1 overflow-x-auto sm:flex-wrap sm:overflow-x-visible no-scrollbar">
         {#each suggestions as suggestion}
             <button
@@ -658,15 +667,6 @@
             </button>
         {/each}
     </div>
-
-    {#if agentMessage}
-        <div class="mt-3 px-1 animate-fade-in">
-            <div class="flex items-start gap-3 px-4 py-3 rounded-2xl bg-white/40 backdrop-blur-sm border border-white/60 shadow-sm">
-                <span class="text-base flex-shrink-0 mt-0.5">✨</span>
-                <p class="text-xs text-[#6C3F31]/80 leading-relaxed font-medium">{agentMessage}</p>
-            </div>
-        </div>
-    {/if}
 </div>
 
 {#if showSignupCta}
