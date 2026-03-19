@@ -30,7 +30,6 @@
         'Describe what you want…',
         'Shopify square-crop, convert to WebP…',
         'Fix PageSpeed — convert all to AVIF…',
-        'Strip metadata and compress for privacy…',
         'Resize to 1200px, rename "product-ready"…',
         'Make these 1:1, center the subject…',
         'Give me high-quality Jpegli at 85%…',
@@ -127,13 +126,13 @@
     }
 
     const suggestions = [
-        { label: 'eBay',            prompt: 'Optimize for eBay listings — square crop, convert to JPEG, strip EXIF' },
+        { label: 'eBay',            prompt: 'Optimize for eBay listings — square crop, convert to JPEG' },
         { label: 'PageSpeed',       prompt: 'Fix my PageSpeed — convert to WebP and compress for fast load times' },
         { label: 'Remove BG',       prompt: 'Remove the background and convert to PNG' },
         { label: 'Square crop',     prompt: 'Smart-crop to square, centering the main subject' },
         { label: 'AVIF',            prompt: 'Convert to AVIF for maximum compression with high quality' },
         { label: 'JPEG XL',         prompt: 'Convert to JPEG XL' },
-        { label: 'Vinted',          prompt: 'Optimize for Vinted listings — square crop, compress, strip EXIF' },
+        { label: 'Vinted',          prompt: 'Optimize for Vinted listings — square crop, compress' },
     ];
 
     function fillPrompt(text: string) {
