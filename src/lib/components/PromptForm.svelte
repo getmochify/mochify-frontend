@@ -21,6 +21,7 @@
     let completedFiles: number = $state(0);
     let totalFiles: number = $state(0);
     let downloadAsZip: boolean = $state(false);
+    let agentMessage: string = $state('');
     
     let textareaEl: HTMLTextAreaElement;
     let fileInputEl: HTMLInputElement;
@@ -231,6 +232,7 @@
         downloadPercent = 0;
         completedFiles = 0;
         hitRateLimit = false;
+        agentMessage = '';
 
         const messages = [
             "Reading image dimensions...",
@@ -268,6 +270,7 @@
             if (!nlpResponse.ok) throw new Error(`Failed to understand prompt (Status: ${nlpResponse.status})`);
 
             const parsedData = await nlpResponse.json();
+            agentMessage = parsedData.agent_message || '';
             const fileArray = parsedData.files || [];
             const fileMap: Record<string, any> = {};
             fileArray.forEach((item: any) => { fileMap[item.filename] = item; });
@@ -655,6 +658,15 @@
             </button>
         {/each}
     </div>
+
+    {#if agentMessage}
+        <div class="mt-3 px-1 animate-fade-in">
+            <div class="flex items-start gap-3 px-4 py-3 rounded-2xl bg-white/40 backdrop-blur-sm border border-white/60 shadow-sm">
+                <span class="text-base flex-shrink-0 mt-0.5">✨</span>
+                <p class="text-xs text-[#6C3F31]/80 leading-relaxed font-medium">{agentMessage}</p>
+            </div>
+        </div>
+    {/if}
 </div>
 
 {#if showSignupCta}
