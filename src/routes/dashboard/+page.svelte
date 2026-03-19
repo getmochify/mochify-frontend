@@ -215,13 +215,13 @@
                     href="/api/checkout?plan=lite&billing=monthly"
                     class="px-5 py-2.5 rounded-2xl border border-[#875F42]/20 text-[#4A2C2C] font-black text-sm hover:border-[#F06292]/40 hover:text-[#F06292] hover:bg-white/60 transition-all"
                 >
-                    Lite — $5/mo <span class="font-normal text-[#875F42]/50">· 300 images</span>
+                    Lite — $9/mo <span class="font-normal text-[#875F42]/50">· 300 images</span>
                 </a>
                 <a
                     href="/api/checkout?plan=pro&billing=monthly"
                     class="px-5 py-2.5 rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white font-black text-sm shadow-[0_4px_16px_rgba(240,98,146,0.3)] hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] hover:-translate-y-0.5 transition-all"
                 >
-                    Pro — $12/mo <span class="font-normal opacity-80">· 1,200 images</span>
+                    Pro — $19/mo <span class="font-normal opacity-80">· 1,200 images</span>
                 </a>
             </div>
         </div>
