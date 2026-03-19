@@ -133,7 +133,7 @@
         { label: 'Square crop',     prompt: 'Smart-crop to square, centering the main subject' },
         { label: 'AVIF',            prompt: 'Convert to AVIF for maximum compression with high quality' },
         { label: 'JPEG XL',         prompt: 'Convert to JPEG XL' },
-        { label: 'Strip EXIF',      prompt: 'Strip all EXIF metadata and compress' },
+        { label: 'Vinted',          prompt: 'Optimize for Vinted listings — square crop, compress, strip EXIF' },
     ];
 
     function fillPrompt(text: string) {
