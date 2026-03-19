@@ -13,8 +13,9 @@
     let isDragging: boolean = $state(false);
     
     let isProcessing: boolean = $state(false);
-    let processPhase: 'idle' | 'thinking' | 'uploading' | 'downloading' | 'packing' = $state('idle');
-    let thinkingText: string = $state("Initializing...");
+    let processPhase: 'idle' | 'thinking' | 'uploading' | 'processing' | 'downloading' | 'packing' = $state('idle');
+    let thinkingText: string = $state("Reading your images…");
+    let processingText: string = $state("Processing…");
 
     let uploadPercent: number = $state(0);
     let downloadPercent: number = $state(0);
@@ -234,23 +235,20 @@
         hitRateLimit = false;
         agentMessage = '';
 
-        const messages = [
-            "Reading image dimensions...",
-            "Consulting the AI Brain...",
-            "Calculating resize ratios...",
-            "Optimizing output format...",
-            "Preparing to squish..."
+        const thinkingMessages = [
+            "Reading your images…",
+            "Planning the squish…",
         ];
 
-        thinkingText = messages[0];
+        thinkingText = thinkingMessages[0];
         let msgIdx = 1;
 
         const msgInterval = setInterval(() => {
             if (processPhase === 'thinking') {
-                thinkingText = messages[msgIdx % messages.length];
+                thinkingText = thinkingMessages[msgIdx % thinkingMessages.length];
                 msgIdx++;
             }
-        }, 800);
+        }, 900);
 
         try {
             const fileDetails = await Promise.all(files.map(async (f) => {
@@ -293,7 +291,19 @@
             const CONCURRENCY_LIMIT = 1;
             const zipContents: Record<string, Uint8Array> = {};
 
-            const squishFile = (file: File, params: URLSearchParams): Promise<Blob> =>
+            const getProcessingText = (config: any): string => {
+                if (config.removeBackground) return 'Removing background…';
+                if (config.type === 'avif') return 'Encoding to AVIF…';
+                if (config.type === 'jxl') return 'Encoding to JPEG XL…';
+                if (config.type === 'webp') return 'Compressing to WebP…';
+                if (config.type === 'jpeg' || config.type === 'jpg') return 'Compressing to JPEG…';
+                if (config.type === 'png') return 'Encoding to PNG…';
+                if (config.smartCompress) return 'Smart-compressing…';
+                if (config.crop || (config.width && config.width === config.height)) return 'Cropping and compressing…';
+                return 'Processing your image…';
+            };
+
+            const squishFile = (file: File, params: URLSearchParams, onUploadEnd?: () => void): Promise<Blob> =>
                 new Promise((resolve, reject) => {
                     const xhr = new XMLHttpRequest();
                     xhr.open('POST', `${API_URL}/v1/squish?${params}`);
@@ -308,6 +318,8 @@
                         uploadedBytes += delta;
                         uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
                     };
+
+                    xhr.upload.onloadend = () => { onUploadEnd?.(); };
 
                     xhr.onload = () => {
                         // Account for any bytes not reported via onprogress
@@ -354,6 +366,8 @@
                     const file = files[currentFileIndex++];
                     const fileConfig = fileMap[file.name] || {};
 
+                    processPhase = 'uploading';
+
                     const params = new URLSearchParams();
                     if (fileConfig.type) params.append('type', fileConfig.type);
                     if (fileConfig.smartCompress) params.append('smartCompress', '1');
@@ -369,10 +383,12 @@
                     }
 
                     try {
-                        const blob = await squishFile(file, params);
+                        const blob = await squishFile(file, params, () => {
+                            processingText = getProcessingText(fileConfig);
+                            processPhase = 'processing';
+                        });
 
-                        // First result back from server — switch to downloading phase
-                        if (processPhase === 'uploading') processPhase = 'downloading';
+                        processPhase = 'downloading';
 
                         const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
                         const newExtension = fileConfig.type || file.name.split('.').pop();
@@ -613,6 +629,8 @@
                             <div class="absolute inset-0 bg-gradient-to-r from-[#F06292] to-[#e040a0] opacity-60 animate-pulse"></div>
                         {:else if processPhase === 'uploading'}
                             <div class="h-full bg-gradient-to-r from-[#F06292] to-[#e040a0] transition-all duration-300 ease-out shadow-[0_0_10px_rgba(240,98,146,0.5)]" style="width: {uploadPercent}%"></div>
+                        {:else if processPhase === 'processing'}
+                            <div class="absolute inset-0 bg-gradient-to-r from-[#A5D6A7] via-[#66BB6A] to-[#A5D6A7] bg-[length:200%_100%] animate-shimmer opacity-80"></div>
                         {:else if processPhase === 'downloading'}
                             <div class="h-full bg-gradient-to-r from-[#A5D6A7] to-[#66BB6A] transition-all duration-300 ease-out shadow-[0_0_10px_rgba(165,214,167,0.5)]" style="width: {downloadPercent}%"></div>
                         {/if}
@@ -628,9 +646,14 @@
                                     <span class="animate-fade-in">{thinkingText}</span>
                                 {/key}
                             {:else if processPhase === 'uploading'}
-                                Uploading your images… ({uploadPercent}%)
+                                Uploading{totalFiles > 1 ? ` image ${completedFiles + 1} of ${totalFiles}` : '…'} ({uploadPercent}%)
+                            {:else if processPhase === 'processing'}
+                                <span class="animate-pulse text-[#66BB6A]">⬡</span>
+                                {#key processingText}
+                                    <span class="animate-fade-in">{processingText}{totalFiles > 1 ? ` (${completedFiles + 1} of ${totalFiles})` : ''}</span>
+                                {/key}
                             {:else if processPhase === 'downloading'}
-                                {downloadAsZip ? 'Preparing' : 'Downloading'} results… ({completedFiles} of {totalFiles})
+                                {downloadAsZip ? 'Saving to zip' : 'Saving'} ({completedFiles} of {totalFiles})…
                             {:else if processPhase === 'packing'}
                                 Packing your zip file…
                             {/if}
@@ -758,5 +781,13 @@
     }
     .animate-fade-in {
         animation: fade-in 0.3s ease-out forwards;
+    }
+
+    @keyframes shimmer {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
+    .animate-shimmer {
+        animation: shimmer 1.8s ease-in-out infinite;
     }
 </style>
