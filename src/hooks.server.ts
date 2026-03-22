@@ -3,6 +3,14 @@ import { building } from "$app/environment";
 import { svelteKitHandler } from "better-auth/svelte-kit";
 import { createAuth } from "$lib/auth";
 
+type Auth = ReturnType<typeof createAuth>;
+let _auth: Auth | undefined;
+
+function getAuth(db: D1Database): Auth {
+    if (!_auth) _auth = createAuth(db);
+    return _auth;
+}
+
 export const handle: Handle = async ({ event, resolve }) => {
     let db: D1Database | undefined;
     try {
@@ -24,9 +32,14 @@ export const handle: Handle = async ({ event, resolve }) => {
         return response;
     }
 
-    const auth = createAuth(db);
+    const auth = getAuth(db);
 
-    const session = await auth.api.getSession({ headers: event.request.headers });
+    let session = null;
+    try {
+        session = await auth.api.getSession({ headers: event.request.headers });
+    } catch (e) {
+        console.error("[auth] getSession failed:", e);
+    }
     event.locals.user = session?.user ?? null;
     event.locals.session = session?.session ?? null;
 
