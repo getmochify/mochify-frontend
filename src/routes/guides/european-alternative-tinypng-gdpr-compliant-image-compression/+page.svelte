@@ -517,28 +517,38 @@
         </a>
     </div>
 
-    <section class="mt-12 pt-8 border-t border-pink-50">
-        <h3 class="text-xl font-black text-[#4A2C2C] mb-6">Related Guides</h3>
+    <section id="related" class="scroll-mt-24">
+        <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">Related guides</h2>
         <ul class="space-y-3">
             <li>
-                <a href="/guides/privacy-image-optimization" class="text-[#F06292] hover:text-[#D81B60] transition-colors font-semibold">Privacy and Image Optimisation: Why Zero-Retention Matters for Agencies</a>
-                <span class="text-[#875F42]"> — A deeper look at GDPR Article 28, DPAs, and what "in-memory processing" means for your compliance posture.</span>
+                <a href="/guides/privacy-image-optimization" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                    <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Privacy &amp; Image Optimization: A Comprehensive Guide (2026) <span class="font-normal opacity-70">— Zero-retention and GDPR Article 28 explained in depth</span></span>
+                    <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                </a>
             </li>
             <li>
-                <a href="/solutions/hif-to-jpg" class="text-[#F06292] hover:text-[#D81B60] transition-colors font-semibold">HEIC to JPEG: GDPR-Compliant Conversion for iPhone Photography</a>
-                <span class="text-[#875F42]"> — Covers format compatibility, EXIF risks in HEIC files, and how to convert at scale.</span>
+                <a href="/solutions/hif-to-jpg" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                    <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">HEIC to JPEG Converter <span class="font-normal opacity-70">— EXIF risks in HEIC files and how to convert at scale</span></span>
+                    <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                </a>
             </li>
             <li>
-                <a href="/guides/history-image-compression-2026" class="text-[#F06292] hover:text-[#D81B60] transition-colors font-semibold">The History of Image Compression</a>
-                <span class="text-[#875F42]"> — From JPEG to JPEG XL, explained for engineers who want the context behind format choices.</span>
+                <a href="/guides/history-image-compression-2026" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                    <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">The History of Image Compression (2026 Guide) <span class="font-normal opacity-70">— From JPEG to JPEG XL, the context behind format choices</span></span>
+                    <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                </a>
             </li>
             <li>
-                <a href="/guides/self-hosting-image-optimization-docker" class="text-[#F06292] hover:text-[#D81B60] transition-colors font-semibold">Self-Hosting Image Optimisation with Docker</a>
-                <span class="text-[#875F42]"> — For teams who want maximum data sovereignty by running the Squish engine on their own infrastructure.</span>
+                <a href="/guides/self-hosting-image-optimization-docker" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                    <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">How to Self-Host an Image Optimization API with Docker <span class="font-normal opacity-70">— Maximum data sovereignty on your own infrastructure</span></span>
+                    <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                </a>
             </li>
             <li>
-                <a href="/guides/mochify-mcp-image-compression-agent-2026" class="text-[#F06292] hover:text-[#D81B60] transition-colors font-semibold">Mochify MCP: Image Compression for AI Agents</a>
-                <span class="text-[#875F42]"> — How to wire Mochify's MCP server into Claude, Cursor, and other AI development environments.</span>
+                <a href="/guides/mochify-mcp-image-compression-agent-2026" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                    <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">How to Use Mochify via MCP: AI Agent Image Compression (2026) <span class="font-normal opacity-70">— Wire Mochify into Claude, Cursor, and other AI environments</span></span>
+                    <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                </a>
             </li>
         </ul>
     </section>
