@@ -4,7 +4,12 @@ import { svelteKitHandler } from "better-auth/svelte-kit";
 import { createAuth } from "$lib/auth";
 
 export const handle: Handle = async ({ event, resolve }) => {
-    const db = event.platform?.env?.DB;
+    let db: D1Database | undefined;
+    try {
+        db = event.platform?.env?.DB;
+    } catch {
+        db = undefined;
+    }
 
     if (!db) {
         // Prerendering or local dev without platform bindings — skip auth.
