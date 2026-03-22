@@ -2,10 +2,13 @@ import { betterAuth } from "better-auth";
 import { kyselyAdapter } from "@better-auth/kysely-adapter";
 import { Kysely } from "kysely";
 import { D1Dialect } from "kysely-d1";
-import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET } from "$env/static/private";
+import { Resend } from "resend";
+import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET, RESEND_API_KEY } from "$env/static/private";
 import { PUBLIC_APP_URL } from "$env/static/public";
 
 export function createAuth(db: D1Database) {
+    const resend = new Resend(RESEND_API_KEY);
+
     return betterAuth({
         baseURL: PUBLIC_APP_URL,
         secret: BETTER_AUTH_SECRET,
@@ -13,7 +16,30 @@ export function createAuth(db: D1Database) {
             new Kysely({ dialect: new D1Dialect({ database: db }) }),
             { type: "sqlite" }
         ),
-        emailAndPassword: { enabled: true },
+        emailAndPassword: {
+            enabled: true,
+            requireEmailVerification: true,
+            sendResetPassword: async ({ user, url }) => {
+                await resend.emails.send({
+                    from: "Mochify <hello@mochify.xyz>",
+                    to: user.email,
+                    subject: "Reset your password",
+                    html: `<p>Click <a href="${url}">here</a> to reset your password. This link expires in 1 hour.</p>`,
+                });
+            },
+        },
+        emailVerification: {
+            sendOnSignUp: true,
+            autoSignInAfterVerification: true,
+            sendVerificationEmail: async ({ user, url }) => {
+                await resend.emails.send({
+                    from: "Mochify <hello@mochify.xyz>",
+                    to: user.email,
+                    subject: "Verify your email",
+                    html: `<p>Click <a href="${url}">here</a> to verify your email address.</p>`,
+                });
+            },
+        },
         socialProviders: {
             google: {
                 clientId: GOOGLE_CLIENT_ID,
