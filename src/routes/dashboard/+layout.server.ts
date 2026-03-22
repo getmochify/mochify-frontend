@@ -1,14 +1,13 @@
 import { redirect } from '@sveltejs/kit'
 
+// TODO: replace with D1 profiles table once migrated from Supabase.
+const PLAN_LIMITS: Record<string, number> = { free: 25, pro: 1000 }
+
 export const load = async ({ locals }) => {
-    const { session, user } = await locals.safeGetSession()
-    if (!session) throw redirect(303, '/auth/login')
+    if (!locals.session || !locals.user) throw redirect(303, '/auth/login')
 
-    const { data: profile } = await locals.supabase
-        .from('profiles')
-        .select('plan, ops_limit, quota_period_end')
-        .eq('user_id', user!.id)
-        .single()
+    const plan = 'free'
+    const profile = { plan, ops_limit: PLAN_LIMITS[plan] }
 
-    return { session, user, profile }
+    return { session: locals.session, user: locals.user, profile }
 }

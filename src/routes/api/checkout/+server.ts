@@ -23,7 +23,7 @@ export const GET: RequestHandler = async ({ locals, url }) => {
         return new Response('Invalid plan or billing cycle', { status: 400 });
     }
 
-    const { user } = await locals.safeGetSession();
+    const { user } = locals;
 
     if (!user) {
         const loginUrl = new URL('/auth/login', url.origin);

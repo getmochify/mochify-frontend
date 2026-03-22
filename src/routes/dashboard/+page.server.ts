@@ -1,36 +1,29 @@
 import { fail, redirect } from '@sveltejs/kit'
-import { createClient } from '@supabase/supabase-js'
 import { Polar } from '@polar-sh/sdk'
-import { PUBLIC_SUPABASE_URL } from '$env/static/public'
-import { SUPABASE_SERVICE_ROLE_KEY, POLAR_ACCESS_TOKEN } from '$env/static/private'
+import { POLAR_ACCESS_TOKEN } from '$env/static/private'
+import { Kysely } from 'kysely'
+import { D1Dialect } from 'kysely-d1'
 
 export const actions = {
-    deleteAccount: async ({ locals }) => {
-        const { user } = await locals.safeGetSession()
-        if (!user) return fail(401, { error: 'Not authenticated' })
+    deleteAccount: async ({ locals, platform }) => {
+        if (!locals.user) return fail(401, { error: 'Not authenticated' })
 
-        const adminClient = createClient(PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
-            auth: { autoRefreshToken: false, persistSession: false }
-        })
+        const polar = new Polar({ accessToken: POLAR_ACCESS_TOKEN })
 
-        // Cancel Polar subscription if the user has one
-        const { data: profile } = await adminClient
-            .from('profiles')
-            .select('polar_subscription_id')
-            .eq('user_id', user.id)
-            .single()
-
-        if (profile?.polar_subscription_id) {
-            try {
-                const polar = new Polar({ accessToken: POLAR_ACCESS_TOKEN })
-                await polar.subscriptions.revoke({ id: profile.polar_subscription_id })
-            } catch {
-                // Log but don't block deletion — subscription may already be cancelled
-            }
+        // TODO: cancel Polar subscription once profiles table is in D1.
+        try {
+            const subs = await polar.subscriptions.list({ customerId: locals.user.id, limit: 1 })
+            const sub = subs.result.items[0]
+            if (sub) await polar.subscriptions.revoke({ id: sub.id })
+        } catch {
+            // Not subscribed or Polar unreachable — proceed with deletion.
         }
 
-        const { error } = await adminClient.auth.admin.deleteUser(user.id)
-        if (error) return fail(500, { error: 'Failed to delete account' })
+        const db = platform?.env?.DB
+        if (!db) return fail(500, { error: 'Database unavailable' })
+
+        const kysely = new Kysely({ dialect: new D1Dialect({ database: db }) })
+        await kysely.deleteFrom('user').where('id', '=', locals.user.id).execute()
 
         throw redirect(303, '/?deleted=true')
     }

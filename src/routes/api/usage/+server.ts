@@ -1,20 +1,18 @@
-import { createClient } from '@supabase/supabase-js'
-import { PUBLIC_SUPABASE_URL, PUBLIC_API_URL } from '$env/static/public'
-import { SUPABASE_SERVICE_ROLE_KEY } from '$env/static/private'
+import { PUBLIC_API_URL } from '$env/static/public'
 import type { RequestHandler } from './$types'
 
 const API_URL = PUBLIC_API_URL || 'https://api.mochify.xyz'
+const PLAN_LIMITS: Record<string, number> = { free: 25, pro: 1000 }
 
 export const GET: RequestHandler = async ({ locals, platform }) => {
-    const { session, user } = await locals.safeGetSession()
-    if (!user || !session) {
+    if (!locals.user || !locals.session) {
         return new Response(JSON.stringify({ error: 'Unauthorized' }), {
             status: 401,
             headers: { 'Content-Type': 'application/json' },
         })
     }
 
-    // Try KV first — populated by mochify-core after each squish, or warmed below on first visit.
+    // Try KV first — populated by mochify-core after each squish.
     const kv = platform?.env?.USAGE_KV
     let remaining: number | null = null
     let updatedAt: string | null = null
@@ -22,7 +20,7 @@ export const GET: RequestHandler = async ({ locals, platform }) => {
     let plan: string | null = null
 
     if (kv) {
-        const raw = await kv.get(user.id)
+        const raw = await kv.get(locals.user.id)
         if (raw) {
             try {
                 const parsed = JSON.parse(raw) as {
@@ -39,7 +37,7 @@ export const GET: RequestHandler = async ({ locals, platform }) => {
         }
     }
 
-    // KV hit with full data — skip Supabase entirely.
+    // KV hit with full data — skip core fetch.
     if (remaining !== null && quota !== null && plan !== null) {
         const used = Math.max(0, quota - remaining)
         return new Response(
@@ -48,27 +46,15 @@ export const GET: RequestHandler = async ({ locals, platform }) => {
         )
     }
 
-    // KV miss or partial — fetch profile from Supabase for quota + plan.
-    const supabase = createClient(PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
-        auth: { autoRefreshToken: false, persistSession: false },
-    })
-    const { data: profile } = await supabase
-        .from('profiles')
-        .select('plan, ops_limit')
-        .eq('user_id', user.id)
-        .single()
+    // TODO: read plan from D1 profiles table once migrated from Supabase.
+    const resolvedPlan  = plan  ?? 'free'
+    const resolvedQuota = quota ?? PLAN_LIMITS[resolvedPlan]
 
-    const resolvedQuota: number = profile?.ops_limit ?? 30
-    const resolvedPlan: string  = profile?.plan ?? 'free'
-    quota = resolvedQuota
-    plan  = resolvedPlan
-
-    // KV miss (cold start or new user): fall back to mochify-core which reads Redis directly.
-    // Write the result to KV so subsequent dashboard loads skip this round-trip.
+    // KV miss — fetch live usage from mochify-core.
     if (remaining === null) {
         try {
             const coreRes = await fetch(`${API_URL}/v1/user/usage`, {
-                headers: { Authorization: `Bearer ${session.access_token}` },
+                headers: { Authorization: `Bearer ${locals.session.token}` },
             })
             if (coreRes.ok) {
                 const body = await coreRes.json() as { used?: number; quota?: number }
@@ -76,9 +62,10 @@ export const GET: RequestHandler = async ({ locals, platform }) => {
                 remaining = Math.max(0, (body.quota ?? resolvedQuota) - coreUsed)
                 updatedAt = new Date().toISOString()
 
-                // Warm KV so future loads are fast (include plan + quota to skip Supabase next time).
                 if (kv) {
-                    await kv.put(user.id, JSON.stringify({ remaining, quota: resolvedQuota, plan: resolvedPlan, updatedAt }))
+                    await kv.put(locals.user.id, JSON.stringify({
+                        remaining, quota: resolvedQuota, plan: resolvedPlan, updatedAt
+                    }))
                 }
             }
         } catch {
@@ -86,7 +73,6 @@ export const GET: RequestHandler = async ({ locals, platform }) => {
         }
     }
 
-    // Final fallback: assume no usage (new user, core unreachable).
     const finalRemaining = remaining ?? resolvedQuota
     const used = Math.max(0, resolvedQuota - finalRemaining)
 
