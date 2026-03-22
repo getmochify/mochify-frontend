@@ -1,8 +1,10 @@
 import { PUBLIC_API_URL } from '$env/static/public'
+import { Kysely } from 'kysely'
+import { D1Dialect } from 'kysely-d1'
 import type { RequestHandler } from './$types'
 
 const API_URL = PUBLIC_API_URL || 'https://api.mochify.xyz'
-const PLAN_LIMITS: Record<string, number> = { free: 25, pro: 1000 }
+const PLAN_LIMITS: Record<string, number> = { free: 25, lite: 300, pro: 1000 }
 
 export const GET: RequestHandler = async ({ locals, platform }) => {
     if (!locals.user || !locals.session) {
@@ -46,9 +48,30 @@ export const GET: RequestHandler = async ({ locals, platform }) => {
         )
     }
 
-    // TODO: read plan from D1 profiles table once migrated from Supabase.
+    // KV miss for plan — query D1 profile table.
+    if (!plan) {
+        const db = platform?.env?.DB
+        if (db) {
+            try {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const kysely = new Kysely<any>({ dialect: new D1Dialect({ database: db }) })
+                const row = await kysely
+                    .selectFrom('profile')
+                    .select(['plan', 'ops_limit'])
+                    .where('user_id', '=', locals.user.id)
+                    .executeTakeFirst()
+                if (row) {
+                    plan  = row.plan ?? 'free'
+                    quota = row.ops_limit ?? PLAN_LIMITS[plan ?? 'free'] ?? PLAN_LIMITS.free
+                }
+            } catch {
+                // D1 unavailable — fall through to free defaults
+            }
+        }
+    }
+
     const resolvedPlan  = plan  ?? 'free'
-    const resolvedQuota = quota ?? PLAN_LIMITS[resolvedPlan]
+    const resolvedQuota = quota ?? PLAN_LIMITS[resolvedPlan] ?? PLAN_LIMITS.free
 
     // KV miss — fetch live usage from mochify-core.
     if (remaining === null) {
