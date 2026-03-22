@@ -1,9 +1,9 @@
 <script lang="ts">
     import { goto } from '$app/navigation'
-    import { createClient } from '$lib/supabase'
+    import { authClient } from '$lib/auth-client'
     import Navigation from '$lib/components/Navigation.svelte'
 
-    const supabase = createClient()
+    let { data } = $props()
 
     let password = $state('')
     let confirm = $state('')
@@ -19,10 +19,13 @@
         loading = true
         error = ''
 
-        const { error: err } = await supabase.auth.updateUser({ password })
+        const { error: err } = await authClient.resetPassword({
+            newPassword: password,
+            token: data.token,
+        })
 
         if (err) {
-            error = err.message
+            error = err.message ?? 'Password reset failed'
             loading = false
         } else {
             goto('/dashboard')

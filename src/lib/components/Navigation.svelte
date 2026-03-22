@@ -1,9 +1,7 @@
 <script lang="ts">
     import { page } from '$app/state'
     import { goto, invalidateAll } from '$app/navigation'
-    import { createClient } from '$lib/supabase'
-
-    const supabase = createClient()
+    import { authClient } from '$lib/auth-client'
 
     let mobileMenuOpen = $state(false)
     let userMenuOpen = $state(false)
@@ -12,7 +10,7 @@
     function closeMenu() { mobileMenuOpen = false }
 
     async function signOut() {
-        await supabase.auth.signOut()
+        await authClient.signOut()
         await invalidateAll()
         goto('/')
     }

@@ -1,8 +1,6 @@
 <script lang="ts">
-    import { createClient } from '$lib/supabase'
+    import { authClient } from '$lib/auth-client'
     import Navigation from '$lib/components/Navigation.svelte'
-
-    const supabase = createClient()
 
     let email = $state('')
     let loading = $state(false)
@@ -14,8 +12,10 @@
         loading = true
         error = ''
 
-        const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: `${window.location.origin}/auth/reset-password`
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { error: err } = await (authClient as any).requestPasswordReset({
+            email,
+            redirectTo: `${window.location.origin}/auth/reset-password`,
         })
 
         if (err) {

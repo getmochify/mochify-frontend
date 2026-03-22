@@ -2,7 +2,7 @@
     import { tick } from 'svelte';
     import { zip } from 'fflate';
     import { env } from '$env/dynamic/public';
-    import { getAccessToken, getIsPro, getPlan } from '$lib/supabase';
+    import { getSessionToken, getIsPro, getPlan } from '$lib/user';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
 
@@ -207,7 +207,7 @@
     async function submit() {
         if (!prompt.trim() || files.length === 0 || isProcessing) return;
 
-        const jwt = await getAccessToken();
+        const jwt = await getSessionToken();
 
         // Pre-flight quota check — works for both authed and unauthed users.
         let tokenData: any = null;

@@ -1,7 +1,8 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import { goto } from '$app/navigation'
-    import { createClient, getAccessToken } from '$lib/supabase'
+    import { authClient } from '$lib/auth-client'
+    import { getSessionToken } from '$lib/user'
     import Navigation from '$lib/components/Navigation.svelte'
     import Footer from '$lib/components/Footer.svelte'
     import { env } from '$env/dynamic/public'
@@ -9,7 +10,6 @@
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
 
     let { data } = $props()
-    const supabase = createClient()
 
     let justUpgraded = $state(false)
 
@@ -30,16 +30,16 @@
     let isPaid = $derived(isPro || isLite)
 
     async function loadKeyStatus() {
-        const jwt = await getAccessToken()
+        const jwt = await getSessionToken()
         if (!jwt) return
         try {
             const res = await fetch(`${API_URL}/v1/user/apikey`, {
                 headers: { Authorization: `Bearer ${jwt}` }
             })
             if (res.ok) {
-                const body = await res.json()
-                hasKey = body.has_key ?? false
-                keyCreatedAt = body.created_at ?? null
+                const body = await res.json() as Record<string, unknown>
+                hasKey = (body.has_key as boolean) ?? false
+                keyCreatedAt = (body.created_at as string) ?? null
             }
         } catch {
             // endpoint not live yet — silently ignore
@@ -50,9 +50,9 @@
         try {
             const res = await fetch('/api/usage')
             if (res.ok) {
-                const body = await res.json()
-                usedOps = body.used ?? 0
-                quotaOps = body.quota ?? data.profile?.ops_limit ?? 30
+                const body = await res.json() as Record<string, unknown>
+                usedOps = (body.used as number) ?? 0
+                quotaOps = (body.quota as number) ?? data.profile?.ops_limit ?? 30
                 usageLoaded = true
             }
         } catch {
@@ -63,7 +63,7 @@
     async function generateKey() {
         keyLoading = true
         newKeyPlaintext = null
-        const jwt = await getAccessToken()
+        const jwt = await getSessionToken()
         if (!jwt) { keyLoading = false; return }
         try {
             const res = await fetch(`${API_URL}/v1/user/apikey`, {
@@ -71,8 +71,8 @@
                 headers: { Authorization: `Bearer ${jwt}` }
             })
             if (res.ok) {
-                const body = await res.json()
-                newKeyPlaintext = body.key
+                const body = await res.json() as Record<string, unknown>
+                newKeyPlaintext = (body.key as string) ?? null
                 hasKey = true
                 keyCreatedAt = new Date().toISOString()
                 await loadUsage()
@@ -86,7 +86,7 @@
     async function regenerateKey() {
         keyLoading = true
         newKeyPlaintext = null
-        const jwt = await getAccessToken()
+        const jwt = await getSessionToken()
         if (!jwt) { keyLoading = false; return }
         try {
             // Revoke old key
@@ -100,8 +100,8 @@
                 headers: { Authorization: `Bearer ${jwt}` }
             })
             if (res.ok) {
-                const body = await res.json()
-                newKeyPlaintext = body.key
+                const body = await res.json() as Record<string, unknown>
+                newKeyPlaintext = (body.key as string) ?? null
                 keyCreatedAt = new Date().toISOString()
             }
         } catch {
@@ -118,7 +118,7 @@
     }
 
     async function handleSignOut() {
-        await supabase.auth.signOut()
+        await authClient.signOut()
         goto('/')
     }
 

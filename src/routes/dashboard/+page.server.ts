@@ -22,7 +22,8 @@ export const actions = {
         const db = platform?.env?.DB
         if (!db) return fail(500, { error: 'Database unavailable' })
 
-        const kysely = new Kysely({ dialect: new D1Dialect({ database: db }) })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const kysely = new Kysely<any>({ dialect: new D1Dialect({ database: db }) })
         await kysely.deleteFrom('user').where('id', '=', locals.user.id).execute()
 
         throw redirect(303, '/?deleted=true')

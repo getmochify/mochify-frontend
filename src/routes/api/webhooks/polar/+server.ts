@@ -1,7 +1,7 @@
 import { validateEvent, WebhookVerificationError } from '@polar-sh/sdk/webhooks';
-import { createClient } from '@supabase/supabase-js';
+import { Kysely } from 'kysely';
+import { D1Dialect } from 'kysely-d1';
 import {
-    SUPABASE_SERVICE_ROLE_KEY,
     POLAR_WEBHOOK_SECRET,
     POLAR_PRODUCT_ID_LITE_MONTHLY,
     POLAR_PRODUCT_ID_LITE_YEARLY,
@@ -10,7 +10,6 @@ import {
     CF_WORKER_URL,
     CF_WORKER_TOKEN,
 } from '$env/static/private';
-import { PUBLIC_SUPABASE_URL } from '$env/static/public';
 import type { RequestHandler } from './$types';
 
 async function sha256Hex(input: string): Promise<string> {
@@ -39,11 +38,6 @@ async function reseedBucket(
     }).catch(() => {})
 }
 
-// Service-role client — bypasses RLS so webhooks can write any profile.
-function adminClient() {
-    return createClient(PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
-}
-
 const PRODUCT_PLAN_MAP: Record<string, { plan: 'lite' | 'pro'; ops_limit: number }> = {
     [POLAR_PRODUCT_ID_LITE_MONTHLY]: { plan: 'lite', ops_limit: 300 },
     [POLAR_PRODUCT_ID_LITE_YEARLY]:  { plan: 'lite', ops_limit: 300 },
@@ -51,7 +45,7 @@ const PRODUCT_PLAN_MAP: Record<string, { plan: 'lite' | 'pro'; ops_limit: number
     [POLAR_PRODUCT_ID_PRO_YEARLY]:   { plan: 'pro',  ops_limit: 1200 },
 }
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, platform }) => {
     const body = await request.text();
     const headers = Object.fromEntries(request.headers.entries());
 
@@ -65,7 +59,11 @@ export const POST: RequestHandler = async ({ request }) => {
         return new Response('Webhook error', { status: 400 });
     }
 
-    const supabase = adminClient();
+    const db = platform?.env?.DB;
+    if (!db) return new Response('Database unavailable', { status: 503 });
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const kysely = new Kysely<any>({ dialect: new D1Dialect({ database: db }) });
 
     switch (event.type) {
         // Subscription became active (first payment succeeded).
@@ -84,17 +82,26 @@ export const POST: RequestHandler = async ({ request }) => {
             const opsLimit = isActive ? tier.ops_limit : 30;
             const periodEnd = sub.currentPeriodEnd?.toISOString() ?? null;
 
-            await supabase.from('profiles').upsert(
-                {
+            await kysely
+                .insertInto('profile')
+                .values({
                     user_id: userId,
                     plan,
                     polar_subscription_id: sub.id,
                     polar_customer_id: sub.customer.id,
                     quota_period_end: periodEnd,
                     ops_limit: opsLimit,
-                },
-                { onConflict: 'user_id' }
-            );
+                    updated_at: new Date().toISOString(),
+                })
+                .onConflict(oc => oc.column('user_id').doUpdateSet({
+                    plan,
+                    polar_subscription_id: sub.id,
+                    polar_customer_id: sub.customer.id,
+                    quota_period_end: periodEnd,
+                    ops_limit: opsLimit,
+                    updated_at: new Date().toISOString(),
+                }))
+                .execute();
             await reseedBucket(userId, plan, opsLimit, periodEnd);
             break;
         }
@@ -108,17 +115,26 @@ export const POST: RequestHandler = async ({ request }) => {
             const tier = PRODUCT_PLAN_MAP[sub.product.id] ?? { plan: 'free' as const, ops_limit: 30 };
             const periodEnd = sub.currentPeriodEnd?.toISOString() ?? null;
 
-            await supabase.from('profiles').upsert(
-                {
+            await kysely
+                .insertInto('profile')
+                .values({
                     user_id: userId,
                     plan: tier.plan,
                     polar_subscription_id: sub.id,
                     polar_customer_id: sub.customer.id,
                     quota_period_end: periodEnd,
                     ops_limit: tier.ops_limit,
-                },
-                { onConflict: 'user_id' }
-            );
+                    updated_at: new Date().toISOString(),
+                })
+                .onConflict(oc => oc.column('user_id').doUpdateSet({
+                    plan: tier.plan,
+                    polar_subscription_id: sub.id,
+                    polar_customer_id: sub.customer.id,
+                    quota_period_end: periodEnd,
+                    ops_limit: tier.ops_limit,
+                    updated_at: new Date().toISOString(),
+                }))
+                .execute();
             await reseedBucket(userId, tier.plan, tier.ops_limit, periodEnd);
             break;
         }
@@ -132,17 +148,26 @@ export const POST: RequestHandler = async ({ request }) => {
             const userId = sub.customer.externalId;
             if (!userId) break;
 
-            await supabase.from('profiles').upsert(
-                {
+            await kysely
+                .insertInto('profile')
+                .values({
                     user_id: userId,
                     plan: 'free',
                     polar_subscription_id: null,
                     polar_customer_id: sub.customer.id,
                     quota_period_end: null,
                     ops_limit: 30,
-                },
-                { onConflict: 'user_id' }
-            );
+                    updated_at: new Date().toISOString(),
+                })
+                .onConflict(oc => oc.column('user_id').doUpdateSet({
+                    plan: 'free',
+                    polar_subscription_id: null,
+                    polar_customer_id: sub.customer.id,
+                    quota_period_end: null,
+                    ops_limit: 30,
+                    updated_at: new Date().toISOString(),
+                }))
+                .execute();
             await reseedBucket(userId, 'free', 30, null);
             break;
         }

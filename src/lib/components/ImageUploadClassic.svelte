@@ -1,7 +1,7 @@
 <script lang="ts">
     import { zip } from 'fflate';
     import { env } from '$env/dynamic/public';
-    import { getAccessToken, getIsPro, getPlan } from '$lib/supabase';
+    import { getSessionToken, getIsPro, getPlan } from '$lib/user';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
 
@@ -106,7 +106,7 @@
     async function checkTokenLimit(): Promise<void> {
         // Skip token check for authenticated users — IP-based limits should never
         // block a user with valid auth. The API enforces their quota via 429.
-        const jwt = await getAccessToken();
+        const jwt = await getSessionToken();
         if (jwt) {
             hasCheckedTokens = false;
             return;
@@ -230,7 +230,7 @@
                 const file = selectedFiles[index];
                 fileProgress[index].status = 'processing';
                 fileProgress[index].progress = 0;
-                const jwt = await getAccessToken()
+                const jwt = await getSessionToken()
 
                 try {
                     // Use XMLHttpRequest for upload progress tracking

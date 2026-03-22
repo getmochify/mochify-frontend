@@ -1,7 +1,7 @@
 <script lang="ts">
     import { zip } from 'fflate';
     import { env } from '$env/dynamic/public';
-    import { getIsPro, getPlan, getAccessToken } from '$lib/supabase';
+    import { getIsPro, getPlan, getSessionToken } from '$lib/user';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
 
@@ -75,7 +75,7 @@
 
     async function checkTokenLimit(): Promise<void> {
         try {
-            const jwt = await getAccessToken();
+            const jwt = await getSessionToken();
             const response = await fetch(`${API_URL}/v1/checkTokens`, {
                 headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
             });
@@ -173,7 +173,7 @@
     // Pre-flight token check only applies to unauthenticated users.
     // Authenticated users skip this — the backend enforces limits via 429.
     let isAuthenticated: boolean = $state(false);
-    $effect(() => { getAccessToken().then(jwt => { isAuthenticated = !!jwt; }); });
+    $effect(() => { getSessionToken().then(jwt => { isAuthenticated = !!jwt; }); });
 
     const insufficientTokens = $derived(
         !isAuthenticated && hasCheckedTokens && selectedFiles.length > 0 && selectedFiles.length > availableTokens
@@ -185,7 +185,7 @@
             return;
         }
 
-        const jwt = await getAccessToken();
+        const jwt = await getSessionToken();
 
         isLoading = true;
         errorMessage = '';
@@ -271,7 +271,7 @@
                     if (error.status === 429) {
                         hitRateLimit = true;
                         fileProgress[index].error = 'Rate limit exceeded';
-                        const jwt = await getAccessToken();
+                        const jwt = await getSessionToken();
                         if (!jwt) showSignupCta = true;
                     } else {
                         fileProgress[index].error = error instanceof Error ? error.message : 'Unknown error';

@@ -1,19 +1,7 @@
 <script lang="ts">
 	import './layout.css';
-	import { page } from '$app/stores';
-	import { invalidateAll } from '$app/navigation';
-	import { onMount } from 'svelte';
-	import { createClient } from '$lib/supabase';
-
+	import { page } from '$app/state';
 	let { children } = $props();
-
-	onMount(() => {
-		const supabase = createClient();
-		const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
-			invalidateAll();
-		});
-		return () => subscription.unsubscribe();
-	});
 
 	// Import Outfit (Weights: 600, 700, 800, 900)
 	import '@fontsource/outfit/600.css';
@@ -29,7 +17,7 @@
 </script>
 
 <svelte:head>
-	<link rel="canonical" href="https://mochify.xyz{$page.url.pathname}" />
+	<link rel="canonical" href="https://mochify.xyz{page.url.pathname}" />
 	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 	<link rel="shortcut icon" href="/favicon.ico" />
