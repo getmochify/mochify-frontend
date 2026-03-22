@@ -15,5 +15,12 @@
       "binding": "USAGE_KV",
       "id": "4b0021f137aa44e4939a874276ba4d91"
     }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "mochify-auth",
+      "database_id": "5b476a87-44a7-4b3b-9687-d6173ab17420"
+    }
   ]
 }
