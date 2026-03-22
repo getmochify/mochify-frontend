@@ -104,6 +104,14 @@
             category: "AI & Automation",
             readTime: "7 min read",
             date: "Mar 09, 2026"
+        },
+        {
+            title: "A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression",
+            description: "Looking for a GDPR-compliant image compressor hosted in the EU? Mochify processes images in memory only, never stores your files, and strips EXIF data by default.",
+            url: "/guides/european-alternative-tinypng-gdpr-compliant-image-compression",
+            category: "Data Privacy",
+            readTime: "15 min read",
+            date: "Mar 22, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
