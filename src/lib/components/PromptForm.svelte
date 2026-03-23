@@ -604,47 +604,9 @@
                     class="w-full resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[72px] max-h-[200px] overflow-y-auto py-1 [appearance:none]"
                 ></textarea>
 
-                <div class="flex items-center gap-3">
-                    <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0 bg-white/20 p-1.5 rounded-2xl backdrop-blur-sm shadow-inner border border-white/30">
-                        <button onclick={() => fileInputEl?.click()} class="p-2 rounded-xl text-[#875F42]/80 hover:text-[#F06292] hover:bg-white/60 transition-all cursor-pointer" aria-label="Attach images">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"/>
-                            </svg>
-                        </button>
-                        <div class="w-[1px] h-6 bg-white/40"></div>
-                        <label class="flex items-center gap-2 cursor-pointer group pr-2" title="Download as ZIP">
-                            <div class="relative">
-                                <input type="checkbox" bind:checked={downloadAsZip} class="sr-only">
-                                <div class="block w-8 h-4 rounded-full transition-all duration-300 border {downloadAsZip ? 'bg-[#C8E6C9] border-[#C8E6C9] shadow-[0_0_8px_rgba(200,230,201,0.8)]' : 'bg-[#e8f5e9] border-[#C8E6C9]/40 shadow-inner'}"></div>
-                                <div class="dot absolute left-0.5 top-0.5 bg-white w-3 h-3 rounded-full transition-transform duration-300 shadow-sm {downloadAsZip ? 'transform translate-x-4' : ''}"></div>
-                            </div>
-                            <span class="text-[10px] font-extrabold tracking-widest uppercase transition-colors duration-300 {downloadAsZip ? 'text-[#2E5C31]' : 'text-[#875F42]/60'}">ZIP</span>
-                        </label>
-                    </div>
-                    <div class="flex-1"></div>
+            </div>
 
-                    <button
-                        onclick={submit}
-                        disabled={!prompt.trim() || files.length === 0 || isProcessing}
-                        class="flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-bold transition-all duration-300
-                        {prompt.trim() && files.length > 0 && !isProcessing
-                            ? 'bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_4px_16px_rgba(240,98,146,0.4)] hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),_0_8px_24px_rgba(240,98,146,0.6)] hover:-translate-y-0.5 cursor-pointer'
-                            : 'bg-white/50 text-[#F06292]/30 border border-white/60 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] cursor-not-allowed'}"
-                    >
-                        {#if isProcessing}
-                            <svg class="w-5 h-5 animate-spin drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
-                            </svg>
-                        {:else}
-                            <svg class="w-5 h-5 translate-x-[1px] drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
-                            </svg>
-                        {/if}
-                    </button>
-                </div>
-            </div> 
-
-            <div class="bg-white/20 backdrop-blur-md">
+            <div class="bg-white/20 backdrop-blur-md border-t border-white/40">
                 {#if isProcessing}
                     <div class="h-1 bg-white/20 overflow-hidden relative">
                         {#if processPhase === 'thinking' || processPhase === 'packing'}
@@ -659,23 +621,36 @@
                     </div>
                 {/if}
 
-                <div class="flex items-center justify-between px-4 sm:px-6 py-2">
-                    <span class="text-xs text-[#875F42]/50 font-medium tracking-wide flex items-center gap-2">
+                <div class="flex items-center gap-2 px-3 sm:px-4 py-2">
+                    <!-- Controls -->
+                    <button onclick={() => fileInputEl?.click()} class="p-1.5 rounded-xl text-[#875F42]/60 hover:text-[#F06292] hover:bg-white/60 transition-all cursor-pointer flex-shrink-0" aria-label="Attach images">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"/>
+                        </svg>
+                    </button>
+                    <div class="w-px h-4 bg-white/40 flex-shrink-0"></div>
+                    <label class="flex items-center gap-1.5 cursor-pointer flex-shrink-0" title="Download as ZIP">
+                        <div class="relative">
+                            <input type="checkbox" bind:checked={downloadAsZip} class="sr-only">
+                            <div class="block w-7 h-3.5 rounded-full transition-all duration-300 border {downloadAsZip ? 'bg-[#C8E6C9] border-[#C8E6C9]' : 'bg-[#e8f5e9] border-[#C8E6C9]/40 shadow-inner'}"></div>
+                            <div class="dot absolute left-0.5 top-0.5 bg-white w-2.5 h-2.5 rounded-full transition-transform duration-300 shadow-sm {downloadAsZip ? 'transform translate-x-3.5' : ''}"></div>
+                        </div>
+                        <span class="text-[10px] font-extrabold tracking-widest uppercase transition-colors duration-300 {downloadAsZip ? 'text-[#2E5C31]' : 'text-[#875F42]/50'}">ZIP</span>
+                    </label>
+                    <div class="w-px h-4 bg-white/40 flex-shrink-0"></div>
+                    <!-- Status text -->
+                    <span class="text-xs text-[#875F42]/50 font-medium tracking-wide flex items-center gap-1.5 flex-1 min-w-0 truncate">
                         {#if isProcessing}
                             {#if processPhase === 'thinking'}
-                                <span class="animate-pulse">✨</span>
-                                {#key thinkingText}
-                                    <span class="animate-fade-in">{thinkingText}</span>
-                                {/key}
+                                <span class="animate-pulse flex-shrink-0">✨</span>
+                                {#key thinkingText}<span class="animate-fade-in truncate">{thinkingText}</span>{/key}
                             {:else if processPhase === 'uploading'}
-                                Uploading{totalFiles > 1 ? ` image ${completedFiles + 1} of ${totalFiles}` : '…'} ({uploadPercent}%)
+                                Uploading{totalFiles > 1 ? ` ${completedFiles + 1}/${totalFiles}` : '…'} ({uploadPercent}%)
                             {:else if processPhase === 'processing'}
-                                <span class="animate-pulse text-[#66BB6A]">⬡</span>
-                                {#key processingText}
-                                    <span class="animate-fade-in">{processingText}{totalFiles > 1 ? ` (${completedFiles + 1} of ${totalFiles})` : ''}</span>
-                                {/key}
+                                <span class="animate-pulse text-[#66BB6A] flex-shrink-0">⬡</span>
+                                {#key processingText}<span class="animate-fade-in truncate">{processingText}{totalFiles > 1 ? ` (${completedFiles + 1}/${totalFiles})` : ''}</span>{/key}
                             {:else if processPhase === 'downloading'}
-                                {downloadAsZip ? 'Saving to zip' : 'Saving'} ({completedFiles} of {totalFiles})…
+                                {downloadAsZip ? 'Packing zip' : 'Saving'} ({completedFiles}/{totalFiles})…
                             {:else if processPhase === 'packing'}
                                 Packing your zip file…
                             {/if}
@@ -685,9 +660,25 @@
                             {files.length} {files.length === 1 ? 'image' : 'images'} attached
                         {/if}
                     </span>
-                    <span class="hidden sm:inline-flex text-[10px] text-[#875F42]/40 font-semibold tracking-widest">
-                        ↵ enter
-                    </span>
+                    <!-- Send button -->
+                    <button
+                        onclick={submit}
+                        disabled={!prompt.trim() || files.length === 0 || isProcessing}
+                        class="flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center font-bold transition-all duration-300
+                        {prompt.trim() && files.length > 0 && !isProcessing
+                            ? 'bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] hover:-translate-y-0.5 cursor-pointer'
+                            : 'bg-white/50 text-[#F06292]/30 border border-white/60 cursor-not-allowed'}"
+                    >
+                        {#if isProcessing}
+                            <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                            </svg>
+                        {:else}
+                            <svg class="w-4 h-4 translate-x-[1px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
+                            </svg>
+                        {/if}
+                    </button>
                 </div>
             </div>
         </div>
