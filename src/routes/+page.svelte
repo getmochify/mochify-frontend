@@ -7,6 +7,7 @@
     let fileCount = $state(25);
     let fileSizeMB = $state(20);
     
+    let showVideoModal: boolean = $state(false);
     let showUpgradeCTA: boolean = $state(false);
     let upgradeCTADismissed: boolean = $state(false);
     let showBgRemovalCTA: boolean = $state(false);
@@ -272,16 +273,26 @@
                     <PromptForm onSuccess={handleSuccess} onBgRemovalUpsell={handleBgRemovalUpsell} />
                 </div>
             </div>
-            <a
-                href="https://github.com/getmochify/mochify-cli"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="hidden md:inline-flex items-center gap-1.5 mt-4 text-xs text-[#875F42]/50 hover:text-[#F06292] transition-colors duration-200 group"
-            >
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"/></svg>
-                Automate with CLI or MCP
-                <svg class="w-2.5 h-2.5 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
-            </a>
+            <div class="hidden md:flex items-center gap-4 mt-4">
+                <a
+                    href="https://github.com/getmochify/mochify-cli"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 text-xs text-[#875F42]/50 hover:text-[#F06292] transition-colors duration-200 group"
+                >
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"/></svg>
+                    Automate with CLI or MCP
+                    <svg class="w-2.5 h-2.5 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+                </a>
+                <span class="text-[#875F42]/20 text-xs">·</span>
+                <button
+                    onclick={() => (showVideoModal = true)}
+                    class="inline-flex items-center gap-1.5 text-xs text-[#875F42]/50 hover:text-[#F06292] transition-colors duration-200 group cursor-pointer"
+                >
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"/></svg>
+                    See it in action
+                </button>
+            </div>
         </div>
 
         {#if showUpgradeCTA}
@@ -601,6 +612,57 @@
     </div>
 
 </div>
+
+{#if showVideoModal}
+<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
+<div
+    class="fixed inset-0 z-50 flex items-center justify-center p-4"
+    onclick={() => (showVideoModal = false)}
+>
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+
+    <!-- Modal -->
+    <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
+    <div
+        class="relative z-10 w-full max-w-3xl rounded-3xl overflow-hidden border border-white/20 shadow-2xl"
+        style="background: rgba(253,251,247,0.15); backdrop-filter: blur(24px) saturate(1.6);"
+        onclick={(e) => e.stopPropagation()}
+    >
+        <!-- Header -->
+        <div class="flex items-center justify-between px-5 py-3.5 border-b border-white/15">
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-[#F06292]/70"></div>
+                <span class="text-sm font-semibold text-white/90" style="font-family: 'Outfit', sans-serif;">Mochify in action</span>
+            </div>
+            <button
+                onclick={() => (showVideoModal = false)}
+                class="w-7 h-7 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all cursor-pointer"
+                aria-label="Close"
+            >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Video -->
+        <div class="aspect-video bg-black/20">
+            <!-- svelte-ignore a11y_media_has_caption -->
+            <video
+                class="w-full h-full object-cover"
+                autoplay
+                loop
+                muted
+                playsinline
+            >
+                <source src="https://assets.mochify.xyz/mochi.webm" type="video/webm" />
+                <source src="https://assets.mochify.xyz/mochi.mp4" type="video/mp4" />
+            </video>
+        </div>
+    </div>
+</div>
+{/if}
 
 <style>
     @keyframes fade-in {

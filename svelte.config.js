@@ -26,6 +26,7 @@ const config = {
                     'https://analytics.mochify.xyz'
                 ],
                 'img-src': ['self', 'data:', 'blob:'],
+                'media-src': ['self', 'https://assets.mochify.xyz'],
                 'worker-src': ['self'],
                 'frame-ancestors': ['none'],
                 'upgrade-insecure-requests': true
