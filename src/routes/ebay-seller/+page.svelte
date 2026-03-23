@@ -83,6 +83,27 @@
         <p class="text-sm text-[#7E685E] mt-3">25 free optimizations per month. No credit card.</p>
     </section>
 
+    <!-- Video demo -->
+    <section class="relative max-w-3xl mx-auto px-4 pb-4 sm:px-6 lg:px-8 w-full">
+        <div class="rounded-3xl overflow-hidden border border-pink-100 shadow-lg bg-white">
+            <div class="px-5 py-3 border-b border-pink-50 flex items-center gap-2">
+                <div class="flex gap-1.5">
+                    <div class="w-2.5 h-2.5 rounded-full bg-[#FFCDD2]"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-[#FFE0B2]"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-[#F1F8E9]"></div>
+                </div>
+                <span class="text-xs text-[#875F42]/50 font-medium ml-1">Mochify — eBay photo optimizer</span>
+            </div>
+            <div class="aspect-video bg-[#FFF5F7]">
+                <!-- svelte-ignore a11y_media_has_caption -->
+                <video class="w-full h-full object-cover" autoplay loop muted playsinline>
+                    <source src="https://assets.mochify.xyz/mochi.webm" type="video/webm" />
+                    <source src="https://assets.mochify.xyz/mochi.mp4" type="video/mp4" />
+                </video>
+            </div>
+        </div>
+    </section>
+
     <!-- Benefits grid -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
         <h2 class="text-2xl sm:text-3xl font-black text-[#4A2C2C] text-center mb-10">
