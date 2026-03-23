@@ -215,7 +215,7 @@
             </h1>
             <h2 class="text-xs font-semibold tracking-widest uppercase text-[#F06292]/70 mb-4">AI-POWERED IMAGE WORKFLOWS</h2>
             <p class="text-[#6C3F31] text-sm md:text-base max-w-xl mx-auto leading-relaxed">
-                Bulk process images using natural language. Crop to subjects, convert to next-gen formats, and strip metadata in seconds with our high-performance C++ engine.
+                Professional product shots in seconds. Bulk crop, remove backgrounds, and optimize your listings for eBay & Vinted—powered by a high-performance C++ engine for instant results.
             </p>
             <p class="text-xs text-[#875F42]/50 mt-2">3 files free per batch · 25 with <a href="/pricing" class="hover:text-[#F06292] transition-colors">Lite or Pro</a></p>
             <a
@@ -487,7 +487,7 @@
                             { feature: 'Speed', tinypng: 'Interpreted scripts', cloudinary: 'Cloud latency', mochify: 'C++20 native' },
                             { feature: 'Privacy', tinypng: 'Uploads required', cloudinary: 'Stored in cloud', mochify: 'Zero retention' },
                             { feature: 'AI Agent support', tinypng: 'None', cloudinary: 'Limited API', mochify: 'MCP server (native)' },
-                            { feature: 'Free tier', tinypng: '3 / session', cloudinary: 'Trial only', mochify: '3 free (no signup) · 30/mo free account' },
+                            { feature: 'Free tier', tinypng: '3 / session', cloudinary: 'Trial only', mochify: '3 free (no signup) · 25/mo free account' },
                             { feature: 'Paid plan', tinypng: '$39/yr · web', cloudinary: '$75–$99/mo', mochify: 'from $9/mo · API, CLI & MCP' },
                         ] as row, i}
                         <tr class="{i % 2 === 0 ? 'bg-white/40' : 'bg-white/20'} border-t border-[#F5E6E8]/60">
