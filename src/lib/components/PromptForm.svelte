@@ -128,11 +128,36 @@
     }
 
     const suggestions = [
-        { label: 'Remove BG',   prompt: 'Remove the background and convert to PNG' },
-        { label: 'eBay',        prompt: 'Optimize for eBay listings — square crop, convert to JPEG' },
-        { label: 'Vinted',      prompt: 'Optimize for Vinted listings — square crop, compress' },
-        { label: 'Square crop', prompt: 'Smart-crop to square, centering the main subject' },
-        { label: 'PageSpeed',   prompt: 'Fix my PageSpeed — convert to WebP and compress for fast load times' },
+        {
+            label: 'Remove BG',
+            prompt: 'Remove the background and convert to PNG',
+            style: 'text-purple-600 border-purple-200 bg-purple-50/60 hover:border-purple-400 hover:text-purple-700',
+            dot: 'bg-purple-400',
+        },
+        {
+            label: 'eBay',
+            prompt: 'Optimize for eBay listings — square crop, convert to JPEG',
+            style: 'text-[#3665F3] border-[#3665F3]/25 bg-[#3665F3]/5 hover:border-[#3665F3]/60 hover:text-[#3665F3]',
+            dot: 'bg-[#3665F3]',
+        },
+        {
+            label: 'Vinted',
+            prompt: 'Optimize for Vinted listings — square crop, compress',
+            style: 'text-[#007782] border-[#007782]/25 bg-[#007782]/5 hover:border-[#007782]/60 hover:text-[#007782]',
+            dot: 'bg-[#007782]',
+        },
+        {
+            label: 'Square crop',
+            prompt: 'Smart-crop to square, centering the main subject',
+            style: 'text-[#3A6B3C] border-[#A5D6A7]/50 bg-[#A5D6A7]/10 hover:border-[#66BB6A]/60 hover:text-[#3A6B3C]',
+            dot: 'bg-[#66BB6A]',
+        },
+        {
+            label: 'PageSpeed',
+            prompt: 'Fix my PageSpeed — convert to WebP and compress for fast load times',
+            style: 'text-[#4285F4] border-[#4285F4]/25 bg-[#4285F4]/5 hover:border-[#4285F4]/60 hover:text-[#4285F4]',
+            dot: 'bg-[#4285F4]',
+        },
     ];
 
     const formatSuggestions = [
@@ -169,7 +194,7 @@
     function autoGrow() {
         if (!textareaEl) return;
         textareaEl.style.height = 'auto';
-        textareaEl.style.height = Math.min(textareaEl.scrollHeight, 200) + 'px';
+        textareaEl.style.height = Math.max(72, Math.min(textareaEl.scrollHeight, 200)) + 'px';
     }
 
     function handleKeydown(e: KeyboardEvent) {
@@ -620,8 +645,8 @@
                     oninput={autoGrow} 
                     onkeydown={handleKeydown} 
                     placeholder={displayedPlaceholder}
-                    rows="1" 
-                    class="order-1 sm:order-2 w-full sm:flex-1 resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[48px] max-h-[200px] overflow-y-auto py-2.5 [appearance:none]"
+                    rows="2"
+                    class="order-1 sm:order-2 w-full sm:flex-1 resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[72px] max-h-[200px] overflow-y-auto py-2.5 [appearance:none]"
                 ></textarea>
                 
                 <button 
@@ -726,9 +751,9 @@
             {#each suggestions as s}
                 <button
                     onclick={() => fillPrompt(s.prompt)}
-                    class="inline-flex flex-shrink-0 items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 border border-white/60 text-[#875F42] hover:text-[#F06292] hover:bg-white/80 hover:border-[#F06292] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 backdrop-blur-sm shadow-sm cursor-pointer"
+                    class="inline-flex flex-shrink-0 items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold border hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 backdrop-blur-sm shadow-sm cursor-pointer {s.style}"
                 >
-                    <svg class="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>{s.label}
+                    <span class="w-2 h-2 rounded-full flex-shrink-0 {s.dot}"></span>{s.label}
                 </button>
             {/each}
             <!-- Convert to… expander -->

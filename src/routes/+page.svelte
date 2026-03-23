@@ -405,7 +405,7 @@
         </div>
         {/if}
 
-        <section class="mt-12 max-w-4xl mx-auto reveal">
+        <section class="mt-24 max-w-4xl mx-auto reveal">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
 
                 <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-white/80 shadow-sm hover:shadow-md hover:bg-white/80 transition-all duration-300 group">
