@@ -16,12 +16,14 @@ const config = {
                 'connect-src': [
                     'self',
                     'https://api.mochify.xyz',
+                    'https://mochify-tokens.tliesnham.workers.dev',
                     ...(process.env.PUBLIC_API_URL && process.env.PUBLIC_API_URL !== 'https://api.mochify.xyz'
                         ? [process.env.PUBLIC_API_URL]
                         : []),
-                    'https://analytics.mochify.xyz',
-                    'https://joxsqjvaqedvurajuavb.supabase.co',
-                    'wss://joxsqjvaqedvurajuavb.supabase.co'
+                    ...(process.env.PUBLIC_WORKER_URL && process.env.PUBLIC_WORKER_URL !== 'https://mochify-tokens.tliesnham.workers.dev'
+                        ? [process.env.PUBLIC_WORKER_URL]
+                        : []),
+                    'https://analytics.mochify.xyz'
                 ],
                 'img-src': ['self', 'data:', 'blob:'],
                 'worker-src': ['self'],
