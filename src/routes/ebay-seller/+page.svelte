@@ -80,7 +80,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
             </svg>
         </a>
-        <p class="text-sm text-[#7E685E] mt-3">25 free optimizations per day. No credit card.</p>
+        <p class="text-sm text-[#7E685E] mt-3">25 free optimizations per month. No credit card.</p>
     </section>
 
     <!-- Benefits grid -->
