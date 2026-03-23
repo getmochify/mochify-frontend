@@ -4,9 +4,6 @@
     import Footer from '$lib/components/Footer.svelte';
     import Navigation from '$lib/components/Navigation.svelte';
 
-    let fileCount = $state(25);
-    let fileSizeMB = $state(20);
-    
     let showVideoModal: boolean = $state(false);
     let showUpgradeCTA: boolean = $state(false);
     let upgradeCTADismissed: boolean = $state(false);
@@ -27,23 +24,7 @@
         showBgRemovalCTA = true;
     }
 
-    function animateCount(from: number, to: number, duration: number, setter: (v: number) => void) {
-        const start = performance.now();
-        const tick = (now: number) => {
-            const progress = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            setter(Math.round(from + (to - from) * eased));
-            if (progress < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-    }
-
     onMount(() => {
-        const t = setTimeout(() => {
-            animateCount(15, 25, 1100, v => (fileCount = v));
-            animateCount(12, 20, 900,  v => (fileSizeMB = v));
-        }, 400);
-
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach(entry => {
@@ -70,7 +51,6 @@
         if (isIos && !isStandalone) isIosInstall = true;
 
         return () => {
-            clearTimeout(t);
             observer.disconnect();
             window.removeEventListener('beforeinstallprompt', onBeforeInstall);
         };

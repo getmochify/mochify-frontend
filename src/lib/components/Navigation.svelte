@@ -1,5 +1,6 @@
 <script lang="ts">
     import { goto, invalidateAll } from '$app/navigation'
+    import { page } from '$app/state'
     import { authClient } from '$lib/auth-client'
 
     let mobileMenuOpen = $state(false)
@@ -14,9 +15,12 @@
         goto('/')
     }
 
+    // page.data is populated by the server load and consistent across SSR and
+    // initial hydration — eliminates the "Sign in → avatar" CLS caused by
+    // authClient.useSession() starting null on the client.
     const sessionStore = authClient.useSession()
-    let session = $derived($sessionStore.data?.session ?? null)
-    let user = $derived($sessionStore.data?.user ?? null)
+    let session = $derived($sessionStore.data?.session ?? page.data.session ?? null)
+    let user = $derived($sessionStore.data?.user ?? page.data.user ?? null)
     let initials = $derived(user?.email?.slice(0, 1).toUpperCase() ?? '')
 </script>
 

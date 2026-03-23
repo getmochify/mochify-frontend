@@ -14,9 +14,22 @@
 	import '@fontsource/quicksand/500.css';
 	import '@fontsource/quicksand/600.css';
 	import '@fontsource/quicksand/700.css';
+
+	// Preload the most-used weights so fonts arrive before first paint,
+	// preventing the font-display:swap reflow that causes CLS.
+	import qs400 from '@fontsource/quicksand/files/quicksand-latin-400-normal.woff2?url';
+	import qs600 from '@fontsource/quicksand/files/quicksand-latin-600-normal.woff2?url';
+	import qs700 from '@fontsource/quicksand/files/quicksand-latin-700-normal.woff2?url';
+	import of700 from '@fontsource/outfit/files/outfit-latin-700-normal.woff2?url';
+	import of800 from '@fontsource/outfit/files/outfit-latin-800-normal.woff2?url';
 </script>
 
 <svelte:head>
+	<link rel="preload" as="font" type="font/woff2" href={qs400} crossorigin="anonymous">
+	<link rel="preload" as="font" type="font/woff2" href={qs600} crossorigin="anonymous">
+	<link rel="preload" as="font" type="font/woff2" href={qs700} crossorigin="anonymous">
+	<link rel="preload" as="font" type="font/woff2" href={of700} crossorigin="anonymous">
+	<link rel="preload" as="font" type="font/woff2" href={of800} crossorigin="anonymous">
 	<link rel="canonical" href="https://mochify.xyz{page.url.pathname}" />
 	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
