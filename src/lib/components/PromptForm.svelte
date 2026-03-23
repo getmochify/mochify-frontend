@@ -128,14 +128,22 @@
     }
 
     const suggestions = [
-        { label: 'eBay',            prompt: 'Optimize for eBay listings — square crop, convert to JPEG' },
-        { label: 'PageSpeed',       prompt: 'Fix my PageSpeed — convert to WebP and compress for fast load times' },
-        { label: 'Remove BG',       prompt: 'Remove the background and convert to PNG' },
-        { label: 'Square crop',     prompt: 'Smart-crop to square, centering the main subject' },
-        { label: 'AVIF',            prompt: 'Convert to AVIF for maximum compression with high quality' },
-        { label: 'JPEG XL',         prompt: 'Convert to JPEG XL' },
-        { label: 'Vinted',          prompt: 'Optimize for Vinted listings — square crop, compress' },
+        { label: 'eBay',        prompt: 'Optimize for eBay listings — square crop, convert to JPEG' },
+        { label: 'Vinted',      prompt: 'Optimize for Vinted listings — square crop, compress' },
+        { label: 'PageSpeed',   prompt: 'Fix my PageSpeed — convert to WebP and compress for fast load times' },
+        { label: 'Remove BG',   prompt: 'Remove the background and convert to PNG' },
+        { label: 'Square crop', prompt: 'Smart-crop to square, centering the main subject' },
     ];
+
+    const formatSuggestions = [
+        { label: 'WebP',     prompt: 'Convert to WebP for best web compression and quality' },
+        { label: 'JPEG',     prompt: 'Convert to JPEG with high quality compression' },
+        { label: 'PNG',      prompt: 'Convert to PNG for lossless quality' },
+        { label: 'AVIF',     prompt: 'Convert to AVIF for maximum compression with high quality' },
+        { label: 'JPEG XL',  prompt: 'Convert to JPEG XL for next-generation compression' },
+    ];
+
+    let showFormatPicker = $state(false);
 
     function fillPrompt(text: string) {
         prompt = text;
@@ -682,14 +690,43 @@
     {/if}
 
     <div class="flex gap-2 mt-3 px-1 overflow-x-auto sm:flex-wrap sm:overflow-x-visible no-scrollbar">
-        {#each suggestions as suggestion}
+        {#if showFormatPicker}
+            <!-- Back button -->
             <button
-                onclick={() => fillPrompt(suggestion.prompt)}
+                onclick={() => showFormatPicker = false}
+                class="inline-flex flex-shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/80 border border-white/60 text-[#875F42] hover:text-[#F06292] hover:border-[#F06292] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 backdrop-blur-sm shadow-sm cursor-pointer"
+            >
+                <svg class="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+                Back
+            </button>
+            <!-- Format options -->
+            {#each formatSuggestions as s}
+                <button
+                    onclick={() => { fillPrompt(s.prompt); showFormatPicker = false; }}
+                    class="inline-flex flex-shrink-0 items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 border border-white/60 text-[#875F42] hover:text-[#F06292] hover:bg-white/80 hover:border-[#F06292] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 backdrop-blur-sm shadow-sm cursor-pointer"
+                >
+                    {s.label}
+                </button>
+            {/each}
+        {:else}
+            <!-- Main suggestions -->
+            {#each suggestions as s}
+                <button
+                    onclick={() => fillPrompt(s.prompt)}
+                    class="inline-flex flex-shrink-0 items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 border border-white/60 text-[#875F42] hover:text-[#F06292] hover:bg-white/80 hover:border-[#F06292] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 backdrop-blur-sm shadow-sm cursor-pointer"
+                >
+                    <svg class="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>{s.label}
+                </button>
+            {/each}
+            <!-- Convert to... expander -->
+            <button
+                onclick={() => showFormatPicker = true}
                 class="inline-flex flex-shrink-0 items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 border border-white/60 text-[#875F42] hover:text-[#F06292] hover:bg-white/80 hover:border-[#F06292] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 backdrop-blur-sm shadow-sm cursor-pointer"
             >
-                <svg class="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>{suggestion.label}
+                <svg class="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"/></svg>
+                Convert to…
             </button>
-        {/each}
+        {/if}
     </div>
 </div>
 

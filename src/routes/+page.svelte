@@ -542,7 +542,7 @@
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
-                        Yes. Try 3 images free without an account — no sign-up needed. Create a free account (no credit card) for 25 images per month, up to 20 MB each, with all next-generation formats included at no cost. Lite ($5/month) unlocks 300 images per month and a dedicated API key. Pro ($12/month) unlocks 1,200 images per month, CLI access, and MCP server support for AI agents.
+                        Yes. Try 3 images free without an account — no sign-up needed. Create a free account (no credit card) for 25 images per month, up to 20 MB each, with all next-generation formats included at no cost. Lite ($9/month) unlocks 300 images per month and a dedicated API key. Pro ($19/month) unlocks 1,200 images per month, CLI access, and MCP server support for AI agents.
                     </p>
                 </details>
 
