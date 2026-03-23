@@ -34,11 +34,17 @@ export const handle: Handle = async ({ event, resolve }) => {
 
     const auth = getAuth(db);
 
+    const path = event.url.pathname;
+    const needsSession = path.startsWith('/dashboard') ||
+        (path.startsWith('/api') && !path.startsWith('/api/auth'));
+
     let session = null;
-    try {
-        session = await auth.api.getSession({ headers: event.request.headers });
-    } catch (e) {
-        console.error("[auth] getSession failed:", e);
+    if (needsSession) {
+        try {
+            session = await auth.api.getSession({ headers: event.request.headers });
+        } catch (e) {
+            console.error("[auth] getSession failed:", e);
+        }
     }
     event.locals.user = session?.user ?? null;
     event.locals.session = session?.session ?? null;
