@@ -208,6 +208,7 @@
         if (!prompt.trim() || files.length === 0 || isProcessing) return;
 
         const jwt = await getSessionToken();
+        console.log('[debug] session token:', jwt)
 
         // Pre-flight quota check — works for both authed and unauthed users.
         let tokenData: any = null;
