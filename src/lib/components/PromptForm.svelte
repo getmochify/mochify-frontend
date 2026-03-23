@@ -83,9 +83,16 @@
     let statusTimeout: ReturnType<typeof setTimeout>;
     let hitRateLimit: boolean = $state(false);
     let showSignupCta: boolean = $state(false);
+    let victoryGlow: boolean = $state(false);
+
+    function triggerVictoryGlow() {
+        victoryGlow = true;
+        setTimeout(() => { victoryGlow = false; }, 1800);
+    }
 
     function showStatus(type: 'success' | 'error', text: string) {
         statusMessage = { type, text };
+        if (type === 'success') triggerVictoryGlow();
         if (statusTimeout) clearTimeout(statusTimeout);
         statusTimeout = setTimeout(() => {
             statusMessage = { type: null, text: '' };
@@ -530,8 +537,8 @@
 <div class="w-full max-w-3xl">
     <div class="relative rounded-[2rem] transition-all duration-300 {isDragging ? 'scale-[1.02] liquid-glow' : ''}">
         
-        <div 
-            class="liquid-glass relative rounded-[2rem] overflow-hidden transition-all duration-300"
+        <div
+            class="liquid-glass relative rounded-[2rem] overflow-hidden transition-all duration-700 {victoryGlow ? 'victory-glow' : ''}"
             ondragover={handleDragOver}
             ondragleave={handleDragLeave}
             ondrop={handleDrop}
@@ -788,6 +795,17 @@
 {/if}
 
 <style>
+    .victory-glow {
+        animation: victory-pulse 1.8s ease-out forwards;
+    }
+
+    @keyframes victory-pulse {
+        0%   { box-shadow: 0 8px 32px 0 rgba(240, 98, 146, 0.15), 0 0 0 0 rgba(165, 214, 167, 0); }
+        20%  { box-shadow: 0 8px 32px 0 rgba(165, 214, 167, 0.5), 0 0 60px 12px rgba(165, 214, 167, 0.35); }
+        60%  { box-shadow: 0 8px 32px 0 rgba(165, 214, 167, 0.3), 0 0 40px 8px rgba(165, 214, 167, 0.2); }
+        100% { box-shadow: 0 8px 32px 0 rgba(240, 98, 146, 0.15), 0 0 0 0 rgba(165, 214, 167, 0); }
+    }
+
     .liquid-glass {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
         backdrop-filter: blur(24px);
