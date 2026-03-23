@@ -200,7 +200,7 @@
                     a: "eBay requires a minimum of 500px on the longest side, but strongly recommends 1600×1600px to activate the zoom feature — one of the most important tools for converting browsers into buyers. Mochify resizes and smart-crops every photo to exactly 1600×1600px automatically."
                 },
                 {
-                    q: 'What are eBay\'s photo requirements in 2025?',
+                    q: 'What are eBay\'s photo requirements in 2026?',
                     a: "eBay requires images to be JPEG, PNG, GIF, or BMP. Files must be under 12MB. eBay recommends a clean white or neutral background, no watermarks, no added borders, and that the item fills at least 90% of the frame. Mochify meets every one of these requirements automatically."
                 },
                 {
