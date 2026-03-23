@@ -5,11 +5,11 @@
 
 <svelte:head>
     <title>Pricing — Mochify</title>
-    <meta name="description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 30 images/month. Upgrade to Lite for 300 or Pro for 1,200 images a month." />
+    <meta name="description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Lite for 300 or Pro for 1,200 images a month." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mochify.xyz/pricing" />
     <meta property="og:title" content="Pricing — Mochify" />
-    <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 30 images/month. Upgrade to Lite for 300 or Pro for 1,200 images a month." />
+    <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Lite for 300 or Pro for 1,200 images a month." />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -19,7 +19,7 @@
                 "@id": "https://mochify.xyz/pricing",
                 "url": "https://mochify.xyz/pricing",
                 "name": "Pricing — Mochify",
-                "description": "Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 30 images/month. Upgrade to Lite for 300 or Pro for 1,200 images a month.",
+                "description": "Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Lite for 300 or Pro for 1,200 images a month.",
                 "isPartOf": { "@id": "https://mochify.xyz" }
             },
             {
@@ -34,7 +34,7 @@
                         "name": "Free",
                         "price": "0",
                         "priceCurrency": "USD",
-                        "description": "3 images free without an account. Create a free account for 30 images per month. Includes all formats, resize, rotate, crop, MCP and API access. Standard processing queue."
+                        "description": "3 images free without an account. Create a free account for 25 images per month. Includes all formats, resize, rotate, crop, MCP and API access. Standard processing queue."
                     },
                     {
                         "@type": "Offer",
@@ -173,7 +173,7 @@
                 <ul class="space-y-3 flex-grow mb-8">
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>30 images</strong> per month</span>
+                        <span><strong>25 images</strong> per month</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
