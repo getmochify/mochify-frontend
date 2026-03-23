@@ -128,36 +128,11 @@
     }
 
     const suggestions = [
-        {
-            label: 'Remove BG',
-            prompt: 'Remove the background and convert to PNG',
-            style: 'text-purple-600 border-purple-200 bg-purple-50/60 hover:border-purple-400 hover:text-purple-700',
-            dot: 'bg-purple-400',
-        },
-        {
-            label: 'eBay',
-            prompt: 'Optimize for eBay listings — square crop, convert to JPEG',
-            style: 'text-[#3665F3] border-[#3665F3]/25 bg-[#3665F3]/5 hover:border-[#3665F3]/60 hover:text-[#3665F3]',
-            dot: 'bg-[#3665F3]',
-        },
-        {
-            label: 'Vinted',
-            prompt: 'Optimize for Vinted listings — square crop, compress',
-            style: 'text-[#007782] border-[#007782]/25 bg-[#007782]/5 hover:border-[#007782]/60 hover:text-[#007782]',
-            dot: 'bg-[#007782]',
-        },
-        {
-            label: 'Square crop',
-            prompt: 'Smart-crop to square, centering the main subject',
-            style: 'text-[#3A6B3C] border-[#A5D6A7]/50 bg-[#A5D6A7]/10 hover:border-[#66BB6A]/60 hover:text-[#3A6B3C]',
-            dot: 'bg-[#66BB6A]',
-        },
-        {
-            label: 'PageSpeed',
-            prompt: 'Fix my PageSpeed — convert to WebP and compress for fast load times',
-            style: 'text-[#4285F4] border-[#4285F4]/25 bg-[#4285F4]/5 hover:border-[#4285F4]/60 hover:text-[#4285F4]',
-            dot: 'bg-[#4285F4]',
-        },
+        { label: 'Remove BG',   prompt: 'Remove the background and convert to PNG',                              dot: 'bg-purple-400' },
+        { label: 'eBay',        prompt: 'Optimize for eBay listings — square crop, convert to JPEG',             dot: 'bg-[#3665F3]' },
+        { label: 'Vinted',      prompt: 'Optimize for Vinted listings — square crop, compress',                  dot: 'bg-[#007782]' },
+        { label: 'Square crop', prompt: 'Smart-crop to square, centering the main subject',                      dot: 'bg-[#66BB6A]' },
+        { label: 'PageSpeed',   prompt: 'Fix my PageSpeed — convert to WebP and compress for fast load times',   dot: 'bg-[#4285F4]' },
     ];
 
     const formatSuggestions = [
@@ -615,58 +590,58 @@
                 </div>
             {/if}
 
-            <div class="flex flex-wrap sm:flex-nowrap items-end gap-x-3 gap-y-4 px-4 sm:px-6 py-4 sm:py-5">
-                
-                <div class="order-2 sm:order-1 flex items-center gap-2 sm:gap-3 flex-shrink-0 bg-white/20 p-1.5 rounded-2xl backdrop-blur-sm shadow-inner border border-white/30">
-                    
-                    <button onclick={() => fileInputEl?.click()} class="p-2 rounded-xl text-[#875F42]/80 hover:text-[#F06292] hover:bg-white/60 transition-all cursor-pointer" aria-label="Attach images">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"/>
-                        </svg>
-                    </button>
-                    
-                    <div class="w-[1px] h-6 bg-white/40"></div>
-                    
-                    <label class="flex items-center gap-2 cursor-pointer group pr-2" title="Download as ZIP">
-                        <div class="relative">
-                            <input type="checkbox" bind:checked={downloadAsZip} class="sr-only">
-                            <div class="block w-8 h-4 rounded-full transition-all duration-300 border {downloadAsZip ? 'bg-[#C8E6C9] border-[#C8E6C9] shadow-[0_0_8px_rgba(200,230,201,0.8)]' : 'bg-[#e8f5e9] border-[#C8E6C9]/40 shadow-inner'}"></div>
-                            <div class="dot absolute left-0.5 top-0.5 bg-white w-3 h-3 rounded-full transition-transform duration-300 shadow-sm {downloadAsZip ? 'transform translate-x-4' : ''}"></div>
-                        </div>
-                        <span class="text-[10px] font-extrabold tracking-widest uppercase transition-colors duration-300 {downloadAsZip ? 'text-[#2E5C31]' : 'text-[#875F42]/60'}">ZIP</span>
-                    </label>
-                </div>
+            <div class="flex flex-col px-4 sm:px-6 pt-4 sm:pt-5 pb-3 gap-3">
 
                 <input bind:this={fileInputEl} type="file" multiple accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp" onchange={handleFileSelect} class="hidden"/>
-                
-                <textarea 
-                    bind:this={textareaEl} 
-                    bind:value={prompt} 
-                    oninput={autoGrow} 
-                    onkeydown={handleKeydown} 
+
+                <textarea
+                    bind:this={textareaEl}
+                    bind:value={prompt}
+                    oninput={autoGrow}
+                    onkeydown={handleKeydown}
                     placeholder={displayedPlaceholder}
                     rows="2"
-                    class="order-1 sm:order-2 w-full sm:flex-1 resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[72px] max-h-[200px] overflow-y-auto py-2.5 [appearance:none]"
+                    class="w-full resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[72px] max-h-[200px] overflow-y-auto py-1 [appearance:none]"
                 ></textarea>
-                
-                <button 
-                    onclick={submit} 
-                    disabled={!prompt.trim() || files.length === 0 || isProcessing} 
-                    class="order-3 ml-auto sm:ml-0 flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-bold transition-all duration-300 
-                    {prompt.trim() && files.length > 0 && !isProcessing 
-                        ? 'bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_4px_16px_rgba(240,98,146,0.4)] hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),_0_8px_24px_rgba(240,98,146,0.6)] hover:-translate-y-0.5 cursor-pointer' 
-                        : 'bg-white/50 text-[#F06292]/30 border border-white/60 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] cursor-not-allowed'}"
-                >
-                    {#if isProcessing}
-                        <svg class="w-5 h-5 animate-spin drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
-                        </svg>
-                    {:else}
-                        <svg class="w-5 h-5 translate-x-[1px] drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
-                        </svg>
-                    {/if}
-                </button>
+
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0 bg-white/20 p-1.5 rounded-2xl backdrop-blur-sm shadow-inner border border-white/30">
+                        <button onclick={() => fileInputEl?.click()} class="p-2 rounded-xl text-[#875F42]/80 hover:text-[#F06292] hover:bg-white/60 transition-all cursor-pointer" aria-label="Attach images">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"/>
+                            </svg>
+                        </button>
+                        <div class="w-[1px] h-6 bg-white/40"></div>
+                        <label class="flex items-center gap-2 cursor-pointer group pr-2" title="Download as ZIP">
+                            <div class="relative">
+                                <input type="checkbox" bind:checked={downloadAsZip} class="sr-only">
+                                <div class="block w-8 h-4 rounded-full transition-all duration-300 border {downloadAsZip ? 'bg-[#C8E6C9] border-[#C8E6C9] shadow-[0_0_8px_rgba(200,230,201,0.8)]' : 'bg-[#e8f5e9] border-[#C8E6C9]/40 shadow-inner'}"></div>
+                                <div class="dot absolute left-0.5 top-0.5 bg-white w-3 h-3 rounded-full transition-transform duration-300 shadow-sm {downloadAsZip ? 'transform translate-x-4' : ''}"></div>
+                            </div>
+                            <span class="text-[10px] font-extrabold tracking-widest uppercase transition-colors duration-300 {downloadAsZip ? 'text-[#2E5C31]' : 'text-[#875F42]/60'}">ZIP</span>
+                        </label>
+                    </div>
+                    <div class="flex-1"></div>
+
+                    <button
+                        onclick={submit}
+                        disabled={!prompt.trim() || files.length === 0 || isProcessing}
+                        class="flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-bold transition-all duration-300
+                        {prompt.trim() && files.length > 0 && !isProcessing
+                            ? 'bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_4px_16px_rgba(240,98,146,0.4)] hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),_0_8px_24px_rgba(240,98,146,0.6)] hover:-translate-y-0.5 cursor-pointer'
+                            : 'bg-white/50 text-[#F06292]/30 border border-white/60 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] cursor-not-allowed'}"
+                    >
+                        {#if isProcessing}
+                            <svg class="w-5 h-5 animate-spin drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                            </svg>
+                        {:else}
+                            <svg class="w-5 h-5 translate-x-[1px] drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
+                            </svg>
+                        {/if}
+                    </button>
+                </div>
             </div> 
 
             <div class="bg-white/20 backdrop-blur-md">
@@ -751,9 +726,9 @@
             {#each suggestions as s}
                 <button
                     onclick={() => fillPrompt(s.prompt)}
-                    class="inline-flex flex-shrink-0 items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold border hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 backdrop-blur-sm shadow-sm cursor-pointer {s.style}"
+                    class="inline-flex flex-shrink-0 items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 border border-white/60 text-[#875F42] hover:text-[#F06292] hover:bg-white/80 hover:border-[#F06292] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 backdrop-blur-sm shadow-sm cursor-pointer"
                 >
-                    <span class="w-2 h-2 rounded-full flex-shrink-0 {s.dot}"></span>{s.label}
+                    <span class="w-1.5 h-1.5 rounded-full flex-shrink-0 opacity-80 {s.dot}"></span>{s.label}
                 </button>
             {/each}
             <!-- Convert to… expander -->
