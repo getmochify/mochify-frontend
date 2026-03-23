@@ -5,16 +5,23 @@ export async function getSessionToken(): Promise<string | null> {
     return data?.session?.token ?? null
 }
 
-export async function getPlan(): Promise<'free' | 'lite' | 'pro'> {
-    try {
-        const res = await fetch('/api/usage')
-        if (res.ok) {
-            const data = await res.json() as { plan?: string }
-            if (data.plan === 'pro') return 'pro'
-            if (data.plan === 'lite') return 'lite'
-        }
-    } catch { /* core unreachable */ }
-    return 'free'
+// Deduplicate concurrent calls — components calling getPlan() and getIsPro()
+// in the same onMount would otherwise fire two requests to /api/usage.
+let _planRequest: Promise<'free' | 'lite' | 'pro'> | null = null
+
+export function getPlan(): Promise<'free' | 'lite' | 'pro'> {
+    if (!_planRequest) {
+        _planRequest = fetch('/api/usage')
+            .then(res => res.ok ? res.json() as Promise<{ plan?: string }> : {})
+            .then(data => {
+                if ((data as { plan?: string }).plan === 'pro') return 'pro'
+                if ((data as { plan?: string }).plan === 'lite') return 'lite'
+                return 'free'
+            })
+            .catch(() => 'free' as const)
+            .finally(() => { _planRequest = null })
+    }
+    return _planRequest
 }
 
 export async function getIsPro(): Promise<boolean> {

@@ -671,6 +671,7 @@
                     <button
                         onclick={submit}
                         disabled={!prompt.trim() || files.length === 0 || isProcessing}
+                        aria-label={isProcessing ? 'Processing…' : 'Submit'}
                         class="flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center font-bold transition-all duration-300
                         {prompt.trim() && files.length > 0 && !isProcessing
                             ? 'bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] hover:-translate-y-0.5 cursor-pointer'
