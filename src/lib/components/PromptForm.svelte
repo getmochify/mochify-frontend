@@ -4,6 +4,7 @@
     import { env } from '$env/dynamic/public';
     import { getSessionToken, getIsPro, getPlan } from '$lib/user';
 
+    const APP_URL = env.PUBLIC_API_URL || 'https://mochify.xyz';
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
 
     let { onSuccess, onBgRemovalUpsell }: { onSuccess?: () => void; onBgRemovalUpsell?: () => void } = $props();
@@ -256,7 +257,7 @@
                 return { name: f.name, width: dims.w, height: dims.h };
             }));
 
-            const nlpResponse = await fetch(`${API_URL}/v1/prompt`, {
+            const nlpResponse = await fetch(`${APP_URL}/v1/prompt`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
