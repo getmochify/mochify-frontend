@@ -216,7 +216,7 @@
             </h1>
             <h2 class="text-xs font-semibold tracking-widest uppercase text-[#F06292]/70 mb-4">AI-POWERED IMAGE WORKFLOWS</h2>
             <p class="text-[#6C3F31] text-sm md:text-base max-w-xl mx-auto leading-relaxed">
-                Professional product shots in seconds. Bulk crop, remove backgrounds, and optimize your listings for eBay & Vinted—powered by a high-performance C++ engine for instant results.
+                Bulk crop, remove backgrounds, and optimize listings for eBay & Vinted with a high‑performance C++ engine.
             </p>
             <p class="text-xs text-[#875F42]/50 mt-2">3 files free per batch · 25 with <a href="/pricing" class="hover:text-[#F06292] transition-colors">Lite or Pro</a></p>
 
