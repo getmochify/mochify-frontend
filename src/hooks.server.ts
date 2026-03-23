@@ -34,12 +34,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 
     const auth = getAuth(db);
 
-    const path = event.url.pathname;
-    const needsSession = path.startsWith('/dashboard') ||
-        (path.startsWith('/api') && !path.startsWith('/api/auth'));
+    const hasCookie = event.request.headers.get('cookie')?.includes('better-auth.session_token');
 
     let session = null;
-    if (needsSession) {
+    if (hasCookie) {
         try {
             session = await auth.api.getSession({ headers: event.request.headers });
         } catch (e) {
