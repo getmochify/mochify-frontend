@@ -128,11 +128,11 @@
     }
 
     const suggestions = [
+        { label: 'Remove BG',   prompt: 'Remove the background and convert to PNG' },
         { label: 'eBay',        prompt: 'Optimize for eBay listings — square crop, convert to JPEG' },
         { label: 'Vinted',      prompt: 'Optimize for Vinted listings — square crop, compress' },
-        { label: 'PageSpeed',   prompt: 'Fix my PageSpeed — convert to WebP and compress for fast load times' },
-        { label: 'Remove BG',   prompt: 'Remove the background and convert to PNG' },
         { label: 'Square crop', prompt: 'Smart-crop to square, centering the main subject' },
+        { label: 'PageSpeed',   prompt: 'Fix my PageSpeed — convert to WebP and compress for fast load times' },
     ];
 
     const formatSuggestions = [
@@ -143,7 +143,20 @@
         { label: 'JPEG XL',  prompt: 'Convert to JPEG XL for next-generation compression' },
     ];
 
+    const rotateSuggestions = [
+        { label: '90° clockwise',       prompt: 'Rotate 90 degrees clockwise' },
+        { label: '180°',                prompt: 'Rotate 180 degrees' },
+        { label: '90° anti-clockwise',  prompt: 'Rotate 90 degrees anti-clockwise' },
+        { label: 'Flip horizontal',     prompt: 'Flip horizontal' },
+    ];
+
     let showFormatPicker = $state(false);
+    let showRotatePicker = $state(false);
+
+    function closePickers() {
+        showFormatPicker = false;
+        showRotatePicker = false;
+    }
 
     function fillPrompt(text: string) {
         prompt = text;
@@ -690,19 +703,19 @@
     {/if}
 
     <div class="flex gap-2 mt-3 px-1 overflow-x-auto sm:flex-wrap sm:overflow-x-visible no-scrollbar">
-        {#if showFormatPicker}
+        {#if showFormatPicker || showRotatePicker}
             <!-- Back button -->
             <button
-                onclick={() => showFormatPicker = false}
+                onclick={closePickers}
                 class="inline-flex flex-shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/80 border border-white/60 text-[#875F42] hover:text-[#F06292] hover:border-[#F06292] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 backdrop-blur-sm shadow-sm cursor-pointer"
             >
                 <svg class="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
                 Back
             </button>
-            <!-- Format options -->
-            {#each formatSuggestions as s}
+            <!-- Sub-options -->
+            {#each (showFormatPicker ? formatSuggestions : rotateSuggestions) as s}
                 <button
-                    onclick={() => { fillPrompt(s.prompt); showFormatPicker = false; }}
+                    onclick={() => { fillPrompt(s.prompt); closePickers(); }}
                     class="inline-flex flex-shrink-0 items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 border border-white/60 text-[#875F42] hover:text-[#F06292] hover:bg-white/80 hover:border-[#F06292] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 backdrop-blur-sm shadow-sm cursor-pointer"
                 >
                     {s.label}
@@ -718,13 +731,21 @@
                     <svg class="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>{s.label}
                 </button>
             {/each}
-            <!-- Convert to... expander -->
+            <!-- Convert to… expander -->
             <button
-                onclick={() => showFormatPicker = true}
+                onclick={() => { showFormatPicker = true; showRotatePicker = false; }}
                 class="inline-flex flex-shrink-0 items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 border border-white/60 text-[#875F42] hover:text-[#F06292] hover:bg-white/80 hover:border-[#F06292] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 backdrop-blur-sm shadow-sm cursor-pointer"
             >
                 <svg class="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"/></svg>
                 Convert to…
+            </button>
+            <!-- Rotate… expander -->
+            <button
+                onclick={() => { showRotatePicker = true; showFormatPicker = false; }}
+                class="inline-flex flex-shrink-0 items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 border border-white/60 text-[#875F42] hover:text-[#F06292] hover:bg-white/80 hover:border-[#F06292] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 backdrop-blur-sm shadow-sm cursor-pointer"
+            >
+                <svg class="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+                Rotate…
             </button>
         {/if}
     </div>
