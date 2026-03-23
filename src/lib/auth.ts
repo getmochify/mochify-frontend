@@ -1,5 +1,4 @@
 import { betterAuth } from "better-auth";
-import { verifyPassword as verifyScrypt } from "better-auth/crypto";
 import { kyselyAdapter } from "@better-auth/kysely-adapter";
 import { Kysely } from "kysely";
 import { D1Dialect } from "kysely-d1";
@@ -11,9 +10,10 @@ import { PUBLIC_APP_URL } from "$env/static/public";
 // hash/verify — half the Cloudflare Worker memory limit and the source of
 // worker OOM errors during login and registration.
 //
-// PBKDF2 via Web Crypto is hardware-accelerated, uses negligible memory, and
-// runs in < 5 ms on Workers. New passwords are prefixed "p2:" so we can
-// still verify legacy scrypt hashes for existing users.
+// PBKDF2-SHA256 (100k iterations) is the NIST SP 800-132 recommendation and
+// is used by Django, Spring Security, and iOS Keychain. Web Crypto runs it
+// hardware-accelerated with negligible memory overhead on Workers.
+// Hashes are prefixed "p2:<salt_hex>:<key_hex>".
 
 const P2_ITERS = 100_000;
 
@@ -65,12 +65,8 @@ export function createAuth(db: D1Database) {
             password: {
                 hash: pbkdf2Hash,
                 verify: async ({ hash, password }) => {
-                    if (hash.startsWith("p2:")) {
-                        const [, saltHex, keyHex] = hash.split(":");
-                        return pbkdf2Verify(password, saltHex, keyHex);
-                    }
-                    // Legacy scrypt hash — still works, just slower.
-                    return verifyScrypt({ hash, password });
+                    const [, saltHex, keyHex] = hash.split(":");
+                    return pbkdf2Verify(password, saltHex, keyHex);
                 },
             },
             sendResetPassword: async ({ user, url }) => {
