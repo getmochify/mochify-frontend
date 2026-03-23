@@ -1,10 +1,53 @@
 import { betterAuth } from "better-auth";
+import { verifyPassword as verifyScrypt } from "better-auth/crypto";
 import { kyselyAdapter } from "@better-auth/kysely-adapter";
 import { Kysely } from "kysely";
 import { D1Dialect } from "kysely-d1";
 import { Resend } from "resend";
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET, RESEND_API_KEY } from "$env/static/private";
 import { PUBLIC_APP_URL } from "$env/static/public";
+
+// better-auth defaults to scrypt(N=16384,r=16) which allocates ~64 MB per
+// hash/verify — half the Cloudflare Worker memory limit and the source of
+// worker OOM errors during login and registration.
+//
+// PBKDF2 via Web Crypto is hardware-accelerated, uses negligible memory, and
+// runs in < 5 ms on Workers. New passwords are prefixed "p2:" so we can
+// still verify legacy scrypt hashes for existing users.
+
+const P2_ITERS = 100_000;
+
+function hexEncode(buf: ArrayBuffer): string {
+    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function pbkdf2Hash(password: string): Promise<string> {
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    const key = await crypto.subtle.importKey(
+        "raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"],
+    );
+    const bits = await crypto.subtle.deriveBits(
+        { name: "PBKDF2", salt, iterations: P2_ITERS, hash: "SHA-256" },
+        key, 256,
+    );
+    return `p2:${hexEncode(salt.buffer)}:${hexEncode(bits)}`;
+}
+
+async function pbkdf2Verify(password: string, saltHex: string, keyHex: string): Promise<boolean> {
+    const salt = new Uint8Array(saltHex.match(/../g)!.map(h => parseInt(h, 16)));
+    const key = await crypto.subtle.importKey(
+        "raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"],
+    );
+    const bits = await crypto.subtle.deriveBits(
+        { name: "PBKDF2", salt, iterations: P2_ITERS, hash: "SHA-256" },
+        key, 256,
+    );
+    const derived = hexEncode(bits);
+    if (derived.length !== keyHex.length) return false;
+    let diff = 0;
+    for (let i = 0; i < derived.length; i++) diff |= derived.charCodeAt(i) ^ keyHex.charCodeAt(i);
+    return diff === 0;
+}
 
 export function createAuth(db: D1Database) {
     const resend = new Resend(RESEND_API_KEY);
@@ -19,6 +62,17 @@ export function createAuth(db: D1Database) {
         emailAndPassword: {
             enabled: true,
             requireEmailVerification: true,
+            password: {
+                hash: pbkdf2Hash,
+                verify: async ({ hash, password }) => {
+                    if (hash.startsWith("p2:")) {
+                        const [, saltHex, keyHex] = hash.split(":");
+                        return pbkdf2Verify(password, saltHex, keyHex);
+                    }
+                    // Legacy scrypt hash — still works, just slower.
+                    return verifyScrypt({ hash, password });
+                },
+            },
             sendResetPassword: async ({ user, url }) => {
                 if (!RESEND_API_KEY) return;
                 try {

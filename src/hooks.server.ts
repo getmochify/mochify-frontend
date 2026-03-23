@@ -34,14 +34,32 @@ export const handle: Handle = async ({ event, resolve }) => {
 
     const auth = getAuth(db);
 
-    const hasCookie = event.request.headers.get('cookie')?.includes('better-auth.session_token');
+    const cookieHeader = event.request.headers.get('cookie') ?? '';
+    const tokenMatch = cookieHeader.match(/better-auth\.session_token=([^;]+)/);
+    const sessionToken = tokenMatch?.[1];
 
     let session = null;
-    if (hasCookie) {
-        try {
-            session = await auth.api.getSession({ headers: event.request.headers });
-        } catch (e) {
-            console.error("[auth] getSession failed:", e);
+    if (sessionToken) {
+        const kv = event.platform?.env?.USAGE_KV;
+        const isAuthRoute = event.url.pathname.startsWith('/api/auth/');
+
+        // KV fast path — skip D1 for cached sessions on non-auth routes.
+        if (kv && !isAuthRoute) {
+            try {
+                const cached = await kv.get(`sc:${sessionToken}`, 'json') as typeof session;
+                if (cached) session = cached;
+            } catch { /* ignore cache errors */ }
+        }
+
+        if (!session) {
+            try {
+                session = await auth.api.getSession({ headers: event.request.headers });
+                if (session && kv && !isAuthRoute) {
+                    await kv.put(`sc:${sessionToken}`, JSON.stringify(session), { expirationTtl: 300 }).catch(() => {});
+                }
+            } catch (e) {
+                console.error("[auth] getSession failed:", e);
+            }
         }
     }
     event.locals.user = session?.user ?? null;
