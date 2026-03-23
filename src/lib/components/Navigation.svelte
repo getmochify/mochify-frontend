@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { page } from '$app/state'
     import { goto, invalidateAll } from '$app/navigation'
     import { authClient } from '$lib/auth-client'
 
@@ -15,8 +14,9 @@
         goto('/')
     }
 
-    let session = $derived(page.data.session)
-    let user = $derived(page.data.user)
+    const sessionStore = authClient.useSession()
+    let session = $derived($sessionStore.data?.session ?? null)
+    let user = $derived($sessionStore.data?.user ?? null)
     let initials = $derived(user?.email?.slice(0, 1).toUpperCase() ?? '')
 </script>
 

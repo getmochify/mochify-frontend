@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { goto } from '$app/navigation'
+    import { goto, invalidateAll } from '$app/navigation'
     import { authClient } from '$lib/auth-client'
     import Navigation from '$lib/components/Navigation.svelte'
 
@@ -23,6 +23,7 @@
             error = err.message ?? 'Sign in failed'
             loading = false
         } else {
+            await invalidateAll()
             goto('/dashboard')
         }
     }
