@@ -179,7 +179,7 @@
                     a: "Vinted displays photos in a square format and recommends uploading at 1200×1200px or higher for crisp, zoomable images. Mochify automatically resizes and smart-crops your photos to 1200×1200px so your item fills the frame perfectly without any awkward letterboxing."
                 },
                 {
-                    q: 'What are Vinted\'s image requirements in 2025?',
+                    q: 'What are Vinted\'s image requirements in 2026?',
                     a: "Vinted accepts JPEG and PNG images under 10MB, with a minimum of 640×640px. Photos must show the actual item — no stock images, no watermarks, and no added text or borders. Vinted strongly recommends a clean, neutral background so buyers can judge the item clearly."
                 },
                 {
