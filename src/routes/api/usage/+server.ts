@@ -6,12 +6,31 @@ import type { RequestHandler } from './$types'
 const API_URL = PUBLIC_API_URL || 'https://api.mochify.xyz'
 const PLAN_LIMITS: Record<string, number> = { free: 25, lite: 300, pro: 1000 }
 
-export const GET: RequestHandler = async ({ locals, platform }) => {
+export const GET: RequestHandler = async ({ locals, platform, request }) => {
     if (!locals.user || !locals.session) {
-        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-            status: 401,
-            headers: { 'Content-Type': 'application/json' },
-        })
+        // Unauthenticated — proxy to core's IP-based free tier check.
+        try {
+            const coreRes = await fetch(`${API_URL}/v1/checkTokens`, {
+                headers: { 'X-Forwarded-For': request.headers.get('CF-Connecting-IP') ?? '' },
+            })
+            if (coreRes.ok) {
+                const body = await coreRes.json() as { remaining?: number; available?: number }
+                const quota = PLAN_LIMITS.free
+                const remaining = body.remaining ?? body.available ?? quota
+                const used = Math.max(0, quota - remaining)
+                return new Response(
+                    JSON.stringify({ used, remaining, quota, plan: 'free', updatedAt: null }),
+                    { headers: { 'Content-Type': 'application/json' } }
+                )
+            }
+        } catch {
+            // Core unreachable — return zeroed free tier.
+        }
+        const quota = PLAN_LIMITS.free
+        return new Response(
+            JSON.stringify({ used: 0, remaining: quota, quota, plan: 'free', updatedAt: null }),
+            { headers: { 'Content-Type': 'application/json' } }
+        )
     }
 
     // Try KV first — populated by mochify-core after each squish.
