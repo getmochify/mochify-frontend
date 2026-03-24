@@ -3,7 +3,7 @@ import { kyselyAdapter } from "@better-auth/kysely-adapter";
 import { Kysely } from "kysely";
 import { D1Dialect } from "kysely-d1";
 import { Resend } from "resend";
-import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET, RESEND_API_KEY } from "$env/static/private";
+import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET, RESEND_API_KEY, PBKDF2_PEPPER } from "$env/static/private";
 import { PUBLIC_APP_URL } from "$env/static/public";
 
 // better-auth defaults to scrypt(N=16384,r=16) which allocates ~64 MB per
@@ -15,7 +15,7 @@ import { PUBLIC_APP_URL } from "$env/static/public";
 // hardware-accelerated with negligible memory overhead on Workers.
 // Hashes are prefixed "p2:<salt_hex>:<key_hex>".
 
-const P2_ITERS = 600_000;
+const P2_ITERS = 100_000;
 
 function hexEncode(buf: ArrayBuffer): string {
     return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
@@ -24,7 +24,7 @@ function hexEncode(buf: ArrayBuffer): string {
 async function pbkdf2Hash(password: string): Promise<string> {
     const salt = crypto.getRandomValues(new Uint8Array(16));
     const key = await crypto.subtle.importKey(
-        "raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"],
+        "raw", new TextEncoder().encode(PBKDF2_PEPPER + password), "PBKDF2", false, ["deriveBits"],
     );
     const bits = await crypto.subtle.deriveBits(
         { name: "PBKDF2", salt, iterations: P2_ITERS, hash: "SHA-256" },
@@ -36,7 +36,7 @@ async function pbkdf2Hash(password: string): Promise<string> {
 async function pbkdf2Verify(password: string, saltHex: string, keyHex: string): Promise<boolean> {
     const salt = new Uint8Array(saltHex.match(/../g)!.map(h => parseInt(h, 16)));
     const key = await crypto.subtle.importKey(
-        "raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"],
+        "raw", new TextEncoder().encode(PBKDF2_PEPPER + password), "PBKDF2", false, ["deriveBits"],
     );
     const bits = await crypto.subtle.deriveBits(
         { name: "PBKDF2", salt, iterations: P2_ITERS, hash: "SHA-256" },
