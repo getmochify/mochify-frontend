@@ -15,7 +15,7 @@ import { PUBLIC_APP_URL } from "$env/static/public";
 // hardware-accelerated with negligible memory overhead on Workers.
 // Hashes are prefixed "p2:<salt_hex>:<key_hex>".
 
-const P2_ITERS = 100_000;
+const P2_ITERS = 600_000;
 
 function hexEncode(buf: ArrayBuffer): string {
     return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
