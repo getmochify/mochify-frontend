@@ -119,7 +119,7 @@
 
     async function handleSignOut() {
         await authClient.signOut()
-        goto('/')
+        window.location.href = '/'
     }
 
     let showDeleteConfirm = $state(false)
