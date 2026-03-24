@@ -701,7 +701,7 @@
         </div>
     {/if}
 
-    <div class="flex gap-2 mt-3 px-1 overflow-x-auto sm:flex-wrap sm:overflow-x-visible no-scrollbar">
+    <div class="flex flex-wrap gap-2 mt-3 px-1">
         {#if showFormatPicker || showRotatePicker}
             <!-- Back button -->
             <button

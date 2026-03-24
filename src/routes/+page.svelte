@@ -253,7 +253,7 @@
                     <PromptForm onSuccess={handleSuccess} onBgRemovalUpsell={handleBgRemovalUpsell} />
                 </div>
             </div>
-            <div class="hidden md:flex items-center gap-4 mt-4">
+            <div class="flex flex-wrap items-center justify-center gap-4 mt-4">
                 <a
                     href="https://github.com/getmochify/mochify-cli"
                     target="_blank"
