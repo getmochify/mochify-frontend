@@ -5,7 +5,7 @@
 
 <svelte:head>
     <title>Vinted Photo Optimization for Sellers | Mochify</title>
-    <meta name="description" content="Better Vinted photos get more likes, more messages, and faster sales. Mochify resizes to the perfect square, removes backgrounds, and makes your listings stand out.">
+    <meta name="description" content="Better Vinted photos get more likes, more messages, and faster sales. Mochify resizes to the perfect 3:4 portrait, removes backgrounds, and makes your listings stand out.">
     <meta name="keywords" content="Vinted photo size, optimize images for Vinted, Vinted image requirements, best photos for Vinted, Vinted listing photos">
     <meta property="og:title" content="Better Vinted Photos. More Likes. Faster Sales.">
     <meta property="og:description" content="Mochify gets your Vinted photos to the perfect size with clean backgrounds — so buyers stop scrolling and start buying.">
@@ -21,7 +21,7 @@
                 "name": "What is the best photo size for Vinted?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Vinted displays listing photos in a square format and recommends uploading at least 1200×1200px for sharp, zoomable images. Mochify automatically resizes and smart-crops your photos to a clean 1200×1200px square so your item fills the frame perfectly."
+                    "text": "Vinted recommends a 3:4 portrait aspect ratio at 1080×1440px for listing photos. Mochify automatically resizes and smart-crops your photos to a clean 1080×1440px portrait so your item fills the frame the way Vinted's layout expects."
                 }
             },
             {
@@ -56,7 +56,7 @@
                 Vinted Photo Requirements
             </span>
             <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-[#F3E5F5] border border-purple-100 shadow-sm text-purple-600 text-xs font-bold tracking-wide uppercase">
-                Perfect Square Crop
+                3:4 Portrait Crop
             </span>
             <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-[#F1F8E9] border border-[#DCEDC8] shadow-sm text-[#33691E] text-xs font-bold tracking-wide uppercase">
                 Background Removal
@@ -71,7 +71,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed mb-10">
-            Vinted is a scroll. Buyers decide in a glance. Mochify turns your casual phone shots into clean, square, professionally-cropped listing photos — so your items get clicked, not skipped.
+            Vinted is a scroll. Buyers decide in a glance. Mochify turns your casual phone shots into clean, portrait-cropped listing photos at exactly the size Vinted recommends — so your items get clicked, not skipped.
         </p>
 
         <a href="/auth/register" class="inline-flex items-center gap-2 bg-[#F06292] hover:bg-[#E91E8C] text-white font-bold px-8 py-4 rounded-2xl text-lg shadow-lg hover:shadow-xl transition-all duration-200">
@@ -95,8 +95,8 @@
                 {
                     icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/></svg>`,
                     color: 'bg-[#FFF5F7] border-pink-100 text-[#F06292]',
-                    title: 'Smart Square Crop',
-                    body: "Vinted's feed is square. Photos that aren't get letterboxed or awkwardly cut. Our AI detects where your item is and crops tight around it — centred, squared, and ready to fill the frame the way buyers expect."
+                    title: 'Smart 3:4 Portrait Crop',
+                    body: "Vinted recommends portrait photos at 3:4 (1080×1440px). Photos that don't match get letterboxed or awkwardly cut. Our AI detects where your item is and crops tight around it — centred, portrait, and ready to fill the frame the way Vinted's layout expects."
                 },
                 {
                     icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42"/></svg>`,
@@ -129,11 +129,11 @@
                 The Vinted feed rewards good photos.
             </h2>
             <p class="text-[#6C3F31] max-w-2xl mx-auto leading-relaxed">
-                When a buyer searches for a hoodie or a pair of trainers, they see a grid of thumbnails. The listings with clean, bright, square photos get favourited first. The ones with dark, cropped-off, or cluttered shots get ignored — even if the item is identical. Your photo is your shop window.
+                When a buyer searches for a hoodie or a pair of trainers, they see a grid of portrait thumbnails. The listings with clean, bright, correctly-proportioned photos get favourited first. The ones with dark, cropped-off, or cluttered shots get ignored — even if the item is identical. Your photo is your shop window.
             </p>
             <div class="grid sm:grid-cols-3 gap-6 pt-4">
                 {#each [
-                    { stat: '1200px', label: 'Recommended square size for sharp Vinted photos' },
+                    { stat: '1080×1440', label: 'Recommended portrait size for sharp Vinted photos' },
                     { stat: '20 photos', label: 'Per listing — show every angle, perfectly optimized' },
                     { stat: '< 10MB', label: "Vinted's file size limit — we always come in well under" }
                 ] as item}
@@ -153,7 +153,7 @@
             <div class="grid sm:grid-cols-3 gap-8 relative">
                 {#each [
                     { n: 1, title: 'Upload', body: 'Drop in your photos straight from your camera roll — up to 25 at once. JPEG, HEIC from iPhone, PNG, all supported.' },
-                    { n: 2, title: 'Optimize', body: 'We smart-crop to a perfect square, centre your item, remove the background, and compress to under 10MB while keeping quality sharp.' },
+                    { n: 2, title: 'Optimize', body: 'We smart-crop to the recommended 3:4 portrait, centre your item, remove the background, and compress to under 10MB while keeping quality sharp.' },
                     { n: 3, title: 'List', body: 'Download your optimized photos and upload to your Vinted listing. The whole batch takes seconds.' }
                 ] as step}
                     <div class="text-center relative z-10">
@@ -176,7 +176,7 @@
             {#each [
                 {
                     q: 'What is the best photo size for Vinted?',
-                    a: "Vinted displays photos in a square format and recommends uploading at 1200×1200px or higher for crisp, zoomable images. Mochify automatically resizes and smart-crops your photos to 1200×1200px so your item fills the frame perfectly without any awkward letterboxing."
+                    a: "Vinted recommends a 3:4 portrait aspect ratio at 1080×1440px for listing photos — portrait orientation fits their layout without letterboxing or unwanted cropping. Mochify automatically resizes and smart-crops your photos to 1080×1440px so your item fills the frame perfectly."
                 },
                 {
                     q: 'What are Vinted\'s image requirements in 2026?',
@@ -184,7 +184,7 @@
                 },
                 {
                     q: 'How do I take better photos for Vinted?',
-                    a: "Natural light, a plain background, and a square crop are the three biggest improvements most sellers can make. Lay flat on a white surface for small items, or hang clothing against a plain wall. Then let Mochify handle the crop, background clean-up, and resizing so every photo looks consistent and professional."
+                    a: "Natural light, a plain background, and a portrait crop are the three biggest improvements most sellers can make. Lay flat on a white surface for small items, or hang clothing against a plain wall. Then let Mochify handle the 3:4 crop, background clean-up, and resizing so every photo looks consistent and professional."
                 },
                 {
                     q: 'Does removing the background help sell on Vinted?',
