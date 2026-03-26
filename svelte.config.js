@@ -16,11 +16,11 @@ const config = {
                 'connect-src': [
                     'self',
                     'https://api.mochify.xyz',
-                    'https://mochify-tokens.tliesnham.workers.dev',
+                    'https://tokens.mochify.xyz',
                     ...(process.env.PUBLIC_API_URL && process.env.PUBLIC_API_URL !== 'https://api.mochify.xyz'
                         ? [process.env.PUBLIC_API_URL]
                         : []),
-                    ...(process.env.PUBLIC_WORKER_URL && process.env.PUBLIC_WORKER_URL !== 'https://mochify-tokens.tliesnham.workers.dev'
+                    ...(process.env.PUBLIC_WORKER_URL && process.env.PUBLIC_WORKER_URL !== 'https://tokens.mochify.xyz'
                         ? [process.env.PUBLIC_WORKER_URL]
                         : []),
                     'https://analytics.mochify.xyz'
