@@ -26,6 +26,11 @@ export const actions = {
         const kysely = new Kysely<any>({ dialect: new D1Dialect({ database: db }) })
         await kysely.deleteFrom('user').where('id', '=', locals.user.id).execute()
 
+        // Purge KV session cache so the cookie is immediately invalid.
+        const kv = platform?.env?.USAGE_KV
+        const sessionToken = locals.session?.token
+        if (kv && sessionToken) await kv.delete(`sc:${sessionToken}`).catch(() => {})
+
         throw redirect(303, '/?deleted=true')
     }
 }

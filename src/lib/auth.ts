@@ -106,11 +106,5 @@ export function createAuth(db: D1Database) {
                 clientSecret: GOOGLE_CLIENT_SECRET,
             },
         },
-        session: {
-            cookieCache: {
-                enabled: true,
-                maxAge: 5 * 60, // 300 seconds
-            },
-        },
     });
 }
