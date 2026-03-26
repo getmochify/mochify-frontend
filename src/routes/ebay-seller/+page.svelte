@@ -94,7 +94,7 @@
                 </div>
                 <span class="text-xs text-[#875F42]/50 font-medium ml-1">Mochify — eBay photo optimizer</span>
             </div>
-            <div class="aspect-video bg-[#FFF5F7]">
+            <div class="aspect-[16/10] bg-[#FFF5F7]">
                 <!-- svelte-ignore a11y_media_has_caption -->
                 <video class="w-full h-full object-cover" autoplay loop muted playsinline>
                     <source src="https://assets.mochify.xyz/mochi.webm" type="video/webm" />

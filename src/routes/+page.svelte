@@ -627,7 +627,7 @@
         </div>
 
         <!-- Video -->
-        <div class="aspect-video bg-black/20">
+        <div class="aspect-[16/10] bg-black/20">
             <!-- svelte-ignore a11y_media_has_caption -->
             <video
                 class="w-full h-full object-cover"
