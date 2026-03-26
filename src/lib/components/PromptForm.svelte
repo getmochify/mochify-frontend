@@ -5,7 +5,7 @@
     import { getSessionToken, getIsPro, getPlan } from '$lib/user';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
-    const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://mochify-tokens.tliesnham.workers.dev';
+    const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://tokens.mochify.xyz';
 
     let { onSuccess, onBgRemovalUpsell }: { onSuccess?: () => void; onBgRemovalUpsell?: () => void } = $props();
 
