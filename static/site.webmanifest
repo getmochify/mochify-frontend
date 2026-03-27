@@ -2,7 +2,7 @@
   "name": "Mochify",
   "short_name": "Mochify",
   "description": "Privacy-first, zero-persistence image optimization",
-  "start_url": "/",
+  "start_url": "/app",
   "display": "standalone",
   "theme_color": "#FDFBF7",
   "background_color": "#FDFBF7",
