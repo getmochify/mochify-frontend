@@ -37,7 +37,7 @@
                 About
             </a>
             <span class="text-pink-200">•</span>
-            <a href="mailto:hello@mochify.xyz" class="text-[#6C3F31] hover:text-[#F06292] hover:underline transition-colors">
+            <a href="mailto:hello@mochify.app" class="text-[#6C3F31] hover:text-[#F06292] hover:underline transition-colors">
                 Contact
             </a>
             <span class="text-pink-200">•</span>

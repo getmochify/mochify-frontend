@@ -146,7 +146,7 @@
                         <li>we store your Data on secure servers.</li>
                     </ol>
                 </li>
-                <li>Technical and organisational measures include measures to deal with any suspected data breach. If you suspect any misuse or loss or unauthorised access to your Data, please let us know immediately by contacting us via this e-mail address: hello@mochify.xyz.</li>
+                <li>Technical and organisational measures include measures to deal with any suspected data breach. If you suspect any misuse or loss or unauthorised access to your Data, please let us know immediately by contacting us via this e-mail address: hello@mochify.app.</li>
                 <li>If you want detailed information from Get Safe Online on how to protect your information and your computers and devices against fraud, identity theft, viruses and many other online problems, please visit www.getsafeonline.org. Get Safe Online is supported by HM Government and leading businesses.</li>
             </ol>
 
@@ -170,7 +170,7 @@
                         <li><strong>Right to object</strong> - the right to object to our use of your Data including where we use it for our legitimate interests.</li>
                     </ol>
                 </li>
-                <li>To make enquiries, exercise any of your rights set out above, or withdraw your consent to the processing of your Data (where consent is our legal basis for processing your Data), please contact us via this e-mail address: hello@mochify.xyz.</li>
+                <li>To make enquiries, exercise any of your rights set out above, or withdraw your consent to the processing of your Data (where consent is our legal basis for processing your Data), please contact us via this e-mail address: hello@mochify.app.</li>
                 <li>If you are not satisfied with the way a complaint you make in relation to your Data is handled by us, you may be able to refer your complaint to the relevant data protection authority. For the UK, this is the Information Commissioner's Office (ICO). The ICO's contact details can be found on their website at https://ico.org.uk/.</li>
                 <li>It is important that the Data we hold about you is accurate and current. Please keep us informed if your Data changes during the period for which we hold it.</li>
             </ol>
@@ -200,7 +200,7 @@
                 <li>Mochify reserves the right to change this Privacy Policy as we may deem necessary from time to time or as may be required by law. Any changes will be immediately posted on the Website and you are deemed to have accepted the terms of the Privacy Policy on your first use of the Website following the alterations.</li>
             </ol>
 
-            <p>You may contact Mochify by email at hello@mochify.xyz.</p>
+            <p>You may contact Mochify by email at hello@mochify.app.</p>
 
             <h3>ICO Registration</h3>
             <ol start="31">

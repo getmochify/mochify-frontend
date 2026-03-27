@@ -122,7 +122,7 @@
             <h3>Mochify Details</h3>
             <ol start="26">
                 <li>Mochify of Suite RA01, 195-197 Wood Street, LONDON, E17 3NU operates the Website mochify.app.
-                    <p>You can contact Mochify by email on <a href="mailto:hello@mochify.xyz">hello@mochify.xyz</a>.</p>
+                    <p>You can contact Mochify by email on <a href="mailto:hello@mochify.app">hello@mochify.app</a>.</p>
                 </li>
             </ol>
 

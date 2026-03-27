@@ -243,11 +243,11 @@
                 <li>Any complaints regarding the Software or the Provider's provision of it will be dealt with by the Provider as follows:</li>
             </ol>
             <ol start="1" type="1">
-                <li>If a User has a complaint about the Software or the Provider's services, they should contact us at <a href="mailto:complaints@mochify.xyz">complaints@mochify.xyz</a> and we will acknowledge receipt within 5 business days and aim to resolve the complaint promptly thereafter.</li>
+                <li>If a User has a complaint about the Software or the Provider's services, they should contact us at <a href="mailto:complaints@mochify.app">complaints@mochify.app</a> and we will acknowledge receipt within 5 business days and aim to resolve the complaint promptly thereafter.</li>
             </ol>
             <ol start="43">
                 <li>The Provider does not provide any after-sales services.</li>
-                <li>The Provider can be contacted via email at <a href="mailto:hello@mochify.xyz">hello@mochify.xyz</a>.</li>
+                <li>The Provider can be contacted via email at <a href="mailto:hello@mochify.app">hello@mochify.app</a>.</li>
             </ol>
 
             <h3>Circumstances Beyond the Control of Either Party (Force Majeure)</h3>
