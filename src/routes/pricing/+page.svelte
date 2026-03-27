@@ -242,11 +242,7 @@
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>MCP &amp; API access</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>25 files</strong> per batch <span class="text-[#6C3F31]/50">(up from 3)</span></span>
+                        <span><strong>25 photos</strong> per batch <span class="text-[#6C3F31]/50">(up from 3)</span></span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
