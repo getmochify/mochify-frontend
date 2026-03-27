@@ -41,15 +41,6 @@
 	<link rel="dns-prefetch" href="https://api.mochify.xyz">
 	<link rel="preconnect" href="https://api.mochify.xyz" crossorigin="anonymous">
 
-	<script
-		async
-		defer
-		src="https://analytics.mochify.xyz/script.js"
-		data-website-id="f1d3e4ff-16c4-4b0f-b876-671cd2191ae0"
-		data-host-url="https://analytics.mochify.xyz"
-		data-domains="mochify.app"
-	></script>
-
 	<script type="application/ld+json">
 	{
 		"@context": "https://schema.org",

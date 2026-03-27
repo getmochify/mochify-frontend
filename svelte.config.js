@@ -9,10 +9,6 @@ const config = {
             mode: 'auto',
             directives: {
                 'default-src': ['self'],
-                // 1. Allow the analytics script to load
-                'script-src': ['self', 'https://analytics.mochify.xyz'], 
-                'style-src': ['self', 'unsafe-inline'],
-                // 2. Allow the script to send data back to analytics
                 'connect-src': [
                     'self',
                     'https://api.mochify.xyz',
@@ -22,8 +18,7 @@ const config = {
                         : []),
                     ...(process.env.PUBLIC_WORKER_URL && process.env.PUBLIC_WORKER_URL !== 'https://tokens.mochify.xyz'
                         ? [process.env.PUBLIC_WORKER_URL]
-                        : []),
-                    'https://analytics.mochify.xyz'
+                        : [])
                 ],
                 'img-src': ['self', 'data:', 'blob:'],
                 'media-src': ['self', 'https://assets.mochify.xyz'],
