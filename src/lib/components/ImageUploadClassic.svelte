@@ -214,14 +214,6 @@
         }));
 
         try {
-            if (typeof window.umami !== 'undefined') {
-                window.umami.track('compress-image', {
-                    format: imageType,
-                    fileCount: selectedFiles.length,
-                    totalSize: formatFileSize(totalOriginalSize)
-                });
-            }
-
             let totalCompressedSize = 0;
             const compressedBlobs: Blob[] = new Array(selectedFiles.length);
             let hitRateLimit = false;
@@ -379,15 +371,6 @@
                     : `Batch complete! ${selectedFiles.length} images optimized. Total space saved: ${spaceSaved}.`;
             }
 
-            if (typeof window.umami !== 'undefined') {
-                window.umami.track('compress-success', {
-                    format: imageType,
-                    fileCount: selectedFiles.length,
-                    reduction: `${reduction}%`,
-                    finalSize: formatFileSize(totalCompressedSize)
-                });
-            }
-
             // Remove successfully processed files from the queue
             fileProgress.forEach(fp => {
                 if (fp.thumbnailUrl) {
@@ -407,13 +390,6 @@
             await checkTokenLimit();
         } catch (error) {
             errorMessage = error instanceof Error ? error.message : 'Failed to compress images';
-            if (typeof window.umami !== 'undefined') {
-                window.umami.track('compress-error', {
-                    format: imageType,
-                    fileCount: selectedFiles.length,
-                    error: error instanceof Error ? error.message : 'Unknown error'
-                });
-            }
         } finally {
             isLoading = false;
         }
