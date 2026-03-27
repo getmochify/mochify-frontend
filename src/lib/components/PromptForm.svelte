@@ -36,38 +36,37 @@
         'Make these 1:1, center the subject…',
         'Give me high-quality Jpegli at 85%…',
     ];
-    let displayedPlaceholder = $state(placeholders[0]);
     $effect(() => {
         let index = 0;
         let charIndex = placeholders[0].length;
         let isDeleting = true;
         let timeoutId: ReturnType<typeof setTimeout>;
 
-        const tick = () => {
+        const tickFn = () => {
             const full = placeholders[index];
             if (!isDeleting) {
                 charIndex++;
-                displayedPlaceholder = full.slice(0, charIndex);
+                textareaEl.placeholder = full.slice(0, charIndex);
                 if (charIndex === full.length) {
                     isDeleting = true;
-                    timeoutId = setTimeout(tick, 2200);
+                    timeoutId = setTimeout(tickFn, 2200);
                 } else {
-                    timeoutId = setTimeout(tick, 55);
+                    timeoutId = setTimeout(tickFn, 55);
                 }
             } else {
                 charIndex--;
-                displayedPlaceholder = full.slice(0, charIndex);
+                textareaEl.placeholder = full.slice(0, charIndex);
                 if (charIndex === 0) {
                     isDeleting = false;
                     index = (index + 1) % placeholders.length;
-                    timeoutId = setTimeout(tick, 350);
+                    timeoutId = setTimeout(tickFn, 350);
                 } else {
-                    timeoutId = setTimeout(tick, 28);
+                    timeoutId = setTimeout(tickFn, 28);
                 }
             }
         };
 
-        timeoutId = setTimeout(tick, 2200);
+        timeoutId = setTimeout(tickFn, 2200);
         return () => clearTimeout(timeoutId);
     });
 
@@ -606,7 +605,7 @@
                     bind:value={prompt}
                     oninput={autoGrow}
                     onkeydown={handleKeydown}
-                    placeholder={displayedPlaceholder}
+                    placeholder={placeholders[0]}
                     rows="2"
                     class="w-full resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[72px] max-h-[200px] overflow-y-auto py-1 [appearance:none]"
                 ></textarea>
