@@ -244,6 +244,8 @@
             // Non-blocking — proceed if checkTokens fails
         }
 
+        (window as any).umami?.track('nlp_submit', { files: files.length, authed: !!jwt });
+
         isProcessing = true;
         processPhase = 'thinking';
         uploadPercent = 0;
@@ -482,15 +484,18 @@
             prompt = '';
             files = [];
             if (bgRemovalBlocked) {
+                (window as any).umami?.track('nlp_success', { files: totalFiles, bg_removal_blocked: true });
                 showStatus('success', 'Images processed without background removal — sign up for a free account to unlock it. ✨');
                 onBgRemovalUpsell?.();
             } else {
+                (window as any).umami?.track('nlp_success', { files: totalFiles });
                 showStatus('success', 'Images processed successfully! ✨');
                 onSuccess?.();
             }
 
         } catch (err) {
             console.error(err);
+            (window as any).umami?.track('nlp_error');
             showStatus('error', err instanceof Error ? err.message : "An unexpected error occurred.");
         } finally {
             isProcessing = false;

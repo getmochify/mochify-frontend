@@ -187,6 +187,8 @@
 
         const jwt = await getSessionToken();
 
+        (window as any).umami?.track('manual_submit', { files: selectedFiles.length, format: imageType, authed: !!jwt });
+
         isLoading = true;
         errorMessage = '';
         successMessage = '';
@@ -317,10 +319,13 @@
 
             if (hitRateLimit) {
                 const pendingFiles = fileProgress.filter(fp => fp.status === 'pending').length;
+                (window as any).umami?.track('manual_success', { files: successfulFiles.length, rate_limited: true, format: imageType });
                 successMessage = `Rate limit reached! Downloaded ${successfulFiles.length} successful conversion(s). ${pendingFiles} file(s) remain.`;
             } else if (failedFiles.length > 0) {
+                (window as any).umami?.track('manual_success', { files: successfulFiles.length, failed: failedFiles.length, format: imageType });
                 successMessage = `${successfulFiles.length} of ${selectedFiles.length} squished. Saved ${spaceSaved}. ${failedFiles.length} failed.`;
             } else {
+                (window as any).umami?.track('manual_success', { files: successfulFiles.length, reduction: parseFloat(reduction), format: imageType });
                 successMessage = selectedFiles.length === 1
                     ? `Squished! Saved ${spaceSaved} (${reduction}% smaller).`
                     : `Done! ${selectedFiles.length} images optimised. Saved ${spaceSaved} total.`;
@@ -336,6 +341,7 @@
             if (fileInputElement) fileInputElement.value = '';
             await checkTokenLimit();
         } catch (error) {
+            (window as any).umami?.track('manual_error');
             errorMessage = error instanceof Error ? error.message : 'Failed to compress images';
         } finally {
             isLoading = false;
