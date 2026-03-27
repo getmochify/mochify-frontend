@@ -11,7 +11,7 @@
     <meta name="description" content="Read Mochify's Terms of Service to understand the terms and conditions for using our image optimization service.">
 
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mochify.xyz/service-terms">
+    <meta property="og:url" content="https://mochify.app/service-terms">
     <meta property="og:title" content="Terms of Service - Mochify">
     <meta property="og:description" content="Read Mochify's Terms of Service to understand the terms and conditions for using our image optimization service.">
 </svelte:head>
@@ -215,7 +215,7 @@
 
             <h3>Data Protection and Privacy</h3>
             <ol start="35">
-                <li>Both the User and the Provider commit to abiding by UK Data Protection Laws in relation to the Software and its development and use. The Provider commits to using any of the User's data that is provided to it only in accordance with UK Data Protection Laws and will not disclose this data to any third parties unless authorised to do so. For more information on how the Provider uses users' data, see the Provider's Website Privacy Policy, accessible here: <a href="https://mochify.xyz/privacy">mochify.xyz/privacy</a>.</li>
+                <li>Both the User and the Provider commit to abiding by UK Data Protection Laws in relation to the Software and its development and use. The Provider commits to using any of the User's data that is provided to it only in accordance with UK Data Protection Laws and will not disclose this data to any third parties unless authorised to do so. For more information on how the Provider uses users' data, see the Provider's Website Privacy Policy, accessible here: <a href="https://mochify.app/privacy">mochify.app/privacy</a>.</li>
                 <li>The User is responsible for and maintains control over any personal data that it is the data controller of or that it is otherwise responsible for and authorised to use as input into the Software. The User (and not the Provider) is responsible for ensuring that processing of any such personal data using the Software is carried out in reliance on a lawful basis for processing and in accordance with UK Data Protection Laws. If such personal data is:</li>
             </ol>
             <ol start="1" type="1">

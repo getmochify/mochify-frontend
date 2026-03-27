@@ -24,17 +24,17 @@
         "@type": "TechArticle",
         "headline": "JPEG Compression in 2026: Why Jpegli Changes the Quality-Per-Byte Game",
         "description": "A 2026 guide to using Google's jpegli encoder for e-commerce and marketplace workflows, comparing it to MozJPEG and libjpeg-turbo, and explaining how Mochify delivers privacy-first jpegli compression.",
-        "url": "https://mochify.xyz/guides/jpeg-in-2026-jpegli",
+        "url": "https://mochify.app/guides/jpeg-in-2026-jpegli",
         "inLanguage": "en",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",
-            "url": "https://mochify.xyz/guides"
+            "url": "https://mochify.app/guides"
         },
         "publisher": {
             "@type": "Organization",
             "name": "Mochify",
-            "url": "https://mochify.xyz"
+            "url": "https://mochify.app"
         },
         "about": [
             "jpegli JPEG compression",
@@ -736,7 +736,7 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
                 Theory and benchmarks are useful, but your specific content behaves differently from test datasets. Pick one representative image and compress it with jpegli to see the quality-per-byte improvement for yourself.
             </p>
 
-            <a href="https://mochify.xyz" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
+            <a href="https://mochify.app" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
                 <span>Compress a JPEG with Mochify (Jpegli)</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             </a>

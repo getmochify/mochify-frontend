@@ -26,17 +26,17 @@
         "@type": ["TechArticle", "HowTo"],
         "headline": "AI-Powered Image Compression: How Mochify's Natural Language Feature Works (2026)",
         "description": "Describe your image goal in plain English and Mochify's AI picks the right format, size, and settings automatically. Powered by Mistral Small 3.2. No tech knowledge needed.",
-        "url": "https://mochify.xyz/guides/ai-image-compression-natural-language-2026",
+        "url": "https://mochify.app/guides/ai-image-compression-natural-language-2026",
         "inLanguage": "en",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",
-            "url": "https://mochify.xyz/guides"
+            "url": "https://mochify.app/guides"
         },
         "publisher": {
             "@type": "Organization",
             "name": "Mochify",
-            "url": "https://mochify.xyz"
+            "url": "https://mochify.app"
         },
         "about": [
             "AI image compression",
@@ -48,8 +48,8 @@
         "step": [
             {
             "@type": "HowToStep",
-            "name": "Go to mochify.xyz",
-            "text": "Open the Mochify tool at mochify.xyz. No account required."
+            "name": "Go to mochify.app",
+            "text": "Open the Mochify tool at mochify.app. No account required."
             },
             {
             "@type": "HowToStep",
@@ -195,7 +195,7 @@
 
         <section id="what-is" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">What is Mochify's natural language compression feature?</h2>
-            <p class="mb-4">Instead of manually selecting formats and settings, you describe what you want and Mochify figures out the technical details for you. We've connected an LLM — specifically Mistral Small 3.2 — directly into the compression pipeline on the main tool at <a href="https://mochify.xyz" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.xyz</a>. It reads your intent and translates it into the right squish flags before processing your image.</p>
+            <p class="mb-4">Instead of manually selecting formats and settings, you describe what you want and Mochify figures out the technical details for you. We've connected an LLM — specifically Mistral Small 3.2 — directly into the compression pipeline on the main tool at <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a>. It reads your intent and translates it into the right squish flags before processing your image.</p>
             <p class="mb-4">This sits inside the existing tool interface. No separate mode to switch to, no new account needed. Type your description, upload your image, and the AI handles the settings layer.</p>
         </section>
 
@@ -249,7 +249,7 @@
         <section id="how-to-use" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How to use it right now</h2>
             <ol class="list-decimal pl-6 mb-6 space-y-3 marker:text-[#F06292] marker:font-bold">
-                <li>Go to <a href="https://mochify.xyz" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.xyz</a></li>
+                <li>Go to <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a></li>
                 <li>Upload your image (or drop it in)</li>
                 <li>In the natural language field, describe your goal — a single sentence is enough</li>
                 <li>Hit squish — the AI handles format, size, and metadata settings automatically</li>

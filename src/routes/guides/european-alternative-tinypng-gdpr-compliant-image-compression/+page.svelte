@@ -24,7 +24,7 @@
         "@type": "TechArticle",
         "headline": "A European Alternative to TinyPNG: Privacy-First Image Compression That Leaves No Trace",
         "description": "Why European businesses are reconsidering US-hosted image tools, what zero-retention in-memory image processing means in practice, and how Mochify works as an EU-based image compressor with no storage and no AI training.",
-        "url": "https://mochify.xyz/guides/european-alternative-tinypng-gdpr-compliant-image-compression",
+        "url": "https://mochify.app/guides/european-alternative-tinypng-gdpr-compliant-image-compression",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -33,12 +33,12 @@
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",
-            "url": "https://mochify.xyz/guides"
+            "url": "https://mochify.app/guides"
         },
         "publisher": {
             "@type": "Organization",
             "name": "Mochify",
-            "url": "https://mochify.xyz"
+            "url": "https://mochify.app"
         },
         "about": [
             "GDPR-compliant image compression",

@@ -9,7 +9,7 @@
     <meta name="keywords" content="eBay image size, optimize images for eBay, eBay photo requirements, eBay listing photos, eBay background removal">
     <meta property="og:title" content="Better eBay Photos. More Sales. Higher Prices.">
     <meta property="og:description" content="Mochify optimizes your eBay listing photos to the exact right size, quality, and clean background — so buyers click and buy.">
-    <link rel="canonical" href="https://mochify.xyz/ebay-seller">
+    <link rel="canonical" href="https://mochify.app/ebay-seller">
 
     <script type="application/ld+json">
     {

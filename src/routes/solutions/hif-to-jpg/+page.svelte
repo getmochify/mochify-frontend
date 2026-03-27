@@ -16,7 +16,7 @@
             "name": "Mochify HIF to JPG Converter",
             "operatingSystem": "Any",
             "applicationCategory": "MultimediaApplication",
-            "url": "https://mochify.xyz/solutions/hif-to-jpg",
+            "url": "https://mochify.app/solutions/hif-to-jpg",
             "description": "Instantly turn 10-bit Fuji, Canon & Sony HIF photos into universally compatible JPEGs using advanced Google Jpegli encoding.",
             "offers": {
                 "@type": "Offer",

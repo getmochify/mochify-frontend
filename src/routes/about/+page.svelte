@@ -8,7 +8,7 @@
     <meta name="description" content="Learn more about Mochify, our mission, and how we prioritize privacy and performance in image optimization.">
 
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mochify.xyz/about">
+    <meta property="og:url" content="https://mochify.app/about">
     <meta property="og:title" content="About Mochify">
     <meta property="og:description" content="Learn more about Mochify, our mission, and how we prioritize privacy and performance in image optimization.">
 </svelte:head>

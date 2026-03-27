@@ -30,7 +30,7 @@
 	<link rel="preload" as="font" type="font/woff2" href={qs700} crossorigin="anonymous">
 	<link rel="preload" as="font" type="font/woff2" href={of700} crossorigin="anonymous">
 	<link rel="preload" as="font" type="font/woff2" href={of800} crossorigin="anonymous">
-	<link rel="canonical" href="https://mochify.xyz{page.url.pathname}" />
+	<link rel="canonical" href="https://mochify.app{page.url.pathname}" />
 	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 	<link rel="shortcut icon" href="/favicon.ico" />
@@ -47,7 +47,7 @@
 		src="https://analytics.mochify.xyz/script.js"
 		data-website-id="f1d3e4ff-16c4-4b0f-b876-671cd2191ae0"
 		data-host-url="https://analytics.mochify.xyz"
-		data-domains="mochify.xyz"
+		data-domains="mochify.app"
 	></script>
 
 	<script type="application/ld+json">
@@ -55,10 +55,10 @@
 		"@context": "https://schema.org",
 		"@type": "Organization",
 		"name": "Mochify",
-		"url": "https://mochify.xyz",
+		"url": "https://mochify.app",
 		"logo": {
 			"@type": "ImageObject",
-			"url": "https://mochify.xyz/logo.png"
+			"url": "https://mochify.app/logo.png"
 		},
 		"sameAs": [
 			"https://github.com/getmochify/mochify-cli",

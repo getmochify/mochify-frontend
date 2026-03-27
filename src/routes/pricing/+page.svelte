@@ -7,7 +7,7 @@
     <title>Pricing — Mochify</title>
     <meta name="description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://mochify.xyz/pricing" />
+    <meta property="og:url" content="https://mochify.app/pricing" />
     <meta property="og:title" content="Pricing — Mochify" />
     <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month." />
     <script type="application/ld+json">
@@ -16,16 +16,16 @@
         "@graph": [
             {
                 "@type": "WebPage",
-                "@id": "https://mochify.xyz/pricing",
-                "url": "https://mochify.xyz/pricing",
+                "@id": "https://mochify.app/pricing",
+                "url": "https://mochify.app/pricing",
                 "name": "Pricing — Mochify",
                 "description": "Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month.",
-                "isPartOf": { "@id": "https://mochify.xyz" }
+                "isPartOf": { "@id": "https://mochify.app" }
             },
             {
                 "@type": "SoftwareApplication",
                 "name": "Mochify",
-                "url": "https://mochify.xyz",
+                "url": "https://mochify.app",
                 "applicationCategory": "MultimediaApplication",
                 "operatingSystem": "Any",
                 "offers": [

@@ -11,7 +11,7 @@
     <meta name="description" content="Read Mochify's Privacy Policy to learn how we collect, use, and protect your data when using our image optimization service.">
 
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mochify.xyz/privacy">
+    <meta property="og:url" content="https://mochify.app/privacy">
     <meta property="og:title" content="Privacy Policy - Mochify">
     <meta property="og:description" content="Read Mochify's Privacy Policy to learn how we collect, use, and protect your data when using our image optimization service.">
 </svelte:head>
@@ -35,7 +35,7 @@
         <article class="prose max-w-none bg-white p-8 md:p-12 rounded-3xl border border-pink-50 shadow-sm max-w-4xl prose-li:my-4">
             <p>This Privacy Policy applies between you, the User of this Website, and Mochify, the owner and provider of this Website. Mochify takes the privacy of your information very seriously. This Privacy Policy applies to our use of any and all Data collected by us or provided by you in relation to your use of the Website.</p>
 
-            <p>This Privacy Policy should be read alongside, and in addition to, our Terms and Conditions, which can be found at: mochify.xyz/terms</p>
+            <p>This Privacy Policy should be read alongside, and in addition to, our Terms and Conditions, which can be found at: mochify.app/terms</p>
 
             <p>Please read this Privacy Policy carefully.</p>
 
@@ -49,7 +49,7 @@
                         <li><strong>GDPR</strong>: the UK General Data Protection Regulation.</li>
                         <li><strong>Mochify, we or us</strong>: Mochify of Suite RA01, 195-197 Wood Street, LONDON, E17 3NU.</li>
                         <li><strong>User or you</strong>: any third party that accesses the Website and is not either (i) employed by Mochify and acting in the course of their employment or (ii) engaged as a consultant or otherwise providing services to Mochify and accessing the Website in connection with the provision of such services.</li>
-                        <li><strong>Website</strong>: the website that you are currently using, https://mochify.xyz, and any sub-domains of this site unless expressly excluded by their own terms and conditions.</li>
+                        <li><strong>Website</strong>: the website that you are currently using, https://mochify.app, and any sub-domains of this site unless expressly excluded by their own terms and conditions.</li>
                     </ul>
                 </li>
                 <li>

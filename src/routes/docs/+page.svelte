@@ -50,7 +50,7 @@
     <title>API Documentation — Mochify</title>
     <meta name="description" content="Mochify REST API reference. Compress and convert images programmatically — 3 ops free without an account, or 30/month with a free account.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mochify.xyz/docs">
+    <meta property="og:url" content="https://mochify.app/docs">
     <meta property="og:title" content="API Documentation — Mochify">
     <meta property="og:description" content="Mochify REST API reference. Compress and convert images programmatically — 3 ops free without an account, or 30/month with a free account.">
     <script type="application/ld+json">
@@ -59,11 +59,11 @@
         "@type": "TechArticle",
         "headline": "Mochify API Reference",
         "description": "REST API for image compression and conversion. 3 free operations per month without an account. Create a free account for 25 operations per month. Seller and Pro plans include a Bearer-token API key.",
-        "url": "https://mochify.xyz/docs",
+        "url": "https://mochify.app/docs",
         "publisher": {
             "@type": "Organization",
             "name": "Mochify",
-            "url": "https://mochify.xyz"
+            "url": "https://mochify.app"
         },
         "about": {
             "@type": "SoftwareApplication",

@@ -19,7 +19,7 @@
                 "name": "Mochify eBay Image Converter",
                 "applicationCategory": "MultimediaApplication",
                 "operatingSystem": "Web Browser",
-                "url": "https://mochify.xyz/solutions/ebay-image-converter",
+                "url": "https://mochify.app/solutions/ebay-image-converter",
                 "offers": {
                     "@type": "Offer",
                     "price": "0",

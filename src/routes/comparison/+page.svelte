@@ -229,7 +229,7 @@
             "operatingSystem": "Web",
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
             "description": "Upload an image and compare the original side-by-side with a compressed version using a drag slider. Supports WebP, AVIF, JPEG XL, and JPG output with optional smart compression.",
-            "url": "https://mochify.xyz/comparison",
+            "url": "https://mochify.app/comparison",
             "featureList": ["WebP compression", "AVIF compression", "JPEG XL compression", "JPG compression", "Side-by-side drag slider comparison", "Smart compression mode", "File size savings display"]
         },
         {

@@ -9,7 +9,7 @@
     <meta name="keywords" content="Vinted photo size, optimize images for Vinted, Vinted image requirements, best photos for Vinted, Vinted listing photos">
     <meta property="og:title" content="Better Vinted Photos. More Likes. Faster Sales.">
     <meta property="og:description" content="Mochify gets your Vinted photos to the perfect size with clean backgrounds — so buyers stop scrolling and start buying.">
-    <link rel="canonical" href="https://mochify.xyz/vinted-seller">
+    <link rel="canonical" href="https://mochify.app/vinted-seller">
 
     <script type="application/ld+json">
     {

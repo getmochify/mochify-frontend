@@ -26,17 +26,17 @@
         "@type": ["TechArticle", "HowTo"],
         "headline": "EXIF Data Risks in Image Compression: Strip Metadata for Privacy (2026 Guide)",
         "description": "A 2026 guide explaining EXIF metadata privacy risks, GDPR and cybersecurity implications, and a practical workflow for stripping or selectively retaining EXIF data with Mochify.",
-        "url": "https://mochify.xyz/guides/exif-data-risks-image-compression-2026",
+        "url": "https://mochify.app/guides/exif-data-risks-image-compression-2026",
         "inLanguage": "en",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",
-            "url": "https://mochify.xyz/guides"
+            "url": "https://mochify.app/guides"
         },
         "publisher": {
             "@type": "Organization",
             "name": "Mochify",
-            "url": "https://mochify.xyz"
+            "url": "https://mochify.app"
         },
         "about": [
             "EXIF metadata privacy risks",

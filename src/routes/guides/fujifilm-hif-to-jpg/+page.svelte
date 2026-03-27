@@ -25,17 +25,17 @@
         "@type": ["TechArticle", "HowTo"],
         "headline": "How to Convert X‑T5 / X‑H2 / X100VI / X‑T50 HIF to JPEG",
         "description": "A practical guide for Fujifilm photographers explaining HIF/HEIF files from cameras like the X‑T5, X‑H2, X100VI, and X‑T50, and how to convert them to standard JPEG while preserving film simulations using Mochify's RAM-only pipeline.",
-        "url": "https://mochify.xyz/guides/fujifilm-hif-to-jpg",
+        "url": "https://mochify.app/guides/fujifilm-hif-to-jpg",
         "inLanguage": "en",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",
-            "url": "https://mochify.xyz/guides"
+            "url": "https://mochify.app/guides"
         },
         "publisher": {
             "@type": "Organization",
             "name": "Mochify",
-            "url": "https://mochify.xyz"
+            "url": "https://mochify.app"
         },
         "about": [
             "Fujifilm HIF to JPEG conversion",

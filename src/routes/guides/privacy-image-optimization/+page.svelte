@@ -24,17 +24,17 @@
         "@type": "TechArticle",
         "headline": "Secure Your Images with Zero-Retention Optimization",
         "description": "A 2026 deep dive into zero-retention image optimization, explaining in-memory C++ processing, no-disk policies, and explicit no-AI-training guarantees, plus a practical privacy checklist for evaluating optimization tools.",
-        "url": "https://mochify.xyz/guides/privacy-image-optimization",
+        "url": "https://mochify.app/guides/privacy-image-optimization",
         "inLanguage": "en",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",
-            "url": "https://mochify.xyz/guides"
+            "url": "https://mochify.app/guides"
         },
         "publisher": {
             "@type": "Organization",
             "name": "Mochify",
-            "url": "https://mochify.xyz"
+            "url": "https://mochify.app"
         },
         "about": [
             "zero-retention image optimization",

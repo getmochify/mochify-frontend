@@ -74,31 +74,31 @@
             "@type": "ListItem",
             "position": 1,
             "name": "eBay Image Converter",
-            "url": "https://mochify.xyz/solutions/ebay-image-converter"
+            "url": "https://mochify.app/solutions/ebay-image-converter"
             },
             {
             "@type": "ListItem",
             "position": 2,
             "name": "HEIC to JPEG Converter",
-            "url": "https://mochify.xyz/heic-to-jpeg"
+            "url": "https://mochify.app/heic-to-jpeg"
             },
             {
             "@type": "ListItem",
             "position": 3,
             "name": "AVIF to JXL Converter",
-            "url": "https://mochify.xyz/avif-to-jpegxl"
+            "url": "https://mochify.app/avif-to-jpegxl"
             },
             {
             "@type": "ListItem",
             "position": 4,
             "name": "JPEG XL Optimizer",
-            "url": "https://mochify.xyz/jpg-to-jpegxl"
+            "url": "https://mochify.app/jpg-to-jpegxl"
             },
             {
             "@type": "ListItem",
             "position": 5,
             "name": "HIF to JPG Converter",
-            "url": "https://mochify.xyz/solutions/hif-to-jpg"
+            "url": "https://mochify.app/solutions/hif-to-jpg"
             }
         ]
         }

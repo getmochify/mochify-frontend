@@ -25,17 +25,17 @@
         "@type": ["TechArticle", "HowTo"],
         "headline": "WebP vs AVIF vs JPEG XL: 2026 Comparison Guide",
         "description": "A 2026 comparison of WebP, AVIF, and JPEG XL focusing on compression gains, decoding performance, browser support, and practical rollout strategies for Core Web Vitals and real-world production sites.",
-        "url": "https://mochify.xyz/guides/2026-guide-next-gen-formats",
+        "url": "https://mochify.app/guides/2026-guide-next-gen-formats",
         "inLanguage": "en",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",
-            "url": "https://mochify.xyz/guides"
+            "url": "https://mochify.app/guides"
         },
         "publisher": {
             "@type": "Organization",
             "name": "Mochify",
-            "url": "https://mochify.xyz"
+            "url": "https://mochify.app"
         },
         "about": [
             "WebP vs AVIF vs JPEG XL",
@@ -964,7 +964,7 @@
             <p class="text-[#6C3F31] text-lg max-w-2xl mx-auto relative z-10 mb-8 leading-relaxed">
 Try Mochify's zero-retention WebP and AVIF converters - no accounts, no plugins, no stored files. Process in-memory with C++ engine speed, then upload directly to your site or marketplace.            </p>
 
-            <a href="https://mochify.xyz" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
+            <a href="https://mochify.app" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
                 <span>Start Optimizing</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             </a>

@@ -11,7 +11,7 @@
     <meta name="description" content="Read Mochify's Terms and Conditions to understand your rights and obligations when using our website and image optimization service.">
 
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mochify.xyz/terms">
+    <meta property="og:url" content="https://mochify.app/terms">
     <meta property="og:title" content="Terms and Conditions - Mochify">
     <meta property="og:description" content="Read Mochify's Terms and Conditions to understand your rights and obligations when using our website and image optimization service.">
 </svelte:head>
@@ -80,7 +80,7 @@
 
             <h3>Privacy Policy</h3>
             <ol start="11">
-                <li>Use of the Website is also governed by our Privacy Policy, which is incorporated into these terms and conditions by this reference. To view the Privacy Policy, please visit: <a href="https://mochify.xyz/privacy">https://mochify.xyz/privacy</a></li>
+                <li>Use of the Website is also governed by our Privacy Policy, which is incorporated into these terms and conditions by this reference. To view the Privacy Policy, please visit: <a href="https://mochify.app/privacy">https://mochify.app/privacy</a></li>
             </ol>
 
             <h3>Availability of the Website and Disclaimers</h3>
@@ -121,7 +121,7 @@
 
             <h3>Mochify Details</h3>
             <ol start="26">
-                <li>Mochify of Suite RA01, 195-197 Wood Street, LONDON, E17 3NU operates the Website mochify.xyz.
+                <li>Mochify of Suite RA01, 195-197 Wood Street, LONDON, E17 3NU operates the Website mochify.app.
                     <p>You can contact Mochify by email on <a href="mailto:hello@mochify.xyz">hello@mochify.xyz</a>.</p>
                 </li>
             </ol>

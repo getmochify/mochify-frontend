@@ -26,17 +26,17 @@
         "@type": "TechArticle",
         "headline": "Optimizing Hero Images: Fix LCP & Boost SEO Without Plugins",
         "description": "Fix slow LCP scores from bloated hero images. Step-by-step guide for WordPress, Shopify, Squarespace, and Wix — no plugins needed.",
-        "url": "https://mochify.xyz/guides/optimizing-hero-images",
+        "url": "https://mochify.app/guides/optimizing-hero-images",
         "inLanguage": "en",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",
-            "url": "https://mochify.xyz/guides"
+            "url": "https://mochify.app/guides"
         },
         "publisher": {
             "@type": "Organization",
             "name": "Mochify",
-            "url": "https://mochify.xyz"
+            "url": "https://mochify.app"
         },
         "about": [
             "LCP optimization",

@@ -26,17 +26,17 @@
         "@type": "TechArticle",
         "headline": "The History of Image Compression (Up to 2026)",
         "description": "A 2026 guide tracing the history of image compression from early bitmap formats and GIF through JPEG, PNG, WebP, HEIF/AVIF, and modern codecs like JPEG XL and jpegli, with a focus on web performance and privacy-first optimization.",
-        "url": "https://mochify.xyz/guides/history-image-compression-2026",
+        "url": "https://mochify.app/guides/history-image-compression-2026",
         "inLanguage": "en",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",
-            "url": "https://mochify.xyz/guides"
+            "url": "https://mochify.app/guides"
         },
         "publisher": {
             "@type": "Organization",
             "name": "Mochify",
-            "url": "https://mochify.xyz"
+            "url": "https://mochify.app"
         },
         "about": [
             "history of image compression",

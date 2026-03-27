@@ -27,17 +27,17 @@
         "@type": ["TechArticle", "HowTo"],
         "headline": "Mochify MCP Server - AI Agent Image Compression 2026",
         "description": "Connect Mochify to your AI assistant via MCP and compress images with plain English - no manual settings, no uploads to a browser tab. Here's how it works.",
-        "url": "https://mochify.xyz/guides/mochify-mcp-image-compression-agent-2026",
+        "url": "https://mochify.app/guides/mochify-mcp-image-compression-agent-2026",
         "inLanguage": "en",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",
-            "url": "https://mochify.xyz/guides"
+            "url": "https://mochify.app/guides"
         },
         "publisher": {
             "@type": "Organization",
             "name": "Mochify",
-            "url": "https://mochify.xyz"
+            "url": "https://mochify.app"
         },
         "about": [
             "MCP image compression",
@@ -197,7 +197,7 @@
         <section id="what-is" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">What is the Mochify MCP server?</h2>
             <p class="mb-4">MCP (Model Context Protocol) is a standard that lets AI assistants call external tools and services mid-conversation. We've built a Mochify MCP server that exposes our squish engine as a callable tool — meaning any AI assistant with MCP support can compress, resize, and optimize your images on your behalf.</p>
-            <p class="mb-4">This is the agent-first version of Mochify. The same compression quality and zero-retention privacy you get from the web tool at <a href="https://mochify.xyz" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.xyz</a>, accessed directly from your AI workflow without opening a browser.</p>
+            <p class="mb-4">This is the agent-first version of Mochify. The same compression quality and zero-retention privacy you get from the web tool at <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a>, accessed directly from your AI workflow without opening a browser.</p>
         </section>
 
         <section id="how-it-works" class="scroll-mt-24">
@@ -330,7 +330,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
                             <th class="p-4 font-black"></th>
-                            <th class="p-4 font-black">Web tool (mochify.xyz)</th>
+                            <th class="p-4 font-black">Web tool (mochify.app)</th>
                             <th class="p-4 font-black">MCP server</th>
                         </tr>
                     </thead>

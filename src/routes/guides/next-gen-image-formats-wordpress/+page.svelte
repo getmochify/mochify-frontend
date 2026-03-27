@@ -25,17 +25,17 @@
         "@type": ["TechArticle", "HowTo"],
         "headline": "Fix \"Serve Images in Next-Gen Formats\" in WordPress (No Plugins) & Boost LCP",
         "description": "A step-by-step guide for WordPress site owners to clear PageSpeed \"Serve images in next-gen formats\" warnings without plugins by pre-optimizing images with Mochify and deploying AVIF/WebP with JPEG fallbacks.",
-        "url": "https://mochify.xyz/guides/next-gen-image-formats-wordpress",
+        "url": "https://mochify.app/guides/next-gen-image-formats-wordpress",
         "inLanguage": "en",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",
-            "url": "https://mochify.xyz/guides"
+            "url": "https://mochify.app/guides"
         },
         "publisher": {
             "@type": "Organization",
             "name": "Mochify",
-            "url": "https://mochify.xyz"
+            "url": "https://mochify.app"
         },
         "about": [
             "WordPress image optimization",
@@ -527,7 +527,7 @@
                 Run your heaviest page through PageSpeed, list the top 5 images it calls out, and run them through Mochify now.
             </p>
 
-            <a href="https://mochify.xyz" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
+            <a href="https://mochify.app" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
                 <span>Start Optimizing</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             </a>
