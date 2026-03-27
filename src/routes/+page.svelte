@@ -290,7 +290,7 @@
                 <div class="px-5 pt-4 pb-1">
                     <p class="text-xs font-extrabold tracking-widest uppercase text-[#F06292]/60 mb-0.5">You're on the free plan</p>
                     <h3 class="text-base font-black text-[#4A2C2C] leading-snug">Running a lot of images? Get more headroom.</h3>
-                    <p class="text-xs text-[#875F42]/70 mt-1">Free account gives you 30 ops/month. Upgrade for priority processing, larger files, and more volume.</p>
+                    <p class="text-xs text-[#875F42]/70 mt-1">Free account gives you 25 ops/month. Upgrade for priority processing, larger files, and more volume.</p>
                 </div>
                 <div class="grid grid-cols-2 gap-2 px-5 py-3">
                     <a
@@ -314,8 +314,8 @@
                             <span class="text-xs font-semibold text-[#875F42]/50">/mo</span>
                             <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#F06292]/70 bg-[#FFF0F3] rounded-full px-2 py-0.5">Pro</span>
                         </div>
-                        <p class="text-xs font-semibold text-[#6C3F31]">1,200 images · 75MB · BG removal</p>
-                        <p class="text-[11px] text-[#875F42]/60 mt-0.5">40× volume · top priority · BG removal</p>
+                        <p class="text-xs font-semibold text-[#6C3F31]">1,200 images · 75MB</p>
+                        <p class="text-[11px] text-[#875F42]/60 mt-0.5">40× volume · top priority</p>
                     </a>
                 </div>
                 <div class="px-5 pb-4">

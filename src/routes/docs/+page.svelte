@@ -48,11 +48,11 @@
 
 <svelte:head>
     <title>API Documentation — Mochify</title>
-    <meta name="description" content="Mochify REST API reference. Compress and convert images programmatically — 3 ops free without an account, or 30/month with a free account.">
+    <meta name="description" content="Mochify REST API reference. Compress and convert images programmatically — 3 ops free without an account, or 25/month with a free account.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mochify.app/docs">
     <meta property="og:title" content="API Documentation — Mochify">
-    <meta property="og:description" content="Mochify REST API reference. Compress and convert images programmatically — 3 ops free without an account, or 30/month with a free account.">
+    <meta property="og:description" content="Mochify REST API reference. Compress and convert images programmatically — 3 ops free without an account, or 25/month with a free account.">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -93,7 +93,7 @@
                 API Reference
             </h1>
             <p class="text-[#6C3F31]/70 text-lg max-w-2xl">
-                Process images programmatically. Try 3 ops free without signing up — or create a free account for 30/month.
+                Process images programmatically. Try 3 ops free without signing up — or create a free account for 25/month.
                 <a href="/pricing" class="text-[#F06292] font-semibold hover:underline">Seller and Pro</a> plans unlock more with an API key.
             </p>
         </div>
@@ -130,7 +130,7 @@
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
                             <div class="bg-[#FDFBF7] rounded-2xl border border-pink-50 p-4">
                                 <p class="text-xs font-black text-[#875F42]/60 uppercase tracking-wider mb-1">Free account</p>
-                                <p class="text-2xl font-black text-[#4A2C2C]">30</p>
+                                <p class="text-2xl font-black text-[#4A2C2C]">25</p>
                                 <p class="text-xs text-[#6C3F31]/60 mt-0.5">ops/mo · 3 without signup</p>
                             </div>
                             <div class="bg-[#FDFBF7] rounded-2xl border border-[#F06292]/15 p-4">
@@ -150,7 +150,7 @@
                             </div>
                         </div>
                         <p class="text-sm text-[#6C3F31]/70 leading-relaxed pt-2">
-                            Without an account: 3 ops/month (IP-based). Free account: 30 ops/month. Paid API keys use per-key limits.
+                            Without an account: 3 ops/month (IP-based). Free account: 25 ops/month. Paid API keys use per-key limits.
                             Each image processed — regardless of operations applied — counts as one operation.
                         </p>
                     </div>
