@@ -103,7 +103,7 @@
                 },
                 "featureList": [
                     "AVIF, WebP, JXL, Jpegli compression",
-                    "Batch processing up to 25 files (Lite & Pro) or 3 files free",
+                    "Batch processing up to 25 files (Seller & Pro) or 3 files free",
                     "Zero data retention",
                     "EXIF stripping",
                     "NLP-driven Magic Flow"
@@ -128,7 +128,7 @@
                         "name": "Is Mochify free to use?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Yes. Try 3 images free without an account. Create a free account (no credit card) for 25 images per month — up to 20 MB each — with all next-generation formats included. Lite ($5/month) unlocks 300 images per month and a dedicated API key. Pro ($12/month) unlocks 1,200 images per month, CLI access, and MCP server support for AI agents."
+                            "text": "Yes. Try 3 images free without an account. Create a free account (no credit card) for 25 images per month — up to 20 MB each — with all next-generation formats included. Seller ($5/month) unlocks 300 images per month and a dedicated API key. Pro ($19/month) unlocks 1,200 images per month, CLI access, and MCP server support for AI agents."
                         }
                     },
                     {
@@ -152,7 +152,7 @@
                         "name": "What image formats does Mochify support?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Input formats: JPEG, PNG, WebP, AVIF, HEIC/HEIF, and JPEG XL. Output formats: JPEG (via Jpegli), PNG, WebP, AVIF, and JPEG XL. Free users can process 3 files per batch; Lite and Pro unlock batches up to 25 files. For even larger volumes, use the REST API or CLI."
+                            "text": "Input formats: JPEG, PNG, WebP, AVIF, HEIC/HEIF, and JPEG XL. Output formats: JPEG (via Jpegli), PNG, WebP, AVIF, and JPEG XL. Free users can process 3 files per batch; Seller and Pro unlock batches up to 25 files. For even larger volumes, use the REST API or CLI."
                         }
                     },
                     {
@@ -160,7 +160,7 @@
                         "name": "Does Mochify have an API?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Yes. The REST API is available at api.mochify.xyz. Without an API key, 3 images per month are available (IP-based). Create a free account for 25 images per month. Lite provides 300 and Pro provides 1,200 — both include a Bearer-token key for higher-volume automation."
+                            "text": "Yes. The REST API is available at api.mochify.xyz. Without an API key, 3 images per month are available (IP-based). Create a free account for 25 images per month. Seller provides 300 and Pro provides 1,200 — both include a Bearer-token key for higher-volume automation."
                         }
                     },
                     {
@@ -198,7 +198,7 @@
             <p class="text-[#6C3F31] text-sm md:text-base max-w-xl mx-auto leading-relaxed">
                 Bulk crop, remove backgrounds, and optimize listings for eBay & Vinted with a high‑performance C++ engine.
             </p>
-            <p class="text-xs text-[#875F42]/50 mt-2">3 files free per batch · 25 with <a href="/pricing" class="hover:text-[#F06292] transition-colors">Lite or Pro</a></p>
+            <p class="text-xs text-[#875F42]/50 mt-2">3 files free per batch · 25 with <a href="/pricing" class="hover:text-[#F06292] transition-colors">Seller or Pro</a></p>
 
             {#if (installPrompt && !installDismissed) || isIosInstall}
                 <button
@@ -298,9 +298,9 @@
                         class="group relative rounded-xl border border-[#875F42]/12 bg-white/60 hover:bg-white hover:border-[#875F42]/20 hover:shadow-sm transition-all duration-200 px-4 py-3 flex flex-col gap-0.5"
                     >
                         <div class="flex items-baseline gap-1.5">
-                            <span class="text-lg font-black text-[#4A2C2C]">$9</span>
+                            <span class="text-lg font-black text-[#4A2C2C]">$5</span>
                             <span class="text-xs font-semibold text-[#875F42]/50">/mo</span>
-                            <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#875F42]/40 bg-[#F5E6E8]/60 rounded-full px-2 py-0.5">Lite</span>
+                            <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#875F42]/40 bg-[#F5E6E8]/60 rounded-full px-2 py-0.5">Seller</span>
                         </div>
                         <p class="text-xs font-semibold text-[#6C3F31]">300 images · 75MB files</p>
                         <p class="text-[11px] text-[#875F42]/60 mt-0.5">10× more volume · priority queue</p>
@@ -350,7 +350,7 @@
                     </div>
                     <div>
                         <p class="text-xs font-extrabold tracking-widest uppercase text-[#3A6B3C]/70 mb-0.5">Your images are ready</p>
-                        <h3 class="text-base font-black text-[#4A2C2C] leading-snug">Background removal is a Lite &amp; Pro feature</h3>
+                        <h3 class="text-base font-black text-[#4A2C2C] leading-snug">Background removal is a Seller &amp; Pro feature</h3>
                         <p class="text-xs text-[#875F42]/70 mt-1">We processed your images without it. Upgrade to automatically cut out backgrounds — starting at $5/mo.</p>
                     </div>
                 </div>
@@ -362,7 +362,7 @@
                         <div class="flex items-baseline gap-1.5">
                             <span class="text-lg font-black text-[#4A2C2C]">$5</span>
                             <span class="text-xs font-semibold text-[#875F42]/50">/mo</span>
-                            <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#875F42]/40 bg-[#F5E6E8]/60 rounded-full px-2 py-0.5">Lite</span>
+                            <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#875F42]/40 bg-[#F5E6E8]/60 rounded-full px-2 py-0.5">Seller</span>
                         </div>
                         <p class="text-xs font-semibold text-[#6C3F31]">300 images · background removal</p>
                         <p class="text-[11px] text-[#875F42]/60 mt-0.5">Priority queue · 75MB files</p>
@@ -526,7 +526,7 @@
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
-                        Yes. Try 3 images free without an account — no sign-up needed. Create a free account (no credit card) for 25 images per month, up to 20 MB each, with all next-generation formats included at no cost. Lite ($9/month) unlocks 300 images per month and a dedicated API key. Pro ($19/month) unlocks 1,200 images per month, CLI access, and MCP server support for AI agents.
+                        Yes. Try 3 images free without an account — no sign-up needed. Create a free account (no credit card) for 25 images per month, up to 20 MB each, with all next-generation formats included at no cost. Seller ($5/month) unlocks 300 images per month and a dedicated API key. Pro ($19/month) unlocks 1,200 images per month, CLI access, and MCP server support for AI agents.
                     </p>
                 </details>
 
@@ -556,7 +556,7 @@
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
-                        Input formats: JPEG, PNG, WebP, AVIF, HEIC/HEIF, and JPEG XL. Output formats: JPEG (via Jpegli), PNG, WebP, AVIF, and JPEG XL. Free users can process up to 3 files per batch with no account required; Lite and Pro plans unlock batches up to 25 files. For even larger volumes, use the REST API or CLI — both support scripted bulk processing with no per-file overhead.
+                        Input formats: JPEG, PNG, WebP, AVIF, HEIC/HEIF, and JPEG XL. Output formats: JPEG (via Jpegli), PNG, WebP, AVIF, and JPEG XL. Free users can process up to 3 files per batch with no account required; Seller and Pro plans unlock batches up to 25 files. For even larger volumes, use the REST API or CLI — both support scripted bulk processing with no per-file overhead.
                     </p>
                 </details>
 
@@ -566,7 +566,7 @@
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
-                        Yes. The REST API is available at <code class="font-mono text-xs text-[#F06292]">api.mochify.xyz</code>. Without an API key, 3 images per month are available (IP-based) — just send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">?type=</code> parameter. Create a free account for 25 images/month. Lite provides 300 and Pro provides 1,200 — both include a Bearer-token key for higher-volume automation. See the <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> for examples in cURL, JavaScript, and Python.
+                        Yes. The REST API is available at <code class="font-mono text-xs text-[#F06292]">api.mochify.xyz</code>. Without an API key, 3 images per month are available (IP-based) — just send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">?type=</code> parameter. Create a free account for 25 images/month. Seller provides 300 and Pro provides 1,200 — both include a Bearer-token key for higher-volume automation. See the <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> for examples in cURL, JavaScript, and Python.
                     </p>
                 </details>
 

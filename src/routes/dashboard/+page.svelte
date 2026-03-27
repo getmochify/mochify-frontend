@@ -26,8 +26,8 @@
     let quotaOps = $state(30)
 
     let isPro = $derived(data.profile?.plan === 'pro')
-    let isLite = $derived(data.profile?.plan === 'lite')
-    let isPaid = $derived(isPro || isLite)
+    let isSeller = $derived(data.profile?.plan === 'seller')
+    let isPaid = $derived(isPro || isSeller)
 
     async function loadKeyStatus() {
         const jwt = await getSessionToken()
@@ -163,7 +163,7 @@
         <!-- Post-checkout success banner -->
         {#if justUpgraded}
         <div class="mb-6 p-4 bg-[#A5D6A7]/20 border border-[#66BB6A]/30 rounded-2xl flex items-center gap-3">
-            <span class="text-[#2E5C31] font-black text-sm">You're on {isLite ? 'Lite' : 'Pro'}!</span>
+            <span class="text-[#2E5C31] font-black text-sm">You're on {isSeller ? 'Seller' : 'Pro'}!</span>
             <span class="text-[#2E5C31]/70 text-sm">Your quota has been updated. Welcome aboard.</span>
         </div>
         {/if}
@@ -177,8 +177,8 @@
                     {#if data.profile?.quota_period_end}
                         <p class="text-xs text-[#875F42]/50 mt-1">Renews {new Date(data.profile.quota_period_end).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</p>
                     {/if}
-                {:else if isLite}
-                    <p class="text-2xl font-black text-[#4A2C2C]">Lite</p>
+                {:else if isSeller}
+                    <p class="text-2xl font-black text-[#4A2C2C]">Seller</p>
                     {#if data.profile?.quota_period_end}
                         <p class="text-xs text-[#875F42]/50 mt-1">Renews {new Date(data.profile.quota_period_end).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</p>
                     {/if}
@@ -212,10 +212,10 @@
             <p class="text-sm text-[#875F42]/60 mb-4">More images, larger files, priority queue, and API key access.</p>
             <div class="flex flex-wrap gap-3">
                 <a
-                    href="/api/checkout?plan=lite&billing=monthly"
+                    href="/api/checkout?plan=seller&billing=monthly"
                     class="px-5 py-2.5 rounded-2xl border border-[#875F42]/20 text-[#4A2C2C] font-black text-sm hover:border-[#F06292]/40 hover:text-[#F06292] hover:bg-white/60 transition-all"
                 >
-                    Lite — $9/mo <span class="font-normal text-[#875F42]/50">· 300 images</span>
+                    Seller — $5/mo <span class="font-normal text-[#875F42]/50">· 300 images</span>
                 </a>
                 <a
                     href="/api/checkout?plan=pro&billing=monthly"
@@ -225,7 +225,7 @@
                 </a>
             </div>
         </div>
-        {:else if isLite}
+        {:else if isSeller}
         <div class="bg-gradient-to-br from-[#FFF0F5] to-[#FFF8F0] rounded-3xl border border-[#F06292]/15 shadow-sm p-6 mb-6 flex items-center justify-between gap-4">
             <div>
                 <p class="font-black text-[#4A2C2C] text-base">Upgrade to Pro — 1,200 images/month</p>

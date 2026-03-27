@@ -58,7 +58,7 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Mochify API Reference",
-        "description": "REST API for image compression and conversion. 3 free operations per month without an account. Create a free account for 30 operations per month. Lite and Pro plans include a Bearer-token API key.",
+        "description": "REST API for image compression and conversion. 3 free operations per month without an account. Create a free account for 25 operations per month. Seller and Pro plans include a Bearer-token API key.",
         "url": "https://mochify.xyz/docs",
         "publisher": {
             "@type": "Organization",
@@ -94,7 +94,7 @@
             </h1>
             <p class="text-[#6C3F31]/70 text-lg max-w-2xl">
                 Process images programmatically. Try 3 ops free without signing up — or create a free account for 30/month.
-                <a href="/pricing" class="text-[#F06292] font-semibold hover:underline">Lite and Pro</a> plans unlock more with an API key.
+                <a href="/pricing" class="text-[#F06292] font-semibold hover:underline">Seller and Pro</a> plans unlock more with an API key.
             </p>
         </div>
 
@@ -134,7 +134,7 @@
                                 <p class="text-xs text-[#6C3F31]/60 mt-0.5">ops/mo · 3 without signup</p>
                             </div>
                             <div class="bg-[#FDFBF7] rounded-2xl border border-[#F06292]/15 p-4">
-                                <p class="text-xs font-black text-[#F06292]/70 uppercase tracking-wider mb-1">Lite tier</p>
+                                <p class="text-xs font-black text-[#F06292]/70 uppercase tracking-wider mb-1">Seller tier</p>
                                 <p class="text-2xl font-black text-[#4A2C2C]">300</p>
                                 <p class="text-xs text-[#6C3F31]/60 mt-0.5">operations / month</p>
                             </div>
@@ -146,7 +146,7 @@
                             <div class="bg-[#FDFBF7] rounded-2xl border border-pink-50 p-4">
                                 <p class="text-xs font-black text-[#875F42]/60 uppercase tracking-wider mb-1">Max file size</p>
                                 <p class="text-2xl font-black text-[#4A2C2C]">75 MB</p>
-                                <p class="text-xs text-[#6C3F31]/60 mt-0.5">Lite · unlimited Pro · 20 MB free</p>
+                                <p class="text-xs text-[#6C3F31]/60 mt-0.5">Seller · unlimited Pro · 20 MB free</p>
                             </div>
                         </div>
                         <p class="text-sm text-[#6C3F31]/70 leading-relaxed pt-2">
@@ -260,7 +260,7 @@
                                     <code class="font-mono text-[#F06292] font-bold">removeBackground</code>
                                     <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">false</span>
                                     <div>
-                                        <p class="text-[#6C3F31]">AI background removal. Output is PNG/WebP with alpha channel. JPEG outputs flatten to white. Requires Lite or Pro plan. Accepts <code class="font-mono text-xs">1</code> or <code class="font-mono text-xs">true</code>.</p>
+                                        <p class="text-[#6C3F31]">AI background removal. Output is PNG/WebP with alpha channel. JPEG outputs flatten to white. Requires Seller or Pro plan. Accepts <code class="font-mono text-xs">1</code> or <code class="font-mono text-xs">true</code>.</p>
                                     </div>
                                 </div>
 
@@ -542,7 +542,7 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
                             </div>
                             <div class="grid grid-cols-[auto_1fr] gap-x-6 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
                                 <code class="font-mono font-black text-[#EF5350]">429</code>
-                                <p class="text-[#6C3F31]">Rate limit exceeded. Free tier resets monthly; Lite and Pro reset on your billing date. <a href="/pricing" class="text-[#F06292] font-semibold hover:underline">Upgrade</a> for higher limits.</p>
+                                <p class="text-[#6C3F31]">Rate limit exceeded. Free tier resets monthly; Seller and Pro reset on your billing date. <a href="/pricing" class="text-[#F06292] font-semibold hover:underline">Upgrade</a> for higher limits.</p>
                             </div>
                             <div class="grid grid-cols-[auto_1fr] gap-x-6 px-5 py-4 items-start text-sm">
                                 <code class="font-mono font-black text-[#EF5350]">500</code>

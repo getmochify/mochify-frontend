@@ -1,8 +1,8 @@
 import { Polar } from '@polar-sh/sdk';
 import {
     POLAR_ACCESS_TOKEN,
-    POLAR_PRODUCT_ID_LITE_MONTHLY,
-    POLAR_PRODUCT_ID_LITE_YEARLY,
+    POLAR_PRODUCT_ID_SELLER_MONTHLY,
+    POLAR_PRODUCT_ID_SELLER_YEARLY,
     POLAR_PRODUCT_ID_PRO_MONTHLY,
     POLAR_PRODUCT_ID_PRO_YEARLY,
 } from '$env/static/private';
@@ -10,8 +10,8 @@ import { redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 const PRODUCTS: Record<string, Record<string, string>> = {
-    lite: { monthly: POLAR_PRODUCT_ID_LITE_MONTHLY, yearly: POLAR_PRODUCT_ID_LITE_YEARLY },
-    pro:  { monthly: POLAR_PRODUCT_ID_PRO_MONTHLY,  yearly: POLAR_PRODUCT_ID_PRO_YEARLY },
+    seller: { monthly: POLAR_PRODUCT_ID_SELLER_MONTHLY, yearly: POLAR_PRODUCT_ID_SELLER_YEARLY },
+    pro:    { monthly: POLAR_PRODUCT_ID_PRO_MONTHLY,    yearly: POLAR_PRODUCT_ID_PRO_YEARLY },
 }
 
 export const GET: RequestHandler = async ({ locals, url }) => {

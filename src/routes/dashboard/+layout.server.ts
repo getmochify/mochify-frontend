@@ -2,7 +2,7 @@ import { redirect } from '@sveltejs/kit'
 import { Kysely } from 'kysely'
 import { D1Dialect } from 'kysely-d1'
 
-const PLAN_LIMITS: Record<string, number> = { free: 25, lite: 300, pro: 1000 }
+const PLAN_LIMITS: Record<string, number> = { free: 25, seller: 300, pro: 1200 }
 
 export const load = async ({ locals, platform }) => {
     if (!locals.session || !locals.user) throw redirect(303, '/auth/login')

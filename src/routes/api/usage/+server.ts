@@ -4,7 +4,7 @@ import { D1Dialect } from 'kysely-d1'
 import type { RequestHandler } from './$types'
 
 const API_URL = PUBLIC_API_URL || 'https://api.mochify.xyz'
-const PLAN_LIMITS: Record<string, number> = { free: 25, lite: 300, pro: 1000 }
+const PLAN_LIMITS: Record<string, number> = { free: 25, seller: 300, pro: 1200 }
 
 export const GET: RequestHandler = async ({ locals, platform, request }) => {
     if (!locals.user || !locals.session) {

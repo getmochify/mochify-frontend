@@ -129,7 +129,7 @@
         const toAdd = validFiles.slice(0, available);
         const overflow = validFiles.length - toAdd.length;
         if (overflow > 0) {
-            showStatus('error', `Free plan is limited to ${MAX_FILES} files. Upgrade to Lite or Pro for batches up to 25.`);
+            showStatus('error', `Free plan is limited to ${MAX_FILES} files. Upgrade to Seller or Pro for batches up to 25.`);
         }
         files = [...files, ...toAdd];
     }

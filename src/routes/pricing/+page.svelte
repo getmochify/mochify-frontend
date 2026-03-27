@@ -5,11 +5,11 @@
 
 <svelte:head>
     <title>Pricing — Mochify</title>
-    <meta name="description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Lite for 300 or Pro for 1,200 images a month." />
+    <meta name="description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mochify.xyz/pricing" />
     <meta property="og:title" content="Pricing — Mochify" />
-    <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Lite for 300 or Pro for 1,200 images a month." />
+    <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month." />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -19,7 +19,7 @@
                 "@id": "https://mochify.xyz/pricing",
                 "url": "https://mochify.xyz/pricing",
                 "name": "Pricing — Mochify",
-                "description": "Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Lite for 300 or Pro for 1,200 images a month.",
+                "description": "Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month.",
                 "isPartOf": { "@id": "https://mochify.xyz" }
             },
             {
@@ -38,12 +38,12 @@
                     },
                     {
                         "@type": "Offer",
-                        "name": "Lite — Monthly",
-                        "price": "9.00",
+                        "name": "Seller — Monthly",
+                        "price": "5.00",
                         "priceCurrency": "USD",
                         "priceSpecification": {
                             "@type": "UnitPriceSpecification",
-                            "price": "9.00",
+                            "price": "5.00",
                             "priceCurrency": "USD",
                             "unitCode": "MON"
                         },
@@ -64,16 +64,16 @@
                     },
                     {
                         "@type": "Offer",
-                        "name": "Lite — Annual",
-                        "price": "90.00",
+                        "name": "Seller — Annual",
+                        "price": "50.00",
                         "priceCurrency": "USD",
                         "priceSpecification": {
                             "@type": "UnitPriceSpecification",
-                            "price": "90.00",
+                            "price": "50.00",
                             "priceCurrency": "USD",
                             "unitCode": "ANN"
                         },
-                        "description": "300 images per month, billed annually at $90/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Priority processing queue."
+                        "description": "300 images per month, billed annually at $50/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Priority processing queue."
                     },
                     {
                         "@type": "Offer",
@@ -106,7 +106,7 @@
                         "name": "Do unused images roll over?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Free tier resets every month. Lite and Pro images reset monthly on your billing date and do not roll over."
+                            "text": "Free tier resets every month. Seller and Pro images reset monthly on your billing date and do not roll over."
                         }
                     },
                     {
@@ -205,16 +205,16 @@
                 </a>
             </div>
 
-            <!-- Lite tier -->
+            <!-- Seller tier -->
             <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-8 flex flex-col">
                 <div class="mb-6">
-                    <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-4">Lite</span>
+                    <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-4">Seller</span>
                     <div class="flex items-end gap-1">
-                        <span class="text-5xl font-black text-[#4A2C2C]">$9</span>
+                        <span class="text-5xl font-black text-[#4A2C2C]">$5</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">/ month</span>
                     </div>
                     <p class="text-[#6C3F31]/60 text-sm mt-1">
-                        Or <strong class="text-[#6C3F31]">$90 / year</strong>
+                        Or <strong class="text-[#6C3F31]">$50 / year</strong>
                         <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-[#A5D6A7]/30 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
                     </p>
                 </div>
@@ -255,10 +255,10 @@
                 </ul>
 
                 <a
-                    href="/api/checkout?plan=lite&billing=monthly"
+                    href="/api/checkout?plan=seller&billing=monthly"
                     class="block text-center px-6 py-3 rounded-2xl border border-[#875F42]/15 text-sm font-black text-[#6C3F31] hover:border-[#F06292]/30 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all"
                 >
-                    Get Lite
+                    Get Seller
                 </a>
             </div>
 
@@ -334,7 +334,7 @@
                         <tr class="border-b border-pink-50">
                             <th class="text-left px-6 py-4 text-[#6C3F31]/50 font-medium w-2/5">Feature</th>
                             <th class="px-6 py-4 text-center font-black text-[#6C3F31]">Free</th>
-                            <th class="px-6 py-4 text-center font-black text-[#6C3F31]">Lite</th>
+                            <th class="px-6 py-4 text-center font-black text-[#6C3F31]">Seller</th>
                             <th class="px-6 py-4 text-center font-black text-[#F06292]">Pro</th>
                         </tr>
                     </thead>
@@ -419,7 +419,7 @@
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-6 pb-5 text-sm text-[#6C3F31]/70 leading-relaxed">
-                        All tiers reset monthly. Free resets every calendar month; Lite and Pro reset on your billing date. Unused images do not roll over.
+                        All tiers reset monthly. Free resets every calendar month; Seller and Pro reset on your billing date. Unused images do not roll over.
                     </p>
                 </details>
 

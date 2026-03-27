@@ -7,15 +7,15 @@ export async function getSessionToken(): Promise<string | null> {
 
 // Deduplicate concurrent calls — components calling getPlan() and getIsPro()
 // in the same onMount would otherwise fire two requests to /api/usage.
-let _planRequest: Promise<'free' | 'lite' | 'pro'> | null = null
+let _planRequest: Promise<'free' | 'seller' | 'pro'> | null = null
 
-export function getPlan(): Promise<'free' | 'lite' | 'pro'> {
+export function getPlan(): Promise<'free' | 'seller' | 'pro'> {
     if (!_planRequest) {
         _planRequest = fetch('/api/usage')
             .then(res => res.ok ? res.json() as Promise<{ plan?: string }> : {})
             .then(data => {
                 if ((data as { plan?: string }).plan === 'pro') return 'pro'
-                if ((data as { plan?: string }).plan === 'lite') return 'lite'
+                if ((data as { plan?: string }).plan === 'seller') return 'seller'
                 return 'free'
             })
             .catch(() => 'free' as const)

@@ -170,7 +170,7 @@
             errorMessage = 'All selected files are already in the list.';
         } else if (selectedFiles.length >= MAX_FILES && allFiles.length > addedCount) {
             errorMessage = MAX_FILES === 3
-                ? `Free plan is limited to 3 files. Upgrade to Lite or Pro for batches up to 25.`
+                ? `Free plan is limited to 3 files. Upgrade to Seller or Pro for batches up to 25.`
                 : `Maximum ${MAX_FILES} files. Added ${addedCount} file(s).`;
         }
         

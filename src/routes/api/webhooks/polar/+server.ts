@@ -3,8 +3,8 @@ import { Kysely } from 'kysely';
 import { D1Dialect } from 'kysely-d1';
 import {
     POLAR_WEBHOOK_SECRET,
-    POLAR_PRODUCT_ID_LITE_MONTHLY,
-    POLAR_PRODUCT_ID_LITE_YEARLY,
+    POLAR_PRODUCT_ID_SELLER_MONTHLY,
+    POLAR_PRODUCT_ID_SELLER_YEARLY,
     POLAR_PRODUCT_ID_PRO_MONTHLY,
     POLAR_PRODUCT_ID_PRO_YEARLY,
     CF_WORKER_URL,
@@ -38,11 +38,11 @@ async function reseedBucket(
     }).catch(() => {})
 }
 
-const PRODUCT_PLAN_MAP: Record<string, { plan: 'lite' | 'pro'; ops_limit: number }> = {
-    [POLAR_PRODUCT_ID_LITE_MONTHLY]: { plan: 'lite', ops_limit: 300 },
-    [POLAR_PRODUCT_ID_LITE_YEARLY]:  { plan: 'lite', ops_limit: 300 },
-    [POLAR_PRODUCT_ID_PRO_MONTHLY]:  { plan: 'pro',  ops_limit: 1200 },
-    [POLAR_PRODUCT_ID_PRO_YEARLY]:   { plan: 'pro',  ops_limit: 1200 },
+const PRODUCT_PLAN_MAP: Record<string, { plan: 'seller' | 'pro'; ops_limit: number }> = {
+    [POLAR_PRODUCT_ID_SELLER_MONTHLY]: { plan: 'seller', ops_limit: 300 },
+    [POLAR_PRODUCT_ID_SELLER_YEARLY]:  { plan: 'seller', ops_limit: 300 },
+    [POLAR_PRODUCT_ID_PRO_MONTHLY]:    { plan: 'pro',    ops_limit: 1200 },
+    [POLAR_PRODUCT_ID_PRO_YEARLY]:     { plan: 'pro',    ops_limit: 1200 },
 }
 
 export const POST: RequestHandler = async ({ request, platform }) => {
