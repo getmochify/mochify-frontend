@@ -592,7 +592,7 @@
 
             <div class="flex flex-col px-4 sm:px-6 pt-4 sm:pt-5 pb-3 gap-3">
 
-                <input bind:this={fileInputEl} type="file" multiple accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp" onchange={handleFileSelect} class="hidden"/>
+                <input bind:this={fileInputEl} type="file" multiple accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp" onchange={handleFileSelect} aria-label="Upload images" class="hidden"/>
 
                 <div class="relative">
                     {#if !prompt && !isFocused}
@@ -610,6 +610,7 @@
                         onkeydown={handleKeydown}
                         onfocus={() => isFocused = true}
                         onblur={() => isFocused = false}
+                        aria-label="Describe what you want"
                         rows="2"
                         class="w-full resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-transparent text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[72px] max-h-[200px] overflow-y-auto py-1 [appearance:none]"
                     ></textarea>
