@@ -151,7 +151,7 @@
                 </span>
                 pricing
             </h1>
-            <p class="text-[#6C3F31]/70 text-lg max-w-xl mx-auto">
+            <p class="text-[#6C3F31] text-lg max-w-xl mx-auto">
                 No subscriptions required to get started. Jump in free — upgrade when you need more.
             </p>
         </div>
@@ -167,7 +167,7 @@
                         <span class="text-5xl font-black text-[#4A2C2C]">$0</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">/ forever</span>
                     </div>
-                    <p class="text-[#6C3F31]/60 text-sm mt-2">Create a free account — no credit card needed. Just want to try? <a href="/" class="text-[#F06292] font-semibold hover:underline">3 images free, no sign-up.</a></p>
+                    <p class="text-[#7A4A38] text-sm mt-2">Create a free account — no credit card needed. Just want to try? <a href="/" class="text-[#F06292] font-semibold hover:underline">3 images free, no sign-up.</a></p>
                 </div>
 
                 <ul class="space-y-3 flex-grow mb-8">
@@ -213,7 +213,7 @@
                         <span class="text-5xl font-black text-[#4A2C2C]">$5</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">/ month</span>
                     </div>
-                    <p class="text-[#6C3F31]/60 text-sm mt-1">
+                    <p class="text-[#7A4A38] text-sm mt-1">
                         Or <strong class="text-[#6C3F31]">$50 / year</strong>
                         <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-[#A5D6A7]/30 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
                     </p>
@@ -269,7 +269,7 @@
                         <span class="text-5xl font-black text-[#4A2C2C]">$19</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">/ month</span>
                     </div>
-                    <p class="text-[#6C3F31]/60 text-sm mt-1">
+                    <p class="text-[#7A4A38] text-sm mt-1">
                         Or <strong class="text-[#6C3F31]">$190 / year</strong>
                         <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-[#A5D6A7]/30 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
                     </p>
@@ -404,7 +404,7 @@
                         What counts as one image?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
-                    <p class="px-6 pb-5 text-sm text-[#6C3F31]/70 leading-relaxed">
+                    <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
                         Each image you process — compressed, converted, resized, or any combination — uses one from your monthly allowance. Batch uploads count one per file.
                     </p>
                 </details>
@@ -414,7 +414,7 @@
                         Do unused images roll over?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
-                    <p class="px-6 pb-5 text-sm text-[#6C3F31]/70 leading-relaxed">
+                    <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
                         All tiers reset monthly. Free resets every calendar month; Seller and Pro reset on your billing date. Unused images do not roll over.
                     </p>
                 </details>
@@ -424,7 +424,7 @@
                         Can I use the API on the free tier?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
-                    <p class="px-6 pb-5 text-sm text-[#6C3F31]/70 leading-relaxed">
+                    <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
                         Yes — all tiers have full MCP and API access. The same monthly limit applies.
                     </p>
                 </details>
@@ -434,7 +434,7 @@
                         Can I cancel anytime?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
-                    <p class="px-6 pb-5 text-sm text-[#6C3F31]/70 leading-relaxed">
+                    <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
                         Yes. Cancel any time and you keep access until the end of your billing period.
                     </p>
                 </details>

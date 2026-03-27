@@ -198,7 +198,7 @@
             <p class="text-[#6C3F31] text-sm md:text-base max-w-xl mx-auto leading-relaxed">
                 Bulk crop, remove backgrounds, and optimize listings for eBay & Vinted with a high‑performance C++ engine.
             </p>
-            <p class="text-xs text-[#875F42]/50 mt-2">3 files free per batch · 25 with <a href="/pricing" class="hover:text-[#F06292] transition-colors">Seller or Pro</a></p>
+            <p class="text-xs text-[#9A7050] mt-2">3 files free per batch · 25 with <a href="/pricing" class="hover:text-[#F06292] transition-colors">Seller or Pro</a></p>
 
             {#if (installPrompt && !installDismissed) || isIosInstall}
                 <button
@@ -280,7 +280,7 @@
             <div class="relative rounded-2xl border border-[#F06292]/15 bg-gradient-to-br from-white/70 to-[#FFF0F3]/50 backdrop-blur-sm shadow-sm overflow-hidden">
                 <button
                     onclick={() => { showUpgradeCTA = false; upgradeCTADismissed = true; }}
-                    class="absolute top-3 right-3 w-6 h-6 rounded-full bg-white/60 hover:bg-white flex items-center justify-center text-[#875F42]/40 hover:text-[#875F42]/70 transition-all cursor-pointer"
+                    class="absolute top-3 right-3 w-6 h-6 rounded-full bg-white/60 hover:bg-white flex items-center justify-center text-[#875F42]/40 hover:text-[#7A5A3A] transition-all cursor-pointer"
                     aria-label="Dismiss"
                 >
                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
@@ -290,7 +290,7 @@
                 <div class="px-5 pt-4 pb-1">
                     <p class="text-xs font-extrabold tracking-widest uppercase text-[#F06292]/60 mb-0.5">You're on the free plan</p>
                     <h3 class="text-base font-black text-[#4A2C2C] leading-snug">Running a lot of images? Get more headroom.</h3>
-                    <p class="text-xs text-[#875F42]/70 mt-1">Free account gives you 25 ops/month. Upgrade for priority processing, larger files, and more volume.</p>
+                    <p class="text-xs text-[#7A5A3A] mt-1">Free account gives you 25 ops/month. Upgrade for priority processing, larger files, and more volume.</p>
                 </div>
                 <div class="grid grid-cols-2 gap-2 px-5 py-3">
                     <a
@@ -335,7 +335,7 @@
             <div class="relative rounded-2xl border border-[#A5D6A7]/30 bg-gradient-to-br from-white/70 to-[#F4FBF2]/60 backdrop-blur-sm shadow-sm overflow-hidden">
                 <button
                     onclick={() => { showBgRemovalCTA = false; }}
-                    class="absolute top-3 right-3 w-6 h-6 rounded-full bg-white/60 hover:bg-white flex items-center justify-center text-[#875F42]/40 hover:text-[#875F42]/70 transition-all cursor-pointer"
+                    class="absolute top-3 right-3 w-6 h-6 rounded-full bg-white/60 hover:bg-white flex items-center justify-center text-[#875F42]/40 hover:text-[#7A5A3A] transition-all cursor-pointer"
                     aria-label="Dismiss"
                 >
                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
@@ -351,7 +351,7 @@
                     <div>
                         <p class="text-xs font-extrabold tracking-widest uppercase text-[#3A6B3C]/70 mb-0.5">Your images are ready</p>
                         <h3 class="text-base font-black text-[#4A2C2C] leading-snug">Background removal is a Seller &amp; Pro feature</h3>
-                        <p class="text-xs text-[#875F42]/70 mt-1">We processed your images without it. Upgrade to automatically cut out backgrounds — starting at $5/mo.</p>
+                        <p class="text-xs text-[#7A5A3A] mt-1">We processed your images without it. Upgrade to automatically cut out backgrounds — starting at $5/mo.</p>
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-2 px-5 py-3">
@@ -402,7 +402,7 @@
                         </svg>
                     </div>
                     <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">C++20 Engine</h3>
-                    <p class="text-[#875F42]/80 text-xs leading-relaxed">Processes files in milliseconds, not seconds. No interpreted scripts.</p>
+                    <p class="text-[#7A5A3A] text-xs leading-relaxed">Processes files in milliseconds, not seconds. No interpreted scripts.</p>
                 </div>
 
                 <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-white/80 shadow-sm hover:shadow-md hover:bg-white/80 transition-all duration-300 group">
@@ -412,7 +412,7 @@
                         </svg>
                     </div>
                     <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Jpegli</h3>
-                    <p class="text-[#875F42]/80 text-xs leading-relaxed">Up to 35% smaller than standard JPEG at the same visual quality.</p>
+                    <p class="text-[#7A5A3A] text-xs leading-relaxed">Up to 35% smaller than standard JPEG at the same visual quality.</p>
                 </div>
 
                 <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-white/80 shadow-sm hover:shadow-md hover:bg-white/80 transition-all duration-300 group">
@@ -422,7 +422,7 @@
                         </svg>
                     </div>
                     <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Zero Retention</h3>
-                    <p class="text-[#875F42]/80 text-xs leading-relaxed">Streamed into RAM, compressed, wiped. Your images never touch a disk.</p>
+                    <p class="text-[#7A5A3A] text-xs leading-relaxed">Streamed into RAM, compressed, wiped. Your images never touch a disk.</p>
                 </div>
 
                 <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-white/80 shadow-sm hover:shadow-md hover:bg-white/80 transition-all duration-300 group">
@@ -432,7 +432,7 @@
                         </svg>
                     </div>
                     <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Next-gen Free</h3>
-                    <p class="text-[#875F42]/80 text-xs leading-relaxed">AVIF, JXL, and WebP included. No Pro account, no paywalls.</p>
+                    <p class="text-[#7A5A3A] text-xs leading-relaxed">AVIF, JXL, and WebP included. No Pro account, no paywalls.</p>
                 </div>
 
             </div>
@@ -454,7 +454,7 @@
 
         <section class="mt-16 max-w-4xl mx-auto reveal">
             <h2 class="text-center text-2xl font-black text-[#4A2C2C] mb-2">How Mochify compares</h2>
-            <p class="text-center text-sm text-[#875F42]/70 mb-8">No cloud storage. No per-credit paywalls. No compromises.</p>
+            <p class="text-center text-sm text-[#7A5A3A] mb-8">No cloud storage. No per-credit paywalls. No compromises.</p>
             <div class="rounded-2xl border border-white/80 shadow-sm overflow-hidden">
                 <table class="w-full text-sm">
                     <thead>
@@ -476,8 +476,8 @@
                         ] as row, i}
                         <tr class="{i % 2 === 0 ? 'bg-white/40' : 'bg-white/20'} border-t border-[#F5E6E8]/60">
                             <td class="px-3 py-3 md:px-5 md:py-3.5 font-semibold text-[#4A2C2C] text-xs md:text-sm">{row.feature}</td>
-                            <td class="px-3 py-3 md:px-5 md:py-3.5 text-center text-[#875F42]/70 text-xs md:text-sm">{row.tinypng}</td>
-                            <td class="hidden md:table-cell px-5 py-3.5 text-center text-[#875F42]/70">{row.cloudinary}</td>
+                            <td class="px-3 py-3 md:px-5 md:py-3.5 text-center text-[#7A5A3A] text-xs md:text-sm">{row.tinypng}</td>
+                            <td class="hidden md:table-cell px-5 py-3.5 text-center text-[#7A5A3A]">{row.cloudinary}</td>
                             <td class="px-3 py-3 md:px-5 md:py-3.5 text-center font-bold text-[#F06292] bg-[#FFF0F3]/50 text-xs md:text-sm">{row.mochify}</td>
                         </tr>
                         {/each}
@@ -491,24 +491,24 @@
                 <div class="px-6 py-8 md:px-10 md:py-10">
                     <p class="text-xs font-semibold tracking-widest uppercase text-[#F06292]/70 mb-2">Shopify &amp; Ecommerce</p>
                     <h2 class="text-2xl font-black text-[#4A2C2C] mb-3">Better Core Web Vitals start with smaller product images</h2>
-                    <p class="text-sm text-[#6C3F31]/80 leading-relaxed max-w-2xl mb-8">
+                    <p class="text-sm text-[#6C3F31] leading-relaxed max-w-2xl mb-8">
                         Largest Contentful Paint (LCP) is Google's primary page speed signal — and product images are almost always the bottleneck. Converting your catalogue to AVIF or WebP can cut file sizes by up to 50% with no visible quality loss, directly improving your store's search ranking and conversion rate.
                     </p>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div class="rounded-xl bg-white/60 border border-white/80 px-4 py-4">
                             <p class="text-xs font-bold text-[#F06292] uppercase tracking-wider mb-1">Up to 50% smaller</p>
                             <p class="text-sm font-bold text-[#4A2C2C] mb-1">AVIF for product images</p>
-                            <p class="text-xs text-[#875F42]/70 leading-relaxed">AVIF cuts file size roughly in half versus JPEG at equivalent quality — the fastest format Shopify supports.</p>
+                            <p class="text-xs text-[#7A5A3A] leading-relaxed">AVIF cuts file size roughly in half versus JPEG at equivalent quality — the fastest format Shopify supports.</p>
                         </div>
                         <div class="rounded-xl bg-white/60 border border-white/80 px-4 py-4">
                             <p class="text-xs font-bold text-[#F06292] uppercase tracking-wider mb-1">Bulk processing</p>
                             <p class="text-sm font-bold text-[#4A2C2C] mb-1">Process your whole catalogue</p>
-                            <p class="text-xs text-[#875F42]/70 leading-relaxed">Drop up to 25 product images at once. Describe what you need — "convert to WebP, max 1600px wide" — and Mochify handles the rest.</p>
+                            <p class="text-xs text-[#7A5A3A] leading-relaxed">Drop up to 25 product images at once. Describe what you need — "convert to WebP, max 1600px wide" — and Mochify handles the rest.</p>
                         </div>
                         <div class="rounded-xl bg-white/60 border border-white/80 px-4 py-4">
                             <p class="text-xs font-bold text-[#F06292] uppercase tracking-wider mb-1">Zero retention</p>
                             <p class="text-sm font-bold text-[#4A2C2C] mb-1">Product images stay private</p>
-                            <p class="text-xs text-[#875F42]/70 leading-relaxed">Images are never stored or logged. Safe for unreleased products, private SKUs, and anything not yet live on your store.</p>
+                            <p class="text-xs text-[#7A5A3A] leading-relaxed">Images are never stored or logged. Safe for unreleased products, private SKUs, and anything not yet live on your store.</p>
                         </div>
                     </div>
                 </div>
@@ -517,7 +517,7 @@
 
         <section class="mt-16 max-w-4xl mx-auto reveal">
             <h2 class="text-center text-2xl font-black text-[#4A2C2C] mb-2">Frequently asked questions</h2>
-            <p class="text-center text-sm text-[#875F42]/70 mb-8">Everything you need to know before compressing your first batch.</p>
+            <p class="text-center text-sm text-[#7A5A3A] mb-8">Everything you need to know before compressing your first batch.</p>
             <div class="space-y-2">
 
                 <details class="group bg-white/60 backdrop-blur-sm rounded-2xl border border-white/80 shadow-sm open:shadow-md transition-all duration-200">
@@ -525,7 +525,7 @@
                         Is Mochify free to use?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
-                    <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
+                    <p class="px-5 pb-5 text-sm text-[#6C3F31] leading-relaxed">
                         Yes. Try 3 images free without an account — no sign-up needed. Create a free account (no credit card) for 25 images per month, up to 20 MB each, with all next-generation formats included at no cost. Seller ($5/month) unlocks 300 images per month and a dedicated API key. Pro ($19/month) unlocks 1,200 images per month, CLI access, and MCP server support for AI agents.
                     </p>
                 </details>
@@ -535,7 +535,7 @@
                         Are my images stored or shared?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
-                    <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
+                    <p class="px-5 pb-5 text-sm text-[#6C3F31] leading-relaxed">
                         No. Mochify streams each file directly into server RAM, compresses it with a native C++ engine, and returns the result. Files are never written to disk and are wiped from memory immediately after processing. There is no cloud storage, no third-party access, and no logs containing your image data.
                     </p>
                 </details>
@@ -545,7 +545,7 @@
                         How much smaller will my images be?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
-                    <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
+                    <p class="px-5 pb-5 text-sm text-[#6C3F31] leading-relaxed">
                         Results depend on format and source content. Jpegli typically produces files 35% smaller than standard JPEG at equivalent visual quality. AVIF averages 50% smaller than JPEG and 20% smaller than WebP. WebP averages 26% smaller than JPEG. Smart Compress mode automatically targets the best quality-to-size balance for each individual image, so you never have to guess a quality setting.
                     </p>
                 </details>
@@ -555,7 +555,7 @@
                         What image formats does Mochify support?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
-                    <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
+                    <p class="px-5 pb-5 text-sm text-[#6C3F31] leading-relaxed">
                         Input formats: JPEG, PNG, WebP, AVIF, HEIC/HEIF, and JPEG XL. Output formats: JPEG (via Jpegli), PNG, WebP, AVIF, and JPEG XL. Free users can process up to 3 files per batch with no account required; Seller and Pro plans unlock batches up to 25 files. For even larger volumes, use the REST API or CLI — both support scripted bulk processing with no per-file overhead.
                     </p>
                 </details>
@@ -565,7 +565,7 @@
                         Does Mochify have an API?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
-                    <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
+                    <p class="px-5 pb-5 text-sm text-[#6C3F31] leading-relaxed">
                         Yes. The REST API is available at <code class="font-mono text-xs text-[#F06292]">api.mochify.xyz</code>. Without an API key, 3 images per month are available (IP-based) — just send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">?type=</code> parameter. Create a free account for 25 images/month. Seller provides 300 and Pro provides 1,200 — both include a Bearer-token key for higher-volume automation. See the <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> for examples in cURL, JavaScript, and Python.
                     </p>
                 </details>
@@ -575,7 +575,7 @@
                         What is Magic Flow?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
-                    <p class="px-5 pb-5 text-sm text-[#6C3F31]/80 leading-relaxed">
+                    <p class="px-5 pb-5 text-sm text-[#6C3F31] leading-relaxed">
                         Magic Flow is Mochify's NLP-driven upload interface. Instead of selecting a format and quality setting manually, you describe what you want in plain language — for example, <em>"convert to AVIF and strip location data"</em> or <em>"make these web-ready, max 1600px wide"</em> — and Mochify interprets the intent and applies the right parameters to each file automatically. It uses a two-step pipeline: a language model parses the prompt, then the C++ engine executes the compression.
                     </p>
                 </details>
