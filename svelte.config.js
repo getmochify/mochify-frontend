@@ -9,10 +9,12 @@ const config = {
             mode: 'auto',
             directives: {
                 'default-src': ['self'],
+                'script-src': ['self', 'https://cloud.umami.is'],
                 'connect-src': [
                     'self',
                     'https://api.mochify.xyz',
                     'https://tokens.mochify.xyz',
+                    'https://cloud.umami.is',
                     ...(process.env.PUBLIC_API_URL && process.env.PUBLIC_API_URL !== 'https://api.mochify.xyz'
                         ? [process.env.PUBLIC_API_URL]
                         : []),

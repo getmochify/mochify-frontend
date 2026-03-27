@@ -284,7 +284,7 @@
 
             if (!nlpResponse.ok) throw new Error(`Failed to understand prompt (Status: ${nlpResponse.status})`);
 
-            const parsedData = await nlpResponse.json();
+            const parsedData = await nlpResponse.json() as { agent_message?: string; files?: any[] };
             agentMessage = parsedData.agent_message || '';
             const fileArray = parsedData.files || [];
             const fileMap: Record<string, any> = {};
@@ -463,7 +463,7 @@
                     zip(zipContents, { level: 0 }, (err, zippedData) => {
                         if (err) return reject(err);
 
-                        const zipBlob = new Blob([zippedData], { type: 'application/zip' });
+                        const zipBlob = new Blob([zippedData as Uint8Array<ArrayBuffer>], { type: 'application/zip' });
                         const url = URL.createObjectURL(zipBlob);
                         const a = document.createElement('a');
                         a.href = url;
@@ -593,8 +593,7 @@
                     {#if !prompt && !isFocused}
                         <div
                             aria-hidden="true"
-                            class="pointer-events-none absolute inset-0 flex items-start py-1 text-base sm:text-lg leading-relaxed font-medium text-[#875F42]/40 transition-opacity duration-300"
-                            style="opacity: {placeholderVisible ? 1 : 0}"
+                            class="pointer-events-none absolute inset-0 flex items-start py-1 text-base sm:text-lg leading-relaxed font-medium text-[#875F42]/40 transition-opacity duration-300 {placeholderVisible ? 'opacity-100' : 'opacity-0'}"
                         >
                             {placeholders[placeholderIndex]}
                         </div>
