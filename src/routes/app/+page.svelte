@@ -1,7 +1,7 @@
 <script lang="ts">
     import PromptForm from '$lib/components/PromptForm.svelte';
     import { authClient } from '$lib/auth-client';
-    import { goto, invalidateAll } from '$app/navigation';
+    import { invalidateAll } from '$app/navigation';
     import { page } from '$app/state';
 
     const sessionStore = authClient.useSession();
@@ -18,7 +18,6 @@
 <svelte:head>
     <title>Mochify</title>
     <meta name="robots" content="noindex">
-    <meta name="theme-color" content="#FDFBF7">
 </svelte:head>
 
 <div class="min-h-screen flex flex-col bg-[#FDFBF7]">
@@ -55,7 +54,7 @@
     </header>
 
     <!-- Tool -->
-    <main class="flex-1 flex flex-col items-center justify-start px-4 pt-8 pb-12">
+    <main class="flex-1 flex flex-col items-center justify-center px-4 py-8">
         <PromptForm />
     </main>
 
