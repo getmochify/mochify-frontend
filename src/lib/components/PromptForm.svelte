@@ -36,38 +36,27 @@
         'Make these 1:1, center the subject…',
         'Give me high-quality Jpegli at 85%…',
     ];
-    $effect(() => {
-        let index = 0;
-        let charIndex = placeholders[0].length;
-        let isDeleting = true;
-        let timeoutId: ReturnType<typeof setTimeout>;
+    let placeholderIndex = $state(0);
+    let placeholderVisible = $state(true);
+    let isFocused = $state(false);
 
-        const tickFn = () => {
-            const full = placeholders[index];
-            if (!isDeleting) {
-                charIndex++;
-                textareaEl.placeholder = full.slice(0, charIndex);
-                if (charIndex === full.length) {
-                    isDeleting = true;
-                    timeoutId = setTimeout(tickFn, 2200);
-                } else {
-                    timeoutId = setTimeout(tickFn, 55);
-                }
-            } else {
-                charIndex--;
-                textareaEl.placeholder = full.slice(0, charIndex);
-                if (charIndex === 0) {
-                    isDeleting = false;
-                    index = (index + 1) % placeholders.length;
-                    timeoutId = setTimeout(tickFn, 350);
-                } else {
-                    timeoutId = setTimeout(tickFn, 28);
-                }
-            }
+    $effect(() => {
+        let intervalId: ReturnType<typeof setInterval>;
+        let fadeId: ReturnType<typeof setTimeout>;
+
+        const cycle = () => {
+            placeholderVisible = false;
+            fadeId = setTimeout(() => {
+                placeholderIndex = (placeholderIndex + 1) % placeholders.length;
+                placeholderVisible = true;
+            }, 400);
         };
 
-        timeoutId = setTimeout(tickFn, 2200);
-        return () => clearTimeout(timeoutId);
+        intervalId = setInterval(cycle, 3200);
+        return () => {
+            clearInterval(intervalId);
+            clearTimeout(fadeId);
+        };
     });
 
     let MAX_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro/lite
@@ -600,15 +589,27 @@
 
                 <input bind:this={fileInputEl} type="file" multiple accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp" onchange={handleFileSelect} class="hidden"/>
 
-                <textarea
-                    bind:this={textareaEl}
-                    bind:value={prompt}
-                    oninput={autoGrow}
-                    onkeydown={handleKeydown}
-                    placeholder={placeholders[0]}
-                    rows="2"
-                    class="w-full resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[72px] max-h-[200px] overflow-y-auto py-1 [appearance:none]"
-                ></textarea>
+                <div class="relative">
+                    {#if !prompt && !isFocused}
+                        <div
+                            aria-hidden="true"
+                            class="pointer-events-none absolute inset-0 flex items-start py-1 text-base sm:text-lg leading-relaxed font-medium text-[#875F42]/40 transition-opacity duration-300"
+                            style="opacity: {placeholderVisible ? 1 : 0}"
+                        >
+                            {placeholders[placeholderIndex]}
+                        </div>
+                    {/if}
+                    <textarea
+                        bind:this={textareaEl}
+                        bind:value={prompt}
+                        oninput={autoGrow}
+                        onkeydown={handleKeydown}
+                        onfocus={() => isFocused = true}
+                        onblur={() => isFocused = false}
+                        rows="2"
+                        class="w-full resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-transparent text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[72px] max-h-[200px] overflow-y-auto py-1 [appearance:none]"
+                    ></textarea>
+                </div>
 
             </div>
 
