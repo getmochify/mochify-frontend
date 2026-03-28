@@ -4,9 +4,9 @@
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
-        title: "5 Best TinyPNG Alternatives 2026: Secure & Private Optimizers",
-        description: "Ditch TinyPNG's 20-file limits. Compare 2026's best secure optimizers like Squoosh & Mochify. AVIF, HEIC, and Jpegli support. 100% zero-retention privacy.",
-        category: "Image Optimization",
+        title: "The History of Image Compression (Up to 2026)",
+        description: "A 2026 guide tracing the history of image compression from early bitmap formats and GIF through JPEG, PNG, WebP, HEIF/AVIF, and modern codecs like JPEG XL and jpegli, with a focus on web performance and privacy-first optimization.",
+        category: "Image Formats",
         readTime: "15 min read",
         date: "February 15, 2026"
     };
