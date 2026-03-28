@@ -555,7 +555,7 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
                 <!-- CTA -->
                 <div class="bg-gradient-to-br from-[#FFF0F5] to-white rounded-3xl border border-[#F06292]/20 shadow-sm p-8 text-center">
                     <h3 class="text-xl font-black text-[#4A2C2C] mb-2">Need more operations?</h3>
-                    <p class="text-[#6C3F31]/70 text-sm mb-6">Upgrade to Pro for 1,000 operations/month and a dedicated API key.</p>
+                    <p class="text-[#6C3F31]/70 text-sm mb-6">Upgrade to Pro for 1,200 operations/month and a dedicated API key.</p>
                     <div class="flex flex-col sm:flex-row gap-3 justify-center">
                         <a href="/pricing" class="px-6 py-3 rounded-2xl bg-[#F06292] text-white text-sm font-black hover:bg-[#E0527F] transition-all shadow-sm hover:shadow-md">
                             View pricing

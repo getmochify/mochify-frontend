@@ -128,7 +128,7 @@
                         "name": "Is Mochify free to use?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Yes. Try 3 images free without an account. Create a free account (no credit card) for 25 images per month — up to 20 MB each — with all next-generation formats included. Seller ($5/month) unlocks 300 images per month and a dedicated API key. Pro ($19/month) unlocks 1,200 images per month, CLI access, and MCP server support for AI agents."
+                            "text": "Yes. Try 3 images free without an account. Create a free account (no credit card) for 25 images per month — up to 20 MB each — with all next-generation formats included. Seller ($7.99/month) unlocks 300 images per month and a dedicated API key. Pro ($24.99/month) unlocks 1,200 images per month, CLI access, and MCP server support for AI agents."
                         }
                     },
                     {
@@ -298,7 +298,7 @@
                         class="group relative rounded-xl border border-[#875F42]/12 bg-white/60 hover:bg-white hover:border-[#875F42]/20 hover:shadow-sm transition-all duration-200 px-4 py-3 flex flex-col gap-0.5"
                     >
                         <div class="flex items-baseline gap-1.5">
-                            <span class="text-lg font-black text-[#4A2C2C]">$5</span>
+                            <span class="text-lg font-black text-[#4A2C2C]">$7.99</span>
                             <span class="text-xs font-semibold text-[#875F42]/50">/mo</span>
                             <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#875F42]/40 bg-[#F5E6E8]/60 rounded-full px-2 py-0.5">Seller</span>
                         </div>
@@ -310,7 +310,7 @@
                         class="group relative rounded-xl border border-[#F06292]/20 bg-gradient-to-br from-[#FFF0F3]/80 to-white/60 hover:from-[#FFF0F3] hover:to-white hover:border-[#F06292]/35 hover:shadow-sm transition-all duration-200 px-4 py-3 flex flex-col gap-0.5"
                     >
                         <div class="flex items-baseline gap-1.5">
-                            <span class="text-lg font-black text-[#4A2C2C]">$19</span>
+                            <span class="text-lg font-black text-[#4A2C2C]">$24.99</span>
                             <span class="text-xs font-semibold text-[#875F42]/50">/mo</span>
                             <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#F06292]/70 bg-[#FFF0F3] rounded-full px-2 py-0.5">Pro</span>
                         </div>
@@ -351,7 +351,7 @@
                     <div>
                         <p class="text-xs font-extrabold tracking-widest uppercase text-[#3A6B3C]/70 mb-0.5">Your images are ready</p>
                         <h3 class="text-base font-black text-[#4A2C2C] leading-snug">Background removal is a Seller &amp; Pro feature</h3>
-                        <p class="text-xs text-[#7A5A3A] mt-1">We processed your images without it. Upgrade to automatically cut out backgrounds — starting at $5/mo.</p>
+                        <p class="text-xs text-[#7A5A3A] mt-1">We processed your images without it. Upgrade to automatically cut out backgrounds — starting at $7.99/mo.</p>
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-2 px-5 py-3">
@@ -360,7 +360,7 @@
                         class="group relative rounded-xl border border-[#875F42]/12 bg-white/60 hover:bg-white hover:border-[#875F42]/20 hover:shadow-sm transition-all duration-200 px-4 py-3 flex flex-col gap-0.5"
                     >
                         <div class="flex items-baseline gap-1.5">
-                            <span class="text-lg font-black text-[#4A2C2C]">$5</span>
+                            <span class="text-lg font-black text-[#4A2C2C]">$7.99</span>
                             <span class="text-xs font-semibold text-[#875F42]/50">/mo</span>
                             <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#875F42]/40 bg-[#F5E6E8]/60 rounded-full px-2 py-0.5">Seller</span>
                         </div>
@@ -472,7 +472,7 @@
                             { feature: 'Privacy', tinypng: 'Uploads required', cloudinary: 'Stored in cloud', mochify: 'Zero retention' },
                             { feature: 'AI Agent support', tinypng: 'None', cloudinary: 'Limited API', mochify: 'MCP server (native)' },
                             { feature: 'Free tier', tinypng: '3 / session', cloudinary: 'Trial only', mochify: '3 free (no signup) · 25/mo free account' },
-                            { feature: 'Paid plan', tinypng: '$39/yr · web', cloudinary: '$75–$99/mo', mochify: 'from $5/mo · API, CLI & MCP' },
+                            { feature: 'Paid plan', tinypng: '$39/yr · web', cloudinary: '$75–$99/mo', mochify: 'from $7.99/mo · API, CLI & MCP' },
                         ] as row, i}
                         <tr class="{i % 2 === 0 ? 'bg-white/40' : 'bg-white/20'} border-t border-[#F5E6E8]/60">
                             <td class="px-3 py-3 md:px-5 md:py-3.5 font-semibold text-[#4A2C2C] text-xs md:text-sm">{row.feature}</td>
@@ -526,7 +526,7 @@
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-5 pb-5 text-sm text-[#6C3F31] leading-relaxed">
-                        Yes. Try 3 images free without an account — no sign-up needed. Create a free account (no credit card) for 25 images per month, up to 20 MB each, with all next-generation formats included at no cost. Seller ($5/month) unlocks 300 images per month and a dedicated API key. Pro ($19/month) unlocks 1,200 images per month, CLI access, and MCP server support for AI agents.
+                        Yes. Try 3 images free without an account — no sign-up needed. Create a free account (no credit card) for 25 images per month, up to 20 MB each, with all next-generation formats included at no cost. Seller ($7.99/month) unlocks 300 images per month and a dedicated API key. Pro ($24.99/month) unlocks 1,200 images per month, CLI access, and MCP server support for AI agents.
                     </p>
                 </details>
 
