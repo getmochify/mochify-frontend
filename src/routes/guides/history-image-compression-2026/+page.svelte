@@ -4,7 +4,7 @@
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
-        title: "The History of Image Compression (Up to 2026)",
+        title: "The History of Image Compression: From BMP to AVIF & Jpegli (2026 Guide)",
         description: "A 2026 guide tracing the history of image compression from early bitmap formats and GIF through JPEG, PNG, WebP, HEIF/AVIF, and modern codecs like JPEG XL and jpegli, with a focus on web performance and privacy-first optimization.",
         category: "Image Formats",
         readTime: "15 min read",
