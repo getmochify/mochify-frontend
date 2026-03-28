@@ -164,7 +164,7 @@
                 <div class="mb-6">
                     <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-4">Free</span>
                     <div class="flex items-end gap-1">
-                        <span class="text-5xl font-black text-[#4A2C2C]">$0</span>
+                        <span class="text-4xl font-black text-[#4A2C2C]">$0</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">/ forever</span>
                     </div>
                     <p class="text-[#7A4A38] text-sm mt-2">Create a free account — no credit card needed. Just want to try? <a href="/" class="text-[#F06292] font-semibold hover:underline">3 images free, no sign-up.</a></p>
@@ -210,7 +210,7 @@
                 <div class="mb-6">
                     <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-4">Seller</span>
                     <div class="flex items-end gap-1">
-                        <span class="text-5xl font-black text-[#4A2C2C]">$7.99</span>
+                        <span class="text-4xl font-black text-[#4A2C2C]">$7.99</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">/ month</span>
                     </div>
                     <p class="text-[#7A4A38] text-sm mt-1">
@@ -266,7 +266,7 @@
                 <div class="mb-6 relative">
                     <span class="inline-block px-3 py-1 rounded-full bg-[#F06292] text-white text-xs font-black uppercase tracking-wider mb-4">Pro</span>
                     <div class="flex items-end gap-1">
-                        <span class="text-5xl font-black text-[#4A2C2C]">$24.99</span>
+                        <span class="text-4xl font-black text-[#4A2C2C]">$24.99</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">/ month</span>
                     </div>
                     <p class="text-[#7A4A38] text-sm mt-1">
@@ -337,7 +337,7 @@
                     <tbody class="divide-y divide-pink-50">
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">Monthly images</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]">30 / month</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]">25 / month</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]">300 / month</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]">1,200 / month</td>
                         </tr>
