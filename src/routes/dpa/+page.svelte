@@ -196,7 +196,6 @@
                     </thead>
                     <tbody>
                         <tr><td>Cloudflare, Inc.</td><td>USA (SCCs applicable)</td><td>CDN, DNS, edge network, and Workers runtime</td></tr>
-                        <tr><td>Supabase, Inc.</td><td>USA (SCCs applicable)</td><td>Authentication and user account data</td></tr>
                     </tbody>
                 </table>
 
