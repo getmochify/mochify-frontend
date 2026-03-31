@@ -54,7 +54,7 @@
             </a>
             <span aria-hidden="true" class="text-[#D4A0B5]">•</span>
             <a href="/dpa" class="text-[#6C3F31] hover:text-[#F06292] hover:underline transition-colors">
-                DPA
+                Data Processing Agreement
             </a>
         </div>
 
