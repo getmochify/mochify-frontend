@@ -175,21 +175,29 @@
                 <h3>Schedule 1 — Details of Processing</h3>
 
                 <table>
-                    <tr><th>Item</th><th>Details</th></tr>
-                    <tr><td><strong>Subject matter</strong></td><td>Image optimisation and processing services</td></tr>
-                    <tr><td><strong>Nature of processing</strong></td><td>Temporary in-memory processing of image files uploaded by the Customer or its end users</td></tr>
-                    <tr><td><strong>Purpose</strong></td><td>To compress, convert, or otherwise optimise image files as directed by the Customer</td></tr>
-                    <tr><td><strong>Duration</strong></td><td>For the duration of the Services agreement</td></tr>
-                    <tr><td><strong>Types of Personal Data</strong></td><td>Image files (which may incidentally contain personal data such as EXIF metadata, location data, or identifiable images of individuals)</td></tr>
-                    <tr><td><strong>Categories of Data Subjects</strong></td><td>End users and any individuals whose image is contained in an uploaded file</td></tr>
+                    <thead>
+                        <tr><th>Item</th><th>Details</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Subject matter</strong></td><td>Image optimisation and processing services</td></tr>
+                        <tr><td><strong>Nature of processing</strong></td><td>Temporary in-memory processing of image files uploaded by the Customer or its end users</td></tr>
+                        <tr><td><strong>Purpose</strong></td><td>To compress, convert, or otherwise optimise image files as directed by the Customer</td></tr>
+                        <tr><td><strong>Duration</strong></td><td>For the duration of the Services agreement</td></tr>
+                        <tr><td><strong>Types of Personal Data</strong></td><td>Image files (which may incidentally contain personal data such as EXIF metadata, location data, or identifiable images of individuals)</td></tr>
+                        <tr><td><strong>Categories of Data Subjects</strong></td><td>End users and any individuals whose image is contained in an uploaded file</td></tr>
+                    </tbody>
                 </table>
 
                 <h3>Schedule 2 — Approved Sub-processors</h3>
 
                 <table>
-                    <tr><th>Sub-processor</th><th>Location</th><th>Purpose</th></tr>
-                    <tr><td>Cloudflare, Inc.</td><td>USA (SCCs applicable)</td><td>CDN, DNS, edge network, and Workers runtime</td></tr>
-                    <tr><td>Supabase, Inc.</td><td>USA (SCCs applicable)</td><td>Authentication and user account data</td></tr>
+                    <thead>
+                        <tr><th>Sub-processor</th><th>Location</th><th>Purpose</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Cloudflare, Inc.</td><td>USA (SCCs applicable)</td><td>CDN, DNS, edge network, and Workers runtime</td></tr>
+                        <tr><td>Supabase, Inc.</td><td>USA (SCCs applicable)</td><td>Authentication and user account data</td></tr>
+                    </tbody>
                 </table>
 
                 <hr />
@@ -197,30 +205,34 @@
                 <h3>Signatures</h3>
 
                 <table>
-                    <tr>
-                        <th>For and on behalf of Mochify (Data Processor)</th>
-                        <th>For and on behalf of Customer (Data Controller)</th>
-                    </tr>
-                    <tr>
-                        <td>Signature: ___________________________</td>
-                        <td>Signature: ___________________________</td>
-                    </tr>
-                    <tr>
-                        <td>Name: ___________________________</td>
-                        <td>Name: ___________________________</td>
-                    </tr>
-                    <tr>
-                        <td>Title: ___________________________</td>
-                        <td>Title: ___________________________</td>
-                    </tr>
-                    <tr>
-                        <td>Date: ___________________________</td>
-                        <td>Company: ___________________________</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>Date: ___________________________</td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>For and on behalf of Mochify (Data Processor)</th>
+                            <th>For and on behalf of Customer (Data Controller)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Signature: ___________________________</td>
+                            <td>Signature: ___________________________</td>
+                        </tr>
+                        <tr>
+                            <td>Name: ___________________________</td>
+                            <td>Name: ___________________________</td>
+                        </tr>
+                        <tr>
+                            <td>Title: ___________________________</td>
+                            <td>Title: ___________________________</td>
+                        </tr>
+                        <tr>
+                            <td>Date: ___________________________</td>
+                            <td>Company: ___________________________</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Date: ___________________________</td>
+                        </tr>
+                    </tbody>
                 </table>
 
             </article>
