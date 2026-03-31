@@ -52,6 +52,10 @@
             <a href="/terms" class="text-[#6C3F31] hover:text-[#F06292] hover:underline transition-colors">
                 Terms & Conditions
             </a>
+            <span aria-hidden="true" class="text-[#D4A0B5]">•</span>
+            <a href="/dpa" class="text-[#6C3F31] hover:text-[#F06292] hover:underline transition-colors">
+                DPA
+            </a>
         </div>
 
         <p class="text-[#875F42] text-xs">
