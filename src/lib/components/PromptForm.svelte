@@ -34,7 +34,6 @@
         'Fix PageSpeed — convert all to AVIF…',
         'Resize to 1200px, rename "product-ready"…',
         'Make these 1:1, center the subject…',
-        'Give me high-quality Jpegli at 85%…',
     ];
     let placeholderIndex = $state(0);
     let placeholderVisible = $state(true);
