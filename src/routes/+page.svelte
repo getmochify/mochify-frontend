@@ -404,7 +404,7 @@
                         </svg>
                     </div>
                     <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">C++20 Engine</h3>
-                    <p class="text-[#7A5A3A] text-xs leading-relaxed">Processes files in milliseconds, not seconds. No interpreted scripts.</p>
+                    <p class="text-[#7A5A3A] text-sm leading-relaxed">Processes files in milliseconds, not seconds. No interpreted scripts.</p>
                 </div>
 
                 <div class="glass-card rounded-2xl p-5 hover:shadow-md transition-all duration-300 group">
@@ -414,7 +414,7 @@
                         </svg>
                     </div>
                     <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Jpegli</h3>
-                    <p class="text-[#7A5A3A] text-xs leading-relaxed">Up to 35% smaller than standard JPEG at the same visual quality.</p>
+                    <p class="text-[#7A5A3A] text-sm leading-relaxed">Up to 35% smaller than standard JPEG at the same visual quality.</p>
                 </div>
 
                 <div class="glass-card rounded-2xl p-5 hover:shadow-md transition-all duration-300 group">
@@ -424,7 +424,7 @@
                         </svg>
                     </div>
                     <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Zero Retention</h3>
-                    <p class="text-[#7A5A3A] text-xs leading-relaxed">Streamed into RAM, compressed, wiped. Your images never touch a disk.</p>
+                    <p class="text-[#7A5A3A] text-sm leading-relaxed">Streamed into RAM, compressed, wiped. Your images never touch a disk.</p>
                 </div>
 
                 <div class="glass-card rounded-2xl p-5 hover:shadow-md transition-all duration-300 group">
@@ -434,7 +434,7 @@
                         </svg>
                     </div>
                     <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Next-gen Free</h3>
-                    <p class="text-[#7A5A3A] text-xs leading-relaxed">AVIF, JXL, and WebP included. No Pro account, no paywalls.</p>
+                    <p class="text-[#7A5A3A] text-sm leading-relaxed">AVIF, JXL, and WebP included. No Pro account, no paywalls.</p>
                 </div>
 
             </div>
