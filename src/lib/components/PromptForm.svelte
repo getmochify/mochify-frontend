@@ -290,7 +290,7 @@
             agentMessage = parsedData.agent_message || '';
             const fileArray = parsedData.files || [];
             const fileMap: Record<string, any> = {};
-            fileArray.forEach((item: any) => { fileMap[item.filename] = item; });
+            fileArray.forEach((item: any) => { fileMap[item.name || item.filename] = item; });
 
             // Map original dimensions by filename so we can skip NLP-echoed dims below
             const origDimsMap: Record<string, { w: number; h: number }> = {};
