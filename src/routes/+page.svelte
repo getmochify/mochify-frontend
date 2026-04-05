@@ -180,13 +180,7 @@
 
 <div class="min-h-screen bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 flex flex-col relative">
     
-    <div class="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div class="animate-float absolute -top-40 -right-40 w-[520px] h-[520px] rounded-full bg-pink-200/30 blur-[80px]"></div>
-        <div class="animate-float-slow absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-rose-200/25 blur-[100px]"></div>
-        <div class="animate-float absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-pink-100/25 blur-[70px]"></div>
-        <div class="animate-float-slow absolute top-1/4 -left-32 w-[380px] h-[380px] rounded-full bg-rose-200/20 blur-[90px]"></div>
-        <div class="animate-float absolute bottom-1/4 -right-32 w-[440px] h-[440px] rounded-full bg-pink-200/20 blur-[90px]"></div>
-    </div>
+    <BlobBackground />
 
     <Navigation />
     
