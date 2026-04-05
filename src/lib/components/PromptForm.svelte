@@ -292,6 +292,10 @@
             const fileMap: Record<string, any> = {};
             fileArray.forEach((item: any) => { fileMap[item.filename] = item; });
 
+            // Map original dimensions by filename so we can skip NLP-echoed dims below
+            const origDimsMap: Record<string, { w: number; h: number }> = {};
+            fileDetails.forEach(f => { origDimsMap[f.name] = { w: f.width, h: f.height }; });
+
             // Detect background removal requested by NLP.
             // Background removal requires authentication — strip the param for anonymous
             // users and proceed without it (backend enforces the same rule on 403).
@@ -395,10 +399,14 @@
                     const stripExif = fileConfig.stripExif !== undefined ? fileConfig.stripExif : 1;
                     params.append('strip_exif', stripExif ? '1' : '0');
 
+                    const EXCLUDED_KEYS = new Set(['smartCompress', 'type', 'removeBackground', 'stripExif', 'filename']);
                     for (const [key, value] of Object.entries(fileConfig)) {
-                        if (key !== 'smartCompress' && key !== 'type' && key !== 'removeBackground' && key !== 'stripExif') {
-                            if (value !== false && value !== 0) params.append(key, String(value));
-                        }
+                        if (EXCLUDED_KEYS.has(key)) continue;
+                        // NLP echoes back original width/height as metadata — skip if unchanged
+                        if (key === 'width' && value === origDimsMap[file.name]?.w) continue;
+                        if (key === 'height' && value === origDimsMap[file.name]?.h) continue;
+                        if (value === true) params.append(key, '1');
+                        else if (value !== false && value !== 0 && value != null) params.append(key, String(value));
                     }
 
                     try {
