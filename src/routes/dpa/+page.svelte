@@ -41,7 +41,7 @@
                 <ul class="space-y-3 mb-8">
                     <li class="flex gap-3 text-[#6C3F31]">
                         <span class="text-[#F06292] font-bold mt-0.5">•</span>
-                        <span>This document sets out the terms under which Mochify (as <strong class="text-[#4A2C2C]">Data Processor</strong>) processes image data on behalf of your business (as <strong class="text-[#4A2C2C]">Data Controller</strong>)</span>
+                        <span>This document sets out the terms under which Mochify (as <strong class="text-[#4A2C2C]">Supplier / Data Processor</strong>) processes image data on behalf of your business (as <strong class="text-[#4A2C2C]">Customer / Data Controller</strong>)</span>
                     </li>
                     <li class="flex gap-3 text-[#6C3F31]">
                         <span class="text-[#F06292] font-bold mt-0.5">•</span>
@@ -81,123 +81,152 @@
 
                 <h3>Data Processing Agreement</h3>
 
-                <p>This Data Processing Agreement (<strong>"Agreement"</strong>) is entered into between:</p>
+                <p>This Data Processing Agreement (<strong>"DPA"</strong>) is made on the date of last signature below between:</p>
 
-                <ul>
-                    <li><strong>Data Controller:</strong> The customer entity identified in the order form or account registration (<strong>"Customer"</strong>); and</li>
-                    <li><strong>Data Processor:</strong> Mochify, of Suite RA01, 195-197 Wood Street, London, E17 3NU (<strong>"Mochify"</strong>).</li>
-                </ul>
+                <h3>Parties</h3>
 
-                <p>This Agreement forms part of and is subject to the Terms and Conditions between the parties and applies where Mochify processes Personal Data on behalf of the Customer in the course of providing the Services.</p>
-
-                <h3>1. Definitions</h3>
-
-                <p>In this Agreement:</p>
-                <ul>
-                    <li><strong>"Data Protection Laws"</strong> means UK GDPR, the Data Protection Act 2018, and any successor legislation.</li>
-                    <li><strong>"Personal Data"</strong>, <strong>"Processing"</strong>, <strong>"Data Subject"</strong>, <strong>"Supervisory Authority"</strong>, and <strong>"Special Categories of Personal Data"</strong> have the meanings given in Data Protection Laws.</li>
-                    <li><strong>"Services"</strong> means the image optimisation and processing services provided by Mochify.</li>
-                    <li><strong>"Sub-processor"</strong> means any third party engaged by Mochify to process Personal Data on its behalf.</li>
-                </ul>
-
-                <h3>2. Processing of Personal Data</h3>
-
-                <p>2.1 The parties acknowledge that for the purposes of Data Protection Laws, the Customer is the Data Controller and Mochify is the Data Processor.</p>
-
-                <p>2.2 Mochify shall process Personal Data only on the documented instructions of the Customer, unless required to do so by applicable law. In such a case, Mochify shall, to the extent permitted by law, inform the Customer of that legal requirement before processing.</p>
-
-                <p>2.3 The subject matter, nature, purpose, and duration of the processing, and the types of Personal Data and categories of Data Subjects are set out in Schedule 1.</p>
-
-                <h3>3. Mochify's Obligations</h3>
-
-                <p>Mochify shall:</p>
-                <ol type="a">
-                    <li>process Personal Data only on documented instructions from the Customer;</li>
-                    <li>ensure that persons authorised to process Personal Data are subject to appropriate confidentiality obligations;</li>
-                    <li>implement appropriate technical and organisational measures to ensure a level of security appropriate to the risk, including as appropriate the measures referred to in Article 32(1) of UK GDPR;</li>
-                    <li>not engage any Sub-processor without prior written authorisation of the Customer, and ensure any Sub-processor is subject to equivalent data protection obligations;</li>
-                    <li>assist the Customer in responding to requests from Data Subjects exercising their rights under Data Protection Laws;</li>
-                    <li>assist the Customer in ensuring compliance with obligations under Articles 32–36 of UK GDPR;</li>
-                    <li>at the Customer's choice, delete or return all Personal Data upon termination of the Services, unless applicable law requires storage;</li>
-                    <li>make available to the Customer all information necessary to demonstrate compliance with this Agreement and Data Protection Laws, and permit and contribute to audits conducted by the Customer or its appointed auditor on reasonable notice.</li>
+                <ol>
+                    <li>Taylor Liesnham trading as <strong>Mochify</strong> of Suite RA01, 195-197 Woodhouse Road, London, E17 3NU, England (<strong>"Supplier"</strong>); and</li>
+                    <li>[Company name], a company incorporated in England and Wales under No. [Company number], whose registered office is at [Address line 1], [Address line 2], [County], [Postcode] (<strong>"Customer"</strong>).</li>
                 </ol>
 
-                <h3>4. Technical and Organisational Measures</h3>
+                <p>(each a <strong>"party"</strong> and together the <strong>"parties"</strong>)</p>
 
-                <p>4.1 Mochify's core architecture is designed to be zero-persistence: image files uploaded through the Services are processed entirely in RAM and are never written to disk. No image data is retained after processing is complete.</p>
+                <h3>Background</h3>
 
-                <p>4.2 Mochify implements appropriate technical and organisational security measures including, but not limited to:</p>
-                <ol type="a">
-                    <li>in-memory only processing of image data with no disk writes;</li>
-                    <li>encrypted communications via TLS for all data in transit;</li>
-                    <li>access controls and authentication for administrative systems;</li>
-                    <li>regular security reviews of infrastructure and dependencies.</li>
+                <ol start="3">
+                    <li>The Supplier is a provider of image compression, optimisation, and format conversion services, processing image files in-memory with zero data retention on behalf of the Customer (<strong>"Services"</strong>).</li>
+                    <li>The parties entered into an agreement for the provision of services on [DATE] (<strong>"Agreement"</strong>).</li>
+                    <li>The parties have agreed to enter into this DPA in relation to the processing of personal data by the Supplier in the course of providing the Services. The terms of this DPA are intended to apply in addition to and not in substitution of the terms of the Agreement.</li>
                 </ol>
 
-                <h3>5. Sub-processors</h3>
+                <h3>Agreement</h3>
 
-                <p>5.1 The Customer authorises Mochify to engage the sub-processors listed in Schedule 2.</p>
+                <h4>Meanings</h4>
 
-                <p>5.2 Mochify shall give the Customer reasonable prior notice of any intended changes to sub-processors. If the Customer objects to a new sub-processor, the parties shall work in good faith to resolve the objection.</p>
-
-                <h3>6. Data Subject Rights</h3>
-
-                <p>6.1 Mochify shall promptly notify the Customer if it receives a request from a Data Subject exercising any of their rights under Data Protection Laws.</p>
-
-                <p>6.2 Mochify shall not respond to any such request except on the documented instructions of the Customer, or as required by applicable law.</p>
-
-                <h3>7. Personal Data Breaches</h3>
-
-                <p>7.1 Mochify shall notify the Customer without undue delay, and in any event within 48 hours, upon becoming aware of a Personal Data Breach affecting Personal Data processed under this Agreement.</p>
-
-                <p>7.2 Such notification shall include, to the extent available: the nature of the breach, the categories and approximate number of Data Subjects and records concerned, likely consequences, and measures taken or proposed.</p>
-
-                <h3>8. Data Protection Impact Assessments</h3>
-
-                <p>Mochify shall provide reasonable assistance to the Customer where requested in relation to any data protection impact assessment required under Article 35 of UK GDPR.</p>
-
-                <h3>9. International Transfers</h3>
-
-                <p>Mochify shall not transfer Personal Data outside the UK or EEA without the prior written consent of the Customer, unless required by applicable law, and shall ensure that any such transfer is subject to an appropriate safeguard in accordance with Data Protection Laws.</p>
-
-                <h3>10. Term and Termination</h3>
-
-                <p>10.1 This Agreement commences on the date of signature and continues for the duration of the Services.</p>
-
-                <p>10.2 Upon termination or expiry of the Services, Mochify shall, at the Customer's election, delete or return all Personal Data processed under this Agreement within 30 days, unless applicable law requires retention for a longer period.</p>
-
-                <h3>11. Governing Law</h3>
-
-                <p>This Agreement shall be governed by and construed in accordance with the laws of England and Wales. The parties submit to the exclusive jurisdiction of the courts of England and Wales.</p>
-
-                <hr />
-
-                <h3>Schedule 1 — Details of Processing</h3>
+                <ol>
+                    <li>In this DPA, the following words are defined:</li>
+                </ol>
 
                 <table>
                     <thead>
-                        <tr><th>Item</th><th>Details</th></tr>
+                        <tr><th>Term</th><th>Definition</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td><strong>Subject matter</strong></td><td>Image optimisation and processing services</td></tr>
-                        <tr><td><strong>Nature of processing</strong></td><td>Temporary in-memory processing of image files uploaded by the Customer or its end users</td></tr>
-                        <tr><td><strong>Purpose</strong></td><td>To compress, convert, or otherwise optimise image files as directed by the Customer</td></tr>
-                        <tr><td><strong>Duration</strong></td><td>For the duration of the Services agreement</td></tr>
-                        <tr><td><strong>Types of Personal Data</strong></td><td>Image files (which may incidentally contain personal data such as EXIF metadata, location data, or identifiable images of individuals)</td></tr>
-                        <tr><td><strong>Categories of Data Subjects</strong></td><td>End users and any individuals whose image is contained in an uploaded file</td></tr>
+                        <tr>
+                            <td><strong>Affiliate</strong></td>
+                            <td>Any entity that directly or indirectly controls, or is controlled by, or is under common control with the subject entity. "Control" means direct or indirect ownership or control of more than 50% of the voting interests of the subject entity.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Protection Law</strong></td>
+                            <td>(a) All laws and regulations applicable to the Processing of Personal Data under the Agreement, including EU Directive 95/46/EC, the GDPR and laws implementing or supplementing the GDPR; and (b) to the extent applicable, the data protection or privacy laws of any other country.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GDPR</strong></td>
+                            <td>(a) Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 (<strong>"EU GDPR"</strong>); and (b) the EU GDPR as implemented or adopted under the laws of the United Kingdom (<strong>"UK GDPR"</strong>).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Personnel</strong></td>
+                            <td>In relation to a party, those of its employees, workers, agents, consultants, contractors, sub-contractors, representatives or other persons employed or engaged by that party.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sub-processor</strong></td>
+                            <td>Any entity appointed by or on behalf of the Supplier to process Personal Data on behalf of the Customer under this DPA.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Working Day</strong></td>
+                            <td>Any day, other than a Saturday, Sunday, or public holiday in England and Wales.</td>
+                        </tr>
                     </tbody>
                 </table>
 
-                <h3>Schedule 2 — Approved Sub-processors</h3>
+                <ol start="2">
+                    <li>Terms such as "Data Subject", "Processing", "Personal Data", "Controller", "Processor", "Supervisory Authority" and "Personal Data Breach" shall have the same meaning as ascribed to them in the Data Protection Law.</li>
+                    <li>In this DPA unless the context requires a different interpretation: (a) the singular includes the plural and vice versa; (b) "including" is understood to mean "including without limitation"; (c) reference to any statutory provision includes any modification or amendment of it; (d) the headings do not form part of this DPA; and (e) "writing" or "written" will include email unless otherwise stated.</li>
+                </ol>
 
-                <table>
-                    <thead>
-                        <tr><th>Sub-processor</th><th>Location</th><th>Purpose</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Cloudflare, Inc.</td><td>USA (SCCs applicable)</td><td>CDN, DNS, edge network, and Workers runtime</td></tr>
-                    </tbody>
-                </table>
+                <h4>Processing Customer Personal Data</h4>
+
+                <ol start="4">
+                    <li>For the purpose of Data Protection Law, the Customer shall be the Controller and the Supplier shall be the Processor.</li>
+                    <li>The Supplier and each Supplier Affiliate shall: (a) comply with all applicable Data Protection Law in the Processing of Customer Personal Data; and (b) only Process Personal Data on the Customer's documented instructions, unless Processing is required by applicable law.</li>
+                    <li>The Supplier shall take reasonable steps to ensure the reliability of Personnel who have access to Personal Data, ensuring such Personnel is subject to a strict duty of confidentiality and Processes Personal Data only for the purpose of delivering the Services.</li>
+                </ol>
+
+                <h4>Security</h4>
+
+                <ol start="7">
+                    <li>The Supplier will establish data security in relation to the Processing of Personal Data under this DPA, guaranteeing a protection level appropriate to the risk. Such measures may include: (a) pseudonymisation and encryption of Personal Data; (b) ongoing confidentiality, integrity, availability and resilience of processing systems; (c) ability to restore availability of Personal Data in a timely manner in the event of an incident; and (d) a process for regularly testing and evaluating the effectiveness of technical and organisational measures.</li>
+                    <li>In assessing the appropriate level of security, the Supplier shall take into account any risks presented by the Processing, in particular from a Personal Data Breach.</li>
+                    <li>The Supplier has laid down the technical and organisational measures in Schedule 2 of this DPA. The Supplier may implement alternative adequate measures from time to time and shall notify the Customer in writing where it has done so.</li>
+                </ol>
+
+                <h4>Sub-Processors</h4>
+
+                <ol start="10">
+                    <li>The Customer authorises the Supplier to appoint the Sub-processors listed in Schedule 3 (if any) and any new Sub-processors in accordance with the subsequent provisions.</li>
+                    <li>With respect to each Sub-processor, the Supplier shall: (a) carry out appropriate due diligence prior to Processing; (b) enter into a written agreement incorporating terms substantially similar to those in this DPA meeting the requirements of Article 28(3) of UK GDPR; and (c) remain fully liable to the Customer for all acts or omissions of such Sub-processor.</li>
+                    <li>The Supplier shall give the Customer prior written notice of the appointment of any new Sub-processor.</li>
+                    <li>If within 30 days of receipt of such notice the Customer notifies the Supplier of any objections: (a) the parties will work in good faith to make available a commercially reasonable change; and (b) if such a change cannot be made within 30 days, the Customer may serve written notice to terminate the Agreement to the extent that the provision of the Services is affected.</li>
+                </ol>
+
+                <h4>Data Subject Rights</h4>
+
+                <ol start="14">
+                    <li>The Supplier shall assist the Customer in implementing appropriate technical and organisational measures for the fulfilment of the Customer's obligation to respond to Data Subject requests under Data Protection Law.</li>
+                    <li>The Supplier shall: (a) promptly (and within 24 hours) notify the Customer if it receives a request from a Data Subject; and (b) fully cooperate with and assist the Customer in relation to any such request.</li>
+                </ol>
+
+                <h4>Personal Data Breaches</h4>
+
+                <ol start="16">
+                    <li>The Supplier shall: (a) notify the Customer without undue delay (no later than 72 hours) upon becoming aware of any Personal Data Breach; (b) provide sufficient information to enable the Customer to evaluate the impact; (c) provide the Customer with such assistance as reasonably requested; and (d) cooperate with the Customer to assist in the evaluation, investigation, mitigation and remediation of each Personal Data Breach.</li>
+                </ol>
+
+                <h4>Data Protection Impact Assessment and Prior Consultation</h4>
+
+                <ol start="17">
+                    <li>The Supplier shall provide reasonable assistance to the Customer with any data protection impact assessments and prior consultations with Supervisory Authorities pursuant to Articles 35 and 36 of the UK GDPR, limited to the Processing of Personal Data under this DPA.</li>
+                </ol>
+
+                <h4>Return and Deletion of Personal Data</h4>
+
+                <ol start="18">
+                    <li>The Supplier shall, within 30 days of the expiry or termination of the Agreement, delete or return all copies of Personal Data Processed on behalf of the Customer.</li>
+                    <li>The Supplier may retain Personal Data to the extent required by applicable law, notifying the Customer of any such requirement and ensuring the confidentiality of such data.</li>
+                    <li>The Customer may require the Supplier to provide written certification confirming compliance with this section.</li>
+                </ol>
+
+                <h4>Audits</h4>
+
+                <ol start="21">
+                    <li>The Supplier shall make available to the Customer on request all information necessary to demonstrate compliance with this DPA.</li>
+                    <li>The Supplier shall allow for and contribute to audits, including inspections, by the Customer (or any auditor mandated by the Customer), provided the Customer gives reasonable notice and makes all reasonable endeavours to avoid disruption.</li>
+                    <li>Such audit rights may be exercised only once in any calendar year during the term of the Agreement and for a period of 3 years following expiry or termination.</li>
+                </ol>
+
+                <h4>Liability</h4>
+
+                <ol start="24">
+                    <li>Nothing in this DPA limits or excludes either party's liability for death or personal injury caused by its negligence, or fraud or fraudulent misrepresentation.</li>
+                    <li>Subject to the preceding clause, the total liability of either party for any non-compliance with this DPA shall be subject to any limitation regarding monetary damages set forth in the Agreement.</li>
+                </ol>
+
+                <h4>General Terms</h4>
+
+                <ol start="26">
+                    <li>This DPA shall be coterminous with the Agreement.</li>
+                    <li>No party may assign, transfer or sub-contract to any third party the benefit and/or burden of this DPA without the prior written consent of the other party.</li>
+                    <li>No variation of this DPA will be valid or binding unless recorded in writing and signed by or on behalf of both parties.</li>
+                    <li>The Contracts (Rights of Third Parties) Act 1999 does not apply to this DPA.</li>
+                    <li>Any notice to be delivered under this DPA must be in writing and delivered by pre-paid first class post or hand delivery to the other party's registered address or place of business, or sent by email.</li>
+                </ol>
+
+                <h4>Governing Law and Jurisdiction</h4>
+
+                <ol start="31">
+                    <li>This DPA will be governed by and interpreted according to the law of England and Wales and all disputes shall be subject to the exclusive jurisdiction of the English and Welsh courts.</li>
+                </ol>
 
                 <hr />
 
@@ -206,33 +235,60 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>For and on behalf of Mochify (Data Processor)</th>
-                            <th>For and on behalf of Customer (Data Controller)</th>
+                            <th>Supplier (Data Processor)</th>
+                            <th>Customer (Data Controller)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Signature: ___________________________</td>
-                            <td>Signature: ___________________________</td>
+                            <td>Taylor Liesnham | Owner | Mochify</td>
+                            <td>[Name] | [Title] | [Company]</td>
                         </tr>
                         <tr>
-                            <td>Name: ___________________________</td>
-                            <td>Name: ___________________________</td>
-                        </tr>
-                        <tr>
-                            <td>Title: ___________________________</td>
-                            <td>Title: ___________________________</td>
+                            <td>Signature: ___________________________</td>
+                            <td>Signature: ___________________________</td>
                         </tr>
                         <tr>
                             <td>Date: ___________________________</td>
-                            <td>Company: ___________________________</td>
-                        </tr>
-                        <tr>
-                            <td></td>
                             <td>Date: ___________________________</td>
                         </tr>
                     </tbody>
                 </table>
+
+                <hr />
+
+                <h3>Schedule 1 — Processing Activities</h3>
+
+                <p><strong>Nature and purpose of Processing:</strong> The Supplier will Process Personal Data as necessary to provide the Services pursuant to the Agreement, and as further instructed by the Customer.</p>
+
+                <p><strong>Types of Personal Data:</strong></p>
+                <ul>
+                    <li>Image file metadata, which may incidentally include EXIF data such as geolocation, device identifiers, and photographer information embedded within uploaded image files.</li>
+                </ul>
+
+                <p><strong>Categories of Data Subject:</strong></p>
+                <ul>
+                    <li>Customers of the Customer (including their staff)</li>
+                    <li>Other people that the Customer deals with</li>
+                </ul>
+
+                <p><strong>Obligations and rights of the Customer:</strong> Set out in the Agreement and this DPA.</p>
+
+                <h3>Schedule 2 — Technical and Organisational Measures</h3>
+
+                <p>The Supplier will conduct the activities covered by this DPA in compliance with its Information Security Policy and data protection policies, available online at: <strong>https://mochify.app/privacy</strong></p>
+
+                <p>The Supplier also has the following technical and organisational measures in place:</p>
+                <ul>
+                    <li>All uploaded image files are processed entirely in-memory and are never written to disk or retained after processing is complete, ensuring zero data persistence.</li>
+                    <li>All data in transit is encrypted using HTTPS/TLS. Server access is restricted to authorised personnel only, with access controls and secure authentication in place.</li>
+                </ul>
+
+                <h3>Schedule 3 — Sub-Processors</h3>
+
+                <p>The Customer agrees that the Supplier may sub-contract certain obligations under this DPA to the following Sub-processors:</p>
+
+                <p><em>None at the date of this agreement.</em></p>
 
             </article>
 
