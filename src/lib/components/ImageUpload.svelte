@@ -654,6 +654,7 @@
 >
     <div
         class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full relative"
+        role="presentation"
         onclick={(e) => e.stopPropagation()}
     >
         <button
