@@ -34,7 +34,6 @@
         'Fix PageSpeed — convert all to AVIF…',
         'Resize to 1200px, rename "product-ready"…',
         'Make these 1:1, center the subject…',
-        'Give me high-quality Jpegli at 85%…',
     ];
     let placeholderIndex = $state(0);
     let placeholderVisible = $state(true);
@@ -272,7 +271,8 @@
         try {
             const fileDetails = await Promise.all(files.map(async (f) => {
                 const dims = await getDimensions(f);
-                return { name: f.name, width: dims.w, height: dims.h };
+                const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
+                return { format: ext, width: dims.w, height: dims.h };
             }));
 
             const nlpResponse = await fetch(`${WORKER_URL}/v1/prompt`, {
@@ -290,7 +290,12 @@
             agentMessage = parsedData.agent_message || '';
             const fileArray = parsedData.files || [];
             const fileMap: Record<string, any> = {};
-            fileArray.forEach((item: any) => { fileMap[item.filename] = item; });
+            fileArray.forEach((item: any) => { fileMap[item.name || item.filename] = item; });
+            // Index-based array for fallback when filenames don't match (e.g. NLP normalises them)
+            const fileArrayByIndex = fileArray;
+
+            // Original dimensions by index to skip NLP-echoed dims in params
+            const origDims = fileDetails.map(f => ({ w: f.width, h: f.height }));
 
             // Detect background removal requested by NLP.
             // Background removal requires authentication — strip the param for anonymous
@@ -382,8 +387,9 @@
 
             const processNextFile = async () => {
                 while (currentFileIndex < files.length) {
+                    const fileIdx = currentFileIndex;
                     const file = files[currentFileIndex++];
-                    const fileConfig = fileMap[file.name] || {};
+                    const fileConfig = fileMap[file.name] ?? fileArrayByIndex[fileIdx] ?? {};
 
                     processPhase = 'uploading';
 
@@ -395,10 +401,14 @@
                     const stripExif = fileConfig.stripExif !== undefined ? fileConfig.stripExif : 1;
                     params.append('strip_exif', stripExif ? '1' : '0');
 
+                    const EXCLUDED_KEYS = new Set(['smartCompress', 'type', 'removeBackground', 'stripExif', 'filename', 'name']);
                     for (const [key, value] of Object.entries(fileConfig)) {
-                        if (key !== 'smartCompress' && key !== 'type' && key !== 'removeBackground' && key !== 'stripExif') {
-                            if (value !== false && value !== 0) params.append(key, String(value));
-                        }
+                        if (EXCLUDED_KEYS.has(key)) continue;
+                        // NLP echoes back original width/height as metadata — skip if unchanged
+                        if (key === 'width' && value === origDims[fileIdx]?.w) continue;
+                        if (key === 'height' && value === origDims[fileIdx]?.h) continue;
+                        if (value === true) params.append(key, '1');
+                        else if (value !== false && value !== 0 && value != null) params.append(key, String(value));
                     }
 
                     try {

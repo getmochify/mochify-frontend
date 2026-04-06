@@ -180,11 +180,7 @@
 
 <div class="min-h-screen bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 flex flex-col relative">
     
-    <div class="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div class="animate-float absolute -top-40 -right-40 w-[520px] h-[520px] rounded-full bg-pink-200/20 blur-[80px]"></div>
-        <div class="animate-float-slow absolute -bottom-56 -left-40 w-[600px] h-[600px] rounded-full bg-rose-100/15 blur-[100px]"></div>
-        <div class="animate-float absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full bg-pink-50/20 blur-[70px]"></div>
-    </div>
+    <BlobBackground />
 
     <Navigation />
     
@@ -277,7 +273,7 @@
 
         {#if showUpgradeCTA}
         <div class="max-w-3xl mx-auto px-1 -mt-6 mb-4 animate-slide-up">
-            <div class="relative rounded-2xl border border-[#F06292]/15 bg-gradient-to-br from-white/70 to-[#FFF0F3]/50 backdrop-blur-sm shadow-sm overflow-hidden">
+            <div class="relative rounded-2xl overflow-hidden glass-card-pink shadow-sm">
                 <button
                     onclick={() => { showUpgradeCTA = false; upgradeCTADismissed = true; }}
                     class="absolute top-3 right-3 w-6 h-6 rounded-full bg-white/60 hover:bg-white flex items-center justify-center text-[#875F42]/40 hover:text-[#7A5A3A] transition-all cursor-pointer"
@@ -332,7 +328,7 @@
 
         {#if showBgRemovalCTA}
         <div class="max-w-3xl mx-auto px-1 -mt-6 mb-4 animate-slide-up">
-            <div class="relative rounded-2xl border border-[#A5D6A7]/30 bg-gradient-to-br from-white/70 to-[#F4FBF2]/60 backdrop-blur-sm shadow-sm overflow-hidden">
+            <div class="relative rounded-2xl overflow-hidden glass-card-green shadow-sm">
                 <button
                     onclick={() => { showBgRemovalCTA = false; }}
                     class="absolute top-3 right-3 w-6 h-6 rounded-full bg-white/60 hover:bg-white flex items-center justify-center text-[#875F42]/40 hover:text-[#7A5A3A] transition-all cursor-pointer"
@@ -395,44 +391,44 @@
         <section class="mt-24 max-w-4xl mx-auto reveal">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
 
-                <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-white/80 shadow-sm hover:shadow-md hover:bg-white/80 transition-all duration-300 group">
+                <div class="glass-card rounded-2xl p-5 hover:shadow-md transition-all duration-300 group">
                     <div class="w-9 h-9 rounded-xl bg-[#FFF0F3] flex items-center justify-center mb-3 group-hover:scale-105 transition-transform duration-200">
                         <svg class="w-4 h-4 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
                         </svg>
                     </div>
                     <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">C++20 Engine</h3>
-                    <p class="text-[#7A5A3A] text-xs leading-relaxed">Processes files in milliseconds, not seconds. No interpreted scripts.</p>
+                    <p class="text-[#7A5A3A] text-sm leading-relaxed">Processes files in milliseconds, not seconds. No interpreted scripts.</p>
                 </div>
 
-                <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-white/80 shadow-sm hover:shadow-md hover:bg-white/80 transition-all duration-300 group">
+                <div class="glass-card rounded-2xl p-5 hover:shadow-md transition-all duration-300 group">
                     <div class="w-9 h-9 rounded-xl bg-[#FFF0F3] flex items-center justify-center mb-3 group-hover:scale-105 transition-transform duration-200">
                         <svg class="w-4 h-4 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
                         </svg>
                     </div>
                     <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Jpegli</h3>
-                    <p class="text-[#7A5A3A] text-xs leading-relaxed">Up to 35% smaller than standard JPEG at the same visual quality.</p>
+                    <p class="text-[#7A5A3A] text-sm leading-relaxed">Up to 35% smaller than standard JPEG at the same visual quality.</p>
                 </div>
 
-                <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-white/80 shadow-sm hover:shadow-md hover:bg-white/80 transition-all duration-300 group">
+                <div class="glass-card rounded-2xl p-5 hover:shadow-md transition-all duration-300 group">
                     <div class="w-9 h-9 rounded-xl bg-[#FFF0F3] flex items-center justify-center mb-3 group-hover:scale-105 transition-transform duration-200">
                         <svg class="w-4 h-4 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
                         </svg>
                     </div>
                     <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Zero Retention</h3>
-                    <p class="text-[#7A5A3A] text-xs leading-relaxed">Streamed into RAM, compressed, wiped. Your images never touch a disk.</p>
+                    <p class="text-[#7A5A3A] text-sm leading-relaxed">Streamed into RAM, compressed, wiped. Your images never touch a disk.</p>
                 </div>
 
-                <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-white/80 shadow-sm hover:shadow-md hover:bg-white/80 transition-all duration-300 group">
+                <div class="glass-card rounded-2xl p-5 hover:shadow-md transition-all duration-300 group">
                     <div class="w-9 h-9 rounded-xl bg-[#FFF0F3] flex items-center justify-center mb-3 group-hover:scale-105 transition-transform duration-200">
                         <svg class="w-4 h-4 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/>
                         </svg>
                     </div>
                     <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Next-gen Free</h3>
-                    <p class="text-[#7A5A3A] text-xs leading-relaxed">AVIF, JXL, and WebP included. No Pro account, no paywalls.</p>
+                    <p class="text-[#7A5A3A] text-sm leading-relaxed">AVIF, JXL, and WebP included. No Pro account, no paywalls.</p>
                 </div>
 
             </div>
@@ -487,7 +483,7 @@
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto reveal">
-            <div class="rounded-2xl border border-white/80 bg-white/50 backdrop-blur-sm shadow-sm overflow-hidden">
+            <div class="glass-card rounded-2xl shadow-sm overflow-hidden">
                 <div class="px-6 py-8 md:px-10 md:py-10">
                     <p class="text-xs font-semibold tracking-widest uppercase text-[#F06292]/70 mb-2">Shopify &amp; Ecommerce</p>
                     <h2 class="text-2xl font-black text-[#4A2C2C] mb-3">Better Core Web Vitals start with smaller product images</h2>
@@ -495,17 +491,17 @@
                         Largest Contentful Paint (LCP) is Google's primary page speed signal — and product images are almost always the bottleneck. Converting your catalogue to AVIF or WebP can cut file sizes by up to 50% with no visible quality loss, directly improving your store's search ranking and conversion rate.
                     </p>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div class="rounded-xl bg-white/60 border border-white/80 px-4 py-4">
+                        <div class="glass-card rounded-xl px-4 py-4">
                             <p class="text-xs font-bold text-[#F06292] uppercase tracking-wider mb-1">Up to 50% smaller</p>
                             <p class="text-sm font-bold text-[#4A2C2C] mb-1">AVIF for product images</p>
                             <p class="text-xs text-[#7A5A3A] leading-relaxed">AVIF cuts file size roughly in half versus JPEG at equivalent quality — the fastest format Shopify supports.</p>
                         </div>
-                        <div class="rounded-xl bg-white/60 border border-white/80 px-4 py-4">
+                        <div class="glass-card rounded-xl px-4 py-4">
                             <p class="text-xs font-bold text-[#F06292] uppercase tracking-wider mb-1">Bulk processing</p>
                             <p class="text-sm font-bold text-[#4A2C2C] mb-1">Process your whole catalogue</p>
                             <p class="text-xs text-[#7A5A3A] leading-relaxed">Drop up to 25 product images at once. Describe what you need — "convert to WebP, max 1600px wide" — and Mochify handles the rest.</p>
                         </div>
-                        <div class="rounded-xl bg-white/60 border border-white/80 px-4 py-4">
+                        <div class="glass-card rounded-xl px-4 py-4">
                             <p class="text-xs font-bold text-[#F06292] uppercase tracking-wider mb-1">Zero retention</p>
                             <p class="text-sm font-bold text-[#4A2C2C] mb-1">Product images stay private</p>
                             <p class="text-xs text-[#7A5A3A] leading-relaxed">Images are never stored or logged. Safe for unreleased products, private SKUs, and anything not yet live on your store.</p>
@@ -520,7 +516,7 @@
             <p class="text-center text-sm text-[#7A5A3A] mb-8">Everything you need to know before compressing your first batch.</p>
             <div class="space-y-2">
 
-                <details class="group bg-white/60 backdrop-blur-sm rounded-2xl border border-white/80 shadow-sm open:shadow-md transition-all duration-200">
+                <details class="group glass-card rounded-2xl shadow-sm open:shadow-md transition-all duration-200">
                     <summary class="flex items-center justify-between px-5 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] text-sm select-none">
                         Is Mochify free to use?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
@@ -530,7 +526,7 @@
                     </p>
                 </details>
 
-                <details class="group bg-white/60 backdrop-blur-sm rounded-2xl border border-white/80 shadow-sm open:shadow-md transition-all duration-200">
+                <details class="group glass-card rounded-2xl shadow-sm open:shadow-md transition-all duration-200">
                     <summary class="flex items-center justify-between px-5 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] text-sm select-none">
                         Are my images stored or shared?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
@@ -540,7 +536,7 @@
                     </p>
                 </details>
 
-                <details class="group bg-white/60 backdrop-blur-sm rounded-2xl border border-white/80 shadow-sm open:shadow-md transition-all duration-200">
+                <details class="group glass-card rounded-2xl shadow-sm open:shadow-md transition-all duration-200">
                     <summary class="flex items-center justify-between px-5 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] text-sm select-none">
                         How much smaller will my images be?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
@@ -550,7 +546,7 @@
                     </p>
                 </details>
 
-                <details class="group bg-white/60 backdrop-blur-sm rounded-2xl border border-white/80 shadow-sm open:shadow-md transition-all duration-200">
+                <details class="group glass-card rounded-2xl shadow-sm open:shadow-md transition-all duration-200">
                     <summary class="flex items-center justify-between px-5 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] text-sm select-none">
                         What image formats does Mochify support?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
@@ -560,7 +556,7 @@
                     </p>
                 </details>
 
-                <details class="group bg-white/60 backdrop-blur-sm rounded-2xl border border-white/80 shadow-sm open:shadow-md transition-all duration-200">
+                <details class="group glass-card rounded-2xl shadow-sm open:shadow-md transition-all duration-200">
                     <summary class="flex items-center justify-between px-5 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] text-sm select-none">
                         Does Mochify have an API?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
@@ -570,7 +566,7 @@
                     </p>
                 </details>
 
-                <details class="group bg-white/60 backdrop-blur-sm rounded-2xl border border-white/80 shadow-sm open:shadow-md transition-all duration-200">
+                <details class="group glass-card rounded-2xl shadow-sm open:shadow-md transition-all duration-200">
                     <summary class="flex items-center justify-between px-5 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] text-sm select-none">
                         What is Magic Flow?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
@@ -642,6 +638,28 @@
 {/if}
 
 <style>
+    .glass-card {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.12) 100%);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 4px 24px rgba(240, 98, 146, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+    .glass-card-pink {
+        background: linear-gradient(135deg, rgba(255, 240, 243, 0.5) 0%, rgba(255, 255, 255, 0.2) 100%);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(240, 98, 146, 0.18);
+        box-shadow: 0 4px 24px rgba(240, 98, 146, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+    .glass-card-green {
+        background: linear-gradient(135deg, rgba(244, 251, 242, 0.5) 0%, rgba(255, 255, 255, 0.2) 100%);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(165, 214, 167, 0.35);
+        box-shadow: 0 4px 24px rgba(165, 214, 167, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+
     @keyframes fade-in {
         from { opacity: 0; transform: translateY(8px); }
         to { opacity: 1; transform: translateY(0); }
