@@ -82,7 +82,7 @@
             if (!response.ok) {
                 throw new Error('Failed to check token limit');
             }
-            const data = await response.json();
+            const data = await response.json() as { remaining: number };
             availableTokens = data.remaining || 0;
             hasCheckedTokens = true;
         } catch (error) {
@@ -652,6 +652,7 @@
     onkeydown={(e) => e.key === 'Escape' && (showSignupCta = false)}
     role="dialog"
     aria-modal="true"
+    tabindex="-1"
 >
     <div
         class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full relative"
