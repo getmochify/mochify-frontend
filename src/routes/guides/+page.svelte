@@ -112,6 +112,14 @@
             category: "Data Privacy",
             readTime: "15 min read",
             date: "Mar 22, 2026"
+        },
+        {
+            title: "How to Use Jpegli for Shopify Product Images",
+            description: "Pre-compress Shopify product images with Jpegli before upload. Stop Shopify's recompression from degrading quality — get ~35% smaller files, faster LCP, and better search rankings.",
+            url: "/guides/jpegli-shopify-product-images",
+            category: "Quick Guides",
+            readTime: "6 min read",
+            date: "Apr 06, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
