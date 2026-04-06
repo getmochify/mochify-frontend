@@ -658,6 +658,7 @@
     >
         <button
             onclick={() => showSignupCta = false}
+            aria-label="Close"
             class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-[#875F42]/50 hover:text-[#875F42] hover:bg-[#FFF5F7] transition-all cursor-pointer"
         >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
