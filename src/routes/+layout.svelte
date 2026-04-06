@@ -1,29 +1,7 @@
 <script lang="ts">
 	import './layout.css';
 	import { page } from '$app/state';
-	import BlobBackground from '$lib/components/BlobBackground.svelte';
 	let { children } = $props();
-
-	const BLOB_ROUTES = new Set([
-		'/',
-		'/pricing',
-		'/ebay-seller',
-		'/vinted-seller',
-		'/avif-to-jpg',
-		'/avif-to-jpegxl',
-		'/heic-to-jpeg',
-		'/jpg-to-jpegxl',
-		'/solutions',
-		'/solutions/ebay-image-converter',
-		'/solutions/hif-to-avif',
-		'/solutions/hif-to-jpg',
-		'/auth/login',
-		'/auth/register',
-		'/auth/forgot-password',
-		'/auth/reset-password',
-	]);
-
-	const showBlobs = $derived(BLOB_ROUTES.has(page.url.pathname));
 
 	// Import Outfit (Weights: 600, 700, 800, 900)
 	import '@fontsource/outfit/600.css';
@@ -89,6 +67,5 @@
 </svelte:head>
 
 <div class="min-h-screen flex flex-col">
-	{#if showBlobs}<BlobBackground />{/if}
 	{@render children()}
 </div>
