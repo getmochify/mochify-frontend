@@ -649,6 +649,7 @@
 <div
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
     onclick={() => showSignupCta = false}
+    onkeydown={(e) => e.key === 'Escape' && (showSignupCta = false)}
     role="dialog"
     aria-modal="true"
 >
