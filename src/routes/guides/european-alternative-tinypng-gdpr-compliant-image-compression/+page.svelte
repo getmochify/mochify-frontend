@@ -219,7 +219,7 @@
             </div>
             <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
                 <p class="font-black text-[#4A2C2C] mb-2">No data processing agreement</p>
-                <p>Under GDPR Article 28, if you are a data controller and you use a third-party tool to process personal data on your behalf, you need a data processing agreement (DPA) in place. Many free tools simply do not offer one. Without a DPA, you are likely non-compliant regardless of where the tool's servers sit.</p>
+                <p>Under GDPR Article 28, if you are a data controller and you use a third-party tool to process personal data on your behalf, you need a <a href="/dpa">data processing agreement (DPA)</a> in place. Many free tools simply do not offer one. Without a DPA, you are likely non-compliant regardless of where the tool's servers sit.</p>
             </div>
         </div>
 
