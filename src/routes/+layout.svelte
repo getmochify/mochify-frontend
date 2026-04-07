@@ -64,8 +64,6 @@
 	<link rel="dns-prefetch" href="https://api.mochify.xyz">
 	<link rel="preconnect" href="https://api.mochify.xyz" crossorigin="anonymous">
 
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="20eed1a4-6beb-4a8a-a0e4-803a397a25f3"></script>
-
 	<script type="application/ld+json">
 	{
 		"@context": "https://schema.org",

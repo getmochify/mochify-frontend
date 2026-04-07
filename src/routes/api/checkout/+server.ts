@@ -1,51 +1,60 @@
 import { Polar } from '@polar-sh/sdk';
 import {
-    POLAR_ACCESS_TOKEN,
-    POLAR_PRODUCT_ID_SELLER_MONTHLY,
-    POLAR_PRODUCT_ID_SELLER_YEARLY,
-    POLAR_PRODUCT_ID_PRO_MONTHLY,
-    POLAR_PRODUCT_ID_PRO_YEARLY,
+	POLAR_ACCESS_TOKEN,
+	POLAR_PRODUCT_ID_SELLER_MONTHLY,
+	POLAR_PRODUCT_ID_SELLER_YEARLY,
+	POLAR_PRODUCT_ID_PRO_MONTHLY,
+	POLAR_PRODUCT_ID_PRO_YEARLY
 } from '$env/static/private';
 import { redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { getPostHogClient } from '$lib/server/posthog';
 
 const PRODUCTS: Record<string, Record<string, string>> = {
-    seller: { monthly: POLAR_PRODUCT_ID_SELLER_MONTHLY, yearly: POLAR_PRODUCT_ID_SELLER_YEARLY },
-    pro:    { monthly: POLAR_PRODUCT_ID_PRO_MONTHLY,    yearly: POLAR_PRODUCT_ID_PRO_YEARLY },
-}
+	seller: { monthly: POLAR_PRODUCT_ID_SELLER_MONTHLY, yearly: POLAR_PRODUCT_ID_SELLER_YEARLY },
+	pro: { monthly: POLAR_PRODUCT_ID_PRO_MONTHLY, yearly: POLAR_PRODUCT_ID_PRO_YEARLY }
+};
 
 export const GET: RequestHandler = async ({ locals, url }) => {
-    const plan = url.searchParams.get('plan') ?? 'pro';
-    const billing = url.searchParams.get('billing') ?? 'monthly';
-    const productId = PRODUCTS[plan]?.[billing];
+	const plan = url.searchParams.get('plan') ?? 'pro';
+	const billing = url.searchParams.get('billing') ?? 'monthly';
+	const productId = PRODUCTS[plan]?.[billing];
 
-    if (!productId) {
-        return new Response('Invalid plan or billing cycle', { status: 400 });
-    }
+	if (!productId) {
+		return new Response('Invalid plan or billing cycle', { status: 400 });
+	}
 
-    const { user } = locals;
+	const { user } = locals;
 
-    if (!user) {
-        const loginUrl = new URL('/auth/login', url.origin);
-        loginUrl.searchParams.set('redirectTo', url.pathname + url.search);
-        throw redirect(303, loginUrl.toString());
-    }
+	if (!user) {
+		const loginUrl = new URL('/auth/login', url.origin);
+		loginUrl.searchParams.set('redirectTo', url.pathname + url.search);
+		throw redirect(303, loginUrl.toString());
+	}
 
-    const polar = new Polar({ accessToken: POLAR_ACCESS_TOKEN });
+	const polar = new Polar({ accessToken: POLAR_ACCESS_TOKEN });
 
-    let checkoutUrl: string;
-    try {
-        const checkout = await polar.checkouts.create({
-            products: [productId],
-            successUrl: `${url.origin}/dashboard?upgraded=true`,
-            externalCustomerId: user.id,
-            customerEmail: user.email ?? undefined,
-        });
-        checkoutUrl = checkout.url;
-    } catch (err) {
-        console.error('Polar checkout error:', err);
-        throw redirect(303, '/pricing?checkout_error=1');
-    }
+	let checkoutUrl: string;
+	try {
+		const checkout = await polar.checkouts.create({
+			products: [productId],
+			successUrl: `${url.origin}/dashboard?upgraded=true`,
+			externalCustomerId: user.id,
+			customerEmail: user.email ?? undefined
+		});
+		checkoutUrl = checkout.url;
+	} catch (err) {
+		console.error('Polar checkout error:', err);
+		throw redirect(303, '/pricing?checkout_error=1');
+	}
 
-    throw redirect(302, checkoutUrl);
+	const posthog = getPostHogClient();
+	posthog.capture({
+		distinctId: user.id,
+		event: 'checkout_initiated',
+		properties: { plan, billing, $set: { email: user.email } }
+	});
+	await posthog.flush();
+
+	throw redirect(302, checkoutUrl);
 };

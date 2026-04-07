@@ -2,36 +2,38 @@ import adapter from '@sveltejs/adapter-cloudflare';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-    extensions: ['.svelte'],
-    kit: {
-        adapter: adapter(),
-        csp: {
-            mode: 'auto',
-            directives: {
-                'default-src': ['self'],
-                'script-src': ['self', 'https://cloud.umami.is'],
-                'style-src': ['self', 'unsafe-inline'],
-                'connect-src': [
-                    'self',
-                    'https://api.mochify.xyz',
-                    'https://tokens.mochify.xyz',
-                    'https://cloud.umami.is',
-                    'https://api-gateway.umami.dev',
-                    ...(process.env.PUBLIC_API_URL && process.env.PUBLIC_API_URL !== 'https://api.mochify.xyz'
-                        ? [process.env.PUBLIC_API_URL]
-                        : []),
-                    ...(process.env.PUBLIC_WORKER_URL && process.env.PUBLIC_WORKER_URL !== 'https://tokens.mochify.xyz'
-                        ? [process.env.PUBLIC_WORKER_URL]
-                        : [])
-                ],
-                'img-src': ['self', 'data:', 'blob:'],
-                'media-src': ['self', 'https://assets.mochify.xyz'],
-                'worker-src': ['self'],
-                'frame-ancestors': ['none'],
-                'upgrade-insecure-requests': true
-            }
-        }
-    }
+	extensions: ['.svelte'],
+	kit: {
+		adapter: adapter(),
+		paths: {
+			relative: false
+		},
+		csp: {
+			mode: 'auto',
+			directives: {
+				'default-src': ['self'],
+				'script-src': ['self'],
+				'style-src': ['self', 'unsafe-inline'],
+				'connect-src': [
+					'self',
+					'https://api.mochify.xyz',
+					'https://tokens.mochify.xyz',
+					...(process.env.PUBLIC_API_URL && process.env.PUBLIC_API_URL !== 'https://api.mochify.xyz'
+						? [process.env.PUBLIC_API_URL]
+						: []),
+					...(process.env.PUBLIC_WORKER_URL &&
+					process.env.PUBLIC_WORKER_URL !== 'https://tokens.mochify.xyz'
+						? [process.env.PUBLIC_WORKER_URL]
+						: [])
+				],
+				'img-src': ['self', 'data:', 'blob:'],
+				'media-src': ['self', 'https://assets.mochify.xyz'],
+				'worker-src': ['self'],
+				'frame-ancestors': ['none'],
+				'upgrade-insecure-requests': true
+			}
+		}
+	}
 };
 
 export default config;
