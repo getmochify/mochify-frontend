@@ -107,9 +107,8 @@
 <div class="flex-1 bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 min-h-screen flex flex-col relative">
     <Navigation />
 
-    <div class="fixed inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjIiIGZpbGw9InJnYmEoMjQwLCA5OCwgMTQ2LCAwLjA1KSIvPjwvZz48L3N2Zz4=')] pointer-events-none"></div>
 
-    <div class="relative max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8 w-full flex-grow">
+<div class="relative max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8 w-full flex-grow">
 
         <div class="text-center mb-16 space-y-4">
             <h1 class="text-5xl md:text-6xl font-black text-[#4A2C2C] tracking-tight">
