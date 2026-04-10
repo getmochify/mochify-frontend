@@ -128,6 +128,14 @@
             category: "Quick Answer",
             readTime: "3 min read",
             date: "Apr 09, 2026"
+        },
+        {
+            title: "Does Chrome 145 Enable JPEG XL by Default in 2026?",
+            description: "Chrome 145 adds JPEG XL decoding support, but the feature is off by default and requires a browser flag. Here is what that means for serving images in 2026.",
+            url: "/guides/chrome-145-jpeg-xl-default",
+            category: "Quick Answer",
+            readTime: "3 min read",
+            date: "Apr 10, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
