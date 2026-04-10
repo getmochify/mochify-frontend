@@ -125,7 +125,7 @@
             title: "How Do I Preload AVIF Hero Images in WordPress to Pass the LCP Threshold?",
             description: "Serving AVIF isn't enough — browsers still discover it late. Add a preload hint to your WordPress theme so the hero image starts downloading before the render tree is built, and hit Google's 2.5s LCP target.",
             url: "/guides/preload-avif-hero-images-wordpress-lcp",
-            category: "Quick Answer",
+            category: "Quick Guides",
             readTime: "3 min read",
             date: "Apr 09, 2026"
         },
@@ -133,7 +133,7 @@
             title: "Does Chrome 145 Enable JPEG XL by Default in 2026?",
             description: "Chrome 145 adds JPEG XL decoding support, but the feature is off by default and requires a browser flag. Here is what that means for serving images in 2026.",
             url: "/guides/chrome-145-jpeg-xl-default",
-            category: "Quick Answer",
+            category: "Quick Guides",
             readTime: "3 min read",
             date: "Apr 10, 2026"
         }

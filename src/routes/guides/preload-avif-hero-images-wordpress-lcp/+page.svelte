@@ -6,7 +6,7 @@
     const metadata = {
         title: "How Do I Preload AVIF Hero Images in WordPress to Pass the LCP Threshold?",
         description: "Serving AVIF isn't enough — browsers still discover it late. Add a preload hint to your WordPress theme so the hero image starts downloading before the render tree is built, and hit Google's 2.5s LCP target.",
-        category: "Quick Answer",
+        category: "Quick Guides",
         readTime: "3 min read",
         date: "April 9, 2026"
     };

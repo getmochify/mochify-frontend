@@ -6,7 +6,7 @@
     const metadata = {
         title: "Does Chrome 145 Enable JPEG XL by Default in 2026?",
         description: "Chrome 145 adds JPEG XL decoding support, but the feature is off by default and requires a browser flag. Here is what that means for serving images in 2026.",
-        category: "Quick Answer",
+        category: "Quick Guides",
         readTime: "3 min read",
         date: "April 10, 2026"
     };
