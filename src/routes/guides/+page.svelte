@@ -136,6 +136,14 @@
             category: "Quick Guides",
             readTime: "3 min read",
             date: "Apr 10, 2026"
+        },
+        {
+            title: "What Should I Use in 2026: WebP, AVIF, or JPEG XL?",
+            description: "In 2026, use AVIF as your primary format with WebP as fallback. JPEG XL is not production-ready for web at ~15% browser support.",
+            url: "/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl",
+            category: "Quick Guides",
+            readTime: "2 min read",
+            date: "Apr 13, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
