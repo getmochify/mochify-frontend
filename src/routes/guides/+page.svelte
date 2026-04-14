@@ -144,6 +144,14 @@
             category: "Quick Guides",
             readTime: "2 min read",
             date: "Apr 13, 2026"
+        },
+        {
+            title: "Should I Optimize My Images Before I Upload Them?",
+            description: "Almost always yes. A practical guide to pre-upload image optimization covering LCP, EXIF privacy, format choice, and workflows for Shopify, WordPress, and marketplaces.",
+            url: "/guides/should-i-optimize-images-before-upload",
+            category: "Image Optimization",
+            readTime: "15 min read",
+            date: "Apr 13, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
