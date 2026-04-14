@@ -415,7 +415,7 @@
 
 CLI:      --prompt "normalize for CDN: 3000px long edge, sRGB, strip EXIF, master format lossless WebP, keep visual quality very high"
 
-REST API: POST /v1/prompt  {"prompt": "compress these for web delivery: max 1600px, WebP, under 250KB, strip all metadata"}</code></pre>
+REST API: POST /v1/prompt  {'{"prompt": "compress these for web delivery: max 1600px, WebP, under 250KB, strip all metadata"}'}</code></pre>
             </div>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Designers, photographers, and agencies</h3>
