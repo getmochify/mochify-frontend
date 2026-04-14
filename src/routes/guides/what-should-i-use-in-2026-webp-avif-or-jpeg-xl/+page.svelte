@@ -8,7 +8,7 @@
         description: "In 2026, use AVIF as your primary format with WebP as fallback. JPEG XL is not production-ready for web at ~15% browser support.",
         category: "Quick Guides",
         readTime: "2 min read",
-        date: "April 10, 2026"
+        date: "April 13, 2026"
     };
 
     const related = [
