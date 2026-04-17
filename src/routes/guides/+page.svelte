@@ -152,6 +152,14 @@
             category: "Image Optimization",
             readTime: "15 min read",
             date: "Apr 13, 2026"
+        },
+        {
+            title: "Is JPEG XL Ready for Shopify Product Images in 2026?",
+            description: "JPEG XL is not ready for live Shopify stores in 2026. Browser support sits at 12–17% globally and Shopify doesn't accept JXL uploads. Use AVIF with a WebP fallback.",
+            url: "/guides/is-jpeg-xl-ready-for-shopify-product-images",
+            category: "Quick Guides",
+            readTime: "3 min read",
+            date: "Apr 14, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
