@@ -80,6 +80,7 @@
 	let statusTimeout: ReturnType<typeof setTimeout>;
 	let hitRateLimit: boolean = $state(false);
 	let showSignupCta: boolean = $state(false);
+	let showUpgradeCta: boolean = $state(false);
 	let victoryGlow: boolean = $state(false);
 
 	function triggerVictoryGlow() {
@@ -285,12 +286,8 @@
 			if (tokenRes.ok) {
 				tokenData = await tokenRes.json();
 				if (tokenData.remaining < files.length) {
-					if (!jwt) showSignupCta = true;
-					else
-						showStatus(
-							'error',
-							"You've reached your processing limit. Upgrade your plan for more."
-						);
+					if (jwt) showUpgradeCta = true;
+					else showSignupCta = true;
 					return;
 				}
 			}
@@ -342,8 +339,14 @@
 				body: JSON.stringify({ prompt: prompt.trim(), fileData: fileDetails })
 			});
 
-			if (!nlpResponse.ok)
+			if (!nlpResponse.ok) {
+				if (nlpResponse.status === 429) {
+					if (jwt) showUpgradeCta = true;
+					else showSignupCta = true;
+					return;
+				}
 				throw new Error(`Failed to understand prompt (Status: ${nlpResponse.status})`);
+			}
 
 			const parsedData = (await nlpResponse.json()) as { agent_message?: string; files?: any[] };
 			agentMessage = parsedData.agent_message || '';
@@ -523,7 +526,8 @@
 						console.error(`Error squishing ${file.name}:`, e);
 						if (e?.status === 429) {
 							hitRateLimit = true;
-							if (!jwt) showSignupCta = true;
+							if (jwt) showUpgradeCta = true;
+							else showSignupCta = true;
 							break;
 						}
 					}
@@ -541,15 +545,7 @@
 
 			await Promise.all(workers);
 
-			if (hitRateLimit) {
-				showStatus(
-					'error',
-					jwt
-						? "You've reached your processing limit. Upgrade your plan for more."
-						: "You've hit the free limit. Sign up for more images."
-				);
-				return;
-			}
+			if (hitRateLimit) return;
 
 			if (downloadAsZip && Object.keys(zipContents).length > 0) {
 				processPhase = 'packing';
@@ -1038,6 +1034,51 @@
 		{/if}
 	</div>
 </div>
+
+{#if showUpgradeCta}
+	<div
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+		onclick={() => (showUpgradeCta = false)}
+		role="dialog"
+		aria-modal="true"
+	>
+		<div
+			class="relative w-full max-w-sm rounded-3xl bg-white p-8 shadow-2xl"
+			onclick={(e) => e.stopPropagation()}
+		>
+			<button
+				onclick={() => (showUpgradeCta = false)}
+				class="absolute top-4 right-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#875F42]/8 text-[#875F42]/50 transition-all hover:bg-[#875F42]/15 hover:text-[#875F42]"
+				aria-label="Close"
+			>
+				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+				</svg>
+			</button>
+			<div class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FFD6E5] to-[#F06292]/20">
+				<svg class="h-6 w-6 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+				</svg>
+			</div>
+			<h3 class="mb-2 text-lg font-black text-[#4A2C2C]">You've used your quota</h3>
+			<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
+				You've reached your plan's processing limit. Upgrade to get more images per month and unlock batch processing up to 25 files.
+			</p>
+			<a
+				href="/pricing"
+				class="mb-3 block w-full rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] py-3 text-center font-black text-white shadow-lg shadow-pink-200/50 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-pink-300/60"
+			>
+				Upgrade plan
+			</a>
+			<button
+				onclick={() => (showUpgradeCta = false)}
+				class="block w-full rounded-2xl border border-[#875F42]/15 py-3 text-center font-bold text-[#875F42] transition-all duration-200 hover:bg-[#875F42]/5 cursor-pointer"
+			>
+				Maybe later
+			</button>
+		</div>
+	</div>
+{/if}
 
 {#if showSignupCta}
 	<div
