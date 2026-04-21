@@ -86,6 +86,12 @@
             >
                 Sign in
             </a>
+            <a
+                href="/auth/register"
+                class="px-4 py-2 rounded-xl text-xs font-black text-white bg-[#F06292] hover:bg-[#E91E8C] shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-95"
+            >
+                Get started
+            </a>
         {/if}
     </div>
 
@@ -138,6 +144,9 @@
                 {:else}
                     <a href="/auth/login" onclick={closeMenu} class="px-6 py-4 text-[#6C3F31] font-medium rounded-2xl hover:bg-[#FFF5F7] transition-all active:scale-95 border-t border-pink-50">
                         Sign in
+                    </a>
+                    <a href="/auth/register" onclick={closeMenu} class="mx-2 mb-2 px-6 py-4 text-center text-white font-black rounded-2xl bg-[#F06292] hover:bg-[#E91E8C] transition-all active:scale-95 shadow-sm">
+                        Get started
                     </a>
                 {/if}
             </div>
