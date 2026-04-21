@@ -82,13 +82,13 @@
         {:else}
             <a
                 href="/auth/login"
-                class="px-4 py-2 rounded-xl text-xs font-black text-[#6C3F31] border border-[#875F42]/15 hover:border-[#F06292]/30 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all cursor-pointer"
+                class="text-sm font-semibold text-[#6C3F31]/60 hover:text-[#F06292] transition-colors cursor-pointer"
             >
                 Sign in
             </a>
             <a
                 href="/auth/register"
-                class="px-4 py-2 rounded-xl text-xs font-black text-white bg-[#F06292] hover:bg-[#E91E8C] shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-95"
+                class="px-5 py-2 rounded-full text-sm font-black text-white bg-[#F06292] hover:bg-[#E91E8C] shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-95"
             >
                 Get started
             </a>
