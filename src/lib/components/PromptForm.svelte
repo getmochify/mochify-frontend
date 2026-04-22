@@ -28,6 +28,8 @@
 	let downloadAsZip: boolean = $state(false);
 	let agentMessage: string = $state('');
 
+	let showInfoTooltip = $state(false)
+
 	let textareaEl: HTMLTextAreaElement;
 	let fileInputEl: HTMLInputElement;
 
@@ -882,6 +884,28 @@
 							{files.length} {files.length === 1 ? 'image' : 'images'} attached
 						{/if}
 					</span>
+					<!-- Info tooltip -->
+					<div class="relative flex-shrink-0">
+						<button
+							onclick={() => (showInfoTooltip = !showInfoTooltip)}
+							class="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-[#875F42]/40 transition-all hover:bg-white/60 hover:text-[#875F42]/70"
+							aria-label="How it works"
+						>
+							<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+							</svg>
+						</button>
+						{#if showInfoTooltip}
+							<div class="absolute bottom-9 right-0 z-50 w-64 rounded-2xl border border-white/60 bg-white/95 p-4 shadow-xl shadow-pink-100/40 backdrop-blur-md">
+								<div class="absolute -bottom-1.5 right-2.5 h-3 w-3 rotate-45 border-r border-b border-white/60 bg-white/95"></div>
+								<p class="mb-1 text-[10px] font-black tracking-widest uppercase text-[#F06292]">How it works</p>
+								<p class="mb-3 text-xs leading-relaxed text-[#4A2C2C]/75">Describe what you want in plain English, attach your images, then hit send. The AI reads your prompt and processes each file automatically.</p>
+								<p class="mb-1 text-[10px] font-black tracking-widest uppercase text-[#F06292]">Accepted formats</p>
+								<p class="text-xs leading-relaxed text-[#4A2C2C]/75">JPG · PNG · WebP · AVIF · JPEG XL · HEIC · HEIF · HIF</p>
+							</div>
+							<button class="fixed inset-0 -z-10 cursor-default" onclick={() => (showInfoTooltip = false)} aria-label="Close" tabindex="-1"></button>
+						{/if}
+					</div>
 					<!-- Send button -->
 					<button
 						onclick={submit}
