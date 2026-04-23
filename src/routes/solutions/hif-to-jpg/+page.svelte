@@ -73,6 +73,26 @@
             <ImageUpload types=".HEIF, .HIF" quality={90} output="jpg" showQuality={true} showTypes={false} compact queryParams="photography=1" showExifOption={true} />
         </div>
 
+        <section class="mt-10 mb-20 max-w-2xl mx-auto">
+            <div class="liquid-glass rounded-[2rem] px-7 py-6 flex flex-col sm:flex-row items-center gap-5">
+                <div class="flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FFD6E5] to-[#F06292]/20">
+                    <svg class="h-6 w-6 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                    </svg>
+                </div>
+                <div class="flex-1 text-center sm:text-left">
+                    <p class="font-black text-[#4A2C2C] text-base leading-snug">Need to resize too? Just say so.</p>
+                    <p class="text-sm text-[#6C3F31]/70 mt-1 leading-relaxed">Type something like <span class="font-semibold text-[#6C3F31]">"convert to JPG and resize to 1200px"</span> — our prompt form handles the rest.</p>
+                </div>
+                <a
+                    href="/auth/register"
+                    class="flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-black text-white bg-[#F06292] hover:bg-[#E91E8C] shadow-sm hover:shadow-md transition-all active:scale-95 whitespace-nowrap"
+                >
+                    Try it free
+                </a>
+            </div>
+        </section>
+
         <section class="mt-20 max-w-4xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-start">
             
@@ -127,3 +147,16 @@
         <Footer />
     </div>
 </div>
+
+<style>
+    .liquid-glass {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow:
+            0 8px 32px 0 rgba(240, 98, 146, 0.15),
+            inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
+            inset 0 -1px 0 0 rgba(255, 255, 255, 0.1);
+    }
+</style>

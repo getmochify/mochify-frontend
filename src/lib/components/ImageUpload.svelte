@@ -9,6 +9,7 @@
 	type FileProgress = {
 		file: File;
 		progress: number;
+		phase: 'uploading' | 'processing' | 'downloading';
 		status: 'pending' | 'processing' | 'complete' | 'error';
 		error?: string;
 		thumbnailUrl?: string;
@@ -159,6 +160,7 @@
 			return {
 				file,
 				progress: 0,
+				phase: 'uploading' as const,
 				status: 'pending' as const,
 				thumbnailUrl: URL.createObjectURL(file)
 			};
@@ -230,6 +232,7 @@
 		fileProgress = selectedFiles.map((file) => ({
 			file,
 			progress: 0,
+			phase: 'uploading' as const,
 			status: 'pending' as const
 		}));
 
@@ -249,13 +252,20 @@
 
 						xhr.upload.addEventListener('progress', (e) => {
 							if (e.lengthComputable) {
-								fileProgress[index].progress = Math.round((e.loaded / e.total) * 40);
+								fileProgress[index].phase = 'uploading';
+								fileProgress[index].progress = Math.round((e.loaded / e.total) * 100);
 							}
 						});
 
+						xhr.upload.addEventListener('load', () => {
+							fileProgress[index].phase = 'processing';
+							fileProgress[index].progress = 0;
+						});
+
 						xhr.addEventListener('progress', (e) => {
+							fileProgress[index].phase = 'downloading';
 							if (e.lengthComputable) {
-								fileProgress[index].progress = Math.round(60 + (e.loaded / e.total) * 40);
+								fileProgress[index].progress = Math.round((e.loaded / e.total) * 100);
 							}
 						});
 
@@ -273,15 +283,6 @@
 
 						xhr.addEventListener('error', () => reject(new Error('Network error')));
 						xhr.addEventListener('abort', () => reject(new Error('Upload cancelled')));
-
-						xhr.upload.addEventListener('load', () => {
-							fileProgress[index].progress = 40;
-							setTimeout(() => {
-								if (fileProgress[index].progress < 60) {
-									fileProgress[index].progress = 50;
-								}
-							}, 100);
-						});
 
 						xhr.open(
 							'POST',
@@ -582,13 +583,14 @@
 
 					<!-- Progress bar -->
 					{#if fp.status === 'processing'}
-						<div
-							class="absolute right-0 -bottom-2 left-0 h-1 overflow-hidden rounded-full bg-white/30"
-						>
-							<div
-								class="h-full rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6] transition-all duration-300"
-								style="width: {fp.progress}%"
-							></div>
+						<div class="absolute right-0 -bottom-2 left-0 h-1 overflow-hidden rounded-full bg-white/30">
+							{#if fp.phase === 'uploading'}
+								<div class="h-full rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6] transition-all duration-300" style="width: {fp.progress}%"></div>
+							{:else if fp.phase === 'processing'}
+								<div class="animate-shimmer absolute inset-0 bg-gradient-to-r from-[#A5D6A7] via-[#66BB6A] to-[#A5D6A7] bg-[length:200%_100%]"></div>
+							{:else if fp.phase === 'downloading'}
+								<div class="h-full rounded-full bg-gradient-to-r from-[#A5D6A7] to-[#66BB6A] transition-all duration-300" style="width: {fp.progress}%"></div>
+							{/if}
 						</div>
 					{/if}
 
@@ -970,5 +972,13 @@
 			0 0 0 2px rgba(240, 98, 146, 0.4),
 			0 0 40px rgba(240, 98, 146, 0.2),
 			inset 0 0 20px rgba(255, 255, 255, 0.5);
+	}
+
+	@keyframes shimmer {
+		0% { background-position: 200% 0; }
+		100% { background-position: -200% 0; }
+	}
+	.animate-shimmer {
+		animation: shimmer 1.8s ease-in-out infinite;
 	}
 </style>
