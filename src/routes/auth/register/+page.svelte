@@ -74,7 +74,10 @@
 						</div>
 						<p class="mb-1 text-lg font-black text-[#4A2C2C]">Check your email</p>
 						<p class="text-sm text-[#875F42]/70">
-							We sent a confirmation link to <strong class="text-[#6C3F31]">{email}</strong>
+							We sent a confirmation link to <strong class="text-[#6C3F31]">{email}</strong>.
+						</p>
+						<p class="mt-2 text-sm text-[#875F42]/70">
+							Already have an account? <a href="/auth/login" class="font-bold text-[#F06292] hover:underline">Sign in instead</a>
 						</p>
 					</div>
 				{:else}

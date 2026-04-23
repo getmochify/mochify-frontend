@@ -26,7 +26,7 @@ export function createAuth(db: D1Database) {
                 if (!resend) return;
                 try {
                     await resend.emails.send({
-                        from: "Mochify <hello@mochify.app>",
+                        from: "Mochify <hello@send.mochify.app>",
                         to: user.email,
                         subject: "Reset your password",
                         html: `<p>Click <a href="${url}">here</a> to reset your password. This link expires in 1 hour.</p>`,
@@ -43,7 +43,7 @@ export function createAuth(db: D1Database) {
                 if (!resend) return;
                 try {
                     await resend.emails.send({
-                        from: "Mochify <hello@mochify.app>",
+                        from: "Mochify <hello@send.mochify.app>",
                         to: user.email,
                         subject: "Verify your email",
                         html: `<p>Click <a href="${url}">here</a> to verify your email address.</p>`,
