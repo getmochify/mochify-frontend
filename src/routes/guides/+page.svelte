@@ -160,6 +160,14 @@
             category: "Quick Guides",
             readTime: "3 min read",
             date: "Apr 14, 2026"
+        },
+        {
+            title: "HIF/HEIF to JPEG for Professional Photographers: A Privacy-First Workflow Guide",
+            description: "Convert Canon HIF and HEIF to JPEG with confidence. Wedding, commercial, and editorial workflow blueprints with EXIF stripping, batch sizing, and zero-retention processing.",
+            url: "/guides/heif-to-jpeg-workflow-photographers-guide",
+            category: "Workflow Guide",
+            readTime: "12 min read",
+            date: "Apr 23, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
