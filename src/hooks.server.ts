@@ -7,8 +7,8 @@ import { getPostHogClient } from '$lib/server/posthog';
 type Auth = ReturnType<typeof createAuth>;
 let _auth: Auth | undefined;
 
-function getAuth(db: D1Database): Auth {
-	if (!_auth) _auth = createAuth(db);
+function getAuth(db: D1Database, resendKey: string | undefined): Auth {
+	if (!_auth) _auth = createAuth(db, resendKey);
 	return _auth;
 }
 
@@ -67,7 +67,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return response;
 	}
 
-	const auth = getAuth(db);
+	const auth = getAuth(db, event.platform?.env?.RESEND_API_KEY);
 
 	const cookieHeader = event.request.headers.get('cookie') ?? '';
 	const tokenMatch = cookieHeader.match(/better-auth\.session_token=([^;]+)/);

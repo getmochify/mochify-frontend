@@ -14,6 +14,7 @@ declare global {
 			env: {
 				USAGE_KV: KVNamespace
 				DB: D1Database
+				RESEND_API_KEY: string | undefined
 			}
 		}
 	}

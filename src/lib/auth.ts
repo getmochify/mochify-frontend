@@ -4,11 +4,9 @@ import { Kysely } from "kysely";
 import { D1Dialect } from "kysely-d1";
 import { Resend } from "resend";
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET } from "$env/static/private";
-import { env } from "$env/dynamic/private";
 import { PUBLIC_APP_URL } from "$env/static/public";
 
-export function createAuth(db: D1Database) {
-    const resendKey = env.RESEND_API_KEY;
+export function createAuth(db: D1Database, resendKey: string | undefined) {
     if (!resendKey) console.warn("[auth] RESEND_API_KEY is not set — emails will not be sent");
     const resend = resendKey ? new Resend(resendKey) : null;
 
