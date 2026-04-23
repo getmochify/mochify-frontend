@@ -8,7 +8,7 @@
 
 Mochify is a high-performance image processing utility. Unlike traditional cloud converters that buffer images to disk, Mochify uses a **stateless C++ engine** to ensure your pixels never touch permanent storage.
 
-**[Launch App →](https://mochify.xyz)**
+**[Launch App →](https://mochify.app)**
 
 ---
 
