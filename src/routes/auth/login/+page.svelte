@@ -4,13 +4,17 @@
 	import Navigation from '$lib/components/Navigation.svelte';
 	import posthog from 'posthog-js';
 
+	let { data } = $props();
+
 	let email = $state('');
 	let password = $state('');
 	let loading = $state(false);
 	let error = $state('');
 
+	const next = $derived(data?.next ?? '/dashboard');
+
 	async function handleGoogle() {
-		await authClient.signIn.social({ provider: 'google', callbackURL: '/dashboard' });
+		await authClient.signIn.social({ provider: 'google', callbackURL: next });
 	}
 
 	async function handleLogin(e: Event) {
@@ -27,7 +31,7 @@
 			posthog.identify(email, { email });
 			posthog.capture('user_logged_in', { method: 'email' });
 			await invalidateAll();
-			goto('/dashboard');
+			goto(next);
 		}
 	}
 </script>
