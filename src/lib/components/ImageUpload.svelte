@@ -52,6 +52,9 @@
 	});
 
 	let showSignupCta = $state(false);
+	let processPhase: 'idle' | 'uploading' | 'processing' | 'downloading' = $state('idle');
+	let uploadPercent: number = $state(0);
+	let downloadPercent: number = $state(0);
 
 	// Token limit tracking
 	let availableTokens: number = $state(0);
@@ -228,6 +231,9 @@
 		isLoading = true;
 		errorMessage = '';
 		successMessage = '';
+		processPhase = 'uploading';
+		uploadPercent = 0;
+		downloadPercent = 0;
 
 		fileProgress = selectedFiles.map((file) => ({
 			file,
@@ -240,32 +246,37 @@
 			let totalCompressedSize = 0;
 			const compressedBlobs: Blob[] = new Array(selectedFiles.length);
 			let hitRateLimit = false;
+			const totalBytes = selectedFiles.reduce((sum, f) => sum + f.size, 0);
+			let uploadedBytes = 0;
 
 			const processFile = async (index: number) => {
 				const file = selectedFiles[index];
 				fileProgress[index].status = 'processing';
-				fileProgress[index].progress = 0;
 
 				try {
 					const blob = await new Promise<Blob>((resolve, reject) => {
 						const xhr = new XMLHttpRequest();
+						let lastLoaded = 0;
 
 						xhr.upload.addEventListener('progress', (e) => {
-							if (e.lengthComputable) {
-								fileProgress[index].phase = 'uploading';
-								fileProgress[index].progress = Math.round((e.loaded / e.total) * 100);
-							}
+							const delta = e.loaded - lastLoaded;
+							lastLoaded = e.loaded;
+							uploadedBytes += delta;
+							processPhase = 'uploading';
+							uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
 						});
 
 						xhr.upload.addEventListener('load', () => {
-							fileProgress[index].phase = 'processing';
-							fileProgress[index].progress = 0;
+							uploadedBytes += file.size - lastLoaded;
+							uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+							processPhase = 'processing';
+							downloadPercent = 0;
 						});
 
 						xhr.addEventListener('progress', (e) => {
-							fileProgress[index].phase = 'downloading';
+							processPhase = 'downloading';
 							if (e.lengthComputable) {
-								fileProgress[index].progress = Math.round((e.loaded / e.total) * 100);
+								downloadPercent = Math.round((e.loaded / e.total) * 100);
 							}
 						});
 
@@ -296,7 +307,6 @@
 
 					compressedBlobs[index] = blob;
 					totalCompressedSize += blob.size;
-					fileProgress[index].progress = 100;
 					fileProgress[index].status = 'complete';
 				} catch (error: any) {
 					fileProgress[index].status = 'error';
@@ -407,6 +417,7 @@
 			errorMessage = error instanceof Error ? error.message : 'Failed to compress images';
 		} finally {
 			isLoading = false;
+			processPhase = 'idle';
 		}
 	}
 
@@ -581,18 +592,6 @@
 						</div>
 					{/if}
 
-					<!-- Progress bar -->
-					{#if fp.status === 'processing'}
-						<div class="absolute right-0 -bottom-2 left-0 h-1 overflow-hidden rounded-full bg-white/30">
-							{#if fp.phase === 'uploading'}
-								<div class="h-full rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6] transition-all duration-300" style="width: {fp.progress}%"></div>
-							{:else if fp.phase === 'processing'}
-								<div class="animate-shimmer absolute inset-0 bg-gradient-to-r from-[#A5D6A7] via-[#66BB6A] to-[#A5D6A7] bg-[length:200%_100%]"></div>
-							{:else if fp.phase === 'downloading'}
-								<div class="h-full rounded-full bg-gradient-to-r from-[#A5D6A7] to-[#66BB6A] transition-all duration-300" style="width: {fp.progress}%"></div>
-							{/if}
-						</div>
-					{/if}
 
 					<!-- Remove button -->
 					{#if fp.status !== 'processing'}
@@ -838,6 +837,18 @@
 	{/if}
 
 	<!-- Footer tray -->
+	<div>
+	{#if isLoading}
+		<div class="relative h-1 overflow-hidden bg-white/20">
+			{#if processPhase === 'uploading'}
+				<div class="h-full bg-gradient-to-r from-[#F06292] to-[#e040a0] shadow-[0_0_10px_rgba(240,98,146,0.5)] transition-all duration-300 ease-out" style="width: {uploadPercent}%"></div>
+			{:else if processPhase === 'processing'}
+				<div class="animate-shimmer absolute inset-0 bg-gradient-to-r from-[#A5D6A7] via-[#66BB6A] to-[#A5D6A7] bg-[length:200%_100%] opacity-80"></div>
+			{:else if processPhase === 'downloading'}
+				<div class="h-full bg-gradient-to-r from-[#A5D6A7] to-[#66BB6A] shadow-[0_0_10px_rgba(165,214,167,0.5)] transition-all duration-300 ease-out" style="width: {downloadPercent}%"></div>
+			{/if}
+		</div>
+	{/if}
 	<div
 		class="flex items-center justify-between gap-3 bg-white/20 px-4 py-2 backdrop-blur-md sm:px-6"
 	>
@@ -861,7 +872,13 @@
 
 		<span class="flex-shrink-0 text-xs font-medium whitespace-nowrap text-[#6C3F31]/70">
 			{#if isLoading}
-				Processing…
+				{#if processPhase === 'uploading'}
+					Uploading… ({uploadPercent}%)
+				{:else if processPhase === 'processing'}
+					<span class="animate-pulse">⬡</span> Processing…
+				{:else if processPhase === 'downloading'}
+					Saving…
+				{/if}
 			{:else if selectedFiles.length > 0}
 				{selectedFiles.length}
 				{selectedFiles.length === 1 ? 'image' : 'images'} ready
@@ -874,6 +891,7 @@
 				{/if}
 			{/if}
 		</span>
+	</div>
 	</div>
 </div>
 
