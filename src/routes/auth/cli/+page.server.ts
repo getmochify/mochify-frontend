@@ -6,7 +6,7 @@ const WORKER_URL = 'https://tokens.mochify.xyz'
 
 const STATE_RE = /^[a-f0-9]{64}$/
 
-export const load: PageServerLoad = async ({ locals, url, platform }) => {
+export const load: PageServerLoad = async ({ locals, url }) => {
     const state = url.searchParams.get('state') ?? ''
 
     if (!STATE_RE.test(state)) redirect(302, '/')
@@ -30,7 +30,7 @@ export const load: PageServerLoad = async ({ locals, url, platform }) => {
 }
 
 export const actions: Actions = {
-    authorize: async ({ request, locals, platform }) => {
+    authorize: async ({ request, locals }) => {
         if (!locals.user || !locals.session) return fail(401, { error: 'Not authenticated' })
 
         const data = await request.formData()
@@ -55,11 +55,9 @@ export const actions: Actions = {
 
         const { key } = await keyRes.json() as { key: string }
 
-        const workerToken = platform?.env?.CF_WORKER_TOKEN ?? ''
-
         const depositRes = await fetch(`${WORKER_URL}/v1/cli/session/${state}`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-Worker-Token': workerToken },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ apiKey: key }),
         })
 

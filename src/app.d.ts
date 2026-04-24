@@ -15,7 +15,6 @@ declare global {
 				USAGE_KV: KVNamespace
 				DB: D1Database
 				RESEND_API_KEY: string | undefined
-				CF_WORKER_TOKEN: string | undefined
 			}
 		}
 	}
