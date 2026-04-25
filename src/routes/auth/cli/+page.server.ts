@@ -2,7 +2,7 @@ import { redirect, fail } from '@sveltejs/kit'
 import type { Actions, PageServerLoad } from './$types'
 
 const API_URL = 'https://api.mochify.xyz'
-const WORKER_URL = 'https://tokens.mochify.xyz'
+const WORKER_URL = 'https://tokens.mochify.app'
 
 const STATE_RE = /^[a-f0-9]{64}$/
 

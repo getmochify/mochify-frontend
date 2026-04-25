@@ -6,7 +6,7 @@
 	import posthog from 'posthog-js';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
-	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://tokens.mochify.xyz';
+	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://tokens.mochify.app';
 
 	let { onSuccess, onBgRemovalUpsell }: { onSuccess?: () => void; onBgRemovalUpsell?: () => void } =
 		$props();

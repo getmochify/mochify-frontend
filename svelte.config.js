@@ -17,12 +17,12 @@ const config = {
 				'connect-src': [
 					'self',
 					'https://api.mochify.xyz',
-					'https://tokens.mochify.xyz',
+					'https://tokens.mochify.app',
 					...(process.env.PUBLIC_API_URL && process.env.PUBLIC_API_URL !== 'https://api.mochify.xyz'
 						? [process.env.PUBLIC_API_URL]
 						: []),
 					...(process.env.PUBLIC_WORKER_URL &&
-					process.env.PUBLIC_WORKER_URL !== 'https://tokens.mochify.xyz'
+					process.env.PUBLIC_WORKER_URL !== 'https://tokens.mochify.app'
 						? [process.env.PUBLIC_WORKER_URL]
 						: [])
 				],
