@@ -44,7 +44,11 @@ export const actions: Actions = {
 
         if (!state || state.length > 512) return fail(400, { error: 'Invalid state parameter' })
 
-        const sessionToken = locals.session.token
+        // Prefer the raw cookie value — locals.session.token should match, but
+        // reading from the cookie avoids any KV-cache staleness edge cases.
+        const cookieHeader = request.headers.get('cookie') ?? ''
+        const cookieMatch = cookieHeader.match(/better-auth\.session_token=([^;]+)/)
+        const sessionToken = cookieMatch ? decodeURIComponent(cookieMatch[1]) : locals.session.token
         const userId = locals.user.id
 
         // Rotate API key
