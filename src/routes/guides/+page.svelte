@@ -168,6 +168,14 @@
             category: "Workflow Guide",
             readTime: "12 min read",
             date: "Apr 23, 2026"
+        },
+        {
+            title: "Should I Shoot HEIF or JPEG on My Mirrorless Camera?",
+            description: "Shoot HEIF for capture quality, deliver JPEG to clients. Here's the practical 2026 workflow for Canon EOS R, Nikon Z, and Sony Alpha shooters.",
+            url: "/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera",
+            category: "Quick Guide",
+            readTime: "3 min read",
+            date: "Apr 25, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());

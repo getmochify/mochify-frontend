@@ -58,7 +58,10 @@ export const actions: Actions = {
             headers: { Authorization: `Bearer ${sessionToken}` },
         })
 
-        if (!keyRes.ok) return fail(502, { error: 'Failed to generate API key. Try again.' })
+        if (!keyRes.ok) {
+            const detail = await keyRes.text().catch(() => '')
+            return fail(502, { error: `Failed to generate API key (${keyRes.status})${detail ? ': ' + detail : ''}` })
+        }
 
         const { key } = await keyRes.json() as { key: string }
 

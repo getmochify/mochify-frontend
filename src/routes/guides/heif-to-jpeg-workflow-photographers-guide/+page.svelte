@@ -366,9 +366,9 @@
                     </thead>
                     <tbody>
                         {#each [
-                            { plan: 'Free', images: '25 (no account)', size: '20 MB', for: 'Testing, occasional single jobs' },
-                            { plan: 'Lite — $9/month', images: '300', size: '75 MB', for: 'Part-time and emerging pros' },
-                            { plan: 'Pro — $19/month', images: '1,200', size: '75 MB', for: 'Working pros, multi-shoot weeks' },
+                            { plan: 'Free', images: '25', size: '20 MB', for: 'Testing, occasional single jobs' },
+                            { plan: 'Lite — $7.99/month', images: '300', size: '75 MB', for: 'Part-time and emerging pros' },
+                            { plan: 'Pro — $24.99/month', images: '1,200', size: '75 MB', for: 'Working pros, multi-shoot weeks' },
                         ] as row, i}
                             <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
                                 <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">{row.plan}</td>
