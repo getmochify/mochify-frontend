@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { enhance, applyAction } from '$app/forms';
 	import Navigation from '$lib/components/Navigation.svelte';
 
 	let { data, form } = $props();
@@ -69,9 +69,13 @@
 					action="?/authorize"
 					use:enhance={() => {
 						loading = true;
-						return async ({ update }) => {
-							await update();
-							loading = false;
+						return async ({ result }) => {
+							if (result.type === 'redirect') {
+								window.location.href = result.location;
+							} else {
+								loading = false;
+								await applyAction(result);
+							}
 						};
 					}}
 				>
