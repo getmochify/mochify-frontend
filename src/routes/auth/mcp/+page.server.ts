@@ -2,7 +2,7 @@ import { redirect, fail } from '@sveltejs/kit'
 import { CF_WORKER_TOKEN } from '$env/static/private'
 import type { Actions, PageServerLoad } from './$types'
 
-const API_URL = 'https://api.mochify.xyz'
+const TOKEN_WORKER_URL = 'https://tokens.mochify.app'
 const MCP_WORKER_URL = 'https://mcp.mochify.app'
 
 export const load: PageServerLoad = async ({ locals, url }) => {
@@ -23,13 +23,10 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 
     let hasKey = false
     try {
-        const res = await fetch(`${API_URL}/v1/user/apikey`, {
-            headers: { Authorization: `Bearer ${locals.session.token}` },
+        const res = await fetch(`${TOKEN_WORKER_URL}/user/${locals.user.id}/apikey`, {
+            headers: { 'X-Worker-Token': CF_WORKER_TOKEN },
         })
-        if (res.ok) {
-            const body = await res.json() as { has_key: boolean }
-            hasKey = body.has_key
-        }
+        if (res.ok) hasKey = true
     } catch { /* proceed without key status */ }
 
     return { state, hasKey, user: locals.user }
@@ -44,30 +41,26 @@ export const actions: Actions = {
 
         if (!state || state.length > 512) return fail(400, { error: 'Invalid state parameter' })
 
-        // Prefer the raw cookie value — locals.session.token should match, but
-        // reading from the cookie avoids any KV-cache staleness edge cases.
-        const cookieHeader = request.headers.get('cookie') ?? ''
-        const cookieMatch = cookieHeader.match(/better-auth\.session_token=([^;]+)/)
-        const sessionToken = cookieMatch ? decodeURIComponent(cookieMatch[1]) : locals.session.token
         const userId = locals.user.id
 
-        // Rotate API key
-        await fetch(`${API_URL}/v1/user/apikey`, {
+        // Delete any existing key, then generate a fresh one directly via worker
+        await fetch(`${TOKEN_WORKER_URL}/user/${userId}/apikey`, {
             method: 'DELETE',
-            headers: { Authorization: `Bearer ${sessionToken}` },
+            headers: { 'X-Worker-Token': CF_WORKER_TOKEN },
         }).catch(() => {})
 
-        const keyRes = await fetch(`${API_URL}/v1/user/apikey`, {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${sessionToken}` },
+        const rawBytes = crypto.getRandomValues(new Uint8Array(32))
+        const key = Array.from(rawBytes).map(b => b.toString(16).padStart(2, '0')).join('')
+        const hashBuf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key))
+        const keyHash = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('')
+
+        const storeRes = await fetch(`${TOKEN_WORKER_URL}/apikey/${keyHash}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'X-Worker-Token': CF_WORKER_TOKEN },
+            body: JSON.stringify({ userId }),
         })
 
-        if (!keyRes.ok) {
-            const detail = await keyRes.text().catch(() => '')
-            return fail(502, { error: `Failed to generate API key (${keyRes.status})${detail ? ': ' + detail : ''}` })
-        }
-
-        const { key } = await keyRes.json() as { key: string }
+        if (!storeRes.ok) return fail(502, { error: 'Failed to generate API key. Try again.' })
 
         // Hand the API key + userId to the MCP worker, get back the OAuth auth code
         const callbackRes = await fetch(`${MCP_WORKER_URL}/oauth/callback`, {
