@@ -15,7 +15,7 @@ export default defineConfig({
                 globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,webmanifest,woff,woff2}'],
                 runtimeCaching: [
                     {
-                        urlPattern: ({ url }) => url.origin === 'https://api.mochify.xyz',
+                        urlPattern: ({ url }) => url.origin === 'https://api.mochify.app',
                         handler: 'NetworkOnly'
                     }
                 ],

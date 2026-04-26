@@ -8,7 +8,7 @@
 	import { env } from '$env/dynamic/public';
 	import posthog from 'posthog-js';
 
-	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
+	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 
 	let { data } = $props();
 
@@ -355,7 +355,7 @@
 
 			<div class="mt-4 border-t border-[#875F42]/8 pt-4">
 				<p class="font-mono text-xs break-all text-[#875F42]/50">
-					curl -H "Authorization: Bearer &lt;key&gt;" -X POST https://api.mochify.xyz/v1/squish ...
+					curl -H "Authorization: Bearer &lt;key&gt;" -X POST https://api.mochify.app/v1/squish ...
 				</p>
 			</div>
 		</div>

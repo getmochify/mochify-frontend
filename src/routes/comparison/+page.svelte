@@ -4,7 +4,7 @@
     import Footer from '$lib/components/Footer.svelte';
     import jxlDecWasmUrl from '@jsquash/jxl/codec/dec/jxl_dec.wasm?url';
 
-    const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
+    const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 
     // ── JXL polyfill helpers ─────────────────────────────────────
     let jxlNativeSupport: boolean | null = $state(null);

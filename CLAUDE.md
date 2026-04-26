@@ -19,7 +19,7 @@ There is no test suite. Type-check with `npm run check` before considering chang
 
 Copy `.env.example` to `.env`. The only variable is:
 ```
-PUBLIC_API_URL=http://localhost   # Defaults to https://api.mochify.xyz in production
+PUBLIC_API_URL=http://localhost   # Defaults to https://api.mochify.app in production
 ```
 
 ## Architecture

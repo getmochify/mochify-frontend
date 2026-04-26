@@ -160,7 +160,7 @@
                         "name": "Does Mochify have an API?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Yes. The REST API is available at api.mochify.xyz. Without an API key, 3 images per month are available (IP-based). Create a free account for 25 images per month. Seller provides 300 and Pro provides 1,200 — both include a Bearer-token key for higher-volume automation."
+                            "text": "Yes. The REST API is available at api.mochify.app. Without an API key, 3 images per month are available (IP-based). Create a free account for 25 images per month. Seller provides 300 and Pro provides 1,200 — both include a Bearer-token key for higher-volume automation."
                         }
                     },
                     {
@@ -560,7 +560,7 @@
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-5 pb-5 text-sm text-[#6C3F31] leading-relaxed">
-                        Yes. The REST API is available at <code class="font-mono text-xs text-[#F06292]">api.mochify.xyz</code>. Without an API key, 3 images per month are available (IP-based) — just send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">?type=</code> parameter. Create a free account for 25 images/month. Seller provides 300 and Pro provides 1,200 — both include a Bearer-token key for higher-volume automation. See the <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> for examples in cURL, JavaScript, and Python.
+                        Yes. The REST API is available at <code class="font-mono text-xs text-[#F06292]">api.mochify.app</code>. Without an API key, 3 images per month are available (IP-based) — just send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">?type=</code> parameter. Create a free account for 25 images/month. Seller provides 300 and Pro provides 1,200 — both include a Bearer-token key for higher-volume automation. See the <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> for examples in cURL, JavaScript, and Python.
                     </p>
                 </details>
 

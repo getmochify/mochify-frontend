@@ -125,7 +125,7 @@
                             All API requests are made to the base URL:
                         </p>
                         <div class="bg-[#FFF5F7] rounded-2xl px-5 py-4 font-mono text-sm text-[#4A2C2C] font-bold select-all">
-                            https://api.mochify.xyz
+                            https://api.mochify.app
                         </div>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
                             <div class="bg-[#FDFBF7] rounded-2xl border border-pink-50 p-4">
@@ -343,7 +343,7 @@
                                     <div class="bg-[#4A2C2C] px-4 py-2 flex items-center gap-2">
                                         <span class="text-[#FFB3C6]/60 text-xs font-bold uppercase tracking-wider">cURL</span>
                                     </div>
-                                    <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl -X POST "https://api.mochify.xyz/v1/squish?type=webp&stripExif=1" \
+                                    <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl -X POST "https://api.mochify.app/v1/squish?type=webp&stripExif=1" \
   -H "Content-Type: image/jpeg" \
   -H "Authorization: Bearer mchy_your_api_key" \
   --data-binary @photo.jpg \
@@ -357,7 +357,7 @@
                                     <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>const file = document.querySelector('input[type="file"]').files[0];
 
 const response = await fetch(
-  'https://api.mochify.xyz/v1/squish?type=avif&stripExif=1',
+  'https://api.mochify.app/v1/squish?type=avif&stripExif=1',
   &#123;
     method: 'POST',
     headers: &#123;
@@ -387,7 +387,7 @@ a.click();</code></pre>
 
 with open('photo.jpg', 'rb') as f:
     response = requests.post(
-        'https://api.mochify.xyz/v1/squish',
+        'https://api.mochify.app/v1/squish',
         params=&#123;'type': 'webp', 'stripExif': '1'&#125;,
         headers=&#123;
             'Content-Type': 'image/jpeg',
@@ -445,7 +445,7 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
                             <div class="bg-[#4A2C2C] px-4 py-2 flex items-center gap-2">
                                 <span class="text-[#FFB3C6]/60 text-xs font-bold uppercase tracking-wider">cURL</span>
                             </div>
-                            <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl "https://api.mochify.xyz/v1/checkTokens" \
+                            <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl "https://api.mochify.app/v1/checkTokens" \
   -H "Authorization: Bearer mchy_your_api_key"
 
 # Response
@@ -495,7 +495,7 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
                             <div class="bg-[#4A2C2C] px-4 py-2 flex items-center gap-2">
                                 <span class="text-[#FFB3C6]/60 text-xs font-bold uppercase tracking-wider">cURL</span>
                             </div>
-                            <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl -X POST "https://api.mochify.xyz/v1/prompt" \
+                            <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl -X POST "https://api.mochify.app/v1/prompt" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer mchy_your_api_key" \
   -d '&#123;

@@ -61,8 +61,8 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 	<link rel="manifest" href="/site.webmanifest" />
 
-	<link rel="dns-prefetch" href="https://api.mochify.xyz">
-	<link rel="preconnect" href="https://api.mochify.xyz" crossorigin="anonymous">
+	<link rel="dns-prefetch" href="https://api.mochify.app">
+	<link rel="preconnect" href="https://api.mochify.app" crossorigin="anonymous">
 
 	<script type="application/ld+json">
 	{

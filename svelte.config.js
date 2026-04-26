@@ -16,9 +16,9 @@ const config = {
 				'style-src': ['self', 'unsafe-inline'],
 				'connect-src': [
 					'self',
-					'https://api.mochify.xyz',
+					'https://api.mochify.app',
 					'https://tokens.mochify.app',
-					...(process.env.PUBLIC_API_URL && process.env.PUBLIC_API_URL !== 'https://api.mochify.xyz'
+					...(process.env.PUBLIC_API_URL && process.env.PUBLIC_API_URL !== 'https://api.mochify.app'
 						? [process.env.PUBLIC_API_URL]
 						: []),
 					...(process.env.PUBLIC_WORKER_URL &&

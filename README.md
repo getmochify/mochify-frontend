@@ -58,7 +58,7 @@ Copy `.env.example` to `.env`:
 PUBLIC_API_URL=http://localhost:3000
 ```
 
-> **Note:** The production API (`api.mochify.xyz`) enforces strict CORS/Referrer checks and will reject requests from `localhost`. Point `PUBLIC_API_URL` at a local mock server for development.
+> **Note:** The production API (`api.mochify.app`) enforces strict CORS/Referrer checks and will reject requests from `localhost`. Point `PUBLIC_API_URL` at a local mock server for development.
 
 ```bash
 npm run dev          # start dev server

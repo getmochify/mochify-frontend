@@ -3,7 +3,7 @@ import { Kysely } from 'kysely'
 import { D1Dialect } from 'kysely-d1'
 import type { RequestHandler } from './$types'
 
-const API_URL = PUBLIC_API_URL || 'https://api.mochify.xyz'
+const API_URL = PUBLIC_API_URL || 'https://api.mochify.app'
 const PLAN_LIMITS: Record<string, number> = { free: 25, seller: 300, pro: 1200 }
 
 export const GET: RequestHandler = async ({ locals, platform, request }) => {

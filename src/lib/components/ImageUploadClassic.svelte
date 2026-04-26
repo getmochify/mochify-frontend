@@ -3,7 +3,7 @@
     import { env } from '$env/dynamic/public';
     import { getSessionToken, getIsPro, getPlan } from '$lib/user';
 
-    const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.xyz';
+    const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 
     type FileProgress = {
         file: File;
