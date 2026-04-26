@@ -176,6 +176,14 @@
             category: "Quick Guide",
             readTime: "3 min read",
             date: "Apr 25, 2026"
+        },
+        {
+            title: "Does HEIF/HEIC Work With Client Gallery Platforms Like Pixieset and SmugMug?",
+            description: "HEIF and HEIC files don't work reliably with most client gallery platforms. Here's what actually happens on upload, and how to keep control of your output.",
+            url: "/guides/does-heif-heic-work-with-client-galleries",
+            category: "Quick Guide",
+            readTime: "3 min read",
+            date: "Apr 26, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
