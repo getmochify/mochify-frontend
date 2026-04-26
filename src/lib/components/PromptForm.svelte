@@ -83,7 +83,7 @@
 	let hitRateLimit: boolean = $state(false);
 	let showSignupCta: boolean = $state(false);
 	let showUpgradeCta: boolean = $state(false);
-	let failedFiles: string[] = $state([]);
+	let failedFiles: { name: string; reason: string }[] = $state([]);
 	let victoryGlow: boolean = $state(false);
 
 	function triggerVictoryGlow() {
@@ -349,7 +349,10 @@
 					else showSignupCta = true;
 					return;
 				}
-				throw new Error(`Failed to understand prompt (Status: ${nlpResponse.status})`);
+				if (nlpResponse.status >= 500) {
+					throw new Error('Something went wrong on our end — please try again in a moment.');
+				}
+				throw new Error('Couldn\'t understand your request. Try rephrasing and submit again.');
 			}
 
 			const parsedData = (await nlpResponse.json()) as { agent_message?: string; files?: any[] };
@@ -460,7 +463,7 @@
 						}
 					};
 
-					xhr.onerror = () => reject(new Error(`Network error processing ${file.name}`));
+					xhr.onerror = () => reject(new Error(`Lost connection while processing ${file.name} — check your internet and try again.`));
 					xhr.send(file);
 				});
 
@@ -534,7 +537,8 @@
 							else showSignupCta = true;
 							break;
 						}
-						failedFiles = [...failedFiles, file.name];
+						const reason = e instanceof Error ? e.message : (e?.status ? `Server error ${e.status}` : 'Processing failed');
+						failedFiles = [...failedFiles, { name: file.name, reason }];
 					}
 
 					processedFiles++;
@@ -597,7 +601,7 @@
 				error: err instanceof Error ? err.message : String(err)
 			});
 			posthog.captureException(err);
-			showStatus('error', err instanceof Error ? err.message : 'An unexpected error occurred.');
+			showStatus('error', err instanceof Error ? err.message : 'Something went wrong — please try again.');
 		} finally {
 			isProcessing = false;
 			processPhase = 'idle';
@@ -981,8 +985,8 @@
 						{failedFiles.length === 1 ? '1 file' : `${failedFiles.length} files`} couldn't be processed — try re-uploading:
 					</p>
 					<ul class="text-xs text-amber-700 space-y-0.5">
-						{#each failedFiles as name}
-							<li class="font-medium">{name}</li>
+						{#each failedFiles as f}
+							<li><span class="font-medium">{f.name}</span> — {f.reason}</li>
 						{/each}
 					</ul>
 				</div>
