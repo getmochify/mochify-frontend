@@ -83,6 +83,7 @@
 	let hitRateLimit: boolean = $state(false);
 	let showSignupCta: boolean = $state(false);
 	let showUpgradeCta: boolean = $state(false);
+	let failedFiles: string[] = $state([]);
 	let victoryGlow: boolean = $state(false);
 
 	function triggerVictoryGlow() {
@@ -310,6 +311,7 @@
 		completedFiles = 0;
 		hitRateLimit = false;
 		agentMessage = '';
+		failedFiles = [];
 
 		const thinkingMessages = ['Reading your images…', 'Planning the squish…'];
 
@@ -532,6 +534,7 @@
 							else showSignupCta = true;
 							break;
 						}
+						failedFiles = [...failedFiles, file.name];
 					}
 
 					processedFiles++;
@@ -963,6 +966,26 @@
 					><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" /></svg
 				>
 				<p class="text-xs leading-relaxed font-medium text-[#4A2C2C]/75">{agentMessage}</p>
+			</div>
+		</div>
+	{/if}
+
+	{#if failedFiles.length > 0}
+		<div class="animate-fade-in mt-3 px-1">
+			<div class="flex items-start gap-3 rounded-2xl border border-l-[3px] border-amber-200 border-l-amber-400 bg-amber-50 py-3.5 pr-5 pl-4">
+				<svg class="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+				</svg>
+				<div>
+					<p class="text-xs font-bold text-amber-800 mb-1">
+						{failedFiles.length === 1 ? '1 file' : `${failedFiles.length} files`} couldn't be processed — try re-uploading:
+					</p>
+					<ul class="text-xs text-amber-700 space-y-0.5">
+						{#each failedFiles as name}
+							<li class="font-medium">{name}</li>
+						{/each}
+					</ul>
+				</div>
 			</div>
 		</div>
 	{/if}
