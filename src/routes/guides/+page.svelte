@@ -184,6 +184,14 @@
             category: "Quick Guide",
             readTime: "3 min read",
             date: "Apr 26, 2026"
+        },
+        {
+            title: "AI Agent Workflow Automation for Photographers: Save Hours with Claude and Mochify",
+            description: "Build a hands-off post-shoot pipeline with Claude, Dispatch, and Mochify MCP. Files land in upload-ready folders while you're still in the field.",
+            url: "/guides/ai-agent-workflow-automation-photographers",
+            category: "Workflow Automation",
+            readTime: "10 min read",
+            date: "May 03, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
