@@ -1,14 +1,35 @@
-<script>
+<script lang="ts">
+    import { page } from '$app/state';
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
     import BackToTop from '$lib/components/BackToTop.svelte';
+    import Breadcrumb from '$lib/components/Breadcrumb.svelte';
+
+    const { children } = $props();
+
+    function formatSlug(slug: string): string {
+        return slug
+            .split('-')
+            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+            .join(' ');
+    }
+
+    const segments = $derived(page.url.pathname.split('/').filter(Boolean));
+    const breadcrumbItems = $derived([
+        { name: 'Home', href: '/' },
+        segments.length > 1
+            ? { name: 'Guides', href: '/guides' }
+            : { name: 'Guides' },
+        ...(segments[1] ? [{ name: formatSlug(segments[1]) }] : []),
+    ]);
 </script>
 
 <div class="min-h-screen bg-[#FDFBF7] flex flex-col relative">
 
     <Navigation />
     <main class="relative z-10 flex-grow w-full max-w-4xl mx-auto px-0 md:px-4 md:py-12">
-        <slot />
+        <Breadcrumb items={breadcrumbItems} />
+        {@render children()}
     </main>
 
     <div class="mt-16 md:mt-40">
