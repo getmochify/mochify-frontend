@@ -953,7 +953,7 @@
 				<p class="mb-1 text-[10px] font-black tracking-widest uppercase text-[#F06292]">How it works</p>
 				<p class="mb-3 text-xs leading-relaxed text-[#4A2C2C]/75">Describe what you want in plain English, attach your images, then hit send. The AI reads your prompt and processes each file automatically.</p>
 				<p class="mb-1 text-[10px] font-black tracking-widest uppercase text-[#F06292]">Accepted formats</p>
-				<p class="text-xs leading-relaxed text-[#4A2C2C]/75">JPG · PNG · WebP · AVIF · JPEG XL · HEIC · HEIF · HIF</p>
+				<p class="text-xs leading-relaxed text-[#4A2C2C]/75">JPG · PNG · WebP · AVIF · JPEG XL · HEIC · HEIF · HIF · SVG</p>
 			</div>
 			<button class="fixed inset-0 -z-10 cursor-default" onclick={() => (showInfoTooltip = false)} aria-label="Close" tabindex="-1"></button>
 		{/if}
