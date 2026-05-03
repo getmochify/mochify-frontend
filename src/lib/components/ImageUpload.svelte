@@ -115,7 +115,8 @@
 		'image/avif',
 		'image/png',
 		'image/jxl',
-		'image/webp'
+		'image/webp',
+		'image/svg+xml'
 	]);
 	const ACCEPTED_EXTENSIONS = new Set([
 		'jpg',
@@ -126,7 +127,8 @@
 		'avif',
 		'png',
 		'jxl',
-		'webp'
+		'webp',
+		'svg'
 	]);
 
 	async function processFiles(allFiles: File[]) {
@@ -135,7 +137,7 @@
 			return !ACCEPTED_MIME_TYPES.has(f.type) && !ACCEPTED_EXTENSIONS.has(ext);
 		});
 		if (invalidFiles.length > 0) {
-			errorMessage = `${invalidFiles.length} file(s) not supported. Accepted: JPG, PNG, WebP, AVIF, HEIC, HEIF, HIF, JXL.`;
+			errorMessage = `${invalidFiles.length} file(s) not supported. Accepted: JPG, PNG, WebP, AVIF, HEIC, HEIF, HIF, JXL, SVG.`;
 			allFiles = allFiles.filter((f) => {
 				const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
 				return ACCEPTED_MIME_TYPES.has(f.type) || ACCEPTED_EXTENSIONS.has(ext);
@@ -486,7 +488,7 @@
 		bind:this={fileInputElement}
 		id="file-input"
 		type="file"
-		accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp"
+		accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.svg,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/svg+xml"
 		multiple
 		onchange={handleFileSelect}
 		class="hidden"

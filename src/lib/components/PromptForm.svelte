@@ -109,7 +109,8 @@
 		'image/avif',
 		'image/png',
 		'image/jxl',
-		'image/webp'
+		'image/webp',
+		'image/svg+xml'
 	]);
 	const ACCEPTED_EXTENSIONS = new Set([
 		'jpg',
@@ -120,7 +121,8 @@
 		'avif',
 		'png',
 		'jxl',
-		'webp'
+		'webp',
+		'svg'
 	]);
 
 	function validateAndAddFiles(newFiles: File[]) {
@@ -760,7 +762,7 @@
 					bind:this={fileInputEl}
 					type="file"
 					multiple
-					accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp"
+					accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.svg,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/svg+xml"
 					onchange={handleFileSelect}
 					aria-label="Upload images"
 					class="hidden"
