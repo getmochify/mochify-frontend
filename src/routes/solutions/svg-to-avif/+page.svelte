@@ -5,19 +5,19 @@
 </script>
 
 <svelte:head>
-    <title>Convert SVG to WebP Online - Free & Fast | Mochify</title>
-    <meta name="description" content="Convert SVG files to WebP instantly. Preserve transparency, get smaller files than PNG, and make your SVG assets compatible with every platform and CMS.">
-    <meta property="og:title" content="Convert SVG to WebP - Free, Private & Instant | Mochify" />
-    <meta property="og:description" content="Convert SVG files to WebP instantly. Preserve transparency, get smaller files than PNG, and make your SVG assets compatible with every platform and CMS." />
-    <link rel="canonical" href="https://mochify.app/solutions/svg-to-webp" />
+    <title>Convert SVG to AVIF Online - Free & Fast | Mochify</title>
+    <meta name="description" content="Convert SVG files to AVIF instantly. Get the smallest file sizes with full transparency support — the best raster format for SVG assets on modern web.">
+    <meta property="og:title" content="Convert SVG to AVIF - Free, Private & Instant | Mochify" />
+    <meta property="og:description" content="Convert SVG files to AVIF instantly. Get the smallest file sizes with full transparency support — the best raster format for SVG assets on modern web." />
+    <link rel="canonical" href="https://mochify.app/solutions/svg-to-avif" />
 
     <script type="application/ld+json">
         {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        "name": "SVG to WebP Converter",
-        "description": "Convert SVG vector files to WebP format with transparency support. Free, private, and processed entirely in memory.",
-        "url": "https://mochify.app/solutions/svg-to-webp",
+        "name": "SVG to AVIF Converter",
+        "description": "Convert SVG vector files to AVIF format with transparency support. Free, private, and processed entirely in memory.",
+        "url": "https://mochify.app/solutions/svg-to-avif",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Web",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "GBP" },
@@ -42,8 +42,8 @@
                     Never Saved to Disk
                 </span>
                 <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-[#F0FDF4] border border-green-100 shadow-sm text-green-700 text-xs font-bold tracking-wide uppercase">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
-                    Transparency Preserved
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
+                    Smallest File Size
                 </span>
             </div>
 
@@ -53,18 +53,18 @@
                     SVG
                 </span>
                 to
-                <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
-                    WebP
+                <span class="bg-gradient-to-r from-[#6EE7B7] to-[#059669] bg-clip-text text-transparent">
+                    AVIF
                 </span>
             </h1>
 
             <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-                Rasterise SVG files to WebP with transparency intact — smaller than PNG, compatible with every platform and CMS.
+                Rasterise SVG files to AVIF — the most efficient format for transparent web assets, with up to 50% smaller files than PNG.
             </p>
         </div>
 
         <div class="mb-16">
-            <ImageUpload output="webp" types=".SVG" showTypes={true} showExifOption={false} compact />
+            <ImageUpload output="avif" types=".SVG" showTypes={true} showExifOption={false} compact />
         </div>
 
         <section class="mt-20 max-w-4xl mx-auto">
@@ -72,12 +72,12 @@
 
                 <div class="space-y-8">
                     <div class="space-y-4">
-                        <h2 class="text-2xl font-bold text-[#4A2C2C]">Why convert SVG to WebP?</h2>
+                        <h2 class="text-2xl font-bold text-[#4A2C2C]">Why convert SVG to AVIF?</h2>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            SVG is the right format for icons, logos, and illustrations in your design tooling — but most platforms outside the browser can't accept or display it. <strong class="text-[#7E685E]">Social media, email clients, CMSes, and Open Graph previews all need a raster image.</strong>
+                            AVIF is the best-performing raster format available in 2026 for web-delivered assets. When you rasterise an SVG to AVIF, you get <strong class="text-[#7E685E]">full alpha transparency</strong>, support in all major browsers, and file sizes <strong class="text-[#7E685E]">roughly 50% smaller than equivalent PNG</strong> — significantly better than WebP.
                         </p>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            WebP is the best raster target for SVG assets in 2026: it supports <strong class="text-[#7E685E]">full alpha transparency</strong> (so your logo stays crisp on any background), produces files <strong class="text-[#7E685E]">25–35% smaller than equivalent PNG</strong>, and works across every major browser, app, and platform.
+                            This makes AVIF the strongest choice for SVG assets delivered in modern web stacks: hero images, icon sprites, logo variants on dark and light backgrounds, and any asset where you control the serving environment and want the best possible LCP score.
                         </p>
                     </div>
 
@@ -85,15 +85,15 @@
                         <h3 class="font-bold text-[#4A2C2C] mb-5 text-sm uppercase tracking-widest opacity-70">Common Use Cases</h3>
                         <ul class="space-y-3">
                             {#each [
-                                'Open Graph / social share images',
-                                'Email template assets (SVG breaks in Outlook)',
-                                'WordPress & Squarespace media libraries',
-                                'App store screenshots and icons',
-                                'Figma / Illustrator exports for web delivery',
-                                'CMS thumbnails and preview images',
+                                'Hero images and above-the-fold graphics',
+                                'Logo variants for dark/light mode',
+                                'Icon sets for modern web apps',
+                                'Next.js / Nuxt / SvelteKit image pipelines',
+                                'Cloudflare Images and CDN delivery',
+                                'Open Graph images for modern platforms',
                             ] as item}
                                 <li class="flex items-center gap-3 text-sm font-semibold text-[#6C3F31]">
-                                    <span class="w-2 h-2 rounded-full bg-[#C4B5FD] flex-shrink-0"></span> {item}
+                                    <span class="w-2 h-2 rounded-full bg-[#6EE7B7] flex-shrink-0"></span> {item}
                                 </li>
                             {/each}
                         </ul>
@@ -103,16 +103,16 @@
                 <div class="space-y-4">
                     {#each [
                         {
-                            q: "Does WebP preserve my SVG's transparency?",
-                            a: "Yes. WebP supports a full alpha channel, so any transparent areas in your SVG — logos, icons, cutouts — remain transparent in the output. No white backgrounds introduced."
+                            q: "Does AVIF preserve my SVG's transparency?",
+                            a: "Yes. AVIF supports a full alpha channel, so transparent areas in your SVG stay transparent in the output. No white background is added."
                         },
                         {
                             q: "What size does my SVG rasterise to?",
-                            a: "By default, Mochify uses the dimensions defined in the SVG's viewBox or width/height attributes. To specify a different output size, use Magic Flow and describe the dimensions you need — for example, 'convert to WebP at 1200px wide'."
+                            a: "By default, Mochify uses the dimensions from the SVG's viewBox or width/height attributes. To specify a different size, use Magic Flow — for example, 'convert to AVIF at 1200px wide, strip metadata'."
                         },
                         {
-                            q: "Why WebP instead of PNG for SVG conversion?",
-                            a: "WebP gives you the same transparency support as PNG but produces files roughly 25–35% smaller at equivalent quality. For web use — which is almost always the destination when converting from SVG — WebP is the better choice in 2026."
+                            q: "AVIF vs WebP — which should I choose for SVG assets?",
+                            a: "AVIF if you control the serving environment and want the smallest files — it's ~50% smaller than PNG vs WebP's ~30%. WebP if you need maximum compatibility, including older email clients, some CMSes, and tools that don't yet support AVIF."
                         },
                         {
                             q: "Are my files stored anywhere?",
@@ -144,22 +144,27 @@
                         <tr class="bg-[#FFF5F7]">
                             <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Format</th>
                             <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Transparency</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">File size</th>
+                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">File size vs PNG</th>
                             <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Best for</th>
                         </tr>
                     </thead>
                     <tbody>
                         {#each [
-                            { fmt: 'WebP', alpha: '✓', size: 'Small', best: 'Web, social, CMSes — the default choice' },
-                            { fmt: 'PNG', alpha: '✓', size: 'Large', best: 'Print, lossless archiving, legacy tools' },
-                            { fmt: 'AVIF', alpha: '✓', size: 'Smallest', best: 'Modern web with &lt;picture&gt; fallback' },
-                            { fmt: 'JPEG', alpha: '✗', size: 'Small', best: 'Solid-background images only' },
+                            { fmt: 'AVIF', highlight: true, alpha: '✓', size: '~50% smaller', best: 'Modern web stacks — best compression, full alpha' },
+                            { fmt: 'WebP', highlight: false, alpha: '✓', size: '~30% smaller', best: 'Broad compatibility — CMSes, email, social' },
+                            { fmt: 'PNG', highlight: false, alpha: '✓', size: 'Baseline', best: 'Print, lossless archiving, legacy tools' },
+                            { fmt: 'JPEG', highlight: false, alpha: '✗', size: '~30% smaller', best: 'Solid-background images only' },
                         ] as row, i}
-                            <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
-                                <td class="px-5 py-3.5 font-black text-[#4A2C2C] border-b border-pink-50">{row.fmt}</td>
+                            <tr class={row.highlight ? 'bg-[#F0FDF4]' : i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
+                                <td class="px-5 py-3.5 font-black text-[#4A2C2C] border-b border-pink-50">
+                                    {row.fmt}
+                                    {#if row.highlight}
+                                        <span class="ml-2 text-[10px] font-black text-green-700 bg-green-100 px-2 py-0.5 rounded-full uppercase tracking-wider">Recommended</span>
+                                    {/if}
+                                </td>
                                 <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.alpha}</td>
                                 <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.size}</td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{@html row.best}</td>
+                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.best}</td>
                             </tr>
                         {/each}
                     </tbody>
