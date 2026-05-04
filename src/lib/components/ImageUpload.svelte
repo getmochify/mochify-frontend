@@ -52,6 +52,7 @@
 	});
 
 	let showSignupCta = $state(false);
+	let showUpgradeCta = $state(false);
 	let processPhase: 'idle' | 'uploading' | 'processing' | 'downloading' = $state('idle');
 	let uploadPercent: number = $state(0);
 	let downloadPercent: number = $state(0);
@@ -315,10 +316,12 @@
 					if (error.status === 429) {
 						hitRateLimit = true;
 						fileProgress[index].error = 'Rate limit exceeded';
-						const jwt = await getSessionToken();
 						if (!jwt) {
 							showSignupCta = true;
 							posthog.capture('signup_cta_shown', { trigger: 'rate_limit' });
+						} else {
+							showUpgradeCta = true;
+							posthog.capture('upgrade_cta_shown', { trigger: 'rate_limit' });
 						}
 					} else {
 						fileProgress[index].error = error instanceof Error ? error.message : 'Unknown error';
@@ -339,6 +342,7 @@
 			const failedFiles = selectedFiles.filter((_, i) => fileProgress[i].status === 'error');
 
 			if (successfulFiles.length === 0) {
+				if (hitRateLimit) return; // CTA modal already shown
 				throw new Error('All files failed to convert');
 			}
 
@@ -753,10 +757,16 @@
 					clip-rule="evenodd"
 				/>
 			</svg>
-			<p class="text-xs font-semibold text-[#6C3F31]">
-				{availableTokens} token{availableTokens !== 1 ? 's' : ''} available — remove {selectedFiles.length -
-					availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''} to continue
-			</p>
+			{#if availableTokens === 0}
+				<p class="text-xs font-semibold text-[#6C3F31]">
+					No tokens left. <a href="/auth/register" class="text-[#F06292] underline hover:text-[#E91E8C]">Create a free account</a> for 25/month, or <a href="/pricing" class="text-[#F06292] underline hover:text-[#E91E8C]">see plans</a>.
+				</p>
+			{:else}
+				<p class="text-xs font-semibold text-[#6C3F31]">
+					{availableTokens} token{availableTokens !== 1 ? 's' : ''} available — remove {selectedFiles.length -
+						availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''} or <a href="/auth/register" class="text-[#F06292] underline hover:text-[#E91E8C]">sign up</a> for more.
+				</p>
+			{/if}
 		</div>
 	{/if}
 
@@ -896,6 +906,58 @@
 	</div>
 	</div>
 </div>
+
+{#if showUpgradeCta}
+	<div
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+		onclick={() => (showUpgradeCta = false)}
+		onkeydown={(e) => e.key === 'Escape' && (showUpgradeCta = false)}
+		role="dialog"
+		aria-modal="true"
+		tabindex="-1"
+	>
+		<div
+			class="relative w-full max-w-sm rounded-3xl bg-white p-8 shadow-2xl"
+			role="presentation"
+			onclick={(e) => e.stopPropagation()}
+		>
+			<button
+				onclick={() => (showUpgradeCta = false)}
+				aria-label="Close"
+				class="absolute top-4 right-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-[#875F42]/50 transition-all hover:bg-[#FFF5F7] hover:text-[#875F42]"
+			>
+				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+				</svg>
+			</button>
+			<div class="text-center">
+				<div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFF0F5]">
+					<svg class="h-6 w-6 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+					</svg>
+				</div>
+				<h3 class="mb-2 text-lg font-black text-[#4A2C2C]">Monthly limit reached</h3>
+				<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
+					You've used your full image quota for this month. Upgrade for a higher limit, or your quota resets at the start of next month.
+				</p>
+				<div class="flex flex-col gap-3">
+					<a
+						href="/pricing"
+						class="block rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
+					>
+						Upgrade plan
+					</a>
+					<button
+						onclick={() => (showUpgradeCta = false)}
+						class="cursor-pointer rounded-2xl border border-[#875F42]/15 px-6 py-3 text-center text-sm font-bold text-[#6C3F31] transition-all hover:border-[#F06292]/30 hover:bg-[#FFF5F7] hover:text-[#F06292]"
+					>
+						Dismiss
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{/if}
 
 {#if showSignupCta}
 	<div
