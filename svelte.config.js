@@ -12,7 +12,7 @@ const config = {
 			mode: 'auto',
 			directives: {
 				'default-src': ['self'],
-				'script-src': ['self'],
+				'script-src': ['self', 'https://t.mochify.app'],
 				'style-src': ['self', 'unsafe-inline'],
 				'connect-src': [
 					'self',

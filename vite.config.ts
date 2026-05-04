@@ -12,14 +12,13 @@ export default defineConfig({
             injectRegister: null,
             manifest: false,
             workbox: {
-                globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,webmanifest,woff,woff2}'],
+                globPatterns: ['**/*.{js,css,ico,png,svg,webp,webmanifest,woff,woff2}'],
                 runtimeCaching: [
                     {
                         urlPattern: ({ url }) => url.origin === 'https://api.mochify.app',
                         handler: 'NetworkOnly'
                     }
-                ],
-                navigateFallback: '/'
+                ]
             }
         })
     ]
