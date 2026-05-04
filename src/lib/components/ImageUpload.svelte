@@ -725,7 +725,7 @@
 	{/if}
 
 	<!-- Token status -->
-	{#if hasCheckedTokens && selectedFiles.length > 0 && !insufficientTokens}
+	{#if hasCheckedTokens && selectedFiles.length > 0 && !insufficientTokens && availableTokens > 0}
 		<div
 			class="mx-4 mb-3 flex items-center gap-2 rounded-2xl border border-[#A5D6A7]/40 bg-white/30 px-4 py-2.5 backdrop-blur-sm sm:mx-6"
 		>
