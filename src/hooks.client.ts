@@ -7,7 +7,8 @@ export async function init() {
 		api_host: 'https://t.mochify.app',
 		ui_host: PUBLIC_POSTHOG_HOST,
 		defaults: '2026-01-30',
-		capture_exceptions: true
+		capture_exceptions: true,
+		disable_session_recording: true
 	});
 }
 
