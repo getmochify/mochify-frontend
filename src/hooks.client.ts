@@ -4,7 +4,7 @@ import type { HandleClientError } from '@sveltejs/kit';
 
 export async function init() {
 	posthog.init(PUBLIC_POSTHOG_PROJECT_TOKEN, {
-		api_host: '/ingest',
+		api_host: 'https://t.mochify.app',
 		ui_host: PUBLIC_POSTHOG_HOST,
 		defaults: '2026-01-30',
 		capture_exceptions: true

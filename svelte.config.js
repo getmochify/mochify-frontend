@@ -18,6 +18,7 @@ const config = {
 					'self',
 					'https://api.mochify.app',
 					'https://tokens.mochify.app',
+					'https://t.mochify.app',
 					...(process.env.PUBLIC_API_URL && process.env.PUBLIC_API_URL !== 'https://api.mochify.app'
 						? [process.env.PUBLIC_API_URL]
 						: []),
