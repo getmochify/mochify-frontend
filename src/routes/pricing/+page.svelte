@@ -5,11 +5,11 @@
 
 <svelte:head>
     <title>Pricing — Mochify</title>
-    <meta name="description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month." />
+    <meta name="description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month. Or grab a $5 credit pack — 100 images, never expire, no subscription." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mochify.app/pricing" />
     <meta property="og:title" content="Pricing — Mochify" />
-    <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month." />
+    <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month. Or grab a $5 credit pack — 100 images, never expire, no subscription." />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -87,6 +87,13 @@
                             "unitCode": "ANN"
                         },
                         "description": "1,200 images per month, billed annually at $249.99/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Top priority processing queue."
+                    },
+                    {
+                        "@type": "Offer",
+                        "name": "Credit Pack",
+                        "price": "5.00",
+                        "priceCurrency": "USD",
+                        "description": "100 images, one-time purchase. Credits never expire. No subscription or renewal. All formats, resize and crop included. 20MB per file, standard queue."
                     }
                 ]
             },
@@ -319,6 +326,56 @@
             </div>
         </div>
 
+        <!-- Credit pack -->
+        <div class="mt-8 max-w-4xl mx-auto">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="flex-grow h-px bg-gradient-to-r from-transparent via-pink-100 to-transparent"></div>
+                <span class="text-xs font-bold text-[#6C3F31]/40 uppercase tracking-widest whitespace-nowrap">Or, no subscription</span>
+                <div class="flex-grow h-px bg-gradient-to-r from-transparent via-pink-100 to-transparent"></div>
+            </div>
+
+            <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-6 flex flex-col sm:flex-row sm:items-center gap-6">
+                <div class="flex-shrink-0">
+                    <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-3">Credit Pack</span>
+                    <div class="flex items-end gap-1">
+                        <span class="text-3xl font-black text-[#4A2C2C]">$5</span>
+                        <span class="text-[#6C3F31]/50 mb-1.5 text-sm">one-time</span>
+                    </div>
+                </div>
+
+                <div class="flex-grow">
+                    <ul class="flex flex-wrap gap-x-6 gap-y-2">
+                        <li class="flex items-center gap-2 text-sm text-[#6C3F31]">
+                            <span class="text-[#A5D6A7] font-black">✓</span>
+                            <span><strong>100 images</strong> — never expire</span>
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-[#6C3F31]">
+                            <span class="text-[#A5D6A7] font-black">✓</span>
+                            <span>All formats, resize &amp; crop</span>
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-[#6C3F31]">
+                            <span class="text-[#A5D6A7] font-black">✓</span>
+                            <span>No subscription, no renewal</span>
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-[#6C3F31]/50">
+                            <span class="font-black">–</span>
+                            <span>20MB per file · standard queue</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="flex-shrink-0 flex flex-col items-start sm:items-end gap-1.5">
+                    <button
+                        disabled
+                        class="cursor-not-allowed opacity-60 block text-center px-6 py-3 rounded-2xl border border-[#875F42]/15 text-sm font-black text-[#6C3F31] bg-white"
+                    >
+                        Buy credits
+                    </button>
+                    <span class="text-xs text-[#6C3F31]/40 font-medium">Coming soon</span>
+                </div>
+            </div>
+        </div>
+
         <!-- Feature comparison table -->
         <div class="mt-16 max-w-4xl mx-auto">
             <h2 class="text-xl font-black text-[#4A2C2C] text-center mb-8">Full comparison</h2>
@@ -426,6 +483,16 @@
                     </summary>
                     <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
                         Yes — all tiers have full MCP and API access. The same monthly limit applies.
+                    </p>
+                </details>
+
+                <details class="bg-white rounded-2xl border border-pink-100 shadow-sm group">
+                    <summary class="px-6 py-4 cursor-pointer font-semibold text-[#4A2C2C] flex justify-between items-center select-none list-none">
+                        Do credit pack images expire?
+                        <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
+                    </summary>
+                    <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
+                        No — credit pack images never expire. Use them at your own pace, whenever you need them.
                     </p>
                 </details>
 
