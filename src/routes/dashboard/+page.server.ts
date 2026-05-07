@@ -1,6 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit'
 import { Polar } from '@polar-sh/sdk'
-import { POLAR_ACCESS_TOKEN } from '$env/static/private'
+import { env } from '$env/dynamic/private'
 import { Kysely } from 'kysely'
 import { D1Dialect } from 'kysely-d1'
 
@@ -8,7 +8,7 @@ export const actions = {
     deleteAccount: async ({ locals, platform }) => {
         if (!locals.user) return fail(401, { error: 'Not authenticated' })
 
-        const polar = new Polar({ accessToken: POLAR_ACCESS_TOKEN })
+        const polar = new Polar({ accessToken: env.POLAR_ACCESS_TOKEN })
 
         // TODO: cancel Polar subscription once profiles table is in D1.
         try {

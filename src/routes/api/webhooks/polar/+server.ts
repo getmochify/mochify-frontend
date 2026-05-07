@@ -1,16 +1,7 @@
 import { validateEvent, WebhookVerificationError } from '@polar-sh/sdk/webhooks';
 import { Kysely } from 'kysely';
 import { D1Dialect } from 'kysely-d1';
-import {
-	POLAR_WEBHOOK_SECRET,
-	POLAR_PRODUCT_ID_SELLER_MONTHLY,
-	POLAR_PRODUCT_ID_SELLER_YEARLY,
-	POLAR_PRODUCT_ID_PRO_MONTHLY,
-	POLAR_PRODUCT_ID_PRO_YEARLY,
-	POLAR_PRODUCT_ID_DAY_PASS,
-	CF_WORKER_URL,
-	CF_WORKER_TOKEN
-} from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { PUBLIC_APP_URL } from '$env/static/public';
 import type { RequestHandler } from './$types';
 import { getPostHogClient } from '$lib/server/posthog';
@@ -29,7 +20,7 @@ async function reseedBucket(
 	opsLimit: number,
 	quotaPeriodEnd: string | null
 ): Promise<void> {
-	if (!CF_WORKER_URL || !CF_WORKER_TOKEN) return;
+	if (!env.CF_WORKER_URL || !env.CF_WORKER_TOKEN) return;
 	const identifier = await sha256Hex(userId);
 	let ttl = 30 * 24 * 60 * 60;
 	if (quotaPeriodEnd) {
@@ -37,19 +28,12 @@ async function reseedBucket(
 		const now = Date.now();
 		if (periodEnd > now) ttl = Math.floor((periodEnd - now) / 1000);
 	}
-	await fetch(`${CF_WORKER_URL}/seed/${identifier}`, {
+	await fetch(`${env.CF_WORKER_URL}/seed/${identifier}`, {
 		method: 'POST',
-		headers: { 'Content-Type': 'application/json', 'X-Worker-Token': CF_WORKER_TOKEN },
+		headers: { 'Content-Type': 'application/json', 'X-Worker-Token': env.CF_WORKER_TOKEN },
 		body: JSON.stringify({ remaining: opsLimit, quota: opsLimit, plan, ttl, userId })
 	}).catch(() => {});
 }
-
-const PRODUCT_PLAN_MAP: Record<string, { plan: 'seller' | 'pro'; ops_limit: number }> = {
-	[POLAR_PRODUCT_ID_SELLER_MONTHLY]: { plan: 'seller', ops_limit: 300 },
-	[POLAR_PRODUCT_ID_SELLER_YEARLY]: { plan: 'seller', ops_limit: 300 },
-	[POLAR_PRODUCT_ID_PRO_MONTHLY]: { plan: 'pro', ops_limit: 1200 },
-	[POLAR_PRODUCT_ID_PRO_YEARLY]: { plan: 'pro', ops_limit: 1200 }
-};
 
 export const POST: RequestHandler = async ({ request, platform }) => {
 	const body = await request.text();
@@ -57,7 +41,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 
 	let event;
 	try {
-		event = validateEvent(body, headers, POLAR_WEBHOOK_SECRET);
+		event = validateEvent(body, headers, env.POLAR_WEBHOOK_SECRET);
 	} catch (err) {
 		if (err instanceof WebhookVerificationError) {
 			return new Response('Invalid signature', { status: 403 });
@@ -70,6 +54,13 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const kysely = new Kysely<any>({ dialect: new D1Dialect({ database: db }) });
+
+	const PRODUCT_PLAN_MAP: Record<string, { plan: 'seller' | 'pro'; ops_limit: number }> = {
+		[env.POLAR_PRODUCT_ID_SELLER_MONTHLY]: { plan: 'seller', ops_limit: 300 },
+		[env.POLAR_PRODUCT_ID_SELLER_YEARLY]: { plan: 'seller', ops_limit: 300 },
+		[env.POLAR_PRODUCT_ID_PRO_MONTHLY]: { plan: 'pro', ops_limit: 1200 },
+		[env.POLAR_PRODUCT_ID_PRO_YEARLY]: { plan: 'pro', ops_limit: 1200 }
+	};
 
 	switch (event.type) {
 		// Subscription became active (first payment succeeded).
@@ -206,7 +197,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			// Only process paid, one-time purchases for the day pass product.
 			if (order.status !== 'paid') break;
 			if (order.billingReason !== 'purchase') break;
-			if (order.product?.id !== POLAR_PRODUCT_ID_DAY_PASS) break;
+			if (order.product?.id !== env.POLAR_PRODUCT_ID_DAY_PASS) break;
 
 			const email = order.customer.email;
 			if (!email) break;

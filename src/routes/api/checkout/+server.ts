@@ -1,23 +1,18 @@
 import { Polar } from '@polar-sh/sdk';
-import {
-	POLAR_ACCESS_TOKEN,
-	POLAR_PRODUCT_ID_SELLER_MONTHLY,
-	POLAR_PRODUCT_ID_SELLER_YEARLY,
-	POLAR_PRODUCT_ID_PRO_MONTHLY,
-	POLAR_PRODUCT_ID_PRO_YEARLY
-} from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getPostHogClient } from '$lib/server/posthog';
 
-const PRODUCTS: Record<string, Record<string, string>> = {
-	seller: { monthly: POLAR_PRODUCT_ID_SELLER_MONTHLY, yearly: POLAR_PRODUCT_ID_SELLER_YEARLY },
-	pro: { monthly: POLAR_PRODUCT_ID_PRO_MONTHLY, yearly: POLAR_PRODUCT_ID_PRO_YEARLY }
-};
-
 export const GET: RequestHandler = async ({ locals, url }) => {
 	const plan = url.searchParams.get('plan') ?? 'pro';
 	const billing = url.searchParams.get('billing') ?? 'monthly';
+
+	const PRODUCTS: Record<string, Record<string, string>> = {
+		seller: { monthly: env.POLAR_PRODUCT_ID_SELLER_MONTHLY, yearly: env.POLAR_PRODUCT_ID_SELLER_YEARLY },
+		pro: { monthly: env.POLAR_PRODUCT_ID_PRO_MONTHLY, yearly: env.POLAR_PRODUCT_ID_PRO_YEARLY }
+	};
+
 	const productId = PRODUCTS[plan]?.[billing];
 
 	if (!productId) {
@@ -32,7 +27,7 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 		throw redirect(303, loginUrl.toString());
 	}
 
-	const polar = new Polar({ accessToken: POLAR_ACCESS_TOKEN });
+	const polar = new Polar({ accessToken: env.POLAR_ACCESS_TOKEN });
 
 	let checkoutUrl: string;
 	try {

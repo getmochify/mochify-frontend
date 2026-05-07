@@ -27,7 +27,7 @@
         showSmartMode = false,
         showDayPass = false
     } = props;
-    const hasOutputOverride = 'output' in props;
+    const hasOutputOverride = $derived('output' in props);
 
     let stripExif: boolean = $state(false);
     let smartCompress: boolean = $state(false);
