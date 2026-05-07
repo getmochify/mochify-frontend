@@ -833,20 +833,6 @@
                         <p class="text-xs font-bold text-cocoa-deep">
                             {availableTokens} token{availableTokens !== 1 ? 's' : ''} left — remove {selectedFiles.length - availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''}, or get more access:
                         </p>
-                        <div class="flex flex-wrap gap-2">
-                            <a
-                                href={`${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(page.url.href)}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="inline-flex items-center gap-1.5 rounded-xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-4 py-2 text-xs font-black text-white shadow-sm hover:shadow-md hover:-translate-y-px transition-all"
-                            >
-                                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                                Day Pass — $1
-                            </a>
-                            <a href="/auth/register" class="inline-flex items-center rounded-xl border border-cocoa-milk/20 bg-white/60 px-4 py-2 text-xs font-bold text-cocoa-deep hover:bg-white transition-all">
-                                Free account
-                            </a>
-                        </div>
                     </div>
                 {:else}
                     <p class="text-xs font-bold text-cocoa-deep">
