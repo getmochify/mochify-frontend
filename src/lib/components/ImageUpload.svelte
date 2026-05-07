@@ -23,7 +23,8 @@
 		class: className = '',
 		queryParams = '',
 		showExifOption = false,
-		showSmartMode = false
+		showSmartMode = false,
+		bonusKey = ''
 	} = props;
 	const hasOutputOverride = 'output' in props;
 
@@ -47,7 +48,11 @@
 			MAX_INDIVIDUAL_FILE_SIZE = isPro ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
 		});
 		getPlan().then((plan) => {
-			MAX_FILES = plan === 'free' ? 3 : 25;
+			if (plan === 'free' && bonusKey && !localStorage.getItem(`mochify_bonus_${bonusKey}`)) {
+				MAX_FILES = 25;
+			} else {
+				MAX_FILES = plan === 'free' ? 3 : 25;
+			}
 		});
 	});
 
@@ -244,6 +249,10 @@
 			format: imageType,
 			authed: !!jwt
 		});
+
+		if (bonusKey) {
+			localStorage.setItem(`mochify_bonus_${bonusKey}`, '1');
+		}
 
 		isLoading = true;
 		errorMessage = '';
