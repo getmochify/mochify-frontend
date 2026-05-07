@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { zip } from 'fflate';
 	import { env } from '$env/dynamic/public';
+	import { page } from '$app/state';
 	import { getPlan, getSessionToken } from '$lib/user';
 	import posthog from 'posthog-js';
 
@@ -53,6 +54,7 @@
 	let showSignupCta = $state(false);
 	let showUpgradeCta = $state(false);
 	let isFileSizeError = $state(false);
+	let isFileLimitError = $state(false);
 	let shaking = $state(false);
 	let processPhase: 'idle' | 'uploading' | 'processing' | 'downloading' = $state('idle');
 	let uploadPercent: number = $state(0);
@@ -178,14 +180,17 @@
 		errorMessage = '';
 		successMessage = '';
 		isFileSizeError = false;
+		isFileLimitError = false;
 
 		if (addedCount === 0 && newFiles.length === 0) {
 			errorMessage = 'All selected files are already in the list.';
 		} else if (selectedFiles.length >= MAX_FILES && allFiles.length > addedCount) {
-			errorMessage =
-				MAX_FILES === 3
-					? `Free plan is limited to 3 files. Upgrade to Seller or Pro for batches up to 25.`
-					: `Maximum ${MAX_FILES} files. Added ${addedCount} file(s).`;
+			if (MAX_FILES === 3) {
+				errorMessage = `Free plan is limited to 3 files per batch.`;
+				isFileLimitError = true;
+			} else {
+				errorMessage = `Maximum ${MAX_FILES} files. Added ${addedCount} file(s).`;
+			}
 		}
 
 		await checkTokenLimit();
@@ -252,6 +257,8 @@
 		isLoading = true;
 		errorMessage = '';
 		successMessage = '';
+		isFileSizeError = false;
+		isFileLimitError = false;
 		processPhase = 'uploading';
 		uploadPercent = 0;
 		downloadPercent = 0;
@@ -794,7 +801,7 @@
 						<p class="text-xs font-bold text-cocoa-deep">No tokens left — get instant access or create a free account.</p>
 						<div class="flex flex-wrap gap-2">
 							<a
-								href={env.PUBLIC_POLAR_DAY_PASS_URL}
+								href={`${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(page.url.href)}`}
 								target="_blank"
 								rel="noopener noreferrer"
 								class="inline-flex items-center gap-1.5 rounded-xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-4 py-2 text-xs font-black text-white shadow-sm hover:shadow-md hover:-translate-y-px transition-all"
@@ -813,10 +820,32 @@
 					</p>
 				{/if}
 			{:else}
-				<p class="text-xs font-bold text-cocoa-deep">
-					{availableTokens} token{availableTokens !== 1 ? 's' : ''} available — remove {selectedFiles.length -
-						availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''} or <a href="/auth/register" class="text-[#F06292] underline hover:text-[#E91E8C]">sign up</a> for more.
-				</p>
+				{#if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
+					<div class="flex flex-col gap-2">
+						<p class="text-xs font-bold text-cocoa-deep">
+							{availableTokens} token{availableTokens !== 1 ? 's' : ''} left — remove {selectedFiles.length - availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''}, or get more access:
+						</p>
+						<div class="flex flex-wrap gap-2">
+							<a
+								href={`${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(page.url.href)}`}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex items-center gap-1.5 rounded-xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-4 py-2 text-xs font-black text-white shadow-sm hover:shadow-md hover:-translate-y-px transition-all"
+							>
+								<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+								Day Pass — $1
+							</a>
+							<a href="/auth/register" class="inline-flex items-center rounded-xl border border-cocoa-milk/20 bg-white/60 px-4 py-2 text-xs font-bold text-cocoa-deep hover:bg-white transition-all">
+								Free account
+							</a>
+						</div>
+					</div>
+				{:else}
+					<p class="text-xs font-bold text-cocoa-deep">
+						{availableTokens} token{availableTokens !== 1 ? 's' : ''} available — remove {selectedFiles.length -
+							availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''} or <a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">sign up</a> for more.
+					</p>
+				{/if}
 			{/if}
 		</div>
 	{/if}
@@ -894,16 +923,54 @@
 							clip-rule="evenodd"
 						/>
 					</svg>
-					{#if isFileSizeError}
-						<p class="text-xs font-bold text-red-700">
-							{errorMessage}
-							{#if !isAuthenticated}
-								<a href="/auth/register" class="ml-1 text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> or
-								<a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">upgrade</a> for 75MB files.
+					{#if isFileLimitError}
+						<div class="flex flex-col gap-2">
+							<p class="text-xs font-bold text-red-700">{errorMessage}</p>
+							{#if isAuthenticated}
+								<button
+									onclick={() => (showUpgradeCta = true)}
+									class="self-start rounded-xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-3 py-1.5 text-xs font-black text-white shadow-sm hover:-translate-y-px hover:shadow-md transition-all"
+								>Upgrade for 25 files →</button>
+							{:else if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
+								<div class="flex flex-wrap gap-2">
+									<a
+										href={`${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(page.url.href)}`}
+										target="_blank" rel="noopener noreferrer"
+										class="inline-flex items-center gap-1.5 rounded-xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-3 py-1.5 text-xs font-black text-white shadow-sm hover:-translate-y-px hover:shadow-md transition-all"
+									>
+										<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+										Day Pass — $1
+									</a>
+									<a href="/auth/register" class="inline-flex items-center rounded-xl border border-cocoa-milk/20 bg-white/60 px-3 py-1.5 text-xs font-bold text-cocoa-deep hover:bg-white transition-all">Free account</a>
+								</div>
 							{:else}
-								<a href="/pricing" class="ml-1 text-mochi-pink underline hover:text-[#E91E8C]">Upgrade your plan</a> for 75MB files.
+								<p class="text-xs text-cocoa-deep/70"><a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> for 25 images/month, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">see plans</a> for unlimited batches.</p>
 							{/if}
-						</p>
+						</div>
+					{:else if isFileSizeError}
+						<div class="flex flex-col gap-2">
+							<p class="text-xs font-bold text-red-700">{errorMessage}</p>
+							{#if isAuthenticated}
+								<button
+									onclick={() => (showUpgradeCta = true)}
+									class="self-start rounded-xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-3 py-1.5 text-xs font-black text-white shadow-sm hover:-translate-y-px hover:shadow-md transition-all"
+								>Upgrade for 75MB files →</button>
+							{:else if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
+								<div class="flex flex-wrap gap-2">
+									<a
+										href={`${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(page.url.href)}`}
+										target="_blank" rel="noopener noreferrer"
+										class="inline-flex items-center gap-1.5 rounded-xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-3 py-1.5 text-xs font-black text-white shadow-sm hover:-translate-y-px hover:shadow-md transition-all"
+									>
+										<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+										Day Pass — $1 · 75MB files
+									</a>
+									<a href="/auth/register" class="inline-flex items-center rounded-xl border border-cocoa-milk/20 bg-white/60 px-3 py-1.5 text-xs font-bold text-cocoa-deep hover:bg-white transition-all">Free account</a>
+								</div>
+							{:else}
+								<p class="text-xs text-cocoa-deep/70"><a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">upgrade</a> for 75MB files.</p>
+							{/if}
+						</div>
 					{:else}
 						<p class="text-xs font-bold text-red-700">{errorMessage}</p>
 					{/if}
