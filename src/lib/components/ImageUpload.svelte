@@ -103,8 +103,10 @@
             if (!response.ok) {
                 throw new Error('Failed to check token limit');
             }
-            const data = (await response.json()) as { remaining: number };
-            availableTokens = data.remaining || 0;
+            const data = (await response.json()) as { remaining?: number; available?: boolean };
+            // A "miss" (unseeded bucket) returns { available: true } with no remaining.
+            // Treat that as Infinity so we don't false-positive the insufficientTokens check.
+            availableTokens = data.remaining ?? (data.available !== false ? Infinity : 0);
             hasCheckedTokens = true;
         } catch (error) {
             console.error('Token check failed:', error);
@@ -222,6 +224,7 @@
         hasCheckedTokens &&
             selectedFiles.length > 0 &&
             !isAuthenticated &&
+            Number.isFinite(availableTokens) &&
             selectedFiles.length > availableTokens
     );
 
@@ -784,7 +787,7 @@
     {/if}
 
     <!-- Token status -->
-    {#if hasCheckedTokens && selectedFiles.length > 0 && !insufficientTokens && availableTokens > 0}
+    {#if hasCheckedTokens && selectedFiles.length > 0 && !insufficientTokens && availableTokens > 0 && Number.isFinite(availableTokens)}
         <div
             class="mx-4 mb-3 flex items-center gap-2 rounded-2xl border border-[#A5D6A7]/40 bg-white/30 px-4 py-3 backdrop-blur-sm sm:mx-6"
         >
