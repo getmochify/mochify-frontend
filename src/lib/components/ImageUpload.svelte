@@ -356,7 +356,11 @@
 			const failedFiles = selectedFiles.filter((_, i) => fileProgress[i].status === 'error');
 
 			if (successfulFiles.length === 0) {
-				if (hitRateLimit) return; // CTA modal already shown
+				if (hitRateLimit) {
+					selectedFiles = [];
+					fileProgress = [];
+					return;
+				}
 				throw new Error('All files failed to convert');
 			}
 
@@ -423,8 +427,13 @@
 			fileProgress.forEach((fp) => {
 				if (fp.thumbnailUrl) URL.revokeObjectURL(fp.thumbnailUrl);
 			});
-			selectedFiles = selectedFiles.filter((_, i) => fileProgress[i].status !== 'complete');
-			fileProgress = fileProgress.filter((fp) => fp.status !== 'complete');
+			if (hitRateLimit) {
+				selectedFiles = [];
+				fileProgress = [];
+			} else {
+				selectedFiles = selectedFiles.filter((_, i) => fileProgress[i].status !== 'complete');
+				fileProgress = fileProgress.filter((fp) => fp.status !== 'complete');
+			}
 			totalOriginalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
 
 			if (fileInputElement) fileInputElement.value = '';
