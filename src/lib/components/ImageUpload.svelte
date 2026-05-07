@@ -232,9 +232,23 @@
             selectedFiles.length > availableTokens
     );
 
+    // All dropped files were oversized — nothing left to compress
+    const blockedByFileSize = $derived(isFileSizeError && selectedFiles.length === 0);
+
     function handleButtonClick() {
         if (isLoading) return;
-        
+
+        if (blockedByFileSize) {
+            if (!isAuthenticated) {
+                showSignupCta = true;
+                posthog.capture('signup_cta_shown', { trigger: 'button_click_file_size' });
+            } else {
+                showUpgradeCta = true;
+                posthog.capture('upgrade_cta_shown', { trigger: 'button_click_file_size' });
+            }
+            return;
+        }
+
         // Shake only if they literally haven't added files
         if (selectedFiles.length === 0) {
             shaking = true;
@@ -248,7 +262,7 @@
             posthog.capture('signup_cta_shown', { trigger: 'button_click_no_tokens' });
             return;
         }
-        
+
         compressImage();
     }
 
@@ -725,7 +739,7 @@
 
     <!-- Toggles -->
     {#if showExifOption || showSmartMode}
-        <div class="flex flex-wrap gap-x-6 gap-y-3 px-4 pb-3 sm:px-6">
+        <div class="flex flex-wrap gap-x-6 gap-y-3 px-4 pt-3 pb-3 sm:px-6">
             {#if showExifOption}
                 <label class="group flex cursor-pointer items-center gap-2.5 select-none">
                     <input type="checkbox" bind:checked={stripExif} class="sr-only" />
@@ -947,9 +961,9 @@
             aria-disabled={isLoading}
             class="group flex w-full items-center justify-center gap-2 rounded-2xl px-6 py-3.5 font-bold transition-all duration-300
                 {shaking ? 'animate-shake' : ''}
-                {isLoading 
-                    ? 'cursor-wait border border-[#875F42]/15 bg-white/40 text-[#875F42]/60' 
-                    : insufficientTokens
+                {isLoading
+                    ? 'cursor-wait border border-[#875F42]/15 bg-white/40 text-[#875F42]/60'
+                    : insufficientTokens || blockedByFileSize
                         ? 'cursor-pointer bg-gradient-to-br from-[#FFD54F] to-[#FFCA28] text-[#5D4037] shadow-[0_4px_16px_rgba(255,202,40,0.35)] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(255,202,40,0.5)]'
                         : selectedFiles.length > 0
                             ? 'cursor-pointer bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(240,98,146,0.5)]'
@@ -968,11 +982,22 @@
                     <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
                 </svg>
                 <span>
-                    {!isAuthenticated && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL 
-                        ? 'Unlock with Day Pass — $1' 
-                        : !isAuthenticated 
-                            ? 'Create free account to unlock' 
+                    {!isAuthenticated && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL
+                        ? 'Unlock with Day Pass — $1'
+                        : !isAuthenticated
+                            ? 'Create free account to unlock'
                             : 'Upgrade plan to continue'}
+                </span>
+            {:else if blockedByFileSize}
+                <svg class="h-4 w-4 transition-transform group-hover:scale-110" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                </svg>
+                <span>
+                    {!isAuthenticated && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL
+                        ? 'Unlock with Day Pass — $1 · 75MB files'
+                        : !isAuthenticated
+                            ? 'Create free account to unlock'
+                            : 'Upgrade for 75MB files'}
                 </span>
                 
             {:else}
