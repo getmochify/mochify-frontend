@@ -154,13 +154,6 @@
         if (oversizedFiles.length > 0) {
             errorMessage = `${oversizedFiles.length} file${oversizedFiles.length !== 1 ? 's' : ''} exceed the ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB limit and ${oversizedFiles.length === 1 ? 'was' : 'were'} skipped.`;
             isFileSizeError = true;
-            
-            // Immediately show the modal to capitalize on intent
-            if (MAX_INDIVIDUAL_FILE_SIZE === 20 * 1024 * 1024) { 
-                 if (!isAuthenticated) showSignupCta = true;
-                 else showUpgradeCta = true;
-            }
-
             allFiles = allFiles.filter((f) => f.size <= MAX_INDIVIDUAL_FILE_SIZE);
             if (allFiles.length === 0) return;
         }
@@ -1101,24 +1094,54 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                 </div>
-                <h3 class="mb-2 text-lg font-black text-[#4A2C2C]">Monthly limit reached</h3>
-                <p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
-                    You've used your full image quota for this month. Upgrade for a higher limit, or your quota resets at the start of next month.
-                </p>
-                <div class="flex flex-col gap-3">
-                    <a
-                        href="/pricing"
-                        class="block rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
-                    >
-                        Upgrade plan
-                    </a>
-                    <button
-                        onclick={() => (showUpgradeCta = false)}
-                        class="cursor-pointer rounded-2xl border border-[#875F42]/15 px-6 py-3 text-center text-sm font-bold text-[#6C3F31] transition-all hover:border-[#F06292]/30 hover:bg-[#FFF5F7] hover:text-[#F06292]"
-                    >
-                        Dismiss
-                    </button>
-                </div>
+                {#if isFileSizeError}
+                    <h3 class="mb-2 text-lg font-black text-[#4A2C2C]">File too large</h3>
+                    <p class="mb-6 text-sm leading-relaxed text-cocoa-milk/70">
+                        Your plan supports files up to 20MB. Upgrade to Pro or grab a Day Pass to process files up to 75MB.
+                    </p>
+                    <div class="flex flex-col gap-3">
+                        {#if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
+                            <a
+                                href={`${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(page.url.href)}`}
+                                target="_blank" rel="noopener noreferrer"
+                                class="block rounded-2xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
+                            >
+                                Get Day Pass — $1 · 75MB files
+                            </a>
+                        {/if}
+                        <a
+                            href="/pricing"
+                            class="block rounded-2xl {showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL ? 'border border-cocoa-milk/15 text-cocoa-deep hover:border-mochi-pink/30 hover:bg-[#FFF5F7] hover:text-mochi-pink' : 'bg-linear-to-br from-[#FF9EBB] to-mochi-pink text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]'} px-6 py-3 text-center text-sm font-black transition-all"
+                        >
+                            Upgrade plan
+                        </a>
+                        <button
+                            onclick={() => (showUpgradeCta = false)}
+                            class="cursor-pointer rounded-2xl border border-cocoa-milk/15 px-6 py-3 text-center text-sm font-bold text-cocoa-deep transition-all hover:border-mochi-pink/30 hover:bg-[#FFF5F7] hover:text-mochi-pink"
+                        >
+                            Dismiss
+                        </button>
+                    </div>
+                {:else}
+                    <h3 class="mb-2 text-lg font-black text-[#4A2C2C]">Monthly limit reached</h3>
+                    <p class="mb-6 text-sm leading-relaxed text-cocoa-milk/70">
+                        You've used your full image quota for this month. Upgrade for a higher limit, or your quota resets at the start of next month.
+                    </p>
+                    <div class="flex flex-col gap-3">
+                        <a
+                            href="/pricing"
+                            class="block rounded-2xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
+                        >
+                            Upgrade plan
+                        </a>
+                        <button
+                            onclick={() => (showUpgradeCta = false)}
+                            class="cursor-pointer rounded-2xl border border-cocoa-milk/15 px-6 py-3 text-center text-sm font-bold text-cocoa-deep transition-all hover:border-mochi-pink/30 hover:bg-[#FFF5F7] hover:text-mochi-pink"
+                        >
+                            Dismiss
+                        </button>
+                    </div>
+                {/if}
             </div>
         </div>
     </div>
