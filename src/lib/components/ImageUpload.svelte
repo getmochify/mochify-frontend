@@ -801,7 +801,7 @@
         </div>
     {/if}
 
-    {#if insufficientTokens}
+    {#if insufficientTokens && !isFileLimitError && !isFileSizeError}
         <div
             class="mx-4 mb-3 flex items-start gap-2 rounded-2xl border border-[#FFD54F]/50 bg-white/30 px-4 py-3 backdrop-blur-sm sm:mx-6"
         >
@@ -819,7 +819,7 @@
             {#if availableTokens === 0}
                 {#if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
                     <div class="flex flex-col gap-2">
-                        <p class="text-xs font-bold text-cocoa-deep">No tokens left — get instant access or create a free account.</p>
+                        <p class="text-xs font-bold text-cocoa-deep">Guest limit reached — get instant access or create a free account.</p>
                         <div class="flex flex-wrap gap-2">
                             <a
                                 href={`${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(page.url.href)}`}
@@ -837,7 +837,7 @@
                     </div>
                 {:else}
                     <p class="text-xs font-bold text-cocoa-deep">
-                        No tokens left. <a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> for 25/month, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">see plans</a>.
+                        Guest limit reached. <a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> for 25 images/month, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">see plans</a>.
                     </p>
                 {/if}
             {:else}
@@ -919,7 +919,7 @@
                                     <a href="/auth/register" class="inline-flex items-center rounded-xl border border-cocoa-milk/20 bg-white/60 px-3 py-1.5 text-xs font-bold text-cocoa-deep hover:bg-white transition-all">Free account (Max 3 files)</a>
                                 </div>
                             {:else}
-                                <p class="text-xs text-cocoa-deep/70"><a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> for 25 images/month, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">see plans</a> for unlimited batches.</p>
+                                <p class="text-xs text-cocoa-deep/70"><a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> for 25 images/month, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">see plans</a> for larger batches.</p>
                             {/if}
                         </div>
                     {:else if isFileSizeError}
@@ -943,7 +943,7 @@
                                     <a href="/auth/register" class="inline-flex items-center rounded-xl border border-cocoa-milk/20 bg-white/60 px-3 py-1.5 text-xs font-bold text-cocoa-deep hover:bg-white transition-all">Free account (Max 20MB)</a>
                                 </div>
                             {:else}
-                                <p class="text-xs text-cocoa-deep/70"><a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">upgrade</a> for 75MB files.</p>
+                                <p class="text-xs text-cocoa-deep/70"><a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">upgrade</a> to lift the 20MB limit.</p>
                             {/if}
                         </div>
                     {:else}
