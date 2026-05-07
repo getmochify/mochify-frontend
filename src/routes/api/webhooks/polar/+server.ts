@@ -7,11 +7,14 @@ import {
 	POLAR_PRODUCT_ID_SELLER_YEARLY,
 	POLAR_PRODUCT_ID_PRO_MONTHLY,
 	POLAR_PRODUCT_ID_PRO_YEARLY,
+	POLAR_PRODUCT_ID_DAY_PASS,
 	CF_WORKER_URL,
 	CF_WORKER_TOKEN
 } from '$env/static/private';
+import { PUBLIC_APP_URL } from '$env/static/public';
 import type { RequestHandler } from './$types';
 import { getPostHogClient } from '$lib/server/posthog';
+import { createAuth } from '$lib/auth';
 
 async function sha256Hex(input: string): Promise<string> {
 	const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input));
@@ -192,6 +195,65 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				distinctId: userId,
 				event: 'subscription_cancelled',
 				properties: { webhook_event: event.type }
+			});
+			await posthog.flush();
+			break;
+		}
+
+		// One-time day pass purchase.
+		case 'order.created': {
+			const order = event.data;
+			// Only process paid, one-time purchases for the day pass product.
+			if (order.status !== 'paid') break;
+			if (order.billingReason !== 'purchase') break;
+			if (order.product?.id !== POLAR_PRODUCT_ID_DAY_PASS) break;
+
+			const email = order.customer.email;
+			if (!email) break;
+
+			// Send magic link — creates the user in D1 if they don't exist yet.
+			const auth = createAuth(db, platform?.env?.RESEND_API_KEY);
+			await auth.api.signInMagicLink({
+				body: { email, callbackURL: '/' },
+				headers: new Headers({ origin: PUBLIC_APP_URL }),
+			}).catch((e: unknown) => console.error('[daypass] magic link send failed:', e));
+
+			// Resolve user ID (guaranteed to exist now that magic link ran).
+			const userRow = await db
+				.prepare('SELECT id FROM user WHERE email = ? LIMIT 1')
+				.bind(email)
+				.first<{ id: string }>();
+
+			if (!userRow) break;
+
+			const quotaPeriodEnd = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+
+			await kysely
+				.insertInto('profile')
+				.values({
+					user_id: userRow.id,
+					plan: 'day',
+					ops_limit: 500,
+					quota_period_end: quotaPeriodEnd,
+					updated_at: new Date().toISOString()
+				})
+				.onConflict((oc) =>
+					oc.column('user_id').doUpdateSet({
+						plan: 'day',
+						ops_limit: 500,
+						quota_period_end: quotaPeriodEnd,
+						updated_at: new Date().toISOString()
+					})
+				)
+				.execute();
+
+			await reseedBucket(userRow.id, 'day', 500, quotaPeriodEnd);
+
+			const posthog = getPostHogClient();
+			posthog.capture({
+				distinctId: userRow.id,
+				event: 'day_pass_activated',
+				properties: { polar_order_id: order.id }
 			});
 			await posthog.flush();
 			break;
