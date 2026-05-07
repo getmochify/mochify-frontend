@@ -894,12 +894,7 @@
                     {#if isFileLimitError}
                         <div class="flex flex-col gap-2">
                             <p class="text-xs font-bold text-red-700">{errorMessage}</p>
-                            {#if isAuthenticated}
-                                <button
-                                    onclick={() => (showUpgradeCta = true)}
-                                    class="self-start rounded-xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-3 py-1.5 text-xs font-black text-white shadow-sm hover:-translate-y-px hover:shadow-md transition-all"
-                                >Upgrade for 25 files →</button>
-                            {:else if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
+                            {#if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
                                 <div class="flex flex-wrap gap-2">
                                     <a
                                         href={`${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(page.url.href)}`}
