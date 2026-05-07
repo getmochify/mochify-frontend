@@ -152,7 +152,7 @@
         const oversizedFiles = allFiles.filter((f) => f.size > MAX_INDIVIDUAL_FILE_SIZE);
 
         if (oversizedFiles.length > 0) {
-            errorMessage = `${oversizedFiles.length} file${oversizedFiles.length !== 1 ? 's' : ''} exceed the ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB limit and ${oversizedFiles.length === 1 ? 'was' : 'were'} skipped.`;
+            errorMessage = `${oversizedFiles.length} file${oversizedFiles.length !== 1 ? 's' : ''} exceeded the ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB limit and ${oversizedFiles.length === 1 ? 'was' : 'were'} skipped.`;
             isFileSizeError = true;
             allFiles = allFiles.filter((f) => f.size <= MAX_INDIVIDUAL_FILE_SIZE);
             if (allFiles.length === 0) return;
@@ -820,20 +820,7 @@
                 {#if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
                     <div class="flex flex-col gap-2">
                         <p class="text-xs font-bold text-cocoa-deep">Guest limit reached — get instant access or create a free account.</p>
-                        <div class="flex flex-wrap gap-2">
-                            <a
-                                href={`${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(page.url.href)}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="inline-flex items-center gap-1.5 rounded-xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-4 py-2 text-xs font-black text-white shadow-sm hover:shadow-md hover:-translate-y-px transition-all"
-                            >
-                                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                                Day Pass — $1
-                            </a>
-                            <a href="/auth/register" class="inline-flex items-center rounded-xl border border-cocoa-milk/20 bg-white/60 px-4 py-2 text-xs font-bold text-cocoa-deep hover:bg-white transition-all">
-                                Free account
-                            </a>
-                        </div>
+                        
                     </div>
                 {:else}
                     <p class="text-xs font-bold text-cocoa-deep">
