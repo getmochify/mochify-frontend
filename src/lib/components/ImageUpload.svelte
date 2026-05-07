@@ -215,17 +215,21 @@
 	});
 
 	const insufficientTokens = $derived(
-		!isAuthenticated &&
-			hasCheckedTokens &&
+		hasCheckedTokens &&
 			selectedFiles.length > 0 &&
-			selectedFiles.length > availableTokens
+			((!isAuthenticated && selectedFiles.length > availableTokens) ||
+				(isAuthenticated && availableTokens === 0))
 	);
 
 	function handleButtonClick() {
 		if (isLoading) return;
 		if (selectedFiles.length === 0 || insufficientTokens) {
-			shaking = true;
-			setTimeout(() => (shaking = false), 400);
+			if (insufficientTokens && isAuthenticated) {
+				showUpgradeCta = true;
+			} else {
+				shaking = true;
+				setTimeout(() => (shaking = false), 400);
+			}
 			return;
 		}
 		compressImage();
@@ -782,7 +786,11 @@
 			</svg>
 			{#if availableTokens === 0}
 				<p class="text-xs font-bold text-cocoa-deep">
-					No tokens left. <a href="/auth/register" class="text-[#F06292] underline hover:text-[#E91E8C]">Create a free account</a> for 25/month, or <a href="/pricing" class="text-[#F06292] underline hover:text-[#E91E8C]">see plans</a>.
+					{#if isAuthenticated}
+						Monthly quota reached. <button onclick={() => (showUpgradeCta = true)} class="text-mochi-pink underline hover:text-[#E91E8C]">Upgrade your plan</button> for a higher limit.
+					{:else}
+						No tokens left. <a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> for 25/month, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">see plans</a>.
+					{/if}
 				</p>
 			{:else}
 				<p class="text-xs font-bold text-cocoa-deep">
