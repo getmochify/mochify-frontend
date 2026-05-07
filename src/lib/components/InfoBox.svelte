@@ -1,10 +1,5 @@
-<script>
-    /**
-     * InfoBox Component - Reusable callout for tips, notes, and technical info
-     * @prop {string} type - 'tip' | 'technical' | 'note' | 'warning'
-     * @prop {string} title - Optional title for the box
-     */
-    export let type = 'note';
+<script lang="ts">
+    export let type: 'tip' | 'technical' | 'note' | 'warning' = 'note';
     export let title = '';
 
     const configs = {
@@ -52,7 +47,7 @@
 
 <aside class="my-6 {config.bgColor} rounded-2xl p-6 border {config.borderColor} shadow-sm">
     <div class="flex gap-4">
-        <div class="flex-shrink-0">
+        <div class="shrink-0">
             <div class="w-10 h-10 {config.iconBg} rounded-xl flex items-center justify-center border {config.iconBorder} shadow-sm">
                 <span class="text-xl">{config.icon}</span>
             </div>
@@ -61,7 +56,7 @@
             <h4 class="text-sm font-black {config.titleColor} uppercase tracking-wider mb-2">
                 {displayTitle}
             </h4>
-            <div class="text-[#6C3F31] text-base leading-relaxed prose-sm">
+            <div class="text-cocoa-deep text-base leading-relaxed prose-sm">
                 <slot />
             </div>
         </div>

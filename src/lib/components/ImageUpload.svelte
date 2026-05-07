@@ -53,6 +53,8 @@
 
 	let showSignupCta = $state(false);
 	let showUpgradeCta = $state(false);
+	let isFileSizeError = $state(false);
+	let shaking = $state(false);
 	let processPhase: 'idle' | 'uploading' | 'processing' | 'downloading' = $state('idle');
 	let uploadPercent: number = $state(0);
 	let downloadPercent: number = $state(0);
@@ -149,7 +151,8 @@
 		const oversizedFiles = allFiles.filter((f) => f.size > MAX_INDIVIDUAL_FILE_SIZE);
 
 		if (oversizedFiles.length > 0) {
-			errorMessage = `Individual file size limit is ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB. ${oversizedFiles.length} file(s) exceed this limit.`;
+			errorMessage = `${oversizedFiles.length} file${oversizedFiles.length !== 1 ? 's' : ''} exceed${oversizedFiles.length === 1 ? 's' : ''} the ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB limit.`;
+			isFileSizeError = MAX_INDIVIDUAL_FILE_SIZE === 20 * 1024 * 1024;
 			return;
 		}
 
@@ -174,6 +177,7 @@
 		totalOriginalSize = combinedFiles.reduce((sum, file) => sum + file.size, 0);
 		errorMessage = '';
 		successMessage = '';
+		isFileSizeError = false;
 
 		if (addedCount === 0 && newFiles.length === 0) {
 			errorMessage = 'All selected files are already in the list.';
@@ -216,6 +220,16 @@
 			selectedFiles.length > 0 &&
 			selectedFiles.length > availableTokens
 	);
+
+	function handleButtonClick() {
+		if (isLoading) return;
+		if (selectedFiles.length === 0 || insufficientTokens) {
+			shaking = true;
+			setTimeout(() => (shaking = false), 400);
+			return;
+		}
+		compressImage();
+	}
 
 	async function compressImage() {
 		if (selectedFiles.length === 0) {
@@ -773,9 +787,10 @@
 	<!-- Submit button -->
 	<div class="px-4 pb-4 sm:px-6">
 		<button
-			onclick={compressImage}
-			disabled={selectedFiles.length === 0 || isLoading || insufficientTokens}
+			onclick={handleButtonClick}
+			aria-disabled={selectedFiles.length === 0 || isLoading || insufficientTokens}
 			class="group flex w-full items-center justify-center gap-2 rounded-2xl px-6 py-3.5 font-bold transition-all duration-300
+                {shaking ? 'animate-shake' : ''}
                 {selectedFiles.length > 0 && !isLoading && !insufficientTokens
 				? 'cursor-pointer bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(240,98,146,0.5)]'
 				: 'cursor-not-allowed border border-[#875F42]/15 bg-white/40 text-[#875F42]/60'}"
@@ -795,7 +810,7 @@
 				<span>Not enough tokens</span>
 			{:else}
 				<svg
-					class="h-4 w-4 transition-transform group-hover:scale-110"
+					class="h-4 w-4 {selectedFiles.length > 0 && !insufficientTokens ? 'transition-transform group-hover:scale-110' : ''}"
 					fill="currentColor"
 					viewBox="0 0 20 20"
 				>
@@ -833,16 +848,28 @@
 			{/if}
 			{#if errorMessage}
 				<div
-					class="flex items-center gap-2 rounded-2xl border border-red-200/50 bg-white/30 px-4 py-3 backdrop-blur-sm"
+					class="flex items-start gap-2 rounded-2xl border border-red-200/50 bg-white/30 px-4 py-3 backdrop-blur-sm"
 				>
-					<svg class="h-4 w-4 flex-shrink-0 text-[#EF5350]" fill="currentColor" viewBox="0 0 20 20">
+					<svg class="mt-0.5 h-4 w-4 shrink-0 text-[#EF5350]" fill="currentColor" viewBox="0 0 20 20">
 						<path
 							fill-rule="evenodd"
 							d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
 							clip-rule="evenodd"
 						/>
 					</svg>
-					<p class="text-xs font-bold text-red-700">{errorMessage}</p>
+					{#if isFileSizeError}
+						<p class="text-xs font-bold text-red-700">
+							{errorMessage}
+							{#if !isAuthenticated}
+								<a href="/auth/register" class="ml-1 text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> or
+								<a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">upgrade</a> for 75MB files.
+							{:else}
+								<a href="/pricing" class="ml-1 text-mochi-pink underline hover:text-[#E91E8C]">Upgrade your plan</a> for 75MB files.
+							{/if}
+						</p>
+					{:else}
+						<p class="text-xs font-bold text-red-700">{errorMessage}</p>
+					{/if}
 				</div>
 			{/if}
 		</div>
@@ -1054,6 +1081,17 @@
 			0 0 0 2px rgba(240, 98, 146, 0.4),
 			0 0 40px rgba(240, 98, 146, 0.2),
 			inset 0 0 20px rgba(255, 255, 255, 0.5);
+	}
+
+	@keyframes shake {
+		0%, 100% { transform: translateX(0); }
+		20%       { transform: translateX(-6px); }
+		40%       { transform: translateX(6px); }
+		60%       { transform: translateX(-4px); }
+		80%       { transform: translateX(4px); }
+	}
+	.animate-shake {
+		animation: shake 0.4s ease-in-out;
 	}
 
 	@keyframes shimmer {

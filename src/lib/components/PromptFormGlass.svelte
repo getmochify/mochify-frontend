@@ -151,7 +151,7 @@
 
             if (!nlpResponse.ok) throw new Error(`Failed to understand prompt (Status: ${nlpResponse.status})`);
 
-            const parsedData = await nlpResponse.json();
+            const parsedData = await nlpResponse.json() as { files?: Array<Record<string, unknown>> };
             const fileArray = parsedData.files || [];
             const fileMap: Record<string, any> = {};
             fileArray.forEach((item: any) => {
@@ -189,7 +189,7 @@
 
                         const contentType = response.headers.get('content-type') || '';
                         if (contentType.includes('application/json')) {
-                            const errorJson = await response.json();
+                            const errorJson = await response.json() as { error?: string; message?: string };
                             throw new Error(errorJson.error || errorJson.message || `Server rejected ${file.name}`);
                         }
 
@@ -241,7 +241,7 @@
                     zip(zipContents, { level: 0 }, (err, zippedData) => {
                         if (err) return reject(err);
                         
-                        const zipBlob = new Blob([zippedData], { type: 'application/zip' });
+                        const zipBlob = new Blob([zippedData as BlobPart], { type: 'application/zip' });
                         const url = URL.createObjectURL(zipBlob);
                         const a = document.createElement('a');
                         a.href = url;

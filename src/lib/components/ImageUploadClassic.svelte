@@ -116,7 +116,7 @@
             if (!response.ok) {
                 throw new Error('Failed to check token limit');
             }
-            const data = await response.json();
+            const data = await response.json() as { remaining?: number };
             availableTokens = data.remaining || 0;
             hasCheckedTokens = true;
             tokenCheckError = false;
@@ -352,7 +352,7 @@
                     });
                 });
 
-                const zipBlob = new Blob([zipContent], { type: 'application/zip' });
+                const zipBlob = new Blob([zipContent as BlobPart], { type: 'application/zip' });
                 downloadBlob(zipBlob, 'compressed-images.zip');
             }
             // --------------------------------

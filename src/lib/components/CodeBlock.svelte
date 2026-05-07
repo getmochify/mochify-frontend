@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
     export let filename = '';
     export let code = '';
 
-    function escapeHtml(str) {
+    function escapeHtml(str: string) {
         return str
             .replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')

@@ -133,7 +133,7 @@
 &#125;, 1 );</code></pre>
             </div>
 
-            <InfoBox type="info" title="If your hero image is in the Media Library">
+            <InfoBox type="note" title="If your hero image is in the Media Library">
                 Replace <code>get_template_directory_uri() . '/images/hero.avif'</code> with the direct URL from the Media Library — for example, <code>https://example.com/wp-content/uploads/2026/04/hero.avif</code>. You can hardcode it or use <code>wp_get_attachment_url( $attachment_id )</code> if you store the ID in a theme option.
             </InfoBox>
 

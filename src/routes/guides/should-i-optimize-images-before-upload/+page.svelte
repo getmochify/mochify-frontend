@@ -342,7 +342,7 @@
                 {/each}
             </ol>
 
-            <InfoBox type="info" title="If you're unsure">
+            <InfoBox type="note" title="If you're unsure">
                 The safe default: resize to your largest display need, compress with WebP or jpegli JPEG, strip EXIF, and keep the original locally. That single step addresses LCP, privacy, and platform unpredictability in one go.
             </InfoBox>
         </section>

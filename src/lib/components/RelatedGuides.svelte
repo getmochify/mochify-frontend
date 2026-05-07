@@ -1,9 +1,5 @@
-<script>
-    /**
-     * RelatedGuides — renders a grid of related article cards at the bottom of a guide.
-     * @prop {Array<{href: string, title: string, desc: string}>} guides
-     */
-    export let guides = [];
+<script lang="ts">
+    export let guides: Array<{ href: string; title: string; desc: string }> = [];
 </script>
 
 <section class="my-12">
