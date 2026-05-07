@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { zip } from 'fflate';
 	import { env } from '$env/dynamic/public';
+	import { browser } from '$app/environment';
 	import { getIsPro, getPlan, getSessionToken } from '$lib/user';
 	import posthog from 'posthog-js';
 
@@ -222,7 +223,7 @@
 	});
 
 	// True while the route-specific first-visit bonus is active (not yet consumed).
-	let bonusActive = $state(bonusKey !== '' && !localStorage.getItem(`mochify_bonus_${bonusKey}`));
+	let bonusActive = $state(browser && bonusKey !== '' && !localStorage.getItem(`mochify_bonus_${bonusKey}`));
 
 	const insufficientTokens = $derived(
 		!isAuthenticated &&
