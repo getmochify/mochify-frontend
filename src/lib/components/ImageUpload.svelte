@@ -193,7 +193,9 @@
 					: `Maximum ${MAX_FILES} files. Added ${addedCount} file(s).`;
 		}
 
-		await checkTokenLimit();
+		if (!bonusActive) {
+			await checkTokenLimit();
+		}
 	}
 
 	function formatFileSize(bytes: number): string {
@@ -219,8 +221,12 @@
 		});
 	});
 
+	// True while the route-specific first-visit bonus is active (not yet consumed).
+	let bonusActive = $state(bonusKey !== '' && !localStorage.getItem(`mochify_bonus_${bonusKey}`));
+
 	const insufficientTokens = $derived(
 		!isAuthenticated &&
+			!bonusActive &&
 			hasCheckedTokens &&
 			selectedFiles.length > 0 &&
 			selectedFiles.length > availableTokens
@@ -250,8 +256,9 @@
 			authed: !!jwt
 		});
 
-		if (bonusKey) {
+		if (bonusActive) {
 			localStorage.setItem(`mochify_bonus_${bonusKey}`, '1');
+			bonusActive = false;
 		}
 
 		isLoading = true;
@@ -750,16 +757,16 @@
 	<!-- Token status -->
 	{#if hasCheckedTokens && selectedFiles.length > 0 && !insufficientTokens && availableTokens > 0}
 		<div
-			class="mx-4 mb-3 flex items-center gap-2 rounded-2xl border border-[#A5D6A7]/40 bg-white/30 px-4 py-2.5 backdrop-blur-sm sm:mx-6"
+			class="mx-4 mb-3 flex items-center gap-2 rounded-2xl border border-[#A5D6A7]/40 bg-white/30 px-4 py-3 backdrop-blur-sm sm:mx-6"
 		>
-			<svg class="h-4 w-4 flex-shrink-0 text-[#66BB6A]" fill="currentColor" viewBox="0 0 20 20">
+			<svg class="h-4 w-4 shrink-0 text-[#66BB6A]" fill="currentColor" viewBox="0 0 20 20">
 				<path
 					fill-rule="evenodd"
 					d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
 					clip-rule="evenodd"
 				/>
 			</svg>
-			<p class="text-xs font-semibold text-[#33691E]">
+			<p class="text-xs font-bold text-[#33691E]">
 				{availableTokens} token{availableTokens !== 1 ? 's' : ''} available
 			</p>
 		</div>
@@ -767,10 +774,10 @@
 
 	{#if insufficientTokens}
 		<div
-			class="mx-4 mb-3 flex items-start gap-2 rounded-2xl border border-[#FFD54F]/50 bg-white/30 px-4 py-2.5 backdrop-blur-sm sm:mx-6"
+			class="mx-4 mb-3 flex items-start gap-2 rounded-2xl border border-[#FFD54F]/50 bg-white/30 px-4 py-3 backdrop-blur-sm sm:mx-6"
 		>
 			<svg
-				class="mt-0.5 h-4 w-4 flex-shrink-0 text-[#F57C00]"
+				class="mt-0.5 h-4 w-4 shrink-0 text-[#F57C00]"
 				fill="currentColor"
 				viewBox="0 0 20 20"
 			>
@@ -781,11 +788,11 @@
 				/>
 			</svg>
 			{#if availableTokens === 0}
-				<p class="text-xs font-semibold text-[#6C3F31]">
+				<p class="text-xs font-bold text-cocoa-deep">
 					No tokens left. <a href="/auth/register" class="text-[#F06292] underline hover:text-[#E91E8C]">Create a free account</a> for 25/month, or <a href="/pricing" class="text-[#F06292] underline hover:text-[#E91E8C]">see plans</a>.
 				</p>
 			{:else}
-				<p class="text-xs font-semibold text-[#6C3F31]">
+				<p class="text-xs font-bold text-cocoa-deep">
 					{availableTokens} token{availableTokens !== 1 ? 's' : ''} available — remove {selectedFiles.length -
 						availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''} or <a href="/auth/register" class="text-[#F06292] underline hover:text-[#E91E8C]">sign up</a> for more.
 				</p>
