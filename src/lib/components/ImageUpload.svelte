@@ -232,7 +232,14 @@
         if (isLoading) return;
 
         if (blockedByFileSize) {
-            if (!isAuthenticated) {
+            if (!isAuthenticated && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL) {
+                posthog.capture('day_pass_cta_clicked', { trigger: 'button_click_file_size' });
+                window.open(
+                    `${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(window.location.href)}`,
+                    '_blank',
+                    'noopener,noreferrer'
+                );
+            } else if (!isAuthenticated) {
                 showSignupCta = true;
                 posthog.capture('signup_cta_shown', { trigger: 'button_click_file_size' });
             } else {
@@ -913,7 +920,9 @@
                     {:else if isFileSizeError}
                         <div class="flex flex-col gap-2">
                             <p class="text-xs font-bold text-red-700">{errorMessage}</p>
-                            {#if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
+                            {#if isAuthenticated}
+                                <p class="text-xs text-cocoa-deep/70">Your plan supports files up to 20MB — click below to upgrade.</p>
+                            {:else if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
                                 <div class="flex flex-wrap gap-2">
                                     <a
                                         href={`${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(page.url.href)}`}
