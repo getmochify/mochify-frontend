@@ -70,7 +70,7 @@
         </div>
 
         <div class="mb-16">
-            <ImageUpload types=".HEIF, .HIF" quality={90} output="jpg" showQuality={true} showTypes={false} compact queryParams="photography=1" showExifOption={true} bonusKey="hif-to-jpg" />
+            <ImageUpload types=".HEIF, .HIF" quality={90} output="jpg" showQuality={true} showTypes={false} compact queryParams="photography=1" showExifOption={true} />
         </div>
 
         <section class="mt-10 mb-20 max-w-2xl mx-auto">

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { zip } from 'fflate';
 	import { env } from '$env/dynamic/public';
-	import { browser } from '$app/environment';
 	import { getIsPro, getPlan, getSessionToken } from '$lib/user';
 	import posthog from 'posthog-js';
 
@@ -24,8 +23,7 @@
 		class: className = '',
 		queryParams = '',
 		showExifOption = false,
-		showSmartMode = false,
-		bonusKey = ''
+		showSmartMode = false
 	} = props;
 	const hasOutputOverride = 'output' in props;
 
@@ -49,11 +47,7 @@
 			MAX_INDIVIDUAL_FILE_SIZE = isPro ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
 		});
 		getPlan().then((plan) => {
-			if (plan === 'free' && bonusKey && !localStorage.getItem(`mochify_bonus_${bonusKey}`)) {
-				MAX_FILES = 25;
-			} else {
-				MAX_FILES = plan === 'free' ? 3 : 25;
-			}
+			MAX_FILES = plan === 'free' ? 3 : 25;
 		});
 	});
 
@@ -194,9 +188,7 @@
 					: `Maximum ${MAX_FILES} files. Added ${addedCount} file(s).`;
 		}
 
-		if (!bonusActive) {
-			await checkTokenLimit();
-		}
+		await checkTokenLimit();
 	}
 
 	function formatFileSize(bytes: number): string {
@@ -222,12 +214,8 @@
 		});
 	});
 
-	// True while the route-specific first-visit bonus is active (not yet consumed).
-	let bonusActive = $state(browser && bonusKey !== '' && !localStorage.getItem(`mochify_bonus_${bonusKey}`));
-
 	const insufficientTokens = $derived(
 		!isAuthenticated &&
-			!bonusActive &&
 			hasCheckedTokens &&
 			selectedFiles.length > 0 &&
 			selectedFiles.length > availableTokens
@@ -256,11 +244,6 @@
 			format: imageType,
 			authed: !!jwt
 		});
-
-		if (bonusActive) {
-			localStorage.setItem(`mochify_bonus_${bonusKey}`, '1');
-			bonusActive = false;
-		}
 
 		isLoading = true;
 		errorMessage = '';
