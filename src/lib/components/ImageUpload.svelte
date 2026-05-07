@@ -151,9 +151,10 @@
 		const oversizedFiles = allFiles.filter((f) => f.size > MAX_INDIVIDUAL_FILE_SIZE);
 
 		if (oversizedFiles.length > 0) {
-			errorMessage = `${oversizedFiles.length} file${oversizedFiles.length !== 1 ? 's' : ''} exceed${oversizedFiles.length === 1 ? 's' : ''} the ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB limit.`;
+			errorMessage = `${oversizedFiles.length} file${oversizedFiles.length !== 1 ? 's' : ''} exceed the ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB limit and ${oversizedFiles.length === 1 ? 'was' : 'were'} skipped.`;
 			isFileSizeError = MAX_INDIVIDUAL_FILE_SIZE === 20 * 1024 * 1024;
-			return;
+			allFiles = allFiles.filter((f) => f.size <= MAX_INDIVIDUAL_FILE_SIZE);
+			if (allFiles.length === 0) return;
 		}
 
 		const existingFileKeys = new Set(selectedFiles.map((f) => `${f.name}-${f.size}`));
