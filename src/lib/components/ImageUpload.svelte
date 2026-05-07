@@ -228,8 +228,8 @@
     const insufficientTokens = $derived(
         hasCheckedTokens &&
             selectedFiles.length > 0 &&
-            ((!isAuthenticated && selectedFiles.length > availableTokens) ||
-                (isAuthenticated && availableTokens === 0))
+            !isAuthenticated &&
+            selectedFiles.length > availableTokens
     );
 
     function handleButtonClick() {
@@ -242,15 +242,10 @@
             return;
         }
 
-        // Intercept click if they lack tokens to show monetization
+        // Intercept click if they lack tokens (non-authed only) to show signup CTA
         if (insufficientTokens) {
-            if (!isAuthenticated) {
-                showSignupCta = true;
-                posthog.capture('signup_cta_shown', { trigger: 'button_click_no_tokens' });
-            } else {
-                showUpgradeCta = true;
-                posthog.capture('upgrade_cta_shown', { trigger: 'button_click_no_tokens' });
-            }
+            showSignupCta = true;
+            posthog.capture('signup_cta_shown', { trigger: 'button_click_no_tokens' });
             return;
         }
         
@@ -808,11 +803,7 @@
                 />
             </svg>
             {#if availableTokens === 0}
-                {#if isAuthenticated}
-                    <p class="text-xs font-bold text-cocoa-deep">
-                        Monthly quota reached. <button onclick={() => (showUpgradeCta = true)} class="text-mochi-pink underline hover:text-[#E91E8C]">Upgrade your plan</button> for a higher limit.
-                    </p>
-                {:else if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
+                {#if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
                     <div class="flex flex-col gap-2">
                         <p class="text-xs font-bold text-cocoa-deep">No tokens left — get instant access or create a free account.</p>
                         <div class="flex flex-wrap gap-2">
@@ -826,7 +817,7 @@
                                 Day Pass — $1
                             </a>
                             <a href="/auth/register" class="inline-flex items-center rounded-xl border border-cocoa-milk/20 bg-white/60 px-4 py-2 text-xs font-bold text-cocoa-deep hover:bg-white transition-all">
-                                Free account (Max 3 files)
+                                Free account
                             </a>
                         </div>
                     </div>
