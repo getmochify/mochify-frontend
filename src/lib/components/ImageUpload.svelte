@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { zip } from 'fflate';
 	import { env } from '$env/dynamic/public';
-	import { getIsPro, getPlan, getSessionToken } from '$lib/user';
+	import { getPlan, getSessionToken } from '$lib/user';
 	import posthog from 'posthog-js';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
@@ -40,15 +40,13 @@
 	let successMessage: string = $state('');
 	let totalOriginalSize: number = $state(0);
 	let fileInputElement: HTMLInputElement;
-	let MAX_FILES = $state(25);
+	let MAX_FILES = $state(3);
 	const CONCURRENT_UPLOADS = 1;
-	let MAX_INDIVIDUAL_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro
+	let MAX_INDIVIDUAL_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro/day
 	$effect(() => {
-		getIsPro().then((isPro) => {
-			MAX_INDIVIDUAL_FILE_SIZE = isPro ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
-		});
 		getPlan().then((plan) => {
 			MAX_FILES = plan === 'free' ? 3 : 25;
+			MAX_INDIVIDUAL_FILE_SIZE = (plan === 'pro' || plan === 'day') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
 		});
 	});
 
