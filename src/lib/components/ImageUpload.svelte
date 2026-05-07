@@ -874,21 +874,6 @@
                     {#if isFileLimitError}
                         <div class="flex flex-col gap-2">
                             <p class="text-xs font-bold text-red-700">{errorMessage}</p>
-                            {#if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
-                                <div class="flex flex-wrap gap-2">
-                                    <a
-                                        href={`${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(page.url.href)}`}
-                                        target="_blank" rel="noopener noreferrer"
-                                        class="inline-flex items-center gap-1.5 rounded-xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-3 py-1.5 text-xs font-black text-white shadow-sm hover:-translate-y-px hover:shadow-md transition-all"
-                                    >
-                                        <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                                        Day Pass — $1
-                                    </a>
-                                    <a href="/auth/register" class="inline-flex items-center rounded-xl border border-cocoa-milk/20 bg-white/60 px-3 py-1.5 text-xs font-bold text-cocoa-deep hover:bg-white transition-all">Free account (Max 3 files)</a>
-                                </div>
-                            {:else}
-                                <p class="text-xs text-cocoa-deep/70"><a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> for 25 images/month, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">see plans</a> for larger batches.</p>
-                            {/if}
                         </div>
                     {:else if isFileSizeError}
                         <div class="flex flex-col gap-2">
