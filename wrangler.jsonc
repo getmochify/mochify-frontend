@@ -23,5 +23,16 @@
       "database_name": "mochify-auth",
       "database_id": "5b476a87-44a7-4b3b-9687-d6173ab17420"
     }
-  ]
+  ],
+  // Non-secret Polar config — safe to commit. Secrets (POLAR_ACCESS_TOKEN,
+  // POLAR_WEBHOOK_SECRET, CF_WORKER_TOKEN) must be set in the Cloudflare
+  // Pages dashboard under Settings → Environment Variables.
+  "vars": {
+    "POLAR_SANDBOX": "false",
+    "POLAR_PRODUCT_ID_SELLER_MONTHLY": "",
+    "POLAR_PRODUCT_ID_SELLER_YEARLY": "",
+    "POLAR_PRODUCT_ID_PRO_MONTHLY": "",
+    "POLAR_PRODUCT_ID_PRO_YEARLY": "",
+    "POLAR_PRODUCT_ID_DAY_PASS": ""
+  }
 }
