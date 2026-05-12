@@ -156,7 +156,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			if (!unctier) {
 				console.error(`[webhook] uncanceled: Unknown product id=${sub.product.id}`);
 			}
-			const tier = unctier ?? { plan: 'free' as const, ops_limit: 30 };
+			const tier = unctier ?? { plan: 'free' as const, ops_limit: 25 };
 			const periodEnd = sub.currentPeriodEnd ? new Date(sub.currentPeriodEnd).getTime() : null;
 			const now = Date.now();
 
