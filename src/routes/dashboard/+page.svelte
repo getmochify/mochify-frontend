@@ -180,7 +180,7 @@
 				<span class="text-sm font-black text-[#2E5C31]"
 					>You're on {isSeller ? 'Seller' : 'Pro'}!</span
 				>
-				<span class="text-sm text-[#2E5C31]/70">Your quota has been updated. Welcome aboard.</span>
+				<span class="text-sm text-[#2E5C31]/70">Your new limits are being applied — your usage numbers may take a minute or two to reflect the change.</span>
 			</div>
 		{/if}
 
@@ -239,6 +239,13 @@
 							style="width: {usagePercent}%"
 						></div>
 					</div>
+					<p class="mt-2 text-xs text-[#875F42]/50">
+						{#if data.profile?.quota_period_end}
+							Resets {new Date(data.profile.quota_period_end).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+						{:else}
+							Resets every 30 days
+						{/if}
+					</p>
 				{:else}
 					<p class="text-2xl font-black text-[#4A2C2C]">—</p>
 					<p class="mt-1 text-xs text-[#875F42]/50">Generate an API key to track usage</p>
