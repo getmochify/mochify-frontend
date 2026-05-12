@@ -8,7 +8,10 @@ export const actions = {
     deleteAccount: async ({ locals, platform }) => {
         if (!locals.user) return fail(401, { error: 'Not authenticated' })
 
-        const polar = new Polar({ accessToken: env.POLAR_ACCESS_TOKEN })
+        const polar = new Polar({
+            accessToken: env.POLAR_ACCESS_TOKEN,
+            ...(env.POLAR_SANDBOX === 'true' ? { server: 'sandbox' } : {})
+        })
 
         // TODO: cancel Polar subscription once profiles table is in D1.
         try {

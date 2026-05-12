@@ -16,6 +16,7 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 	const productId = PRODUCTS[plan]?.[billing];
 
 	if (!productId) {
+		console.error(`[checkout] No product ID for plan=${plan} billing=${billing}. Check POLAR_PRODUCT_ID_* env vars.`);
 		return new Response('Invalid plan or billing cycle', { status: 400 });
 	}
 
@@ -27,7 +28,10 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 		throw redirect(303, loginUrl.toString());
 	}
 
-	const polar = new Polar({ accessToken: env.POLAR_ACCESS_TOKEN });
+	const polar = new Polar({
+		accessToken: env.POLAR_ACCESS_TOKEN,
+		...(env.POLAR_SANDBOX === 'true' ? { server: 'sandbox' } : {})
+	});
 
 	let checkoutUrl: string;
 	try {

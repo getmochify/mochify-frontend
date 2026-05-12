@@ -32,7 +32,9 @@ async function reseedBucket(
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json', 'X-Worker-Token': env.CF_WORKER_TOKEN },
 		body: JSON.stringify({ remaining: opsLimit, quota: opsLimit, plan, ttl, userId })
-	}).catch(() => {});
+	}).then(async (r) => {
+		if (!r.ok) console.error(`[webhook] reseedBucket failed: ${r.status} ${await r.text().catch(() => '')}`);
+	}).catch((e) => console.error('[webhook] reseedBucket fetch error:', e));
 }
 
 export const POST: RequestHandler = async ({ request, platform }) => {
@@ -74,9 +76,13 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			if (!userId) break;
 
 			const isActive = sub.status === 'active';
-			const tier = PRODUCT_PLAN_MAP[sub.product.id] ?? { plan: 'free' as const, ops_limit: 30 };
-			const plan = isActive ? tier.plan : 'free';
-			const opsLimit = isActive ? tier.ops_limit : 30;
+			const tier = PRODUCT_PLAN_MAP[sub.product.id];
+			if (!tier) {
+				console.error(`[webhook] Unknown product id=${sub.product.id}. Known: ${JSON.stringify(Object.keys(PRODUCT_PLAN_MAP))}`);
+			}
+			const resolvedTier = tier ?? { plan: 'free' as const, ops_limit: 30 };
+			const plan = isActive ? resolvedTier.plan : 'free';
+			const opsLimit = isActive ? resolvedTier.ops_limit : 30;
 			const periodEnd = sub.currentPeriodEnd?.toISOString() ?? null;
 
 			await kysely
@@ -120,7 +126,11 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			const userId = sub.customer.externalId;
 			if (!userId) break;
 
-			const tier = PRODUCT_PLAN_MAP[sub.product.id] ?? { plan: 'free' as const, ops_limit: 30 };
+			const unctier = PRODUCT_PLAN_MAP[sub.product.id];
+			if (!unctier) {
+				console.error(`[webhook] uncanceled: Unknown product id=${sub.product.id}`);
+			}
+			const tier = unctier ?? { plan: 'free' as const, ops_limit: 30 };
 			const periodEnd = sub.currentPeriodEnd?.toISOString() ?? null;
 
 			await kysely
