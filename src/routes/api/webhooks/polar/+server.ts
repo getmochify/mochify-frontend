@@ -14,6 +14,28 @@ async function sha256Hex(input: string): Promise<string> {
 		.join('');
 }
 
+async function updateUsageKv(
+	kv: KVNamespace | undefined,
+	userId: string,
+	plan: string,
+	opsLimit: number
+): Promise<void> {
+	if (!kv) return;
+	const raw = await kv.get(userId).catch(() => null);
+	const existing = raw ? JSON.parse(raw) as { remaining?: number } : null;
+	// Preserve how many ops they've used so the counter doesn't reset visually,
+	// but always update quota and plan to the new values.
+	const usedSoFar = existing?.remaining !== undefined
+		? Math.max(0, (existing as { remaining: number; quota?: number }).quota ?? opsLimit) - existing.remaining
+		: 0;
+	await kv.put(userId, JSON.stringify({
+		remaining: Math.max(0, opsLimit - usedSoFar),
+		quota: opsLimit,
+		plan,
+		updatedAt: new Date().toISOString()
+	})).catch(() => {});
+}
+
 async function reseedBucket(
 	userId: string,
 	plan: string,
@@ -55,6 +77,8 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const kysely = new Kysely<any>({ dialect: new D1Dialect({ database: db }) });
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const kv = (platform?.env as any)?.USAGE_KV as KVNamespace | undefined;
 
 	const PRODUCT_PLAN_MAP: Record<string, { plan: 'seller' | 'pro'; ops_limit: number }> = {
 		[env.POLAR_PRODUCT_ID_SELLER_MONTHLY]: { plan: 'seller', ops_limit: 300 },
@@ -108,6 +132,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 					})
 				)
 				.execute();
+			await updateUsageKv(kv, userId, plan, opsLimit);
 			await reseedBucket(userId, plan, opsLimit, periodEnd);
 			if (isActive) {
 				const posthog = getPostHogClient();
@@ -158,6 +183,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 					})
 				)
 				.execute();
+			await updateUsageKv(kv, userId, tier.plan, tier.ops_limit);
 			await reseedBucket(userId, tier.plan, tier.ops_limit, periodEnd);
 			break;
 		}
@@ -195,6 +221,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 					})
 				)
 				.execute();
+			await updateUsageKv(kv, userId, 'free', 30);
 			await reseedBucket(userId, 'free', 30, null);
 			const posthog = getPostHogClient();
 			posthog.capture({
