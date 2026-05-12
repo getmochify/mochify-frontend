@@ -3,6 +3,7 @@
     import PromptForm from '$lib/components/PromptForm.svelte';
     import Footer from '$lib/components/Footer.svelte';
     import Navigation from '$lib/components/Navigation.svelte';
+    import { getPlan } from '$lib/user';
 
     let showVideoModal: boolean = $state(false);
     let showUpgradeCTA: boolean = $state(false);
@@ -14,9 +15,12 @@
     let isIosInstall: boolean = $state(false);
     let showIosTooltip: boolean = $state(false);
 
-    function handleSuccess() {
+    async function handleSuccess() {
         showBgRemovalCTA = false;
-        if (!upgradeCTADismissed) showUpgradeCTA = true;
+        if (!upgradeCTADismissed) {
+            const plan = await getPlan();
+            if (plan === 'free') showUpgradeCTA = true;
+        }
     }
 
     function handleBgRemovalUpsell() {

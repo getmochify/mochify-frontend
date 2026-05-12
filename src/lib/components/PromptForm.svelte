@@ -583,7 +583,11 @@
 
 			prompt = '';
 			files = [];
-			if (bgRemovalBlocked) {
+			const successCount = totalFiles - failedFiles.length;
+			if (successCount === 0) {
+				posthog.capture('magic_flow_completed', { files: totalFiles, all_failed: true });
+				showStatus('error', failedFiles[0]?.reason ?? 'All files failed to process — please try again.');
+			} else if (bgRemovalBlocked) {
 				posthog.capture('magic_flow_completed', { files: totalFiles, bg_removal_blocked: true });
 				showStatus(
 					'success',
@@ -591,8 +595,11 @@
 				);
 				onBgRemovalUpsell?.();
 			} else {
-				posthog.capture('magic_flow_completed', { files: totalFiles });
-				showStatus('success', 'Images processed successfully! ✨');
+				posthog.capture('magic_flow_completed', { files: totalFiles, failed: failedFiles.length });
+				const msg = failedFiles.length > 0
+					? `${successCount} of ${totalFiles} images processed. ✨`
+					: 'Images processed successfully! ✨';
+				showStatus('success', msg);
 				onSuccess?.();
 			}
 		} catch (err) {
