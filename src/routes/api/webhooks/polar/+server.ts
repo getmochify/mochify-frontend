@@ -18,15 +18,14 @@ async function reseedBucket(
 	userId: string,
 	plan: string,
 	opsLimit: number,
-	quotaPeriodEnd: string | null
+	quotaPeriodEnd: number | null
 ): Promise<void> {
 	if (!env.CF_WORKER_URL || !env.CF_WORKER_TOKEN) return;
 	const identifier = await sha256Hex(userId);
 	let ttl = 30 * 24 * 60 * 60;
 	if (quotaPeriodEnd) {
-		const periodEnd = new Date(quotaPeriodEnd).getTime();
 		const now = Date.now();
-		if (periodEnd > now) ttl = Math.floor((periodEnd - now) / 1000);
+		if (quotaPeriodEnd > now) ttl = Math.floor((quotaPeriodEnd - now) / 1000);
 	}
 	await fetch(`${env.CF_WORKER_URL}/seed/${identifier}`, {
 		method: 'POST',
@@ -83,7 +82,8 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			const resolvedTier = tier ?? { plan: 'free' as const, ops_limit: 30 };
 			const plan = isActive ? resolvedTier.plan : 'free';
 			const opsLimit = isActive ? resolvedTier.ops_limit : 30;
-			const periodEnd = sub.currentPeriodEnd?.toISOString() ?? null;
+			const periodEnd = sub.currentPeriodEnd ? new Date(sub.currentPeriodEnd).getTime() : null;
+			const now = Date.now();
 
 			await kysely
 				.insertInto('profile')
@@ -94,7 +94,8 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 					polar_customer_id: sub.customer.id,
 					quota_period_end: periodEnd,
 					ops_limit: opsLimit,
-					updated_at: new Date().toISOString()
+					created_at: now,
+					updated_at: now
 				})
 				.onConflict((oc) =>
 					oc.column('user_id').doUpdateSet({
@@ -103,7 +104,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 						polar_customer_id: sub.customer.id,
 						quota_period_end: periodEnd,
 						ops_limit: opsLimit,
-						updated_at: new Date().toISOString()
+						updated_at: now
 					})
 				)
 				.execute();
@@ -131,7 +132,8 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				console.error(`[webhook] uncanceled: Unknown product id=${sub.product.id}`);
 			}
 			const tier = unctier ?? { plan: 'free' as const, ops_limit: 30 };
-			const periodEnd = sub.currentPeriodEnd?.toISOString() ?? null;
+			const periodEnd = sub.currentPeriodEnd ? new Date(sub.currentPeriodEnd).getTime() : null;
+			const now = Date.now();
 
 			await kysely
 				.insertInto('profile')
@@ -142,7 +144,8 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 					polar_customer_id: sub.customer.id,
 					quota_period_end: periodEnd,
 					ops_limit: tier.ops_limit,
-					updated_at: new Date().toISOString()
+					created_at: now,
+					updated_at: now
 				})
 				.onConflict((oc) =>
 					oc.column('user_id').doUpdateSet({
@@ -151,7 +154,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 						polar_customer_id: sub.customer.id,
 						quota_period_end: periodEnd,
 						ops_limit: tier.ops_limit,
-						updated_at: new Date().toISOString()
+						updated_at: now
 					})
 				)
 				.execute();
@@ -168,6 +171,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			const userId = sub.customer.externalId;
 			if (!userId) break;
 
+			const now = Date.now();
 			await kysely
 				.insertInto('profile')
 				.values({
@@ -177,7 +181,8 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 					polar_customer_id: sub.customer.id,
 					quota_period_end: null,
 					ops_limit: 30,
-					updated_at: new Date().toISOString()
+					created_at: now,
+					updated_at: now
 				})
 				.onConflict((oc) =>
 					oc.column('user_id').doUpdateSet({
@@ -186,7 +191,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 						polar_customer_id: sub.customer.id,
 						quota_period_end: null,
 						ops_limit: 30,
-						updated_at: new Date().toISOString()
+						updated_at: now
 					})
 				)
 				.execute();
