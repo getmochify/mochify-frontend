@@ -478,7 +478,7 @@
                     },
                     {
                         q: 'How many images can I process per month on the Pro plan?',
-                        a: 'The Pro plan at $19/month includes 1,200 images per month with 25-file batches, 75 MB max file size, top priority queue, and full API and CLI access. That covers roughly 4–6 full wedding or commercial shoot deliveries per month.'
+                        a: 'The Pro plan at $24.99/month includes 1,200 images per month with 25-file batches, 75 MB max file size, top priority queue, and full API and CLI access. That covers roughly 4–6 full wedding or commercial shoot deliveries per month.'
                     },
                     {
                         q: 'Does the Mochify CLI work with Lightroom export scripts?',

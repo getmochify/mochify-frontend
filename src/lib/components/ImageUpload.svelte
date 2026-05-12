@@ -919,7 +919,7 @@
                 </svg>
                 <span>
                     {!isAuthenticated && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL
-                        ? 'Unlock with Day Pass — $1'
+                        ? 'Unlock with Day Pass — $2'
                         : !isAuthenticated
                             ? 'Create free account to unlock'
                             : 'Upgrade plan to continue'}
@@ -930,7 +930,7 @@
                 </svg>
                 <span>
                     {!isAuthenticated && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL
-                        ? 'Unlock with Day Pass — $1 · 75MB files'
+                        ? 'Unlock with Day Pass — $2 · 75MB files'
                         : !isAuthenticated
                             ? 'Create free account to unlock'
                             : 'Upgrade for 75MB files'}
@@ -1049,7 +1049,7 @@
                                 target="_blank" rel="noopener noreferrer"
                                 class="block rounded-2xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
                             >
-                                Get Day Pass — $1 · 75MB files
+                                Get Day Pass — $2 · 75MB files
                             </a>
                         {/if}
                         <a
@@ -1136,7 +1136,7 @@
                             href={`${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(page.url.href)}`}
                             class="block rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
                         >
-                            Get Day Pass — $1
+                            Get Day Pass — $2
                         </a>
                         <a
                             href="/auth/register"

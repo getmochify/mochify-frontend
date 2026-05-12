@@ -366,7 +366,7 @@
                         class="group relative rounded-xl border border-[#F06292]/20 bg-gradient-to-br from-[#FFF0F3]/80 to-white/60 hover:from-[#FFF0F3] hover:to-white hover:border-[#F06292]/35 hover:shadow-sm transition-all duration-200 px-4 py-3 flex flex-col gap-0.5"
                     >
                         <div class="flex items-baseline gap-1.5">
-                            <span class="text-lg font-black text-[#4A2C2C]">$12</span>
+                            <span class="text-lg font-black text-[#4A2C2C]">$24.99</span>
                             <span class="text-xs font-semibold text-[#875F42]/50">/mo</span>
                             <span class="ml-auto text-[10px] font-bold uppercase tracking-wide text-[#F06292]/70 bg-[#FFF0F3] rounded-full px-2 py-0.5">Pro</span>
                         </div>
