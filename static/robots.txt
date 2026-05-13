@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mochify.xyz/sitemap.xml
+Sitemap: https://mochify.app/sitemap.xml
