@@ -2,7 +2,7 @@
 
 **Privacy-First • Hardware-Hardened • Green C++ Engine**
 
-![License](https://img.shields.io/badge/License-MIT-green) ![Svelte](https://img.shields.io/badge/Svelte-5-orange) ![Security](https://img.shields.io/badge/Security-Auditable-blue) ![Analytics](https://img.shields.io/badge/Analytics-Cookie--Free-purple) ![Docker Pulls](https://img.shields.io/docker/pulls/mochify/mochify-lite?color=blue)
+![License](https://img.shields.io/badge/License-MIT-green) ![Svelte](https://img.shields.io/badge/Svelte-5-orange) ![Security](https://img.shields.io/badge/Security-Auditable-blue) ![Analytics](https://img.shields.io/badge/Analytics-Cookie--Free-purple) ![Docker Pulls](https://img.shields.io/docker/pulls/mochify/mochify-lite?color=blue) [![smithery badge](https://smithery.ai/badge/mochify/mochify)](https://smithery.ai/server/mochify/mochify)
 
 ![Mochify demo](static/mochify.gif)
 
@@ -31,6 +31,26 @@ We use **self-hosted [Umami](https://umami.is)** — cookie-free, GDPR-compliant
 
 ---
 
+## AI & MCP Integration
+
+Mochify exposes a hosted [Model Context Protocol](https://modelcontextprotocol.io) server at `mcp.mochify.app`, letting AI agents compress and convert images directly without any manual tooling.
+
+**Add to Claude.ai or any MCP-compatible client:**
+
+```
+https://mcp.mochify.app
+```
+
+**Or install via Smithery:**
+
+[![smithery badge](https://smithery.ai/badge/mochify/mochify)](https://smithery.ai/server/mochify/mochify)
+
+Auth is handled via OAuth — no API key configuration required. The `squish` tool accepts a public image URL plus optional format, dimensions, and quality parameters.
+
+For CLI and local MCP use, see [mochify-cli](https://github.com/tliesnham/mochify-cli).
+
+---
+
 ## Performance
 
 Built with native C++ and `libvips`, ditching heavy interpreted runtimes for real gains:
@@ -55,10 +75,10 @@ npm install
 Copy `.env.example` to `.env`:
 
 ```env
-PUBLIC_API_URL=http://localhost:3000
+PUBLIC_API_URL=http://localhost
 ```
 
-> **Note:** The production API (`api.mochify.app`) enforces strict CORS/Referrer checks and will reject requests from `localhost`. Point `PUBLIC_API_URL` at a local mock server for development.
+> **Note:** The production API (`api.mochify.app`) enforces strict CORS/Referrer checks and will reject requests from `localhost`. Point `PUBLIC_API_URL` at a local instance of mochify-core for development.
 
 ```bash
 npm run dev          # start dev server
@@ -69,9 +89,10 @@ npm run lint         # lint + format check
 
 ## Self-Hosting
 
-The **Mochify Lite** engine is available as a hardened Docker image with the same RAM-only, zero-persistence config used in production. Multi-arch: `amd64` and `arm64` (Apple Silicon / AWS Graviton).
+The core engine is available as a hardened Docker image with the same RAM-only, zero-persistence config used in production. Multi-arch: `amd64` and `arm64` (Apple Silicon / AWS Graviton).
 
 **Docker Hub:** [mochify/mochify-lite](https://hub.docker.com/r/mochify/mochify-lite)
 
 ```bash
 docker pull mochify/mochify-lite:latest
+```
