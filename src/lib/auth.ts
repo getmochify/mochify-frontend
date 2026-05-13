@@ -25,7 +25,7 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                 if (!resend) return;
                 try {
                     await resend.emails.send({
-                        from: "Mochify <hello@send.mochify.app>",
+                        from: "Mochify <hello@mochify.app>",
                         to: user.email,
                         subject: "Reset your password",
                         html: `<p>Click <a href="${url}">here</a> to reset your password. This link expires in 1 hour.</p>`,
@@ -42,7 +42,7 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                 if (!resend) return;
                 try {
                     await resend.emails.send({
-                        from: "Mochify <hello@send.mochify.app>",
+                        from: "Mochify <hello@mochify.app>",
                         to: user.email,
                         subject: "Verify your email",
                         html: `<p>Click <a href="${url}">here</a> to verify your email address.</p>`,
@@ -65,7 +65,7 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                     if (!resend) return;
                     try {
                         await resend.emails.send({
-                            from: "Mochify <hello@send.mochify.app>",
+                            from: "Mochify <hello@mochify.app>",
                             to: email,
                             subject: "Your Mochify Day Pass is ready",
                             html: `
