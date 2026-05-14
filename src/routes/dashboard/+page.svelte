@@ -20,6 +20,7 @@
 	let newKeyPlaintext = $state<string | null>(null);
 	let copied = $state(false);
 	let keyLoading = $state(false);
+	let keyChecking = $state(true); // true until the first successful status check
 
 	// Usage state
 	let usageLoaded = $state(false);
@@ -30,9 +31,15 @@
 	let isSeller = $derived(data.profile?.plan === 'seller');
 	let isPaid = $derived(isPro || isSeller);
 
-	async function loadKeyStatus() {
-		const jwt = await getSessionToken();
-		if (!jwt) return;
+	async function loadKeyStatus(retries = 3) {
+		keyChecking = true;
+		let jwt = await getSessionToken();
+		// Session may not be hydrated on first mount — retry a couple of times
+		if (!jwt && retries > 0) {
+			await new Promise(r => setTimeout(r, 500));
+			return loadKeyStatus(retries - 1);
+		}
+		if (!jwt) { keyChecking = false; return; }
 		try {
 			const res = await fetch(`${API_URL}/v1/user/apikey`, {
 				headers: { Authorization: `Bearer ${jwt}` }
@@ -43,8 +50,9 @@
 				keyCreatedAt = (body.created_at as string) ?? null;
 			}
 		} catch {
-			// endpoint not live yet — silently ignore
+			// network error — leave hasKey as-is
 		}
+		keyChecking = false;
 	}
 
 	async function loadUsage() {
@@ -81,9 +89,12 @@
 				keyCreatedAt = new Date().toISOString();
 				posthog.capture('api_key_created', { action: 'generate' });
 				await loadUsage();
+			} else {
+				// Key likely already exists (conflict) — re-check status and show dots
+				await loadKeyStatus();
 			}
 		} catch {
-			// endpoint not live yet
+			await loadKeyStatus();
 		}
 		keyLoading = false;
 	}
@@ -344,6 +355,10 @@
 							>Created {new Date(keyCreatedAt).toLocaleDateString()}</span
 						>
 					{/if}
+				</div>
+			{:else if keyChecking}
+				<div class="py-4 text-center">
+					<p class="text-sm text-cocoa-milk/40">Checking…</p>
 				</div>
 			{:else}
 				<div class="py-4 text-center">

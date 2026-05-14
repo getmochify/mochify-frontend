@@ -288,7 +288,8 @@
 			});
 			if (tokenRes.ok) {
 				tokenData = await tokenRes.json();
-				if (tokenData.remaining < files.length) {
+				const remaining = tokenData.remaining ?? (tokenData.available !== false ? Infinity : 0);
+				if (remaining < files.length) {
 					if (jwt) showUpgradeCta = true;
 					else showSignupCta = true;
 					return;

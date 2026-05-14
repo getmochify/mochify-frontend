@@ -44,10 +44,12 @@
     let MAX_FILES = $state(3);
     const CONCURRENT_UPLOADS = 1;
     let MAX_INDIVIDUAL_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro/day
+    let planQuota = $state(25); // expected ops quota for authenticated users; anon gets 3
     $effect(() => {
         getPlan().then((plan) => {
             MAX_FILES = plan === 'free' ? 3 : 25;
             MAX_INDIVIDUAL_FILE_SIZE = (plan === 'pro' || plan === 'day' || plan === 'seller') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
+            planQuota = plan === 'pro' ? 1200 : plan === 'seller' ? 300 : plan === 'day' ? 500 : 25;
         });
     });
 
@@ -219,6 +221,11 @@
             isAuthenticated = !!jwt;
         });
     });
+
+    // Show plan quota on first visit before the bucket is seeded (availableTokens = Infinity)
+    const displayTokens = $derived(
+        Number.isFinite(availableTokens) ? availableTokens : (isAuthenticated ? planQuota : 3)
+    );
 
     const insufficientTokens = $derived(
         hasCheckedTokens &&
@@ -787,7 +794,7 @@
     {/if}
 
     <!-- Token status -->
-    {#if hasCheckedTokens && selectedFiles.length > 0 && !insufficientTokens && availableTokens > 0 && Number.isFinite(availableTokens)}
+    {#if hasCheckedTokens && selectedFiles.length > 0 && !insufficientTokens && displayTokens > 0}
         <div
             class="mx-4 mb-3 flex items-center gap-2 rounded-2xl border border-[#A5D6A7]/40 bg-white/30 px-4 py-3 backdrop-blur-sm sm:mx-6"
         >
@@ -799,7 +806,7 @@
                 />
             </svg>
             <p class="text-xs font-bold text-[#33691E]">
-                {availableTokens} token{availableTokens !== 1 ? 's' : ''} available
+                {displayTokens} token{displayTokens !== 1 ? 's' : ''} available
             </p>
         </div>
     {/if}
