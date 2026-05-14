@@ -12,13 +12,12 @@ const config = {
 			mode: 'auto',
 			directives: {
 				'default-src': ['self'],
-				'script-src': ['self', 'https://t.mochify.app'],
+				'script-src': ['self'],
 				'style-src': ['self', 'unsafe-inline'],
 				'connect-src': [
 					'self',
 					'https://api.mochify.app',
 					'https://tokens.mochify.app',
-					'https://t.mochify.app',
 					...(process.env.PUBLIC_API_URL && process.env.PUBLIC_API_URL !== 'https://api.mochify.app'
 						? [process.env.PUBLIC_API_URL]
 						: []),

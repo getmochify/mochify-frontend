@@ -608,6 +608,8 @@
                             <img
                                 src={fp.thumbnailUrl}
                                 alt={fp.file.name}
+                                width="64"
+                                height="64"
                                 class="h-full w-full rounded-xl object-cover"
                             />
                         {:else}

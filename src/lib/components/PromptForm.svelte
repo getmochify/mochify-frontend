@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tick } from 'svelte';
+	import { tick, onMount } from 'svelte';
 	import { zip } from 'fflate';
 	import { env } from '$env/dynamic/public';
 	import { getSessionToken, getPlan } from '$lib/user';
@@ -44,19 +44,15 @@
 	let placeholderVisible = $state(true);
 	let isFocused = $state(false);
 
-	$effect(() => {
-		let intervalId: ReturnType<typeof setInterval>;
+	onMount(() => {
 		let fadeId: ReturnType<typeof setTimeout>;
-
-		const cycle = () => {
+		const intervalId = setInterval(() => {
 			placeholderVisible = false;
 			fadeId = setTimeout(() => {
 				placeholderIndex = (placeholderIndex + 1) % placeholders.length;
 				placeholderVisible = true;
 			}, 400);
-		};
-
-		intervalId = setInterval(cycle, 3200);
+		}, 3200);
 		return () => {
 			clearInterval(intervalId);
 			clearTimeout(fadeId);
@@ -269,16 +265,17 @@
 
 	function getDimensions(file: File): Promise<{ w: number; h: number }> {
 		return new Promise((resolve) => {
+			const url = window.URL.createObjectURL(file);
 			const img = new Image();
-			img.onload = () => {
-				window.URL.revokeObjectURL(img.src);
-				resolve({ w: img.width, h: img.height });
+			const cleanup = (dims: { w: number; h: number }) => {
+				clearTimeout(timer);
+				window.URL.revokeObjectURL(url);
+				resolve(dims);
 			};
-			img.onerror = () => {
-				window.URL.revokeObjectURL(img.src);
-				resolve({ w: 0, h: 0 });
-			};
-			img.src = window.URL.createObjectURL(file);
+			const timer = setTimeout(() => cleanup({ w: 0, h: 0 }), 5000);
+			img.onload = () => cleanup({ w: img.width, h: img.height });
+			img.onerror = () => cleanup({ w: 0, h: 0 });
+			img.src = url;
 		});
 	}
 
@@ -717,6 +714,8 @@
 								<img
 									src={filePreviews[i]}
 									alt={file.name}
+									width="64"
+									height="64"
 									class="h-full w-full rounded-xl object-cover"
 								/>
 							</div>

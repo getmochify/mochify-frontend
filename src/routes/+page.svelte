@@ -630,6 +630,7 @@
                 loop
                 muted
                 playsinline
+                preload="none"
             >
                 <source src="https://assets.mochify.xyz/mochi.webm" type="video/webm" />
                 <source src="https://assets.mochify.xyz/mochi.mp4" type="video/mp4" />

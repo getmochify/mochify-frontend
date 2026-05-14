@@ -34,10 +34,10 @@
 
     <!-- Desktop Menu -->
     <div class="hidden sm:flex items-center gap-6">
-        <a href="/solutions" class="text-sm font-medium text-cocoa-deep hover:text-mochi-pink transition-colors">Solutions</a>
-        <a href="/guides" class="text-sm font-medium text-cocoa-deep hover:text-mochi-pink transition-colors">Guides</a>
-        <a href="/docs" class="text-sm font-medium text-cocoa-deep hover:text-mochi-pink transition-colors">Docs</a>
-        <a href="/pricing" class="text-sm font-medium text-cocoa-deep hover:text-mochi-pink transition-colors">Pricing</a>
+        <a href="/solutions" data-sveltekit-preload-data="hover" class="text-sm font-medium text-cocoa-deep hover:text-mochi-pink transition-colors">Solutions</a>
+        <a href="/guides" data-sveltekit-preload-data="hover" class="text-sm font-medium text-cocoa-deep hover:text-mochi-pink transition-colors">Guides</a>
+        <a href="/docs" data-sveltekit-preload-data="hover" class="text-sm font-medium text-cocoa-deep hover:text-mochi-pink transition-colors">Docs</a>
+        <a href="/pricing" data-sveltekit-preload-data="hover" class="text-sm font-medium text-cocoa-deep hover:text-mochi-pink transition-colors">Pricing</a>
 
         {#if session}
             <div class="relative">

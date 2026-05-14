@@ -69,7 +69,7 @@
 
         <div class="flex justify-center">
             <a href="https://theresanaiforthat.com/ai/mochify/?ref=featured&v=10637185" target="_blank" rel="nofollow noopener">
-                <img width="150" src="https://media.theresanaiforthat.com/featured-on-taaft.png?width=300" alt="Featured on There's An AI For That" />
+                <img width="150" height="53" loading="lazy" src="https://media.theresanaiforthat.com/featured-on-taaft.png?width=300" alt="Featured on There's An AI For That" />
             </a>
         </div>
     </div>

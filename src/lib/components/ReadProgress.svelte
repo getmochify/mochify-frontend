@@ -60,18 +60,4 @@
         transition: width 0.1s ease-out;
         will-change: width;
     }
-    
-    .read-progress-bar {
-        background-size: 200% 100%;
-        animation: shimmer 3s ease-in-out infinite;
-    }
-    
-    @keyframes shimmer {
-        0%, 100% {
-            background-position: 0% 50%;
-        }
-        50% {
-            background-position: 100% 50%;
-        }
-    }
 </style>

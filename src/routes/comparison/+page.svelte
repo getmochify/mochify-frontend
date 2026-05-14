@@ -1,3 +1,9 @@
+<script lang="ts" module>
+    // Module-scoped singleton — survives client-side navigations so the WASM
+    // decoder is only downloaded and compiled once per browser session.
+    let jxlDecoderReady = false;
+</script>
+
 <script lang="ts">
     import { env } from '$env/dynamic/public';
     import Navigation from '$lib/components/Navigation.svelte';
@@ -7,8 +13,9 @@
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 
     // ── JXL polyfill helpers ─────────────────────────────────────
+    // Module-scoped so the decoder survives client-side navigations
+    // and is never initialised more than once per page session.
     let jxlNativeSupport: boolean | null = $state(null);
-    let jxlDecoderReady = false;
     let jxlPolyfillActive: boolean = $state(false);
 
     async function checkJxlSupport(): Promise<boolean> {
