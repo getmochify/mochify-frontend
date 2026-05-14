@@ -8,33 +8,6 @@ const config = {
 		paths: {
 			relative: false
 		},
-		csp: {
-			mode: 'auto',
-			directives: {
-				'default-src': ['self'],
-				'script-src': ['self'],
-				'style-src': ['self', 'unsafe-inline'],
-				'connect-src': [
-					'self',
-					'https://api.mochify.app',
-					'https://tokens.mochify.app',
-					'https://eu.i.posthog.com',
-					'https://us.i.posthog.com',
-					...(process.env.PUBLIC_API_URL && process.env.PUBLIC_API_URL !== 'https://api.mochify.app'
-						? [process.env.PUBLIC_API_URL]
-						: []),
-					...(process.env.PUBLIC_WORKER_URL &&
-					process.env.PUBLIC_WORKER_URL !== 'https://tokens.mochify.app'
-						? [process.env.PUBLIC_WORKER_URL]
-						: [])
-				],
-				'img-src': ['self', 'data:', 'blob:', 'https://media.theresanaiforthat.com'],
-				'media-src': ['self', 'https://assets.mochify.xyz'],
-				'worker-src': ['self'],
-				'frame-ancestors': ['none'],
-				'upgrade-insecure-requests': true
-			}
-		}
 	}
 };
 
