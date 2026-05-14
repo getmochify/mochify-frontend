@@ -359,10 +359,12 @@
                         xhr.addEventListener('error', () => reject(new Error('Network error')));
                         xhr.addEventListener('abort', () => reject(new Error('Upload cancelled')));
 
-                        xhr.open(
-                            'POST',
-                            `${API_URL}/v1/squish?type=${imageType}&strip_exif=${stripExif}${smartCompress ? '&smartCompress=1' : ''}${queryParams ? '&' + queryParams : ''}`
-                        );
+                        const ALLOWED_FORMATS = new Set(['jpg', 'jpeg', 'png', 'webp', 'avif', 'jxl']);
+                        const safeType = ALLOWED_FORMATS.has(imageType) ? imageType : 'jpg';
+                        const squishParams = new URLSearchParams({ type: safeType, strip_exif: String(stripExif) });
+                        if (smartCompress) squishParams.append('smartCompress', '1');
+                        if (queryParams) new URLSearchParams(queryParams).forEach((v, k) => squishParams.append(k, v));
+                        xhr.open('POST', `${API_URL}/v1/squish?${squishParams}`);
                         xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
                         if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
                         xhr.responseType = 'blob';

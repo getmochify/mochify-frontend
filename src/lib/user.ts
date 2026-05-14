@@ -26,7 +26,3 @@ export function getPlan(): Promise<'free' | 'seller' | 'pro' | 'day'> {
     return _planRequest
 }
 
-export async function getIsPro(): Promise<boolean> {
-    const plan = await getPlan()
-    return plan === 'pro' || plan === 'day'
-}

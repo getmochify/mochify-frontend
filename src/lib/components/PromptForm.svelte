@@ -72,6 +72,13 @@
 		});
 	});
 
+	let filePreviews = $state<string[]>([]);
+	$effect(() => {
+		const urls = files.map((f) => URL.createObjectURL(f));
+		filePreviews = urls;
+		return () => urls.forEach((u) => URL.revokeObjectURL(u));
+	});
+
 	// Status state
 	let statusMessage: { type: 'success' | 'error' | null; text: string } = $state({
 		type: null,
@@ -484,16 +491,10 @@
 					const stripExif = fileConfig.stripExif !== undefined ? fileConfig.stripExif : 1;
 					params.append('strip_exif', stripExif ? '1' : '0');
 
-					const EXCLUDED_KEYS = new Set([
-						'smartCompress',
-						'type',
-						'removeBackground',
-						'stripExif',
-						'filename',
-						'name'
-					]);
+					// Only forward known-safe params to the core API
+					const ALLOWED_FORWARDED_KEYS = new Set(['width', 'height', 'crop', 'rotate']);
 					for (const [key, value] of Object.entries(fileConfig)) {
-						if (EXCLUDED_KEYS.has(key)) continue;
+						if (!ALLOWED_FORWARDED_KEYS.has(key)) continue;
 						// NLP echoes back original width/height as metadata — skip if unchanged
 						if (key === 'width' && value === origDims[fileIdx]?.w) continue;
 						if (key === 'height' && value === origDims[fileIdx]?.h) continue;
@@ -714,7 +715,7 @@
 						<div class="group animate-fade-in relative flex-shrink-0">
 							<div class="liquid-bubble h-16 w-16 overflow-hidden rounded-2xl p-1">
 								<img
-									src={URL.createObjectURL(file)}
+									src={filePreviews[i]}
 									alt={file.name}
 									class="h-full w-full rounded-xl object-cover"
 								/>

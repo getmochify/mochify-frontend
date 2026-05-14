@@ -76,6 +76,17 @@ export const actions: Actions = {
 
         const { code, redirectUri } = await callbackRes.json() as { code: string; redirectUri: string }
 
+        // Validate redirectUri from worker — must be https with a real hostname (not javascript:, data:, etc.)
+        let parsedUri: URL
+        try {
+            parsedUri = new URL(redirectUri)
+        } catch {
+            return fail(502, { error: 'Invalid redirect URI returned by auth worker.' })
+        }
+        if (parsedUri.protocol !== 'https:') {
+            return fail(502, { error: 'Redirect URI must use HTTPS.' })
+        }
+
         // Complete the OAuth redirect back to the client (e.g. Claude.ai)
         redirect(302, `${redirectUri}?code=${encodeURIComponent(code)}&state=${encodeURIComponent(state)}`)
     },

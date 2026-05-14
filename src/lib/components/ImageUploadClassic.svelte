@@ -1,7 +1,7 @@
 <script lang="ts">
     import { zip } from 'fflate';
     import { env } from '$env/dynamic/public';
-    import { getSessionToken, getIsPro, getPlan } from '$lib/user';
+    import { getSessionToken, getPlan } from '$lib/user';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 
@@ -72,8 +72,10 @@
     const CONCURRENT_UPLOADS = 1;
     let MAX_INDIVIDUAL_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro/lite
     $effect(() => {
-        getIsPro().then(isPro => { MAX_INDIVIDUAL_FILE_SIZE = isPro ? 75 * 1024 * 1024 : 20 * 1024 * 1024; });
-        getPlan().then(plan => { MAX_FILES = plan === 'free' ? 3 : 25; });
+        getPlan().then(plan => {
+            MAX_INDIVIDUAL_FILE_SIZE = (plan === 'pro' || plan === 'day' || plan === 'seller') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
+            MAX_FILES = plan === 'free' ? 3 : 25;
+        });
     });
     
     // Token limit tracking

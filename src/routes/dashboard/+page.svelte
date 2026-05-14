@@ -29,7 +29,8 @@
 
 	let isPro = $derived(data.profile?.plan === 'pro');
 	let isSeller = $derived(data.profile?.plan === 'seller');
-	let isPaid = $derived(isPro || isSeller);
+	let isDay = $derived(data.profile?.plan === 'day');
+	let isPaid = $derived(isPro || isSeller || isDay);
 
 	async function loadKeyStatus(retries = 3) {
 		keyChecking = true;
@@ -108,11 +109,16 @@
 			return;
 		}
 		try {
-			// Revoke old key
-			await fetch(`${API_URL}/v1/user/apikey`, {
+			// Revoke old key — abort if it fails to avoid issuing a duplicate
+			const delRes = await fetch(`${API_URL}/v1/user/apikey`, {
 				method: 'DELETE',
 				headers: { Authorization: `Bearer ${jwt}` }
 			});
+			if (!delRes.ok) {
+				await loadKeyStatus();
+				keyLoading = false;
+				return;
+			}
 			// Generate new key
 			const res = await fetch(`${API_URL}/v1/user/apikey`, {
 				method: 'POST',
@@ -124,7 +130,7 @@
 				keyCreatedAt = new Date().toISOString();
 			}
 		} catch {
-			// endpoint not live yet
+			await loadKeyStatus();
 		}
 		keyLoading = false;
 	}
@@ -169,7 +175,7 @@
 <div class="flex min-h-screen flex-col bg-[#FDFBF7]">
 	<Navigation />
 
-	<main class="mx-auto w-full max-w-4xl flex-grow px-4 py-12 sm:px-6">
+	<main class="mx-auto w-full max-w-4xl grow px-4 py-12 sm:px-6">
 		<div class="mb-8 flex items-center justify-between">
 			<div>
 				<h1 class="text-3xl font-black tracking-tight text-[#4A2C2C]">Dashboard</h1>
