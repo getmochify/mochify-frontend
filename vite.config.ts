@@ -12,6 +12,7 @@ export default defineConfig({
             injectRegister: null,
             manifest: false,
             workbox: {
+                navigateFallback: null,
                 globPatterns: ['**/*.{js,css,ico,png,svg,webp,webmanifest,woff,woff2}'],
                 runtimeCaching: [
                     {
