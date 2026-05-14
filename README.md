@@ -2,7 +2,7 @@
 
 **Privacy-First • Hardware-Hardened • Green C++ Engine**
 
-![License](https://img.shields.io/badge/License-MIT-green) ![Svelte](https://img.shields.io/badge/Svelte-5-orange) ![Security](https://img.shields.io/badge/Security-Auditable-blue) ![Analytics](https://img.shields.io/badge/Analytics-Cookie--Free-purple) ![Docker Pulls](https://img.shields.io/docker/pulls/mochify/mochify-lite?color=blue) [![smithery badge](https://smithery.ai/badge/mochify/mochify)](https://smithery.ai/server/mochify/mochify)
+![License](https://img.shields.io/badge/License-MIT-green) ![Svelte](https://img.shields.io/badge/Svelte-5-orange) ![Security](https://img.shields.io/badge/Security-Auditable-blue) ![Analytics](https://img.shields.io/badge/Analytics-Cookie--Free-purple) ![Docker Pulls](https://img.shields.io/docker/pulls/mochify/mochify-lite?color=blue) [![smithery badge](https://smithery.ai/badge/mochify/mochify)](https://smithery.ai/server/mochify/mochify) [![Featured on There's An AI For That](https://media.theresanaiforthat.com/featured-on-taaft.png?width=200)](https://theresanaiforthat.com/ai/mochify/?ref=featured&v=10637185)
 
 ![Mochify demo](static/mochify.gif)
 

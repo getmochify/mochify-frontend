@@ -27,7 +27,7 @@ const config = {
 						? [process.env.PUBLIC_WORKER_URL]
 						: [])
 				],
-				'img-src': ['self', 'data:', 'blob:'],
+				'img-src': ['self', 'data:', 'blob:', 'https://media.theresanaiforthat.com'],
 				'media-src': ['self', 'https://assets.mochify.xyz'],
 				'worker-src': ['self'],
 				'frame-ancestors': ['none'],

@@ -66,5 +66,11 @@
             Made with <span class="inline-block animate-pulse text-[#F06292]">💗</span> by
             <a href="https://github.com/tliesnham" class="text-[#F06292] hover:text-[#C2185B] hover:underline transition-colors">tliesnham</a>
         </p>
+
+        <div class="flex justify-center">
+            <a href="https://theresanaiforthat.com/ai/mochify/?ref=featured&v=10637185" target="_blank" rel="nofollow noopener">
+                <img width="150" src="https://media.theresanaiforthat.com/featured-on-taaft.png?width=300" alt="Featured on There's An AI For That" />
+            </a>
+        </div>
     </div>
 </footer>
