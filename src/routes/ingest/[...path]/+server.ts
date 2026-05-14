@@ -1,7 +1,7 @@
-import { PUBLIC_POSTHOG_HOST } from '$env/static/public';
+import { PUBLIC_POSTHOG_INGEST_HOST } from '$env/static/public';
 import type { RequestHandler } from './$types';
 
-const POSTHOG_HOST = PUBLIC_POSTHOG_HOST || 'https://t.mochify.app';
+const POSTHOG_HOST = PUBLIC_POSTHOG_INGEST_HOST || 'https://us.i.posthog.com';
 
 const STRIP_HEADERS = ['cookie', 'authorization', 'host', 'x-forwarded-for', 'x-real-ip'];
 
