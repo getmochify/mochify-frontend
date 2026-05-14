@@ -4,11 +4,10 @@ import type { HandleClientError } from '@sveltejs/kit';
 
 export async function init() {
 	posthog.init(PUBLIC_POSTHOG_PROJECT_TOKEN, {
-		api_host: '/ingest',
-		ui_host: PUBLIC_POSTHOG_HOST,
+		api_host: PUBLIC_POSTHOG_HOST,
 		defaults: '2026-01-30',
-		capture_exceptions: false,    // handled manually in handleError below
-		capture_performance: false,   // /web-vitals not in t.mochify.app proxy
+		capture_exceptions: false,
+		capture_performance: false,
 		disable_session_recording: true
 	});
 }

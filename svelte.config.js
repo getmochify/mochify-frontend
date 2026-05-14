@@ -18,6 +18,8 @@ const config = {
 					'self',
 					'https://api.mochify.app',
 					'https://tokens.mochify.app',
+					'https://eu.i.posthog.com',
+					'https://us.i.posthog.com',
 					...(process.env.PUBLIC_API_URL && process.env.PUBLIC_API_URL !== 'https://api.mochify.app'
 						? [process.env.PUBLIC_API_URL]
 						: []),
