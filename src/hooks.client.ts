@@ -7,7 +7,8 @@ export async function init() {
 		api_host: '/ingest',
 		ui_host: PUBLIC_POSTHOG_HOST,
 		defaults: '2026-01-30',
-		capture_exceptions: true,
+		capture_exceptions: false,    // handled manually in handleError below
+		capture_performance: false,   // /web-vitals not in t.mochify.app proxy
 		disable_session_recording: true
 	});
 }
