@@ -1,7 +1,7 @@
-import { PUBLIC_POSTHOG_INGEST_HOST } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 import type { RequestHandler } from './$types';
 
-const POSTHOG_HOST = PUBLIC_POSTHOG_INGEST_HOST || 'https://us.i.posthog.com';
+const POSTHOG_HOST = env.PUBLIC_POSTHOG_INGEST_HOST || 'https://us.i.posthog.com';
 
 const STRIP_HEADERS = ['cookie', 'authorization', 'host', 'x-forwarded-for', 'x-real-ip'];
 
