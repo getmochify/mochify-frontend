@@ -15,12 +15,10 @@
         goto('/')
     }
 
-    // page.data is populated by the server load and consistent across SSR and
-    // initial hydration — eliminates the "Sign in → avatar" CLS caused by
-    // authClient.useSession() starting null on the client.
-    const sessionStore = authClient.useSession()
-    let session = $derived($sessionStore.data?.session ?? page.data.session ?? null)
-    let user = $derived($sessionStore.data?.user ?? page.data.user ?? null)
+    // Drive nav state from the server load — no client-side refetch needed.
+    // sign-in/sign-out both call invalidateAll() which re-runs load functions.
+    let session = $derived(page.data.session ?? null)
+    let user = $derived(page.data.user ?? null)
     let initials = $derived(user?.email?.slice(0, 1).toUpperCase() ?? '')
 </script>
 
