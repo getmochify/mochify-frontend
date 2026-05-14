@@ -1,8 +1,16 @@
 import { authClient } from '$lib/auth-client'
 
-export async function getSessionToken(): Promise<string | null> {
-    const { data } = await authClient.getSession()
-    return data?.session?.token ?? null
+// Deduplicate concurrent calls — multiple components often call getSessionToken()
+// in the same tick; without this each call fires a separate /api/auth/get-session request.
+let _sessionRequest: Promise<string | null> | null = null
+
+export function getSessionToken(): Promise<string | null> {
+    if (!_sessionRequest) {
+        _sessionRequest = authClient.getSession()
+            .then(({ data }) => data?.session?.token ?? null)
+            .finally(() => { _sessionRequest = null })
+    }
+    return _sessionRequest
 }
 
 // Deduplicate concurrent calls — components calling getPlan() and getIsPro()
