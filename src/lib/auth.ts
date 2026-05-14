@@ -14,6 +14,11 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
     return betterAuth({
         baseURL: PUBLIC_APP_URL,
         secret: BETTER_AUTH_SECRET,
+        advanced: {
+            ipAddress: {
+                ipAddressHeaders: ['CF-Connecting-IP', 'X-Forwarded-For'],
+            },
+        },
         database: kyselyAdapter(
             new Kysely({ dialect: new D1Dialect({ database: db }) }),
             { type: "sqlite" }
