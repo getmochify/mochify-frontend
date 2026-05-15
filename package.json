@@ -62,7 +62,9 @@
     "vite-plugin-pwa": "^1.2.0"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.60.4"
+    "@rollup/rollup-linux-x64-gnu": "4.60.4",
+    "@tailwindcss/oxide-linux-x64-gnu": "4.3.0",
+    "lightningcss-linux-x64-gnu": "1.32.0"
   },
   "dependencies": {
     "@fontsource/outfit": "^5.2.8",
