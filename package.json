@@ -61,6 +61,11 @@
     "vite": "^7.2.6",
     "vite-plugin-pwa": "^1.2.0"
   },
+  "overrides": {
+    "tinyglobby": {
+      "picomatch": "^4.0.4"
+    }
+  },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.60.4",
     "@tailwindcss/oxide-linux-x64-gnu": "4.3.0",
@@ -79,7 +84,6 @@
     "posthog-js": "^1.365.0",
     "posthog-node": "^5.29.0",
     "resend": "^6.12.2",
-    "tinyglobby": "^0.2.16",
-    "zod": "^4.3.6"
+"zod": "^4.3.6"
   }
 }
