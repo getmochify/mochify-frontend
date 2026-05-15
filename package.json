@@ -11,15 +11,15 @@
     "cpp-backend"
   ],
   "license": "MIT",
-  "author": "Your Name <hello@mochify.xyz> (https://mochify.xyz)",
+  "author": "Taylor Liesnham <hello@mochify.app> (https://mochify.app)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tliesnham/mochify-frontend.git"
+    "url": "git+https://github.com/getmochify/mochify-frontend.git"
   },
   "bugs": {
-    "url": "https://github.com/tliesnham/mochify-frontend/issues"
+    "url": "https://github.com/getmochify/mochify-frontend/issues"
   },
-  "homepage": "https://mochify.xyz",
+  "homepage": "https://mochify.app",
   "type": "module",
   "private": false,
   "scripts": {
@@ -73,6 +73,7 @@
     "@polar-sh/sveltekit": "^0.7.4",
     "better-auth": "^1.5.6",
     "fflate": "^0.8.2",
+    "glob": "^13.0.6",
     "kysely": "^0.28.14",
     "kysely-d1": "^0.4.0",
     "posthog-js": "^1.365.0",
