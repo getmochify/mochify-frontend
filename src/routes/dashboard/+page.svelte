@@ -394,6 +394,49 @@
 			<p class="text-sm text-[#875F42]/60">Detailed per-request history coming soon.</p>
 		</div>
 
+		<!-- Connections -->
+		<div class="mb-6 rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
+			<div class="mb-4 flex items-center justify-between">
+				<div>
+					<h2 class="font-black text-[#4A2C2C]">Connections</h2>
+					<p class="mt-0.5 text-xs text-cocoa-milk/60">Connect external services to your workflow</p>
+				</div>
+			</div>
+
+			<div class="flex items-center gap-4 rounded-2xl border border-cocoa-milk/8 bg-white/40 p-4">
+				<!-- Google Drive tri-color logo -->
+				<div class="shrink-0">
+					<svg width="32" height="28" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+						<path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
+						<path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/>
+						<path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/>
+						<path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/>
+						<path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
+						<path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/>
+					</svg>
+				</div>
+
+				<div class="min-w-0 flex-1">
+					<div class="flex items-center gap-2">
+						<p class="text-sm font-black text-[#4A2C2C]">Google Drive</p>
+						<span class="rounded-full bg-[#FFF0F5] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-mochi-pink">
+							Coming soon
+						</span>
+					</div>
+					<p class="mt-0.5 text-xs text-cocoa-milk/60">
+						Upload from Drive → process through Mochify → save back to Drive. Zero retention — your images never touch our storage.
+					</p>
+				</div>
+
+				<button
+					disabled
+					class="shrink-0 cursor-not-allowed rounded-xl border border-cocoa-milk/15 px-4 py-2 text-xs font-bold text-cocoa-milk/30"
+				>
+					Connect
+				</button>
+			</div>
+		</div>
+
 		<!-- Danger zone -->
 		<div class="rounded-3xl border border-red-200/60 p-6">
 			<h2 class="mb-1 font-black text-red-700/80">Danger zone</h2>

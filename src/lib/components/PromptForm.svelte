@@ -384,9 +384,12 @@
 				});
 			}
 
-			processPhase = 'uploading';
-			totalFiles = files.length;
-			const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
+			const fmtCount = (item: any): number =>
+					Array.isArray(item?.types) && item.types.length > 1 ? item.types.length : 1;
+
+				processPhase = 'uploading';
+				totalFiles = files.reduce((sum, f, i) => sum + fmtCount(fileMap[f.name] ?? fileArrayByIndex[i]), 0);
+				const totalBytes = files.reduce((sum, f, i) => sum + f.size * fmtCount(fileMap[f.name] ?? fileArrayByIndex[i]), 0);
 			let uploadedBytes = 0;
 			let processedFiles = 0;
 			let currentFileIndex = 0;
@@ -478,15 +481,18 @@
 					const file = files[currentFileIndex++];
 					const fileConfig = fileMap[file.name] ?? fileArrayByIndex[fileIdx] ?? {};
 
-					processPhase = 'uploading';
+					// Multi-format: use types array when NLP returns one, else single type
+					const formats: string[] = Array.isArray(fileConfig.types) && fileConfig.types.length > 1
+						? fileConfig.types
+						: [fileConfig.type || file.name.split('.').pop() || 'jpg'];
 
-					const params = new URLSearchParams();
-					if (fileConfig.type) params.append('type', fileConfig.type);
-					if (fileConfig.smartCompress) params.append('smartCompress', '1');
-					if (fileConfig.removeBackground) params.append('removeBackground', '1');
+					// Build params shared across all formats for this file
+					const sharedParams = new URLSearchParams();
+					if (fileConfig.smartCompress) sharedParams.append('smartCompress', '1');
+					if (fileConfig.removeBackground) sharedParams.append('removeBackground', '1');
 					// Default to stripping EXIF; NLP can explicitly set stripExif: 0 to preserve it
 					const stripExif = fileConfig.stripExif !== undefined ? fileConfig.stripExif : 1;
-					params.append('strip_exif', stripExif ? '1' : '0');
+					sharedParams.append('strip_exif', stripExif ? '1' : '0');
 
 					// Only forward known-safe params to the core API
 					const ALLOWED_FORWARDED_KEYS = new Set(['width', 'height', 'crop', 'rotate']);
@@ -495,54 +501,63 @@
 						// NLP echoes back original width/height as metadata — skip if unchanged
 						if (key === 'width' && value === origDims[fileIdx]?.w) continue;
 						if (key === 'height' && value === origDims[fileIdx]?.h) continue;
-						if (value === true) params.append(key, '1');
+						if (value === true) sharedParams.append(key, '1');
 						else if (value !== false && value !== 0 && value != null)
-							params.append(key, String(value));
+							sharedParams.append(key, String(value));
 					}
 
-					try {
-						const blob = await squishFile(file, params, () => {
-							processingText = getProcessingText(fileConfig);
-							processPhase = 'processing';
-						});
+					for (const fmt of formats) {
+						processPhase = 'uploading';
 
-						processPhase = 'downloading';
+						const params = new URLSearchParams(sharedParams.toString());
+						params.append('type', fmt);
 
-						const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-						const newExtension = fileConfig.type || file.name.split('.').pop();
-						const finalName = `${baseName}_mochified.${newExtension}`;
+						try {
+							const blob = await squishFile(file, params, () => {
+								processingText = getProcessingText({ ...fileConfig, type: fmt });
+								processPhase = 'processing';
+							});
 
-						if (downloadAsZip) {
-							const arrayBuffer = await blob.arrayBuffer();
-							zipContents[finalName] = new Uint8Array(arrayBuffer as ArrayBuffer);
-						} else {
-							const downloadUrl = window.URL.createObjectURL(blob);
-							const a = document.createElement('a');
-							a.style.display = 'none';
-							a.href = downloadUrl;
-							a.download = finalName;
-							document.body.appendChild(a);
-							a.click();
-							setTimeout(() => {
-								window.URL.revokeObjectURL(downloadUrl);
-								document.body.removeChild(a);
-							}, 100);
+							processPhase = 'downloading';
+
+							const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+							const suffix = formats.length > 1 ? `_${fmt}` : '';
+							const finalName = `${baseName}_mochified${suffix}.${fmt}`;
+
+							if (downloadAsZip) {
+								const arrayBuffer = await blob.arrayBuffer();
+								zipContents[finalName] = new Uint8Array(arrayBuffer as ArrayBuffer);
+							} else {
+								const downloadUrl = window.URL.createObjectURL(blob);
+								const a = document.createElement('a');
+								a.style.display = 'none';
+								a.href = downloadUrl;
+								a.download = finalName;
+								document.body.appendChild(a);
+								a.click();
+								setTimeout(() => {
+									window.URL.revokeObjectURL(downloadUrl);
+									document.body.removeChild(a);
+								}, 100);
+							}
+						} catch (e: any) {
+							console.error(`Error squishing ${file.name} (${fmt}):`, e);
+							if (e?.status === 429) {
+								hitRateLimit = true;
+								if (jwt) showUpgradeCta = true;
+								else showSignupCta = true;
+								break;
+							}
+							const reason = e instanceof Error ? e.message : (e?.status ? `Server error ${e.status}` : 'Processing failed');
+							failedFiles = [...failedFiles, { name: formats.length > 1 ? `${file.name} (${fmt})` : file.name, reason }];
 						}
-					} catch (e: any) {
-						console.error(`Error squishing ${file.name}:`, e);
-						if (e?.status === 429) {
-							hitRateLimit = true;
-							if (jwt) showUpgradeCta = true;
-							else showSignupCta = true;
-							break;
-						}
-						const reason = e instanceof Error ? e.message : (e?.status ? `Server error ${e.status}` : 'Processing failed');
-						failedFiles = [...failedFiles, { name: file.name, reason }];
+
+						processedFiles++;
+						completedFiles = processedFiles;
+						downloadPercent = Math.round((processedFiles / totalFiles) * 100);
 					}
 
-					processedFiles++;
-					completedFiles = processedFiles;
-					downloadPercent = Math.round((processedFiles / totalFiles) * 100);
+					if (hitRateLimit) break;
 				}
 			};
 
