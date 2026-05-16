@@ -4,7 +4,9 @@ import { redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getPostHogClient } from '$lib/server/posthog';
 
-export const GET: RequestHandler = async ({ locals, url }) => {
+const POLAR_TIMEOUT_MS = 8000;
+
+export const GET: RequestHandler = async ({ locals, url, platform }) => {
 	const plan = url.searchParams.get('plan') ?? 'pro';
 	const billing = url.searchParams.get('billing') ?? 'monthly';
 
@@ -35,12 +37,18 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 
 	let checkoutUrl: string;
 	try {
-		const checkout = await polar.checkouts.create({
-			products: [productId],
-			successUrl: `${url.origin}/dashboard?upgraded=true`,
-			externalCustomerId: user.id,
-			customerEmail: user.email ?? undefined
-		});
+		const timeout = new Promise<never>((_, reject) =>
+			setTimeout(() => reject(new Error('Polar API timeout')), POLAR_TIMEOUT_MS)
+		);
+		const checkout = await Promise.race([
+			polar.checkouts.create({
+				products: [productId],
+				successUrl: `${url.origin}/dashboard?upgraded=true`,
+				externalCustomerId: user.id,
+				customerEmail: user.email ?? undefined
+			}),
+			timeout
+		]);
 		checkoutUrl = checkout.url;
 	} catch (err) {
 		console.error('Polar checkout error:', err);
@@ -53,7 +61,9 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 		event: 'checkout_initiated',
 		properties: { plan, billing, $set: { email: user.email } }
 	});
-	await posthog.flush();
+	// Fire-and-forget — don't block the redirect waiting for PostHog.
+	const flushPromise = posthog.flush().catch(() => {});
+	platform?.context?.waitUntil?.(flushPromise);
 
 	throw redirect(302, checkoutUrl);
 };

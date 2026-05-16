@@ -2,29 +2,50 @@ import { Kysely } from 'kysely';
 import { D1Dialect } from 'kysely-d1';
 import { env } from '$env/dynamic/private';
 import type { RequestHandler } from './$types';
+// env is used by reseedBucket (CF_WORKER_URL, CF_WORKER_TOKEN)
 
 const PLAN_CONFIG: Record<string, { ops_limit: number }> = {
 	pro: { ops_limit: 1200 },
 	seller: { ops_limit: 300 }
 };
 
+// Depay's RSA-SHA256 public key — safe to commit, this is not a secret.
+const DEPAY_PUBLIC_KEY_PEM = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsj4PSTbp1q0i4P8wz3My
+2uA9xVZA2lZSduXq4Rd5Mz3kRA3I06dlrENX1Fk6Egd/wOyuhAghZ81qosFCyCVD
+q1rNPRZViBuZn6V+fa8nDoYH6XnIcW83vYd234Us9WtBgoH1iTixAsOTtvIaShGq
+OHjE26sbyGY14XAdV0TqeR5w0iU/jcgUiDeXvAhz9NE8lf0l+qCpvY49Trr5VQgK
+StwVyauK6jEw1Oj0IGHyX/J83Ho7cVkeUNr9Zr9PNuXzmbl8q2yFPiVasCurO5ru
+3gBjUb1cBgNzbf0ezvSo5ypYAgiIIEbk+BX10W9WrAhRuCMT5ijPiDBj+jz3oDgC
+RQIDAQAB
+-----END PUBLIC KEY-----`;
+
+let _depayKey: CryptoKey | null = null;
+async function getDepayPublicKey(): Promise<CryptoKey> {
+	if (_depayKey) return _depayKey;
+	const b64 = DEPAY_PUBLIC_KEY_PEM.replace(/-----BEGIN PUBLIC KEY-----|-----END PUBLIC KEY-----|\s/g, '');
+	const der = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+	_depayKey = await crypto.subtle.importKey(
+		'spki',
+		der,
+		{ name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
+		false,
+		['verify']
+	);
+	return _depayKey;
+}
+
+async function verifyDepaySignature(body: string, signature: string): Promise<boolean> {
+	const key = await getDepayPublicKey();
+	const sigBytes = Uint8Array.from(atob(signature), (c) => c.charCodeAt(0));
+	return crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, sigBytes, new TextEncoder().encode(body));
+}
+
 async function sha256Hex(input: string): Promise<string> {
 	const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input));
 	return Array.from(new Uint8Array(buf))
 		.map((b) => b.toString(16).padStart(2, '0'))
 		.join('');
-}
-
-async function verifySignature(secret: string, body: string, signature: string): Promise<boolean> {
-	const key = await crypto.subtle.importKey(
-		'raw',
-		new TextEncoder().encode(secret),
-		{ name: 'HMAC', hash: 'SHA-256' },
-		false,
-		['verify']
-	);
-	const sigBytes = new Uint8Array(signature.match(/.{2}/g)!.map((b) => parseInt(b, 16)));
-	return crypto.subtle.verify('HMAC', key, sigBytes, new TextEncoder().encode(body));
 }
 
 async function updateUsageKv(
@@ -83,19 +104,12 @@ async function reseedBucket(
 export const POST: RequestHandler = async ({ request, platform }) => {
 	const body = await request.text();
 
-	// Verify Depay signature — header is x-depay-signature, HMAC-SHA256 hex over raw body.
-	// Confirm the exact header name in your Depay admin → Integration → Callback settings.
-	if (env.DEPAY_WEBHOOK_SECRET) {
-		const signature = request.headers.get('x-depay-signature') ?? '';
-		const valid = await verifySignature(env.DEPAY_WEBHOOK_SECRET, body, signature).catch(
-			() => false
-		);
-		if (!valid) {
-			console.error('[depay/webhook] Invalid signature');
-			return new Response('Invalid signature', { status: 403 });
-		}
-	} else {
-		console.warn('[depay/webhook] DEPAY_WEBHOOK_SECRET not set — skipping signature check');
+	// Verify Depay RSA-SHA256 signature. Header name confirmed from Depay admin screenshot.
+	const signature = request.headers.get('x-signature') ?? '';
+	const valid = await verifyDepaySignature(body, signature).catch(() => false);
+	if (!valid) {
+		console.error('[depay/webhook] Invalid signature');
+		return new Response('Invalid signature', { status: 403 });
 	}
 
 	let payload: Record<string, unknown>;

@@ -16,6 +16,9 @@ declare global {
 				DB: D1Database
 				RESEND_API_KEY: string | undefined
 			}
+			context?: {
+				waitUntil(promise: Promise<unknown>): void
+			}
 		}
 	}
 
