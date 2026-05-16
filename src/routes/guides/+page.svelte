@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "SVG Conversion Guide: When to Keep Vector and When to Rasterize",
+            description: "The real question isn't 'can I use SVG?' — it's 'should I use SVG here, for this workflow?' Decision framework, format comparison, and WordPress workflows for designers and developers.",
+            url: "/guides/svg-conversion-guide-vector-vs-raster",
+            category: "Image Formats",
+            readTime: "8 min read",
+            date: "May 08, 2026"
+        },
+        {
             title: "Fuji HIF Files Explained: How to Convert X-T5 / X-H2 / X100VI / X-T50 HIF to JPEG",
             description: "Fuji's HIF files are highly efficient and better quality at 10-bit but they're not supported everywhere, which can lead to frustration. Learn how to convert your camera's .HIF files to JPGs",
             url: "/guides/fujifilm-hif-to-jpg",
