@@ -1,6 +1,28 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
+    const DEPAY_INTEGRATION_SELLER = '98d95188-b18d-498c-a988-ef312881ed24';
+    const DEPAY_INTEGRATION_PRO = ''; // TODO: add Pro integration ID from Depay admin
+
+    let { data } = $props();
+    let billing = $state<'monthly' | 'yearly'>('monthly');
+
+    onMount(() => {
+        if (!data.user?.id) return;
+        if (document.querySelector('script[src*="integrate.depay.com"]')) {
+            // @ts-ignore
+            if (typeof DePayButtons !== 'undefined') DePayButtons.init({ document });
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = 'https://integrate.depay.com/buttons/v13.js';
+        script.onload = () => {
+            // @ts-ignore
+            if (typeof DePayButtons !== 'undefined') DePayButtons.init({ document });
+        };
+        document.head.appendChild(script);
+    });
 </script>
 
 <svelte:head>
@@ -163,6 +185,27 @@
             </p>
         </div>
 
+        <!-- Billing toggle -->
+        <div class="flex items-center justify-center mb-10">
+            <div class="inline-flex items-center bg-[#FFF0F5] rounded-full p-1 gap-1">
+                <button
+                    type="button"
+                    onclick={() => billing = 'monthly'}
+                    class="px-5 py-2 rounded-full text-sm font-black transition-all {billing === 'monthly' ? 'bg-white text-mochi-pink shadow-sm' : 'text-cocoa-deep/50 hover:text-cocoa-deep'}"
+                >
+                    Monthly
+                </button>
+                <button
+                    type="button"
+                    onclick={() => billing = 'yearly'}
+                    class="px-5 py-2 rounded-full text-sm font-black transition-all flex items-center gap-2 {billing === 'yearly' ? 'bg-white text-mochi-pink shadow-sm' : 'text-cocoa-deep/50 hover:text-cocoa-deep'}"
+                >
+                    Yearly
+                    <span class="inline-block px-2 py-0.5 rounded-full bg-matcha-green/40 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
+                </button>
+            </div>
+        </div>
+
         <!-- Pricing cards -->
         <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
 
@@ -217,12 +260,16 @@
                 <div class="mb-6">
                     <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-4">Seller</span>
                     <div class="flex items-end gap-1">
-                        <span class="text-4xl font-black text-[#4A2C2C]">$7.99</span>
-                        <span class="text-[#6C3F31]/50 mb-2 text-sm">/ month</span>
+                        <span class="text-4xl font-black text-[#4A2C2C]">{billing === 'monthly' ? '$7.99' : '$79.99'}</span>
+                        <span class="text-[#6C3F31]/50 mb-2 text-sm">{billing === 'monthly' ? '/ month' : '/ year'}</span>
                     </div>
                     <p class="text-[#7A4A38] text-sm mt-1">
-                        Or <strong class="text-[#6C3F31]">$79.99 / year</strong>
-                        <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-[#A5D6A7]/30 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
+                        {#if billing === 'monthly'}
+                            Or <strong class="text-cocoa-deep">$79.99 / year</strong>
+                            <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-matcha-green/30 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
+                        {:else}
+                            <span class="text-cocoa-deep/50">$6.67 / mo, billed annually</span>
+                        {/if}
                     </p>
                 </div>
 
@@ -258,11 +305,28 @@
                 </ul>
 
                 <a
-                    href="/api/checkout?plan=seller&billing=monthly"
+                    href="/api/checkout?plan=seller&billing={billing}"
                     class="block text-center px-6 py-3 rounded-2xl border border-[#875F42]/15 text-sm font-black text-[#6C3F31] hover:border-[#F06292]/30 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all"
                 >
                     Get Seller
                 </a>
+                {#if billing === 'monthly'}
+                    {#if data.user?.id}
+                        <div class="DePayButton mt-2" {...{
+                            label: 'Pay with crypto',
+                            integration: DEPAY_INTEGRATION_SELLER,
+                            blockchains: '["ethereum"]',
+                            track: JSON.stringify({ id: data.user.id, plan: 'seller' })
+                        }}></div>
+                    {:else}
+                        <a
+                            href="/auth/login?redirectTo=/pricing"
+                            class="mt-2 flex items-center justify-center gap-1.5 text-xs text-cocoa-deep/40 hover:text-cocoa-deep/70 transition-colors"
+                        >
+                            <span>₿</span> Pay with crypto
+                        </a>
+                    {/if}
+                {/if}
             </div>
 
             <!-- Pro tier -->
@@ -273,12 +337,16 @@
                 <div class="mb-6 relative">
                     <span class="inline-block px-3 py-1 rounded-full bg-[#F06292] text-white text-xs font-black uppercase tracking-wider mb-4">Pro</span>
                     <div class="flex items-end gap-1">
-                        <span class="text-4xl font-black text-[#4A2C2C]">$24.99</span>
-                        <span class="text-[#6C3F31]/50 mb-2 text-sm">/ month</span>
+                        <span class="text-4xl font-black text-[#4A2C2C]">{billing === 'monthly' ? '$24.99' : '$249.99'}</span>
+                        <span class="text-[#6C3F31]/50 mb-2 text-sm">{billing === 'monthly' ? '/ month' : '/ year'}</span>
                     </div>
                     <p class="text-[#7A4A38] text-sm mt-1">
-                        Or <strong class="text-[#6C3F31]">$249.99 / year</strong>
-                        <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-[#A5D6A7]/30 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
+                        {#if billing === 'monthly'}
+                            Or <strong class="text-cocoa-deep">$249.99 / year</strong>
+                            <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-matcha-green/30 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
+                        {:else}
+                            <span class="text-cocoa-deep/50">$20.83 / mo, billed annually</span>
+                        {/if}
                     </p>
                 </div>
 
@@ -318,11 +386,28 @@
                 </ul>
 
                 <a
-                    href="/api/checkout?plan=pro&billing=monthly"
+                    href="/api/checkout?plan=pro&billing={billing}"
                     class="block text-center px-6 py-3 rounded-2xl bg-[#F06292] text-white text-sm font-black hover:bg-[#E0527F] transition-all shadow-sm hover:shadow-md active:scale-95"
                 >
                     Get Pro
                 </a>
+                {#if billing === 'monthly'}
+                    {#if data.user?.id}
+                        <div class="DePayButton mt-2" {...{
+                            label: 'Pay with crypto',
+                            integration: DEPAY_INTEGRATION_PRO,
+                            blockchains: '["ethereum"]',
+                            track: JSON.stringify({ id: data.user.id, plan: 'pro' })
+                        }}></div>
+                    {:else}
+                        <a
+                            href="/auth/login?redirectTo=/pricing"
+                            class="mt-2 flex items-center justify-center gap-1.5 text-xs text-cocoa-deep/40 hover:text-cocoa-deep/70 transition-colors"
+                        >
+                            <span>₿</span> Pay with crypto
+                        </a>
+                    {/if}
+                {/if}
             </div>
         </div>
 
