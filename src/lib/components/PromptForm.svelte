@@ -335,7 +335,7 @@
 				files.map(async (f) => {
 					const dims = await getDimensions(f);
 					const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
-					return { format: ext, width: dims.w, height: dims.h };
+					return { name: f.name, format: ext, width: dims.w, height: dims.h };
 				})
 			);
 
