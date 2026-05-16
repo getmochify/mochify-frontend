@@ -7,7 +7,7 @@
         description: "Know exactly when to keep SVG and when to convert it. Decision framework, format comparison, and WordPress workflows from the Mochify Engineering Team.",
         category: "Image Formats",
         readTime: "8 min read",
-        date: "May 8, 2026"
+        date: "May 16, 2026"
     };
 </script>
 

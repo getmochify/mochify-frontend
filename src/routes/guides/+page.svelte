@@ -11,7 +11,7 @@
             url: "/guides/svg-conversion-guide-vector-vs-raster",
             category: "Image Formats",
             readTime: "8 min read",
-            date: "May 08, 2026"
+            date: "May 16, 2026"
         },
         {
             title: "Fuji HIF Files Explained: How to Convert X-T5 / X-H2 / X100VI / X-T50 HIF to JPEG",
