@@ -163,30 +163,95 @@
     <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
 
         <!-- Table of Contents -->
-        <nav class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6" aria-label="Table of contents">
+        <section class="my-12">
             <SectionHeading>What's in This Guide</SectionHeading>
-            <ol class="mt-4 space-y-2 list-none p-0">
-                {#each [
-                    { n: '01', label: 'Cheat sheet: Agent workflow at a glance', href: '#cheat-sheet' },
-                    { n: '02', label: 'Why photographers still lose time after the shoot ends', href: '#why-photographers-lose-time' },
-                    { n: '03', label: 'How the stack works: Claude, Dispatch, and Mochify MCP', href: '#how-the-stack-works' },
-                    { n: '04', label: 'Setting up the folder structure and agent trigger', href: '#folder-structure' },
-                    { n: '05', label: 'The worked example: wedding shoot, agent running, photographer in the field', href: '#worked-example' },
-                    { n: '06', label: 'Multi-destination derivatives: one shoot, four outputs', href: '#multi-destination' },
-                    { n: '07', label: 'Privacy in an automated pipeline', href: '#privacy' },
-                    { n: '08', label: 'What to validate and what can go wrong', href: '#validation' },
-                    { n: '09', label: 'FAQ', href: '#faq' },
-                ] as item}
-                    <li class="m-0">
-                        <a href={item.href} class="flex items-center gap-3 bg-white border border-pink-100 rounded-xl px-4 py-3 no-underline text-[#4A2C2C] font-semibold text-base hover:shadow-md hover:-translate-y-px transition-all">
-                            <span class="w-8 h-8 rounded-full bg-[#FFF0F5] border border-pink-100 text-[#F06292] text-xs font-black flex items-center justify-center flex-shrink-0">{item.n}</span>
-                            <span class="flex-1">{item.label}</span>
-                            <span class="text-[#F06292]">→</span>
+
+            <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner">
+                <ul class="space-y-3">
+                    <li>
+                        <a href="#cheat-sheet" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">01</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Cheat sheet: Agent workflow at a glance</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
-                {/each}
-            </ol>
-        </nav>
+                    <li>
+                        <a href="#why-photographers-lose-time" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">02</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Why photographers still lose time after the shoot ends</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#how-the-stack-works" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">03</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">How the stack works: Claude, Dispatch, and Mochify MCP</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#folder-structure" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">04</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Setting up the folder structure and agent trigger</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#worked-example" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">05</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">The worked example: wedding shoot, agent running, photographer in the field</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#multi-destination" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">06</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Multi-destination derivatives: one shoot, four outputs</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#privacy" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">07</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Privacy in an automated pipeline</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#validation" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">08</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">What to validate and what can go wrong</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#faq" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">09</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">FAQ</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
 
         <!-- 01 Cheat Sheet -->
         <section id="cheat-sheet">
