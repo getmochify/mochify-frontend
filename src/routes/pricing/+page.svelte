@@ -1,34 +1,35 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
+    // import { onMount } from 'svelte'; // crypto buttons hidden temporarily
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
-    const DEPAY_INTEGRATION_SELLER = '98d95188-b18d-498c-a988-ef312881ed24';
-    const DEPAY_INTEGRATION_PRO = ''; // TODO: add Pro integration ID from Depay admin
+    // crypto buttons hidden temporarily
+    // const DEPAY_INTEGRATION_SELLER = '98d95188-b18d-498c-a988-ef312881ed24';
+    // const DEPAY_INTEGRATION_PRO = ''; // TODO: add Pro integration ID from Depay admin
 
-    let { data } = $props();
+    // let { data } = $props(); // crypto buttons hidden temporarily
     let billing = $state<'monthly' | 'yearly'>('monthly');
-    let sellerDepayEl = $state<HTMLDivElement | null>(null);
-    let proDepayEl = $state<HTMLDivElement | null>(null);
+    // let sellerDepayEl = $state<HTMLDivElement | null>(null);
+    // let proDepayEl = $state<HTMLDivElement | null>(null);
 
-    function triggerDepay(el: HTMLDivElement | null) {
-        el?.querySelector('button')?.click();
-    }
+    // function triggerDepay(el: HTMLDivElement | null) {
+    //     el?.querySelector('button')?.click();
+    // }
 
-    onMount(() => {
-        if (!data.user?.id) return;
-        if (document.querySelector('script[src*="integrate.depay.com"]')) {
-            // @ts-ignore
-            if (typeof DePayButtons !== 'undefined') DePayButtons.init({ document });
-            return;
-        }
-        const script = document.createElement('script');
-        script.src = 'https://integrate.depay.com/buttons/v13.js';
-        script.onload = () => {
-            // @ts-ignore
-            if (typeof DePayButtons !== 'undefined') DePayButtons.init({ document });
-        };
-        document.head.appendChild(script);
-    });
+    // onMount(() => {
+    //     if (!data.user?.id) return;
+    //     if (document.querySelector('script[src*="integrate.depay.com"]')) {
+    //         // @ts-ignore
+    //         if (typeof DePayButtons !== 'undefined') DePayButtons.init({ document });
+    //         return;
+    //     }
+    //     const script = document.createElement('script');
+    //     script.src = 'https://integrate.depay.com/buttons/v13.js';
+    //     script.onload = () => {
+    //         // @ts-ignore
+    //         if (typeof DePayButtons !== 'undefined') DePayButtons.init({ document });
+    //     };
+    //     document.head.appendChild(script);
+    // });
 </script>
 
 <svelte:head>
@@ -316,6 +317,7 @@
                 >
                     Get Seller
                 </a>
+                <!-- crypto buttons hidden temporarily
                 {#if billing === 'monthly'}
                     {#if data.user?.id}
                         <div bind:this={sellerDepayEl} style="position:fixed;top:-9999px;left:-9999px;">
@@ -342,6 +344,7 @@
                         </a>
                     {/if}
                 {/if}
+                -->
             </div>
 
             <!-- Pro tier -->
@@ -406,6 +409,7 @@
                 >
                     Get Pro
                 </a>
+                <!-- crypto buttons hidden temporarily
                 {#if billing === 'monthly'}
                     {#if data.user?.id}
                         <div bind:this={proDepayEl} style="position:fixed;top:-9999px;left:-9999px;">
@@ -432,6 +436,7 @@
                         </a>
                     {/if}
                 {/if}
+                -->
             </div>
         </div>
 

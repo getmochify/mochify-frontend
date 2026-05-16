@@ -2,6 +2,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
         title: "How to Use Jpegli for Shopify Product Images",
@@ -102,7 +103,7 @@
 
         <!-- TOC -->
         <section class="my-12">
-            <h2 class="text-xl font-black text-[#4A2C2C] mb-4">What's in this guide</h2>
+            <SectionHeading>What's in this guide</SectionHeading>
             <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner">
                 <ul class="space-y-3">
                     <li>
@@ -155,20 +156,20 @@
         </section>
 
         <section class="my-8 bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
-            <h2 class="text-xl font-black text-[#4A2C2C] mb-3">30-second summary</h2>
+            <SectionHeading>30-second summary</SectionHeading>
             <p>Shopify recompresses your images on upload. If you give it a poorly-encoded JPEG, you get a doubly-degraded result. Give it a Jpegli-encoded JPEG — which packs more perceptual quality per byte than standard JPEG — and Shopify's pipeline has a much better input to work with. The output on your storefront is noticeably sharper, and the file is ~35% smaller to boot.</p>
         </section>
 
         <!-- Section 1 -->
         <section id="why-jpegli" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Why Jpegli for Shopify?</h2>
+            <SectionHeading>Why Jpegli for Shopify?</SectionHeading>
             <p class="mb-4">Shopify caps product images at 2048 × 2048 px and auto-recompresses anything above that threshold. Standard JPEG encoders already lose detail at that step. Jpegli — released by Google in 2024 and benchmarked further in 2026 — uses psychovisual modelling to retain more perceived sharpness at lower file sizes than both standard JPEG and, on photographic content, WebP.</p>
             <p class="mb-4">A 35% file-size reduction translates directly to faster <strong>Largest Contentful Paint (LCP)</strong>, a Core Web Vitals signal that affects your Shopify store's search ranking. Reddit and Shopify developer forums consistently flag the same problem: images look sharp in Lightroom, soft after upload. The root cause is Shopify's recompression layering on top of already-lossy JPEGs. Uploading a Jpegli-encoded file at the right quality setting gives Shopify less to damage.</p>
         </section>
 
         <!-- Section 2 -->
         <section id="shopify-recompression" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How Shopify's recompression damages your images</h2>
+            <SectionHeading>How Shopify's recompression damages your images</SectionHeading>
             <p class="mb-4">When you upload a JPEG to Shopify, their CDN pipeline applies its own compression pass on top of yours. If your source file is already a lossy JPEG, this second pass is lossy again — compounding the quality loss each time.</p>
             <p class="mb-4">The usual symptoms: product images look crisp in your photo editor but appear slightly soft, washed out, or blocky on the storefront. Jpegli gives you a head start — because its psychovisual model preserves more perceptual sharpness per byte, Shopify's recompressor has a higher-quality input to work with and produces a noticeably better result.</p>
 
@@ -179,7 +180,7 @@
 
         <!-- Section 3 -->
         <section id="comparison" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Jpegli vs standard JPEG — at a glance</h2>
+            <SectionHeading>Jpegli vs standard JPEG — at a glance</SectionHeading>
             <p class="mb-4">Because Jpegli outputs a standard <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">.jpg</code> file, every browser and every Shopify theme reads it without any changes. There is no compatibility trade-off.</p>
 
             <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-8">
@@ -204,7 +205,7 @@
 
         <!-- Section 4 -->
         <section id="step-by-step" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Step-by-step: compress Shopify images with Jpegli</h2>
+            <SectionHeading>Step-by-step: compress Shopify images with Jpegli</SectionHeading>
             <ol class="list-decimal pl-6 mb-6 space-y-3 marker:text-[#F06292] marker:font-bold">
                 <li><strong>Resize first.</strong> Scale product images to 2048 × 2048 px (or your largest display size). Shopify will not upscale, so never upload smaller than needed.</li>
                 <li><strong>Open <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a>.</strong> No account is required for up to 3 files per session. Free tier: 25 images/month.</li>
@@ -221,7 +222,7 @@
 
         <!-- Section 5 -->
         <section id="results" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Results and privacy notes</h2>
+            <SectionHeading>Results and privacy notes</SectionHeading>
             <p class="mb-4">Stores that pre-compress with Jpegli typically see LCP improvements of <strong>200–500 ms</strong> on product pages — run a before/after test in PageSpeed Insights to confirm your specific gains.</p>
             <p class="mb-4">If you sell from a home address or shoot products at a private location, EXIF stripping is not optional; it is essential. Mochify strips GPS coordinates, device identifiers, and embedded thumbnails by default on every file. Files are processed in RAM and never written to disk — zero retention, no cloud storage.</p>
             <p class="mb-4">Compress free at <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a> — describe what you need, privacy-first, no login required.</p>

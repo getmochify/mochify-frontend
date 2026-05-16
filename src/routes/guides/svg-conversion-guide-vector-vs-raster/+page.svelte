@@ -111,53 +111,121 @@
             {metadata.title}
         </h1>
 
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="text-xl text-cocoa-deep opacity-90 leading-relaxed max-w-2xl mb-8">
             SVG is one of the best formats on the web — until the platform you're working with rejects it, your email client breaks it, or your WordPress media uploader refuses to accept it. The real question isn't "can I use SVG?" It's "should I use SVG <em>here</em>, for <em>this</em> workflow?"
         </p>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
+            <p class="text-lg text-cocoa-deep leading-relaxed">
                 This guide is about decisions, not definitions. We walk you through exactly when SVG is the right call, when you need to convert it to a raster format, and which format to convert to. The examples skew toward WordPress, WooCommerce, and marketplace sellers — because that's where most of the friction lives.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-8 text-lg text-cocoa-deep leading-relaxed">
 
         <!-- TOC -->
         <section class="my-12">
             <SectionHeading>What's in This Guide</SectionHeading>
 
-            <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner" aria-label="Table of contents">
+            <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner">
                 <ul class="space-y-3">
-                    {#each [
-                        { href: '#how-svg-works', num: '01', label: 'SVG: what makes it powerful (and risky)' },
-                        { href: '#cheat-sheet', num: '02', label: 'Quick decision cheat sheet' },
-                        { href: '#when-svg-wins', num: '03', label: 'When SVG is genuinely the best format' },
-                        { href: '#when-to-convert', num: '04', label: 'When you should convert SVG to raster' },
-                        { href: '#wordpress-and-svg', num: '05', label: 'WordPress and SVG: security, sanitization, plugin bloat' },
-                        { href: '#choosing-raster-format', num: '06', label: 'Choosing the right raster format after converting' },
-                        { href: '#decision-framework', num: '07', label: 'Decision framework: step-by-step' },
-                        { href: '#workflow-recipes', num: '08', label: 'Workflow recipes with Mochify' },
-                        { href: '#faq', num: '09', label: 'FAQ' },
-                        { href: '#related-guides', num: '10', label: 'Related guides' },
-                    ] as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.num}</span>
-                                    <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
+                    <li>
+                        <a href="#how-svg-works" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">01</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">SVG: what makes it powerful (and risky)</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#cheat-sheet" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">02</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Quick decision cheat sheet</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#when-svg-wins" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">03</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">When SVG is genuinely the best format</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#when-to-convert" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">04</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">When you should convert SVG to raster</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#wordpress-and-svg" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">05</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">WordPress and SVG: security, sanitization, plugin bloat</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#choosing-raster-format" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">06</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Choosing the right raster format after converting</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#decision-framework" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">07</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Decision framework: step-by-step</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#workflow-recipes" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">08</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Workflow recipes with Mochify</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#faq" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">09</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">FAQ</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#related-guides" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">10</span>
+                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Related guides</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </section>
 
         <!-- 01 — HOW SVG WORKS -->
-        <section id="how-svg-works" class="scroll-mt-24 my-12">
+        <section id="how-svg-works" class="scroll-mt-24">
             <SectionHeading>How SVG Works — And Why Platforms Fear It</SectionHeading>
 
             <p class="mb-4">SVG is XML-based vector markup. It lives in the DOM, can be styled with CSS, animated with JavaScript, and scales infinitely without a single pixel of quality loss. That's what makes it excellent for logos, icons, and diagrams on sites you control.</p>
@@ -167,16 +235,16 @@
             <p class="mb-4">WordPress core knows this. Its MIME-type whitelist includes JPEG, PNG, GIF, and ICO by default — but not SVG. Core doesn't ship with SVG sanitization, so it simply blocks SVG uploads rather than expose sites to exploitable files. It's a conservative but sensible call.</p>
 
             <div class="bg-[#F5F9FF] rounded-2xl border border-blue-200 p-6 flex gap-4 items-start my-6">
-                <div class="w-8 h-8 rounded-xl bg-blue-100 flex items-center justify-center text-base flex-shrink-0">📝</div>
+                <div class="w-8 h-8 rounded-xl bg-blue-100 flex items-center justify-center text-base shrink-0">📝</div>
                 <div>
                     <strong class="block text-blue-800 font-bold mb-1 text-sm">Pro tip</strong>
-                    <p class="text-[#6C3F31] text-base m-0">SVG's security risk is specific to <em>uploads from untrusted sources</em>. An SVG you created yourself in Figma or Illustrator and deploy directly via version control carries no meaningful risk — the danger is when platforms let arbitrary users upload SVG files to shared storage.</p>
+                    <p class="text-cocoa-deep text-base m-0">SVG's security risk is specific to <em>uploads from untrusted sources</em>. An SVG you created yourself in Figma or Illustrator and deploy directly via version control carries no meaningful risk — the danger is when platforms let arbitrary users upload SVG files to shared storage.</p>
                 </div>
             </div>
         </section>
 
         <!-- 02 — CHEAT SHEET -->
-        <section id="cheat-sheet" class="scroll-mt-24 my-12">
+        <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>Quick Decision Cheat Sheet</SectionHeading>
 
             <p class="mb-4">Use this as your first filter before going deeper into the guide.</p>
@@ -201,7 +269,7 @@
                             ['Internal asset archive, developer pipeline', 'Keep SVG as source; export WebP/AVIF for delivery'],
                         ] as [situation, rec], i}
                             <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
-                                <td class="px-4 py-3 border-b border-pink-50 text-[#6C3F31]">{situation}</td>
+                                <td class="px-4 py-3 border-b border-pink-50 text-cocoa-deep">{situation}</td>
                                 <td class="px-4 py-3 border-b border-pink-50 font-bold text-[#4A2C2C]">{rec}</td>
                             </tr>
                         {/each}
@@ -225,7 +293,7 @@
         </section>
 
         <!-- 03 — WHEN SVG WINS -->
-        <section id="when-svg-wins" class="scroll-mt-24 my-12">
+        <section id="when-svg-wins" class="scroll-mt-24">
             <SectionHeading>When SVG Is the Best Format</SectionHeading>
 
             <p class="mb-4">SVG wins on sites and apps you fully control, where you can sanitize files and serve them safely. Here are the real-world cases where you should keep it as vector.</p>
@@ -249,7 +317,7 @@
         </section>
 
         <!-- 04 — WHEN TO CONVERT -->
-        <section id="when-to-convert" class="scroll-mt-24 my-12">
+        <section id="when-to-convert" class="scroll-mt-24">
             <SectionHeading>When You Should Convert SVG to Raster</SectionHeading>
 
             <p class="mb-4">This is where most of the friction lives for non-developer site owners, ecommerce sellers, and agency clients.</p>
@@ -275,7 +343,7 @@
         </section>
 
         <!-- 05 — WORDPRESS AND SVG -->
-        <section id="wordpress-and-svg" class="scroll-mt-24 my-12">
+        <section id="wordpress-and-svg" class="scroll-mt-24">
             <SectionHeading>WordPress and SVG: Security, Sanitization, and Plugin Bloat</SectionHeading>
 
             <p class="mb-4">WordPress deserves its own section because this is where most site owners hit the wall, and the trade-offs are real.</p>
@@ -300,7 +368,7 @@
         </section>
 
         <!-- 06 — CHOOSING RASTER FORMAT -->
-        <section id="choosing-raster-format" class="scroll-mt-24 my-12">
+        <section id="choosing-raster-format" class="scroll-mt-24">
             <SectionHeading>Choosing the Right Raster Format After Converting</SectionHeading>
 
             <p class="mb-4">Once you've decided to convert an SVG, you have three modern format options worth knowing. Here's how they compare for SVG-derived assets specifically.</p>
@@ -325,10 +393,10 @@
                         ] as [fmt, support, compression, transparency, bestFor], i}
                             <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
                                 <td class="px-4 py-3 border-b border-pink-50 font-bold text-[#4A2C2C]">{fmt}</td>
-                                <td class="px-4 py-3 border-b border-pink-50 text-[#6C3F31]">{support}</td>
-                                <td class="px-4 py-3 border-b border-pink-50 text-[#6C3F31]">{compression}</td>
-                                <td class="px-4 py-3 border-b border-pink-50 text-[#6C3F31]">{transparency}</td>
-                                <td class="px-4 py-3 border-b border-pink-50 text-[#6C3F31]">{bestFor}</td>
+                                <td class="px-4 py-3 border-b border-pink-50 text-cocoa-deep">{support}</td>
+                                <td class="px-4 py-3 border-b border-pink-50 text-cocoa-deep">{compression}</td>
+                                <td class="px-4 py-3 border-b border-pink-50 text-cocoa-deep">{transparency}</td>
+                                <td class="px-4 py-3 border-b border-pink-50 text-cocoa-deep">{bestFor}</td>
                             </tr>
                         {/each}
                     </tbody>
@@ -361,7 +429,7 @@
         </section>
 
         <!-- 07 — DECISION FRAMEWORK -->
-        <section id="decision-framework" class="scroll-mt-24 my-12">
+        <section id="decision-framework" class="scroll-mt-24">
             <SectionHeading>Decision Framework: Step-by-Step</SectionHeading>
 
             <p class="mb-6">Run your SVG through this before deciding what to do with it.</p>
@@ -409,9 +477,9 @@
                 ] as step}
                     <div class="border-l-4 border-[#F06292] pl-5">
                         <h3 class="text-base font-black text-[#D81B60] mb-2">{step.title}</h3>
-                        <ul class="space-y-1.5 ml-4 list-disc marker:text-[#F06292]">
+                        <ul class="space-y-1.5 ml-4 list-disc marker:text-mochi-pink">
                             {#each step.items as item}
-                                <li class="text-base text-[#6C3F31]">{item}</li>
+                                <li class="text-base text-cocoa-deep">{item}</li>
                             {/each}
                         </ul>
                     </div>
@@ -420,7 +488,7 @@
         </section>
 
         <!-- 08 — WORKFLOW RECIPES -->
-        <section id="workflow-recipes" class="scroll-mt-24 my-12">
+        <section id="workflow-recipes" class="scroll-mt-24">
             <SectionHeading>Workflow Recipes with Mochify</SectionHeading>
 
             <p class="mb-6">Four real-world conversion workflows. Each uses Magic Flow — describe the output you want in plain English, Mochify handles the rest.</p>
@@ -446,14 +514,14 @@
                 ] as recipe}
                     <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
                         <h3 class="text-lg font-black text-[#4A2C2C] mb-3">{recipe.title}</h3>
-                        <p class="text-base text-[#6C3F31] m-0">{@html recipe.body}</p>
+                        <p class="text-base text-cocoa-deep m-0">{@html recipe.body}</p>
                     </div>
                 {/each}
             </div>
 
             <div class="bg-gradient-to-br from-[#FFF5F7] to-[#FDFBF7] rounded-3xl border border-pink-100 p-8 mt-8">
                 <div class="flex items-center gap-3 mb-1">
-                    <span class="w-1.5 h-8 bg-[#F06292] rounded-sm flex-shrink-0"></span>
+                    <span class="w-1.5 h-8 bg-mochi-pink rounded-sm shrink-0"></span>
                     <h2 class="text-xl font-black text-[#4A2C2C]">Mochify Workflow: Convert SVG to WebP, AVIF, or PNG</h2>
                 </div>
                 <p class="text-sm text-[#875F42] mb-6 ml-4">No account required on the free tier. Up to 3 files per session.</p>
@@ -468,8 +536,8 @@
                         ['Upload directly to WordPress, Etsy, your email tool,', 'or wherever the asset is headed — without any plugin or security workaround needed.'],
                     ] as [bold, rest], i}
                         <li class="flex gap-4 items-start">
-                            <span class="w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
-                            <span class="text-base text-[#6C3F31] leading-relaxed"><strong class="text-[#4A2C2C]">{bold}</strong> {rest}</span>
+                            <span class="w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
+                            <span class="text-base text-cocoa-deep leading-relaxed"><strong class="text-[#4A2C2C]">{bold}</strong> {rest}</span>
                         </li>
                     {/each}
                 </ol>
@@ -481,16 +549,16 @@
         </section>
 
         <!-- CTA -->
-        <div class="bg-gradient-to-br from-[#FFF5F7] to-[#FDFBF7] rounded-3xl border border-pink-100 p-8 my-8 text-center">
+        <div class="bg-gradient-to-br from-[#FFF5F7] to-[#FDFBF7] rounded-3xl border border-pink-100 p-8 text-center">
             <h3 class="text-xl font-black text-[#4A2C2C] mb-2">Convert your SVGs in seconds</h3>
-            <p class="text-[#6C3F31] text-base mb-5">WebP, AVIF, PNG, or JPEG XL — describe the output you want, Mochify handles the rest. No account needed on the free tier. No files stored after download.</p>
-            <a href="https://mochify.app" class="inline-block bg-[#F06292] hover:bg-[#D81B60] text-white rounded-xl px-7 py-3 font-black text-base transition-colors no-underline">
+            <p class="text-cocoa-deep text-base mb-5">WebP, AVIF, PNG, or JPEG XL — describe the output you want, Mochify handles the rest. No account needed on the free tier. No files stored after download.</p>
+            <a href="https://mochify.app" class="inline-block bg-mochi-pink hover:bg-[#D81B60] text-white rounded-xl px-7 py-3 font-black text-base transition-colors no-underline">
                 Convert SVG now at mochify.app →
             </a>
         </div>
 
         <!-- 09 — FAQ -->
-        <section id="faq" class="scroll-mt-24 my-12">
+        <section id="faq" class="scroll-mt-24">
             <SectionHeading>FAQ</SectionHeading>
 
             <div class="divide-y divide-pink-50">
@@ -530,14 +598,14 @@
                 ] as faq}
                     <div class="py-5">
                         <h3 class="text-base font-black text-[#4A2C2C] mb-2">{faq.q}</h3>
-                        <p class="text-base text-[#6C3F31] leading-relaxed m-0">{faq.a}</p>
+                        <p class="text-base text-cocoa-deep leading-relaxed m-0">{faq.a}</p>
                     </div>
                 {/each}
             </div>
         </section>
 
         <!-- 10 — RELATED GUIDES -->
-        <section id="related-guides" class="scroll-mt-24 my-12">
+        <section id="related-guides" class="scroll-mt-24">
             <SectionHeading>Related Guides</SectionHeading>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
@@ -560,7 +628,7 @@
                 ] as guide}
                     <a href={guide.href} class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-5 block no-underline hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300">
                         <h3 class="text-base font-black text-[#4A2C2C] mb-1">{guide.title}</h3>
-                        <p class="text-sm text-[#6C3F31] leading-relaxed m-0">{guide.desc}</p>
+                        <p class="text-sm text-cocoa-deep leading-relaxed m-0">{guide.desc}</p>
                     </a>
                 {/each}
             </div>

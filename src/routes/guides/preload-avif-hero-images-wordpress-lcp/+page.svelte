@@ -2,6 +2,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
         title: "How Do I Preload AVIF Hero Images in WordPress to Pass the LCP Threshold?",
@@ -100,7 +101,7 @@
     <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
 
         <section id="why-avif-alone-isnt-enough" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Why AVIF alone isn't enough</h2>
+            <SectionHeading>Why AVIF alone isn't enough</SectionHeading>
             <p class="mb-4">AVIF gives you the smallest file at the highest quality of any widely-supported format in 2026. WordPress 6.5 added native AVIF upload support, so serving it is no longer a challenge. The problem is discovery timing.</p>
             <p class="mb-4">When a browser loads a WordPress page it parses the HTML, builds the DOM, then fetches stylesheets, then — only after the CSS is parsed and the render tree is constructed — does it find the hero image URL buried in a CSS <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">background-image</code> rule or an <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;img&gt;</code> tag deep in the template. By that point, you've burned 300–600 ms of latency before the image download even starts.</p>
             <p class="mb-4">Google's LCP threshold is 2.5 seconds. On a typical shared-hosting WordPress site with a theme that loads 6–12 stylesheets, discovering the hero image late is the single biggest contributor to a failing LCP score — even when the image itself is small.</p>
@@ -111,7 +112,7 @@
         </section>
 
         <section id="preload-the-hero-image" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Preload the hero image</h2>
+            <SectionHeading>Preload the hero image</SectionHeading>
             <p class="mb-4">Open your theme's <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">functions.php</code> (or a site-specific plugin) and add the following. Replace the URL with the path to your AVIF file in the WordPress Media Library.</p>
 
             <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm mb-6">
@@ -147,7 +148,7 @@
         </section>
 
         <section id="check-the-result" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Check the result</h2>
+            <SectionHeading>Check the result</SectionHeading>
             <ol class="list-decimal pl-6 mb-6 space-y-3 marker:text-[#F06292] marker:font-bold">
                 <li><strong>Run PageSpeed Insights</strong> on your homepage URL. The "Preload Largest Contentful Paint image" audit should no longer appear as an opportunity.</li>
                 <li><strong>Check the waterfall</strong> in Chrome DevTools (Network tab). Your AVIF file should now start downloading near the top of the waterfall — alongside your HTML — rather than after stylesheets resolve.</li>

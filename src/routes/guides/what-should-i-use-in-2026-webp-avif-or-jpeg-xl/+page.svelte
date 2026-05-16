@@ -2,6 +2,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
         title: "What Should I Use in 2026: WebP, AVIF, or JPEG XL?",
@@ -127,7 +128,7 @@
         </div>
 
         <section id="browser-support-2026" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">2026 browser support at a glance</h2>
+            <SectionHeading>2026 browser support at a glance</SectionHeading>
 
             <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-4">
                 <table class="w-full text-left bg-white">
@@ -167,7 +168,7 @@
         </section>
 
         <section id="why-jpeg-xl-is-not-ready" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Why JPEG XL is not ready yet</h2>
+            <SectionHeading>Why JPEG XL is not ready yet</SectionHeading>
             <p class="mb-4">Google rekindled browser support efforts for JPEG XL in early 2026, but it remains behind flags in Chrome and Firefox. Can I Use tracks updates actively, and the picture is improving, but no team shipping production web assets should depend on it today. AVIF and WebP cover 95%+ of real-world users without any conditional logic.</p>
 
             <InfoBox type="warning" title="Do not serve .jxl without a fallback">
@@ -176,7 +177,7 @@
         </section>
 
         <section id="avif-vs-webp" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">AVIF vs WebP: the trade-off that matters</h2>
+            <SectionHeading>AVIF vs WebP: the trade-off that matters</SectionHeading>
             <p class="mb-4">AVIF delivers superior quality at low bitrates — it is the right choice for hero images, product photography, and any asset where visual fidelity matters. WebP encodes faster and has wider legacy support, which makes it the right fallback in the <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;picture&gt;</code> stack rather than a primary target. For the vast majority of web workflows in 2026, the pattern above handles both automatically.</p>
 
             <InfoBox type="tip" title="Magic Flow handles format selection automatically">

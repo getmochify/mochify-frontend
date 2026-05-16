@@ -2,6 +2,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
         title: "Should I Optimize My Images Before I Upload Them?",
@@ -154,7 +155,7 @@
 
         <!-- TOC -->
         <section>
-            <h2 class="text-xl font-black text-[#4A2C2C] mb-4">What's in this guide</h2>
+            <SectionHeading>What's in this guide</SectionHeading>
             <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner">
                 <ul class="space-y-3">
                     {#each toc as item}
@@ -174,7 +175,7 @@
 
         <!-- Cheat Sheet -->
         <section>
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Cheat sheet: pre-upload optimization at a glance</h2>
+            <SectionHeading>Cheat sheet: pre-upload optimization at a glance</SectionHeading>
 
             <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-6">
                 <table class="w-full text-left bg-white text-base">
@@ -204,14 +205,14 @@
 
         <!-- 01 -->
         <section id="short-answer" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">The short answer: yes, but not always in the same way</h2>
+            <SectionHeading>The short answer: yes, but not always in the same way</SectionHeading>
             <p class="mb-4">In almost every case, you should optimize images before upload — not because platforms do nothing, but because you need predictable performance, visual quality, and privacy. The nuance is in <em>how</em> you optimize: a Shopify product photo and an archive master for a Next.js CDN pipeline call for very different approaches.</p>
             <p class="mb-4">The safe default is: resize to the largest display size you'll actually need, compress with a modern encoder, strip EXIF metadata, and keep your original separately. That single workflow eliminates the most common causes of slow pages, GDPR-sensitive metadata leaks, and opaque platform re-compression surprises.</p>
         </section>
 
         <!-- 02 -->
         <section id="why-it-matters" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Why pre-upload optimization still matters</h2>
+            <SectionHeading>Why pre-upload optimization still matters</SectionHeading>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Images, Core Web Vitals, and SEO</h3>
             <p class="mb-4">Pre-upload image optimization is one of the clearest levers for improving Largest Contentful Paint (LCP), which Google uses as a confirmed ranking signal. Images are often the largest element on the page — when they're bloated, the LCP timer keeps running. Multiple audits show that unoptimized images routinely account for 50–80% of total page bytes on ecommerce pages, and replacing a 2MB hero JPEG with a properly compressed WebP or AVIF at the same dimensions can cut LCP by several seconds on a mobile connection.</p>
@@ -238,7 +239,7 @@
 
         <!-- 03 -->
         <section id="when-definitely" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">When you definitely should optimize before upload</h2>
+            <SectionHeading>When you definitely should optimize before upload</SectionHeading>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Product images for Shopify, Etsy, eBay, and Amazon</h3>
             <p class="mb-4">Yes — strongly. Product photos are typically the heaviest assets on listing pages and the most likely LCP elements. Each marketplace has its own recommended dimensions: Etsy recommends at least 2000px on the longest side for full zoom quality, Amazon requires a minimum of 1000px but recommends 2000px or more, and eBay best practice lands around 1600×1600px. None of them gives you fine-grained guidance on compression — that's your job.</p>
@@ -260,7 +261,7 @@
 
         <!-- 04 -->
         <section id="when-optional" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">When pre-upload optimization is optional or secondary</h2>
+            <SectionHeading>When pre-upload optimization is optional or secondary</SectionHeading>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Modern image CDNs and build-time pipelines</h3>
             <p class="mb-4">If you're running a Next.js site with Cloudflare Images, Imgix, or a similar image CDN in front, the CDN is generating AVIF/WebP/JPEG variants on-the-fly from your source assets. In this setup, the priority isn't aggressive pre-compression — it's <strong>normalization</strong>. You want clean inputs: consistent sRGB colour profile, sensible maximum dimensions (a 3000px long edge is plenty), and EXIF stripped. The CDN handles the rest.</p>
@@ -275,7 +276,7 @@
 
         <!-- 05 -->
         <section id="image-factors" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">The image factors that actually matter</h2>
+            <SectionHeading>The image factors that actually matter</SectionHeading>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Dimensions</h3>
             <p class="mb-4">Oversized dimensions are the primary driver of bloated file sizes. A 4000px-wide camera image displayed in a 1200px column contains four times the pixel data that will ever be rendered — and every pixel costs bytes. Resize to the largest display size you'll actually need (with some headroom for Retina/HiDPI: 2× is usually sufficient), and you'll often achieve 70–80% file size reduction before any encoder-level compression is applied.</p>
@@ -304,7 +305,7 @@
 
         <!-- 06 -->
         <section id="audience-advice" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Audience-specific advice: what should you do?</h2>
+            <SectionHeading>Audience-specific advice: what should you do?</SectionHeading>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Ecommerce sellers and Shopify stores</h3>
             <p class="mb-4">Optimize everything before upload. Convert HEIC or camera JPEGs to jpegli JPEG or WebP/AVIF at marketplace-specific dimensions. Strip all EXIF. For Shopify specifically: target 2048×2048px and under 400KB. For Etsy/eBay/Amazon: 2000–2500px on the longest side, under 500KB, JPEG or WebP.</p>
@@ -324,7 +325,7 @@
 
         <!-- 07 -->
         <section id="decision-framework" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">A simple decision framework</h2>
+            <SectionHeading>A simple decision framework</SectionHeading>
             <p class="mb-6">Work through these five questions before uploading any image:</p>
 
             <ol class="space-y-3 mb-6">
@@ -349,7 +350,7 @@
 
         <!-- 08 -->
         <section id="workflow" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">The best pre-upload workflow with Mochify</h2>
+            <SectionHeading>The best pre-upload workflow with Mochify</SectionHeading>
 
             <div class="bg-gradient-to-b from-[#FFF5F7] to-[#FDFBF7] rounded-3xl border border-pink-100 p-6 md:p-8 mb-6">
                 <ol class="space-y-8">
@@ -386,7 +387,7 @@
 
         <!-- 09 -->
         <section id="prompt-examples" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Magic Flow prompt examples for every audience</h2>
+            <SectionHeading>Magic Flow prompt examples for every audience</SectionHeading>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Shopify and ecommerce</h3>
             <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm mb-6">
@@ -431,7 +432,7 @@ REST API: POST /v1/prompt  {'{"prompt": "compress these for web delivery: max 16
 
         <!-- 10 -->
         <section id="misconceptions" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Common misconceptions to avoid</h2>
+            <SectionHeading>Common misconceptions to avoid</SectionHeading>
 
             <div class="space-y-4">
                 {#each [
@@ -451,7 +452,7 @@ REST API: POST /v1/prompt  {'{"prompt": "compress these for web delivery: max 16
 
         <!-- 11 FAQ -->
         <section id="faq" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">FAQ</h2>
+            <SectionHeading>FAQ</SectionHeading>
 
             <div class="space-y-6">
                 {#each [

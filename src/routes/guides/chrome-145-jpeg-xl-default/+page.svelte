@@ -2,6 +2,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
         title: "Does Chrome 145 Enable JPEG XL by Default in 2026?",
@@ -99,13 +100,13 @@
     <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
 
         <section id="what-chrome-145-added" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">What Chrome 145 actually added</h2>
+            <SectionHeading>What Chrome 145 actually added</SectionHeading>
             <p class="mb-4">Chrome 145, released on 10 February 2026, re-introduced JPEG XL decoding using <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">jxl-rs</code> — a memory-safe, pure Rust decoder. This replaces the C++ libjxl implementation that Google removed in 2022. The decoder is present in the stable codebase for the first time in over three years.</p>
             <p class="mb-4">JPEG XL is a next-generation image codec. In plain English: it is a smarter way to compress images, delivering files 50–60% smaller than traditional JPEG at equivalent quality, and roughly 10–15% better compression than AVIF. It also supports lossless recompression of existing JPEGs, progressive decoding, HDR, and animation.</p>
         </section>
 
         <section id="flag-only-not-default" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Flag-only, not default</h2>
+            <SectionHeading>Flag-only, not default</SectionHeading>
             <p class="mb-4">To use JPEG XL in Chrome 145, a user must navigate to <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">chrome://flags/#enable-jxl-image-format</code> and toggle the feature on manually. No ordinary user does this. As of early 2026, JPEG XL has roughly 12–17% browser support globally, concentrated in Safari on macOS and iOS. Chrome and Firefox both require a manual opt-in.</p>
             <p class="mb-4">Google has set explicit conditions for enabling the feature by default: a long-term maintenance commitment and meeting standard Chrome launch criteria. Neither has been publicly confirmed as met.</p>
 
@@ -115,7 +116,7 @@
         </section>
 
         <section id="what-this-means" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">What this means for web delivery</h2>
+            <SectionHeading>What this means for web delivery</SectionHeading>
             <p class="mb-4">For production websites, nothing changes yet. Serving a <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">.jxl</code> file without a <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;picture&gt;</code> fallback will fail silently for the majority of visitors. E-commerce teams should treat JPEG XL as experimental, not a deployment target.</p>
             <p class="mb-4">AVIF remains the best choice for maximum compression on public sites. WebP covers broader compatibility. JPEG encoded with Jpegli handles legacy browsers and email clients.</p>
 
@@ -139,7 +140,7 @@
         </section>
 
         <section id="the-2026-recommendation" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">The 2026 recommendation</h2>
+            <SectionHeading>The 2026 recommendation</SectionHeading>
             <p class="mb-4">Use JPEG XL in controlled workflows — archiving, internal tools, or future-proofing your image library. For any public-facing web delivery, stick with AVIF or WebP and keep a JPEG fallback. Revisit JPEG XL for production use in late 2026 if Chrome ships it enabled by default in a stable release.</p>
 
             <InfoBox type="tip" title="Watch the Chrome release notes">
