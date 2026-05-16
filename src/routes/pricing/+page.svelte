@@ -7,6 +7,12 @@
 
     let { data } = $props();
     let billing = $state<'monthly' | 'yearly'>('monthly');
+    let sellerDepayEl = $state<HTMLDivElement | null>(null);
+    let proDepayEl = $state<HTMLDivElement | null>(null);
+
+    function triggerDepay(el: HTMLDivElement | null) {
+        el?.querySelector('button')?.click();
+    }
 
     onMount(() => {
         if (!data.user?.id) return;
@@ -312,18 +318,27 @@
                 </a>
                 {#if billing === 'monthly'}
                     {#if data.user?.id}
-                        <div class="DePayButton mt-2" {...{
-                            label: 'Pay with crypto',
-                            integration: DEPAY_INTEGRATION_SELLER,
-                            blockchains: '["ethereum"]',
-                            track: JSON.stringify({ id: data.user.id, plan: 'seller' })
-                        }}></div>
+                        <div bind:this={sellerDepayEl} style="position:fixed;top:-9999px;left:-9999px;">
+                            <div class="DePayButton" {...{
+                                label: 'Pay with crypto',
+                                integration: DEPAY_INTEGRATION_SELLER,
+                                blockchains: '["ethereum"]',
+                                track: JSON.stringify({ id: data.user.id, plan: 'seller' })
+                            }}></div>
+                        </div>
+                        <button
+                            type="button"
+                            onclick={() => triggerDepay(sellerDepayEl)}
+                            class="mt-2 w-full flex items-center justify-center gap-2 px-6 py-3 rounded-2xl border border-cocoa-milk/15 text-sm font-black text-cocoa-deep hover:border-mochi-pink/30 hover:text-mochi-pink hover:bg-[#FFF5F7] transition-all"
+                        >
+                            <span class="text-base">₿</span> Pay with crypto
+                        </button>
                     {:else}
                         <a
                             href="/auth/login?redirectTo=/pricing"
-                            class="mt-2 flex items-center justify-center gap-1.5 text-xs text-cocoa-deep/40 hover:text-cocoa-deep/70 transition-colors"
+                            class="mt-2 w-full flex items-center justify-center gap-2 px-6 py-3 rounded-2xl border border-cocoa-milk/15 text-sm font-black text-cocoa-deep hover:border-mochi-pink/30 hover:text-mochi-pink hover:bg-[#FFF5F7] transition-all"
                         >
-                            <span>₿</span> Pay with crypto
+                            <span class="text-base">₿</span> Pay with crypto
                         </a>
                     {/if}
                 {/if}
@@ -393,18 +408,27 @@
                 </a>
                 {#if billing === 'monthly'}
                     {#if data.user?.id}
-                        <div class="DePayButton mt-2" {...{
-                            label: 'Pay with crypto',
-                            integration: DEPAY_INTEGRATION_PRO,
-                            blockchains: '["ethereum"]',
-                            track: JSON.stringify({ id: data.user.id, plan: 'pro' })
-                        }}></div>
+                        <div bind:this={proDepayEl} style="position:fixed;top:-9999px;left:-9999px;">
+                            <div class="DePayButton" {...{
+                                label: 'Pay with crypto',
+                                integration: DEPAY_INTEGRATION_PRO,
+                                blockchains: '["ethereum"]',
+                                track: JSON.stringify({ id: data.user.id, plan: 'pro' })
+                            }}></div>
+                        </div>
+                        <button
+                            type="button"
+                            onclick={() => triggerDepay(proDepayEl)}
+                            class="mt-2 w-full flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-mochi-pink text-white text-sm font-black hover:bg-[#E0527F] transition-all shadow-sm hover:shadow-md active:scale-95"
+                        >
+                            <span class="text-base">₿</span> Pay with crypto
+                        </button>
                     {:else}
                         <a
                             href="/auth/login?redirectTo=/pricing"
-                            class="mt-2 flex items-center justify-center gap-1.5 text-xs text-cocoa-deep/40 hover:text-cocoa-deep/70 transition-colors"
+                            class="mt-2 w-full flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-mochi-pink text-white text-sm font-black hover:bg-[#E0527F] transition-all shadow-sm hover:shadow-md active:scale-95"
                         >
-                            <span>₿</span> Pay with crypto
+                            <span class="text-base">₿</span> Pay with crypto
                         </a>
                     {/if}
                 {/if}
