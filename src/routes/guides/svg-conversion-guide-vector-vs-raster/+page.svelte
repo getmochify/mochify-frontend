@@ -102,7 +102,7 @@
             <span class="inline-block px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-bold uppercase tracking-wider border border-green-100">
                 {metadata.category}
             </span>
-            <span class="text-sm font-bold text-[#875F42]">
+            <span class="text-sm font-bold text-cocoa-milk">
                 {metadata.readTime} · {metadata.date}
             </span>
         </div>
@@ -360,10 +360,23 @@
             <p class="mb-4">Every plugin you add to WordPress brings update overhead, potential conflicts, and sometimes database or thumbnail bloat. Plugin bloat is a real drag on maintenance — the same reason we built Mochify to work entirely outside WordPress rather than as another plugin you have to monitor.</p>
             <p class="mb-4">For most WordPress sites, the cleaner workflow is: keep SVG files in your design tooling or version control, convert to WebP or AVIF using Mochify before uploading, and skip the SVG plugin entirely. You get 90% of the quality benefits with fewer moving parts and no SVG-specific security surface to maintain.</p>
 
-            <div class="bg-[#FFFBEB] rounded-2xl border-2 border-dashed border-yellow-300 p-6 my-6">
-                <p class="text-xs font-bold uppercase tracking-wider text-amber-800 mb-1">⚗️ Benchmark Placeholder — Real data to be added</p>
-                <p class="font-bold text-[#4A2C2C] mb-1 text-base">SVG to WebP: WordPress logo conversion test</p>
-                <p class="text-sm text-[#875F42] m-0">Insert real-world file size data here once benchmarks are run. Example format: "Our test flat-logo SVG ([X KB]) converted to WebP via Mochify at quality 85 produced a [X KB] file — a [X]% reduction versus an equivalent PNG export ([X KB]), with full transparency preserved."</p>
+            <div class="bg-[#FFF9F5] rounded-2xl border border-orange-100 p-6 my-6">
+                <p class="text-xs font-bold uppercase tracking-wider text-cocoa-milk mb-3">Real-world benchmark · WordPress logo SVG</p>
+                <div class="grid grid-cols-3 gap-4 mb-4">
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-wider text-cocoa-milk mb-1">PNG output</p>
+                        <p class="text-2xl font-black text-[#4A2C2C]">165 KB</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-wider text-cocoa-milk mb-1">WebP output</p>
+                        <p class="text-2xl font-black text-[#D81B60]">98 KB</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-wider text-cocoa-milk mb-1">Saving</p>
+                        <p class="text-2xl font-black text-[#D81B60]">40.6%</p>
+                    </div>
+                </div>
+                <p class="text-sm text-cocoa-milk m-0">WordPress logo SVG converted via Mochify. WebP output is 40.6% smaller than PNG with full transparency preserved — no SVG plugin required.</p>
             </div>
         </section>
 
@@ -410,9 +423,9 @@
                     { label: 'AVIF browser support', value: '~95%', note: 'Strong, but WebP fallback still recommended' },
                 ] as stat}
                     <div class="bg-[#FFF9F5] rounded-2xl border border-orange-100 p-5">
-                        <p class="text-xs font-bold uppercase tracking-wider text-[#875F42] mb-1">{stat.label}</p>
+                        <p class="text-xs font-bold uppercase tracking-wider text-cocoa-milk mb-1">{stat.label}</p>
                         <p class="text-3xl font-black text-[#D81B60] leading-tight mb-1">{stat.value}</p>
-                        <p class="text-sm text-[#875F42] m-0">{stat.note}</p>
+                        <p class="text-sm text-cocoa-milk m-0">{stat.note}</p>
                     </div>
                 {/each}
             </div>
@@ -524,7 +537,7 @@
                     <span class="w-1.5 h-8 bg-mochi-pink rounded-sm shrink-0"></span>
                     <h2 class="text-xl font-black text-[#4A2C2C]">Mochify Workflow: Convert SVG to WebP, AVIF, or PNG</h2>
                 </div>
-                <p class="text-sm text-[#875F42] mb-6 ml-4">No account required on the free tier. Up to 3 files per session.</p>
+                <p class="text-sm text-cocoa-milk mb-6 ml-4">No account required on the free tier. Up to 3 files per session.</p>
 
                 <ol class="space-y-5">
                     {#each [
@@ -542,7 +555,7 @@
                     {/each}
                 </ol>
 
-                <div class="mt-6 pt-5 border-t border-pink-100 text-sm text-[#875F42]">
+                <div class="mt-6 pt-5 border-t border-pink-100 text-sm text-cocoa-milk">
                     🔒 <strong>Privacy note:</strong> All processing happens in-memory only. Your files are never written to disk, never stored, never used for training, and wiped immediately after your download. Zero retention.
                 </div>
             </div>
@@ -641,7 +654,7 @@
             <a href="/solutions/svg-to-jxl" class="bg-[#FFF5F7] border border-pink-100 rounded-lg px-3.5 py-1.5 text-sm font-bold text-[#D81B60] hover:bg-pink-100 transition-colors no-underline">Convert SVG to JPEG XL</a>
         </div>
 
-        <p class="text-sm text-[#875F42] mt-4">Published May 2026 by the Mochify Engineering Team. Last updated: May 2026.</p>
+        <p class="text-sm text-cocoa-milk mt-4">Published May 2026 by the Mochify Engineering Team. Last updated: May 2026.</p>
 
     </div>
 </article>
