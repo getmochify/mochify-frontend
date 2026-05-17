@@ -404,7 +404,7 @@
 				if (config.type === 'jpeg' || config.type === 'jpg') return 'Compressing to JPEG…';
 				if (config.type === 'png') return 'Encoding to PNG…';
 				if (config.smartCompress) return 'Smart-compressing…';
-				if (config.crop || (config.width && config.width === config.height))
+				if (config.smartCrop || (config.width && config.width === config.height))
 					return 'Cropping and compressing…';
 				return 'Processing your image…';
 			};
@@ -495,7 +495,7 @@
 					sharedParams.append('strip_exif', stripExif ? '1' : '0');
 
 					// Only forward known-safe params to the core API
-					const ALLOWED_FORWARDED_KEYS = new Set(['width', 'height', 'crop', 'rotate']);
+					const ALLOWED_FORWARDED_KEYS = new Set(['width', 'height', 'rotate']);
 					for (const [key, value] of Object.entries(fileConfig)) {
 						if (!ALLOWED_FORWARDED_KEYS.has(key)) continue;
 						// NLP echoes back original width/height as metadata — skip if unchanged
@@ -597,6 +597,7 @@
 
 			prompt = '';
 			files = [];
+			if (fileInputEl) fileInputEl.value = '';
 			const successCount = totalFiles - failedFiles.length;
 			if (successCount === 0) {
 				posthog.capture('magic_flow_completed', { files: totalFiles, all_failed: true });
