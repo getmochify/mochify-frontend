@@ -499,9 +499,10 @@
 					const ALLOWED_FORWARDED_KEYS = new Set(['width', 'height', 'rotate']);
 					for (const [key, value] of Object.entries(fileConfig)) {
 						if (!ALLOWED_FORWARDED_KEYS.has(key)) continue;
-						// NLP echoes back original width/height as metadata — skip if unchanged
-						if (key === 'width' && value === origDims[fileIdx]?.w) continue;
-						if (key === 'height' && value === origDims[fileIdx]?.h) continue;
+						// NLP echoes back original width/height as metadata — skip if unchanged,
+						// unless smartCrop is active (backend needs both > 0 to enter crop pipeline)
+						if (key === 'width' && value === origDims[fileIdx]?.w && !fileConfig.smartCrop) continue;
+						if (key === 'height' && value === origDims[fileIdx]?.h && !fileConfig.smartCrop) continue;
 						if (value === true) sharedParams.append(key, '1');
 						else if (value !== false && value !== 0 && value != null)
 							sharedParams.append(key, String(value));
