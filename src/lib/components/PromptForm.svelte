@@ -489,6 +489,7 @@
 					// Build params shared across all formats for this file
 					const sharedParams = new URLSearchParams();
 					if (fileConfig.smartCompress) sharedParams.append('smartCompress', '1');
+					if (fileConfig.smartCrop) sharedParams.append('smartCrop', '1');
 					if (fileConfig.removeBackground) sharedParams.append('removeBackground', '1');
 					// Default to stripping EXIF; NLP can explicitly set stripExif: 0 to preserve it
 					const stripExif = fileConfig.stripExif !== undefined ? fileConfig.stripExif : 1;
