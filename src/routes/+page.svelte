@@ -192,9 +192,9 @@
             <h1 class="text-5xl md:text-7xl font-black text-[#4A2C2C] leading-tight tracking-tight mb-3">
                 Mochify
             </h1>
-            <h2 class="text-xs font-semibold tracking-widest uppercase text-[#F06292]/70 mb-4">AI-POWERED IMAGE WORKFLOWS</h2>
+            <h2 class="text-xs font-semibold tracking-widest uppercase text-[#F06292]/70 mb-4">AI-Powered Image Workflows</h2>
             <p class="text-[#6C3F31] text-sm md:text-base max-w-xl mx-auto leading-relaxed">
-                Bulk crop, remove backgrounds, and optimize listings for eBay & Vinted with a high‑performance C++ engine.
+                The ultra-lazy way to bulk format product photos. Just drop your files, type what you need, and let our blazing-fast engine do the rest.
             </p>
             <p class="text-xs text-[#9A7050] mt-2">3 files free per batch · 25 with <a href="/pricing" class="hover:text-[#F06292] transition-colors">Seller or Pro</a></p>
 
@@ -212,12 +212,12 @@
 
             {#if showIosTooltip}
                 <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
-                <div class="fixed inset-0 z-50 flex items-end justify-center pb-6 px-4" onclick={() => (showIosTooltip = false)}>
-                    <div class="w-full max-w-sm bg-[#FDFBF7] border border-[#F06292]/20 rounded-2xl shadow-xl p-5" onclick={(e) => e.stopPropagation()}>
+                <div role="presentation" class="fixed inset-0 z-50 flex items-end justify-center pb-6 px-4" onclick={() => (showIosTooltip = false)}>
+                    <div role="dialog" aria-modal="true" aria-labelledby="ios-tooltip-title" tabindex="-1" class="w-full max-w-sm bg-[#FDFBF7] border border-[#F06292]/20 rounded-2xl shadow-xl p-5" onclick={(e) => e.stopPropagation()}>
                         <div class="flex items-start justify-between mb-3">
-                            <p class="text-sm font-semibold text-[#4A2C2C]">Add Mochify to your Home Screen</p>
-                            <button onclick={() => (showIosTooltip = false)} class="text-[#875F42]/50 hover:text-[#875F42] transition-colors ml-3 shrink-0">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <p id="ios-tooltip-title" class="text-sm font-semibold text-[#4A2C2C]">Add Mochify to your Home Screen</p>
+                            <button onclick={() => (showIosTooltip = false)} aria-label="Close" class="text-[#875F42]/50 hover:text-[#875F42] transition-colors ml-3 shrink-0">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
                                 </svg>
                             </button>
@@ -399,8 +399,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
                         </svg>
                     </div>
-                    <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">C++20 Engine</h3>
-                    <p class="text-[#7A5A3A] text-sm leading-relaxed">Processes files in milliseconds, not seconds. No interpreted scripts.</p>
+                    <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Instant Bulk Processing</h3>
+                    <p class="text-[#7A5A3A] text-sm leading-relaxed">Zero lag. Process dozens of high-res images in milliseconds under a single prompt without slowing down your browser.</p>
                 </div>
 
                 <div class="glass-card rounded-2xl p-5 hover:shadow-md transition-all duration-300 group">
@@ -409,8 +409,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
                         </svg>
                     </div>
-                    <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Jpegli</h3>
-                    <p class="text-[#7A5A3A] text-sm leading-relaxed">Up to 35% smaller than standard JPEG at the same visual quality.</p>
+                    <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Pro Page Speed Compression</h3>
+                    <p class="text-[#7A5A3A] text-sm leading-relaxed">Get files up to 35% smaller than standard compression without losing a single pixel of clarity or product detail.</p>
                 </div>
 
                 <div class="glass-card rounded-2xl p-5 hover:shadow-md transition-all duration-300 group">
@@ -420,7 +420,7 @@
                         </svg>
                     </div>
                     <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Zero Retention</h3>
-                    <p class="text-[#7A5A3A] text-sm leading-relaxed">Streamed into RAM, compressed, wiped. Your images never touch a disk.</p>
+                    <p class="text-[#7A5A3A] text-sm leading-relaxed">Streamed into server RAM, compressed, and wiped immediately. No cloud storage, no logs, no trace — not even on free plans.</p>
                 </div>
 
                 <div class="glass-card rounded-2xl p-5 hover:shadow-md transition-all duration-300 group">
@@ -430,7 +430,7 @@
                         </svg>
                     </div>
                     <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Next-gen Free</h3>
-                    <p class="text-[#7A5A3A] text-sm leading-relaxed">AVIF, JXL, and WebP included. No Pro account, no paywalls.</p>
+                    <p class="text-[#7A5A3A] text-sm leading-relaxed">AVIF, JPEG XL, WebP, and Jpegli on every plan — free included. No codec paywalls, no format upsells.</p>
                 </div>
 
             </div>
@@ -451,36 +451,96 @@
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto reveal">
-            <h2 class="text-center text-2xl font-black text-[#4A2C2C] mb-2">How Mochify compares</h2>
-            <p class="text-center text-sm text-[#7A5A3A] mb-8">No cloud storage. No per-credit paywalls. No compromises.</p>
-            <div class="rounded-2xl border border-white/80 shadow-sm overflow-hidden">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="bg-white/80">
-                            <th class="text-left px-3 py-3 md:px-5 md:py-3.5 font-bold text-[#875F42]/60 text-xs uppercase tracking-wider w-[38%] md:w-[34%]">Feature</th>
-                            <th class="px-3 py-3 md:px-5 md:py-3.5 font-bold text-[#875F42]/60 text-xs uppercase tracking-wider text-center">TinyPNG</th>
-                            <th class="hidden md:table-cell px-5 py-3.5 font-bold text-[#875F42]/60 text-xs uppercase tracking-wider text-center">Cloudinary / Imgix</th>
-                            <th class="px-3 py-3 md:px-5 md:py-3.5 font-bold text-[#F06292] text-xs uppercase tracking-wider text-center bg-[#FFF0F3]">Mochify</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <h2 class="text-center text-2xl font-black text-[#4A2C2C] mb-2">A new way to work with images</h2>
+            <p class="text-center text-sm text-[#7A5A3A] mb-8">Stop clicking through tools. Just describe what you need.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <div class="rounded-2xl border border-[#E8D5C4]/50 bg-white/25 px-6 py-7 md:px-8 md:py-8">
+                    <p class="text-xs font-bold tracking-widest uppercase text-cocoa-milk/60 mb-5">The old way</p>
+                    <ol class="space-y-3">
                         {#each [
-                            { feature: 'Jpegli / JPEG XL', tinypng: 'No', cloudinary: 'Extra credits / Complex', mochify: 'Native (built-in)' },
-                            { feature: 'Speed', tinypng: 'Interpreted scripts', cloudinary: 'Cloud latency', mochify: 'C++20 native' },
-                            { feature: 'Privacy', tinypng: 'Uploads required', cloudinary: 'Stored in cloud', mochify: 'Zero retention' },
-                            { feature: 'AI Agent support', tinypng: 'None', cloudinary: 'Limited API', mochify: 'MCP server (native)' },
-                            { feature: 'Free tier', tinypng: '3 / session', cloudinary: 'Trial only', mochify: '3 free (no signup) · 25/mo free account' },
-                            { feature: 'Paid plan', tinypng: '$39/yr · web', cloudinary: '$75–$99/mo', mochify: 'from $7.99/mo · API, CLI & MCP' },
-                        ] as row, i}
-                        <tr class="{i % 2 === 0 ? 'bg-white/40' : 'bg-white/20'} border-t border-[#F5E6E8]/60">
-                            <td class="px-3 py-3 md:px-5 md:py-3.5 font-semibold text-[#4A2C2C] text-xs md:text-sm">{row.feature}</td>
-                            <td class="px-3 py-3 md:px-5 md:py-3.5 text-center text-[#7A5A3A] text-xs md:text-sm">{row.tinypng}</td>
-                            <td class="hidden md:table-cell px-5 py-3.5 text-center text-[#7A5A3A]">{row.cloudinary}</td>
-                            <td class="px-3 py-3 md:px-5 md:py-3.5 text-center font-bold text-[#F06292] bg-[#FFF0F3]/50 text-xs md:text-sm">{row.mochify}</td>
-                        </tr>
+                            'Open a browser tab, find a tool',
+                            'Upload each file individually',
+                            'Manually set format & quality sliders',
+                            'Wait for upload and processing',
+                            'Download, rename, organise files',
+                            'Repeat for every format you need',
+                        ] as step, i}
+                        <li class="flex items-start gap-2.5">
+                            <span class="shrink-0 w-5 h-5 rounded-full bg-[#F5E6E8]/50 text-cocoa-milk/55 text-[10px] font-bold flex items-center justify-center mt-0.5">{i + 1}</span>
+                            <span class="text-sm text-[#7A5A3A] leading-snug">{step}</span>
+                        </li>
                         {/each}
-                    </tbody>
-                </table>
+                    </ol>
+                </div>
+
+                <div class="rounded-2xl bg-linear-to-br from-[#FFF0F3]/80 to-white/60 border border-mochi-pink/20 px-6 py-7 md:px-8 md:py-8 shadow-[0_4px_24px_rgba(240,98,146,0.08)] flex flex-col justify-between gap-5">
+                    <div>
+                        <p class="text-xs font-bold tracking-widest uppercase text-[#F06292]/70 mb-5">The Mochify way</p>
+                        <div class="rounded-xl border border-mochi-pink/15 bg-white/70 px-4 py-3.5 mb-4">
+                            <p class="text-[10px] font-semibold text-mochi-pink/60 uppercase tracking-wider mb-1.5">✦ Magic Flow</p>
+                            <p class="text-sm text-[#4A2C2C] font-medium leading-relaxed">"Convert to WebP, strip EXIF, max 1600px wide"</p>
+                        </div>
+                        <div class="flex items-center gap-3 mb-4 px-1">
+                            <div class="flex-1 h-px bg-mochi-pink/12"></div>
+                            <span class="text-[11px] text-mochi-pink/50 font-semibold whitespace-nowrap">done in 1.2s</span>
+                            <div class="flex-1 h-px bg-mochi-pink/12"></div>
+                        </div>
+                        <div class="rounded-xl border border-mochi-pink/10 bg-white/40 px-4 py-3">
+                            <div class="flex items-center gap-2 mb-1">
+                                <svg class="w-3.5 h-3.5 text-[#F06292] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <p class="text-xs font-bold text-[#4A2C2C]">6 files processed</p>
+                            </div>
+                            <p class="text-xs text-[#7A5A3A]">EXIF stripped · 1600px max · avg 68% smaller</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-cocoa-milk/50 leading-relaxed">Drop your files, type what you want, get them back. No format pickers, no quality sliders, no repeat.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="mt-6 max-w-4xl mx-auto reveal">
+            <div class="rounded-2xl border border-cocoa-milk/10 bg-white/20 px-6 py-6 md:px-8 md:py-7">
+                <div class="flex flex-col md:flex-row md:items-center gap-6">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-xs font-bold tracking-widest uppercase text-cocoa-milk/45 mb-1.5">For developers &amp; AI workflows</p>
+                        <h3 class="text-base font-black text-[#4A2C2C] mb-1.5">Works where you work</h3>
+                        <p class="text-sm text-cocoa-deep leading-relaxed">Same engine, no browser required. Compress images from your terminal, build scripts, or directly inside Claude.</p>
+                    </div>
+                    <div class="flex flex-row md:flex-col gap-2.5 shrink-0">
+                        <a
+                            href="https://github.com/getmochify/mochify-cli"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-white/50 border border-cocoa-milk/12 hover:bg-white/80 hover:border-cocoa-milk/22 transition-all duration-200 group"
+                        >
+                            <svg class="w-3.5 h-3.5 text-cocoa-milk/60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"/>
+                            </svg>
+                            <div>
+                                <p class="text-xs font-bold text-[#4A2C2C] leading-none mb-0.5">CLI</p>
+                                <p class="text-[10px] text-cocoa-milk/55">Terminal &amp; scripts</p>
+                            </div>
+                        </a>
+                        <a
+                            href="https://github.com/getmochify/mochify-cli"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-white/50 border border-cocoa-milk/12 hover:bg-white/80 hover:border-cocoa-milk/22 transition-all duration-200 group"
+                        >
+                            <svg class="w-3.5 h-3.5 text-cocoa-milk/60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
+                            </svg>
+                            <div>
+                                <p class="text-xs font-bold text-[#4A2C2C] leading-none mb-0.5">MCP Server</p>
+                                <p class="text-[10px] text-cocoa-milk/55">Claude Desktop &amp; Claude Code</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
 
