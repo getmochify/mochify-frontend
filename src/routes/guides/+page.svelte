@@ -19,7 +19,7 @@
             url: "/guides/do-journaling-apps-compress-images",
             category: "Quick Guides",
             readTime: "4 min read",
-            date: "April 21, 2026"
+            date: "May 18, 2026"
         },
         {
             title: "Fuji HIF Files Explained: How to Convert X-T5 / X-H2 / X100VI / X-T50 HIF to JPEG",

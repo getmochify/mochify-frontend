@@ -7,7 +7,7 @@
         description: "Most journaling apps skip real compression or make it worse. Day One converts HEIC to larger JPEGs. Here's how to fix storage bloat before it hits.",
         category: "Quick Guides",
         readTime: "4 min read",
-        date: "April 21, 2026"
+        date: "May 18, 2026"
     };
 </script>
 
@@ -39,8 +39,8 @@
             "url": "https://mochify.app",
             "logo": { "@type": "ImageObject", "url": "https://mochify.app/logo.png" }
         },
-        "datePublished": "2026-04-21",
-        "dateModified": "2026-04-21",
+        "datePublished": "2026-05-18",
+        "dateModified": "2026-05-18",
         "url": "https://mochify.app/guides/do-journaling-apps-compress-images",
         "about": [
             {"@type": "Thing", "name": "Image compression"},
