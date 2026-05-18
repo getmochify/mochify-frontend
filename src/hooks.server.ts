@@ -30,6 +30,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		response.headers.set('X-Content-Type-Options', 'nosniff');
 		response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 		response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+		response.headers.set('Link', '<https://mochify.app/sitemap.xml>; rel="sitemap"');
 		return response;
 	}
 
@@ -77,6 +78,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	response.headers.set('X-Content-Type-Options', 'nosniff');
 	response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 	response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+	response.headers.set('Link', '<https://mochify.app/sitemap.xml>; rel="sitemap"');
 
 	return response;
 };

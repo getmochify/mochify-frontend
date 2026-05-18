@@ -14,6 +14,14 @@
             date: "May 16, 2026"
         },
         {
+            title: "Do Journaling Apps Compress Images? Avoid Storage Bloat.",
+            description: "Most journaling apps skip real compression or make it worse. Day One converts HEIC to larger JPEGs. Here's how to fix storage bloat before it hits.",
+            url: "/guides/do-journaling-apps-compress-images",
+            category: "Quick Guides",
+            readTime: "4 min read",
+            date: "April 21, 2026"
+        },
+        {
             title: "Fuji HIF Files Explained: How to Convert X-T5 / X-H2 / X100VI / X-T50 HIF to JPEG",
             description: "Fuji's HIF files are highly efficient and better quality at 10-bit but they're not supported everywhere, which can lead to frustration. Learn how to convert your camera's .HIF files to JPGs",
             url: "/guides/fujifilm-hif-to-jpg",
