@@ -93,7 +93,7 @@
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
             <p class="text-lg text-cocoa-deep leading-relaxed">
-                <strong>Published April 2026 by the Mochify Engineering Team.</strong> This guide covers how Day One, Apple Journal, GoodNotes, and others handle photo storage — and how to compress before you attach.
+                <strong>Published May 2026 by the Mochify Engineering Team.</strong> This guide covers how Day One, Apple Journal, GoodNotes, and others handle photo storage — and how to compress before you attach.
             </p>
         </div>
     </header>
