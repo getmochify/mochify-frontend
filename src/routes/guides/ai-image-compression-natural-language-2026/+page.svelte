@@ -5,7 +5,7 @@
 
     const metadata = {
         title: "AI Image Compression with Natural Language - Mochify 2026",
-        description: "Describe your image goal in plain English and Mochify's AI picks the right format, size, and settings automatically. Powered by Mistral Small 3.2. No tech knowledge needed.",
+        description: "Describe your image goal in plain English and Mochify's AI picks the right format, size, and settings automatically. Powered by Mistral Small 4. No tech knowledge needed.",
         category: "AI & Automation",
         readTime: "8 min read",
         date: "March 8, 2026"
@@ -25,7 +25,7 @@
         "@context": "https://schema.org",
         "@type": ["TechArticle", "HowTo"],
         "headline": "AI-Powered Image Compression: How Mochify's Natural Language Feature Works (2026)",
-        "description": "Describe your image goal in plain English and Mochify's AI picks the right format, size, and settings automatically. Powered by Mistral Small 3.2. No tech knowledge needed.",
+        "description": "Describe your image goal in plain English and Mochify's AI picks the right format, size, and settings automatically. Powered by Mistral Small 4. No tech knowledge needed.",
         "url": "https://mochify.app/guides/ai-image-compression-natural-language-2026",
         "inLanguage": "en",
         "isPartOf": {
@@ -41,7 +41,7 @@
         "about": [
             "AI image compression",
             "natural language image optimization",
-            "Mistral Small 3.2",
+            "Mistral Small 4",
             "WebP AVIF JPEG XL format selection",
             "EXIF stripping automation"
         ],
@@ -73,7 +73,7 @@
             }
         ],
         "datePublished": "2026-03-08",
-        "dateModified": "2026-03-08"
+        "dateModified": "2026-05-18"
         }
     </script>
 </svelte:head>
@@ -95,7 +95,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            Type "Instagram-ready WebP, strip location data" and Mochify handles the rest. <a href="https://docs.mistral.ai/models/mistral-small-3-2-25-06">Mistral Small 3.2</a> parses your intent and passes the right flags to our compression engine - no dropdowns, no format knowledge required.
+            Type "Instagram-ready WebP, strip location data" and Mochify handles the rest. <a href="https://docs.mistral.ai/models/mistral-small-3-2-25-06">Mistral Small 4</a> parses your intent and passes the right flags to our compression engine - no dropdowns, no format knowledge required.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
@@ -190,18 +190,18 @@
 
         <section class="my-8 bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
             <h2 class="text-xl font-black text-[#4A2C2C] mb-3">30-second summary</h2>
-            <p>You type something like "Instagram-ready WebP, strip location data" into the Mochify tool. Mistral Small 3.2 parses that, chooses the right flags (format: webp, resize to 1080x1080, EXIF strip: on), and passes them to our squish engine. Your image comes back optimized exactly as described — without you touching a single dropdown.</p>
+            <p>You type something like "Instagram-ready WebP, strip location data" into the Mochify tool. Mistral Small 4 parses that, chooses the right flags (format: webp, resize to 1080x1080, EXIF strip: on), and passes them to our squish engine. Your image comes back optimized exactly as described — without you touching a single dropdown.</p>
         </section>
 
         <section id="what-is" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">What is Mochify's natural language compression feature?</h2>
-            <p class="mb-4">Instead of manually selecting formats and settings, you describe what you want and Mochify figures out the technical details for you. We've connected an LLM — specifically Mistral Small 3.2 — directly into the compression pipeline on the main tool at <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a>. It reads your intent and translates it into the right squish flags before processing your image.</p>
+            <p class="mb-4">Instead of manually selecting formats and settings, you describe what you want and Mochify figures out the technical details for you. We've connected an LLM — specifically Mistral Small 4 — directly into the compression pipeline on the main tool at <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a>. It reads your intent and translates it into the right squish flags before processing your image.</p>
             <p class="mb-4">This sits inside the existing tool interface. No separate mode to switch to, no new account needed. Type your description, upload your image, and the AI handles the settings layer.</p>
         </section>
 
         <section id="how-it-works" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How the AI picks your compression settings</h2>
-            <p class="mb-4">The core idea is simple: your plain-English description becomes a set of compression flags. Mistral Small 3.2 parses the prompt, identifies what you need — format, dimensions, metadata handling — and calls our squish engine with those exact parameters.</p>
+            <p class="mb-4">The core idea is simple: your plain-English description becomes a set of compression flags. Mistral Small 4 parses the prompt, identifies what you need — format, dimensions, metadata handling — and calls our squish engine with those exact parameters.</p>
             <p class="mb-4">Here's what that looks like in practice. "Best for the web" might produce <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--format webp --quality 82</code>. "Tiny for mobile" could produce <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--format avif --quality 65 --resize 800</code>. "Blog-post-ready, clean upload" might add <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--strip-exif</code> on top of a balanced WebP output. The LLM doesn't guess randomly — it maps your language to a defined set of flags the squish engine understands.</p>
 
             <InfoBox type="tip" title="Pro tip">
@@ -289,7 +289,7 @@
             <div class="space-y-6">
                 <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">What AI model does Mochify use for natural language compression?</h3>
-                    <p>We use Mistral Small 3.2, called via the Mistral API. It parses your prompt and determines the appropriate compression flags before passing instructions to the squish engine.</p>
+                    <p>We use Mistral Small 4, called via the Mistral API. It parses your prompt and determines the appropriate compression flags before passing instructions to the squish engine.</p>
                 </div>
 
                 <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
