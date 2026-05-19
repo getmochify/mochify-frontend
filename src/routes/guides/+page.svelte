@@ -208,6 +208,14 @@
             category: "Workflow Automation",
             readTime: "10 min read",
             date: "May 03, 2026"
+        },
+        {
+            title: "What Image Format Should I Use for Product Photos?",
+            description: "Use AVIF for the smallest files, WebP as a fallback, and JPEG for the broadest compatibility. Here's the practical format fallback order for ecommerce product images.",
+            url: "/guides/what-image-format-should-i-use-for-product-photos",
+            category: "Quick Guides",
+            readTime: "2 min read",
+            date: "May 19, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
