@@ -17,13 +17,15 @@
 		const apiKey: string = form.apiKey;
 		const email: string = form.email ?? '';
 
-		if (typeof chrome === 'undefined' || !chrome.runtime?.sendMessage) {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const cr = (globalThis as any).chrome;
+		if (!cr?.runtime?.sendMessage) {
 			sendError = true;
 			return;
 		}
 
-		chrome.runtime.sendMessage(extId, { type: 'MOCHIFY_AUTH', apiKey, email }, (res) => {
-			if (chrome.runtime.lastError || !res?.ok) {
+		cr.runtime.sendMessage(extId, { type: 'MOCHIFY_AUTH', apiKey, email }, (res: { ok: boolean }) => {
+			if (cr.runtime.lastError || !res?.ok) {
 				sendError = true;
 			} else {
 				sent = true;

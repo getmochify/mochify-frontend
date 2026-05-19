@@ -280,7 +280,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				)
 				.execute();
 
-			await reseedBucket(userRow.id, 'day', 500, quotaPeriodEnd);
+			await reseedBucket(userRow.id, 'day', 500, new Date(quotaPeriodEnd).getTime());
 
 			const posthog = getPostHogClient();
 			posthog.capture({
