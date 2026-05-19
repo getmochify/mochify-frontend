@@ -384,12 +384,15 @@
 				});
 			}
 
-			const fmtCount = (item: any): number =>
-					Array.isArray(item?.types) && item.types.length > 1 ? item.types.length : 1;
+			const variantCount = (item: any): number => {
+					const fmts = Array.isArray(item?.types) && item.types.length > 1 ? item.types.length : 1;
+					const sizes = Array.isArray(item?.sizes) && item.sizes.length > 1 ? item.sizes.length : 1;
+					return fmts * sizes;
+				};
 
 				processPhase = 'uploading';
-				totalFiles = files.reduce((sum, f, i) => sum + fmtCount(fileMap[f.name] ?? fileArrayByIndex[i]), 0);
-				const totalBytes = files.reduce((sum, f, i) => sum + f.size * fmtCount(fileMap[f.name] ?? fileArrayByIndex[i]), 0);
+				totalFiles = files.reduce((sum, f, i) => sum + variantCount(fileMap[f.name] ?? fileArrayByIndex[i]), 0);
+				const totalBytes = files.reduce((sum, f, i) => sum + f.size * variantCount(fileMap[f.name] ?? fileArrayByIndex[i]), 0);
 			let uploadedBytes = 0;
 			let processedFiles = 0;
 			let currentFileIndex = 0;
@@ -481,83 +484,94 @@
 					const file = files[currentFileIndex++];
 					const fileConfig = fileMap[file.name] ?? fileArrayByIndex[fileIdx] ?? {};
 
-					// Multi-format: use types array when NLP returns one, else single type
 					const formats: string[] = Array.isArray(fileConfig.types) && fileConfig.types.length > 1
 						? fileConfig.types
 						: [fileConfig.type || file.name.split('.').pop() || 'jpg'];
 
-					// Build params shared across all formats for this file
+					type SizeEntry = { width: number; height: number };
+					const sizes: SizeEntry[] = Array.isArray(fileConfig.sizes) && fileConfig.sizes.length > 1
+						? fileConfig.sizes
+						: [{ width: fileConfig.width ?? 0, height: fileConfig.height ?? 0 }];
+
+					const multiFormat = formats.length > 1;
+					const multiSize = sizes.length > 1;
+
+					// Build params shared across all variants for this file (no width/height/type here)
 					const sharedParams = new URLSearchParams();
 					if (fileConfig.smartCompress) sharedParams.append('smartCompress', '1');
 					if (fileConfig.smartCrop) sharedParams.append('smartCrop', '1');
 					if (fileConfig.removeBackground) sharedParams.append('removeBackground', '1');
-					// Default to stripping EXIF; NLP can explicitly set stripExif: 0 to preserve it
 					const stripExif = fileConfig.stripExif !== undefined ? fileConfig.stripExif : 1;
 					sharedParams.append('strip_exif', stripExif ? '1' : '0');
+					if (fileConfig.rotate) sharedParams.append('rotate', String(fileConfig.rotate));
+					if (fileConfig.brightness != null && fileConfig.brightness !== 0)
+						sharedParams.append('brightness', String(fileConfig.brightness));
+					if (fileConfig.optimizeForWeb) sharedParams.append('optimizeForWeb', '1');
+					if (fileConfig.hdr) sharedParams.append('hdr', '1');
+					if (fileConfig.quality != null) sharedParams.append('quality', String(fileConfig.quality));
 
-					// Only forward known-safe params to the core API
-					const ALLOWED_FORWARDED_KEYS = new Set(['width', 'height', 'rotate']);
-					for (const [key, value] of Object.entries(fileConfig)) {
-						if (!ALLOWED_FORWARDED_KEYS.has(key)) continue;
-						// NLP echoes back original width/height as metadata — skip if unchanged,
-						// unless smartCrop is active (backend needs both > 0 to enter crop pipeline)
-						if (key === 'width' && value === origDims[fileIdx]?.w && !fileConfig.smartCrop) continue;
-						if (key === 'height' && value === origDims[fileIdx]?.h && !fileConfig.smartCrop) continue;
-						if (value === true) sharedParams.append(key, '1');
-						else if (value !== false && value !== 0 && value != null)
-							sharedParams.append(key, String(value));
-					}
+					outer: for (const size of sizes) {
+						for (const fmt of formats) {
+							processPhase = 'uploading';
 
-					for (const fmt of formats) {
-						processPhase = 'uploading';
+							const params = new URLSearchParams(sharedParams.toString());
+							params.append('type', fmt);
+							// Forward dimensions, skipping if unchanged from original (unless smartCrop active)
+							if (size.width && (size.width !== origDims[fileIdx]?.w || fileConfig.smartCrop))
+								params.append('width', String(size.width));
+							if (size.height && (size.height !== origDims[fileIdx]?.h || fileConfig.smartCrop))
+								params.append('height', String(size.height));
 
-						const params = new URLSearchParams(sharedParams.toString());
-						params.append('type', fmt);
+							try {
+								const blob = await squishFile(file, params, () => {
+									processingText = getProcessingText({ ...fileConfig, type: fmt });
+									processPhase = 'processing';
+								});
 
-						try {
-							const blob = await squishFile(file, params, () => {
-								processingText = getProcessingText({ ...fileConfig, type: fmt });
-								processPhase = 'processing';
-							});
+								processPhase = 'downloading';
 
-							processPhase = 'downloading';
+								const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+								const sizeSuffix = multiSize
+									? size.width && size.height
+										? `_${size.width}x${size.height}`
+										: `_${(size.width || size.height)}w`
+									: '';
+								const fmtSuffix = multiFormat ? `_${fmt}` : '';
+								const finalName = `${baseName}_mochified${sizeSuffix}${fmtSuffix}.${fmt}`;
 
-							const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-							const suffix = formats.length > 1 ? `_${fmt}` : '';
-							const finalName = `${baseName}_mochified${suffix}.${fmt}`;
-
-							if (downloadAsZip) {
-								const arrayBuffer = await blob.arrayBuffer();
-								zipContents[finalName] = new Uint8Array(arrayBuffer as ArrayBuffer);
-							} else {
-								const downloadUrl = window.URL.createObjectURL(blob);
-								const a = document.createElement('a');
-								a.style.display = 'none';
-								a.href = downloadUrl;
-								a.download = finalName;
-								document.body.appendChild(a);
-								a.click();
-								setTimeout(() => {
-									window.URL.revokeObjectURL(downloadUrl);
-									document.body.removeChild(a);
-								}, 100);
+								if (downloadAsZip) {
+									const arrayBuffer = await blob.arrayBuffer();
+									zipContents[finalName] = new Uint8Array(arrayBuffer as ArrayBuffer);
+								} else {
+									const downloadUrl = window.URL.createObjectURL(blob);
+									const a = document.createElement('a');
+									a.style.display = 'none';
+									a.href = downloadUrl;
+									a.download = finalName;
+									document.body.appendChild(a);
+									a.click();
+									setTimeout(() => {
+										window.URL.revokeObjectURL(downloadUrl);
+										document.body.removeChild(a);
+									}, 100);
+								}
+							} catch (e: any) {
+								console.error(`Error squishing ${file.name} (${fmt} ${size.width}x${size.height}):`, e);
+								if (e?.status === 429) {
+									hitRateLimit = true;
+									if (jwt) showUpgradeCta = true;
+									else showSignupCta = true;
+									break outer;
+								}
+								const variantLabel = [multiSize ? `${size.width || size.height}px` : '', multiFormat ? fmt : ''].filter(Boolean).join(' ');
+								failedFiles = [...failedFiles, { name: variantLabel ? `${file.name} (${variantLabel})` : file.name, reason: e instanceof Error ? e.message : (e?.status ? `Server error ${e.status}` : 'Processing failed') }];
 							}
-						} catch (e: any) {
-							console.error(`Error squishing ${file.name} (${fmt}):`, e);
-							if (e?.status === 429) {
-								hitRateLimit = true;
-								if (jwt) showUpgradeCta = true;
-								else showSignupCta = true;
-								break;
-							}
-							const reason = e instanceof Error ? e.message : (e?.status ? `Server error ${e.status}` : 'Processing failed');
-							failedFiles = [...failedFiles, { name: formats.length > 1 ? `${file.name} (${fmt})` : file.name, reason }];
-						}
 
-						processedFiles++;
-						completedFiles = processedFiles;
-						downloadPercent = Math.round((processedFiles / totalFiles) * 100);
-					}
+							processedFiles++;
+							completedFiles = processedFiles;
+							downloadPercent = Math.round((processedFiles / totalFiles) * 100);
+						}  // end for (fmt)
+					}  // end outer: for (size)
 
 					if (hitRateLimit) break;
 				}

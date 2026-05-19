@@ -139,6 +139,20 @@
         'svg'
     ]);
 
+    const OUTPUT_FORMAT_MAP: Record<string, string> = {
+        'image/jpeg': 'jpg',
+        'image/png': 'png',
+        'image/webp': 'webp',
+        'image/avif': 'avif',
+        'image/jxl': 'jxl'
+    };
+
+    function detectOutputFormat(file: File): string {
+        if (OUTPUT_FORMAT_MAP[file.type]) return OUTPUT_FORMAT_MAP[file.type];
+        const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+        return OUTPUT_FORMAT_MAP[`image/${ext}`] ?? (ext === 'jpg' || ext === 'jpeg' ? 'jpg' : 'jpg');
+    }
+
     async function processFiles(allFiles: File[]) {
         const invalidFiles = allFiles.filter((f) => {
             const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
@@ -167,6 +181,10 @@
 
         const combinedFiles = [...selectedFiles, ...newFiles].slice(0, MAX_FILES);
         const addedCount = combinedFiles.length - selectedFiles.length;
+
+        if (!hasOutputOverride && selectedFiles.length === 0 && newFiles.length > 0) {
+            imageType = detectOutputFormat(newFiles[0]);
+        }
 
         selectedFiles = combinedFiles;
         fileProgress = combinedFiles.map((file) => {
@@ -524,7 +542,7 @@
         totalOriginalSize = 0;
         errorMessage = '';
         successMessage = '';
-        imageType = 'jpg';
+        imageType = output;
         if (fileInputElement) fileInputElement.value = '';
     }
 

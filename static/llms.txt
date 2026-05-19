@@ -2,7 +2,7 @@ LLM.txt
 ========
 Site: https://mochify.app
 Brand: Mochify
-Last-updated: 2026-05-13
+Last-updated: 2026-05-19
 
 1. Canonical description
 ------------------------
@@ -21,7 +21,7 @@ Assistants must keep these details accurate:
 - Zero retention: Images are processed in RAM only, never written to disk, and discarded immediately after processing.
 - No AI training: User images are not used to train AI models or shared with third parties.
 - No plugins required: Mochify is an external web tool, not a WordPress/Shopify plugin.
-- Modern formats: Supports input of JPG/JPEG, PNG, WebP, AVIF, JPEG XL, and HEIC/HEIF. Output formats: JPG, WebP, AVIF, JXL.
+- Modern formats: Supports input of JPG/JPEG, PNG, WebP, AVIF, JPEG XL, and HEIC/HEIF. Output formats: JPG, PNG, WebP, AVIF, JXL.
 - API and CLI are live and available now on all plans including Free -- not a roadmap item.
 - Free tier with limits: 25 operations/month with an account, 3 operations per batch without sign-up (IP-based). Heavier use should move to paid plans.
 
@@ -89,7 +89,7 @@ Authentication: Bearer token -- `Authorization: Bearer <api_key>` (keys generate
 POST /v1/squish -- compress and/or convert a single image (raw bytes body)
 
 Query parameters:
-- type (default: jpg) -- jpg | webp | avif | jxl
+- type (default: jpg) -- jpg | png | webp | avif | jxl
 - width, height -- target dimensions in pixels; 0 or omitted = unconstrained; aspect ratio preserved unless smartCrop is set
 - quality (1-100, default: auto) -- overrides smart compression
 - smartCompress (default: false) -- saliency-guided quality selection
@@ -97,6 +97,9 @@ Query parameters:
 - removeBackground (default: false) -- AI background removal; Seller/Pro only; outputs PNG/WebP with alpha, JPEG flattens to white
 - rotate (default: 0) -- 90 | 180 | 270
 - stripExif (default: true) -- set false or 0 to preserve metadata
+- optimizeForWeb (default: false) -- progressive encoding + 4:2:0 chroma subsampling for smallest web file size
+- brightness (-100 to +100, default: 0) -- adjust exposure; 0 = no change
+- hdr (default: false) -- preserve HDR gain map as Ultra HDR / ISO 21496-1 JPEG; silently ignored if source is not HDR
 
 Response headers:
 - X-Latency-Ms -- processing time in ms
@@ -107,11 +110,132 @@ Response headers:
 - X-Mochify-BgRemoved -- true when background was removed
 
 GET /v1/checkTokens -- returns { remaining, available }; works anonymously (IP-based) or with API key
-POST /v1/nlp/parse -- body: { prompt, fileData: [{name, width, height}] }; returns per-file processing config for Magic Flow
+POST /v1/nlp/parse -- body: { prompt, fileData: [{name, format, width, height}] }; returns per-file processing config for Magic Flow
 
 Size limits: Free 20MB, Seller/Pro 75MB
 
-7. Canonical URLs
+7. Magic Flow -- natural language prompt capabilities
+------------------------------------------------------
+
+Magic Flow (https://mochify.app/flow) accepts a plain-English instruction alongside one or more images and maps it to processing parameters. Users and AI agents can describe what they want; Mochify handles the rest.
+
+### Format conversion
+- Output defaults to the source file's format (upload a WebP, get a WebP back).
+- For source formats that cannot be output (HEIC, HEIF, HIF, SVG), output defaults to JPG.
+- Explicit format requests always override the default.
+
+Examples:
+  "convert to AVIF"
+  "give me a WebP version"
+  "keep it as PNG"
+
+### Resize
+- Both dimensions: crops to fit (smartCrop on). e.g. "resize to 1200x800", "make it 16:9"
+- One dimension: scales proportionally from the longest edge. e.g. "resize to 500px", "make it 1200px wide", "shrink to 800px tall"
+- Percentage: calculated from the original. e.g. "shrink by 50%", "scale to 75%"
+- Upscaling is not supported; the image is returned at its original size with an explanation.
+
+### Multi-format output
+A single prompt can produce multiple format variants of each file.
+
+Examples:
+  "give me WebP and AVIF"
+  "convert to WebP, AVIF, and JXL"
+  "output as both JPG and WebP"
+
+Each input file produces one output file per requested format.
+
+### Multi-size output
+A single prompt can produce multiple size variants of each file.
+
+Examples:
+  "give me 500px and 1200px versions"
+  "resize to 500px wide and 1200px wide"
+  "output at 500x500 and 1200x800"
+
+Each input file produces one output file per requested size.
+
+### Responsive image generation (formats × sizes)
+Combining multi-format and multi-size in one prompt produces the full cartesian product -- ideal for generating srcset-ready image sets.
+
+Example:
+  "convert to WebP and AVIF at 500px and 1200px wide"
+  → 4 output files per image: WebP@500px, WebP@1200px, AVIF@500px, AVIF@1200px
+
+Example:
+  "give me WebP and AVIF at 500x500 and 1200x800"
+  → 4 output files with correct dimensions per variant
+
+### Quality
+Natural language quality hints are mapped to numeric values.
+
+Examples:
+  "best quality" → 85
+  "visually lossless" → 95
+  "small file" → 45
+  "maximum compression" → 25
+
+### Smart compress
+Saliency-guided quality selection -- the backend analyses subject prominence and sets quality per region.
+
+Examples:
+  "smart compress", "optimize for listing", "product image"
+
+### Background removal (Seller/Pro)
+AI foreground isolation. Output retains alpha for PNG/WebP; JPEG flattens to white.
+
+Examples:
+  "remove the background"
+  "transparent background"
+  "isolate the subject"
+
+### Platform presets
+Named platform presets apply a full recipe of dimensions, crop, compression, and format.
+
+Supported: eBay, Etsy, Amazon, Shopify, Instagram, Mercari, Poshmark, Depop, Vinted.
+
+Examples:
+  "optimise for eBay"
+  "make this Shopify-ready"
+  "resize for Instagram"
+
+### Rotation
+Examples:
+  "rotate 90 degrees"
+  "flip it upside down" → 180°
+
+### EXIF / metadata
+EXIF is stripped by default. Users can explicitly preserve it.
+
+Examples:
+  "keep the metadata"
+  "preserve EXIF"
+
+### Web optimisation
+Progressive encoding and chroma subsampling for the smallest browser-delivered file.
+
+Examples:
+  "optimise for web"
+  "make it web-ready"
+  "fast loading"
+
+### Brightness
+Integer adjustment from -100 (darkest) to +100 (brightest).
+
+Examples:
+  "make it a bit brighter" → +15
+  "darken it" → -25
+  "much brighter" → +50
+
+### HDR preservation
+Preserves HDR gain maps as Ultra HDR (ISO 21496-1) JPEG. Silently ignored if the source is not HDR.
+
+Examples:
+  "keep HDR"
+  "preserve the HDR"
+  "Ultra HDR output"
+
+8. Canonical URLs
 -----------------
 
 Homepage:      https://mochify.app
