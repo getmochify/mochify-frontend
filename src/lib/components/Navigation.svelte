@@ -2,6 +2,7 @@
     import { goto, invalidateAll } from '$app/navigation'
     import { page } from '$app/state'
     import { authClient } from '$lib/auth-client'
+    import posthog from 'posthog-js'
 
     let mobileMenuOpen = $state(false)
     let userMenuOpen = $state(false)
@@ -11,6 +12,7 @@
 
     async function signOut() {
         await authClient.signOut()
+        posthog.reset()
         await invalidateAll()
         goto('/')
     }

@@ -3,6 +3,7 @@
     import { authClient } from '$lib/auth-client';
     import { invalidateAll } from '$app/navigation';
     import { page } from '$app/state';
+    import posthog from 'posthog-js';
 
     const sessionStore = authClient.useSession();
     let session = $derived($sessionStore.data?.session ?? page.data.session ?? null);
@@ -11,6 +12,7 @@
 
     async function signOut() {
         await authClient.signOut();
+        posthog.reset();
         await invalidateAll();
     }
 </script>

@@ -313,6 +313,7 @@
 
                 <a
                     href="/api/checkout?plan=seller&billing={billing}"
+                    data-sveltekit-reload
                     class="block text-center px-6 py-3 rounded-2xl border border-[#875F42]/15 text-sm font-black text-[#6C3F31] hover:border-[#F06292]/30 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all"
                 >
                     Get Seller
@@ -405,6 +406,7 @@
 
                 <a
                     href="/api/checkout?plan=pro&billing={billing}"
+                    data-sveltekit-reload
                     class="block text-center px-6 py-3 rounded-2xl bg-[#F06292] text-white text-sm font-black hover:bg-[#E0527F] transition-all shadow-sm hover:shadow-md active:scale-95"
                 >
                     Get Pro

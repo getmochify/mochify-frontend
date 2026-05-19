@@ -146,6 +146,7 @@
 
 	async function handleSignOut() {
 		await authClient.signOut();
+		posthog.reset();
 		window.location.href = '/';
 	}
 
@@ -229,6 +230,7 @@
 					{/if}
 					<a
 						href="/api/checkout?plan=pro&billing=monthly"
+						data-sveltekit-reload
 						class="mt-2 inline-block text-xs font-bold text-[#F06292] hover:underline"
 						>Upgrade to Pro →</a
 					>
@@ -236,6 +238,7 @@
 					<p class="text-2xl font-black text-[#4A2C2C]">Free</p>
 					<a
 						href="/api/checkout?plan=seller&billing=monthly"
+						data-sveltekit-reload
 						class="mt-2 inline-block text-xs font-bold text-[#F06292] hover:underline">Upgrade →</a
 					>
 				{/if}
