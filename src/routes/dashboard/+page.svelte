@@ -235,7 +235,7 @@
 				{:else}
 					<p class="text-2xl font-black text-[#4A2C2C]">Free</p>
 					<a
-						href="/api/checkout?plan=pro&billing=monthly"
+						href="/api/checkout?plan=seller&billing=monthly"
 						class="mt-2 inline-block text-xs font-bold text-[#F06292] hover:underline">Upgrade →</a
 					>
 				{/if}
