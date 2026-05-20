@@ -192,7 +192,7 @@
             <h1 class="text-5xl md:text-7xl font-black text-[#4A2C2C] leading-tight tracking-tight mb-3">
                 Mochify
             </h1>
-            <h2 class="text-xs font-semibold tracking-widest uppercase text-[#F06292]/70 mb-4">AI-Powered Image Workflows</h2>
+            <h2 class="text-xs font-semibold tracking-widest uppercase text-[#F06292]/70 mb-4">PROMPT-DRIVEN IMAGE CONVERTER & SMART CROP PIPELINE</h2>
             <p class="text-[#6C3F31] text-sm md:text-base max-w-xl mx-auto leading-relaxed">
                 The ultra-lazy way to bulk format product photos. Just drop your files, type what you need, and let our blazing-fast engine do the rest.
             </p>
@@ -399,7 +399,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
                         </svg>
                     </div>
-                    <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Instant Bulk Processing</h3>
+                    <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Bulk Prompt Processing</h3>
                     <p class="text-[#7A5A3A] text-sm leading-relaxed">Zero lag. Process dozens of high-res images in milliseconds under a single prompt without slowing down your browser.</p>
                 </div>
 
@@ -409,7 +409,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
                         </svg>
                     </div>
-                    <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">Pro Page Speed Compression</h3>
+                    <h3 class="font-bold text-[#4A2C2C] text-sm mb-1">WebP & AVIF Web Optimization</h3>
                     <p class="text-[#7A5A3A] text-sm leading-relaxed">Get files up to 35% smaller than standard compression without losing a single pixel of clarity or product detail.</p>
                 </div>
 
@@ -493,7 +493,7 @@
                                 </svg>
                                 <p class="text-xs font-bold text-[#4A2C2C]">6 files processed</p>
                             </div>
-                            <p class="text-xs text-[#7A5A3A]">EXIF stripped · 1600px max · avg 68% smaller</p>
+                            <p class="text-xs text-[#7A5A3A]">EXIF stripped · 1600px max · Smart-crop: subject centred · avg 68% smaller</p>
                         </div>
                     </div>
                     <p class="text-xs text-cocoa-milk/50 leading-relaxed">Drop your files, type what you want, get them back. No format pickers, no quality sliders, no repeat.</p>
