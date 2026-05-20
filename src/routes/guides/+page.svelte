@@ -181,7 +181,7 @@
             title: "HIF/HEIF to JPEG for Professional Photographers: A Privacy-First Workflow Guide",
             description: "Convert Canon HIF and HEIF to JPEG with confidence. Wedding, commercial, and editorial workflow blueprints with EXIF stripping, batch sizing, and zero-retention processing.",
             url: "/guides/heif-to-jpeg-workflow-photographers-guide",
-            category: "Workflow Guide",
+            category: "Workflows",
             readTime: "12 min read",
             date: "Apr 23, 2026"
         },
@@ -189,7 +189,7 @@
             title: "Should I Shoot HEIF or JPEG on My Mirrorless Camera?",
             description: "Shoot HEIF for capture quality, deliver JPEG to clients. Here's the practical 2026 workflow for Canon EOS R, Nikon Z, and Sony Alpha shooters.",
             url: "/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera",
-            category: "Quick Guide",
+            category: "Quick Guides",
             readTime: "3 min read",
             date: "Apr 25, 2026"
         },
@@ -197,7 +197,7 @@
             title: "Does HEIF/HEIC Work With Client Gallery Platforms Like Pixieset and SmugMug?",
             description: "HEIF and HEIC files don't work reliably with most client gallery platforms. Here's what actually happens on upload, and how to keep control of your output.",
             url: "/guides/does-heif-heic-work-with-client-galleries",
-            category: "Quick Guide",
+            category: "Quick Guides",
             readTime: "3 min read",
             date: "Apr 26, 2026"
         },
@@ -205,7 +205,7 @@
             title: "AI Agent Workflow Automation for Photographers: Save Hours with Claude and Mochify",
             description: "Build a hands-off post-shoot pipeline with Claude, Dispatch, and Mochify MCP. Files land in upload-ready folders while you're still in the field.",
             url: "/guides/ai-agent-workflow-automation-photographers",
-            category: "Workflow Automation",
+            category: "Workflows",
             readTime: "10 min read",
             date: "May 03, 2026"
         },
@@ -219,6 +219,12 @@
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    const categories = ['All', ...Array.from(new Set(guides.map(g => g.category)))];
+    let selectedCategory = $state('All');
+    const filteredGuides = $derived(
+        selectedCategory === 'All' ? guides : guides.filter(g => g.category === selectedCategory)
+    );
 
     const toIsoDate = (d: string) => new Date(d).toISOString().split('T')[0];
 
@@ -270,8 +276,19 @@
     </p>
 </header>
 
+<div class="flex flex-wrap gap-2 justify-center mb-10">
+    {#each categories as cat}
+        <button
+            onclick={() => selectedCategory = cat}
+            class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 {selectedCategory === cat ? 'bg-mochi-pink text-white shadow-md' : 'bg-pink-50 text-pink-400 hover:bg-pink-100'}"
+        >
+            {cat}
+        </button>
+    {/each}
+</div>
+
 <div class="grid gap-8 mb-24">
-    {#each guides as guide}
+    {#each filteredGuides as guide}
         <a href={guide.url} class="group block bg-white rounded-3xl p-8 border border-pink-50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 no-underline">
             <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider mb-4">
                 {guide.category}
