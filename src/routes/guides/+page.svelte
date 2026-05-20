@@ -219,13 +219,14 @@
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-</script>
 
-<svelte:head>
-    <title>{metadata.title}</title>
-    <meta name="description" content={metadata.description}>
-    <script type="application/ld+json">
-        {
+    const toIsoDate = (d: string) => new Date(d).toISOString().split('T')[0];
+
+    const allDates = guides.flatMap(g => [g.date, g.lastUpdated].filter(Boolean) as string[]);
+    const dateModified = toIsoDate(allDates.reduce((a, b) => new Date(a) > new Date(b) ? a : b));
+    const datePublished = toIsoDate(guides[guides.length - 1].date);
+
+    const structuredData = {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
         "name": "Image Optimization Guides | Mochify",
@@ -242,47 +243,20 @@
             "name": "Mochify",
             "url": "https://mochify.app"
         },
-        "mainEntity": [
-            {
+        "mainEntity": guides.map(g => ({
             "@type": "Article",
-            "name": "Top 5 Secure Image Compressors for 2026: Privacy-First Optimization",
-            "url": "https://mochify.app/guides/top-5-secure-image-compressors-2026"
-            },
-            {
-            "@type": ["TechArticle", "HowTo"],
-            "name": "EXIF Data Risks in Image Compression: Strip Metadata for Privacy (2026 Guide)",
-            "url": "https://mochify.app/guides/exif-data-risks-image-compression-2026"
-            },
-            {
-            "@type": ["TechArticle", "HowTo"],
-            "name": "WebP vs AVIF vs JPEG XL: 2026 Comparison Guide",
-            "url": "https://mochify.app/guides/2026-guide-next-gen-formats"
-            },
-            {
-            "@type": ["TechArticle", "HowTo"],
-            "name": "Fix \"Serve Images in Next-Gen Formats\" in WordPress (No Plugins) & Boost LCP",
-            "url": "https://mochify.app/guides/next-gen-image-formats-wordpress"
-            },
-            {
-            "@type": "TechArticle",
-            "name": "JPEG Compression in 2026: Why Jpegli Changes the Quality-Per-Byte Game",
-            "url": "https://mochify.app/guides/jpeg-in-2026-jpegli"
-            },
-            {
-            "@type": "TechArticle",
-            "name": "Secure Your Images with Zero-Retention Optimization",
-            "url": "https://mochify.app/guides/privacy-image-optimization"
-            },
-            {
-            "@type": ["TechArticle", "HowTo"],
-            "name": "How to Convert X-T5 / X-H2 / X100VI / X-T50 HIF to JPEG",
-            "url": "https://mochify.app/guides/fujifilm-hif-to-jpg"
-            }
-        ],
-        "datePublished": "2026-02-17",
-        "dateModified": "2026-02-17"
-        }
-    </script>
+            "name": g.title,
+            "url": `https://mochify.app${g.url}`
+        })),
+        "datePublished": datePublished,
+        "dateModified": dateModified
+    };
+</script>
+
+<svelte:head>
+    <title>{metadata.title}</title>
+    <meta name="description" content={metadata.description}>
+    {@html `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`}
 </svelte:head>
 
 <div class="px-4 py-12 sm:px-6 lg:px-8">
