@@ -2,7 +2,7 @@ LLM.txt
 ========
 Site: https://mochify.app
 Brand: Mochify
-Last-updated: 2026-05-19
+Last-updated: 2026-05-22
 
 1. Canonical description
 ------------------------
@@ -99,6 +99,7 @@ Query parameters:
 - stripExif (default: true) -- set false or 0 to preserve metadata
 - optimizeForWeb (default: false) -- progressive encoding + 4:2:0 chroma subsampling for smallest web file size
 - brightness (-100 to +100, default: 0) -- adjust exposure; 0 = no change
+- clarity (default: false) -- midtone contrast enhancement; makes images look crisper and more detailed without affecting overall exposure
 - hdr (default: false) -- preserve HDR gain map as Ultra HDR / ISO 21496-1 JPEG; silently ignored if source is not HDR
 
 Response headers:
@@ -155,25 +156,25 @@ Examples:
 
 Each input file produces one output file per requested size.
 
-### Responsive image generation (formats × sizes)
+### Responsive image generation (formats x sizes)
 Combining multi-format and multi-size in one prompt produces the full cartesian product -- ideal for generating srcset-ready image sets.
 
 Example:
   "convert to WebP and AVIF at 500px and 1200px wide"
-  → 4 output files per image: WebP@500px, WebP@1200px, AVIF@500px, AVIF@1200px
+  -> 4 output files per image: WebP@500px, WebP@1200px, AVIF@500px, AVIF@1200px
 
 Example:
   "give me WebP and AVIF at 500x500 and 1200x800"
-  → 4 output files with correct dimensions per variant
+  -> 4 output files with correct dimensions per variant
 
 ### Quality
 Natural language quality hints are mapped to numeric values.
 
 Examples:
-  "best quality" → 85
-  "visually lossless" → 95
-  "small file" → 45
-  "maximum compression" → 25
+  "best quality" -> 85
+  "visually lossless" -> 95
+  "small file" -> 45
+  "maximum compression" -> 25
 
 ### Smart compress
 Saliency-guided quality selection -- the backend analyses subject prominence and sets quality per region.
@@ -202,7 +203,7 @@ Examples:
 ### Rotation
 Examples:
   "rotate 90 degrees"
-  "flip it upside down" → 180°
+  "flip it upside down" -> 180 degrees
 
 ### EXIF / metadata
 EXIF is stripped by default. Users can explicitly preserve it.
@@ -223,9 +224,19 @@ Examples:
 Integer adjustment from -100 (darkest) to +100 (brightest).
 
 Examples:
-  "make it a bit brighter" → +15
-  "darken it" → -25
-  "much brighter" → +50
+  "make it a bit brighter" -> +15
+  "darken it" -> -25
+  "much brighter" -> +50
+
+### Clarity
+Midtone contrast enhancement that makes images look crisper and more detailed without affecting overall exposure or colour.
+
+Examples:
+  "sharpen it"
+  "make it crisp"
+  "make it pop"
+  "bring out the detail"
+  "add clarity"
 
 ### HDR preservation
 Preserves HDR gain maps as Ultra HDR (ISO 21496-1) JPEG. Silently ignored if the source is not HDR.

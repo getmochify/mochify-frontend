@@ -281,6 +281,38 @@
                                     </div>
                                 </div>
 
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">optimizeForWeb</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">false</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Progressive encoding + 4:2:0 chroma subsampling for the smallest browser-delivered file. Accepts <code class="font-mono text-xs">1</code> or <code class="font-mono text-xs">true</code>.</p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">brightness</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">0</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Exposure adjustment. Range <code class="font-mono text-xs">-100</code> (darkest) to <code class="font-mono text-xs">+100</code> (brightest). <code class="font-mono text-xs">0</code> = no change.</p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">clarity</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">false</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Midtone contrast enhancement — makes images look crisper and more detailed without affecting overall exposure. Accepts <code class="font-mono text-xs">1</code> or <code class="font-mono text-xs">true</code>.</p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">hdr</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">false</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Preserve HDR gain map as Ultra HDR / ISO 21496-1 JPEG. Silently ignored if the source image is not HDR. Accepts <code class="font-mono text-xs">1</code> or <code class="font-mono text-xs">true</code>.</p>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
