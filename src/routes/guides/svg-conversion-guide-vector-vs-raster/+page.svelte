@@ -361,22 +361,29 @@
             <p class="mb-4">For most WordPress sites, the cleaner workflow is: keep SVG files in your design tooling or version control, convert to WebP or AVIF using Mochify before uploading, and skip the SVG plugin entirely. You get 90% of the quality benefits with fewer moving parts and no SVG-specific security surface to maintain.</p>
 
             <div class="bg-[#FFF9F5] rounded-2xl border border-orange-100 p-6 my-6">
-                <p class="text-xs font-bold uppercase tracking-wider text-cocoa-milk mb-3">Real-world benchmark · WordPress logo SVG</p>
-                <div class="grid grid-cols-3 gap-4 mb-4">
-                    <div>
-                        <p class="text-xs font-bold uppercase tracking-wider text-cocoa-milk mb-1">PNG output</p>
-                        <p class="text-2xl font-black text-[#4A2C2C]">165 KB</p>
-                    </div>
-                    <div>
-                        <p class="text-xs font-bold uppercase tracking-wider text-cocoa-milk mb-1">WebP output</p>
-                        <p class="text-2xl font-black text-[#D81B60]">98 KB</p>
-                    </div>
-                    <div>
-                        <p class="text-xs font-bold uppercase tracking-wider text-cocoa-milk mb-1">Saving</p>
-                        <p class="text-2xl font-black text-[#D81B60]">40.6%</p>
+                <p class="text-xs font-bold uppercase tracking-wider text-cocoa-milk mb-4">Real-world benchmark · WordPress logo SVG converted via Mochify</p>
+                <div class="flex flex-col sm:flex-row gap-6 items-center mb-5">
+                    <picture class="shrink-0">
+                        <source srcset="/guides/wordpress-color-svgrepo-com_mochified_avif.avif" type="image/avif">
+                        <source srcset="/guides/wordpress-color-svgrepo-com_mochified_webp.webp" type="image/webp">
+                        <img src="/guides/wordpress-color-svgrepo-com_mochified_png.png" alt="WordPress logo SVG converted to PNG, WebP, and AVIF using Mochify — showing file size comparison" width="96" height="96" class="w-24 h-24 object-contain rounded-xl bg-white border border-orange-100 p-2">
+                    </picture>
+                    <div class="grid grid-cols-3 gap-4 flex-1 w-full">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-cocoa-milk mb-1">PNG</p>
+                            <p class="text-2xl font-black text-[#4A2C2C]">55 KB</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-cocoa-milk mb-1">WebP</p>
+                            <p class="text-2xl font-black text-[#D81B60]">42 KB</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-cocoa-milk mb-1">AVIF</p>
+                            <p class="text-2xl font-black text-[#D81B60]">24 KB</p>
+                        </div>
                     </div>
                 </div>
-                <p class="text-sm text-cocoa-milk m-0">WordPress logo SVG converted via Mochify. WebP output is 40.6% smaller than PNG with full transparency preserved — no SVG plugin required.</p>
+                <p class="text-sm text-cocoa-milk m-0">WordPress logo SVG rasterized at 512px. WebP is 24% smaller than PNG; AVIF is 56% smaller — both with full transparency preserved and no SVG plugin required.</p>
             </div>
         </section>
 
