@@ -257,5 +257,60 @@ Magic Flow:    https://mochify.app/flow
 Privacy:       https://mochify.app/privacy
 Terms:         https://mochify.app/terms
 Service Terms: https://mochify.app/service-terms
+MCP Server:    https://mcp.mochify.app
+MCP Guide:     https://mochify.app/guides/mochify-mcp-image-compression-agent-2026
+
+9. MCP server
+-------------
+
+Mochify exposes a Model Context Protocol (MCP) server so AI assistants can compress, convert, and transform images mid-conversation without any manual steps.
+
+Two deployment modes are available:
+
+Hosted HTTP (recommended for most users)
+- Endpoint: https://mcp.mochify.app/mcp
+- Discovery / OAuth metadata: https://mcp.mochify.app/.well-known/oauth-authorization-server
+- No install required. Works in Claude.ai (Settings → Integrations), Claude Desktop (type: "http"), Gemini, Cursor, Windsurf, and any client that supports remote MCP servers.
+- Auth: OAuth 2.0 with PKCE. The user authorizes their Mochify account once; the client receives a short-lived access token (1-hour TTL, auto-refreshed). No API key management needed.
+- Image source: public HTTPS URLs passed as the `url` parameter.
+
+Local stdio (for local files)
+- Run: mochify serve  (install via: cargo install mochify-cli)
+- Claude Desktop config: { "command": "mochify", "args": ["serve"] }
+- Works with local file paths and public URLs.
+- Optional API key via MOCHIFY_API_KEY env var for authenticated quota.
+
+Both modes can run simultaneously in the same client with independent tokens.
+
+Tools exposed:
+
+squish -- compress, convert, resize, or transform an image
+  Parameters (all optional):
+  - url (string): public HTTPS URL of the image
+  - data (string): base64-encoded image bytes (programmatic callers only)
+  - mediaType (string): MIME type when using data (e.g. image/png)
+  - type (string): output format -- jpg | png | webp | avif | jxl (default: jpg)
+  - width, height (integer): target dimensions in pixels
+  - quality (integer 1-100): output quality; omit for auto
+  - crop (boolean): smart-crop to exact dimensions centred on subject
+  - rotate (integer): 0 | 90 | 180 | 270 (clockwise)
+  - removeBackground (boolean): AI background removal; Seller/Pro only
+  - stripExif (boolean): strip metadata (default: true)
+  - smartCompress (boolean): saliency-guided quality selection
+  - optimizeForWeb (boolean): progressive encoding + 4:2:0 chroma subsampling
+  - brightness (integer -100 to +100): exposure adjustment
+  - clarity (boolean): midtone contrast enhancement
+  - hdr (boolean): preserve Ultra HDR gain map (ignored if source is not HDR)
+  Returns: text confirmation + inline image (base64, mimeType).
+
+check_usage -- check remaining operations in the current billing period
+  No parameters. Returns remaining and total quota.
+
+Agentic use cases:
+- "Compress all product photos in this Drive folder as AVIF" (Drive MCP + Mochify MCP)
+- "Optimise every image on this page for web" (agent fetches URLs, Mochify processes each)
+- "Convert and strip EXIF from these uploads before publishing" (CMS pipeline)
+
+Smithery registry: search "Mochify" on smithery.ai to install the hosted server via one-click registry discovery.
 
 ---

@@ -185,6 +185,15 @@
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
+                    <li>
+                        <a href="#hosted-mcp" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">09</span>
+                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Hosted MCP: zero-install, any AI client</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </section>
@@ -292,6 +301,59 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
             <InfoBox type="tip" title="No API key needed to start">
                 Without a key, requests run on the free tier — 25 images per day per IP. Get an API key from your <a href="/dashboard" class="text-[#F06292] hover:text-[#D81B60] underline">dashboard</a> to track usage and unlock higher limits.
+            </InfoBox>
+        </section>
+
+        <section id="hosted-mcp" class="scroll-mt-24">
+            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Hosted MCP: zero-install, any AI client</h2>
+            <p class="mb-6">The Mochify MCP server is also available as a hosted HTTP endpoint at <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app</code>. No binary to install, no Rust toolchain, no config file — paste the URL, authorize your account, and the <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">squish</code> tool appears in your AI assistant instantly.</p>
+
+            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-8">
+                <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
+                    <thead class="bg-pink-50 text-[#4A2C2C]">
+                        <tr>
+                            <th class="p-4 font-black"></th>
+                            <th class="p-4 font-black">Hosted MCP (mcp.mochify.app)</th>
+                            <th class="p-4 font-black">Local CLI MCP (stdio)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
+                        <tr><td class="p-4 font-bold">Setup</td><td class="p-4">Paste a URL, click Authorize</td><td class="p-4">Install CLI, edit config file</td></tr>
+                        <tr><td class="p-4 font-bold">Works in Claude.ai web</td><td class="p-4 text-[#F06292] font-bold">Yes</td><td class="p-4">No (desktop only)</td></tr>
+                        <tr><td class="p-4 font-bold">Works in Claude Desktop</td><td class="p-4 text-[#F06292] font-bold">Yes</td><td class="p-4 text-[#F06292] font-bold">Yes</td></tr>
+                        <tr><td class="p-4 font-bold">Works in Gemini / Cursor / Windsurf</td><td class="p-4 text-[#F06292] font-bold">Yes (remote MCP URL)</td><td class="p-4">Varies by client</td></tr>
+                        <tr><td class="p-4 font-bold">Image source</td><td class="p-4">Public URLs (agent fetches)</td><td class="p-4">Local files + public URLs</td></tr>
+                        <tr><td class="p-4 font-bold">Auth</td><td class="p-4">OAuth 2.0 (one-click)</td><td class="p-4">Optional API key via env var</td></tr>
+                        <tr><td class="p-4 font-bold">Can run simultaneously</td><td class="p-4 text-[#F06292] font-bold">Yes</td><td class="p-4 text-[#F06292] font-bold">Yes</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Claude.ai web (claude.ai)</h3>
+            <p class="mb-4">In Claude.ai, go to <strong>Settings → Integrations</strong> and add a new integration with the URL:</p>
+            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>https://mcp.mochify.app</code></pre>
+            <p class="mb-6">Claude will redirect you to Mochify to sign in and authorize. After that, just tell Claude to compress an image by URL and it will call the <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">squish</code> tool automatically.</p>
+
+            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Claude Desktop (remote server)</h3>
+            <p class="mb-4">Add a remote entry to your Claude Desktop config alongside any local servers you already have:</p>
+            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`{
+  "mcpServers": {
+    "mochify-hosted": {
+      "type": "http",
+      "url": "https://mcp.mochify.app/mcp"
+    }
+  }
+}`}</code></pre>
+            <p class="mb-6">Claude Desktop will walk you through the OAuth flow the first time it connects. You can run both this remote entry and the local <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">mochify serve</code> entry at the same time — they use independent tokens.</p>
+
+            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Gemini, Cursor, Windsurf, and other MCP clients</h3>
+            <p class="mb-6">Any client that supports remote MCP servers (HTTP+SSE or Streamable HTTP transport) works with the hosted endpoint. Add <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app/mcp</code> as the server URL and follow the client's OAuth prompt.</p>
+
+            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Smithery</h3>
+            <p class="mb-4">Mochify is listed on <strong>Smithery</strong> — an MCP registry and marketplace where you can discover and install MCP tools with a single click. Search for "Mochify" to add the hosted server directly from the registry without touching any config file.</p>
+
+            <InfoBox type="tip" title="Agentic workflows with multiple MCPs">
+                Combine the Mochify hosted MCP with a filesystem or Google Drive MCP and your assistant becomes a full image pipeline agent. Say <em>"Optimise all the product photos in my Drive folder as WebPs and strip the EXIF"</em> — the Drive MCP fetches the URLs, Mochify processes each one, and the results come back inline. No scripts, no manual steps.
             </InfoBox>
         </section>
 
@@ -410,6 +472,26 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
                 <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">How does this differ from the natural language feature on the homepage?</h3>
                     <p>The homepage feature is browser-based and designed for individual, manual use. The MCP server is for agent-driven workflows where an AI assistant is handling the task as part of a larger pipeline — without you touching a browser.</p>
+                </div>
+
+                <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                    <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Do I need to install anything to use the hosted MCP?</h3>
+                    <p>No. The hosted server at <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app</code> runs in the cloud. Add the URL in your AI client's settings and authorize your Mochify account — that's it. You only need to install the CLI if you want to process local files via stdio.</p>
+                </div>
+
+                <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                    <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Can I use Mochify MCP from Claude.ai in my browser?</h3>
+                    <p>Yes. Claude.ai's Integrations feature supports remote MCP servers. Go to <strong>Settings → Integrations</strong>, add <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app</code>, and authorize. The local CLI MCP is not available on the web — it only runs in Claude Desktop and similar native clients.</p>
+                </div>
+
+                <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                    <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Can I run both the hosted and local MCP at the same time?</h3>
+                    <p>Yes. They use independent OAuth tokens and can coexist in the same Claude Desktop config. A common setup is the hosted MCP for URL-based agent jobs and the local CLI for compressing files on your own machine — both active simultaneously.</p>
+                </div>
+
+                <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                    <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Does the hosted MCP work with Gemini, Cursor, or Windsurf?</h3>
+                    <p>Yes, with any client that supports remote MCP servers over HTTP. Add <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app/mcp</code> as the server URL in your client's MCP settings and follow the OAuth prompt. Mochify is also listed on Smithery if your client supports registry-based discovery.</p>
                 </div>
             </div>
         </section>
