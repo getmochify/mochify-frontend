@@ -507,6 +507,7 @@
 					if (fileConfig.rotate) sharedParams.append('rotate', String(fileConfig.rotate));
 					if (fileConfig.brightness != null && fileConfig.brightness !== 0)
 						sharedParams.append('brightness', String(fileConfig.brightness));
+					if (fileConfig.clarity) sharedParams.append('clarity', '1');
 					if (fileConfig.optimizeForWeb) sharedParams.append('optimizeForWeb', '1');
 					if (fileConfig.hdr) sharedParams.append('hdr', '1');
 					if (fileConfig.quality != null) sharedParams.append('quality', String(fileConfig.quality));
