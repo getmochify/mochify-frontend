@@ -56,14 +56,6 @@
 					account and quota.
 				</p>
 
-				{#if data.hasKey}
-					<div
-						class="mb-5 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-medium text-amber-700"
-					>
-						Your existing API key will be replaced. Update any other integrations that use it.
-					</div>
-				{/if}
-
 				<form
 					method="POST"
 					action="?/authorize"
