@@ -34,12 +34,12 @@
 	let fileInputEl: HTMLInputElement;
 
 	const placeholders = [
-		'Describe what you want…',
-		'Shopify square-crop, convert to WebP…',
-		'Fix PageSpeed — convert all to AVIF…',
-		'Resize to 1200px, rename "product-ready"…',
-		'Make these 1:1, center the subject…'
-	];
+        'remove bg, avif and webp, 1200px, 800px…',
+        'Remove background, square crop, shopify…',
+        'avif and webp, 1200px, 800px, 500px…',
+        'Convert to webp, resize width 800px and 600px…',
+        'vinted, compress, 1080x1080 and 500px…'
+    ];
 	let placeholderIndex = $state(0);
 	let placeholderVisible = $state(true);
 	let isFocused = $state(false);
@@ -398,6 +398,7 @@
 			let currentFileIndex = 0;
 			const CONCURRENCY_LIMIT = 1;
 			const zipContents: Record<string, Uint8Array> = {};
+				const usedOutputNames: Record<string, number> = {};
 
 			const getProcessingText = (config: any): string => {
 				if (config.removeBackground) return 'Removing background…';
@@ -530,14 +531,25 @@
 
 								processPhase = 'downloading';
 
-								const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+								const rawOutputName = typeof fileConfig.outputName === 'string'
+									? fileConfig.outputName.replace(/[/\\:*?"<>|\r\n\t]/g, '').trim().slice(0, 100)
+									: '';
+								const baseName = rawOutputName || (file.name.substring(0, file.name.lastIndexOf('.')) || file.name);
 								const sizeSuffix = multiSize
 									? size.width && size.height
 										? `_${size.width}x${size.height}`
 										: `_${(size.width || size.height)}w`
 									: '';
 								const fmtSuffix = multiFormat ? `_${fmt}` : '';
-								const finalName = `${baseName}_mochified${sizeSuffix}${fmtSuffix}.${fmt}`;
+								const mochifiedSuffix = rawOutputName ? '' : '_mochified';
+								let finalName = `${baseName}${mochifiedSuffix}${sizeSuffix}${fmtSuffix}.${fmt}`;
+								if (rawOutputName) {
+									const count = (usedOutputNames[finalName] = (usedOutputNames[finalName] ?? 0) + 1);
+									if (count > 1) {
+										const dot = finalName.lastIndexOf('.');
+										finalName = `${finalName.slice(0, dot)}-${count}${finalName.slice(dot)}`;
+									}
+								}
 
 								if (downloadAsZip) {
 									const arrayBuffer = await blob.arrayBuffer();
