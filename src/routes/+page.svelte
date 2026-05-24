@@ -263,6 +263,17 @@
                     <svg class="w-2.5 h-2.5 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
                 </a>
                 <span class="text-[#875F42]/20 text-xs">·</span>
+                <a
+                    href="https://chromewebstore.google.com/detail/pgegchhkcjdcnnppeahkdcalclpaamcj"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 text-xs text-[#875F42]/50 hover:text-[#F06292] transition-colors duration-200 group"
+                >
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 2.5a7.5 7.5 0 0 1 6.547 3.836L12 8.5a3.5 3.5 0 0 0-3.432 2.793L5.12 5.868A7.474 7.474 0 0 1 12 4.5zm-7.37 2.855 4.028 6.976A3.496 3.496 0 0 0 8.5 12a3.5 3.5 0 0 0 .04.5H4.543A7.47 7.47 0 0 1 4.5 12c0-1.705.57-3.277 1.53-4.545zM12 19.5a7.47 7.47 0 0 1-5.99-3.004l3.24-5.613A3.494 3.494 0 0 0 12 15.5a3.494 3.494 0 0 0 3.158-2.006l2.318 4.016A7.467 7.467 0 0 1 12 19.5zm5.84-3.432-3.226-5.587c.248-.447.386-.96.386-1.481a3.5 3.5 0 0 0-3.5-3.5H12l3.453-3.453A7.5 7.5 0 0 1 19.5 12a7.47 7.47 0 0 1-1.66 4.068z"/></svg>
+                    Chrome Extension
+                    <svg class="w-2.5 h-2.5 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+                </a>
+                <span class="text-[#875F42]/20 text-xs">·</span>
                 <button
                     onclick={() => (showVideoModal = true)}
                     class="inline-flex items-center gap-1.5 text-xs text-[#875F42]/50 hover:text-[#F06292] transition-colors duration-200 group cursor-pointer"
@@ -537,6 +548,20 @@
                             <div>
                                 <p class="text-xs font-bold text-[#4A2C2C] leading-none mb-0.5">MCP Server</p>
                                 <p class="text-[10px] text-cocoa-milk/55">Claude Desktop &amp; Claude Code</p>
+                            </div>
+                        </a>
+                        <a
+                            href="https://chromewebstore.google.com/detail/pgegchhkcjdcnnppeahkdcalclpaamcj"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-white/50 border border-cocoa-milk/12 hover:bg-white/80 hover:border-cocoa-milk/22 transition-all duration-200 group"
+                        >
+                            <svg class="w-3.5 h-3.5 text-cocoa-milk/60 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 2.5a7.5 7.5 0 0 1 6.547 3.836L12 8.5a3.5 3.5 0 0 0-3.432 2.793L5.12 5.868A7.474 7.474 0 0 1 12 4.5zm-7.37 2.855 4.028 6.976A3.496 3.496 0 0 0 8.5 12a3.5 3.5 0 0 0 .04.5H4.543A7.47 7.47 0 0 1 4.5 12c0-1.705.57-3.277 1.53-4.545zM12 19.5a7.47 7.47 0 0 1-5.99-3.004l3.24-5.613A3.494 3.494 0 0 0 12 15.5a3.494 3.494 0 0 0 3.158-2.006l2.318 4.016A7.467 7.467 0 0 1 12 19.5zm5.84-3.432-3.226-5.587c.248-.447.386-.96.386-1.481a3.5 3.5 0 0 0-3.5-3.5H12l3.453-3.453A7.5 7.5 0 0 1 19.5 12a7.47 7.47 0 0 1-1.66 4.068z"/>
+                            </svg>
+                            <div>
+                                <p class="text-xs font-bold text-[#4A2C2C] leading-none mb-0.5">Chrome Extension</p>
+                                <p class="text-[10px] text-cocoa-milk/55">Compress from any page</p>
                             </div>
                         </a>
                     </div>
