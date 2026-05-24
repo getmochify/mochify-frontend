@@ -1,19 +1,19 @@
 <footer class="relative z-10 w-full max-w-5xl mx-auto px-4 pb-12 sm:px-6 lg:px-8 text-center">
 
-    <p class="text-sm font-bold text-[#875F42] uppercase tracking-widest mb-6">
+    <p class="text-sm font-bold text-cocoa-milk uppercase tracking-widest mb-6">
         Popular Tools
     </p>
 
     <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-3 mb-8">
-        <a href="/heic-to-jpeg" class="text-[#6C3F31] hover:text-[#F06292] hover:scale-105 transition-all font-semibold text-sm">
+        <a href="/heic-to-jpeg" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">
             HEIC to JPEG
         </a>
         <span aria-hidden="true" class="text-[#D4A0B5] font-bold">•</span>
-        <a href="/solutions/hif-to-jpg" class="text-[#6C3F31] hover:text-[#F06292] hover:scale-105 transition-all font-semibold text-sm">
+        <a href="/solutions/hif-to-jpg" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">
             HIF to JPG
         </a>
         <span aria-hidden="true" class="text-[#D4A0B5] font-bold">•</span>
-        <a href="/comparison" class="text-[#6C3F31] hover:text-[#F06292] hover:scale-105 transition-all font-semibold text-sm">
+        <a href="/comparison" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">
             Quality Comparison
         </a>
     </div>
@@ -22,39 +22,39 @@
         <a href="/solutions" class="px-5 py-2 rounded-2xl bg-white border border-pink-100 text-[#C2185B] font-bold text-xs shadow-sm hover:shadow-md hover:bg-pink-50 hover:-translate-y-0.5 transition-all">
             View All Solutions
         </a>
-        <a href="/guides" class="px-5 py-2 rounded-2xl bg-[#F06292] hover:bg-[#E91E63] text-white font-bold text-xs shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all">
+        <a href="/guides" class="px-5 py-2 rounded-2xl bg-mochi-pink hover:bg-[#E91E63] text-white font-bold text-xs shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all">
             Read Guides
         </a>
     </div>
 
     <div class="space-y-5">
         <div class="grid grid-cols-2 justify-items-center gap-x-4 gap-y-3 sm:flex sm:flex-wrap sm:justify-center sm:items-center sm:gap-x-6 sm:gap-y-2 text-xs">
-            <a href="/about" class="text-[#6C3F31] hover:text-[#F06292] hover:underline transition-colors">
+            <a href="/about" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 About
             </a>
             <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5]">•</span>
-            <a href="mailto:hello@mochify.app" class="text-[#6C3F31] hover:text-[#F06292] hover:underline transition-colors">
+            <a href="mailto:hello@mochify.app" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 Contact
             </a>
             <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5]">•</span>
-            <a href="/service-terms" class="text-[#6C3F31] hover:text-[#F06292] hover:underline transition-colors">
+            <a href="/service-terms" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 Terms of Service
             </a>
             <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5]">•</span>
-            <a href="/privacy" class="text-[#6C3F31] hover:text-[#F06292] hover:underline transition-colors">
+            <a href="/privacy" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 Privacy Policy
             </a>
             <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5]">•</span>
-            <a href="/terms" class="text-[#6C3F31] hover:text-[#F06292] hover:underline transition-colors">
+            <a href="/terms" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 Terms &amp; Conditions
             </a>
             <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5]">•</span>
-            <a href="/dpa" class="text-[#6C3F31] hover:text-[#F06292] hover:underline transition-colors">
+            <a href="/dpa" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 Data Processing Agreement
             </a>
         </div>
 
-        <p class="text-[#875F42] text-xs">
+        <p class="text-cocoa-milk text-xs">
             Suite RA01, 195-197 Wood Street, London, E17 3NU
         </p>
 
@@ -77,6 +77,11 @@
                 <a href="https://www.youtube.com/@GetMochify" target="_blank" rel="noopener noreferrer" class="text-cocoa-milk hover:text-[#FF0000] transition-colors" aria-label="Mochify on YouTube">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                </a>
+                <a href="https://www.tiktok.com/@getmochify" target="_blank" rel="noopener noreferrer" class="text-cocoa-milk hover:text-[#010101] transition-colors" aria-label="Mochify on TikTok">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/>
                     </svg>
                 </a>
             </div>

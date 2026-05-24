@@ -76,11 +76,12 @@
 			"url": "https://mochify.app/logo.png"
 		},
 		"sameAs": [
-			"https://github.com/getmochify/mochify-cli",
-			"https://github.com/getmochify/mochify-cli",
-			"https://github.com/getmochify/mochify-docker",
+			"https://github.com/getmochify",
 			"https://hub.docker.com/r/mochify/mochify-lite",
-			"https://x.com/GetMochify"
+			"https://x.com/GetMochify",
+			"https://www.linkedin.com/company/mochify/",
+			"https://www.youtube.com/@GetMochify",
+			"https://www.tiktok.com/@getmochify"
 		]
 	}
 	</script>
