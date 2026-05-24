@@ -216,6 +216,14 @@
             category: "Quick Guides",
             readTime: "2 min read",
             date: "May 19, 2026"
+        },
+        {
+            title: "Ecommerce Product Photo Workflow: Resize & Convert in One Prompt",
+            description: "How to batch-convert product photos to JPG at 1200px and 800px with a single natural-language prompt. The fastest workflow for Shopify, Etsy, eBay, and Amazon sellers.",
+            url: "/guides/ecommerce-product-photo-workflow-resize-convert",
+            category: "Workflows",
+            readTime: "4 min read",
+            date: "May 23, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
