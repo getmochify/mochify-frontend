@@ -19,13 +19,25 @@
 	let processPhase: 'idle' | 'thinking' | 'uploading' | 'processing' | 'downloading' | 'packing' =
 		$state('idle');
 	let thinkingText: string = $state('Reading your images…');
-	let processingText: string = $state('Processing…');
 
 	let uploadPercent: number = $state(0);
-	let downloadPercent: number = $state(0);
 	let completedFiles: number = $state(0);
 	let totalFiles: number = $state(0);
 	let downloadAsZip: boolean = $state(false);
+
+	// Coarse phase for the progress UI. With concurrent uploads, multiple files move
+	// through upload/process/download independently, so the per-file processPhase
+	// flickers. Collapse the active phases into one 'working' phase and drive the bar
+	// from the concurrency-safe global metrics (uploadPercent, completedFiles).
+	const displayPhase = $derived.by(() => {
+		if (
+			processPhase === 'uploading' ||
+			processPhase === 'processing' ||
+			processPhase === 'downloading'
+		)
+			return 'working' as const;
+		return processPhase;
+	});
 	let agentMessage: string = $state('');
 
 	let showInfoTooltip = $state(false)
@@ -312,7 +324,6 @@
 		isProcessing = true;
 		processPhase = 'thinking';
 		uploadPercent = 0;
-		downloadPercent = 0;
 		completedFiles = 0;
 		hitRateLimit = false;
 		agentMessage = '';
@@ -396,22 +407,13 @@
 			let uploadedBytes = 0;
 			let processedFiles = 0;
 			let currentFileIndex = 0;
-			const CONCURRENCY_LIMIT = 1;
+			// 2 concurrent uploads roughly halves wall-clock time for batches while
+			// staying within the backend worker pool (and aligned with vips_concurrency=2).
+			// The worker-pool loop below already supports this; the progress UI reads a
+			// coarse 'working' phase (see displayPhase) so it doesn't flicker per-file.
+			const CONCURRENCY_LIMIT = 2;
 			const zipContents: Record<string, Uint8Array> = {};
 				const usedOutputNames: Record<string, number> = {};
-
-			const getProcessingText = (config: any): string => {
-				if (config.removeBackground) return 'Removing background…';
-				if (config.type === 'avif') return 'Encoding to AVIF…';
-				if (config.type === 'jxl') return 'Encoding to JPEG XL…';
-				if (config.type === 'webp') return 'Compressing to WebP…';
-				if (config.type === 'jpeg' || config.type === 'jpg') return 'Compressing to JPEG…';
-				if (config.type === 'png') return 'Encoding to PNG…';
-				if (config.smartCompress) return 'Smart-compressing…';
-				if (config.smartCrop || (config.width && config.width === config.height))
-					return 'Cropping and compressing…';
-				return 'Processing your image…';
-			};
 
 			const squishFile = (
 				file: File,
@@ -527,7 +529,6 @@
 
 							try {
 								const blob = await squishFile(file, params, () => {
-									processingText = getProcessingText({ ...fileConfig, type: fmt });
 									processPhase = 'processing';
 								});
 
@@ -583,7 +584,6 @@
 
 							processedFiles++;
 							completedFiles = processedFiles;
-							downloadPercent = Math.round((processedFiles / totalFiles) * 100);
 						}  // end for (fmt)
 					}  // end outer: for (size)
 
@@ -848,24 +848,21 @@
 			<div class="border-t border-white/40 bg-white/20 backdrop-blur-md">
 				{#if isProcessing}
 					<div class="relative h-1 overflow-hidden bg-white/20">
-						{#if processPhase === 'thinking' || processPhase === 'packing'}
+						{#if displayPhase === 'thinking' || displayPhase === 'packing'}
 							<div
 								class="absolute inset-0 animate-pulse bg-gradient-to-r from-[#F06292] to-[#e040a0] opacity-60"
 							></div>
-						{:else if processPhase === 'uploading'}
-							<div
-								class="h-full bg-gradient-to-r from-[#F06292] to-[#e040a0] shadow-[0_0_10px_rgba(240,98,146,0.5)] transition-all duration-300 ease-out"
-								style="width: {uploadPercent}%"
-							></div>
-						{:else if processPhase === 'processing'}
-							<div
-								class="animate-shimmer absolute inset-0 bg-gradient-to-r from-[#A5D6A7] via-[#66BB6A] to-[#A5D6A7] bg-[length:200%_100%] opacity-80"
-							></div>
-						{:else if processPhase === 'downloading'}
-							<div
-								class="h-full bg-gradient-to-r from-[#A5D6A7] to-[#66BB6A] shadow-[0_0_10px_rgba(165,214,167,0.5)] transition-all duration-300 ease-out"
-								style="width: {downloadPercent}%"
-							></div>
+						{:else if displayPhase === 'working'}
+							{#if uploadPercent < 100}
+								<div
+									class="h-full bg-gradient-to-r from-[#F06292] to-[#e040a0] shadow-[0_0_10px_rgba(240,98,146,0.5)] transition-all duration-300 ease-out"
+									style="width: {uploadPercent}%"
+								></div>
+							{:else}
+								<div
+									class="animate-shimmer absolute inset-0 bg-gradient-to-r from-[#A5D6A7] via-[#66BB6A] to-[#A5D6A7] bg-[length:200%_100%] opacity-80"
+								></div>
+							{/if}
 						{/if}
 					</div>
 				{/if}
@@ -921,22 +918,18 @@
 						class="flex min-w-0 flex-1 items-center gap-1.5 truncate text-xs font-medium tracking-wide text-[#875F42]/50"
 					>
 						{#if isProcessing}
-							{#if processPhase === 'thinking'}
+							{#if displayPhase === 'thinking'}
 								<span class="flex-shrink-0 animate-pulse">✨</span>
 								{#key thinkingText}<span class="animate-fade-in truncate">{thinkingText}</span
 									>{/key}
-							{:else if processPhase === 'uploading'}
-								Uploading{totalFiles > 1 ? ` ${completedFiles + 1}/${totalFiles}` : '…'} ({uploadPercent}%)
-							{:else if processPhase === 'processing'}
-								<span class="flex-shrink-0 animate-pulse text-[#66BB6A]">⬡</span>
-								{#key processingText}<span class="animate-fade-in truncate"
-										>{processingText}{totalFiles > 1
-											? ` (${completedFiles + 1}/${totalFiles})`
-											: ''}</span
-									>{/key}
-							{:else if processPhase === 'downloading'}
-								{downloadAsZip ? 'Packing zip' : 'Saving'} ({completedFiles}/{totalFiles})…
-							{:else if processPhase === 'packing'}
+							{:else if displayPhase === 'working'}
+								{#if uploadPercent < 100}
+									Uploading{totalFiles > 1 ? ` ${totalFiles} images` : '…'} ({uploadPercent}%)
+								{:else}
+									<span class="flex-shrink-0 animate-pulse text-[#66BB6A]">⬡</span>
+									Processing{totalFiles > 1 ? ` ${completedFiles}/${totalFiles}` : '…'}
+								{/if}
+							{:else if displayPhase === 'packing'}
 								Packing your zip file…
 							{/if}
 						{:else if files.length === 0}
