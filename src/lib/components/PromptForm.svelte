@@ -502,6 +502,7 @@
 					if (fileConfig.smartCompress) sharedParams.append('smartCompress', '1');
 					if (fileConfig.smartCrop) sharedParams.append('smartCrop', '1');
 					if (fileConfig.removeBackground) sharedParams.append('removeBackground', '1');
+					if (fileConfig.background) sharedParams.append('background', String(fileConfig.background));
 					const stripExif = fileConfig.stripExif !== undefined ? fileConfig.stripExif : 1;
 					sharedParams.append('strip_exif', stripExif ? '1' : '0');
 					if (fileConfig.rotate) sharedParams.append('rotate', String(fileConfig.rotate));
