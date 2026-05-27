@@ -45,13 +45,36 @@
 	let textareaEl: HTMLTextAreaElement;
 	let fileInputEl: HTMLInputElement;
 
-	const placeholders = [
+	const MAX_PDF_BYTES = 100 * 1024 * 1024;
+	let uploadMode: 'image' | 'pdf' | null = $state(null);
+
+	function isPdf(f: File): boolean {
+		return f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
+	}
+
+	const fileAccept = $derived(
+		uploadMode === 'pdf'
+			? '.pdf,application/pdf'
+			: uploadMode === 'image'
+				? '.jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.svg,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/svg+xml'
+				: '.jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.svg,.pdf,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/svg+xml,application/pdf'
+	);
+
+	const imagePlaceholders = [
         'remove bg, avif and webp, 1200px, 800px…',
         'Remove background, square crop, shopify…',
         'avif and webp, 1200px, 800px, 500px…',
         'Convert to webp, resize width 800px and 600px…',
         'vinted, compress, 1080x1080 and 500px…'
     ];
+	const pdfPlaceholders = [
+		'Split into individual pages…',
+		'Rasterize to PNG at 150 DPI…',
+		'Convert pages to WebP, 200 DPI…',
+		'High-res rasterize at 300 DPI…',
+		'Rasterize to JPEG for sharing…',
+	];
+	const placeholders = $derived(uploadMode === 'pdf' ? pdfPlaceholders : imagePlaceholders);
 	let placeholderIndex = $state(0);
 	let placeholderVisible = $state(true);
 	let isFocused = $state(false);
@@ -82,9 +105,9 @@
 
 	let filePreviews = $state<string[]>([]);
 	$effect(() => {
-		const urls = files.map((f) => URL.createObjectURL(f));
+		const urls = files.map((f) => isPdf(f) ? '' : URL.createObjectURL(f));
 		filePreviews = urls;
-		return () => urls.forEach((u) => URL.revokeObjectURL(u));
+		return () => urls.filter(u => u).forEach((u) => URL.revokeObjectURL(u));
 	});
 
 	// Status state
@@ -123,7 +146,8 @@
 		'image/png',
 		'image/jxl',
 		'image/webp',
-		'image/svg+xml'
+		'image/svg+xml',
+		'application/pdf'
 	]);
 	const ACCEPTED_EXTENSIONS = new Set([
 		'jpg',
@@ -135,43 +159,53 @@
 		'png',
 		'jxl',
 		'webp',
-		'svg'
+		'svg',
+		'pdf'
 	]);
 
 	function validateAndAddFiles(newFiles: File[]) {
-		const validFiles = [];
+		const validFiles: File[] = [];
 		let rejectedCount = 0;
+		let modeMismatch = 0;
+
+		let effectiveMode = uploadMode;
 
 		for (const f of newFiles) {
 			const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
-			const accepted = ACCEPTED_MIME_TYPES.has(f.type) || ACCEPTED_EXTENSIONS.has(ext);
-			if (f.size > MAX_FILE_SIZE) {
-				rejectedCount++;
-			} else if (accepted) {
-				validFiles.push(f);
-			}
+			const fileIsPdf = isPdf(f);
+			const isImage = !fileIsPdf && (ACCEPTED_MIME_TYPES.has(f.type) || ACCEPTED_EXTENSIONS.has(ext));
+			if (!fileIsPdf && !isImage) continue;
+
+			const sizeLimit = fileIsPdf ? MAX_PDF_BYTES : MAX_FILE_SIZE;
+			if (f.size > sizeLimit) { rejectedCount++; continue; }
+
+			const fileMode: 'pdf' | 'image' = fileIsPdf ? 'pdf' : 'image';
+			if (effectiveMode === null) effectiveMode = fileMode;
+			if (fileMode !== effectiveMode) { modeMismatch++; continue; }
+
+			validFiles.push(f);
 		}
 
 		if (rejectedCount > 0) {
-			showStatus(
-				'error',
-				`${rejectedCount} file(s) ignored (exceeds ${MAX_FILE_SIZE / 1024 / 1024}MB limit)`
-			);
+			showStatus('error', `${rejectedCount} file(s) ignored (exceeds size limit)`);
+		}
+		if (modeMismatch > 0) {
+			showStatus('error', effectiveMode === 'pdf'
+				? 'Mix not allowed — clear files first to switch to images.'
+				: 'Mix not allowed — clear files first to switch to PDFs.');
 		}
 
 		const available = MAX_FILES - files.length;
 		const toAdd = validFiles.slice(0, available);
-		const overflow = validFiles.length - toAdd.length;
-		if (overflow > 0) {
-			showStatus(
-				'error',
-				`Free plan is limited to ${MAX_FILES} files. Upgrade to Seller or Pro for batches up to 25.`
-			);
+		if (validFiles.length > toAdd.length) {
+			showStatus('error', `Limited to ${MAX_FILES} files. Upgrade to Seller or Growth for batches up to 25.`);
 		}
+
+		if (toAdd.length > 0 && uploadMode === null) uploadMode = effectiveMode;
 		files = [...files, ...toAdd];
 	}
 
-	const suggestions = [
+	const imageSuggestions = [
 		{
 			label: 'Remove BG',
 			prompt: 'Remove the background and convert to PNG',
@@ -198,6 +232,14 @@
 			dot: 'bg-[#4285F4]'
 		}
 	];
+	const pdfSuggestions = [
+		{ label: 'Split pages', prompt: 'Split into individual page PDFs', dot: 'bg-blue-400' },
+		{ label: 'PNG images', prompt: 'Rasterize each page to PNG at 150 DPI', dot: 'bg-slate-400' },
+		{ label: 'WebP images', prompt: 'Convert pages to WebP at 200 DPI', dot: 'bg-green-400' },
+		{ label: 'High res', prompt: 'Rasterize to PNG at 300 DPI, best quality', dot: 'bg-orange-400' },
+		{ label: 'JPEG pages', prompt: 'Rasterize to high quality JPEG at 300 DPI', dot: 'bg-[#F06292]' },
+	];
+	const suggestions = $derived(uploadMode === 'pdf' ? pdfSuggestions : imageSuggestions);
 
 	const formatSuggestions = [
 		{ label: 'WebP', prompt: 'Convert to WebP for best web compression and quality' },
@@ -273,9 +315,11 @@
 
 	function removeFile(i: number) {
 		files = files.filter((_, idx) => idx !== i);
+		if (files.length === 0) uploadMode = null;
 	}
 
 	function getDimensions(file: File): Promise<{ w: number; h: number }> {
+		if (isPdf(file)) return Promise.resolve({ w: 0, h: 0 });
 		return new Promise((resolve) => {
 			const url = window.URL.createObjectURL(file);
 			const img = new Image();
@@ -329,7 +373,9 @@
 		agentMessage = '';
 		failedFiles = [];
 
-		const thinkingMessages = ['Reading your images…', 'Planning the squish…'];
+		const thinkingMessages = uploadMode === 'pdf'
+			? ['Reading your PDF…', 'Planning the transform…']
+			: ['Reading your images…', 'Planning the squish…'];
 
 		thinkingText = thinkingMessages[0];
 		let msgIdx = 1;
@@ -344,11 +390,15 @@
 		try {
 			const fileDetails = await Promise.all(
 				files.map(async (f) => {
+					if (isPdf(f)) return { name: f.name };
 					const dims = await getDimensions(f);
 					const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
 					return { name: f.name, format: ext, width: dims.w, height: dims.h };
 				})
 			);
+
+			const nlpBody: Record<string, unknown> = { prompt: prompt.trim(), fileData: fileDetails };
+			if (uploadMode === 'pdf') nlpBody.mode = 'pdf';
 
 			const nlpResponse = await fetch(`${WORKER_URL}/v1/prompt`, {
 				method: 'POST',
@@ -356,7 +406,7 @@
 					'Content-Type': 'application/json',
 					...(jwt ? { Authorization: `Bearer ${jwt}` } : {})
 				},
-				body: JSON.stringify({ prompt: prompt.trim(), fileData: fileDetails })
+				body: JSON.stringify(nlpBody)
 			});
 
 			if (!nlpResponse.ok) {
@@ -371,8 +421,126 @@
 				throw new Error('Couldn\'t understand your request. Try rephrasing and submit again.');
 			}
 
-			const parsedData = (await nlpResponse.json()) as { agent_message?: string; files?: any[] };
+			const parsedData = (await nlpResponse.json()) as {
+				agent_message?: string;
+				files?: any[];
+				pdf?: { op: string; type: string; dpi: number; quality: number };
+			};
 			agentMessage = parsedData.agent_message || '';
+
+			// ── PDF mode ──────────────────────────────────────────────────────────
+			if (uploadMode === 'pdf') {
+				const pdfConfig = parsedData.pdf!;
+
+				processPhase = 'uploading';
+				totalFiles = files.length;
+				const totalPdfFiles = files.length;
+				const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
+				let uploadedBytes = 0;
+				let processedPdfs = 0;
+
+				const pdfXhr = (file: File, params: URLSearchParams, onUploadEnd?: () => void): Promise<Blob> =>
+					new Promise((resolve, reject) => {
+						const xhr = new XMLHttpRequest();
+						xhr.open('POST', `${API_URL}/v1/pdf?${params}`);
+						xhr.setRequestHeader('Content-Type', 'application/pdf');
+						if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
+						xhr.responseType = 'blob';
+						let lastLoaded = 0;
+						xhr.upload.onprogress = (e) => {
+							const delta = e.loaded - lastLoaded;
+							lastLoaded = e.loaded;
+							uploadedBytes += delta;
+							uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+						};
+						xhr.upload.onloadend = () => { onUploadEnd?.(); };
+						xhr.onload = () => {
+							const remaining = file.size - lastLoaded;
+							if (remaining > 0) {
+								uploadedBytes += remaining;
+								uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+							}
+							if (xhr.status >= 200 && xhr.status < 300) {
+								resolve(xhr.response as Blob);
+							} else {
+								const e: any = new Error(
+									xhr.status === 403
+										? 'PDF tools require the Growth plan.'
+										: `Failed processing ${file.name} (Status: ${xhr.status})`
+								);
+								e.status = xhr.status;
+								reject(e);
+							}
+						};
+						xhr.onerror = () => reject(new Error(`Lost connection processing ${file.name}`));
+						xhr.send(file);
+					});
+
+				for (const file of files) {
+					if (hitRateLimit) break;
+
+					const params = new URLSearchParams({ op: pdfConfig.op });
+					if (pdfConfig.op === 'rasterize') {
+						params.set('type', pdfConfig.type);
+						params.set('dpi', String(pdfConfig.dpi));
+						params.set('quality', String(pdfConfig.quality));
+					}
+
+					try {
+						processPhase = 'uploading';
+						const blob = await pdfXhr(file, params, () => { processPhase = 'processing'; });
+						processPhase = 'downloading';
+
+						const baseName = file.name.replace(/\.pdf$/i, '');
+						const zipName = `${baseName}_${pdfConfig.op === 'split' ? 'pages' : 'rasterized'}.zip`;
+						const url = URL.createObjectURL(blob);
+						const a = document.createElement('a');
+						a.style.display = 'none';
+						a.href = url;
+						a.download = zipName;
+						document.body.appendChild(a);
+						a.click();
+						setTimeout(() => { URL.revokeObjectURL(url); document.body.removeChild(a); }, 100);
+
+						processedPdfs++;
+						completedFiles = processedPdfs;
+					} catch (e: any) {
+						if (e?.status === 429) {
+							hitRateLimit = true;
+							if (jwt) showUpgradeCta = true;
+							else showSignupCta = true;
+							break;
+						}
+						if (e?.status === 403) { showUpgradeCta = true; break; }
+						failedFiles = [...failedFiles, {
+							name: file.name,
+							reason: e instanceof Error ? e.message : `Server error ${e?.status ?? ''}`
+						}];
+					}
+				}
+
+				if (hitRateLimit) return;
+
+				prompt = '';
+				files = [];
+				uploadMode = null;
+				if (fileInputEl) fileInputEl.value = '';
+
+				if (processedPdfs === 0) {
+					posthog.capture('pdf_flow_completed', { files: totalPdfFiles, all_failed: true });
+					showStatus('error', failedFiles[0]?.reason ?? 'PDF processing failed — please try again.');
+				} else {
+					posthog.capture('pdf_flow_completed', { files: totalPdfFiles, failed: failedFiles.length });
+					const msg = failedFiles.length > 0
+						? `${processedPdfs} of ${totalPdfFiles} PDFs processed. ✨`
+						: `PDF${totalPdfFiles > 1 ? 's' : ''} processed successfully! ✨`;
+					showStatus('success', msg);
+					onSuccess?.();
+				}
+				return;
+			}
+			// ── end PDF mode ──────────────────────────────────────────────────────
+
 			const fileArray = parsedData.files || [];
 			const fileMap: Record<string, any> = {};
 			fileArray.forEach((item: any) => {
@@ -627,6 +795,7 @@
 
 			prompt = '';
 			files = [];
+			uploadMode = null;
 			if (fileInputEl) fileInputEl.value = '';
 			const successCount = totalFiles - failedFiles.length;
 			if (successCount === 0) {
@@ -757,13 +926,21 @@
 					{#each files as file, i}
 						<div class="group animate-fade-in relative flex-shrink-0">
 							<div class="liquid-bubble h-16 w-16 overflow-hidden rounded-2xl p-1">
-								<img
-									src={filePreviews[i]}
-									alt={file.name}
-									width="64"
-									height="64"
-									class="h-full w-full rounded-xl object-cover"
-								/>
+								{#if isPdf(file)}
+									<div class="flex h-full w-full items-center justify-center rounded-xl bg-red-50/80">
+										<svg class="h-7 w-7 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+										</svg>
+									</div>
+								{:else}
+									<img
+										src={filePreviews[i]}
+										alt={file.name}
+										width="64"
+										height="64"
+										class="h-full w-full rounded-xl object-cover"
+									/>
+								{/if}
 							</div>
 							<button
 								onclick={() => removeFile(i)}
@@ -785,7 +962,7 @@
 					<button
 						onclick={() => fileInputEl?.click()}
 						class="liquid-bubble flex h-16 w-16 flex-shrink-0 cursor-pointer items-center justify-center rounded-2xl border border-dashed border-[#F06292]/30 text-[#F06292]/60 shadow-sm transition-all hover:scale-105 hover:bg-white/60 hover:text-[#F06292]"
-						aria-label="Add more images"
+						aria-label="Add more files"
 					>
 						<svg
 							class="h-6 w-6"
@@ -814,9 +991,9 @@
 					bind:this={fileInputEl}
 					type="file"
 					multiple
-					accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.svg,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/svg+xml"
+					accept={fileAccept}
 					onchange={handleFileSelect}
-					aria-label="Upload images"
+					aria-label="Upload files"
 					class="hidden"
 				/>
 
@@ -828,7 +1005,7 @@
 								? 'opacity-100'
 								: 'opacity-0'}"
 						>
-							{placeholders[placeholderIndex]}
+							{placeholders[placeholderIndex % placeholders.length]}
 						</div>
 					{/if}
 					<textarea
@@ -888,6 +1065,7 @@
 							/>
 						</svg>
 					</button>
+					{#if uploadMode !== 'pdf'}
 					<div class="h-4 w-px flex-shrink-0 bg-white/40"></div>
 					<label
 						class="flex flex-shrink-0 cursor-pointer items-center gap-1.5"
@@ -912,6 +1090,7 @@
 								: 'text-[#875F42]/50'}">ZIP</span
 						>
 					</label>
+					{/if}
 					<div class="h-4 w-px flex-shrink-0 bg-white/40"></div>
 					<!-- Status text -->
 					<span
@@ -924,7 +1103,7 @@
 									>{/key}
 							{:else if displayPhase === 'working'}
 								{#if uploadPercent < 100}
-									Uploading{totalFiles > 1 ? ` ${totalFiles} images` : '…'} ({uploadPercent}%)
+									Uploading{totalFiles > 1 ? ` ${totalFiles} ${uploadMode === 'pdf' ? 'PDFs' : 'images'}` : '…'} ({uploadPercent}%)
 								{:else}
 									<span class="flex-shrink-0 animate-pulse text-[#66BB6A]">⬡</span>
 									Processing{totalFiles > 1 ? ` ${completedFiles}/${totalFiles}` : '…'}
@@ -933,7 +1112,9 @@
 								Packing your zip file…
 							{/if}
 						{:else if files.length === 0}
-							Drop images or use the clip button
+							Drop images or PDFs, or use the clip button
+						{:else if uploadMode === 'pdf'}
+							{files.length} {files.length === 1 ? 'PDF' : 'PDFs'} attached
 						{:else}
 							{files.length} {files.length === 1 ? 'image' : 'images'} attached
 						{/if}
@@ -998,7 +1179,9 @@
 				<p class="mb-1 text-[10px] font-black tracking-widest uppercase text-[#F06292]">How it works</p>
 				<p class="mb-3 text-xs leading-relaxed text-[#4A2C2C]/75">Describe what you want in plain English, attach your images, then hit send. The AI reads your prompt and processes each file automatically.</p>
 				<p class="mb-1 text-[10px] font-black tracking-widest uppercase text-[#F06292]">Accepted formats</p>
-				<p class="text-xs leading-relaxed text-[#4A2C2C]/75">JPG · PNG · WebP · AVIF · JPEG XL · HEIC · HEIF · HIF · SVG</p>
+				<p class="mb-3 text-xs leading-relaxed text-[#4A2C2C]/75">JPG · PNG · WebP · AVIF · JPEG XL · HEIC · HEIF · HIF · SVG</p>
+				<p class="mb-1 text-[10px] font-black tracking-widest uppercase text-[#F06292]">PDF tools</p>
+				<p class="text-xs leading-relaxed text-[#4A2C2C]/75">Rasterize pages to images (PNG, JPG, WebP…) or split a PDF into individual page files.</p>
 			</div>
 			<button class="fixed inset-0 -z-10 cursor-default" onclick={() => (showInfoTooltip = false)} aria-label="Close" tabindex="-1"></button>
 		{/if}
@@ -1084,6 +1267,7 @@
 					<span class="h-1.5 w-1.5 flex-shrink-0 rounded-full opacity-80 {s.dot}"></span>{s.label}
 				</button>
 			{/each}
+			{#if uploadMode !== 'pdf'}
 			<!-- Convert to… expander -->
 			<button
 				onclick={() => {
@@ -1128,6 +1312,7 @@
 				>
 				Rotate…
 			</button>
+			{/if}
 		{/if}
 	</div>
 </div>
