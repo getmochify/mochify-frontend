@@ -34,7 +34,7 @@ The homepage (`/`) lets users toggle between:
 
 2. **Manual Settings** — `ImageUpload.svelte`: Classic form with format selector. Sends files directly to `POST /v1/squish`. Supports batch processing up to 25 files (2 concurrent), token-limit checking via `GET /v1/checkTokens`, EXIF stripping, and smart-compress toggles. Multiple outputs are zipped client-side with `fflate`.
 
-`/flow` is a standalone page that renders only `PromptForm.svelte`.
+`/app` is the standalone PWA surface (the web app manifest's `start_url`, `display: standalone`). It renders `PromptFormApp.svelte` — a fork of `PromptForm.svelte` kept separate so the installed-app experience can diverge (e.g. agentic/MCP "Mochify 2.0" framing) without affecting the homepage. It uses the shared `Navigation` and `Footer` and is `noindex`.
 
 ### API endpoints used
 
@@ -45,7 +45,7 @@ The homepage (`/`) lets users toggle between:
 ### Route structure
 
 - `/` — Homepage with tab-switcher between PromptForm and ImageUpload
-- `/flow` — Standalone Magic Flow page
+- `/app` — Standalone PWA surface (manifest `start_url`); renders the `PromptFormApp.svelte` fork, with shared Navigation + Footer, `noindex`
 - `/solutions/*` — Use-case landing pages (eBay converter, HIF-to-AVIF, etc.) — each embeds `ImageUpload` with preset `output` and `queryParams` props
 - `/guides/*` — Static long-form content articles; shares `src/routes/guides/+layout.svelte`
 - `/comparison`, `/about`, `/privacy`, `/terms`, `/service-terms` — Static pages

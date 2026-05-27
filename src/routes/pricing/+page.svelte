@@ -402,6 +402,12 @@
                         <span class="mt-0.5 text-[#F06292] font-black">✓</span>
                         <span><strong>Top priority queue</strong> — ahead of everyone</span>
                     </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]/55">
+                        <span class="mt-0.5 text-[#6C3F31]/25 font-black">✓</span>
+                        <span>PDF tools — up to 10 pages
+                            <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-[#F06292]/10 text-[#F06292] text-[10px] font-black uppercase tracking-wide align-middle">Soon</span>
+                        </span>
+                    </li>
                 </ul>
 
                 <a
@@ -439,6 +445,28 @@
                     {/if}
                 {/if}
                 -->
+            </div>
+        </div>
+
+        <!-- Growth — coming soon -->
+        <div class="mt-8 max-w-4xl mx-auto">
+            <div class="relative overflow-hidden rounded-3xl border border-[#F06292]/20 bg-gradient-to-br from-[#FFF0F5] to-white p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-4">
+                <div class="absolute -top-6 -right-6 w-32 h-32 bg-[#F06292]/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="flex-grow relative">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-lg font-black text-[#4A2C2C]">Growth</span>
+                        <span class="inline-block px-2 py-0.5 rounded-full bg-[#F06292]/10 text-[#F06292] text-[10px] font-black uppercase tracking-wide">Coming soon</span>
+                    </div>
+                    <p class="text-[#6C3F31] text-sm leading-relaxed">
+                        Agency-grade PDF workflows — split, merge, compress, and pull every image out of a PDF. Built for high-volume sellers and studios.
+                    </p>
+                </div>
+                <a
+                    href="mailto:hello@mochify.app?subject=Growth%20early%20access"
+                    class="flex-shrink-0 relative text-center px-6 py-3 rounded-2xl border border-[#F06292]/30 text-sm font-black text-[#F06292] hover:bg-[#FFF5F7] transition-all"
+                >
+                    Get early access
+                </a>
             </div>
         </div>
 

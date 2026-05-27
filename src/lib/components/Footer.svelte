@@ -1,5 +1,13 @@
+<script lang="ts">
+    // `minimal` drops the marketing block (Popular Tools + Solutions/Guides CTAs)
+    // for surfaces like /app where the focus is the tool, not routing to content.
+    // Leaves the legal links, address and attribution intact.
+    let { minimal = false } = $props();
+</script>
+
 <footer class="relative z-10 w-full max-w-5xl mx-auto px-4 pb-12 sm:px-6 lg:px-8 text-center">
 
+    {#if !minimal}
     <p class="text-sm font-bold text-cocoa-milk uppercase tracking-widest mb-6">
         Popular Tools
     </p>
@@ -26,6 +34,7 @@
             Read Guides
         </a>
     </div>
+    {/if}
 
     <div class="space-y-5">
         <div class="grid grid-cols-2 justify-items-center gap-x-4 gap-y-3 sm:flex sm:flex-wrap sm:justify-center sm:items-center sm:gap-x-6 sm:gap-y-2 text-xs">

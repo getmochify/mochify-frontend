@@ -30,7 +30,7 @@
             <!-- Intro card -->
             <div class="bg-white rounded-3xl border border-pink-50 shadow-sm p-8 md:p-12">
                 <p class="text-[#6C3F31] text-lg leading-relaxed mb-6">
-                    At Mochify, data privacy isn't an afterthought — it's built into how our service works. All image files are processed entirely in-memory and never written to disk, meaning there is nothing to retain, breach, or leak.
+                    At Mochify, data privacy isn't an afterthought — it's built into how our service works. Image files are processed entirely in-memory and are not retained after processing. The one exception is our Model Context Protocol (MCP) integration, where a processed result is stored for up to approximately five minutes solely to deliver it via a short-lived download link, then automatically deleted (see Schedule 2).
                 </p>
                 <p class="text-[#6C3F31] text-lg leading-relaxed mb-8">
                     For businesses that require a formal Data Processing Agreement (DPA) as part of their GDPR compliance obligations, we have prepared the following template in accordance with UK GDPR and Article 28 requirements.
@@ -279,7 +279,7 @@
 
                 <p>The Supplier also has the following technical and organisational measures in place:</p>
                 <ul>
-                    <li>All uploaded image files are processed entirely in-memory and are never written to disk or retained after processing is complete, ensuring zero data persistence.</li>
+                    <li>Uploaded image files are processed entirely in-memory and are not retained after processing is complete, ensuring zero data persistence — with the sole exception of the Model Context Protocol (MCP) integration, where the processed <em>result</em> (never the original upload) is stored by a Sub-processor (see Schedule 3) for no more than approximately five minutes to enable delivery via a short-lived download link, after which it is automatically and permanently deleted.</li>
                     <li>All data in transit is encrypted using HTTPS/TLS. Server access is restricted to authorised personnel only, with access controls and secure authentication in place.</li>
                 </ul>
 
@@ -287,7 +287,9 @@
 
                 <p>The Customer agrees that the Supplier may sub-contract certain obligations under this DPA to the following Sub-processors:</p>
 
-                <p><em>None at the date of this agreement.</em></p>
+                <ul>
+                    <li><strong>Cloudflare, Inc.</strong> — temporary storage of processed image outputs (for no more than approximately five minutes, after which they are automatically deleted) to enable delivery via short-lived download links. Applies <em>only</em> to images processed through the Supplier's Model Context Protocol (MCP) integration; the standard web, API and CLI services use no Sub-processor for image data.</li>
+                </ul>
 
             </article>
 

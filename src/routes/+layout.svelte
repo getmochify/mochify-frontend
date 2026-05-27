@@ -6,6 +6,7 @@
 
 	const BLOB_ROUTES = new Set([
 		'/',
+		'/app',
 		'/pricing',
 		'/ebay-seller',
 		'/vinted-seller',

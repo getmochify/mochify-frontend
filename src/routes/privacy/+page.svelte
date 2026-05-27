@@ -86,7 +86,8 @@
 
             <h4>Image Processing</h4>
             <ol start="6">
-                <li>When you upload images to use our compression or conversion service, those image files are processed entirely in RAM (temporary memory) on our servers and discarded immediately after processing is complete. We do not store your images on disk, retain copies after processing, or use them for training AI models or for any marketing purposes. Your images exist on our servers only for the seconds required to compress or convert them.</li>
+                <li>When you upload images to use our compression or conversion service, those image files are processed entirely in RAM (temporary memory) on our servers and discarded immediately after processing is complete. We do not retain copies of your original images after processing, or use them for training AI models or for any marketing purposes. With the single limited exception described below, we do not store your images on disk; your images exist on our servers only for the seconds required to compress or convert them.</li>
+                <li><strong>Limited exception — MCP / AI assistant integration:</strong> when you process an image through our Model Context Protocol (MCP) endpoint (used by AI assistants such as Claude), the processed <em>result</em> is stored temporarily — for no more than approximately five minutes — by our infrastructure provider so it can be delivered to you, or passed to other tools you direct it to, via a short-lived download link. The stored file is then automatically and permanently deleted. This applies only to the processed output, never to your original upload, and only when you use the MCP integration.</li>
             </ol>
 
             <h3>How We Collect Data</h3>
