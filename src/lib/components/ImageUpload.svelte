@@ -48,8 +48,8 @@
     $effect(() => {
         getPlan().then((plan) => {
             MAX_FILES = plan === 'free' ? 3 : 25;
-            MAX_INDIVIDUAL_FILE_SIZE = (plan === 'pro' || plan === 'day' || plan === 'seller') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
-            planQuota = plan === 'pro' ? 1200 : plan === 'seller' ? 300 : plan === 'day' ? 500 : 25;
+            MAX_INDIVIDUAL_FILE_SIZE = (plan === 'pro' || plan === 'day' || plan === 'seller' || plan === 'growth') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
+            planQuota = plan === 'pro' ? 1200 : plan === 'seller' ? 300 : plan === 'day' ? 500 : plan === 'growth' ? 5000 : 25;
         });
     });
 

@@ -73,7 +73,7 @@
     let MAX_INDIVIDUAL_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro/lite
     $effect(() => {
         getPlan().then(plan => {
-            MAX_INDIVIDUAL_FILE_SIZE = (plan === 'pro' || plan === 'day' || plan === 'seller') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
+            MAX_INDIVIDUAL_FILE_SIZE = (plan === 'pro' || plan === 'day' || plan === 'seller' || plan === 'growth') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
             MAX_FILES = plan === 'free' ? 3 : 25;
         });
     });

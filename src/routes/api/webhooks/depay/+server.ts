@@ -6,7 +6,8 @@ import type { RequestHandler } from './$types';
 
 const PLAN_CONFIG: Record<string, { ops_limit: number }> = {
 	pro: { ops_limit: 1200 },
-	seller: { ops_limit: 300 }
+	seller: { ops_limit: 300 },
+	growth: { ops_limit: 5000 }
 };
 
 // Depay's RSA-SHA256 public key — safe to commit, this is not a secret.

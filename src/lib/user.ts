@@ -15,19 +15,19 @@ export function getSessionToken(): Promise<string | null> {
 
 // Deduplicate concurrent calls and cache for 5 minutes — /api/usage doesn't
 // change mid-session and components call getPlan() on every mount.
-let _planRequest: Promise<'free' | 'seller' | 'pro' | 'day'> | null = null
-let _planCache: { value: 'free' | 'seller' | 'pro' | 'day'; expires: number } | null = null
+let _planRequest: Promise<'free' | 'seller' | 'pro' | 'day' | 'growth'> | null = null
+let _planCache: { value: 'free' | 'seller' | 'pro' | 'day' | 'growth'; expires: number } | null = null
 const PLAN_TTL = 5 * 60 * 1000
 
-export function getPlan(): Promise<'free' | 'seller' | 'pro' | 'day'> {
+export function getPlan(): Promise<'free' | 'seller' | 'pro' | 'day' | 'growth'> {
     if (_planCache && Date.now() < _planCache.expires) return Promise.resolve(_planCache.value)
     if (!_planRequest) {
         _planRequest = fetch('/api/usage')
             .then(res => res.ok ? res.json() as Promise<{ plan?: string }> : {})
             .then(data => {
                 const plan = (data as { plan?: string }).plan
-                const value: 'free' | 'seller' | 'pro' | 'day' =
-                    plan === 'pro' ? 'pro' : plan === 'seller' ? 'seller' : plan === 'day' ? 'day' : 'free'
+                const value: 'free' | 'seller' | 'pro' | 'day' | 'growth' =
+                    plan === 'pro' ? 'pro' : plan === 'seller' ? 'seller' : plan === 'day' ? 'day' : plan === 'growth' ? 'growth' : 'free'
                 _planCache = { value, expires: Date.now() + PLAN_TTL }
                 return value
             })

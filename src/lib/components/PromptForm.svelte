@@ -75,7 +75,7 @@
 	let MAX_FILES = $state(3); // 3 for free, 25 for lite/pro
 	$effect(() => {
 		getPlan().then((plan) => {
-			MAX_FILE_SIZE = (plan === 'pro' || plan === 'day' || plan === 'seller') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
+			MAX_FILE_SIZE = (plan === 'pro' || plan === 'day' || plan === 'seller' || plan === 'growth') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
 			MAX_FILES = plan === 'free' ? 3 : 25;
 		});
 	});

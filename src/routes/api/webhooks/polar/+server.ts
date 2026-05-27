@@ -80,11 +80,16 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const kv = (platform?.env as any)?.USAGE_KV as KVNamespace | undefined;
 
-	const PRODUCT_PLAN_MAP: Record<string, { plan: 'seller' | 'pro'; ops_limit: number }> = {
+	const PRODUCT_PLAN_MAP: Record<string, { plan: 'seller' | 'pro' | 'growth'; ops_limit: number }> = {
 		[env.POLAR_PRODUCT_ID_SELLER_MONTHLY]: { plan: 'seller', ops_limit: 300 },
 		[env.POLAR_PRODUCT_ID_SELLER_YEARLY]: { plan: 'seller', ops_limit: 300 },
 		[env.POLAR_PRODUCT_ID_PRO_MONTHLY]: { plan: 'pro', ops_limit: 1200 },
-		[env.POLAR_PRODUCT_ID_PRO_YEARLY]: { plan: 'pro', ops_limit: 1200 }
+		[env.POLAR_PRODUCT_ID_PRO_YEARLY]: { plan: 'pro', ops_limit: 1200 },
+		// Inert until POLAR_PRODUCT_ID_GROWTH_* env vars are set to the Polar product
+		// IDs. `?? ''` keeps the computed key a string before the vars are defined
+		// (svelte-kit only types known env vars as string); '' never matches a real id.
+		[env.POLAR_PRODUCT_ID_GROWTH_MONTHLY ?? '']: { plan: 'growth', ops_limit: 5000 },
+		[env.POLAR_PRODUCT_ID_GROWTH_YEARLY ?? '']: { plan: 'growth', ops_limit: 5000 }
 	};
 
 	switch (event.type) {
