@@ -66,6 +66,7 @@
     "lightningcss-linux-x64-gnu": "1.32.0"
   },
   "dependencies": {
+    "@fontsource/nunito": "^5.2.7",
     "@fontsource/outfit": "^5.2.8",
     "@fontsource/quicksand": "^5.2.10",
     "@jsquash/jxl": "^1.3.0",

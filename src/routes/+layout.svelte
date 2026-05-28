@@ -32,17 +32,17 @@
 	import '@fontsource/outfit/800.css';
 	import '@fontsource/outfit/900.css';
 
-	// Import Quicksand (Weights: 400, 500, 600, 700)
-	import '@fontsource/quicksand/400.css';
-	import '@fontsource/quicksand/500.css';
-	import '@fontsource/quicksand/600.css';
-	import '@fontsource/quicksand/700.css';
+	// Import Nunito (Weights: 400, 500, 600, 700)
+	import '@fontsource/nunito/400.css';
+	import '@fontsource/nunito/500.css';
+	import '@fontsource/nunito/600.css';
+	import '@fontsource/nunito/700.css';
 
 	// Preload the most-used weights so fonts arrive before first paint,
 	// preventing the font-display:swap reflow that causes CLS.
-	import qs400 from '@fontsource/quicksand/files/quicksand-latin-400-normal.woff2?url';
-	import qs600 from '@fontsource/quicksand/files/quicksand-latin-600-normal.woff2?url';
-	import qs700 from '@fontsource/quicksand/files/quicksand-latin-700-normal.woff2?url';
+	import qs400 from '@fontsource/nunito/files/nunito-latin-400-normal.woff2?url';
+	import qs600 from '@fontsource/nunito/files/nunito-latin-600-normal.woff2?url';
+	import qs700 from '@fontsource/nunito/files/nunito-latin-700-normal.woff2?url';
 	import of700 from '@fontsource/outfit/files/outfit-latin-700-normal.woff2?url';
 	import of800 from '@fontsource/outfit/files/outfit-latin-800-normal.woff2?url';
 </script>

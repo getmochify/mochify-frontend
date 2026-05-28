@@ -7,9 +7,9 @@ body {
 }
 
 /* --- 1. TAILWIND V4 THEME CONFIG --- */
-/* This tells Tailwind: "When I say font-sans, use Quicksand." */
+/* This tells Tailwind: "When I say font-sans, use Nunito." */
 @theme {
-  --font-sans: "Quicksand", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "Outfit", ui-sans-serif, system-ui, sans-serif;
   
   /* Optional: Map your colors here if you want to use them like 'bg-mochi-pink' */
