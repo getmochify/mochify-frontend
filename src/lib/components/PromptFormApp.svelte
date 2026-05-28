@@ -63,6 +63,7 @@
 	]);
 
 	function isVideoOrAudio(f: File): boolean {
+		if (f.type.startsWith('video/') || f.type.startsWith('audio/')) return true;
 		const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
 		return VIDEO_AUDIO_MIME_TYPES.has(f.type) || VIDEO_AUDIO_EXTENSIONS.has(ext);
 	}
