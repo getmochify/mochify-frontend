@@ -271,10 +271,10 @@
 	const videoSuggestions = [
 		{ label: 'To WebM', prompt: 'Convert to WebM for web playback', dot: 'bg-blue-400' },
 		{ label: 'To MP4', prompt: 'Convert to MP4 for maximum compatibility', dot: 'bg-slate-400' },
-		{ label: 'To AV1', prompt: 'Convert to AV1 for maximum compression', dot: 'bg-violet-500' },
 		{ label: '720p', prompt: 'Resize to 720p, keep original format', dot: 'bg-teal-400' },
 		{ label: '1080p', prompt: 'Resize to 1080p, keep original format', dot: 'bg-teal-500' },
 		{ label: 'Extract audio', prompt: 'Extract audio as MP3', dot: 'bg-purple-400' },
+		{ label: 'To AAC', prompt: 'Convert audio to AAC', dot: 'bg-orange-400' },
 	];
 	const suggestions = $derived(
 		uploadMode === 'pdf' ? pdfSuggestions :
@@ -508,15 +508,22 @@
 							}
 							if (xhr.status >= 200 && xhr.status < 300) {
 								resolve(xhr.response as Blob);
-							} else {
-								const e: any = new Error(
-									xhr.status === 403
-										? 'PDF tools require the Growth plan.'
-										: `Failed processing ${file.name} (Status: ${xhr.status})`
-								);
-								e.status = xhr.status;
-								reject(e);
+								return;
 							}
+							const status = xhr.status;
+							const reader = new FileReader();
+							reader.onload = () => {
+								const text = (reader.result as string)?.trim() || '';
+								const e: any = new Error(text || `Failed processing ${file.name} (Status: ${status})`);
+								e.status = status;
+								reject(e);
+							};
+							reader.onerror = () => {
+								const e: any = new Error(`Failed processing ${file.name} (Status: ${status})`);
+								e.status = status;
+								reject(e);
+							};
+							reader.readAsText(xhr.response as Blob);
 						};
 						xhr.onerror = () => reject(new Error(`Lost connection processing ${file.name}`));
 						xhr.send(file);
@@ -598,12 +605,11 @@
 				const FORMAT_MAP: Record<string, any> = {
 					mp4: Mp4OutputFormat, webm: WebMOutputFormat, mkv: MkvOutputFormat, mov: MovOutputFormat,
 					mp3: Mp3OutputFormat, wav: WavOutputFormat,  aac: AdtsOutputFormat,
-					flac: FlacOutputFormat, ogg: OggOutputFormat, av1: WebMOutputFormat,
+					flac: FlacOutputFormat, ogg: OggOutputFormat,
 				};
 				const MIME_MAP: Record<string, string> = {
 					mp4: 'video/mp4', webm: 'video/webm', mkv: 'video/x-matroska', mov: 'video/quicktime',
 					mp3: 'audio/mpeg', wav: 'audio/wav', aac: 'audio/aac', flac: 'audio/flac', ogg: 'audio/ogg',
-					av1: 'video/av1',
 				};
 				const AUDIO_ONLY_FMTS = new Set(['mp3', 'wav', 'aac', 'flac', 'ogg']);
 

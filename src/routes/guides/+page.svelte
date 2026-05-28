@@ -122,6 +122,14 @@
             date: "Mar 09, 2026"
         },
         {
+            title: "How the Mochify MCP Server Works: Hosted vs Local, with Worked Examples",
+            description: "The hosted and local MCP surfaces compared — architecture, token costs, retention behaviour, and four worked examples covering URL input, uploaded images, Claude Desktop file work, and build pipelines.",
+            url: "/guides/how-the-mochify-mcp-server-works",
+            category: "AI & Automation",
+            readTime: "9 min read",
+            date: "May 28, 2026"
+        },
+        {
             title: "A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression",
             description: "Looking for a GDPR-compliant image compressor hosted in the EU? Mochify processes images in memory only, never stores your files, and strips EXIF data by default.",
             url: "/guides/european-alternative-tinypng-gdpr-compliant-image-compression",
