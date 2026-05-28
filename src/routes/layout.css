@@ -7,9 +7,9 @@ body {
 }
 
 /* --- 1. TAILWIND V4 THEME CONFIG --- */
-/* This tells Tailwind: "When I say font-sans, use Plus Jakarta Sans." */
+/* This tells Tailwind: "When I say font-sans, use Nunito." */
 @theme {
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "Outfit", ui-sans-serif, system-ui, sans-serif;
   
   /* Optional: Map your colors here if you want to use them like 'bg-mochi-pink' */
