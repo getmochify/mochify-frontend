@@ -604,7 +604,7 @@
 				const MIME_MAP: Record<string, string> = {
 					mp4: 'video/mp4', webm: 'video/webm', mkv: 'video/x-matroska', mov: 'video/quicktime',
 					mp3: 'audio/mpeg', wav: 'audio/wav', aac: 'audio/aac', flac: 'audio/flac', ogg: 'audio/ogg',
-					av1: 'video/webm',
+					av1: 'video/av1',
 				};
 				const AUDIO_ONLY_FMTS = new Set(['mp3', 'wav', 'aac', 'flac', 'ogg']);
 
@@ -692,7 +692,7 @@
 
 								const blob = new Blob([buffer], { type: MIME_MAP[fmt] ?? 'application/octet-stream' });
 								const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-								const outputExt    = fmt === 'av1' ? 'webm' : fmt;
+								const outputExt    = fmt;
 								const sizeSuffix   = multiSize   ? (size.height ? `_${size.height}p` : size.width ? `_${size.width}w` : '') : '';
 								const fmtSuffix    = multiFormat ? `_${fmt}` : '';
 								const outputName   = `${baseName}_mochified${sizeSuffix}${fmtSuffix}.${outputExt}`;
