@@ -271,9 +271,10 @@
 	const videoSuggestions = [
 		{ label: 'To WebM', prompt: 'Convert to WebM for web playback', dot: 'bg-blue-400' },
 		{ label: 'To MP4', prompt: 'Convert to MP4 for maximum compatibility', dot: 'bg-slate-400' },
+		{ label: 'To AV1', prompt: 'Convert to AV1 for maximum compression', dot: 'bg-violet-500' },
+		{ label: '720p', prompt: 'Resize to 720p, keep original format', dot: 'bg-teal-400' },
+		{ label: '1080p', prompt: 'Resize to 1080p, keep original format', dot: 'bg-teal-500' },
 		{ label: 'Extract audio', prompt: 'Extract audio as MP3', dot: 'bg-purple-400' },
-		{ label: 'To AAC', prompt: 'Convert audio to AAC', dot: 'bg-orange-400' },
-		{ label: 'To WAV', prompt: 'Convert to lossless WAV audio', dot: 'bg-green-400' },
 	];
 	const suggestions = $derived(
 		uploadMode === 'pdf' ? pdfSuggestions :
@@ -597,71 +598,127 @@
 				const FORMAT_MAP: Record<string, any> = {
 					mp4: Mp4OutputFormat, webm: WebMOutputFormat, mkv: MkvOutputFormat, mov: MovOutputFormat,
 					mp3: Mp3OutputFormat, wav: WavOutputFormat,  aac: AdtsOutputFormat,
-					flac: FlacOutputFormat, ogg: OggOutputFormat,
+					flac: FlacOutputFormat, ogg: OggOutputFormat, av1: WebMOutputFormat,
 				};
 				const MIME_MAP: Record<string, string> = {
 					mp4: 'video/mp4', webm: 'video/webm', mkv: 'video/x-matroska', mov: 'video/quicktime',
 					mp3: 'audio/mpeg', wav: 'audio/wav', aac: 'audio/aac', flac: 'audio/flac', ogg: 'audio/ogg',
+					av1: 'video/webm',
 				};
+				const AUDIO_ONLY_FMTS = new Set(['mp3', 'wav', 'aac', 'flac', 'ogg']);
 
 				const videoFileArray = parsedData.files || [];
 				const videoFileMap: Record<string, any> = {};
 				videoFileArray.forEach((item: any) => { videoFileMap[item.name] = item; });
 
+				const videoVariantCount = (item: any): number => {
+					const fmts = Array.isArray(item?.outputFormats) ? item.outputFormats.length : 1;
+					const szs  = Array.isArray(item?.sizes)         ? item.sizes.length         : 1;
+					return Math.max(fmts, 1) * Math.max(szs, 1);
+				};
+
 				processPhase = 'processing';
-				totalFiles = files.length;
 				const totalVideoFiles = files.length;
-				let processedVideos = 0;
+				totalFiles = files.reduce((sum, f, i) => sum + videoVariantCount(videoFileMap[f.name] ?? videoFileArray[i]), 0);
+				let processedVariants = 0;
 
 				for (let i = 0; i < files.length; i++) {
 					const file = files[i];
 					const fileConfig = videoFileMap[file.name] ?? videoFileArray[i] ?? {};
-					const fmt: string = fileConfig.outputFormat || 'mp4';
-					const FormatClass = FORMAT_MAP[fmt] ?? Mp4OutputFormat;
 
-					try {
-						uploadPercent = 0;
-						const input = new Input({ formats: ALL_FORMATS, source: new BlobSource(file) });
-						const target = new BufferTarget();
-						const output = new Output({ format: new FormatClass(), target });
-						const conversion = await Conversion.init({ input, output });
+					const formats: string[] = Array.isArray(fileConfig.outputFormats) && fileConfig.outputFormats.length > 0
+						? fileConfig.outputFormats
+						: [fileConfig.outputFormat || 'mp4'];
 
-						if (!conversion.isValid) {
-							failedFiles = [...failedFiles, { name: file.name, reason: 'Unsupported conversion for this file.' }];
-							continue;
+					type SizeEntry = { width: number; height: number };
+					const sizes: SizeEntry[] = Array.isArray(fileConfig.sizes) && fileConfig.sizes.length > 0
+						? fileConfig.sizes
+						: [{ width: fileConfig.width ?? 0, height: fileConfig.height ?? 0 }];
+
+					const multiFormat = formats.length > 1;
+					const multiSize   = sizes.length > 1;
+					let hasAudio: boolean | null = null;
+
+					for (const size of sizes) {
+						for (const fmt of formats) {
+							const FormatClass = FORMAT_MAP[fmt] ?? Mp4OutputFormat;
+
+							try {
+								uploadPercent = 0;
+
+								if (AUDIO_ONLY_FMTS.has(fmt) && hasAudio === false) {
+									failedFiles = [...failedFiles, { name: file.name, reason: 'No audio track found — this file is video-only.' }];
+									continue;
+								}
+
+								const input = new Input({ formats: ALL_FORMATS, source: new BlobSource(file) });
+
+								if (AUDIO_ONLY_FMTS.has(fmt) && hasAudio === null) {
+									const audioTracks = await input.getAudioTracks();
+									hasAudio = audioTracks.length > 0;
+									if (!hasAudio) {
+										failedFiles = [...failedFiles, { name: file.name, reason: 'No audio track found — this file is video-only.' }];
+										continue;
+									}
+								}
+
+								const videoOpts: Record<string, number> = {};
+								if (size.width  > 0) videoOpts.width  = size.width;
+								if (size.height > 0) videoOpts.height = size.height;
+
+								const target = new BufferTarget();
+								const output = new Output({ format: new FormatClass(), target });
+								const conversion = await Conversion.init({
+									input, output,
+									...(Object.keys(videoOpts).length > 0 ? { video: videoOpts } : {})
+								});
+
+								if (!conversion.isValid) {
+									failedFiles = [...failedFiles, { name: file.name, reason: 'Unsupported conversion for this file.' }];
+									continue;
+								}
+
+								conversion.onProgress = (progress: number) => {
+									uploadPercent = Math.min(Math.round(progress * 100), 99);
+								};
+
+								await conversion.execute();
+								uploadPercent = 100;
+								processPhase = 'downloading';
+
+								const buffer = target.buffer;
+								if (!buffer) throw new Error('Conversion produced no output.');
+
+								const blob = new Blob([buffer], { type: MIME_MAP[fmt] ?? 'application/octet-stream' });
+								const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+								const outputExt    = fmt === 'av1' ? 'webm' : fmt;
+								const sizeSuffix   = multiSize   ? (size.height ? `_${size.height}p` : size.width ? `_${size.width}w` : '') : '';
+								const fmtSuffix    = multiFormat ? `_${fmt}` : '';
+								const outputName   = `${baseName}_mochified${sizeSuffix}${fmtSuffix}.${outputExt}`;
+
+								const url = URL.createObjectURL(blob);
+								const a = document.createElement('a');
+								a.style.display = 'none';
+								a.href = url;
+								a.download = outputName;
+								document.body.appendChild(a);
+								a.click();
+								setTimeout(() => { URL.revokeObjectURL(url); document.body.removeChild(a); }, 100);
+
+							} catch (e: any) {
+								const variantLabel = [
+									multiSize   ? (size.height ? `${size.height}p` : size.width ? `${size.width}w` : '') : '',
+									multiFormat ? fmt : '',
+								].filter(Boolean).join(' ');
+								failedFiles = [...failedFiles, {
+									name: variantLabel ? `${file.name} (${variantLabel})` : file.name,
+									reason: e instanceof Error ? e.message : 'Processing failed'
+								}];
+							}
+
+							processedVariants++;
+							completedFiles = processedVariants;
 						}
-
-						conversion.onProgress = (progress: number) => {
-							uploadPercent = Math.min(Math.round(progress * 100), 99);
-						};
-
-						await conversion.execute();
-						uploadPercent = 100;
-						processPhase = 'downloading';
-
-						const buffer = target.buffer;
-						if (!buffer) throw new Error('Conversion produced no output.');
-
-						const blob = new Blob([buffer], { type: MIME_MAP[fmt] ?? 'application/octet-stream' });
-						const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-						const outputName = `${baseName}_mochified.${fmt}`;
-
-						const url = URL.createObjectURL(blob);
-						const a = document.createElement('a');
-						a.style.display = 'none';
-						a.href = url;
-						a.download = outputName;
-						document.body.appendChild(a);
-						a.click();
-						setTimeout(() => { URL.revokeObjectURL(url); document.body.removeChild(a); }, 100);
-
-						processedVideos++;
-						completedFiles = processedVideos;
-					} catch (e: any) {
-						failedFiles = [...failedFiles, {
-							name: file.name,
-							reason: e instanceof Error ? e.message : 'Processing failed'
-						}];
 					}
 				}
 
@@ -670,13 +727,14 @@
 				uploadMode = null;
 				if (fileInputEl) fileInputEl.value = '';
 
-				if (processedVideos === 0) {
+				const successCount = processedVariants - failedFiles.length;
+				if (successCount === 0) {
 					posthog.capture('video_flow_completed', { files: totalVideoFiles, all_failed: true });
 					showStatus('error', failedFiles[0]?.reason ?? 'Media processing failed — please try again.');
 				} else {
 					posthog.capture('video_flow_completed', { files: totalVideoFiles, failed: failedFiles.length });
 					const msg = failedFiles.length > 0
-						? `${processedVideos} of ${totalVideoFiles} files processed. ✨`
+						? `${successCount} of ${totalFiles} variants processed. ✨`
 						: `File${totalVideoFiles > 1 ? 's' : ''} converted successfully! ✨`;
 					showStatus('success', msg);
 					onSuccess?.();
