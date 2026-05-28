@@ -258,24 +258,21 @@
         <!-- Related Guides -->
         <section id="related-guides" class="scroll-mt-24">
             <SectionHeading>Related Guides</SectionHeading>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <a href="/guides/exif-data-risks-image-compression-2026" class="group block bg-[#FFF5F7] rounded-2xl border border-pink-100 p-5 hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all no-underline">
-                    <h3 class="font-bold text-cocoa-deep group-hover:text-mochi-pink transition-colors mb-1">EXIF Data Risks →</h3>
-                    <p class="text-sm text-cocoa-milk leading-relaxed">Why stripping metadata matters, especially for personal photo archives and journals.</p>
-                </a>
-                <a href="/guides/history-image-compression-2026" class="group block bg-[#FFF5F7] rounded-2xl border border-pink-100 p-5 hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all no-underline">
-                    <h3 class="font-bold text-cocoa-deep group-hover:text-mochi-pink transition-colors mb-1">History of Image Compression →</h3>
-                    <p class="text-sm text-cocoa-milk leading-relaxed">How we got from JPEG to AVIF and why modern formats matter for long-term storage.</p>
-                </a>
-                <a href="/guides/heif-to-jpeg-workflow-photographers-guide" class="group block bg-[#FFF5F7] rounded-2xl border border-pink-100 p-5 hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all no-underline">
-                    <h3 class="font-bold text-cocoa-deep group-hover:text-mochi-pink transition-colors mb-1">HEIF to JPEG Workflow →</h3>
-                    <p class="text-sm text-cocoa-milk leading-relaxed">A practical workflow for converting HEIC photos without the size penalty Day One introduces.</p>
-                </a>
-                <a href="/guides/privacy-image-optimization" class="group block bg-[#FFF5F7] rounded-2xl border border-pink-100 p-5 hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all no-underline">
-                    <h3 class="font-bold text-cocoa-deep group-hover:text-mochi-pink transition-colors mb-1">Privacy & Image Optimization →</h3>
-                    <p class="text-sm text-cocoa-milk leading-relaxed">Zero-retention compression explained — why it matters for personal photo archives.</p>
-                </a>
-            </div>
+            <ul class="space-y-3">
+                {#each [
+                    { href: '/guides/exif-data-risks-image-compression-2026', title: 'EXIF Data Risks', desc: 'Why stripping metadata matters, especially for personal photo archives and journals.' },
+                    { href: '/guides/history-image-compression-2026', title: 'History of Image Compression', desc: 'How we got from JPEG to AVIF and why modern formats matter for long-term storage.' },
+                    { href: '/guides/heif-to-jpeg-workflow-photographers-guide', title: 'HEIF to JPEG Workflow', desc: 'A practical workflow for converting HEIC photos without the size penalty Day One introduces.' },
+                    { href: '/guides/privacy-image-optimization', title: 'Privacy & Image Optimization', desc: 'Zero-retention compression explained — why it matters for personal photo archives.' },
+                ] as guide}
+                    <li>
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                {/each}
+            </ul>
         </section>
 
     </div>

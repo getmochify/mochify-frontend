@@ -24,9 +24,16 @@
       "database_id": "5b476a87-44a7-4b3b-9687-d6173ab17420"
     }
   ],
-  // All environment variables and secrets are managed via the Cloudflare
-  // dashboard (Settings → Environment Variables). Do not add vars here —
-  // wrangler deploy would overwrite the dashboard values with whatever is
-  // in this file.
-  "vars": {}
+  // Non-secret vars belong here so they survive wrangler deploy (which
+  // replaces the worker's plain vars with exactly what's in this file).
+  // Actual secrets (POLAR_ACCESS_TOKEN, POLAR_WEBHOOK_SECRET, INTERNAL_TOKEN,
+  // BETTER_AUTH_SECRET, etc.) stay as `wrangler secret put` values — those
+  // are never touched by deploy.
+  "vars": {
+    "POLAR_PRODUCT_ID_SELLER_MONTHLY": "7eae3c60-1551-4f58-b164-c8f2e71e6b36",
+    "POLAR_PRODUCT_ID_SELLER_YEARLY": "87d95c4d-6f4f-4bdc-9f0d-8c359b896735",
+    "POLAR_PRODUCT_ID_PRO_MONTHLY": "eb7e1180-0a91-44e8-bc87-b4ab9caaa0c3",
+    "POLAR_PRODUCT_ID_PRO_YEARLY": "93e990e4-8ff8-4929-bd33-2f2d05bcd23a",
+    "POLAR_PRODUCT_ID_DAY_PASS": "c6cabb09-4f1c-45e2-9c3b-24c2a97ffd41"
+  }
 }

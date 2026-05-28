@@ -7,12 +7,14 @@
         <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
         Related Guides
     </h2>
-    <div class="grid sm:grid-cols-2 gap-4">
+    <ul class="space-y-3">
         {#each guides as g}
-            <a href={g.href} class="group block p-5 rounded-2xl bg-[#FFF5F7] border border-pink-100 hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                <h3 class="text-base font-black text-[#4A2C2C] group-hover:text-[#D81B60] transition-colors mb-2">{g.title} →</h3>
-                <p class="text-sm text-[#6C3F31] leading-relaxed m-0">{g.desc}</p>
-            </a>
+            <li>
+                <a href={g.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                    <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{g.title} <span class="font-normal opacity-70">— {g.desc}</span></span>
+                    <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                </a>
+            </li>
         {/each}
-    </div>
+    </ul>
 </section>

@@ -147,19 +147,21 @@
         <!-- Related guides -->
         <section>
             <SectionHeading>Related Guides</SectionHeading>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5">
+            <ul class="space-y-3">
                 {#each [
                     { href: '/guides/heif-to-jpeg-workflow-photographers-guide', title: 'HIF/HEIF to JPEG for Professional Photographers', desc: 'Privacy-first workflow blueprints for converting camera HEIF files to JPEG for professional delivery.' },
                     { href: '/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera', title: 'Should I Shoot HEIF or JPEG on My Mirrorless Camera?', desc: 'When to use each format at capture time, and how to convert for delivery.' },
                     { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'A complete breakdown of metadata types, privacy risks, and how to strip selectively.' },
                     { href: '/guides/should-i-optimize-images-before-upload', title: 'Should I Optimise Images Before I Upload Them?', desc: 'A practical guide covering LCP, EXIF privacy, format choice, and workflows for galleries and marketplaces.' },
                 ] as guide}
-                    <a href={guide.href} class="block bg-[#FFF5F7] rounded-2xl border border-pink-100 p-5 no-underline hover:shadow-md hover:-translate-y-0.5 transition-all">
-                        <h3 class="text-sm font-black text-[#4A2C2C] mb-1.5 mt-0">{guide.title} →</h3>
-                        <p class="text-xs text-[#6C3F31] leading-relaxed m-0">{guide.desc}</p>
-                    </a>
+                    <li>
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
                 {/each}
-            </div>
+            </ul>
         </section>
 
     </div>

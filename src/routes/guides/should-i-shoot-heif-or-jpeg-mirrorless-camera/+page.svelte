@@ -165,19 +165,21 @@
         <!-- Related guides -->
         <section>
             <SectionHeading>Related Guides</SectionHeading>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5">
+            <ul class="space-y-3">
                 {#each [
                     { href: '/guides/heif-to-jpeg-workflow-photographers-guide', title: 'HIF/HEIF to JPEG for Professional Photographers', desc: 'A privacy-first workflow guide for converting HEIF and HIF files to JPEG for client delivery.' },
                     { href: '/guides/fujifilm-hif-to-jpg', title: 'Fuji HIF to JPEG: X-T5, X-H2, X100VI', desc: 'Specific workflow for Fujifilm HIF files from X-series cameras.' },
                     { href: '/guides/2026-guide-next-gen-formats', title: 'WebP vs AVIF vs JPEG XL: 2026 Comparison', desc: 'Comparing the dominant next-generation web image formats for quality and compatibility.' },
                     { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'A complete breakdown of metadata types, privacy risks, and how to strip selectively.' },
                 ] as guide}
-                    <a href={guide.href} class="block bg-[#FFF5F7] rounded-2xl border border-pink-100 p-5 no-underline hover:shadow-md hover:-translate-y-0.5 transition-all">
-                        <h3 class="text-sm font-black text-[#4A2C2C] mb-1.5 mt-0">{guide.title} →</h3>
-                        <p class="text-xs text-[#6C3F31] leading-relaxed m-0">{guide.desc}</p>
-                    </a>
+                    <li>
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
                 {/each}
-            </div>
+            </ul>
         </section>
 
     </div>

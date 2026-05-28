@@ -628,30 +628,32 @@
         <section id="related-guides" class="scroll-mt-24">
             <SectionHeading>Related Guides</SectionHeading>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+            <ul class="space-y-3">
                 {#each [
                     {
                         href: '/guides/next-gen-image-formats-wordpress',
-                        title: 'Next-gen formats in WordPress (without plugins) →',
+                        title: 'Next-gen formats in WordPress (without plugins)',
                         desc: 'The companion workflow guide for serving WebP and AVIF in WordPress without a page-builder plugin.'
                     },
                     {
                         href: '/guides/history-image-compression-2026',
-                        title: 'The history of image compression: WebP, AVIF, JPEG XL →',
+                        title: 'The history of image compression: WebP, AVIF, JPEG XL',
                         desc: 'A deeper look at how modern formats compare and where each one wins.'
                     },
                     {
                         href: '/guides/exif-data-risks-image-compression-2026',
-                        title: 'EXIF data risks: strip metadata before you publish →',
+                        title: 'EXIF data risks: strip metadata before you publish',
                         desc: "Why zero-retention matters beyond just format choice — and what's hiding in your image files."
                     },
                 ] as guide}
-                    <a href={guide.href} class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-5 block no-underline hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300">
-                        <h3 class="text-base font-black text-[#4A2C2C] mb-1">{guide.title}</h3>
-                        <p class="text-sm text-cocoa-deep leading-relaxed m-0">{guide.desc}</p>
-                    </a>
+                    <li>
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
                 {/each}
-            </div>
+            </ul>
         </section>
 
         <!-- Tool links + byline -->
