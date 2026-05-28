@@ -45,19 +45,36 @@
 	let textareaEl: HTMLTextAreaElement;
 	let fileInputEl: HTMLInputElement;
 
-	const MAX_PDF_BYTES = 100 * 1024 * 1024;
-	let uploadMode: 'image' | 'pdf' | null = $state(null);
+	const MAX_PDF_BYTES   = 100 * 1024 * 1024;
+	const MAX_VIDEO_BYTES = 2 * 1024 * 1024 * 1024;
+	let uploadMode: 'image' | 'pdf' | 'video' | null = $state(null);
 
 	function isPdf(f: File): boolean {
 		return f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
 	}
 
+	const VIDEO_AUDIO_MIME_TYPES = new Set([
+		'video/mp4','video/webm','video/x-matroska','video/quicktime','video/avi','video/mpeg','video/ogg','video/3gpp',
+		'audio/mpeg','audio/wav','audio/aac','audio/flac','audio/ogg','audio/mp4','audio/x-m4a','audio/opus','audio/webm',
+	]);
+	const VIDEO_AUDIO_EXTENSIONS = new Set([
+		'mp4','webm','mkv','mov','avi','m4v','mpeg','mpg','ogv','3gp',
+		'mp3','wav','aac','flac','ogg','m4a','opus','aiff',
+	]);
+
+	function isVideoOrAudio(f: File): boolean {
+		const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
+		return VIDEO_AUDIO_MIME_TYPES.has(f.type) || VIDEO_AUDIO_EXTENSIONS.has(ext);
+	}
+
 	const fileAccept = $derived(
 		uploadMode === 'pdf'
 			? '.pdf,application/pdf'
-			: uploadMode === 'image'
-				? '.jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.svg,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/svg+xml'
-				: '.jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.svg,.pdf,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/svg+xml,application/pdf'
+			: uploadMode === 'video'
+				? '.mp4,.webm,.mkv,.mov,.avi,.m4v,.mp3,.wav,.aac,.flac,.ogg,.m4a,.opus,video/*,audio/*'
+				: uploadMode === 'image'
+					? '.jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.svg,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/svg+xml'
+					: '.jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.svg,.pdf,.mp4,.webm,.mkv,.mov,.mp3,.wav,.aac,.flac,.ogg,.m4a,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/svg+xml,application/pdf,video/*,audio/*'
 	);
 
 	const imagePlaceholders = [
@@ -74,7 +91,18 @@
 		'High-res rasterize at 300 DPI…',
 		'Rasterize to JPEG for sharing…',
 	];
-	const placeholders = $derived(uploadMode === 'pdf' ? pdfPlaceholders : imagePlaceholders);
+	const videoPlaceholders = [
+		'Convert to WebM for the web…',
+		'Extract audio as MP3…',
+		'Convert to MP4, keep quality…',
+		'Compress video for sharing…',
+		'Convert audio to AAC…',
+	];
+	const placeholders = $derived(
+		uploadMode === 'pdf' ? pdfPlaceholders :
+		uploadMode === 'video' ? videoPlaceholders :
+		imagePlaceholders
+	);
 	let placeholderIndex = $state(0);
 	let placeholderVisible = $state(true);
 	let isFocused = $state(false);
@@ -105,7 +133,7 @@
 
 	let filePreviews = $state<string[]>([]);
 	$effect(() => {
-		const urls = files.map((f) => isPdf(f) ? '' : URL.createObjectURL(f));
+		const urls = files.map((f) => (isPdf(f) || isVideoOrAudio(f)) ? '' : URL.createObjectURL(f));
 		filePreviews = urls;
 		return () => urls.filter(u => u).forEach((u) => URL.revokeObjectURL(u));
 	});
@@ -173,13 +201,14 @@
 		for (const f of newFiles) {
 			const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
 			const fileIsPdf = isPdf(f);
-			const isImage = !fileIsPdf && (ACCEPTED_MIME_TYPES.has(f.type) || ACCEPTED_EXTENSIONS.has(ext));
-			if (!fileIsPdf && !isImage) continue;
+			const fileIsVideo = !fileIsPdf && isVideoOrAudio(f);
+			const isImage = !fileIsPdf && !fileIsVideo && (ACCEPTED_MIME_TYPES.has(f.type) || ACCEPTED_EXTENSIONS.has(ext));
+			if (!fileIsPdf && !fileIsVideo && !isImage) continue;
 
-			const sizeLimit = fileIsPdf ? MAX_PDF_BYTES : MAX_FILE_SIZE;
+			const sizeLimit = fileIsPdf ? MAX_PDF_BYTES : fileIsVideo ? MAX_VIDEO_BYTES : MAX_FILE_SIZE;
 			if (f.size > sizeLimit) { rejectedCount++; continue; }
 
-			const fileMode: 'pdf' | 'image' = fileIsPdf ? 'pdf' : 'image';
+			const fileMode: 'pdf' | 'image' | 'video' = fileIsPdf ? 'pdf' : fileIsVideo ? 'video' : 'image';
 			if (effectiveMode === null) effectiveMode = fileMode;
 			if (fileMode !== effectiveMode) { modeMismatch++; continue; }
 
@@ -190,9 +219,8 @@
 			showStatus('error', `${rejectedCount} file(s) ignored (exceeds size limit)`);
 		}
 		if (modeMismatch > 0) {
-			showStatus('error', effectiveMode === 'pdf'
-				? 'Mix not allowed — clear files first to switch to images.'
-				: 'Mix not allowed — clear files first to switch to PDFs.');
+			const modeLabel = effectiveMode === 'pdf' ? 'PDFs' : effectiveMode === 'video' ? 'video/audio' : 'images';
+			showStatus('error', `Mix not allowed — clear files first to switch to ${modeLabel}.`);
 		}
 
 		const available = MAX_FILES - files.length;
@@ -239,7 +267,18 @@
 		{ label: 'High res', prompt: 'Rasterize to PNG at 300 DPI, best quality', dot: 'bg-orange-400' },
 		{ label: 'JPEG pages', prompt: 'Rasterize to high quality JPEG at 300 DPI', dot: 'bg-[#F06292]' },
 	];
-	const suggestions = $derived(uploadMode === 'pdf' ? pdfSuggestions : imageSuggestions);
+	const videoSuggestions = [
+		{ label: 'To WebM', prompt: 'Convert to WebM for web playback', dot: 'bg-blue-400' },
+		{ label: 'To MP4', prompt: 'Convert to MP4 for maximum compatibility', dot: 'bg-slate-400' },
+		{ label: 'Extract audio', prompt: 'Extract audio as MP3', dot: 'bg-purple-400' },
+		{ label: 'To AAC', prompt: 'Convert audio to AAC', dot: 'bg-orange-400' },
+		{ label: 'To WAV', prompt: 'Convert to lossless WAV audio', dot: 'bg-green-400' },
+	];
+	const suggestions = $derived(
+		uploadMode === 'pdf' ? pdfSuggestions :
+		uploadMode === 'video' ? videoSuggestions :
+		imageSuggestions
+	);
 
 	const formatSuggestions = [
 		{ label: 'WebP', prompt: 'Convert to WebP for best web compression and quality' },
@@ -319,7 +358,7 @@
 	}
 
 	function getDimensions(file: File): Promise<{ w: number; h: number }> {
-		if (isPdf(file)) return Promise.resolve({ w: 0, h: 0 });
+		if (isPdf(file) || isVideoOrAudio(file)) return Promise.resolve({ w: 0, h: 0 });
 		return new Promise((resolve) => {
 			const url = window.URL.createObjectURL(file);
 			const img = new Image();
@@ -340,23 +379,25 @@
 
 		const jwt = await getSessionToken();
 
-		// Pre-flight quota check — works for both authed and unauthed users.
+		// Pre-flight quota check — skipped for video mode (processed client-side, no core tokens used).
 		let tokenData: any = null;
-		try {
-			const tokenRes = await fetch(`${API_URL}/v1/checkTokens`, {
-				headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
-			});
-			if (tokenRes.ok) {
-				tokenData = await tokenRes.json();
-				const remaining = tokenData.remaining ?? (tokenData.available !== false ? Infinity : 0);
-				if (remaining < files.length) {
-					if (jwt) showUpgradeCta = true;
-					else showSignupCta = true;
-					return;
+		if (uploadMode !== 'video') {
+			try {
+				const tokenRes = await fetch(`${API_URL}/v1/checkTokens`, {
+					headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
+				});
+				if (tokenRes.ok) {
+					tokenData = await tokenRes.json();
+					const remaining = tokenData.remaining ?? (tokenData.available !== false ? Infinity : 0);
+					if (remaining < files.length) {
+						if (jwt) showUpgradeCta = true;
+						else showSignupCta = true;
+						return;
+					}
 				}
+			} catch {
+				// Non-blocking — proceed if checkTokens fails
 			}
-		} catch {
-			// Non-blocking — proceed if checkTokens fails
 		}
         
 		posthog.capture('magic_flow_submitted', {
@@ -375,7 +416,9 @@
 
 		const thinkingMessages = uploadMode === 'pdf'
 			? ['Reading your PDF…', 'Planning the transform…']
-			: ['Reading your images…', 'Planning the squish…'];
+			: uploadMode === 'video'
+				? ['Reading your media…', 'Planning the conversion…']
+				: ['Reading your images…', 'Planning the squish…'];
 
 		thinkingText = thinkingMessages[0];
 		let msgIdx = 1;
@@ -390,7 +433,7 @@
 		try {
 			const fileDetails = await Promise.all(
 				files.map(async (f) => {
-					if (isPdf(f)) return { name: f.name };
+					if (isPdf(f) || isVideoOrAudio(f)) return { name: f.name };
 					const dims = await getDimensions(f);
 					const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
 					return { name: f.name, format: ext, width: dims.w, height: dims.h };
@@ -399,6 +442,7 @@
 
 			const nlpBody: Record<string, unknown> = { prompt: prompt.trim(), fileData: fileDetails };
 			if (uploadMode === 'pdf') nlpBody.mode = 'pdf';
+			if (uploadMode === 'video') nlpBody.mode = 'video';
 
 			const nlpResponse = await fetch(`${WORKER_URL}/v1/prompt`, {
 				method: 'POST',
@@ -423,7 +467,7 @@
 
 			const parsedData = (await nlpResponse.json()) as {
 				agent_message?: string;
-				files?: any[];
+				files?: { name: string; outputFormat?: string; extractAudio?: boolean; [key: string]: any }[];
 				pdf?: { op: string; type: string; dpi: number; quality: number };
 			};
 			agentMessage = parsedData.agent_message || '';
@@ -540,6 +584,105 @@
 				return;
 			}
 			// ── end PDF mode ──────────────────────────────────────────────────────
+
+			// ── Video / audio mode (client-side via MediaBunny) ───────────────────
+			if (uploadMode === 'video') {
+				const {
+					Input, Output, Conversion, BlobSource, BufferTarget, ALL_FORMATS,
+					Mp4OutputFormat, WebMOutputFormat, MkvOutputFormat, MovOutputFormat,
+					Mp3OutputFormat, WavOutputFormat, AdtsOutputFormat, FlacOutputFormat, OggOutputFormat,
+				} = await import('mediabunny');
+
+				const FORMAT_MAP: Record<string, any> = {
+					mp4: Mp4OutputFormat, webm: WebMOutputFormat, mkv: MkvOutputFormat, mov: MovOutputFormat,
+					mp3: Mp3OutputFormat, wav: WavOutputFormat,  aac: AdtsOutputFormat,
+					flac: FlacOutputFormat, ogg: OggOutputFormat,
+				};
+				const MIME_MAP: Record<string, string> = {
+					mp4: 'video/mp4', webm: 'video/webm', mkv: 'video/x-matroska', mov: 'video/quicktime',
+					mp3: 'audio/mpeg', wav: 'audio/wav', aac: 'audio/aac', flac: 'audio/flac', ogg: 'audio/ogg',
+				};
+
+				const videoFileArray = parsedData.files || [];
+				const videoFileMap: Record<string, any> = {};
+				videoFileArray.forEach((item: any) => { videoFileMap[item.name] = item; });
+
+				processPhase = 'processing';
+				totalFiles = files.length;
+				const totalVideoFiles = files.length;
+				let processedVideos = 0;
+
+				for (let i = 0; i < files.length; i++) {
+					const file = files[i];
+					const fileConfig = videoFileMap[file.name] ?? videoFileArray[i] ?? {};
+					const fmt: string = fileConfig.outputFormat || 'mp4';
+					const FormatClass = FORMAT_MAP[fmt] ?? Mp4OutputFormat;
+
+					try {
+						uploadPercent = 0;
+						const input = new Input({ formats: ALL_FORMATS, source: new BlobSource(file) });
+						const target = new BufferTarget();
+						const output = new Output({ format: new FormatClass(), target });
+						const conversion = await Conversion.init({ input, output });
+
+						if (!conversion.isValid) {
+							failedFiles = [...failedFiles, { name: file.name, reason: 'Unsupported conversion for this file.' }];
+							continue;
+						}
+
+						conversion.onProgress = (progress: number) => {
+							uploadPercent = Math.min(Math.round(progress * 100), 99);
+						};
+
+						await conversion.execute();
+						uploadPercent = 100;
+						processPhase = 'downloading';
+
+						const buffer = target.buffer;
+						if (!buffer) throw new Error('Conversion produced no output.');
+
+						const blob = new Blob([buffer], { type: MIME_MAP[fmt] ?? 'application/octet-stream' });
+						const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+						const outputName = `${baseName}_mochified.${fmt}`;
+
+						const url = URL.createObjectURL(blob);
+						const a = document.createElement('a');
+						a.style.display = 'none';
+						a.href = url;
+						a.download = outputName;
+						document.body.appendChild(a);
+						a.click();
+						setTimeout(() => { URL.revokeObjectURL(url); document.body.removeChild(a); }, 100);
+
+						processedVideos++;
+						completedFiles = processedVideos;
+					} catch (e: any) {
+						failedFiles = [...failedFiles, {
+							name: file.name,
+							reason: e instanceof Error ? e.message : 'Processing failed'
+						}];
+					}
+				}
+
+				prompt = '';
+				files = [];
+				uploadMode = null;
+				if (fileInputEl) fileInputEl.value = '';
+
+				if (processedVideos === 0) {
+					posthog.capture('video_flow_completed', { files: totalVideoFiles, all_failed: true });
+					showStatus('error', failedFiles[0]?.reason ?? 'Media processing failed — please try again.');
+				} else {
+					posthog.capture('video_flow_completed', { files: totalVideoFiles, failed: failedFiles.length });
+					const msg = failedFiles.length > 0
+						? `${processedVideos} of ${totalVideoFiles} files processed. ✨`
+						: `File${totalVideoFiles > 1 ? 's' : ''} converted successfully! ✨`;
+					showStatus('success', msg);
+					onSuccess?.();
+				}
+				return;
+			}
+			// ── end Video mode ────────────────────────────────────────────────────
 
 			const fileArray = parsedData.files || [];
 			const fileMap: Record<string, any> = {};
@@ -932,6 +1075,12 @@
 											<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
 										</svg>
 									</div>
+								{:else if isVideoOrAudio(file)}
+									<div class="flex h-full w-full items-center justify-center rounded-xl bg-blue-50/80">
+										<svg class="h-7 w-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+											<path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+										</svg>
+									</div>
 								{:else}
 									<img
 										src={filePreviews[i]}
@@ -1065,7 +1214,7 @@
 							/>
 						</svg>
 					</button>
-					{#if uploadMode !== 'pdf'}
+					{#if uploadMode !== 'pdf' && uploadMode !== 'video'}
 					<div class="h-4 w-px flex-shrink-0 bg-white/40"></div>
 					<label
 						class="flex flex-shrink-0 cursor-pointer items-center gap-1.5"
@@ -1103,7 +1252,7 @@
 									>{/key}
 							{:else if displayPhase === 'working'}
 								{#if uploadPercent < 100}
-									Uploading{totalFiles > 1 ? ` ${totalFiles} ${uploadMode === 'pdf' ? 'PDFs' : 'images'}` : '…'} ({uploadPercent}%)
+									{uploadMode === 'video' ? 'Converting' : 'Uploading'}{totalFiles > 1 ? ` ${totalFiles} ${uploadMode === 'pdf' ? 'PDFs' : uploadMode === 'video' ? 'files' : 'images'}` : '…'}{uploadMode !== 'video' ? ` (${uploadPercent}%)` : uploadPercent < 100 ? ` (${uploadPercent}%)` : '…'}
 								{:else}
 									<span class="flex-shrink-0 animate-pulse text-[#66BB6A]">⬡</span>
 									Processing{totalFiles > 1 ? ` ${completedFiles}/${totalFiles}` : '…'}
@@ -1112,9 +1261,11 @@
 								Packing your zip file…
 							{/if}
 						{:else if files.length === 0}
-							Drop images or PDFs, or use the clip button
+							Drop images, PDFs or video, or use the clip button
 						{:else if uploadMode === 'pdf'}
 							{files.length} {files.length === 1 ? 'PDF' : 'PDFs'} attached
+						{:else if uploadMode === 'video'}
+							{files.length} {files.length === 1 ? 'file' : 'files'} attached
 						{:else}
 							{files.length} {files.length === 1 ? 'image' : 'images'} attached
 						{/if}
@@ -1181,7 +1332,9 @@
 				<p class="mb-1 text-[10px] font-black tracking-widest uppercase text-[#F06292]">Accepted formats</p>
 				<p class="mb-3 text-xs leading-relaxed text-[#4A2C2C]/75">JPG · PNG · WebP · AVIF · JPEG XL · HEIC · HEIF · HIF · SVG</p>
 				<p class="mb-1 text-[10px] font-black tracking-widest uppercase text-[#F06292]">PDF tools</p>
-				<p class="text-xs leading-relaxed text-[#4A2C2C]/75">Rasterize pages to images (PNG, JPG, WebP…) or split a PDF into individual page files.</p>
+				<p class="mb-3 text-xs leading-relaxed text-[#4A2C2C]/75">Rasterize pages to images (PNG, JPG, WebP…) or split a PDF into individual page files.</p>
+				<p class="mb-1 text-[10px] font-black tracking-widest uppercase text-mochi-pink">Video &amp; audio</p>
+				<p class="text-xs leading-relaxed text-[#4A2C2C]/75">MP4 · WebM · MKV · MOV · MP3 · WAV · AAC · FLAC · OGG — converted entirely in your browser, nothing uploaded.</p>
 			</div>
 			<button class="fixed inset-0 -z-10 cursor-default" onclick={() => (showInfoTooltip = false)} aria-label="Close" tabindex="-1"></button>
 		{/if}
@@ -1267,7 +1420,7 @@
 					<span class="h-1.5 w-1.5 flex-shrink-0 rounded-full opacity-80 {s.dot}"></span>{s.label}
 				</button>
 			{/each}
-			{#if uploadMode !== 'pdf'}
+			{#if uploadMode !== 'pdf' && uploadMode !== 'video'}
 			<!-- Convert to… expander -->
 			<button
 				onclick={() => {
