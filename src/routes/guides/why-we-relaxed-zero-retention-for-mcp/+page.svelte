@@ -132,7 +132,7 @@
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
             <p class="text-lg text-[#6C3F31] leading-relaxed">
-                <strong class="text-[#4A2C2C]">Published 28 May 2026 by the Mochify Engineering Team.</strong> The softening is narrow on purpose, and we'd rather describe the server accurately than carry a phrase that no longer matches what it does.
+                <strong class="text-[#4A2C2C]">Published 29 May 2026 by the Mochify Engineering Team.</strong> The softening is narrow on purpose, and we'd rather describe the server accurately than carry a phrase that no longer matches what it does.
             </p>
         </div>
     </header>
