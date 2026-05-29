@@ -232,6 +232,14 @@
             category: "Workflows",
             readTime: "4 min read",
             date: "May 23, 2026"
+        },
+        {
+            title: "Why We Relaxed Our Zero-Retention Policy for MCP Server Compressions",
+            description: "Why we softened Mochify's 'wiped immediately' claim on hosted MCP compressions to a five-minute pickup window, what we kept end-to-end, and what it means for your workflow.",
+            url: "/guides/why-we-relaxed-zero-retention-for-mcp",
+            category: "Data Privacy",
+            readTime: "5 min read",
+            date: "May 29, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
