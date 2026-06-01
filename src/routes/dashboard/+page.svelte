@@ -182,12 +182,21 @@
 				<h1 class="text-3xl font-black tracking-tight text-[#4A2C2C]">Dashboard</h1>
 				<p class="mt-1 text-sm text-[#875F42]/60">{data.user?.email}</p>
 			</div>
-			<button
-				onclick={handleSignOut}
-				class="cursor-pointer rounded-xl border border-[#875F42]/15 px-4 py-2 text-sm font-bold text-[#875F42]/70 transition-all hover:border-[#F06292]/30 hover:bg-[#FFF5F7] hover:text-[#F06292]"
-			>
-				Sign out
-			</button>
+			<div class="flex items-center gap-2">
+				<a
+					href="/app"
+					class="flex items-center gap-2 rounded-xl bg-[#F06292] px-4 py-2 text-sm font-bold text-white shadow-sm transition-all hover:bg-[#D81B60] hover:-translate-y-0.5"
+				>
+					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+					Launch app
+				</a>
+				<button
+					onclick={handleSignOut}
+					class="cursor-pointer rounded-xl border border-[#875F42]/15 px-4 py-2 text-sm font-bold text-[#875F42]/70 transition-all hover:border-[#F06292]/30 hover:bg-[#FFF5F7] hover:text-[#F06292]"
+				>
+					Sign out
+				</button>
+			</div>
 		</div>
 
 		<!-- Post-checkout success banner -->
