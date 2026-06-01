@@ -442,35 +442,10 @@
 	async function submit() {
 		if (!prompt.trim() || files.length === 0 || isProcessing) return;
 
-		const jwt = await getSessionToken();
-
-		// Pre-flight quota check — skipped for video mode (processed client-side, no core tokens used).
-		let tokenData: any = null;
-		if (uploadMode !== 'video') {
-			try {
-				const tokenRes = await fetch(`${API_URL}/v1/checkTokens`, {
-					headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
-				});
-				if (tokenRes.ok) {
-					tokenData = await tokenRes.json();
-					const remaining = tokenData.remaining ?? (tokenData.available !== false ? Infinity : 0);
-					if (remaining < files.length) {
-						if (jwt) showUpgradeCta = true;
-						else showSignupCta = true;
-						return;
-					}
-				}
-			} catch {
-				// Non-blocking — proceed if checkTokens fails
-			}
-		}
-
-		posthog.capture('magic_flow_submitted', {
-			files: files.length,
-			authed: !!jwt,
-			prompt_length: prompt.length
-		});
-
+		// Flip into the thinking state synchronously on click so the progress bar
+		// animates immediately, rather than waiting on the auth + quota pre-flight
+		// round-trips below. If the pre-flight fails (or hits a quota wall) the
+		// finally block resets the UI, so the bar just flashes briefly.
 		isProcessing = true;
 		processPhase = 'thinking';
 		uploadPercent = 0;
@@ -497,6 +472,34 @@
 		}, 900);
 
 		try {
+			const jwt = await getSessionToken();
+
+			// Pre-flight quota check — skipped for video mode (processed client-side, no core tokens used).
+			if (uploadMode !== 'video') {
+				try {
+					const tokenRes = await fetch(`${API_URL}/v1/checkTokens`, {
+						headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
+					});
+					if (tokenRes.ok) {
+						const tokenData: any = await tokenRes.json();
+						const remaining = tokenData.remaining ?? (tokenData.available !== false ? Infinity : 0);
+						if (remaining < files.length) {
+							if (jwt) showUpgradeCta = true;
+							else showSignupCta = true;
+							return;
+						}
+					}
+				} catch {
+					// Non-blocking — proceed if checkTokens fails
+				}
+			}
+
+			posthog.capture('magic_flow_submitted', {
+				files: files.length,
+				authed: !!jwt,
+				prompt_length: prompt.length
+			});
+
 			const fileDetails = await Promise.all(
 				files.map(async (f) => {
 					if (isPdf(f) || isVideoOrAudio(f)) return { name: f.name };
