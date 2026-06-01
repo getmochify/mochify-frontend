@@ -95,7 +95,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            Type "Instagram-ready WebP, strip location data" and Mochify handles the rest. <a href="https://docs.mistral.ai/models/mistral-small-3-2-25-06">Mistral Small 4</a> parses your intent and passes the right flags to our compression engine - no dropdowns, no format knowledge required.
+            Type "Instagram-ready WebP, strip location data" and Mochify handles the rest. <a href="https://docs.mistral.ai/models/model-cards/mistral-small-4-0-26-03">Mistral Small 4</a> parses your intent and passes the right flags to our compression engine - no dropdowns, no format knowledge required.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
