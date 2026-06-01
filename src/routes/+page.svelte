@@ -182,7 +182,7 @@
     </script>
 </svelte:head>
 
-<div class="min-h-screen selection:bg-[#FFF0F3] selection:text-pink-900 flex flex-col relative">
+<div class="min-h-screen flex flex-col relative">
     
     <Navigation />
     

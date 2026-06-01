@@ -13,7 +13,7 @@
     <meta property="og:description" content="Learn more about Mochify, our mission, and how we prioritize privacy and performance in image optimization.">
 </svelte:head>
 
-<div class="min-h-screen bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 flex flex-col relative">
+<div class="min-h-screen bg-[#FDFBF7] flex flex-col relative">
     
 
     <Navigation />

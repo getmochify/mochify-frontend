@@ -280,7 +280,7 @@
     </script>
 </svelte:head>
 
-<div class="min-h-screen bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 flex flex-col relative">
+<div class="min-h-screen bg-[#FDFBF7] flex flex-col relative">
 
     <!-- Ambient background orbs -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">

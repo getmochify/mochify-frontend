@@ -168,7 +168,7 @@
     </script>
 </svelte:head>
 
-<div class="min-h-screen bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 flex flex-col relative">
+<div class="min-h-screen bg-[#FDFBF7] flex flex-col relative">
     <!-- Decorative background -->
     <div class="fixed inset-0 pointer-events-none opacity-30"
          style="background-image: radial-gradient(circle at 20% 20%, #F0629215 0%, transparent 50%), radial-gradient(circle at 80% 80%, #A5D6A715 0%, transparent 50%);">

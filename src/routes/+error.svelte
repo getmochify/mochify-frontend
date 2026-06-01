@@ -8,7 +8,7 @@
     <title>Page Not Found | Mochify</title>
 </svelte:head>
 
-<div class="min-h-screen bg-[#FDFBF7] flex flex-col relative overflow-hidden selection:bg-[#FFF0F3] selection:text-pink-900">
+<div class="min-h-screen bg-[#FDFBF7] flex flex-col relative overflow-hidden">
     
 
     <Navigation />

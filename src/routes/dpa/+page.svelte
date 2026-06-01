@@ -13,7 +13,7 @@
     <meta property="og:description" content="Mochify's Data Processing Agreement (DPA) for business customers. GDPR-compliant, UK law governed. Download the template or request a countersigned copy.">
 </svelte:head>
 
-<div class="min-h-screen bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 flex flex-col relative">
+<div class="min-h-screen bg-[#FDFBF7] flex flex-col relative">
 
 
     <Navigation />

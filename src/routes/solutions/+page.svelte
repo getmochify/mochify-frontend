@@ -125,7 +125,7 @@
         }
     </script>
 </svelte:head>
-<div class="flex-1 bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 min-h-screen flex flex-col relative">
+<div class="flex-1 bg-[#FDFBF7] min-h-screen flex flex-col relative">
     <Navigation />
 
 

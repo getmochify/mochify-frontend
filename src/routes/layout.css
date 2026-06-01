@@ -45,6 +45,16 @@ body {
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Site-wide pink text-selection highlight (matches the homepage). */
+  ::selection {
+    background-color: #FFF0F3;
+    color: #831843; /* pink-900 */
+  }
+  ::-moz-selection {
+    background-color: #FFF0F3;
+    color: #831843;
+  }
+
   h1, h2, h3, h4, h5, h6,
   .font-heading {
     font-family: var(--font-heading); /* Uses Outfit */

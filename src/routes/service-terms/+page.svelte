@@ -16,7 +16,7 @@
     <meta property="og:description" content="Read Mochify's Terms of Service to understand the terms and conditions for using our image optimization service.">
 </svelte:head>
 
-<div class="min-h-screen bg-[#FDFBF7] selection:bg-[#FFF0F3] selection:text-pink-900 flex flex-col relative">
+<div class="min-h-screen bg-[#FDFBF7] flex flex-col relative">
     
 
 
