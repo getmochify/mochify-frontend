@@ -264,7 +264,12 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 
 			if (!userRow) break;
 
-			const quotaPeriodEnd = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+			// Store timestamps as epoch-ms numbers to match every other profile writer
+			// (subscription cases, depay, admin upgrade). The day-pass path previously
+			// wrote ISO strings here and omitted created_at, which left quota_period_end
+			// holding mixed types across rows and risked a NOT NULL insert failure.
+			const dayNow = Date.now();
+			const quotaPeriodEnd = dayNow + 24 * 60 * 60 * 1000;
 
 			await kysely
 				.insertInto('profile')
@@ -273,19 +278,20 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 					plan: 'day',
 					ops_limit: 500,
 					quota_period_end: quotaPeriodEnd,
-					updated_at: new Date().toISOString()
+					created_at: dayNow,
+					updated_at: dayNow
 				})
 				.onConflict((oc) =>
 					oc.column('user_id').doUpdateSet({
 						plan: 'day',
 						ops_limit: 500,
 						quota_period_end: quotaPeriodEnd,
-						updated_at: new Date().toISOString()
+						updated_at: dayNow
 					})
 				)
 				.execute();
 
-			await reseedBucket(userRow.id, 'day', 500, new Date(quotaPeriodEnd).getTime());
+			await reseedBucket(userRow.id, 'day', 500, quotaPeriodEnd);
 
 			const posthog = getPostHogClient();
 			posthog.capture({

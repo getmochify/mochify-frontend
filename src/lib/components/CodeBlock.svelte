@@ -12,9 +12,9 @@
 
 <div class="my-6 bg-[#1C1C1E] rounded-2xl overflow-hidden shadow-lg">
     <div class="flex items-center gap-2 px-5 py-3 bg-[#2C2C2E] border-b border-white/5">
-        <div class="w-3 h-3 rounded-full bg-[#FF5F57]"></div>
-        <div class="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
-        <div class="w-3 h-3 rounded-full bg-[#28C941]"></div>
+        <div class="w-3 h-3 shrink-0 rounded-full bg-[#FF5F57]"></div>
+        <div class="w-3 h-3 shrink-0 rounded-full bg-[#FFBD2E]"></div>
+        <div class="w-3 h-3 shrink-0 rounded-full bg-[#28C941]"></div>
         {#if filename}
             <span class="ml-3 text-xs text-white/40 font-mono">{filename}</span>
         {/if}

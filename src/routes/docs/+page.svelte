@@ -496,7 +496,7 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
                         <p class="text-[#6C3F31] leading-relaxed">
                             Interprets a plain-language prompt and returns per-file processing parameters to pass to
                             <code class="font-mono text-sm text-[#F06292]">/v1/squish</code>. This powers the
-                            <a href="/flow" class="text-[#F06292] font-semibold hover:underline">Magic Flow</a> feature.
+                            <a href="/" class="text-[#F06292] font-semibold hover:underline">Magic Flow</a> feature.
                         </p>
 
                         <div>

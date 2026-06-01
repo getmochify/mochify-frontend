@@ -366,7 +366,7 @@
                     <picture class="shrink-0">
                         <source srcset="/guides/wordpress-color-svgrepo-com_mochified_avif.avif" type="image/avif">
                         <source srcset="/guides/wordpress-color-svgrepo-com_mochified_webp.webp" type="image/webp">
-                        <img src="/guides/wordpress-color-svgrepo-com_mochified_png.png" alt="WordPress logo SVG converted to PNG, WebP, and AVIF using Mochify — showing file size comparison" width="96" height="96" class="w-24 h-24 object-contain rounded-xl bg-white border border-orange-100 p-2">
+                        <img src="/guides/wordpress-color-svgrepo-com_mochified_png.png" alt="WordPress logo SVG converted to PNG, WebP, and AVIF using Mochify — showing file size comparison" width="96" height="96" loading="lazy" decoding="async" class="w-24 h-24 object-contain rounded-xl bg-white border border-orange-100 p-2">
                     </picture>
                     <div class="grid grid-cols-3 gap-4 flex-1 w-full">
                         <div>

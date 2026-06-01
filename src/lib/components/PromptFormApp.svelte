@@ -40,12 +40,12 @@
 	});
 	let agentMessage: string = $state('');
 
-	let showInfoTooltip = $state(false)
+	let showInfoTooltip = $state(false);
 
 	let textareaEl: HTMLTextAreaElement;
 	let fileInputEl: HTMLInputElement;
 
-	const MAX_PDF_BYTES   = 100 * 1024 * 1024;
+	const MAX_PDF_BYTES = 100 * 1024 * 1024;
 	const MAX_VIDEO_BYTES = 2 * 1024 * 1024 * 1024;
 	let uploadMode: 'image' | 'pdf' | 'video' | null = $state(null);
 
@@ -54,12 +54,43 @@
 	}
 
 	const VIDEO_AUDIO_MIME_TYPES = new Set([
-		'video/mp4','video/webm','video/x-matroska','video/quicktime','video/avi','video/mpeg','video/ogg','video/3gpp',
-		'audio/mpeg','audio/wav','audio/aac','audio/flac','audio/ogg','audio/mp4','audio/x-m4a','audio/opus','audio/webm',
+		'video/mp4',
+		'video/webm',
+		'video/x-matroska',
+		'video/quicktime',
+		'video/avi',
+		'video/mpeg',
+		'video/ogg',
+		'video/3gpp',
+		'audio/mpeg',
+		'audio/wav',
+		'audio/aac',
+		'audio/flac',
+		'audio/ogg',
+		'audio/mp4',
+		'audio/x-m4a',
+		'audio/opus',
+		'audio/webm'
 	]);
 	const VIDEO_AUDIO_EXTENSIONS = new Set([
-		'mp4','webm','mkv','mov','avi','m4v','mpeg','mpg','ogv','3gp',
-		'mp3','wav','aac','flac','ogg','m4a','opus','aiff',
+		'mp4',
+		'webm',
+		'mkv',
+		'mov',
+		'avi',
+		'm4v',
+		'mpeg',
+		'mpg',
+		'ogv',
+		'3gp',
+		'mp3',
+		'wav',
+		'aac',
+		'flac',
+		'ogg',
+		'm4a',
+		'opus',
+		'aiff'
 	]);
 
 	function isVideoOrAudio(f: File): boolean {
@@ -79,30 +110,32 @@
 	);
 
 	const imagePlaceholders = [
-        'remove bg, avif and webp, 1200px, 800px…',
-        'Remove background, square crop, shopify…',
-        'avif and webp, 1200px, 800px, 500px…',
-        'Convert to webp, resize width 800px and 600px…',
-        'vinted, compress, 1080x1080 and 500px…'
-    ];
+		'remove bg, avif and webp, 1200px, 800px…',
+		'Remove background, square crop, shopify…',
+		'avif and webp, 1200px, 800px, 500px…',
+		'Convert to webp, resize width 800px and 600px…',
+		'vinted, compress, 1080x1080 and 500px…'
+	];
 	const pdfPlaceholders = [
 		'Split into individual pages…',
 		'Rasterize to PNG at 150 DPI…',
 		'Convert pages to WebP, 200 DPI…',
 		'High-res rasterize at 300 DPI…',
-		'Rasterize to JPEG for sharing…',
+		'Rasterize to JPEG for sharing…'
 	];
 	const videoPlaceholders = [
 		'Convert to WebM for the web…',
 		'Extract audio as MP3…',
 		'Convert to MP4, keep quality…',
 		'Compress video for sharing…',
-		'Convert audio to AAC…',
+		'Convert audio to AAC…'
 	];
 	const placeholders = $derived(
-		uploadMode === 'pdf' ? pdfPlaceholders :
-		uploadMode === 'video' ? videoPlaceholders :
-		imagePlaceholders
+		uploadMode === 'pdf'
+			? pdfPlaceholders
+			: uploadMode === 'video'
+				? videoPlaceholders
+				: imagePlaceholders
 	);
 	let placeholderIndex = $state(0);
 	let placeholderVisible = $state(true);
@@ -127,16 +160,19 @@
 	let MAX_FILES = $state(3); // 3 for free, 25 for lite/pro
 	$effect(() => {
 		getPlan().then((plan) => {
-			MAX_FILE_SIZE = (plan === 'pro' || plan === 'day' || plan === 'seller' || plan === 'growth') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
+			MAX_FILE_SIZE =
+				plan === 'pro' || plan === 'day' || plan === 'seller' || plan === 'growth'
+					? 75 * 1024 * 1024
+					: 20 * 1024 * 1024;
 			MAX_FILES = plan === 'free' ? 3 : 25;
 		});
 	});
 
 	let filePreviews = $state<string[]>([]);
 	$effect(() => {
-		const urls = files.map((f) => (isPdf(f) || isVideoOrAudio(f)) ? '' : URL.createObjectURL(f));
+		const urls = files.map((f) => (isPdf(f) || isVideoOrAudio(f) ? '' : URL.createObjectURL(f)));
 		filePreviews = urls;
-		return () => urls.filter(u => u).forEach((u) => URL.revokeObjectURL(u));
+		return () => urls.filter((u) => u).forEach((u) => URL.revokeObjectURL(u));
 	});
 
 	// Status state
@@ -203,15 +239,28 @@
 			const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
 			const fileIsPdf = isPdf(f);
 			const fileIsVideo = !fileIsPdf && isVideoOrAudio(f);
-			const isImage = !fileIsPdf && !fileIsVideo && (ACCEPTED_MIME_TYPES.has(f.type) || ACCEPTED_EXTENSIONS.has(ext));
+			const isImage =
+				!fileIsPdf &&
+				!fileIsVideo &&
+				(ACCEPTED_MIME_TYPES.has(f.type) || ACCEPTED_EXTENSIONS.has(ext));
 			if (!fileIsPdf && !fileIsVideo && !isImage) continue;
 
 			const sizeLimit = fileIsPdf ? MAX_PDF_BYTES : fileIsVideo ? MAX_VIDEO_BYTES : MAX_FILE_SIZE;
-			if (f.size > sizeLimit) { rejectedCount++; continue; }
+			if (f.size > sizeLimit) {
+				rejectedCount++;
+				continue;
+			}
 
-			const fileMode: 'pdf' | 'image' | 'video' = fileIsPdf ? 'pdf' : fileIsVideo ? 'video' : 'image';
+			const fileMode: 'pdf' | 'image' | 'video' = fileIsPdf
+				? 'pdf'
+				: fileIsVideo
+					? 'video'
+					: 'image';
 			if (effectiveMode === null) effectiveMode = fileMode;
-			if (fileMode !== effectiveMode) { modeMismatch++; continue; }
+			if (fileMode !== effectiveMode) {
+				modeMismatch++;
+				continue;
+			}
 
 			validFiles.push(f);
 		}
@@ -220,14 +269,18 @@
 			showStatus('error', `${rejectedCount} file(s) ignored (exceeds size limit)`);
 		}
 		if (modeMismatch > 0) {
-			const modeLabel = effectiveMode === 'pdf' ? 'PDFs' : effectiveMode === 'video' ? 'video/audio' : 'images';
+			const modeLabel =
+				effectiveMode === 'pdf' ? 'PDFs' : effectiveMode === 'video' ? 'video/audio' : 'images';
 			showStatus('error', `Mix not allowed — clear files first to switch to ${modeLabel}.`);
 		}
 
 		const available = MAX_FILES - files.length;
 		const toAdd = validFiles.slice(0, available);
 		if (validFiles.length > toAdd.length) {
-			showStatus('error', `Limited to ${MAX_FILES} files. Upgrade to Seller or Growth for batches up to 25.`);
+			showStatus(
+				'error',
+				`Limited to ${MAX_FILES} files. Upgrade to Seller or Growth for batches up to 25.`
+			);
 		}
 
 		if (toAdd.length > 0 && uploadMode === null) uploadMode = effectiveMode;
@@ -265,8 +318,16 @@
 		{ label: 'Split pages', prompt: 'Split into individual page PDFs', dot: 'bg-blue-400' },
 		{ label: 'PNG images', prompt: 'Rasterize each page to PNG at 150 DPI', dot: 'bg-slate-400' },
 		{ label: 'WebP images', prompt: 'Convert pages to WebP at 200 DPI', dot: 'bg-green-400' },
-		{ label: 'High res', prompt: 'Rasterize to PNG at 300 DPI, best quality', dot: 'bg-orange-400' },
-		{ label: 'JPEG pages', prompt: 'Rasterize to high quality JPEG at 300 DPI', dot: 'bg-[#F06292]' },
+		{
+			label: 'High res',
+			prompt: 'Rasterize to PNG at 300 DPI, best quality',
+			dot: 'bg-orange-400'
+		},
+		{
+			label: 'JPEG pages',
+			prompt: 'Rasterize to high quality JPEG at 300 DPI',
+			dot: 'bg-[#F06292]'
+		}
 	];
 	const videoSuggestions = [
 		{ label: 'To WebM', prompt: 'Convert to WebM for web playback', dot: 'bg-blue-400' },
@@ -274,12 +335,14 @@
 		{ label: '720p', prompt: 'Resize to 720p, keep original format', dot: 'bg-teal-400' },
 		{ label: '1080p', prompt: 'Resize to 1080p, keep original format', dot: 'bg-teal-500' },
 		{ label: 'Extract audio', prompt: 'Extract audio as MP3', dot: 'bg-purple-400' },
-		{ label: 'To AAC', prompt: 'Convert audio to AAC', dot: 'bg-orange-400' },
+		{ label: 'To AAC', prompt: 'Convert audio to AAC', dot: 'bg-orange-400' }
 	];
 	const suggestions = $derived(
-		uploadMode === 'pdf' ? pdfSuggestions :
-		uploadMode === 'video' ? videoSuggestions :
-		imageSuggestions
+		uploadMode === 'pdf'
+			? pdfSuggestions
+			: uploadMode === 'video'
+				? videoSuggestions
+				: imageSuggestions
 	);
 
 	const formatSuggestions = [
@@ -401,7 +464,7 @@
 				// Non-blocking — proceed if checkTokens fails
 			}
 		}
-        
+
 		posthog.capture('magic_flow_submitted', {
 			files: files.length,
 			authed: !!jwt,
@@ -416,11 +479,12 @@
 		agentMessage = '';
 		failedFiles = [];
 
-		const thinkingMessages = uploadMode === 'pdf'
-			? ['Reading your PDF…', 'Planning the transform…']
-			: uploadMode === 'video'
-				? ['Reading your media…', 'Planning the conversion…']
-				: ['Reading your images…', 'Planning the squish…'];
+		const thinkingMessages =
+			uploadMode === 'pdf'
+				? ['Reading your PDF…', 'Planning the transform…']
+				: uploadMode === 'video'
+					? ['Reading your media…', 'Planning the conversion…']
+					: ['Reading your images…', 'Planning the squish…'];
 
 		thinkingText = thinkingMessages[0];
 		let msgIdx = 1;
@@ -464,12 +528,17 @@
 				if (nlpResponse.status >= 500) {
 					throw new Error('Something went wrong on our end — please try again in a moment.');
 				}
-				throw new Error('Couldn\'t understand your request. Try rephrasing and submit again.');
+				throw new Error("Couldn't understand your request. Try rephrasing and submit again.");
 			}
 
 			const parsedData = (await nlpResponse.json()) as {
 				agent_message?: string;
-				files?: { name: string; outputFormat?: string; extractAudio?: boolean; [key: string]: any }[];
+				files?: {
+					name: string;
+					outputFormat?: string;
+					extractAudio?: boolean;
+					[key: string]: any;
+				}[];
 				pdf?: { op: string; type: string; dpi: number; quality: number };
 			};
 			agentMessage = parsedData.agent_message || '';
@@ -485,7 +554,11 @@
 				let uploadedBytes = 0;
 				let processedPdfs = 0;
 
-				const pdfXhr = (file: File, params: URLSearchParams, onUploadEnd?: () => void): Promise<Blob> =>
+				const pdfXhr = (
+					file: File,
+					params: URLSearchParams,
+					onUploadEnd?: () => void
+				): Promise<Blob> =>
 					new Promise((resolve, reject) => {
 						const xhr = new XMLHttpRequest();
 						xhr.open('POST', `${API_URL}/v1/pdf?${params}`);
@@ -499,7 +572,9 @@
 							uploadedBytes += delta;
 							uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
 						};
-						xhr.upload.onloadend = () => { onUploadEnd?.(); };
+						xhr.upload.onloadend = () => {
+							onUploadEnd?.();
+						};
 						xhr.onload = () => {
 							const remaining = file.size - lastLoaded;
 							if (remaining > 0) {
@@ -514,7 +589,9 @@
 							const reader = new FileReader();
 							reader.onload = () => {
 								const text = (reader.result as string)?.trim() || '';
-								const e: any = new Error(text || `Failed processing ${file.name} (Status: ${status})`);
+								const e: any = new Error(
+									text || `Failed processing ${file.name} (Status: ${status})`
+								);
 								e.status = status;
 								reject(e);
 							};
@@ -541,7 +618,9 @@
 
 					try {
 						processPhase = 'uploading';
-						const blob = await pdfXhr(file, params, () => { processPhase = 'processing'; });
+						const blob = await pdfXhr(file, params, () => {
+							processPhase = 'processing';
+						});
 						processPhase = 'downloading';
 
 						const baseName = file.name.replace(/\.pdf$/i, '');
@@ -553,7 +632,10 @@
 						a.download = zipName;
 						document.body.appendChild(a);
 						a.click();
-						setTimeout(() => { URL.revokeObjectURL(url); document.body.removeChild(a); }, 100);
+						setTimeout(() => {
+							URL.revokeObjectURL(url);
+							document.body.removeChild(a);
+						}, 100);
 
 						processedPdfs++;
 						completedFiles = processedPdfs;
@@ -564,11 +646,17 @@
 							else showSignupCta = true;
 							break;
 						}
-						if (e?.status === 403) { showUpgradeCta = true; break; }
-						failedFiles = [...failedFiles, {
-							name: file.name,
-							reason: e instanceof Error ? e.message : `Server error ${e?.status ?? ''}`
-						}];
+						if (e?.status === 403) {
+							showUpgradeCta = true;
+							break;
+						}
+						failedFiles = [
+							...failedFiles,
+							{
+								name: file.name,
+								reason: e instanceof Error ? e.message : `Server error ${e?.status ?? ''}`
+							}
+						];
 					}
 				}
 
@@ -581,12 +669,19 @@
 
 				if (processedPdfs === 0) {
 					posthog.capture('pdf_flow_completed', { files: totalPdfFiles, all_failed: true });
-					showStatus('error', failedFiles[0]?.reason ?? 'PDF processing failed — please try again.');
+					showStatus(
+						'error',
+						failedFiles[0]?.reason ?? 'PDF processing failed — please try again.'
+					);
 				} else {
-					posthog.capture('pdf_flow_completed', { files: totalPdfFiles, failed: failedFiles.length });
-					const msg = failedFiles.length > 0
-						? `${processedPdfs} of ${totalPdfFiles} PDFs processed. ✨`
-						: `PDF${totalPdfFiles > 1 ? 's' : ''} processed successfully! ✨`;
+					posthog.capture('pdf_flow_completed', {
+						files: totalPdfFiles,
+						failed: failedFiles.length
+					});
+					const msg =
+						failedFiles.length > 0
+							? `${processedPdfs} of ${totalPdfFiles} PDFs processed. ✨`
+							: `PDF${totalPdfFiles > 1 ? 's' : ''} processed successfully! ✨`;
 					showStatus('success', msg);
 					onSuccess?.();
 				}
@@ -597,52 +692,84 @@
 			// ── Video / audio mode (client-side via MediaBunny) ───────────────────
 			if (uploadMode === 'video') {
 				const {
-					Input, Output, Conversion, BlobSource, BufferTarget, ALL_FORMATS,
-					Mp4OutputFormat, WebMOutputFormat, MkvOutputFormat, MovOutputFormat,
-					Mp3OutputFormat, WavOutputFormat, AdtsOutputFormat, FlacOutputFormat, OggOutputFormat,
+					Input,
+					Output,
+					Conversion,
+					BlobSource,
+					BufferTarget,
+					ALL_FORMATS,
+					Mp4OutputFormat,
+					WebMOutputFormat,
+					MkvOutputFormat,
+					MovOutputFormat,
+					Mp3OutputFormat,
+					WavOutputFormat,
+					AdtsOutputFormat,
+					FlacOutputFormat,
+					OggOutputFormat
 				} = await import('mediabunny');
 
 				const FORMAT_MAP: Record<string, any> = {
-					mp4: Mp4OutputFormat, webm: WebMOutputFormat, mkv: MkvOutputFormat, mov: MovOutputFormat,
-					mp3: Mp3OutputFormat, wav: WavOutputFormat,  aac: AdtsOutputFormat,
-					flac: FlacOutputFormat, ogg: OggOutputFormat,
+					mp4: Mp4OutputFormat,
+					webm: WebMOutputFormat,
+					mkv: MkvOutputFormat,
+					mov: MovOutputFormat,
+					mp3: Mp3OutputFormat,
+					wav: WavOutputFormat,
+					aac: AdtsOutputFormat,
+					flac: FlacOutputFormat,
+					ogg: OggOutputFormat
 				};
 				const MIME_MAP: Record<string, string> = {
-					mp4: 'video/mp4', webm: 'video/webm', mkv: 'video/x-matroska', mov: 'video/quicktime',
-					mp3: 'audio/mpeg', wav: 'audio/wav', aac: 'audio/aac', flac: 'audio/flac', ogg: 'audio/ogg',
+					mp4: 'video/mp4',
+					webm: 'video/webm',
+					mkv: 'video/x-matroska',
+					mov: 'video/quicktime',
+					mp3: 'audio/mpeg',
+					wav: 'audio/wav',
+					aac: 'audio/aac',
+					flac: 'audio/flac',
+					ogg: 'audio/ogg'
 				};
 				const AUDIO_ONLY_FMTS = new Set(['mp3', 'wav', 'aac', 'flac', 'ogg']);
 
 				const videoFileArray = parsedData.files || [];
 				const videoFileMap: Record<string, any> = {};
-				videoFileArray.forEach((item: any) => { videoFileMap[item.name] = item; });
+				videoFileArray.forEach((item: any) => {
+					videoFileMap[item.name] = item;
+				});
 
 				const videoVariantCount = (item: any): number => {
 					const fmts = Array.isArray(item?.outputFormats) ? item.outputFormats.length : 1;
-					const szs  = Array.isArray(item?.sizes)         ? item.sizes.length         : 1;
+					const szs = Array.isArray(item?.sizes) ? item.sizes.length : 1;
 					return Math.max(fmts, 1) * Math.max(szs, 1);
 				};
 
 				processPhase = 'processing';
 				const totalVideoFiles = files.length;
-				totalFiles = files.reduce((sum, f, i) => sum + videoVariantCount(videoFileMap[f.name] ?? videoFileArray[i]), 0);
+				totalFiles = files.reduce(
+					(sum, f, i) => sum + videoVariantCount(videoFileMap[f.name] ?? videoFileArray[i]),
+					0
+				);
 				let processedVariants = 0;
 
 				for (let i = 0; i < files.length; i++) {
 					const file = files[i];
 					const fileConfig = videoFileMap[file.name] ?? videoFileArray[i] ?? {};
 
-					const formats: string[] = Array.isArray(fileConfig.outputFormats) && fileConfig.outputFormats.length > 0
-						? fileConfig.outputFormats
-						: [fileConfig.outputFormat || 'mp4'];
+					const formats: string[] =
+						Array.isArray(fileConfig.outputFormats) && fileConfig.outputFormats.length > 0
+							? fileConfig.outputFormats
+							: [fileConfig.outputFormat || 'mp4'];
 
 					type SizeEntry = { width: number; height: number };
-					const sizes: SizeEntry[] = Array.isArray(fileConfig.sizes) && fileConfig.sizes.length > 0
-						? fileConfig.sizes
-						: [{ width: fileConfig.width ?? 0, height: fileConfig.height ?? 0 }];
+					const sizes: SizeEntry[] =
+						Array.isArray(fileConfig.sizes) && fileConfig.sizes.length > 0
+							? fileConfig.sizes
+							: [{ width: fileConfig.width ?? 0, height: fileConfig.height ?? 0 }];
 
 					const multiFormat = formats.length > 1;
-					const multiSize   = sizes.length > 1;
+					const multiSize = sizes.length > 1;
 					let hasAudio: boolean | null = null;
 
 					for (const size of sizes) {
@@ -653,7 +780,10 @@
 								uploadPercent = 0;
 
 								if (AUDIO_ONLY_FMTS.has(fmt) && hasAudio === false) {
-									failedFiles = [...failedFiles, { name: file.name, reason: 'No audio track found — this file is video-only.' }];
+									failedFiles = [
+										...failedFiles,
+										{ name: file.name, reason: 'No audio track found — this file is video-only.' }
+									];
 									continue;
 								}
 
@@ -663,24 +793,31 @@
 									const audioTracks = await input.getAudioTracks();
 									hasAudio = audioTracks.length > 0;
 									if (!hasAudio) {
-										failedFiles = [...failedFiles, { name: file.name, reason: 'No audio track found — this file is video-only.' }];
+										failedFiles = [
+											...failedFiles,
+											{ name: file.name, reason: 'No audio track found — this file is video-only.' }
+										];
 										continue;
 									}
 								}
 
 								const videoOpts: Record<string, number> = {};
-								if (size.width  > 0) videoOpts.width  = size.width;
+								if (size.width > 0) videoOpts.width = size.width;
 								if (size.height > 0) videoOpts.height = size.height;
 
 								const target = new BufferTarget();
 								const output = new Output({ format: new FormatClass(), target });
 								const conversion = await Conversion.init({
-									input, output,
+									input,
+									output,
 									...(Object.keys(videoOpts).length > 0 ? { video: videoOpts } : {})
 								});
 
 								if (!conversion.isValid) {
-									failedFiles = [...failedFiles, { name: file.name, reason: 'Unsupported conversion for this file.' }];
+									failedFiles = [
+										...failedFiles,
+										{ name: file.name, reason: 'Unsupported conversion for this file.' }
+									];
 									continue;
 								}
 
@@ -695,12 +832,20 @@
 								const buffer = target.buffer;
 								if (!buffer) throw new Error('Conversion produced no output.');
 
-								const blob = new Blob([buffer], { type: MIME_MAP[fmt] ?? 'application/octet-stream' });
+								const blob = new Blob([buffer], {
+									type: MIME_MAP[fmt] ?? 'application/octet-stream'
+								});
 								const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-								const outputExt    = fmt;
-								const sizeSuffix   = multiSize   ? (size.height ? `_${size.height}p` : size.width ? `_${size.width}w` : '') : '';
-								const fmtSuffix    = multiFormat ? `_${fmt}` : '';
-								const outputName   = `${baseName}_mochified${sizeSuffix}${fmtSuffix}.${outputExt}`;
+								const outputExt = fmt;
+								const sizeSuffix = multiSize
+									? size.height
+										? `_${size.height}p`
+										: size.width
+											? `_${size.width}w`
+											: ''
+									: '';
+								const fmtSuffix = multiFormat ? `_${fmt}` : '';
+								const outputName = `${baseName}_mochified${sizeSuffix}${fmtSuffix}.${outputExt}`;
 
 								const url = URL.createObjectURL(blob);
 								const a = document.createElement('a');
@@ -709,17 +854,30 @@
 								a.download = outputName;
 								document.body.appendChild(a);
 								a.click();
-								setTimeout(() => { URL.revokeObjectURL(url); document.body.removeChild(a); }, 100);
-
+								setTimeout(() => {
+									URL.revokeObjectURL(url);
+									document.body.removeChild(a);
+								}, 100);
 							} catch (e: any) {
 								const variantLabel = [
-									multiSize   ? (size.height ? `${size.height}p` : size.width ? `${size.width}w` : '') : '',
-									multiFormat ? fmt : '',
-								].filter(Boolean).join(' ');
-								failedFiles = [...failedFiles, {
-									name: variantLabel ? `${file.name} (${variantLabel})` : file.name,
-									reason: e instanceof Error ? e.message : 'Processing failed'
-								}];
+									multiSize
+										? size.height
+											? `${size.height}p`
+											: size.width
+												? `${size.width}w`
+												: ''
+										: '',
+									multiFormat ? fmt : ''
+								]
+									.filter(Boolean)
+									.join(' ');
+								failedFiles = [
+									...failedFiles,
+									{
+										name: variantLabel ? `${file.name} (${variantLabel})` : file.name,
+										reason: e instanceof Error ? e.message : 'Processing failed'
+									}
+								];
 							}
 
 							processedVariants++;
@@ -736,12 +894,19 @@
 				const successCount = processedVariants - failedFiles.length;
 				if (successCount === 0) {
 					posthog.capture('video_flow_completed', { files: totalVideoFiles, all_failed: true });
-					showStatus('error', failedFiles[0]?.reason ?? 'Media processing failed — please try again.');
+					showStatus(
+						'error',
+						failedFiles[0]?.reason ?? 'Media processing failed — please try again.'
+					);
 				} else {
-					posthog.capture('video_flow_completed', { files: totalVideoFiles, failed: failedFiles.length });
-					const msg = failedFiles.length > 0
-						? `${successCount} of ${totalFiles} variants processed. ✨`
-						: `File${totalVideoFiles > 1 ? 's' : ''} converted successfully! ✨`;
+					posthog.capture('video_flow_completed', {
+						files: totalVideoFiles,
+						failed: failedFiles.length
+					});
+					const msg =
+						failedFiles.length > 0
+							? `${successCount} of ${totalFiles} variants processed. ✨`
+							: `File${totalVideoFiles > 1 ? 's' : ''} converted successfully! ✨`;
 					showStatus('success', msg);
 					onSuccess?.();
 				}
@@ -772,14 +937,20 @@
 			}
 
 			const variantCount = (item: any): number => {
-					const fmts = Array.isArray(item?.types) && item.types.length > 1 ? item.types.length : 1;
-					const sizes = Array.isArray(item?.sizes) && item.sizes.length > 1 ? item.sizes.length : 1;
-					return fmts * sizes;
-				};
+				const fmts = Array.isArray(item?.types) && item.types.length > 1 ? item.types.length : 1;
+				const sizes = Array.isArray(item?.sizes) && item.sizes.length > 1 ? item.sizes.length : 1;
+				return fmts * sizes;
+			};
 
-				processPhase = 'uploading';
-				totalFiles = files.reduce((sum, f, i) => sum + variantCount(fileMap[f.name] ?? fileArrayByIndex[i]), 0);
-				const totalBytes = files.reduce((sum, f, i) => sum + f.size * variantCount(fileMap[f.name] ?? fileArrayByIndex[i]), 0);
+			processPhase = 'uploading';
+			totalFiles = files.reduce(
+				(sum, f, i) => sum + variantCount(fileMap[f.name] ?? fileArrayByIndex[i]),
+				0
+			);
+			const totalBytes = files.reduce(
+				(sum, f, i) => sum + f.size * variantCount(fileMap[f.name] ?? fileArrayByIndex[i]),
+				0
+			);
 			let uploadedBytes = 0;
 			let processedFiles = 0;
 			let currentFileIndex = 0;
@@ -789,7 +960,7 @@
 			// coarse 'working' phase (see displayPhase) so it doesn't flicker per-file.
 			const CONCURRENCY_LIMIT = 2;
 			const zipContents: Record<string, Uint8Array> = {};
-				const usedOutputNames: Record<string, number> = {};
+			const usedOutputNames: Record<string, number> = {};
 
 			const squishFile = (
 				file: File,
@@ -853,7 +1024,12 @@
 						}
 					};
 
-					xhr.onerror = () => reject(new Error(`Lost connection while processing ${file.name} — check your internet and try again.`));
+					xhr.onerror = () =>
+						reject(
+							new Error(
+								`Lost connection while processing ${file.name} — check your internet and try again.`
+							)
+						);
 					xhr.send(file);
 				});
 
@@ -863,14 +1039,16 @@
 					const file = files[currentFileIndex++];
 					const fileConfig = fileMap[file.name] ?? fileArrayByIndex[fileIdx] ?? {};
 
-					const formats: string[] = Array.isArray(fileConfig.types) && fileConfig.types.length > 1
-						? fileConfig.types
-						: [fileConfig.type || file.name.split('.').pop() || 'jpg'];
+					const formats: string[] =
+						Array.isArray(fileConfig.types) && fileConfig.types.length > 1
+							? fileConfig.types
+							: [fileConfig.type || file.name.split('.').pop() || 'jpg'];
 
 					type SizeEntry = { width: number; height: number };
-					const sizes: SizeEntry[] = Array.isArray(fileConfig.sizes) && fileConfig.sizes.length > 1
-						? fileConfig.sizes
-						: [{ width: fileConfig.width ?? 0, height: fileConfig.height ?? 0 }];
+					const sizes: SizeEntry[] =
+						Array.isArray(fileConfig.sizes) && fileConfig.sizes.length > 1
+							? fileConfig.sizes
+							: [{ width: fileConfig.width ?? 0, height: fileConfig.height ?? 0 }];
 
 					const multiFormat = formats.length > 1;
 					const multiSize = sizes.length > 1;
@@ -880,7 +1058,8 @@
 					if (fileConfig.smartCompress) sharedParams.append('smartCompress', '1');
 					if (fileConfig.smartCrop) sharedParams.append('smartCrop', '1');
 					if (fileConfig.removeBackground) sharedParams.append('removeBackground', '1');
-					if (fileConfig.background) sharedParams.append('background', String(fileConfig.background));
+					if (fileConfig.background)
+						sharedParams.append('background', String(fileConfig.background));
 					const stripExif = fileConfig.stripExif !== undefined ? fileConfig.stripExif : 1;
 					sharedParams.append('strip_exif', stripExif ? '1' : '0');
 					if (fileConfig.rotate) sharedParams.append('rotate', String(fileConfig.rotate));
@@ -889,7 +1068,8 @@
 					if (fileConfig.clarity) sharedParams.append('clarity', '1');
 					if (fileConfig.optimizeForWeb) sharedParams.append('optimizeForWeb', '1');
 					if (fileConfig.hdr) sharedParams.append('hdr', '1');
-					if (fileConfig.quality != null) sharedParams.append('quality', String(fileConfig.quality));
+					if (fileConfig.quality != null)
+						sharedParams.append('quality', String(fileConfig.quality));
 
 					outer: for (const size of sizes) {
 						for (const fmt of formats) {
@@ -910,20 +1090,26 @@
 
 								processPhase = 'downloading';
 
-								const rawOutputName = typeof fileConfig.outputName === 'string'
-									? fileConfig.outputName.replace(/[/\\:*?"<>|\r\n\t]/g, '').trim().slice(0, 100)
-									: '';
-								const baseName = rawOutputName || (file.name.substring(0, file.name.lastIndexOf('.')) || file.name);
+								const rawOutputName =
+									typeof fileConfig.outputName === 'string'
+										? fileConfig.outputName
+												.replace(/[/\\:*?"<>|\r\n\t]/g, '')
+												.trim()
+												.slice(0, 100)
+										: '';
+								const baseName =
+									rawOutputName || file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
 								const sizeSuffix = multiSize
 									? size.width && size.height
 										? `_${size.width}x${size.height}`
-										: `_${(size.width || size.height)}w`
+										: `_${size.width || size.height}w`
 									: '';
 								const fmtSuffix = multiFormat ? `_${fmt}` : '';
 								const mochifiedSuffix = rawOutputName ? '' : '_mochified';
 								let finalName = `${baseName}${mochifiedSuffix}${sizeSuffix}${fmtSuffix}.${fmt}`;
 								if (rawOutputName) {
-									const count = (usedOutputNames[finalName] = (usedOutputNames[finalName] ?? 0) + 1);
+									const count = (usedOutputNames[finalName] =
+										(usedOutputNames[finalName] ?? 0) + 1);
 									if (count > 1) {
 										const dot = finalName.lastIndexOf('.');
 										finalName = `${finalName.slice(0, dot)}-${count}${finalName.slice(dot)}`;
@@ -947,21 +1133,40 @@
 									}, 100);
 								}
 							} catch (e: any) {
-								console.error(`Error squishing ${file.name} (${fmt} ${size.width}x${size.height}):`, e);
+								console.error(
+									`Error squishing ${file.name} (${fmt} ${size.width}x${size.height}):`,
+									e
+								);
 								if (e?.status === 429) {
 									hitRateLimit = true;
 									if (jwt) showUpgradeCta = true;
 									else showSignupCta = true;
 									break outer;
 								}
-								const variantLabel = [multiSize ? `${size.width || size.height}px` : '', multiFormat ? fmt : ''].filter(Boolean).join(' ');
-								failedFiles = [...failedFiles, { name: variantLabel ? `${file.name} (${variantLabel})` : file.name, reason: e instanceof Error ? e.message : (e?.status ? `Server error ${e.status}` : 'Processing failed') }];
+								const variantLabel = [
+									multiSize ? `${size.width || size.height}px` : '',
+									multiFormat ? fmt : ''
+								]
+									.filter(Boolean)
+									.join(' ');
+								failedFiles = [
+									...failedFiles,
+									{
+										name: variantLabel ? `${file.name} (${variantLabel})` : file.name,
+										reason:
+											e instanceof Error
+												? e.message
+												: e?.status
+													? `Server error ${e.status}`
+													: 'Processing failed'
+									}
+								];
 							}
 
 							processedFiles++;
 							completedFiles = processedFiles;
-						}  // end for (fmt)
-					}  // end outer: for (size)
+						} // end for (fmt)
+					} // end outer: for (size)
 
 					if (hitRateLimit) break;
 				}
@@ -1008,7 +1213,10 @@
 			const successCount = totalFiles - failedFiles.length;
 			if (successCount === 0) {
 				posthog.capture('magic_flow_completed', { files: totalFiles, all_failed: true });
-				showStatus('error', failedFiles[0]?.reason ?? 'All files failed to process — please try again.');
+				showStatus(
+					'error',
+					failedFiles[0]?.reason ?? 'All files failed to process — please try again.'
+				);
 			} else if (bgRemovalBlocked) {
 				posthog.capture('magic_flow_completed', { files: totalFiles, bg_removal_blocked: true });
 				showStatus(
@@ -1018,9 +1226,10 @@
 				onBgRemovalUpsell?.();
 			} else {
 				posthog.capture('magic_flow_completed', { files: totalFiles, failed: failedFiles.length });
-				const msg = failedFiles.length > 0
-					? `${successCount} of ${totalFiles} images processed. ✨`
-					: 'Images processed successfully! ✨';
+				const msg =
+					failedFiles.length > 0
+						? `${successCount} of ${totalFiles} images processed. ✨`
+						: 'Images processed successfully! ✨';
 				showStatus('success', msg);
 				onSuccess?.();
 			}
@@ -1030,7 +1239,10 @@
 				error: err instanceof Error ? err.message : String(err)
 			});
 			posthog.captureException(err);
-			showStatus('error', err instanceof Error ? err.message : 'Something went wrong — please try again.');
+			showStatus(
+				'error',
+				err instanceof Error ? err.message : 'Something went wrong — please try again.'
+			);
 		} finally {
 			isProcessing = false;
 			processPhase = 'idle';
@@ -1129,76 +1341,102 @@
 				</div>
 			{/if}
 
-			{#if files.length > 0}
-				<div class="relative flex flex-wrap items-center gap-3 px-4 pt-6 pb-2 sm:px-6">
-					{#each files as file, i}
-						<div class="group animate-fade-in relative flex-shrink-0">
-							<div class="liquid-bubble h-16 w-16 overflow-hidden rounded-2xl p-1">
-								{#if isPdf(file)}
-									<div class="flex h-full w-full items-center justify-center rounded-xl bg-red-50/80">
-										<svg class="h-7 w-7 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-											<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-										</svg>
-									</div>
-								{:else if isVideoOrAudio(file)}
-									<div class="flex h-full w-full items-center justify-center rounded-xl bg-blue-50/80">
-										<svg class="h-7 w-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-											<path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
-										</svg>
-									</div>
-								{:else}
-									<img
-										src={filePreviews[i]}
-										alt={file.name}
-										width="64"
-										height="64"
-										class="h-full w-full rounded-xl object-cover"
-									/>
-								{/if}
-							</div>
-							<button
-								onclick={() => removeFile(i)}
-								class="absolute -top-2 -right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white/90 text-[#F06292] opacity-100 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-red-500 sm:opacity-0 sm:group-hover:opacity-100 sm:hover:scale-110"
-								aria-label="Remove {file.name}"
-							>
-								<svg
-									class="h-3.5 w-3.5"
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-									stroke-width="3"
+			<div class="relative flex flex-wrap items-center gap-3 px-4 pt-6 pb-2 sm:px-6">
+				{#each files as file, i}
+					<div class="group animate-fade-in relative flex-shrink-0">
+						<div class="liquid-bubble h-16 w-16 overflow-hidden rounded-2xl p-1">
+							{#if isPdf(file)}
+								<div class="flex h-full w-full items-center justify-center rounded-xl bg-red-50/80">
+									<svg
+										class="h-7 w-7 text-red-400"
+										fill="none"
+										stroke="currentColor"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+										/>
+									</svg>
+								</div>
+							{:else if isVideoOrAudio(file)}
+								<div
+									class="flex h-full w-full items-center justify-center rounded-xl bg-blue-50/80"
 								>
-									<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-								</svg>
-							</button>
+									<svg
+										class="h-7 w-7 text-blue-400"
+										fill="none"
+										stroke="currentColor"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z"
+										/>
+									</svg>
+								</div>
+							{:else}
+								<img
+									src={filePreviews[i]}
+									alt={file.name}
+									width="64"
+									height="64"
+									class="h-full w-full rounded-xl object-cover"
+								/>
+							{/if}
 						</div>
-					{/each}
-					<button
-						onclick={() => fileInputEl?.click()}
-						class="liquid-bubble flex h-16 w-16 flex-shrink-0 cursor-pointer items-center justify-center rounded-2xl border border-dashed border-[#F06292]/30 text-[#F06292]/60 shadow-sm transition-all hover:scale-105 hover:bg-white/60 hover:text-[#F06292]"
-						aria-label="Add more files"
-					>
-						<svg
-							class="h-6 w-6"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							stroke-width="2.5"
+						<button
+							onclick={() => removeFile(i)}
+							class="absolute -top-2 -right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white/90 text-[#F06292] opacity-100 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-red-500 sm:opacity-0 sm:group-hover:opacity-100 sm:hover:scale-110"
+							aria-label="Remove {file.name}"
 						>
-							<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-						</svg>
-					</button>
-
-					<div class="absolute right-8 bottom-0 left-8">
-						<div
-							class="h-[1px] w-full bg-gradient-to-r from-transparent via-[#875F42]/15 to-transparent"
-						></div>
-						<div
-							class="h-[1px] w-full bg-gradient-to-r from-transparent via-white/60 to-transparent"
-						></div>
+							<svg
+								class="h-3.5 w-3.5"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								stroke-width="3"
+							>
+								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+							</svg>
+						</button>
 					</div>
+				{/each}
+				<button
+					onclick={() => fileInputEl?.click()}
+					class="liquid-bubble flex h-16 w-16 flex-shrink-0 cursor-pointer items-center justify-center rounded-2xl border border-dashed border-[#F06292]/30 text-[#F06292]/60 shadow-sm transition-all hover:scale-105 hover:bg-white/60 hover:text-[#F06292]"
+					aria-label={files.length ? 'Add more files' : 'Add files'}
+				>
+					<svg
+						class="h-6 w-6"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+						stroke-width="2.5"
+					>
+						<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+					</svg>
+				</button>
+
+				{#if files.length === 0}
+					<span class="text-sm font-medium text-[#875F42]/70"
+						>Add images, video, or PDFs to start</span
+					>
+				{/if}
+
+				<div class="absolute right-8 bottom-0 left-8">
+					<div
+						class="h-[1px] w-full bg-gradient-to-r from-transparent via-[#875F42]/15 to-transparent"
+					></div>
+					<div
+						class="h-[1px] w-full bg-gradient-to-r from-transparent via-white/60 to-transparent"
+					></div>
 				</div>
-			{/if}
+			</div>
 
 			<div class="flex flex-col gap-3 px-4 pt-4 pb-3 sm:px-6 sm:pt-5">
 				<input
@@ -1231,7 +1469,7 @@
 						onblur={() => (isFocused = false)}
 						aria-label="Describe what you want"
 						rows="2"
-						class="max-h-[200px] min-h-[72px] w-full resize-none [appearance:none] overflow-y-auto border-0 bg-transparent py-1 text-base leading-relaxed font-medium text-[#4A2C2C] placeholder-transparent focus:ring-0 focus:outline-none sm:text-lg"
+						class="max-h-[200px] min-h-[72px] w-full resize-none [appearance:none] overflow-y-auto border-0 bg-transparent px-0 py-1 text-base leading-relaxed font-medium text-[#4A2C2C] placeholder-transparent focus:ring-0 focus:outline-none sm:text-lg"
 					></textarea>
 				</div>
 			</div>
@@ -1280,30 +1518,30 @@
 						</svg>
 					</button>
 					{#if uploadMode !== 'pdf' && uploadMode !== 'video'}
-					<div class="h-4 w-px flex-shrink-0 bg-white/40"></div>
-					<label
-						class="flex flex-shrink-0 cursor-pointer items-center gap-1.5"
-						title="Download as ZIP"
-					>
-						<div class="relative">
-							<input type="checkbox" bind:checked={downloadAsZip} class="sr-only" />
-							<div
-								class="block h-3.5 w-7 rounded-full border transition-all duration-300 {downloadAsZip
-									? 'border-[#C8E6C9] bg-[#C8E6C9]'
-									: 'border-[#C8E6C9]/40 bg-[#e8f5e9] shadow-inner'}"
-							></div>
-							<div
-								class="dot absolute top-0.5 left-0.5 h-2.5 w-2.5 rounded-full bg-white shadow-sm transition-transform duration-300 {downloadAsZip
-									? 'translate-x-3.5 transform'
-									: ''}"
-							></div>
-						</div>
-						<span
-							class="text-[10px] font-extrabold tracking-widest uppercase transition-colors duration-300 {downloadAsZip
-								? 'text-[#2E5C31]'
-								: 'text-[#875F42]/50'}">ZIP</span
+						<div class="h-4 w-px flex-shrink-0 bg-white/40"></div>
+						<label
+							class="flex flex-shrink-0 cursor-pointer items-center gap-1.5"
+							title="Download as ZIP"
 						>
-					</label>
+							<div class="relative">
+								<input type="checkbox" bind:checked={downloadAsZip} class="sr-only" />
+								<div
+									class="block h-3.5 w-7 rounded-full border transition-all duration-300 {downloadAsZip
+										? 'border-[#C8E6C9] bg-[#C8E6C9]'
+										: 'border-[#C8E6C9]/40 bg-[#e8f5e9] shadow-inner'}"
+								></div>
+								<div
+									class="dot absolute top-0.5 left-0.5 h-2.5 w-2.5 rounded-full bg-white shadow-sm transition-transform duration-300 {downloadAsZip
+										? 'translate-x-3.5 transform'
+										: ''}"
+								></div>
+							</div>
+							<span
+								class="text-[10px] font-extrabold tracking-widest uppercase transition-colors duration-300 {downloadAsZip
+									? 'text-[#2E5C31]'
+									: 'text-[#875F42]/50'}">ZIP</span
+							>
+						</label>
 					{/if}
 					<div class="h-4 w-px flex-shrink-0 bg-white/40"></div>
 					<!-- Status text -->
@@ -1317,7 +1555,13 @@
 									>{/key}
 							{:else if displayPhase === 'working'}
 								{#if uploadPercent < 100}
-									{uploadMode === 'video' ? 'Converting' : 'Uploading'}{totalFiles > 1 ? ` ${totalFiles} ${uploadMode === 'pdf' ? 'PDFs' : uploadMode === 'video' ? 'files' : 'images'}` : '…'}{uploadMode !== 'video' ? ` (${uploadPercent}%)` : uploadPercent < 100 ? ` (${uploadPercent}%)` : '…'}
+									{uploadMode === 'video' ? 'Converting' : 'Uploading'}{totalFiles > 1
+										? ` ${totalFiles} ${uploadMode === 'pdf' ? 'PDFs' : uploadMode === 'video' ? 'files' : 'images'}`
+										: '…'}{uploadMode !== 'video'
+										? ` (${uploadPercent}%)`
+										: uploadPercent < 100
+											? ` (${uploadPercent}%)`
+											: '…'}
 								{:else}
 									<span class="flex-shrink-0 animate-pulse text-[#66BB6A]">⬡</span>
 									Processing{totalFiles > 1 ? ` ${completedFiles}/${totalFiles}` : '…'}
@@ -1341,8 +1585,18 @@
 						class="flex h-6 w-6 flex-shrink-0 cursor-pointer items-center justify-center rounded-full text-[#875F42]/40 transition-all hover:bg-white/60 hover:text-[#875F42]/70"
 						aria-label="How it works"
 					>
-						<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+						<svg
+							class="h-3.5 w-3.5"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							stroke-width="2.5"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+							/>
 						</svg>
 					</button>
 					<!-- Send button -->
@@ -1390,18 +1644,45 @@
 		</div>
 
 		{#if showInfoTooltip}
-			<div class="absolute bottom-14 right-3 z-50 w-64 rounded-2xl border border-white/60 bg-white/95 p-4 shadow-xl shadow-pink-100/40 backdrop-blur-md">
-				<div class="absolute -bottom-1.5 right-[26px] h-3 w-3 rotate-45 border-r border-b border-white/60 bg-white/95"></div>
-				<p class="mb-1 text-[10px] font-black tracking-widest uppercase text-[#F06292]">How it works</p>
-				<p class="mb-3 text-xs leading-relaxed text-[#4A2C2C]/75">Describe what you want in plain English, attach your images, then hit send. The AI reads your prompt and processes each file automatically.</p>
-				<p class="mb-1 text-[10px] font-black tracking-widest uppercase text-[#F06292]">Accepted formats</p>
-				<p class="mb-3 text-xs leading-relaxed text-[#4A2C2C]/75">JPG · PNG · WebP · AVIF · JPEG XL · HEIC · HEIF · HIF · SVG</p>
-				<p class="mb-1 text-[10px] font-black tracking-widest uppercase text-[#F06292]">PDF tools</p>
-				<p class="mb-3 text-xs leading-relaxed text-[#4A2C2C]/75">Rasterize pages to images (PNG, JPG, WebP…) or split a PDF into individual page files.</p>
-				<p class="mb-1 text-[10px] font-black tracking-widest uppercase text-mochi-pink">Video &amp; audio</p>
-				<p class="text-xs leading-relaxed text-[#4A2C2C]/75">MP4 · WebM · MKV · MOV · MP3 · WAV · AAC · FLAC · OGG — converted entirely in your browser, nothing uploaded.</p>
+			<div
+				class="absolute right-3 bottom-14 z-50 w-64 rounded-2xl border border-white/60 bg-white/95 p-4 shadow-xl shadow-pink-100/40 backdrop-blur-md"
+			>
+				<div
+					class="absolute right-[48px] -bottom-1.5 h-3 w-3 rotate-45 border-r border-b border-white/60 bg-white/95 sm:right-[52px]"
+				></div>
+				<p class="mb-1 text-[10px] font-black tracking-widest text-[#F06292] uppercase">
+					How it works
+				</p>
+				<p class="mb-3 text-xs leading-relaxed text-[#4A2C2C]/75">
+					Describe what you want in plain English, attach your images, then hit send. The AI reads
+					your prompt and processes each file automatically.
+				</p>
+				<p class="mb-1 text-[10px] font-black tracking-widest text-[#F06292] uppercase">
+					Accepted formats
+				</p>
+				<p class="mb-3 text-xs leading-relaxed text-[#4A2C2C]/75">
+					JPG · PNG · WebP · AVIF · JPEG XL · HEIC · HEIF · HIF · SVG
+				</p>
+				<p class="mb-1 text-[10px] font-black tracking-widest text-[#F06292] uppercase">
+					PDF tools
+				</p>
+				<p class="mb-3 text-xs leading-relaxed text-[#4A2C2C]/75">
+					Rasterize pages to images (PNG, JPG, WebP…) or split a PDF into individual page files.
+				</p>
+				<p class="mb-1 text-[10px] font-black tracking-widest text-mochi-pink uppercase">
+					Video &amp; audio
+				</p>
+				<p class="text-xs leading-relaxed text-[#4A2C2C]/75">
+					MP4 · WebM · MKV · MOV · MP3 · WAV · AAC · FLAC · OGG — converted entirely in your
+					browser, nothing uploaded.
+				</p>
 			</div>
-			<button class="fixed inset-0 -z-10 cursor-default" onclick={() => (showInfoTooltip = false)} aria-label="Close" tabindex="-1"></button>
+			<button
+				class="fixed inset-0 -z-10 cursor-default"
+				onclick={() => (showInfoTooltip = false)}
+				aria-label="Close"
+				tabindex="-1"
+			></button>
 		{/if}
 	</div>
 
@@ -1424,15 +1705,29 @@
 
 	{#if failedFiles.length > 0}
 		<div class="animate-fade-in mt-3 px-1">
-			<div class="flex items-start gap-3 rounded-2xl border border-l-[3px] border-amber-200 border-l-amber-400 bg-amber-50 py-3.5 pr-5 pl-4">
-				<svg class="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+			<div
+				class="flex items-start gap-3 rounded-2xl border border-l-[3px] border-amber-200 border-l-amber-400 bg-amber-50 py-3.5 pr-5 pl-4"
+			>
+				<svg
+					class="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-amber-500"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="2.5"
+					aria-hidden="true"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+					/>
 				</svg>
 				<div>
-					<p class="text-xs font-bold text-amber-800 mb-1">
-						{failedFiles.length === 1 ? '1 file' : `${failedFiles.length} files`} couldn't be processed — try re-uploading:
+					<p class="mb-1 text-xs font-bold text-amber-800">
+						{failedFiles.length === 1 ? '1 file' : `${failedFiles.length} files`} couldn't be processed
+						— try re-uploading:
 					</p>
-					<ul class="text-xs text-amber-700 space-y-0.5">
+					<ul class="space-y-0.5 text-xs text-amber-700">
 						{#each failedFiles as f}
 							<li><span class="font-medium">{f.name}</span> — {f.reason}</li>
 						{/each}
@@ -1486,50 +1781,50 @@
 				</button>
 			{/each}
 			{#if uploadMode !== 'pdf' && uploadMode !== 'video'}
-			<!-- Convert to… expander -->
-			<button
-				onclick={() => {
-					showFormatPicker = true;
-					showRotatePicker = false;
-				}}
-				class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"
-			>
-				<svg
-					class="h-2.5 w-2.5 flex-shrink-0"
-					fill="none"
-					stroke="currentColor"
-					viewBox="0 0 24 24"
-					stroke-width="2.5"
-					><path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"
-					/></svg
+				<!-- Convert to… expander -->
+				<button
+					onclick={() => {
+						showFormatPicker = true;
+						showRotatePicker = false;
+					}}
+					class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"
 				>
-				Convert to…
-			</button>
-			<!-- Rotate… expander -->
-			<button
-				onclick={() => {
-					showRotatePicker = true;
-					showFormatPicker = false;
-				}}
-				class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"
-			>
-				<svg
-					class="h-2.5 w-2.5 flex-shrink-0"
-					fill="none"
-					stroke="currentColor"
-					viewBox="0 0 24 24"
-					stroke-width="2.5"
-					><path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
-					/></svg
+					<svg
+						class="h-2.5 w-2.5 flex-shrink-0"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+						stroke-width="2.5"
+						><path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"
+						/></svg
+					>
+					Convert to…
+				</button>
+				<!-- Rotate… expander -->
+				<button
+					onclick={() => {
+						showRotatePicker = true;
+						showFormatPicker = false;
+					}}
+					class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"
 				>
-				Rotate…
-			</button>
+					<svg
+						class="h-2.5 w-2.5 flex-shrink-0"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+						stroke-width="2.5"
+						><path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+						/></svg
+					>
+					Rotate…
+				</button>
 			{/if}
 		{/if}
 	</div>
@@ -1551,18 +1846,33 @@
 				class="absolute top-4 right-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#875F42]/8 text-[#875F42]/50 transition-all hover:bg-[#875F42]/15 hover:text-[#875F42]"
 				aria-label="Close"
 			>
-				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+				<svg
+					class="h-4 w-4"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+					stroke-width="2.5"
+				>
 					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
 				</svg>
 			</button>
-			<div class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FFD6E5] to-[#F06292]/20">
-				<svg class="h-6 w-6 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+			<div
+				class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FFD6E5] to-[#F06292]/20"
+			>
+				<svg
+					class="h-6 w-6 text-[#F06292]"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+					stroke-width="2"
+				>
 					<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
 				</svg>
 			</div>
 			<h3 class="mb-2 text-lg font-black text-[#4A2C2C]">You've used your quota</h3>
 			<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
-				You've reached your plan's processing limit. Upgrade to get more images per month and unlock batch processing up to 25 files.
+				You've reached your plan's processing limit. Upgrade to get more images per month and unlock
+				batch processing up to 25 files.
 			</p>
 			<a
 				href="/pricing"
@@ -1572,7 +1882,7 @@
 			</a>
 			<button
 				onclick={() => (showUpgradeCta = false)}
-				class="block w-full rounded-2xl border border-[#875F42]/15 py-3 text-center font-bold text-[#875F42] transition-all duration-200 hover:bg-[#875F42]/5 cursor-pointer"
+				class="block w-full cursor-pointer rounded-2xl border border-[#875F42]/15 py-3 text-center font-bold text-[#875F42] transition-all duration-200 hover:bg-[#875F42]/5"
 			>
 				Maybe later
 			</button>
