@@ -9,7 +9,7 @@
         category: "AI & Automation",
         readTime: "7 min read",
         date: "March 9, 2026",
-        lastEdited: "March 14, 2026"
+        lastEdited: "May 30, 2026"
     };
 </script>
 
@@ -74,7 +74,7 @@
             }
         ],
         "datePublished": "2026-03-09",
-        "dateModified": "2026-03-14"
+        "dateModified": "2026-05-30"
         }
     </script>
 </svelte:head>
@@ -285,28 +285,24 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
   }
 }`}</code></pre>
 
-            <p class="mb-6">If you have an API key (for higher limits), pass it via the environment:</p>
+            <p class="mb-6">To unlock your plan's limits, authenticate once with a browser login:</p>
 
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`{
-  "mcpServers": {
-    "mochify": {
-      "command": "mochify",
-      "args": ["serve"],
-      "env": { "MOCHIFY_API_KEY": "your-key" }
-    }
-  }
-}`}</code></pre>
+            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify auth login</code></pre>
+
+            <p class="mb-6">This opens your browser, you sign in, and credentials are saved to <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">~/.config/mochify/credentials.toml</code>. Both the CLI and the <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">mochify serve</code> MCP server pick them up automatically — no key to paste into your config. (<code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">MOCHIFY_API_KEY</code> still works as an optional environment-variable override, but <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">mochify auth login</code> is the standard path.)</p>
 
             <p class="mb-4">Restart Claude Desktop after saving. The Mochify <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">squish</code> tool will appear in your assistant's available functions — test it with: <em>"Compress this image as a WebP for the web."</em></p>
 
             <InfoBox type="tip" title="No API key needed to start">
-                Without a key, requests run on the free tier — 25 images per day per IP. Get an API key from your <a href="/dashboard" class="text-[#F06292] hover:text-[#D81B60] underline">dashboard</a> to track usage and unlock higher limits.
+                Without a key, requests run on the free tier — 25 images per month (IP-based), or 3 per session with no signup. To use your plan's higher limits (Seller 300/month, Pro 1,200/month), run <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">mochify auth login</code> once to authenticate against your Mochify account.
             </InfoBox>
         </section>
 
         <section id="hosted-mcp" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Hosted MCP: zero-install, any AI client</h2>
             <p class="mb-6">The Mochify MCP server is also available as a hosted HTTP endpoint at <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app</code>. No binary to install, no Rust toolchain, no config file — paste the URL, authorize your account, and the <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">squish</code> tool appears in your AI assistant instantly.</p>
+
+            <p class="mb-6">One behavioural note specific to the hosted server: it returns the compressed image as a short-lived download URL on <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">files.mochify.app</code> (about a five-minute window), not as inline binary. Your original is still processed in RAM and discarded immediately; only the compressed output sits briefly in a pickup store so the link can resolve. The local CLI never uses that pickup store — it writes results straight to disk.</p>
 
             <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
@@ -349,11 +345,11 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Gemini, Cursor, Windsurf, and other MCP clients</h3>
             <p class="mb-6">Any client that supports remote MCP servers (HTTP+SSE or Streamable HTTP transport) works with the hosted endpoint. Add <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app/mcp</code> as the server URL and follow the client's OAuth prompt.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Smithery</h3>
-            <p class="mb-4">Mochify is listed on <strong>Smithery</strong> — an MCP registry and marketplace where you can discover and install MCP tools with a single click. Search for "Mochify" to add the hosted server directly from the registry without touching any config file.</p>
+            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Smithery &amp; Glama</h3>
+            <p class="mb-4">Mochify is listed on <strong>Smithery</strong> and <strong>Glama</strong> — MCP registries and marketplaces where you can discover and install MCP tools with a single click. Search for "Mochify" to add the hosted server directly from the registry without touching any config file.</p>
 
             <InfoBox type="tip" title="Agentic workflows with multiple MCPs">
-                Combine the Mochify hosted MCP with a filesystem or Google Drive MCP and your assistant becomes a full image pipeline agent. Say <em>"Optimise all the product photos in my Drive folder as WebPs and strip the EXIF"</em> — the Drive MCP fetches the URLs, Mochify processes each one, and the results come back inline. No scripts, no manual steps.
+                Combine the Mochify hosted MCP with a filesystem or Google Drive MCP and your assistant becomes a full image pipeline agent. Say <em>"Optimise all the product photos in my Drive folder as WebPs and strip the EXIF"</em> — the Drive MCP fetches the URLs, Mochify processes each one, and each result comes back as a short-lived download link. No scripts, no manual steps.
             </InfoBox>
         </section>
 
@@ -456,7 +452,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
                 <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Does using MCP mean my images are stored?</h3>
-                    <p>No. Mochify's zero-retention policy applies regardless of how you connect. Images are processed in memory and never written to disk or retained after the job completes.</p>
+                    <p>Your original image is processed in memory and discarded immediately — no disk writes, no logs containing image data — on every surface. One nuance for the hosted MCP: so it can return a download link instead of inline binary, the compressed result is held in a short-lived pickup store for about five minutes, then evicted whether or not it was fetched. The local CLI and <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">mochify serve</code> skip that pickup store entirely and write the compressed bytes straight to your disk. Originals are never retained on any path.</p>
                 </div>
 
                 <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
@@ -491,7 +487,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
                 <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Does the hosted MCP work with Gemini, Cursor, or Windsurf?</h3>
-                    <p>Yes, with any client that supports remote MCP servers over HTTP. Add <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app/mcp</code> as the server URL in your client's MCP settings and follow the OAuth prompt. Mochify is also listed on Smithery if your client supports registry-based discovery.</p>
+                    <p>Yes, with any client that supports remote MCP servers over HTTP. Add <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app/mcp</code> as the server URL in your client's MCP settings and follow the OAuth prompt. Mochify is also listed on Smithery and Glama if your client supports registry-based discovery.</p>
                 </div>
             </div>
         </section>
