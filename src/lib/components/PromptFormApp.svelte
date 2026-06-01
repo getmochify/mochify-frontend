@@ -3,7 +3,7 @@
 	import { zip } from 'fflate';
 	import { env } from '$env/dynamic/public';
 	import { getSessionToken, getPlan } from '$lib/user';
-	import posthog from 'posthog-js';
+	import { posthog } from '$lib/analytics';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://tokens.mochify.app';

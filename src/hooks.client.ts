@@ -1,4 +1,4 @@
-import posthog from 'posthog-js';
+import { posthog } from '$lib/analytics';
 import { PUBLIC_POSTHOG_PROJECT_TOKEN, PUBLIC_POSTHOG_HOST } from '$env/static/public';
 import type { HandleClientError } from '@sveltejs/kit';
 

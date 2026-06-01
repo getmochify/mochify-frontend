@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { authClient } from '$lib/auth-client';
 	import Navigation from '$lib/components/Navigation.svelte';
-	import posthog from 'posthog-js';
+	import { posthog } from '$lib/analytics';
 
 	let email = $state('');
 	let password = $state('');

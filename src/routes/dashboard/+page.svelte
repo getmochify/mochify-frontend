@@ -6,7 +6,7 @@
 	import Navigation from '$lib/components/Navigation.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import { env } from '$env/dynamic/public';
-	import posthog from 'posthog-js';
+	import { posthog } from '$lib/analytics';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 

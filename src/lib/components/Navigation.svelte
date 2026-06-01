@@ -2,7 +2,7 @@
     import { goto, invalidateAll } from '$app/navigation'
     import { page } from '$app/state'
     import { authClient } from '$lib/auth-client'
-    import posthog from 'posthog-js'
+    import { posthog } from '$lib/analytics'
 
     let mobileMenuOpen = $state(false)
     let userMenuOpen = $state(false)

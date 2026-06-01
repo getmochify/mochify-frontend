@@ -3,7 +3,7 @@
     import { env } from '$env/dynamic/public';
     import { page } from '$app/state';
     import { getPlan, getSessionToken } from '$lib/user';
-    import posthog from 'posthog-js';
+    import { posthog } from '$lib/analytics';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 
