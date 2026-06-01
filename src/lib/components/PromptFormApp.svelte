@@ -285,6 +285,7 @@
 
 		if (toAdd.length > 0 && uploadMode === null) uploadMode = effectiveMode;
 		files = [...files, ...toAdd];
+		if (toAdd.length > 0) warmAuth();
 	}
 
 	const imageSuggestions = [
@@ -439,6 +440,16 @@
 		});
 	}
 
+	// Prewarm the session token on user intent (file add / textarea focus) so the
+	// JWT is already resolved by submit time. getSessionToken() only dedupes
+	// in-flight calls — it doesn't cache the value — so we hold the promise here
+	// and reuse it. Reset after each submit (see finally) so a later sign-in/out
+	// re-warms with a fresh token.
+	let warmedAuth: Promise<string | null> | null = null;
+	function warmAuth() {
+		if (!warmedAuth) warmedAuth = getSessionToken();
+	}
+
 	async function submit() {
 		if (!prompt.trim() || files.length === 0 || isProcessing) return;
 
@@ -472,7 +483,7 @@
 		}, 900);
 
 		try {
-			const jwt = await getSessionToken();
+			const jwt = await (warmedAuth ?? getSessionToken());
 
 			// Pre-flight quota check — skipped for video mode (processed client-side, no core tokens used).
 			if (uploadMode !== 'video') {
@@ -1250,6 +1261,7 @@
 			isProcessing = false;
 			processPhase = 'idle';
 			clearInterval(msgInterval);
+			warmedAuth = null;
 		}
 	}
 </script>
@@ -1468,7 +1480,7 @@
 						bind:value={prompt}
 						oninput={autoGrow}
 						onkeydown={handleKeydown}
-						onfocus={() => (isFocused = true)}
+						onfocus={() => { isFocused = true; warmAuth(); }}
 						onblur={() => (isFocused = false)}
 						aria-label="Describe what you want"
 						rows="2"
