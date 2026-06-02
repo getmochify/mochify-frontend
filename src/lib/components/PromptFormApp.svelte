@@ -1116,7 +1116,9 @@
 								const sizeSuffix = multiSize
 									? size.width && size.height
 										? `_${size.width}x${size.height}`
-										: `_${size.width || size.height}w`
+										: size.width || size.height
+											? `_${size.width || size.height}w`
+											: ''
 									: '';
 								const fmtSuffix = multiFormat ? `_${fmt}` : '';
 								const mochifiedSuffix = rawOutputName ? '' : '_mochified';
