@@ -55,7 +55,7 @@
       "url": "https://mochify.app/guides/why-we-relaxed-zero-retention-for-mcp",
       "datePublished": "2026-05-29",
       "dateModified": "2026-05-29",
-      "inLanguage": "en-GB",
+      "inLanguage": "en",
       "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
       "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
       "isPartOf": { "@type": "CollectionPage", "name": "Image Optimization Guides", "url": "https://mochify.app/guides" },

@@ -69,7 +69,7 @@
         "url": "https://mochify.app/guides/ecommerce-product-photo-workflow-resize-convert",
         "datePublished": "2026-05-23",
         "dateModified": "2026-05-23",
-        "inLanguage": "en-GB",
+        "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
         "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
         "isPartOf": { "@type": "CollectionPage", "name": "Image Optimization Guides", "url": "https://mochify.app/guides" },

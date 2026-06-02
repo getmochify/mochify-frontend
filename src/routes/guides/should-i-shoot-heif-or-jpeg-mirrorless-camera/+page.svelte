@@ -30,7 +30,7 @@
         "url": "https://mochify.app/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera",
         "datePublished": "2026-04-01",
         "dateModified": "2026-04-01",
-        "inLanguage": "en-GB",
+        "inLanguage": "en",
         "author": {
             "@type": "Organization",
             "name": "Mochify Engineering Team",

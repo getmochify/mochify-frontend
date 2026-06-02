@@ -30,7 +30,7 @@
         "url": "https://mochify.app/guides/does-heif-heic-work-with-client-galleries",
         "datePublished": "2026-04-26",
         "dateModified": "2026-04-26",
-        "inLanguage": "en-GB",
+        "inLanguage": "en",
         "author": {
             "@type": "Organization",
             "name": "Mochify Engineering Team",

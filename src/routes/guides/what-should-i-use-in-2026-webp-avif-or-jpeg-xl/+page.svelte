@@ -49,7 +49,7 @@
         "url": "https://mochify.app/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl",
         "datePublished": "2026-04-10",
         "dateModified": "2026-04-10",
-        "inLanguage": "en-GB",
+        "inLanguage": "en",
         "author": {
             "@type": "Organization",
             "name": "Mochify Engineering Team",

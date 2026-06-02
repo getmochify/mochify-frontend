@@ -68,7 +68,7 @@
         "url": "https://mochify.app/guides/ai-agent-workflow-automation-photographers",
         "datePublished": "2026-05-03",
         "dateModified": "2026-05-03",
-        "inLanguage": "en-GB",
+        "inLanguage": "en",
         "author": {
             "@type": "Organization",
             "name": "Mochify Engineering Team",

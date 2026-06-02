@@ -49,7 +49,7 @@
         "url": "https://mochify.app/guides/what-image-format-should-i-use-for-product-photos",
         "datePublished": "2026-05-19",
         "dateModified": "2026-05-19",
-        "inLanguage": "en-GB",
+        "inLanguage": "en",
         "author": {
             "@type": "Organization",
             "name": "Mochify Engineering Team",

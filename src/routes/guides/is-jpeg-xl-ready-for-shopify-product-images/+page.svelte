@@ -49,7 +49,7 @@
         "url": "https://mochify.app/guides/is-jpeg-xl-ready-for-shopify-product-images",
         "datePublished": "2026-04-14",
         "dateModified": "2026-04-14",
-        "inLanguage": "en-GB",
+        "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "isPartOf": { "@type": "CollectionPage", "name": "Image Optimization Guides", "url": "https://mochify.app/guides" },
         "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },

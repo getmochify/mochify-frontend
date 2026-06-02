@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "On-Device AI Agents: Image and PDF Optimization for Local Workflows",
+            description: "From NVIDIA DGX Spark to Apple Silicon, local AI agents are real in 2026. What that means for handling images and PDFs inside MCP agent pipelines — and why a local model doesn't mean local data.",
+            url: "/guides/on-device-ai-agents-image-optimization",
+            category: "AI & Automation",
+            readTime: "15 min read",
+            date: "June 2, 2026"
+        },
+        {
             title: "SVG Conversion Guide: When to Keep Vector and When to Rasterize",
             description: "The real question isn't 'can I use SVG?' — it's 'should I use SVG here, for this workflow?' Decision framework, format comparison, and WordPress workflows for designers and developers.",
             url: "/guides/svg-conversion-guide-vector-vs-raster",
@@ -107,7 +115,7 @@
         },
         {
             title: "AI-Powered Image Compression: How Mochify's Natural Language Feature Works (2026)",
-            description: "Describe your image goal in plain English and Mochify's AI picks the right format, size, and settings automatically. Powered by Mistral Small 3.2. No tech knowledge needed.",
+            description: "Describe your image goal in plain English and Mochify's AI picks the right format, size, and settings automatically. Powered by Mistral Small 4. No tech knowledge needed.",
             url: "/guides/ai-image-compression-natural-language-2026",
             category: "AI & Automation",
             readTime: "8 min read",
