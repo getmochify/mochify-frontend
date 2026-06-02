@@ -58,7 +58,6 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={metadata.title} />
     <meta name="twitter:description" content={metadata.description} />
-    <link rel="canonical" href="https://mochify.app/guides/ecommerce-product-photo-workflow-resize-convert" />
 
     <script type="application/ld+json">
         {

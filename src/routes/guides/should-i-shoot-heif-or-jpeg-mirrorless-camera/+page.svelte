@@ -19,7 +19,6 @@
     <meta name="description" content={metadata.description}>
     <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
-    <link rel="canonical" href="https://mochify.app/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera" />
 
     <script type="application/ld+json">
         {

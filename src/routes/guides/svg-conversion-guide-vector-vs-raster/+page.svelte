@@ -20,7 +20,6 @@
     <meta property="og:description" content={metadata.description} />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://mochify.app/guides/svg-conversion-guide-vector-vs-raster" />
-    <link rel="canonical" href="https://mochify.app/guides/svg-conversion-guide-vector-vs-raster" />
 
     <script type="application/ld+json">
         {

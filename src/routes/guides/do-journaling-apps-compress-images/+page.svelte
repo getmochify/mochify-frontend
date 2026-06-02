@@ -20,7 +20,6 @@
     <meta property="og:description" content={metadata.description} />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://mochify.app/guides/do-journaling-apps-compress-images" />
-    <link rel="canonical" href="https://mochify.app/guides/do-journaling-apps-compress-images" />
 
     <script type="application/ld+json">
         {

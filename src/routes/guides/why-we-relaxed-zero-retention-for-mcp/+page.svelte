@@ -44,7 +44,6 @@
     <meta property="og:description" content={metadata.description} />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://mochify.app/guides/why-we-relaxed-zero-retention-for-mcp" />
-    <link rel="canonical" href="https://mochify.app/guides/why-we-relaxed-zero-retention-for-mcp" />
 
     <script type="application/ld+json">
     {

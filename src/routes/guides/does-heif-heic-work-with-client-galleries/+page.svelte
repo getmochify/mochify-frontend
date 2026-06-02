@@ -19,7 +19,6 @@
     <meta name="description" content={metadata.description}>
     <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
-    <link rel="canonical" href="https://mochify.app/guides/does-heif-heic-work-with-client-galleries" />
 
     <script type="application/ld+json">
         {

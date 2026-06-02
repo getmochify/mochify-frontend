@@ -87,7 +87,6 @@
     <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:type" content="article" />
-    <link rel="canonical" href="https://mochify.app/guides/on-device-ai-agents-image-optimization" />
 
     <script type="application/ld+json">
     {

@@ -57,7 +57,6 @@
     <meta name="description" content={metadata.description}>
     <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
-    <link rel="canonical" href="https://mochify.app/guides/ai-agent-workflow-automation-photographers" />
 
     <script type="application/ld+json">
         {
