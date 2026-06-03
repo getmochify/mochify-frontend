@@ -4,6 +4,7 @@
 	import { env } from '$env/dynamic/public';
 	import { getSessionToken, getPlan } from '$lib/user';
 	import { posthog } from '$lib/analytics';
+	import { isChunkLoadError, recoverFromStaleChunk } from '$lib/chunkRecovery';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://tokens.mochify.app';
@@ -705,6 +706,15 @@
 
 			// ── Video / audio mode (client-side via MediaBunny) ───────────────────
 			if (uploadMode === 'video') {
+				let mediabunny: typeof import('mediabunny');
+				try {
+					mediabunny = await import('mediabunny');
+				} catch (e) {
+					// A stale chunk after a deploy — the old hashed file is gone. Reload
+					// once to pull the current build, then bail out of this submit.
+					if (isChunkLoadError(e) && recoverFromStaleChunk()) return;
+					throw e;
+				}
 				const {
 					Input,
 					Output,
@@ -721,7 +731,7 @@
 					AdtsOutputFormat,
 					FlacOutputFormat,
 					OggOutputFormat
-				} = await import('mediabunny');
+				} = mediabunny;
 
 				const FORMAT_MAP: Record<string, any> = {
 					mp4: Mp4OutputFormat,
