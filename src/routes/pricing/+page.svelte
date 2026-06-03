@@ -420,9 +420,7 @@
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]/55">
                         <span class="mt-0.5 text-[#6C3F31]/25 font-black">✓</span>
-                        <span>PDF tools — up to 10 pages
-                            <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-[#F06292]/10 text-[#F06292] text-[10px] font-black uppercase tracking-wide align-middle">Soon</span>
-                        </span>
+                        <span>PDF tools — up to 10 pages</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-cocoa-deep">
                         <span class="mt-0.5 text-mochi-pink font-black">✓</span>
