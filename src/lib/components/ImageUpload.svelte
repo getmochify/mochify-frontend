@@ -585,7 +585,7 @@
         accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.svg,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/svg+xml"
         multiple
         onchange={handleFileSelect}
-        class="hidden"
+        class="sr-only"
     />
 
     <!-- Drag overlay -->
@@ -712,8 +712,8 @@
             {/each}
 
             <!-- Add more -->
-            <button
-                onclick={() => fileInputElement?.click()}
+            <label
+                for="file-input"
                 class="liquid-bubble flex h-16 w-16 flex-shrink-0 cursor-pointer items-center justify-center rounded-2xl border border-dashed border-[#F06292]/30 text-[#F06292]/60 transition-all hover:scale-105 hover:bg-white/60 hover:text-[#F06292]"
                 aria-label="Add more images"
             >
@@ -726,7 +726,7 @@
                 >
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
-            </button>
+            </label>
 
             <div class="absolute right-8 bottom-0 left-8">
                 <div

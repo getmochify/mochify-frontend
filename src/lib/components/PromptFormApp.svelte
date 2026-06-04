@@ -25,6 +25,9 @@
 	let completedFiles: number = $state(0);
 	let totalFiles: number = $state(0);
 	let downloadAsZip: boolean = $state(false);
+	// When a job fans out into many outputs, auto-enable ZIP so the user gets one
+	// archive instead of a barrage of separate downloads (which browsers block).
+	const AUTO_ZIP_THRESHOLD = 4;
 
 	// Coarse phase for the progress UI. With concurrent uploads, multiple files move
 	// through upload/process/download independently, so the per-file processPhase
@@ -971,6 +974,9 @@
 				(sum, f, i) => sum + variantCount(fileMap[f.name] ?? fileArrayByIndex[i]),
 				0
 			);
+			// Past the threshold, switch ZIP on — the bound toggle animates on so the
+			// user sees why they're getting an archive instead of many downloads.
+			if (totalFiles >= AUTO_ZIP_THRESHOLD) downloadAsZip = true;
 			const totalBytes = files.reduce(
 				(sum, f, i) => sum + f.size * variantCount(fileMap[f.name] ?? fileArrayByIndex[i]),
 				0
@@ -1433,8 +1439,8 @@
 						</button>
 					</div>
 				{/each}
-				<button
-					onclick={() => fileInputEl?.click()}
+				<label
+					for="pfa-file-input"
 					class="liquid-bubble flex h-16 w-16 flex-shrink-0 cursor-pointer items-center justify-center rounded-2xl border border-dashed border-[#F06292]/30 text-[#F06292]/60 shadow-sm transition-all hover:scale-105 hover:bg-white/60 hover:text-[#F06292]"
 					aria-label={files.length ? 'Add more files' : 'Add files'}
 				>
@@ -1447,7 +1453,7 @@
 					>
 						<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
 					</svg>
-				</button>
+				</label>
 
 				{#if files.length === 0}
 					<span class="text-sm font-medium text-[#875F42]/70"
@@ -1468,12 +1474,13 @@
 			<div class="flex flex-col gap-3 px-4 pt-4 pb-3 sm:px-6 sm:pt-5">
 				<input
 					bind:this={fileInputEl}
+					id="pfa-file-input"
 					type="file"
 					multiple
 					accept={fileAccept}
 					onchange={handleFileSelect}
 					aria-label="Upload files"
-					class="hidden"
+					class="sr-only"
 				/>
 
 				<div class="relative">
@@ -1525,9 +1532,9 @@
 
 				<div class="flex items-center gap-2 px-3 py-2 sm:px-4">
 					<!-- Controls -->
-					<button
-						onclick={() => fileInputEl?.click()}
-						class="flex-shrink-0 cursor-pointer rounded-xl p-1.5 text-[#875F42]/60 transition-all hover:bg-white/60 hover:text-[#F06292]"
+					<label
+						for="pfa-file-input"
+						class="inline-flex flex-shrink-0 cursor-pointer items-center justify-center rounded-xl p-1.5 text-[#875F42]/60 transition-all hover:bg-white/60 hover:text-[#F06292]"
 						aria-label="Attach images"
 					>
 						<svg
@@ -1543,7 +1550,7 @@
 								d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"
 							/>
 						</svg>
-					</button>
+					</label>
 					{#if uploadMode !== 'pdf' && uploadMode !== 'video'}
 						<div class="h-4 w-px flex-shrink-0 bg-white/40"></div>
 						<label
