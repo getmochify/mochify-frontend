@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "HIF to JPG: Convert Canon, Sony & Fujifilm Photos to Shareable JPEGs",
+            description: "Convert HIF to JPG from Canon, Sony and Fujifilm cameras. Every method on every platform, plus what you trade away going 10-bit to 8-bit.",
+            url: "/guides/hif-to-jpg-canon-sony-fujifilm",
+            category: "Image Formats",
+            readTime: "19 min read",
+            date: "June 2, 2026"
+        },
+        {
             title: "On-Device AI Agents: Image and PDF Optimization for Local Workflows",
             description: "From NVIDIA DGX Spark to Apple Silicon, local AI agents are real in 2026. What that means for handling images and PDFs inside MCP agent pipelines — and why a local model doesn't mean local data.",
             url: "/guides/on-device-ai-agents-image-optimization",
