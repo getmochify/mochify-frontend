@@ -4,6 +4,7 @@
     import { page } from '$app/state';
     import { getPlan, getSessionToken } from '$lib/user';
     import { posthog } from '$lib/analytics';
+    import { portal } from '$lib/portal';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 
@@ -1039,7 +1040,8 @@
 
 {#if showUpgradeCta}
     <div
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+        use:portal
+        class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
         onclick={() => (showUpgradeCta = false)}
         onkeydown={(e) => e.key === 'Escape' && (showUpgradeCta = false)}
         role="dialog"
@@ -1121,7 +1123,8 @@
 
 {#if showSignupCta}
     <div
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+        use:portal
+        class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
         onclick={() => (showSignupCta = false)}
         onkeydown={(e) => e.key === 'Escape' && (showSignupCta = false)}
         role="dialog"

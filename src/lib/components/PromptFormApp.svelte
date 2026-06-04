@@ -5,6 +5,7 @@
 	import { getSessionToken, getPlan } from '$lib/user';
 	import { posthog } from '$lib/analytics';
 	import { isChunkLoadError, recoverFromStaleChunk } from '$lib/chunkRecovery';
+	import { portal } from '$lib/portal';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://tokens.mochify.app';
@@ -1866,7 +1867,8 @@
 
 {#if showUpgradeCta}
 	<div
-		class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+		use:portal
+		class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
 		onclick={() => (showUpgradeCta = false)}
 		role="dialog"
 		aria-modal="true"
@@ -1926,7 +1928,8 @@
 
 {#if showSignupCta}
 	<div
-		class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+		use:portal
+		class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
 		onclick={() => (showSignupCta = false)}
 		role="dialog"
 		aria-modal="true"
