@@ -43,7 +43,8 @@
             url: "/guides/fujifilm-hif-to-jpg",
             category: "Image Formats",
             readTime: "5 min read",
-            date: "Feb 01, 2026"
+            date: "Feb 01, 2026",
+            lastUpdated: "June 4, 2026"
         },
         {
             title: "Privacy & Image Optimization: A Comprehensive Guide (2026)",

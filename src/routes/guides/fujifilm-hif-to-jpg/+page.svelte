@@ -7,7 +7,8 @@
         description: "What HIF/HEIF is, why Fuji shooters use it, and how to convert HIF to standard JPEG while keeping your film simulations.",
         category: "Image Formats",
         readTime: "5 min read",
-        date: "February 01, 2026"
+        date: "February 01, 2026",
+        lastUpdated: "June 4, 2026"
     };
 </script>
 
@@ -79,7 +80,7 @@
             {metadata.category}
         </span>
         <span class="text-sm font-bold text-[#875F42]">
-            {metadata.readTime} · {metadata.date}
+            {metadata.readTime} · {metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
         </span>
     </div>
 
@@ -197,6 +198,24 @@
             <p>
                 Unlike generic cloud converters, Mochify uses a <strong>RAM-Only Processing</strong> model. Your photos are loaded into volatile memory, converted, and immediately wiped. They are never written to a hard drive or used for AI training.
             </p>
+        </section>
+
+        <section>
+            <SectionHeading>Related Guides</SectionHeading>
+            <ul class="space-y-3">
+                {#each [
+                    { href: '/guides/hif-to-jpg-canon-sony-fujifilm', title: 'HIF to JPG: Canon, Sony & Fujifilm', desc: 'Every conversion method on every platform, plus what changes going 10-bit to 8-bit.' },
+                    { href: '/guides/heif-to-jpeg-workflow-photographers-guide', title: 'HIF/HEIF to JPEG for Professional Photographers', desc: 'Client delivery, archiving, and when to keep HIF originals.' },
+                    { href: '/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera', title: 'Should I Shoot HEIF or JPEG?', desc: 'The format decision before you press the shutter.' },
+                ] as guide}
+                    <li>
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7" /></svg>
+                        </a>
+                    </li>
+                {/each}
+            </ul>
         </section>
 
     </div>
