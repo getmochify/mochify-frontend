@@ -11,7 +11,7 @@
             url: "/guides/hif-to-jpg-canon-sony-fujifilm",
             category: "Image Formats",
             readTime: "19 min read",
-            date: "June 2, 2026"
+            date: "June 4, 2026"
         },
         {
             title: "On-Device AI Agents: Image and PDF Optimization for Local Workflows",

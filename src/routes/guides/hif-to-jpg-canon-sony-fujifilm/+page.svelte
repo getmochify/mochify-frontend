@@ -8,7 +8,7 @@
         description: "Convert HIF to JPG from Canon, Sony and Fujifilm cameras. Every method on every platform, plus what you trade away going 10-bit to 8-bit.",
         category: "Image Formats",
         readTime: "19 min read",
-        date: "June 2, 2026"
+        date: "June 4, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -92,8 +92,8 @@
         "headline": "HIF to JPG: Convert Canon, Sony & Fujifilm Photos to Shareable JPEGs",
         "description": "Convert HIF to JPG from Canon, Sony and Fujifilm cameras. Every method on every platform, plus what you trade away going 10-bit to 8-bit.",
         "url": "https://mochify.app/guides/hif-to-jpg-canon-sony-fujifilm",
-        "datePublished": "2026-06-02",
-        "dateModified": "2026-06-02",
+        "datePublished": "2026-06-04",
+        "dateModified": "2026-06-04",
         "inLanguage": "en-GB",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
@@ -150,22 +150,24 @@
     <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
 
         <!-- TOC -->
-        <nav aria-label="Table of contents">
-            <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-7 mb-4">
-                <SectionHeading>What's in This Guide</SectionHeading>
-                <ol class="flex flex-col gap-2.5 mt-5 list-none p-0 m-0">
+        <section class="my-12">
+            <SectionHeading>What's in This Guide</SectionHeading>
+            <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner" aria-label="Table of contents">
+                <ul class="space-y-3">
                     {#each toc as item}
-                        <li class="m-0 p-0">
-                            <a href={item.id} class="flex items-center gap-3 bg-white border border-pink-100 rounded-xl px-4 py-3 no-underline text-[#4A2C2C] font-semibold text-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
-                                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-[#FFF0F5] border border-pink-100 text-[#F06292] font-black text-xs flex items-center justify-center">{item.n}</span>
-                                <span class="flex-1">{item.label}</span>
-                                <span class="text-[#F06292] ml-auto">→</span>
+                        <li>
+                            <a href={item.id} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                                <span class="flex items-center gap-4">
+                                    <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
+                                    <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
+                                </span>
+                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7" /></svg>
                             </a>
                         </li>
                     {/each}
-                </ol>
-            </div>
-        </nav>
+                </ul>
+            </nav>
+        </section>
 
         <!-- Section 1 -->
         <section id="what-is-a-hif-file">
