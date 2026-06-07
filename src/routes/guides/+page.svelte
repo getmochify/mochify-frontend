@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "LLM Image Token Costs: How Many Tokens Does an Image Use?",
+            description: "No single number: Claude uses width×height/750 (~1,334 tokens for 1 MP), OpenAI and Gemini use tiling. Pass file paths, not image bytes, to save context.",
+            url: "/guides/llm-image-token-costs",
+            category: "AI & Automation",
+            readTime: "4 min read",
+            date: "June 7, 2026"
+        },
+        {
             title: "Does Converting HIF to JPG Reduce Quality?",
             description: "Converting HIF to JPG rarely reduces visible quality. The real exception is Canon HDR PQ, where the HDR-to-SDR tone-map changes the look more than bit depth.",
             url: "/guides/does-hif-to-jpg-lose-quality",
