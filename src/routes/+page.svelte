@@ -190,7 +190,7 @@
         
         <header class="text-center mb-10">
             <h1 class="text-5xl md:text-7xl font-black text-[#4A2C2C] leading-tight tracking-tight mb-3">
-                Mochify
+                Mochify!
             </h1>
             <h2 class="text-xs font-semibold tracking-widest uppercase text-[#F06292]/70 mb-4">PROMPT-DRIVEN IMAGE CONVERTER & SMART CROP PIPELINE</h2>
             <p class="text-[#6C3F31] text-sm md:text-base max-w-xl mx-auto leading-relaxed">
