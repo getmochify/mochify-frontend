@@ -44,6 +44,28 @@
 		return processPhase;
 	});
 	let agentMessage: string = $state('');
+	// Agent message box lifecycle: typewriter reveal + final outcome, so the box
+	// resolves (✓ / ⚠ + summary) instead of claiming present-continuous work
+	// forever after the flow ends.
+	let typedMessage: string = $state('');
+	let agentOutcome: 'success' | 'error' | null = $state(null);
+	let agentOutcomeText: string = $state('');
+	$effect(() => {
+		const msg = agentMessage;
+		typedMessage = '';
+		if (!msg) return;
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			typedMessage = msg;
+			return;
+		}
+		let i = 0;
+		const id = setInterval(() => {
+			i += 2;
+			typedMessage = msg.slice(0, i);
+			if (i >= msg.length) clearInterval(id);
+		}, 18);
+		return () => clearInterval(id);
+	});
 
 	let showInfoTooltip = $state(false);
 
@@ -201,6 +223,13 @@
 
 	function showStatus(type: 'success' | 'error', text: string) {
 		statusMessage = { type, text };
+		// Resolve the agent message box for the active flow only — the isProcessing
+		// guard stops pre-flight validation errors (file too big, mode mismatch)
+		// from flipping a previous run's box to an unrelated outcome.
+		if (agentMessage && isProcessing) {
+			agentOutcome = type;
+			agentOutcomeText = text;
+		}
 		if (type === 'success') triggerVictoryGlow();
 		if (statusTimeout) clearTimeout(statusTimeout);
 		statusTimeout = setTimeout(() => {
@@ -473,6 +502,8 @@
 		completedFiles = 0;
 		hitRateLimit = false;
 		agentMessage = '';
+		agentOutcome = null;
+		agentOutcomeText = '';
 		failedFiles = [];
 
 		const thinkingMessages =
@@ -1832,16 +1863,74 @@
 	{#if agentMessage}
 		<div class="animate-fade-in mt-3 px-1">
 			<div
-				class="flex items-start gap-3 rounded-2xl border border-l-[3px] border-[#F06292]/20 border-l-[#F06292] bg-gradient-to-r from-[#FFF0F5] to-[#FDFBF7] py-3.5 pr-5 pl-4 shadow-sm shadow-pink-100/60"
+				class="flex items-start gap-3 rounded-2xl border border-l-[3px] py-3.5 pr-5 pl-4 shadow-sm transition-colors duration-500 {agentOutcome ===
+				'success'
+					? 'border-[#A5D6A7]/50 border-l-[#66BB6A] bg-gradient-to-r from-[#F1F8E9] to-[#FDFBF7] shadow-green-100/60'
+					: agentOutcome === 'error'
+						? 'border-amber-200 border-l-amber-400 bg-gradient-to-r from-amber-50 to-[#FDFBF7] shadow-amber-100/60'
+						: 'border-[#F06292]/20 border-l-[#F06292] bg-gradient-to-r from-[#FFF0F5] to-[#FDFBF7] shadow-pink-100/60'}"
 			>
-				<svg
-					class="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-[#F06292]"
-					fill="currentColor"
-					viewBox="0 0 24 24"
-					aria-hidden="true"
-					><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" /></svg
-				>
-				<p class="text-xs leading-relaxed font-medium text-[#4A2C2C]/75">{agentMessage}</p>
+				{#if agentOutcome === 'success'}
+					<svg
+						class="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-[#66BB6A]"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="3"
+						viewBox="0 0 24 24"
+						aria-hidden="true"
+						><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg
+					>
+				{:else if agentOutcome === 'error'}
+					<svg
+						class="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-amber-500"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2.5"
+						viewBox="0 0 24 24"
+						aria-hidden="true"
+						><path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+						/></svg
+					>
+				{:else}
+					<svg
+						class="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-[#F06292] {isProcessing
+							? 'animate-pulse'
+							: ''}"
+						fill="currentColor"
+						viewBox="0 0 24 24"
+						aria-hidden="true"
+						><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" /></svg
+					>
+				{/if}
+				<div class="min-w-0 flex-1">
+					<p
+						class="mb-0.5 text-[10px] font-black tracking-widest uppercase {agentOutcome ===
+						'success'
+							? 'text-[#2E5C31]'
+							: agentOutcome === 'error'
+								? 'text-amber-700'
+								: 'text-[#F06292]'}"
+					>
+						Magic Flow
+					</p>
+					<p class="text-sm leading-relaxed font-medium text-[#4A2C2C]/80">
+						{typedMessage}{#if typedMessage.length < agentMessage.length}<span
+								class="animate-pulse text-[#F06292]">▍</span
+							>{/if}
+					</p>
+					{#if agentOutcomeText}
+						<p
+							class="animate-fade-in mt-1 text-xs font-bold {agentOutcome === 'success'
+								? 'text-[#2E5C31]'
+								: 'text-amber-700'}"
+						>
+							{agentOutcomeText}
+						</p>
+					{/if}
+				</div>
 			</div>
 		</div>
 	{/if}
