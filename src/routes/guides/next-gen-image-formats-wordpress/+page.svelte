@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
@@ -368,7 +369,7 @@
 
             <!-- Desktop: Table Layout -->
             <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white hidden md:block">
-                <div class="overflow-x-auto">
+                <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-[#FFF5F7] border-b border-pink-100">
@@ -405,7 +406,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </ScrollableTable>
             </div>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">
@@ -422,7 +423,7 @@
             <SectionHeading>A Small Format Comparsion (Example)</SectionHeading>
             <p class="mb-6">Here's what "serve images in next-gen formats" looks like in practice-same visual image, different encodings.</p>
 <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
-                <div class="overflow-x-auto">
+                <ScrollableTable class="my-6">
             <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-[#FFF5F7] border-b border-pink-100">
@@ -449,7 +450,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    </div>
+                    </ScrollableTable>
                     </div>
 
                     <p>The point isn't chasing perfect numbers - it's removing hundred of kilobytes from the crtical rendering path.</p>

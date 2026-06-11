@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
@@ -141,7 +142,7 @@
 
             <p class="mb-6">The table below summarises what each major journaling app actually does to your photos once you attach them.</p>
 
-            <div class="overflow-x-auto rounded-2xl border border-pink-100 mb-6">
+            <ScrollableTable class="mb-6">
                 <table class="w-full text-sm text-cocoa-deep border-collapse">
                     <thead>
                         <tr class="bg-[#FFF5F7]">
@@ -184,7 +185,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <p class="mb-4">The pattern is consistent: apps either skip compression or apply it in ways that backfire. Day One's HEIC-to-JPEG conversion is a textbook example of a format "fix" that doubles your file sizes instead of shrinking them.</p>
 

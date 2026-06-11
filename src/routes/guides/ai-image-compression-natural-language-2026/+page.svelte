@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
@@ -213,7 +214,7 @@
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Format selection: WebP, AVIF, JXL, or JPEG</h2>
             <p class="mb-4">The AI can choose from four output formats depending on how you describe your goal. AVIF delivers roughly 45% smaller files than JPEG at equivalent visual quality — making it the right pick when file size is the priority. WebP hits the sweet spot between compression and compatibility, supported by all major browsers since 2023 (<a href="https://caniuse.com/webp" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">caniuse.com</a>). JPEG XL (JXL) is the choice for lossless or near-lossless archival. Standard JPEG via our jpegli encoder remains the best option when universal compatibility is non-negotiable.</p>
 
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-8">
+            <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -229,7 +230,7 @@
                         <tr><td class="p-4 font-bold">"Instagram," "social"</td><td class="p-4">WebP or AVIF</td></tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <p class="mb-4">The AI cross-references your described use case against format strengths. You don't need to know what AVIF is — just describe what the image is for.</p>
         </section>
@@ -261,7 +262,7 @@
         <section id="cheat-sheet" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Cheat sheet: prompt examples and what they produce</h2>
 
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-8">
+            <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -280,7 +281,7 @@
                         <tr><td class="p-4 font-bold">"Social banner"</td><td class="p-4">WebP</td><td class="p-4">~1200×630</td><td class="p-4">No</td></tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
         </section>
 
         <section id="faq" class="scroll-mt-24">

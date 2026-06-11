@@ -318,6 +318,11 @@
 			label: 'PageSpeed',
 			prompt: 'Fix my PageSpeed — convert to WebP and compress for fast load times',
 			dot: 'bg-[#4285F4]'
+		},
+		{
+			label: 'To PDF',
+			prompt: 'Combine into a single PDF',
+			dot: 'bg-rose-400'
 		}
 	];
 	const pdfSuggestions = [
@@ -525,9 +530,14 @@
 				})
 			);
 
+			// Images in, PDF out: when the user has images attached and the prompt
+			// asks for a PDF, route to the imgpdf NLP mode + multipart create flow.
+			const imagesToPdf = uploadMode === 'image' && /\bpdfs?\b/i.test(prompt);
+
 			const nlpBody: Record<string, unknown> = { prompt: prompt.trim(), fileData: fileDetails };
 			if (uploadMode === 'pdf') nlpBody.mode = 'pdf';
-			if (uploadMode === 'video') nlpBody.mode = 'video';
+			else if (uploadMode === 'video') nlpBody.mode = 'video';
+			else if (imagesToPdf) nlpBody.mode = 'imgpdf';
 
 			const nlpResponse = await fetch(`${WORKER_URL}/v1/prompt`, {
 				method: 'POST',
@@ -558,9 +568,107 @@
 					extractAudio?: boolean;
 					[key: string]: any;
 				}[];
-				pdf?: { op: string; type: string; dpi: number; quality: number };
+				pdf?: { op: string; type: string; dpi: number; quality: number; page?: string };
 			};
 			agentMessage = parsedData.agent_message || '';
+
+			// ── Images → PDF mode (multipart create) ──────────────────────────────
+			if (imagesToPdf) {
+				const pdfConfig = parsedData.pdf!;
+				const page = pdfConfig.page ?? 'fit';
+				const quality = pdfConfig.quality ?? 85;
+				const totalImages = files.length;
+				const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
+				totalFiles = totalImages;
+				processPhase = 'uploading';
+				uploadPercent = 0;
+
+				const form = new FormData();
+				for (const f of files) form.append('images', f, f.name);
+
+				const params = new URLSearchParams({ op: 'create', page, quality: String(quality) });
+
+				try {
+					const blob = await new Promise<Blob>((resolve, reject) => {
+						const xhr = new XMLHttpRequest();
+						xhr.open('POST', `${API_URL}/v1/pdf?${params}`);
+						if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
+						// No Content-Type — the browser sets the multipart boundary.
+						xhr.responseType = 'blob';
+						xhr.upload.onprogress = (e) => {
+							if (totalBytes > 0)
+								uploadPercent = Math.min(Math.round((e.loaded / totalBytes) * 100), 100);
+						};
+						xhr.upload.onloadend = () => {
+							processPhase = 'processing';
+						};
+						xhr.onload = () => {
+							uploadPercent = 100;
+							if (xhr.status >= 200 && xhr.status < 300) {
+								resolve(xhr.response as Blob);
+								return;
+							}
+							const status = xhr.status;
+							const reader = new FileReader();
+							reader.onload = () => {
+								const text = (reader.result as string)?.trim() || '';
+								const err: any = new Error(text || `PDF creation failed (Status: ${status})`);
+								err.status = status;
+								reject(err);
+							};
+							reader.onerror = () => {
+								const err: any = new Error(`PDF creation failed (Status: ${status})`);
+								err.status = status;
+								reject(err);
+							};
+							reader.readAsText(xhr.response as Blob);
+						};
+						xhr.onerror = () => reject(new Error('Lost connection while creating your PDF'));
+						xhr.send(form);
+					});
+
+					processPhase = 'downloading';
+					const url = URL.createObjectURL(blob);
+					const a = document.createElement('a');
+					a.style.display = 'none';
+					a.href = url;
+					a.download = 'mochified.pdf';
+					document.body.appendChild(a);
+					a.click();
+					setTimeout(() => {
+						URL.revokeObjectURL(url);
+						document.body.removeChild(a);
+					}, 100);
+
+					completedFiles = totalImages;
+					prompt = '';
+					files = [];
+					uploadMode = null;
+					if (fileInputEl) fileInputEl.value = '';
+
+					posthog.capture('imgpdf_flow_completed', { images: totalImages, page });
+					showStatus(
+						'success',
+						`PDF created from ${totalImages} image${totalImages > 1 ? 's' : ''}! ✨`
+					);
+					onSuccess?.();
+				} catch (e: any) {
+					if (e?.status === 429) {
+						if (jwt) showUpgradeCta = true;
+						else showSignupCta = true;
+					} else if (e?.status === 403) {
+						showUpgradeCta = true;
+					} else {
+						posthog.capture('imgpdf_flow_completed', { images: totalImages, all_failed: true });
+						showStatus(
+							'error',
+							e instanceof Error ? e.message : 'PDF creation failed — please try again.'
+						);
+					}
+				}
+				return;
+			}
+			// ── end Images → PDF mode ─────────────────────────────────────────────
 
 			// ── PDF mode ──────────────────────────────────────────────────────────
 			if (uploadMode === 'pdf') {

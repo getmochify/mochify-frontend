@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
@@ -185,7 +186,7 @@
 
             <div class="my-12">
     <div class="overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
-        <div class="overflow-x-auto">
+        <ScrollableTable class="my-6">
             <table class="w-full text-left border-collapse">
                 
                 <thead>
@@ -233,7 +234,7 @@
 
                 </tbody>
             </table>
-        </div>
+        </ScrollableTable>
     </div>
 
     <div class="mt-4 px-2 text-xs font-medium text-[#875F42] opacity-70 flex items-center gap-1.5">

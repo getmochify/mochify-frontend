@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
@@ -359,7 +360,7 @@
         <!-- 7. Cheat sheet -->
         <section id="cheat-sheet" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">7. Cheat Sheet: On-Device Agent and Local MCP Tool Stack</h2>
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-6">
+            <ScrollableTable class="mb-6">
                 <table class="w-full text-left bg-white text-sm">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -380,7 +381,7 @@
                         {/each}
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
         </section>
 
         <!-- FAQ -->

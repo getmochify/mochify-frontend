@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
@@ -248,7 +249,7 @@
 
             <p class="mb-4">Use this as your first filter before going deeper into the guide.</p>
 
-            <div class="overflow-x-auto rounded-2xl border border-pink-100 my-6">
+            <ScrollableTable class="my-6">
                 <table class="w-full min-w-[500px] border-collapse">
                     <thead>
                         <tr class="bg-[#FFF5F7]">
@@ -274,7 +275,7 @@
                         {/each}
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <div class="bg-[#FFF9F5] rounded-2xl border border-orange-100 p-6 my-6">
                 <p class="font-bold text-[#4A2C2C] mb-2">Format quick map after converting</p>
@@ -392,7 +393,7 @@
 
             <p class="mb-4">Once you've decided to convert an SVG, you have three modern format options worth knowing. Here's how they compare for SVG-derived assets specifically.</p>
 
-            <div class="overflow-x-auto rounded-2xl border border-pink-100 my-6">
+            <ScrollableTable class="my-6">
                 <table class="w-full min-w-[500px] border-collapse">
                     <thead>
                         <tr class="bg-[#FFF5F7]">
@@ -420,7 +421,7 @@
                         {/each}
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 my-6">
                 {#each [

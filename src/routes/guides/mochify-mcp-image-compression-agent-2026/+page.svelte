@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
@@ -304,7 +305,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
             <p class="mb-6">One behavioural note specific to the hosted server: it returns the compressed image as a short-lived download URL on <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">files.mochify.app</code> (about a five-minute window), not as inline binary. Your original is still processed in RAM and discarded immediately; only the compressed output sits briefly in a pickup store so the link can resolve. The local CLI never uses that pickup store — it writes results straight to disk.</p>
 
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-8">
+            <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -323,7 +324,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
                         <tr><td class="p-4 font-bold">Can run simultaneously</td><td class="p-4 text-[#F06292] font-bold">Yes</td><td class="p-4 text-[#F06292] font-bold">Yes</td></tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Claude.ai web (claude.ai)</h3>
             <p class="mb-4">In Claude.ai, go to <strong>Settings → Integrations</strong> and add a new integration with the URL:</p>
@@ -383,7 +384,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">MCP vs. the web tool: when to use each</h2>
             <p class="mb-6">Both options use the same squish engine and deliver the same output quality. The difference is workflow fit.</p>
 
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-6">
+            <ScrollableTable class="mb-6">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -401,7 +402,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
                         <tr><td class="p-4 font-bold">Format support</td><td class="p-4">WebP, AVIF, JXL, JPEG</td><td class="p-4">WebP, AVIF, JXL, JPEG</td></tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <p>If you're optimizing images as part of a larger agent workflow — content pipelines, automated publishing, code-adjacent tasks — MCP is the right path. For quick, individual jobs, the web tool is faster to reach.</p>
         </section>
@@ -409,7 +410,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
         <section id="cheat-sheet" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Cheat sheet: prompt-to-flag mapping</h2>
 
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-8">
+            <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -428,7 +429,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
                         <tr><td class="p-4 font-bold">"Email thumbnail"</td><td class="p-4">JPEG (jpegli)</td><td class="p-4">~600px</td><td class="p-4 text-[#F06292] font-bold">Yes</td></tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
         </section>
 
         <section id="faq" class="scroll-mt-24">

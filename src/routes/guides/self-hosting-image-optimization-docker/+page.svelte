@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import CodeBlock from '$lib/components/CodeBlock.svelte';
@@ -128,7 +129,7 @@
 
             <div class="my-12">
                 <div class="overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
-                    <div class="overflow-x-auto">
+                    <ScrollableTable class="my-6">
                         <table class="w-full text-left border-collapse">
                             
                             <thead>
@@ -173,7 +174,7 @@
 
                             </tbody>
                         </table>
-                    </div>
+                    </ScrollableTable>
                 </div>
 
                 <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Why the Full Engine Matters: Jpegli and JXL</h3>

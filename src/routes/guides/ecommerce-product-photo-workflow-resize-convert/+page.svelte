@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
@@ -234,7 +235,7 @@
             <SectionHeading>Why These Two Dimensions</SectionHeading>
             <p>Most ecommerce platforms expect two sizes from the same product shot:</p>
 
-            <div class="overflow-x-auto rounded-2xl border border-pink-100 my-6">
+            <ScrollableTable class="my-6">
                 <table class="w-full border-collapse text-sm">
                     <thead>
                         <tr class="bg-[#FFF5F7]">
@@ -256,7 +257,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <p>Running both from a single upload means your original file is processed once, not twice. No quality loss from re-processing a previously compressed image.</p>
         </section>

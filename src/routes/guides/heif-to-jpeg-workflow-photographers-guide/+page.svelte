@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
@@ -160,7 +161,7 @@
             <SectionHeading>Format cheat sheet: HIF, HEIF, JPEG, WebP, AVIF at a glance</SectionHeading>
             <p>Knowing which format belongs at which stage of your workflow prevents silent quality loss and platform rejection errors.</p>
 
-            <div class="overflow-x-auto rounded-2xl border border-pink-100 my-6">
+            <ScrollableTable class="my-6">
                 <table class="w-full min-w-[540px] border-collapse">
                     <thead>
                         <tr class="bg-[#FFF5F7]">
@@ -190,7 +191,7 @@
                         {/each}
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <InfoBox type="tip" title="30-Second Summary">
                 Shoot HIF/HEIF on camera for capture quality. Deliver JPEG for anything that needs to "just work" with clients, galleries, or wire systems. Use AVIF or WebP for your own website. Always strip EXIF before uploading anywhere.
@@ -353,7 +354,7 @@
             <p>Mochify's interface is natural language first, via Magic Flow. You describe the task — "convert these HIF files to sRGB JPEG for client gallery, 3,600 px, under 2 MB, strip all EXIF" — and the engine resolves the appropriate format, quality, resize, and metadata settings automatically. No format dropdown, no quality slider to guess at, no separate EXIF-stripping tool.</p>
             <p>The same natural language interface is available across four surfaces: the browser app at mochify.app (drag, describe, download; up to 25 files per batch), the REST API for scripted workflows, the CLI for folder-level batch processing, and an MCP server for AI agent workflows via Claude Desktop and other MCP-compatible tools.</p>
 
-            <div class="overflow-x-auto rounded-2xl border border-pink-100 my-6">
+            <ScrollableTable class="my-6">
                 <table class="w-full min-w-[440px] border-collapse">
                     <thead>
                         <tr class="bg-[#FFF5F7]">
@@ -378,7 +379,7 @@
                         {/each}
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
             <p class="text-sm text-[#875F42] italic">Annual plans (Lite and Pro) save 17% vs monthly. All tiers include Magic Flow, API, MCP, and all supported formats.</p>
 
             <div class="my-10 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
@@ -416,7 +417,7 @@
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Modern format savings</h3>
             <p>A representative conversion for a commercial product shoot — 25 hero images at 3,200 px wide from Nikon Z HEIF originals:</p>
 
-            <div class="overflow-x-auto rounded-2xl border border-pink-100 my-6">
+            <ScrollableTable class="my-6">
                 <table class="w-full min-w-[380px] border-collapse">
                     <thead>
                         <tr class="bg-[#FFF5F7]">
@@ -440,7 +441,7 @@
                         {/each}
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Batch time</h3>
             <p>A 25-image batch of Canon or Fuji HIF files converted to sRGB JPEG at 3,600 px long edge via Mochify's Pro tier typically completes in under 60 seconds from upload to download. The same job handled via manual Lightroom export presets plus a separate EXIF-stripping tool plus a manual resize pass typically takes 8–15 minutes.</p>

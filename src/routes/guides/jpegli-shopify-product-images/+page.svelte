@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
@@ -183,7 +184,7 @@
             <SectionHeading>Jpegli vs standard JPEG — at a glance</SectionHeading>
             <p class="mb-4">Because Jpegli outputs a standard <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">.jpg</code> file, every browser and every Shopify theme reads it without any changes. There is no compatibility trade-off.</p>
 
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-8">
+            <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -200,7 +201,7 @@
                         <tr><td class="p-4 font-bold text-[#4A2C2C]">Shopify compatible</td><td class="p-4">Yes</td><td class="p-4">Yes</td></tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
         </section>
 
         <!-- Section 4 -->

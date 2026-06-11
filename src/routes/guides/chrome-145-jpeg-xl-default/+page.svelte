@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
@@ -120,7 +121,7 @@
             <p class="mb-4">For production websites, nothing changes yet. Serving a <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">.jxl</code> file without a <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;picture&gt;</code> fallback will fail silently for the majority of visitors. E-commerce teams should treat JPEG XL as experimental, not a deployment target.</p>
             <p class="mb-4">AVIF remains the best choice for maximum compression on public sites. WebP covers broader compatibility. JPEG encoded with Jpegli handles legacy browsers and email clients.</p>
 
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-6">
+            <ScrollableTable class="mb-6">
                 <table class="w-full text-left bg-white">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -136,7 +137,7 @@
                         <tr><td class="p-4 font-bold text-[#4A2C2C]">JPEG XL</td><td class="p-4">~12–17%</td><td class="p-4">Not yet — flag-gated in Chrome and Firefox</td></tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
         </section>
 
         <section id="the-2026-recommendation" class="scroll-mt-24">

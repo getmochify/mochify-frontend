@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
@@ -112,7 +113,7 @@
         <section id="when-to-use-each">
             <SectionHeading>A Simple Rule for When to Use Each</SectionHeading>
 
-            <div class="overflow-x-auto rounded-2xl border border-pink-100 my-6">
+            <ScrollableTable class="my-6">
                 <table class="w-full min-w-[400px] border-collapse">
                     <thead>
                         <tr class="bg-[#FFF5F7]">
@@ -136,7 +137,7 @@
                         {/each}
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
         </section>
 
         <section id="converting-heif-to-jpeg">

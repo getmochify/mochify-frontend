@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
@@ -126,7 +127,7 @@
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">30-Second Cheat Sheet</h2>
             <p class="mb-6">If your goal is the lowest possible token cost, use either local mode or hosted-MCP URL input. The hosted MCP now returns compressed results as a short-lived download URL rather than inline binary — which fixes the old return-side problem but means the compressed result is briefly held in Mochify-controlled storage.</p>
 
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-6">
+            <ScrollableTable class="mb-6">
                 <table class="w-full text-left bg-white text-sm">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -163,7 +164,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <InfoBox type="note" title="Encoding always happens server-side">
                 Encoding still happens in RAM on <code class="bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded font-mono text-sm">api.mochify.app</code> for all four workflows. Local install workflows skip the pickup store entirely — the compressed bytes flow straight from the API back to your disk.
@@ -239,7 +240,7 @@ mochify *.heic -p "convert to WebP, 1200px wide, strip EXIF" -o ./out</code></pr
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>find . -name "*.jpg" | mochify -t webp -o ./out
 ls *.heic | mochify -t jpg</code></pre>
 
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-6">
+            <ScrollableTable class="mb-6">
                 <table class="w-full text-left bg-white text-sm">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -259,7 +260,7 @@ ls *.heic | mochify -t jpg</code></pre>
                         <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">-p, --prompt &lt;TEXT&gt;</code></td><td class="p-4">Natural-language prompt that resolves all params automatically</td></tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Local MCP server mode</h3>
             <p class="mb-3">Same binary, different invocation. Add this to <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">~/Library/Application Support/Claude/claude_desktop_config.json</code>:</p>
@@ -285,7 +286,7 @@ ls *.heic | mochify -t jpg</code></pre>
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">When to Use Which</h2>
             <p class="mb-6">Pick by what's true about your task, not by which tool you've heard of.</p>
 
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-8">
+            <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white text-sm">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -304,7 +305,7 @@ ls *.heic | mochify -t jpg</code></pre>
                         <tr><td class="p-4">No developer environment, want the simplest possible AI workflow</td><td class="p-4 font-semibold">Hosted MCP with a URL</td></tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <div class="my-8 bg-[#FFF5F7] p-8 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
                 <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
@@ -470,7 +471,7 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
             </ul>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-4">Benchmark: 1600px PNG source, three formats</h3>
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-4">
+            <ScrollableTable class="mb-4">
                 <table class="w-full text-left bg-white text-sm">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -487,7 +488,7 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
                         <tr><td class="p-4">AVIF</td><td class="p-4">60</td><td class="p-4 font-semibold text-[#4A2C2C]">80 KB</td><td class="p-4 text-[#15803d] font-bold">−97%</td></tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
             <p class="text-sm text-[#875F42] italic mb-8">Source is a lossless 1600px PNG — the large reductions reflect PNG→lossy format conversion as well as compression. For a JPEG-to-JPEG comparison, <a href="https://opensource.googleblog.com/2024/04/introducing-jpegli-a-new-jpeg-coding.html" class="text-[#F06292] hover:text-[#D81B60] underline">Google's jpegli announcement</a> reports 35% better compression than libjpeg-turbo at matched quality, and <a href="https://web.dev/articles/compress-images-avif" class="text-[#F06292] hover:text-[#D81B60] underline">web.dev's AVIF benchmarks</a> place AVIF 40–50% below comparable JPEG.</p>
         </section>
 

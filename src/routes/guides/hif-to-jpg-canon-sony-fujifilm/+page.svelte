@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
@@ -285,7 +286,7 @@
             <p>JPEG remains the one format that every browser, social network, CMS, marketplace, and print service can handle without question. That is not because JPEG is the most efficient format; modern alternatives are measurably better, but universal acceptance is worth more than compression gains when a file needs to open everywhere.</p>
             <p>The <a href="https://almanac.httparchive.org/en/2022/media" target="_blank" rel="noopener noreferrer">HTTP Archive Web Almanac</a> reports images account for around 36–37% of total page weight on a median website, making format choice a meaningful performance lever. Despite this, browser support for newer formats is still uneven:</p>
 
-            <div class="overflow-x-auto rounded-2xl border border-pink-100 my-6">
+            <ScrollableTable class="my-6">
                 <table class="w-full min-w-[600px] border-collapse">
                     <thead>
                         <tr class="bg-[#FFF5F7]">
@@ -310,7 +311,7 @@
                         {/each}
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
             <p class="text-sm text-[#875F42]">Sources: <a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">caniuse.com/heif</a>, <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">caniuse.com/avif</a>, <a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer">caniuse.com/jpegxl</a>, checked June 2026.</p>
 
             <p>JPEG's durability is reinforced by jpegli. The ~35% compression improvement at high quality settings narrows the gap between traditional JPEG and modern formats like AVIF and WebP considerably. When compatibility cannot be compromised, a well-encoded jpegli JPEG is the practical answer: it opens everywhere and wastes fewer bytes doing it.</p>
@@ -364,7 +365,7 @@
         <!-- Section 8 -->
         <section id="cheat-sheet">
             <SectionHeading>HIF to JPG cheat sheet</SectionHeading>
-            <div class="overflow-x-auto rounded-2xl border border-pink-100 my-6">
+            <ScrollableTable class="my-6">
                 <table class="w-full min-w-[640px] border-collapse">
                     <thead>
                         <tr class="bg-[#FFF5F7]">
@@ -387,7 +388,7 @@
                         {/each}
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
         </section>
 
         <!-- FAQ -->

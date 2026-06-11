@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
@@ -257,7 +258,7 @@
             <SectionHeading>Cheat Sheet: Agent Workflow at a Glance</SectionHeading>
             <p>Configure each row once. After that, dropping a folder triggers the full pipeline automatically — no manual steps in between.</p>
 
-            <div class="overflow-x-auto rounded-2xl border border-pink-100 my-6">
+            <ScrollableTable class="my-6">
                 <table class="w-full border-collapse text-sm">
                     <thead>
                         <tr class="bg-[#FFF5F7]">
@@ -297,7 +298,7 @@
                         {/each}
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
         </section>
 
         <!-- 02 Why photographers lose time -->

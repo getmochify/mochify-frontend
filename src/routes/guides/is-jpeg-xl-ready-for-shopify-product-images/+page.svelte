@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
@@ -106,7 +107,7 @@
             <p class="mb-4">Chrome 145, released in February 2026, reintroduced JPEG XL decoding via a new Rust-based decoder called <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">jxl-rs</code> — but the feature is gated behind a browser flag (<code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">chrome://flags/#enable-jxl-image-format</code>) and is not enabled by default. Firefox keeps it behind a flag too, and Edge offers no support as of April 2026. Only Safari 17+ on macOS and iOS offers functional (partial) support natively.</p>
             <p class="mb-4">That leaves roughly 80%+ of your Shopify visitors unable to render a JXL image without a fallback. In e-commerce, a broken product photo is a lost conversion, so this risk is not worth taking for primary delivery.</p>
 
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-4">
+            <ScrollableTable class="mb-4">
                 <table class="w-full text-left bg-white">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -122,7 +123,7 @@
                         <tr><td class="p-4 font-bold text-[#4A2C2C]">Global coverage</td><td class="p-4 font-bold text-[#4A2C2C]">~12–17%</td></tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <InfoBox type="warning" title="A broken product photo is a lost conversion">
                 At ~15% global support, serving JXL without a fallback means the majority of your Shopify customers see a broken image. Don't use it as a primary delivery format until Chrome enables it by default.
@@ -140,7 +141,7 @@
             <p class="mb-4">JXL's compression is genuinely excellent. It delivers 20–60% better file sizes than JPEG for lossless re-encodes, supports progressive decoding, and offers lossless round-trip conversion back to JPEG with zero additional quality loss. For archiving high-resolution product photography masters, that is a compelling use case.</p>
             <p class="mb-4">The con: it cannot be your delivery format until browser support is default-on. AVIF currently sits at 95%+ global browser support and delivers 20–50% smaller files than WebP at comparable quality. For Shopify in 2026, AVIF is the right call — and Mochify outputs it natively.</p>
 
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-4">
+            <ScrollableTable class="mb-4">
                 <table class="w-full text-left bg-white">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -177,7 +178,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
         </section>
 
         <section id="when-to-use-jxl" class="scroll-mt-24">

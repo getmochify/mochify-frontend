@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
@@ -118,7 +119,7 @@
             <SectionHeading>Per-image token cost by provider</SectionHeading>
             <p>The numbers below come from each provider's current vision documentation. Tokenisation rules change with model releases, so treat these as 2025–2026 figures and re-check the linked doc before you rely on a number.</p>
 
-            <div class="overflow-x-auto rounded-2xl border border-pink-100 my-6">
+            <ScrollableTable class="my-6">
                 <table class="w-full min-w-[720px] border-collapse">
                     <thead>
                         <tr class="bg-[#FFF5F7]">
@@ -174,7 +175,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
             <p class="text-sm text-[#875F42]">Sources: <a href="https://docs.claude.com/en/docs/build-with-claude/vision" target="_blank" rel="noopener noreferrer">Anthropic Claude vision docs</a>, <a href="https://platform.openai.com/docs/guides/vision" target="_blank" rel="noopener noreferrer">OpenAI vision docs</a>, and <a href="https://ai.google.dev/gemini-api/docs/tokens" target="_blank" rel="noopener noreferrer">Google Gemini token docs</a>, all accessed June 2026. Worked Gemini figures for non-square photos are approximate; Google documents the per-tile cost but not a worked example for a 16:9 image.</p>
         </section>
 

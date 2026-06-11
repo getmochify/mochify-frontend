@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import CodeBlock from '$lib/components/CodeBlock.svelte';
@@ -397,7 +398,7 @@
         <section id="cheat-sheet" class="my-12">
             <SectionHeading>Hero Image Optimization Cheat Sheet 2026</SectionHeading>
 
-            <div class="overflow-x-auto mb-10">
+            <ScrollableTable class="mb-10">
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-[#FFF5F7] border-b border-pink-100">
@@ -426,10 +427,10 @@
                         {/each}
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <h3 class="text-lg font-black text-[#4A2C2C] mb-4">Format Comparison Quick Reference</h3>
-            <div class="overflow-x-auto">
+            <ScrollableTable class="my-6">
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-[#FFF5F7] border-b border-pink-100">
@@ -466,7 +467,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
         </section>
 
         <!-- Mochify Workflow -->

@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
@@ -280,7 +281,7 @@
 
             <!-- Desktop: Table Layout -->
             <div class="hidden md:block my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
-                <div class="overflow-x-auto">
+                <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-[#FFF5F7] border-b border-pink-100">
@@ -327,7 +328,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </ScrollableTable>
             </div>
 
             <InfoBox type="tip">
@@ -433,7 +434,7 @@
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">File Size Comparison</h3>
             <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
-                <div class="overflow-x-auto">
+                <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-[#FFF5F7] border-b border-pink-100">
@@ -475,7 +476,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </ScrollableTable>
             </div>
 
             <ul class="list-disc pl-6 mb-8 space-y-2">
@@ -489,7 +490,7 @@
             <p class="mb-4">File size means nothing if images look terrible. SSIM scores (scale 0-1, higher = better):</p>
             
             <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
-                <div class="overflow-x-auto">
+                <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-[#FFF5F7] border-b border-pink-100">
@@ -526,7 +527,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </ScrollableTable>
             </div>
 
             <p class="mb-6">
@@ -540,7 +541,7 @@
             <p class="mb-4">Benchmark: 5MP photograph, consumer-grade hardware, libwebp/libavif/libjxl encoders:</p>
 
             <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
-                <div class="overflow-x-auto">
+                <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-[#FFF5F7] border-b border-pink-100">
@@ -567,7 +568,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </ScrollableTable>
             </div>
             
             <InfoBox type="tip">
@@ -582,7 +583,7 @@
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">Desktop Browser Support</h3>
             <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
-                <div class="overflow-x-auto">
+                <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-[#FFF5F7] border-b border-pink-100">
@@ -621,7 +622,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </ScrollableTable>
             </div>
 
             <p class="text-sm text-gray-500 mb-4">Data current as of February 6, 2026</p>
@@ -637,7 +638,7 @@
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Mobile Browser Considerations</h3>
             <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
-                <div class="overflow-x-auto">
+                <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-[#FFF5F7] border-b border-pink-100">
@@ -672,7 +673,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </ScrollableTable>
             </div>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Fallback Strategies</h3>
@@ -776,7 +777,7 @@
 
             <p class="mb-4">Format impact on a typical 1920x1080 hero image over 4G connection (6 Mbps):</p>
             <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
-                <div class="overflow-x-auto">
+                <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-[#FFF5F7] border-b border-pink-100">
@@ -813,7 +814,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </ScrollableTable>
             </div>
 
             <p class="mb-4">
@@ -830,7 +831,7 @@
                 We tested three landing page configurations: Test site: E-commerce homepage, hero image (1920x1080), 6 product thumbnails, standard text/CSS/JS payload.
             </p>
             <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
-                <div class="overflow-x-auto">
+                <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-[#FFF5F7] border-b border-pink-100">
@@ -865,7 +866,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </ScrollableTable>
             </div>
             <p class="mb-4">
                 AVIF delivered a 24-point PageSpeed improvement over baseline JPEG. WebP sits in the middle - solid gains, less dramatic than AVIF.

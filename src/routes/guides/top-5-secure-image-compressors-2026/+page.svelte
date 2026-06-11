@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
@@ -421,7 +422,7 @@
 
             <!-- Desktop: Table Layout -->
             <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white hidden md:block">
-                <div class="overflow-x-auto">
+                <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-[#FFF5F7] border-b border-pink-100">
@@ -494,7 +495,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </ScrollableTable>
             </div>
 
             <div class="bg-pink-50 rounded-3xl p-6 md:p-8 border border-pink-100">

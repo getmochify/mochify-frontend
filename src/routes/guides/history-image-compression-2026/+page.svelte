@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
@@ -163,7 +164,7 @@
 
          <section id="cheat-sheet" class="scroll-mt-24">
              <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Cheat Sheet: Image Formats at a Glance</h2>
-             <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-8">
+             <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -186,7 +187,7 @@
                         <tr><td class="p-4 font-bold">Jpegli-encoded JPEG</td><td class="p-4">2024</td><td class="p-4">Lossy (improved DCT)</td><td class="p-4">Standard JPEG, better efficiency</td><td class="p-4 text-[#81C784] font-bold">Universal (it's JPEG)</td></tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
         </section>
 
         <section id="why-exists" class="scroll-mt-24">

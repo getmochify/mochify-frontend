@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
@@ -130,7 +131,7 @@
         <section id="browser-support-2026" class="scroll-mt-24">
             <SectionHeading>2026 browser support at a glance</SectionHeading>
 
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-4">
+            <ScrollableTable class="mb-4">
                 <table class="w-full text-left bg-white">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -161,7 +162,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
             <p class="text-sm text-[#875F42]">
                 Sources: <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">caniuse.com/avif</a>, <a href="https://caniuse.com/jpeg-xl" target="_blank" rel="noopener noreferrer" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">caniuse.com/jpeg-xl</a>
             </p>

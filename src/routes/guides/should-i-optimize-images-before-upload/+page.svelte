@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
@@ -177,7 +178,7 @@
         <section>
             <SectionHeading>Cheat sheet: pre-upload optimization at a glance</SectionHeading>
 
-            <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-6">
+            <ScrollableTable class="mb-6">
                 <table class="w-full text-left bg-white text-base">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -196,7 +197,7 @@
                         <tr><td class="p-4 font-bold text-[#4A2C2C]">Archive masters / RAW files</td><td class="p-4">No — keep originals, optimize delivery copies</td><td class="p-4">Protect fidelity for future reuse</td></tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <InfoBox type="tip" title="Magic Flow safe default prompt">
                 "Make these web-ready: max 1600px wide, prefer WebP or AVIF, keep each file under 250KB, strip all EXIF metadata."

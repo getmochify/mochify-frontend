@@ -1,4 +1,5 @@
 <script>
+    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
@@ -224,7 +225,7 @@
 
         <section id="cheat-sheet" class="scroll-mt-24">
              <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">EXIF Stripping Cheat Sheet</h2>
-             <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-8">
+             <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -243,7 +244,7 @@
                          <tr><td class="p-4 font-bold">Personal archiving</td><td class="p-4 text-[#81C784] font-bold">Retain</td><td class="p-4">Future-you will want to know where/when you shot that sunset</td></tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
 
             <InfoBox type="tip" title="Pro Tip">
                 If you're unsure, strip first. You can't reverse metadata removal, but you can always re-export with EXIF from your original RAW files.
@@ -309,7 +310,7 @@
                 <li><strong>Variants:</strong> EXIF stripped vs. EXIF retained.</li>
               </ul>
               
-              <div class="overflow-x-auto rounded-xl border border-pink-100 shadow-sm mb-8">
+              <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
@@ -327,7 +328,7 @@
                         <tr><td class="p-4 font-bold">Visual quality</td><td class="p-4">Identical</td><td class="p-4">Identical</td><td class="p-4">-</td></tr>
                     </tbody>
                 </table>
-            </div>
+            </ScrollableTable>
             
             <p class="mb-4"><strong>Takeaway:</strong> Stripping EXIF saved 35KB per image on average - enough to matter when you're processing 500 product photos for a catalog. And that's before accounting for the privacy benefit.</p>
             <p class="mb-4">The same batch compressed via jpegli (EXIF stripped) delivered:</p>
