@@ -14,6 +14,14 @@
             date: "June 7, 2026"
         },
         {
+            title: "What Is a HIF File? (And How to Open One)",
+            description: "A HIF file is a 10-bit HEIF photo from Canon, Sony and Fujifilm cameras. What it is, why it won't open, and how to view one on macOS, Windows, iOS and Linux.",
+            url: "/guides/what-is-a-hif-file",
+            category: "Quick Guides",
+            readTime: "3 min read",
+            date: "June 5, 2026"
+        },
+        {
             title: "Does Converting HIF to JPG Reduce Quality?",
             description: "Converting HIF to JPG rarely reduces visible quality. The real exception is Canon HDR PQ, where the HDR-to-SDR tone-map changes the look more than bit depth.",
             url: "/guides/does-hif-to-jpg-lose-quality",
