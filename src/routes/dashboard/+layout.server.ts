@@ -7,10 +7,16 @@ const PLAN_LIMITS: Record<string, number> = { free: 25, seller: 300, pro: 1200 }
 export const load = async ({ locals, platform }) => {
     if (!locals.session || !locals.user) throw redirect(303, '/auth/login')
 
-    let profile: { plan: string; ops_limit: number; quota_period_end: string | null } = {
+    let profile: {
+        plan: string
+        ops_limit: number
+        quota_period_end: string | null
+        ai_thirdparty_optin: number
+    } = {
         plan: 'free',
         ops_limit: PLAN_LIMITS.free,
         quota_period_end: null,
+        ai_thirdparty_optin: 0,
     }
 
     const db = platform?.env?.DB
@@ -20,7 +26,7 @@ export const load = async ({ locals, platform }) => {
             const kysely = new Kysely<any>({ dialect: new D1Dialect({ database: db }) })
             const row = await kysely
                 .selectFrom('profile')
-                .select(['plan', 'ops_limit', 'quota_period_end'])
+                .select(['plan', 'ops_limit', 'quota_period_end', 'ai_thirdparty_optin'])
                 .where('user_id', '=', locals.user.id)
                 .executeTakeFirst()
 
@@ -29,6 +35,7 @@ export const load = async ({ locals, platform }) => {
                     plan: row.plan ?? 'free',
                     ops_limit: row.ops_limit ?? PLAN_LIMITS[row.plan ?? 'free'] ?? PLAN_LIMITS.free,
                     quota_period_end: row.quota_period_end ?? null,
+                    ai_thirdparty_optin: row.ai_thirdparty_optin ?? 0,
                 }
             }
         } catch (e) {

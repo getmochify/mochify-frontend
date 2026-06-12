@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { enhance } from '$app/forms';
 	import { authClient } from '$lib/auth-client';
 	import { getSessionToken } from '$lib/user';
 	import Navigation from '$lib/components/Navigation.svelte';
@@ -26,6 +27,11 @@
 	let usageLoaded = $state(false);
 	let usedOps = $state(0);
 	let quotaOps = $state(30);
+
+	// Third-party AI consent (default off; managed here, enforced when gen-AI ships).
+	// Seeded from server data in onMount, then managed locally by the toggle.
+	let aiOptin = $state(false);
+	let aiSaving = $state(false);
 
 	let isPro = $derived(data.profile?.plan === 'pro');
 	let isSeller = $derived(data.profile?.plan === 'seller');
@@ -158,6 +164,7 @@
 
 	onMount(() => {
 		quotaOps = data.profile?.ops_limit ?? 30;
+		aiOptin = data.profile?.ai_thirdparty_optin === 1;
 		justUpgraded = new URLSearchParams(window.location.search).get('upgraded') === 'true';
 		loadKeyStatus();
 		loadUsage();
@@ -404,6 +411,65 @@
 		<div class="mb-6 rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
 			<h2 class="mb-1 font-black text-[#4A2C2C]">Usage history</h2>
 			<p class="text-sm text-[#875F42]/60">Detailed per-request history coming soon.</p>
+		</div>
+
+		<!-- Third-party AI consent -->
+		<div class="mb-6 rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
+			<div class="flex items-start justify-between gap-4">
+				<div class="min-w-0">
+					<div class="flex items-center gap-2">
+						<h2 class="font-black text-[#4A2C2C]">Third-party AI features</h2>
+						<span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide {aiOptin ? 'bg-[#A5D6A7]/30 text-[#2E5C31]' : 'bg-[#FFF0F5] text-mochi-pink'}">
+							{aiOptin ? 'Enabled' : 'Off'}
+						</span>
+					</div>
+					<p class="mt-1 text-sm text-[#875F42]/60">
+						Lets Mochify send your images to third-party AI providers for upcoming
+						generative features (e.g. AI-generated backgrounds).
+						<strong class="font-bold text-[#875F42]/80">Off by default</strong> — your images
+						are never sent to a third party without this, and you can revoke it anytime.
+					</p>
+				</div>
+				<form
+					method="POST"
+					action="?/setAiOptin"
+					class="shrink-0 pt-1"
+					use:enhance={() => {
+						const desired = !aiOptin;
+						aiSaving = true;
+						return async ({ result }) => {
+							aiSaving = false;
+							if (result.type === 'success') {
+								aiOptin = desired;
+								posthog.capture('ai_thirdparty_optin_changed', { optin: desired });
+							}
+						};
+					}}
+				>
+					<input type="hidden" name="optin" value={aiOptin ? '0' : '1'} />
+					<button
+						type="submit"
+						role="switch"
+						aria-checked={aiOptin}
+						aria-label="Toggle third-party AI features"
+						disabled={aiSaving}
+						class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors disabled:opacity-50 {aiOptin
+							? 'bg-[#66BB6A]'
+							: 'bg-[#875F42]/20'}"
+					>
+						<span
+							class="inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform {aiOptin
+								? 'translate-x-[22px]'
+								: 'translate-x-0.5'}"
+						></span>
+					</button>
+				</form>
+			</div>
+			<p class="mt-3 text-xs text-[#875F42]/40">
+				{aiOptin
+					? 'Generative features may process your images via third parties.'
+					: "All processing stays on Mochify's own in-memory pipeline — nothing leaves to a third party."}
+			</p>
 		</div>
 
 		<!-- Connections -->
