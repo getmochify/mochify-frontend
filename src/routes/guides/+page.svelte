@@ -19,7 +19,7 @@
             url: "/guides/what-is-a-hif-file",
             category: "Quick Guides",
             readTime: "3 min read",
-            date: "June 5, 2026"
+            date: "June 13, 2026"
         },
         {
             title: "Does Converting HIF to JPG Reduce Quality?",

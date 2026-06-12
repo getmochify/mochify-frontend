@@ -8,7 +8,7 @@
         description: "A HIF file is a 10-bit HEIF photo from Canon, Sony and Fujifilm cameras. Here is what it is and how to open one on macOS, Windows, iOS and Linux.",
         category: "Quick Guides",
         readTime: "3 min read",
-        date: "June 2026"
+        date: "June 13, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -39,9 +39,9 @@
         "headline": "What Is a HIF File? (And How to Open One)",
         "description": "A HIF file is a 10-bit HEIF photo from Canon, Sony and Fujifilm cameras. Here is what it is and how to open one on macOS, Windows, iOS and Linux.",
         "url": "https://mochify.app/guides/what-is-a-hif-file",
-        "datePublished": "2026-06-05",
-        "dateModified": "2026-06-05",
-        "inLanguage": "en-GB",
+        "datePublished": "2026-06-13",
+        "dateModified": "2026-06-13",
+        "inLanguage": "en",
         "author": {
             "@type": "Organization",
             "name": "Mochify Engineering Team",
@@ -102,7 +102,7 @@
 
         <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
             <p class="text-[#6C3F31] text-base leading-relaxed m-0">
-                <strong class="text-[#4A2C2C]">Published June 2026 by the Mochify Engineering Team.</strong>
+                <strong class="text-[#4A2C2C]">Published June 13, 2026 by the Mochify Engineering Team.</strong>
                 This answer covers what a <code class={inlineCode}>.HIF</code> file is, why it so often refuses to open, and the exact way to view one on macOS, Windows, iOS, and Linux.
             </p>
         </div>
