@@ -306,6 +306,12 @@
                         <span>Background removal</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#F06292] font-black">✦</span>
+                        <span>AI backgrounds &amp; shadows
+                            <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-[#F06292]/10 text-[#F06292] text-[10px] font-black uppercase tracking-wide align-middle">Soon</span>
+                        </span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
                         <span><strong>25 photos</strong> per batch <span class="text-[#6C3F31]/50">(up from 3)</span></span>
                     </li>
@@ -403,6 +409,12 @@
                         <span>Background removal</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#F06292] font-black">✦</span>
+                        <span>AI backgrounds &amp; shadows
+                            <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-[#F06292]/10 text-[#F06292] text-[10px] font-black uppercase tracking-wide align-middle">Soon</span>
+                        </span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#F06292] font-black">✓</span>
                         <span>MCP &amp; API access</span>
                     </li>
@@ -418,9 +430,9 @@
                         <span class="mt-0.5 text-mochi-pink font-black">✓</span>
                         <span>Video &amp; audio conversion — <span class="text-cocoa-deep/60">nothing uploaded</span></span>
                     </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]/55">
-                        <span class="mt-0.5 text-[#6C3F31]/25 font-black">✓</span>
-                        <span>PDF tools — up to 10 pages</span>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
+                        <span>PDF tools — rasterize, split &amp; images→PDF, up to 10 pages</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-cocoa-deep">
                         <span class="mt-0.5 text-mochi-pink font-black">✓</span>
@@ -589,6 +601,12 @@
                             <td class="px-6 py-4 text-center text-[#6C3F31]/30 font-black">—</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-[#6C3F31]">AI backgrounds &amp; shadows</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]/30 font-black">—</td>
+                            <td class="px-6 py-4 text-center text-[#F06292]/70 font-bold text-[11px] uppercase tracking-wide">Soon</td>
+                            <td class="px-6 py-4 text-center text-[#F06292]/70 font-bold text-[11px] uppercase tracking-wide">Soon</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">MCP &amp; API access</td>
