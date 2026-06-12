@@ -1230,6 +1230,12 @@
 					if (fileConfig.removeBackground) sharedParams.append('removeBackground', '1');
 					if (fileConfig.background)
 						sharedParams.append('background', String(fileConfig.background));
+					// Generative Magic Flow: forward the AI step (shadow now; background later).
+					if (fileConfig.generate?.kind) {
+						sharedParams.append('generate', String(fileConfig.generate.kind));
+						if (fileConfig.generate.prompt)
+							sharedParams.append('genPrompt', String(fileConfig.generate.prompt));
+					}
 					const stripExif = fileConfig.stripExif !== undefined ? fileConfig.stripExif : 1;
 					sharedParams.append('strip_exif', stripExif ? '1' : '0');
 					if (fileConfig.rotate) sharedParams.append('rotate', String(fileConfig.rotate));
