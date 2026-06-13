@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { tick, onMount } from 'svelte';
-	import { zip } from 'fflate';
+	import { zip, unzipSync } from 'fflate';
 	import { env } from '$env/dynamic/public';
 	import { getSessionToken, getPlan } from '$lib/user';
 	import { posthog } from '$lib/analytics';
@@ -29,6 +29,28 @@
 	// When a job fans out into many outputs, auto-enable ZIP so the user gets one
 	// archive instead of a barrage of separate downloads (which browsers block).
 	const AUTO_ZIP_THRESHOLD = 4;
+
+	// Text-to-image ("create") results: a file-less prompt generates a new image.
+	// Core generates once and returns a ZIP of the original + format/size variants,
+	// unzipped here into a preview gallery. createParams is retained so "Regenerate"
+	// can re-run the same job without re-parsing the prompt.
+	type GenImage = {
+		name: string;
+		label: string;
+		url: string;
+		blob: Blob;
+		width: number;
+		height: number;
+		isOriginal: boolean;
+	};
+	let generatedImages: GenImage[] = $state([]);
+	let generatedZipBlob: Blob | null = $state(null);
+	let createParams: {
+		prompt: string;
+		aspect: string;
+		formats: string[];
+		sizes: { width: number; height: number }[];
+	} | null = null;
 
 	// Coarse phase for the progress UI. With concurrent uploads, multiple files move
 	// through upload/process/download independently, so the per-file processPhase
@@ -479,6 +501,151 @@
 		});
 	}
 
+	function genMime(ext: string): string {
+		switch (ext) {
+			case 'png':
+				return 'image/png';
+			case 'webp':
+				return 'image/webp';
+			case 'avif':
+				return 'image/avif';
+			case 'jpg':
+			case 'jpeg':
+				return 'image/jpeg';
+			case 'jxl':
+				return 'image/jxl';
+			default:
+				return 'application/octet-stream';
+		}
+	}
+
+	function genDimensions(url: string): Promise<{ w: number; h: number }> {
+		return new Promise((resolve) => {
+			const img = new Image();
+			const timer = setTimeout(() => resolve({ w: 0, h: 0 }), 5000);
+			img.onload = () => {
+				clearTimeout(timer);
+				resolve({ w: img.naturalWidth, h: img.naturalHeight });
+			};
+			img.onerror = () => {
+				clearTimeout(timer);
+				resolve({ w: 0, h: 0 });
+			};
+			img.src = url;
+		});
+	}
+
+	function clearGenerated() {
+		for (const g of generatedImages) URL.revokeObjectURL(g.url);
+		generatedImages = [];
+		generatedZipBlob = null;
+	}
+
+	// POST the parsed create params to core, which generates once and returns a ZIP
+	// of the original + every format/size variant. Throws an Error carrying .status
+	// so callers can map 403 (paid feature) / 429 (out of tokens) to the right CTA.
+	async function callGenerate(
+		jwt: string | null,
+		params: NonNullable<typeof createParams>
+	): Promise<Blob> {
+		const res = await fetch(`${API_URL}/v1/generate`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				...(jwt ? { Authorization: `Bearer ${jwt}` } : {})
+			},
+			body: JSON.stringify(params)
+		});
+		if (!res.ok) {
+			const message =
+				res.status === 403
+					? 'Image generation is a paid feature — upgrade to use it.'
+					: res.status === 429
+						? "You're out of tokens for now — they refill, or upgrade for more."
+						: 'Generation failed — please try again.';
+			const err = new Error(message) as Error & { status?: number };
+			err.status = res.status;
+			throw err;
+		}
+		return await res.blob();
+	}
+
+	// Unzip core's response into the preview gallery: original first, then variants
+	// by ascending width. Dimensions are read client-side by loading each blob.
+	async function buildGalleryFromZip(zipBlob: Blob) {
+		const entries = unzipSync(new Uint8Array(await zipBlob.arrayBuffer()));
+		clearGenerated();
+		generatedZipBlob = zipBlob;
+		const imgs: GenImage[] = [];
+		for (const [name, bytes] of Object.entries(entries)) {
+			const ext = name.split('.').pop()?.toLowerCase() ?? '';
+			const blob = new Blob([bytes], { type: genMime(ext) });
+			const url = URL.createObjectURL(blob);
+			const isOriginal = /^original\b/i.test(name);
+			const dims = await genDimensions(url);
+			const widthToken = name.replace(/\.[^.]+$/, '').match(/(\d+)w$/);
+			const label = isOriginal
+				? `Original · ${ext.toUpperCase()}`
+				: `${ext.toUpperCase()} · ${dims.w || (widthToken ? widthToken[1] : '?')}w`;
+			imgs.push({ name, label, url, blob, width: dims.w, height: dims.h, isOriginal });
+		}
+		imgs.sort((a, b) => (a.isOriginal === b.isOriginal ? a.width - b.width : a.isOriginal ? -1 : 1));
+		generatedImages = imgs;
+	}
+
+	function downloadGen(g: GenImage) {
+		const a = document.createElement('a');
+		a.href = g.url;
+		a.download = g.name;
+		document.body.appendChild(a);
+		a.click();
+		setTimeout(() => document.body.removeChild(a), 100);
+	}
+
+	function downloadAllGen() {
+		if (!generatedZipBlob) return;
+		const url = URL.createObjectURL(generatedZipBlob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = 'mochify_generated.zip';
+		document.body.appendChild(a);
+		a.click();
+		setTimeout(() => {
+			URL.revokeObjectURL(url);
+			document.body.removeChild(a);
+		}, 100);
+	}
+
+	// Re-run the same create job (another N tokens) without re-parsing the prompt.
+	async function regenerate() {
+		if (!createParams || isProcessing) return;
+		isProcessing = true;
+		processPhase = 'thinking';
+		thinkingText = 'Regenerating your image…';
+		agentOutcome = null;
+		agentOutcomeText = '';
+		const jwt = await getSessionToken();
+		try {
+			const zipBlob = await callGenerate(jwt, createParams);
+			processPhase = 'packing';
+			await buildGalleryFromZip(zipBlob);
+			agentOutcome = 'success';
+			agentOutcomeText = `Regenerated ${generatedImages.length} image${generatedImages.length === 1 ? '' : 's'} ✨`;
+			posthog.capture('create_flow_regenerated', { outputs: generatedImages.length });
+		} catch (e) {
+			const status = (e as { status?: number })?.status;
+			if (status === 403) showUpgradeCta = true;
+			else if (status === 429) {
+				if (jwt) showUpgradeCta = true;
+				else showSignupCta = true;
+			} else showStatus('error', e instanceof Error ? e.message : 'Generation failed — please try again.');
+			posthog.capture('create_flow_regenerated', { failed: true });
+		} finally {
+			isProcessing = false;
+			processPhase = 'idle';
+		}
+	}
+
 	// Prewarm the session token on user intent (file add / textarea focus) so the
 	// JWT is already resolved by submit time. getSessionToken() only dedupes
 	// in-flight calls — it doesn't cache the value — so we hold the promise here
@@ -490,7 +657,11 @@
 	}
 
 	async function submit() {
-		if (!prompt.trim() || files.length === 0 || isProcessing) return;
+		if (!prompt.trim() || isProcessing) return;
+
+		// A prompt with no files attached can only mean one thing — generate a new
+		// image from scratch. Route it to the text-to-image "create" flow.
+		const isCreate = files.length === 0;
 
 		// Flip into the thinking state synchronously on click so the progress bar
 		// animates immediately, rather than waiting on the auth + quota pre-flight
@@ -505,9 +676,11 @@
 		agentOutcome = null;
 		agentOutcomeText = '';
 		failedFiles = [];
+		clearGenerated();
 
-		const thinkingMessages =
-			uploadMode === 'pdf'
+		const thinkingMessages = isCreate
+			? ['Imagining your image…', 'Composing the scene…', 'Rendering with AI…']
+			: uploadMode === 'pdf'
 				? ['Reading your PDF…', 'Planning the transform…']
 				: uploadMode === 'video'
 					? ['Reading your media…', 'Planning the conversion…']
@@ -525,6 +698,82 @@
 
 		try {
 			const jwt = await (warmedAuth ?? getSessionToken());
+
+			// ── Text-to-image create mode (no files attached) ─────────────────────
+			// Mistral rewrites the prompt + extracts formats/sizes/aspect, then core
+			// generates once and returns a ZIP of the original + variants.
+			if (isCreate) {
+				const nlpResponse = await fetch(`${WORKER_URL}/v1/prompt`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						...(jwt ? { Authorization: `Bearer ${jwt}` } : {})
+					},
+					body: JSON.stringify({ prompt: prompt.trim(), fileData: [], mode: 'create' })
+				});
+				if (!nlpResponse.ok) {
+					if (nlpResponse.status === 429) {
+						if (jwt) showUpgradeCta = true;
+						else showSignupCta = true;
+						return;
+					}
+					if (nlpResponse.status >= 500)
+						throw new Error('Something went wrong on our end — please try again in a moment.');
+					throw new Error("Couldn't understand your request. Try rephrasing and submit again.");
+				}
+				const cd = (await nlpResponse.json()) as {
+					agent_message?: string;
+					create?: {
+						prompt: string;
+						aspect: string;
+						formats: string[];
+						sizes: { width: number; height: number }[];
+						blocked: boolean;
+					};
+				};
+				agentMessage = cd.agent_message || '';
+				const c = cd.create;
+				if (!c || c.blocked || !c.prompt) {
+					agentOutcome = 'error';
+					agentOutcomeText = "This request can't be generated.";
+					posthog.capture('create_flow_blocked');
+					return;
+				}
+				createParams = {
+					prompt: c.prompt,
+					aspect: c.aspect,
+					formats: c.formats ?? [],
+					sizes: c.sizes ?? []
+				};
+				posthog.capture('create_flow_submitted', {
+					authed: !!jwt,
+					formats: createParams.formats.length,
+					sizes: createParams.sizes.length
+				});
+
+				try {
+					const zipBlob = await callGenerate(jwt, createParams);
+					processPhase = 'packing';
+					await buildGalleryFromZip(zipBlob);
+					agentOutcome = 'success';
+					agentOutcomeText = `Generated ${generatedImages.length} image${generatedImages.length === 1 ? '' : 's'} ✨`;
+					posthog.capture('create_flow_completed', { outputs: generatedImages.length });
+					onSuccess?.();
+				} catch (e) {
+					const status = (e as { status?: number })?.status;
+					if (status === 403) showUpgradeCta = true;
+					else if (status === 429) {
+						if (jwt) showUpgradeCta = true;
+						else showSignupCta = true;
+					} else {
+						agentOutcome = 'error';
+						agentOutcomeText = e instanceof Error ? e.message : 'Generation failed.';
+						showStatus('error', e instanceof Error ? e.message : 'Generation failed — please try again.');
+					}
+					posthog.capture('create_flow_completed', { failed: true });
+				}
+				return;
+			}
 
 			// Pre-flight quota check — skipped for video mode (processed client-side, no core tokens used).
 			if (uploadMode !== 'video') {
@@ -1603,7 +1852,7 @@
 
 				{#if files.length === 0}
 					<span class="text-sm font-medium text-[#875F42]/70"
-						>Add images, video, or PDFs to start</span
+						>Add files — or just describe an image to generate one</span
 					>
 				{/if}
 
@@ -1697,7 +1946,7 @@
 							/>
 						</svg>
 					</label>
-					{#if uploadMode !== 'pdf' && uploadMode !== 'video'}
+					{#if files.length > 0 && uploadMode !== 'pdf' && uploadMode !== 'video'}
 						<div class="h-4 w-px flex-shrink-0 bg-white/40"></div>
 						<label
 							class="flex flex-shrink-0 cursor-pointer items-center gap-1.5"
@@ -1750,7 +1999,7 @@
 								Packing your zip file…
 							{/if}
 						{:else if files.length === 0}
-							Drop images, PDFs or video, or use the clip button
+							Drop files — or just describe an image to generate one
 						{:else if uploadMode === 'pdf'}
 							{files.length} {files.length === 1 ? 'PDF' : 'PDFs'} attached
 						{:else if uploadMode === 'video'}
@@ -1782,10 +2031,10 @@
 					<!-- Send button -->
 					<button
 						onclick={submit}
-						disabled={!prompt.trim() || files.length === 0 || isProcessing}
+						disabled={!prompt.trim() || isProcessing}
 						aria-label={isProcessing ? 'Processing…' : 'Submit'}
 						class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl font-bold transition-all duration-300
-                        {prompt.trim() && files.length > 0 && !isProcessing
+                        {prompt.trim() && !isProcessing
 							? 'cursor-pointer bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)]'
 							: 'cursor-not-allowed border border-white/60 bg-white/50 text-[#F06292]/30'}"
 					>
@@ -1970,6 +2219,67 @@
 							<li><span class="font-medium">{f.name}</span> — {f.reason}</li>
 						{/each}
 					</ul>
+				</div>
+			</div>
+		</div>
+	{/if}
+
+	{#if generatedImages.length > 0}
+		<div class="animate-fade-in mt-3 px-1">
+			<div class="rounded-2xl border border-pink-100 bg-white/70 p-4 shadow-sm backdrop-blur-md">
+				<div class="mb-3 flex items-center justify-between gap-2">
+					<p class="text-[10px] font-black tracking-widest text-[#F06292] uppercase">Generated</p>
+					<div class="flex items-center gap-2">
+						<button
+							onclick={regenerate}
+							disabled={isProcessing}
+							class="inline-flex items-center gap-1.5 rounded-xl border border-pink-100 bg-white px-3 py-1.5 text-xs font-bold text-[#F06292] transition-all hover:bg-pink-50 disabled:cursor-not-allowed disabled:opacity-50"
+						>
+							<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+							</svg>
+							Regenerate
+						</button>
+						<button
+							onclick={downloadAllGen}
+							class="inline-flex items-center gap-1.5 rounded-xl bg-[#F06292] px-3 py-1.5 text-xs font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#D81B60]"
+						>
+							<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+							</svg>
+							Download all (ZIP)
+						</button>
+					</div>
+				</div>
+				<div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+					{#each generatedImages as g (g.name)}
+						<div class="group relative overflow-hidden rounded-xl border border-pink-50 bg-[#FDFBF7]">
+							<img
+								src={g.url}
+								alt={g.label}
+								loading="lazy"
+								class="aspect-square w-full bg-white object-contain"
+							/>
+							<div class="flex items-center justify-between gap-1 px-2 py-1.5">
+								<span class="min-w-0 flex-1 truncate text-[10px] font-bold text-[#875F42]">
+									{#if g.isOriginal}<span class="text-[#F06292]">★ </span>{/if}{g.label}{#if g.width}<span
+											class="opacity-60"
+										>
+											· {g.width}×{g.height}</span
+										>{/if}
+								</span>
+								<button
+									onclick={() => downloadGen(g)}
+									aria-label="Download {g.label}"
+									class="flex-shrink-0 rounded-lg p-1 text-[#875F42]/60 transition-all hover:bg-pink-50 hover:text-[#F06292]"
+								>
+									<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+									</svg>
+								</button>
+							</div>
+						</div>
+					{/each}
 				</div>
 			</div>
 		</div>
