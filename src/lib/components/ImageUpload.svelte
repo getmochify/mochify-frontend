@@ -617,9 +617,15 @@
         </div>
     {/if}
 
-    <!-- Thumbnails (files selected) -->
-    {#if selectedFiles.length > 0}
-        <div class="relative flex flex-wrap items-center gap-3 px-4 pt-6 pb-3 sm:px-6">
+    <!-- The thumbnails and empty-state blocks both stay mounted and toggle via CSS
+         (not {#if}/{:else}). With a conditional swap, the <label for="file-input">
+         that opens the picker unmounts the instant the first file lands, and iOS
+         Safari drops that first selection — you'd have to pick again. Keeping both
+         <label> triggers permanently mounted (as PromptForm does) fixes it. -->
+    <div
+        class="relative flex flex-wrap items-center gap-3 px-4 pt-6 pb-3 sm:px-6"
+        class:hidden={selectedFiles.length === 0}
+    >
             {#each fileProgress as fp, index}
                 <div class="group relative flex-shrink-0">
                     <div class="liquid-bubble h-16 w-16 overflow-hidden rounded-2xl p-1">
@@ -738,11 +744,11 @@
                 ></div>
             </div>
         </div>
-    {:else}
         <!-- Empty state -->
         <label
             for="file-input"
             class="group flex cursor-pointer flex-col items-center justify-center gap-2 px-6 pt-8 pb-5 text-center"
+            class:hidden={selectedFiles.length > 0}
         >
             <div
                 class="liquid-bubble mb-1 flex h-12 w-12 items-center justify-center rounded-2xl transition-transform duration-200 group-hover:scale-105"
@@ -768,7 +774,6 @@
                 {types} · max {MAX_FILES} files, {MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB each
             </p>
         </label>
-    {/if}
 
     <!-- Toggles -->
     {#if showExifOption || showSmartMode}
