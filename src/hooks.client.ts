@@ -5,8 +5,10 @@ import type { HandleClientError } from '@sveltejs/kit';
 
 export async function init() {
 	posthog.init(PUBLIC_POSTHOG_PROJECT_TOKEN, {
-		api_host: PUBLIC_POSTHOG_HOST,
+		api_host: PUBLIC_POSTHOG_HOST, // t.mochify.app reverse proxy
+		ui_host: 'https://eu.posthog.com', // required with a proxy so in-app links resolve to PostHog
 		defaults: '2026-01-30',
+		person_profiles: 'identified_only',
 		capture_exceptions: false,
 		capture_performance: false,
 		disable_session_recording: true
