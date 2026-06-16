@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "Working with PDFs in AI Agent Workflows: Extract, Split, and Convert Pages",
+            description: "How to extract images from PDF, split multi-page files, and convert pages to WebP inside an AI agent pipeline. Mechanics, pitfalls, and a privacy-first workflow.",
+            url: "/guides/working-with-pdfs-in-ai-agent-workflows",
+            category: "AI & Automation",
+            readTime: "12 min read",
+            date: "June 16, 2026"
+        },
+        {
             title: "LLM Image Token Costs: How Many Tokens Does an Image Use?",
             description: "No single number: Claude uses width×height/750 (~1,334 tokens for 1 MP), OpenAI and Gemini use tiling. Pass file paths, not image bytes, to save context.",
             url: "/guides/llm-image-token-costs",
