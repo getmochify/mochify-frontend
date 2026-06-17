@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "How to Convert Sony HIF Files to JPG",
+            description: "Convert Sony .HIF files to JPG with Sony's free Imaging Edge Desktop, or convert online in one step. Which Alpha bodies shoot HEIF, and how to export.",
+            url: "/guides/sony-hif-to-jpg",
+            category: "Quick Guides",
+            readTime: "3 min read",
+            date: "June 17, 2026"
+        },
+        {
             title: "Working with PDFs in AI Agent Workflows: Extract, Split, and Convert Pages",
             description: "How to extract images from PDF, split multi-page files, and convert pages to WebP inside an AI agent pipeline. Mechanics, pitfalls, and a privacy-first workflow.",
             url: "/guides/working-with-pdfs-in-ai-agent-workflows",
