@@ -248,6 +248,10 @@
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
                         <span>Video &amp; audio conversion — <span class="text-cocoa-deep/60">nothing uploaded</span></span>
                     </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span>Images → PDF — up to <strong>3 pages</strong></span>
+                    </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]/50">
                         <span class="mt-0.5 font-black">–</span>
                         <span>Up to <strong>3 files</strong> per batch</span>
@@ -626,7 +630,7 @@
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">PDF tools <span class="text-[#6C3F31]/50 text-xs">(rasterize, split, images→PDF)</span></td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/30 font-black">—</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">images→PDF, 3 pages</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                         </tr>
