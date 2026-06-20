@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "Should I Use fetchpriority or rel=\"preload\" for My LCP Image?",
+            description: "Use fetchpriority=\"high\" on an <img> tag found in HTML. Use rel=\"preload\" when the browser discovers the image late, via CSS or JavaScript.",
+            url: "/guides/fetchpriority-vs-preload-lcp-image",
+            category: "Quick Guides",
+            readTime: "2 min read",
+            date: "June 20, 2026"
+        },
+        {
             title: "How to Convert Sony HIF Files to JPG",
             description: "Convert Sony .HIF files to JPG with Sony's free Imaging Edge Desktop, or convert online in one step. Which Alpha bodies shoot HEIF, and how to export.",
             url: "/guides/sony-hif-to-jpg",
