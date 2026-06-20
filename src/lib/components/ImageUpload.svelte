@@ -771,7 +771,7 @@
         </label>
 
     <!-- Toggles -->
-    {#if showExifOption || showSmartMode}
+    {#if (showExifOption || showSmartMode) && selectedFiles.length > 0}
         <div class="flex flex-wrap gap-x-6 gap-y-3 px-4 pt-3 pb-3 sm:px-6">
             {#if showExifOption}
                 <label class="group flex cursor-pointer items-center gap-2.5 select-none">
@@ -920,6 +920,7 @@
         </div>
     {/if}
 
+    {#if selectedFiles.length > 0}
     <!-- Submit / CTA button -->
     <div class="px-4 pb-4 sm:px-6">
         <button
@@ -1036,6 +1037,7 @@
         </span>
     </div>
     </div>
+    {/if}
 </div>
 
 {#if showUpgradeCta}
