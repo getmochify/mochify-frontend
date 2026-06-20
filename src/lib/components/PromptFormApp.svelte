@@ -10,7 +10,7 @@
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://tokens.mochify.app';
 
-	let { onSuccess, onBgRemovalUpsell }: { onSuccess?: () => void; onBgRemovalUpsell?: () => void } =
+	let { onSuccess }: { onSuccess?: () => void } =
 		$props();
 
 	let prompt: string = $state('');
@@ -1341,16 +1341,9 @@
 			// Original dimensions by index to skip NLP-echoed dims in params
 			const origDims = fileDetails.map((f) => ({ w: f.width, h: f.height }));
 
-			// Detect background removal requested by NLP.
-			// Background removal requires authentication — strip the param for anonymous
-			// users and proceed without it (backend enforces the same rule on 403).
-			const bgRemovalRequested = fileArray.some((item: any) => item.removeBackground);
-			const bgRemovalBlocked = bgRemovalRequested && !jwt;
-			if (bgRemovalBlocked) {
-				fileArray.forEach((item: any) => {
-					delete item.removeBackground;
-				});
-			}
+			// Background removal is open to all tiers, including anonymous users — the
+			// NLP-requested param passes straight through to the backend, which meters it
+			// via the token bucket just like a normal compression.
 
 			const variantCount = (item: any): number => {
 				const fmts = Array.isArray(item?.types) && item.types.length > 1 ? item.types.length : 1;
@@ -1644,13 +1637,6 @@
 					'error',
 					failedFiles[0]?.reason ?? 'All files failed to process — please try again.'
 				);
-			} else if (bgRemovalBlocked) {
-				posthog.capture('magic_flow_completed', { files: totalFiles, bg_removal_blocked: true });
-				showStatus(
-					'success',
-					'Images processed without background removal — sign up for a free account to unlock it. ✨'
-				);
-				onBgRemovalUpsell?.();
 			} else {
 				posthog.capture('magic_flow_completed', { files: totalFiles, failed: failedFiles.length });
 				const msg =
