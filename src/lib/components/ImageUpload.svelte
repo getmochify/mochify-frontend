@@ -566,18 +566,13 @@
 </script>
 
 <div
-    class={`liquid-glass relative w-full overflow-hidden rounded-[2rem] transition-all duration-300 ${isDragging ? 'liquid-glow scale-[1.02]' : ''} ${className}`.trim()}
+    class={`relative w-full overflow-hidden rounded-3xl border bg-white shadow-sm transition-all duration-300 ${isDragging ? 'border-[#F06292] ring-2 ring-[#F06292]/25' : 'border-pink-50'} ${className}`.trim()}
     ondragover={handleDragOver}
     ondragleave={handleDragLeave}
     ondrop={handleDrop}
     role="region"
     aria-label="Upload images"
 >
-    <!-- Top highlight -->
-    <div
-        class="absolute inset-x-0 top-0 z-10 h-[2px] bg-gradient-to-r from-transparent via-white/80 to-transparent"
-    ></div>
-
     <!-- Hidden file input -->
     <input
         bind:this={fileInputElement}
@@ -628,7 +623,7 @@
     >
             {#each fileProgress as fp, index}
                 <div class="group relative flex-shrink-0">
-                    <div class="liquid-bubble h-16 w-16 overflow-hidden rounded-2xl p-1">
+                    <div class="h-16 w-16 overflow-hidden rounded-2xl border border-pink-100 bg-[#FDFBF7] p-1">
                         {#if fp.thumbnailUrl}
                             <img
                                 src={fp.thumbnailUrl}
@@ -721,7 +716,7 @@
             <!-- Add more -->
             <label
                 for="file-input"
-                class="liquid-bubble flex h-16 w-16 flex-shrink-0 cursor-pointer items-center justify-center rounded-2xl border border-dashed border-[#F06292]/30 text-[#F06292]/60 transition-all hover:scale-105 hover:bg-white/60 hover:text-[#F06292]"
+                class="flex h-16 w-16 flex-shrink-0 cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-pink-200 bg-[#FFF9FB] text-[#F06292]/70 transition-all hover:scale-105 hover:border-[#F06292] hover:text-[#F06292]"
                 aria-label="Add more images"
             >
                 <svg
@@ -747,11 +742,11 @@
         <!-- Empty state -->
         <label
             for="file-input"
-            class="group flex cursor-pointer flex-col items-center justify-center gap-2 px-6 pt-8 pb-5 text-center"
+            class="group m-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-pink-200 px-6 py-10 text-center transition-colors hover:border-[#F06292] hover:bg-[#FFF9FB] sm:m-6"
             class:hidden={selectedFiles.length > 0}
         >
             <div
-                class="liquid-bubble mb-1 flex h-12 w-12 items-center justify-center rounded-2xl transition-transform duration-200 group-hover:scale-105"
+                class="mb-1 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFF0F3] transition-transform duration-200 group-hover:scale-105"
             >
                 <svg
                     class="h-6 w-6 text-[#F06292]/70"
@@ -824,7 +819,7 @@
     <!-- Token status -->
     {#if hasCheckedTokens && selectedFiles.length > 0 && !insufficientTokens && displayTokens > 0}
         <div
-            class="mx-4 mb-3 flex items-center gap-2 rounded-2xl border border-[#A5D6A7]/40 bg-white/30 px-4 py-3 backdrop-blur-sm sm:mx-6"
+            class="mx-4 mb-3 flex items-center gap-2 rounded-2xl border border-green-100 bg-[#F0FDF4] px-4 py-3 sm:mx-6"
         >
             <svg class="h-4 w-4 shrink-0 text-[#66BB6A]" fill="currentColor" viewBox="0 0 20 20">
                 <path
@@ -841,7 +836,7 @@
 
     {#if insufficientTokens && !isFileLimitError && !isFileSizeError}
         <div
-            class="mx-4 mb-3 flex items-start gap-2 rounded-2xl border border-[#FFD54F]/50 bg-white/30 px-4 py-3 backdrop-blur-sm sm:mx-6"
+            class="mx-4 mb-3 flex items-start gap-2 rounded-2xl border border-amber-100 bg-amber-50 px-4 py-3 sm:mx-6"
         >
             <svg
                 class="mt-0.5 h-4 w-4 shrink-0 text-[#F57C00]"
@@ -886,7 +881,7 @@
         <div class="flex flex-col gap-2 px-4 pb-4 sm:px-6">
             {#if successMessage}
                 <div
-                    class="flex items-center gap-2 rounded-2xl border border-[#A5D6A7]/50 bg-white/30 px-4 py-3 backdrop-blur-sm"
+                    class="flex items-center gap-2 rounded-2xl border border-green-100 bg-[#F0FDF4] px-4 py-3"
                 >
                     <svg class="h-4 w-4 flex-shrink-0 text-[#66BB6A]" fill="currentColor" viewBox="0 0 20 20">
                         <path
@@ -900,7 +895,7 @@
             {/if}
             {#if errorMessage}
                 <div
-                    class="flex items-start gap-2 rounded-2xl border border-red-200/50 bg-white/30 px-4 py-3 backdrop-blur-sm"
+                    class="flex items-start gap-2 rounded-2xl border border-red-100 bg-red-50 px-4 py-3"
                 >
                     <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#EF5350]" fill="currentColor" viewBox="0 0 20 20">
                         <path
@@ -987,7 +982,7 @@
     <!-- Footer tray -->
     <div>
     {#if isLoading}
-        <div class="relative h-1 overflow-hidden bg-white/20">
+        <div class="relative h-1 overflow-hidden bg-pink-50">
             {#if processPhase === 'uploading'}
                 <div class="h-full bg-gradient-to-r from-[#F06292] to-[#e040a0] shadow-[0_0_10px_rgba(240,98,146,0.5)] transition-all duration-300 ease-out" style="width: {uploadPercent}%"></div>
             {:else if processPhase === 'processing'}
@@ -998,7 +993,7 @@
         </div>
     {/if}
     <div
-        class="flex items-center justify-between gap-3 bg-white/20 px-4 py-2 backdrop-blur-md sm:px-6"
+        class="flex items-center justify-between gap-3 border-t border-pink-50 bg-[#FDFBF7] px-4 py-2.5 sm:px-6"
     >
         {#if showTypes && !hasOutputOverride}
             <div class="flex flex-wrap items-center gap-1.5">
@@ -1207,35 +1202,6 @@
 {/if}
 
 <style>
-    .liquid-glass {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
-        backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        box-shadow:
-            0 8px 32px 0 rgba(240, 98, 146, 0.15),
-            inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
-            inset 0 -1px 0 0 rgba(255, 255, 255, 0.1);
-    }
-
-    .liquid-bubble {
-        background: rgba(255, 255, 255, 0.25);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        box-shadow:
-            inset 0 2px 4px rgba(255, 255, 255, 0.6),
-            inset 0 -2px 4px rgba(0, 0, 0, 0.05),
-            0 4px 12px rgba(240, 98, 146, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-    }
-
-    .liquid-glow {
-        box-shadow:
-            0 0 0 2px rgba(240, 98, 146, 0.4),
-            0 0 40px rgba(240, 98, 146, 0.2),
-            inset 0 0 20px rgba(255, 255, 255, 0.5);
-    }
-
     @keyframes shake {
         0%, 100% { transform: translateX(0); }
         20%       { transform: translateX(-6px); }
