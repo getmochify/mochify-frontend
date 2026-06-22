@@ -1,5 +1,8 @@
+User-agent: Bingbot
+Allow: /
+Sitemap: https://mochify.app/sitemap.xml
+
 User-agent: *
 Allow: /
-
 Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Sitemap: https://mochify.app/sitemap.xml
