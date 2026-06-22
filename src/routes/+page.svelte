@@ -187,7 +187,7 @@
             </h1>
             <h2 class="text-xs font-semibold tracking-widest uppercase text-[#F06292]/70 mb-4">PROMPT-DRIVEN IMAGE CONVERTER & SMART CROP PIPELINE</h2>
             <p class="text-[#6C3F31] text-sm md:text-base max-w-xl mx-auto leading-relaxed">
-                The ultra-lazy way to bulk format product photos. Just drop your files, type what you need, and let our blazing-fast engine do the rest.
+                Compress, convert and reformat images in bulk - just type what you need. Mochify's AI reads your instructions and its fast native engine does the rest.
             </p>
             <p class="text-xs text-[#9A7050] mt-2">3 files free per batch · 25 with <a href="/pricing" class="hover:text-[#F06292] transition-colors">Seller or Pro</a></p>
 
