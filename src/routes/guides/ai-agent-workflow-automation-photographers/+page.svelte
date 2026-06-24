@@ -10,7 +10,7 @@
         category: "Workflow Automation",
         readTime: "10 min read",
         date: "May 2026",
-        lastUpdated: "June 2026"
+        lastUpdated: "June 24, 2026"
     };
 
     const faqItems = [

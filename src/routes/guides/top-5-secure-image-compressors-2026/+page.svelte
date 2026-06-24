@@ -9,7 +9,7 @@
         category: "Image Optimization",
         readTime: "15 min read",
         datePublished: "February 17, 2026",
-        lastUpdated: "May 30, 2026"
+        lastUpdated: "June 24, 2026"
     };
 
     const related = [
@@ -450,7 +450,6 @@
             </div>
 
             <!-- Desktop: Table Layout -->
-            <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white hidden md:block">
                 <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -525,7 +524,6 @@
                         </tbody>
                     </table>
                 </ScrollableTable>
-            </div>
 
             <div class="bg-pink-50 rounded-3xl p-6 md:p-8 border border-pink-100">
                 <h3 class="font-bold text-[#4A2C2C] mb-4">Key Takeaways from the Table</h3>

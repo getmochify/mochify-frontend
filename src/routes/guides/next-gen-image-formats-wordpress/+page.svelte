@@ -10,7 +10,7 @@
         category: "WordPress Optimization",
         readTime: "15 min read",
         datePublished: "February 09, 2026",
-        lastUpdated: "May 30, 2026"
+        lastUpdated: "June 24, 2026"
     };
 
     const related = [
@@ -392,7 +392,6 @@
             </div>
 
             <!-- Desktop: Table Layout -->
-            <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white hidden md:block">
                 <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -431,7 +430,6 @@
                         </tbody>
                     </table>
                 </ScrollableTable>
-            </div>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">
                 Two rules I use in audits:
@@ -444,11 +442,10 @@
         </section>
 
         <section id="settings">
-            <SectionHeading>A Small Format Comparsion (Example)</SectionHeading>
+            <SectionHeading>A Small Format Comparison (Example)</SectionHeading>
             <p class="mb-6">Here's what "serve images in next-gen formats" looks like in practice-same visual image, different encodings.</p>
-<div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
-                <ScrollableTable class="my-6">
-            <table class="w-full text-left border-collapse">
+            <ScrollableTable class="my-8">
+                <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-[#FFF5F7] border-b border-pink-100">
                                 <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider w-1/3">Format</th>
@@ -475,7 +472,6 @@
                         </tbody>
                     </table>
                     </ScrollableTable>
-                    </div>
 
                     <p>The point isn't chasing perfect numbers - it's removing hundred of kilobytes from the crtical rendering path.</p>
         </section>

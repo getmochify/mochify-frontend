@@ -128,7 +128,6 @@
             </p>
 
             <div class="my-12">
-                <div class="overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
                     <ScrollableTable class="my-6">
                         <table class="w-full text-left border-collapse">
                             
@@ -175,7 +174,6 @@
                             </tbody>
                         </table>
                     </ScrollableTable>
-                </div>
 
                 <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Why the Full Engine Matters: Jpegli and JXL</h3>
 

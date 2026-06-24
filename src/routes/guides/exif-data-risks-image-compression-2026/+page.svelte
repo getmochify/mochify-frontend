@@ -11,7 +11,7 @@
         category: "Data Privacy",
         readTime: "15 min read",
         date: "February 13, 2026",
-        lastUpdated: "May 30, 2026"
+        lastUpdated: "June 24, 2026"
     };
 
     const related = [

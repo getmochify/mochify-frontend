@@ -8,7 +8,7 @@
         category: "Data Privacy",
         readTime: "6 min read",
         datePublished: "February 05, 2026",
-        lastUpdated: "May 30, 2026"
+        lastUpdated: "June 24, 2026"
     };
 
     const related = [
@@ -214,7 +214,6 @@
             </p>
 
             <div class="my-12">
-    <div class="overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
         <ScrollableTable class="my-6">
             <table class="w-full text-left border-collapse">
                 
@@ -264,7 +263,6 @@
                 </tbody>
             </table>
         </ScrollableTable>
-    </div>
 
     <div class="mt-4 px-2 text-xs font-medium text-[#875F42] opacity-70 flex items-center gap-1.5">
         <span class="text-[#F06292] font-black">*</span>

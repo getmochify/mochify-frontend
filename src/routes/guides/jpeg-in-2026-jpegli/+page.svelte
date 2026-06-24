@@ -9,7 +9,7 @@
         category: "Image Optimization",
         readTime: "20 min read",
         date: "February 09, 2026",
-        lastUpdated: "May 30, 2026"
+        lastUpdated: "June 24, 2026"
     };
 
     const related = [
@@ -258,7 +258,6 @@
             </div>
 
             <!-- Desktop: Table Layout -->
-            <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white hidden md:block">
                 <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -299,7 +298,6 @@
                         </tbody>
                     </table>
                 </ScrollableTable>
-            </div>
         </section>
 
         <section id="basics">
@@ -677,7 +675,6 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
                     </div>
 
                     <!-- Desktop: Table Layout -->
-                    <div class="my-6 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white hidden md:block">
                         <ScrollableTable class="my-6">
                             <table class="w-full text-left border-collapse">
                                 <thead>
@@ -718,7 +715,6 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
                                 </tbody>
                             </table>
                         </ScrollableTable>
-                    </div>
 
                     <p class="mb-4">This data is specific to <em>your</em> content and workflow. Use it to decide which encoder to adopt.</p>
                 </div>

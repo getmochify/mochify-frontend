@@ -282,7 +282,6 @@
 
         <h3 class="text-2xl font-black text-[#4A2C2C] mt-10 mb-6">EU-Friendly Image Compressor Feature Comparison</h3>
 
-        <div class="overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
             <ScrollableTable class="my-6">
                 <table class="w-full text-left border-collapse text-sm">
                     <thead>
@@ -361,7 +360,6 @@
                     </tbody>
                 </table>
             </ScrollableTable>
-        </div>
         <p class="mt-3 text-xs text-[#875F42] opacity-70 px-2">
             Squoosh processes images client-side in the browser, which is inherently private — but it lacks API access, batch processing, and HEIC support at scale.
         </p>

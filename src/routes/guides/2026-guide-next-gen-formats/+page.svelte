@@ -10,7 +10,7 @@
         category: "Image Formats",
         readTime: "20 min read",
         datePublished: "February 10, 2026",
-        lastUpdated: "May 30, 2026"
+        lastUpdated: "June 24, 2026"
     };
 
     const related = [
@@ -309,7 +309,6 @@
             </div>
 
             <!-- Desktop: Table Layout -->
-            <div class="hidden md:block my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
                 <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -358,7 +357,6 @@
                         </tbody>
                     </table>
                 </ScrollableTable>
-            </div>
 
             <InfoBox type="tip">
                 WebP is production-safe everywhere. AVIF is the performance leader. JPEG XL remains experimental.
@@ -462,7 +460,6 @@
             <p class="mb-6">All conversions used Cloudinary's default settings (quality ~80-85 equivalent) except where noted. SSIM (Structural Similarity Index) scores measure perceptual quality - higher is better (1.0 = identical).</p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">File Size Comparison</h3>
-            <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
                 <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -506,7 +503,6 @@
                         </tbody>
                     </table>
                 </ScrollableTable>
-            </div>
 
             <ul class="list-disc pl-6 mb-8 space-y-2">
         <li><strong>Photograph winner:</strong> JPEG XL at 472KB (52% reduction), but AVIF at 507KB is negligibly different to the human eye.</li>
@@ -518,7 +514,6 @@
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">Quality Comparison: SSIM Scores</h3>
             <p class="mb-4">File size means nothing if images look terrible. SSIM scores (scale 0-1, higher = better):</p>
             
-            <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
                 <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -557,7 +552,6 @@
                         </tbody>
                     </table>
                 </ScrollableTable>
-            </div>
 
             <p class="mb-6">
                 AVIF consistently delivers higher perceptual quality at smaller file sizes than WebP. JPEG XL edges out AVIF in photographic content but struggles with flat-color graphics (the logo test).
@@ -569,7 +563,6 @@
             </p>
             <p class="mb-4">Benchmark: 5MP photograph, consumer-grade hardware, libwebp/libavif/libjxl encoders:</p>
 
-            <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
                 <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -598,7 +591,6 @@
                         </tbody>
                     </table>
                 </ScrollableTable>
-            </div>
             
             <InfoBox type="tip">
                 WebP encodes fastest. AVIF's computational complexity shows here - nearly 4x slower than WebP. JPEG XL sits in the middle but lacks meaningful browser decode benchmarks due to poor support. Mochify's C engine handles AVIF encoding significantly faster than JavaScript-based tools like Squoosh, which rely on WebAssembly - compiled but still slower than native C.
@@ -611,7 +603,6 @@
             <p class="mb-4">This is where theory meets production reality.</p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">Desktop Browser Support</h3>
-            <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
                 <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -652,7 +643,6 @@
                         </tbody>
                     </table>
                 </ScrollableTable>
-            </div>
 
             <p class="text-sm text-gray-500 mb-4">Data current as of February 6, 2026</p>
     <p class="mb-4">
@@ -666,7 +656,6 @@
     </p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Mobile Browser Considerations</h3>
-            <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
                 <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -703,7 +692,6 @@
                         </tbody>
                     </table>
                 </ScrollableTable>
-            </div>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Fallback Strategies</h3>
             <p class="mb-4">Production-grade implementation requires <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> elements with format cascades:</p>
@@ -805,7 +793,6 @@
     </ul>
 
             <p class="mb-4">Format impact on a typical 1920x1080 hero image over 4G connection (6 Mbps):</p>
-            <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
                 <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -844,7 +831,6 @@
                         </tbody>
                     </table>
                 </ScrollableTable>
-            </div>
 
             <p class="mb-4">
                 Switching from JPEG to AVIF can move you from "Needs Improvement" to "Good" without changing anything else. That's a direct SEO benefit - Google's ranking algorithm weights Core Web Vitals scores for mobile search results.
@@ -859,7 +845,6 @@
             <p class="mb-4">
                 We tested three landing page configurations: Test site: E-commerce homepage, hero image (1920x1080), 6 product thumbnails, standard text/CSS/JS payload.
             </p>
-            <div class="my-8 overflow-hidden rounded-3xl border border-pink-50 shadow-sm bg-white">
                 <ScrollableTable class="my-6">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -896,7 +881,6 @@
                         </tbody>
                     </table>
                 </ScrollableTable>
-            </div>
             <p class="mb-4">
                 AVIF delivered a 24-point PageSpeed improvement over baseline JPEG. WebP sits in the middle - solid gains, less dramatic than AVIF.
             </p>
