@@ -1,7 +1,7 @@
 <script lang="ts">
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
-    const tools = [
+    const imageTools = [
         {
             name: "Background Remover (WebP)",
             slug: "solutions/remove-background-webp",
@@ -107,11 +107,21 @@
             tag: "Next-Gen"
         }
     ];
+
+    const videoTools = [
+        {
+            name: "MP4 to WebM",
+            slug: "solutions/mp4-to-webm",
+            desc: "Convert MP4 to smaller, web-friendly WebM — 100% in your browser, nothing uploaded, free.",
+            iconPaths: ["M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"],
+            tag: "Video"
+        }
+    ];
 </script>
 
 <svelte:head>
     <title>Mochify Solutions | Compare & Choose the Best Image Optimizer</title>
-    <meta name="description" content="Compare specialized image tools for eBay, iPhone (HEIC), and next-gen web formats. Find the perfect balance between file size and quality for your specific platform.">
+    <meta name="description" content="Specialized image tools for eBay, iPhone (HEIC), and next-gen web formats, plus free in-browser video conversion. Find the perfect balance between file size and quality for your platform.">
     <script type="application/ld+json">
         {
         "@context": "https://schema.org",
@@ -174,39 +184,51 @@
             </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
-            {#each tools as tool}
-                <a
-                    href="/{tool.slug}"
-                    class="group bg-white p-8 rounded-2xl border border-pink-50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
-                >
-                    <div class="flex justify-between items-start mb-6">
-                        <div class="w-10 h-10 rounded-xl bg-[#FFF0F3] flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                            <svg class="w-5 h-5 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                {#each tool.iconPaths as d}
-                                    <path stroke-linecap="round" stroke-linejoin="round" {d} />
-                                {/each}
-                            </svg>
-                        </div>
-                        <span class="px-3 py-1 rounded-xl bg-[#F1F8E9] text-[#33691E] text-[10px] font-black uppercase tracking-widest border border-[#DCEDC8]">
-                            {tool.tag}
-                        </span>
-                    </div>
-
-                    <h2 class="text-xl font-black text-[#4A2C2C] mb-3 group-hover:text-[#F06292] transition-colors">
-                        {tool.name}
-                    </h2>
-                    <p class="text-sm text-[#6C3F31] leading-relaxed mb-6 opacity-90">
-                        {tool.desc}
-                    </p>
-
-                    <div class="mt-auto flex items-center gap-2 text-xs font-black text-[#F06292] uppercase tracking-wider">
-                        Open Tool
-                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
-                            <path d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+        {#snippet toolCard(tool: { name: string; slug: string; desc: string; iconPaths: string[]; tag: string })}
+            <a
+                href="/{tool.slug}"
+                class="group bg-white p-8 rounded-2xl border border-pink-50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
+            >
+                <div class="flex justify-between items-start mb-6">
+                    <div class="w-10 h-10 rounded-xl bg-[#FFF0F3] flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                        <svg class="w-5 h-5 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            {#each tool.iconPaths as d}
+                                <path stroke-linecap="round" stroke-linejoin="round" {d} />
+                            {/each}
                         </svg>
                     </div>
-                </a>
+                    <span class="px-3 py-1 rounded-xl bg-[#F1F8E9] text-[#33691E] text-[10px] font-black uppercase tracking-widest border border-[#DCEDC8]">
+                        {tool.tag}
+                    </span>
+                </div>
+
+                <h2 class="text-xl font-black text-[#4A2C2C] mb-3 group-hover:text-[#F06292] transition-colors">
+                    {tool.name}
+                </h2>
+                <p class="text-sm text-[#6C3F31] leading-relaxed mb-6 opacity-90">
+                    {tool.desc}
+                </p>
+
+                <div class="mt-auto flex items-center gap-2 text-xs font-black text-[#F06292] uppercase tracking-wider">
+                    Open Tool
+                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                        <path d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                </div>
+            </a>
+        {/snippet}
+
+        <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">Image Tools</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            {#each imageTools as tool}
+                {@render toolCard(tool)}
+            {/each}
+        </div>
+
+        <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">Video Tools</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
+            {#each videoTools as tool}
+                {@render toolCard(tool)}
             {/each}
         </div>
 
