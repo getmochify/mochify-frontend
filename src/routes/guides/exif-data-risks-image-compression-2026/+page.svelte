@@ -3,14 +3,44 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         title: "EXIF Data Risks: Strip Image Metadata for Global Privacy",
         description: "Avoid privacy risks and data leaks. Learn why stripping EXIF metadata is vital for global compliance and how to secure images without losing quality.",
         category: "Data Privacy",
         readTime: "15 min read",
-        date: "February 13, 2026"
+        date: "February 13, 2026",
+        lastUpdated: "May 30, 2026"
     };
+
+    const related = [
+        {
+            title: "Privacy & Image Optimization: A Comprehensive Guide (2026)",
+            href: "/guides/privacy-image-optimization",
+            desc: "How zero-retention processing protects your files end to end."
+        },
+        {
+            title: "A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression",
+            href: "/guides/european-alternative-tinypng-gdpr-compliant-image-compression",
+            desc: "GDPR-aligned compression in practice."
+        },
+        {
+            title: "Top 5 Secure Image Compressors of 2026",
+            href: "/guides/top-5-secure-image-compressors-2026",
+            desc: "How the tools compare on privacy and metadata handling."
+        },
+        {
+            title: "Do Journaling Apps Compress Images? Avoid Storage Bloat",
+            href: "/guides/do-journaling-apps-compress-images",
+            desc: "A common place metadata and bloat hide."
+        },
+        {
+            title: "HIF/HEIF to JPEG for Professional Photographers",
+            href: "/guides/heif-to-jpeg-workflow-photographers-guide",
+            desc: "EXIF stripping inside a real photographer workflow."
+        }
+    ];
 </script>
 
 <ReadProgress />
@@ -74,7 +104,7 @@
             }
         ],
         "datePublished": "2026-02-13",
-        "dateModified": "2026-02-13"
+        "dateModified": "2026-05-30"
         }
     </script>
 </svelte:head>
@@ -87,7 +117,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -262,7 +292,7 @@
                 <li>Embedded thumbnails eliminated.</li>
                 <li>Software tags deleted.</li>
              </ul>
-             <p class="mb-4">Your compressed JPEG (encoded with Google's jpegli for better efficiency at high quality) or AVIF file contains zero residual metadata. The only data structure left is the optimized pixel information.</p>
+             <p class="mb-4">Your compressed JPEG (encoded with <a href="/guides/jpeg-in-2026-jpegli" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Google's jpegli</a> for better efficiency at high quality) or AVIF file contains zero residual metadata. The only data structure left is the optimized pixel information.</p>
              <p class="mb-4">We recognize that professional photographers sometimes need to preserve copyright tags or color profiles for client workflows. That's why our <a href="/solutions/hif-to-jpg" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">HEIF-to-JPG tool</a> includes an optional "Retain EXIF" checkbox.</p>
              <p class="mb-4 font-bold">How it works:</p>
              <ol class="list-decimal pl-6 mb-6 space-y-2 marker:text-[#F06292] marker:font-bold">
@@ -367,6 +397,8 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
     </a>
 </div>
+
+        <RelatedGuides guides={related} />
 
     </div>
 </article>

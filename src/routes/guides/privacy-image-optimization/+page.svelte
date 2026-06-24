@@ -2,13 +2,42 @@
     import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         category: "Data Privacy",
         readTime: "6 min read",
         datePublished: "February 05, 2026",
-        lastUpdated: "March 13, 2026"
+        lastUpdated: "May 30, 2026"
     };
+
+    const related = [
+        {
+            title: "The Risks of EXIF Data in Image Compression (2026)",
+            href: "/guides/exif-data-risks-image-compression-2026",
+            desc: "The metadata side of image privacy."
+        },
+        {
+            title: "A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression",
+            href: "/guides/european-alternative-tinypng-gdpr-compliant-image-compression",
+            desc: "A GDPR-aligned compressor, in depth."
+        },
+        {
+            title: "Top 5 Secure Image Compressors of 2026",
+            href: "/guides/top-5-secure-image-compressors-2026",
+            desc: "Privacy and security compared across tools."
+        },
+        {
+            title: "How to Self-Host an Image Optimization API with Docker",
+            href: "/guides/self-hosting-image-optimization-docker",
+            desc: "Keep processing on your own infrastructure."
+        },
+        {
+            title: "Why We Relaxed Our Zero-Retention Policy for MCP Server Compressions",
+            href: "/guides/why-we-relaxed-zero-retention-for-mcp",
+            desc: "Honest detail on the one place retention softened."
+        }
+    ];
 </script>
 
 <ReadProgress />
@@ -45,7 +74,7 @@
             "2026 privacy-first vendor checklist"
         ],
         "datePublished": "2026-02-05",
-        "dateModified": "2026-03-13"
+        "dateModified": "2026-05-30"
         }
     </script>
 </svelte:head>
@@ -72,7 +101,7 @@
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
             <p class="text-lg text-[#6C3F31] leading-relaxed">
-                Most legacy optimizers write your assets to a temporary disk on a remote server for 24-48 hours, creating a vulnerability window for data leaks and unauthorized AI training. 
+                Most legacy optimizers write your assets to a temporary disk on a remote server for 24-48 hours, creating a vulnerability window for data leaks and unauthorized AI training. (If you want the engine off third-party infrastructure entirely, see our <a href="/guides/self-hosting-image-optimization-docker" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Docker self-hosting guide</a>.) 
                 
                 <span class="block mt-4">
                     This guide explores why <strong class="text-[#D81B60] font-black">Zero-Retention Architecture</strong> is the non-negotiable standard for professional asset security in 2026.
@@ -296,6 +325,8 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
     </a>
 </div>
+
+        <RelatedGuides guides={related} />
 
     </div>
 </article>

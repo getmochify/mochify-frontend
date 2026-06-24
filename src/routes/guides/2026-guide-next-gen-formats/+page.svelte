@@ -4,13 +4,42 @@
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import CodeBlock from '$lib/components/CodeBlock.svelte';
+    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         category: "Image Formats",
         readTime: "20 min read",
         datePublished: "February 10, 2026",
-        lastUpdated: "March 13, 2026"
+        lastUpdated: "May 30, 2026"
     };
+
+    const related = [
+        {
+            title: "What Should I Use in 2026: WebP, AVIF, or JPEG XL?",
+            href: "/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl",
+            desc: "The short decision version of this guide."
+        },
+        {
+            title: "Is JPEG XL Ready for Shopify Product Images in 2026?",
+            href: "/guides/is-jpeg-xl-ready-for-shopify-product-images",
+            desc: "Where JPEG XL still falls short for live sites."
+        },
+        {
+            title: "Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game",
+            href: "/guides/jpeg-in-2026-jpegli",
+            desc: "The encoder behind Mochify's JPEG output."
+        },
+        {
+            title: "SVG Conversion Guide: When to Keep Vector and When to Rasterize",
+            href: "/guides/svg-conversion-guide-vector-vs-raster",
+            desc: "The format decision for vector assets."
+        },
+        {
+            title: "Top 5 Secure Image Compressors of 2026",
+            href: "/guides/top-5-secure-image-compressors-2026",
+            desc: "Tools compared on format support and privacy."
+        }
+    ];
 </script>
 
 <ReadProgress />
@@ -72,7 +101,7 @@
             }
         ],
         "datePublished": "2026-02-05",
-        "dateModified": "2026-03-13"
+        "dateModified": "2026-05-30"
         }
     </script>
 </svelte:head>
@@ -411,7 +440,7 @@
             </p>
             
             <InfoBox type="tip">
-                Mochify's JPEG output uses JPEGLI under the hood, so even your “boring old” JPEGs come out smaller and cleaner than standard exports from most CMSes or desktop tools.
+                Mochify's JPEG output uses <a href="/guides/jpeg-in-2026-jpegli" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">JPEGLI</a> under the hood, so even your “boring old” JPEGs come out smaller and cleaner than standard exports from most CMSes or desktop tools.
             </InfoBox>
         </section>
 
@@ -750,7 +779,7 @@
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">HEIC: Don't Use for Web (Convert Instead)</h3>
             <p class="mb-4">
-                HEIC isn't a web format. Period. If you're shooting on iPhone, convert to JPEG or AVIF before uploading to WordPress, Shopify, Etsy, or eBay. Most platforms reject HEIC uploads with "Unsupported File" errors - a daily frustration for mobile-first sellers.
+                HEIC isn't a web format. Period. If you're shooting on iPhone, convert to JPEG or AVIF before uploading to <a href="/guides/next-gen-image-formats-wordpress" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">WordPress</a>, Shopify, Etsy, or eBay. Most platforms reject HEIC uploads with "Unsupported File" errors - a daily frustration for mobile-first sellers.
             </p>
             
             <InfoBox type="tip">
@@ -970,6 +999,8 @@ Try Mochify's zero-retention WebP and AVIF converters - no accounts, no plugins,
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             </a>
         </div>
+
+        <RelatedGuides guides={related} />
 
     </div>
 </article>

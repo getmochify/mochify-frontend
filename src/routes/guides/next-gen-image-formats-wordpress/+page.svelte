@@ -4,13 +4,37 @@
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import CodeBlock from '$lib/components/CodeBlock.svelte';
+    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         category: "WordPress Optimization",
         readTime: "15 min read",
         datePublished: "February 09, 2026",
-        lastUpdated: "March 13, 2026"
+        lastUpdated: "May 30, 2026"
     };
+
+    const related = [
+        {
+            title: "How Do I Preload AVIF Hero Images in WordPress to Pass the LCP Threshold?",
+            href: "/guides/preload-avif-hero-images-wordpress-lcp",
+            desc: "The preload hint that fixes late hero discovery."
+        },
+        {
+            title: "The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL",
+            href: "/guides/2026-guide-next-gen-formats",
+            desc: "The full format breakdown behind this fix."
+        },
+        {
+            title: "Optimizing Hero Images for Web Performance (2026)",
+            href: "/guides/optimizing-hero-images",
+            desc: "Hero-specific LCP and format guidance."
+        },
+        {
+            title: "SVG Conversion Guide: When to Keep Vector and When to Rasterize",
+            href: "/guides/svg-conversion-guide-vector-vs-raster",
+            desc: "Handling vector assets in the same workflow."
+        }
+    ];
 </script>
 
 <ReadProgress />
@@ -77,7 +101,7 @@
             }
         ],
         "datePublished": "2026-02-09",
-        "dateModified": "2026-03-13"
+        "dateModified": "2026-05-30"
         }
     </script>
 </svelte:head>
@@ -176,7 +200,7 @@
         <section id="understanding">
             <SectionHeading>What "Serve Images in Next-Gen Formats" Actually Means</SectionHeading>
             <p class="mb-4">
-               Lighthouse flags this audit when your page serves images in older formats (typically JPEG/PNG) that could be materially smaller if you served them as modern formats like WebP or AVIF.
+               Lighthouse flags this audit when your page serves images in older formats (typically JPEG/PNG) that could be materially smaller if you served them as <a href="/guides/2026-guide-next-gen-formats" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">modern formats like WebP or AVIF</a>.
             </p>
             <p class="mb-4">
                The key idea isn't “WebP is magic.” It's that smaller image payloads reduce the amount of data the browser must download before it can paint the page. This is why it shows up next to LCP: if your LCP element is a 900KB JPEG hero, you're asking the browser to download a big file before you can “look fast.”
@@ -259,7 +283,7 @@
 
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-2">3. Run them through Mochify</h3>
-                    <p>Upload a batch (up to 25 at once). Choose <strong>WebP</strong> for broad compatibility or <strong>AVIF</strong> for maximum compression (great for large hero images).</p>
+                    <p>Upload a batch (up to 25 at once). Choose <strong>WebP</strong> for broad compatibility or <strong>AVIF</strong> for maximum compression (great for <a href="/guides/preload-avif-hero-images-wordpress-lcp" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">large hero images</a>).</p>
                 </div>
 
                 <div>
@@ -553,4 +577,6 @@
                 </div>
             </div>
         </section>
+
+        <RelatedGuides guides={related} />
 </article>

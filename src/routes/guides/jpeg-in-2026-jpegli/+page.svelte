@@ -3,12 +3,37 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         category: "Image Optimization",
         readTime: "20 min read",
-        date: "February 09, 2026"
+        date: "February 09, 2026",
+        lastUpdated: "May 30, 2026"
     };
+
+    const related = [
+        {
+            title: "How to Use Jpegli for Shopify Product Images",
+            href: "/guides/jpegli-shopify-product-images",
+            desc: "Applying jpegli before a Shopify upload."
+        },
+        {
+            title: "The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL",
+            href: "/guides/2026-guide-next-gen-formats",
+            desc: "Where jpegli-JPEG sits among the modern formats."
+        },
+        {
+            title: "The History of Image Compression: From BMP to AVIF & Jpegli",
+            href: "/guides/history-image-compression-2026",
+            desc: "How we got from baseline JPEG to jpegli."
+        },
+        {
+            title: "Ecommerce Product Photo Workflow: Resize & Convert in One Prompt",
+            href: "/guides/ecommerce-product-photo-workflow-resize-convert",
+            desc: "jpegli output inside a batch seller workflow."
+        }
+    ];
 </script>
 
 <ReadProgress />
@@ -45,7 +70,7 @@
             "zero-retention image optimisation"
         ],
         "datePublished": "2026-02-09",
-        "dateModified": "2026-02-09"
+        "dateModified": "2026-05-30"
         }
     </script>
 </svelte:head>
@@ -58,7 +83,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -333,7 +358,7 @@
                         <li>Encode speed matters more than the last 10% of compression efficiency.</li>
                     </ul>
 
-                    <p class="mb-4">JPEG is not the right choice for graphics with sharp edges (logos, diagrams, UI screenshots)—use PNG. For web delivery with modern browser support, AVIF and WebP deliver better compression. But when you're forced into JPEG, use the best encoder available.</p>
+                    <p class="mb-4">JPEG is not the right choice for graphics with sharp edges (logos, diagrams, UI screenshots)—use PNG. For web delivery with modern browser support, <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">AVIF and WebP</a> deliver better compression. But when you're forced into JPEG, use the best encoder available.</p>
                 </div>
             </div>
         </section>
@@ -353,7 +378,7 @@
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">What "Better JPEG Encoding" Actually Means</h3>
                     
-                    <p class="mb-4">Jpegli applies techniques originally developed for JPEG XL (a next-generation image format) to the constraints of classic JPEG. Specifically:</p>
+                    <p class="mb-4">Jpegli applies techniques originally developed for JPEG XL (a <a href="/guides/2026-guide-next-gen-formats" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">next-generation image format</a>) to the constraints of classic JPEG. Specifically:</p>
 
                     <ul class="list-disc list-outside ml-6 space-y-2 mb-6 text-[#6C3F31]">
                         <li><strong>Adaptive quantization heuristics</strong> – Jpegli spatially modulates the quantization dead zone based on psychovisual modeling (how the human eye perceives detail and noise). This means the encoder allocates more bits to visually important areas and fewer bits to areas where artifacts are less noticeable.</li>
@@ -803,6 +828,8 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
                 </div>
             </div>
         </section>
+
+        <RelatedGuides guides={related} />
     </div>
 
 </article>

@@ -3,13 +3,42 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         category: "Image Optimization",
         readTime: "15 min read",
         datePublished: "February 17, 2026",
-        lastUpdated: "March 13, 2026"
+        lastUpdated: "May 30, 2026"
     };
+
+    const related = [
+        {
+            title: "Privacy & Image Optimization: A Comprehensive Guide (2026)",
+            href: "/guides/privacy-image-optimization",
+            desc: "The zero-retention story behind secure compression."
+        },
+        {
+            title: "The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL",
+            href: "/guides/2026-guide-next-gen-formats",
+            desc: "Which formats the secure tools should support, and when."
+        },
+        {
+            title: "How to Self-Host an Image Optimization API with Docker",
+            href: "/guides/self-hosting-image-optimization-docker",
+            desc: "The most private option: keep the engine on your own infrastructure."
+        },
+        {
+            title: "The Risks of EXIF Data in Image Compression (2026)",
+            href: "/guides/exif-data-risks-image-compression-2026",
+            desc: "Why metadata handling is part of \"secure.\""
+        },
+        {
+            title: "Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game",
+            href: "/guides/jpeg-in-2026-jpegli",
+            desc: "The encoder behind Mochify's JPEG output."
+        }
+    ];
 </script>
 
 <ReadProgress />
@@ -81,7 +110,7 @@
             ]
             },
             "datePublished": "2026-02-17",
-            "dateModified": "2026-03-13"
+            "dateModified": "2026-05-30"
         }
     </script>
 </svelte:head>
@@ -613,7 +642,7 @@
 
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">JPEG XL: Future-Friendly Archives</h3>
-                    <p class="mb-4">JPEG XL is technically superior to both AVIF and WebP: better compression, lossless JPEG transcoding, and 10-bit HDR support. Safari 17+ ships it by default, but Chrome and Firefox still require flags. For photographers and archivists, JPEG XL is the long-term bet. Only Squoosh, Cloudinary, and Mochify support it in 2026.</p>
+                    <p class="mb-4">JPEG XL is technically superior to both AVIF and WebP: better compression, lossless JPEG transcoding, and 10-bit HDR support. Our <a href="/guides/2026-guide-next-gen-formats" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">2026 guide to next-gen formats</a> covers where each format is actually usable today. Safari 17+ ships it by default, but Chrome and Firefox still require flags. For photographers and archivists, JPEG XL is the long-term bet. Only Squoosh, Cloudinary, and Mochify support it in 2026.</p>
                 </div>
 
                 <div class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100">
@@ -642,7 +671,7 @@
                             <strong>MozJPEG</strong> (2014): Mozilla's optimizer. Improved quantization and trellis encoding deliver ~5-10% smaller files at equivalent quality. Battle-tested and widely deployed (used by Squoosh).
                         </li>
                         <li class="pl-6 border-l-4 border-[#F06292] py-2 bg-pink-50/30">
-                            <strong>jpegli</strong> (2024): Google's latest encoder, designed for high-quality compression. In Google's tests, jpegli delivers <strong>up to 35% better compression at Q90-95</strong> (the "visually lossless" range photographers care about). It's API/ABI compatible with libjpeg-turbo and MozJPEG, making adoption friction-low for developers.
+                            <strong>jpegli</strong> (2024): Google's latest encoder, designed for high-quality compression. (See our <a href="/guides/jpeg-in-2026-jpegli" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Jpegli Guide 2026</a> for the quality-per-byte detail.) In Google's tests, jpegli delivers <strong>up to 35% better compression at Q90-95</strong> (the "visually lossless" range photographers care about). It's API/ABI compatible with libjpeg-turbo and MozJPEG, making adoption friction-low for developers.
                         </li>
                     </ul>
                 </div>
@@ -737,6 +766,8 @@
             
 <div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow"><div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div> <div class="relative z-10 mb-6"><span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">Free Tool</span></div> <h3 class="text-2xl md:text-3xl font-black text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">Ready to convert your images?</h3> <p class="text-[#6C3F31] text-lg max-w-2xl mx-auto relative z-10 mb-8 leading-relaxed">Try Mochify's zero-retention WebP and AVIF converters - no accounts, no plugins, no stored files. Process in-memory with C++ engine speed, then upload directly to your site or marketplace.</p> <a href="https://mochify.app" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline"><span>Start Optimizing</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg></a></div>
         </section>
+
+        <RelatedGuides guides={related} />
 
     </div>
 </article>
