@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "Why Does eBay Say My Image File Is Not Supported?",
+            description: "eBay rejects HEIC, HIF, RAW and oversized images. Convert to JPEG before uploading to fix 'file not supported' errors instantly.",
+            url: "/guides/ebay-image-file-not-supported",
+            category: "Quick Guides",
+            readTime: "2 min read",
+            date: "June 24, 2026"
+        },
+        {
             title: "Should I Use fetchpriority or rel=\"preload\" for My LCP Image?",
             description: "Use fetchpriority=\"high\" on an <img> tag found in HTML. Use rel=\"preload\" when the browser discovers the image late, via CSS or JavaScript.",
             url: "/guides/fetchpriority-vs-preload-lcp-image",
