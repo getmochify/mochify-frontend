@@ -92,10 +92,10 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            <strong>The problem:</strong> I have to deliver JPEG because the platform only accepts JPEG (eBay, Etsy, legacy CMS, print upload portals), but I still need smaller files without ugly artifacts. The old tools give me two bad choices—crank quality to 90 and bloat the file, or drop to 70 and watch detail collapse into blocky mush.
+            <strong>The problem:</strong> I have to deliver JPEG because the platform only accepts JPEG (eBay, Etsy, legacy CMS, print upload portals), but I still need smaller files without ugly artifacts. The old tools give me two bad choices-crank quality to 90 and bloat the file, or drop to 70 and watch detail collapse into blocky mush.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl"><p class="text-lg text-[#6C3F31] leading-relaxed">            Modern JPEG encoders changed that trade-off. Google's jpegli library (released in 2024) delivers reported compression improvements of up to 35% at high quality settings while maintaining full compatibility with every JPEG viewer on the planet. This isn't a new format requiring browser support or user education—it's better math inside the same old container.
+        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl"><p class="text-lg text-[#6C3F31] leading-relaxed">            Modern JPEG encoders changed that trade-off. Google's jpegli library (released in 2024) delivers reported compression improvements of up to 35% at high quality settings while maintaining full compatibility with every JPEG viewer on the planet. This isn't a new format requiring browser support or user education-it's better math inside the same old container.
 </p></div>
     </header>
 
@@ -309,7 +309,7 @@
                     
                     <p class="mb-4"><strong>Baseline JPEG</strong> loads top-to-bottom in one pass. The user sees nothing until the first scan lines arrive, then the image reveals itself linearly. For small images or fast connections, this works fine.</p>
 
-                    <p class="mb-4"><strong>Progressive JPEG</strong> encodes the image in multiple scans—first a rough, blurry preview of the entire frame, then successive passes that refine detail. This improves perceived load speed (users see <em>something</em> immediately) and typically results in 2-10% smaller files for images over 10KB. The trade-off is slightly higher CPU cost during decode, which matters on older mobile devices but is negligible on modern hardware.</p>
+                    <p class="mb-4"><strong>Progressive JPEG</strong> encodes the image in multiple scans-first a rough, blurry preview of the entire frame, then successive passes that refine detail. This improves perceived load speed (users see <em>something</em> immediately) and typically results in 2-10% smaller files for images over 10KB. The trade-off is slightly higher CPU cost during decode, which matters on older mobile devices but is negligible on modern hardware.</p>
 
                     <InfoBox type="tip">
                         <strong>When to use progressive:</strong> Large hero images, above-the-fold content, slow mobile connections. <strong>When to skip it:</strong> Thumbnails under 10KB, environments where decode speed is critical (embedded devices), scenarios where every CPU cycle counts.
@@ -319,7 +319,7 @@
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Chroma Subsampling</h3>
                     
-                    <p class="mb-4">JPEG separates luminance (brightness) from chrominance (color). Most encoders subsample chroma to save bits—the human eye is less sensitive to color detail than brightness detail.</p>
+                    <p class="mb-4">JPEG separates luminance (brightness) from chrominance (color). Most encoders subsample chroma to save bits-the human eye is less sensitive to color detail than brightness detail.</p>
 
                     <ul class="list-disc list-outside ml-6 space-y-2 mb-6 text-[#6C3F31]">
                         <li><strong>4:4:4</strong> – No subsampling. Full color resolution. Larger files, best for graphics with sharp color transitions or text.</li>
@@ -341,7 +341,7 @@
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Metadata and ICC Profiles</h3>
                     
-                    <p class="mb-4">JPEG files can carry EXIF metadata (camera settings, GPS, timestamps) and ICC color profiles (how to interpret the RGB values). Stripping metadata reduces file size by a few KB—sometimes 10-20KB for a RAW-exported JPEG with embedded previews. ICC profiles are usually a few KB but essential for print workflows. For web delivery, sRGB is assumed, so stripping non-sRGB profiles is safe.</p>
+                    <p class="mb-4">JPEG files can carry EXIF metadata (camera settings, GPS, timestamps) and ICC color profiles (how to interpret the RGB values). Stripping metadata reduces file size by a few KB-sometimes 10-20KB for a RAW-exported JPEG with embedded previews. ICC profiles are usually a few KB but essential for print workflows. For web delivery, sRGB is assumed, so stripping non-sRGB profiles is safe.</p>
                 </div>
 
                 <div>
@@ -356,7 +356,7 @@
                         <li>Encode speed matters more than the last 10% of compression efficiency.</li>
                     </ul>
 
-                    <p class="mb-4">JPEG is not the right choice for graphics with sharp edges (logos, diagrams, UI screenshots)—use PNG. For web delivery with modern browser support, <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">AVIF and WebP</a> deliver better compression. But when you're forced into JPEG, use the best encoder available.</p>
+                    <p class="mb-4">JPEG is not the right choice for graphics with sharp edges (logos, diagrams, UI screenshots)-use PNG. For web delivery with modern browser support, <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">AVIF and WebP</a> deliver better compression. But when you're forced into JPEG, use the best encoder available.</p>
                 </div>
             </div>
         </section>
@@ -364,13 +364,13 @@
         <section id="what-is-jpegli">
             <SectionHeading>What Jpegli Is: Better JPEG Encoding, Not a New Format</SectionHeading>
 
-            <p class="mb-6">Jpegli is an advanced JPEG encoder (and decoder) released by Google in April 2024. It produces standard JPEG files that open in every image viewer, browser, and photo app—no special support required.</p>
+            <p class="mb-6">Jpegli is an advanced JPEG encoder (and decoder) released by Google in April 2024. It produces standard JPEG files that open in every image viewer, browser, and photo app-no special support required.</p>
 
             <div class="space-y-8">
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">How It Remains Interoperable</h3>
                     
-                    <p class="mb-4">Jpegli complies with the original JPEG standard (ISO/IEC 10918-1). The output is a <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">.jpg</code> file using the traditional 8-bit formalism. Any device or app that can display a JPEG from 2005 can display a JPEG from jpegli in 2026. There is no "jpegli format"—there's just JPEG, encoded more intelligently.</p>
+                    <p class="mb-4">Jpegli complies with the original JPEG standard (ISO/IEC 10918-1). The output is a <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">.jpg</code> file using the traditional 8-bit formalism. Any device or app that can display a JPEG from 2005 can display a JPEG from jpegli in 2026. There is no "jpegli format"-there's just JPEG, encoded more intelligently.</p>
                 </div>
 
                 <div>
@@ -385,7 +385,7 @@
                         <li><strong>XYB colorspace option</strong> – Jpegli can encode JPEG using the XYB colorspace (a perceptually uniform space developed for JPEG XL) via an embedded ICC profile, improving coding efficiency. This is an advanced feature not yet widely used in practice.</li>
                     </ul>
 
-                    <p class="mb-4">The result, as reported by Google in crowdsourced rater studies, is that jpegli at 2.8 bits-per-pixel (BPP) matched the visual quality of libjpeg-turbo at 3.7 BPP—a 32% reduction in bitrate, or equivalently, a 35% compression improvement at similar quality.</p>
+                    <p class="mb-4">The result, as reported by Google in crowdsourced rater studies, is that jpegli at 2.8 bits-per-pixel (BPP) matched the visual quality of libjpeg-turbo at 3.7 BPP-a 32% reduction in bitrate, or equivalently, a 35% compression improvement at similar quality.</p>
                 </div>
 
                 <div>
@@ -393,7 +393,7 @@
                     
                     <p class="mb-4">AVIF and JPEG XL are modern image formats with better compression than JPEG but require explicit browser/app support. As of 2026, AVIF has ~94% browser support, and JPEG XL support varies (Apple announced support in 2025, but adoption is still rolling out).</p>
 
-                    <p class="mb-4 font-bold text-[#D81B60]">Jpegli doesn't require any browser updates. A jpegli-encoded JPEG is just a JPEG. The improvement is invisible to the decoder—it simply receives a smaller file that looks better.</p>
+                    <p class="mb-4 font-bold text-[#D81B60]">Jpegli doesn't require any browser updates. A jpegli-encoded JPEG is just a JPEG. The improvement is invisible to the decoder-it simply receives a smaller file that looks better.</p>
                 </div>
             </div>
         </section>
@@ -409,7 +409,7 @@
                     <li> The 35% figure applies to high-quality settings (e.g., quality 90+). At medium quality (70-80), the gap narrows.</li>
                     <li>The test used photographic content. Graphics, screenshots, and synthetic images may behave differently.</li>
                     <li>The XYB colorspace mode was <em>disabled</em> in the Google study, as it is how most users would initially deploy jpegli.</li>
-                    <li>Independent tests (e.g., Gianni Rosato's analysis) show jpegli outperforms MozJPEG on some images but not all—results vary by content type.</li>
+                    <li>Independent tests (e.g., Gianni Rosato's analysis) show jpegli outperforms MozJPEG on some images but not all-results vary by content type.</li>
                 </ul>
             </div>
 
@@ -423,13 +423,13 @@
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">libjpeg-turbo: The Default Everywhere</h3>
                     
-                    <p class="mb-4">libjpeg-turbo is the default JPEG library in most Linux distributions and underpins countless image processing pipelines. It prioritizes speed—claiming 2-6x faster encoding/decoding than the original libjpeg. For high-throughput CDN edge nodes or batch pipelines processing millions of images, that speed matters more than the last 10% of compression efficiency.</p>
+                    <p class="mb-4">libjpeg-turbo is the default JPEG library in most Linux distributions and underpins countless image processing pipelines. It prioritizes speed-claiming 2-6x faster encoding/decoding than the original libjpeg. For high-throughput CDN edge nodes or batch pipelines processing millions of images, that speed matters more than the last 10% of compression efficiency.</p>
                 </div>
 
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">MozJPEG: The Web Optimization Standard</h3>
                     
-                    <p class="mb-4">MozJPEG (developed by Mozilla) improved on libjpeg-turbo's compression ratio, especially at medium quality settings, while maintaining API/ABI compatibility. It became the go-to encoder for web optimization workflows—ImageMagick, libvips, and many online compression tools default to MozJPEG when targeting JPEG output.</p>
+                    <p class="mb-4">MozJPEG (developed by Mozilla) improved on libjpeg-turbo's compression ratio, especially at medium quality settings, while maintaining API/ABI compatibility. It became the go-to encoder for web optimization workflows-ImageMagick, libvips, and many online compression tools default to MozJPEG when targeting JPEG output.</p>
                 </div>
 
                 <div>
@@ -445,7 +445,7 @@
 
                     <div class="bg-gradient-to-br from-pink-50 to-orange-50 p-6 rounded-2xl border border-pink-100">
                         <h4 class="text-lg font-black text-[#875F42] mb-3">Why the slow rollout?</h4>
-                        <p class="text-[#6C3F31]">Established tools with massive installed bases move cautiously. MozJPEG is proven, stable, and "good enough" for most workflows. Jpegli requires recompilation with libjxl dependencies, which adds complexity. As jpegli matures and more benchmark data accumulates, expect gradual adoption—but don't expect Adobe or WordPress plugins to switch overnight.</p>
+                        <p class="text-[#6C3F31]">Established tools with massive installed bases move cautiously. MozJPEG is proven, stable, and "good enough" for most workflows. Jpegli requires recompilation with libjxl dependencies, which adds complexity. As jpegli matures and more benchmark data accumulates, expect gradual adoption-but don't expect Adobe or WordPress plugins to switch overnight.</p>
                     </div>
                 </div>
             </div>
@@ -456,7 +456,7 @@
 
             <p class="mb-4">A disturbingly common workflow: shoot a 6MB JPEG from a DSLR, drag it into the eBay listing form, and hope eBay's backend recompresses it gracefully. It won't. eBay will hammer it with a generic lossy pass that obliterates fine detail, or reject it entirely for exceeding size limits.</p>
 
-            <p class="mb-4">The same applies to WordPress users who install five plugins (image optimization, lazy load, CDN integration, WebP conversion, and a caching layer) and wonder why their admin panel takes 8 seconds to load. Plugin bloat is real—each plugin adds database queries, background processes, and potential conflicts. Optimize your images <em>before</em> upload. Use an external tool, get the file size and format right, then import clean assets. Your server, your database, and your sanity will thank you.</p>
+            <p class="mb-4">The same applies to WordPress users who install five plugins (image optimization, lazy load, CDN integration, WebP conversion, and a caching layer) and wonder why their admin panel takes 8 seconds to load. Plugin bloat is real-each plugin adds database queries, background processes, and potential conflicts. Optimize your images <em>before</em> upload. Use an external tool, get the file size and format right, then import clean assets. Your server, your database, and your sanity will thank you.</p>
         </section>
 
         <section id="workflows">
@@ -474,7 +474,7 @@
                     
                     <ol class="list-decimal list-outside ml-6 space-y-3 mb-6 text-[#6C3F31]">
                         <li><strong>Convert format first</strong> (if needed) – If your camera outputs HIF/HEIF/RAW, convert to JPEG. Tools like Mochify handle HIF-to-JPEG conversion with in-memory processing.</li>
-                        <li><strong>Resize to platform specs</strong> – eBay recommends 1600×1600px. Etsy wants 2000-2400px width. Amazon specifies 2000×2000px minimum for zoom. Don't guess—check the current platform guidelines.</li>
+                        <li><strong>Resize to platform specs</strong> – eBay recommends 1600×1600px. Etsy wants 2000-2400px width. Amazon specifies 2000×2000px minimum for zoom. Don't guess-check the current platform guidelines.</li>
                         <li><strong>Compress with jpegli</strong> – Use a quality setting that hits your target file size (typically 200-500KB per image for product photos). Jpegli at quality 85-90 will deliver better visual results than libjpeg-turbo or MozJPEG at the same file size (based on reported test results).</li>
                         <li><strong>Verify one image first</strong> – Encode one sample, upload it to the platform, check how it looks on desktop and mobile. If the platform recompresses on upload, you'll see it immediately.</li>
                     </ol>
@@ -519,7 +519,7 @@
                     <p class="mb-3 font-bold text-[#4A2C2C]">Solution:</p>
                     
                     <ol class="list-decimal list-outside ml-6 space-y-3 mb-6 text-[#6C3F31]">
-                        <li><strong>Export from Lightroom at maximum quality</strong> (90-95) with sRGB color profile and no size limit. Do <em>not</em> resize or compress in Lightroom—Lightroom's JPEG encoder (as of 2026) still uses an older library, not jpegli.</li>
+                        <li><strong>Export from Lightroom at maximum quality</strong> (90-95) with sRGB color profile and no size limit. Do <em>not</em> resize or compress in Lightroom-Lightroom's JPEG encoder (as of 2026) still uses an older library, not jpegli.</li>
                         <li><strong>Batch process the exported JPEGs externally</strong> - Resize to 2560px long edge (sufficient for 4K display). Compress using jpegli at quality 85. Target 800KB-1.2MB per image.</li>
                         <li><strong>Strip unnecessary metadata</strong> - Remove GPS, camera serial numbers, and embedded thumbnails. Keep copyright EXIF if contractually required.</li>
                         <li><strong>Test decode compatibility</strong> - Open a few files in common client tools (Windows Photo Viewer, macOS Preview, Gmail image preview). Jpegli JPEGs are fully compatible, but it never hurts to verify before delivering 500 files.</li>
@@ -570,9 +570,9 @@
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Step 4: Measure Visual Quality</h3>
                     
-                    <p class="mb-3"><strong>Subjective (best):</strong> Open all three versions side-by-side at 100% zoom. Look for blocking artifacts (8×8 squares), banding in gradients, loss of fine detail. Trust your eyes—metrics don't capture everything.</p>
+                    <p class="mb-3"><strong>Subjective (best):</strong> Open all three versions side-by-side at 100% zoom. Look for blocking artifacts (8×8 squares), banding in gradients, loss of fine detail. Trust your eyes-metrics don't capture everything.</p>
 
-                    <p class="mb-4"><strong>Objective (if available):</strong> Use SSIM or SSIMULACRA2 to compare each encoded version against the original. SSIM is outdated but widely available. SSIMULACRA2 is more perceptually accurate. Beware that metrics can mislead—an image with a higher SSIM score may still look worse to human eyes.</p>
+                    <p class="mb-4"><strong>Objective (if available):</strong> Use SSIM or SSIMULACRA2 to compare each encoded version against the original. SSIM is outdated but widely available. SSIMULACRA2 is more perceptually accurate. Beware that metrics can mislead-an image with a higher SSIM score may still look worse to human eyes.</p>
                 </div>
 
                 <div>
@@ -724,7 +724,7 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
         <section>
             <SectionHeading>Mochify's Privacy-First JPEG Optimization</SectionHeading>
 
-            <p class="mb-4">When you're forced to deliver JPEG—because eBay won't accept AVIF, or your client's print lab demands it, or the legacy CMS hasn't been updated since 2015—you want the best possible quality-per-byte without exposing your unpublished product photos or client assets to generic cloud processors that store files for "processing".</p>
+            <p class="mb-4">When you're forced to deliver JPEG-because eBay won't accept AVIF, or your client's print lab demands it, or the legacy CMS hasn't been updated since 2015-you want the best possible quality-per-byte without exposing your unpublished product photos or client assets to generic cloud processors that store files for "processing".</p>
 
             <p class="mb-6">Mochify processes images entirely in RAM. The file streams into memory, gets compressed (using jpegli or other modern encoders), and is deleted the instant the download completes. Nothing touches the hard drive. No training data. No 24-hour retention window. Just ephemeral processing at C++20 speed.</p>
 
@@ -736,7 +736,7 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
                     When you're exporting product photography for a new Shopify drop, or preparing 200 listings for eBay, you're handling unreleased inventory. A leaked product photo 48 hours before launch can cost thousands in competitive advantage. Zero-retention architecture eliminates that risk entirely.
                 </p>
                 <p class="text-[#6C3F31] leading-relaxed">
-                    Mochify supports jpegli output, which means you can compress to smaller file sizes at higher visual quality compared to tools still using libjpeg-turbo—without storing your images on someone else's server.
+                    Mochify supports jpegli output, which means you can compress to smaller file sizes at higher visual quality compared to tools still using libjpeg-turbo-without storing your images on someone else's server.
                 </p>
             </div>
         </section>
@@ -770,7 +770,7 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
             <div class="space-y-6">
                 <div class="bg-white p-6 rounded-2xl border border-pink-100">
                     <h4 class="font-bold text-[#4A2C2C] text-lg mb-2">Is jpegli just Google's version of MozJPEG?</h4>
-                    <p class="text-[#6C3F31]">No. MozJPEG improved on libjpeg-turbo primarily through better quantization and trellis optimization. Jpegli applies adaptive quantization heuristics from JPEG XL, improved matrix selection, and optionally uses the XYB colorspace—techniques MozJPEG doesn't use. In independent tests, jpegli outperforms MozJPEG on high-quality photographic content, though results vary by image.</p>
+                    <p class="text-[#6C3F31]">No. MozJPEG improved on libjpeg-turbo primarily through better quantization and trellis optimization. Jpegli applies adaptive quantization heuristics from JPEG XL, improved matrix selection, and optionally uses the XYB colorspace-techniques MozJPEG doesn't use. In independent tests, jpegli outperforms MozJPEG on high-quality photographic content, though results vary by image.</p>
                 </div>
                 
                 <div class="bg-white p-6 rounded-2xl border border-pink-100">
@@ -790,7 +790,7 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
                 
                 <div class="bg-white p-6 rounded-2xl border border-pink-100">
                     <h4 class="font-bold text-[#4A2C2C] text-lg mb-2">How much smaller are jpegli files compared to MozJPEG?</h4>
-                    <p class="text-[#6C3F31]">It depends on the image and quality setting. Google's tests showed up to 35% smaller files at high quality (90+) compared to libjpeg-turbo, and smaller than MozJPEG in several scenarios. Independent tests show mixed results—sometimes 10-15% smaller, sometimes negligible. Test on your own content.</p>
+                    <p class="text-[#6C3F31]">It depends on the image and quality setting. Google's tests showed up to 35% smaller files at high quality (90+) compared to libjpeg-turbo, and smaller than MozJPEG in several scenarios. Independent tests show mixed results-sometimes 10-15% smaller, sometimes negligible. Test on your own content.</p>
                 </div>
                 
                 <div class="bg-white p-6 rounded-2xl border border-pink-100">
@@ -800,7 +800,7 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
                 
                 <div class="bg-white p-6 rounded-2xl border border-pink-100">
                     <h4 class="font-bold text-[#4A2C2C] text-lg mb-2">What chroma subsampling should I use with jpegli?</h4>
-                    <p class="text-[#6C3F31]">For photographic content, 4:2:0 is standard and delivers the smallest files with minimal visible quality loss. For graphics, screenshots, or images with fine color detail (e.g., product photos with intricate patterns), test 4:2:2 or 4:4:4—the file will be larger, but color fidelity improves.</p>
+                    <p class="text-[#6C3F31]">For photographic content, 4:2:0 is standard and delivers the smallest files with minimal visible quality loss. For graphics, screenshots, or images with fine color detail (e.g., product photos with intricate patterns), test 4:2:2 or 4:4:4-the file will be larger, but color fidelity improves.</p>
                 </div>
                 
                 <div class="bg-white p-6 rounded-2xl border border-pink-100">
