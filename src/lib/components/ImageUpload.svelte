@@ -696,7 +696,7 @@
                     {#if fp.status !== 'processing'}
                         <button
                             onclick={() => removeFile(index)}
-                            class="absolute -top-2 -right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white/90 text-[#F06292] opacity-100 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-red-500 sm:opacity-0 sm:group-hover:opacity-100 sm:hover:scale-110"
+                            class="absolute -top-2 -right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white/90 text-[#F06292] shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-red-500 hover:scale-110"
                             title="Remove file"
                         >
                             <svg
