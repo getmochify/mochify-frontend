@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "Should I convert HEIC to JPEG or WebP for WordPress uploads?",
+            description: "JPEG works everywhere and is the safest default. WebP is better when file size matters — it's 25–35% smaller and has 97%+ browser coverage. HEIC must always be converted before serving.",
+            url: "/guides/heic-to-jpeg-or-webp-wordpress",
+            category: "Quick Guides",
+            readTime: "3 min read",
+            date: "June 25, 2026"
+        },
+        {
             title: "Why Does eBay Say My Image File Is Not Supported?",
             description: "eBay rejects HEIC, HIF, RAW and oversized images. Convert to JPEG before uploading to fix 'file not supported' errors instantly.",
             url: "/guides/ebay-image-file-not-supported",
