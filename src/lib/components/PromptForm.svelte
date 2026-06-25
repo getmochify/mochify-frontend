@@ -471,12 +471,11 @@
 		tick().then(() => textareaEl?.focus());
 	}
 
-	function handleFileSelect(e: Event) {
-		const input = e.target as HTMLInputElement;
-		if (input.files) {
-			validateAndAddFiles(Array.from(input.files));
-			input.value = '';
-		}
+	function handleFileSelect() {
+		if (!fileInputEl?.files?.length) return;
+		const selected = Array.from(fileInputEl.files);
+		fileInputEl.value = '';
+		validateAndAddFiles(selected);
 	}
 
 	function removeFile(i: number) {

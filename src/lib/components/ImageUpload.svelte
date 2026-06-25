@@ -67,12 +67,11 @@
     let availableTokens: number = $state(0);
     let hasCheckedTokens: boolean = $state(false);
 
-    function handleFileSelect(event: Event) {
-        const target = event.target as HTMLInputElement;
-        if (target.files && target.files.length > 0) {
-            processFiles(Array.from(target.files));
-            target.value = '';
-        }
+    function handleFileSelect() {
+        if (!fileInputElement?.files?.length) return;
+        const selected = Array.from(fileInputElement.files);
+        fileInputElement.value = '';
+        processFiles(selected);
     }
 
     function handleDragOver(event: DragEvent) {

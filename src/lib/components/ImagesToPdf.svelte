@@ -8,7 +8,7 @@
     type PageSize = 'fit' | 'a4' | 'letter';
 
     let {
-        accept = '.webp,.png,.jpg,.jpeg,.avif,.heic,.heif,.hif,image/webp,image/png,image/jpeg,image/avif,image/heic,image/heif',
+        accept = '.webp,.png,.jpg,.jpeg,.avif,.heic,.heif,.hif,.jxl,image/webp,image/png,image/jpeg,image/avif,image/heic,image/heif,image/jxl',
         formatLabel = 'image',
         maxFiles = 20,
         downloadName = 'mochified.pdf'
@@ -62,9 +62,11 @@
         if (e.dataTransfer?.files?.length) addFiles(e.dataTransfer.files);
     }
 
-    function onInputChange(e: Event) {
-        const input = e.currentTarget as HTMLInputElement;
-        if (input.files?.length) addFiles(input.files);
+    function onInputChange() {
+        if (!fileInputEl?.files?.length) return;
+        const selected = Array.from(fileInputEl.files);
+        fileInputEl.value = '';
+        addFiles(selected);
     }
 
     function removeFile(i: number) {
