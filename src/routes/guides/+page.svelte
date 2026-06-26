@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "Converting Images to JPEG XL: The Practical Guide for 2026",
+            description: "Compression benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), honest 2026 browser support, and how to serve JXL safely with picture fallbacks.",
+            url: "/guides/converting-images-to-jpeg-xl",
+            category: "Image Formats",
+            readTime: "11 min read",
+            date: "June 26, 2026"
+        },
+        {
             title: "Should I convert HEIC to JPEG or WebP for WordPress uploads?",
             description: "JPEG works everywhere and is the safest default. WebP is better when file size matters — it's 25–35% smaller and has 97%+ browser coverage. HEIC must always be converted before serving.",
             url: "/guides/heic-to-jpeg-or-webp-wordpress",
