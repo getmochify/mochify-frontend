@@ -2,6 +2,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
+    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         title: "Does Converting HIF to JPG Reduce Quality?",
@@ -85,7 +86,7 @@
 
     <header class="mb-12 border-b border-pink-50 pb-12">
         <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
+            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
@@ -98,65 +99,65 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            Converting HIF to JPG does not visibly reduce quality for most photographs, so the honest answer to "does HIF lose quality" when you convert is: rarely, and rarely in a way you can see. A .HIF file stores 10-bit colour (about 1.07 billion possible values) and a standard JPG stores 8-bit (16.7 million), so HIF to JPG quality does drop in colour precision on paper. In practice that stays invisible for typical photographic content. The one case that genuinely changes how an image looks is not the bit-depth drop at all: it is converting a Canon HDR PQ file to a standard JPG.
+            Converting HIF to JPG does not visibly reduce quality for most photographs. A .HIF file stores 10-bit colour (about 1.07 billion possible values) and a standard JPG stores 8-bit (16.7 million), so the precision drop is real on paper. In practice it stays invisible for typical photographic content. The one case that genuinely changes how an image looks is not the bit-depth drop at all: it is converting a Canon HDR PQ file to a standard JPG without a tone-map.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
-                <strong class="text-[#4A2C2C]">Published June 2026 by the Mochify Engineering Team.</strong>
-                This answer covers post-conversion quality for professional HIF/HEIF files from Canon, Sony, and Fujifilm cameras, not the separate iPhone .HEIC path.
-            </p>
-        </div>
+        <p class="text-sm text-[#875F42]">Published {metadata.date} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong>. Covers post-conversion quality for professional HIF/HEIF files from Canon, Sony, and Fujifilm cameras, not the separate iPhone .HEIC path.</p>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <!-- TOC -->
+    <nav class="bg-[#FFF5F7] border border-pink-100 rounded-3xl p-8 mb-12" aria-label="What's in this guide">
+        <h2 class="font-black text-[#4A2C2C] text-base mb-5 flex items-center gap-3">
+            <span class="w-1.5 h-6 bg-[#F06292] rounded-full shrink-0"></span>
+            What's in This Guide
+        </h2>
+        <ol class="space-y-3">
+            {#each [
+                { n: '01', id: 'when-quality-drop-shows', label: 'When the quality drop actually shows' },
+                { n: '02', id: 'canon-hdr-pq', label: 'The real exception: Canon HDR PQ' },
+                { n: '03', id: 'keep-conversions-clean', label: 'How to keep conversions clean' },
+            ] as item}
+                <li class="flex items-center gap-4">
+                    <span class="w-8 h-8 shrink-0 bg-[#FFF0F5] border border-pink-100 rounded-full flex items-center justify-center font-black text-[#F06292] text-xs">{item.n}</span>
+                    <a href="#{item.id}" class="text-[#6C3F31] font-semibold text-sm hover:text-[#F06292] transition-colors">{item.label}</a>
+                </li>
+            {/each}
+        </ol>
+    </nav>
 
-        <section id="when-quality-drop-shows">
+    <div class="space-y-12 text-lg text-[#6C3F31] leading-relaxed">
+
+        <section id="when-quality-drop-shows" class="scroll-mt-24">
             <SectionHeading>When the quality drop actually shows</SectionHeading>
-            <p>The 8-bit limit only becomes visible in smooth, low-contrast gradients: clear skies, skin in soft light, deep shadow roll-offs. Sony cites the sky gradient as the canonical reason HEIF records in 10-bit. In high-detail scenes (foliage, fabric, street textures) JPG compression masks the smaller tonal steps, and a well-encoded 8-bit file is effectively indistinguishable from the 10-bit source. Whether banding appears is content-dependent, so judge it per image rather than by rule.</p>
-            <p>This holds across the pro-camera HIF/HEIF world: Canon, Sony, and Fujifilm all write HIF on the same 10-bit basis.</p>
+            <p class="mb-4">The 8-bit limit only becomes visible in smooth, low-contrast gradients: clear skies, skin in soft light, deep shadow roll-offs. Sony cites the sky gradient as the canonical reason HEIF records in 10-bit. In high-detail scenes (foliage, fabric, street textures) JPG compression masks the smaller tonal steps, and a well-encoded 8-bit file is effectively indistinguishable from the 10-bit source. Whether banding appears is content-dependent, so judge it per image rather than by rule.</p>
+            <p class="mb-4">This holds across the pro-camera HIF/HEIF world: Canon, Sony, and Fujifilm all write HIF on the same 10-bit basis.</p>
 
             <InfoBox type="tip" title="HIF is not HEIC">
-                .HEIC is the same HEIF format underneath but is Apple's iPhone variant. If you are converting iPhone photos, use the <a href="/heic-to-jpeg">HEIC to JPEG</a> route instead.
+                .HEIC is the same HEIF format underneath but is Apple's iPhone variant. If you are converting iPhone photos, use the <a href="/heic-to-jpeg" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">HEIC to JPEG</a> route instead.
             </InfoBox>
         </section>
 
-        <section id="canon-hdr-pq">
+        <section id="canon-hdr-pq" class="scroll-mt-24">
             <SectionHeading>The real exception: Canon HDR PQ</SectionHeading>
-            <p>If a conversion "looks wrong," bit depth is usually not the cause. Canon cameras can record .HIF in HDR PQ, and exporting that straight to a standard SDR JPG without a tone-map leaves the image flat, washed out, or clipped. That happens because the HDR luminance encoding is misread by an SDR pipeline, not because of the move to 8-bit.</p>
+            <p class="mb-4">If a conversion "looks wrong," bit depth is usually not the cause. Canon cameras can record .HIF in HDR PQ, and exporting that straight to a standard SDR JPG without a tone-map leaves the image flat, washed out, or clipped. That happens because the HDR luminance encoding is misread by an SDR pipeline, not because of the move to 8-bit.</p>
             <p>Apply a proper HDR-to-SDR tone-map first (for example, Lightroom Classic's SDR Rendition export) and the result looks correct. This visual change is far larger and more obvious than the 10-bit to 8-bit precision drop.</p>
         </section>
 
-        <section id="keep-conversions-clean">
+        <section id="keep-conversions-clean" class="scroll-mt-24">
             <SectionHeading>How to keep conversions clean</SectionHeading>
-            <p>The encoder matters more than the format. A JPG quality of 85–90 is the well-established sweet spot for photographic conversion: perceptually lossless to most eyes, while keeping files much smaller than quality 95–100. Modern encoders go further. <a href="https://opensource.googleblog.com/2024/04/introducing-jpegli-new-jpeg-coding-library.html" target="_blank" rel="noopener noreferrer">Google's jpegli</a> was built to fix exactly the banding problem, encoding with 10+ bits of internal precision inside a standard 8-bit-compatible JPG, and it compresses high-quality images about 35% more than traditional JPEG codecs.</p>
-            <p>Mochify encodes every JPG with jpegli, so gradient-heavy shots survive conversion better than a basic exporter manages. Because the interface is natural language, you can describe the job in plain English, for example: <code class={inlineCode}>convert these HIF photos to JPG at quality 90</code>. Your files stream into the encoder in memory on Mochify's API, are processed, and are wiped immediately with no retention. (HIF images do travel to the API for encoding, so they are not processed on your own device.)</p>
+            <p class="mb-4">The encoder matters more than the format. A JPG quality of 85–90 is the well-established sweet spot for photographic conversion: perceptually lossless to most eyes, while keeping files much smaller than quality 95–100. Modern encoders go further. <a href="https://opensource.googleblog.com/2024/04/introducing-jpegli-new-jpeg-coding-library.html" target="_blank" rel="noopener noreferrer" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Google's jpegli</a> was built to fix exactly the banding problem, encoding with 10+ bits of internal precision inside a standard 8-bit-compatible JPG, and it compresses high-quality images about 35% more than traditional JPEG codecs.</p>
+            <p>Mochify encodes every JPG with jpegli, so gradient-heavy shots survive conversion better than a basic exporter manages. Because the interface is natural language, you can describe the job in plain English — for example: <code class={inlineCode}>convert these HIF photos to JPG at quality 90</code>. Your files stream into the encoder in memory on Mochify's API, are processed, and are wiped immediately with no retention.</p>
         </section>
 
-        <!-- CTA -->
-        <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3">Convert HIF to JPG free</h3>
-            <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base">Convert your Canon, Sony, or Fujifilm files without the banding risk. Just tell Mochify what you want — for example <em>"convert these HIF photos to JPG at quality 90"</em> — and jpegli handles the rest.</p>
-            <a href="/solutions/hif-to-jpg" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
-                Convert HIF to JPG free →
+        <aside class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-8">
+            <p class="text-[#6C3F31] leading-relaxed mb-5">Convert your Canon, Sony, or Fujifilm HIF files without the banding risk. Just tell Mochify what you want — for example <em>"convert these HIF photos to JPG at quality 90"</em> — and jpegli handles the rest.</p>
+            <a href="/solutions/hif-to-jpg" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
+                Convert HIF to JPG free
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             </a>
-        </div>
+        </aside>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuides guides={related} />
 
     </div>
 </article>
