@@ -11,7 +11,7 @@
         description: "Convert MP4 to WebM using VP9 for 30–50% smaller files. Covers browser support, Core Web Vitals impact, the video fallback pattern, and in-browser conversion with no upload.",
         category: "Web Performance",
         readTime: "17 min read",
-        date: "June 24, 2026"
+        date: "June 26, 2026"
     };
 
     const videoFallbackCode = `<video
@@ -69,9 +69,9 @@
         "headline": "Convert MP4 to WebM for the Web: Smaller Files, Faster Pages, No Upload Required",
         "description": "Convert MP4 to WebM using VP9 for 30–50% smaller files. Covers browser support, Core Web Vitals impact, the video fallback pattern, and in-browser conversion with no upload.",
         "url": "https://mochify.app/guides/mp4-to-webm-web-video-guide",
-        "datePublished": "2026-06-24",
-        "dateModified": "2026-06-24",
-        "inLanguage": "en-GB",
+        "datePublished": "2026-06-26",
+        "dateModified": "2026-06-26",
+        "inLanguage": "en",
         "author": {
             "@type": "Organization",
             "name": "Mochify Engineering Team",
