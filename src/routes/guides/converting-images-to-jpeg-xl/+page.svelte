@@ -173,32 +173,36 @@
     </header>
 
     <!-- TOC -->
-    <nav class="bg-[#FFF5F7] border border-pink-100 rounded-3xl p-8 mb-12" aria-label="What's in this guide">
-        <h2 class="font-black text-[#4A2C2C] text-base mb-5 flex items-center gap-3">
-            <span class="w-1.5 h-6 bg-[#F06292] rounded-full shrink-0"></span>
-            What's in This Guide
-        </h2>
-        <ol class="space-y-3">
-            {#each [
-                { n: '01', id: 'what-is-jpeg-xl', label: 'What JPEG XL actually is (and why the name is confusing)' },
-                { n: '02', id: 'browser-support', label: 'Browser and ecosystem support in 2026' },
-                { n: '03', id: 'compression-benchmarks', label: 'Compression benchmarks: how much smaller?' },
-                { n: '04', id: 'jpeg-to-jxl', label: 'Converting JPEG to JPEG XL' },
-                { n: '05', id: 'png-to-jxl', label: 'Converting PNG to JPEG XL' },
-                { n: '06', id: 'avif-to-jxl', label: 'Converting AVIF to JPEG XL' },
-                { n: '07', id: 'fallback-pattern', label: 'The fallback pattern: serving JXL safely on the web' },
-                { n: '08', id: 'when-not-to-use', label: 'When not to use JPEG XL yet' },
-                { n: '09', id: 'mochify-workflow', label: 'Mochify Workflow: convert to JPEG XL in one prompt' },
-                { n: '10', id: 'cheat-sheet', label: 'JPEG XL Quick-Reference Cheat Sheet' },
-                { n: '11', id: 'faq', label: 'FAQ' },
-            ] as item}
-                <li class="flex items-center gap-4">
-                    <span class="w-8 h-8 shrink-0 bg-[#FFF0F5] border border-pink-100 rounded-full flex items-center justify-center font-black text-[#F06292] text-xs">{item.n}</span>
-                    <a href="#{item.id}" class="text-[#6C3F31] font-semibold text-sm hover:text-[#F06292] transition-colors">{item.label}</a>
-                </li>
-            {/each}
-        </ol>
-    </nav>
+    <section class="mb-12">
+        <SectionHeading>What's in This Guide</SectionHeading>
+        <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner" aria-label="Table of contents">
+            <ul class="space-y-3">
+                {#each [
+                    { n: '01', id: 'what-is-jpeg-xl', label: 'What JPEG XL actually is (and why the name is confusing)' },
+                    { n: '02', id: 'browser-support', label: 'Browser and ecosystem support in 2026' },
+                    { n: '03', id: 'compression-benchmarks', label: 'Compression benchmarks: how much smaller?' },
+                    { n: '04', id: 'jpeg-to-jxl', label: 'Converting JPEG to JPEG XL' },
+                    { n: '05', id: 'png-to-jxl', label: 'Converting PNG to JPEG XL' },
+                    { n: '06', id: 'avif-to-jxl', label: 'Converting AVIF to JPEG XL' },
+                    { n: '07', id: 'fallback-pattern', label: 'The fallback pattern: serving JXL safely on the web' },
+                    { n: '08', id: 'when-not-to-use', label: 'When not to use JPEG XL yet' },
+                    { n: '09', id: 'mochify-workflow', label: 'Mochify Workflow: convert to JPEG XL in one prompt' },
+                    { n: '10', id: 'cheat-sheet', label: 'JPEG XL Quick-Reference Cheat Sheet' },
+                    { n: '11', id: 'faq', label: 'FAQ' },
+                ] as item}
+                    <li>
+                        <a href="#{item.id}" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
+                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
+                            </span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                {/each}
+            </ul>
+        </nav>
+    </section>
 
     <div class="space-y-12 text-lg text-[#6C3F31] leading-relaxed">
 
