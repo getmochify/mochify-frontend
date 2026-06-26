@@ -3,6 +3,6 @@ Allow: /
 Sitemap: https://mochify.app/sitemap.xml
 
 User-agent: *
-Allow: /
+Disallow: /v3launch
 Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Sitemap: https://mochify.app/sitemap.xml
