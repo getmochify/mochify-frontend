@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "Convert MP4 to WebM for the Web: Smaller Files, Faster Pages, No Upload Required",
+            description: "Converting an MP4 hero video to WebM using VP9 typically cuts file size by 30–50% with no visible quality difference. Covers browser support, Core Web Vitals impact, the video fallback pattern, and in-browser conversion.",
+            url: "/guides/mp4-to-webm-web-video-guide",
+            category: "Web Performance",
+            readTime: "17 min read",
+            date: "June 24, 2026"
+        },
+        {
             title: "Converting Images to JPEG XL: The Practical Guide for 2026",
             description: "Compression benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), honest 2026 browser support, and how to serve JXL safely with picture fallbacks.",
             url: "/guides/converting-images-to-jpeg-xl",
