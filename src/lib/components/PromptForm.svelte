@@ -284,7 +284,23 @@
 		'pdf'
 	]);
 
-	function validateAndAddFiles(newFiles: File[]) {
+	function resolveContentType(file: File): string {
+		if (file.type) return file.type;
+		const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+		const MIME_BY_EXT: Record<string, string> = {
+			heic: 'image/heic', heif: 'image/heif', hif: 'image/heif',
+			jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png',
+			webp: 'image/webp', avif: 'image/avif', jxl: 'image/jxl',
+			svg: 'image/svg+xml'
+		};
+		return MIME_BY_EXT[ext] ?? 'application/octet-stream';
+	}
+
+	async function validateAndAddFiles(newFiles: File[]) {
+		const plan = await getPlan();
+		MAX_FILE_SIZE = plan === 'pro' || plan === 'day' || plan === 'seller' || plan === 'growth'
+			? 75 * 1024 * 1024 : 20 * 1024 * 1024;
+		MAX_FILES = plan === 'free' ? 3 : 25;
 		const validFiles: File[] = [];
 		let rejectedCount = 0;
 		let modeMismatch = 0;
@@ -1381,7 +1397,7 @@
 				new Promise((resolve, reject) => {
 					const xhr = new XMLHttpRequest();
 					xhr.open('POST', `${API_URL}/v1/squish?${params}`);
-					xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+					xhr.setRequestHeader('Content-Type', resolveContentType(file));
 					if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
 					xhr.responseType = 'blob';
 

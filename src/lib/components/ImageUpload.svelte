@@ -154,6 +154,12 @@
     }
 
     async function processFiles(allFiles: File[]) {
+        // Await plan so paid-user limits (25 files, 75MB) are applied immediately,
+        // not after files are already sliced to free-tier defaults.
+        const plan = await getPlan();
+        MAX_FILES = plan === 'free' ? 3 : 25;
+        MAX_INDIVIDUAL_FILE_SIZE = (plan === 'pro' || plan === 'day' || plan === 'seller' || plan === 'growth') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
+
         const invalidFiles = allFiles.filter((f) => {
             const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
             return !ACCEPTED_MIME_TYPES.has(f.type) && !ACCEPTED_EXTENSIONS.has(ext);
@@ -294,6 +300,18 @@
         compressImage();
     }
 
+    function resolveContentType(file: File): string {
+        if (file.type) return file.type;
+        const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+        const MIME_BY_EXT: Record<string, string> = {
+            heic: 'image/heic', heif: 'image/heif', hif: 'image/heif',
+            jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png',
+            webp: 'image/webp', avif: 'image/avif', jxl: 'image/jxl',
+            svg: 'image/svg+xml'
+        };
+        return MIME_BY_EXT[ext] ?? 'application/octet-stream';
+    }
+
     async function compressImage() {
         if (selectedFiles.length === 0) {
             errorMessage = 'Please select at least one image';
@@ -383,7 +401,7 @@
                         if (smartCompress) squishParams.append('smartCompress', '1');
                         if (queryParams) new URLSearchParams(queryParams).forEach((v, k) => squishParams.append(k, v));
                         xhr.open('POST', `${API_URL}/v1/squish?${squishParams}`);
-                        xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+                        xhr.setRequestHeader('Content-Type', resolveContentType(file));
                         if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
                         xhr.responseType = 'blob';
                         xhr.send(file);
@@ -428,7 +446,8 @@
                     fileProgress = [];
                     return;
                 }
-                throw new Error('All files failed to convert');
+                const firstError = fileProgress.find((fp) => fp.error)?.error;
+                throw new Error(firstError ?? 'All files failed to convert');
             }
 
             if (successfulFiles.length === 1) {
