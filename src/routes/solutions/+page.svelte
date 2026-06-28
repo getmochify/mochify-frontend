@@ -1,6 +1,4 @@
 <script lang="ts">
-    import Navigation from '$lib/components/Navigation.svelte';
-    import Footer from '$lib/components/Footer.svelte';
     const imageTools = [
         {
             name: "Background Remover (WebP)",
@@ -190,10 +188,6 @@
         }
     </script>
 </svelte:head>
-<div class="flex-1 bg-[#FDFBF7] min-h-screen flex flex-col relative">
-    <Navigation />
-
-
 <div class="relative max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8 w-full flex-grow">
 
         <div class="text-center mb-16 space-y-4">
@@ -307,7 +301,3 @@
             </a>
         </div>
     </div>
-    <div class="mt-16 md:mt-24">
-        <Footer />
-    </div>
-</div>

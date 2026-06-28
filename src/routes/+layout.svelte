@@ -15,17 +15,17 @@
 		'/avif-to-jpegxl',
 		'/heic-to-jpeg',
 		'/jpg-to-jpegxl',
-		'/solutions',
-		'/solutions/ebay-image-converter',
-		'/solutions/hif-to-avif',
-		'/solutions/hif-to-jpg',
 		'/auth/login',
 		'/auth/register',
 		'/auth/forgot-password',
 		'/auth/reset-password',
 	]);
 
-	const showBlobs = $derived(BLOB_ROUTES.has(page.url.pathname));
+	const showBlobs = $derived(
+		BLOB_ROUTES.has(page.url.pathname) ||
+		page.url.pathname.startsWith('/solutions') ||
+		page.url.pathname.startsWith('/guides')
+	);
 
 	// Import Outfit (Weights: 600, 700, 800, 900)
 	import '@fontsource/outfit/600.css';

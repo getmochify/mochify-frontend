@@ -24,7 +24,7 @@
     ]);
 </script>
 
-<div class="min-h-screen bg-[#FDFBF7] flex flex-col relative">
+<div class="min-h-screen flex flex-col relative">
 
     <Navigation />
     <main class="relative z-10 flex-grow w-full max-w-4xl mx-auto px-0 md:px-4 md:py-12">

@@ -1,7 +1,5 @@
 <script lang="ts">
     import ImageUpload from '$lib/components/ImageUpload.svelte';
-    import Footer from '$lib/components/Footer.svelte';
-    import Navigation from '$lib/components/Navigation.svelte';
 </script>
 
 <svelte:head>
@@ -10,10 +8,7 @@
     <meta property="og:title" content="Convert HIF to AVIF (Fuji/Canon) - Soft & Squishy Image Tools">
 </svelte:head>
 
-<div class="flex-1 bg-[#FDFBF7] min-h-screen flex flex-col">
-    <Navigation />
-
-    <div class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full flex-grow">
+<div class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full flex-grow">
         
         <div class="text-center mb-12 space-y-6">
             <div class="flex flex-wrap justify-center gap-3">
@@ -97,7 +92,3 @@
         </section>
     </div>
     
-    <div class="mt-16 md:mt-40">
-        <Footer />
-    </div>
-</div>

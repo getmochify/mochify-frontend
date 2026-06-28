@@ -1,7 +1,5 @@
 <script lang="ts">
     import ImageUpload from '$lib/components/ImageUpload.svelte';
-    import Navigation from '$lib/components/Navigation.svelte';
-    import Footer from '$lib/components/Footer.svelte';
 </script>
 
 <svelte:head>
@@ -54,10 +52,7 @@
     </script>
 </svelte:head>
 
-<div class="flex-1 bg-[#FDFBF7] min-h-screen flex flex-col">
-    <Navigation />
-
-    <div class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full flex-grow">
+<div class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full flex-grow">
 
         <div class="text-center mb-12 space-y-6">
             <div class="flex flex-wrap justify-center gap-3">
@@ -171,7 +166,3 @@
 
     </div>
 
-    <div class="mt-16 md:mt-24">
-        <Footer />
-    </div>
-</div>
