@@ -47,7 +47,7 @@ The homepage (`/`) lets users toggle between:
 - `/` — Homepage with tab-switcher between PromptForm and ImageUpload
 - `/app` — Standalone PWA surface (manifest `start_url`); renders the `PromptFormApp.svelte` fork, with shared Navigation + Footer, `noindex`
 - `/solutions/*` — Use-case landing pages (eBay converter, HIF-to-AVIF, etc.) — each embeds `ImageUpload` with preset `output` and `queryParams` props
-- `/guides/*` — Static long-form content articles; shares `src/routes/guides/+layout.svelte`
+- `/guides/*` — Long-form content articles; shares `src/routes/guides/+layout.svelte` for typography, link styling, and nav chrome
 - `/comparison`, `/about`, `/privacy`, `/terms`, `/service-terms` — Static pages
 
 ### Design system
@@ -77,6 +77,62 @@ The `PromptForm` uses a `.liquid-glass` CSS style (frosted glass card with `back
 ### State management
 
 Uses **Svelte 5 runes** throughout (`$state`, `$derived`, `$effect`, `$props`). No external state library.
+
+### Guide pages (`/guides/*`)
+
+Each guide is a standalone `.svelte` file. The shared layout (`src/routes/guides/+layout.svelte`) provides typography, link styling, and nav chrome — guide pages do not need to re-declare these.
+
+**Typography system** (applied via `article` selectors in the layout):
+- `article a:not([class])` — pink `#F06292`, bold, faint underline. Hover: darkens to `#ec407a` + strawberry `#FFF0F3` background pill. This is the same style used on the terms page and globally in `.prose`.
+- `article p` — `#4A2C2C` (deep cocoa). Overrides any inherited Tailwind color.
+- `article h2/h3/h4` — styled in layout; h2 has pink border-bottom.
+- `article code` — pink background, `#BE185D` text, 1px vertical padding. Do not add `py-0.5` on inline code — use `py-px`.
+- `article blockquote` — pink left border, blush gradient background.
+
+**Key components for guide pages:**
+- `SectionHeading` — renders an `<h2>` with a self-stretching pink bar that scales with multi-line headings. Use for all section headings instead of bare `<h2>`.
+- `InfoBox` — callout box with types `tip | technical | note | warning`. Uses a coloured dot (not emoji) as the indicator. Keep content concise.
+- `RelatedGuides` — takes an array of `{ title, href, desc }` objects.
+- `ReadProgress` — reading progress bar; import at the top of each guide.
+- `Breadcrumb` — rendered by the layout automatically; no action needed.
+
+### Mochify content publishing — non-negotiable preservation rules
+
+Source of record for any article is the handoff HTML in the content-ops repo (`article-originals/<slug>.html`). Do **not** tidy, reformat, or rewrite content that was handed over.
+
+1. **No em dashes — ever.** Published copy must contain zero em dashes (`—`). Do not insert them and do not let the build introduce them. En dashes (`–`) are correct **only** in numeric ranges (`8–15 min`, `25–30%`) and must be left exactly as authored. If you see an em dash in a draft or rendered preview, it is a defect — replace it with a hyphen or restructured clause, never leave it.
+2. **Never drop outbound links.** Every external citation link in the source (`web.dev`, MDN, `caniuse.com`, etc.) must appear in the published page. Do not strip, clean up, or summarise away citations. Internal `mochify.app` links must survive too.
+3. **External-link format is fixed.** Every external link renders as:
+   ```html
+   <a href="https://example.com/page" target="_blank" rel="noopener noreferrer">anchor text</a>
+   ```
+   Internal links (`https://mochify.app/...` or relative) do **not** get `target`/`rel`.
+4. **Don't invent or repoint URLs.** Use the exact hrefs from the source. If a link looks wrong, flag it to the content team — do not guess a replacement.
+5. **Preserve the shell verbatim.** Nav/footer targets are the live source of truth (Get started → `/auth/register`, Contact → `mailto:hello@mochify.app`, Terms of Service → `/service-terms`, Terms & Conditions → `/terms`). Do not rewrite these.
+
+### Mandatory pre-publish verification (run every time, report the result)
+
+Run against the built `.svelte` file, not just the source. Fail the publish if any check fails.
+
+1. **Em-dash scan** — expect zero matches:
+   ```bash
+   grep -n '—' src/routes/guides/<slug>/+page.svelte
+   ```
+
+2. **Outbound-link parity** — rendered page must have at least as many external links as the source:
+   ```bash
+   grep -oE 'href="https?://[^"]+"' ../content-ops/article-originals/<slug>.html | grep -v 'mochify\.app' | sort -u > /tmp/src-links.txt
+   grep -oE 'href="https?://[^"]+"' src/routes/guides/<slug>/+page.svelte | grep -v 'mochify\.app' | sort -u > /tmp/out-links.txt
+   diff /tmp/src-links.txt /tmp/out-links.txt   # expect no missing lines
+   ```
+
+3. **External-link attributes** — every external anchor carries `target="_blank"` and `rel="noopener noreferrer"`.
+
+4. **Report** — state the em-dash count (must be 0) and source-vs-rendered external-link counts (must match) before marking publish done.
+
+**Known pipeline regressions (content-ops fix pending — `dev-publishing-guardrails.md` Part A):**
+- Smart-dash typography (`remark-smartypants` / `markdown-it typographer: true`) converts hyphens to em dashes at build time.
+- `rehype-external-links` missing from pipeline causes `target`/`rel` to be stripped.
 
 ### Security
 

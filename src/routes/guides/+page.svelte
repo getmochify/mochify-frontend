@@ -38,6 +38,14 @@
             date: "June 25, 2026"
         },
         {
+            title: "Do Marketplace Product Images Need to Be Square?",
+            description: "No marketplace universally requires square product images, but most crop thumbnails to 1:1 - making pre-cropped images the safer choice for any seller.",
+            url: "/guides/do-marketplace-product-images-need-to-be-square",
+            category: "Quick Guides",
+            readTime: "2 min read",
+            date: "June 29, 2026"
+        },
+        {
             title: "Why Does eBay Say My Image File Is Not Supported?",
             description: "eBay rejects HEIC, HIF, RAW and oversized images. Convert to JPEG before uploading to fix 'file not supported' errors instantly.",
             url: "/guides/ebay-image-file-not-supported",
