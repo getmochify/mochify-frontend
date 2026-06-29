@@ -60,11 +60,11 @@
         },
         {
             q: "Does converting HEIC to PDF reduce image quality?",
-            a: `The conversion itself doesn't add a compression artefact the way a JPEG re-encode would. PDF embeds the image data, and for most conversion paths the output quality matches what you'd see viewing the original HEIC. The exception is if you choose a very low-resolution layout option in a print dialog — the "4 images per page" layout on Windows, for example, will scale photos down to fit the page.`
+            a: `The conversion itself doesn't add a compression artefact the way a JPEG re-encode would. PDF embeds the image data, and for most conversion paths the output quality matches what you'd see viewing the original HEIC. The exception is if you choose a very low-resolution layout option in a print dialog - the "4 images per page" layout on Windows, for example, will scale photos down to fit the page.`
         },
         {
             q: "Can I convert HEIC to PDF on Android?",
-            a: "Android 10 and later support HEIC in principle, but the codec is OEM-dependent — not every Android device can open HEIC natively. There's no standard built-in route to HEIC-to-PDF on Android. The cleanest option is an online converter that runs in the browser, which sidesteps the local codec question entirely."
+            a: "Android 10 and later support HEIC in principle, but the codec is OEM-dependent - not every Android device can open HEIC natively. There's no standard built-in route to HEIC-to-PDF on Android. The cleanest option is an online converter that runs in the browser, which sidesteps the local codec question entirely."
         },
         {
             q: "Will my location data appear in the PDF?",
@@ -72,19 +72,19 @@
         },
         {
             q: "How many HEIC photos can I combine into one PDF?",
-            a: "With native tools on Mac (Finder Quick Action or Preview), there's no documented page limit — users routinely handle tens of images. On iPhone, the Files app \"Create PDF\" is also undocumented on limits, constrained in practice by device memory. Online free tiers typically cap at 15–50 files per batch. Mochify's HEIC-to-PDF tool handles up to 20 files per conversion."
+            a: "With native tools on Mac (Finder Quick Action or Preview), there's no documented page limit - users routinely handle tens of images. On iPhone, the Files app \"Create PDF\" is also undocumented on limits, constrained in practice by device memory. Online free tiers typically cap at 15–50 files per batch. Mochify's HEIC-to-PDF tool handles up to 20 files per conversion."
         },
         {
             q: "Is there a way to automate HEIC-to-PDF on iPhone?",
-            a: `Yes — build a Shortcut with three actions: "Select Photos," "Make PDF," and "Save File." Once set up, you can trigger it from the home screen or the share sheet in the Photos app. Apple's Shortcuts framework includes both actions natively, so no third-party app is required.`
+            a: `Yes - build a Shortcut with three actions: "Select Photos," "Make PDF," and "Save File." Once set up, you can trigger it from the home screen or the share sheet in the Photos app. Apple's Shortcuts framework includes both actions natively, so no third-party app is required.`
         },
         {
             q: "Why doesn't my email client show HEIC photos inline?",
-            a: "Most email clients outside Apple's ecosystem don't support HEIC rendering — they either display the file as an attachment or ignore the inline display entirely. If you need recipients on Windows, Android, or webmail to see your photos without opening a separate file, convert to JPEG for inline display or attach a PDF as a document."
+            a: "Most email clients outside Apple's ecosystem don't support HEIC rendering - they either display the file as an attachment or ignore the inline display entirely. If you need recipients on Windows, Android, or webmail to see your photos without opening a separate file, convert to JPEG for inline display or attach a PDF as a document."
         },
         {
             q: "What's the difference between .HEIC and .HEIF?",
-            a: "They're from the same format family. .HEIC is Apple's iPhone variant using HEVC encoding. .HEIF is the broader container format that professional cameras from Canon, Sony, and Fujifilm also write — often as .HIF files with 10-bit colour and HDR metadata. If you have .HIF files from a mirrorless camera rather than an iPhone, that's a different workflow."
+            a: "They're from the same format family. .HEIC is Apple's iPhone variant using HEVC encoding. .HEIF is the broader container format that professional cameras from Canon, Sony, and Fujifilm also write - often as .HIF files with 10-bit colour and HDR metadata. If you have .HIF files from a mirrorless camera rather than an iPhone, that's a different workflow."
         }
     ];
 </script>
@@ -230,13 +230,13 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            iPhone photos save as HEIC by default, and HEIC causes compatibility headaches the moment you need to share a document: Windows machines often can't open it, browsers don't render it, and submission portals almost universally want a single PDF. This guide covers every practical conversion path — native iPhone methods with no apps required, Mac and Windows workflows, online tools, and how to convert a batch of HEIC photos into one clean, multi-page PDF.
+            iPhone photos save as HEIC by default, and HEIC causes compatibility headaches the moment you need to share a document: Windows machines often can't open it, browsers don't render it, and submission portals almost universally want a single PDF. This guide covers every practical conversion path - native iPhone methods with no apps required, Mac and Windows workflows, online tools, and how to convert a batch of HEIC photos into one clean, multi-page PDF.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
             <p class="text-[#6C3F31] text-base leading-relaxed m-0">
                 <strong class="text-[#4A2C2C]">Published June 2026 by the Mochify Engineering Team.</strong>
-                All conversion paths tested on iOS 18, macOS Sequoia, and Windows 11 — native-only methods included, no paid apps required.
+                All conversion paths tested on iOS 18, macOS Sequoia, and Windows 11 - native-only methods included, no paid apps required.
             </p>
         </div>
     </header>
@@ -268,13 +268,13 @@
         <section id="why-heic-causes-compatibility-problems" class="scroll-mt-24">
             <SectionHeading>Why HEIC Causes Compatibility Problems</SectionHeading>
             <p class="mb-4">
-                HEIC is Apple's format for iPhone photos — efficient, high quality, and essentially invisible on Apple hardware. Off Apple, it's a different story. Windows requires a separate codec from the Microsoft Store to open HEIC files at all, and that codec may be blocked entirely on managed corporate machines. As of early 2026, <a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">no major browser supports HEIC natively</a> — Chrome, Firefox, and Edge will not display a <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-sm border border-pink-100">.heic</code> file. Platforms like WordPress and Shopify either reject HEIC uploads outright or silently convert them on the server side.
+                HEIC is Apple's format for iPhone photos - efficient, high quality, and essentially invisible on Apple hardware. Off Apple, it's a different story. Windows requires a separate codec from the Microsoft Store to open HEIC files at all, and that codec may be blocked entirely on managed corporate machines. As of early 2026, <a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">no major browser supports HEIC natively</a> - Chrome, Firefox, and Edge will not display a <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-sm border border-pink-100">.heic</code> file. Platforms like WordPress and Shopify either reject HEIC uploads outright or silently convert them on the server side.
             </p>
             <p class="mb-4">
-                The format is a HEIF container using HEVC compression — technically capable and space-efficient, carrying about twice the image quality per byte of JPEG. But that encoding depends on hardware decoding support that isn't guaranteed outside Apple's ecosystem. Android 10 and later can technically support HEIC, but only when device manufacturers ship the required codecs, which makes Android compatibility vendor-dependent rather than reliable.
+                The format is a HEIF container using HEVC compression - technically capable and space-efficient, carrying about twice the image quality per byte of JPEG. But that encoding depends on hardware decoding support that isn't guaranteed outside Apple's ecosystem. Android 10 and later can technically support HEIC, but only when device manufacturers ship the required codecs, which makes Android compatibility vendor-dependent rather than reliable.
             </p>
             <p class="mb-4">
-                HEIC also carries EXIF metadata by default: the camera model, timestamp, and — if Location Services is enabled for the Camera app — the GPS coordinates of where the photo was taken. All of that travels with the file unless a tool explicitly strips it.
+                HEIC also carries EXIF metadata by default: the camera model, timestamp, and - if Location Services is enabled for the Camera app - the GPS coordinates of where the photo was taken. All of that travels with the file unless a tool explicitly strips it.
             </p>
 
             <InfoBox type="note" title="Note on .HIF files from professional cameras">
@@ -286,10 +286,10 @@
         <section id="why-pdf-is-the-better-sharing-format" class="scroll-mt-24">
             <SectionHeading>Why PDF Is the Better Sharing Format</SectionHeading>
             <p class="mb-4">
-                PDF is universally accepted and opens consistently on every platform — no codecs, no app dependencies. For multi-photo submissions, it keeps everything in one file in the right order, which matters for assignment portals, print shops, and scanning services.
+                PDF is universally accepted and opens consistently on every platform - no codecs, no app dependencies. For multi-photo submissions, it keeps everything in one file in the right order, which matters for assignment portals, print shops, and scanning services.
             </p>
             <p class="mb-4">
-                <a href="https://www.adobe.com/creativecloud/file-types/image/comparison/jpeg-vs-pdf.html" target="_blank" rel="noopener noreferrer">Adobe notes</a> that PDF's main strength is consistency: "a PDF's content will always display consistently across any device," which is why printers prefer it. Prepress guidance from Swift Publisher is direct: "almost all print shops accept materials in the PDF and TIFF formats" — HEIC doesn't appear on that list. Scanning and recognition platforms like PaperSurvey recommend PDF specifically because it combines multiple pages into one file and works universally across scanners and OCR pipelines.
+                <a href="https://www.adobe.com/creativecloud/file-types/image/comparison/jpeg-vs-pdf.html" target="_blank" rel="noopener noreferrer">Adobe notes</a> that PDF's main strength is consistency: "a PDF's content will always display consistently across any device," which is why printers prefer it. Prepress guidance from Swift Publisher is direct: "almost all print shops accept materials in the PDF and TIFF formats" - HEIC doesn't appear on that list. Scanning and recognition platforms like PaperSurvey recommend PDF specifically because it combines multiple pages into one file and works universally across scanners and OCR pipelines.
             </p>
             <p class="mb-4">
                 If you're submitting coursework, you've almost certainly hit a portal that requires "one PDF only" and won't accept a folder of images. That preference is well-founded: a PDF keeps the page order fixed, compresses predictably, and doesn't require the recipient to manage ten separate files.
@@ -303,7 +303,7 @@
         <section id="convert-heic-to-pdf-on-iphone-or-ipad" class="scroll-mt-24">
             <SectionHeading>Convert HEIC to PDF on iPhone or iPad</SectionHeading>
             <p class="mb-4">
-                iPhone and iPad have three built-in routes to PDF, none of which require a third-party app. Apple doesn't label any of them "convert HEIC to PDF" — they're general-purpose PDF tools that happen to work equally well on HEIC files.
+                iPhone and iPad have three built-in routes to PDF, none of which require a third-party app. Apple doesn't label any of them "convert HEIC to PDF" - they're general-purpose PDF tools that happen to work equally well on HEIC files.
             </p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Route 1: Share &gt; Print &gt; Pinch &gt; Save to Files</h3>
@@ -314,7 +314,7 @@
                 <li>Choose <strong class="text-[#4A2C2C]">Print</strong>.</li>
                 <li>In the print preview, <strong class="text-[#4A2C2C]">pinch outward</strong> on the preview thumbnail to open a full-screen PDF view.</li>
                 <li>Tap the <strong class="text-[#4A2C2C]">Share</strong> button again, then choose <strong class="text-[#4A2C2C]">Save to Files</strong>.</li>
-                <li>Pick a folder and save — your HEIC photo is now a PDF.</li>
+                <li>Pick a folder and save - your HEIC photo is now a PDF.</li>
             </ol>
             <p class="mb-4">You can set the paper size (A4, Letter) before completing the share step. On iOS 18, this workflow is unchanged from earlier iOS versions.</p>
 
@@ -330,7 +330,7 @@
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Route 3: Shortcuts Automation</h3>
             <p class="mb-4">
-                If you regularly convert batches of photos, a Shortcut that chains <strong class="text-[#4A2C2C]">Select Photos &gt; Make PDF &gt; Save File</strong> is worth setting up. Tap it from your home screen or share sheet, choose your photos, and it saves the resulting PDF straight to Files. Apple's Shortcuts framework includes both the "Make PDF" and "Save File" actions natively — no third-party apps required.
+                If you regularly convert batches of photos, a Shortcut that chains <strong class="text-[#4A2C2C]">Select Photos &gt; Make PDF &gt; Save File</strong> is worth setting up. Tap it from your home screen or share sheet, choose your photos, and it saves the resulting PDF straight to Files. Apple's Shortcuts framework includes both the "Make PDF" and "Save File" actions natively - no third-party apps required.
             </p>
         </section>
 
@@ -343,7 +343,7 @@
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Preview: Export as PDF</h3>
             <ol class="mb-4 space-y-2 list-decimal pl-6">
-                <li>Open the HEIC file in <strong class="text-[#4A2C2C]">Preview</strong> — double-click it in Finder, or drag it onto Preview.</li>
+                <li>Open the HEIC file in <strong class="text-[#4A2C2C]">Preview</strong> - double-click it in Finder, or drag it onto Preview.</li>
                 <li>Go to <strong class="text-[#4A2C2C]">File &gt; Export</strong>.</li>
                 <li>In the Format pop-up menu, choose <strong class="text-[#4A2C2C]">PDF</strong>.</li>
                 <li>Name the file and save.</li>
@@ -445,7 +445,7 @@
                     <li class="flex items-start gap-4">
                         <span class="flex-shrink-0 w-8 h-8 bg-[#F06292] text-white rounded-full flex items-center justify-center font-black text-sm">1</span>
                         <div class="pt-1 text-[#6C3F31] text-base">
-                            <strong class="text-[#4A2C2C]">Go to mochify.app/solutions/heif-to-pdf.</strong> The tool opens directly in your browser — no account required to try it. Free accounts get 25 images per month; sign in for the full limit.
+                            <strong class="text-[#4A2C2C]">Go to mochify.app/solutions/heif-to-pdf.</strong> The tool opens directly in your browser - no account required to try it. Free accounts get 25 images per month; sign in for the full limit.
                         </div>
                     </li>
                     <li class="flex items-start gap-4">
@@ -475,10 +475,10 @@
                 If Location Services is enabled for the Camera app when you take a photo, that GPS coordinate is embedded in the HEIC file. <a href="https://support.apple.com/guide/personal-safety/manage-location-metadata-in-photos-ips0d7a5df82/web" target="_blank" rel="noopener noreferrer">Apple's personal safety guidance</a> is explicit: "when photos and videos that include location metadata are shared, the people you share them with may be able to access the location metadata and learn where it was taken."
             </p>
             <p class="mb-4">
-                What happens to that EXIF data during HEIC-to-PDF conversion depends entirely on the tool — there is no consistent answer across platforms. Some generic conversion paths (including certain online converters) strip EXIF data, including GPS coordinates, during the PDF creation process. Some dedicated converter apps on iOS and macOS advertise explicit EXIF preservation. Apple's own tools don't document their EXIF handling at all.
+                What happens to that EXIF data during HEIC-to-PDF conversion depends entirely on the tool - there is no consistent answer across platforms. Some generic conversion paths (including certain online converters) strip EXIF data, including GPS coordinates, during the PDF creation process. Some dedicated converter apps on iOS and macOS advertise explicit EXIF preservation. Apple's own tools don't document their EXIF handling at all.
             </p>
             <p class="mb-4">
-                The safe approach: assume that any generic image-to-PDF path may strip EXIF data, and keep your original HEIC files if you need the metadata later. If you're sharing a PDF of photos taken at your home, at a private event, or of anything sensitive — that automatic strip is usually a feature, not a bug.
+                The safe approach: assume that any generic image-to-PDF path may strip EXIF data, and keep your original HEIC files if you need the metadata later. If you're sharing a PDF of photos taken at your home, at a private event, or of anything sensitive - that automatic strip is usually a feature, not a bug.
             </p>
             <p class="mb-4">
                 For a thorough look at metadata risks in image workflows, see the <a href="/guides/exif-data-risks-image-compression-2026">EXIF Data Risks in Image Compression guide</a>. That article covers how to check what metadata a file carries and when stripping it matters most.
@@ -494,14 +494,14 @@
                 Install the HEIF Image Extensions from the Microsoft Store. If the Store is blocked (common in corporate environments), this may require administrator help. Alternatively, use an online converter or a Mac.
             </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-3">"My HEIC isn't available to convert — it shows a cloud icon."</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-3">"My HEIC isn't available to convert - it shows a cloud icon."</h3>
             <p class="mb-4">
                 If your iPhone photos are set to "Optimise iPhone Storage," the full-resolution originals live in iCloud while a lower-resolution thumbnail is kept on-device. The full file needs to download before any app can convert it. Tap the photo in the Photos app to trigger a download, wait for it to complete, then retry.
             </p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-3">"The PDF came out rotated."</h3>
             <p class="mb-4">
-                HEIC files store orientation in metadata rather than rotating the actual pixel data. Some converters — especially online tools — ignore this flag and output the photo sideways. Pre-rotate the photos in the Photos app before converting, or look for a "rotate" option in the converter you're using.
+                HEIC files store orientation in metadata rather than rotating the actual pixel data. Some converters - especially online tools - ignore this flag and output the photo sideways. Pre-rotate the photos in the Photos app before converting, or look for a "rotate" option in the converter you're using.
             </p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-3">"Preview gave me a 'could not be exported' error."</h3>
@@ -511,7 +511,7 @@
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-3">"The Files app Create PDF option is missing."</h3>
             <p class="mb-4">
-                Make sure you're selecting files in Files, not in a gallery view. Go to the folder, tap Select, then choose the files — the (...) menu that appears should include Create PDF. If it doesn't appear, restart Files and try again.
+                Make sure you're selecting files in Files, not in a gallery view. Go to the folder, tap Select, then choose the files - the (...) menu that appears should include Create PDF. If it doesn't appear, restart Files and try again.
             </p>
         </section>
 
@@ -593,7 +593,7 @@
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
             <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3">Convert HEIC photos to PDF free</h3>
             <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base leading-relaxed">
-                Convert up to 20 iPhone HEIC photos to a single PDF in seconds — no app to install, no account required to try it. Upload and download, done.
+                Convert up to 20 iPhone HEIC photos to a single PDF in seconds - no app to install, no account required to try it. Upload and download, done.
             </p>
             <a href="/solutions/heif-to-pdf" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline text-base">
                 Convert HEIC to PDF at mochify.app →
