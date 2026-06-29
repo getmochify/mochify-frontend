@@ -7,7 +7,7 @@
     const guides = [
         {
             title: "How to Convert iPhone Photos (HEIC) to PDF",
-            description: "Convert iPhone HEIC photos to PDF on any device — iPhone, Mac, Windows, or online. Native methods, batch tips, and a one-click tool. No app needed.",
+            description: "Convert iPhone HEIC photos to PDF on any device - iPhone, Mac, Windows, or online. Native methods, batch tips, and a one-click tool. No app needed.",
             url: "/guides/heic-to-pdf-iphone-photos",
             category: "Image Formats",
             readTime: "12 min read",
@@ -31,7 +31,7 @@
         },
         {
             title: "Should I convert HEIC to JPEG or WebP for WordPress uploads?",
-            description: "JPEG works everywhere and is the safest default. WebP is better when file size matters — it's 25–35% smaller and has 97%+ browser coverage. HEIC must always be converted before serving.",
+            description: "JPEG works everywhere and is the safest default. WebP is better when file size matters - it's 25–35% smaller and has 97%+ browser coverage. HEIC must always be converted before serving.",
             url: "/guides/heic-to-jpeg-or-webp-wordpress",
             category: "Quick Guides",
             readTime: "3 min read",
@@ -103,7 +103,7 @@
         },
         {
             title: "On-Device AI Agents: Image and PDF Optimization for Local Workflows",
-            description: "From NVIDIA DGX Spark to Apple Silicon, local AI agents are real in 2026. What that means for handling images and PDFs inside MCP agent pipelines — and why a local model doesn't mean local data.",
+            description: "From NVIDIA DGX Spark to Apple Silicon, local AI agents are real in 2026. What that means for handling images and PDFs inside MCP agent pipelines - and why a local model doesn't mean local data.",
             url: "/guides/on-device-ai-agents-image-optimization",
             category: "AI & Automation",
             readTime: "15 min read",
@@ -111,7 +111,7 @@
         },
         {
             title: "SVG Conversion Guide: When to Keep Vector and When to Rasterize",
-            description: "The real question isn't 'can I use SVG?' — it's 'should I use SVG here, for this workflow?' Decision framework, format comparison, and WordPress workflows for designers and developers.",
+            description: "The real question isn't 'can I use SVG?' - it's 'should I use SVG here, for this workflow?' Decision framework, format comparison, and WordPress workflows for designers and developers.",
             url: "/guides/svg-conversion-guide-vector-vs-raster",
             category: "Image Formats",
             readTime: "8 min read",
@@ -228,7 +228,7 @@
         },
         {
             title: "How the Mochify MCP Server Works: Hosted vs Local, with Worked Examples",
-            description: "The hosted and local MCP surfaces compared — architecture, token costs, retention behaviour, and four worked examples covering URL input, uploaded images, Claude Desktop file work, and build pipelines.",
+            description: "The hosted and local MCP surfaces compared - architecture, token costs, retention behaviour, and four worked examples covering URL input, uploaded images, Claude Desktop file work, and build pipelines.",
             url: "/guides/how-the-mochify-mcp-server-works",
             category: "AI & Automation",
             readTime: "9 min read",
@@ -244,7 +244,7 @@
         },
         {
             title: "How to Use Jpegli for Shopify Product Images",
-            description: "Pre-compress Shopify product images with Jpegli before upload. Stop Shopify's recompression from degrading quality — get ~35% smaller files, faster LCP, and better search rankings.",
+            description: "Pre-compress Shopify product images with Jpegli before upload. Stop Shopify's recompression from degrading quality - get ~35% smaller files, faster LCP, and better search rankings.",
             url: "/guides/jpegli-shopify-product-images",
             category: "Quick Guides",
             readTime: "6 min read",
@@ -252,7 +252,7 @@
         },
         {
             title: "How Do I Preload AVIF Hero Images in WordPress to Pass the LCP Threshold?",
-            description: "Serving AVIF isn't enough — browsers still discover it late. Add a preload hint to your WordPress theme so the hero image starts downloading before the render tree is built, and hit Google's 2.5s LCP target.",
+            description: "Serving AVIF isn't enough - browsers still discover it late. Add a preload hint to your WordPress theme so the hero image starts downloading before the render tree is built, and hit Google's 2.5s LCP target.",
             url: "/guides/preload-avif-hero-images-wordpress-lcp",
             category: "Quick Guides",
             readTime: "3 min read",
