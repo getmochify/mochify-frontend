@@ -6,7 +6,7 @@
 
     const metadata = {
         title: "Should I convert HEIC to JPEG or WebP for WordPress uploads?",
-        description: "JPEG works everywhere and is the safest default. WebP is better when file size matters — it's 25–35% smaller and has 97%+ browser coverage. HEIC must always be converted before serving.",
+        description: "JPEG works everywhere and is the safest default. WebP is better when file size matters - it's 25–35% smaller and has 97%+ browser coverage. HEIC must always be converted before serving.",
         category: "Quick Guides",
         readTime: "3 min read",
         datePublished: "June 25, 2026"
@@ -46,7 +46,7 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "Should I convert HEIC to JPEG or WebP for WordPress uploads?",
-        "description": "JPEG works everywhere and is the safest default. WebP is better when file size matters — it's 25–35% smaller and has 97%+ browser coverage. HEIC must always be converted before serving.",
+        "description": "JPEG works everywhere and is the safest default. WebP is better when file size matters - it's 25–35% smaller and has 97%+ browser coverage. HEIC must always be converted before serving.",
         "url": "https://mochify.app/guides/heic-to-jpeg-or-webp-wordpress",
         "mainEntityOfPage": {
             "@type": "WebPage",

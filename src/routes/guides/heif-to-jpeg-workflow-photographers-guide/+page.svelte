@@ -57,7 +57,7 @@
             "name": "Can Mochify accept Canon and Fuji HIF files directly, without pre-converting them first?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes. Mochify accepts HEIF and HIF files as direct inputs. You do not need to convert to JPEG or TIFF first — upload the HIF files from your camera card or Lightroom export folder, describe the output you want in plain English, and Mochify handles the conversion in a single pass."
+                "text": "Yes. Mochify accepts HEIF and HIF files as direct inputs. You do not need to convert to JPEG or TIFF first - upload the HIF files from your camera card or Lightroom export folder, describe the output you want in plain English, and Mochify handles the conversion in a single pass."
             }
             },
             {
@@ -65,7 +65,7 @@
             "name": "What happens to my files after Mochify processes them?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Nothing — because they are never stored. Mochify's pipeline is fully in-memory. Files stream through RAM during processing and are discarded immediately after your download completes. Nothing is written to disk, nothing is retained, and uploaded images are never used for AI training or added to any database."
+                "text": "Nothing - because they are never stored. Mochify's pipeline is fully in-memory. Files stream through RAM during processing and are discarded immediately after your download completes. Nothing is written to disk, nothing is retained, and uploaded images are never used for AI training or added to any database."
             }
             },
             {
@@ -81,7 +81,7 @@
             "name": "What is jpegli, and why does it matter for my client gallery deliveries?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "jpegli is Google's modern JPEG encoder. It produces standard JPEG files — compatible with every device, browser, and gallery platform — but at roughly 25-30% smaller file sizes than traditional libjpeg-turbo encoders at equivalent quality."
+                "text": "jpegli is Google's modern JPEG encoder. It produces standard JPEG files - compatible with every device, browser, and gallery platform - but at roughly 25-30% smaller file sizes than traditional libjpeg-turbo encoders at equivalent quality."
             }
             }
         ]
@@ -174,7 +174,7 @@
                     </thead>
                     <tbody>
                         {#each [
-                            { fmt: 'HIF (Canon, Fuji)', bit: '10-bit', use: 'In-camera capture on EOS R-series bodies', support: 'Low — Canon, Fuji-specific', risk: 'High if unstripped' },
+                            { fmt: 'HIF (Canon, Fuji)', bit: '10-bit', use: 'In-camera capture on EOS R-series bodies', support: 'Low - Canon, Fuji-specific', risk: 'High if unstripped' },
                             { fmt: 'HEIF/HEIC', bit: '8 or 10-bit', use: 'In-camera on Nikon Z, Sony Alpha, iPhone', support: 'Low-medium', risk: 'High if unstripped' },
                             { fmt: 'JPEG', bit: '8-bit', use: 'Universal client delivery, galleries, press', support: 'Universal', risk: 'High if unstripped' },
                             { fmt: 'WebP', bit: '8-bit', use: 'Web delivery, portfolio, e-commerce', support: '~95% of browsers', risk: 'Medium' },
@@ -204,11 +204,11 @@
             <p>Most photographers hit the same five walls. Understanding them precisely is the first step to routing around them.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">1. HIF/HEIF rejection and silent gallery conversions</h3>
-            <p>Gallery platforms and CMSes handle HEIF inconsistently, and often silently. SmugMug accepts HEIC uploads but immediately converts them to JPEG on ingest, dropping the original file. Platforms running older software reject HEIF outright with generic errors. Either way, photographers are forced to pre-convert — with the platform deciding compression settings, color profile, and dimensions.</p>
+            <p>Gallery platforms and CMSes handle HEIF inconsistently, and often silently. SmugMug accepts HEIC uploads but immediately converts them to JPEG on ingest, dropping the original file. Platforms running older software reject HEIF outright with generic errors. Either way, photographers are forced to pre-convert - with the platform deciding compression settings, color profile, and dimensions.</p>
             <p>The fix is to own the conversion step yourself, before upload, with a known quality setting, a defined color profile (sRGB for web/gallery delivery), and a long-edge dimension you chose.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">2. File size limits on galleries, marketplaces, and email</h3>
-            <p>Email attachments hit limits around 20–25 MB. Etsy, eBay, and Shopify product pages have their own per-image recommended sizes — typically 1,600–2,000 px on the long edge and well under 1 MB for fast page loads. High-resolution HIF/HEIF files from modern mirrorless bodies can easily exceed these limits, causing photographers to scramble with whatever tool is nearest and producing inconsistent compression across a set.</p>
+            <p>Email attachments hit limits around 20–25 MB. Etsy, eBay, and Shopify product pages have their own per-image recommended sizes - typically 1,600–2,000 px on the long edge and well under 1 MB for fast page loads. High-resolution HIF/HEIF files from modern mirrorless bodies can easily exceed these limits, causing photographers to scramble with whatever tool is nearest and producing inconsistent compression across a set.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">3. Privacy and EXIF leakage</h3>
             <p>EXIF metadata is not just technical noise. It can include GPS coordinates precise enough to pinpoint a shoot location, timestamps, device serial numbers, and an embedded thumbnail of the uncropped original frame. That thumbnail often shows content that was deliberately cropped out of the final image. For wedding photographers, this means client home addresses sitting in gallery metadata. For commercial and editorial shooters, it means shoot locations and unreleased products readable by anyone who downloads a file.</p>
@@ -217,7 +217,7 @@
             <p>A typical commercial shoot produces multiple derivative sets: full-resolution JPEG for archive, smaller proofs for the client gallery, AVIF for the brand website, and specifically sized variants per marketplace. Managing this with separate Lightroom presets, manual folder structures, and ad-hoc compression tools is slow and error-prone. Pro photographers in busy periods report spending several hours per week on export tasks that should be automated.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">5. Plugin bloat and cloud lock-in</h3>
-            <p>Tools like ShortPixel solve part of the problem by installing plugins into your CMS, but they tie your optimization pipeline to a specific hosting provider. Switching hosts means rebuilding your entire setup. External pre-processing — optimizing files before they touch any CMS or gallery — avoids all of this. Files arrive already optimized, any gallery or CMS accepts them, and your pipeline is fully portable.</p>
+            <p>Tools like ShortPixel solve part of the problem by installing plugins into your CMS, but they tie your optimization pipeline to a specific hosting provider. Switching hosts means rebuilding your entire setup. External pre-processing - optimizing files before they touch any CMS or gallery - avoids all of this. Files arrive already optimized, any gallery or CMS accepts them, and your pipeline is fully portable.</p>
 
             <div class="my-10 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
                 <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
@@ -328,7 +328,7 @@
                         </li>
                     {/each}
                 </ol>
-                <p class="mt-6 pt-5 border-t border-pink-100 text-sm text-[#875F42]">🔒 Selective EXIF stripping via Magic Flow — remove GPS while preserving caption and copyright IPTC in a single prompt.</p>
+                <p class="mt-6 pt-5 border-t border-pink-100 text-sm text-[#875F42]">🔒 Selective EXIF stripping via Magic Flow - remove GPS while preserving caption and copyright IPTC in a single prompt.</p>
             </div>
         </section>
 
@@ -342,16 +342,16 @@
                 If you shoot wide, crop tight, and export a JPEG without stripping EXIF, the embedded thumbnail in the file often shows the uncropped original. A client or marketplace can extract that thumbnail and see content you deliberately kept out of the final image.
             </InfoBox>
 
-            <p>Marketplace platforms like eBay and Etsy sometimes perform their own re-compression on upload — but they do not reliably strip EXIF in the process. That means even if the platform generates its own display version of your image, the underlying metadata may still be present and readable by anyone who downloads the file.</p>
+            <p>Marketplace platforms like eBay and Etsy sometimes perform their own re-compression on upload - but they do not reliably strip EXIF in the process. That means even if the platform generates its own display version of your image, the underlying metadata may still be present and readable by anyone who downloads the file.</p>
             <p>Stripping EXIF removes GPS coordinates, device IDs, timestamps, and embedded thumbnails in a fraction of a second and barely changes file size (typically less than 1% of total file size). There is no quality trade-off. There is no reason not to strip it on every file that leaves your control.</p>
         </section>
 
         <!-- Section 08 -->
         <section id="how-mochify-fits">
             <SectionHeading>How Mochify fits into a pro photographer workflow</SectionHeading>
-            <p>Mochify is an in-memory, zero-retention image processing engine. Files stream through RAM and are discarded immediately after processing — nothing is written to disk, nothing is retained for AI training, and nothing is stored beyond the instant your download completes.</p>
-            <p>For photographers, that architecture matters. Wedding and portrait photographers handle client imagery under implied (and often contractual) privacy obligations. Commercial and editorial photographers work with embargoed products and sensitive subjects. Running those files through a generic online converter with an opaque privacy policy is not acceptable — but neither is setting up and maintaining a complex self-hosted pipeline.</p>
-            <p>Mochify's interface is natural language first, via Magic Flow. You describe the task — "convert these HIF files to sRGB JPEG for client gallery, 3,600 px, under 2 MB, strip all EXIF" — and the engine resolves the appropriate format, quality, resize, and metadata settings automatically. No format dropdown, no quality slider to guess at, no separate EXIF-stripping tool.</p>
+            <p>Mochify is an in-memory, zero-retention image processing engine. Files stream through RAM and are discarded immediately after processing - nothing is written to disk, nothing is retained for AI training, and nothing is stored beyond the instant your download completes.</p>
+            <p>For photographers, that architecture matters. Wedding and portrait photographers handle client imagery under implied (and often contractual) privacy obligations. Commercial and editorial photographers work with embargoed products and sensitive subjects. Running those files through a generic online converter with an opaque privacy policy is not acceptable - but neither is setting up and maintaining a complex self-hosted pipeline.</p>
+            <p>Mochify's interface is natural language first, via Magic Flow. You describe the task - "convert these HIF files to sRGB JPEG for client gallery, 3,600 px, under 2 MB, strip all EXIF" - and the engine resolves the appropriate format, quality, resize, and metadata settings automatically. No format dropdown, no quality slider to guess at, no separate EXIF-stripping tool.</p>
             <p>The same natural language interface is available across four surfaces: the browser app at mochify.app (drag, describe, download; up to 25 files per batch), the REST API for scripted workflows, the CLI for folder-level batch processing, and an MCP server for AI agent workflows via Claude Desktop and other MCP-compatible tools.</p>
 
             <ScrollableTable class="my-6">
@@ -367,8 +367,8 @@
                     <tbody>
                         {#each [
                             { plan: 'Free', images: '25', size: '20 MB', for: 'Testing, occasional single jobs' },
-                            { plan: 'Lite — $7.99/month', images: '300', size: '75 MB', for: 'Part-time and emerging pros' },
-                            { plan: 'Pro — $24.99/month', images: '1,200', size: '75 MB', for: 'Working pros, multi-shoot weeks' },
+                            { plan: 'Lite - $7.99/month', images: '300', size: '75 MB', for: 'Part-time and emerging pros' },
+                            { plan: 'Pro - $24.99/month', images: '1,200', size: '75 MB', for: 'Working pros, multi-shoot weeks' },
                         ] as row, i}
                             <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
                                 <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">{row.plan}</td>
@@ -384,7 +384,7 @@
 
             <div class="my-10 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
                 <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-                <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3">Try Mochify free — no account needed</h3>
+                <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3">Try Mochify free - no account needed</h3>
                 <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6">Process your first files instantly. No signup, no data retained.</p>
                 <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                     Start at mochify.app →
@@ -398,7 +398,7 @@
             <p>These are the numbers that matter for your actual workflow decisions.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Encoder efficiency</h3>
-            <p>Mochify uses jpegli for JPEG output. Google's published benchmarks show jpegli at 2.8 bits per pixel (BPP) matching libjpeg-turbo at 3.7 BPP on subjective quality — a roughly 24% file size reduction at equivalent visual quality.</p>
+            <p>Mochify uses jpegli for JPEG output. Google's published benchmarks show jpegli at 2.8 bits per pixel (BPP) matching libjpeg-turbo at 3.7 BPP on subjective quality - a roughly 24% file size reduction at equivalent visual quality.</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
                 {#each [
@@ -415,7 +415,7 @@
             </div>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Modern format savings</h3>
-            <p>A representative conversion for a commercial product shoot — 25 hero images at 3,200 px wide from Nikon Z HEIF originals:</p>
+            <p>A representative conversion for a commercial product shoot - 25 hero images at 3,200 px wide from Nikon Z HEIF originals:</p>
 
             <ScrollableTable class="my-6">
                 <table class="w-full min-w-[380px] border-collapse">
@@ -447,7 +447,7 @@
             <p>A 25-image batch of Canon or Fuji HIF files converted to sRGB JPEG at 3,600 px long edge via Mochify's Pro tier typically completes in under 60 seconds from upload to download. The same job handled via manual Lightroom export presets plus a separate EXIF-stripping tool plus a manual resize pass typically takes 8–15 minutes.</p>
 
             <InfoBox type="tip" title="Pro tip: time savings compound">
-                Saving 8–15 minutes per shoot batch adds up to several hours per week for busy photographers. Across a full shooting season, that is real studio time recovered — not theoretical efficiency gains.
+                Saving 8–15 minutes per shoot batch adds up to several hours per week for busy photographers. Across a full shooting season, that is real studio time recovered - not theoretical efficiency gains.
             </InfoBox>
         </section>
 
@@ -458,11 +458,11 @@
                 {#each [
                     {
                         q: 'Can Mochify accept Canon HIF files directly, without pre-converting them first?',
-                        a: 'Yes. Mochify accepts HEIF and HIF files as direct inputs. You do not need to convert to JPEG or TIFF first — upload the HIF files from your camera card or Lightroom export folder, describe the output you want in plain English, and Mochify handles the conversion in a single pass.'
+                        a: 'Yes. Mochify accepts HEIF and HIF files as direct inputs. You do not need to convert to JPEG or TIFF first - upload the HIF files from your camera card or Lightroom export folder, describe the output you want in plain English, and Mochify handles the conversion in a single pass.'
                     },
                     {
                         q: 'What happens to my files after Mochify processes them?',
-                        a: "Nothing — because they are never stored. Mochify's pipeline is fully in-memory. Files stream through RAM during processing and are discarded immediately after your download completes. Nothing is written to disk, nothing is retained, and uploaded images are never used for AI training or added to any database."
+                        a: "Nothing - because they are never stored. Mochify's pipeline is fully in-memory. Files stream through RAM during processing and are discarded immediately after your download completes. Nothing is written to disk, nothing is retained, and uploaded images are never used for AI training or added to any database."
                     },
                     {
                         q: 'Can I strip GPS from editorial images while keeping caption and copyright IPTC data?',
@@ -470,11 +470,11 @@
                     },
                     {
                         q: 'What is jpegli, and why does it matter for my client gallery deliveries?',
-                        a: "jpegli is Google's modern JPEG encoder. It produces standard JPEG files — compatible with every device, browser, and gallery platform — but at roughly 25-30% smaller file sizes than traditional libjpeg-turbo encoders at equivalent quality. Your clients see the same image quality; the files upload faster and take up less storage on gallery platforms."
+                        a: "jpegli is Google's modern JPEG encoder. It produces standard JPEG files - compatible with every device, browser, and gallery platform - but at roughly 25-30% smaller file sizes than traditional libjpeg-turbo encoders at equivalent quality. Your clients see the same image quality; the files upload faster and take up less storage on gallery platforms."
                     },
                     {
                         q: 'Is AVIF worth using for client gallery deliveries yet?',
-                        a: 'Not as your primary gallery format — gallery platforms still expect JPEG as the upload format, and AVIF browser support, while good (~90% of current releases), is not universal enough to replace JPEG for client-facing downloads. Use AVIF for your own website, portfolio, and any e-commerce platform where you control the frontend HTML. Deliver JPEG to clients and galleries.'
+                        a: 'Not as your primary gallery format - gallery platforms still expect JPEG as the upload format, and AVIF browser support, while good (~90% of current releases), is not universal enough to replace JPEG for client-facing downloads. Use AVIF for your own website, portfolio, and any e-commerce platform where you control the frontend HTML. Deliver JPEG to clients and galleries.'
                     },
                     {
                         q: 'How many images can I process per month on the Pro plan?',

@@ -6,7 +6,7 @@
 
     const metadata = {
         title: "How Do I Preload AVIF Hero Images in WordPress to Pass the LCP Threshold?",
-        description: "Serving AVIF isn't enough — browsers still discover it late. Add a preload hint to your WordPress theme so the hero image starts downloading before the render tree is built, and hit Google's 2.5s LCP target.",
+        description: "Serving AVIF isn't enough - browsers still discover it late. Add a preload hint to your WordPress theme so the hero image starts downloading before the render tree is built, and hit Google's 2.5s LCP target.",
         category: "Quick Guides",
         readTime: "3 min read",
         date: "April 9, 2026"
@@ -45,7 +45,7 @@
         "@context": "https://schema.org",
         "@type": ["TechArticle", "HowTo"],
         "headline": "How Do I Preload AVIF Hero Images in WordPress to Pass the LCP Threshold?",
-        "description": "Serving AVIF isn't enough — browsers still discover it late. Add a preload hint to your WordPress theme so the hero image starts downloading before the render tree is built.",
+        "description": "Serving AVIF isn't enough - browsers still discover it late. Add a preload hint to your WordPress theme so the hero image starts downloading before the render tree is built.",
         "url": "https://mochify.app/guides/preload-avif-hero-images-wordpress-lcp",
         "inLanguage": "en",
         "datePublished": "2026-04-09",
@@ -88,7 +88,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            Switching your hero image to AVIF cuts file size by up to 50% — but if the browser still discovers it late in the render pipeline, your LCP score won't budge. A single <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;link rel="preload"&gt;</code> hint injected into <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">wp_head</code> tells the browser to start the download before any CSS or JavaScript has been parsed.
+            Switching your hero image to AVIF cuts file size by up to 50% - but if the browser still discovers it late in the render pipeline, your LCP score won't budge. A single <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;link rel="preload"&gt;</code> hint injected into <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">wp_head</code> tells the browser to start the download before any CSS or JavaScript has been parsed.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
@@ -103,8 +103,8 @@
         <section id="why-avif-alone-isnt-enough" class="scroll-mt-24">
             <SectionHeading>Why AVIF alone isn't enough</SectionHeading>
             <p class="mb-4">AVIF gives you the smallest file at the highest quality of any widely-supported format in 2026. WordPress 6.5 added native AVIF upload support, so serving it is no longer a challenge. The problem is discovery timing.</p>
-            <p class="mb-4">When a browser loads a WordPress page it parses the HTML, builds the DOM, then fetches stylesheets, then — only after the CSS is parsed and the render tree is constructed — does it find the hero image URL buried in a CSS <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">background-image</code> rule or an <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;img&gt;</code> tag deep in the template. By that point, you've burned 300–600 ms of latency before the image download even starts.</p>
-            <p class="mb-4">Google's LCP threshold is 2.5 seconds. On a typical shared-hosting WordPress site with a theme that loads 6–12 stylesheets, discovering the hero image late is the single biggest contributor to a failing LCP score — even when the image itself is small.</p>
+            <p class="mb-4">When a browser loads a WordPress page it parses the HTML, builds the DOM, then fetches stylesheets, then - only after the CSS is parsed and the render tree is constructed - does it find the hero image URL buried in a CSS <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">background-image</code> rule or an <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;img&gt;</code> tag deep in the template. By that point, you've burned 300–600 ms of latency before the image download even starts.</p>
+            <p class="mb-4">Google's LCP threshold is 2.5 seconds. On a typical shared-hosting WordPress site with a theme that loads 6–12 stylesheets, discovering the hero image late is the single biggest contributor to a failing LCP score - even when the image itself is small.</p>
 
             <InfoBox type="tip" title="LCP measures the largest visible element">
                 Your hero image is almost always the Largest Contentful Paint element. Reducing its file size matters, but reducing its discovery delay matters more. Preloading addresses the delay; AVIF addresses the size. You need both.
@@ -135,7 +135,7 @@
             </div>
 
             <InfoBox type="note" title="If your hero image is in the Media Library">
-                Replace <code>get_template_directory_uri() . '/images/hero.avif'</code> with the direct URL from the Media Library — for example, <code>https://example.com/wp-content/uploads/2026/04/hero.avif</code>. You can hardcode it or use <code>wp_get_attachment_url( $attachment_id )</code> if you store the ID in a theme option.
+                Replace <code>get_template_directory_uri() . '/images/hero.avif'</code> with the direct URL from the Media Library - for example, <code>https://example.com/wp-content/uploads/2026/04/hero.avif</code>. You can hardcode it or use <code>wp_get_attachment_url( $attachment_id )</code> if you store the ID in a theme option.
             </InfoBox>
 
             <p class="mb-4">The priority of <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">1</code> passed to <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">add_action</code> ensures the hint is output at the very top of <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;head&gt;</code>, before any stylesheets or scripts. The browser's preload scanner picks it up immediately and begins the AVIF download in parallel with everything else.</p>
@@ -151,7 +151,7 @@
             <SectionHeading>Check the result</SectionHeading>
             <ol class="list-decimal pl-6 mb-6 space-y-3 marker:text-[#F06292] marker:font-bold">
                 <li><strong>Run PageSpeed Insights</strong> on your homepage URL. The "Preload Largest Contentful Paint image" audit should no longer appear as an opportunity.</li>
-                <li><strong>Check the waterfall</strong> in Chrome DevTools (Network tab). Your AVIF file should now start downloading near the top of the waterfall — alongside your HTML — rather than after stylesheets resolve.</li>
+                <li><strong>Check the waterfall</strong> in Chrome DevTools (Network tab). Your AVIF file should now start downloading near the top of the waterfall - alongside your HTML - rather than after stylesheets resolve.</li>
                 <li><strong>Confirm LCP in the Core Web Vitals report.</strong> Field data takes 28 days to update in Search Console, but lab data (Lighthouse, PageSpeed) updates immediately.</li>
             </ol>
 
@@ -160,7 +160,7 @@
             <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
                 <h3 class="text-lg font-black text-[#4A2C2C] mb-3">Try Mochify for AVIF conversion</h3>
                 <p class="text-[#6C3F31] leading-relaxed mb-4">
-                    Convert your hero image to AVIF at <a href="https://mochify.app">mochify.app</a> — no account required, processed in RAM, never stored. Download the <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">.avif</code> file and upload it directly to your WordPress Media Library.
+                    Convert your hero image to AVIF at <a href="https://mochify.app">mochify.app</a> - no account required, processed in RAM, never stored. Download the <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">.avif</code> file and upload it directly to your WordPress Media Library.
                 </p>
                 <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
                     Convert to AVIF

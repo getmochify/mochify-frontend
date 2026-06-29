@@ -65,7 +65,7 @@
     <meta name="description" content={metadata.description}>
     <link rel="canonical" href="https://mochify.app/guides/working-with-pdfs-in-ai-agent-workflows" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="Extract Images from PDF in AI Agent Workflows — Split & Convert" />
+    <meta property="og:title" content="Extract Images from PDF in AI Agent Workflows - Split & Convert" />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/working-with-pdfs-in-ai-agent-workflows" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -152,7 +152,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            If you build agents or automation, sooner or later a PDF lands in the pipeline and the agent needs a page as an image, the document broken into single pages, or a thumbnail for a preview card. This guide covers the three operations that recur when you extract images from PDF files, split multi-page documents, and convert pages to web formats inside an automated workflow — plus the correctness traps, the agent-tool-call pattern that keeps token costs sane, and the privacy model that matters when those PDFs hold regulated data.
+            If you build agents or automation, sooner or later a PDF lands in the pipeline and the agent needs a page as an image, the document broken into single pages, or a thumbnail for a preview card. This guide covers the three operations that recur when you extract images from PDF files, split multi-page documents, and convert pages to web formats inside an automated workflow - plus the correctness traps, the agent-tool-call pattern that keeps token costs sane, and the privacy model that matters when those PDFs hold regulated data.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
@@ -213,7 +213,7 @@
 
         <section id="the-paths-not-bytes-pattern">
             <SectionHeading>The paths-not-bytes pattern (and why it saves tokens)</SectionHeading>
-            <p>The established pattern for a PDF tool in an agent workflow is to do the heavy work, write the results to disk or object storage, and return file paths and lightweight metadata into the model context — not the raw image or document bytes. There are two solid reasons, one architectural and one financial.</p>
+            <p>The established pattern for a PDF tool in an agent workflow is to do the heavy work, write the results to disk or object storage, and return file paths and lightweight metadata into the model context - not the raw image or document bytes. There are two solid reasons, one architectural and one financial.</p>
             <p>Architecturally, this is exactly how the Model Context Protocol models data. The MCP <a href="https://modelcontextprotocol.io/specification/2025-06-18/server/resources" target="_blank" rel="noopener noreferrer">resources specification</a> exposes data via URIs with MIME types, leaving the client to decide <em>when</em> to actually read the bytes. A tool that hands back <code class={inlineCode}>file:///out/contract-p3.webp</code> plus its format, dimensions, and page index fits this model cleanly; a tool that dumps a base64 blob into every response does not.</p>
             <p>Financially, images are expensive in context because they are billed as tokens. OpenAI's <a href="https://openai.com/api/pricing/" target="_blank" rel="noopener noreferrer">pricing documentation</a> works through an example where a single 512×512 image costs on the order of 210 tokens, and Azure's vision pricing breaks a comparable input down as 170 + 85 image tokens on top of the text. Those numbers are small per image and brutal at batch scale: render 200 pages and pipe each one through the model context and you are paying token rent on every pixel, repeatedly, for data the model often does not need to "see" at all. Return a path instead, and the bytes enter the context only on the rare call where the model genuinely must look.</p>
             <p>The takeaway: design your PDF tools to return URIs and metadata by default. Let the host application or a downstream tool fetch the actual file when, and only when, it is needed.</p>
@@ -362,7 +362,7 @@
         <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
             <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3">Wiring PDFs into an agent?</h3>
-            <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6 text-base">Point it at Mochify's PDF utility, describe the job in plain English, and get back file paths and metadata — the page images and split PDFs never touch your model context.</p>
+            <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6 text-base">Point it at Mochify's PDF utility, describe the job in plain English, and get back file paths and metadata - the page images and split PDFs never touch your model context.</p>
             <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                 Try it free at mochify.app →
             </a>

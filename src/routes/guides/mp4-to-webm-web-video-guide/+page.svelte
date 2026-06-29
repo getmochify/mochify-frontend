@@ -43,7 +43,7 @@
 
     const related = [
         { href: '/guides/optimizing-hero-images', title: 'Optimising Hero Images for Web Performance', desc: 'The image-side companion to this guide: LCP optimisation, responsive sizes, and format choices for above-the-fold images.' },
-        { href: '/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl', title: 'What Should I Use in 2026: WebP, AVIF, or JPEG XL?', desc: 'The same codec-vs-compatibility analysis applied to images — useful context when optimising both assets on the same page.' },
+        { href: '/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl', title: 'What Should I Use in 2026: WebP, AVIF, or JPEG XL?', desc: 'The same codec-vs-compatibility analysis applied to images - useful context when optimising both assets on the same page.' },
         { href: '/guides/2026-guide-next-gen-formats', title: 'The 2026 Guide to Next-Gen Formats: WebP, AVIF, JPEG XL', desc: 'Deeper coverage of royalty-free web format history and what drives compression gains across the modern codec family.' },
         { href: '/guides/privacy-image-optimization', title: 'Privacy and Image Optimization: A Comprehensive Guide', desc: 'Covers the data-handling landscape for online media tools, including the retention and logging practices that apply to server-side converters.' },
         { href: '/guides/on-device-ai-agents-image-optimization', title: 'On-Device AI Agents: Image and PDF Optimization for Local Workflows', desc: 'For teams building automation pipelines: how on-device and in-browser tooling keeps media workflows private and agent-friendly.' },
@@ -119,7 +119,7 @@
                 "name": "Do I still need an MP4 if I'm serving WebM?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes. Even though WebM/VP9 has broad modern browser support, you should always include an MP4/H.264 source as a fallback. Some legacy browsers, certain email clients, and some social sharing contexts require MP4. The video fallback pattern handles this automatically — modern browsers take the WebM and ignore the MP4 entirely, while anything that cannot play WebM falls through to the H.264 source."
+                    "text": "Yes. Even though WebM/VP9 has broad modern browser support, you should always include an MP4/H.264 source as a fallback. Some legacy browsers, certain email clients, and some social sharing contexts require MP4. The video fallback pattern handles this automatically - modern browsers take the WebM and ignore the MP4 entirely, while anything that cannot play WebM falls through to the H.264 source."
                 }
             },
             {
@@ -135,7 +135,7 @@
                 "name": "Will converting to WebM reduce video quality?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "At comparable bitrate targets, WebM/VP9 actually delivers better quality than H.264. The point of the conversion is that you get the same perceived quality at a lower bitrate. For most web uses — hero loops, product demos — a moderate VP9 quality setting will produce a file that looks identical to the source at significantly smaller size."
+                    "text": "At comparable bitrate targets, WebM/VP9 actually delivers better quality than H.264. The point of the conversion is that you get the same perceived quality at a lower bitrate. For most web uses - hero loops, product demos - a moderate VP9 quality setting will produce a file that looks identical to the source at significantly smaller size."
                 }
             },
             {
@@ -151,7 +151,7 @@
                 "name": "Can I convert MP4 to WebM without installing anything?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes. Mochify's video tool at mochify.app/solutions/mp4-to-webm runs entirely in your browser — no install required. The conversion engine runs client-side so nothing is uploaded to a server."
+                    "text": "Yes. Mochify's video tool at mochify.app/solutions/mp4-to-webm runs entirely in your browser - no install required. The conversion engine runs client-side so nothing is uploaded to a server."
                 }
             }
         ]
@@ -217,7 +217,7 @@
             <ul class="list-disc pl-6 mb-4 space-y-2">
                 <li><strong class="text-[#4A2C2C]">MP4</strong> typically carries H.264 (AVC) video and AAC audio. H.264 is the universal fallback: every browser on every platform plays it, which is exactly why it is the right choice for email attachments, social uploads, and anywhere you do not control the player.</li>
                 <li><strong class="text-[#4A2C2C]">WebM</strong> carries VP8, VP9, or AV1 video alongside Opus or Vorbis audio. VP9 is the practical choice for most web projects today: near-universal modern browser support, roughly 30–50% smaller files than H.264 at similar perceived quality, and encode times measured in seconds for typical web clips.</li>
-                <li><strong class="text-[#4A2C2C]">AV1</strong> in WebM pushes compression further still — typically 40–55% smaller than H.264 — but encode times are 5–10x longer than VP9, and hardware decoder support on pre-2020 mobile devices is inconsistent.</li>
+                <li><strong class="text-[#4A2C2C]">AV1</strong> in WebM pushes compression further still - typically 40–55% smaller than H.264 - but encode times are 5–10x longer than VP9, and hardware decoder support on pre-2020 mobile devices is inconsistent.</li>
             </ul>
             <p>The reason web developers care about this split: H.264 is royalty-bearing, which means tooling and distribution can carry licensing costs and complications. VP9 and AV1 are royalty-free, which is why they are the codecs of choice when you are serving video you control directly.</p>
         </section>
@@ -225,14 +225,14 @@
         <!-- Section 2 -->
         <section id="browser-support" class="scroll-mt-24">
             <SectionHeading>Browser Support in 2026: What You Can Safely Ship</SectionHeading>
-            <p class="mb-4">VP9 in WebM is the safe bet for modern web delivery. WebM (VP8/VP9) is supported in current versions of all major desktop and mobile browsers — Chrome, Edge, Firefox, and Safari all handle it. The practical implication: if you serve WebM/VP9 alongside an MP4/H.264 fallback, you get maximum compression for modern browsers and guaranteed compatibility for anything older.</p>
+            <p class="mb-4">VP9 in WebM is the safe bet for modern web delivery. WebM (VP8/VP9) is supported in current versions of all major desktop and mobile browsers - Chrome, Edge, Firefox, and Safari all handle it. The practical implication: if you serve WebM/VP9 alongside an MP4/H.264 fallback, you get maximum compression for modern browsers and guaranteed compatibility for anything older.</p>
             <p class="mb-4">The Safari situation has improved materially. Safari historically lagged on VP9 and AV1 support, forcing many teams to maintain MP4 as the primary format. That has changed:</p>
             <ul class="list-disc pl-6 mb-4 space-y-2">
                 <li>VP8/VP9 in WebM: supported in current Safari versions.</li>
                 <li>AV1: supported in Safari 17 and later, alongside Chrome, Firefox, and Edge.</li>
             </ul>
             <p class="mb-4">This means AV1 is a viable choice if your audience skews toward recent hardware and software, though it remains a stretch if you need to cover pre-2022 mobile browsers. For most projects, VP9 WebM plus H.264 MP4 fallback covers 99%+ of users.</p>
-            <p>H.264 in MP4 remains the most broadly compatible format across all browsers, making it the correct fallback — not the primary format for a performance-optimised site.</p>
+            <p>H.264 in MP4 remains the most broadly compatible format across all browsers, making it the correct fallback - not the primary format for a performance-optimised site.</p>
         </section>
 
         <!-- Section 3 -->
@@ -308,18 +308,18 @@
                 </table>
             </ScrollableTable>
 
-            <p class="mb-4">These are representative benchmarks. Mux's encoding guidance recommends 2–3 Mbps for 1080p VP9 versus 4–6 Mbps for H.264 at comparable quality — implying roughly 40–50% bitrate savings.</p>
+            <p class="mb-4">These are representative benchmarks. Mux's encoding guidance recommends 2–3 Mbps for 1080p VP9 versus 4–6 Mbps for H.264 at comparable quality - implying roughly 40–50% bitrate savings.</p>
             <p class="mb-4">The rule of thumb for planning: expect WebM/VP9 to deliver 30–50% smaller files than MP4/H.264 at equivalent visual quality. AV1 can push that to 40–58%, at the cost of significantly longer encode times.</p>
 
             <InfoBox type="tip" title="AV1 encode time trade-off">
-                AV1 is 5–10x slower than VP9 to encode, and VP9 is already slower than H.264. For short web clips this is usually fine — a 30-second loop might take a few minutes rather than seconds — but for longer content or batch jobs, AV1 encode time is a real planning consideration.
+                AV1 is 5–10x slower than VP9 to encode, and VP9 is already slower than H.264. For short web clips this is usually fine - a 30-second loop might take a few minutes rather than seconds - but for longer content or batch jobs, AV1 encode time is a real planning consideration.
             </InfoBox>
         </section>
 
         <!-- Section 4 -->
         <section id="video-fallback" class="scroll-mt-24">
             <SectionHeading>The &lt;video&gt; Fallback Pattern Every Site Should Use</SectionHeading>
-            <p class="mb-4">Serving WebM without a fallback is a mistake — older browsers and some contexts still require MP4. The correct pattern is a <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> element with multiple <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;source&gt;</code> children in priority order. The browser picks the first source it can play and stops evaluating the rest.</p>
+            <p class="mb-4">Serving WebM without a fallback is a mistake - older browsers and some contexts still require MP4. The correct pattern is a <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> element with multiple <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;source&gt;</code> children in priority order. The browser picks the first source it can play and stops evaluating the rest.</p>
 
             <CodeBlock filename="hero.html" code={videoFallbackCode} />
 
@@ -345,7 +345,7 @@
         <section id="core-web-vitals" class="scroll-mt-24">
             <SectionHeading>Video Format Choices and Core Web Vitals</SectionHeading>
             <p class="mb-4">Converting MP4 to WebM is not just about file size. It connects directly to how Google scores your page.</p>
-            <p class="mb-4">Images and video account for over 70% of the bytes downloaded for the average website. Choosing more efficient formats can lead to lower overall page load times and potentially improve a page's Largest Contentful Paint (LCP). LCP is one of the three Core Web Vitals Google uses in ranking — it measures how long the largest visible element (often a hero image or video) takes to render.</p>
+            <p class="mb-4">Images and video account for over 70% of the bytes downloaded for the average website. Choosing more efficient formats can lead to lower overall page load times and potentially improve a page's Largest Contentful Paint (LCP). LCP is one of the three Core Web Vitals Google uses in ranking - it measures how long the largest visible element (often a hero image or video) takes to render.</p>
             <p class="mb-4">When your hero video is the LCP element, every megabyte you strip from it reduces LCP time directly. Switching a 12 MB H.264 hero to a 7 MB VP9 WebM, combined with <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">preload="metadata"</code> and a poster image, is one of the higher-leverage LCP optimisations available on video-heavy pages.</p>
             <p class="mb-4">The pattern that works:</p>
             <ol class="list-decimal pl-6 mb-4 space-y-2">
@@ -354,13 +354,13 @@
                 <li>Set a <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">poster</code> image that renders while the video loads, so the LCP element itself is a small static image rather than waiting for the first video frame.</li>
                 <li>For below-the-fold video: consider <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">preload="none"</code> and an <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">IntersectionObserver</code> to defer loading until the element is near the viewport.</li>
             </ol>
-            <p>If you are already optimising images for web performance — converting to WebP or AVIF, setting responsive sizes, preloading the hero — video format is the next logical step. See <a href="/guides/optimizing-hero-images">Optimising Hero Images for Web Performance</a> for the image side of this and how image and video optimisation work together for LCP-critical pages.</p>
+            <p>If you are already optimising images for web performance - converting to WebP or AVIF, setting responsive sizes, preloading the hero - video format is the next logical step. See <a href="/guides/optimizing-hero-images">Optimising Hero Images for Web Performance</a> for the image side of this and how image and video optimisation work together for LCP-critical pages.</p>
         </section>
 
         <!-- Section 6 -->
         <section id="privacy-risks" class="scroll-mt-24">
             <SectionHeading>Why Online Converters Are a Privacy Risk</SectionHeading>
-            <p class="mb-4">The obvious tool for converting MP4 to WebM is a search away — dozens of sites offer free browser-based conversion. But what most of them actually do is upload your file to a remote server, run FFmpeg, and hand you back the result. That means your footage leaves your machine.</p>
+            <p class="mb-4">The obvious tool for converting MP4 to WebM is a search away - dozens of sites offer free browser-based conversion. But what most of them actually do is upload your file to a remote server, run FFmpeg, and hand you back the result. That means your footage leaves your machine.</p>
             <p class="mb-4">The implications range from inconvenient to serious.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8">Retention windows vary wildly</h3>
@@ -376,7 +376,7 @@
                 A 2025 advisory from the FBI warned that some free online file converter sites have been used to distribute malware, tricking users into downloading infected files as part of conversion workflows. The recommendation is to avoid arbitrary free converters and use trusted, local tools instead.
             </InfoBox>
 
-            <p class="mb-4">The alternative is browser-based conversion using WebAssembly — tools where the conversion engine runs inside your browser tab and your video bytes never touch a remote server. ffmpeg.wasm is a full WebAssembly port of FFmpeg that runs entirely client-side; the project explicitly describes its privacy benefit as "your users' data only lives inside their browser." These tools can even run offline once cached, since there is no server round-trip involved.</p>
+            <p class="mb-4">The alternative is browser-based conversion using WebAssembly - tools where the conversion engine runs inside your browser tab and your video bytes never touch a remote server. ffmpeg.wasm is a full WebAssembly port of FFmpeg that runs entirely client-side; the project explicitly describes its privacy benefit as "your users' data only lives inside their browser." These tools can even run offline once cached, since there is no server round-trip involved.</p>
             <p>Mochify's video tool takes the same approach: conversion happens in your browser. The video never leaves your device. See also <a href="/guides/privacy-image-optimization">Privacy and Image Optimization</a> for a broader look at the data-handling landscape for online media tools.</p>
         </section>
 
@@ -391,9 +391,9 @@
             {#each [
                 { n: '1', title: 'Open the tool.', body: 'Go to mochify.app/solutions/mp4-to-webm in your browser. No install required.' },
                 { n: '2', title: 'Drop in your MP4.', body: 'Drag your file onto the tool or click to select it from your file system.' },
-                { n: '3', title: 'Wait for the conversion.', body: 'Processing runs in your browser tab. Larger files take longer since everything runs locally on your machine — you will see progress as it works.' },
+                { n: '3', title: 'Wait for the conversion.', body: 'Processing runs in your browser tab. Larger files take longer since everything runs locally on your machine - you will see progress as it works.' },
                 { n: '4', title: 'Download the WebM output.', body: 'Save the converted file alongside your original MP4.' },
-                { n: '5', title: 'Add both to your <video> element.', body: 'Use the fallback pattern from Section 4 — WebM first, MP4 second. Keep both files; you need both for full browser coverage.' },
+                { n: '5', title: 'Add both to your <video> element.', body: 'Use the fallback pattern from Section 4 - WebM first, MP4 second. Keep both files; you need both for full browser coverage.' },
             ] as step}
                 <li class="flex gap-4 items-start">
                     <span class="w-8 h-8 shrink-0 rounded-full bg-[#F06292] text-white flex items-center justify-center font-black text-sm mt-0.5">{step.n}</span>
@@ -407,7 +407,7 @@
         </InfoBox>
 
         <div class="border-t border-pink-100 mt-8 pt-6 text-[#875F42] text-base leading-relaxed">
-            <strong class="text-[#6C3F31]">Privacy note:</strong> Because processing is entirely in-browser, there are no retention concerns. The video bytes never leave your device — not to Mochify's servers, not to any third party. This is the fundamental architectural difference from server-side online converters.
+            <strong class="text-[#6C3F31]">Privacy note:</strong> Because processing is entirely in-browser, there are no retention concerns. The video bytes never leave your device - not to Mochify's servers, not to any third party. This is the fundamental architectural difference from server-side online converters.
         </div>
     </section>
 
@@ -424,16 +424,16 @@
                 </thead>
                 <tbody>
                     {#each [
-                        ['Primary web codec', 'VP9 (WebM) — broad support, 30–50% savings vs H.264'],
-                        ['Future-proofing', 'AV1 (WebM) — up to 58% savings, but slower encode'],
-                        ['Fallback format', 'H.264 (MP4) — universal compatibility'],
+                        ['Primary web codec', 'VP9 (WebM) - broad support, 30–50% savings vs H.264'],
+                        ['Future-proofing', 'AV1 (WebM) - up to 58% savings, but slower encode'],
+                        ['Fallback format', 'H.264 (MP4) - universal compatibility'],
                         ['Source order in <video>', 'WebM first, MP4 second'],
                         ['type attribute (WebM)', 'video/webm; codecs="vp9, opus"'],
                         ['type attribute (MP4)', 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'],
                         ['Hero/autoplay attributes', 'autoplay muted loop playsinline preload="metadata"'],
                         ['LCP optimisation', 'poster image + preload="metadata"'],
                         ['Below-the-fold video', 'preload="none" + IntersectionObserver'],
-                        ['Privacy-safe conversion', 'In-browser tool (Mochify, ffmpeg.wasm) — no upload'],
+                        ['Privacy-safe conversion', 'In-browser tool (Mochify, ffmpeg.wasm) - no upload'],
                         ['Typical VP9 file saving', '30–50% smaller than H.264 at similar quality'],
                         ['AV1 encode time trade-off', '5–10x slower than VP9; not worth it for tight deadlines'],
                     ] as [decision, rec], i}
@@ -458,7 +458,7 @@
             {#each [
                 {
                     q: 'Do I still need an MP4 if I\'m serving WebM?',
-                    a: 'Yes. Even though WebM/VP9 has broad modern browser support, you should always include an MP4/H.264 source as a fallback. Some legacy browsers, certain email clients, and some social sharing contexts require MP4. The <video> fallback pattern handles this automatically — modern browsers take the WebM and ignore the MP4 entirely, while anything that cannot play WebM falls through to the H.264 source.'
+                    a: 'Yes. Even though WebM/VP9 has broad modern browser support, you should always include an MP4/H.264 source as a fallback. Some legacy browsers, certain email clients, and some social sharing contexts require MP4. The <video> fallback pattern handles this automatically - modern browsers take the WebM and ignore the MP4 entirely, while anything that cannot play WebM falls through to the H.264 source.'
                 },
                 {
                     q: 'Which is better for web video: VP9 or AV1?',
@@ -466,7 +466,7 @@
                 },
                 {
                     q: 'Will converting to WebM reduce video quality?',
-                    a: 'At comparable bitrate targets, WebM/VP9 actually delivers better quality than H.264 — the point of the conversion is that you get the same perceived quality at a lower bitrate. If your converter settings are producing visibly lower quality WebM than your original MP4, the output quality or bitrate target is set too aggressively. For most web uses (hero loops, product demos), a moderate VP9 quality setting will produce a file that looks identical to the source at significantly smaller size.'
+                    a: 'At comparable bitrate targets, WebM/VP9 actually delivers better quality than H.264 - the point of the conversion is that you get the same perceived quality at a lower bitrate. If your converter settings are producing visibly lower quality WebM than your original MP4, the output quality or bitrate target is set too aggressively. For most web uses (hero loops, product demos), a moderate VP9 quality setting will produce a file that looks identical to the source at significantly smaller size.'
                 },
                 {
                     q: 'Does Safari support WebM in 2026?',
@@ -474,11 +474,11 @@
                 },
                 {
                     q: 'Why should I convert in the browser rather than uploading to an online converter?',
-                    a: 'Server-side converters require your video to leave your machine. Depending on the service, your file may be retained for 24 hours or more, logged alongside your IP address, and potentially accessible if the provider\'s storage is misconfigured or breached. For footage under NDA, client work, or any video you\'d rather keep private, in-browser conversion — where the video bytes never leave your device — is the correct choice. The FBI issued guidance in 2025 noting that some free online converters have been used to distribute malware, adding a security dimension to the privacy concern.'
+                    a: 'Server-side converters require your video to leave your machine. Depending on the service, your file may be retained for 24 hours or more, logged alongside your IP address, and potentially accessible if the provider\'s storage is misconfigured or breached. For footage under NDA, client work, or any video you\'d rather keep private, in-browser conversion - where the video bytes never leave your device - is the correct choice. The FBI issued guidance in 2025 noting that some free online converters have been used to distribute malware, adding a security dimension to the privacy concern.'
                 },
                 {
                     q: 'Can I convert MP4 to WebM without installing anything?',
-                    a: 'Yes. Mochify\'s video tool at mochify.app/solutions/mp4-to-webm runs entirely in your browser — no install required. The conversion engine runs client-side, so nothing is uploaded to a server. For development workflows where you prefer a command-line approach, FFmpeg handles MP4-to-WebM conversion locally, but that requires a local FFmpeg install.'
+                    a: 'Yes. Mochify\'s video tool at mochify.app/solutions/mp4-to-webm runs entirely in your browser - no install required. The conversion engine runs client-side, so nothing is uploaded to a server. For development workflows where you prefer a command-line approach, FFmpeg handles MP4-to-WebM conversion locally, but that requires a local FFmpeg install.'
                 },
                 {
                     q: 'What attributes should a hero autoplay video have in HTML?',
@@ -504,7 +504,7 @@
 
     <!-- CTA -->
     <aside class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-8 mt-12">
-        <p class="text-[#6C3F31] leading-relaxed mb-5">Convert your MP4 to WebM right now — no account needed, nothing uploaded. Mochify's video engine runs entirely in your browser, so your footage stays on your machine while you get a web-optimised WebM file ready to drop into your <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> element.</p>
+        <p class="text-[#6C3F31] leading-relaxed mb-5">Convert your MP4 to WebM right now - no account needed, nothing uploaded. Mochify's video engine runs entirely in your browser, so your footage stays on your machine while you get a web-optimised WebM file ready to drop into your <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> element.</p>
         <a href="/solutions/mp4-to-webm" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
             Convert MP4 to WebM free
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>

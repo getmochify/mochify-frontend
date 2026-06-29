@@ -199,7 +199,7 @@
         <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
             <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3">Keep image bytes out of your context window</h3>
-            <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6 text-base">Mochify's local MCP server returns file paths, not binary, so a compression step costs a handful of tokens instead of thousands. Just describe the job — for example <em>"compress the PNGs in ./screenshots to WebP and return the paths"</em>.</p>
+            <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6 text-base">Mochify's local MCP server returns file paths, not binary, so a compression step costs a handful of tokens instead of thousands. Just describe the job - for example <em>"compress the PNGs in ./screenshots to WebP and return the paths"</em>.</p>
             <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                 Try it free at mochify.app →
             </a>

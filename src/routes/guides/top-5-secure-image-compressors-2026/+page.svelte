@@ -720,7 +720,7 @@
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-2">If You're a Developer Integrating Into Your Stack…</h3>
                     <p class="mb-2"><strong>Choose Cloudinary for API-first workflows; choose Mochify's API if privacy is paramount.</strong></p>
-                    <p class="mb-3">Cloudinary's API is mature, documented, and scales to millions of images. But you're trusting a CDN with long-term storage. Mochify's zero-retention API is now live — giving developers privacy-by-design at scale without the trade-offs.</p>
+                    <p class="mb-3">Cloudinary's API is mature, documented, and scales to millions of images. But you're trusting a CDN with long-term storage. Mochify's zero-retention API is now live - giving developers privacy-by-design at scale without the trade-offs.</p>
                     <p class="text-sm text-red-600"><strong>Avoid:</strong> Squoosh (no API), TinyPNG (limited API, unclear encoder specs).</p>
                 </div>
                 

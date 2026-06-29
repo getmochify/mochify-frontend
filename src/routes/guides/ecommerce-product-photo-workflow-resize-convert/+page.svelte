@@ -15,11 +15,11 @@
     const faqItems = [
         {
             q: "Why 1200px and 800px specifically?",
-            a: "1200px covers the product detail page on every major platform — Shopify, Etsy, eBay, and Amazon all recommend at least 1000px on the long edge for zoom. 800px hits the grid and thumbnail sizes used for category pages and search results. Running both in one job means you only process each photo once."
+            a: "1200px covers the product detail page on every major platform - Shopify, Etsy, eBay, and Amazon all recommend at least 1000px on the long edge for zoom. 800px hits the grid and thumbnail sizes used for category pages and search results. Running both in one job means you only process each photo once."
         },
         {
             q: "Can I use AVIF or WebP instead of JPG for Shopify?",
-            a: "Yes — Shopify accepts WebP and AVIF uploads. If you're uploading to Shopify directly, WebP at 1200px gives smaller files and better LCP scores. Use JPG when you need the broadest compatibility: eBay, Amazon, Etsy, Mercari, and most marketplace bulk-upload tools still work most reliably with JPEG."
+            a: "Yes - Shopify accepts WebP and AVIF uploads. If you're uploading to Shopify directly, WebP at 1200px gives smaller files and better LCP scores. Use JPG when you need the broadest compatibility: eBay, Amazon, Etsy, Mercari, and most marketplace bulk-upload tools still work most reliably with JPEG."
         },
         {
             q: "Does Mochify create both sizes from a single upload?",
@@ -35,12 +35,12 @@
         },
         {
             q: "Should I strip EXIF data from product photos?",
-            a: "Yes, by default. Product photos often carry GPS coordinates from your home studio, device serial numbers, and shoot timestamps — none of which belong in a public listing. Mochify strips EXIF by default on every job. Add 'keep metadata' to your prompt only if you need to preserve copyright fields for editorial licensing."
+            a: "Yes, by default. Product photos often carry GPS coordinates from your home studio, device serial numbers, and shoot timestamps - none of which belong in a public listing. Mochify strips EXIF by default on every job. Add 'keep metadata' to your prompt only if you need to preserve copyright fields for editorial licensing."
         }
     ];
 
     const relatedGuides = [
-        { href: '/guides/what-image-format-should-i-use-for-product-photos', title: 'What Image Format Should I Use for Product Photos?', desc: 'AVIF, WebP, or JPEG — the practical format fallback order for ecommerce product images.' },
+        { href: '/guides/what-image-format-should-i-use-for-product-photos', title: 'What Image Format Should I Use for Product Photos?', desc: 'AVIF, WebP, or JPEG - the practical format fallback order for ecommerce product images.' },
         { href: '/guides/jpegli-shopify-product-images', title: 'How to Use Jpegli for Shopify Product Images', desc: 'Pre-compress before upload to stop Shopify recompression degrading your image quality.' },
         { href: '/guides/ai-image-compression-natural-language-2026', title: 'AI-Powered Image Compression: How Magic Flow Works', desc: "How Mochify's natural-language feature maps plain-English prompts to processing parameters." },
         { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'Why stripping metadata from product photos matters before uploading to a public listing.' },
@@ -152,12 +152,12 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            Product photos from a camera are never the right size or format for a marketplace listing. Here's the fastest way to fix that — one prompt, two sizes, done.
+            Product photos from a camera are never the right size or format for a marketplace listing. Here's the fastest way to fix that - one prompt, two sizes, done.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
             <p class="text-[#6C3F31] text-base leading-relaxed m-0">
-                This guide walks through the workflow shown in the video above: drop your product shots into Magic Flow, type a single natural-language prompt, and download a ZIP with both sizes ready for your listing — no format pickers, no quality sliders, no repeat uploads.
+                This guide walks through the workflow shown in the video above: drop your product shots into Magic Flow, type a single natural-language prompt, and download a ZIP with both sizes ready for your listing - no format pickers, no quality sliders, no repeat uploads.
             </p>
         </div>
     </header>
@@ -174,7 +174,7 @@
                     <div class="relative rounded-2xl overflow-hidden shadow-lg border border-pink-100" style="aspect-ratio: 9/16;">
                         <iframe
                             src="https://www.youtube.com/embed/82GUWkHjmm0"
-                            title="Ecommerce product photo workflow — convert to JPG, resize to 1200px and 800px with Mochify"
+                            title="Ecommerce product photo workflow - convert to JPG, resize to 1200px and 800px with Mochify"
                             frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             allowfullscreen
@@ -223,7 +223,7 @@
                 <p class="text-2xl font-black text-[#4A2C2C] m-0">"convert to jpg, resize to 1200px and 800px"</p>
             </div>
 
-            <p>Magic Flow parses that intent and runs the squish engine twice per file — once at 1200px, once at 800px — returning both outputs in a single ZIP. No format picker, no slider for each size, no second upload. The engine resolves width-only instructions against the longest edge and preserves the original aspect ratio unless you explicitly ask for a crop.</p>
+            <p>Magic Flow parses that intent and runs the squish engine twice per file - once at 1200px, once at 800px - returning both outputs in a single ZIP. No format picker, no slider for each size, no second upload. The engine resolves width-only instructions against the longest edge and preserves the original aspect ratio unless you explicitly ask for a crop.</p>
 
             <InfoBox type="tip" title="EXIF is stripped by default">
                 Product photos often carry GPS coordinates from your home studio, device serial numbers, and shoot timestamps. Mochify strips all EXIF metadata automatically on every job. Add <strong>"keep metadata"</strong> to the prompt only if you need to preserve copyright fields for editorial licensing.
@@ -284,7 +284,7 @@
             <p>If you're uploading directly to Shopify and nowhere else, swap <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-0.5 rounded text-sm font-mono">jpg</code> for <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-0.5 rounded text-sm font-mono">webp</code> or <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-0.5 rounded text-sm font-mono">avif</code> in the prompt and you'll get 25–50% smaller files with no compatibility trade-off.</p>
 
             <InfoBox type="note" title="Mochify uses jpegli for JPEG output">
-                All JPEG output uses Google's jpegli encoder, which produces files roughly 25–35% smaller than standard libjpeg at equivalent visual quality. The output is a fully standard JPEG — compatible with every platform, CMS, and image tool.
+                All JPEG output uses Google's jpegli encoder, which produces files roughly 25–35% smaller than standard libjpeg at equivalent visual quality. The output is a fully standard JPEG - compatible with every platform, CMS, and image tool.
             </InfoBox>
         </section>
 
@@ -303,7 +303,7 @@
         <!-- Inline CTA -->
         <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Try it now — drop your product photos</h3>
+            <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Try it now - drop your product photos</h3>
             <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base">3 images free, no account needed. Type the prompt, upload your shots, download both sizes.</p>
             <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                 Open Magic Flow →
@@ -323,11 +323,11 @@
                     },
                     {
                         prompt: '"optimise for eBay"',
-                        note: "Applies eBay's recommended 1600px JPEG preset automatically — no dimensions needed."
+                        note: "Applies eBay's recommended 1600px JPEG preset automatically - no dimensions needed."
                     },
                     {
                         prompt: '"convert to jpg, crop to 1:1, resize to 1080px"',
-                        note: 'Square crop centred on the subject — the correct format for Instagram product posts.'
+                        note: 'Square crop centred on the subject - the correct format for Instagram product posts.'
                     },
                     {
                         prompt: '"convert to jpg, resize to 2000px, smart compress"',

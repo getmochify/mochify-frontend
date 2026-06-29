@@ -88,12 +88,12 @@
         </h1>
 
         <p class="text-xl text-cocoa-deep opacity-90 leading-relaxed max-w-2xl mb-8">
-            Most journaling apps do little to nothing useful with your images. Some resize slightly, some convert formats in ways that actually increase file size, and none give you real control over compression. Your journal grows — and your storage shrinks.
+            Most journaling apps do little to nothing useful with your images. Some resize slightly, some convert formats in ways that actually increase file size, and none give you real control over compression. Your journal grows - and your storage shrinks.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
             <p class="text-lg text-cocoa-deep leading-relaxed">
-                <strong>Published May 2026 by the Mochify Engineering Team.</strong> This guide covers how Day One, Apple Journal, GoodNotes, and others handle photo storage — and how to compress before you attach.
+                <strong>Published May 2026 by the Mochify Engineering Team.</strong> This guide covers how Day One, Apple Journal, GoodNotes, and others handle photo storage - and how to compress before you attach.
             </p>
         </div>
     </header>
@@ -193,7 +193,7 @@
                 <div class="w-10 h-10 shrink-0 bg-pink-100 rounded-xl border border-pink-200 flex items-center justify-center text-lg">💡</div>
                 <div>
                     <p class="text-xs font-bold uppercase tracking-wider text-mochi-pink mb-2">Worth knowing</p>
-                    <p class="text-base text-cocoa-deep leading-relaxed">HEIC was designed to save space. When Day One converts a 2.4 MB HEIC to a 4.8 MB JPEG, that's not compression — it's regression. Every photo you add doubles its footprint before it reaches your archive.</p>
+                    <p class="text-base text-cocoa-deep leading-relaxed">HEIC was designed to save space. When Day One converts a 2.4 MB HEIC to a 4.8 MB JPEG, that's not compression - it's regression. Every photo you add doubles its footprint before it reaches your archive.</p>
                 </div>
             </div>
         </section>
@@ -202,20 +202,20 @@
         <section id="pain-points" class="scroll-mt-24">
             <SectionHeading>Pain Points</SectionHeading>
 
-            <p class="mb-4">Month 1 feels fine. Month 6, your iPhone screams "Storage Full" mid-sync. Day One and Apple Journal users regularly report journals hitting multiple GBs within months, even with iCloud enabled — because iCloud syncs the bloat, it doesn't remove it.</p>
+            <p class="mb-4">Month 1 feels fine. Month 6, your iPhone screams "Storage Full" mid-sync. Day One and Apple Journal users regularly report journals hitting multiple GBs within months, even with iCloud enabled - because iCloud syncs the bloat, it doesn't remove it.</p>
 
-            <p class="mb-4">Apple Journal doesn't just store your photos — it duplicates them. Users report 180 MB for just 4 photos, climbing past 700 MB once you hit 20–30 MB of originals. One Apple Discussions thread documents 1.3 GB local storage plus 1.2 GB on iCloud for a single journal.</p>
+            <p class="mb-4">Apple Journal doesn't just store your photos - it duplicates them. Users report 180 MB for just 4 photos, climbing past 700 MB once you hit 20–30 MB of originals. One Apple Discussions thread documents 1.3 GB local storage plus 1.2 GB on iCloud for a single journal.</p>
 
-            <p class="mb-4">GoodNotes becomes its own storage crisis. At 20 GB+ for some users — three to four times what competing apps consume — exports slow to a crawl and iCloud backups become a waiting game. There's no built-in fix; the workaround is exporting, re-importing at lower resolution, and hoping for the best.</p>
+            <p class="mb-4">GoodNotes becomes its own storage crisis. At 20 GB+ for some users - three to four times what competing apps consume - exports slow to a crawl and iCloud backups become a waiting game. There's no built-in fix; the workaround is exporting, re-importing at lower resolution, and hoping for the best.</p>
 
-            <p>None of these apps let you set a maximum resolution, choose a format, or strip EXIF data before the image gets stored. You're at the app's mercy — and the app's defaults are not optimised for your storage budget.</p>
+            <p>None of these apps let you set a maximum resolution, choose a format, or strip EXIF data before the image gets stored. You're at the app's mercy - and the app's defaults are not optimised for your storage budget.</p>
         </section>
 
         <!-- Section 03 -->
         <section id="fix-before-attach" class="scroll-mt-24">
             <SectionHeading>Fix It Before You Attach</SectionHeading>
 
-            <p class="mb-4">Compress before you attach. That's the only reliable solution. <a href="https://mochify.app" class="text-mochi-pink font-bold hover:underline">Mochify</a> processes images in memory and deletes them immediately after — zero retention, no account required on the free tier, no data lingering on a server.</p>
+            <p class="mb-4">Compress before you attach. That's the only reliable solution. <a href="https://mochify.app" class="text-mochi-pink font-bold hover:underline">Mochify</a> processes images in memory and deletes them immediately after - zero retention, no account required on the free tier, no data lingering on a server.</p>
 
             <p class="mb-6">Here's a practical workflow using Magic Flow, Mochify's natural-language interface:</p>
 
@@ -223,7 +223,7 @@
                 <li class="flex gap-4">
                     <span class="w-8 h-8 shrink-0 rounded-full bg-pink-50 border border-pink-100 flex items-center justify-center text-xs font-black text-mochi-pink mt-0.5">1</span>
                     <div>
-                        <p class="mb-1"><strong>Batch your screenshots before adding them to your journal.</strong> Drag them into Mochify and type: <em>"resize screenshots to 1200px wide, convert to WebP at 80% quality"</em>. Magic Flow parses the intent and applies settings automatically — no format dropdowns, no manual configuration.</p>
+                        <p class="mb-1"><strong>Batch your screenshots before adding them to your journal.</strong> Drag them into Mochify and type: <em>"resize screenshots to 1200px wide, convert to WebP at 80% quality"</em>. Magic Flow parses the intent and applies settings automatically - no format dropdowns, no manual configuration.</p>
                     </div>
                 </li>
                 <li class="flex gap-4">
@@ -248,7 +248,7 @@
 
             <!-- CTA -->
             <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8">
-                <p class="text-cocoa-deep leading-relaxed mb-6">Compress now — keep journaling forever. Drag your journal photos into Mochify and type <em>"convert to WebP at 80% quality, strip EXIF data"</em>. In-memory processing, zero retention, no account required.</p>
+                <p class="text-cocoa-deep leading-relaxed mb-6">Compress now - keep journaling forever. Drag your journal photos into Mochify and type <em>"convert to WebP at 80% quality, strip EXIF data"</em>. In-memory processing, zero retention, no account required.</p>
                 <a href="https://mochify.app" class="inline-block bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white font-black text-sm rounded-2xl px-6 py-3 shadow-[0_4px_16px_rgba(240,98,146,0.3)] hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] hover:-translate-y-0.5 transition-all no-underline">
                     Try it free at mochify.app
                 </a>
@@ -263,7 +263,7 @@
                     { href: '/guides/exif-data-risks-image-compression-2026', title: 'EXIF Data Risks', desc: 'Why stripping metadata matters, especially for personal photo archives and journals.' },
                     { href: '/guides/history-image-compression-2026', title: 'History of Image Compression', desc: 'How we got from JPEG to AVIF and why modern formats matter for long-term storage.' },
                     { href: '/guides/heif-to-jpeg-workflow-photographers-guide', title: 'HEIF to JPEG Workflow', desc: 'A practical workflow for converting HEIC photos without the size penalty Day One introduces.' },
-                    { href: '/guides/privacy-image-optimization', title: 'Privacy & Image Optimization', desc: 'Zero-retention compression explained — why it matters for personal photo archives.' },
+                    { href: '/guides/privacy-image-optimization', title: 'Privacy & Image Optimization', desc: 'Zero-retention compression explained - why it matters for personal photo archives.' },
                 ] as guide}
                     <li>
                         <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">

@@ -27,7 +27,7 @@
         {
             title: "The History of Image Compression: From BMP to AVIF & Jpegli",
             href: "/guides/history-image-compression-2026",
-            desc: "From GIF and JPEG to AVIF and JPEG XL — how web image formats evolved over three decades."
+            desc: "From GIF and JPEG to AVIF and JPEG XL - how web image formats evolved over three decades."
         }
     ];
 </script>
@@ -102,7 +102,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            For most web projects in 2026, use AVIF as your primary format and WebP as your fallback. AVIF now sits at 95%+ global browser support and delivers 20–50% smaller files than WebP at comparable quality. JPEG XL remains at roughly 15% browser support — limit it to archival and non-web pipelines for now.
+            For most web projects in 2026, use AVIF as your primary format and WebP as your fallback. AVIF now sits at 95%+ global browser support and delivers 20–50% smaller files than WebP at comparable quality. JPEG XL remains at roughly 15% browser support - limit it to archival and non-web pipelines for now.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
@@ -179,7 +179,7 @@
 
         <section id="avif-vs-webp" class="scroll-mt-24">
             <SectionHeading>AVIF vs WebP: the trade-off that matters</SectionHeading>
-            <p class="mb-4">AVIF delivers superior quality at low bitrates — it is the right choice for hero images, product photography, and any asset where visual fidelity matters. WebP encodes faster and has wider legacy support, which makes it the right fallback in the <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;picture&gt;</code> stack rather than a primary target. For the vast majority of web workflows in 2026, the pattern above handles both automatically.</p>
+            <p class="mb-4">AVIF delivers superior quality at low bitrates - it is the right choice for hero images, product photography, and any asset where visual fidelity matters. WebP encodes faster and has wider legacy support, which makes it the right fallback in the <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;picture&gt;</code> stack rather than a primary target. For the vast majority of web workflows in 2026, the pattern above handles both automatically.</p>
 
             <InfoBox type="tip" title="Magic Flow handles format selection automatically">
                 In Mochify, you can type <em>"convert to AVIF with WebP fallback max 1600px"</em> and the NLP engine picks the right settings for every file. No format dropdowns, no manual quality sliders.
@@ -189,7 +189,7 @@
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
             <h3 class="text-lg font-black text-[#4A2C2C] mb-3">Try Mochify for free</h3>
             <p class="text-[#6C3F31] leading-relaxed mb-4">
-                Upload your images and preview file sizes side by side before downloading. Mochify is zero-retention — no files stored, no data retained. Try it at <a href="https://mochify.app">mochify.app</a>.
+                Upload your images and preview file sizes side by side before downloading. Mochify is zero-retention - no files stored, no data retained. Try it at <a href="https://mochify.app">mochify.app</a>.
             </p>
             <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
                 Try it free

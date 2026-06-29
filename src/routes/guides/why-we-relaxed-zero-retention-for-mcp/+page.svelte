@@ -126,7 +126,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            We added a five-minute hold on compressed outputs from the hosted MCP server so we can return a short-lived download URL instead of inline binary content. Your original image is still discarded immediately after encoding. The local <code class="bg-pink-100 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">mochify</code> binary — CLI and <code class="bg-pink-100 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">mochify serve</code> — still has nothing held server-side at all.
+            We added a five-minute hold on compressed outputs from the hosted MCP server so we can return a short-lived download URL instead of inline binary content. Your original image is still discarded immediately after encoding. The local <code class="bg-pink-100 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">mochify</code> binary - CLI and <code class="bg-pink-100 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">mochify serve</code> - still has nothing held server-side at all.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
@@ -172,7 +172,7 @@
 
         <section id="the-fix" class="scroll-mt-24">
             <SectionHeading>The Fix We Wanted to Build</SectionHeading>
-            <p class="mb-4">We're agentic-workflow led: the hosted MCP has to actually deliver compressed images to the user, regardless of how well or badly the chat client handles binary returns. That ruled out staying inline. The obvious shape was URL passback. The tool response becomes a short text URL, the chat client treats it like any other link — every chat client handles links — and the user fetches or saves the file directly. Tokens-in-context drop on the return side because a URL is a few dozen bytes rather than an encoded image. Reliability across chat clients goes up because clients have years of experience handling links and almost none handling inline binary from tools.</p>
+            <p class="mb-4">We're agentic-workflow led: the hosted MCP has to actually deliver compressed images to the user, regardless of how well or badly the chat client handles binary returns. That ruled out staying inline. The obvious shape was URL passback. The tool response becomes a short text URL, the chat client treats it like any other link - every chat client handles links - and the user fetches or saves the file directly. Tokens-in-context drop on the return side because a URL is a few dozen bytes rather than an encoded image. Reliability across chat clients goes up because clients have years of experience handling links and almost none handling inline binary from tools.</p>
             <p>The question wasn't whether to do URL passback. It was how to do it without quietly breaking the privacy posture that made Mochify worth using in the first place.</p>
         </section>
 
@@ -185,7 +185,7 @@
             <ul class="space-y-3 mb-6 marker:text-[#F06292] list-disc pl-6">
                 <li>Your original image is still streamed into the encoder in RAM and discarded immediately. No disk writes of the source, no logs containing image data, no change from the web app or any other surface.</li>
                 <li>No per-account history of compressed images. No analytics on what was processed beyond the usage counter exposed by the <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">check_usage</code> tool.</li>
-                <li>The two local install paths — the <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">mochify</code> CLI and <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">mochify serve</code> as a local MCP server — don't touch the pickup store at all. The compressed bytes come back from <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">api.mochify.app</code> to your local binary and are written straight to your disk. End-to-end zero retention is intact for any workflow where you've installed the binary.</li>
+                <li>The two local install paths - the <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">mochify</code> CLI and <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">mochify serve</code> as a local MCP server - don't touch the pickup store at all. The compressed bytes come back from <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">api.mochify.app</code> to your local binary and are written straight to your disk. End-to-end zero retention is intact for any workflow where you've installed the binary.</li>
             </ul>
 
             <InfoBox type="note" title="The relaxation is narrow on purpose">
@@ -220,7 +220,7 @@
                 <span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">Free Tool</span>
             </div>
             <h3 class="text-2xl md:text-3xl font-black text-[#4A2C2C] relative z-10 mb-3">
-                Try Mochify — privacy-first image compression
+                Try Mochify - privacy-first image compression
             </h3>
             <p class="text-[#6C3F31] text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">
                 Tell Mochify what you need in plain language and Magic Flow handles the rest, whether you're on the hosted MCP or running the local binary.

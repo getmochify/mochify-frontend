@@ -191,19 +191,19 @@
 
         <section class="my-8 bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
             <h2 class="text-xl font-black text-[#4A2C2C] mb-3">30-second summary</h2>
-            <p>You type something like "Instagram-ready WebP, strip location data" into the Mochify tool. Mistral Small 4 parses that, chooses the right flags (format: webp, resize to 1080x1080, EXIF strip: on), and passes them to our squish engine. Your image comes back optimized exactly as described — without you touching a single dropdown.</p>
+            <p>You type something like "Instagram-ready WebP, strip location data" into the Mochify tool. Mistral Small 4 parses that, chooses the right flags (format: webp, resize to 1080x1080, EXIF strip: on), and passes them to our squish engine. Your image comes back optimized exactly as described - without you touching a single dropdown.</p>
         </section>
 
         <section id="what-is" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">What is Mochify's natural language compression feature?</h2>
-            <p class="mb-4">Instead of manually selecting formats and settings, you describe what you want and Mochify figures out the technical details for you. We've connected an LLM — specifically Mistral Small 4 — directly into the compression pipeline on the main tool at <a href="https://mochify.app">mochify.app</a>. It reads your intent and translates it into the right squish flags before processing your image.</p>
+            <p class="mb-4">Instead of manually selecting formats and settings, you describe what you want and Mochify figures out the technical details for you. We've connected an LLM - specifically Mistral Small 4 - directly into the compression pipeline on the main tool at <a href="https://mochify.app">mochify.app</a>. It reads your intent and translates it into the right squish flags before processing your image.</p>
             <p class="mb-4">This sits inside the existing tool interface. No separate mode to switch to, no new account needed. Type your description, upload your image, and the AI handles the settings layer.</p>
         </section>
 
         <section id="how-it-works" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How the AI picks your compression settings</h2>
-            <p class="mb-4">The core idea is simple: your plain-English description becomes a set of compression flags. Mistral Small 4 parses the prompt, identifies what you need — format, dimensions, metadata handling — and calls our squish engine with those exact parameters.</p>
-            <p class="mb-4">Here's what that looks like in practice. "Best for the web" might produce <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--format webp --quality 82</code>. "Tiny for mobile" could produce <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--format avif --quality 65 --resize 800</code>. "Blog-post-ready, clean upload" might add <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--strip-exif</code> on top of a balanced WebP output. The LLM doesn't guess randomly — it maps your language to a defined set of flags the squish engine understands.</p>
+            <p class="mb-4">The core idea is simple: your plain-English description becomes a set of compression flags. Mistral Small 4 parses the prompt, identifies what you need - format, dimensions, metadata handling - and calls our squish engine with those exact parameters.</p>
+            <p class="mb-4">Here's what that looks like in practice. "Best for the web" might produce <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--format webp --quality 82</code>. "Tiny for mobile" could produce <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--format avif --quality 65 --resize 800</code>. "Blog-post-ready, clean upload" might add <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--strip-exif</code> on top of a balanced WebP output. The LLM doesn't guess randomly - it maps your language to a defined set of flags the squish engine understands.</p>
 
             <InfoBox type="tip" title="Pro tip">
                 You don't need to be precise. "Make it small for email" works just as well as "compress to AVIF at quality 60." The model handles the ambiguity.
@@ -212,7 +212,7 @@
 
         <section id="formats" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Format selection: WebP, AVIF, JXL, or JPEG</h2>
-            <p class="mb-4">The AI can choose from four output formats depending on how you describe your goal. AVIF delivers roughly 45% smaller files than JPEG at equivalent visual quality — making it the right pick when file size is the priority. WebP hits the sweet spot between compression and compatibility, supported by all major browsers since 2023 (<a href="https://caniuse.com/webp">caniuse.com</a>). JPEG XL (JXL) is the choice for lossless or near-lossless archival. Standard JPEG via our jpegli encoder remains the best option when universal compatibility is non-negotiable.</p>
+            <p class="mb-4">The AI can choose from four output formats depending on how you describe your goal. AVIF delivers roughly 45% smaller files than JPEG at equivalent visual quality - making it the right pick when file size is the priority. WebP hits the sweet spot between compression and compatibility, supported by all major browsers since 2023 (<a href="https://caniuse.com/webp">caniuse.com</a>). JPEG XL (JXL) is the choice for lossless or near-lossless archival. Standard JPEG via our jpegli encoder remains the best option when universal compatibility is non-negotiable.</p>
 
             <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
@@ -232,18 +232,18 @@
                 </table>
             </ScrollableTable>
 
-            <p class="mb-4">The AI cross-references your described use case against format strengths. You don't need to know what AVIF is — just describe what the image is for.</p>
+            <p class="mb-4">The AI cross-references your described use case against format strengths. You don't need to know what AVIF is - just describe what the image is for.</p>
         </section>
 
         <section id="resizing" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Smart resizing and cropping from plain English</h2>
             <p class="mb-4">Dimension hints in your description translate directly to resize and crop flags. "Instagram square" tells the model to target 1080×1080 with appropriate cropping. "Thumbnail banner" produces a landscape crop scaled to a web-friendly width. "Full-size but compressed" keeps the original dimensions and only adjusts quality and format.</p>
-            <p class="mb-4">This removes the most common source of friction for content teams: looking up the "right" dimensions for every platform every time. The model maintains an understanding of common publishing contexts — social formats, email headers, blog post images — and maps those to real pixel dimensions before calling /squish.</p>
+            <p class="mb-4">This removes the most common source of friction for content teams: looking up the "right" dimensions for every platform every time. The model maintains an understanding of common publishing contexts - social formats, email headers, blog post images - and maps those to real pixel dimensions before calling /squish.</p>
         </section>
 
         <section id="exif" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">EXIF stripping on request</h2>
-            <p class="mb-4">Any prompt mentioning privacy, clean uploads, or sharing publicly will trigger EXIF metadata removal. Camera model, GPS coordinates, shooting time — all of it gets stripped before the file is returned. (For more on why this matters, see our <a href="/guides/exif-data-risks-image-compression-2026">EXIF risks guide</a>.)</p>
+            <p class="mb-4">Any prompt mentioning privacy, clean uploads, or sharing publicly will trigger EXIF metadata removal. Camera model, GPS coordinates, shooting time - all of it gets stripped before the file is returned. (For more on why this matters, see our <a href="/guides/exif-data-risks-image-compression-2026">EXIF risks guide</a>.)</p>
             <p class="mb-4">Importantly, EXIF stripping only activates when relevant to your prompt. If you're compressing personal archive images and don't mention privacy, the metadata is left intact. The AI respects your intent rather than applying blanket rules.</p>
         </section>
 
@@ -252,11 +252,11 @@
             <ol class="list-decimal pl-6 mb-6 space-y-3 marker:text-[#F06292] marker:font-bold">
                 <li>Go to <a href="https://mochify.app">mochify.app</a></li>
                 <li>Upload your image (or drop it in)</li>
-                <li>In the natural language field, describe your goal — a single sentence is enough</li>
-                <li>Hit squish — the AI handles format, size, and metadata settings automatically</li>
+                <li>In the natural language field, describe your goal - a single sentence is enough</li>
+                <li>Hit squish - the AI handles format, size, and metadata settings automatically</li>
                 <li>Download your optimized image</li>
             </ol>
-            <p class="mb-4">No account required. Zero retention — your image is processed in memory and never stored.</p>
+            <p class="mb-4">No account required. Zero retention - your image is processed in memory and never stored.</p>
         </section>
 
         <section id="cheat-sheet" class="scroll-mt-24">
@@ -310,7 +310,7 @@
 
                 <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Is my image stored after processing?</h3>
-                    <p>No. Mochify processes images in memory only — zero retention. This applies whether you use the standard tool or the natural language feature.</p>
+                    <p>No. Mochify processes images in memory only - zero retention. This applies whether you use the standard tool or the natural language feature.</p>
                 </div>
 
                 <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
@@ -365,7 +365,7 @@
             </div>
 
             <h3 class="text-2xl md:text-3xl font-black text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
-                Try it yourself — just describe what you need
+                Try it yourself - just describe what you need
             </h3>
 
             <p class="text-[#6C3F31] text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">

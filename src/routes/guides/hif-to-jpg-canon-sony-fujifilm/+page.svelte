@@ -354,7 +354,7 @@
                 </div>
 
                 <div class="mt-5 pt-5 border-t border-pink-100 text-sm text-[#875F42] space-y-3">
-                    <p>🔒 <strong>Privacy:</strong> when you upload a <code class={inlineCode}>.HIF</code> file to Mochify, it travels to our encoder at <code class={inlineCode}>api.mochify.app</code> over HTTPS. We stream it into RAM, encode it, and wipe the original immediately — no disk writes, no logs containing file data.</p>
+                    <p>🔒 <strong>Privacy:</strong> when you upload a <code class={inlineCode}>.HIF</code> file to Mochify, it travels to our encoder at <code class={inlineCode}>api.mochify.app</code> over HTTPS. We stream it into RAM, encode it, and wipe the original immediately - no disk writes, no logs containing file data.</p>
                     <p>The CLI and local MCP (<code class={inlineCode}>mochify serve</code>) use the same zero-retention model. Files travel to <code class={inlineCode}>api.mochify.app</code> for encoding, but the output is returned directly to your local binary with nothing held server-side:</p>
                     <div class="bg-slate-900 text-slate-300 p-4 rounded-xl font-mono text-sm shadow-inner border border-slate-700 overflow-x-auto not-italic">mochify -p "convert to jpg and strip GPS" yourfile.hif</div>
                     <p>Magic Flow is also available through the REST API at <code class={inlineCode}>POST /v1/prompt</code> on <code class={inlineCode}>api.mochify.app</code> for server-side automation.</p>
@@ -408,7 +408,7 @@
         <div class="my-10 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
             <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3">Convert HIF to JPG in one step</h3>
-            <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6">Drop your files, type a prompt like <em>"convert to JPG and strip location data"</em>, and Mochify handles the rest — jpegli for quality-first encoding and your choice of metadata handling.</p>
+            <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6">Drop your files, type a prompt like <em>"convert to JPG and strip location data"</em>, and Mochify handles the rest - jpegli for quality-first encoding and your choice of metadata handling.</p>
             <a href="/solutions/hif-to-jpg" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                 Try HIF to JPG free →
             </a>

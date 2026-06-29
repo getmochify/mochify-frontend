@@ -19,14 +19,14 @@
     <title>Optimizing Hero Images: Fix LCP & Boost SEO with No Plugins</title>
     <meta name="description" content="Your 4 sec hero loads kill rankings. Learn to compress heroes to <150KB AVIF, fix LCP to 1.3s, and boost SEO 10-20% without plugins.">
     <meta property="og:title" content="Optimizing Hero Images: Fix LCP & Boost SEO with No Plugins" />
-    <meta property="og:description" content="Your hero image loads in 4 seconds? Google notices. Learn how to compress hero images, fix LCP errors, and stop visitors from bouncing — no plugins required." />
+    <meta property="og:description" content="Your hero image loads in 4 seconds? Google notices. Learn how to compress hero images, fix LCP errors, and stop visitors from bouncing - no plugins required." />
 
     <script type="application/ld+json">
         {
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Optimizing Hero Images: Fix LCP & Boost SEO Without Plugins",
-        "description": "Fix slow LCP scores from bloated hero images. Step-by-step guide for WordPress, Shopify, Squarespace, and Wix — no plugins needed.",
+        "description": "Fix slow LCP scores from bloated hero images. Step-by-step guide for WordPress, Shopify, Squarespace, and Wix - no plugins needed.",
         "url": "https://mochify.app/guides/optimizing-hero-images",
         "inLanguage": "en",
         "isPartOf": {
@@ -74,7 +74,7 @@
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
             <p class="text-lg text-[#6C3F31] leading-relaxed">
-                This guide walks you through the exact steps to compress hero images, fix LCP errors, and keep visitors from bouncing before your page even loads — broken down by platform with a handy cheat sheet at the end.
+                This guide walks you through the exact steps to compress hero images, fix LCP errors, and keep visitors from bouncing before your page even loads - broken down by platform with a handy cheat sheet at the end.
             </p>
         </div>
     </header>
@@ -119,7 +119,7 @@
                         <span class="text-lg font-black text-[#D81B60]">LCP</span>
                     </div>
                     <h3 class="text-base font-black text-[#4A2C2C] mb-2">Largest Contentful Paint</h3>
-                    <p class="text-sm text-[#6C3F31] leading-relaxed">How long it takes for the biggest visible element to load — usually your hero image. Google wants this <strong>under 2.5s</strong>. Above 4s? You're in the red zone.</p>
+                    <p class="text-sm text-[#6C3F31] leading-relaxed">How long it takes for the biggest visible element to load - usually your hero image. Google wants this <strong>under 2.5s</strong>. Above 4s? You're in the red zone.</p>
                 </div>
                 <div class="bg-[#FFF9F5] rounded-2xl border border-[#FFE4D6] p-6">
                     <div class="w-10 h-10 rounded-xl bg-[#FFF0E6] flex items-center justify-center mb-4">
@@ -133,7 +133,7 @@
                         <span class="text-lg font-black text-blue-600">INP</span>
                     </div>
                     <h3 class="text-base font-black text-[#4A2C2C] mb-2">Interaction to Next Paint</h3>
-                    <p class="text-sm text-[#6C3F31] leading-relaxed">Replaced FID in 2024 — measures how quickly your page responds to clicks and taps. Indirectly affected by heavy image payloads hogging main thread.</p>
+                    <p class="text-sm text-[#6C3F31] leading-relaxed">Replaced FID in 2024 - measures how quickly your page responds to clicks and taps. Indirectly affected by heavy image payloads hogging main thread.</p>
                 </div>
             </div>
 
@@ -148,7 +148,7 @@
             <div class="space-y-6">
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">The Ranking Tax</h3>
-                    <p class="mb-4">Slow LCP drops organic rankings by 10–20% on average. Google's algorithm treats Core Web Vitals as a tiebreaker between similar content, and in competitive niches that tiebreaker decides who lands on page one. We've tracked Shopify stores that fixed their hero LCP and climbed from position 12 to position 4 within three weeks — same content, same backlinks, just faster paint times.</p>
+                    <p class="mb-4">Slow LCP drops organic rankings by 10–20% on average. Google's algorithm treats Core Web Vitals as a tiebreaker between similar content, and in competitive niches that tiebreaker decides who lands on page one. We've tracked Shopify stores that fixed their hero LCP and climbed from position 12 to position 4 within three weeks - same content, same backlinks, just faster paint times.</p>
                 </div>
 
                 <div>
@@ -176,13 +176,13 @@
                         <div class="bg-[#E8F5E9] rounded-2xl border border-green-100 p-5">
                             <p class="text-xs font-black text-[#15803d] uppercase tracking-wider mb-3">After</p>
                             <ul class="space-y-2 text-sm text-[#6C3F31]">
-                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></span>145 KB AVIF hero — <strong>93% smaller</strong></li>
-                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></span>LCP 1.3s — <strong>69% faster</strong></li>
-                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></span>Bounce rate 51% — <strong>25% lower</strong></li>
+                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></span>145 KB AVIF hero - <strong>93% smaller</strong></li>
+                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></span>LCP 1.3s - <strong>69% faster</strong></li>
+                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></span>Bounce rate 51% - <strong>25% lower</strong></li>
                             </ul>
                         </div>
                     </div>
-                    <p class="text-sm text-[#875F42] mt-4">Real metrics from client projects. Compression isn't just about speed — it's about keeping visitors long enough to convert them.</p>
+                    <p class="text-sm text-[#875F42] mt-4">Real metrics from client projects. Compression isn't just about speed - it's about keeping visitors long enough to convert them.</p>
                 </div>
             </div>
         </section>
@@ -211,7 +211,7 @@
                         <div class="bg-[#F5F9FF] rounded-2xl border border-blue-100 p-5">
                             <p class="text-xs font-black text-blue-600 uppercase tracking-wider mb-2">Marketplace Lock-in</p>
                             <h4 class="font-black text-[#4A2C2C] mb-2">Jpegli JPEG</h4>
-                            <p class="text-sm text-[#6C3F31]">Google's modern JPEG encoder. Standard JPEG output — compatible everywhere — but 35% better compression at high quality. No format headaches.</p>
+                            <p class="text-sm text-[#6C3F31]">Google's modern JPEG encoder. Standard JPEG output - compatible everywhere - but 35% better compression at high quality. No format headaches.</p>
                         </div>
                     </div>
                     <p class="mb-4">Use a <code class="bg-pink-50 px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">&lt;picture&gt;</code> element with AVIF first, WebP second, and JPEG fallback:</p>
@@ -225,9 +225,9 @@
                 <!-- Size -->
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Size It Right: 1920×800 for Desktop, Mobile Variants via Srcset</h3>
-                    <p class="mb-4">Most themes display heroes at 1920px width on desktop. Going larger wastes bandwidth without improving visual quality. Height depends on your aspect ratio — 800px works well for 2.4:1 banners, while 1080px suits 16:9 full-screen heroes.</p>
+                    <p class="mb-4">Most themes display heroes at 1920px width on desktop. Going larger wastes bandwidth without improving visual quality. Height depends on your aspect ratio - 800px works well for 2.4:1 banners, while 1080px suits 16:9 full-screen heroes.</p>
                     <InfoBox type="tip" title="Mobile-first sizing">
-                        Mobile visitors (70%+ of traffic for e-commerce sites) need smaller variants. Use <code>srcset</code> to serve 800×600 images to phones and 1200×900 to tablets. Always define <code>width</code> and <code>height</code> attributes to prevent CLS — without dimensions the page jumps as content shifts down.
+                        Mobile visitors (70%+ of traffic for e-commerce sites) need smaller variants. Use <code>srcset</code> to serve 800×600 images to phones and 1200×900 to tablets. Always define <code>width</code> and <code>height</code> attributes to prevent CLS - without dimensions the page jumps as content shifts down.
                     </InfoBox>
                 </div>
 
@@ -241,7 +241,7 @@
                 <!-- fetchpriority -->
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Preload Your Hero with <code class="text-[#D81B60] font-mono text-lg">fetchpriority="high"</code></h3>
-                    <p class="mb-4">Browsers prioritize resources in a specific order: CSS first, then scripts, then images. Your hero image often loads with default priority — meaning it waits behind other assets.</p>
+                    <p class="mb-4">Browsers prioritize resources in a specific order: CSS first, then scripts, then images. Your hero image often loads with default priority - meaning it waits behind other assets.</p>
                     <p class="mb-4">Fix this by preloading the hero and setting <code class="bg-pink-50 px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">fetchpriority="high"</code>:</p>
                     <CodeBlock filename="<head>" code={`<link rel="preload" as="image" href="hero.avif" fetchpriority="high">`} />
                     <InfoBox type="technical" title="Why this matters">
@@ -269,7 +269,7 @@
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Strip Metadata for Privacy and Smaller Files</h3>
                     <p class="mb-4">EXIF data (camera model, GPS coordinates, timestamps) bloats images by 10–50 KB without adding any visual value. Worse, it <strong>leaks privacy information</strong> like location and device details.</p>
-                    <p>Quality compression tools strip metadata automatically. When you run images through Mochify, we discard EXIF, color profiles, and thumbnail previews embedded by cameras — keeping only the pixel data needed to display the image.</p>
+                    <p>Quality compression tools strip metadata automatically. When you run images through Mochify, we discard EXIF, color profiles, and thumbnail previews embedded by cameras - keeping only the pixel data needed to display the image.</p>
                 </div>
 
             </div>
@@ -290,7 +290,7 @@
                         </div>
                         <h3 class="text-xl font-black text-[#4A2C2C]">WordPress</h3>
                     </div>
-                    <p class="mb-5 text-[#6C3F31]">WordPress generates multiple thumbnail sizes on upload — optimization plugins add database bloat and CPU overhead. Skip them entirely with this plugin-free workflow:</p>
+                    <p class="mb-5 text-[#6C3F31]">WordPress generates multiple thumbnail sizes on upload - optimization plugins add database bloat and CPU overhead. Skip them entirely with this plugin-free workflow:</p>
                     <ol class="space-y-3 list-none pl-0">
                         {#each [
                             'Resize your hero to 1920×800 (or your theme\'s recommended size) before uploading',
@@ -306,7 +306,7 @@
                         {/each}
                     </ol>
                     <InfoBox type="tip" title="Pro-tip">
-                        Check your theme's actual display size by inspecting the rendered hero in DevTools. Many themes claim to need 2400px width but actually display at 1920px — meaning you're serving wasted pixels.
+                        Check your theme's actual display size by inspecting the rendered hero in DevTools. Many themes claim to need 2400px width but actually display at 1920px - meaning you're serving wasted pixels.
                     </InfoBox>
                 </div>
 
@@ -325,7 +325,7 @@
                             'Export source images at the exact dimensions',
                             'Convert to WebP (Shopify supports WebP natively; AVIF support rolling out theme-by-theme)',
                             'Compress to under 300 KB for desktop heroes, under 150 KB for mobile variants',
-                            'Upload via the theme customizer — Shopify CDN serves optimized versions automatically',
+                            'Upload via the theme customizer - Shopify CDN serves optimized versions automatically',
                         ] as step, i}
                             <li class="flex items-start gap-4">
                                 <span class="flex-shrink-0 w-7 h-7 rounded-full bg-white border border-[#FFD4B8] flex items-center justify-center text-xs font-black text-[#875F42] mt-0.5">{i + 1}</span>
@@ -346,12 +346,12 @@
                         </div>
                         <h3 class="text-xl font-black text-[#4A2C2C]">Squarespace</h3>
                     </div>
-                    <p class="mb-4 text-[#6C3F31]">Squarespace recommends 2500×1500 for full-width hero banners. But 2500px at high quality easily hits 1–2 MB, which kills LCP — compress before you upload.</p>
+                    <p class="mb-4 text-[#6C3F31]">Squarespace recommends 2500×1500 for full-width hero banners. But 2500px at high quality easily hits 1–2 MB, which kills LCP - compress before you upload.</p>
                     <ol class="space-y-3 list-none pl-0 mb-6">
                         {#each [
                             'Resize to 2500×1500 (or 1920×1080 for 16:9 banners)',
                             'Convert to WebP (Squarespace supports WebP; AVIF varies by template version)',
-                            'Compress to target <500 KB — any larger and LCP creeps above 2.5s',
+                            'Compress to target <500 KB - any larger and LCP creeps above 2.5s',
                             'Upload via the Design panel and set your hero as the background or featured image',
                             'Enable Squarespace\'s built-in image loading optimizations in site settings',
                         ] as step, i}
@@ -473,7 +473,7 @@
         <!-- Mochify Workflow -->
         <section id="mochify-workflow" class="my-12">
             <SectionHeading>Mochify Workflow: Batch Process Heroes Fast</SectionHeading>
-            <p class="mb-6">Mochify handles up to 25 hero images per batch with zero-retention in-memory processing. Your images are compressed in RAM and discarded immediately — no disk storage, no tracking, no risk of leaks.</p>
+            <p class="mb-6">Mochify handles up to 25 hero images per batch with zero-retention in-memory processing. Your images are compressed in RAM and discarded immediately - no disk storage, no tracking, no risk of leaks.</p>
 
             <div class="my-8 bg-gradient-to-br from-[#FFF5F7] to-white rounded-3xl border border-pink-100 p-6 md:p-8">
                 <h3 class="text-lg font-black text-[#4A2C2C] mb-6">Step-by-step</h3>
@@ -482,7 +482,7 @@
                         { step: 'Drag your hero images (JPEG, PNG, HEIC, or existing WebP) into the Mochify web tool', icon: '1' },
                         { step: 'Select output format: AVIF for maximum compression, WebP for broader compatibility, or Jpegli JPEG for universal support', icon: '2' },
                         { step: "Select 'Smart Mode' for intelligent optimization and best quality-to-size ratio", icon: '3' },
-                        { step: 'Batch compress all 25 images in one pass — our C++ engine processes them in parallel', icon: '4' },
+                        { step: 'Batch compress all 25 images in one pass - our C++ engine processes them in parallel', icon: '4' },
                         { step: 'Download as a single ZIP (for batch processing) or individual files, ready to upload to your site', icon: '5' },
                     ] as item}
                         <li class="flex items-start gap-4">
@@ -495,7 +495,7 @@
             </div>
 
             <InfoBox type="note" title="High-volume workflows">
-                For thousands of images monthly, Mochify Pro (coming later in 2026) adds custom presets, higher file limits, and API integration — all with identical zero-retention privacy. Perfect for agencies managing multiple client sites or e-commerce stores with large product catalogs.
+                For thousands of images monthly, Mochify Pro (coming later in 2026) adds custom presets, higher file limits, and API integration - all with identical zero-retention privacy. Perfect for agencies managing multiple client sites or e-commerce stores with large product catalogs.
             </InfoBox>
 
             <div class="mt-8 text-center">
@@ -516,7 +516,7 @@
             {
                 href: '/guides/privacy-image-optimization',
                 title: 'Privacy & Image Optimization',
-                desc: 'Why zero-retention beats plugins — in-memory processing protects your images from disk storage and AI training.',
+                desc: 'Why zero-retention beats plugins - in-memory processing protects your images from disk storage and AI training.',
             },
             {
                 href: '/guides/next-gen-image-formats-wordpress',
@@ -531,7 +531,7 @@
             {
                 href: '/guides/jpeg-in-2026-jpegli',
                 title: 'Jpegli Guide 2026',
-                desc: "Master Google's modern JPEG encoder for marketplaces and legacy platforms — better quality per byte.",
+                desc: "Master Google's modern JPEG encoder for marketplaces and legacy platforms - better quality per byte.",
             },
         ]} />
 

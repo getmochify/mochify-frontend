@@ -102,7 +102,7 @@
 
         <section id="what-chrome-145-added" class="scroll-mt-24">
             <SectionHeading>What Chrome 145 actually added</SectionHeading>
-            <p class="mb-4">Chrome 145, released on 10 February 2026, re-introduced JPEG XL decoding using <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">jxl-rs</code> — a memory-safe, pure Rust decoder. This replaces the C++ libjxl implementation that Google removed in 2022. The decoder is present in the stable codebase for the first time in over three years.</p>
+            <p class="mb-4">Chrome 145, released on 10 February 2026, re-introduced JPEG XL decoding using <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">jxl-rs</code> - a memory-safe, pure Rust decoder. This replaces the C++ libjxl implementation that Google removed in 2022. The decoder is present in the stable codebase for the first time in over three years.</p>
             <p class="mb-4">JPEG XL is a next-generation image codec. In plain English: it is a smarter way to compress images, delivering files 50–60% smaller than traditional JPEG at equivalent quality, and roughly 10–15% better compression than AVIF. It also supports lossless recompression of existing JPEGs, progressive decoding, HDR, and animation.</p>
         </section>
 
@@ -131,10 +131,10 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">AVIF</td><td class="p-4">~93%</td><td class="p-4">Yes — best compression with broad support</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">WebP</td><td class="p-4">~97%</td><td class="p-4">Yes — widest compatibility</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Jpegli (JPEG)</td><td class="p-4">Universal</td><td class="p-4">Yes — best fallback for legacy browsers</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">JPEG XL</td><td class="p-4">~12–17%</td><td class="p-4">Not yet — flag-gated in Chrome and Firefox</td></tr>
+                        <tr><td class="p-4 font-bold text-[#4A2C2C]">AVIF</td><td class="p-4">~93%</td><td class="p-4">Yes - best compression with broad support</td></tr>
+                        <tr><td class="p-4 font-bold text-[#4A2C2C]">WebP</td><td class="p-4">~97%</td><td class="p-4">Yes - widest compatibility</td></tr>
+                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Jpegli (JPEG)</td><td class="p-4">Universal</td><td class="p-4">Yes - best fallback for legacy browsers</td></tr>
+                        <tr><td class="p-4 font-bold text-[#4A2C2C]">JPEG XL</td><td class="p-4">~12–17%</td><td class="p-4">Not yet - flag-gated in Chrome and Firefox</td></tr>
                     </tbody>
                 </table>
             </ScrollableTable>
@@ -142,13 +142,13 @@
 
         <section id="the-2026-recommendation" class="scroll-mt-24">
             <SectionHeading>The 2026 recommendation</SectionHeading>
-            <p class="mb-4">Use JPEG XL in controlled workflows — archiving, internal tools, or future-proofing your image library. For any public-facing web delivery, stick with AVIF or WebP and keep a JPEG fallback. Revisit JPEG XL for production use in late 2026 if Chrome ships it enabled by default in a stable release.</p>
+            <p class="mb-4">Use JPEG XL in controlled workflows - archiving, internal tools, or future-proofing your image library. For any public-facing web delivery, stick with AVIF or WebP and keep a JPEG fallback. Revisit JPEG XL for production use in late 2026 if Chrome ships it enabled by default in a stable release.</p>
 
             <InfoBox type="tip" title="Watch the Chrome release notes">
                 The Chrome release notes at <code>developer.chrome.com/release-notes</code> are the authoritative source. When JPEG XL ships without a flag, the feature will be listed under "New in Chrome" without a <code>chrome://flags</code> reference.
             </InfoBox>
 
-            <p class="mb-4">Mochify compresses and converts images to AVIF, WebP, and JPEG with privacy-first, zero-retention processing — no files stored, no data retained. Try it free at <a href="https://mochify.app">mochify.app</a>.</p>
+            <p class="mb-4">Mochify compresses and converts images to AVIF, WebP, and JPEG with privacy-first, zero-retention processing - no files stored, no data retained. Try it free at <a href="https://mochify.app">mochify.app</a>.</p>
         </section>
 
         <RelatedGuides guides={related} />
