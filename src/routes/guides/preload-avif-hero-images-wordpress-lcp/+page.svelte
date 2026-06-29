@@ -160,7 +160,7 @@
             <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
                 <h3 class="text-lg font-black text-[#4A2C2C] mb-3">Try Mochify for AVIF conversion</h3>
                 <p class="text-[#6C3F31] leading-relaxed mb-4">
-                    Convert your hero image to AVIF at <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a> — no account required, processed in RAM, never stored. Download the <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">.avif</code> file and upload it directly to your WordPress Media Library.
+                    Convert your hero image to AVIF at <a href="https://mochify.app">mochify.app</a> — no account required, processed in RAM, never stored. Download the <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">.avif</code> file and upload it directly to your WordPress Media Library.
                 </p>
                 <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
                     Convert to AVIF

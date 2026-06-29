@@ -80,10 +80,25 @@ body {
     --tw-prose-body: var(--cocoa-deep);
     --tw-prose-headings: var(--cocoa-deep);
     --tw-prose-bold: var(--cocoa-deep);
-    --tw-prose-links: var(--cocoa-deep);
+    --tw-prose-links: var(--mochi-pink);
     --tw-prose-th-borders: color-mix(in srgb, var(--cocoa-deep) 20%, transparent);
     --tw-prose-td-borders: color-mix(in srgb, var(--cocoa-deep) 12%, transparent);
     color: var(--cocoa-deep);
+  }
+
+  .prose a {
+    color: var(--mochi-pink);
+    font-weight: 700;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+    text-decoration-color: #FFB3C6;
+  }
+
+  .prose a:hover {
+    color: #ec407a;
+    text-decoration-color: var(--mochi-pink);
+    background-color: #FFF0F3;
+    border-radius: 4px;
   }
   
   /* Force Prose colors */

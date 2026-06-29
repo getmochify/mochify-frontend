@@ -438,7 +438,7 @@
             </p>
             
             <InfoBox type="tip">
-                Mochify's JPEG output uses <a href="/guides/jpeg-in-2026-jpegli" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">JPEGLI</a> under the hood, so even your “boring old” JPEGs come out smaller and cleaner than standard exports from most CMSes or desktop tools.
+                Mochify's JPEG output uses <a href="/guides/jpeg-in-2026-jpegli">JPEGLI</a> under the hood, so even your “boring old” JPEGs come out smaller and cleaner than standard exports from most CMSes or desktop tools.
             </InfoBox>
         </section>
 
@@ -767,7 +767,7 @@
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">HEIC: Don't Use for Web (Convert Instead)</h3>
             <p class="mb-4">
-                HEIC isn't a web format. Period. If you're shooting on iPhone, convert to JPEG or AVIF before uploading to <a href="/guides/next-gen-image-formats-wordpress" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">WordPress</a>, Shopify, Etsy, or eBay. Most platforms reject HEIC uploads with "Unsupported File" errors - a daily frustration for mobile-first sellers.
+                HEIC isn't a web format. Period. If you're shooting on iPhone, convert to JPEG or AVIF before uploading to <a href="/guides/next-gen-image-formats-wordpress">WordPress</a>, Shopify, Etsy, or eBay. Most platforms reject HEIC uploads with "Unsupported File" errors - a daily frustration for mobile-first sellers.
             </p>
             
             <InfoBox type="tip">

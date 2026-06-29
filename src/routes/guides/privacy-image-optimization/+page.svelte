@@ -101,7 +101,7 @@
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
             <p class="text-lg text-[#6C3F31] leading-relaxed">
-                Most legacy optimizers write your assets to a temporary disk on a remote server for 24-48 hours, creating a vulnerability window for data leaks and unauthorized AI training. (If you want the engine off third-party infrastructure entirely, see our <a href="/guides/self-hosting-image-optimization-docker" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Docker self-hosting guide</a>.) 
+                Most legacy optimizers write your assets to a temporary disk on a remote server for 24-48 hours, creating a vulnerability window for data leaks and unauthorized AI training. (If you want the engine off third-party infrastructure entirely, see our <a href="/guides/self-hosting-image-optimization-docker">Docker self-hosting guide</a>.) 
                 
                 <span class="block mt-4">
                     This guide explores why <strong class="text-[#D81B60] font-black">Zero-Retention Architecture</strong> is the non-negotiable standard for professional asset security in 2026.

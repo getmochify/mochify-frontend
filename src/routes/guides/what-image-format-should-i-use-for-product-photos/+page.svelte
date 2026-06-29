@@ -147,7 +147,7 @@
 
         <section id="preparing-images" class="scroll-mt-24">
             <SectionHeading>Preparing your product images before upload</SectionHeading>
-            <p class="mb-4">Compress product photos to AVIF or WebP before uploading to your storefront, and keep JPEG fallback versions for marketplace listings and older integrations. At <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a> you can describe the task in plain English — for example, type <em>"convert to AVIF and compress for product pages"</em> — and Magic Flow handles the format conversion, compression, and EXIF stripping in one step. Files are processed without being stored, so nothing is retained after your session ends.</p>
+            <p class="mb-4">Compress product photos to AVIF or WebP before uploading to your storefront, and keep JPEG fallback versions for marketplace listings and older integrations. At <a href="https://mochify.app">mochify.app</a> you can describe the task in plain English — for example, type <em>"convert to AVIF and compress for product pages"</em> — and Magic Flow handles the format conversion, compression, and EXIF stripping in one step. Files are processed without being stored, so nothing is retained after your session ends.</p>
         </section>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">

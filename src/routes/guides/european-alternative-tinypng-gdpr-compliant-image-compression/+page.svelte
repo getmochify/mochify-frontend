@@ -384,7 +384,7 @@
             WordPress sites accumulate images fast. The privacy risk is lower here than for agencies, but page speed and format modernisation are real concerns. If you are serving JPEG files from five years ago, you are likely leaving 40–60% of your image weight on the table compared to AVIF equivalents.
         </p>
         <p class="mt-4">
-            For publishers, the practical Mochify workflow is to run existing libraries through the API in batches, converting JPEG and PNG to WebP or AVIF, and replacing the originals in your media library. The HEIC-to-JPEG conversion path is also useful if your editorial team shoots on iPhones and needs reliable, universally compatible output. See our <a href="/solutions/hif-to-jpg" class="text-[#F06292] hover:text-[#D81B60] transition-colors font-semibold">HEIC to JPEG guide</a> for format compatibility details.
+            For publishers, the practical Mochify workflow is to run existing libraries through the API in batches, converting JPEG and PNG to WebP or AVIF, and replacing the originals in your media library. The HEIC-to-JPEG conversion path is also useful if your editorial team shoots on iPhones and needs reliable, universally compatible output. See our <a href="/solutions/hif-to-jpg">HEIC to JPEG guide</a> for format compatibility details.
         </p>
 
         <h3 class="text-2xl font-black text-[#4A2C2C] mt-10 mb-4">Agencies Handling Client Assets</h3>

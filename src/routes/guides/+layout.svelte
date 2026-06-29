@@ -41,32 +41,12 @@
 
 <style>
     /* Guide-specific typography styles */
-    :global(.guide-content) {
+    :global(article) {
         color: var(--cocoa-deep); /* #6C3F31 */
         line-height: 1.8;
     }
     
-    :global(.guide-content h1) {
-        font-size: 2.5rem;
-        font-weight: 900;
-        color: #111827;
-        margin-bottom: 2rem;
-        margin-top: 0;
-        line-height: 1.15;
-        letter-spacing: -0.025em;
-        background: linear-gradient(135deg, #FFB3C6 0%, #E0ACD5 50%, #C5A3E0 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    
-    @media (min-width: 768px) {
-        :global(.guide-content h1) {
-            font-size: 3.5rem;
-        }
-    }
-    
-    :global(.guide-content h2) {
+    :global(article h2) {
         font-size: 2rem;
         font-weight: 800;
         color: #4A2C2C;
@@ -78,18 +58,7 @@
         border-bottom: 2px solid #FFE5EC;
     }
     
-    :global(.guide-content h2::before) {
-        content: '';
-        display: inline-block;
-        width: 4px; /* Slightly thicker for a "squishier" look */
-        height: 1.5rem;
-        background: linear-gradient(to bottom, #FFB3C6, #F06292); 
-        margin-right: 0.75rem;
-        vertical-align: middle;
-        border-radius: 4px; /* More rounded for "Mochi" points */
-    }
-    
-    :global(.guide-content h3) {
+    :global(article h3) {
         font-size: 1.5rem;
         font-weight: 700;
         color: #4A2C2C;
@@ -98,7 +67,7 @@
         line-height: 1.4;
     }
     
-    :global(.guide-content h4) {
+    :global(article h4) {
         font-size: 1.25rem;
         font-weight: 600;
         color: #6C3F31;
@@ -106,92 +75,32 @@
         margin-bottom: 0.75rem;
     }
     
-    :global(.guide-content p) {
-        margin-bottom: 1.5rem;
-        font-size: 1.0625rem;
-        line-height: 1.8;
-        color: var(--cocoa-milk); /* #875F42 */
-    }
     
-    :global(.guide-content ul),
-    :global(.guide-content ol) {
-        margin-bottom: 2rem;
-        margin-left: 0;
-        padding-left: 1.75rem;
-    }
-    
-    :global(.guide-content ul li),
-    :global(.guide-content ol li) {
-        margin-bottom: 0.75rem;
-        padding-left: 0.5rem;
-    }
-    
-    :global(.guide-content ul) {
-        list-style-type: none;
-    }
-    
-    :global(.guide-content ul li) {
-        position: relative;
-    }
-    
-    :global(.guide-content ul li::before) {
-        content: '→';
-        position: absolute;
-        left: -1.75rem;
-        color: #FF8FA3;
-        font-weight: 600;
-    }
-    
-    :global(.guide-content ol) {
-        list-style-type: decimal;
-        list-style-position: outside;
-    }
-    
-    :global(.guide-content ol li) {
-        padding-left: 0.25rem;
-    }
-    
-    :global(.guide-content ol li::marker) {
-        color: #FF8FA3;
-        font-weight: 700;
-    }
-    
-    :global(.guide-content li) {
-        font-size: 1.0625rem;
-        line-height: 1.75;
-        color: var(--cocoa-milk); /* #875F42 */
-    }
-    
-    :global(.guide-content a) {
+    :global(article a:not([class])) {
         color: #F06292;
         font-weight: 700;
-        text-decoration-color: #FFE5EC;
+        text-decoration-color: #FFB3C6;
         text-underline-offset: 4px;
         text-decoration: underline 2px;
     }
-    
-    :global(.guide-content a:hover) {
-        color: #FFB3C6;
-        background-size: 100% 2px;
+
+    :global(article a:not([class]):hover) {
+        color: #ec407a;
+        text-decoration-color: #F06292;
+        background-color: #FFF0F3;
+        border-radius: 4px;
     }
     
-    /* Remove underlines from buttons and special links */
-    :global(.guide-content a.no-underline),
-    :global(.guide-content a[class*="inline-flex"]),
-    :global(.guide-content a[class*="px-"]) {
-        text-decoration: none;
-    }
-    
-    :global(.guide-content strong) {
+    :global(article strong) {
         color: #4A2C2C; /* Deep Cocoa instead of Black */
         font-weight: 800;
     }
     
-    :global(.guide-content em) {
+    :global(article em) {
         font-style: italic;
     }
     
-    :global(.guide-content code) {
+    :global(article code) {
         background: linear-gradient(135deg, #FFFDF5 0%, #FFF5F7 100%);
         color: #BE185D;
         padding: 0.2rem 0.5rem;
@@ -202,21 +111,16 @@
         font-weight: 500;
     }
     
-    :global(.guide-content pre) {
-        background: linear-gradient(135deg, #1e1b4b 0%, #1f2937 100%);
+    :global(article pre) {
         color: #e5e7eb;
         padding: 1.5rem;
         border-radius: 0.75rem;
         overflow-x: auto;
-        margin-top: 2rem;
-        margin-bottom: 2rem;
         font-size: 0.9375rem;
         line-height: 1.7;
-        border: 1px solid #312e81;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.15);
     }
     
-    :global(.guide-content pre code) {
+    :global(article pre code) {
         background: transparent;
         color: #e5e7eb;
         padding: 0;
@@ -224,7 +128,7 @@
         font-weight: 400;
     }
     
-    :global(.guide-content blockquote) {
+    :global(article blockquote) {
         border-left: 4px solid #FF8FA3;
         padding: 1.25rem 1.5rem;
         margin-top: 2rem;
@@ -238,11 +142,11 @@
         line-height: 1.7;
     }
     
-    :global(.guide-content blockquote p) {
+    :global(article blockquote p) {
         margin-bottom: 0;
     }
     
-    :global(.guide-content img) {
+    :global(article img) {
         border-radius: 0.75rem;
         box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         margin-top: 2.5rem;
@@ -252,51 +156,13 @@
         border: 1px solid rgba(168, 85, 247, 0.1);
     }
     
-    :global(.guide-content hr) {
+    :global(article hr) {
         border: none;
         height: 1px;
         background: linear-gradient(to right, transparent, #FFE5EC, transparent);
         margin: 3rem 0;
     }
     
-    :global(.guide-content table) {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        margin-top: 2rem;
-        margin-bottom: 2rem;
-        overflow: hidden;
-        border-radius: 0.75rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-    
-    :global(.guide-content th) {
-        background: linear-gradient(135deg, #FFF5F7 0%, #FFFDF5 100%);
-        color: #4A2C2C;
-        font-weight: 700;
-        padding: 1rem 1.25rem;
-        text-align: left;
-        border: 1px solid #FFE5EC;
-        font-size: 0.9375rem;
-        letter-spacing: 0.025em;
-        text-transform: uppercase;
-    }
-    
-    :global(.guide-content td) {
-        padding: 1rem 1.25rem;
-        border: 1px solid #FFF0F3;
-        background-color: white;
-        color: #5D5454;
-        line-height: 1.6;
-    }
-    
-    :global(.guide-content tbody tr) {
-        transition: background-color 0.2s ease;
-    }
-    
-    :global(.guide-content tbody tr:hover) {
-        background-color: rgba(255, 245, 247, 0.4);
-    }
     
     /* Callout boxes */
     :global(.guide-callout) {
@@ -336,7 +202,7 @@
     }
     
     /* Lead paragraph styling */
-    :global(.guide-content > p:first-of-type) {
+    :global(article > p:first-of-type) {
         font-size: 1.25rem;
         line-height: 1.7;
         color: #1f2937;
@@ -344,14 +210,14 @@
     }
     
     /* Meta information styling */
-    :global(.guide-content .text-sm.text-purple-600) {
+    :global(article .text-sm.text-purple-600) {
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         color: #FF8FA3 !important;
     }
     
-    :global(.guide-content .text-lg.text-gray-600) {
+    :global(article .text-lg.text-gray-600) {
         font-size: 1.25rem;
         line-height: 1.7;
         color: #4b5563;

@@ -164,7 +164,7 @@
                 </table>
             </ScrollableTable>
             <p class="text-sm text-[#875F42]">
-                Sources: <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">caniuse.com/avif</a>, <a href="https://caniuse.com/jpeg-xl" target="_blank" rel="noopener noreferrer" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">caniuse.com/jpeg-xl</a>
+                Sources: <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">caniuse.com/avif</a>, <a href="https://caniuse.com/jpeg-xl" target="_blank" rel="noopener noreferrer">caniuse.com/jpeg-xl</a>
             </p>
         </section>
 
@@ -189,7 +189,7 @@
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
             <h3 class="text-lg font-black text-[#4A2C2C] mb-3">Try Mochify for free</h3>
             <p class="text-[#6C3F31] leading-relaxed mb-4">
-                Upload your images and preview file sizes side by side before downloading. Mochify is zero-retention — no files stored, no data retained. Try it at <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a>.
+                Upload your images and preview file sizes side by side before downloading. Mochify is zero-retention — no files stored, no data retained. Try it at <a href="https://mochify.app">mochify.app</a>.
             </p>
             <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
                 Try it free

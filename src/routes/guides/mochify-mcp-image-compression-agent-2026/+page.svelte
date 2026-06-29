@@ -207,7 +207,7 @@
         <section id="what-is" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">What is the Mochify MCP server?</h2>
             <p class="mb-4">MCP (Model Context Protocol) is a standard that lets AI assistants call external tools and services mid-conversation. We've built a Mochify MCP server that exposes our squish engine as a callable tool — meaning any AI assistant with MCP support can compress, resize, and optimize your images on your behalf.</p>
-            <p class="mb-4">This is the agent-first version of Mochify. The same compression quality and zero-retention privacy you get from the web tool at <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a>, accessed directly from your AI workflow without opening a browser.</p>
+            <p class="mb-4">This is the agent-first version of Mochify. The same compression quality and zero-retention privacy you get from the web tool at <a href="https://mochify.app">mochify.app</a>, accessed directly from your AI workflow without opening a browser.</p>
         </section>
 
         <section id="how-it-works" class="scroll-mt-24">
@@ -224,7 +224,7 @@
                 <li>The optimized file is returned — no upload portal, no manual steps</li>
             </ol>
 
-            <p class="mb-4">The underlying engine is the same native C++ squish pipeline that powers the web tool. You're getting identical compression quality, just accessed from inside an AI agent context. (<a href="https://web.dev/articles/fast" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">web.dev has a solid primer on why image optimization matters for Core Web Vitals</a> if you want background on why this matters at scale.)</p>
+            <p class="mb-4">The underlying engine is the same native C++ squish pipeline that powers the web tool. You're getting identical compression quality, just accessed from inside an AI agent context. (<a href="https://web.dev/articles/fast">web.dev has a solid primer on why image optimization matters for Core Web Vitals</a> if you want background on why this matters at scale.)</p>
         </section>
 
         <section id="llm-controls" class="scroll-mt-24">
@@ -272,7 +272,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/
 curl -L https://github.com/getmochify/mochify-cli/releases/latest/download/mochify-linux-arm64 -o mochify
 chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
-            <p class="mb-6">All binaries are statically linked — no dependencies needed. Also available on the <a href="https://github.com/getmochify/mochify-cli/releases" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">GitHub releases page</a>.</p>
+            <p class="mb-6">All binaries are statically linked — no dependencies needed. Also available on the <a href="https://github.com/getmochify/mochify-cli/releases">GitHub releases page</a>.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">2. Add to your MCP client config</h3>
             <p class="mb-3">For <strong>Claude Desktop</strong>, edit <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">~/Library/Application Support/Claude/claude_desktop_config.json</code>:</p>

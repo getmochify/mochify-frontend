@@ -356,7 +356,7 @@
                         <li>Encode speed matters more than the last 10% of compression efficiency.</li>
                     </ul>
 
-                    <p class="mb-4">JPEG is not the right choice for graphics with sharp edges (logos, diagrams, UI screenshots)-use PNG. For web delivery with modern browser support, <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">AVIF and WebP</a> deliver better compression. But when you're forced into JPEG, use the best encoder available.</p>
+                    <p class="mb-4">JPEG is not the right choice for graphics with sharp edges (logos, diagrams, UI screenshots)-use PNG. For web delivery with modern browser support, <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl">AVIF and WebP</a> deliver better compression. But when you're forced into JPEG, use the best encoder available.</p>
                 </div>
             </div>
         </section>
@@ -376,7 +376,7 @@
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">What "Better JPEG Encoding" Actually Means</h3>
                     
-                    <p class="mb-4">Jpegli applies techniques originally developed for JPEG XL (a <a href="/guides/2026-guide-next-gen-formats" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">next-generation image format</a>) to the constraints of classic JPEG. Specifically:</p>
+                    <p class="mb-4">Jpegli applies techniques originally developed for JPEG XL (a <a href="/guides/2026-guide-next-gen-formats">next-generation image format</a>) to the constraints of classic JPEG. Specifically:</p>
 
                     <ul class="list-disc list-outside ml-6 space-y-2 mb-6 text-[#6C3F31]">
                         <li><strong>Adaptive quantization heuristics</strong> – Jpegli spatially modulates the quantization dead zone based on psychovisual modeling (how the human eye perceives detail and noise). This means the encoder allocates more bits to visually important areas and fewer bits to areas where artifacts are less noticeable.</li>

@@ -148,7 +148,7 @@
                 The Chrome release notes at <code>developer.chrome.com/release-notes</code> are the authoritative source. When JPEG XL ships without a flag, the feature will be listed under "New in Chrome" without a <code>chrome://flags</code> reference.
             </InfoBox>
 
-            <p class="mb-4">Mochify compresses and converts images to AVIF, WebP, and JPEG with privacy-first, zero-retention processing — no files stored, no data retained. Try it free at <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a>.</p>
+            <p class="mb-4">Mochify compresses and converts images to AVIF, WebP, and JPEG with privacy-first, zero-retention processing — no files stored, no data retained. Try it free at <a href="https://mochify.app">mochify.app</a>.</p>
         </section>
 
         <RelatedGuides guides={related} />

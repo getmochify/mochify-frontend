@@ -196,7 +196,7 @@
 
         <section id="what-is" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">What is Mochify's natural language compression feature?</h2>
-            <p class="mb-4">Instead of manually selecting formats and settings, you describe what you want and Mochify figures out the technical details for you. We've connected an LLM — specifically Mistral Small 4 — directly into the compression pipeline on the main tool at <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a>. It reads your intent and translates it into the right squish flags before processing your image.</p>
+            <p class="mb-4">Instead of manually selecting formats and settings, you describe what you want and Mochify figures out the technical details for you. We've connected an LLM — specifically Mistral Small 4 — directly into the compression pipeline on the main tool at <a href="https://mochify.app">mochify.app</a>. It reads your intent and translates it into the right squish flags before processing your image.</p>
             <p class="mb-4">This sits inside the existing tool interface. No separate mode to switch to, no new account needed. Type your description, upload your image, and the AI handles the settings layer.</p>
         </section>
 
@@ -212,7 +212,7 @@
 
         <section id="formats" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Format selection: WebP, AVIF, JXL, or JPEG</h2>
-            <p class="mb-4">The AI can choose from four output formats depending on how you describe your goal. AVIF delivers roughly 45% smaller files than JPEG at equivalent visual quality — making it the right pick when file size is the priority. WebP hits the sweet spot between compression and compatibility, supported by all major browsers since 2023 (<a href="https://caniuse.com/webp" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">caniuse.com</a>). JPEG XL (JXL) is the choice for lossless or near-lossless archival. Standard JPEG via our jpegli encoder remains the best option when universal compatibility is non-negotiable.</p>
+            <p class="mb-4">The AI can choose from four output formats depending on how you describe your goal. AVIF delivers roughly 45% smaller files than JPEG at equivalent visual quality — making it the right pick when file size is the priority. WebP hits the sweet spot between compression and compatibility, supported by all major browsers since 2023 (<a href="https://caniuse.com/webp">caniuse.com</a>). JPEG XL (JXL) is the choice for lossless or near-lossless archival. Standard JPEG via our jpegli encoder remains the best option when universal compatibility is non-negotiable.</p>
 
             <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
@@ -243,14 +243,14 @@
 
         <section id="exif" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">EXIF stripping on request</h2>
-            <p class="mb-4">Any prompt mentioning privacy, clean uploads, or sharing publicly will trigger EXIF metadata removal. Camera model, GPS coordinates, shooting time — all of it gets stripped before the file is returned. (For more on why this matters, see our <a href="/guides/exif-data-risks-image-compression-2026" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">EXIF risks guide</a>.)</p>
+            <p class="mb-4">Any prompt mentioning privacy, clean uploads, or sharing publicly will trigger EXIF metadata removal. Camera model, GPS coordinates, shooting time — all of it gets stripped before the file is returned. (For more on why this matters, see our <a href="/guides/exif-data-risks-image-compression-2026">EXIF risks guide</a>.)</p>
             <p class="mb-4">Importantly, EXIF stripping only activates when relevant to your prompt. If you're compressing personal archive images and don't mention privacy, the metadata is left intact. The AI respects your intent rather than applying blanket rules.</p>
         </section>
 
         <section id="how-to-use" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How to use it right now</h2>
             <ol class="list-decimal pl-6 mb-6 space-y-3 marker:text-[#F06292] marker:font-bold">
-                <li>Go to <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a></li>
+                <li>Go to <a href="https://mochify.app">mochify.app</a></li>
                 <li>Upload your image (or drop it in)</li>
                 <li>In the natural language field, describe your goal — a single sentence is enough</li>
                 <li>Hit squish — the AI handles format, size, and metadata settings automatically</li>

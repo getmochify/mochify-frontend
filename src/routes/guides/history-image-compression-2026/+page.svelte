@@ -290,11 +290,11 @@
         <section id="related-resources" class="scroll-mt-24">
              <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Related Guides & Resources</h2>
              <ul class="space-y-3">
-                <li><a href="/guides/2026-guide-next-gen-formats" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL</a></li>
-                <li><a href="/guides" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">How to Fix "Serve Images in Next-Gen Formats" in WordPress Without a Plugin</a></li>
-                <li><a href="/guides/jpeg-in-2026-jpegli" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">JPEG Compression in 2026: Why Jpegli Changes the Quality-Per-Byte Game</a></li>
-                <li><a href="/heic-to-jpeg" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Convert HEIC to JPEG</a></li>
-                <li><a href="/guides/privacy-image-optimization" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Privacy-first image optimization guide</a></li>
+                <li><a href="/guides/2026-guide-next-gen-formats">The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL</a></li>
+                <li><a href="/guides">How to Fix "Serve Images in Next-Gen Formats" in WordPress Without a Plugin</a></li>
+                <li><a href="/guides/jpeg-in-2026-jpegli">JPEG Compression in 2026: Why Jpegli Changes the Quality-Per-Byte Game</a></li>
+                <li><a href="/heic-to-jpeg">Convert HEIC to JPEG</a></li>
+                <li><a href="/guides/privacy-image-optimization">Privacy-first image optimization guide</a></li>
              </ul>
              
              <div class="mt-8 bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100">

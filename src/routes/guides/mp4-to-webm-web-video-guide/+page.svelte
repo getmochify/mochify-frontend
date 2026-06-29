@@ -354,7 +354,7 @@
                 <li>Set a <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">poster</code> image that renders while the video loads, so the LCP element itself is a small static image rather than waiting for the first video frame.</li>
                 <li>For below-the-fold video: consider <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">preload="none"</code> and an <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">IntersectionObserver</code> to defer loading until the element is near the viewport.</li>
             </ol>
-            <p>If you are already optimising images for web performance — converting to WebP or AVIF, setting responsive sizes, preloading the hero — video format is the next logical step. See <a href="/guides/optimizing-hero-images" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Optimising Hero Images for Web Performance</a> for the image side of this and how image and video optimisation work together for LCP-critical pages.</p>
+            <p>If you are already optimising images for web performance — converting to WebP or AVIF, setting responsive sizes, preloading the hero — video format is the next logical step. See <a href="/guides/optimizing-hero-images">Optimising Hero Images for Web Performance</a> for the image side of this and how image and video optimisation work together for LCP-critical pages.</p>
         </section>
 
         <!-- Section 6 -->
@@ -377,7 +377,7 @@
             </InfoBox>
 
             <p class="mb-4">The alternative is browser-based conversion using WebAssembly — tools where the conversion engine runs inside your browser tab and your video bytes never touch a remote server. ffmpeg.wasm is a full WebAssembly port of FFmpeg that runs entirely client-side; the project explicitly describes its privacy benefit as "your users' data only lives inside their browser." These tools can even run offline once cached, since there is no server round-trip involved.</p>
-            <p>Mochify's video tool takes the same approach: conversion happens in your browser. The video never leaves your device. See also <a href="/guides/privacy-image-optimization" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Privacy and Image Optimization</a> for a broader look at the data-handling landscape for online media tools.</p>
+            <p>Mochify's video tool takes the same approach: conversion happens in your browser. The video never leaves your device. See also <a href="/guides/privacy-image-optimization">Privacy and Image Optimization</a> for a broader look at the data-handling landscape for online media tools.</p>
         </section>
 
     </div>

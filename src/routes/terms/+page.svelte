@@ -160,19 +160,4 @@
         color: #F06292; /* Using your Brand Pink for a cute touch */
         font-weight: 800;
     }
-    :global(.prose a), 
-    :global(.prose a:where(:not(.not-prose))) {
-        color: #F06292 !important; /* Brand Pink */
-        text-underline-offset: 4px !important;
-        text-decoration-thickness: 2px !important;
-        text-decoration-color: #FFB3C6 !important; /* Soft Pink Underline */
-        font-weight: 700 !important;
-    }
-
-    :global(.prose a:hover) {
-        color: #ec407a !important;
-        text-decoration-color: #F06292 !important;
-        background-color: #FFF0F3 !important; /* Strawberry highlight */
-        border-radius: 4px;
-    }
 </style>

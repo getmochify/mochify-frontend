@@ -123,7 +123,7 @@
 
         <section id="fix-it-in-one-step-with-mochify" class="scroll-mt-24">
             <SectionHeading>Fix it in one step with Mochify</SectionHeading>
-            <p class="mb-4">Mochify's <a href="/solutions/ebay-image-converter" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">eBay Image Converter</a> handles both problems at once. Upload your HEIC, HIF, WebP, or oversized JPEG and describe what you need in plain English. You could type something like:</p>
+            <p class="mb-4">Mochify's <a href="/solutions/ebay-image-converter">eBay Image Converter</a> handles both problems at once. Upload your HEIC, HIF, WebP, or oversized JPEG and describe what you need in plain English. You could type something like:</p>
 
             <div class="bg-[#FFF8F9] border border-pink-100 rounded-2xl px-6 py-5 my-6">
                 <p class="font-mono text-sm text-[#4A2C2C] leading-relaxed">Convert to JPEG, resize to 1600px on the longest side, and keep quality around 85</p>

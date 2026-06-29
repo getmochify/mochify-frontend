@@ -268,7 +268,7 @@
         <section id="why-heic-causes-compatibility-problems" class="scroll-mt-24">
             <SectionHeading>Why HEIC Causes Compatibility Problems</SectionHeading>
             <p class="mb-4">
-                HEIC is Apple's format for iPhone photos — efficient, high quality, and essentially invisible on Apple hardware. Off Apple, it's a different story. Windows requires a separate codec from the Microsoft Store to open HEIC files at all, and that codec may be blocked entirely on managed corporate machines. As of early 2026, <a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">no major browser supports HEIC natively</a> — Chrome, Firefox, and Edge will not display a <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-sm border border-pink-100">.heic</code> file. Platforms like WordPress and Shopify either reject HEIC uploads outright or silently convert them on the server side.
+                HEIC is Apple's format for iPhone photos — efficient, high quality, and essentially invisible on Apple hardware. Off Apple, it's a different story. Windows requires a separate codec from the Microsoft Store to open HEIC files at all, and that codec may be blocked entirely on managed corporate machines. As of early 2026, <a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">no major browser supports HEIC natively</a> — Chrome, Firefox, and Edge will not display a <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-sm border border-pink-100">.heic</code> file. Platforms like WordPress and Shopify either reject HEIC uploads outright or silently convert them on the server side.
             </p>
             <p class="mb-4">
                 The format is a HEIF container using HEVC compression — technically capable and space-efficient, carrying about twice the image quality per byte of JPEG. But that encoding depends on hardware decoding support that isn't guaranteed outside Apple's ecosystem. Android 10 and later can technically support HEIC, but only when device manufacturers ship the required codecs, which makes Android compatibility vendor-dependent rather than reliable.
@@ -278,7 +278,7 @@
             </p>
 
             <InfoBox type="note" title="Note on .HIF files from professional cameras">
-                Canon, Sony, and Fujifilm cameras write <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-sm border border-pink-100">.HIF</code> files using the same HEIF standard underneath, but that's a different workflow for a different audience. If your file is <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-sm border border-pink-100">.HIF</code> from a mirrorless body, see the <a href="/guides/heif-to-jpeg-workflow-photographers-guide" class="text-[#F06292] hover:text-[#D81B60] transition-colors">HIF/HEIF to JPEG for Professional Photographers</a> guide. This guide covers iPhone <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-sm border border-pink-100">.HEIC</code> only.
+                Canon, Sony, and Fujifilm cameras write <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-sm border border-pink-100">.HIF</code> files using the same HEIF standard underneath, but that's a different workflow for a different audience. If your file is <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-sm border border-pink-100">.HIF</code> from a mirrorless body, see the <a href="/guides/heif-to-jpeg-workflow-photographers-guide">HIF/HEIF to JPEG for Professional Photographers</a> guide. This guide covers iPhone <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-sm border border-pink-100">.HEIC</code> only.
             </InfoBox>
         </section>
 
@@ -289,7 +289,7 @@
                 PDF is universally accepted and opens consistently on every platform — no codecs, no app dependencies. For multi-photo submissions, it keeps everything in one file in the right order, which matters for assignment portals, print shops, and scanning services.
             </p>
             <p class="mb-4">
-                <a href="https://www.adobe.com/creativecloud/file-types/image/comparison/jpeg-vs-pdf.html" target="_blank" rel="noopener noreferrer" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Adobe notes</a> that PDF's main strength is consistency: "a PDF's content will always display consistently across any device," which is why printers prefer it. Prepress guidance from Swift Publisher is direct: "almost all print shops accept materials in the PDF and TIFF formats" — HEIC doesn't appear on that list. Scanning and recognition platforms like PaperSurvey recommend PDF specifically because it combines multiple pages into one file and works universally across scanners and OCR pipelines.
+                <a href="https://www.adobe.com/creativecloud/file-types/image/comparison/jpeg-vs-pdf.html" target="_blank" rel="noopener noreferrer">Adobe notes</a> that PDF's main strength is consistency: "a PDF's content will always display consistently across any device," which is why printers prefer it. Prepress guidance from Swift Publisher is direct: "almost all print shops accept materials in the PDF and TIFF formats" — HEIC doesn't appear on that list. Scanning and recognition platforms like PaperSurvey recommend PDF specifically because it combines multiple pages into one file and works universally across scanners and OCR pipelines.
             </p>
             <p class="mb-4">
                 If you're submitting coursework, you've almost certainly hit a portal that requires "one PDF only" and won't accept a folder of images. That preference is well-founded: a PDF keeps the page order fixed, compresses predictably, and doesn't require the recipient to manage ten separate files.
@@ -366,7 +366,7 @@
                 Windows support for HEIC is real but conditional. Windows 11 handles HEIC through the HEIF Image Extensions, published by Microsoft via the Microsoft Store. Some OEM builds include this by default; others don't. On locked-down corporate machines where the Store is blocked by policy, HEIC files may simply be unreadable without administrator intervention.
             </p>
             <p class="mb-4">
-                To check: try opening a HEIC file in the Photos app. If Windows prompts you to install the HEIF Image Extension from the Store, you need it. <a href="https://learn.microsoft.com/en-us/windows/win32/wic/heif-codec" target="_blank" rel="noopener noreferrer" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Microsoft's HEIF codec documentation</a> treats this as an extension rather than a core OS feature, which is why it doesn't ship everywhere by default.
+                To check: try opening a HEIC file in the Photos app. If Windows prompts you to install the HEIF Image Extension from the Store, you need it. <a href="https://learn.microsoft.com/en-us/windows/win32/wic/heif-codec" target="_blank" rel="noopener noreferrer">Microsoft's HEIF codec documentation</a> treats this as an extension rather than a core OS feature, which is why it doesn't ship everywhere by default.
             </p>
             <p class="mb-3">Once HEIC opens in Photos:</p>
             <ol class="mb-4 space-y-2 list-decimal pl-6">
@@ -419,7 +419,7 @@
                         </tr>
                         <tr class="hover:bg-pink-50/30 transition-colors">
                             <td class="px-5 py-3 text-[#6C3F31]">Mochify</td>
-                            <td class="px-5 py-3 text-[#6C3F31]"><a href="/solutions/heif-to-pdf" class="text-[#F06292] hover:text-[#D81B60] transition-colors">mochify.app/solutions/heif-to-pdf</a></td>
+                            <td class="px-5 py-3 text-[#6C3F31]"><a href="/solutions/heif-to-pdf">mochify.app/solutions/heif-to-pdf</a></td>
                             <td class="px-5 py-3 text-[#6C3F31]">Up to 20 files per conversion</td>
                         </tr>
                     </tbody>
@@ -472,7 +472,7 @@
         <section id="privacy-exif" class="scroll-mt-24">
             <SectionHeading>Privacy: What Happens to Your EXIF and Location Data</SectionHeading>
             <p class="mb-4">
-                If Location Services is enabled for the Camera app when you take a photo, that GPS coordinate is embedded in the HEIC file. <a href="https://support.apple.com/guide/personal-safety/manage-location-metadata-in-photos-ips0d7a5df82/web" target="_blank" rel="noopener noreferrer" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Apple's personal safety guidance</a> is explicit: "when photos and videos that include location metadata are shared, the people you share them with may be able to access the location metadata and learn where it was taken."
+                If Location Services is enabled for the Camera app when you take a photo, that GPS coordinate is embedded in the HEIC file. <a href="https://support.apple.com/guide/personal-safety/manage-location-metadata-in-photos-ips0d7a5df82/web" target="_blank" rel="noopener noreferrer">Apple's personal safety guidance</a> is explicit: "when photos and videos that include location metadata are shared, the people you share them with may be able to access the location metadata and learn where it was taken."
             </p>
             <p class="mb-4">
                 What happens to that EXIF data during HEIC-to-PDF conversion depends entirely on the tool — there is no consistent answer across platforms. Some generic conversion paths (including certain online converters) strip EXIF data, including GPS coordinates, during the PDF creation process. Some dedicated converter apps on iOS and macOS advertise explicit EXIF preservation. Apple's own tools don't document their EXIF handling at all.
@@ -481,7 +481,7 @@
                 The safe approach: assume that any generic image-to-PDF path may strip EXIF data, and keep your original HEIC files if you need the metadata later. If you're sharing a PDF of photos taken at your home, at a private event, or of anything sensitive — that automatic strip is usually a feature, not a bug.
             </p>
             <p class="mb-4">
-                For a thorough look at metadata risks in image workflows, see the <a href="/guides/exif-data-risks-image-compression-2026" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">EXIF Data Risks in Image Compression guide</a>. That article covers how to check what metadata a file carries and when stripping it matters most.
+                For a thorough look at metadata risks in image workflows, see the <a href="/guides/exif-data-risks-image-compression-2026">EXIF Data Risks in Image Compression guide</a>. That article covers how to check what metadata a file carries and when stripping it matters most.
             </p>
         </section>
 
@@ -553,11 +553,11 @@
                         </tr>
                         <tr class="hover:bg-pink-50/30 transition-colors">
                             <td class="px-5 py-3 text-[#6C3F31]">Up to 20 photos, any device</td>
-                            <td class="px-5 py-3 text-[#6C3F31]"><a href="/solutions/heif-to-pdf" class="text-[#F06292] hover:text-[#D81B60] transition-colors">mochify.app/solutions/heif-to-pdf</a></td>
+                            <td class="px-5 py-3 text-[#6C3F31]"><a href="/solutions/heif-to-pdf">mochify.app/solutions/heif-to-pdf</a></td>
                         </tr>
                         <tr class="hover:bg-pink-50/30 transition-colors">
                             <td class="px-5 py-3 text-[#6C3F31]">Need JPEG, not PDF</td>
-                            <td class="px-5 py-3 text-[#6C3F31]"><a href="/heic-to-jpeg" class="text-[#F06292] hover:text-[#D81B60] transition-colors">mochify.app/heic-to-jpeg</a></td>
+                            <td class="px-5 py-3 text-[#6C3F31]"><a href="/heic-to-jpeg">mochify.app/heic-to-jpeg</a></td>
                         </tr>
                         <tr class="hover:bg-pink-50/30 transition-colors">
                             <td class="px-5 py-3 text-[#6C3F31]">Want to check EXIF / GPS</td>

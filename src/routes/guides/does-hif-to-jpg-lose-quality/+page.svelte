@@ -133,7 +133,7 @@
             <p class="mb-4">This holds across the pro-camera HIF/HEIF world: Canon, Sony, and Fujifilm all write HIF on the same 10-bit basis.</p>
 
             <InfoBox type="tip" title="HIF is not HEIC">
-                .HEIC is the same HEIF format underneath but is Apple's iPhone variant. If you are converting iPhone photos, use the <a href="/heic-to-jpeg" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">HEIC to JPEG</a> route instead.
+                .HEIC is the same HEIF format underneath but is Apple's iPhone variant. If you are converting iPhone photos, use the <a href="/heic-to-jpeg">HEIC to JPEG</a> route instead.
             </InfoBox>
         </section>
 
@@ -145,7 +145,7 @@
 
         <section id="keep-conversions-clean" class="scroll-mt-24">
             <SectionHeading>How to keep conversions clean</SectionHeading>
-            <p class="mb-4">The encoder matters more than the format. A JPG quality of 85–90 is the well-established sweet spot for photographic conversion: perceptually lossless to most eyes, while keeping files much smaller than quality 95–100. Modern encoders go further. <a href="https://opensource.googleblog.com/2024/04/introducing-jpegli-new-jpeg-coding-library.html" target="_blank" rel="noopener noreferrer" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Google's jpegli</a> was built to fix exactly the banding problem, encoding with 10+ bits of internal precision inside a standard 8-bit-compatible JPG, and it compresses high-quality images about 35% more than traditional JPEG codecs.</p>
+            <p class="mb-4">The encoder matters more than the format. A JPG quality of 85–90 is the well-established sweet spot for photographic conversion: perceptually lossless to most eyes, while keeping files much smaller than quality 95–100. Modern encoders go further. <a href="https://opensource.googleblog.com/2024/04/introducing-jpegli-new-jpeg-coding-library.html" target="_blank" rel="noopener noreferrer">Google's jpegli</a> was built to fix exactly the banding problem, encoding with 10+ bits of internal precision inside a standard 8-bit-compatible JPG, and it compresses high-quality images about 35% more than traditional JPEG codecs.</p>
             <p>Mochify encodes every JPG with jpegli, so gradient-heavy shots survive conversion better than a basic exporter manages. Because the interface is natural language, you can describe the job in plain English — for example: <code class={inlineCode}>convert these HIF photos to JPG at quality 90</code>. Your files stream into the encoder in memory on Mochify's API, are processed, and are wiped immediately with no retention.</p>
         </section>
 

@@ -366,7 +366,7 @@
                         <div>
                             <p class="font-black text-[#4A2C2C] mb-2">{title}</p>
                             {#if i === 1}
-                            <p class="mb-3">Open <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a>, upload your files (up to 25 at a time on paid tiers, up to 3 per session on the free tier without signup), and type what you need in the prompt field. You don't need to know encoder settings or format flags. Magic Flow parses your prompt, maps intent to compression parameters, and passes them to the processing engine.</p>
+                            <p class="mb-3">Open <a href="https://mochify.app">mochify.app</a>, upload your files (up to 25 at a time on paid tiers, up to 3 per session on the free tier without signup), and type what you need in the prompt field. You don't need to know encoder settings or format flags. Magic Flow parses your prompt, maps intent to compression parameters, and passes them to the processing engine.</p>
                             <div class="bg-blue-50 rounded-2xl border border-blue-100 p-4 text-sm text-[#4A2C2C] italic space-y-1">
                                 <p>"Shopify product photos, 2048px square, jpegli JPEG, under 400KB, strip EXIF"</p>
                                 <p>"WordPress blog images, 1400px wide, WebP, under 200KB, strip all metadata"</p>

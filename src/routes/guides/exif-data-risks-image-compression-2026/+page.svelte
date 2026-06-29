@@ -126,7 +126,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            A photographer's geotag led to a significant <a href="https://www.dsgvo-portal.de/gdpr-fines/gdpr-fine-against-digital-photo-image-2024-12-05-ES-4031.php" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">GDPR fine in Germany</a>. The culprit? EXIF metadata leaking GPS coordinates in a routine property photo. This isn't an edge case anymore.
+            A photographer's geotag led to a significant <a href="https://www.dsgvo-portal.de/gdpr-fines/gdpr-fine-against-digital-photo-image-2024-12-05-ES-4031.php">GDPR fine in Germany</a>. The culprit? EXIF metadata leaking GPS coordinates in a routine property photo. This isn't an edge case anymore.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
@@ -228,14 +228,14 @@
         <section id="why-compression-fails" class="scroll-mt-24">
              <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Why Compression Doesn't Remove Privacy Risks</h2>
              <p class="mb-4">You might assume that running an image through a compressor automatically sanitizes metadata. It doesn't.</p>
-             <p class="mb-4">Standard image compression - whether <a href="/" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">JPEG</a>, <a href="/" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">WebP</a>, or <a href="/" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">AVIF</a> - targets pixel data and color information to reduce file size. EXIF metadata lives in a separate data structure within the file container. Most compression tools optimize the image payload but copy the EXIF block unchanged from input to output.</p>
+             <p class="mb-4">Standard image compression - whether <a href="/">JPEG</a>, <a href="/">WebP</a>, or <a href="/">AVIF</a> - targets pixel data and color information to reduce file size. EXIF metadata lives in a separate data structure within the file container. Most compression tools optimize the image payload but copy the EXIF block unchanged from input to output.</p>
              <p class="mb-4"><strong>Result:</strong> Your 5MB photo becomes 400KB, but the GPS coordinates revealing your home address remain intact.</p>
              <p class="mb-4">Marketplace platforms like eBay and Etsy often re-compress uploaded images on their servers to enforce file-size limits. Their re-compression process may or may not strip EXIF-and you have zero control over that second pass. Pre-stripping EXIF before the first compression gives you certainty. You're not relying on a third-party's privacy policy.</p>
         </section>
 
         <section id="privacy-impacts" class="scroll-mt-24">
              <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">EXIF Privacy Impacts: GDPR & ICO Compliance - Global Compliance Benefits</h2>
-             <p class="mb-4">The <a href="https://gdpr.eu/" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">General Data Protection Regulation (GDPR)</a> treats EXIF as personal data when it can directly or indirectly identify individuals.</p>
+             <p class="mb-4">The <a href="https://gdpr.eu/">General Data Protection Regulation (GDPR)</a> treats EXIF as personal data when it can directly or indirectly identify individuals.</p>
              <p class="mb-4">Under GDPR Article 4, these EXIF fields qualify as protected information:</p>
              <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
                 <li><strong>GPS metadata:</strong> Special category data when revealing racial/ethnic origin, religious beliefs, or political opinions (think photos from places of worship or political rallies).</li>
@@ -243,7 +243,7 @@
                 <li><strong>Facial recognition coordinates:</strong> Biometric data protections apply if your camera firmware tags faces.</li>
              </ul>
              <p class="mb-4">German courts have fined real estate photographers for sharing property photos containing precise GPS coordinates. The ruling made clear accidental leaks count as non-compliance.</p>
-             <p class="mb-4">Mochify compression tool is hosted in Germany to uphold <a href="https://gdpr.eu" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">EUGDPR</a> standards, delivering these high-level safeguards to every user worldwide by default. UK users enjoy matching protections via the UK GDPR, which aligns closely with EU rules. Essentially, adhering to these strict standards and with a core philosophy surrounding privacy, benefits all our users worldwide.</p>
+             <p class="mb-4">Mochify compression tool is hosted in Germany to uphold <a href="https://gdpr.eu">EUGDPR</a> standards, delivering these high-level safeguards to every user worldwide by default. UK users enjoy matching protections via the UK GDPR, which aligns closely with EU rules. Essentially, adhering to these strict standards and with a core philosophy surrounding privacy, benefits all our users worldwide.</p>
              <p class="mb-4">Translation for photographers and agencies: If you're handling client images or user-generated content, failing to strip EXIF creates data residency liability. Mochify's in-memory processing guarantees zero disk retention and automatic metadata removal, keeping you compliant without extra steps.</p>
              <p class="mb-4">Beyond fines, EXIF leaks enable tangible harm:</p>
              <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
@@ -292,8 +292,8 @@
                 <li>Embedded thumbnails eliminated.</li>
                 <li>Software tags deleted.</li>
              </ul>
-             <p class="mb-4">Your compressed JPEG (encoded with <a href="/guides/jpeg-in-2026-jpegli" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Google's jpegli</a> for better efficiency at high quality) or AVIF file contains zero residual metadata. The only data structure left is the optimized pixel information.</p>
-             <p class="mb-4">We recognize that professional photographers sometimes need to preserve copyright tags or color profiles for client workflows. That's why our <a href="/solutions/hif-to-jpg" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">HEIF-to-JPG tool</a> includes an optional "Retain EXIF" checkbox.</p>
+             <p class="mb-4">Your compressed JPEG (encoded with <a href="/guides/jpeg-in-2026-jpegli">Google's jpegli</a> for better efficiency at high quality) or AVIF file contains zero residual metadata. The only data structure left is the optimized pixel information.</p>
+             <p class="mb-4">We recognize that professional photographers sometimes need to preserve copyright tags or color profiles for client workflows. That's why our <a href="/solutions/hif-to-jpg">HEIF-to-JPG tool</a> includes an optional "Retain EXIF" checkbox.</p>
              <p class="mb-4 font-bold">How it works:</p>
              <ol class="list-decimal pl-6 mb-6 space-y-2 marker:text-[#F06292] marker:font-bold">
                 <li>Upload your batch (up to 25 files at once).</li>
@@ -315,7 +315,7 @@
              <p class="mb-4">If you're listing products on eBay, Etsy, or Vinted, strip EXIF before upload. Marketplace platforms often re-compress images server-side, and you don't want your home address from product photos shot in your garage leaking through their CDN.</p>
              <p class="mb-4 font-bold">Workflow:</p>
              <ol class="list-decimal pl-6 mb-6 space-y-2 marker:text-[#F06292] marker:font-bold">
-                <li>Convert iPhone HEIC to JPEG via <a href="/heic-to-jpeg" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Mochify's HEIC-to-JPEG tool</a> - EXIF stripped by default.</li>
+                <li>Convert iPhone HEIC to JPEG via <a href="/heic-to-jpeg">Mochify's HEIC-to-JPEG tool</a> - EXIF stripped by default.</li>
                 <li>Batch-compress 25 product shots at once.</li>
                 <li>Upload to marketplace with confidence.</li>
              </ol>

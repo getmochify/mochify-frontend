@@ -640,7 +640,7 @@
 
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">JPEG XL: Future-Friendly Archives</h3>
-                    <p class="mb-4">JPEG XL is technically superior to both AVIF and WebP: better compression, lossless JPEG transcoding, and 10-bit HDR support. Our <a href="/guides/2026-guide-next-gen-formats" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">2026 guide to next-gen formats</a> covers where each format is actually usable today. Safari 17+ ships it by default, but Chrome and Firefox still require flags. For photographers and archivists, JPEG XL is the long-term bet. Only Squoosh, Cloudinary, and Mochify support it in 2026.</p>
+                    <p class="mb-4">JPEG XL is technically superior to both AVIF and WebP: better compression, lossless JPEG transcoding, and 10-bit HDR support. Our <a href="/guides/2026-guide-next-gen-formats">2026 guide to next-gen formats</a> covers where each format is actually usable today. Safari 17+ ships it by default, but Chrome and Firefox still require flags. For photographers and archivists, JPEG XL is the long-term bet. Only Squoosh, Cloudinary, and Mochify support it in 2026.</p>
                 </div>
 
                 <div class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100">
@@ -669,7 +669,7 @@
                             <strong>MozJPEG</strong> (2014): Mozilla's optimizer. Improved quantization and trellis encoding deliver ~5-10% smaller files at equivalent quality. Battle-tested and widely deployed (used by Squoosh).
                         </li>
                         <li class="pl-6 border-l-4 border-[#F06292] py-2 bg-pink-50/30">
-                            <strong>jpegli</strong> (2024): Google's latest encoder, designed for high-quality compression. (See our <a href="/guides/jpeg-in-2026-jpegli" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Jpegli Guide 2026</a> for the quality-per-byte detail.) In Google's tests, jpegli delivers <strong>up to 35% better compression at Q90-95</strong> (the "visually lossless" range photographers care about). It's API/ABI compatible with libjpeg-turbo and MozJPEG, making adoption friction-low for developers.
+                            <strong>jpegli</strong> (2024): Google's latest encoder, designed for high-quality compression. (See our <a href="/guides/jpeg-in-2026-jpegli">Jpegli Guide 2026</a> for the quality-per-byte detail.) In Google's tests, jpegli delivers <strong>up to 35% better compression at Q90-95</strong> (the "visually lossless" range photographers care about). It's API/ABI compatible with libjpeg-turbo and MozJPEG, making adoption friction-low for developers.
                         </li>
                     </ul>
                 </div>

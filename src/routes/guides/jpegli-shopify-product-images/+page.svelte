@@ -209,7 +209,7 @@
             <SectionHeading>Step-by-step: compress Shopify images with Jpegli</SectionHeading>
             <ol class="list-decimal pl-6 mb-6 space-y-3 marker:text-[#F06292] marker:font-bold">
                 <li><strong>Resize first.</strong> Scale product images to 2048 × 2048 px (or your largest display size). Shopify will not upscale, so never upload smaller than needed.</li>
-                <li><strong>Open <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a>.</strong> No account is required for up to 3 files per session. Free tier: 25 images/month.</li>
+                <li><strong>Open <a href="https://mochify.app">mochify.app</a>.</strong> No account is required for up to 3 files per session. Free tier: 25 images/month.</li>
                 <li><strong>Describe what you want using Magic Flow.</strong> Instead of manually picking settings, type your intent in plain English — for example: <em>"compress as jpegli at quality 82, strip location data, max 2048px"</em>. Mochify's NLP engine parses the prompt and applies the right format, quality, and metadata settings to every file automatically.</li>
                 <li><strong>Upload your images.</strong> Drag and drop up to 3 files (Free) or 25 files (Seller/Pro batch). Magic Flow handles the rest — no format dropdowns, no manual quality sliders.</li>
                 <li><strong>Review and download.</strong> Confirm the output looks right, then download your compressed files.</li>
@@ -226,7 +226,7 @@
             <SectionHeading>Results and privacy notes</SectionHeading>
             <p class="mb-4">Stores that pre-compress with Jpegli typically see LCP improvements of <strong>200–500 ms</strong> on product pages — run a before/after test in PageSpeed Insights to confirm your specific gains.</p>
             <p class="mb-4">If you sell from a home address or shoot products at a private location, EXIF stripping is not optional; it is essential. Mochify strips GPS coordinates, device identifiers, and embedded thumbnails by default on every file. Files are processed in RAM and never written to disk — zero retention, no cloud storage.</p>
-            <p class="mb-4">Compress free at <a href="https://mochify.app" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">mochify.app</a> — describe what you need, privacy-first, no login required.</p>
+            <p class="mb-4">Compress free at <a href="https://mochify.app">mochify.app</a> — describe what you need, privacy-first, no login required.</p>
         </section>
 
         <RelatedGuides guides={related} />

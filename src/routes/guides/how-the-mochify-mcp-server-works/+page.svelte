@@ -189,7 +189,7 @@
             <p class="mb-6">The hosted server is a connector that any MCP-compatible AI assistant can register and call. Once OAuth is complete, the agent has two tools available: <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">squish</code> for image processing, and <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">check_usage</code> for quota checks.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Setup, in one paragraph</h3>
-            <p class="mb-6">In Claude Desktop, go to Settings → Connectors, add <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app</code>, then complete an OAuth flow that authorises Mochify to process images on your behalf. Cursor and other clients follow the same shape. The full step-by-step is in our <a href="/guides/mochify-mcp-image-compression-agent-2026" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">MCP setup guide</a>. Authentication is OAuth-based, the connector talks to our servers over HTTPS, and the agent doesn't need to manage an API key directly.</p>
+            <p class="mb-6">In Claude Desktop, go to Settings → Connectors, add <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app</code>, then complete an OAuth flow that authorises Mochify to process images on your behalf. Cursor and other clients follow the same shape. The full step-by-step is in our <a href="/guides/mochify-mcp-image-compression-agent-2026">MCP setup guide</a>. Authentication is OAuth-based, the connector talks to our servers over HTTPS, and the agent doesn't need to manage an API key directly.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">The <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-base">squish</code> tool</h3>
             <p class="mb-4">The <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">squish</code> tool accepts either a public HTTPS URL to fetch the image from, or raw base64 image bytes plus a media type. It returns a <strong class="text-[#4A2C2C]">short-lived download URL</strong> for the processed image — a five-minute TTL on <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">files.mochify.app</code>, with an explicit "expires in ~5 minutes" note in the response so the agent and any downstream tool know exactly when the link goes dead.</p>
@@ -206,7 +206,7 @@
             <p class="mb-4">What URL passback adds is a brief <strong class="text-[#4A2C2C]">pickup window</strong> for the compressed result. After encoding, Mochify holds the processed bytes in a pickup store keyed by an unguessable hash, with a five-minute TTL. After five minutes the result is evicted regardless of whether anything fetched it.</p>
 
             <div class="bg-[#FFF9F5] rounded-2xl p-6 border border-[#FFE4D6] my-6">
-                <p class="text-[#6C3F31] mb-0">This is a softening of the original "wiped immediately" claim on the compressed-output side. We'd rather describe it accurately than carry a phrase that no longer matches what the server does. The two local install workflows don't use the pickup store at all — the local binary receives the compressed bytes from the API and writes them straight to your disk. If you need the strongest possible end-to-end retention story, use a local mode or self-host via our <a href="/guides/self-hosting-image-optimization-docker" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">Docker guide</a>.</p>
+                <p class="text-[#6C3F31] mb-0">This is a softening of the original "wiped immediately" claim on the compressed-output side. We'd rather describe it accurately than carry a phrase that no longer matches what the server does. The two local install workflows don't use the pickup store at all — the local binary receives the compressed bytes from the API and writes them straight to your disk. If you need the strongest possible end-to-end retention story, use a local mode or self-host via our <a href="/guides/self-hosting-image-optimization-docker">Docker guide</a>.</p>
             </div>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Where the agent's tokens go</h3>
@@ -296,7 +296,7 @@ ls *.heic | mochify -t jpg</code></pre>
                     </thead>
                     <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
                         <tr><td class="p-4">Someone shared an image URL and you want it as AVIF or WebP</td><td class="p-4 font-semibold">Hosted MCP (URL input)</td></tr>
-                        <tr><td class="p-4">You want to drag a small image into a chat and have it compressed</td><td class="p-4 font-semibold">Hosted MCP (upload) — see <a href="#example-2" class="text-[#F06292] hover:text-[#D81B60] underline">Worked Example 2</a></td></tr>
+                        <tr><td class="p-4">You want to drag a small image into a chat and have it compressed</td><td class="p-4 font-semibold">Hosted MCP (upload) — see <a href="#example-2">Worked Example 2</a></td></tr>
                         <tr><td class="p-4">You're in Claude Desktop and images live on your laptop</td><td class="p-4 font-semibold">Local MCP server (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">mochify serve</code>)</td></tr>
                         <tr><td class="p-4">You're in Claude Code working in a project repo full of images</td><td class="p-4 font-semibold">Direct CLI</td></tr>
                         <tr><td class="p-4">You're building a static site and want compression as a build step</td><td class="p-4 font-semibold">Direct CLI (no agent needed)</td></tr>
@@ -341,7 +341,7 @@ ls *.heic | mochify -t jpg</code></pre>
                 <p class="mt-5 pt-4 border-t border-pink-100 text-sm text-[#875F42]">Token cost: just the URL strings and options in both directions. The original image bytes never touch the agent's context, and the compressed bytes only reach the chat if Claude chooses to fetch the result for display. This is the cheapest of the hosted-MCP workflows by a wide margin.</p>
             </div>
 
-            <p>For format context: <a href="https://web.dev/articles/compress-images-avif" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">web.dev's AVIF compression study</a> places AVIF at 40–50% smaller files than JPEG at matched visual quality. Browser support sits at over 95% globally per <a href="https://caniuse.com/avif" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">caniuse.com/avif</a>, so the output is safe to serve as the primary format on most modern sites.</p>
+            <p>For format context: <a href="https://web.dev/articles/compress-images-avif">web.dev's AVIF compression study</a> places AVIF at 40–50% smaller files than JPEG at matched visual quality. Browser support sits at over 95% globally per <a href="https://caniuse.com/avif">caniuse.com/avif</a>, so the output is safe to serve as the primary format on most modern sites.</p>
         </section>
 
         <!-- Example 2 -->
@@ -364,7 +364,7 @@ ls *.heic | mochify -t jpg</code></pre>
                 <p class="text-[#6C3F31] text-base mb-0">Mochify's hosted MCP previously returned the processed image inline as binary content, which forced the chat client to render or save a binary blob from a tool response. Support varied wildly, and in practice the tool call frequently hung or produced a result the user couldn't save. We've now switched to URL passback: the response is a text URL on <code class="bg-pink-100 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">files.mochify.app</code>, valid for five minutes. Chat clients handle a URL string without difficulty.</p>
             </div>
 
-            <p class="mb-4">Where this leaves us: the drag-into-chat workflow is now genuinely usable for small images where the quality hit from chat-client upload pre-processing doesn't matter — a screenshot you're prepping for a Notion page, a thumbnail you want as AVIF, a quick conversion of a small graphic. It is <em>not</em> the right workflow for a hero image, a product photo, or anything where you'd want pixel-accurate output. For those, use <a href="#example-1" class="text-[#F06292] hover:text-[#D81B60] underline">Worked Example 1</a> (URL input) or <a href="#example-3" class="text-[#F06292] hover:text-[#D81B60] underline">Worked Example 3</a> (local MCP server).</p>
+            <p class="mb-4">Where this leaves us: the drag-into-chat workflow is now genuinely usable for small images where the quality hit from chat-client upload pre-processing doesn't matter — a screenshot you're prepping for a Notion page, a thumbnail you want as AVIF, a quick conversion of a small graphic. It is <em>not</em> the right workflow for a hero image, a product photo, or anything where you'd want pixel-accurate output. For those, use <a href="#example-1">Worked Example 1</a> (URL input) or <a href="#example-3">Worked Example 3</a> (local MCP server).</p>
 
             <p class="mb-4">A worked run: drag a small PNG screenshot into Claude with <em>"Make this web-ready."</em> Claude calls <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">squish({'{'} data: "&lt;base64...&gt;", mediaType: "image/png", optimizeForWeb: true {'}'})</code>. Magic Flow infers AVIF output with sensible web-ready defaults and EXIF stripping. Mochify processes the vision-processed copy of your screenshot and returns:</p>
 
@@ -447,7 +447,7 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
 
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>find ./uploads -name "*.heic" | mochify -t jpg -o ./out</code></pre>
 
-            <p>No upload step, no download step, no chat round-trip, no per-image agent token cost. For container-based pipelines, see our <a href="/guides/self-hosting-image-optimization-docker" class="text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-2 transition-colors">self-hosting image optimisation with Docker guide</a>.</p>
+            <p>No upload step, no download step, no chat round-trip, no per-image agent token cost. For container-based pipelines, see our <a href="/guides/self-hosting-image-optimization-docker">self-hosting image optimisation with Docker guide</a>.</p>
         </section>
 
         <!-- Token Cost -->
@@ -489,7 +489,7 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
                     </tbody>
                 </table>
             </ScrollableTable>
-            <p class="text-sm text-[#875F42] italic mb-8">Source is a lossless 1600px PNG — the large reductions reflect PNG→lossy format conversion as well as compression. For a JPEG-to-JPEG comparison, <a href="https://opensource.googleblog.com/2024/04/introducing-jpegli-a-new-jpeg-coding.html" class="text-[#F06292] hover:text-[#D81B60] underline">Google's jpegli announcement</a> reports 35% better compression than libjpeg-turbo at matched quality, and <a href="https://web.dev/articles/compress-images-avif" class="text-[#F06292] hover:text-[#D81B60] underline">web.dev's AVIF benchmarks</a> place AVIF 40–50% below comparable JPEG.</p>
+            <p class="text-sm text-[#875F42] italic mb-8">Source is a lossless 1600px PNG — the large reductions reflect PNG→lossy format conversion as well as compression. For a JPEG-to-JPEG comparison, <a href="https://opensource.googleblog.com/2024/04/introducing-jpegli-a-new-jpeg-coding.html">Google's jpegli announcement</a> reports 35% better compression than libjpeg-turbo at matched quality, and <a href="https://web.dev/articles/compress-images-avif">web.dev's AVIF benchmarks</a> place AVIF 40–50% below comparable JPEG.</p>
         </section>
 
         <!-- FAQ -->
