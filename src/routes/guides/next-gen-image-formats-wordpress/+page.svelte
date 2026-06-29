@@ -289,7 +289,7 @@
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-2">4. Re-upload and replace the originals</h3>
                     <p><strong>Option A (simplest):</strong> Upload the optimized WebP and update the page/post to reference the new file.</p>
-                    <p class="mt-4"><strong>Option B (developer-friendly):</strong> If you want AVIF and a clean fallback without relying on a plugin, use the <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> tag:</p>
+                    <p class="mt-4"><strong>Option B (developer-friendly):</strong> If you want AVIF and a clean fallback without relying on a plugin, use the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> tag:</p>
                     
                     <CodeBlock filename="picture.html" code={`<picture>
     <source type="image/avif" srcset="/images/hero.avif">

@@ -106,7 +106,7 @@
         <section>
             <SectionHeading>What is HIF / HEIF?</SectionHeading>
             <p>
-                High Efficiency Image File (HEIF, often saved as <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">.HIF</code>) is a modern image format that stores <strong>10‑bit</strong> data instead of the 8‑bit colour you get from a traditional JPEG, while often achieving smaller file sizes at the same perceived quality.
+                High Efficiency Image File (HEIF, often saved as <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.HIF</code>) is a modern image format that stores <strong>10‑bit</strong> data instead of the 8‑bit colour you get from a traditional JPEG, while often achieving smaller file sizes at the same perceived quality.
             </p>
             <ul class="space-y-4 mt-6 ml-2">
                 <li class="flex gap-3">

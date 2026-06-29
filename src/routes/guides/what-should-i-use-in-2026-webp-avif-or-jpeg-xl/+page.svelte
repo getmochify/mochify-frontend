@@ -114,7 +114,7 @@
 
     <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
 
-        <p>A reliable <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;picture&gt;</code> element covers all three in a sensible order:</p>
+        <p>A reliable <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> element covers all three in a sensible order:</p>
 
         <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm">
             <div class="bg-[#4A2C2C] px-5 py-3 flex items-center justify-between">
@@ -179,7 +179,7 @@
 
         <section id="avif-vs-webp" class="scroll-mt-24">
             <SectionHeading>AVIF vs WebP: the trade-off that matters</SectionHeading>
-            <p class="mb-4">AVIF delivers superior quality at low bitrates - it is the right choice for hero images, product photography, and any asset where visual fidelity matters. WebP encodes faster and has wider legacy support, which makes it the right fallback in the <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;picture&gt;</code> stack rather than a primary target. For the vast majority of web workflows in 2026, the pattern above handles both automatically.</p>
+            <p class="mb-4">AVIF delivers superior quality at low bitrates - it is the right choice for hero images, product photography, and any asset where visual fidelity matters. WebP encodes faster and has wider legacy support, which makes it the right fallback in the <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> stack rather than a primary target. For the vast majority of web workflows in 2026, the pattern above handles both automatically.</p>
 
             <InfoBox type="tip" title="Magic Flow handles format selection automatically">
                 In Mochify, you can type <em>"convert to AVIF with WebP fallback max 1600px"</em> and the NLP engine picks the right settings for every file. No format dropdowns, no manual quality sliders.

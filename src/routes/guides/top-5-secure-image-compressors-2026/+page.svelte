@@ -680,7 +680,7 @@
                     <p class="mb-4">Most tools (TinyPNG, ShortPixel) use proprietary or older JPEG stacks. Squoosh transparently uses MozJPEG. Mochify is the only mainstream web tool explicitly using jpegli for standard JPEG output.</p>
                     
                     <InfoBox type="tip">
-                        <strong>Key Point:</strong> jpegli is <em>not</em> a new format. It produces standard <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">.jpg</code> files that open in any viewer, browser, or app. The encoder efficiency is invisible to end-users - they just see faster-loading images.
+                        <strong>Key Point:</strong> jpegli is <em>not</em> a new format. It produces standard <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.jpg</code> files that open in any viewer, browser, or app. The encoder efficiency is invisible to end-users - they just see faster-loading images.
                     </InfoBox>
                 </div>
             </div>

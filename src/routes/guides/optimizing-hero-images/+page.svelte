@@ -214,7 +214,7 @@
                             <p class="text-sm text-[#6C3F31]">Google's modern JPEG encoder. Standard JPEG output - compatible everywhere - but 35% better compression at high quality. No format headaches.</p>
                         </div>
                     </div>
-                    <p class="mb-4">Use a <code class="bg-pink-50 px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">&lt;picture&gt;</code> element with AVIF first, WebP second, and JPEG fallback:</p>
+                    <p class="mb-4">Use a <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">&lt;picture&gt;</code> element with AVIF first, WebP second, and JPEG fallback:</p>
                     <CodeBlock filename="hero.html" code={`<picture>
   <source srcset="hero.avif" type="image/avif">
   <source srcset="hero.webp" type="image/webp">
@@ -234,15 +234,15 @@
                 <!-- Background images -->
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Background Images vs <code class="text-[#D81B60] font-mono text-lg">&lt;img&gt;</code> Tags</h3>
-                    <p class="mb-4">CSS background images are invisible to preload scanners, which means browsers discover them late and start fetching them after parsing CSS. <strong>This delays LCP by 200–500ms</strong> compared to <code class="bg-pink-50 px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">&lt;img&gt;</code> tags.</p>
-                    <p>Switch from <code class="bg-pink-50 px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">background-image</code> in CSS to proper <code class="bg-pink-50 px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">&lt;img&gt;</code> elements. If your theme forces backgrounds (looking at you, Elementor sliders), move the hero to an Image widget and preload it manually. The LCP improvement is worth the template refactor.</p>
+                    <p class="mb-4">CSS background images are invisible to preload scanners, which means browsers discover them late and start fetching them after parsing CSS. <strong>This delays LCP by 200–500ms</strong> compared to <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">&lt;img&gt;</code> tags.</p>
+                    <p>Switch from <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">background-image</code> in CSS to proper <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">&lt;img&gt;</code> elements. If your theme forces backgrounds (looking at you, Elementor sliders), move the hero to an Image widget and preload it manually. The LCP improvement is worth the template refactor.</p>
                 </div>
 
                 <!-- fetchpriority -->
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Preload Your Hero with <code class="text-[#D81B60] font-mono text-lg">fetchpriority="high"</code></h3>
                     <p class="mb-4">Browsers prioritize resources in a specific order: CSS first, then scripts, then images. Your hero image often loads with default priority - meaning it waits behind other assets.</p>
-                    <p class="mb-4">Fix this by preloading the hero and setting <code class="bg-pink-50 px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">fetchpriority="high"</code>:</p>
+                    <p class="mb-4">Fix this by preloading the hero and setting <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">fetchpriority="high"</code>:</p>
                     <CodeBlock filename="<head>" code={`<link rel="preload" as="image" href="hero.avif" fetchpriority="high">`} />
                     <InfoBox type="technical" title="Why this matters">
                         Etsy deployed this technique site-wide and improved LCP by 4%, with some pages seeing 20–30% gains. Add this <code>&lt;link&gt;</code> tag in your <code>&lt;head&gt;</code> before other stylesheets and scripts. Without <code>fetchpriority="high"</code>, some browsers treat image preloads as low priority and negate the benefit entirely.

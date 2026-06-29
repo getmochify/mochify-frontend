@@ -76,6 +76,10 @@
     }
     
     
+    :global(article p) {
+        color: #4A2C2C;
+    }
+
     :global(article a:not([class])) {
         color: #F06292;
         font-weight: 700;

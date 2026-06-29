@@ -255,7 +255,7 @@
             <p class="mb-4">The stdio transport is the architecturally important one for local agents. When a host application (Claude Desktop, Cursor, Claude Code, or any MCP-compatible runtime) uses a stdio server, it launches the server as a child process, communicates with it over stdin/stdout, and manages the process lifecycle itself. Per the <a href="https://modelcontextprotocol.io/specification/2025-06-18/basic/transports" target="_blank" rel="noopener noreferrer">official MCP transport specification</a>: "the client launches the MCP server as a subprocess... sends messages over stdin and reads responses from stdout." No network ports, no sockets required. The only configuration is a command and its arguments in a JSON config file.</p>
             <p class="mb-4">This matters for on-device workflows because a well-designed stdio tool server runs entirely within the user's OS permissions with no required network connectivity of its own. For a media optimization server, this means the agent can send a local file path, the tool processes the file, and returns a new path - without any of the image data passing through the LLM's context window.</p>
             <p class="mb-4">MCP has been adopted quickly. By early 2026, Claude Desktop, Claude Code, Cursor, ChatGPT, and VS Code all support MCP servers. MCP marketplaces list hundreds of servers spanning image processing, database connectors, code search, and cloud provider SDKs. That breadth means the ecosystem of callable tools on local hardware is already substantial - and as new agent runtimes ship on DGX Spark and RTX Spark class hardware, they inherit the same tool ecosystem without re-integration work.</p>
-            <p>On platforms like Claude Code, adding a local MCP server is a one-line command (<code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">claude mcp add</code>). On Claude Desktop, it's a short JSON snippet in <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">claude_desktop_config.json</code>. The agent then discovers the server's tools automatically and can call them from natural-language prompts without custom code. See our guide on <a href="/guides/how-the-mochify-mcp-server-works">how the Mochify MCP server works</a> for a full breakdown of both MCP surfaces.</p>
+            <p>On platforms like Claude Code, adding a local MCP server is a one-line command (<code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">claude mcp add</code>). On Claude Desktop, it's a short JSON snippet in <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">claude_desktop_config.json</code>. The agent then discovers the server's tools automatically and can call them from natural-language prompts without custom code. See our guide on <a href="/guides/how-the-mochify-mcp-server-works">how the Mochify MCP server works</a> for a full breakdown of both MCP surfaces.</p>
         </section>
 
         <!-- 4. Privacy nuance -->
@@ -279,9 +279,9 @@
         <section id="token-costs" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">5. Why Image Tokens Are Expensive in Agent Context</h2>
             <p class="mb-4">Passing images directly into a language model's context - rather than through a tool that returns a file path - is expensive in two ways that compound on local hardware.</p>
-            <p class="mb-4">First, raw token cost. <a href="https://platform.claude.com/docs/en/build-with-claude/vision" target="_blank" rel="noopener noreferrer">Claude's vision documentation</a> gives the formula: approximately <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">width * height / 750</code> tokens per image. A 1,000 x 1,000 pixel image (1 megapixel) costs roughly 1,334 tokens. A standard product photo at 3,000 x 2,000 runs to around 8,000 tokens. Pass ten images inline to start a batch job and you've consumed 80,000+ tokens before the agent has done any work.</p>
+            <p class="mb-4">First, raw token cost. <a href="https://platform.claude.com/docs/en/build-with-claude/vision" target="_blank" rel="noopener noreferrer">Claude's vision documentation</a> gives the formula: approximately <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">width * height / 750</code> tokens per image. A 1,000 x 1,000 pixel image (1 megapixel) costs roughly 1,334 tokens. A standard product photo at 3,000 x 2,000 runs to around 8,000 tokens. Pass ten images inline to start a batch job and you've consumed 80,000+ tokens before the agent has done any work.</p>
             <p class="mb-4">Second, context ceiling. Claude's context window documentation states that a single request can include up to 600 images or PDF pages (100 for models using 200k-token context windows). Those ceilings are manageable for cloud models with large context windows. For local models - which typically run with 8k to 32k context windows on consumer hardware - passing even a handful of full-resolution images inline can exhaust the entire context before any processing pipeline begins. At that point the workflow simply doesn't work.</p>
-            <p class="mb-4">The established pattern, reflected in the <a href="https://modelcontextprotocol.info/docs/concepts/resources/" target="_blank" rel="noopener noreferrer">MCP resources specification</a>, is to pass file paths and metadata rather than binary data. The spec defines URI-based resource references (for example, <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">file:///home/user/project/image.jpg</code>) precisely for this: the tool server handles the file, the agent handles the reference. Anthropic's engineering write-up on <a href="https://www.anthropic.com/engineering/code-execution-with-mcp" target="_blank" rel="noopener noreferrer">MCP with code execution</a> frames this directly: MCP lets agents "use fewer tokens" by moving heavy data and compute into dedicated tool processes, with the model only seeing references and summaries.</p>
+            <p class="mb-4">The established pattern, reflected in the <a href="https://modelcontextprotocol.info/docs/concepts/resources/" target="_blank" rel="noopener noreferrer">MCP resources specification</a>, is to pass file paths and metadata rather than binary data. The spec defines URI-based resource references (for example, <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">file:///home/user/project/image.jpg</code>) precisely for this: the tool server handles the file, the agent handles the reference. Anthropic's engineering write-up on <a href="https://www.anthropic.com/engineering/code-execution-with-mcp" target="_blank" rel="noopener noreferrer">MCP with code execution</a> frames this directly: MCP lets agents "use fewer tokens" by moving heavy data and compute into dedicated tool processes, with the model only seeing references and summaries.</p>
             <p>For on-device agents where context windows are tight and token throughput is measured in tens per second, this isn't an optimisation. It's a prerequisite for running image workflows at any reasonable scale.</p>
         </section>
 
@@ -298,21 +298,21 @@
                             <strong class="block text-[#4A2C2C] text-lg mb-2">Install the Mochify CLI</strong>
                             <p class="mb-3">The same Rust binary serves as both CLI and local MCP server. Install via Homebrew:</p>
                             <pre class="bg-[#2D1B1B] text-pink-100 rounded-xl p-4 mb-3 overflow-x-auto font-mono text-sm leading-relaxed"><code>brew install mochify</code></pre>
-                            <p class="mb-0">On Linux, use the curl installer from <a href="https://github.com/getmochify/mochify-cli" target="_blank" rel="noopener noreferrer">github.com/getmochify/mochify-cli</a>, or <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">cargo install</code> from the repo directly.</p>
+                            <p class="mb-0">On Linux, use the curl installer from <a href="https://github.com/getmochify/mochify-cli" target="_blank" rel="noopener noreferrer">github.com/getmochify/mochify-cli</a>, or <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">cargo install</code> from the repo directly.</p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">
                         <span class="w-8 h-8 bg-[#F06292] text-white font-black text-sm rounded-full flex items-center justify-center shrink-0 mt-0.5">2</span>
                         <div class="flex-1 min-w-0">
                             <strong class="block text-[#4A2C2C] text-lg mb-2">Authenticate once</strong>
-                            <p class="mb-0">Run <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">mochify auth login</code>. A browser OAuth flow handles authentication, and credentials are saved to <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">~/.config/mochify/credentials.toml</code>. Both the CLI and the local MCP server pick them up automatically - you won't need to touch them again.</p>
+                            <p class="mb-0">Run <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mochify auth login</code>. A browser OAuth flow handles authentication, and credentials are saved to <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">~/.config/mochify/credentials.toml</code>. Both the CLI and the local MCP server pick them up automatically - you won't need to touch them again.</p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">
                         <span class="w-8 h-8 bg-[#F06292] text-white font-black text-sm rounded-full flex items-center justify-center shrink-0 mt-0.5">3</span>
                         <div class="flex-1 min-w-0">
                             <strong class="block text-[#4A2C2C] text-lg mb-2">Wire the local MCP server into your agent host</strong>
-                            <p class="mb-3">For Claude Desktop, add a short snippet to <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">claude_desktop_config.json</code>:</p>
+                            <p class="mb-3">For Claude Desktop, add a short snippet to <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">claude_desktop_config.json</code>:</p>
                             <pre class="bg-[#2D1B1B] text-pink-100 rounded-xl p-4 mb-3 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`{
   "mcpServers": {
     "mochify": {
@@ -321,7 +321,7 @@
     }
   }
 }`}</code></pre>
-                            <p class="mb-0">For Claude Code: <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">claude mcp add mochify mochify serve</code></p>
+                            <p class="mb-0">For Claude Code: <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">claude mcp add mochify mochify serve</code></p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">
@@ -330,12 +330,12 @@
                             <strong class="block text-[#4A2C2C] text-lg mb-2">Describe your task with Magic Flow</strong>
                             <p class="mb-3">Mochify's natural language interface, Magic Flow, means you describe what you want rather than specifying format, quality, and resize settings by hand. The two-step pipeline - a language model parses the prompt, then Mochify's C++ compression engine executes - handles parameter resolution automatically. Real examples that work:</p>
                             <ul class="list-disc pl-6 mb-3 space-y-2 marker:text-[#F06292]">
-                                <li>"Convert all the PNGs in <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">/project/assets</code> to AVIF at web quality"</li>
+                                <li>"Convert all the PNGs in <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">/project/assets</code> to AVIF at web quality"</li>
                                 <li>"Compress these product photos, strip EXIF data, max 1600px wide"</li>
                                 <li>"Extract page 1 of the brief as a WebP thumbnail"</li>
                                 <li>"Split this 40-page contract into individual single-page PDFs"</li>
                             </ul>
-                            <p class="mb-0">Magic Flow is available in the web app, via the REST API at <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">POST /v1/prompt</code>, through the CLI with the <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">-p</code> flag, and on both MCP server surfaces.</p>
+                            <p class="mb-0">Magic Flow is available in the web app, via the REST API at <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">POST /v1/prompt</code>, through the CLI with the <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">-p</code> flag, and on both MCP server surfaces.</p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">
@@ -349,8 +349,8 @@
             </div>
 
             <InfoBox type="note" title="Privacy note">
-                <p class="mb-3">Images and PDFs travel from your machine to <code class="bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded font-mono text-sm">api.mochify.app</code> over HTTPS for the encoding step. Processing happens in RAM, with no disk writes of the source and no logs containing file data. The local Rust binary is a client over that API; it does not encode locally. Because the local MCP path uses no pickup store, compressed bytes come straight back to the binary and are written to disk - zero server-side retention end-to-end.</p>
-                <p class="mb-0">The hosted MCP server at <code class="bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded font-mono text-sm">mcp.mochify.app</code> works differently: it returns a short-lived download URL on <code class="bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded font-mono text-sm">files.mochify.app</code> (valid for about five minutes) rather than a file path. That's the right surface for non-developers who want OAuth-based access without installing anything. For agent workflows where you want file paths and zero server-side retention end-to-end, the local server is the right choice. See <a href="/guides/why-we-relaxed-zero-retention-for-mcp" class="text-blue-600 hover:text-blue-700 underline">why we adjusted our zero-retention policy for MCP</a> for the full explanation.</p>
+                <p class="mb-3">Images and PDFs travel from your machine to <code class="bg-blue-50 text-blue-600 px-1.5 py-px rounded font-mono text-sm">api.mochify.app</code> over HTTPS for the encoding step. Processing happens in RAM, with no disk writes of the source and no logs containing file data. The local Rust binary is a client over that API; it does not encode locally. Because the local MCP path uses no pickup store, compressed bytes come straight back to the binary and are written to disk - zero server-side retention end-to-end.</p>
+                <p class="mb-0">The hosted MCP server at <code class="bg-blue-50 text-blue-600 px-1.5 py-px rounded font-mono text-sm">mcp.mochify.app</code> works differently: it returns a short-lived download URL on <code class="bg-blue-50 text-blue-600 px-1.5 py-px rounded font-mono text-sm">files.mochify.app</code> (valid for about five minutes) rather than a file path. That's the right surface for non-developers who want OAuth-based access without installing anything. For agent workflows where you want file paths and zero server-side retention end-to-end, the local server is the right choice. See <a href="/guides/why-we-relaxed-zero-retention-for-mcp" class="text-blue-600 hover:text-blue-700 underline">why we adjusted our zero-retention policy for MCP</a> for the full explanation.</p>
             </InfoBox>
 
             <p class="mb-4"><strong class="text-[#4A2C2C]">On video:</strong> if your workflow involves video, that's handled separately. Mochify's video engine runs entirely client-side in the browser - the bytes never leave your device. That's a stronger local privacy guarantee than even the MCP path, but it means video is web-app-only. The CLI, local MCP server, and REST API handle images and PDFs. Route video compression through the web app.</p>
@@ -422,7 +422,7 @@
                 Connect your local agent to Mochify
             </h3>
             <p class="text-[#6C3F31] text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">
-                Install the CLI, run <code class="bg-white text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">mochify auth login</code> once, and your agent can start optimizing images and PDFs with a natural language prompt - zero bytes in the model context.
+                Install the CLI, run <code class="bg-white text-[#D81B60] px-2 py-px rounded font-mono text-sm">mochify auth login</code> once, and your agent can start optimizing images and PDFs with a natural language prompt - zero bytes in the model context.
             </p>
             <a href="/" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
                 <span>Try it free at mochify.app</span>

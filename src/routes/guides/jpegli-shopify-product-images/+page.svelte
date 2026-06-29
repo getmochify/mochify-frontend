@@ -95,7 +95,7 @@
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
             <p class="text-lg text-[#6C3F31] leading-relaxed">
-                <strong>Published April 2026 by the Mochify Engineering Team.</strong> Jpegli produces files roughly 35% smaller than a standard JPEG at equivalent visual quality - and outputs a standard <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">.jpg</code> file that every browser, Shopify theme, and marketplace reads without changes.
+                <strong>Published April 2026 by the Mochify Engineering Team.</strong> Jpegli produces files roughly 35% smaller than a standard JPEG at equivalent visual quality - and outputs a standard <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.jpg</code> file that every browser, Shopify theme, and marketplace reads without changes.
             </p>
         </div>
     </header>
@@ -182,7 +182,7 @@
         <!-- Section 3 -->
         <section id="comparison" class="scroll-mt-24">
             <SectionHeading>Jpegli vs standard JPEG - at a glance</SectionHeading>
-            <p class="mb-4">Because Jpegli outputs a standard <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">.jpg</code> file, every browser and every Shopify theme reads it without any changes. There is no compatibility trade-off.</p>
+            <p class="mb-4">Because Jpegli outputs a standard <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">.jpg</code> file, every browser and every Shopify theme reads it without any changes. There is no compatibility trade-off.</p>
 
             <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white">

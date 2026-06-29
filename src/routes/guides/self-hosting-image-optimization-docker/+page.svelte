@@ -91,11 +91,11 @@
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Understanding the Configuration</h3>
             <p class="mb-6">If you are new to Docker, here is a quick breakdown of what these flags are doing:</p>
             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
-                <li><code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">-d:</code> Runs the container in "detached" mode (in the background).</li>
-                <li><code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">-p 5555:5555:</code> Maps port 5555 of the container to port 5555 on your local machine. This is the gateway to the compression API.</li>
-                <li><code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">--read-only:</code> A security best practice that makes the container's root filesystem immutable, preventing accidental or malicious changes.</li>
-                <li><code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">--tmpfs:</code> Since the filesystem is read-only, this creates a small, fast 64MB buffer in RAM for the engine to process images temporarily.</li>
-                <li><code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">--security-opt=no-new-privileges:</code> Prevents the container processes from gaining additional privileges, adding an extra layer of security.</li>
+                <li><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">-d:</code> Runs the container in "detached" mode (in the background).</li>
+                <li><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">-p 5555:5555:</code> Maps port 5555 of the container to port 5555 on your local machine. This is the gateway to the compression API.</li>
+                <li><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">--read-only:</code> A security best practice that makes the container's root filesystem immutable, preventing accidental or malicious changes.</li>
+                <li><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">--tmpfs:</code> Since the filesystem is read-only, this creates a small, fast 64MB buffer in RAM for the engine to process images temporarily.</li>
+                <li><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">--security-opt=no-new-privileges:</code> Prevents the container processes from gaining additional privileges, adding an extra layer of security.</li>
             </ul>
             <p>Once the command finishes, your local image compression engine is live and ready to receive requests at <a href="http://localhost:5555" class="text-[#F06292] font-bold underline decoration-2 decoration-[#FFB3C6] underline-offset-4 hover:text-[#ec407a] hover:decoration-[#F06292] hover:bg-[#FFF0F3] hover:rounded transition-colors">http://localhost:5555</a>. Further example configuration can be found on <a href="https://github.com/tliesnham/mochify-docker" class="text-[#F06292] font-bold underline decoration-2 decoration-[#FFB3C6] underline-offset-4 hover:text-[#ec407a] hover:decoration-[#F06292] hover:bg-[#FFF0F3] hover:rounded transition-colors">GitHub</a>.</p>
         </section>
@@ -112,7 +112,7 @@
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">How to "Squish" an Image</h3>
 
             <p class="mb-6">
-                The primary endpoint is <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">/v1/squish</code>. It accepts standard image formats (JPEG and PNG) up to 10MB in size. To optimize an image, you simply POST the binary data to your local endpoint:
+                The primary endpoint is <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">/v1/squish</code>. It accepts standard image formats (JPEG and PNG) up to 10MB in size. To optimize an image, you simply POST the binary data to your local endpoint:
             </p>
 
             <CodeBlock filename="curl" code={`curl -X POST "http://localhost:5555/v1/squish" -H "Content-Type: image/jpeg" --data-binary "@mochi.jpg" --output mochi_optimized.jpg`} />

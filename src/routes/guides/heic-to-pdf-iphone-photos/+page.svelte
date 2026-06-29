@@ -268,7 +268,7 @@
         <section id="why-heic-causes-compatibility-problems" class="scroll-mt-24">
             <SectionHeading>Why HEIC Causes Compatibility Problems</SectionHeading>
             <p class="mb-4">
-                HEIC is Apple's format for iPhone photos - efficient, high quality, and essentially invisible on Apple hardware. Off Apple, it's a different story. Windows requires a separate codec from the Microsoft Store to open HEIC files at all, and that codec may be blocked entirely on managed corporate machines. As of early 2026, <a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">no major browser supports HEIC natively</a> - Chrome, Firefox, and Edge will not display a <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-sm border border-pink-100">.heic</code> file. Platforms like WordPress and Shopify either reject HEIC uploads outright or silently convert them on the server side.
+                HEIC is Apple's format for iPhone photos - efficient, high quality, and essentially invisible on Apple hardware. Off Apple, it's a different story. Windows requires a separate codec from the Microsoft Store to open HEIC files at all, and that codec may be blocked entirely on managed corporate machines. As of early 2026, <a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">no major browser supports HEIC natively</a> - Chrome, Firefox, and Edge will not display a <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded text-sm border border-pink-100">.heic</code> file. Platforms like WordPress and Shopify either reject HEIC uploads outright or silently convert them on the server side.
             </p>
             <p class="mb-4">
                 The format is a HEIF container using HEVC compression - technically capable and space-efficient, carrying about twice the image quality per byte of JPEG. But that encoding depends on hardware decoding support that isn't guaranteed outside Apple's ecosystem. Android 10 and later can technically support HEIC, but only when device manufacturers ship the required codecs, which makes Android compatibility vendor-dependent rather than reliable.
@@ -278,7 +278,7 @@
             </p>
 
             <InfoBox type="note" title="Note on .HIF files from professional cameras">
-                Canon, Sony, and Fujifilm cameras write <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-sm border border-pink-100">.HIF</code> files using the same HEIF standard underneath, but that's a different workflow for a different audience. If your file is <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-sm border border-pink-100">.HIF</code> from a mirrorless body, see the <a href="/guides/heif-to-jpeg-workflow-photographers-guide">HIF/HEIF to JPEG for Professional Photographers</a> guide. This guide covers iPhone <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-sm border border-pink-100">.HEIC</code> only.
+                Canon, Sony, and Fujifilm cameras write <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded text-sm border border-pink-100">.HIF</code> files using the same HEIF standard underneath, but that's a different workflow for a different audience. If your file is <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded text-sm border border-pink-100">.HIF</code> from a mirrorless body, see the <a href="/guides/heif-to-jpeg-workflow-photographers-guide">HIF/HEIF to JPEG for Professional Photographers</a> guide. This guide covers iPhone <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded text-sm border border-pink-100">.HEIC</code> only.
             </InfoBox>
         </section>
 
@@ -438,7 +438,7 @@
                     Mochify Workflow: HEIC Photos to PDF
                 </h2>
                 <p class="text-[#6C3F31] text-base mb-8 leading-relaxed">
-                    The Mochify HEIC-to-PDF tool at <a href="/solutions/heif-to-pdf" class="text-[#D81B60] hover:text-[#F06292] font-semibold transition-colors">mochify.app/solutions/heif-to-pdf</a> bundles iPhone and iPad <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-sm border border-pink-100">.heic</code> files into a single, shareable multi-page PDF in seconds. Useful when you want a clean result without touching a print dialog, or when native methods produce PDFs with awkward margins or page sizes.
+                    The Mochify HEIC-to-PDF tool at <a href="/solutions/heif-to-pdf" class="text-[#D81B60] hover:text-[#F06292] font-semibold transition-colors">mochify.app/solutions/heif-to-pdf</a> bundles iPhone and iPad <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded text-sm border border-pink-100">.heic</code> files into a single, shareable multi-page PDF in seconds. Useful when you want a clean result without touching a print dialog, or when native methods produce PDFs with awkward margins or page sizes.
                 </p>
 
                 <ol class="space-y-5 list-none p-0 m-0 mb-8">
@@ -463,7 +463,7 @@
                 </ol>
 
                 <div class="border-t border-pink-100 pt-6 text-sm text-[#875F42] leading-relaxed">
-                    <strong class="text-[#6C3F31]">Privacy:</strong> Your HEIC files are uploaded to <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded text-xs border border-pink-100">api.mochify.app</code> over HTTPS, processed in RAM, and wiped immediately after encoding. No disk write of the source file, no logs containing file data. The same zero-retention model applies here as to all image processing on Mochify. If you want JPEG output instead, the <a href="/heic-to-jpeg" class="text-[#875F42] hover:text-[#F06292] transition-colors">HEIC to JPEG converter</a> handles that separately.
+                    <strong class="text-[#6C3F31]">Privacy:</strong> Your HEIC files are uploaded to <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded text-xs border border-pink-100">api.mochify.app</code> over HTTPS, processed in RAM, and wiped immediately after encoding. No disk write of the source file, no logs containing file data. The same zero-retention model applies here as to all image processing on Mochify. If you want JPEG output instead, the <a href="/heic-to-jpeg" class="text-[#875F42] hover:text-[#F06292] transition-colors">HEIC to JPEG converter</a> handles that separately.
                 </div>
             </div>
         </section>

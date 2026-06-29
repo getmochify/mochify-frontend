@@ -239,7 +239,7 @@
 
                 <div>
                     <h3 class="text-xl font-black text-[#4A2C2C] mb-2">Resize and cropping</h3>
-                    <p>Dimension context ("Instagram square," "thumbnail banner," "half the size") maps to explicit <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--resize</code> and crop flags. The model understands common publishing formats and translates them to pixel dimensions without you specifying numbers.</p>
+                    <p>Dimension context ("Instagram square," "thumbnail banner," "half the size") maps to explicit <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">--resize</code> and crop flags. The model understands common publishing formats and translates them to pixel dimensions without you specifying numbers.</p>
                 </div>
 
                 <div>
@@ -275,7 +275,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
             <p class="mb-6">All binaries are statically linked - no dependencies needed. Also available on the <a href="https://github.com/getmochify/mochify-cli/releases">GitHub releases page</a>.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">2. Add to your MCP client config</h3>
-            <p class="mb-3">For <strong>Claude Desktop</strong>, edit <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">~/Library/Application Support/Claude/claude_desktop_config.json</code>:</p>
+            <p class="mb-3">For <strong>Claude Desktop</strong>, edit <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">~/Library/Application Support/Claude/claude_desktop_config.json</code>:</p>
 
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`{
   "mcpServers": {
@@ -290,20 +290,20 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify auth login</code></pre>
 
-            <p class="mb-6">This opens your browser, you sign in, and credentials are saved to <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">~/.config/mochify/credentials.toml</code>. Both the CLI and the <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">mochify serve</code> MCP server pick them up automatically - no key to paste into your config. (<code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">MOCHIFY_API_KEY</code> still works as an optional environment-variable override, but <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">mochify auth login</code> is the standard path.)</p>
+            <p class="mb-6">This opens your browser, you sign in, and credentials are saved to <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">~/.config/mochify/credentials.toml</code>. Both the CLI and the <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">mochify serve</code> MCP server pick them up automatically - no key to paste into your config. (<code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">MOCHIFY_API_KEY</code> still works as an optional environment-variable override, but <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">mochify auth login</code> is the standard path.)</p>
 
-            <p class="mb-4">Restart Claude Desktop after saving. The Mochify <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">squish</code> tool will appear in your assistant's available functions - test it with: <em>"Compress this image as a WebP for the web."</em></p>
+            <p class="mb-4">Restart Claude Desktop after saving. The Mochify <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">squish</code> tool will appear in your assistant's available functions - test it with: <em>"Compress this image as a WebP for the web."</em></p>
 
             <InfoBox type="tip" title="No API key needed to start">
-                Without a key, requests run on the free tier - 25 images per month (IP-based), or 3 per session with no signup. To use your plan's higher limits (Seller 300/month, Pro 1,200/month), run <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">mochify auth login</code> once to authenticate against your Mochify account.
+                Without a key, requests run on the free tier - 25 images per month (IP-based), or 3 per session with no signup. To use your plan's higher limits (Seller 300/month, Pro 1,200/month), run <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">mochify auth login</code> once to authenticate against your Mochify account.
             </InfoBox>
         </section>
 
         <section id="hosted-mcp" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Hosted MCP: zero-install, any AI client</h2>
-            <p class="mb-6">The Mochify MCP server is also available as a hosted HTTP endpoint at <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app</code>. No binary to install, no Rust toolchain, no config file - paste the URL, authorize your account, and the <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">squish</code> tool appears in your AI assistant instantly.</p>
+            <p class="mb-6">The Mochify MCP server is also available as a hosted HTTP endpoint at <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code>. No binary to install, no Rust toolchain, no config file - paste the URL, authorize your account, and the <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">squish</code> tool appears in your AI assistant instantly.</p>
 
-            <p class="mb-6">One behavioural note specific to the hosted server: it returns the compressed image as a short-lived download URL on <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">files.mochify.app</code> (about a five-minute window), not as inline binary. Your original is still processed in RAM and discarded immediately; only the compressed output sits briefly in a pickup store so the link can resolve. The local CLI never uses that pickup store - it writes results straight to disk.</p>
+            <p class="mb-6">One behavioural note specific to the hosted server: it returns the compressed image as a short-lived download URL on <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">files.mochify.app</code> (about a five-minute window), not as inline binary. Your original is still processed in RAM and discarded immediately; only the compressed output sits briefly in a pickup store so the link can resolve. The local CLI never uses that pickup store - it writes results straight to disk.</p>
 
             <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
@@ -329,7 +329,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Claude.ai web (claude.ai)</h3>
             <p class="mb-4">In Claude.ai, go to <strong>Settings → Integrations</strong> and add a new integration with the URL:</p>
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>https://mcp.mochify.app</code></pre>
-            <p class="mb-6">Claude will redirect you to Mochify to sign in and authorize. After that, just tell Claude to compress an image by URL and it will call the <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">squish</code> tool automatically.</p>
+            <p class="mb-6">Claude will redirect you to Mochify to sign in and authorize. After that, just tell Claude to compress an image by URL and it will call the <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">squish</code> tool automatically.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Claude Desktop (remote server)</h3>
             <p class="mb-4">Add a remote entry to your Claude Desktop config alongside any local servers you already have:</p>
@@ -341,10 +341,10 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
     }
   }
 }`}</code></pre>
-            <p class="mb-6">Claude Desktop will walk you through the OAuth flow the first time it connects. You can run both this remote entry and the local <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">mochify serve</code> entry at the same time - they use independent tokens.</p>
+            <p class="mb-6">Claude Desktop will walk you through the OAuth flow the first time it connects. You can run both this remote entry and the local <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">mochify serve</code> entry at the same time - they use independent tokens.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Gemini, Cursor, Windsurf, and other MCP clients</h3>
-            <p class="mb-6">Any client that supports remote MCP servers (HTTP+SSE or Streamable HTTP transport) works with the hosted endpoint. Add <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app/mcp</code> as the server URL and follow the client's OAuth prompt.</p>
+            <p class="mb-6">Any client that supports remote MCP servers (HTTP+SSE or Streamable HTTP transport) works with the hosted endpoint. Add <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app/mcp</code> as the server URL and follow the client's OAuth prompt.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Smithery &amp; Glama</h3>
             <p class="mb-4">Mochify is listed on <strong>Smithery</strong> and <strong>Glama</strong> - MCP registries and marketplaces where you can discover and install MCP tools with a single click. Search for "Mochify" to add the hosted server directly from the registry without touching any config file.</p>
@@ -365,9 +365,9 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
             <p class="mb-4">Behind the scenes, the assistant calls Mochify's MCP server with roughly:</p>
 
             <ul class="space-y-2 mb-6 pl-4">
-                <li><code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--type webp</code></li>
-                <li><code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--resize 1080x1080</code></li>
-                <li><code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">--strip-exif</code></li>
+                <li><code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">--type webp</code></li>
+                <li><code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">--resize 1080x1080</code></li>
+                <li><code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">--strip-exif</code></li>
             </ul>
 
             <p class="mb-6">The result comes back in seconds - a web-optimized 1080×1080 WebP with no metadata attached. You didn't touch a settings panel or look up Instagram's recommended dimensions. The agent handled the full decision chain.</p>
@@ -453,7 +453,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
                 <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Does using MCP mean my images are stored?</h3>
-                    <p>Your original image is processed in memory and discarded immediately - no disk writes, no logs containing image data - on every surface. One nuance for the hosted MCP: so it can return a download link instead of inline binary, the compressed result is held in a short-lived pickup store for about five minutes, then evicted whether or not it was fetched. The local CLI and <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">mochify serve</code> skip that pickup store entirely and write the compressed bytes straight to your disk. Originals are never retained on any path.</p>
+                    <p>Your original image is processed in memory and discarded immediately - no disk writes, no logs containing image data - on every surface. One nuance for the hosted MCP: so it can return a download link instead of inline binary, the compressed result is held in a short-lived pickup store for about five minutes, then evicted whether or not it was fetched. The local CLI and <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">mochify serve</code> skip that pickup store entirely and write the compressed bytes straight to your disk. Originals are never retained on any path.</p>
                 </div>
 
                 <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
@@ -473,12 +473,12 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
                 <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Do I need to install anything to use the hosted MCP?</h3>
-                    <p>No. The hosted server at <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app</code> runs in the cloud. Add the URL in your AI client's settings and authorize your Mochify account - that's it. You only need to install the CLI if you want to process local files via stdio.</p>
+                    <p>No. The hosted server at <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code> runs in the cloud. Add the URL in your AI client's settings and authorize your Mochify account - that's it. You only need to install the CLI if you want to process local files via stdio.</p>
                 </div>
 
                 <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Can I use Mochify MCP from Claude.ai in my browser?</h3>
-                    <p>Yes. Claude.ai's Integrations feature supports remote MCP servers. Go to <strong>Settings → Integrations</strong>, add <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app</code>, and authorize. The local CLI MCP is not available on the web - it only runs in Claude Desktop and similar native clients.</p>
+                    <p>Yes. Claude.ai's Integrations feature supports remote MCP servers. Go to <strong>Settings → Integrations</strong>, add <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code>, and authorize. The local CLI MCP is not available on the web - it only runs in Claude Desktop and similar native clients.</p>
                 </div>
 
                 <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
@@ -488,7 +488,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
                 <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Does the hosted MCP work with Gemini, Cursor, or Windsurf?</h3>
-                    <p>Yes, with any client that supports remote MCP servers over HTTP. Add <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app/mcp</code> as the server URL in your client's MCP settings and follow the OAuth prompt. Mochify is also listed on Smithery and Glama if your client supports registry-based discovery.</p>
+                    <p>Yes, with any client that supports remote MCP servers over HTTP. Add <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app/mcp</code> as the server URL in your client's MCP settings and follow the OAuth prompt. Mochify is also listed on Smithery and Glama if your client supports registry-based discovery.</p>
                 </div>
             </div>
         </section>

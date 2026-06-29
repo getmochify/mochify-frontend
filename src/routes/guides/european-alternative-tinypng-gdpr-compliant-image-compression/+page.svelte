@@ -258,7 +258,7 @@
             </li>
             <li class="flex gap-3">
                 <span class="text-[#F06292] font-bold">·</span>
-                <span><strong>EXIF stripping:</strong> The API exposes a <code class="bg-pink-50 px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">stripExif</code> parameter that defaults to <code class="bg-pink-50 px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">true</code>. By default, GPS coordinates, device identifiers, and other metadata are removed from every file you compress, with no extra configuration required.</span>
+                <span><strong>EXIF stripping:</strong> The API exposes a <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">stripExif</code> parameter that defaults to <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">true</code>. By default, GPS coordinates, device identifiers, and other metadata are removed from every file you compress, with no extra configuration required.</span>
             </li>
             <li class="flex gap-3">
                 <span class="text-[#F06292] font-bold">·</span>
@@ -376,7 +376,7 @@
             Product photography for e-commerce is a high-frequency, moderate-risk workflow. A typical merchant shoots 20–50 product images per SKU on a smartphone. Those images contain EXIF data: GPS location of the shoot, device model, and timestamp, which has no place on a product page and could expose information you would rather keep private.
         </p>
         <p class="mt-4">
-            The standard workflow: upload your raw JPEG or HEIC exports to Mochify, let <code class="bg-pink-50 px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">stripExif</code> default to <code class="bg-pink-50 px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">true</code>, and download compressed WebP or AVIF files ready for your store. A 4MB HEIC from an iPhone typically compresses to under 200KB as AVIF at quality 70 with no perceptible loss, a 95% reduction that directly improves your Largest Contentful Paint score and Core Web Vitals. You can run this as a batch through the browser UI or automate it via the REST API if your upload volume justifies it.
+            The standard workflow: upload your raw JPEG or HEIC exports to Mochify, let <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">stripExif</code> default to <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">true</code>, and download compressed WebP or AVIF files ready for your store. A 4MB HEIC from an iPhone typically compresses to under 200KB as AVIF at quality 70 with no perceptible loss, a 95% reduction that directly improves your Largest Contentful Paint score and Core Web Vitals. You can run this as a batch through the browser UI or automate it via the REST API if your upload volume justifies it.
         </p>
 
         <h3 class="text-2xl font-black text-[#4A2C2C] mt-10 mb-4">WordPress Publishers</h3>
@@ -462,7 +462,7 @@
 
             <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
                 <p class="font-black text-[#4A2C2C] mb-3">Does Mochify strip EXIF data automatically?</p>
-                <p>Yes. The <code class="bg-white px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">stripExif</code> parameter in our API defaults to <code class="bg-white px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">true</code>, which means GPS coordinates, device identifiers, timestamps, and other metadata are removed from every compressed file unless you explicitly pass <code class="bg-white px-1.5 py-0.5 rounded text-sm font-mono text-[#D81B60]">stripExif: false</code>. The browser UI applies the same default.</p>
+                <p>Yes. The <code class="bg-white px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">stripExif</code> parameter in our API defaults to <code class="bg-white px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">true</code>, which means GPS coordinates, device identifiers, timestamps, and other metadata are removed from every compressed file unless you explicitly pass <code class="bg-white px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">stripExif: false</code>. The browser UI applies the same default.</p>
             </div>
 
             <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">

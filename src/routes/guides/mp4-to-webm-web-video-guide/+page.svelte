@@ -176,7 +176,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            Converting an MP4 hero video to WebM using VP9 typically cuts file size by 30–50% with no visible quality difference. This guide covers the codec landscape, the exact size savings you can expect, the <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> fallback pattern that keeps Safari and legacy browsers covered, and how to convert without uploading your footage to a third-party server.
+            Converting an MP4 hero video to WebM using VP9 typically cuts file size by 30–50% with no visible quality difference. This guide covers the codec landscape, the exact size savings you can expect, the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> fallback pattern that keeps Safari and legacy browsers covered, and how to convert without uploading your footage to a third-party server.
         </p>
 
         <p class="text-sm text-[#875F42]">Published {metadata.date} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong>. For web developers and performance-focused teams who need to reduce video payload for LCP-critical pages without compromising compatibility or privacy.</p>
@@ -319,7 +319,7 @@
         <!-- Section 4 -->
         <section id="video-fallback" class="scroll-mt-24">
             <SectionHeading>The &lt;video&gt; Fallback Pattern Every Site Should Use</SectionHeading>
-            <p class="mb-4">Serving WebM without a fallback is a mistake - older browsers and some contexts still require MP4. The correct pattern is a <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> element with multiple <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;source&gt;</code> children in priority order. The browser picks the first source it can play and stops evaluating the rest.</p>
+            <p class="mb-4">Serving WebM without a fallback is a mistake - older browsers and some contexts still require MP4. The correct pattern is a <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> element with multiple <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;source&gt;</code> children in priority order. The browser picks the first source it can play and stops evaluating the rest.</p>
 
             <CodeBlock filename="hero.html" code={videoFallbackCode} />
 
@@ -328,16 +328,16 @@
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8">Order matters</h3>
             <p class="mb-4">Put the WebM source first. Browsers that support VP9 will take it and download the smaller file. Browsers that do not will fall through to the MP4. MDN explicitly recommends listing the smaller resource first so capable browsers pay the lower bandwidth cost.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8">Include the <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">type</code> attribute with codec hints</h3>
-            <p class="mb-4">The browser uses this to skip sources it cannot play without attempting to download them. <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">video/webm; codecs="vp9, opus"</code> and <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">video/mp4; codecs="avc1.42E01E, mp4a.40.2"</code> are the correct type strings for VP9 WebM and H.264 MP4 respectively.</p>
+            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8">Include the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">type</code> attribute with codec hints</h3>
+            <p class="mb-4">The browser uses this to skip sources it cannot play without attempting to download them. <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">video/webm; codecs="vp9, opus"</code> and <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">video/mp4; codecs="avc1.42E01E, mp4a.40.2"</code> are the correct type strings for VP9 WebM and H.264 MP4 respectively.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">preload="metadata"</code> instead of <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">preload="auto"</code></h3>
+            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="metadata"</code> instead of <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="auto"</code></h3>
             <p class="mb-4">This tells the browser to fetch only enough to know the video's duration and dimensions, not the full file, on initial load. For hero videos especially, this is the difference between video content dominating your LCP or staying out of the critical path.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">muted</code> is required for <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">autoplay</code></h3>
+            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">muted</code> is required for <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">autoplay</code></h3>
             <p class="mb-4">Browsers block autoplay of unmuted video. If you want a background loop to start automatically, it must be muted.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">playsinline</code> for iOS Safari</h3>
+            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">playsinline</code> for iOS Safari</h3>
             <p>Without this, iOS Safari will try to play the video fullscreen rather than inline in the page.</p>
         </section>
 
@@ -346,13 +346,13 @@
             <SectionHeading>Video Format Choices and Core Web Vitals</SectionHeading>
             <p class="mb-4">Converting MP4 to WebM is not just about file size. It connects directly to how Google scores your page.</p>
             <p class="mb-4">Images and video account for over 70% of the bytes downloaded for the average website. Choosing more efficient formats can lead to lower overall page load times and potentially improve a page's Largest Contentful Paint (LCP). LCP is one of the three Core Web Vitals Google uses in ranking - it measures how long the largest visible element (often a hero image or video) takes to render.</p>
-            <p class="mb-4">When your hero video is the LCP element, every megabyte you strip from it reduces LCP time directly. Switching a 12 MB H.264 hero to a 7 MB VP9 WebM, combined with <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">preload="metadata"</code> and a poster image, is one of the higher-leverage LCP optimisations available on video-heavy pages.</p>
+            <p class="mb-4">When your hero video is the LCP element, every megabyte you strip from it reduces LCP time directly. Switching a 12 MB H.264 hero to a 7 MB VP9 WebM, combined with <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="metadata"</code> and a poster image, is one of the higher-leverage LCP optimisations available on video-heavy pages.</p>
             <p class="mb-4">The pattern that works:</p>
             <ol class="list-decimal pl-6 mb-4 space-y-2">
                 <li>Serve WebM/VP9 as the primary source, MP4/H.264 as fallback.</li>
-                <li>Use <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">preload="metadata"</code> to avoid blocking the initial parse on a full video download.</li>
-                <li>Set a <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">poster</code> image that renders while the video loads, so the LCP element itself is a small static image rather than waiting for the first video frame.</li>
-                <li>For below-the-fold video: consider <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">preload="none"</code> and an <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">IntersectionObserver</code> to defer loading until the element is near the viewport.</li>
+                <li>Use <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="metadata"</code> to avoid blocking the initial parse on a full video download.</li>
+                <li>Set a <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">poster</code> image that renders while the video loads, so the LCP element itself is a small static image rather than waiting for the first video frame.</li>
+                <li>For below-the-fold video: consider <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="none"</code> and an <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">IntersectionObserver</code> to defer loading until the element is near the viewport.</li>
             </ol>
             <p>If you are already optimising images for web performance - converting to WebP or AVIF, setting responsive sizes, preloading the hero - video format is the next logical step. See <a href="/guides/optimizing-hero-images">Optimising Hero Images for Web Performance</a> for the image side of this and how image and video optimisation work together for LCP-critical pages.</p>
         </section>
@@ -504,7 +504,7 @@
 
     <!-- CTA -->
     <aside class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-8 mt-12">
-        <p class="text-[#6C3F31] leading-relaxed mb-5">Convert your MP4 to WebM right now - no account needed, nothing uploaded. Mochify's video engine runs entirely in your browser, so your footage stays on your machine while you get a web-optimised WebM file ready to drop into your <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> element.</p>
+        <p class="text-[#6C3F31] leading-relaxed mb-5">Convert your MP4 to WebM right now - no account needed, nothing uploaded. Mochify's video engine runs entirely in your browser, so your footage stays on your machine while you get a web-optimised WebM file ready to drop into your <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> element.</p>
         <a href="/solutions/mp4-to-webm" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
             Convert MP4 to WebM free
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>

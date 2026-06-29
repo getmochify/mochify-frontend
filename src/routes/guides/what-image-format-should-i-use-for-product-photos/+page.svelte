@@ -115,7 +115,7 @@
 
         <section id="fallback-order" class="scroll-mt-24">
             <SectionHeading>The practical fallback order</SectionHeading>
-            <p class="mb-4">The strongest pattern for serving product images on the web is the HTML <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;picture&gt;</code> element, which lets browsers pick the best format they can decode:</p>
+            <p class="mb-4">The strongest pattern for serving product images on the web is the HTML <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> element, which lets browsers pick the best format they can decode:</p>
 
             <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm mb-4">
                 <div class="bg-[#4A2C2C] px-5 py-3 flex items-center justify-between">
@@ -138,7 +138,7 @@
 
         <section id="keep-jpeg" class="scroll-mt-24">
             <SectionHeading>When to keep JPEG as your only format</SectionHeading>
-            <p class="mb-4">If you're uploading directly to a marketplace (Amazon, eBay, Etsy) or a CMS that re-processes images on ingest, JPEG is often the right choice for your upload file. Those platforms apply their own compression pipeline, so delivering AVIF at upload doesn't give you control over what they serve. For your own storefront — Shopify, WooCommerce, a custom build — serving AVIF via <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;picture&gt;</code> gives you full control and the best results.</p>
+            <p class="mb-4">If you're uploading directly to a marketplace (Amazon, eBay, Etsy) or a CMS that re-processes images on ingest, JPEG is often the right choice for your upload file. Those platforms apply their own compression pipeline, so delivering AVIF at upload doesn't give you control over what they serve. For your own storefront — Shopify, WooCommerce, a custom build — serving AVIF via <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> gives you full control and the best results.</p>
 
             <InfoBox type="tip" title="Marketplace tip">
                 Keep a separate set of high-quality JPEG exports specifically for marketplace uploads. Your own storefront and your marketplace listings have different requirements — don't try to use the same file for both.

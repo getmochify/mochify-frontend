@@ -108,7 +108,7 @@
         <section id="what-formats-does-ebay-accept" class="scroll-mt-24">
             <SectionHeading>What formats does eBay actually accept?</SectionHeading>
             <p class="mb-4">eBay's seller upload tool reliably accepts JPEG, PNG, GIF, BMP, and TIFF. Although eBay's developer documentation lists WebP, HEIC, and AVIF as supported at the server level, many sellers report that the web uploader rejects these formats with a "file not supported" message. JPEG is the safest choice for main product photos and is what seller guides consistently recommend.</p>
-            <p class="mb-4">RAW files from cameras (CR3, ARW, NEF, and similar) and HIF files from professional mirrorless cameras are never accepted. Renaming a HEIC or RAW file with a <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-sm">.jpg</code> extension does not work. eBay checks the actual file data, not just the extension.</p>
+            <p class="mb-4">RAW files from cameras (CR3, ARW, NEF, and similar) and HIF files from professional mirrorless cameras are never accepted. Renaming a HEIC or RAW file with a <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">.jpg</code> extension does not work. eBay checks the actual file data, not just the extension.</p>
 
             <InfoBox type="tip" title="Good to know">
                 The mismatch between eBay's developer docs (which list WebP and HEIC as supported) and the web uploader (which rejects them in practice) catches a lot of sellers out. When in doubt, export as JPEG.

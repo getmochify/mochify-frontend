@@ -281,7 +281,7 @@
                 {/each}
             </ul>
 
-            <p>If you're uploading directly to Shopify and nowhere else, swap <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-0.5 rounded text-sm font-mono">jpg</code> for <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-0.5 rounded text-sm font-mono">webp</code> or <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-0.5 rounded text-sm font-mono">avif</code> in the prompt and you'll get 25–50% smaller files with no compatibility trade-off.</p>
+            <p>If you're uploading directly to Shopify and nowhere else, swap <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">jpg</code> for <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">webp</code> or <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">avif</code> in the prompt and you'll get 25–50% smaller files with no compatibility trade-off.</p>
 
             <InfoBox type="note" title="Mochify uses jpegli for JPEG output">
                 All JPEG output uses Google's jpegli encoder, which produces files roughly 25–35% smaller than standard libjpeg at equivalent visual quality. The output is a fully standard JPEG - compatible with every platform, CMS, and image tool.
@@ -295,7 +295,7 @@
 
             <pre class="bg-[#1e1e2e] text-[#cdd6f4] rounded-2xl p-6 overflow-x-auto font-mono text-sm leading-relaxed my-4"><code>mochify *.jpg --prompt "convert to jpg, resize to 1200px and 800px" --output ./ready/</code></pre>
 
-            <p>Every JPEG in the current folder gets both size variants written to <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-0.5 rounded text-sm font-mono">./ready/</code> with <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-0.5 rounded text-sm font-mono">_1200w</code> and <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-0.5 rounded text-sm font-mono">_800w</code> suffixes. No per-file loop, no shell scripting. Install the CLI via:</p>
+            <p>Every JPEG in the current folder gets both size variants written to <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">./ready/</code> with <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">_1200w</code> and <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">_800w</code> suffixes. No per-file loop, no shell scripting. Install the CLI via:</p>
 
             <pre class="bg-[#1e1e2e] text-[#cdd6f4] rounded-2xl p-6 overflow-x-auto font-mono text-sm leading-relaxed my-4"><code>cargo install mochify</code></pre>
         </section>

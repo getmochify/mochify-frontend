@@ -370,7 +370,7 @@
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">How It Remains Interoperable</h3>
                     
-                    <p class="mb-4">Jpegli complies with the original JPEG standard (ISO/IEC 10918-1). The output is a <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">.jpg</code> file using the traditional 8-bit formalism. Any device or app that can display a JPEG from 2005 can display a JPEG from jpegli in 2026. There is no "jpegli format"-there's just JPEG, encoded more intelligently.</p>
+                    <p class="mb-4">Jpegli complies with the original JPEG standard (ISO/IEC 10918-1). The output is a <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.jpg</code> file using the traditional 8-bit formalism. Any device or app that can display a JPEG from 2005 can display a JPEG from jpegli in 2026. There is no "jpegli format"-there's just JPEG, encoded more intelligently.</p>
                 </div>
 
                 <div>
@@ -439,7 +439,7 @@
 
                     <ul class="list-disc list-outside ml-6 space-y-2 mb-6 text-[#6C3F31]">
                         <li><strong>Not in Lightroom</strong> – Adobe has not integrated jpegli into Lightroom Classic or Lightroom CC. Users have requested it on Adobe community forums.</li>
-                        <li><strong>Not in mainstream tooling by default</strong> – ImageMagick and libvips support jpegli as an optional backend (if compiled with libjxl, which includes the <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">cjpegli</code> binary), but it is not the default.</li>
+                        <li><strong>Not in mainstream tooling by default</strong> – ImageMagick and libvips support jpegli as an optional backend (if compiled with libjxl, which includes the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">cjpegli</code> binary), but it is not the default.</li>
                         <li><strong>Emerging in specialized tools</strong> – Privacy-focused and performance-oriented image optimizers (like Mochify) have adopted jpegli early, offering it as an explicit output option.</li>
                     </ul>
 
@@ -502,7 +502,7 @@
                                 <li>JPEG (jpegli) at quality 85-90 (universal fallback, smaller than MozJPEG equivalent).</li>
                             </ul>
                         </li>
-                        <li><strong>Use <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> element or <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">Accept</code> header negotiation</strong> to serve the best format per client.</li>
+                        <li><strong>Use <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> element or <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">Accept</code> header negotiation</strong> to serve the best format per client.</li>
                         <li><strong>Cache aggressively</strong> – Generate once, serve from edge.</li>
                     </ol>
 
@@ -780,7 +780,7 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
                 
                 <div class="bg-white p-6 rounded-2xl border border-pink-100">
                     <h4 class="font-bold text-[#4A2C2C] text-lg mb-2">Can I use jpegli in Photoshop or Lightroom?</h4>
-                    <p class="text-[#6C3F31]">Not natively as of early 2026. Adobe has not integrated jpegli into their export pipelines. You can export from Lightroom at high quality, then recompress externally using a tool that supports jpegli (like Mochify or command-line <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">cjpegli</code> from libjxl).</p>
+                    <p class="text-[#6C3F31]">Not natively as of early 2026. Adobe has not integrated jpegli into their export pipelines. You can export from Lightroom at high quality, then recompress externally using a tool that supports jpegli (like Mochify or command-line <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">cjpegli</code> from libjxl).</p>
                 </div>
                 
                 <div class="bg-white p-6 rounded-2xl border border-pink-100">
@@ -820,7 +820,7 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
                 
                 <div class="bg-white p-6 rounded-2xl border border-pink-100">
                     <h4 class="font-bold text-[#4A2C2C] text-lg mb-2">Can I use jpegli for JPEG XL output?</h4>
-                    <p class="text-[#6C3F31]">No. Jpegli produces JPEG files, not JPEG XL files. JPEG XL is a separate next-generation format with better compression than JPEG but limited browser support as of 2026. If you want JPEG XL output, use <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">cjxl</code> from the libjxl toolkit.</p>
+                    <p class="text-[#6C3F31]">No. Jpegli produces JPEG files, not JPEG XL files. JPEG XL is a separate next-generation format with better compression than JPEG but limited browser support as of 2026. If you want JPEG XL output, use <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">cjxl</code> from the libjxl toolkit.</p>
                 </div>
             </div>
         </section>

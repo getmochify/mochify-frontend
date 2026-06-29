@@ -88,12 +88,12 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            Switching your hero image to AVIF cuts file size by up to 50% - but if the browser still discovers it late in the render pipeline, your LCP score won't budge. A single <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;link rel="preload"&gt;</code> hint injected into <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">wp_head</code> tells the browser to start the download before any CSS or JavaScript has been parsed.
+            Switching your hero image to AVIF cuts file size by up to 50% - but if the browser still discovers it late in the render pipeline, your LCP score won't budge. A single <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;link rel="preload"&gt;</code> hint injected into <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">wp_head</code> tells the browser to start the download before any CSS or JavaScript has been parsed.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
             <p class="text-lg text-[#6C3F31] leading-relaxed">
-                <strong>Quick answer:</strong> Add a preload hint for your AVIF hero image in <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">functions.php</code> using <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">wp_head</code>. Set <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">fetchpriority="high"</code> so the browser treats it as the highest-priority network request on the page.
+                <strong>Quick answer:</strong> Add a preload hint for your AVIF hero image in <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">functions.php</code> using <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">wp_head</code>. Set <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">fetchpriority="high"</code> so the browser treats it as the highest-priority network request on the page.
             </p>
         </div>
     </header>
@@ -103,7 +103,7 @@
         <section id="why-avif-alone-isnt-enough" class="scroll-mt-24">
             <SectionHeading>Why AVIF alone isn't enough</SectionHeading>
             <p class="mb-4">AVIF gives you the smallest file at the highest quality of any widely-supported format in 2026. WordPress 6.5 added native AVIF upload support, so serving it is no longer a challenge. The problem is discovery timing.</p>
-            <p class="mb-4">When a browser loads a WordPress page it parses the HTML, builds the DOM, then fetches stylesheets, then - only after the CSS is parsed and the render tree is constructed - does it find the hero image URL buried in a CSS <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">background-image</code> rule or an <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;img&gt;</code> tag deep in the template. By that point, you've burned 300–600 ms of latency before the image download even starts.</p>
+            <p class="mb-4">When a browser loads a WordPress page it parses the HTML, builds the DOM, then fetches stylesheets, then - only after the CSS is parsed and the render tree is constructed - does it find the hero image URL buried in a CSS <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">background-image</code> rule or an <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;img&gt;</code> tag deep in the template. By that point, you've burned 300–600 ms of latency before the image download even starts.</p>
             <p class="mb-4">Google's LCP threshold is 2.5 seconds. On a typical shared-hosting WordPress site with a theme that loads 6–12 stylesheets, discovering the hero image late is the single biggest contributor to a failing LCP score - even when the image itself is small.</p>
 
             <InfoBox type="tip" title="LCP measures the largest visible element">
@@ -113,7 +113,7 @@
 
         <section id="preload-the-hero-image" class="scroll-mt-24">
             <SectionHeading>Preload the hero image</SectionHeading>
-            <p class="mb-4">Open your theme's <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">functions.php</code> (or a site-specific plugin) and add the following. Replace the URL with the path to your AVIF file in the WordPress Media Library.</p>
+            <p class="mb-4">Open your theme's <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">functions.php</code> (or a site-specific plugin) and add the following. Replace the URL with the path to your AVIF file in the WordPress Media Library.</p>
 
             <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm mb-6">
                 <div class="bg-[#4A2C2C] px-5 py-3 flex items-center justify-between">
@@ -138,9 +138,9 @@
                 Replace <code>get_template_directory_uri() . '/images/hero.avif'</code> with the direct URL from the Media Library - for example, <code>https://example.com/wp-content/uploads/2026/04/hero.avif</code>. You can hardcode it or use <code>wp_get_attachment_url( $attachment_id )</code> if you store the ID in a theme option.
             </InfoBox>
 
-            <p class="mb-4">The priority of <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">1</code> passed to <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">add_action</code> ensures the hint is output at the very top of <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;head&gt;</code>, before any stylesheets or scripts. The browser's preload scanner picks it up immediately and begins the AVIF download in parallel with everything else.</p>
+            <p class="mb-4">The priority of <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">1</code> passed to <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">add_action</code> ensures the hint is output at the very top of <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;head&gt;</code>, before any stylesheets or scripts. The browser's preload scanner picks it up immediately and begins the AVIF download in parallel with everything else.</p>
 
-            <p class="mb-4">The <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">is_front_page()</code> guard limits the hint to the homepage. If your hero changes per template (category pages, landing pages), duplicate the action with the appropriate conditional and the correct URL for each context.</p>
+            <p class="mb-4">The <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">is_front_page()</code> guard limits the hint to the homepage. If your hero changes per template (category pages, landing pages), duplicate the action with the appropriate conditional and the correct URL for each context.</p>
 
             <InfoBox type="warning" title="Only preload the image that is actually the LCP element">
                 Preloading an image that isn't visible above the fold wastes bandwidth and can hurt performance by competing with critical resources. Confirm which element PageSpeed Insights flags as the LCP candidate before adding the hint.
@@ -160,7 +160,7 @@
             <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
                 <h3 class="text-lg font-black text-[#4A2C2C] mb-3">Try Mochify for AVIF conversion</h3>
                 <p class="text-[#6C3F31] leading-relaxed mb-4">
-                    Convert your hero image to AVIF at <a href="https://mochify.app">mochify.app</a> - no account required, processed in RAM, never stored. Download the <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">.avif</code> file and upload it directly to your WordPress Media Library.
+                    Convert your hero image to AVIF at <a href="https://mochify.app">mochify.app</a> - no account required, processed in RAM, never stored. Download the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.avif</code> file and upload it directly to your WordPress Media Library.
                 </p>
                 <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
                     Convert to AVIF

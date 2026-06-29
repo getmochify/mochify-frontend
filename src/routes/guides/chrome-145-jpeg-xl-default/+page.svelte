@@ -94,7 +94,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            Chrome 145 includes JPEG XL decoding support, but the Chrome 145 JPEG XL default is <strong>off</strong>. The feature is gated behind a browser flag, meaning the vast majority of Chrome users cannot render <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">.jxl</code> images without manually toggling a setting. Do not serve JPEG XL as your primary image format for public-facing websites yet.
+            Chrome 145 includes JPEG XL decoding support, but the Chrome 145 JPEG XL default is <strong>off</strong>. The feature is gated behind a browser flag, meaning the vast majority of Chrome users cannot render <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.jxl</code> images without manually toggling a setting. Do not serve JPEG XL as your primary image format for public-facing websites yet.
         </p>
     </header>
 
@@ -102,13 +102,13 @@
 
         <section id="what-chrome-145-added" class="scroll-mt-24">
             <SectionHeading>What Chrome 145 actually added</SectionHeading>
-            <p class="mb-4">Chrome 145, released on 10 February 2026, re-introduced JPEG XL decoding using <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">jxl-rs</code> - a memory-safe, pure Rust decoder. This replaces the C++ libjxl implementation that Google removed in 2022. The decoder is present in the stable codebase for the first time in over three years.</p>
+            <p class="mb-4">Chrome 145, released on 10 February 2026, re-introduced JPEG XL decoding using <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">jxl-rs</code> - a memory-safe, pure Rust decoder. This replaces the C++ libjxl implementation that Google removed in 2022. The decoder is present in the stable codebase for the first time in over three years.</p>
             <p class="mb-4">JPEG XL is a next-generation image codec. In plain English: it is a smarter way to compress images, delivering files 50–60% smaller than traditional JPEG at equivalent quality, and roughly 10–15% better compression than AVIF. It also supports lossless recompression of existing JPEGs, progressive decoding, HDR, and animation.</p>
         </section>
 
         <section id="flag-only-not-default" class="scroll-mt-24">
             <SectionHeading>Flag-only, not default</SectionHeading>
-            <p class="mb-4">To use JPEG XL in Chrome 145, a user must navigate to <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">chrome://flags/#enable-jxl-image-format</code> and toggle the feature on manually. No ordinary user does this. As of early 2026, JPEG XL has roughly 12–17% browser support globally, concentrated in Safari on macOS and iOS. Chrome and Firefox both require a manual opt-in.</p>
+            <p class="mb-4">To use JPEG XL in Chrome 145, a user must navigate to <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">chrome://flags/#enable-jxl-image-format</code> and toggle the feature on manually. No ordinary user does this. As of early 2026, JPEG XL has roughly 12–17% browser support globally, concentrated in Safari on macOS and iOS. Chrome and Firefox both require a manual opt-in.</p>
             <p class="mb-4">Google has set explicit conditions for enabling the feature by default: a long-term maintenance commitment and meeting standard Chrome launch criteria. Neither has been publicly confirmed as met.</p>
 
             <InfoBox type="warning" title="Do not serve .jxl without a fallback">
@@ -118,7 +118,7 @@
 
         <section id="what-this-means" class="scroll-mt-24">
             <SectionHeading>What this means for web delivery</SectionHeading>
-            <p class="mb-4">For production websites, nothing changes yet. Serving a <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">.jxl</code> file without a <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;picture&gt;</code> fallback will fail silently for the majority of visitors. E-commerce teams should treat JPEG XL as experimental, not a deployment target.</p>
+            <p class="mb-4">For production websites, nothing changes yet. Serving a <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">.jxl</code> file without a <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> fallback will fail silently for the majority of visitors. E-commerce teams should treat JPEG XL as experimental, not a deployment target.</p>
             <p class="mb-4">AVIF remains the best choice for maximum compression on public sites. WebP covers broader compatibility. JPEG encoded with Jpegli handles legacy browsers and email clients.</p>
 
             <ScrollableTable class="mb-6">

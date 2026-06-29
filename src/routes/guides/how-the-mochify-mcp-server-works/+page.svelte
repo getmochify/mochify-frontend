@@ -82,7 +82,7 @@
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
             <p class="text-lg text-[#6C3F31] leading-relaxed">
-                This guide covers the hosted MCP server at <code class="bg-pink-100 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">mcp.mochify.app</code> and the local MCP server via <code class="bg-pink-100 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">mochify serve</code> - their architecture, setup, token-cost profiles, retention behaviour, and four concrete worked examples.
+                This guide covers the hosted MCP server at <code class="bg-pink-100 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mcp.mochify.app</code> and the local MCP server via <code class="bg-pink-100 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mochify serve</code> - their architecture, setup, token-cost profiles, retention behaviour, and four concrete worked examples.
             </p>
         </div>
     </header>
@@ -140,25 +140,25 @@
                     <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
                         <tr>
                             <td class="p-4 font-bold">Hosted MCP, URL input</td>
-                            <td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">api.mochify.app</code></td>
+                            <td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">api.mochify.app</code></td>
                             <td class="p-4">Neither (URLs in, URL out)</td>
                             <td class="p-4">Public or CDN-hosted images you want as AVIF, WebP, or JXL</td>
                         </tr>
                         <tr>
                             <td class="p-4 font-bold">Hosted MCP, uploaded image</td>
-                            <td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">api.mochify.app</code></td>
+                            <td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">api.mochify.app</code></td>
                             <td class="p-4">Input only (output returns as URL)</td>
                             <td class="p-4">Small images already in a conversation</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold">Local MCP (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">mochify serve</code>)</td>
-                            <td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">api.mochify.app</code> via local binary</td>
+                            <td class="p-4 font-bold">Local MCP (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">mochify serve</code>)</td>
+                            <td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">api.mochify.app</code> via local binary</td>
                             <td class="p-4">Neither (paths only)</td>
                             <td class="p-4">Claude Desktop, Cursor, file work on disk</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold">Direct CLI (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">mochify</code>)</td>
-                            <td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">api.mochify.app</code> via local binary</td>
+                            <td class="p-4 font-bold">Direct CLI (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">mochify</code>)</td>
+                            <td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">api.mochify.app</code> via local binary</td>
                             <td class="p-4">Neither (paths only)</td>
                             <td class="p-4">Build pipelines, Claude Code, batch jobs, scripts</td>
                         </tr>
@@ -167,18 +167,18 @@
             </ScrollableTable>
 
             <InfoBox type="note" title="Encoding always happens server-side">
-                Encoding still happens in RAM on <code class="bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded font-mono text-sm">api.mochify.app</code> for all four workflows. Local install workflows skip the pickup store entirely - the compressed bytes flow straight from the API back to your disk.
+                Encoding still happens in RAM on <code class="bg-blue-50 text-blue-600 px-1.5 py-px rounded font-mono text-sm">api.mochify.app</code> for all four workflows. Local install workflows skip the pickup store entirely - the compressed bytes flow straight from the API back to your disk.
             </InfoBox>
         </section>
 
         <!-- Two Surfaces -->
         <section id="two-surfaces" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">The Two Surfaces of the Mochify MCP Server</h2>
-            <p class="mb-4">Mochify exposes its compression engine to AI agents through two separate surfaces. Both ultimately call the same hosted API at <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">api.mochify.app/v1/squish</code>, where the encoding work happens in RAM and the original is discarded immediately. They differ in where the agent's request originates, whether image bytes ever pass through the agent's context window, and whether the compressed result is briefly held server-side for pickup.</p>
+            <p class="mb-4">Mochify exposes its compression engine to AI agents through two separate surfaces. Both ultimately call the same hosted API at <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">api.mochify.app/v1/squish</code>, where the encoding work happens in RAM and the original is discarded immediately. They differ in where the agent's request originates, whether image bytes ever pass through the agent's context window, and whether the compressed result is briefly held server-side for pickup.</p>
 
-            <p class="mb-4">The <strong class="text-[#4A2C2C]">hosted MCP server</strong> lives at <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app</code>. Any MCP-compatible client - Claude Desktop, Cursor, any agent runtime that supports remote connectors - can register it, authenticate via OAuth, and call its tools. The agent sends a request, Mochify's hosted MCP forwards it to the API, and the processed image comes back as a short-lived download URL on <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">files.mochify.app</code>.</p>
+            <p class="mb-4">The <strong class="text-[#4A2C2C]">hosted MCP server</strong> lives at <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code>. Any MCP-compatible client - Claude Desktop, Cursor, any agent runtime that supports remote connectors - can register it, authenticate via OAuth, and call its tools. The agent sends a request, Mochify's hosted MCP forwards it to the API, and the processed image comes back as a short-lived download URL on <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">files.mochify.app</code>.</p>
 
-            <p class="mb-4">The <strong class="text-[#4A2C2C]">local MCP server</strong> is a single Rust binary (<code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">mochify</code>) that ships via Homebrew, raw download, or <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">cargo install</code>. It runs as a direct CLI in your shell, and the same binary runs as a local MCP server when launched with <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">mochify serve</code> and registered in your Claude Desktop config. In both local modes, the agent sees only file paths and metadata - image bytes flow from your disk to the API via the local binary and never enter the agent's context window.</p>
+            <p class="mb-4">The <strong class="text-[#4A2C2C]">local MCP server</strong> is a single Rust binary (<code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mochify</code>) that ships via Homebrew, raw download, or <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">cargo install</code>. It runs as a direct CLI in your shell, and the same binary runs as a local MCP server when launched with <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mochify serve</code> and registered in your Claude Desktop config. In both local modes, the agent sees only file paths and metadata - image bytes flow from your disk to the API via the local binary and never enter the agent's context window.</p>
 
             <p>You don't pick one over the other for life. You pick the right one for the job at hand. The rest of this guide gets specific about which is which.</p>
         </section>
@@ -186,15 +186,15 @@
         <!-- Hosted MCP -->
         <section id="hosted-mcp" class="scroll-mt-24">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How the Hosted MCP Server Works</h2>
-            <p class="mb-6">The hosted server is a connector that any MCP-compatible AI assistant can register and call. Once OAuth is complete, the agent has two tools available: <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">squish</code> for image processing, and <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">check_usage</code> for quota checks.</p>
+            <p class="mb-6">The hosted server is a connector that any MCP-compatible AI assistant can register and call. Once OAuth is complete, the agent has two tools available: <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish</code> for image processing, and <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">check_usage</code> for quota checks.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Setup, in one paragraph</h3>
-            <p class="mb-6">In Claude Desktop, go to Settings → Connectors, add <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">https://mcp.mochify.app</code>, then complete an OAuth flow that authorises Mochify to process images on your behalf. Cursor and other clients follow the same shape. The full step-by-step is in our <a href="/guides/mochify-mcp-image-compression-agent-2026">MCP setup guide</a>. Authentication is OAuth-based, the connector talks to our servers over HTTPS, and the agent doesn't need to manage an API key directly.</p>
+            <p class="mb-6">In Claude Desktop, go to Settings → Connectors, add <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code>, then complete an OAuth flow that authorises Mochify to process images on your behalf. Cursor and other clients follow the same shape. The full step-by-step is in our <a href="/guides/mochify-mcp-image-compression-agent-2026">MCP setup guide</a>. Authentication is OAuth-based, the connector talks to our servers over HTTPS, and the agent doesn't need to manage an API key directly.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">The <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-base">squish</code> tool</h3>
-            <p class="mb-4">The <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">squish</code> tool accepts either a public HTTPS URL to fetch the image from, or raw base64 image bytes plus a media type. It returns a <strong class="text-[#4A2C2C]">short-lived download URL</strong> for the processed image - a five-minute TTL on <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">files.mochify.app</code>, with an explicit "expires in ~5 minutes" note in the response so the agent and any downstream tool know exactly when the link goes dead.</p>
+            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">The <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-base">squish</code> tool</h3>
+            <p class="mb-4">The <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish</code> tool accepts either a public HTTPS URL to fetch the image from, or raw base64 image bytes plus a media type. It returns a <strong class="text-[#4A2C2C]">short-lived download URL</strong> for the processed image - a five-minute TTL on <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">files.mochify.app</code>, with an explicit "expires in ~5 minutes" note in the response so the agent and any downstream tool know exactly when the link goes dead.</p>
 
-            <p class="mb-6">JPEG is the default output (encoded with Google's jpegli encoder, which delivers roughly 35% better compression than <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">libjpeg-turbo</code> at matched quality). AVIF, JPEG XL, WebP, and PNG are also supported. Options include resize, smart-crop to a subject, EXIF stripping, brightness, clarity, <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">smartCompress</code>, HDR gain-map preservation, and AI background removal.</p>
+            <p class="mb-6">JPEG is the default output (encoded with Google's jpegli encoder, which delivers roughly 35% better compression than <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">libjpeg-turbo</code> at matched quality). AVIF, JPEG XL, WebP, and PNG are also supported. Options include resize, smart-crop to a subject, EXIF stripping, brightness, clarity, <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">smartCompress</code>, HDR gain-map preservation, and AI background removal.</p>
 
             <InfoBox type="note" title="URL passback is a recent change">
                 Earlier versions of the hosted MCP returned the processed image inline as binary content, which produced reliable hangs and unsaveable results across most chat clients. URL passback fixes that, at the cost of a brief pickup window on Mochify's side - covered in the retention section below.
@@ -227,10 +227,10 @@ brew install mochify</code></pre>
 
             <p class="mb-4">One auth step covers both CLI and MCP modes:</p>
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify auth login</code></pre>
-            <p class="mb-6">This opens your browser, you sign in with your Mochify account, and credentials are written to <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">~/.config/mochify/credentials.toml</code>. No environment variables to manage, no API key to copy and paste.</p>
+            <p class="mb-6">This opens your browser, you sign in with your Mochify account, and credentials are written to <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">~/.config/mochify/credentials.toml</code>. No environment variables to manage, no API key to copy and paste.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Direct CLI mode</h3>
-            <p class="mb-4">The CLI takes one or more file paths and a set of options. The <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">-p</code> flag is the headline feature - describe the goal in plain English:</p>
+            <p class="mb-4">The CLI takes one or more file paths and a set of options. The <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">-p</code> flag is the headline feature - describe the goal in plain English:</p>
 
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify photo.jpg -p "optimise for eBay"
 mochify *.heic -p "convert to WebP, 1200px wide, strip EXIF" -o ./out</code></pre>
@@ -249,21 +249,21 @@ ls *.heic | mochify -t jpg</code></pre>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">-t, --type &lt;FORMAT&gt;</code></td><td class="p-4">Output format: <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">jpg</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">png</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">webp</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">avif</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">jxl</code></td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">-w, --width &lt;N&gt;</code></td><td class="p-4">Target width in pixels</td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">-H, --height &lt;N&gt;</code></td><td class="p-4">Target height in pixels</td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">--crop</code></td><td class="p-4">Saliency-guided crop to exact dimensions</td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">-o, --output &lt;DIR&gt;</code></td><td class="p-4">Output directory (defaults to input dir)</td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">-n, --name &lt;NAME&gt;</code></td><td class="p-4">Base name for the output file</td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">-r, --rotation &lt;DEG&gt;</code></td><td class="p-4">Rotate by 0, 90, 180, or 270 degrees</td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">--clarity</code></td><td class="p-4">Midtone contrast enhancement</td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">-p, --prompt &lt;TEXT&gt;</code></td><td class="p-4">Natural-language prompt that resolves all params automatically</td></tr>
+                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-t, --type &lt;FORMAT&gt;</code></td><td class="p-4">Output format: <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">jpg</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">png</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">webp</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">avif</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">jxl</code></td></tr>
+                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-w, --width &lt;N&gt;</code></td><td class="p-4">Target width in pixels</td></tr>
+                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-H, --height &lt;N&gt;</code></td><td class="p-4">Target height in pixels</td></tr>
+                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">--crop</code></td><td class="p-4">Saliency-guided crop to exact dimensions</td></tr>
+                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-o, --output &lt;DIR&gt;</code></td><td class="p-4">Output directory (defaults to input dir)</td></tr>
+                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-n, --name &lt;NAME&gt;</code></td><td class="p-4">Base name for the output file</td></tr>
+                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-r, --rotation &lt;DEG&gt;</code></td><td class="p-4">Rotate by 0, 90, 180, or 270 degrees</td></tr>
+                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">--clarity</code></td><td class="p-4">Midtone contrast enhancement</td></tr>
+                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-p, --prompt &lt;TEXT&gt;</code></td><td class="p-4">Natural-language prompt that resolves all params automatically</td></tr>
                     </tbody>
                 </table>
             </ScrollableTable>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Local MCP server mode</h3>
-            <p class="mb-3">Same binary, different invocation. Add this to <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">~/Library/Application Support/Claude/claude_desktop_config.json</code>:</p>
+            <p class="mb-3">Same binary, different invocation. Add this to <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">~/Library/Application Support/Claude/claude_desktop_config.json</code>:</p>
 
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`{
   "mcpServers": {
@@ -274,7 +274,7 @@ ls *.heic | mochify -t jpg</code></pre>
   }
 }`}</code></pre>
 
-            <p class="mb-4">Restart Claude Desktop. The <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">squish</code> tool now appears in the connections panel and uses the credentials from your earlier <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">mochify auth login</code>. No OAuth round-trip, no remote connector to refresh, no token expiry to worry about.</p>
+            <p class="mb-4">Restart Claude Desktop. The <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish</code> tool now appears in the connections panel and uses the credentials from your earlier <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mochify auth login</code>. No OAuth round-trip, no remote connector to refresh, no token expiry to worry about.</p>
 
             <InfoBox type="tip" title="Give Claude the full path">
                 When asking Claude to process an image via the local MCP, give it the full path: <em>"Convert /Users/me/Desktop/photo.jpg to AVIF at 1000px wide."</em> The local binary opens the file, sends bytes to the API, gets the result back, writes it to disk, and returns the saved path and file size. The image never enters Claude's context.
@@ -297,7 +297,7 @@ ls *.heic | mochify -t jpg</code></pre>
                     <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
                         <tr><td class="p-4">Someone shared an image URL and you want it as AVIF or WebP</td><td class="p-4 font-semibold">Hosted MCP (URL input)</td></tr>
                         <tr><td class="p-4">You want to drag a small image into a chat and have it compressed</td><td class="p-4 font-semibold">Hosted MCP (upload) - see <a href="#example-2">Worked Example 2</a></td></tr>
-                        <tr><td class="p-4">You're in Claude Desktop and images live on your laptop</td><td class="p-4 font-semibold">Local MCP server (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">mochify serve</code>)</td></tr>
+                        <tr><td class="p-4">You're in Claude Desktop and images live on your laptop</td><td class="p-4 font-semibold">Local MCP server (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">mochify serve</code>)</td></tr>
                         <tr><td class="p-4">You're in Claude Code working in a project repo full of images</td><td class="p-4 font-semibold">Direct CLI</td></tr>
                         <tr><td class="p-4">You're building a static site and want compression as a build step</td><td class="p-4 font-semibold">Direct CLI (no agent needed)</td></tr>
                         <tr><td class="p-4">Your agent is generating images and needs to compress before commit</td><td class="p-4 font-semibold">Direct CLI from the script</td></tr>
@@ -328,9 +328,9 @@ ls *.heic | mochify -t jpg</code></pre>
             <div class="bg-gradient-to-br from-[#FFF5F7] to-[#FDFBF7] rounded-3xl p-6 border border-pink-100 mb-6">
                 <ol class="space-y-5">
                     {#each [
-                        `Claude maps the request via Magic Flow to <code class="bg-pink-100 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">squish({ url: "https://example.com/photo.jpg", type: "avif", width: 1200 })</code>.`,
-                        `Mochify's hosted server fetches <code class="bg-pink-100 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">photo.jpg</code> from <code class="bg-pink-100 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">example.com</code>, runs it through the AVIF encoder in RAM, and parks the compressed result in its pickup store.`,
-                        `The tool response carries a short-lived download URL on <code class="bg-pink-100 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">files.mochify.app</code> (valid for five minutes). Claude fetches the URL to show you the result or hands you the link directly.`,
+                        `Claude maps the request via Magic Flow to <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">squish({ url: "https://example.com/photo.jpg", type: "avif", width: 1200 })</code>.`,
+                        `Mochify's hosted server fetches <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">photo.jpg</code> from <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">example.com</code>, runs it through the AVIF encoder in RAM, and parks the compressed result in its pickup store.`,
+                        `The tool response carries a short-lived download URL on <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">files.mochify.app</code> (valid for five minutes). Claude fetches the URL to show you the result or hands you the link directly.`,
                     ] as step, i}
                         <li class="flex gap-4 items-start">
                             <span class="w-8 h-8 bg-[#F06292] text-white font-black text-sm rounded-full flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
@@ -361,17 +361,17 @@ ls *.heic | mochify -t jpg</code></pre>
 
             <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100 mb-6">
                 <h3 class="text-base font-black text-[#4A2C2C] mb-2">Failure 3 (fixed): returning the compressed image inline used to be unreliable.</h3>
-                <p class="text-[#6C3F31] text-base mb-0">Mochify's hosted MCP previously returned the processed image inline as binary content, which forced the chat client to render or save a binary blob from a tool response. Support varied wildly, and in practice the tool call frequently hung or produced a result the user couldn't save. We've now switched to URL passback: the response is a text URL on <code class="bg-pink-100 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">files.mochify.app</code>, valid for five minutes. Chat clients handle a URL string without difficulty.</p>
+                <p class="text-[#6C3F31] text-base mb-0">Mochify's hosted MCP previously returned the processed image inline as binary content, which forced the chat client to render or save a binary blob from a tool response. Support varied wildly, and in practice the tool call frequently hung or produced a result the user couldn't save. We've now switched to URL passback: the response is a text URL on <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">files.mochify.app</code>, valid for five minutes. Chat clients handle a URL string without difficulty.</p>
             </div>
 
             <p class="mb-4">Where this leaves us: the drag-into-chat workflow is now genuinely usable for small images where the quality hit from chat-client upload pre-processing doesn't matter - a screenshot you're prepping for a Notion page, a thumbnail you want as AVIF, a quick conversion of a small graphic. It is <em>not</em> the right workflow for a hero image, a product photo, or anything where you'd want pixel-accurate output. For those, use <a href="#example-1">Worked Example 1</a> (URL input) or <a href="#example-3">Worked Example 3</a> (local MCP server).</p>
 
-            <p class="mb-4">A worked run: drag a small PNG screenshot into Claude with <em>"Make this web-ready."</em> Claude calls <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">squish({'{'} data: "&lt;base64...&gt;", mediaType: "image/png", optimizeForWeb: true {'}'})</code>. Magic Flow infers AVIF output with sensible web-ready defaults and EXIF stripping. Mochify processes the vision-processed copy of your screenshot and returns:</p>
+            <p class="mb-4">A worked run: drag a small PNG screenshot into Claude with <em>"Make this web-ready."</em> Claude calls <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish({'{'} data: "&lt;base64...&gt;", mediaType: "image/png", optimizeForWeb: true {'}'})</code>. Magic Flow infers AVIF output with sensible web-ready defaults and EXIF stripping. Mochify processes the vision-processed copy of your screenshot and returns:</p>
 
             <pre class="bg-[#1e1e2e] text-[#cdd6f4] rounded-2xl p-5 mb-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>Image processed successfully (image/avif, 12.7 KB).
 Download URL (expires in ~5 minutes): https://files.mochify.app/629b...d46.avif</code></pre>
 
-            <p>Claude either fetches that URL and shows you the result, or hands you the link directly. The compressed file lives on <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">files.mochify.app</code> for the rest of the five-minute window and then disappears.</p>
+            <p>Claude either fetches that URL and shows you the result, or hands you the link directly. The compressed file lives on <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">files.mochify.app</code> for the rest of the five-minute window and then disappears.</p>
         </section>
 
         <!-- Example 3 -->
@@ -386,9 +386,9 @@ Download URL (expires in ~5 minutes): https://files.mochify.app/629b...d46.avif<
             <div class="bg-gradient-to-br from-[#FFF5F7] to-[#FDFBF7] rounded-3xl p-6 border border-pink-100 mb-6">
                 <ol class="space-y-5">
                     {#each [
-                        'Claude picks up that this is an image-processing task and finds the <code class="bg-pink-100 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">squish</code> tool on the locally-registered <code class="bg-pink-100 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">mochify</code> MCP server.',
-                        'Claude calls <code class="bg-pink-100 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">squish</code> once per file, passing the full file path plus the resolved parameters from Magic Flow.',
-                        'The local <code class="bg-pink-100 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">mochify</code> binary, running as a subprocess, opens each file from disk, sends the bytes to <code class="bg-pink-100 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">api.mochify.app/v1/squish</code>, receives the compressed result, and writes it to the requested output directory.',
+                        'Claude picks up that this is an image-processing task and finds the <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">squish</code> tool on the locally-registered <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">mochify</code> MCP server.',
+                        'Claude calls <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">squish</code> once per file, passing the full file path plus the resolved parameters from Magic Flow.',
+                        'The local <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">mochify</code> binary, running as a subprocess, opens each file from disk, sends the bytes to <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">api.mochify.app/v1/squish</code>, receives the compressed result, and writes it to the requested output directory.',
                         'The MCP tool response back to Claude contains the saved path, original size, and new size. No image bytes.',
                         'Claude summarises: <em>"Compressed 24 product photos. Originals 38.7 MB total; AVIF outputs 9.1 MB total. Average saving 77%. Files in ~/Desktop/product-shoot/web/"</em>',
                     ] as step, i}
@@ -398,7 +398,7 @@ Download URL (expires in ~5 minutes): https://files.mochify.app/629b...d46.avif<
                         </li>
                     {/each}
                 </ol>
-                <p class="mt-5 pt-4 border-t border-pink-100 text-sm text-[#875F42]">Token cost: the agent never holds image bytes - paths and metadata only. No pickup store on Mochify's side either: the compressed bytes flow straight from the API back to disk via the local binary. Setup was a one-time <code class="bg-pink-100 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">brew install mochify</code>, <code class="bg-pink-100 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-xs">mochify auth login</code>, and three lines of JSON in the config file.</p>
+                <p class="mt-5 pt-4 border-t border-pink-100 text-sm text-[#875F42]">Token cost: the agent never holds image bytes - paths and metadata only. No pickup store on Mochify's side either: the compressed bytes flow straight from the API back to disk via the local binary. Setup was a one-time <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">brew install mochify</code>, <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">mochify auth login</code>, and three lines of JSON in the config file.</p>
             </div>
         </section>
 
@@ -429,7 +429,7 @@ mochify ./public/images/*.{'{jpg,png}'} -t webp -w 1600 -o ./public/images</code
                     </li>
                     <li class="flex gap-4 items-start">
                         <span class="w-8 h-8 bg-[#F06292] text-white font-black text-sm rounded-full flex items-center justify-center shrink-0 mt-0.5">4</span>
-                        <span class="text-[#6C3F31]">Claude parses the summaries, then edits <code class="bg-pink-100 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">app/page.tsx</code> to add the preload tag and the <code class="bg-pink-100 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">&lt;picture&gt;</code> element with the AVIF / WebP / JPEG fallback chain.</span>
+                        <span class="text-[#6C3F31]">Claude parses the summaries, then edits <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">app/page.tsx</code> to add the preload tag and the <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">&lt;picture&gt;</code> element with the AVIF / WebP / JPEG fallback chain.</span>
                     </li>
                 </ol>
                 <p class="mt-5 pt-4 border-t border-pink-100 text-sm text-[#875F42]">Token cost: zero image bytes anywhere in the agent's context. Only paths, filenames, sizes, and the CLI's text output.</p>
@@ -457,16 +457,16 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
 
             <p class="mb-4">The <strong class="text-[#4A2C2C]">hosted MCP server with URL input</strong> is now genuinely cheap both ways - a URL string in, a URL string out. Upload input is still expensive on the way in because the image is base64-encoded into the tool-call payload, but the return is a short text URL rather than a binary blob; it's a one-way cost rather than a two-way one.</p>
 
-            <p class="mb-6">The <strong class="text-[#4A2C2C]">local install (CLI or <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">mochify serve</code>)</strong> is still the cheapest workflow per image. Nothing about the image ever enters the agent's context - not on the way in, not on the way back. For batch workflows the difference is dramatic: compressing 100 images via the hosted-MCP upload path would push 100 base64 payloads through your agent's context; compressing them via the local install puts a handful of summary lines in.</p>
+            <p class="mb-6">The <strong class="text-[#4A2C2C]">local install (CLI or <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">mochify serve</code>)</strong> is still the cheapest workflow per image. Nothing about the image ever enters the agent's context - not on the way in, not on the way back. For batch workflows the difference is dramatic: compressing 100 images via the hosted-MCP upload path would push 100 base64 payloads through your agent's context; compressing them via the local install puts a handful of summary lines in.</p>
 
             <InfoBox type="note" title="Image bytes still travel to Mochify's servers">
-                In local modes, the image bytes still travel from your laptop to <code class="bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded font-mono text-sm">api.mochify.app</code> over HTTPS for the actual encoding work. They never hit your agent's context, but they do hit Mochify's servers, where the original is processed in RAM and discarded immediately. If you need image bytes to never leave your machine, the only option is to self-host the engine via our <a href="/guides/self-hosting-image-optimization-docker" class="text-blue-600 hover:text-blue-700 underline">Docker self-hosting guide</a>.
+                In local modes, the image bytes still travel from your laptop to <code class="bg-blue-50 text-blue-600 px-1.5 py-px rounded font-mono text-sm">api.mochify.app</code> over HTTPS for the actual encoding work. They never hit your agent's context, but they do hit Mochify's servers, where the original is processed in RAM and discarded immediately. If you need image bytes to never leave your machine, the only option is to self-host the engine via our <a href="/guides/self-hosting-image-optimization-docker" class="text-blue-600 hover:text-blue-700 underline">Docker self-hosting guide</a>.
             </InfoBox>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">The practical rule</h3>
             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
                 <li>A few chat-driven image edits per week with no install - use the hosted MCP and don't worry about it.</li>
-                <li>Chat-driven work where the files are already on your laptop - install the local MCP server (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">mochify serve</code>).</li>
+                <li>Chat-driven work where the files are already on your laptop - install the local MCP server (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">mochify serve</code>).</li>
                 <li>Anything resembling a pipeline (build step, content workflow, batch processing, repo-wide cleanup, agentic content generation) - use the direct CLI.</li>
             </ul>
 

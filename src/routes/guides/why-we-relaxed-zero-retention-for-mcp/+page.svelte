@@ -126,7 +126,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            We added a five-minute hold on compressed outputs from the hosted MCP server so we can return a short-lived download URL instead of inline binary content. Your original image is still discarded immediately after encoding. The local <code class="bg-pink-100 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">mochify</code> binary - CLI and <code class="bg-pink-100 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">mochify serve</code> - still has nothing held server-side at all.
+            We added a five-minute hold on compressed outputs from the hosted MCP server so we can return a short-lived download URL instead of inline binary content. Your original image is still discarded immediately after encoding. The local <code class="bg-pink-100 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mochify</code> binary - CLI and <code class="bg-pink-100 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mochify serve</code> - still has nothing held server-side at all.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
@@ -166,7 +166,7 @@
 
         <section id="the-problem" class="scroll-mt-24">
             <SectionHeading>The Problem We Hit</SectionHeading>
-            <p class="mb-4">The hosted MCP server at <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">mcp.mochify.app</code> used to return compressed images inline to the conversation as binary content. On paper this was the cleanest possible path: one round-trip, no extra fetch step, no third-party storage. In practice it broke. Chat clients vary widely in how they render or save binary returns from MCP tool calls, and the two most common outcomes were the tool call hanging without completing, or the result appearing in the response but proving impossible for the user to save.</p>
+            <p class="mb-4">The hosted MCP server at <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mcp.mochify.app</code> used to return compressed images inline to the conversation as binary content. On paper this was the cleanest possible path: one round-trip, no extra fetch step, no third-party storage. In practice it broke. Chat clients vary widely in how they render or save binary returns from MCP tool calls, and the two most common outcomes were the tool call hanging without completing, or the result appearing in the response but proving impossible for the user to save.</p>
             <p>From our side the compression was working: sub-second responses, large reductions, the right output format. The bytes were getting back to the client. The handoff from the chat client to the user was where things came apart, and for a tool that positions itself as the image toolkit for AI-native workflows, "the compression works but you can't actually get your file" is not an acceptable outcome. The full breakdown lives in <a href="/guides/how-the-mochify-mcp-server-works">how the Mochify MCP server works</a>.</p>
         </section>
 
@@ -184,8 +184,8 @@
 
             <ul class="space-y-3 mb-6 marker:text-[#F06292] list-disc pl-6">
                 <li>Your original image is still streamed into the encoder in RAM and discarded immediately. No disk writes of the source, no logs containing image data, no change from the web app or any other surface.</li>
-                <li>No per-account history of compressed images. No analytics on what was processed beyond the usage counter exposed by the <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">check_usage</code> tool.</li>
-                <li>The two local install paths - the <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">mochify</code> CLI and <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">mochify serve</code> as a local MCP server - don't touch the pickup store at all. The compressed bytes come back from <code class="bg-pink-50 text-[#D81B60] px-1.5 py-0.5 rounded font-mono text-sm">api.mochify.app</code> to your local binary and are written straight to your disk. End-to-end zero retention is intact for any workflow where you've installed the binary.</li>
+                <li>No per-account history of compressed images. No analytics on what was processed beyond the usage counter exposed by the <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">check_usage</code> tool.</li>
+                <li>The two local install paths - the <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">mochify</code> CLI and <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">mochify serve</code> as a local MCP server - don't touch the pickup store at all. The compressed bytes come back from <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">api.mochify.app</code> to your local binary and are written straight to your disk. End-to-end zero retention is intact for any workflow where you've installed the binary.</li>
             </ul>
 
             <InfoBox type="note" title="The relaxation is narrow on purpose">
@@ -195,8 +195,8 @@
 
         <section id="your-workflow" class="scroll-mt-24">
             <SectionHeading>What This Means for Your Workflow</SectionHeading>
-            <p class="mb-4">Use the hosted MCP server if drag-and-drop chat is the experience you want, and the compressed image transiting <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">files.mochify.app</code> for up to five minutes is a trade-off you're comfortable with. For most users, most of the time, that's a fine line to draw.</p>
-            <p class="mb-4">If you need a stronger end-to-end privacy posture, install the local binary with <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">brew install mochify</code> and use either <code class="bg-pink-50 text-[#D81B60] px-2 py-0.5 rounded font-mono text-sm">mochify serve</code> (chat-driven) or the CLI direct (build pipelines, batch jobs, anything scripted). Compressed bytes never sit on Mochify infrastructure beyond the encoding step itself. If you need to take Mochify off the path entirely, self-host the engine via the <a href="/guides/self-hosting-image-optimization-docker">Docker self-hosting guide</a>.</p>
+            <p class="mb-4">Use the hosted MCP server if drag-and-drop chat is the experience you want, and the compressed image transiting <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">files.mochify.app</code> for up to five minutes is a trade-off you're comfortable with. For most users, most of the time, that's a fine line to draw.</p>
+            <p class="mb-4">If you need a stronger end-to-end privacy posture, install the local binary with <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">brew install mochify</code> and use either <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mochify serve</code> (chat-driven) or the CLI direct (build pipelines, batch jobs, anything scripted). Compressed bytes never sit on Mochify infrastructure beyond the encoding step itself. If you need to take Mochify off the path entirely, self-host the engine via the <a href="/guides/self-hosting-image-optimization-docker">Docker self-hosting guide</a>.</p>
             <p>A softer retention claim is a less catchy marketing line than "wiped immediately." We'd rather match the words to what the server actually does.</p>
         </section>
 

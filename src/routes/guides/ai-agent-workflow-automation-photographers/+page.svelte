@@ -324,7 +324,7 @@
             <SectionHeading>How the Stack Works: Claude, Dispatch, and Mochify MCP</SectionHeading>
             <p>The three-layer architecture is straightforward: an AI agent runtime handles orchestration, a scheduler handles triggers, and Mochify's MCP server is the image processing engine the agent calls. The agent handles the logic; Mochify handles the actual pixel work.</p>
             <p><strong class="text-[#4A2C2C]">Claude</strong> (via Claude Desktop or a compatible client) is where you define instruction sets: essentially, pre-written tasks the agent executes when triggered. For this workflow, you write the instruction set once: detect the shoot type from the folder name, call Mochify MCP with the appropriate conversion parameters, and send a confirmation when done. <a href="https://docs.anthropic.com/en/docs/build-with-claude/mcp" rel="noopener noreferrer" class="text-[#D81B60] underline">Anthropic's MCP documentation</a> covers the protocol spec in detail for developers who want to go deeper.</p>
-            <p><strong class="text-[#4A2C2C]">Dispatch</strong> is the scheduling and trigger layer. It runs a file watcher on your <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-0.5 rounded text-sm font-mono">/exports/raw-jpegs/</code> directory and fires the agent job when a new folder appears. This is what makes the workflow genuinely hands-off: the export from Lightroom is the only action you take. Dispatch handles everything after.</p>
+            <p><strong class="text-[#4A2C2C]">Dispatch</strong> is the scheduling and trigger layer. It runs a file watcher on your <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">/exports/raw-jpegs/</code> directory and fires the agent job when a new folder appears. This is what makes the workflow genuinely hands-off: the export from Lightroom is the only action you take. Dispatch handles everything after.</p>
             <p><strong class="text-[#4A2C2C]">Mochify's MCP server</strong> exposes the same C++ compression engine and zero-retention pipeline as the web interface, but callable by an AI agent in natural language. The agent describes the task: format, size constraints, colour profile, EXIF handling. Mochify resolves the parameters and returns the processed files. No settings UI, no format dropdowns.</p>
 
             <InfoBox type="note" title="MCP access on all tiers">
@@ -348,11 +348,11 @@
     wire/
   archive/</code></pre>
 
-            <p>The naming convention for the <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-0.5 rounded text-sm font-mono">raw-jpegs/</code> subfolders is critical. Use a consistent prefix that maps to a shoot type:</p>
+            <p>The naming convention for the <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">raw-jpegs/</code> subfolders is critical. Use a consistent prefix that maps to a shoot type:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-0.5 rounded text-sm font-mono">wedding-YYYY-MM-DD-clientname/</code> triggers the wedding instruction set (Pixieset delivery)</li>
-                <li><code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-0.5 rounded text-sm font-mono">commercial-YYYY-MM-DD-clientname/</code> triggers the commercial instruction set (Shopify + Etsy)</li>
-                <li><code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-0.5 rounded text-sm font-mono">editorial-YYYY-MM-DD-outlet/</code> triggers the editorial instruction set (wire delivery)</li>
+                <li><code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">wedding-YYYY-MM-DD-clientname/</code> triggers the wedding instruction set (Pixieset delivery)</li>
+                <li><code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">commercial-YYYY-MM-DD-clientname/</code> triggers the commercial instruction set (Shopify + Etsy)</li>
+                <li><code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">editorial-YYYY-MM-DD-outlet/</code> triggers the editorial instruction set (wire delivery)</li>
             </ul>
 
             <p>Lightroom's post-export action setting (under the Export dialog's "Post-Processing" panel) lets you specify a shell script to run when an export completes. Point this at a lightweight script that calls Dispatch with the folder path as an argument:</p>
@@ -408,7 +408,7 @@ dispatch trigger mochify-agent --param folder="$FOLDER_PATH"</code></pre>
   ./exports/raw-jpegs/wedding-2026-05-03-hartley/*.jpg \
   --out ./processed/pixieset/wedding-2026-05-03-hartley/</code></pre>
 
-            <p>The <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-0.5 rounded text-sm font-mono">--prompt</code> flag accepts the same natural language instruction as the MCP call. This is useful for one-off runs, debugging, or verifying output before you trust the agent to run unsupervised.</p>
+            <p>The <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">--prompt</code> flag accepts the same natural language instruction as the MCP call. This is useful for one-off runs, debugging, or verifying output before you trust the agent to run unsupervised.</p>
 
             <!-- CTA -->
             <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow mt-6">

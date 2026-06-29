@@ -694,7 +694,7 @@
                 </ScrollableTable>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Fallback Strategies</h3>
-            <p class="mb-4">Production-grade implementation requires <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> elements with format cascades:</p>
+            <p class="mb-4">Production-grade implementation requires <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> elements with format cascades:</p>
 
             <CodeBlock filename="picture.html" code={`<picture>
   <source srcset="hero.avif" type="image/avif" />
@@ -743,7 +743,7 @@
             <ul class="list-disc pl-6 mb-4 space-y-1">
         <li>You're optimizing for Core Web Vitals (LCP, CLS) and every kilobyte matters</li>
         <li>Your content includes hero images, above-the-fold graphics, or high-resolution photography</li>
-        <li>You're comfortable implementing <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> fallbacks (you should be)</li>
+        <li>You're comfortable implementing <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> fallbacks (you should be)</li>
                 <li>Storage costs concern you - AVIF's 20-50% advantage over WebP compounds at scale</li>
             </ul>
             <p class="mb-6 italic text-base">
@@ -917,7 +917,7 @@
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Step 3: Implement Fallbacks</h3>
             <p class="mb-4">
-                Use <code class="bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> elements for critical images (heroes, product photos). For non-critical images (blog thumbnails, footer icons), WebP-only is acceptable.
+                Use <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> elements for critical images (heroes, product photos). For non-critical images (blog thumbnails, footer icons), WebP-only is acceptable.
             </p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Step 4: Validate Core Web Vitals</h3>

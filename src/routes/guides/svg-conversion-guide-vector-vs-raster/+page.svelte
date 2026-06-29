@@ -299,8 +299,8 @@
             <p class="mb-4">SVG wins on sites and apps you fully control, where you can sanitize files and serve them safely. Here are the real-world cases where you should keep it as vector.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Logos on your own site</h3>
-            <p class="mb-4">Infinite resolution, tiny files for simple shapes, easy theming with CSS, and perfect crispness on retina displays. If you own the theme and can control how files are sanitized or deployed, inline SVG or <code class="bg-[#FFF5F7] rounded-lg px-2 py-0.5 text-[#D81B60] font-mono text-sm">&lt;img src&gt;</code> SVG for your site header and footer is the right call.</p>
-            <p class="mb-4">You get dark mode theming for free (a CSS <code class="bg-[#FFF5F7] rounded-lg px-2 py-0.5 text-[#D81B60] font-mono text-sm">fill</code> change, no new export), and the file itself is often just a few hundred bytes for a flat logo.</p>
+            <p class="mb-4">Infinite resolution, tiny files for simple shapes, easy theming with CSS, and perfect crispness on retina displays. If you own the theme and can control how files are sanitized or deployed, inline SVG or <code class="bg-[#FFF5F7] rounded-lg px-2 py-px text-[#D81B60] font-mono text-sm">&lt;img src&gt;</code> SVG for your site header and footer is the right call.</p>
+            <p class="mb-4">You get dark mode theming for free (a CSS <code class="bg-[#FFF5F7] rounded-lg px-2 py-px text-[#D81B60] font-mono text-sm">fill</code> change, no new export), and the file itself is often just a few hundred bytes for a flat logo.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Icons and UI elements in web apps</h3>
             <p class="mb-4">Icon systems in SPAs and design systems benefit significantly from SVG sprites or inline SVG. You get hover states, recoloring, and dark mode support without re-exporting a new PNG every time the design changes. For a set of 50+ icons, a single SVG sprite will almost always beat an equivalent PNG sprite sheet on payload and request count.</p>
@@ -353,7 +353,7 @@
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Enabling SVG safely (if you must)</h3>
             <p class="mb-4">If you need SVG in WordPress, the two main options are:</p>
-            <p class="mb-4">A sanitizing plugin like <strong>Safe SVG</strong>, which runs uploads through a dedicated SVG sanitizer (based on the <code class="bg-[#FFF5F7] rounded-lg px-2 py-0.5 text-[#D81B60] font-mono text-sm">enshrined/svg-sanitize</code> library), integrates SVGO optimization, and lets you restrict who can upload SVG files. Or custom code using the <code class="bg-[#FFF5F7] rounded-lg px-2 py-0.5 text-[#D81B60] font-mono text-sm">upload_mimes</code> filter - but only with careful permission scoping so lower-trust roles can't upload arbitrary SVG files.</p>
+            <p class="mb-4">A sanitizing plugin like <strong>Safe SVG</strong>, which runs uploads through a dedicated SVG sanitizer (based on the <code class="bg-[#FFF5F7] rounded-lg px-2 py-px text-[#D81B60] font-mono text-sm">enshrined/svg-sanitize</code> library), integrates SVGO optimization, and lets you restrict who can upload SVG files. Or custom code using the <code class="bg-[#FFF5F7] rounded-lg px-2 py-px text-[#D81B60] font-mono text-sm">upload_mimes</code> filter - but only with careful permission scoping so lower-trust roles can't upload arbitrary SVG files.</p>
             <p class="mb-4">WP Engine recommends limiting SVG uploads to admin-level users only, even when using a sanitizing plugin.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">The plugin trade-off</h3>
@@ -529,7 +529,7 @@
                     },
                     {
                         title: 'Recipe 4 - Developer pipeline: SVG source, WebP/AVIF delivery',
-                        body: 'For teams building in Figma or Illustrator, the cleanest workflow is to store all design assets as SVG (or JPEG XL for archival) in version control, then generate WebP and AVIF variants for production at build time using the Mochify REST API (<code class="bg-[#FFF5F7] rounded px-1.5 py-0.5 text-[#D81B60] font-mono text-sm">POST /v1/squish?type=webp</code>) or the CLI (<code class="bg-[#FFF5F7] rounded px-1.5 py-0.5 text-[#D81B60] font-mono text-sm">--prompt "convert to AVIF and WebP, max 1600px"</code>). This keeps your source files lossless and your delivery files optimized, with no per-export manual steps.',
+                        body: 'For teams building in Figma or Illustrator, the cleanest workflow is to store all design assets as SVG (or JPEG XL for archival) in version control, then generate WebP and AVIF variants for production at build time using the Mochify REST API (<code class="bg-[#FFF5F7] rounded px-1.5 py-px text-[#D81B60] font-mono text-sm">POST /v1/squish?type=webp</code>) or the CLI (<code class="bg-[#FFF5F7] rounded px-1.5 py-px text-[#D81B60] font-mono text-sm">--prompt "convert to AVIF and WebP, max 1600px"</code>). This keeps your source files lossless and your delivery files optimized, with no per-export manual steps.',
                     },
                 ] as recipe}
                     <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
