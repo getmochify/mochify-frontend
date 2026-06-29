@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "How to Convert iPhone Photos (HEIC) to PDF",
+            description: "Convert iPhone HEIC photos to PDF on any device — iPhone, Mac, Windows, or online. Native methods, batch tips, and a one-click tool. No app needed.",
+            url: "/guides/heic-to-pdf-iphone-photos",
+            category: "Image Formats",
+            readTime: "12 min read",
+            date: "June 29, 2026"
+        },
+        {
             title: "Convert MP4 to WebM for the Web: Smaller Files, Faster Pages, No Upload Required",
             description: "Converting an MP4 hero video to WebM using VP9 typically cuts file size by 30–50% with no visible quality difference. Covers browser support, Core Web Vitals impact, the video fallback pattern, and in-browser conversion.",
             url: "/guides/mp4-to-webm-web-video-guide",
