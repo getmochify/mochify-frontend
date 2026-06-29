@@ -225,14 +225,14 @@
         <!-- Section 2 -->
         <section id="browser-support" class="scroll-mt-24">
             <SectionHeading>Browser Support in 2026: What You Can Safely Ship</SectionHeading>
-            <p class="mb-4">VP9 in WebM is the safe bet for modern web delivery. WebM (VP8/VP9) is supported in current versions of all major desktop and mobile browsers - Chrome, Edge, Firefox, and Safari all handle it. The practical implication: if you serve WebM/VP9 alongside an MP4/H.264 fallback, you get maximum compression for modern browsers and guaranteed compatibility for anything older.</p>
+            <p class="mb-4">VP9 in WebM is the safe bet for modern web delivery. <a href="https://caniuse.com/webm" target="_blank" rel="noopener noreferrer">According to caniuse.com</a>, WebM (VP8/VP9) is supported in current versions of all major desktop and mobile browsers as of March 2026 - Chrome, Edge, Firefox, and Safari all handle it. The practical implication: if you serve WebM/VP9 alongside an MP4/H.264 fallback, you get maximum compression for modern browsers and guaranteed compatibility for anything older.</p>
             <p class="mb-4">The Safari situation has improved materially. Safari historically lagged on VP9 and AV1 support, forcing many teams to maintain MP4 as the primary format. That has changed:</p>
             <ul class="list-disc pl-6 mb-4 space-y-2">
                 <li>VP8/VP9 in WebM: supported in current Safari versions.</li>
                 <li>AV1: supported in Safari 17 and later, alongside Chrome, Firefox, and Edge.</li>
             </ul>
             <p class="mb-4">This means AV1 is a viable choice if your audience skews toward recent hardware and software, though it remains a stretch if you need to cover pre-2022 mobile browsers. For most projects, VP9 WebM plus H.264 MP4 fallback covers 99%+ of users.</p>
-            <p>H.264 in MP4 remains the most broadly compatible format across all browsers, making it the correct fallback - not the primary format for a performance-optimised site.</p>
+            <p><a href="https://caniuse.com/?search=H.264" target="_blank" rel="noopener noreferrer">H.264 in MP4</a> remains the most broadly compatible format across all browsers, making it the correct fallback - not the primary format for a performance-optimised site.</p>
         </section>
 
         <!-- Section 3 -->
@@ -308,7 +308,7 @@
                 </table>
             </ScrollableTable>
 
-            <p class="mb-4">These are representative benchmarks. Mux's encoding guidance recommends 2–3 Mbps for 1080p VP9 versus 4–6 Mbps for H.264 at comparable quality - implying roughly 40–50% bitrate savings.</p>
+            <p class="mb-4">These are representative benchmarks corroborated by <a href="https://www.mux.com/articles/how-to-create-webm-videos-with-ffmpeg" target="_blank" rel="noopener noreferrer">Mux's encoding guidance</a>, which recommends 2–3 Mbps for 1080p VP9 versus 4–6 Mbps for H.264 at comparable quality - implying roughly 40–50% bitrate savings. A codec comparison tool from <a href="https://ittybit.com/guides/compare-video-codecs/" target="_blank" rel="noopener noreferrer">ittybit.com</a> shows similar results: for a 1080p test clip, H.264 output was ~25 MB, VP9 ~17 MB, and AV1 ~15 MB.</p>
             <p class="mb-4">The rule of thumb for planning: expect WebM/VP9 to deliver 30–50% smaller files than MP4/H.264 at equivalent visual quality. AV1 can push that to 40–58%, at the cost of significantly longer encode times.</p>
 
             <InfoBox type="tip" title="AV1 encode time trade-off">
@@ -326,7 +326,7 @@
             <p class="mb-4">A few implementation notes worth keeping in mind:</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8">Order matters</h3>
-            <p class="mb-4">Put the WebM source first. Browsers that support VP9 will take it and download the smaller file. Browsers that do not will fall through to the MP4. MDN explicitly recommends listing the smaller resource first so capable browsers pay the lower bandwidth cost.</p>
+            <p class="mb-4">Put the WebM source first. Browsers that support VP9 will take it and download the smaller file. Browsers that do not will fall through to the MP4. <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Performance/video" target="_blank" rel="noopener noreferrer">MDN explicitly recommends listing the smaller resource first</a> so capable browsers pay the lower bandwidth cost.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8">Include the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">type</code> attribute with codec hints</h3>
             <p class="mb-4">The browser uses this to skip sources it cannot play without attempting to download them. <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">video/webm; codecs="vp9, opus"</code> and <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">video/mp4; codecs="avc1.42E01E, mp4a.40.2"</code> are the correct type strings for VP9 WebM and H.264 MP4 respectively.</p>
@@ -354,6 +354,7 @@
                 <li>Set a <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">poster</code> image that renders while the video loads, so the LCP element itself is a small static image rather than waiting for the first video frame.</li>
                 <li>For below-the-fold video: consider <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="none"</code> and an <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">IntersectionObserver</code> to defer loading until the element is near the viewport.</li>
             </ol>
+            <p class="mb-4"><a href="https://web.dev/learn/performance/video-performance" target="_blank" rel="noopener noreferrer">web.dev's video performance module</a> demonstrates this same pattern and goes deeper on <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">poster</code> image optimisation and lazy-loading strategies for below-the-fold video.</p>
             <p>If you are already optimising images for web performance - converting to WebP or AVIF, setting responsive sizes, preloading the hero - video format is the next logical step. See <a href="/guides/optimizing-hero-images">Optimising Hero Images for Web Performance</a> for the image side of this and how image and video optimisation work together for LCP-critical pages.</p>
         </section>
 
