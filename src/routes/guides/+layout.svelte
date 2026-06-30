@@ -54,8 +54,6 @@
         margin-bottom: 1.25rem;
         line-height: 1.3;
         letter-spacing: -0.02em;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid #FFE5EC;
     }
     
     :global(article h3) {
@@ -64,20 +62,24 @@
         color: #4A2C2C;
         margin-top: 2.5rem;
         margin-bottom: 1rem;
-        line-height: 1.4;
+        line-height: 1.25;
+        letter-spacing: 0.01em;
     }
-    
+
     :global(article h4) {
         font-size: 1.25rem;
         font-weight: 600;
         color: #6C3F31;
         margin-top: 2rem;
         margin-bottom: 0.75rem;
+        line-height: 1.25;
+        letter-spacing: 0.01em;
     }
     
     
     :global(article p) {
         color: #4A2C2C;
+        letter-spacing: 0;
     }
 
     :global(article a:not([class])) {
