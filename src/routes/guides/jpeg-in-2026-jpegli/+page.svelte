@@ -104,67 +104,67 @@
         <section class="my-12">
             <SectionHeading>What's in This Guide</SectionHeading>
 
-            <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner">
+            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
                 <ul class="space-y-3">
                     <li>
-                        <a href="#comparison" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#comparison" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">01</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">JPEG Encoder Comparison Cheat Sheet</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">01</span>
+                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">JPEG Encoder Comparison Cheat Sheet</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#basics" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#basics" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">02</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">JPEG Basics That Matter for Performance</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">02</span>
+                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">JPEG Basics That Matter for Performance</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#what-is-jpegli" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#what-is-jpegli" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">03</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">What Jpegli Is (Better Encoding, Not a New Format)</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">03</span>
+                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">What Jpegli Is (Better Encoding, Not a New Format)</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#adoption" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#adoption" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">04</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Why Your Stack Probably Still Uses MozJPEG</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">04</span>
+                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Why Your Stack Probably Still Uses MozJPEG</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#workflows" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#workflows" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">05</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Real-World Workflows for Platform-Locked Scenarios</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">05</span>
+                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Real-World Workflows for Platform-Locked Scenarios</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#testing" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#testing" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">06</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">A Repeatable Test Methodology</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">06</span>
+                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">A Repeatable Test Methodology</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#faq" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#faq" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">07</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">FAQ: Common Questions About JPEG Optimization</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">07</span>
+                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">FAQ: Common Questions About JPEG Optimization</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>

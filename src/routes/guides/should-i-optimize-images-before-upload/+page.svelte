@@ -157,13 +157,13 @@
         <!-- TOC -->
         <section>
             <SectionHeading>What's in this guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner">
+            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
                 <ul class="space-y-3">
                     {#each toc as item}
                     <li>
-                        <a href="#{item.id}" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#{item.id}" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform flex-shrink-0">{item.num}</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform flex-shrink-0">{item.num}</span>
                                 <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors text-sm md:text-base">{item.label}</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
@@ -338,7 +338,7 @@
                     ["Are you on shared hosting or resource-constrained infrastructure?", "If yes, push more work to pre-upload tools to reduce server-side processing load."]
                 ] as [q, a], i}
                 <li class="flex gap-4 items-start p-5 bg-white border border-pink-50 rounded-2xl shadow-sm">
-                    <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 flex-shrink-0 mt-0.5">{i + 1}</span>
+                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 flex-shrink-0 mt-0.5">{i + 1}</span>
                     <span><strong>{q}</strong> {a}</span>
                 </li>
                 {/each}

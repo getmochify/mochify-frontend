@@ -111,76 +111,76 @@
         <section class="my-12">
             <SectionHeading>What's in This Guide</SectionHeading>
 
-            <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner">
+            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
                 <ul class="space-y-3">
                     <li>
-                        <a href="#what-is" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#what-is" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">01</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">What is Mochify's natural language compression feature?</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">01</span>
+                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">What is Mochify's natural language compression feature?</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#how-it-works" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#how-it-works" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">02</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">How the AI picks your compression settings</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">02</span>
+                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">How the AI picks your compression settings</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#formats" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#formats" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">03</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Format selection: WebP, AVIF, JXL, or JPEG</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">03</span>
+                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Format selection: WebP, AVIF, JXL, or JPEG</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#resizing" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#resizing" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">04</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Smart resizing and cropping from plain English</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">04</span>
+                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Smart resizing and cropping from plain English</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#exif" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#exif" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">05</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">EXIF stripping on request</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">05</span>
+                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">EXIF stripping on request</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#how-to-use" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#how-to-use" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">06</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">How to use it right now</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">06</span>
+                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">How to use it right now</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#cheat-sheet" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#cheat-sheet" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">07</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Cheat sheet: prompt examples and what they produce</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">07</span>
+                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Cheat sheet: prompt examples and what they produce</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#faq" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#faq" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">08</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">FAQ</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">08</span>
+                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">FAQ</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
@@ -329,26 +329,26 @@
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">Related guides</h2>
             <ul class="space-y-3">
                 <li>
-                    <a href="/guides/2026-guide-next-gen-formats" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                        <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL <span class="font-normal opacity-70">— Which format is right for which job, with benchmarks</span></span>
+                    <a href="/guides/2026-guide-next-gen-formats" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL <span class="font-normal opacity-70">— Which format is right for which job, with benchmarks</span></span>
                         <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </li>
                 <li>
-                    <a href="/guides/exif-data-risks-image-compression-2026" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                        <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">The Risks of EXIF Data in Image Compression (2026) <span class="font-normal opacity-70">— Why stripping metadata matters</span></span>
+                    <a href="/guides/exif-data-risks-image-compression-2026" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">The Risks of EXIF Data in Image Compression (2026) <span class="font-normal opacity-70">— Why stripping metadata matters</span></span>
                         <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </li>
                 <li>
-                    <a href="/guides/privacy-image-optimization" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                        <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Privacy & Image Optimization: A Comprehensive Guide (2026) <span class="font-normal opacity-70">— Zero-retention explained</span></span>
+                    <a href="/guides/privacy-image-optimization" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Privacy & Image Optimization: A Comprehensive Guide (2026) <span class="font-normal opacity-70">— Zero-retention explained</span></span>
                         <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </li>
                 <li>
-                    <a href="/guides/self-hosting-image-optimization-docker" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                        <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">How to Self-Host an Image Optimization API with Docker <span class="font-normal opacity-70">— For teams who want full control</span></span>
+                    <a href="/guides/self-hosting-image-optimization-docker" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">How to Self-Host an Image Optimization API with Docker <span class="font-normal opacity-70">— For teams who want full control</span></span>
                         <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </li>

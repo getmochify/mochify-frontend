@@ -103,30 +103,30 @@
         <!-- TOC -->
         <section class="my-12">
             <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100 shadow-inner">
+            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
                 <ul class="space-y-3">
                     <li>
-                        <a href="#how-each-app-handles-images" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#how-each-app-handles-images" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">01</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">01</span>
                                 <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">How each app handles images</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#pain-points" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#pain-points" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">02</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">02</span>
                                 <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Pain points: months 1–6 and beyond</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
                     <li>
-                        <a href="#fix-before-attach" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href="#fix-before-attach" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="flex items-center gap-4">
-                                <span class="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xs font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">03</span>
+                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">03</span>
                                 <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Fix it before you attach</span>
                             </span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
@@ -221,25 +221,25 @@
 
             <ol class="space-y-4 mb-8 list-none pl-0">
                 <li class="flex gap-4">
-                    <span class="w-8 h-8 shrink-0 rounded-full bg-pink-50 border border-pink-100 flex items-center justify-center text-xs font-black text-mochi-pink mt-0.5">1</span>
+                    <span class="w-8 h-8 shrink-0 rounded-full bg-pink-50 border border-pink-100 flex items-center justify-center text-[10px] font-black text-mochi-pink mt-0.5">1</span>
                     <div>
                         <p class="mb-1"><strong>Batch your screenshots before adding them to your journal.</strong> Drag them into Mochify and type: <em>"resize screenshots to 1200px wide, convert to WebP at 80% quality"</em>. Magic Flow parses the intent and applies settings automatically - no format dropdowns, no manual configuration.</p>
                     </div>
                 </li>
                 <li class="flex gap-4">
-                    <span class="w-8 h-8 shrink-0 rounded-full bg-pink-50 border border-pink-100 flex items-center justify-center text-xs font-black text-mochi-pink mt-0.5">2</span>
+                    <span class="w-8 h-8 shrink-0 rounded-full bg-pink-50 border border-pink-100 flex items-center justify-center text-[10px] font-black text-mochi-pink mt-0.5">2</span>
                     <div>
                         <p class="mb-1"><strong>Handle HEIC and JPEG photos in one pass.</strong> Type: <em>"convert HEIC and JPG to WebP, strip location and EXIF data"</em>. You'll typically see 80–90% file size reduction versus the originals Day One would have stored. A 4.8 MB JPEG from Day One's pipeline becomes roughly 400–600 KB.</p>
                     </div>
                 </li>
                 <li class="flex gap-4">
-                    <span class="w-8 h-8 shrink-0 rounded-full bg-pink-50 border border-pink-100 flex items-center justify-center text-xs font-black text-mochi-pink mt-0.5">3</span>
+                    <span class="w-8 h-8 shrink-0 rounded-full bg-pink-50 border border-pink-100 flex items-center justify-center text-[10px] font-black text-mochi-pink mt-0.5">3</span>
                     <div>
                         <p class="mb-1"><strong>Run regular journal export cleanups.</strong> If you've already got a bloated archive, export your photos, batch-process them through Mochify, and re-import. It's a one-time fix that pays off across years of syncs.</p>
                     </div>
                 </li>
                 <li class="flex gap-4">
-                    <span class="w-8 h-8 shrink-0 rounded-full bg-pink-50 border border-pink-100 flex items-center justify-center text-xs font-black text-mochi-pink mt-0.5">4</span>
+                    <span class="w-8 h-8 shrink-0 rounded-full bg-pink-50 border border-pink-100 flex items-center justify-center text-[10px] font-black text-mochi-pink mt-0.5">4</span>
                     <div>
                         <p class="mb-1"><strong>Use the API or CLI for automated workflows.</strong> If you're technically inclined, pipe images through the API with a plain-English description before they hit your journal app. The free tier covers 25 images per month with no account needed.</p>
                     </div>
@@ -266,8 +266,8 @@
                     { href: '/guides/privacy-image-optimization', title: 'Privacy & Image Optimization', desc: 'Zero-retention compression explained - why it matters for personal photo archives.' },
                 ] as guide}
                     <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
+                        <a href={guide.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>

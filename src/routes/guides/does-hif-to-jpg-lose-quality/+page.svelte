@@ -106,7 +106,7 @@
     </header>
 
     <!-- TOC -->
-    <nav class="bg-[#FFF5F7] border border-pink-100 rounded-3xl p-8 mb-12" aria-label="What's in this guide">
+    <nav class="bg-[#FFF5F7] border border-pink-100 rounded-3xl p-4 mb-8" aria-label="What's in this guide">
         <h2 class="font-black text-[#4A2C2C] text-base mb-5 flex items-center gap-3">
             <span class="w-1.5 h-6 bg-[#F06292] rounded-full shrink-0"></span>
             What's in This Guide
