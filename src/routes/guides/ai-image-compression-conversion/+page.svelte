@@ -405,12 +405,15 @@
 
         <!-- 11. FAQ -->
         <section id="faq" class="scroll-mt-24">
-            <SectionHeading>FAQ</SectionHeading>
-            <div class="space-y-4">
-                {#each faqs as item}
-                    <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
-                        <h3 class="text-lg font-black text-[#4A2C2C] mb-2">{item.q}</h3>
-                        <p class="mb-0 text-base">{item.a}</p>
+            <h2 class="text-2xl font-black text-[#4A2C2C] mb-8 flex items-center gap-3">
+                <span class="w-1.5 h-7 bg-[#F06292] rounded-full inline-block flex-shrink-0"></span>
+                FAQ
+            </h2>
+            <div class="divide-y divide-pink-50">
+                {#each faqs as faq}
+                    <div class="py-6">
+                        <h3 class="font-bold text-[#4A2C2C] text-lg mb-3">{faq.q}</h3>
+                        <p class="text-[#6C3F31] text-base leading-relaxed">{faq.a}</p>
                     </div>
                 {/each}
             </div>

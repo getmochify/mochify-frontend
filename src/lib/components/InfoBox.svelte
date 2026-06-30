@@ -55,4 +55,10 @@
     h4 {
         margin-top: 0;
     }
+
+    aside :global(code) {
+        font-size: 0.8125rem;
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
 </style>

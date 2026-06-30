@@ -433,7 +433,7 @@
         <!-- Section 7: Mochify Workflow -->
         <section id="mochify-workflow" class="scroll-mt-24">
             <div class="bg-gradient-to-br from-[#FFF5F7] to-white border border-pink-100 rounded-3xl p-8 md:p-10">
-                <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
+                <h2 class="!mt-0 !border-b-0 text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
                     <span class="w-1.5 h-7 bg-[#F06292] rounded-full inline-block flex-shrink-0"></span>
                     Mochify Workflow: HEIC Photos to PDF
                 </h2>
