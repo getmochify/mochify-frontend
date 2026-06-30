@@ -368,7 +368,7 @@
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    const featuredGuides = $derived(guides.filter(g => g.featured));
+    const featuredGuides = guides.filter(g => g.featured);
 
     const categories = ['All', ...Array.from(new Set(guides.map(g => g.category)))];
     let selectedCategory = $state('All');
@@ -496,7 +496,7 @@
     {#each categories as cat}
         <button
             onclick={() => selectedCategory = cat}
-            class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 {selectedCategory === cat ? 'bg-mochi-pink text-white shadow-md' : 'bg-pink-50 text-pink-400 hover:bg-pink-100'}"
+            class="cursor-pointer px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 {selectedCategory === cat ? 'bg-mochi-pink text-white shadow-md' : 'bg-pink-50 text-pink-400 hover:bg-pink-100'}"
         >
             {cat}
         </button>
