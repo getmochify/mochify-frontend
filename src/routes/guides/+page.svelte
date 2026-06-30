@@ -6,6 +6,15 @@
 
     const guides = [
         {
+            title: "AI Image Compression and Conversion: Describe the Result, Skip the Settings",
+            description: "Describe the result in plain English and let Mochify pick the format, quality and size. How natural-language image compression works, from a browser prompt to a fully agentic pipeline.",
+            url: "/guides/ai-image-compression-conversion",
+            category: "AI & Automation",
+            readTime: "12 min read",
+            date: "June 30, 2026",
+            featured: true
+        },
+        {
             title: "How to Convert iPhone Photos (HEIC) to PDF",
             description: "Convert iPhone HEIC photos to PDF on any device - iPhone, Mac, Windows, or online. Native methods, batch tips, and a one-click tool. No app needed.",
             url: "/guides/heic-to-pdf-iphone-photos",
@@ -115,7 +124,8 @@
             url: "/guides/on-device-ai-agents-image-optimization",
             category: "AI & Automation",
             readTime: "15 min read",
-            date: "June 2, 2026"
+            date: "June 2, 2026",
+            featured: true
         },
         {
             title: "SVG Conversion Guide: When to Keep Vector and When to Rasterize",
@@ -240,7 +250,8 @@
             url: "/guides/how-the-mochify-mcp-server-works",
             category: "AI & Automation",
             readTime: "9 min read",
-            date: "May 28, 2026"
+            date: "May 28, 2026",
+            featured: true
         },
         {
             title: "A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression",
@@ -357,6 +368,8 @@
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+    const featuredGuides = $derived(guides.filter(g => g.featured));
+
     const categories = ['All', ...Array.from(new Set(guides.map(g => g.category)))];
     let selectedCategory = $state('All');
     const filteredGuides = $derived(
@@ -413,6 +426,72 @@
     </p>
 </header>
 
+{#if featuredGuides.length > 0}
+<section class="mb-14" aria-label="Featured guides">
+    <div class="flex items-center gap-3 mb-6">
+        <span class="w-1.5 h-7 bg-[#F06292] rounded-full shrink-0"></span>
+        <h2 class="text-2xl font-black text-[#4A2C2C]">Featured</h2>
+    </div>
+
+    <!-- Primary featured guide -->
+    <a href={featuredGuides[0].url} class="group block relative overflow-hidden bg-gradient-to-br from-[#3D2020] via-[#5C2E2E] to-[#7A3F3F] rounded-3xl p-8 md:p-10 border border-white/10 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 no-underline mb-5">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjEiIGZpbGw9InJnYmEoMjQwLDk4LDE0NiwwLjA4KSIvPjwvZz48L3N2Zz4=')] opacity-40"></div>
+        <div class="absolute top-0 right-0 w-72 h-72 bg-[#F06292]/10 rounded-full blur-3xl -mt-20 -mr-20 group-hover:bg-[#F06292]/15 transition-colors duration-500"></div>
+        <div class="relative z-10">
+            <div class="flex flex-wrap items-center gap-2 mb-6">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F06292]/20 text-[#F06292] text-xs font-black uppercase tracking-wider border border-[#F06292]/30">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#F06292] animate-pulse"></span>
+                    Featured
+                </span>
+                <span class="inline-block px-3 py-1 rounded-full bg-white/10 text-white/60 text-xs font-bold uppercase tracking-wider">
+                    {featuredGuides[0].category}
+                </span>
+                <span class="text-white/40 text-xs font-semibold">{featuredGuides[0].readTime}</span>
+            </div>
+            <h3 class="text-2xl md:text-4xl font-black text-white group-hover:text-[#F06292] transition-colors duration-200 mb-4 leading-tight max-w-3xl">
+                {featuredGuides[0].title}
+            </h3>
+            <p class="text-white/60 text-base md:text-lg leading-relaxed mb-8 max-w-2xl">
+                {featuredGuides[0].description}
+            </p>
+            <div class="flex items-center justify-between">
+                <span class="text-white/30 text-xs font-bold">{featuredGuides[0].date}</span>
+                <span class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F06292] hover:bg-[#E91E63] text-white text-sm font-black rounded-xl shadow-lg shadow-[#F06292]/30 group-hover:translate-x-1 transition-all duration-200">
+                    Read Guide
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </span>
+            </div>
+        </div>
+    </a>
+
+    <!-- Secondary featured guides -->
+    {#if featuredGuides.length > 1}
+    <div class="grid md:grid-cols-2 gap-5">
+        {#each featuredGuides.slice(1) as guide}
+        <a href={guide.url} class="group block bg-gradient-to-br from-[#FFF5F7] to-white rounded-3xl p-6 border border-pink-100 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 no-underline">
+            <div class="flex flex-wrap items-center gap-2 mb-4">
+                <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#F06292]/10 text-[#F06292] text-[10px] font-black uppercase tracking-wider border border-[#F06292]/20">
+                    Featured
+                </span>
+                <span class="text-[10px] font-bold text-[#875F42] uppercase tracking-wider">{guide.category}</span>
+            </div>
+            <h3 class="text-lg md:text-xl font-black text-[#4A2C2C] group-hover:text-[#F06292] transition-colors mb-3 leading-snug">
+                {guide.title}
+            </h3>
+            <p class="text-[#875F42] text-sm leading-relaxed mb-4 opacity-80 line-clamp-3">
+                {guide.description}
+            </p>
+            <div class="flex items-center justify-between text-xs font-bold text-[#875F42]/60 pt-4 border-t border-pink-50">
+                <span>{guide.date} · {guide.readTime}</span>
+                <span class="text-[#F06292] group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+        </a>
+        {/each}
+    </div>
+    {/if}
+</section>
+{/if}
+
 <div class="flex flex-wrap gap-2 justify-center mb-10">
     {#each categories as cat}
         <button
@@ -427,9 +506,16 @@
 <div class="grid gap-8 mb-24">
     {#each filteredGuides as guide}
         <a href={guide.url} class="group block bg-white rounded-3xl p-8 border border-pink-50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 no-underline">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider mb-4">
-                {guide.category}
-            </span>
+            <div class="flex flex-wrap items-center gap-2 mb-4">
+                <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider">
+                    {guide.category}
+                </span>
+                {#if guide.featured}
+                <span class="inline-block px-2.5 py-1 rounded-full bg-[#F06292]/10 text-[#F06292] text-xs font-black uppercase tracking-wider border border-[#F06292]/20">
+                    Featured
+                </span>
+                {/if}
+            </div>
     
             <h2 class="text-2xl md:text-3xl font-black text-[#4A2C2C] group-hover:text-[#F06292] transition-colors mb-3">
                 {guide.title}
