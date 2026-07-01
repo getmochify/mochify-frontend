@@ -47,7 +47,7 @@
     }
     
     :global(article h2) {
-        font-size: 2rem;
+        font-size: 1.75rem;
         font-weight: 800;
         color: #4A2C2C;
         margin-top: 3.5rem;
@@ -55,7 +55,13 @@
         line-height: 1.3;
         letter-spacing: -0.02em;
     }
-    
+
+    @media (max-width: 767px) {
+        :global(article h2) {
+            font-size: 1.45rem;
+        }
+    }
+
     :global(article h3) {
         font-size: 1.5rem;
         font-weight: 700;
@@ -80,6 +86,44 @@
     :global(article p) {
         color: #4A2C2C;
         letter-spacing: 0;
+    }
+
+    /* FAQ rhythm */
+    :global(article .faq-item) {
+        margin-bottom: 2.5rem;
+    }
+    :global(article .faq-item:last-child) {
+        margin-bottom: 0;
+    }
+    :global(article .faq-item:not(:last-child)) {
+        position: relative;
+        padding-bottom: 2.5rem;
+    }
+    :global(article .faq-item:not(:last-child)::after) {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 1.5rem;
+        width: 96px;
+        height: 2px;
+        border-radius: 99px;
+        background: linear-gradient(90deg, #D6CEC5, #E2DAD1, rgba(226, 218, 209, 0));
+    }
+    :global(article .faq-item h3) {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: #4A2C2C;
+        margin-top: 0;
+        margin-bottom: 0.75rem;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+    }
+    :global(article .faq-item p) {
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: #6C3F31;
+        margin-top: 0;
+        margin-bottom: 0;
     }
 
     :global(article a:not([class])) {
@@ -124,6 +168,8 @@
         overflow-x: auto;
         font-size: 0.9375rem;
         line-height: 1.7;
+        margin-top: 1.75rem;
+        margin-bottom: 1.75rem;
     }
     
     :global(article pre code) {
@@ -239,5 +285,19 @@
         background: linear-gradient(to right, #FFB3C6, #F06292);
         z-index: 100;
         transition: width 0.1s ease;
+    }
+
+    /* TOC card rows: graceful wrapping for long titles.
+       Number badge and chevron never shrink; title text sits tight when it wraps. */
+    :global(article nav ul li a > span > span:first-of-type) {
+        flex-shrink: 0;
+    }
+
+    :global(article nav ul li a > span > span:last-of-type) {
+        line-height: 1.25;
+    }
+
+    :global(article nav ul li a > svg) {
+        flex-shrink: 0;
     }
 </style>

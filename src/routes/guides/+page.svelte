@@ -430,7 +430,7 @@
 <section class="mb-14" aria-label="Featured guides">
     <div class="flex items-center gap-3 mb-6">
         <span class="w-1.5 h-7 bg-[#F06292] rounded-full shrink-0"></span>
-        <h2 class="text-2xl font-black text-[#4A2C2C]">Featured</h2>
+        <h2 class="text-[1.75rem] font-black text-[#4A2C2C]">Featured</h2>
     </div>
 
     <!-- Primary featured guide -->

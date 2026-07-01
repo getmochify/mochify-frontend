@@ -59,6 +59,26 @@
     let isFileSizeError = $state(false);
     let isFileLimitError = $state(false);
     let shaking = $state(false);
+
+    const dayPassCheckoutUrl = $derived(
+        (() => {
+            if (!env.PUBLIC_POLAR_DAY_PASS_URL) return ''
+            const u = new URL(page.url.href)
+            u.searchParams.set('day_pass_success', '1')
+            return `${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(u.toString())}`
+        })()
+    )
+
+    let dayPassSuccess = $state(false)
+    $effect(() => {
+        if (page.url.searchParams.has('day_pass_success')) {
+            dayPassSuccess = true
+            const clean = new URL(page.url.href)
+            clean.searchParams.delete('day_pass_success')
+            history.replaceState({}, '', clean.toString())
+        }
+    })
+
     let processPhase: 'idle' | 'uploading' | 'processing' | 'downloading' = $state('idle');
     let uploadPercent: number = $state(0);
     let downloadPercent: number = $state(0);
@@ -268,11 +288,7 @@
         if (blockedByFileSize) {
             if (!isAuthenticated && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL) {
                 posthog.capture('day_pass_cta_clicked', { trigger: 'button_click_file_size' });
-                window.open(
-                    `${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(window.location.href)}`,
-                    '_blank',
-                    'noopener,noreferrer'
-                );
+                window.open(dayPassCheckoutUrl, '_blank', 'noopener,noreferrer');
             } else if (!isAuthenticated) {
                 showSignupCta = true;
                 posthog.capture('signup_cta_shown', { trigger: 'button_click_file_size' });
@@ -627,6 +643,26 @@
             <p class="text-lg font-bold tracking-tight text-[#4A2C2C] drop-shadow-md">
                 Drop it like it's hot
             </p>
+        </div>
+    {/if}
+
+    {#if dayPassSuccess}
+        <div class="m-4 sm:m-6 flex items-start gap-3 rounded-2xl border border-[#F06292]/20 bg-[#FFF5F7] px-4 py-4">
+            <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-[#F06292]/10">
+                <svg class="h-4 w-4 text-[#F06292]" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                </svg>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-black text-[#4A2C2C]">Payment received — check your email</p>
+                <p class="mt-0.5 text-xs text-[#6C3F31]/70">We've sent a magic link to activate your Day Pass. Click it to unlock 500 image ops for 24 hours.</p>
+            </div>
+            <button onclick={() => (dayPassSuccess = false)} aria-label="Dismiss" class="flex-shrink-0 text-[#875F42]/40 hover:text-[#875F42] transition-colors">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
         </div>
     {/if}
 
@@ -1096,7 +1132,7 @@
                     <div class="flex flex-col gap-3">
                         {#if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
                             <a
-                                href={`${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(page.url.href)}`}
+                                href={dayPassCheckoutUrl}
                                 target="_blank" rel="noopener noreferrer"
                                 class="block rounded-2xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
                             >
@@ -1185,7 +1221,7 @@
                     </p>
                     <div class="flex flex-col gap-3">
                         <a
-                            href={`${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(page.url.href)}`}
+                            href={dayPassCheckoutUrl}
                             class="block rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
                         >
                             Get Day Pass — $2

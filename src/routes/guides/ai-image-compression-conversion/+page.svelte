@@ -4,6 +4,7 @@
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: 'AI Image Compression and Conversion: Describe the Result, Skip the Settings',
@@ -404,20 +405,7 @@
         </section>
 
         <!-- 11. FAQ -->
-        <section id="faq" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-8 flex items-center gap-3">
-                <span class="w-1.5 h-7 bg-[#F06292] rounded-full inline-block flex-shrink-0"></span>
-                FAQ
-            </h2>
-            <div class="divide-y divide-pink-50">
-                {#each faqs as faq}
-                    <div class="py-6">
-                        <h3 class="font-bold text-[#4A2C2C] text-lg mb-3">{faq.q}</h3>
-                        <p class="text-[#6C3F31] text-base leading-relaxed">{faq.a}</p>
-                    </div>
-                {/each}
-            </div>
-        </section>
+        <GuideFAQs items={faqs} />
 
         <!-- CTA -->
         <div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">

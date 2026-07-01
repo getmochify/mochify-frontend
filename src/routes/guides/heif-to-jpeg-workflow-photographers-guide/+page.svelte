@@ -3,6 +3,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: "HIF/HEIF to JPEG for Professional Photographers: A Privacy-First Workflow Guide",
@@ -11,6 +12,17 @@
         readTime: "12 min read",
         date: "April 23, 2026"
     };
+
+    const faqItems = [
+        { q: 'Can Mochify accept Canon HIF files directly, without pre-converting them first?', a: 'Yes. Mochify accepts HEIF and HIF files as direct inputs. You do not need to convert to JPEG or TIFF first - upload the HIF files from your camera card or Lightroom export folder, describe the output you want in plain English, and Mochify handles the conversion in a single pass.' },
+        { q: 'What happens to my files after Mochify processes them?', a: "Nothing - because they are never stored. Mochify's pipeline is fully in-memory. Files stream through RAM during processing and are discarded immediately after your download completes. Nothing is written to disk, nothing is retained, and uploaded images are never used for AI training or added to any database." },
+        { q: 'Can I strip GPS from editorial images while keeping caption and copyright IPTC data?', a: 'Yes. Use a prompt like "convert to JPEG for wire delivery, preserve caption and copyright IPTC, strip GPS coordinates." Magic Flow distinguishes between metadata types and applies selective stripping accordingly.' },
+        { q: 'What is jpegli, and why does it matter for my client gallery deliveries?', a: "jpegli is Google's modern JPEG encoder. It produces standard JPEG files - compatible with every device, browser, and gallery platform - but at roughly 25-30% smaller file sizes than traditional libjpeg-turbo encoders at equivalent quality. Your clients see the same image quality; the files upload faster and take up less storage on gallery platforms." },
+        { q: 'Is AVIF worth using for client gallery deliveries yet?', a: 'Not as your primary gallery format - gallery platforms still expect JPEG as the upload format, and AVIF browser support, while good (~90% of current releases), is not universal enough to replace JPEG for client-facing downloads. Use AVIF for your own website, portfolio, and any e-commerce platform where you control the frontend HTML. Deliver JPEG to clients and galleries.' },
+        { q: 'How many images can I process per month on the Pro plan?', a: 'The Pro plan at $24.99/month includes 1,200 images per month with 25-file batches, 75 MB max file size, top priority queue, and full API and CLI access. That covers roughly 4-6 full wedding or commercial shoot deliveries per month.' },
+        { q: 'Does the Mochify CLI work with Lightroom export scripts?', a: "Yes. The CLI accepts folder paths and glob patterns, so you can point it at a Lightroom export folder and run a single command to generate all platform derivative sets. Combine this with Lightroom's \"post-process action\" setting to trigger the CLI automatically after each export job." },
+        { q: 'What color profile should I use for web gallery delivery?', a: 'sRGB. Most gallery platforms display images using sRGB color spaces, and files delivered in Adobe RGB or ProPhoto RGB will display with muted, undersaturated colors on any platform that does not perform color profile conversion. Specify sRGB in your Magic Flow prompt and Mochify converts the color space during processing.' },
+    ];
 </script>
 
 <ReadProgress />
@@ -221,7 +233,7 @@
 
             <div class="my-10 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
                 <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-                <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3">Process your first batch for free</h3>
+                <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Process your first batch for free</h3>
                 <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6">No account needed. Drag your HIF or HEIF files, describe your output in plain English, download gallery-ready JPEGs in seconds.</p>
                 <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                     Try Mochify free →
@@ -384,7 +396,7 @@
 
             <div class="my-10 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
                 <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-                <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3">Try Mochify free - no account needed</h3>
+                <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Try Mochify free - no account needed</h3>
                 <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6">Process your first files instantly. No signup, no data retained.</p>
                 <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                     Start at mochify.app →
@@ -452,50 +464,7 @@
         </section>
 
         <!-- FAQ -->
-        <section id="faq">
-            <SectionHeading>FAQ</SectionHeading>
-            <div class="flex flex-col gap-7 mt-5">
-                {#each [
-                    {
-                        q: 'Can Mochify accept Canon HIF files directly, without pre-converting them first?',
-                        a: 'Yes. Mochify accepts HEIF and HIF files as direct inputs. You do not need to convert to JPEG or TIFF first - upload the HIF files from your camera card or Lightroom export folder, describe the output you want in plain English, and Mochify handles the conversion in a single pass.'
-                    },
-                    {
-                        q: 'What happens to my files after Mochify processes them?',
-                        a: "Nothing - because they are never stored. Mochify's pipeline is fully in-memory. Files stream through RAM during processing and are discarded immediately after your download completes. Nothing is written to disk, nothing is retained, and uploaded images are never used for AI training or added to any database."
-                    },
-                    {
-                        q: 'Can I strip GPS from editorial images while keeping caption and copyright IPTC data?',
-                        a: 'Yes. Use a prompt like "convert to JPEG for wire delivery, preserve caption and copyright IPTC, strip GPS coordinates." Magic Flow distinguishes between metadata types and applies selective stripping accordingly.'
-                    },
-                    {
-                        q: 'What is jpegli, and why does it matter for my client gallery deliveries?',
-                        a: "jpegli is Google's modern JPEG encoder. It produces standard JPEG files - compatible with every device, browser, and gallery platform - but at roughly 25-30% smaller file sizes than traditional libjpeg-turbo encoders at equivalent quality. Your clients see the same image quality; the files upload faster and take up less storage on gallery platforms."
-                    },
-                    {
-                        q: 'Is AVIF worth using for client gallery deliveries yet?',
-                        a: 'Not as your primary gallery format - gallery platforms still expect JPEG as the upload format, and AVIF browser support, while good (~90% of current releases), is not universal enough to replace JPEG for client-facing downloads. Use AVIF for your own website, portfolio, and any e-commerce platform where you control the frontend HTML. Deliver JPEG to clients and galleries.'
-                    },
-                    {
-                        q: 'How many images can I process per month on the Pro plan?',
-                        a: 'The Pro plan at $24.99/month includes 1,200 images per month with 25-file batches, 75 MB max file size, top priority queue, and full API and CLI access. That covers roughly 4–6 full wedding or commercial shoot deliveries per month.'
-                    },
-                    {
-                        q: 'Does the Mochify CLI work with Lightroom export scripts?',
-                        a: "Yes. The CLI accepts folder paths and glob patterns, so you can point it at a Lightroom export folder and run a single command to generate all platform derivative sets. Combine this with Lightroom's \"post-process action\" setting to trigger the CLI automatically after each export job."
-                    },
-                    {
-                        q: 'What color profile should I use for web gallery delivery?',
-                        a: 'sRGB. Most gallery platforms display images using sRGB color spaces, and files delivered in Adobe RGB or ProPhoto RGB will display with muted, undersaturated colors on any platform that does not perform color profile conversion. Specify sRGB in your Magic Flow prompt and Mochify converts the color space during processing.'
-                    },
-                ] as item}
-                    <div class="border-b border-pink-50 pb-6 last:border-b-0 last:pb-0">
-                        <h3 class="text-base font-black text-[#4A2C2C] mb-2 mt-0">{item.q}</h3>
-                        <p class="text-[#6C3F31] text-base m-0">{item.a}</p>
-                    </div>
-                {/each}
-            </div>
-        </section>
+        <GuideFAQs items={faqItems} />
 
         <!-- Related guides -->
         <section>
@@ -510,7 +479,7 @@
                     { href: '/guides/should-i-optimize-images-before-upload', title: 'Should I Optimize Images Before I Upload?', desc: 'A practical guide to pre-upload optimization for every platform.' },
                 ] as guide}
                     <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>

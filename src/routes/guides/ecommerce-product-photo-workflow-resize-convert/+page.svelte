@@ -3,6 +3,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: "Ecommerce Product Photo Workflow: Resize & Convert in One Prompt",
@@ -220,7 +221,7 @@
 
             <div class="my-6 rounded-2xl border border-pink-200 bg-[#FFF5F7] px-6 py-5">
                 <p class="text-xs font-bold tracking-widest uppercase text-[#F06292]/70 mb-2">✦ Magic Flow prompt</p>
-                <p class="text-2xl font-black text-[#4A2C2C] m-0">"convert to jpg, resize to 1200px and 800px"</p>
+                <p class="text-[1.75rem] font-black text-[#4A2C2C] m-0">"convert to jpg, resize to 1200px and 800px"</p>
             </div>
 
             <p>Magic Flow parses that intent and runs the squish engine twice per file - once at 1200px, once at 800px - returning both outputs in a single ZIP. No format picker, no slider for each size, no second upload. The engine resolves width-only instructions against the longest edge and preserves the original aspect ratio unless you explicitly ask for a crop.</p>
@@ -303,7 +304,7 @@
         <!-- Inline CTA -->
         <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Try it now - drop your product photos</h3>
+            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Try it now - drop your product photos</h3>
             <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base">3 images free, no account needed. Type the prompt, upload your shots, download both sizes.</p>
             <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                 Open Magic Flow →
@@ -347,22 +348,12 @@
         </section>
 
         <!-- FAQ -->
-        <section id="faq">
-            <SectionHeading>FAQ</SectionHeading>
-            <div class="divide-y divide-pink-50">
-                {#each faqItems as item}
-                    <div class="py-5">
-                        <h3 class="text-base font-black text-[#4A2C2C] mb-2 mt-0">{item.q}</h3>
-                        <p class="text-base leading-relaxed m-0">{item.a}</p>
-                    </div>
-                {/each}
-            </div>
-        </section>
+        <GuideFAQs items={faqItems} />
 
         <!-- Final CTA -->
         <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Ready to process your catalogue?</h3>
+            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Ready to process your catalogue?</h3>
             <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base">Start free. Upgrade for batches up to 25 files, background removal, and priority processing.</p>
             <a href="/pricing" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                 See plans &amp; pricing →
@@ -375,7 +366,7 @@
             <ul class="space-y-3">
                 {#each relatedGuides as guide}
                     <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>

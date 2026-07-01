@@ -3,6 +3,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: "HIF to JPG: Convert Canon, Sony & Fujifilm Photos to Shareable JPEGs",
@@ -392,22 +393,12 @@
         </section>
 
         <!-- FAQ -->
-        <section id="faq">
-            <SectionHeading>Frequently Asked Questions</SectionHeading>
-            <div class="flex flex-col gap-7 mt-5">
-                {#each faqs as item}
-                    <div class="border-b border-pink-50 pb-6 last:border-b-0 last:pb-0">
-                        <h3 class="text-base font-black text-[#4A2C2C] mb-2 mt-0">{item.q}</h3>
-                        <p class="text-[#6C3F31] text-base m-0">{item.a}</p>
-                    </div>
-                {/each}
-            </div>
-        </section>
+        <GuideFAQs items={faqs} heading="Frequently Asked Questions" />
 
         <!-- CTA -->
         <div class="my-10 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3">Convert HIF to JPG in one step</h3>
+            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Convert HIF to JPG in one step</h3>
             <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6">Drop your files, type a prompt like <em>"convert to JPG and strip location data"</em>, and Mochify handles the rest - jpegli for quality-first encoding and your choice of metadata handling.</p>
             <a href="/solutions/hif-to-jpg" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                 Try HIF to JPG free →
@@ -420,7 +411,7 @@
             <ul class="space-y-3">
                 {#each related as guide}
                     <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7" /></svg>
                         </a>

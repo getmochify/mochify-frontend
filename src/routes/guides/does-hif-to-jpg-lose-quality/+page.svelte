@@ -107,9 +107,9 @@
 
     <!-- TOC -->
     <nav class="bg-[#FFF5F7] border border-pink-100 rounded-3xl p-4 mb-8" aria-label="What's in this guide">
-        <h2 class="font-black text-[#4A2C2C] text-base mb-5 flex items-center gap-3">
-            <span class="w-1.5 h-6 bg-[#F06292] rounded-full shrink-0"></span>
+        <h2 class="font-black text-[#4A2C2C] text-base mb-8">
             What's in This Guide
+            <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
         </h2>
         <ol class="space-y-3">
             {#each [

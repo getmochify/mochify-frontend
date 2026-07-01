@@ -2,6 +2,7 @@
     import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
@@ -229,7 +230,7 @@
 
         <!-- 1. Hardware shift -->
         <section id="hardware-shift" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">1. The On-Device AI Hardware Shift</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">1. The On-Device AI Hardware Shift</h2>
             <p class="mb-4">The gap between cloud AI and desktop AI is closing faster than most people expected, and two hardware announcements in the first half of 2026 make the change concrete enough to build workflows around.</p>
             <p class="mb-4"><strong class="text-[#4A2C2C]">NVIDIA DGX Spark</strong> is a compact desktop unit built around the GB10 Grace Blackwell superchip. According to <a href="https://docs.nvidia.com/dgx/dgx-spark/hardware.html" target="_blank" rel="noopener noreferrer">NVIDIA's DGX Spark hardware documentation</a>, it delivers 1 PFLOP of FP4 AI performance, 128 GB of LPDDR5X unified memory at 273 GB/s bandwidth, and 4 TB of NVMe storage. That memory is coherently shared between the CPU and GPU - which is what makes it viable for large-model inference, not just smaller assistant models. Independent benchmark aggregations from May 2026 put 70B Q4 models at roughly 35-45 tokens per second on DGX Spark, versus 25-32 t/s on a 128 GB Mac Studio M5 Max. Both figures are usable for interactive agent workflows; neither approaches datacenter throughput.</p>
             <p class="mb-4"><strong class="text-[#4A2C2C]">NVIDIA RTX Spark</strong> was announced on 1 June 2026 in a joint release with Microsoft. It's a new superchip designed for Windows laptops and compact desktops, built on GB10-derived silicon, with a 20-core Grace CPU, 6,144 CUDA cores on a Blackwell GPU, and up to 128 GB of unified memory. The press materials describe it as enabling "personal agents on device" and position it as the hardware backbone for an "agentic AI OS." OEM systems including the Surface Laptop Ultra, Dell XPS 16 Creator Edition, and ASUS ProArt P16 are slated to ship in fall 2026.</p>
@@ -239,7 +240,7 @@
 
         <!-- 2. Capabilities -->
         <section id="capabilities" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">2. What Local Agents Can (and Can't) Do Today</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">2. What Local Agents Can (and Can't) Do Today</h2>
             <p class="mb-4">Local agents running on 128 GB hardware are genuinely capable for a well-defined class of tasks. The practical ceiling is the 7-70B model range.</p>
             <p class="mb-4">For the 7-13B tier - which runs comfortably on 16-32 GB AI PCs at 30-100+ tokens per second - you get reliable performance on coding assistance, document Q&amp;A, summarisation, and structured data extraction. These models handle tool-use frameworks well: they can plan a multi-step workflow, call tools via MCP, interpret results, and act on them without needing frontier-model reasoning quality. For straightforward image batch processing or file organisation tasks, a well-prompted 7B model orchestrating the right tools is entirely workable.</p>
             <p class="mb-4">At the 70B tier on 128 GB systems, reasoning quality improves substantially. Models like Llama 3.3 70B at Q4 quantization fit in around 42-48 GB of memory, leaving headroom for context and KV cache. The throughput is slower, but for batch workflows that run in the background - processing a folder of assets, converting documents, auditing a codebase - the 25-45 t/s range is plenty.</p>
@@ -250,7 +251,7 @@
 
         <!-- 3. MCP local -->
         <section id="mcp-local" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">3. How MCP Connects Agents to Local Tools</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">3. How MCP Connects Agents to Local Tools</h2>
             <p class="mb-4">MCP (Model Context Protocol) is an open standard introduced by Anthropic in late 2024 for connecting AI agent runtimes to external tools. It defines a standard JSON-RPC message format and two transport modes: stdio for local, same-machine servers, and streamable HTTP for networked servers.</p>
             <p class="mb-4">The stdio transport is the architecturally important one for local agents. When a host application (Claude Desktop, Cursor, Claude Code, or any MCP-compatible runtime) uses a stdio server, it launches the server as a child process, communicates with it over stdin/stdout, and manages the process lifecycle itself. Per the <a href="https://modelcontextprotocol.io/specification/2025-06-18/basic/transports" target="_blank" rel="noopener noreferrer">official MCP transport specification</a>: "the client launches the MCP server as a subprocess... sends messages over stdin and reads responses from stdout." No network ports, no sockets required. The only configuration is a command and its arguments in a JSON config file.</p>
             <p class="mb-4">This matters for on-device workflows because a well-designed stdio tool server runs entirely within the user's OS permissions with no required network connectivity of its own. For a media optimization server, this means the agent can send a local file path, the tool processes the file, and returns a new path - without any of the image data passing through the LLM's context window.</p>
@@ -260,7 +261,7 @@
 
         <!-- 4. Privacy nuance -->
         <section id="privacy-nuance" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">4. Local Agent Does Not Mean Local Data</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">4. Local Agent Does Not Mean Local Data</h2>
             <p class="mb-4">This is the most important nuance in the whole on-device AI space, and it gets glossed over constantly in vendor marketing.</p>
             <p class="mb-4">Running your agent model locally - whether that's a 70B model on DGX Spark or Apple's 3B on-device model - means inference happens on your hardware. It does not mean every tool the agent calls processes data locally.</p>
             <p class="mb-4">Most MCP tool servers wrap remote APIs. TinyPNG's MCP integrations pass images to TinyPNG's cloud API for compression. The Avanquest PDF MCP uploads documents to Avanquest's servers for conversion. FAL's image generation MCP sends prompts to FAL's cloud infrastructure. These are all legitimate tools, but they're hybrid: the agent runtime is local, the processing is remote.</p>
@@ -277,7 +278,7 @@
 
         <!-- 5. Token costs -->
         <section id="token-costs" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">5. Why Image Tokens Are Expensive in Agent Context</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">5. Why Image Tokens Are Expensive in Agent Context</h2>
             <p class="mb-4">Passing images directly into a language model's context - rather than through a tool that returns a file path - is expensive in two ways that compound on local hardware.</p>
             <p class="mb-4">First, raw token cost. <a href="https://platform.claude.com/docs/en/build-with-claude/vision" target="_blank" rel="noopener noreferrer">Claude's vision documentation</a> gives the formula: approximately <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">width * height / 750</code> tokens per image. A 1,000 x 1,000 pixel image (1 megapixel) costs roughly 1,334 tokens. A standard product photo at 3,000 x 2,000 runs to around 8,000 tokens. Pass ten images inline to start a batch job and you've consumed 80,000+ tokens before the agent has done any work.</p>
             <p class="mb-4">Second, context ceiling. Claude's context window documentation states that a single request can include up to 600 images or PDF pages (100 for models using 200k-token context windows). Those ceilings are manageable for cloud models with large context windows. For local models - which typically run with 8k to 32k context windows on consumer hardware - passing even a handful of full-resolution images inline can exhaust the entire context before any processing pipeline begins. At that point the workflow simply doesn't work.</p>
@@ -287,7 +288,7 @@
 
         <!-- 6. Mochify workflow -->
         <section id="mochify-workflow" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">6. Mochify Workflow: Optimizing Images and PDFs Inside a Local Agent</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">6. Mochify Workflow: Optimizing Images and PDFs Inside a Local Agent</h2>
             <p class="mb-6">Mochify's local MCP server is built for exactly this pattern: the agent describes what it needs in plain language, the tool handles the file, and only a file path comes back into the agent's context. No image bytes enter the model. No context gets bloated.</p>
 
             <div class="bg-gradient-to-br from-[#FFF5F7] to-[#FDFBF7] rounded-3xl p-6 md:p-8 border border-pink-100 mb-6">
@@ -359,7 +360,7 @@
 
         <!-- 7. Cheat sheet -->
         <section id="cheat-sheet" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">7. Cheat Sheet: On-Device Agent and Local MCP Tool Stack</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">7. Cheat Sheet: On-Device Agent and Local MCP Tool Stack</h2>
             <ScrollableTable class="mb-6">
                 <table class="w-full text-left bg-white text-sm">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
@@ -385,25 +386,15 @@
         </section>
 
         <!-- FAQ -->
-        <section id="faq" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">FAQ</h2>
-            <div class="space-y-4">
-                {#each faqs as item}
-                    <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
-                        <h3 class="text-lg font-black text-[#4A2C2C] mb-2">{item.q}</h3>
-                        <p class="mb-0 text-base">{item.a}</p>
-                    </div>
-                {/each}
-            </div>
-        </section>
+        <GuideFAQs items={faqs} />
 
         <!-- Related -->
         <section id="related" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">Related Guides</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-6">Related Guides</h2>
             <ul class="space-y-3">
                 {#each related as guide}
                     <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>

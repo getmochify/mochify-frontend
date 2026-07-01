@@ -184,9 +184,9 @@
 
     <!-- Card-link TOC -->
     <section class="mb-12">
-        <h2 class="font-black text-[#4A2C2C] text-lg mb-5 flex items-center gap-3">
-            <span class="w-1.5 h-6 bg-[#F06292] rounded-full shrink-0"></span>
+        <h2 class="font-black text-[#4A2C2C] text-lg mb-8">
             What's in This Guide
+            <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
         </h2>
         <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
             <ul class="space-y-3">
@@ -385,7 +385,7 @@
 
     <!-- Mochify Workflow -->
     <section id="mochify-workflow" class="scroll-mt-24 mt-12 bg-gradient-to-b from-[#FFF5F7] to-white border border-pink-100 rounded-3xl p-8">
-        <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Mochify Workflow: Convert MP4 to WebM in Your Browser</h2>
+        <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Mochify Workflow: Convert MP4 to WebM in Your Browser</h2>
         <p class="text-[#6C3F31] text-lg mb-8 leading-relaxed">Mochify's video engine runs entirely client-side. Open the tool, drop in your MP4, and the conversion runs in your browser tab. No account required to start; no upload to a remote server; no waiting on a queue.</p>
 
         <ol class="space-y-5" aria-label="Conversion steps">
@@ -414,7 +414,7 @@
 
     <!-- Cheat Sheet -->
     <section id="cheat-sheet" class="scroll-mt-24 mt-12 bg-[#FFF5F7] border border-pink-100 rounded-3xl p-8">
-        <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">MP4 to WebM Cheat Sheet</h2>
+        <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-6">MP4 to WebM Cheat Sheet</h2>
         <ScrollableTable>
             <table class="w-full text-sm">
                 <thead>
@@ -450,9 +450,9 @@
 
     <!-- FAQ -->
     <section id="faq" class="scroll-mt-24 mt-12">
-        <h2 class="text-2xl font-black text-[#4A2C2C] mb-8 flex items-center gap-3">
-            <span class="w-1.5 h-7 bg-[#F06292] rounded-full shrink-0"></span>
+        <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-10">
             FAQ
+            <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
         </h2>
 
         <div class="space-y-2">

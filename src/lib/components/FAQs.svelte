@@ -1,5 +1,8 @@
  <section class="mt-20 max-w-3xl mx-auto mb-20">
-    <h3 class="text-xl font-bold text-center mb-8">Frequently Asked Questions</h3>
+    <h3 class="text-xl font-bold text-center mb-10">
+        Frequently Asked Questions
+        <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292]/20 via-[#F06292] to-[#F06292]/20 mt-3 mx-auto max-w-[14rem]"></span>
+    </h3>
     <div class="space-y-6">
         <details class="faq-item group bg-white border border-pink-50 rounded-2xl shadow-md hover:shadow-lg open:shadow-lg transition-all">
             <summary class="flex justify-between items-center font-semibold cursor-pointer list-none p-6 text-[#4A2C2C]">

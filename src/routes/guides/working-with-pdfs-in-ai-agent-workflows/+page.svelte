@@ -221,7 +221,7 @@
 
         <!-- Workflow card -->
         <section id="mochify-workflow-extract-and-split" class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Mochify Workflow: extract and split a PDF inside an agent pipeline</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Mochify Workflow: extract and split a PDF inside an agent pipeline</h2>
             <p class="mb-7">Here is how this looks with Mochify's PDF utility, which does the two operations above (page-level image extraction and precision splitting) and is built to be driven by an agent. Mochify treats documents like web assets: the same engine that gets your images web-ready handles PDF pages, and you talk to it in plain English through Magic Flow. A worked example: an agent ingesting a folder of multi-page contracts, producing a WebP preview of each cover page and splitting the rest into single-page PDFs for routing.</p>
             <ol class="space-y-6 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">
@@ -361,7 +361,7 @@
         <!-- CTA -->
         <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3">Wiring PDFs into an agent?</h3>
+            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Wiring PDFs into an agent?</h3>
             <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6 text-base">Point it at Mochify's PDF utility, describe the job in plain English, and get back file paths and metadata - the page images and split PDFs never touch your model context.</p>
             <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                 Try it free at mochify.app →
@@ -374,7 +374,7 @@
             <ul class="space-y-3">
                 {#each related as guide}
                     <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>

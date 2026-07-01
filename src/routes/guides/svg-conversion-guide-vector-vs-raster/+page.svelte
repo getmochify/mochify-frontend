@@ -2,6 +2,7 @@
     import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: "SVG Conversion Guide: When to Keep Vector and When to Rasterize",
@@ -10,6 +11,17 @@
         readTime: "8 min read",
         date: "May 16, 2026"
     };
+
+    const faqItems = [
+        { q: 'Why does WordPress block SVG uploads by default?', a: 'WordPress blocks SVG because SVG files are XML and can contain scripts. Without built-in sanitization, an SVG upload is a potential XSS or XXE attack vector. Core takes the conservative position of blocking SVG entirely rather than shipping sanitization code that could itself be exploited or misconfigured.' },
+        { q: 'Is it safe to enable SVG in WordPress with a plugin?', a: "It can be safe if you use a sanitizing plugin like Safe SVG, restrict SVG uploads to admin-level users only, and keep the plugin updated. But you're still adding security overhead and update maintenance that you'd avoid by simply converting SVGs to WebP or PNG before uploading." },
+        { q: 'When is SVG definitively better than WebP or PNG?', a: 'SVG is clearly better for logos, icons, and vector illustrations on sites you control, where infinite scalability, CSS theming, and tiny file sizes matter more than universal platform support. A flat SVG logo at 2KB beats any raster equivalent.' },
+        { q: 'When should I convert SVG to WebP instead of keeping it?', a: "Convert when the target platform doesn't accept SVG - WordPress default, Etsy, most email tools - or when you don't want to manage SVG sanitization in WordPress but still need small, transparency-supporting images. WebP is the right format for almost all of these cases." },
+        { q: 'Is AVIF better than WebP for converted SVG graphics?', a: 'AVIF often compresses better than WebP and handles transparency well. But encoding is slower and browser support, while strong, is still newer - WebP remains the safer default for broad compatibility. Use AVIF for complex illustrations or hero images on modern-only sites; use WebP as your baseline everywhere else.' },
+        { q: 'Why do SVG logos break in Gmail or Outlook?', a: 'Gmail and Outlook do not reliably render external SVG images - they often display a broken image icon or strip SVG entirely. Use PNG or JPEG for logos and icons in email templates. A PNG at 2x resolution will look sharp on retina screens and render reliably across all major email clients.' },
+        { q: 'Does converting SVG to WebP or AVIF remove the security risk?', a: 'Yes. Once an SVG is rasterized to WebP or AVIF, it becomes pixel data and can no longer execute scripts. Even if the original SVG contained malicious markup, the raster export is safe to serve and upload. This is one of the underrated benefits of a rasterization workflow.' },
+        { q: "What's the advantage of using Mochify instead of a generic online converter?", a: 'Most online converters store uploaded files on disk and may retain them for hours or days. Mochify processes everything in memory only and discards files immediately after download - no persistent storage, no training data, no retention. You also get native support for WebP, AVIF, and JPEG XL in a single tool, with Magic Flow natural language processing so you can describe the output you want in plain English rather than configuring format dropdowns.' },
+    ];
 </script>
 
 <ReadProgress />
@@ -371,7 +383,7 @@
                     <div class="grid grid-cols-3 gap-4 flex-1 w-full">
                         <div>
                             <p class="text-xs font-bold uppercase tracking-wider text-cocoa-milk mb-1">PNG</p>
-                            <p class="text-2xl font-black text-[#4A2C2C]">55 KB</p>
+                            <p class="text-[1.75rem] font-black text-[#4A2C2C]">55 KB</p>
                         </div>
                         <div>
                             <p class="text-xs font-bold uppercase tracking-wider text-cocoa-milk mb-1">WebP</p>
@@ -578,51 +590,7 @@
         </div>
 
         <!-- 09 - FAQ -->
-        <section id="faq" class="scroll-mt-24">
-            <SectionHeading>FAQ</SectionHeading>
-
-            <div class="divide-y divide-pink-50">
-                {#each [
-                    {
-                        q: 'Why does WordPress block SVG uploads by default?',
-                        a: 'WordPress blocks SVG because SVG files are XML and can contain scripts. Without built-in sanitization, an SVG upload is a potential XSS or XXE attack vector. Core takes the conservative position of blocking SVG entirely rather than shipping sanitization code that could itself be exploited or misconfigured.'
-                    },
-                    {
-                        q: 'Is it safe to enable SVG in WordPress with a plugin?',
-                        a: "It can be safe if you use a sanitizing plugin like Safe SVG, restrict SVG uploads to admin-level users only, and keep the plugin updated. But you're still adding security overhead and update maintenance that you'd avoid by simply converting SVGs to WebP or PNG before uploading."
-                    },
-                    {
-                        q: 'When is SVG definitively better than WebP or PNG?',
-                        a: 'SVG is clearly better for logos, icons, and vector illustrations on sites you control, where infinite scalability, CSS theming, and tiny file sizes matter more than universal platform support. A flat SVG logo at 2KB beats any raster equivalent.'
-                    },
-                    {
-                        q: 'When should I convert SVG to WebP instead of keeping it?',
-                        a: "Convert when the target platform doesn't accept SVG - WordPress default, Etsy, most email tools - or when you don't want to manage SVG sanitization in WordPress but still need small, transparency-supporting images. WebP is the right format for almost all of these cases."
-                    },
-                    {
-                        q: 'Is AVIF better than WebP for converted SVG graphics?',
-                        a: 'AVIF often compresses better than WebP and handles transparency well. But encoding is slower and browser support, while strong, is still newer - WebP remains the safer default for broad compatibility. Use AVIF for complex illustrations or hero images on modern-only sites; use WebP as your baseline everywhere else.'
-                    },
-                    {
-                        q: 'Why do SVG logos break in Gmail or Outlook?',
-                        a: 'Gmail and Outlook do not reliably render external SVG images - they often display a broken image icon or strip SVG entirely. Use PNG or JPEG for logos and icons in email templates. A PNG at 2x resolution will look sharp on retina screens and render reliably across all major email clients.'
-                    },
-                    {
-                        q: 'Does converting SVG to WebP or AVIF remove the security risk?',
-                        a: 'Yes. Once an SVG is rasterized to WebP or AVIF, it becomes pixel data and can no longer execute scripts. Even if the original SVG contained malicious markup, the raster export is safe to serve and upload. This is one of the underrated benefits of a rasterization workflow.'
-                    },
-                    {
-                        q: "What's the advantage of using Mochify instead of a generic online converter?",
-                        a: 'Most online converters store uploaded files on disk and may retain them for hours or days. Mochify processes everything in memory only and discards files immediately after download - no persistent storage, no training data, no retention. You also get native support for WebP, AVIF, and JPEG XL in a single tool, with Magic Flow natural language processing so you can describe the output you want in plain English rather than configuring format dropdowns.'
-                    },
-                ] as faq}
-                    <div class="py-5">
-                        <h3 class="text-base font-black text-[#4A2C2C] mb-2">{faq.q}</h3>
-                        <p class="text-base text-cocoa-deep leading-relaxed m-0">{faq.a}</p>
-                    </div>
-                {/each}
-            </div>
-        </section>
+        <GuideFAQs items={faqItems} />
 
         <!-- 10 - RELATED GUIDES -->
         <section id="related-guides" class="scroll-mt-24">
@@ -647,7 +615,7 @@
                     },
                 ] as guide}
                     <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>

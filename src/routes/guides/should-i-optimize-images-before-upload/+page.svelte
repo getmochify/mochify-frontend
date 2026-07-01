@@ -4,6 +4,7 @@
     import InfoBox from '$lib/components/InfoBox.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: "Should I Optimize My Images Before I Upload Them?",
@@ -48,6 +49,17 @@
         { id: "prompt-examples", num: "09", label: "Magic Flow Prompt Examples for Every Audience" },
         { id: "misconceptions", num: "10", label: "Common Misconceptions to Avoid" },
         { id: "faq", num: "11", label: "FAQ" }
+    ];
+
+    const faqItems = [
+        { q: "Do I still need to optimize images before uploading to Shopify if it already compresses them?", a: "Yes. Shopify's CDN performs compression and format conversion, but it works from whatever original you upload. A 10MB camera file as a starting point means the CDN is working harder, generating derivatives from a much larger source, and may compound compression artifacts. Resize to 2048x2048px and compress before upload so the CDN has a clean, correctly-sized input to work from." },
+        { q: "What size should my product images be for Shopify, Etsy, or Amazon?", a: "Shopify's sweet spot is 2048x2048px at under 400KB. Etsy recommends 2000-3000px on the longest side for zoom quality. Amazon requires a minimum 1000px on the longest side and recommends 2000px or more. All three benefit from pre-upload EXIF stripping and compression to jpegli JPEG or WebP." },
+        { q: "Is WebP or AVIF better for my website images?", a: "WebP is the safer default at about 96% browser support. AVIF typically achieves 20-50% better compression than WebP at equivalent visual quality and has about 93% support, but benefits from a JPEG fallback for older browsers and email clients. For ecommerce product images where every byte matters, AVIF with JPEG fallback is the stronger choice if your platform supports picture elements." },
+        { q: "How small should my images be for good Core Web Vitals?", a: "For LCP, Google targets under 2.5 seconds on a 75th-percentile mobile connection. Practical targets: hero images under 200KB, product images under 400KB, inline blog images under 200KB. These targets assume images are sized to their display dimensions - a 2400px hero that displays at 1400px is carrying unnecessary pixels regardless of compression." },
+        { q: "Do I really need to strip EXIF metadata before I upload photos?", a: "Yes, especially for photos taken at personal or client locations. EXIF commonly contains GPS coordinates accurate to a few meters, device serial numbers, and timestamps. GDPR classifies this as personal data when it can identify individuals. Many platforms don't reliably remove it, even after re-compression. Stripping EXIF before upload is the only guarantee." },
+        { q: "Can WordPress plugins replace pre-upload optimization?", a: "They partially overlap, but plugins have real downsides: database overhead, API dependencies on third-party services, processing latency on shared hosting, and subscription costs. Pre-upload optimization with an external tool means your WordPress install receives already-correct files, reducing the work plugins need to do - or eliminating the need for them entirely on the image side." },
+        { q: "What's the safest default workflow if I don't want to think about settings?", a: 'Use Mochify\'s Magic Flow with this prompt: "Make these web-ready: max 1600px wide, prefer WebP or AVIF, keep each file under 250KB, strip all EXIF metadata." That covers dimensions, format selection, compression, and privacy in one step. Keep your originals in a separate folder before you start.' },
+        { q: "Should I convert everything to a single format before upload?", a: "No. Match the format to the destination: WebP for most web delivery, AVIF for bandwidth-critical product images with modern CDN support, JPEG (jpegli) for email and legacy APIs, PNG for logos and transparency-dependent graphics. Magic Flow can handle this per-batch if you describe the destination platform in your prompt." },
     ];
 </script>
 
@@ -452,27 +464,7 @@ REST API: POST /v1/prompt  {'{"prompt": "compress these for web delivery: max 16
         </section>
 
         <!-- 11 FAQ -->
-        <section id="faq" class="scroll-mt-24">
-            <SectionHeading>FAQ</SectionHeading>
-
-            <div class="space-y-6">
-                {#each [
-                    ["Do I still need to optimize images before uploading to Shopify if it already compresses them?", "Yes. Shopify's CDN performs compression and format conversion, but it works from whatever original you upload. A 10MB camera file as a starting point means the CDN is working harder, generating derivatives from a much larger source, and may compound compression artifacts. Resize to 2048×2048px and compress before upload so the CDN has a clean, correctly-sized input to work from."],
-                    ["What size should my product images be for Shopify, Etsy, or Amazon?", "Shopify's sweet spot is 2048×2048px at under 400KB. Etsy recommends 2000–3000px on the longest side for zoom quality. Amazon requires a minimum 1000px on the longest side and recommends 2000px or more. All three benefit from pre-upload EXIF stripping and compression to jpegli JPEG or WebP."],
-                    ["Is WebP or AVIF better for my website images?", "WebP is the safer default at about 96% browser support. AVIF typically achieves 20–50% better compression than WebP at equivalent visual quality and has about 93% support, but benefits from a JPEG fallback for older browsers and email clients. For ecommerce product images where every byte matters, AVIF with JPEG fallback is the stronger choice if your platform supports <picture> elements."],
-                    ["How small should my images be for good Core Web Vitals?", "For LCP, Google targets under 2.5 seconds on a 75th-percentile mobile connection. Practical targets: hero images under 200KB, product images under 400KB, inline blog images under 200KB. These targets assume images are sized to their display dimensions - a 2400px hero that displays at 1400px is carrying unnecessary pixels regardless of compression."],
-                    ["Do I really need to strip EXIF metadata before I upload photos?", "Yes, especially for photos taken at personal or client locations. EXIF commonly contains GPS coordinates accurate to a few meters, device serial numbers, and timestamps. GDPR classifies this as personal data when it can identify individuals. Many platforms don't reliably remove it, even after re-compression. Stripping EXIF before upload is the only guarantee."],
-                    ["Can WordPress plugins replace pre-upload optimization?", "They partially overlap, but plugins have real downsides: database overhead, API dependencies on third-party services, processing latency on shared hosting, and subscription costs. Pre-upload optimization with an external tool means your WordPress install receives already-correct files, reducing the work plugins need to do - or eliminating the need for them entirely on the image side."],
-                    ["What's the safest default workflow if I don't want to think about settings?", "Use Mochify's Magic Flow with this prompt: \"Make these web-ready: max 1600px wide, prefer WebP or AVIF, keep each file under 250KB, strip all EXIF metadata.\" That covers dimensions, format selection, compression, and privacy in one step. Keep your originals in a separate folder before you start."],
-                    ["Should I convert everything to a single format before upload?", "No. Match the format to the destination: WebP for most web delivery, AVIF for bandwidth-critical product images with modern CDN support, JPEG (jpegli) for email and legacy APIs, PNG for logos and transparency-dependent graphics. Magic Flow can handle this per-batch if you describe the destination platform in your prompt."]
-                ] as [q, a], i}
-                <div class="pb-6 {i < 7 ? 'border-b border-pink-50' : ''}">
-                    <h3 class="text-lg font-black text-[#4A2C2C] mb-2">{q}</h3>
-                    <p class="text-[#6C3F31]">{a}</p>
-                </div>
-                {/each}
-            </div>
-        </section>
+        <GuideFAQs items={faqItems} />
 
         <RelatedGuides guides={related} />
 

@@ -136,7 +136,7 @@
         <!-- CTA -->
         <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3">Pre-convert HEIF to gallery-ready JPEG free</h3>
+            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Pre-convert HEIF to gallery-ready JPEG free</h3>
             <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base">Just describe what you need - Magic Flow handles the rest. No account needed for your first 3 files.</p>
             <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                 Try it free at mochify.app →
@@ -154,7 +154,7 @@
                     { href: '/guides/should-i-optimize-images-before-upload', title: 'Should I Optimise Images Before I Upload Them?', desc: 'A practical guide covering LCP, EXIF privacy, format choice, and workflows for galleries and marketplaces.' },
                 ] as guide}
                     <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>

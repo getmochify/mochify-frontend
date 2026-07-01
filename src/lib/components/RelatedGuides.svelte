@@ -3,9 +3,9 @@
 </script>
 
 <section class="my-12">
-    <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-        <span class="w-1.5 h-8 bg-[#F06292] rounded-full inline-block"></span>
+    <h2 class="text-2xl font-black text-[#4A2C2C] mb-10">
         Related Guides
+        <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
     </h2>
     <ul class="space-y-3">
         {#each guides as g}

@@ -163,7 +163,7 @@
         </section>
 
          <section id="cheat-sheet" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Cheat Sheet: Image Formats at a Glance</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Cheat Sheet: Image Formats at a Glance</h2>
              <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
@@ -191,20 +191,20 @@
         </section>
 
         <section id="why-exists" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Why Image Compression Exists</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Why Image Compression Exists</h2>
              <p class="mb-4">Once computers could display pictures, the next problem arrived instantly: storage. A single 24-bit, 1024×768 pixel image weighs 2.4 MB uncompressed. That was massive in the 1980s when a 10 MB hard drive cost hundreds of dollars, and it's still massive today when that same image needs to travel over a cellular connection in rural Iowa.</p>
              <p class="mb-4">The history of image compression is the history of solving constraints. Early on, that constraint was disk space. By the mid-1990s it was dial-up bandwidth (56 Kbps modems, patience measured in minutes). By 2010 it was mobile data caps. In 2026, the constraint is Core Web Vitals and LCP scores, where a 2 MB JPEG hero image can torpedo your ranking and conversion rate.</p>
         </section>
 
         <section id="pre-history" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">The Pre-History: BMP and Uncompressed Bitmaps</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">The Pre-History: BMP and Uncompressed Bitmaps</h2>
              <p class="mb-4">BMP (bitmap) files are the simplest possible representation of an image: a grid of pixels, each storing its red, green, and blue values directly. No math, no clever encoding, no compression. A 1920×1080 pixel BMP file weighs roughly 6 MB because it literally stores 2 million pixel values with no shortcuts.</p>
              <p class="mb-4">BMP was never designed for the web or for transmission. It was an internal Windows format for applications that needed raw pixel data. Think of it as a working file, not a distribution file. You would never email a BMP to a client, and you definitely wouldn't put one on a website in 1995 (or 2026).</p>
              <p class="mb-4">BMP taught us one lesson clearly: uncompressed pixel grids don't scale.</p>
         </section>
 
         <section id="gif-era" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">GIF and the First Wave of Compression</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">GIF and the First Wave of Compression</h2>
              <p class="mb-4">GIF arrived in 1987 and introduced the first widely adopted image compression algorithm: LZW (Lempel-Ziv-Welch), a lossless method that looks for repeating patterns in the pixel data and encodes them more efficiently. A diagram with large blocks of solid color compresses beautifully with LZW. A photograph with continuous tone and noise does not.</p>
              <p class="mb-4">GIF also imposed a hard limit: 256 colors per image. That's fine for logos, UI elements, and simple illustrations, but photographs looked posterized and banded. You could work around this with dithering (simulating additional colors through patterns of dots), but the results were never great.</p>
              <p class="mb-4">What GIF did brilliantly was animation. By stacking multiple frames in a single file, GIF gave the early web its first taste of motion without requiring video codecs or plugins. The "GIF era" (roughly 1995 to 2010) was culturally significant, not just technically. Animated GIFs became a language of their own on forums, blogs, and eventually social media.</p>
@@ -212,7 +212,7 @@
         </section>
 
         <section id="jpeg-revolution" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">JPEG's Revolution</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">JPEG's Revolution</h2>
              <p class="mb-4">JPEG (Joint Photographic Experts Group) was standardized in the early 1990s and became the single most important image format for digital photography and the web. It works by applying a lossy compression technique built on the Discrete Cosine Transform (DCT), which converts blocks of pixels into frequency components and then discards the high-frequency details that human eyes barely notice.</p>
              <p class="mb-4">In plain English: JPEG throws away data you won't miss, and it lets you control how much data to discard via a quality slider. At quality 85, a JPEG might be 10:1 smaller than the uncompressed original, with imperceptible quality loss for most viewers. At quality 50, artifacts start to appear but the file is smaller still.</p>
              <p class="mb-4">This adjustable trade-off made JPEG wildly practical. Digital cameras could store hundreds of photos instead of dozens. Websites could load images in seconds instead of minutes. Email attachments became feasible.</p>
@@ -221,7 +221,7 @@
         </section>
 
         <section id="png-lossless" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">PNG and the Lossless Alternative</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">PNG and the Lossless Alternative</h2>
              <p class="mb-4">PNG (Portable Network Graphics) was created in the mid-1990s as a patent-free, technically superior replacement for GIF. It offered lossless compression (no quality loss, unlike JPEG), support for millions of colors (unlike GIF's 256), and a full alpha channel for smooth transparency (which GIF could only approximate with single-bit transparency).</p>
              <p class="mb-4">PNG uses DEFLATE compression, the same algorithm behind ZIP files. It works well for images with sharp edges, solid colors, and text, which is why PNG became the default format for UI elements, screenshots, diagrams, and anything with transparency.</p>
              <p class="mb-4">But PNG is terrible for photographs. A photo that compresses to 200 KB as a quality-85 JPEG might be 2 MB as a PNG because lossless compression can't discard the continuous-tone noise and gradients that fill natural images. PNG never challenged JPEG in the photography space, and it was never meant to.</p>
@@ -229,7 +229,7 @@
         </section>
 
          <section id="web-performance" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">The Web Performance Crisis</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">The Web Performance Crisis</h2>
              <p class="mb-4">Between 2005 and 2015, the web exploded. High-resolution displays (retina screens) arrived, forcing designers to ship 2× or even 3× image assets. Mobile devices became the dominant access method, but cellular networks were inconsistent and data-capped. E-commerce sites started using multiple high-resolution product photos per listing. Blogs and news sites filled pages with hero images and inline graphics.</p>
              <p class="mb-4">The result: images became the dominant performance problem on the web. On the median webpage in 2026, images still account for a huge share of transferred bytes and directly impact load time, especially on slower networks.</p>
              <p class="mb-4">Developers started searching for "image compressor" and "compress image" tools online, trying to manually reduce image size before upload. WordPress sites installed plugins like ShortPixel and Smush to automatically optimize images on upload, though these plugins often introduced their own performance issues (database bloat, extra server CPU usage during processing).</p>
@@ -237,7 +237,7 @@
          </section>
 
         <section id="next-gen" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Next-Gen Formats: WebP, AVIF, and JPEG XL</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Next-Gen Formats: WebP, AVIF, and JPEG XL</h2>
              
              <h3 class="text-xl font-bold text-[#6C3F31] mb-2 mt-6">WebP: The safe baseline</h3>
              <p class="mb-4">Google released WebP in 2010 with a clear goal: create a format that delivers both lossy and lossless compression, supports transparency and animation (replacing both JPEG and PNG in one format), and achieves 25-35% smaller file sizes than JPEG or PNG at similar perceived quality.</p>
@@ -259,7 +259,7 @@
         </section>
 
         <section id="modern-jpeg" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Modern JPEG Encoders and Jpegli</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Modern JPEG Encoders and Jpegli</h2>
              <p class="mb-4">Here's something most people don't realize: "JPEG" is the format specification, but the encoder (the software that turns your image into a JPEG file) can vary. For decades, most tools used encoders like libjpeg-turbo or MozJPEG, which were fast and produced good results but hadn't fundamentally changed the quality-per-byte equation.</p>
              <p class="mb-4">In 2024, Google released jpegli, a modern JPEG encoder that outputs standard, fully interoperable JPEG files while achieving better quality-per-byte, especially at higher quality settings. Google reports up to 35% better compression at high quality compared to traditional JPEG encoders, using adaptive quantization heuristics borrowed from the JPEG XL project and improved quantization matrix selection.</p>
              <p class="mb-4">Why this matters: A jpegli-encoded JPEG is just a JPEG. It opens in any browser, any photo viewer, any tool that's supported JPEG since 1992. You get the efficiency gains without requiring new browser features or format support. This is especially valuable in workflows where you're forced to deliver JPEG (legacy platforms, strict CMS requirements, eBay and other marketplaces that effectively only accept JPEG, email clients).</p>
@@ -267,7 +267,7 @@
         </section>
 
         <section id="lighthouse" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How This History Shows Up in Lighthouse Today</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">How This History Shows Up in Lighthouse Today</h2>
              <p class="mb-4">If you've run a Lighthouse audit on a website in 2026, you've probably seen two specific warnings that connect directly to this history:</p>
              <ol class="list-decimal pl-6 mb-6 space-y-2 marker:text-[#F06292] marker:font-bold">
                 <li><strong>"Serve images in next-gen formats"</strong> – This audit flags JPEGs and PNGs that could be replaced with WebP or AVIF to reduce file size and improve load time.</li>
@@ -277,7 +277,7 @@
         </section>
 
         <section id="privacy" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Privacy and Architecture in 2026</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Privacy and Architecture in 2026</h2>
              <p class="mb-4">Most online image compressor tools work the same way: you upload your image, it gets written to disk on their server, it's processed, and then it's "deleted after 24 hours" or "deleted immediately after processing" (depending on their privacy policy).</p>
              <p class="mb-4">The problem: disk-based processing means your image exists on someone else's hardware, even temporarily. It can be logged, retained longer than advertised, or accessed in ways you don't control. Some tools are vague about whether your images are used to train AI models or aggregated for analytics.</p>
              <p class="mb-4">There's a better architecture: in-memory processing. At Mochify, images are streamed into RAM, processed, and wiped instantly. Nothing touches the disk. This isn't just marketing – it's a fundamental architectural choice that makes data retention impossible, not just unlikely.</p>
@@ -288,7 +288,7 @@
         </section>
 
         <section id="related-resources" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Related Guides & Resources</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Related Guides & Resources</h2>
              <ul class="space-y-3">
                 <li><a href="/guides/2026-guide-next-gen-formats">The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL</a></li>
                 <li><a href="/guides">How to Fix "Serve Images in Next-Gen Formats" in WordPress Without a Plugin</a></li>

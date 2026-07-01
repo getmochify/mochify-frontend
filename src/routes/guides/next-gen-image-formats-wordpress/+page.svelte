@@ -557,7 +557,9 @@
     </div>
 
         <section class="mt-12 pt-12 border-t border-pink-50">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-8">FAQ</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-10">FAQ
+                <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
+            </h2>
             <div class="space-y-6">
                 <div>
                     <h4 class="font-bold text-[#4A2C2C] text-lg">Does converting to WebP/AVIF directly help SEO?</h4>

@@ -3,6 +3,7 @@
     import InfoBox from '$lib/components/InfoBox.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: "How to Convert iPhone Photos (HEIC) to PDF",
@@ -433,9 +434,9 @@
         <!-- Section 7: Mochify Workflow -->
         <section id="mochify-workflow" class="scroll-mt-24">
             <div class="bg-gradient-to-br from-[#FFF5F7] to-white border border-pink-100 rounded-3xl p-8 md:p-10">
-                <h2 class="!mt-0 !border-b-0 text-2xl font-black text-[#4A2C2C] mb-6 flex items-center gap-3">
-                    <span class="w-1.5 h-7 bg-[#F06292] rounded-full inline-block flex-shrink-0"></span>
+                <h2 class="!mt-0 text-[1.75rem] font-black text-[#4A2C2C] mb-10">
                     Mochify Workflow: HEIC Photos to PDF
+                    <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
                 </h2>
                 <p class="text-[#6C3F31] text-base mb-8 leading-relaxed">
                     The Mochify HEIC-to-PDF tool at <a href="/solutions/heif-to-pdf" class="text-[#D81B60] hover:text-[#F06292] font-semibold transition-colors">mochify.app/solutions/heif-to-pdf</a> bundles iPhone and iPad <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded text-sm border border-pink-100">.heic</code> files into a single, shareable multi-page PDF in seconds. Useful when you want a clean result without touching a print dialog, or when native methods produce PDFs with awkward margins or page sizes.
@@ -573,25 +574,12 @@
         </section>
 
         <!-- FAQ -->
-        <section id="faq" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-8 flex items-center gap-3">
-                <span class="w-1.5 h-7 bg-[#F06292] rounded-full inline-block flex-shrink-0"></span>
-                FAQ
-            </h2>
-            <div class="divide-y divide-pink-50">
-                {#each faqs as faq}
-                    <div class="py-6">
-                        <h3 class="font-bold text-[#4A2C2C] text-lg mb-3">{faq.q}</h3>
-                        <p class="text-[#6C3F31] text-base leading-relaxed">{faq.a}</p>
-                    </div>
-                {/each}
-            </div>
-        </section>
+        <GuideFAQs items={faqs} />
 
         <!-- CTA -->
         <aside class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3">Convert HEIC photos to PDF free</h3>
+            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Convert HEIC photos to PDF free</h3>
             <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base leading-relaxed">
                 Convert up to 20 iPhone HEIC photos to a single PDF in seconds - no app to install, no account required to try it. Upload and download, done.
             </p>

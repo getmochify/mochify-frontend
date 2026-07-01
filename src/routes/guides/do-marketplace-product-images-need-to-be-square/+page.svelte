@@ -184,7 +184,7 @@
         <!-- CTA -->
         <aside class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3">Crop your product catalogue to square automatically</h3>
+            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Crop your product catalogue to square automatically</h3>
             <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base leading-relaxed">
                 Preparing a product catalogue for multiple marketplaces? Mochify's saliency engine identifies the focal point in each photo and crops to square automatically - no manual adjustments per image.
             </p>

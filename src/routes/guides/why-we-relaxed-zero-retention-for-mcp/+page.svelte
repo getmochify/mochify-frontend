@@ -2,6 +2,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: "Why We Relaxed Our Zero-Retention Policy for MCP Server Compressions",
@@ -201,17 +202,7 @@
         </section>
 
         <!-- FAQ -->
-        <section id="faq" class="scroll-mt-24">
-            <SectionHeading>FAQ</SectionHeading>
-            <div class="space-y-4">
-                {#each faqItems as item}
-                    <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
-                        <h3 class="text-lg font-black text-[#4A2C2C] mb-2">{item.q}</h3>
-                        <p class="mb-0 text-base">{item.a}</p>
-                    </div>
-                {/each}
-            </div>
-        </section>
+        <GuideFAQs items={faqItems} />
 
         <!-- CTA -->
         <div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
@@ -241,7 +232,7 @@
                     { href: '/guides/self-hosting-image-optimization-docker', title: 'Self-Hosting Image Optimization with Docker', desc: 'For users who need the engine itself never to touch Mochify infrastructure.' },
                 ] as guide}
                     <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>

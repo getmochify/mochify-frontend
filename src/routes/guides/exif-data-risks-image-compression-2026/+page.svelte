@@ -211,7 +211,7 @@
         </section>
 
         <section id="understanding-exif" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Understanding EXIF Metadata</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Understanding EXIF Metadata</h2>
              <p class="mb-4">EXIF (Exchangeable Image File Format) data is invisible metadata your camera or phone embeds in every photo. Think of it as a digital fingerprint that travels with your image file.</p>
              <p class="mb-4">Most smartphone photos carry these metadata fields:</p>
              <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
@@ -226,7 +226,7 @@
         </section>
 
         <section id="why-compression-fails" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Why Compression Doesn't Remove Privacy Risks</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Why Compression Doesn't Remove Privacy Risks</h2>
              <p class="mb-4">You might assume that running an image through a compressor automatically sanitizes metadata. It doesn't.</p>
              <p class="mb-4">Standard image compression - whether <a href="/">JPEG</a>, <a href="/">WebP</a>, or <a href="/">AVIF</a> - targets pixel data and color information to reduce file size. EXIF metadata lives in a separate data structure within the file container. Most compression tools optimize the image payload but copy the EXIF block unchanged from input to output.</p>
              <p class="mb-4"><strong>Result:</strong> Your 5MB photo becomes 400KB, but the GPS coordinates revealing your home address remain intact.</p>
@@ -234,7 +234,7 @@
         </section>
 
         <section id="privacy-impacts" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">EXIF Privacy Impacts: GDPR & ICO Compliance - Global Compliance Benefits</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">EXIF Privacy Impacts: GDPR & ICO Compliance - Global Compliance Benefits</h2>
              <p class="mb-4">The <a href="https://gdpr.eu/">General Data Protection Regulation (GDPR)</a> treats EXIF as personal data when it can directly or indirectly identify individuals.</p>
              <p class="mb-4">Under GDPR Article 4, these EXIF fields qualify as protected information:</p>
              <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
@@ -254,7 +254,7 @@
         </section>
 
         <section id="cheat-sheet" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">EXIF Stripping Cheat Sheet</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">EXIF Stripping Cheat Sheet</h2>
              <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
@@ -282,7 +282,7 @@
         </section>
 
         <section id="how-mochify-handles" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How Mochify Handles EXIF During Compression</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">How Mochify Handles EXIF During Compression</h2>
              <p class="mb-4">We strip EXIF metadata by default during compression. This isn't a premium feature—it's core to our privacy-first architecture.</p>
              <p class="mb-4">When you upload images to Mochify - whether HEIF, HEIC, JPEG, PNG, WebP, or AVIF—our C++ engine processes them in RAM and outputs clean files with:</p>
              <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
@@ -311,7 +311,7 @@
         </section>
 
          <section id="use-cases" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Use Cases: When to Retain vs. Strip</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Use Cases: When to Retain vs. Strip</h2>
              <p class="mb-4">If you're listing products on eBay, Etsy, or Vinted, strip EXIF before upload. Marketplace platforms often re-compress images server-side, and you don't want your home address from product photos shot in your garage leaking through their CDN.</p>
              <p class="mb-4 font-bold">Workflow:</p>
              <ol class="list-decimal pl-6 mb-6 space-y-2 marker:text-[#F06292] marker:font-bold">
@@ -330,7 +330,7 @@
          </section>
 
         <section id="metrics" class="scroll-mt-24">
-             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Technical Proof: Metrics</h2>
+             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Technical Proof: Metrics</h2>
              <p class="mb-4">We ran a batch test with 10 iPhone HEIC vacation photos (average 2.8MB each) to measure EXIF's size impact.</p>
              <p class="mb-4 font-bold">Test Conditions:</p>
               <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">

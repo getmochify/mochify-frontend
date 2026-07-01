@@ -3,6 +3,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: "How the Mochify MCP Server Works: Hosted vs Local, with Worked Examples",
@@ -11,6 +12,17 @@
         readTime: "9 min read",
         date: "May 28, 2026",
     };
+
+    const faqItems = [
+        { q: "Does using the Mochify MCP server cost more tokens than the web app?", a: "The web app costs no agent tokens at all - it's just you and a browser. Among agent-driven workflows: hosted MCP URL input is now nearly free in both directions. Hosted MCP upload input is expensive on the way in (base64-encoded image bytes in the tool-call payload) but cheap on the way back (a URL string). The local install remains the cheapest of all because no image bytes ever enter the agent's context in either direction." },
+        { q: "Can I use the MCP server on the Free tier?", a: "Yes. MCP and API access are included on all tiers: Free (25 images/month), Seller, and Pro. The monthly image limit applies equally across the web app, the MCP server, and the API." },
+        { q: "Does the hosted MCP server store my images?", a: "The original you send is processed in RAM and discarded immediately after encoding - no disk writes, no logs containing image data. The hosted MCP does briefly hold the compressed result in a pickup store with a five-minute TTL so it can return a download URL. After five minutes the result is evicted. The local install workflows skip the pickup store entirely." },
+        { q: "What's the difference between Magic Flow and the squish tool?", a: "squish is the low-level tool the MCP server exposes - it takes explicit parameters: format, quality, dimensions, options. Magic Flow is the natural-language layer that lets you describe the goal in plain English and have the agent resolve the parameters automatically. Most users only ever interact with Magic Flow." },
+        { q: "Can I run mochify without an agent?", a: "Yes. mochify is a standalone Rust binary. It works from the shell, in scripts, in CI, in Docker - anywhere you can run a single static binary. Many users run the CLI directly as a build step with no agent involved at all." },
+        { q: "Which formats does squish actually output?", a: "JPEG (encoded with jpegli for ~35% smaller files at matched quality), AVIF, JPEG XL, WebP, and PNG. AVIF is our default recommendation for web delivery; jpegli-encoded JPEG is the broad-compatibility fallback." },
+        { q: "Does the MCP server support background removal and smart crop?", a: "Yes. squish exposes removeBackground, crop (smart crop to the subject), smartCompress (saliency-guided quality selection), brightness, clarity, stripExif, rotate, and HDR gain-map preservation. Background removal requires a Seller or Pro plan; the rest are available on all tiers." },
+        { q: "Can I use the MCP server through Cursor or other MCP clients?", a: "Yes. For the hosted server, any client that supports remote MCP connectors over HTTP with OAuth can register https://mcp.mochify.app. For the local server, any client that supports the standard stdio MCP pattern - Cursor, Continue, Cline, Claude Code with custom config, and others - can spawn mochify serve as a subprocess. Mochify is also listed on Smithery and Glama MCP marketplaces." },
+    ];
 </script>
 
 <ReadProgress />
@@ -124,7 +136,7 @@
 
         <!-- Cheat Sheet -->
         <section id="cheat-sheet" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">30-Second Cheat Sheet</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">30-Second Cheat Sheet</h2>
             <p class="mb-6">If your goal is the lowest possible token cost, use either local mode or hosted-MCP URL input. The hosted MCP now returns compressed results as a short-lived download URL rather than inline binary - which fixes the old return-side problem but means the compressed result is briefly held in Mochify-controlled storage.</p>
 
             <ScrollableTable class="mb-6">
@@ -173,7 +185,7 @@
 
         <!-- Two Surfaces -->
         <section id="two-surfaces" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">The Two Surfaces of the Mochify MCP Server</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">The Two Surfaces of the Mochify MCP Server</h2>
             <p class="mb-4">Mochify exposes its compression engine to AI agents through two separate surfaces. Both ultimately call the same hosted API at <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">api.mochify.app/v1/squish</code>, where the encoding work happens in RAM and the original is discarded immediately. They differ in where the agent's request originates, whether image bytes ever pass through the agent's context window, and whether the compressed result is briefly held server-side for pickup.</p>
 
             <p class="mb-4">The <strong class="text-[#4A2C2C]">hosted MCP server</strong> lives at <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code>. Any MCP-compatible client - Claude Desktop, Cursor, any agent runtime that supports remote connectors - can register it, authenticate via OAuth, and call its tools. The agent sends a request, Mochify's hosted MCP forwards it to the API, and the processed image comes back as a short-lived download URL on <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">files.mochify.app</code>.</p>
@@ -185,7 +197,7 @@
 
         <!-- Hosted MCP -->
         <section id="hosted-mcp" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How the Hosted MCP Server Works</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">How the Hosted MCP Server Works</h2>
             <p class="mb-6">The hosted server is a connector that any MCP-compatible AI assistant can register and call. Once OAuth is complete, the agent has two tools available: <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish</code> for image processing, and <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">check_usage</code> for quota checks.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Setup, in one paragraph</h3>
@@ -217,7 +229,7 @@
 
         <!-- Local Install -->
         <section id="local-install" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How the Local Install Works</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">How the Local Install Works</h2>
             <p class="mb-6">The local install is a single Rust binary that runs as either a direct CLI or as a local MCP server that Claude Desktop spawns as a subprocess. In either mode, the agent sees only file paths and compression metadata - never image bytes, and nothing held server-side after the compressed result is written to your disk.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Installation and auth</h3>
@@ -283,7 +295,7 @@ ls *.heic | mochify -t jpg</code></pre>
 
         <!-- When to use which -->
         <section id="when-to-use" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">When to Use Which</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">When to Use Which</h2>
             <p class="mb-6">Pick by what's true about your task, not by which tool you've heard of.</p>
 
             <ScrollableTable class="mb-8">
@@ -320,7 +332,7 @@ ls *.heic | mochify -t jpg</code></pre>
 
         <!-- Example 1 -->
         <section id="example-1" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Worked Example 1: Hosted MCP with a Public URL</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Worked Example 1: Hosted MCP with a Public URL</h2>
             <p class="mb-6">URL-input mode is the cheapest hosted MCP workflow: no image bytes touch the agent's context window in either direction - a URL string in, a URL string out.</p>
 
             <p class="mb-4">A blogger is in Claude Desktop with the Mochify connector registered. They say: <em>"Convert this hero image to AVIF and resize to 1200px wide for my blog: https://example.com/photo.jpg"</em></p>
@@ -346,7 +358,7 @@ ls *.heic | mochify -t jpg</code></pre>
 
         <!-- Example 2 -->
         <section id="example-2" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Worked Example 2: Hosted MCP with an Uploaded Image</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Worked Example 2: Hosted MCP with an Uploaded Image</h2>
             <p class="mb-6">This was historically the workflow most people tried first, and it disappointed in three independent ways. One of those three is now fixed. We're going to be just as direct about what's solid as we were about what wasn't.</p>
 
             <div class="bg-[#FFF9F5] rounded-2xl p-6 border border-[#FFE4D6] mb-4">
@@ -376,7 +388,7 @@ Download URL (expires in ~5 minutes): https://files.mochify.app/629b...d46.avif<
 
         <!-- Example 3 -->
         <section id="example-3" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Worked Example 3: Local MCP Server in Claude Desktop</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Worked Example 3: Local MCP Server in Claude Desktop</h2>
             <p class="mb-6">The local MCP server is the right surface for chat-driven file work: image bytes flow directly from disk to the API and back to disk, no agent context touched, no pickup store involved.</p>
 
             <blockquote class="border-l-4 border-[#F06292] pl-6 py-3 mb-6 bg-[#FFF5F7] rounded-r-2xl">
@@ -404,7 +416,7 @@ Download URL (expires in ~5 minutes): https://files.mochify.app/629b...d46.avif<
 
         <!-- Example 4 -->
         <section id="example-4" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Worked Example 4: Direct CLI in Claude Code or a Build Pipeline</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Worked Example 4: Direct CLI in Claude Code or a Build Pipeline</h2>
             <p class="mb-6">The direct CLI is the cheapest workflow per image by orders of magnitude - zero image bytes in any agent context, works with no agent at all, and slots cleanly into any Unix pipeline or CI step.</p>
 
             <p class="mb-4">A developer working on a Next.js site opens Claude Code and asks: <em>"Optimise everything in public/images to AVIF and WebP, then add a preload tag for the hero image."</em></p>
@@ -452,7 +464,7 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
 
         <!-- Token Cost -->
         <section id="token-cost" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">The Honest Answer on Token Cost</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">The Honest Answer on Token Cost</h2>
             <p class="mb-4">The hosted MCP server used to be a workflow saver but not a token saver, because compressed results returned inline as binary. With URL passback, that's no longer true on the return side. The local install remains the cheapest workflow per image, because no image bytes ever enter the agent's context in either direction.</p>
 
             <p class="mb-4">The <strong class="text-[#4A2C2C]">hosted MCP server with URL input</strong> is now genuinely cheap both ways - a URL string in, a URL string out. Upload input is still expensive on the way in because the image is base64-encoded into the tool-call payload, but the return is a short text URL rather than a binary blob; it's a one-way cost rather than a two-way one.</p>
@@ -493,54 +505,11 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
         </section>
 
         <!-- FAQ -->
-        <section id="faq" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">FAQ</h2>
-            <div class="space-y-4">
-                {#each [
-                    {
-                        q: "Does using the Mochify MCP server cost more tokens than the web app?",
-                        a: "The web app costs no agent tokens at all - it's just you and a browser. Among agent-driven workflows: hosted MCP URL input is now nearly free in both directions. Hosted MCP upload input is expensive on the way in (base64-encoded image bytes in the tool-call payload) but cheap on the way back (a URL string). The local install remains the cheapest of all because no image bytes ever enter the agent's context in either direction."
-                    },
-                    {
-                        q: "Can I use the MCP server on the Free tier?",
-                        a: "Yes. MCP and API access are included on all tiers: Free (25 images/month), Seller, and Pro. The monthly image limit applies equally across the web app, the MCP server, and the API."
-                    },
-                    {
-                        q: "Does the hosted MCP server store my images?",
-                        a: "The original you send is processed in RAM and discarded immediately after encoding - no disk writes, no logs containing image data. The hosted MCP does briefly hold the compressed result in a pickup store with a five-minute TTL so it can return a download URL. After five minutes the result is evicted. The local install workflows skip the pickup store entirely."
-                    },
-                    {
-                        q: "What's the difference between Magic Flow and the squish tool?",
-                        a: "squish is the low-level tool the MCP server exposes - it takes explicit parameters: format, quality, dimensions, options. Magic Flow is the natural-language layer that lets you describe the goal in plain English and have the agent resolve the parameters automatically. Most users only ever interact with Magic Flow."
-                    },
-                    {
-                        q: "Can I run mochify without an agent?",
-                        a: "Yes. mochify is a standalone Rust binary. It works from the shell, in scripts, in CI, in Docker - anywhere you can run a single static binary. Many users run the CLI directly as a build step with no agent involved at all."
-                    },
-                    {
-                        q: "Which formats does squish actually output?",
-                        a: "JPEG (encoded with jpegli for ~35% smaller files at matched quality), AVIF, JPEG XL, WebP, and PNG. AVIF is our default recommendation for web delivery; jpegli-encoded JPEG is the broad-compatibility fallback."
-                    },
-                    {
-                        q: "Does the MCP server support background removal and smart crop?",
-                        a: "Yes. squish exposes removeBackground, crop (smart crop to the subject), smartCompress (saliency-guided quality selection), brightness, clarity, stripExif, rotate, and HDR gain-map preservation. Background removal requires a Seller or Pro plan; the rest are available on all tiers."
-                    },
-                    {
-                        q: "Can I use the MCP server through Cursor or other MCP clients?",
-                        a: "Yes. For the hosted server, any client that supports remote MCP connectors over HTTP with OAuth can register https://mcp.mochify.app. For the local server, any client that supports the standard stdio MCP pattern - Cursor, Continue, Cline, Claude Code with custom config, and others - can spawn mochify serve as a subprocess. Mochify is also listed on Smithery and Glama MCP marketplaces."
-                    },
-                ] as item}
-                    <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
-                        <h3 class="text-lg font-black text-[#4A2C2C] mb-2">{item.q}</h3>
-                        <p class="mb-0 text-base">{item.a}</p>
-                    </div>
-                {/each}
-            </div>
-        </section>
+        <GuideFAQs items={faqItems} />
 
         <!-- Related -->
         <section id="related" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">Related Guides</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-6">Related Guides</h2>
             <ul class="space-y-3">
                 {#each [
                     { href: '/guides/mochify-mcp-image-compression-agent-2026', title: 'How to Use Mochify via MCP: AI Agent Image Compression', desc: 'The practical setup walkthrough for connecting Mochify to Claude Desktop and other MCP clients.' },
@@ -550,7 +519,7 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
                     { href: '/guides/privacy-image-optimization', title: 'Privacy & Image Optimization: A Comprehensive Guide', desc: 'The zero-retention story that underpins every Mochify surface, including the MCP server.' },
                 ] as guide}
                     <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>

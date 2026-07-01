@@ -205,13 +205,13 @@
         </section>
 
         <section id="what-is" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">What is the Mochify MCP server?</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">What is the Mochify MCP server?</h2>
             <p class="mb-4">MCP (Model Context Protocol) is a standard that lets AI assistants call external tools and services mid-conversation. We've built a Mochify MCP server that exposes our squish engine as a callable tool - meaning any AI assistant with MCP support can compress, resize, and optimize your images on your behalf.</p>
             <p class="mb-4">This is the agent-first version of Mochify. The same compression quality and zero-retention privacy you get from the web tool at <a href="https://mochify.app">mochify.app</a>, accessed directly from your AI workflow without opening a browser.</p>
         </section>
 
         <section id="how-it-works" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How the MCP connection works</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">How the MCP connection works</h2>
             <p class="mb-4">When you describe an image optimization task to your MCP-connected assistant, it parses your prompt and identifies the compression intent. It then calls the Mochify MCP server with the appropriate flags - type, resize dimensions, quality, EXIF handling - and returns the optimized file back into your workflow.</p>
 
             <p class="mb-4">The flow looks like this:</p>
@@ -228,7 +228,7 @@
         </section>
 
         <section id="llm-controls" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">What the LLM controls: type, size, EXIF</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">What the LLM controls: type, size, EXIF</h2>
             <p class="mb-4">The AI assistant connected via MCP makes the same decisions as the natural language feature on the web tool - but in an agentic, automated context. Here's exactly what it can set:</p>
 
             <div class="space-y-6 mb-6">
@@ -254,7 +254,7 @@
         </section>
 
         <section id="setup" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How to connect Mochify via MCP</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">How to connect Mochify via MCP</h2>
             <p class="mb-6">The Mochify CLI includes the MCP server. Install it, then point your client at it.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">1. Install the CLI</h3>
@@ -300,7 +300,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
         </section>
 
         <section id="hosted-mcp" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Hosted MCP: zero-install, any AI client</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Hosted MCP: zero-install, any AI client</h2>
             <p class="mb-6">The Mochify MCP server is also available as a hosted HTTP endpoint at <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code>. No binary to install, no Rust toolchain, no config file - paste the URL, authorize your account, and the <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">squish</code> tool appears in your AI assistant instantly.</p>
 
             <p class="mb-6">One behavioural note specific to the hosted server: it returns the compressed image as a short-lived download URL on <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">files.mochify.app</code> (about a five-minute window), not as inline binary. Your original is still processed in RAM and discarded immediately; only the compressed output sits briefly in a pickup store so the link can resolve. The local CLI never uses that pickup store - it writes results straight to disk.</p>
@@ -355,7 +355,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
         </section>
 
         <section id="example" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Example: compressing images from a prompt</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Example: compressing images from a prompt</h2>
             <p class="mb-4">Say you're working in Claude Desktop and you say:</p>
 
             <blockquote class="border-l-4 border-[#F06292] pl-6 py-2 mb-6 bg-[#FFF5F7] rounded-r-2xl">
@@ -381,7 +381,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
         </section>
 
         <section id="comparison" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">MCP vs. the web tool: when to use each</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">MCP vs. the web tool: when to use each</h2>
             <p class="mb-6">Both options use the same squish engine and deliver the same output quality. The difference is workflow fit.</p>
 
             <ScrollableTable class="mb-6">
@@ -408,7 +408,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
         </section>
 
         <section id="cheat-sheet" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Cheat sheet: prompt-to-flag mapping</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Cheat sheet: prompt-to-flag mapping</h2>
 
             <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
@@ -433,60 +433,62 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
         </section>
 
         <section id="faq" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">FAQ</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-10">FAQ
+                <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
+            </h2>
 
             <div class="space-y-6">
-                <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                <div class="faq-item bg-[#FFF5F7] rounded-2xl p-5 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">What is an MCP server?</h3>
                     <p>MCP (Model Context Protocol) is an open standard that lets AI assistants call external tools and APIs mid-conversation. The Mochify MCP server exposes our compression engine as a callable tool any compatible assistant can use.</p>
                 </div>
 
-                <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                <div class="faq-item bg-[#FFF5F7] rounded-2xl p-5 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Which AI assistants support MCP?</h3>
                     <p>Claude Desktop, Cursor, and a growing number of tools support MCP natively. Check your assistant's documentation for MCP tool configuration support.</p>
                 </div>
 
-                <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                <div class="faq-item bg-[#FFF5F7] rounded-2xl p-5 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Is image compression via MCP as good as the web tool?</h3>
                     <p>Yes - the same native C++ squish engine handles both. Output quality and format support are identical.</p>
                 </div>
 
-                <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                <div class="faq-item bg-[#FFF5F7] rounded-2xl p-5 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Does using MCP mean my images are stored?</h3>
                     <p>Your original image is processed in memory and discarded immediately - no disk writes, no logs containing image data - on every surface. One nuance for the hosted MCP: so it can return a download link instead of inline binary, the compressed result is held in a short-lived pickup store for about five minutes, then evicted whether or not it was fetched. The local CLI and <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">mochify serve</code> skip that pickup store entirely and write the compressed bytes straight to your disk. Originals are never retained on any path.</p>
                 </div>
 
-                <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                <div class="faq-item bg-[#FFF5F7] rounded-2xl p-5 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Can I use MCP for batch jobs?</h3>
                     <p>That depends on how your agent is set up to call the tool. The MCP server itself can handle individual calls in sequence - building a batch loop is possible within your agent's logic.</p>
                 </div>
 
-                <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                <div class="faq-item bg-[#FFF5F7] rounded-2xl p-5 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">What formats does the MCP server support?</h3>
                     <p>WebP, AVIF, JPEG XL, and JPEG (via jpegli). The connected AI assistant selects the format based on your prompt.</p>
                 </div>
 
-                <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                <div class="faq-item bg-[#FFF5F7] rounded-2xl p-5 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">How does this differ from the natural language feature on the homepage?</h3>
                     <p>The homepage feature is browser-based and designed for individual, manual use. The MCP server is for agent-driven workflows where an AI assistant is handling the task as part of a larger pipeline - without you touching a browser.</p>
                 </div>
 
-                <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                <div class="faq-item bg-[#FFF5F7] rounded-2xl p-5 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Do I need to install anything to use the hosted MCP?</h3>
                     <p>No. The hosted server at <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code> runs in the cloud. Add the URL in your AI client's settings and authorize your Mochify account - that's it. You only need to install the CLI if you want to process local files via stdio.</p>
                 </div>
 
-                <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                <div class="faq-item bg-[#FFF5F7] rounded-2xl p-5 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Can I use Mochify MCP from Claude.ai in my browser?</h3>
                     <p>Yes. Claude.ai's Integrations feature supports remote MCP servers. Go to <strong>Settings → Integrations</strong>, add <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code>, and authorize. The local CLI MCP is not available on the web - it only runs in Claude Desktop and similar native clients.</p>
                 </div>
 
-                <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                <div class="faq-item bg-[#FFF5F7] rounded-2xl p-5 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Can I run both the hosted and local MCP at the same time?</h3>
                     <p>Yes. They use independent OAuth tokens and can coexist in the same Claude Desktop config. A common setup is the hosted MCP for URL-based agent jobs and the local CLI for compressing files on your own machine - both active simultaneously.</p>
                 </div>
 
-                <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
+                <div class="faq-item bg-[#FFF5F7] rounded-2xl p-5 border border-pink-100">
                     <h3 class="text-lg font-black text-[#4A2C2C] mb-2">Does the hosted MCP work with Gemini, Cursor, or Windsurf?</h3>
                     <p>Yes, with any client that supports remote MCP servers over HTTP. Add <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app/mcp</code> as the server URL in your client's MCP settings and follow the OAuth prompt. Mochify is also listed on Smithery and Glama if your client supports registry-based discovery.</p>
                 </div>
@@ -494,28 +496,28 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
         </section>
 
         <section id="related" class="scroll-mt-24">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">Related guides</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-6">Related guides</h2>
             <ul class="space-y-3">
                 <li>
-                    <a href="/guides/self-hosting-image-optimization-docker" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                    <a href="/guides/self-hosting-image-optimization-docker" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                         <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">How to Self-Host an Image Optimization API with Docker <span class="font-normal opacity-70">— Full control, local deployment</span></span>
                         <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </li>
                 <li>
-                    <a href="/guides/2026-guide-next-gen-formats" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                    <a href="/guides/2026-guide-next-gen-formats" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                         <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL <span class="font-normal opacity-70">— Format benchmarks and use cases</span></span>
                         <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </li>
                 <li>
-                    <a href="/guides/privacy-image-optimization" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                    <a href="/guides/privacy-image-optimization" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                         <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Privacy & Image Optimization: A Comprehensive Guide (2026) <span class="font-normal opacity-70">— Zero-retention explained in depth</span></span>
                         <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </li>
                 <li>
-                    <a href="/guides/exif-data-risks-image-compression-2026" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                    <a href="/guides/exif-data-risks-image-compression-2026" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                         <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">The Risks of EXIF Data in Image Compression (2026) <span class="font-normal opacity-70">— Why metadata stripping matters</span></span>
                         <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                     </a>

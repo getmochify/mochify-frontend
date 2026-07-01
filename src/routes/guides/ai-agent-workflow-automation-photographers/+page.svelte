@@ -3,6 +3,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: "AI Agent Workflow Automation for Photographers: Save Hours with Claude and Mochify",
@@ -413,7 +414,7 @@ dispatch trigger mochify-agent --param folder="$FOLDER_PATH"</code></pre>
             <!-- CTA -->
             <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow mt-6">
                 <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-                <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Process your own batch right now</h3>
+                <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Process your own batch right now</h3>
                 <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base">No setup required. Drag, describe, download.</p>
                 <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                     Try Mochify free →
@@ -480,7 +481,7 @@ strip GPS and device metadata, 2,400px long edge, JPEG"</code></pre>
         <!-- Final CTA -->
         <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-2xl font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Set up your agent workflow today</h3>
+            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Set up your agent workflow today</h3>
             <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base">Connect Mochify's MCP server, available on all plans, no developer paywall.</p>
             <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                 Get started at mochify.app →
@@ -488,17 +489,7 @@ strip GPS and device metadata, 2,400px long edge, JPEG"</code></pre>
         </div>
 
         <!-- FAQ -->
-        <section id="faq">
-            <SectionHeading>FAQ</SectionHeading>
-            <div class="divide-y divide-pink-50">
-                {#each faqItems as item}
-                    <div class="py-5">
-                        <h3 class="text-base font-black text-[#4A2C2C] mb-2 mt-0">{item.q}</h3>
-                        <p class="text-base leading-relaxed m-0">{item.a}</p>
-                    </div>
-                {/each}
-            </div>
-        </section>
+        <GuideFAQs items={faqItems} />
 
         <!-- Related guides -->
         <section>
@@ -506,7 +497,7 @@ strip GPS and device metadata, 2,400px long edge, JPEG"</code></pre>
             <ul class="space-y-3">
                 {#each relatedGuides as guide}
                     <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                             <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title}<span class="font-normal opacity-70">, {guide.desc}</span></span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
