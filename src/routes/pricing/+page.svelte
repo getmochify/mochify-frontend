@@ -168,12 +168,7 @@
     </script>
 </svelte:head>
 
-<div class="min-h-screen bg-[#FDFBF7] flex flex-col relative">
-    <!-- Decorative background -->
-    <div class="fixed inset-0 pointer-events-none opacity-30"
-         style="background-image: radial-gradient(circle at 20% 20%, #F0629215 0%, transparent 50%), radial-gradient(circle at 80% 80%, #A5D6A715 0%, transparent 50%);">
-    </div>
-
+<div class="min-h-screen flex flex-col relative">
     <Navigation />
 
     <main class="relative z-10 flex-grow w-full max-w-5xl mx-auto px-4 py-12 md:py-20">
@@ -198,14 +193,14 @@
                 <button
                     type="button"
                     onclick={() => billing = 'monthly'}
-                    class="px-5 py-2 rounded-full text-sm font-black transition-all {billing === 'monthly' ? 'bg-white text-mochi-pink shadow-sm' : 'text-cocoa-deep/50 hover:text-cocoa-deep'}"
+                    class="cursor-pointer px-5 py-2 rounded-full text-sm font-black transition-all {billing === 'monthly' ? 'bg-white text-mochi-pink shadow-sm' : 'text-cocoa-deep/50 hover:text-cocoa-deep'}"
                 >
                     Monthly
                 </button>
                 <button
                     type="button"
                     onclick={() => billing = 'yearly'}
-                    class="px-5 py-2 rounded-full text-sm font-black transition-all flex items-center gap-2 {billing === 'yearly' ? 'bg-white text-mochi-pink shadow-sm' : 'text-cocoa-deep/50 hover:text-cocoa-deep'}"
+                    class="cursor-pointer px-5 py-2 rounded-full text-sm font-black transition-all flex items-center gap-2 {billing === 'yearly' ? 'bg-white text-mochi-pink shadow-sm' : 'text-cocoa-deep/50 hover:text-cocoa-deep'}"
                 >
                     Yearly
                     <span class="inline-block px-2 py-0.5 rounded-full bg-matcha-green/40 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
