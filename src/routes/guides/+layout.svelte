@@ -160,6 +160,11 @@
         border: 1px solid #FFE5EC;
         font-weight: 500;
     }
+
+    :global(article :not(pre) > code) {
+        display: inline-block;
+        white-space: nowrap;
+    }
     
     :global(article pre) {
         color: #e5e7eb;
