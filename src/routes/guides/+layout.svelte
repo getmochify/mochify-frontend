@@ -86,6 +86,11 @@
     :global(article p) {
         color: #4A2C2C;
         letter-spacing: 0;
+        margin-bottom: 1rem;
+    }
+
+    :global(article p:last-child) {
+        margin-bottom: 0;
     }
 
     /* FAQ rhythm */
