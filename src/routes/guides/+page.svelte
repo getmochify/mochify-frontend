@@ -15,6 +15,14 @@
             featured: true
         },
         {
+            title: "How to Compress and Optimize AI-Generated Images (in Automated and Agent Workflows)",
+            description: "AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize-after-generation step in an agent pipeline.",
+            url: "/guides/compress-optimize-ai-generated-images",
+            category: "AI & Automation",
+            readTime: "15 min read",
+            date: "June 5, 2026"
+        },
+        {
             title: "How to Convert iPhone Photos (HEIC) to PDF",
             description: "Convert iPhone HEIC photos to PDF on any device - iPhone, Mac, Windows, or online. Native methods, batch tips, and a one-click tool. No app needed.",
             url: "/guides/heic-to-pdf-iphone-photos",
