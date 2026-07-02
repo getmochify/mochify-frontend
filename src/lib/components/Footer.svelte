@@ -16,11 +16,11 @@
         <a href="/heic-to-jpeg" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">
             HEIC to JPEG
         </a>
-        <span aria-hidden="true" class="text-[#D4A0B5] font-bold">•</span>
+        <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5] font-bold">•</span>
         <a href="/solutions/hif-to-jpg" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">
             HIF to JPG
         </a>
-        <span aria-hidden="true" class="text-[#D4A0B5] font-bold">•</span>
+        <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5] font-bold">•</span>
         <a href="/comparison" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">
             Quality Comparison
         </a>
