@@ -355,7 +355,8 @@
             file,
             progress: 0,
             phase: 'uploading' as const,
-            status: 'pending' as const
+            status: 'pending' as const,
+            thumbnailUrl: fileProgress.find((fp) => fp.file === file)?.thumbnailUrl
         }));
 
         try {
@@ -458,6 +459,9 @@
 
             if (successfulFiles.length === 0) {
                 if (hitRateLimit) {
+                    fileProgress.forEach((fp) => {
+                        if (fp.thumbnailUrl) URL.revokeObjectURL(fp.thumbnailUrl);
+                    });
                     selectedFiles = [];
                     fileProgress = [];
                     return;
@@ -496,8 +500,11 @@
                 );
             }
 
-            const reduction = ((1 - totalCompressedSize / totalOriginalSize) * 100).toFixed(1);
-            const spaceSaved = formatFileSize(totalOriginalSize - totalCompressedSize);
+            // Compare against the successful files' original sizes only, so failed
+            // files don't inflate the reported savings.
+            const successfulOriginalSize = successfulFiles.reduce((sum, f) => sum + f.size, 0);
+            const reduction = ((1 - totalCompressedSize / successfulOriginalSize) * 100).toFixed(1);
+            const spaceSaved = formatFileSize(successfulOriginalSize - totalCompressedSize);
 
             if (hitRateLimit) {
                 const pendingFiles = fileProgress.filter((fp) => fp.status === 'pending').length;
@@ -526,13 +533,18 @@
                         : `Done! ${selectedFiles.length} images optimised. Saved ${spaceSaved} total.`;
             }
 
-            fileProgress.forEach((fp) => {
-                if (fp.thumbnailUrl) URL.revokeObjectURL(fp.thumbnailUrl);
-            });
             if (hitRateLimit) {
+                fileProgress.forEach((fp) => {
+                    if (fp.thumbnailUrl) URL.revokeObjectURL(fp.thumbnailUrl);
+                });
                 selectedFiles = [];
                 fileProgress = [];
             } else {
+                // Only revoke thumbnails for entries being removed — failed/pending
+                // files stay in the list and still need theirs.
+                fileProgress.forEach((fp) => {
+                    if (fp.status === 'complete' && fp.thumbnailUrl) URL.revokeObjectURL(fp.thumbnailUrl);
+                });
                 selectedFiles = selectedFiles.filter((_, i) => fileProgress[i].status !== 'complete');
                 fileProgress = fileProgress.filter((fp) => fp.status !== 'complete');
             }
