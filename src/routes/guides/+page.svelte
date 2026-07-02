@@ -415,10 +415,10 @@
     {@html `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`}
 </svelte:head>
 
-<div class="px-4 py-12 sm:px-6 lg:px-8">
-        
-<header class="text-center mb-16">
-    <h1 class="text-5xl md:text-6xl font-black bg-gradient-to-r from-[#FFB3C6] via-[#E0ACD5] to-[#C5A3E0] bg-clip-text text-transparent leading-tight pb-2 mb-6">
+<div class="px-4 pt-2 pb-12 sm:px-6 lg:px-8">
+
+<header class="text-center mb-12">
+    <h1 class="text-5xl md:text-6xl font-black bg-gradient-to-r from-[#FFB3C6] via-[#E0ACD5] to-[#9B7EC8] bg-clip-text text-transparent leading-tight pb-2 mb-6">
         Image Optimization Guides
     </h1>
     <p class="text-xl text-[#875F42] font-medium max-w-2xl mx-auto">
@@ -428,9 +428,9 @@
 
 {#if featuredGuides.length > 0}
 <section class="mb-14" aria-label="Featured guides">
-    <div class="flex items-center gap-3 mb-6">
-        <span class="w-1.5 h-7 bg-[#F06292] rounded-full shrink-0"></span>
-        <h2 class="text-[1.75rem] font-black text-[#4A2C2C]">Featured</h2>
+    <div class="mb-7">
+        <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-3">Featured</h2>
+        <div class="featured-heading-bar"></div>
     </div>
 
     <!-- Primary featured guide -->
@@ -559,3 +559,12 @@
 </div>
 
 </div>
+
+<style>
+    .featured-heading-bar {
+        height: 5px;
+        width: 60px;
+        border-radius: 99px;
+        background: linear-gradient(90deg, #F06292, #E0ACD5);
+    }
+</style>
