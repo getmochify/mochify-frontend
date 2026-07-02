@@ -20,7 +20,7 @@
             url: "/guides/compress-optimize-ai-generated-images",
             category: "AI & Automation",
             readTime: "15 min read",
-            date: "June 5, 2026"
+            date: "July 2, 2026"
         },
         {
             title: "How to Convert iPhone Photos (HEIC) to PDF",

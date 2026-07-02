@@ -9,7 +9,7 @@
         description: "AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize-after-generation step in an agent pipeline.",
         category: "AI & Automation",
         readTime: "15 min read",
-        date: "June 5, 2026"
+        date: "July 2, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -105,9 +105,9 @@
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/compress-optimize-ai-generated-images"
         },
-        "datePublished": "2026-06-05",
-        "dateModified": "2026-06-05",
-        "inLanguage": "en-GB",
+        "datePublished": "2026-07-02",
+        "dateModified": "2026-07-02",
+        "inLanguage": "en",
         "author": {
             "@type": "Organization",
             "name": "Mochify Engineering Team",
@@ -163,8 +163,8 @@
         "url": "https://mochify.app/guides/compress-optimize-ai-generated-images",
         "description": "AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize-after-generation step in an agent pipeline.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
-        "datePublished": "2026-06-05",
-        "dateModified": "2026-06-05"
+        "datePublished": "2026-07-02",
+        "dateModified": "2026-07-02"
         }
     </script>
 
@@ -208,7 +208,7 @@
 
         <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
             <p class="text-[#6C3F31] text-base leading-relaxed m-0">
-                <strong class="text-[#4A2C2C]">Published June 2026 by the Mochify Engineering Team.</strong>
+                <strong class="text-[#4A2C2C]">Published July 2026 by the Mochify Engineering Team.</strong>
                 This guide stays in the generated-asset and agent-pipeline lane: how to automate the optimize-after-generation step without leaking client data or blowing your agent's token budget.
             </p>
         </div>
