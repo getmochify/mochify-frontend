@@ -2,12 +2,22 @@
     // import { onMount } from 'svelte'; // crypto buttons hidden temporarily
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
+    import { env } from '$env/dynamic/public';
+    import { page } from '$app/state';
     // crypto buttons hidden temporarily
     // const DEPAY_INTEGRATION_SELLER = '98d95188-b18d-498c-a988-ef312881ed24';
     // const DEPAY_INTEGRATION_PRO = ''; // TODO: add Pro integration ID from Depay admin
 
     // let { data } = $props(); // crypto buttons hidden temporarily
     let billing = $state<'monthly' | 'yearly'>('monthly');
+
+    // Send buyers back to the homepage after checkout so ImageUpload's
+    // day_pass_success toast (magic-link instructions) is shown.
+    const dayPassCheckoutUrl = $derived(
+        env.PUBLIC_POLAR_DAY_PASS_URL
+            ? `${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(`${page.url.origin}/?day_pass_success=1`)}`
+            : ''
+    );
     // let sellerDepayEl = $state<HTMLDivElement | null>(null);
     // let proDepayEl = $state<HTMLDivElement | null>(null);
 
@@ -34,11 +44,11 @@
 
 <svelte:head>
     <title>Pricing — Mochify</title>
-    <meta name="description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month. Or grab a $5 credit pack — 100 images, never expire, no subscription." />
+    <meta name="description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month. Or grab a $2 Day Pass — 500 image ops for 24 hours, no subscription." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mochify.app/pricing" />
     <meta property="og:title" content="Pricing — Mochify" />
-    <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month. Or grab a $5 credit pack — 100 images, never expire, no subscription." />
+    <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month. Or grab a $2 Day Pass — 500 image ops for 24 hours, no subscription." />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -119,10 +129,10 @@
                     },
                     {
                         "@type": "Offer",
-                        "name": "Credit Pack",
-                        "price": "5.00",
+                        "name": "Day Pass",
+                        "price": "2.00",
                         "priceCurrency": "USD",
-                        "description": "100 images, one-time purchase. Credits never expire. No subscription or renewal. All formats, resize and crop included. 20MB per file, standard queue."
+                        "description": "24-hour pass, one-time purchase. 500 image ops, files up to 75MB, larger batches. No subscription or account required — activated instantly by magic link."
                     }
                 ]
             },
@@ -503,7 +513,8 @@
             </div>
         </div>
 
-        <!-- Credit pack -->
+        <!-- Day Pass -->
+        {#if env.PUBLIC_POLAR_DAY_PASS_URL}
         <div class="mt-8 max-w-4xl mx-auto">
             <div class="flex items-center gap-4 mb-6">
                 <div class="flex-grow h-px bg-gradient-to-r from-transparent via-pink-100 to-transparent"></div>
@@ -513,9 +524,9 @@
 
             <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-6 flex flex-col sm:flex-row sm:items-center gap-6">
                 <div class="flex-shrink-0">
-                    <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-3">Credit Pack</span>
+                    <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-3">Day Pass</span>
                     <div class="flex items-end gap-1">
-                        <span class="text-3xl font-black text-[#4A2C2C]">$5</span>
+                        <span class="text-3xl font-black text-[#4A2C2C]">$2</span>
                         <span class="text-[#6C3F31]/50 mb-1.5 text-sm">one-time</span>
                     </div>
                 </div>
@@ -524,34 +535,35 @@
                     <ul class="flex flex-wrap gap-x-6 gap-y-2">
                         <li class="flex items-center gap-2 text-sm text-[#6C3F31]">
                             <span class="text-[#A5D6A7] font-black">✓</span>
-                            <span><strong>100 images</strong> — never expire</span>
+                            <span><strong>500 image ops</strong> for 24 hours</span>
                         </li>
                         <li class="flex items-center gap-2 text-sm text-[#6C3F31]">
                             <span class="text-[#A5D6A7] font-black">✓</span>
-                            <span>All formats, resize &amp; crop</span>
+                            <span><strong>75MB</strong> per file &amp; larger batches</span>
                         </li>
                         <li class="flex items-center gap-2 text-sm text-[#6C3F31]">
                             <span class="text-[#A5D6A7] font-black">✓</span>
-                            <span>No subscription, no renewal</span>
+                            <span>No subscription, no account needed</span>
                         </li>
-                        <li class="flex items-center gap-2 text-sm text-[#6C3F31]/50">
-                            <span class="font-black">–</span>
-                            <span>20MB per file · standard queue</span>
+                        <li class="flex items-center gap-2 text-sm text-[#6C3F31]">
+                            <span class="text-[#A5D6A7] font-black">✓</span>
+                            <span>Activated instantly by magic link</span>
                         </li>
                     </ul>
                 </div>
 
                 <div class="flex-shrink-0 flex flex-col items-start sm:items-end gap-1.5">
-                    <button
-                        disabled
-                        class="cursor-not-allowed opacity-60 block text-center px-6 py-3 rounded-2xl border border-[#875F42]/15 text-sm font-black text-[#6C3F31] bg-white"
+                    <a
+                        href={dayPassCheckoutUrl}
+                        target="_blank" rel="noopener noreferrer"
+                        class="block text-center px-6 py-3 rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
                     >
-                        Buy credits
-                    </button>
-                    <span class="text-xs text-[#6C3F31]/40 font-medium">Coming soon</span>
+                        Get Day Pass — $2
+                    </a>
                 </div>
             </div>
         </div>
+        {/if}
 
         <!-- Feature comparison table -->
         <div class="mt-16 max-w-4xl mx-auto">
@@ -677,11 +689,11 @@
 
                 <details class="bg-white rounded-2xl border border-pink-100 shadow-sm group">
                     <summary class="px-6 py-4 cursor-pointer font-semibold text-[#4A2C2C] flex justify-between items-center select-none list-none">
-                        Do credit pack images expire?
+                        How does the Day Pass work?
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
-                        No — credit pack images never expire. Use them at your own pace, whenever you need them.
+                        Pay $2 and we email you a magic link — click it to unlock 500 image ops, 75MB files and larger batches for 24 hours. No account or subscription needed.
                     </p>
                 </details>
 
