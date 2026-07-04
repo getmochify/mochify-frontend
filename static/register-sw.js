@@ -1,20 +1,15 @@
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        // The autoUpdate worker does skipWaiting + clientsClaim, so a new deploy
-        // takes control of this already-open page and evicts (cleanupOutdatedCaches)
-        // the old hashed chunks it still references. Reload once when control
-        // passes to the new worker so the page runs the same build as the cache —
-        // without this, the next dynamic import 404s ("Importing a module script
-        // failed" / "Load failed"), which long-lived iOS standalone PWAs hit often.
-        const hadController = !!navigator.serviceWorker.controller;
-        let reloading = false;
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-            // First install (no prior controller) is already a fresh page — skip.
-            if (!hadController || reloading) return;
-            reloading = true;
-            window.location.reload();
-        });
-
-        navigator.serviceWorker.register('/sw.js');
+    window.addEventListener('load', async () => {
+        // The worker installs but waits (no skipWaiting/clientsClaim), so a deploy
+        // mid-session never seizes an open page or evicts the precached chunks it
+        // still references — the old worker keeps serving the old build until the
+        // page goes away. HTML is never precached (navigateFallback: null, no html
+        // in globPatterns), so every navigation already runs the newest build;
+        // that makes it safe to activate a worker left waiting by a previous
+        // session right here at load, with no reload needed. A worker that
+        // finishes installing later in this session simply waits for the next
+        // page load (or for all tabs to close, the browser default).
+        const registration = await navigator.serviceWorker.register('/sw.js');
+        registration.waiting?.postMessage({ type: 'SKIP_WAITING' });
     });
 }

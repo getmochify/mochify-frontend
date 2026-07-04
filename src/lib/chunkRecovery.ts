@@ -1,12 +1,10 @@
 // Recovery for stale code-split chunks after a deploy.
 //
-// The PWA service worker uses autoUpdate (skipWaiting + clientsClaim) and
-// cleanupOutdatedCaches, so a new deploy seizes the already-open page and
-// evicts the old hashed chunks it still references. The next dynamic import
-// then 404s — Safari reports "Importing a module script failed" / "Load
-// failed". register-sw.js reloads the page on `controllerchange` to prevent
-// this; these helpers self-heal any import that still slips through (e.g. the
-// window between the cache swap and the reload, or a route chunk).
+// The PWA service worker waits for the next page load before activating
+// (register-sw.js), so an open page normally keeps its own build's precached
+// chunks. These helpers self-heal the cases that still slip through — e.g. a
+// chunk evicted by an activation racing a navigation, or old assets dropped
+// from the CDN after a deploy for a client with no service worker.
 import { browser } from '$app/environment';
 
 const RELOAD_KEY = 'mochify:chunk-reload-at';
