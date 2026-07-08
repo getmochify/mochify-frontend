@@ -405,7 +405,7 @@
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Shopify and ecommerce</h3>
             <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm mb-6">
                 <div class="bg-[#4A2C2C] px-5 py-3"><span class="text-pink-200 text-xs font-black uppercase tracking-widest">Magic Flow prompts</span></div>
-                <pre class="bg-[#2D1B1B] text-[#FFF0F3] text-sm p-6 overflow-x-auto leading-relaxed whitespace-pre-wrap"><code>"Optimize these Shopify product photos: 2048x2048px, jpegli JPEG, keep them under 400KB, strip EXIF, and make sure they stay sharp when zoomed."
+                <pre class="!m-0 !rounded-none bg-[#2D1B1B] text-[#FFF0F3] text-sm p-6 overflow-x-auto leading-relaxed whitespace-pre-wrap"><code>"Optimize these Shopify product photos: 2048x2048px, jpegli JPEG, keep them under 400KB, strip EXIF, and make sure they stay sharp when zoomed."
 
 "Convert these iPhone product photos to JPEG for Etsy listings, 2500px on the longest edge, aim for 300-500KB each, pure sRGB color, and strip all EXIF/location data."
 
@@ -415,7 +415,7 @@
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">WordPress and publishers</h3>
             <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm mb-6">
                 <div class="bg-[#4A2C2C] px-5 py-3"><span class="text-pink-200 text-xs font-black uppercase tracking-widest">Magic Flow prompts</span></div>
-                <pre class="bg-[#2D1B1B] text-[#FFF0F3] text-sm p-6 overflow-x-auto leading-relaxed whitespace-pre-wrap"><code>"Prepare these blog images for WordPress: 1400px content width, prefer WebP, keep files under 200KB, strip EXIF, and keep text in screenshots crisp."
+                <pre class="!m-0 !rounded-none bg-[#2D1B1B] text-[#FFF0F3] text-sm p-6 overflow-x-auto leading-relaxed whitespace-pre-wrap"><code>"Prepare these blog images for WordPress: 1400px content width, prefer WebP, keep files under 200KB, strip EXIF, and keep text in screenshots crisp."
 
 "Create WooCommerce product images: 1600px square, WebP plus a high-quality JPEG fallback, under 350KB, no metadata."
 
@@ -425,7 +425,7 @@
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Developers (API / CLI / MCP)</h3>
             <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm mb-6">
                 <div class="bg-[#4A2C2C] px-5 py-3"><span class="text-pink-200 text-xs font-black uppercase tracking-widest">API / CLI</span></div>
-                <pre class="bg-[#2D1B1B] text-[#FFF0F3] text-sm p-6 overflow-x-auto leading-relaxed whitespace-pre-wrap"><code>"Normalize this asset set for a Next.js image CDN: convert everything to sRGB, longest edge 3000px, keep near-lossless quality, strip EXIF, output lossless WebP as masters."
+                <pre class="!m-0 !rounded-none bg-[#2D1B1B] text-[#FFF0F3] text-sm p-6 overflow-x-auto leading-relaxed whitespace-pre-wrap"><code>"Normalize this asset set for a Next.js image CDN: convert everything to sRGB, longest edge 3000px, keep near-lossless quality, strip EXIF, output lossless WebP as masters."
 
 CLI:      --prompt "normalize for CDN: 3000px long edge, sRGB, strip EXIF, master format lossless WebP, keep visual quality very high"
 
@@ -435,7 +435,7 @@ REST API: POST /v1/prompt  {'{"prompt": "compress these for web delivery: max 16
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Designers, photographers, and agencies</h3>
             <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm mb-6">
                 <div class="bg-[#4A2C2C] px-5 py-3"><span class="text-pink-200 text-xs font-black uppercase tracking-widest">Magic Flow prompts</span></div>
-                <pre class="bg-[#2D1B1B] text-[#FFF0F3] text-sm p-6 overflow-x-auto leading-relaxed whitespace-pre-wrap"><code>"Create web portfolio versions of these photos: 2560px on the long edge, jpegli JPEG around quality 85, target 800KB-1.2MB each, keep all visual detail, strip EXIF."
+                <pre class="!m-0 !rounded-none bg-[#2D1B1B] text-[#FFF0F3] text-sm p-6 overflow-x-auto leading-relaxed whitespace-pre-wrap"><code>"Create web portfolio versions of these photos: 2560px on the long edge, jpegli JPEG around quality 85, target 800KB-1.2MB each, keep all visual detail, strip EXIF."
 
 "Compress these HEIC files to jpegli JPEG for a client handoff, 2000px longest edge, keep visual quality high, strip all EXIF including location."
 
