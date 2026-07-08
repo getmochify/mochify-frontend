@@ -11,6 +11,9 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
     if (!resendKey) console.warn("[auth] RESEND_API_KEY is not set — emails will not be sent");
     const resend = resendKey ? new Resend(resendKey) : null;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const kysely = new Kysely<any>({ dialect: new D1Dialect({ database: db }) });
+
     return betterAuth({
         baseURL: PUBLIC_APP_URL,
         secret: BETTER_AUTH_SECRET,
@@ -19,10 +22,28 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                 ipAddressHeaders: ['CF-Connecting-IP', 'X-Forwarded-For'],
             },
         },
-        database: kyselyAdapter(
-            new Kysely({ dialect: new D1Dialect({ database: db }) }),
-            { type: "sqlite" }
-        ),
+        database: kyselyAdapter(kysely, { type: "sqlite" }),
+        databaseHooks: {
+            session: {
+                create: {
+                    // Any successful sign-in (password, magic link, Google)
+                    // cancels a pending account deletion — the account keeps
+                    // its userId, so usage counters carry over untouched.
+                    after: async (session) => {
+                        try {
+                            await kysely
+                                .updateTable("user")
+                                .set({ deleted_at: null })
+                                .where("id", "=", session.userId)
+                                .where("deleted_at", "is not", null)
+                                .execute();
+                        } catch (e) {
+                            console.error("[auth] clearing deleted_at failed:", e);
+                        }
+                    },
+                },
+            },
+        },
         emailAndPassword: {
             enabled: true,
             requireEmailVerification: true,

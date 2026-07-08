@@ -519,7 +519,9 @@
 		<div class="rounded-3xl border border-red-200/60 p-6">
 			<h2 class="mb-1 font-black text-red-700/80">Danger zone</h2>
 			<p class="mb-4 text-sm text-[#875F42]/60">
-				Permanently delete your account and all associated data. This cannot be undone.
+				Delete your account and all associated data. Your account is deactivated immediately
+				and permanently deleted after 14 days — signing in again within that window cancels
+				the deletion.
 			</p>
 			{#if !showDeleteConfirm}
 				<button

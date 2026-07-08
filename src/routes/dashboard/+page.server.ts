@@ -53,6 +53,11 @@ export const actions = {
         return { success: true, optin }
     },
 
+    // Soft delete with a 14-day grace period. The user row (and its email) is
+    // kept so re-registering with the same address can't reset usage limits;
+    // logging in again within the window cancels the deletion (see the session
+    // databaseHook in $lib/auth.ts). The daily cron in mochify-worker purges
+    // rows once deleted_at is older than 14 days.
     deleteAccount: async ({ locals, platform }) => {
         if (!locals.user) return fail(401, { error: 'Not authenticated' })
 
@@ -61,7 +66,7 @@ export const actions = {
             ...(env.POLAR_SANDBOX === 'true' ? { server: 'sandbox' } : {})
         })
 
-        // TODO: cancel Polar subscription once profiles table is in D1.
+        // Billing stops at the moment of the delete click, not at purge time.
         try {
             const subs = await polar.subscriptions.list({ customerId: locals.user.id, limit: 1 })
             const sub = subs.result.items[0]
@@ -75,7 +80,14 @@ export const actions = {
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const kysely = new Kysely<any>({ dialect: new D1Dialect({ database: db }) })
-        await kysely.deleteFrom('user').where('id', '=', locals.user.id).execute()
+        await kysely
+            .updateTable('user')
+            .set({ deleted_at: Date.now() })
+            .where('id', '=', locals.user.id)
+            .execute()
+        // The hard delete revoked sessions via cascade; the soft delete must do
+        // it explicitly so the user is signed out everywhere.
+        await kysely.deleteFrom('session').where('userId', '=', locals.user.id).execute()
 
         // Purge KV session cache so the cookie is immediately invalid.
         const kv = platform?.env?.USAGE_KV
