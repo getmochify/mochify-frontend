@@ -180,10 +180,12 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="flex min-h-screen flex-col bg-[#FDFBF7]">
+<div class="relative flex min-h-screen flex-col bg-[#FDFBF7]">
 	<Navigation />
 
-	<main class="mx-auto w-full max-w-4xl grow px-4 py-12 sm:px-6">
+	<div class="absolute top-16 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[250px] bg-gradient-to-r from-pink-200/0 via-pink-200/20 to-pink-200/0 blur-3xl rounded-full pointer-events-none"></div>
+
+	<main class="relative mx-auto w-full max-w-4xl grow px-4 py-12 sm:px-6">
 		<div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 			<div class="min-w-0">
 				<h1 class="text-3xl font-black tracking-tight text-[#4A2C2C]">Dashboard</h1>
