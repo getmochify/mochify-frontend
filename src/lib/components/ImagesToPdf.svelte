@@ -2,6 +2,7 @@
     import { env } from '$env/dynamic/public';
     import { getSessionToken } from '$lib/user';
     import { posthog } from '$lib/analytics';
+    import { withRetry } from '$lib/uploadRetry';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 
@@ -89,43 +90,53 @@
         const params = new URLSearchParams({ op: 'create', page: pageSize, quality: '85' });
 
         try {
-            const blob = await new Promise<Blob>((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', `${API_URL}/v1/pdf?${params}`);
-                if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
-                // No Content-Type — the browser sets the multipart boundary.
-                xhr.responseType = 'blob';
-                xhr.upload.onprogress = (e) => {
-                    if (totalBytes > 0)
-                        uploadPercent = Math.min(Math.round((e.loaded / totalBytes) * 100), 100);
-                };
-                xhr.upload.onloadend = () => {
-                    phase = 'processing';
-                };
-                xhr.onload = () => {
-                    uploadPercent = 100;
-                    if (xhr.status >= 200 && xhr.status < 300) {
-                        resolve(xhr.response as Blob);
-                        return;
-                    }
-                    const status = xhr.status;
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                        const text = (reader.result as string)?.trim() || '';
-                        const err: any = new Error(text || `PDF creation failed (status ${status})`);
-                        err.status = status;
-                        reject(err);
-                    };
-                    reader.onerror = () => {
-                        const err: any = new Error(`PDF creation failed (status ${status})`);
-                        err.status = status;
-                        reject(err);
-                    };
-                    reader.readAsText(xhr.response as Blob);
-                };
-                xhr.onerror = () => reject(new Error('Lost connection while creating your PDF'));
-                xhr.send(form);
-            });
+            const blob = await withRetry(
+                () =>
+                    new Promise<Blob>((resolve, reject) => {
+                        phase = 'uploading';
+                        uploadPercent = 0;
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', `${API_URL}/v1/pdf?${params}`);
+                        if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
+                        // No Content-Type — the browser sets the multipart boundary.
+                        xhr.responseType = 'blob';
+                        xhr.upload.onprogress = (e) => {
+                            if (totalBytes > 0)
+                                uploadPercent = Math.min(Math.round((e.loaded / totalBytes) * 100), 100);
+                        };
+                        xhr.upload.onloadend = () => {
+                            phase = 'processing';
+                        };
+                        xhr.onload = () => {
+                            uploadPercent = 100;
+                            if (xhr.status >= 200 && xhr.status < 300) {
+                                resolve(xhr.response as Blob);
+                                return;
+                            }
+                            const status = xhr.status;
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                                const text = (reader.result as string)?.trim() || '';
+                                const err: any = new Error(text || `PDF creation failed (status ${status})`);
+                                err.status = status;
+                                reject(err);
+                            };
+                            reader.onerror = () => {
+                                const err: any = new Error(`PDF creation failed (status ${status})`);
+                                err.status = status;
+                                reject(err);
+                            };
+                            reader.readAsText(xhr.response as Blob);
+                        };
+                        xhr.onerror = () => {
+                            const err: any = new Error('Lost connection while creating your PDF');
+                            err.retryable = true;
+                            reject(err);
+                        };
+                        xhr.send(form);
+                    }),
+                'imgpdf_solution'
+            );
 
             phase = 'downloading';
             const url = URL.createObjectURL(blob);

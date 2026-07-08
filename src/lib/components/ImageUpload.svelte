@@ -4,6 +4,7 @@
     import { page } from '$app/state';
     import { getPlan, getSessionToken } from '$lib/user';
     import { posthog } from '$lib/analytics';
+    import { withRetry } from '$lib/uploadRetry';
     import { portal } from '$lib/portal';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
@@ -371,58 +372,79 @@
                 fileProgress[index].status = 'processing';
 
                 try {
-                    const blob = await new Promise<Blob>((resolve, reject) => {
-                        const xhr = new XMLHttpRequest();
-                        let lastLoaded = 0;
+                    const blob = await withRetry(
+                        () =>
+                            new Promise<Blob>((resolve, reject) => {
+                                const xhr = new XMLHttpRequest();
+                                let lastLoaded = 0;
+                                // Undo this attempt's contribution to the shared batch counter so
+                                // a retried upload doesn't double-count.
+                                const rollback = () => {
+                                    uploadedBytes -= lastLoaded;
+                                    lastLoaded = 0;
+                                    uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+                                };
 
-                        xhr.upload.addEventListener('progress', (e) => {
-                            const delta = e.loaded - lastLoaded;
-                            lastLoaded = e.loaded;
-                            uploadedBytes += delta;
-                            processPhase = 'uploading';
-                            uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
-                        });
+                                xhr.upload.addEventListener('progress', (e) => {
+                                    const delta = e.loaded - lastLoaded;
+                                    lastLoaded = e.loaded;
+                                    uploadedBytes += delta;
+                                    processPhase = 'uploading';
+                                    uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+                                });
 
-                        xhr.upload.addEventListener('load', () => {
-                            uploadedBytes += file.size - lastLoaded;
-                            uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
-                            processPhase = 'processing';
-                            downloadPercent = 0;
-                        });
+                                xhr.upload.addEventListener('load', () => {
+                                    uploadedBytes += file.size - lastLoaded;
+                                    lastLoaded = file.size;
+                                    uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+                                    processPhase = 'processing';
+                                    downloadPercent = 0;
+                                });
 
-                        xhr.addEventListener('progress', (e) => {
-                            processPhase = 'downloading';
-                            if (e.lengthComputable) {
-                                downloadPercent = Math.round((e.loaded / e.total) * 100);
-                            }
-                        });
+                                xhr.addEventListener('progress', (e) => {
+                                    processPhase = 'downloading';
+                                    if (e.lengthComputable) {
+                                        downloadPercent = Math.round((e.loaded / e.total) * 100);
+                                    }
+                                });
 
-                        xhr.addEventListener('load', () => {
-                            if (xhr.status >= 200 && xhr.status < 300) {
-                                const latency = xhr.getResponseHeader('X-Latency-Ms');
-                                if (latency) console.log(`[C++ Engine] ${file.name} squished in ${latency}`);
-                                resolve(xhr.response);
-                            } else {
-                                const error: any = new Error(`Server error: ${xhr.status}`);
-                                error.status = xhr.status;
-                                reject(error);
-                            }
-                        });
+                                xhr.addEventListener('load', () => {
+                                    if (xhr.status >= 200 && xhr.status < 300) {
+                                        const latency = xhr.getResponseHeader('X-Latency-Ms');
+                                        if (latency) console.log(`[C++ Engine] ${file.name} squished in ${latency}`);
+                                        resolve(xhr.response);
+                                    } else {
+                                        rollback();
+                                        const error: any = new Error(`Server error: ${xhr.status}`);
+                                        error.status = xhr.status;
+                                        reject(error);
+                                    }
+                                });
 
-                        xhr.addEventListener('error', () => reject(new Error('Network error')));
-                        xhr.addEventListener('abort', () => reject(new Error('Upload cancelled')));
+                                xhr.addEventListener('error', () => {
+                                    rollback();
+                                    const error: any = new Error('Network error');
+                                    error.retryable = true;
+                                    reject(error);
+                                });
+                                xhr.addEventListener('abort', () => {
+                                    rollback();
+                                    reject(new Error('Upload cancelled'));
+                                });
 
-                        const ALLOWED_FORMATS = new Set(['jpg', 'jpeg', 'png', 'webp', 'avif', 'jxl']);
-                        const safeType = ALLOWED_FORMATS.has(imageType) ? imageType : 'jpg';
-                        const squishParams = new URLSearchParams({ type: safeType, strip_exif: String(stripExif) });
-                        if (smartCompress) squishParams.append('smartCompress', '1');
-                        if (queryParams) new URLSearchParams(queryParams).forEach((v, k) => squishParams.append(k, v));
-                        xhr.open('POST', `${API_URL}/v1/squish?${squishParams}`);
-                        xhr.setRequestHeader('Content-Type', resolveContentType(file));
-                        if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
-                        xhr.responseType = 'blob';
-                        xhr.send(file);
-                    });
+                                const ALLOWED_FORMATS = new Set(['jpg', 'jpeg', 'png', 'webp', 'avif', 'jxl']);
+                                const safeType = ALLOWED_FORMATS.has(imageType) ? imageType : 'jpg';
+                                const squishParams = new URLSearchParams({ type: safeType, strip_exif: String(stripExif) });
+                                if (smartCompress) squishParams.append('smartCompress', '1');
+                                if (queryParams) new URLSearchParams(queryParams).forEach((v, k) => squishParams.append(k, v));
+                                xhr.open('POST', `${API_URL}/v1/squish?${squishParams}`);
+                                xhr.setRequestHeader('Content-Type', resolveContentType(file));
+                                if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
+                                xhr.responseType = 'blob';
+                                xhr.send(file);
+                            }),
+                        'manual_squish'
+                    );
 
                     compressedBlobs[index] = blob;
                     totalCompressedSize += blob.size;

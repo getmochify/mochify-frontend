@@ -5,6 +5,7 @@
 	import { getSessionToken, getPlan } from '$lib/user';
 	import { posthog } from '$lib/analytics';
 	import { isChunkLoadError, recoverFromStaleChunk } from '$lib/chunkRecovery';
+	import { withRetry } from '$lib/uploadRetry';
 	import { portal } from '$lib/portal';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
@@ -884,43 +885,53 @@
 				const params = new URLSearchParams({ op: 'create', page, quality: String(quality) });
 
 				try {
-					const blob = await new Promise<Blob>((resolve, reject) => {
-						const xhr = new XMLHttpRequest();
-						xhr.open('POST', `${API_URL}/v1/pdf?${params}`);
-						if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
-						// No Content-Type — the browser sets the multipart boundary.
-						xhr.responseType = 'blob';
-						xhr.upload.onprogress = (e) => {
-							if (totalBytes > 0)
-								uploadPercent = Math.min(Math.round((e.loaded / totalBytes) * 100), 100);
-						};
-						xhr.upload.onloadend = () => {
-							processPhase = 'processing';
-						};
-						xhr.onload = () => {
-							uploadPercent = 100;
-							if (xhr.status >= 200 && xhr.status < 300) {
-								resolve(xhr.response as Blob);
-								return;
-							}
-							const status = xhr.status;
-							const reader = new FileReader();
-							reader.onload = () => {
-								const text = (reader.result as string)?.trim() || '';
-								const err: any = new Error(text || `PDF creation failed (Status: ${status})`);
-								err.status = status;
-								reject(err);
-							};
-							reader.onerror = () => {
-								const err: any = new Error(`PDF creation failed (Status: ${status})`);
-								err.status = status;
-								reject(err);
-							};
-							reader.readAsText(xhr.response as Blob);
-						};
-						xhr.onerror = () => reject(new Error('Lost connection while creating your PDF'));
-						xhr.send(form);
-					});
+					const blob = await withRetry(
+						() =>
+							new Promise<Blob>((resolve, reject) => {
+								processPhase = 'uploading';
+								uploadPercent = 0;
+								const xhr = new XMLHttpRequest();
+								xhr.open('POST', `${API_URL}/v1/pdf?${params}`);
+								if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
+								// No Content-Type — the browser sets the multipart boundary.
+								xhr.responseType = 'blob';
+								xhr.upload.onprogress = (e) => {
+									if (totalBytes > 0)
+										uploadPercent = Math.min(Math.round((e.loaded / totalBytes) * 100), 100);
+								};
+								xhr.upload.onloadend = () => {
+									processPhase = 'processing';
+								};
+								xhr.onload = () => {
+									uploadPercent = 100;
+									if (xhr.status >= 200 && xhr.status < 300) {
+										resolve(xhr.response as Blob);
+										return;
+									}
+									const status = xhr.status;
+									const reader = new FileReader();
+									reader.onload = () => {
+										const text = (reader.result as string)?.trim() || '';
+										const err: any = new Error(text || `PDF creation failed (Status: ${status})`);
+										err.status = status;
+										reject(err);
+									};
+									reader.onerror = () => {
+										const err: any = new Error(`PDF creation failed (Status: ${status})`);
+										err.status = status;
+										reject(err);
+									};
+									reader.readAsText(xhr.response as Blob);
+								};
+								xhr.onerror = () => {
+									const err: any = new Error('Lost connection while creating your PDF');
+									err.retryable = true;
+									reject(err);
+								};
+								xhr.send(form);
+							}),
+						'imgpdf_flow'
+					);
 
 					processPhase = 'downloading';
 					const url = URL.createObjectURL(blob);
@@ -981,52 +992,71 @@
 					params: URLSearchParams,
 					onUploadEnd?: () => void
 				): Promise<Blob> =>
-					new Promise((resolve, reject) => {
-						const xhr = new XMLHttpRequest();
-						xhr.open('POST', `${API_URL}/v1/pdf?${params}`);
-						xhr.setRequestHeader('Content-Type', 'application/pdf');
-						if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
-						xhr.responseType = 'blob';
-						let lastLoaded = 0;
-						xhr.upload.onprogress = (e) => {
-							const delta = e.loaded - lastLoaded;
-							lastLoaded = e.loaded;
-							uploadedBytes += delta;
-							uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
-						};
-						xhr.upload.onloadend = () => {
-							onUploadEnd?.();
-						};
-						xhr.onload = () => {
-							const remaining = file.size - lastLoaded;
-							if (remaining > 0) {
-								uploadedBytes += remaining;
-								uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
-							}
-							if (xhr.status >= 200 && xhr.status < 300) {
-								resolve(xhr.response as Blob);
-								return;
-							}
-							const status = xhr.status;
-							const reader = new FileReader();
-							reader.onload = () => {
-								const text = (reader.result as string)?.trim() || '';
-								const e: any = new Error(
-									text || `Failed processing ${file.name} (Status: ${status})`
-								);
-								e.status = status;
-								reject(e);
-							};
-							reader.onerror = () => {
-								const e: any = new Error(`Failed processing ${file.name} (Status: ${status})`);
-								e.status = status;
-								reject(e);
-							};
-							reader.readAsText(xhr.response as Blob);
-						};
-						xhr.onerror = () => reject(new Error(`Lost connection processing ${file.name}`));
-						xhr.send(file);
-					});
+					withRetry(
+						() =>
+							new Promise((resolve, reject) => {
+								processPhase = 'uploading';
+								const xhr = new XMLHttpRequest();
+								xhr.open('POST', `${API_URL}/v1/pdf?${params}`);
+								xhr.setRequestHeader('Content-Type', 'application/pdf');
+								if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
+								xhr.responseType = 'blob';
+								let lastLoaded = 0;
+								// Undo this attempt's contribution to the shared batch counter so
+								// a retried upload doesn't double-count.
+								const rollback = () => {
+									uploadedBytes -= lastLoaded;
+									lastLoaded = 0;
+									uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+								};
+								xhr.upload.onprogress = (e) => {
+									const delta = e.loaded - lastLoaded;
+									lastLoaded = e.loaded;
+									uploadedBytes += delta;
+									uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+								};
+								xhr.upload.onloadend = () => {
+									onUploadEnd?.();
+								};
+								xhr.onload = () => {
+									const remaining = file.size - lastLoaded;
+									if (remaining > 0) {
+										uploadedBytes += remaining;
+										lastLoaded = file.size;
+										uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+									}
+									if (xhr.status >= 200 && xhr.status < 300) {
+										resolve(xhr.response as Blob);
+										return;
+									}
+									rollback();
+									const status = xhr.status;
+									const reader = new FileReader();
+									reader.onload = () => {
+										const text = (reader.result as string)?.trim() || '';
+										const e: any = new Error(
+											text || `Failed processing ${file.name} (Status: ${status})`
+										);
+										e.status = status;
+										reject(e);
+									};
+									reader.onerror = () => {
+										const e: any = new Error(`Failed processing ${file.name} (Status: ${status})`);
+										e.status = status;
+										reject(e);
+									};
+									reader.readAsText(xhr.response as Blob);
+								};
+								xhr.onerror = () => {
+									rollback();
+									const e: any = new Error(`Lost connection processing ${file.name}`);
+									e.retryable = true;
+									reject(e);
+								};
+								xhr.send(file);
+							}),
+						'pdf_flow'
+					);
 
 				for (const file of files) {
 					if (hitRateLimit) break;
@@ -1394,71 +1424,90 @@
 				params: URLSearchParams,
 				onUploadEnd?: () => void
 			): Promise<Blob> =>
-				new Promise((resolve, reject) => {
-					const xhr = new XMLHttpRequest();
-					xhr.open('POST', `${API_URL}/v1/squish?${params}`);
-					xhr.setRequestHeader('Content-Type', resolveContentType(file));
-					if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
-					xhr.responseType = 'blob';
+				withRetry(
+					() =>
+						new Promise((resolve, reject) => {
+							processPhase = 'uploading';
+							const xhr = new XMLHttpRequest();
+							xhr.open('POST', `${API_URL}/v1/squish?${params}`);
+							xhr.setRequestHeader('Content-Type', resolveContentType(file));
+							if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
+							xhr.responseType = 'blob';
 
-					let lastLoaded = 0;
-					xhr.upload.onprogress = (e) => {
-						const delta = e.loaded - lastLoaded;
-						lastLoaded = e.loaded;
-						uploadedBytes += delta;
-						uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
-					};
+							let lastLoaded = 0;
+							// Undo this attempt's contribution to the shared batch counter so
+							// a retried upload doesn't double-count.
+							const rollback = () => {
+								uploadedBytes -= lastLoaded;
+								lastLoaded = 0;
+								uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+							};
+							xhr.upload.onprogress = (e) => {
+								const delta = e.loaded - lastLoaded;
+								lastLoaded = e.loaded;
+								uploadedBytes += delta;
+								uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+							};
 
-					xhr.upload.onloadend = () => {
-						onUploadEnd?.();
-					};
+							xhr.upload.onloadend = () => {
+								onUploadEnd?.();
+							};
 
-					xhr.onload = () => {
-						// Account for any bytes not reported via onprogress
-						const remaining = file.size - lastLoaded;
-						if (remaining > 0) {
-							uploadedBytes += remaining;
-							uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
-						}
+							xhr.onload = () => {
+								// Account for any bytes not reported via onprogress
+								const remaining = file.size - lastLoaded;
+								if (remaining > 0) {
+									uploadedBytes += remaining;
+									lastLoaded = file.size;
+									uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+								}
 
-						const contentType = xhr.getResponseHeader('content-type') || '';
-						if (contentType.includes('application/json')) {
-							const status = xhr.status;
-							const reader = new FileReader();
-							reader.onload = () => {
-								try {
-									const errData = JSON.parse(reader.result as string);
+								const contentType = xhr.getResponseHeader('content-type') || '';
+								if (contentType.includes('application/json')) {
+									rollback();
+									const status = xhr.status;
+									const reader = new FileReader();
+									reader.onload = () => {
+										try {
+											const errData = JSON.parse(reader.result as string);
+											const e: any = new Error(
+												errData.error || errData.message || `Server rejected ${file.name}`
+											);
+											e.status = status;
+											reject(e);
+										} catch {
+											const e: any = new Error(`Server rejected ${file.name}`);
+											e.status = status;
+											reject(e);
+										}
+									};
+									reader.readAsText(xhr.response as Blob);
+									return;
+								}
+								if (xhr.status >= 200 && xhr.status < 300) {
+									resolve(xhr.response as Blob);
+								} else {
+									rollback();
 									const e: any = new Error(
-										errData.error || errData.message || `Server rejected ${file.name}`
+										`Failed processing ${file.name} (Status: ${xhr.status})`
 									);
-									e.status = status;
-									reject(e);
-								} catch {
-									const e: any = new Error(`Server rejected ${file.name}`);
-									e.status = status;
+									e.status = xhr.status;
 									reject(e);
 								}
 							};
-							reader.readAsText(xhr.response as Blob);
-							return;
-						}
-						if (xhr.status >= 200 && xhr.status < 300) {
-							resolve(xhr.response as Blob);
-						} else {
-							const e: any = new Error(`Failed processing ${file.name} (Status: ${xhr.status})`);
-							e.status = xhr.status;
-							reject(e);
-						}
-					};
 
-					xhr.onerror = () =>
-						reject(
-							new Error(
-								`Lost connection while processing ${file.name} — check your internet and try again.`
-							)
-						);
-					xhr.send(file);
-				});
+							xhr.onerror = () => {
+								rollback();
+								const e: any = new Error(
+									`Lost connection while processing ${file.name} — check your internet and try again.`
+								);
+								e.retryable = true;
+								reject(e);
+							};
+							xhr.send(file);
+						}),
+					'squish_flow'
+				);
 
 			const processNextFile = async () => {
 				while (currentFileIndex < files.length) {
