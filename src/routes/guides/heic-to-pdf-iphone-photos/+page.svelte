@@ -61,7 +61,7 @@
         },
         {
             q: "Does converting HEIC to PDF reduce image quality?",
-            a: `The conversion itself doesn't add a compression artefact the way a JPEG re-encode would. PDF embeds the image data, and for most conversion paths the output quality matches what you'd see viewing the original HEIC. The exception is if you choose a very low-resolution layout option in a print dialog - the "4 images per page" layout on Windows, for example, will scale photos down to fit the page.`
+            a: `The conversion itself doesn't add a compression artifact the way a JPEG re-encode would. PDF embeds the image data, and for most conversion paths the output quality matches what you'd see viewing the original HEIC. The exception is if you choose a very low-resolution layout option in a print dialog - the "4 images per page" layout on Windows, for example, will scale photos down to fit the page.`
         },
         {
             q: "Can I convert HEIC to PDF on Android?",
@@ -85,7 +85,7 @@
         },
         {
             q: "What's the difference between .HEIC and .HEIF?",
-            a: "They're from the same format family. .HEIC is Apple's iPhone variant using HEVC encoding. .HEIF is the broader container format that professional cameras from Canon, Sony, and Fujifilm also write - often as .HIF files with 10-bit colour and HDR metadata. If you have .HIF files from a mirrorless camera rather than an iPhone, that's a different workflow."
+            a: "They're from the same format family. .HEIC is Apple's iPhone variant using HEVC encoding. .HEIF is the broader container format that professional cameras from Canon, Sony, and Fujifilm also write - often as .HIF files with 10-bit color and HDR metadata. If you have .HIF files from a mirrorless camera rather than an iPhone, that's a different workflow."
         }
     ];
 </script>
@@ -113,7 +113,7 @@
         },
         "datePublished": "2026-06-29",
         "dateModified": "2026-06-29",
-        "inLanguage": "en-GB",
+        "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
             "@type": "Organization",
@@ -157,7 +157,7 @@
                 "name": "Does converting HEIC to PDF reduce image quality?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "The conversion itself does not add a compression artefact the way a JPEG re-encode would. PDF embeds the image data, and for most conversion paths the output quality matches what you would see viewing the original HEIC. The exception is if you choose a very low-resolution layout option in a print dialog - the '4 images per page' layout on Windows, for example, will scale photos down to fit the page."
+                    "text": "The conversion itself does not add a compression artifact the way a JPEG re-encode would. PDF embeds the image data, and for most conversion paths the output quality matches what you would see viewing the original HEIC. The exception is if you choose a very low-resolution layout option in a print dialog - the '4 images per page' layout on Windows, for example, will scale photos down to fit the page."
                 }
             },
             {
@@ -205,7 +205,7 @@
                 "name": "What is the difference between .HEIC and .HEIF?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "They are from the same format family. .HEIC is Apple's iPhone variant using HEVC encoding. .HEIF is the broader container format that professional cameras from Canon, Sony, and Fujifilm also write - often as .HIF files with 10-bit colour and HDR metadata. If you have .HIF files from a mirrorless camera rather than an iPhone, that is a different workflow."
+                    "text": "They are from the same format family. .HEIC is Apple's iPhone variant using HEVC encoding. .HEIF is the broader container format that professional cameras from Canon, Sony, and Fujifilm also write - often as .HIF files with 10-bit color and HDR metadata. If you have .HIF files from a mirrorless camera rather than an iPhone, that is a different workflow."
                 }
             }
         ]
@@ -497,7 +497,7 @@
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-3">"My HEIC isn't available to convert - it shows a cloud icon."</h3>
             <p class="mb-4">
-                If your iPhone photos are set to "Optimise iPhone Storage," the full-resolution originals live in iCloud while a lower-resolution thumbnail is kept on-device. The full file needs to download before any app can convert it. Tap the photo in the Photos app to trigger a download, wait for it to complete, then retry.
+                If your iPhone photos are set to "Optimize iPhone Storage," the full-resolution originals live in iCloud while a lower-resolution thumbnail is kept on-device. The full file needs to download before any app can convert it. Tap the photo in the Photos app to trigger a download, wait for it to complete, then retry.
             </p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-3">"The PDF came out rotated."</h3>

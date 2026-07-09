@@ -42,8 +42,8 @@
     ];
 
     const related = [
-        { href: '/guides/optimizing-hero-images', title: 'Optimising Hero Images for Web Performance', desc: 'The image-side companion to this guide: LCP optimisation, responsive sizes, and format choices for above-the-fold images.' },
-        { href: '/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl', title: 'What Should I Use in 2026: WebP, AVIF, or JPEG XL?', desc: 'The same codec-vs-compatibility analysis applied to images - useful context when optimising both assets on the same page.' },
+        { href: '/guides/optimizing-hero-images', title: 'Optimizing Hero Images for Web Performance', desc: 'The image-side companion to this guide: LCP optimization, responsive sizes, and format choices for above-the-fold images.' },
+        { href: '/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl', title: 'What Should I Use in 2026: WebP, AVIF, or JPEG XL?', desc: 'The same codec-vs-compatibility analysis applied to images - useful context when optimizing both assets on the same page.' },
         { href: '/guides/2026-guide-next-gen-formats', title: 'The 2026 Guide to Next-Gen Formats: WebP, AVIF, JPEG XL', desc: 'Deeper coverage of royalty-free web format history and what drives compression gains across the modern codec family.' },
         { href: '/guides/privacy-image-optimization', title: 'Privacy and Image Optimization: A Comprehensive Guide', desc: 'Covers the data-handling landscape for online media tools, including the retention and logging practices that apply to server-side converters.' },
         { href: '/guides/on-device-ai-agents-image-optimization', title: 'On-Device AI Agents: Image and PDF Optimization for Local Workflows', desc: 'For teams building automation pipelines: how on-device and in-browser tooling keeps media workflows private and agent-friendly.' },
@@ -232,7 +232,7 @@
                 <li>AV1: supported in Safari 17 and later, alongside Chrome, Firefox, and Edge.</li>
             </ul>
             <p class="mb-4">This means AV1 is a viable choice if your audience skews toward recent hardware and software, though it remains a stretch if you need to cover pre-2022 mobile browsers. For most projects, VP9 WebM plus H.264 MP4 fallback covers 99%+ of users.</p>
-            <p><a href="https://caniuse.com/?search=H.264" target="_blank" rel="noopener noreferrer">H.264 in MP4</a> remains the most broadly compatible format across all browsers, making it the correct fallback - not the primary format for a performance-optimised site.</p>
+            <p><a href="https://caniuse.com/?search=H.264" target="_blank" rel="noopener noreferrer">H.264 in MP4</a> remains the most broadly compatible format across all browsers, making it the correct fallback - not the primary format for a performance-optimized site.</p>
         </section>
 
         <!-- Section 3 -->
@@ -346,7 +346,7 @@
             <SectionHeading>Video Format Choices and Core Web Vitals</SectionHeading>
             <p class="mb-4">Converting MP4 to WebM is not just about file size. It connects directly to how Google scores your page.</p>
             <p class="mb-4">Images and video account for over 70% of the bytes downloaded for the average website. Choosing more efficient formats can lead to lower overall page load times and potentially improve a page's Largest Contentful Paint (LCP). LCP is one of the three Core Web Vitals Google uses in ranking - it measures how long the largest visible element (often a hero image or video) takes to render.</p>
-            <p class="mb-4">When your hero video is the LCP element, every megabyte you strip from it reduces LCP time directly. Switching a 12 MB H.264 hero to a 7 MB VP9 WebM, combined with <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="metadata"</code> and a poster image, is one of the higher-leverage LCP optimisations available on video-heavy pages.</p>
+            <p class="mb-4">When your hero video is the LCP element, every megabyte you strip from it reduces LCP time directly. Switching a 12 MB H.264 hero to a 7 MB VP9 WebM, combined with <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="metadata"</code> and a poster image, is one of the higher-leverage LCP optimizations available on video-heavy pages.</p>
             <p class="mb-4">The pattern that works:</p>
             <ol class="list-decimal pl-6 mb-4 space-y-2">
                 <li>Serve WebM/VP9 as the primary source, MP4/H.264 as fallback.</li>
@@ -354,8 +354,8 @@
                 <li>Set a <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">poster</code> image that renders while the video loads, so the LCP element itself is a small static image rather than waiting for the first video frame.</li>
                 <li>For below-the-fold video: consider <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="none"</code> and an <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">IntersectionObserver</code> to defer loading until the element is near the viewport.</li>
             </ol>
-            <p class="mb-4"><a href="https://web.dev/learn/performance/video-performance" target="_blank" rel="noopener noreferrer">web.dev's video performance module</a> demonstrates this same pattern and goes deeper on <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">poster</code> image optimisation and lazy-loading strategies for below-the-fold video.</p>
-            <p>If you are already optimising images for web performance - converting to WebP or AVIF, setting responsive sizes, preloading the hero - video format is the next logical step. See <a href="/guides/optimizing-hero-images">Optimising Hero Images for Web Performance</a> for the image side of this and how image and video optimisation work together for LCP-critical pages.</p>
+            <p class="mb-4"><a href="https://web.dev/learn/performance/video-performance" target="_blank" rel="noopener noreferrer">web.dev's video performance module</a> demonstrates this same pattern and goes deeper on <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">poster</code> image optimization and lazy-loading strategies for below-the-fold video.</p>
+            <p>If you are already optimizing images for web performance - converting to WebP or AVIF, setting responsive sizes, preloading the hero - video format is the next logical step. See <a href="/guides/optimizing-hero-images">Optimizing Hero Images for Web Performance</a> for the image side of this and how image and video optimization work together for LCP-critical pages.</p>
         </section>
 
         <!-- Section 6 -->
@@ -432,7 +432,7 @@
                         ['type attribute (WebM)', 'video/webm; codecs="vp9, opus"'],
                         ['type attribute (MP4)', 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'],
                         ['Hero/autoplay attributes', 'autoplay muted loop playsinline preload="metadata"'],
-                        ['LCP optimisation', 'poster image + preload="metadata"'],
+                        ['LCP optimization', 'poster image + preload="metadata"'],
                         ['Below-the-fold video', 'preload="none" + IntersectionObserver'],
                         ['Privacy-safe conversion', 'In-browser tool (Mochify, ffmpeg.wasm) - no upload'],
                         ['Typical VP9 file saving', '30–50% smaller than H.264 at similar quality'],
@@ -505,7 +505,7 @@
 
     <!-- CTA -->
     <aside class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-8 mt-12">
-        <p class="text-[#6C3F31] leading-relaxed mb-5">Convert your MP4 to WebM right now - no account needed, nothing uploaded. Mochify's video engine runs entirely in your browser, so your footage stays on your machine while you get a web-optimised WebM file ready to drop into your <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> element.</p>
+        <p class="text-[#6C3F31] leading-relaxed mb-5">Convert your MP4 to WebM right now - no account needed, nothing uploaded. Mochify's video engine runs entirely in your browser, so your footage stays on your machine while you get a web-optimized WebM file ready to drop into your <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> element.</p>
         <a href="/solutions/mp4-to-webm" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
             Convert MP4 to WebM free
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>

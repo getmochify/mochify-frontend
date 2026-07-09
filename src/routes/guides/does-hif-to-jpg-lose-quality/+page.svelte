@@ -42,7 +42,7 @@
         "url": "https://mochify.app/guides/does-hif-to-jpg-lose-quality",
         "datePublished": "2026-06-05",
         "dateModified": "2026-06-05",
-        "inLanguage": "en-GB",
+        "inLanguage": "en",
         "author": {
             "@type": "Organization",
             "name": "Mochify Engineering Team",
@@ -63,7 +63,7 @@
             { "@type": "Thing", "name": "HEIF" },
             { "@type": "Thing", "name": "JPEG" },
             { "@type": "Thing", "name": "Image conversion" },
-            { "@type": "Thing", "name": "Colour bit depth" }
+            { "@type": "Thing", "name": "Color bit depth" }
         ],
         "keywords": "does hif lose quality, hif to jpg quality, hif vs jpeg, convert hif to jpg, 10-bit to 8-bit, canon hdr pq, jpegli"
         }
@@ -99,7 +99,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            Converting HIF to JPG does not visibly reduce quality for most photographs. A .HIF file stores 10-bit colour (about 1.07 billion possible values) and a standard JPG stores 8-bit (16.7 million), so the precision drop is real on paper. In practice it stays invisible for typical photographic content. The one case that genuinely changes how an image looks is not the bit-depth drop at all: it is converting a Canon HDR PQ file to a standard JPG without a tone-map.
+            Converting HIF to JPG does not visibly reduce quality for most photographs. A .HIF file stores 10-bit color (about 1.07 billion possible values) and a standard JPG stores 8-bit (16.7 million), so the precision drop is real on paper. In practice it stays invisible for typical photographic content. The one case that genuinely changes how an image looks is not the bit-depth drop at all: it is converting a Canon HDR PQ file to a standard JPG without a tone-map.
         </p>
 
         <p class="text-sm text-[#875F42]">Published {metadata.date} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong>. Covers post-conversion quality for professional HIF/HEIF files from Canon, Sony, and Fujifilm cameras, not the separate iPhone .HEIC path.</p>

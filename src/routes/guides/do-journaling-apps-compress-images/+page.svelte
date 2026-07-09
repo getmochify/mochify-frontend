@@ -49,7 +49,7 @@
             {"@type": "Thing", "name": "HEIC format"},
             {"@type": "Thing", "name": "Day One"}
         ],
-        "keywords": "journaling apps image compression, Day One storage bloat, Apple Journal photos, journaling app storage, HEIC compression, image optimisation, Mochify",
+        "keywords": "journaling apps image compression, Day One storage bloat, Apple Journal photos, journaling app storage, HEIC compression, image optimization, Mochify",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",
@@ -208,7 +208,7 @@
 
             <p class="mb-4">GoodNotes becomes its own storage crisis. At 20 GB+ for some users - three to four times what competing apps consume - exports slow to a crawl and iCloud backups become a waiting game. There's no built-in fix; the workaround is exporting, re-importing at lower resolution, and hoping for the best.</p>
 
-            <p>None of these apps let you set a maximum resolution, choose a format, or strip EXIF data before the image gets stored. You're at the app's mercy - and the app's defaults are not optimised for your storage budget.</p>
+            <p>None of these apps let you set a maximum resolution, choose a format, or strip EXIF data before the image gets stored. You're at the app's mercy - and the app's defaults are not optimized for your storage budget.</p>
         </section>
 
         <!-- Section 03 -->

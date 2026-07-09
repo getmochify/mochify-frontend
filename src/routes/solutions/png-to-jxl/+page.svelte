@@ -4,9 +4,9 @@
 
 <svelte:head>
     <title>Convert PNG to JPEG XL Online - Free & Fast | Mochify</title>
-    <meta name="description" content="Convert PNG to JPEG XL (JXL) — true lossless mode that beats PNG on file size, full alpha transparency, and 16-bit colour. Perfect for archiving and future-proofing.">
+    <meta name="description" content="Convert PNG to JPEG XL (JXL) — true lossless mode that beats PNG on file size, full alpha transparency, and 16-bit color. Perfect for archiving and future-proofing.">
     <meta property="og:title" content="Convert PNG to JPEG XL (JXL) - Free, Private & Instant | Mochify" />
-    <meta property="og:description" content="Convert PNG files to JPEG XL — lossless mode smaller than PNG, full transparency, and 16-bit colour. Future-proof your PNG assets." />
+    <meta property="og:description" content="Convert PNG files to JPEG XL — lossless mode smaller than PNG, full transparency, and 16-bit color. Future-proof your PNG assets." />
     <link rel="canonical" href="https://mochify.app/solutions/png-to-jxl" />
 
     <script type="application/ld+json">
@@ -18,7 +18,7 @@
         "url": "https://mochify.app/solutions/png-to-jxl",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Web",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "GBP" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
         "provider": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" }
         }
     </script>
@@ -54,7 +54,7 @@
             </h1>
 
             <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-                Re-encode PNG files to JPEG XL — a true lossless mode that's smaller than PNG, with full transparency and 16-bit colour preserved.
+                Re-encode PNG files to JPEG XL — a true lossless mode that's smaller than PNG, with full transparency and 16-bit color preserved.
             </p>
 
             <!-- Browser support notice -->
@@ -77,10 +77,10 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl font-bold text-[#4A2C2C]">Why convert PNG to JPEG XL?</h2>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            PNG is lossless and universal, but its files are large — especially for screenshots, UI exports, and high-resolution design assets. JPEG XL keeps everything PNG gives you — <strong class="text-[#7E685E]">full alpha transparency</strong>, a true lossless mode, and up to 16-bit colour — while encoding the same pixels into a noticeably smaller file.
+                            PNG is lossless and universal, but its files are large — especially for screenshots, UI exports, and high-resolution design assets. JPEG XL keeps everything PNG gives you — <strong class="text-[#7E685E]">full alpha transparency</strong>, a true lossless mode, and up to 16-bit color — while encoding the same pixels into a noticeably smaller file.
                         </p>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            JXL's lossless mode is a natural fit for PNG content: flat colour regions, sharp edges, and text compress extremely well, so a lossless JXL is typically <strong class="text-[#7E685E]">smaller than the original PNG</strong> with zero quality loss. For photographic PNGs, switching to JXL's lossy mode shrinks files even further.
+                            JXL's lossless mode is a natural fit for PNG content: flat color regions, sharp edges, and text compress extremely well, so a lossless JXL is typically <strong class="text-[#7E685E]">smaller than the original PNG</strong> with zero quality loss. For photographic PNGs, switching to JXL's lossy mode shrinks files even further.
                         </p>
                     </div>
 

@@ -28,7 +28,7 @@
         },
         {
             q: "How many product photos can I process at once?",
-            a: "Free accounts can process 3 files per batch. Seller ($7.99/month) and Pro ($24.99/month) unlock batches up to 25 files. For larger catalogues, use the CLI: mochify *.jpg --prompt 'convert to jpg, resize to 1200px and 800px' processes an entire folder in one command."
+            a: "Free accounts can process 3 files per batch. Seller ($7.99/month) and Pro ($24.99/month) unlock batches up to 25 files. For larger catalogs, use the CLI: mochify *.jpg --prompt 'convert to jpg, resize to 1200px and 800px' processes an entire folder in one command."
         },
         {
             q: "Will resizing to 1200px upscale small images?",
@@ -196,7 +196,7 @@
                         { n: '01', href: '#the-prompt', label: 'The prompt' },
                         { n: '02', href: '#why-two-sizes', label: 'Why these two dimensions' },
                         { n: '03', href: '#format-choice', label: 'Format choice for marketplace listings' },
-                        { n: '04', href: '#cli', label: 'Running it from the CLI for full catalogues' },
+                        { n: '04', href: '#cli', label: 'Running it from the CLI for full catalogs' },
                         { n: '05', href: '#variations', label: 'Prompt variations worth knowing' },
                         { n: '06', href: '#faq', label: 'FAQ' },
                     ] as item}
@@ -273,7 +273,7 @@
                     "eBay's bulk upload tool requires JPEG",
                     "Amazon's image pipeline recompresses everything to JPEG internally anyway",
                     "Etsy accepts WebP but most cross-listing tools (Vendoo, CrosslistApp) expect JPEG",
-                    "Third-party logistics and fulfilment platforms almost universally expect JPEG",
+                    "Third-party logistics and fulfillment platforms almost universally expect JPEG",
                 ] as point}
                     <li class="flex items-start gap-3">
                         <span class="text-[#F06292] font-black mt-0.5 shrink-0">→</span>
@@ -291,8 +291,8 @@
 
         <!-- 04 CLI -->
         <section id="cli">
-            <SectionHeading>Running It from the CLI for Full Catalogues</SectionHeading>
-            <p>For a full product catalogue, the CLI processes an entire folder in one command:</p>
+            <SectionHeading>Running It from the CLI for Full Catalogs</SectionHeading>
+            <p>For a full product catalog, the CLI processes an entire folder in one command:</p>
 
             <pre class="bg-[#1e1e2e] text-[#cdd6f4] rounded-2xl p-6 overflow-x-auto font-mono text-sm leading-relaxed my-4"><code>mochify *.jpg --prompt "convert to jpg, resize to 1200px and 800px" --output ./ready/</code></pre>
 
@@ -323,12 +323,12 @@
                         note: 'Same workflow, 30–40% smaller files. Use when uploading directly to Shopify.'
                     },
                     {
-                        prompt: '"optimise for eBay"',
+                        prompt: '"optimize for eBay"',
                         note: "Applies eBay's recommended 1600px JPEG preset automatically - no dimensions needed."
                     },
                     {
                         prompt: '"convert to jpg, crop to 1:1, resize to 1080px"',
-                        note: 'Square crop centred on the subject - the correct format for Instagram product posts.'
+                        note: 'Square crop centered on the subject - the correct format for Instagram product posts.'
                     },
                     {
                         prompt: '"convert to jpg, resize to 2000px, smart compress"',
@@ -353,7 +353,7 @@
         <!-- Final CTA -->
         <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Ready to process your catalogue?</h3>
+            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Ready to process your catalog?</h3>
             <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base">Start free. Upgrade for batches up to 25 files, background removal, and priority processing.</p>
             <a href="/pricing" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                 See plans &amp; pricing →

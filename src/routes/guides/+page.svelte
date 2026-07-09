@@ -254,7 +254,7 @@
         },
         {
             title: "How the Mochify MCP Server Works: Hosted vs Local, with Worked Examples",
-            description: "The hosted and local MCP surfaces compared - architecture, token costs, retention behaviour, and four worked examples covering URL input, uploaded images, Claude Desktop file work, and build pipelines.",
+            description: "The hosted and local MCP surfaces compared - architecture, token costs, retention behavior, and four worked examples covering URL input, uploaded images, Claude Desktop file work, and build pipelines.",
             url: "/guides/how-the-mochify-mcp-server-works",
             category: "AI & Automation",
             readTime: "9 min read",

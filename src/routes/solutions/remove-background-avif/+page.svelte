@@ -115,7 +115,7 @@
                         },
                         {
                             q: "Need a solid background instead of transparent?",
-                            a: "Use Magic Flow on the homepage and describe it — for example, 'remove the background and place it on white' — to composite the cutout onto a solid colour, handy for marketplaces that require a white background."
+                            a: "Use Magic Flow on the homepage and describe it — for example, 'remove the background and place it on white' — to composite the cutout onto a solid color, handy for marketplaces that require a white background."
                         },
                         {
                             q: "Are my files stored anywhere?",

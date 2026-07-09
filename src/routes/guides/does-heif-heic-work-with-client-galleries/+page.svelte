@@ -88,7 +88,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            HEIF and HEIC files do not work reliably with most client gallery platforms in 2026. Some platforms accept HEIC uploads but immediately convert them to JPEG on ingest - discarding the original and applying their own compression settings without your input. Others reject HEIF outright. In either case, you lose control over output quality, colour profile, and dimensions unless you pre-convert before uploading.
+            HEIF and HEIC files do not work reliably with most client gallery platforms in 2026. Some platforms accept HEIC uploads but immediately convert them to JPEG on ingest - discarding the original and applying their own compression settings without your input. Others reject HEIF outright. In either case, you lose control over output quality, color profile, and dimensions unless you pre-convert before uploading.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
@@ -112,7 +112,7 @@
             <p>Pre-converting your HEIF or HIF files to JPEG before upload gives you direct control over three things the platform cannot decide for you:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
                 <li><strong class="text-[#4A2C2C]">Output quality</strong> - set a specific quality level that matches your visual standard, not the platform's default.</li>
-                <li><strong class="text-[#4A2C2C]">Colour profile</strong> - convert to sRGB explicitly so gallery previews and client downloads display correctly on all screens.</li>
+                <li><strong class="text-[#4A2C2C]">Color profile</strong> - convert to sRGB explicitly so gallery previews and client downloads display correctly on all screens.</li>
                 <li><strong class="text-[#4A2C2C]">Long-edge dimension</strong> - set a consistent target (for example, 3,600 px for Pixieset proofs) across an entire batch, rather than letting each platform apply its own resizing logic.</li>
             </ul>
             <p>With Mochify, you can describe this entire conversion in one plain-English prompt using Magic Flow:</p>
@@ -151,7 +151,7 @@
                     { href: '/guides/heif-to-jpeg-workflow-photographers-guide', title: 'HIF/HEIF to JPEG for Professional Photographers', desc: 'Privacy-first workflow blueprints for converting camera HEIF files to JPEG for professional delivery.' },
                     { href: '/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera', title: 'Should I Shoot HEIF or JPEG on My Mirrorless Camera?', desc: 'When to use each format at capture time, and how to convert for delivery.' },
                     { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'A complete breakdown of metadata types, privacy risks, and how to strip selectively.' },
-                    { href: '/guides/should-i-optimize-images-before-upload', title: 'Should I Optimise Images Before I Upload Them?', desc: 'A practical guide covering LCP, EXIF privacy, format choice, and workflows for galleries and marketplaces.' },
+                    { href: '/guides/should-i-optimize-images-before-upload', title: 'Should I Optimize Images Before I Upload Them?', desc: 'A practical guide covering LCP, EXIF privacy, format choice, and workflows for galleries and marketplaces.' },
                 ] as guide}
                     <li>
                         <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">

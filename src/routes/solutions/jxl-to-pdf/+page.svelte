@@ -72,7 +72,7 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl font-bold text-[#4A2C2C]">Why convert JPEG XL to PDF?</h2>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            JPEG XL is an exceptional format — excellent compression, lossless mode, wide colour gamut, up to 32-bit depth — but <strong class="text-[#7E685E]">almost nothing outside a browser can open a .jxl file</strong>. No standard email client, print shop, document tool, or operating system viewer handles it reliably.
+                            JPEG XL is an exceptional format — excellent compression, lossless mode, wide color gamut, up to 32-bit depth — but <strong class="text-[#7E685E]">almost nothing outside a browser can open a .jxl file</strong>. No standard email client, print shop, document tool, or operating system viewer handles it reliably.
                         </p>
                         <p class="leading-relaxed text-[#6C3F31]">
                             Wrapping your JXL images in a PDF gives them <strong class="text-[#7E685E]">universal reach</strong>: one file that opens everywhere, prints predictably, and holds every image as its own page in the order you add it. Mochify embeds each image with high-quality encoding so no detail is lost in the conversion.
@@ -86,7 +86,7 @@
                             {#each [
                                 'Lossless mode preserves every pixel — useful for print-ready or archival exports',
                                 'Up to 32-bit depth survives the embed without banding or clipping',
-                                'Wide colour gamut (Display-P3, Rec. 2020) is preserved in the PDF container',
+                                'Wide color gamut (Display-P3, Rec. 2020) is preserved in the PDF container',
                                 'Smaller source files mean faster uploads and a leaner final PDF',
                             ] as point}
                                 <li class="flex items-start gap-2.5 text-sm text-amber-900">

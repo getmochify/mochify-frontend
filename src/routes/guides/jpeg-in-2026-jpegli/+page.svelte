@@ -67,7 +67,7 @@
             "JPEG optimization in 2026",
             "MozJPEG vs jpegli vs libjpeg-turbo",
             "marketplace product photo workflows",
-            "zero-retention image optimisation"
+            "zero-retention image optimization"
         ],
         "datePublished": "2026-02-09",
         "dateModified": "2026-05-30"

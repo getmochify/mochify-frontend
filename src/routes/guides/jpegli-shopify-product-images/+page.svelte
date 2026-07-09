@@ -164,7 +164,7 @@
         <!-- Section 1 -->
         <section id="why-jpegli" class="scroll-mt-24">
             <SectionHeading>Why Jpegli for Shopify?</SectionHeading>
-            <p class="mb-4">Shopify caps product images at 2048 × 2048 px and auto-recompresses anything above that threshold. Standard JPEG encoders already lose detail at that step. Jpegli - released by Google in 2024 and benchmarked further in 2026 - uses psychovisual modelling to retain more perceived sharpness at lower file sizes than both standard JPEG and, on photographic content, WebP.</p>
+            <p class="mb-4">Shopify caps product images at 2048 × 2048 px and auto-recompresses anything above that threshold. Standard JPEG encoders already lose detail at that step. Jpegli - released by Google in 2024 and benchmarked further in 2026 - uses psychovisual modeling to retain more perceived sharpness at lower file sizes than both standard JPEG and, on photographic content, WebP.</p>
             <p class="mb-4">A 35% file-size reduction translates directly to faster <strong>Largest Contentful Paint (LCP)</strong>, a Core Web Vitals signal that affects your Shopify store's search ranking. Reddit and Shopify developer forums consistently flag the same problem: images look sharp in Lightroom, soft after upload. The root cause is Shopify's recompression layering on top of already-lossy JPEGs. Uploading a Jpegli-encoded file at the right quality setting gives Shopify less to damage.</p>
         </section>
 
@@ -217,7 +217,7 @@
             </ol>
 
             <InfoBox type="tip" title="Batch processing">
-                Seller and Pro plans support batches of up to 25 files. If you're refreshing an entire product catalogue, this is significantly faster than processing images one by one.
+                Seller and Pro plans support batches of up to 25 files. If you're refreshing an entire product catalog, this is significantly faster than processing images one by one.
             </InfoBox>
         </section>
 

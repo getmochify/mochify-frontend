@@ -54,7 +54,7 @@
         },
         "datePublished": "2026-06-24",
         "dateModified": "2026-06-24",
-        "inLanguage": "en-GB",
+        "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
             "@type": "Organization",

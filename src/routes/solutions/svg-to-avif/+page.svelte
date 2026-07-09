@@ -18,7 +18,7 @@
         "url": "https://mochify.app/solutions/svg-to-avif",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Web",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "GBP" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
         "provider": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" }
         }
     </script>

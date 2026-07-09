@@ -31,7 +31,7 @@
 
     const formatTable = [
         { goal: 'Default web photos', use: 'AVIF, WebP fallback, JPEG safety net', why: 'Smallest files with full browser coverage' },
-        { goal: 'Logos, icons, UI, screenshots', use: 'SVG or lossless PNG/WebP', why: 'Pixel-perfect, no visible artefacts' },
+        { goal: 'Logos, icons, UI, screenshots', use: 'SVG or lossless PNG/WebP', why: 'Pixel-perfect, no visible artifacts' },
         { goal: 'Photography or Apple-only audience', use: 'JPEG XL (deliberately)', why: 'Excellent compression, but ~14% native browser support' },
         { goal: 'Universal compatibility, minimal change', use: 'JPEG via jpegli', why: 'Familiar JPEG output, fewer wasted bytes' },
     ];
@@ -58,7 +58,7 @@
         },
         {
             q: 'How can I bulk-compress images for a website or shop?',
-            a: 'For a few files, a browser tool handles it. For a catalogue, integrate a CLI or REST API into your upload or build process so images are converted, resized, and compressed automatically. With Mochify you can process three files at a time on the free tier, up to 25 per batch on a paid tier, or automate any volume through the CLI, API, or an MCP-connected agent.',
+            a: 'For a few files, a browser tool handles it. For a catalog, integrate a CLI or REST API into your upload or build process so images are converted, resized, and compressed automatically. With Mochify you can process three files at a time on the free tier, up to 25 per batch on a paid tier, or automate any volume through the CLI, API, or an MCP-connected agent.',
         },
         {
             q: 'Does compressing images actually help my SEO rankings?',
@@ -66,7 +66,7 @@
         },
         {
             q: 'What is the difference between this and AI image generation?',
-            a: 'Generative AI invents new pixels. Natural-language compression does not create or alter image content; it reads your plain-English instruction, works out the correct format, quality, and size, and hands the encoding to a deterministic engine. The output is your image, optimised, not a synthetic one.',
+            a: 'Generative AI invents new pixels. Natural-language compression does not create or alter image content; it reads your plain-English instruction, works out the correct format, quality, and size, and hands the encoding to a deterministic engine. The output is your image, optimized, not a synthetic one.',
         },
         {
             q: 'Is AVIF safe to use when some browsers still lag?',
@@ -109,7 +109,7 @@
       "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app", "logo": { "@type": "ImageObject", "url": "https://mochify.app/logo.png" } },
       "datePublished": "2026-06-29",
       "dateModified": "2026-06-29",
-      "inLanguage": "en-GB",
+      "inLanguage": "en",
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://mochify.app/guides/ai-image-compression-conversion" },
       "about": [
         {"@type": "Thing", "name": "AI image compression"},
@@ -158,7 +158,7 @@
         {
           "@type": "Question",
           "name": "How can I bulk-compress images for a website or shop?",
-          "acceptedAnswer": {"@type": "Answer", "text": "For a few files, a browser tool handles it. For a catalogue, integrate a CLI or REST API into your upload or build process so images are converted, resized, and compressed automatically. With Mochify you can process three files at a time on the free tier, up to 25 per batch on a paid tier, or automate any volume through the CLI, API, or an MCP-connected agent."}
+          "acceptedAnswer": {"@type": "Answer", "text": "For a few files, a browser tool handles it. For a catalog, integrate a CLI or REST API into your upload or build process so images are converted, resized, and compressed automatically. With Mochify you can process three files at a time on the free tier, up to 25 per batch on a paid tier, or automate any volume through the CLI, API, or an MCP-connected agent."}
         },
         {
           "@type": "Question",
@@ -168,7 +168,7 @@
         {
           "@type": "Question",
           "name": "What is the difference between this and AI image generation?",
-          "acceptedAnswer": {"@type": "Answer", "text": "Generative AI invents new pixels. Natural-language compression does not create or alter image content; it reads your plain-English instruction, works out the correct format, quality, and size, and hands the encoding to a deterministic engine. The output is your image, optimised, not a synthetic one."}
+          "acceptedAnswer": {"@type": "Answer", "text": "Generative AI invents new pixels. Natural-language compression does not create or alter image content; it reads your plain-English instruction, works out the correct format, quality, and size, and hands the encoding to a deterministic engine. The output is your image, optimized, not a synthetic one."}
         },
         {
           "@type": "Question",
@@ -241,10 +241,10 @@
         <!-- 1. The real problem -->
         <section id="the-real-problem" class="scroll-mt-24">
             <SectionHeading>The real problem: image settings are a guessing game</SectionHeading>
-            <p class="mb-4">Getting images right is hard because the decision is multi-dimensional: format, quality, dimensions, responsive sizing, and the lossless-versus-lossy trade-off all interact, and there is no single correct answer for every image. Google's own optimisation guidance calls image optimisation "both an art and a science," which is a polite way of saying most people are guessing.</p>
-            <p class="mb-4">The first trap is format choice. <a href="https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Image_types" target="_blank" rel="noopener noreferrer">MDN's image-format guide</a> lists a long menu of web image types, each with different compression behaviour, transparency support, and browser compatibility. Pick "just JPEG" out of habit and you can easily ship double the bytes you need. The second trap is quality and effort settings: <a href="https://web.dev/articles/serve-images-webp" target="_blank" rel="noopener noreferrer">web.dev's compression guidance</a> notes that most images can be heavily compressed with little visible loss, but the right value has to be found by eye, and it changes with the content of each image. The usual sweet spot sits somewhere around 65 to 85 percent quality, except when it does not.</p>
+            <p class="mb-4">Getting images right is hard because the decision is multi-dimensional: format, quality, dimensions, responsive sizing, and the lossless-versus-lossy trade-off all interact, and there is no single correct answer for every image. Google's own optimization guidance calls image optimization "both an art and a science," which is a polite way of saying most people are guessing.</p>
+            <p class="mb-4">The first trap is format choice. <a href="https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Image_types" target="_blank" rel="noopener noreferrer">MDN's image-format guide</a> lists a long menu of web image types, each with different compression behavior, transparency support, and browser compatibility. Pick "just JPEG" out of habit and you can easily ship double the bytes you need. The second trap is quality and effort settings: <a href="https://web.dev/articles/serve-images-webp" target="_blank" rel="noopener noreferrer">web.dev's compression guidance</a> notes that most images can be heavily compressed with little visible loss, but the right value has to be found by eye, and it changes with the content of each image. The usual sweet spot sits somewhere around 65 to 85 percent quality, except when it does not.</p>
             <p class="mb-4">Then there is sizing. A camera produces a 6000px-wide file; your layout shows it at 1600px. Serving the original means the browser downloads roughly four times the pixels it can use. Responsive markup (<code>srcset</code>, <code>sizes</code>, and <code>&lt;picture&gt;</code>) fixes this, but it asks content editors to reason about layout width, device pixel ratio, and art-direction crops. That is well beyond what most people creating product listings or blog posts signed up for. Finally, "lossless versus lossy" is a genuinely technical distinction dressed up in marketing language like "compress without losing quality," which leaves non-experts unsure when a tiny, invisible quality loss is a fair trade for a much smaller file (it usually is, for photographs).</p>
-            <p class="mb-0">None of this is unknowable. It is just specialist knowledge that has nothing to do with running a shop, shooting a gallery, or writing a page. That gap, between what good optimisation requires and what a normal user can reasonably hold in their head, is exactly what an AI front end is built to close.</p>
+            <p class="mb-0">None of this is unknowable. It is just specialist knowledge that has nothing to do with running a shop, shooting a gallery, or writing a page. That gap, between what good optimization requires and what a normal user can reasonably hold in their head, is exactly what an AI front end is built to close.</p>
         </section>
 
         <!-- 2. Format landscape -->
@@ -260,9 +260,9 @@
         <section id="speed-and-revenue" class="scroll-mt-24">
             <SectionHeading>Why this is really a speed-and-revenue problem</SectionHeading>
             <p class="mb-4">Image weight is not a cosmetic concern; it is usually the single biggest lever on page speed, and page speed feeds directly into rankings and revenue. Images are consistently the heaviest resource type on a typical page, accounting for the largest share of transferred bytes according to the HTTP Archive Web Almanac. Cut that weight and you move the metric Google actually measures.</p>
-            <p class="mb-4">That metric is Largest Contentful Paint. <a href="https://web.dev/articles/lcp" target="_blank" rel="noopener noreferrer">Web.dev defines a "good" LCP as occurring within 2.5 seconds</a>, and on most content-led and commercial pages the LCP element is an image, typically a hero shot or the main product photo. The arithmetic is unforgiving: on a typical mobile connection a 500 KB hero takes several times longer to arrive than a 100 KB optimised version, and that difference lands squarely on your LCP before the server or the browser has done anything else. Compress and resize that one image well and you can claw back a few hundred milliseconds on the most visible part of the page.</p>
+            <p class="mb-4">That metric is Largest Contentful Paint. <a href="https://web.dev/articles/lcp" target="_blank" rel="noopener noreferrer">Web.dev defines a "good" LCP as occurring within 2.5 seconds</a>, and on most content-led and commercial pages the LCP element is an image, typically a hero shot or the main product photo. The arithmetic is unforgiving: on a typical mobile connection a 500 KB hero takes several times longer to arrive than a 100 KB optimized version, and that difference lands squarely on your LCP before the server or the browser has done anything else. Compress and resize that one image well and you can claw back a few hundred milliseconds on the most visible part of the page.</p>
             <p class="mb-4">Those milliseconds have a price. <a href="https://developers.google.com/search/docs/appearance/core-web-vitals" target="_blank" rel="noopener noreferrer">Google Search Central confirms Core Web Vitals are used by its ranking systems</a>, acting as a real tiebreaker between pages of similar relevance, which matters most on competitive commercial queries. And the commercial impact is measurable: <a href="https://www.deloitte.com/ie/en/services/consulting/research/milliseconds-make-millions.html" target="_blank" rel="noopener noreferrer">Deloitte's "Milliseconds Make Millions" study</a>, commissioned by Google, found that a 0.1 second improvement in mobile site speed was associated with an 8.4% lift in retail conversion rate and a 9.2% rise in average order value. Akamai's Image Manager case study with The Telegraph reported that reducing image weight by around 50% improved overall page load time by 9.6% and cut mobile load time by nearly a third.</p>
-            <p class="mb-0">This is the part worth sitting with. The edge here is not exotic. It is the same images everyone else has, shipped lighter and faster. A competitor relying on default export settings ships heavy pages; you ship light ones; over thousands of visits that compounds into better rankings, lower bounce, and more orders. Our <a href="/guides/optimizing-hero-images">hero image optimisation guide</a> covers the LCP mechanics in more detail.</p>
+            <p class="mb-0">This is the part worth sitting with. The edge here is not exotic. It is the same images everyone else has, shipped lighter and faster. A competitor relying on default export settings ships heavy pages; you ship light ones; over thousands of visits that compounds into better rankings, lower bounce, and more orders. Our <a href="/guides/optimizing-hero-images">hero image optimization guide</a> covers the LCP mechanics in more detail.</p>
         </section>
 
         <!-- 4. How AI removes guesswork -->
@@ -287,7 +287,7 @@
         <!-- 6. Bulk work -->
         <section id="bulk-work" class="scroll-mt-24">
             <SectionHeading>Bulk work without the busywork</SectionHeading>
-            <p class="mb-4">The volume problem is where the spectrum pays off, because real catalogues and galleries generate far more images than anyone wants to drag through a browser one batch at a time. A product catalogue, a photographer's shoot, or a marketplace listing set can run to hundreds or thousands of files, and manual optimisation simply does not scale to those numbers; it gets skipped, and the site ships heavy.</p>
+            <p class="mb-4">The volume problem is where the spectrum pays off, because real catalogs and galleries generate far more images than anyone wants to drag through a browser one batch at a time. A product catalog, a photographer's shoot, or a marketplace listing set can run to hundreds or thousands of files, and manual optimization simply does not scale to those numbers; it gets skipped, and the site ships heavy.</p>
             <p class="mb-4">Manual batching is fine for a handful of images. On the free tier you can process three files at a time, and on a paid tier up to 25 in a single batch, which covers most one-off jobs. Beyond that, the answer is to stop touching individual files. Wire the CLI into your upload step or build, and every new image is converted to AVIF with a WebP fallback, resized, and compressed automatically. Or let an AI agent do it: because the engine is exposed over MCP, an agent can scan a folder for oversized images, batch-convert them, and report back, all from one natural-language instruction. A non-technical colleague describes the policy once ("all new listings as AVIF and WebP, max 2000px"), a developer wires it in once, and after that it runs in the background. Our <a href="/guides/ecommerce-product-photo-workflow-resize-convert">product photo workflow guide</a> and the <a href="/guides/ai-agent-workflow-automation-photographers">photographer automation guide</a> show both patterns in practice.</p>
             <p class="mb-0">The time saved is real even if it is hard to put a single number on: an afternoon of manual work per campaign becomes a process that runs itself.</p>
         </section>
@@ -317,7 +317,7 @@
                         <span class="w-8 h-8 bg-[#F06292] text-white font-black text-sm rounded-full flex items-center justify-center shrink-0 mt-0.5">3</span>
                         <div class="flex-1 min-w-0">
                             <strong class="block text-[#4A2C2C] text-lg mb-2">The engine encodes.</strong>
-                            <p class="mb-0">Mochify's native C++ engine does the compression on the server and returns the optimised files (or, through the local CLI and local MCP server, writes them straight to disk).</p>
+                            <p class="mb-0">Mochify's native C++ engine does the compression on the server and returns the optimized files (or, through the local CLI and local MCP server, writes them straight to disk).</p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">
@@ -349,7 +349,7 @@
             <p class="mb-4">This is why Mochify's retention model is built the way it is, and why it is worth being precise rather than making a single blanket claim. Images and PDFs are streamed into server memory at <code>api.mochify.app</code>, encoded, and wiped immediately, with no disk writes of the source and no logs containing file data. The hosted MCP server additionally holds the <em>compressed output</em> behind an unguessable, five-minute download URL so an agent can fetch it, then evicts it; the original is still discarded at once. The local CLI and local MCP server skip that pickup step entirely and stay zero retention end to end. Video, as noted, never leaves your browser at all. The aggregate position is simple to state honestly: zero retention on image and PDF, and video never leaves the device.</p>
 
             <InfoBox type="tip" title="For compliance teams">
-                For teams that need the paperwork, we publish a <a href="/dpa">Data Processing Agreement</a>, and our <a href="/guides/privacy-image-optimization">privacy and image optimisation guide</a> explains what zero retention means for agencies and regulated work. If you handle client or NDA-bound images, that DPA is the document to send to your compliance team.
+                For teams that need the paperwork, we publish a <a href="/dpa">Data Processing Agreement</a>, and our <a href="/guides/privacy-image-optimization">privacy and image optimization guide</a> explains what zero retention means for agencies and regulated work. If you handle client or NDA-bound images, that DPA is the document to send to your compliance team.
             </InfoBox>
         </section>
 

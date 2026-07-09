@@ -112,7 +112,7 @@
 
         <section id="why-sony-files-are-hif">
             <SectionHeading>Why your Sony files are .HIF, not JPEG</SectionHeading>
-            <p>When a Sony Alpha body is set to shoot HEIF, it saves 10-bit stills with a <code class={inlineCode}>.HIF</code> extension instead of <code class={inlineCode}>.JPG</code>. Sony's own documentation puts HEIF's compression efficiency at "about twice higher than that of JPEG" at comparable quality, which is the whole point of the format: more colour depth in a smaller file. The downside is that most browsers, upload forms, and older apps cannot read <code class={inlineCode}>.HIF</code>, so you need a JPEG to actually share or publish. Bodies that shoot HEIF include the a7 IV, a7R V, Alpha 1, and a9 III, along with the a7S III that introduced it.</p>
+            <p>When a Sony Alpha body is set to shoot HEIF, it saves 10-bit stills with a <code class={inlineCode}>.HIF</code> extension instead of <code class={inlineCode}>.JPG</code>. Sony's own documentation puts HEIF's compression efficiency at "about twice higher than that of JPEG" at comparable quality, which is the whole point of the format: more color depth in a smaller file. The downside is that most browsers, upload forms, and older apps cannot read <code class={inlineCode}>.HIF</code>, so you need a JPEG to actually share or publish. Bodies that shoot HEIF include the a7 IV, a7R V, Alpha 1, and a9 III, along with the a7S III that introduced it.</p>
         </section>
 
         <section id="convert-with-imaging-edge">

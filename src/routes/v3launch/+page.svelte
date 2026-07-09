@@ -455,7 +455,7 @@
         <div class="grid sm:grid-cols-3 gap-5">
             <a href="/solutions" class="block bg-white rounded-3xl border border-pink-50 shadow-sm p-6 hover:shadow-md hover:-translate-y-0.5 transition-all no-underline">
                 <h3 class="font-heading font-bold text-lg text-[#4A2C2C] mb-2">Shopify &amp; e-commerce</h3>
-                <p class="text-[#875F42] text-sm leading-relaxed">Cut LCP with AVIF on product photos and batch-resize a whole catalogue in one prompt.</p>
+                <p class="text-[#875F42] text-sm leading-relaxed">Cut LCP with AVIF on product photos and batch-resize a whole catalog in one prompt.</p>
             </a>
             <div class="block bg-white rounded-3xl border border-pink-50 shadow-sm p-6">
                 <h3 class="font-heading font-bold text-lg text-[#4A2C2C] mb-2">Agencies</h3>

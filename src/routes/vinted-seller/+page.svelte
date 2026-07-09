@@ -37,7 +37,7 @@
                 "name": "Do better photos help you sell faster on Vinted?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes. Vinted's feed is highly visual — buyers scroll quickly and click the photos that stand out. Clean backgrounds, square crops, and bright well-lit photos consistently get more favourites and messages than cluttered or poorly-framed shots, and items sell faster and at better prices."
+                    "text": "Yes. Vinted's feed is highly visual — buyers scroll quickly and click the photos that stand out. Clean backgrounds, square crops, and bright well-lit photos consistently get more favorites and messages than cluttered or poorly-framed shots, and items sell faster and at better prices."
                 }
             }
         ]
@@ -95,7 +95,7 @@
                     icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/></svg>`,
                     color: 'bg-[#FFF5F7] border-pink-100 text-[#F06292]',
                     title: 'Smart 3:4 Portrait Crop',
-                    body: "Vinted recommends portrait photos at 3:4 (1080×1440px). Photos that don't match get letterboxed or awkwardly cut. Our AI detects where your item is and crops tight around it — centred, portrait, and ready to fill the frame the way Vinted's layout expects."
+                    body: "Vinted recommends portrait photos at 3:4 (1080×1440px). Photos that don't match get letterboxed or awkwardly cut. Our AI detects where your item is and crops tight around it — centered, portrait, and ready to fill the frame the way Vinted's layout expects."
                 },
                 {
                     icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42"/></svg>`,
@@ -128,7 +128,7 @@
                 The Vinted feed rewards good photos.
             </h2>
             <p class="text-[#6C3F31] max-w-2xl mx-auto leading-relaxed">
-                When a buyer searches for a hoodie or a pair of trainers, they see a grid of portrait thumbnails. The listings with clean, bright, correctly-proportioned photos get favourited first. The ones with dark, cropped-off, or cluttered shots get ignored — even if the item is identical. Your photo is your shop window.
+                When a buyer searches for a hoodie or a pair of trainers, they see a grid of portrait thumbnails. The listings with clean, bright, correctly-proportioned photos get favorited first. The ones with dark, cropped-off, or cluttered shots get ignored — even if the item is identical. Your photo is your shop window.
             </p>
             <div class="grid sm:grid-cols-3 gap-6 pt-4">
                 {#each [
@@ -152,7 +152,7 @@
             <div class="grid sm:grid-cols-3 gap-8 relative">
                 {#each [
                     { n: 1, title: 'Upload', body: 'Drop in your photos straight from your camera roll — up to 25 at once. JPEG, HEIC from iPhone, PNG, all supported.' },
-                    { n: 2, title: 'Optimize', body: 'We smart-crop to the recommended 3:4 portrait, centre your item, remove the background, and compress to under 10MB while keeping quality sharp.' },
+                    { n: 2, title: 'Optimize', body: 'We smart-crop to the recommended 3:4 portrait, center your item, remove the background, and compress to under 10MB while keeping quality sharp.' },
                     { n: 3, title: 'List', body: 'Download your optimized photos and upload to your Vinted listing. The whole batch takes seconds.' }
                 ] as step}
                     <div class="text-center relative z-10">
@@ -187,7 +187,7 @@
                 },
                 {
                     q: 'Does removing the background help sell on Vinted?',
-                    a: "Yes — especially for clothing and accessories. A clean white background removes distractions, makes colours appear truer to life, and gives your listing the same polished look as brand product pages. Buyers associate a clean photo with a trustworthy seller."
+                    a: "Yes — especially for clothing and accessories. A clean white background removes distractions, makes colors appear truer to life, and gives your listing the same polished look as brand product pages. Buyers associate a clean photo with a trustworthy seller."
                 },
                 {
                     q: 'Can I optimize multiple Vinted photos at once?',

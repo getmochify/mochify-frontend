@@ -92,7 +92,7 @@
             {
             "@type": "HowToStep",
             "name": "Optimize quality settings per format",
-            "text": "Tune quality levels for AVIF, WebP, and JPEG XL based on test images so you hit target file sizes without visible artefacts in critical UI states."
+            "text": "Tune quality levels for AVIF, WebP, and JPEG XL based on test images so you hit target file sizes without visible artifacts in critical UI states."
             },
             {
             "@type": "HowToStep",
@@ -755,7 +755,7 @@
         <li>You're running technical experiments or proof-of-concept projects</li>
         <li>You're implementing multi-format cascades anyway (JXL at top, AVIF/WebP fallbacks)</li>
         <li>You need lossless JPEG recompression for archival workflows (JXL can recompress existing JPEGs without generation loss - useful for massive legacy libraries)</li>
-                <li>You have 6-12 months to wait for potential browser adoption (optimistic timeline)</li>
+                <li>You have 6-12 months to wait for potential browser adoption (optimiztic timeline)</li>
             </ul>
             <p class="mb-4 italic text-base">
                 Real-world scenario: Photography portfolios with multi-source fallbacks. Serve JXL to Safari users (partial support), AVIF to everyone else, WebP as final fallback. Users with JXL support get 10-30% better compression; everyone else still gets excellent quality.

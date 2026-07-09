@@ -97,7 +97,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            A HIF file is a still photo saved in the HEIF (High Efficiency Image File Format) container by professional mirrorless cameras from Canon, Sony, and Fujifilm, using the same HEVC (H.265) compression that video uses. To open one, the short answer is: on a Mac it works with no setup, on Windows you install two Microsoft Store codecs, and on Linux you need a libheif-based viewer. Cameras write <code class={inlineCode}>.HIF</code> instead of JPEG because it records 10-bit colour, about 1.07 billion shades against JPEG's roughly 16.8 million, at a similar or smaller file size (<a href="https://www.canon.co.uk/pro/infobank/image-file-types/" target="_blank" rel="noopener noreferrer">Canon UK Pro Infobank</a>).
+            A HIF file is a still photo saved in the HEIF (High Efficiency Image File Format) container by professional mirrorless cameras from Canon, Sony, and Fujifilm, using the same HEVC (H.265) compression that video uses. To open one, the short answer is: on a Mac it works with no setup, on Windows you install two Microsoft Store codecs, and on Linux you need a libheif-based viewer. Cameras write <code class={inlineCode}>.HIF</code> instead of JPEG because it records 10-bit color, about 1.07 billion shades against JPEG's roughly 16.8 million, at a similar or smaller file size (<a href="https://www.canon.co.uk/pro/infobank/image-file-types/" target="_blank" rel="noopener noreferrer">Canon UK Pro Infobank</a>).
         </p>
 
         <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">

@@ -43,7 +43,7 @@
         "url": "https://mochify.app/guides/llm-image-token-costs",
         "datePublished": "2026-06-07",
         "dateModified": "2026-06-07",
-        "inLanguage": "en-GB",
+        "inLanguage": "en",
         "author": {
             "@type": "Organization",
             "name": "Mochify Engineering Team",

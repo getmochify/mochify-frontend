@@ -69,7 +69,7 @@
             {"@type": "Thing", "name": "AVIF"},
             {"@type": "Thing", "name": "WebP"},
             {"@type": "Thing", "name": "JPEG"},
-            {"@type": "Thing", "name": "Image optimisation"},
+            {"@type": "Thing", "name": "Image optimization"},
             {"@type": "Thing", "name": "Ecommerce product photography"}
         ],
         "breadcrumb": {

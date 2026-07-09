@@ -94,7 +94,7 @@
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
             <p class="text-lg text-[#6C3F31] leading-relaxed">
-                This guide covers the hosted MCP server at <code class="bg-pink-100 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mcp.mochify.app</code> and the local MCP server via <code class="bg-pink-100 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mochify serve</code> - their architecture, setup, token-cost profiles, retention behaviour, and four concrete worked examples.
+                This guide covers the hosted MCP server at <code class="bg-pink-100 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mcp.mochify.app</code> and the local MCP server via <code class="bg-pink-100 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mochify serve</code> - their architecture, setup, token-cost profiles, retention behavior, and four concrete worked examples.
             </p>
         </div>
     </header>
@@ -244,7 +244,7 @@ brew install mochify</code></pre>
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Direct CLI mode</h3>
             <p class="mb-4">The CLI takes one or more file paths and a set of options. The <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">-p</code> flag is the headline feature - describe the goal in plain English:</p>
 
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify photo.jpg -p "optimise for eBay"
+            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify photo.jpg -p "optimize for eBay"
 mochify *.heic -p "convert to WebP, 1200px wide, strip EXIF" -o ./out</code></pre>
 
             <p class="mb-4">It also accepts file paths on stdin, which is what makes it slot cleanly into any Unix pipeline:</p>
@@ -419,7 +419,7 @@ Download URL (expires in ~5 minutes): https://files.mochify.app/629b...d46.avif<
             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Worked Example 4: Direct CLI in Claude Code or a Build Pipeline</h2>
             <p class="mb-6">The direct CLI is the cheapest workflow per image by orders of magnitude - zero image bytes in any agent context, works with no agent at all, and slots cleanly into any Unix pipeline or CI step.</p>
 
-            <p class="mb-4">A developer working on a Next.js site opens Claude Code and asks: <em>"Optimise everything in public/images to AVIF and WebP, then add a preload tag for the hero image."</em></p>
+            <p class="mb-4">A developer working on a Next.js site opens Claude Code and asks: <em>"Optimize everything in public/images to AVIF and WebP, then add a preload tag for the hero image."</em></p>
 
             <div class="bg-gradient-to-br from-[#FFF5F7] to-[#FDFBF7] rounded-3xl p-6 border border-pink-100 mb-6">
                 <ol class="space-y-5">
@@ -449,7 +449,7 @@ mochify ./public/images/*.{'{jpg,png}'} -t webp -w 1600 -o ./public/images</code
 
             <p class="mb-4">The same pattern works without an agent at all. A content engineer building an unattended publishing pipeline:</p>
 
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-4 overflow-x-auto font-mono text-sm leading-relaxed"><code># Generate the hero, optimise to AVIF + WebP, then commit
+            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-4 overflow-x-auto font-mono text-sm leading-relaxed"><code># Generate the hero, optimize to AVIF + WebP, then commit
 generate-hero-image "$DRAFT_PATH" /tmp/hero.png
 mochify /tmp/hero.png -p "AVIF web-ready hero, 1600 wide" -o ./public/heroes/
 mochify /tmp/hero.png -t webp -w 1600 -o ./public/heroes/
@@ -459,7 +459,7 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
 
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>find ./uploads -name "*.heic" | mochify -t jpg -o ./out</code></pre>
 
-            <p>No upload step, no download step, no chat round-trip, no per-image agent token cost. For container-based pipelines, see our <a href="/guides/self-hosting-image-optimization-docker">self-hosting image optimisation with Docker guide</a>.</p>
+            <p>No upload step, no download step, no chat round-trip, no per-image agent token cost. For container-based pipelines, see our <a href="/guides/self-hosting-image-optimization-docker">self-hosting image optimization with Docker guide</a>.</p>
         </section>
 
         <!-- Token Cost -->

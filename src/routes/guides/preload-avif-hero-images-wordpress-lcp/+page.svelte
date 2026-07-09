@@ -21,7 +21,7 @@
         {
             title: "Fix \"Next-Gen Formats\" in WordPress (No Plugins) & Boost LCP",
             href: "/guides/next-gen-image-formats-wordpress",
-            desc: "A plugin-free workflow for pre-optimising images with Mochify before uploading to WordPress."
+            desc: "A plugin-free workflow for pre-optimizing images with Mochify before uploading to WordPress."
         },
         {
             title: "The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL",

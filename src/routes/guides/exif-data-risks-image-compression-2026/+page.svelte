@@ -100,7 +100,7 @@
             {
             "@type": "HowToStep",
             "name": "Replace originals in your stack",
-            "text": "Swap the cleaned images into your CMS, marketplace listings, or client deliverables to minimise GDPR liability and reduce the risk of stalking, doxxing, or data leakage."
+            "text": "Swap the cleaned images into your CMS, marketplace listings, or client deliverables to minimize GDPR liability and reduce the risk of stalking, doxxing, or data leakage."
             }
         ],
         "datePublished": "2026-02-13",

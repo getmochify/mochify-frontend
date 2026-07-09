@@ -72,7 +72,7 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl font-bold text-[#4A2C2C]">Why convert HEIC/HEIF to PDF?</h2>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            iPhones and iPads shoot in HEIF by default. The format is excellent — smaller files than JPEG, 10-bit colour, HDR — but <strong class="text-[#7E685E]">most non-Apple devices can't open .heic files reliably</strong>. Windows, Android, print shops, and many web services still choke on them.
+                            iPhones and iPads shoot in HEIF by default. The format is excellent — smaller files than JPEG, 10-bit color, HDR — but <strong class="text-[#7E685E]">most non-Apple devices can't open .heic files reliably</strong>. Windows, Android, print shops, and many web services still choke on them.
                         </p>
                         <p class="leading-relaxed text-[#6C3F31]">
                             Wrapping your photos in a PDF gives them <strong class="text-[#7E685E]">universal reach</strong>: one file that opens everywhere, prints predictably, and keeps every photo as its own page in the order you add them. Mochify decodes and embeds each HEIC at high quality so nothing is lost in the process.
@@ -84,7 +84,7 @@
                         <ul class="space-y-2.5">
                             {#each [
                                 'HEIF is decoded at full resolution before embedding — no double-compression',
-                                '10-bit colour data is preserved through the PDF container',
+                                '10-bit color data is preserved through the PDF container',
                                 'Portrait mode and HDR shots embed without clipping highlights',
                                 'Fit-to-image page size keeps the exact aspect ratio of each photo',
                             ] as point}

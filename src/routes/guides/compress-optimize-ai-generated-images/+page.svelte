@@ -33,7 +33,7 @@
         { decision: 'Where bytes go in an agent', def: 'File path in, file path out (never inline pixels)', why: 'A 1 MP image is ~1,334 tokens; inline batches blow the context' },
         { decision: 'Automation surface', def: 'Tool call via MCP / CI build step / CDN', why: 'Deterministic, repeatable, observable' },
         { decision: 'JPEG XL', def: 'Skip for web delivery', why: 'Near-zero browser support outside Safari' },
-        { decision: 'Client/NDA assets', def: 'Zero-retention processor + DPA', why: 'Data minimisation; avoid third-party retention' },
+        { decision: 'Client/NDA assets', def: 'Zero-retention processor + DPA', why: 'Data minimization; avoid third-party retention' },
     ];
 
     const faqs = [
@@ -284,7 +284,7 @@
         <section id="privacy" class="scroll-mt-24">
             <SectionHeading>The Privacy Angle for Generated Client Assets</SectionHeading>
             <p>Where the optimization step sends your data matters the moment generated assets contain anything client-confidential, under NDA, or otherwise sensitive. The principle is data minimization, and it shapes which optimization tool you should reach for.</p>
-            <p>The UK ICO's guidance on <a href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-protection-principles/a-guide-to-the-data-protection-principles/data-minimisation/" target="_blank" rel="noopener noreferrer">data minimisation</a> requires that personal data be "adequate, relevant and limited to what is necessary," and its storage-limitation guidance adds that data should not be kept longer than needed. Applied to a generation pipeline, that argues against indefinitely storing the dozens of draft and discarded images a workflow throws off, and against routing client assets through a tool that retains them.</p>
+            <p>The UK ICO's guidance on <a href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-protection-principles/a-guide-to-the-data-protection-principles/data-minimisation/" target="_blank" rel="noopener noreferrer">data minimization</a> requires that personal data be "adequate, relevant and limited to what is necessary," and its storage-limitation guidance adds that data should not be kept longer than needed. Applied to a generation pipeline, that argues against indefinitely storing the dozens of draft and discarded images a workflow throws off, and against routing client assets through a tool that retains them.</p>
             <p>There is a quieter risk specific to agents. A local agent runtime with access to API keys and private repositories can, through a single misconfigured or undisclosed tool call, exfiltrate sensitive content to a remote service even when the model itself runs offline. "Local agent" does not imply "local data." Before adding an optimization tool to a privacy-sensitive workflow, it is worth asking what data enters the tool call, where exactly it goes, and whether the service retains it. For regulated or agency work, a zero-retention processor and a signed <a href="/dpa">Data Processing Agreement</a> are what turn that question into a documented answer.</p>
         </section>
 

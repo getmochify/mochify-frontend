@@ -10,9 +10,9 @@
 
 <svelte:head>
     <title>Bulk AI Square Cropper — Smart-Crop Images to a Square | Mochify</title>
-    <meta name="description" content="Batch crop images to a perfect square using AI saliency — the subject stays centred automatically. Pick your size, upload, download. Free, no sign-up required.">
+    <meta name="description" content="Batch crop images to a perfect square using AI saliency — the subject stays centered automatically. Pick your size, upload, download. Free, no sign-up required.">
     <meta property="og:title" content="Bulk AI Square Cropper — Smart-Crop Images to a Square | Mochify" />
-    <meta property="og:description" content="Batch crop images to a perfect square using AI saliency — the subject stays centred automatically. Pick your size, upload, download. Free, no sign-up required." />
+    <meta property="og:description" content="Batch crop images to a perfect square using AI saliency — the subject stays centered automatically. Pick your size, upload, download. Free, no sign-up required." />
     <link rel="canonical" href="https://mochify.app/solutions/bulk-ai-square-cropper" />
 
     <script type="application/ld+json">
@@ -20,7 +20,7 @@
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "Bulk AI Square Cropper",
-        "description": "Batch crop images to a perfect square using AI saliency detection. Subject stays centred automatically. Processed in memory, never stored.",
+        "description": "Batch crop images to a perfect square using AI saliency detection. Subject stays centered automatically. Processed in memory, never stored.",
         "url": "https://mochify.app/solutions/bulk-ai-square-cropper",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Web",
@@ -57,7 +57,7 @@
             </h1>
 
             <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-                Crop any image to a perfect square in bulk. AI saliency keeps the subject centred automatically — no manual adjustments needed.
+                Crop any image to a perfect square in bulk. AI saliency keeps the subject centered automatically — no manual adjustments needed.
             </p>
         </div>
 
@@ -79,7 +79,7 @@
                     {/each}
                 </div>
                 <p class="text-xs text-[#875F42] mt-3 opacity-70">
-                    Current: {squareSize} × {squareSize} px &nbsp;·&nbsp; AI saliency centres the crop on the main subject
+                    Current: {squareSize} × {squareSize} px &nbsp;·&nbsp; AI saliency centers the crop on the main subject
                 </p>
             </div>
         </div>
@@ -95,7 +95,7 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl font-bold text-[#4A2C2C]">What is AI square cropping?</h2>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            A standard centre crop blindly cuts from the middle of the frame. AI saliency cropping first analyses the image to find the most important region — a face, a product, the focal subject — then centres the square crop around that point instead.
+                            A standard center crop blindly cuts from the middle of the frame. AI saliency cropping first analyzes the image to find the most important region — a face, a product, the focal subject — then centers the square crop around that point instead.
                         </p>
                         <p class="leading-relaxed text-[#6C3F31]">
                             The result is that product shots, portraits, and real-world photos all crop correctly in bulk without any manual adjustment per image.
@@ -124,7 +124,7 @@
                         <h3 class="font-bold text-[#4A2C2C] mb-5 text-sm uppercase tracking-widest opacity-70">Common Use Cases</h3>
                         <ul class="space-y-3">
                             {#each [
-                                'Preparing product images for an e-commerce catalogue',
+                                'Preparing product images for an e-commerce catalog',
                                 'Normalising a batch of photos to a uniform grid layout',
                                 'Squaring up listing photos before uploading to marketplaces',
                                 'Creating consistent thumbnails from varied source images',
@@ -143,7 +143,7 @@
                     {#each [
                         {
                             q: "How does the AI know where to crop?",
-                            a: "Mochify runs a saliency model that identifies the most visually important region of each image — typically the main subject, face, or product. The square crop is then centred on that region rather than the geometric centre of the frame."
+                            a: "Mochify runs a saliency model that identifies the most visually important region of each image — typically the main subject, face, or product. The square crop is then centered on that region rather than the geometric center of the frame."
                         },
                         {
                             q: "What happens if the subject is near an edge?",
@@ -188,8 +188,8 @@
             <div class="grid sm:grid-cols-3 gap-4">
                 {#each [
                     { n: '1', t: 'Pick your size', d: 'Choose the square output size that matches your platform — 1000 px for most e-commerce, 800 px for social.' },
-                    { n: '2', t: 'Upload your images', d: 'Add up to 25 images at once. The AI saliency model analyses each one independently.' },
-                    { n: '3', t: 'Download the results', d: 'Each image comes back as a perfectly square crop centred on its main subject. Nothing is stored.' },
+                    { n: '2', t: 'Upload your images', d: 'Add up to 25 images at once. The AI saliency model analyzes each one independently.' },
+                    { n: '3', t: 'Download the results', d: 'Each image comes back as a perfectly square crop centered on its main subject. Nothing is stored.' },
                 ] as step}
                     <div class="bg-white p-6 rounded-2xl border border-pink-50 shadow-sm">
                         <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-violet-50 text-violet-600 font-black text-sm mb-4">{step.n}</span>

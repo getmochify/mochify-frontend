@@ -149,7 +149,7 @@
                 Your photos are the first thing buyers see.
             </h2>
             <p class="text-[#6C3F31] max-w-2xl mx-auto leading-relaxed">
-                On eBay search results, your main photo is competing against hundreds of other listings. A bright, clean, properly-sized photo with the item centred and the background removed stops the scroll. A dark, blurry, or awkwardly-cropped photo gets skipped — no matter how good the item is.
+                On eBay search results, your main photo is competing against hundreds of other listings. A bright, clean, properly-sized photo with the item centered and the background removed stops the scroll. A dark, blurry, or awkwardly-cropped photo gets skipped — no matter how good the item is.
             </p>
             <div class="grid sm:grid-cols-3 gap-6 pt-4">
                 {#each [
@@ -173,7 +173,7 @@
             <div class="grid sm:grid-cols-3 gap-8 relative">
                 {#each [
                     { n: 1, title: 'Upload', body: 'Drag in your photos — up to 25 at once. Works with JPEG, HEIC from iPhone, PNG, and more.' },
-                    { n: 2, title: 'Optimize', body: 'We resize to 1600×1600px, smart-crop to centre your item, remove the background, and compress to well under 12MB.' },
+                    { n: 2, title: 'Optimize', body: 'We resize to 1600×1600px, smart-crop to center your item, remove the background, and compress to well under 12MB.' },
                     { n: 3, title: 'List', body: 'Download your optimized photos and upload directly to eBay. Professional results, zero effort.' }
                 ] as step}
                     <div class="text-center relative z-10">
@@ -204,7 +204,7 @@
                 },
                 {
                     q: 'How do I optimize images for eBay to get more sales?',
-                    a: "The biggest impact comes from three things: correct size (1600×1600px for zoom), a clean background (white or neutral so buyers focus on the item), and sharp framing (item centred and filling the frame). Mochify handles all three in one step — no Photoshop required."
+                    a: "The biggest impact comes from three things: correct size (1600×1600px for zoom), a clean background (white or neutral so buyers focus on the item), and sharp framing (item centered and filling the frame). Mochify handles all three in one step — no Photoshop required."
                 },
                 {
                     q: 'Does background removal really help eBay sales?',

@@ -54,7 +54,7 @@
         },
         "datePublished": "2026-06-25",
         "dateModified": "2026-06-25",
-        "inLanguage": "en-GB",
+        "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
             "@type": "Organization",
@@ -75,7 +75,7 @@
             { "@type": "Thing", "name": "WebP image format" },
             { "@type": "Thing", "name": "JPEG image format" },
             { "@type": "Thing", "name": "WordPress media uploads" },
-            { "@type": "Thing", "name": "Image optimisation" }
+            { "@type": "Thing", "name": "Image optimization" }
         ],
         "keywords": "HEIC to JPEG WordPress, HEIC to WebP WordPress, convert HEIC before upload, WordPress image formats, image compression WordPress"
     }

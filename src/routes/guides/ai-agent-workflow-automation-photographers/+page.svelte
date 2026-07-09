@@ -37,7 +37,7 @@
         },
         {
             q: "Is the processed output compatible with Pixieset or SmugMug upload without any further steps?",
-            a: "Yes. Output files are standard JPEG using the jpegli encoder, fully compatible with every gallery platform, CMS, and e-commerce tool. Files are correctly sized, sRGB colour profile, EXIF stripped (or selectively preserved for editorial). Drop them straight into the upload queue."
+            a: "Yes. Output files are standard JPEG using the jpegli encoder, fully compatible with every gallery platform, CMS, and e-commerce tool. Files are correctly sized, sRGB color profile, EXIF stripped (or selectively preserved for editorial). Drop them straight into the upload queue."
         },
         {
             q: "Do I need to re-configure the MCP server for each shoot type?",
@@ -152,7 +152,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            Most photographers have optimised the shoot. The real time sink is what happens after: converting exports, resizing for each platform, stripping EXIF, and dropping files into the right delivery folders.
+            Most photographers have optimized the shoot. The real time sink is what happens after: converting exports, resizing for each platform, stripping EXIF, and dropping files into the right delivery folders.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
@@ -326,7 +326,7 @@
             <p>The three-layer architecture is straightforward: an AI agent runtime handles orchestration, a scheduler handles triggers, and Mochify's MCP server is the image processing engine the agent calls. The agent handles the logic; Mochify handles the actual pixel work.</p>
             <p><strong class="text-[#4A2C2C]">Claude</strong> (via Claude Desktop or a compatible client) is where you define instruction sets: essentially, pre-written tasks the agent executes when triggered. For this workflow, you write the instruction set once: detect the shoot type from the folder name, call Mochify MCP with the appropriate conversion parameters, and send a confirmation when done. <a href="https://docs.anthropic.com/en/docs/build-with-claude/mcp" rel="noopener noreferrer" class="text-[#D81B60] underline">Anthropic's MCP documentation</a> covers the protocol spec in detail for developers who want to go deeper.</p>
             <p><strong class="text-[#4A2C2C]">Dispatch</strong> is the scheduling and trigger layer. It runs a file watcher on your <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">/exports/raw-jpegs/</code> directory and fires the agent job when a new folder appears. This is what makes the workflow genuinely hands-off: the export from Lightroom is the only action you take. Dispatch handles everything after.</p>
-            <p><strong class="text-[#4A2C2C]">Mochify's MCP server</strong> exposes the same C++ compression engine and zero-retention pipeline as the web interface, but callable by an AI agent in natural language. The agent describes the task: format, size constraints, colour profile, EXIF handling. Mochify resolves the parameters and returns the processed files. No settings UI, no format dropdowns.</p>
+            <p><strong class="text-[#4A2C2C]">Mochify's MCP server</strong> exposes the same C++ compression engine and zero-retention pipeline as the web interface, but callable by an AI agent in natural language. The agent describes the task: format, size constraints, color profile, EXIF handling. Mochify resolves the parameters and returns the processed files. No settings UI, no format dropdowns.</p>
 
             <InfoBox type="note" title="MCP access on all tiers">
                 There is no developer paywall. After installing the binary, run <code>mochify auth login</code> once. It opens your browser, you sign in, and credentials are saved to <code>~/.config/mochify/credentials.toml</code>, which both the CLI and the <code>mochify serve</code> MCP server pick up automatically. (<code>MOCHIFY_API_KEY</code> still works as an optional environment-variable override.) Free, Seller, and Pro all include MCP access.
@@ -385,7 +385,7 @@ dispatch trigger mochify-agent --param folder="$FOLDER_PATH"</code></pre>
                         { n: 4, title: 'Agent fires.', body: 'It reads the folder name, identifies the shoot type as wedding, and loads the pre-written Pixieset instruction set.' },
                         { n: 5, title: 'Agent calls Mochify MCP.', body: 'The natural language call is: "Convert everything in /studio/exports/raw-jpegs/wedding-2026-05-03-hartley/ to sRGB JPEG for Pixieset, 3,600px long edge, under 2MB, strip all EXIF including embedded thumbnails."' },
                         { n: 6, title: 'Mochify processes the batch.', body: 'The in-memory pipeline handles the conversion, with no source files written to third-party disk and no data retained after processing. Mochify uses Google\'s jpegli encoder, which produces standard JPEG files at up to 35% smaller file sizes than libjpeg-turbo at equivalent quality. Your 80 files are processed in under 60 seconds at Pro tier.' },
-                        { n: 7, title: 'Output lands in the delivery folder.', body: 'Processed files appear in /studio/processed/pixieset/wedding-2026-05-03-hartley/: correctly sized, correct colour profile, EXIF stripped, within Pixieset\'s size limits.' },
+                        { n: 7, title: 'Output lands in the delivery folder.', body: 'Processed files appear in /studio/processed/pixieset/wedding-2026-05-03-hartley/: correctly sized, correct color profile, EXIF stripped, within Pixieset\'s size limits.' },
                         { n: 8, title: 'Agent sends confirmation.', body: 'A Slack message (or desktop notification, depending on your Dispatch config) reads: "80 files processed. Ready to upload to Pixieset."' },
                     ] as step}
                         <li class="flex gap-4 items-start m-0">
@@ -475,7 +475,7 @@ strip GPS and device metadata, 2,400px long edge, JPEG"</code></pre>
             <p><strong class="text-[#4A2C2C]">File size validation.</strong> The agent should confirm that every output file is within the target platform's size limit before sending the confirmation notification. If any file exceeds the limit, it should re-run that file with a slightly lower quality setting and re-check. Mochify's Magic Flow handles this gracefully: the prompt can specify "under 2MB" as a hard constraint, and the encoder will find the quality level that satisfies it.</p>
             <p><strong class="text-[#4A2C2C]">Mixed file types.</strong> If a folder contains HIF, JPEG, and occasional RAW files (from a second shooter, for example), Mochify processes the formats it supports and skips unsupported types. The agent's instruction set should flag skipped files in the confirmation message rather than silently omitting them.</p>
             <p><strong class="text-[#4A2C2C]">Batches larger than 25 files.</strong> The 25-file batch limit applies to Seller and Pro tiers via MCP. If you're processing 80 files, the CLI handles this automatically by splitting internally across multiple batches; you pass the full folder and Mochify manages the chunking. Via MCP, the agent should split the folder glob into chunks of 25 and call Mochify sequentially, collecting confirmations before marking the job done.</p>
-            <p><strong class="text-[#4A2C2C]">Format rejection.</strong> If Lightroom exports a file with an unusual colour profile or embedded ICC profile that causes a processing error, Mochify will return an error for that file. Configure the agent to log errors with filenames and re-queue them for manual review rather than failing silently.</p>
+            <p><strong class="text-[#4A2C2C]">Format rejection.</strong> If Lightroom exports a file with an unusual color profile or embedded ICC profile that causes a processing error, Mochify will return an error for that file. Configure the agent to log errors with filenames and re-queue them for manual review rather than failing silently.</p>
         </section>
 
         <!-- Final CTA -->

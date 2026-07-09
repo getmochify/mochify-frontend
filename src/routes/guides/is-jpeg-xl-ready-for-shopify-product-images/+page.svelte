@@ -56,7 +56,7 @@
         "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
         "about": [
             { "@type": "Thing", "name": "JPEG XL" },
-            { "@type": "Thing", "name": "Shopify image optimisation" },
+            { "@type": "Thing", "name": "Shopify image optimization" },
             { "@type": "Thing", "name": "AVIF" },
             { "@type": "Thing", "name": "WebP" },
             { "@type": "Thing", "name": "Web performance" }

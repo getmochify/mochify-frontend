@@ -380,7 +380,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
             <SectionHeading>Hosted MCP: zero-install, any AI client</SectionHeading>
             <p class="mb-6">The Mochify MCP server is also available as a hosted HTTP endpoint at <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code>. No binary to install, no Rust toolchain, no config file - paste the URL, authorize your account, and the <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">squish</code> tool appears in your AI assistant instantly.</p>
 
-            <p class="mb-6">One behavioural note specific to the hosted server: it returns the compressed image as a short-lived download URL on <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">files.mochify.app</code> (about a five-minute window), not as inline binary. Your original is still processed in RAM and discarded immediately; only the compressed output sits briefly in a pickup store so the link can resolve. The local CLI never uses that pickup store - it writes results straight to disk.</p>
+            <p class="mb-6">One behavioral note specific to the hosted server: it returns the compressed image as a short-lived download URL on <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">files.mochify.app</code> (about a five-minute window), not as inline binary. Your original is still processed in RAM and discarded immediately; only the compressed output sits briefly in a pickup store so the link can resolve. The local CLI never uses that pickup store - it writes results straight to disk.</p>
 
             <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
@@ -427,7 +427,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
             <p class="mb-4">Mochify is listed on <strong>Smithery</strong> and <strong>Glama</strong> - MCP registries and marketplaces where you can discover and install MCP tools with a single click. Search for "Mochify" to add the hosted server directly from the registry without touching any config file.</p>
 
             <InfoBox type="tip" title="Agentic workflows with multiple MCPs">
-                Combine the Mochify hosted MCP with a filesystem or Google Drive MCP and your assistant becomes a full image pipeline agent. Say <em>"Optimise all the product photos in my Drive folder as WebPs and strip the EXIF"</em> - the Drive MCP fetches the URLs, Mochify processes each one, and each result comes back as a short-lived download link. No scripts, no manual steps.
+                Combine the Mochify hosted MCP with a filesystem or Google Drive MCP and your assistant becomes a full image pipeline agent. Say <em>"Optimize all the product photos in my Drive folder as WebPs and strip the EXIF"</em> - the Drive MCP fetches the URLs, Mochify processes each one, and each result comes back as a short-lived download link. No scripts, no manual steps.
             </InfoBox>
         </section>
 

@@ -18,7 +18,7 @@
         "url": "https://mochify.app/solutions/svg-to-jxl",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Web",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "GBP" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
         "provider": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" }
         }
     </script>
@@ -77,10 +77,10 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl font-bold text-[#4A2C2C]">Why convert SVG to JPEG XL?</h2>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            JPEG XL is the most capable image format available today — it supports <strong class="text-[#7E685E]">full alpha transparency</strong>, a true lossless mode that beats PNG on file size, HDR, and wide colour gamut. For SVG assets you want to archive, hand off at maximum quality, or future-proof for a stack that will adopt JXL when browser support matures, it's the right format to rasterise to now.
+                            JPEG XL is the most capable image format available today — it supports <strong class="text-[#7E685E]">full alpha transparency</strong>, a true lossless mode that beats PNG on file size, HDR, and wide color gamut. For SVG assets you want to archive, hand off at maximum quality, or future-proof for a stack that will adopt JXL when browser support matures, it's the right format to rasterise to now.
                         </p>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            JXL's lossless mode is particularly well-suited to SVG rasterisation: because SVG paths produce clean, hard edges and flat colour regions, the lossless encoder can represent the output very efficiently — often <strong class="text-[#7E685E]">smaller than an equivalent lossless PNG</strong>.
+                            JXL's lossless mode is particularly well-suited to SVG rasterisation: because SVG paths produce clean, hard edges and flat color regions, the lossless encoder can represent the output very efficiently — often <strong class="text-[#7E685E]">smaller than an equivalent lossless PNG</strong>.
                         </p>
                     </div>
 

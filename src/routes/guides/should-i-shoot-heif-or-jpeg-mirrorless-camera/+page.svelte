@@ -86,7 +86,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            Shoot HEIF for capture quality, deliver JPEG to clients. HEIF's 10-bit colour depth and better compression efficiency make it the stronger in-camera format on Canon EOS R-series, Nikon Z, and Sony Alpha bodies - but JPEG remains the universal delivery format because it works everywhere without conversion friction.
+            Shoot HEIF for capture quality, deliver JPEG to clients. HEIF's 10-bit color depth and better compression efficiency make it the stronger in-camera format on Canon EOS R-series, Nikon Z, and Sony Alpha bodies - but JPEG remains the universal delivery format because it works everywhere without conversion friction.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
@@ -100,13 +100,13 @@
 
         <section id="why-heif-wins-for-capture">
             <SectionHeading>Why HEIF Wins for In-Camera Capture</SectionHeading>
-            <p>10-bit HEIF files preserve more tonal information than 8-bit JPEG, which matters during colour grading and exposure recovery. You get more headroom in shadows and highlights, which is useful on high-contrast wedding and outdoor shoots. HEIF files are also meaningfully smaller than equivalent-quality JPEGs straight out of camera - a useful saving across multi-hundred-image commercial shoots where card space and ingest time add up.</p>
+            <p>10-bit HEIF files preserve more tonal information than 8-bit JPEG, which matters during color grading and exposure recovery. You get more headroom in shadows and highlights, which is useful on high-contrast wedding and outdoor shoots. HEIF files are also meaningfully smaller than equivalent-quality JPEGs straight out of camera - a useful saving across multi-hundred-image commercial shoots where card space and ingest time add up.</p>
             <p>Canon's HIF format (the EOS R-series implementation of HEIF) and similar offerings from Nikon and Sony are worth using as working formats or as RAW companions for quick on-set review. They give you a better immediate preview than 8-bit JPEG while keeping files more manageable than RAW.</p>
         </section>
 
         <section id="why-jpeg-wins-for-delivery">
             <SectionHeading>Why JPEG Still Wins for Client Delivery</SectionHeading>
-            <p>Client galleries, wire services, editorial CMSes, and e-commerce marketplaces all expect JPEG. Platforms that accept HEIF often convert it to JPEG on ingest - removing your control over output quality, colour profile, and file size in the process. Collaborators and retouchers working in mixed software environments may have HEIF codec issues on Windows or with older plugin versions, adding friction to shared workflows.</p>
+            <p>Client galleries, wire services, editorial CMSes, and e-commerce marketplaces all expect JPEG. Platforms that accept HEIF often convert it to JPEG on ingest - removing your control over output quality, color profile, and file size in the process. Collaborators and retouchers working in mixed software environments may have HEIF codec issues on Windows or with older plugin versions, adding friction to shared workflows.</p>
             <p>JPEG is not going anywhere as a delivery format. The right workflow is to convert from HEIF to JPEG as a deliberate, controlled step - not to let the gallery platform or a client's device do it for you.</p>
         </section>
 

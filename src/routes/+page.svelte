@@ -405,7 +405,7 @@
                             'Upload each file individually',
                             'Manually set format & quality sliders',
                             'Wait for upload and processing',
-                            'Download, rename, organise files',
+                            'Download, rename, organize files',
                             'Repeat for every format you need',
                         ] as step, i}
                         <li class="flex items-start gap-2.5">
@@ -435,7 +435,7 @@
                                 </svg>
                                 <p class="text-xs font-bold text-[#4A2C2C]">6 files processed</p>
                             </div>
-                            <p class="text-xs text-[#7A5A3A]">EXIF stripped · 1600px max · Smart-crop: subject centred · avg 68% smaller</p>
+                            <p class="text-xs text-[#7A5A3A]">EXIF stripped · 1600px max · Smart-crop: subject centered · avg 68% smaller</p>
                         </div>
                     </div>
                     <p class="text-xs text-cocoa-milk/50 leading-relaxed">Drop your files, type what you want, get them back. No format pickers, no quality sliders, no repeat.</p>
@@ -506,7 +506,7 @@
                     <p class="text-xs font-semibold tracking-widest uppercase text-[#F06292]/70 mb-2">Shopify &amp; Ecommerce</p>
                     <h2 class="text-2xl font-black text-[#4A2C2C] mb-3">Better Core Web Vitals start with smaller product images</h2>
                     <p class="text-sm text-[#6C3F31] leading-relaxed max-w-2xl mb-8">
-                        Largest Contentful Paint (LCP) is Google's primary page speed signal — and product images are almost always the bottleneck. Converting your catalogue to AVIF or WebP can cut file sizes by up to 50% with no visible quality loss, directly improving your store's search ranking and conversion rate.
+                        Largest Contentful Paint (LCP) is Google's primary page speed signal — and product images are almost always the bottleneck. Converting your catalog to AVIF or WebP can cut file sizes by up to 50% with no visible quality loss, directly improving your store's search ranking and conversion rate.
                     </p>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div class="glass-card rounded-xl px-4 py-4">
@@ -516,7 +516,7 @@
                         </div>
                         <div class="glass-card rounded-xl px-4 py-4">
                             <p class="text-xs font-bold text-[#F06292] uppercase tracking-wider mb-1">Bulk processing</p>
-                            <p class="text-sm font-bold text-[#4A2C2C] mb-1">Process your whole catalogue</p>
+                            <p class="text-sm font-bold text-[#4A2C2C] mb-1">Process your whole catalog</p>
                             <p class="text-xs text-[#7A5A3A] leading-relaxed">Drop up to 25 product images at once. Describe what you need — "convert to WebP, max 1600px wide" — and Mochify handles the rest.</p>
                         </div>
                         <div class="glass-card rounded-xl px-4 py-4">

@@ -73,7 +73,7 @@
         },
         "datePublished": "2026-06-26",
         "dateModified": "2026-06-26",
-        "inLanguage": "en-GB",
+        "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
             "@type": "Organization",
@@ -208,8 +208,8 @@
 
         <section id="what-is-jpeg-xl" class="scroll-mt-24">
             <SectionHeading>What JPEG XL Actually Is (and Why the Name Is Confusing)</SectionHeading>
-            <p class="mb-4">JPEG XL (extension <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm border border-pink-100">.jxl</code>) is not a direct update to classic JPEG the way that phrasing implies. It is a completely new codec, standardised by the JPEG committee as ISO 18181, with a different architecture underneath. The "JPEG" in the name refers to the committee, not the format family.</p>
-            <p class="mb-4">Two properties make JXL genuinely unusual among modern formats. First, it can losslessly transcode an existing JPEG into a JXL container that is smaller but still allows exact byte-for-byte reconstruction of the original JPEG - you shrink the file without losing the source. Second, it supports up to 32-bit per channel colour depth and HDR (PQ and HLG), making it the strongest archival format in this comparison for professional photography workflows.</p>
+            <p class="mb-4">JPEG XL (extension <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm border border-pink-100">.jxl</code>) is not a direct update to classic JPEG the way that phrasing implies. It is a completely new codec, standardized by the JPEG committee as ISO 18181, with a different architecture underneath. The "JPEG" in the name refers to the committee, not the format family.</p>
+            <p class="mb-4">Two properties make JXL genuinely unusual among modern formats. First, it can losslessly transcode an existing JPEG into a JXL container that is smaller but still allows exact byte-for-byte reconstruction of the original JPEG - you shrink the file without losing the source. Second, it supports up to 32-bit per channel color depth and HDR (PQ and HLG), making it the strongest archival format in this comparison for professional photography workflows.</p>
             <p>Compare that to AVIF, which tops out at 12-bit depth. Both WebP and AVIF are strong choices for web delivery today, but for long-term archival of high-bit-depth stills, JPEG XL's spec headroom is a real advantage.</p>
         </section>
 
@@ -232,7 +232,7 @@
 
             <h3 class="font-bold text-[#4A2C2C] text-xl mt-8 mb-3">Lossy: JPEG XL vs JPEG</h3>
             <p class="mb-4">For typical photographic content, a lossy JPEG XL re-encode at comparable perceptual quality produces files <strong class="text-[#4A2C2C]">30–55% smaller than legacy JPEG</strong>. The upper end reflects high-effort encoder settings; a practical web preset sits closer to 35–45%. <a href="https://storage.googleapis.com/avif-comparison/index.html" target="_blank" rel="noopener noreferrer">Google's Image Coding Comparisons tool</a> shows JPEG XL consistently outperforming JPEG and WebP at equivalent subjective quality across a broad range of photographic test sets.</p>
-            <p class="mb-4">JPEG XL vs AVIF is tighter. Cloudinary image researcher Jon Sneyers, analysing the same benchmarks with practical encode presets (JXL s6 vs AVIF s7), found that 9 out of 13 quality metrics favoured JPEG XL on photographic datasets - a useful read on a competitive comparison.</p>
+            <p class="mb-4">JPEG XL vs AVIF is tighter. Cloudinary image researcher Jon Sneyers, analyzing the same benchmarks with practical encode presets (JXL s6 vs AVIF s7), found that 9 out of 13 quality metrics favoured JPEG XL on photographic datasets - a useful read on a competitive comparison.</p>
 
             <h3 class="font-bold text-[#4A2C2C] text-xl mt-8 mb-3">Lossless: JPEG XL vs PNG</h3>
             <p class="mb-4">PNG has been the default lossless format for web graphics for decades. JPEG XL lossless is a meaningful upgrade. Community benchmarking across hundreds of images found that JPEG XL lossless at effort=1 (very fast) produced files roughly <strong class="text-[#4A2C2C]">19–25% smaller than PNG</strong> at PNG's own maximum compression, while encoding around 150 times faster. At higher effort settings, JPEG XL lossless can be 40–50% smaller than PNG - at the cost of much slower encoding. For archival use where you run the encoder once and store the result, high-effort settings are often worth it. JPEG XL also supports full transparency in both lossy and lossless modes, making it a viable PNG replacement for logos, sprites, and UI assets.</p>
@@ -353,7 +353,7 @@
                             ['PNG graphics / UI / logos', 'Lossless JXL', '19–50% smaller than PNG', 'Transparency supported'],
                             ['Photographic PNGs', 'Lossy JXL', '60–80% smaller than PNG', 'Only if quality loss is acceptable'],
                             ['AVIF archives (HDR)', 'Lossless JXL', 'Comparable size', 'Use for long-term masters; serve AVIF for web'],
-                            ['WordPress / Shopify delivery', 'Avoid JXL as primary', '—', 'Platform stacks optimised for WebP/AVIF'],
+                            ['WordPress / Shopify delivery', 'Avoid JXL as primary', '—', 'Platform stacks optimized for WebP/AVIF'],
                             ['Safari-primary audience', 'JXL as first source', 'Best quality per byte', 'Always include AVIF/WebP/JPEG fallback'],
                             ['Chrome/Firefox general delivery', 'JXL behind picture, not primary', '—', 'Not default-on in Chrome or Firefox mid-2026'],
                         ] as row}
