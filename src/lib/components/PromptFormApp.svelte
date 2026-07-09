@@ -11,8 +11,7 @@
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://tokens.mochify.app';
 
-	let { onSuccess }: { onSuccess?: () => void } =
-		$props();
+	let { onSuccess }: { onSuccess?: () => void } = $props();
 
 	let prompt: string = $state('');
 	let files: File[] = $state([]);
@@ -208,8 +207,12 @@
 
 	let MAX_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro/lite
 	let MAX_FILES = $state(3); // 3 for free, 25 for lite/pro
+	// null until /api/usage resolves — the generate gate in submit() only fires on a
+	// known-'free' plan, so an in-flight plan lookup never blocks a paying user.
+	let userPlan: 'free' | 'seller' | 'pro' | 'day' | 'growth' | null = $state(null);
 	$effect(() => {
 		getPlan().then((plan) => {
+			userPlan = plan;
 			MAX_FILE_SIZE =
 				plan === 'pro' || plan === 'day' || plan === 'seller' || plan === 'growth'
 					? 75 * 1024 * 1024
@@ -234,6 +237,8 @@
 	let hitRateLimit: boolean = $state(false);
 	let showSignupCta: boolean = $state(false);
 	let showUpgradeCta: boolean = $state(false);
+	// Which copy the upgrade modal shows: quota exhaustion vs. gen-AI paywall.
+	let upgradeCtaMode: 'quota' | 'generate' = $state('quota');
 	let failedFiles: { name: string; reason: string }[] = $state([]);
 	let victoryGlow: boolean = $state(false);
 
@@ -289,9 +294,15 @@
 		if (file.type) return file.type;
 		const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
 		const MIME_BY_EXT: Record<string, string> = {
-			heic: 'image/heic', heif: 'image/heif', hif: 'image/heif',
-			jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png',
-			webp: 'image/webp', avif: 'image/avif', jxl: 'image/jxl',
+			heic: 'image/heic',
+			heif: 'image/heif',
+			hif: 'image/heif',
+			jpg: 'image/jpeg',
+			jpeg: 'image/jpeg',
+			png: 'image/png',
+			webp: 'image/webp',
+			avif: 'image/avif',
+			jxl: 'image/jxl',
 			svg: 'image/svg+xml'
 		};
 		return MIME_BY_EXT[ext] ?? 'application/octet-stream';
@@ -299,8 +310,11 @@
 
 	async function validateAndAddFiles(newFiles: File[]) {
 		const plan = await getPlan();
-		MAX_FILE_SIZE = plan === 'pro' || plan === 'day' || plan === 'seller' || plan === 'growth'
-			? 75 * 1024 * 1024 : 20 * 1024 * 1024;
+		userPlan = plan;
+		MAX_FILE_SIZE =
+			plan === 'pro' || plan === 'day' || plan === 'seller' || plan === 'growth'
+				? 75 * 1024 * 1024
+				: 20 * 1024 * 1024;
 		MAX_FILES = plan === 'free' ? 3 : 25;
 		const validFiles: File[] = [];
 		let rejectedCount = 0;
@@ -605,7 +619,9 @@
 				: `${ext.toUpperCase()} · ${dims.w || (widthToken ? widthToken[1] : '?')}w`;
 			imgs.push({ name, label, url, blob, width: dims.w, height: dims.h, isOriginal });
 		}
-		imgs.sort((a, b) => (a.isOriginal === b.isOriginal ? a.width - b.width : a.isOriginal ? -1 : 1));
+		imgs.sort((a, b) =>
+			a.isOriginal === b.isOriginal ? a.width - b.width : a.isOriginal ? -1 : 1
+		);
 		generatedImages = imgs;
 	}
 
@@ -650,11 +666,17 @@
 			posthog.capture('create_flow_regenerated', { outputs: generatedImages.length });
 		} catch (e) {
 			const status = (e as { status?: number })?.status;
-			if (status === 403) showUpgradeCta = true;
-			else if (status === 429) {
+			if (status === 403) {
+				upgradeCtaMode = 'generate';
+				showUpgradeCta = true;
+			} else if (status === 429) {
 				if (jwt) showUpgradeCta = true;
 				else showSignupCta = true;
-			} else showStatus('error', e instanceof Error ? e.message : 'Generation failed — please try again.');
+			} else
+				showStatus(
+					'error',
+					e instanceof Error ? e.message : 'Generation failed — please try again.'
+				);
 			posthog.capture('create_flow_regenerated', { failed: true });
 		} finally {
 			isProcessing = false;
@@ -679,6 +701,18 @@
 		// image from scratch. Route it to the text-to-image "create" flow.
 		const isCreate = files.length === 0;
 
+		// Image generation is Pro-only — free, anonymous, day-pass, seller and growth
+		// users are all gated. Doing it here, before the thinking animation and NLP
+		// round trip, shows the upgrade CTA instantly instead of after fake progress.
+		// Unknown plans (userPlan still null) fall through — the backend 403 below
+		// stays the source of truth for who can generate.
+		if (isCreate && userPlan !== null && userPlan !== 'pro') {
+			upgradeCtaMode = 'generate';
+			showUpgradeCta = true;
+			posthog.capture('create_flow_gated', { plan: userPlan });
+			return;
+		}
+
 		// Flip into the thinking state synchronously on click so the progress bar
 		// animates immediately, rather than waiting on the auth + quota pre-flight
 		// round-trips below. If the pre-flight fails (or hits a quota wall) the
@@ -688,6 +722,7 @@
 		uploadPercent = 0;
 		completedFiles = 0;
 		hitRateLimit = false;
+		upgradeCtaMode = 'quota';
 		agentMessage = '';
 		agentOutcome = null;
 		agentOutcomeText = '';
@@ -777,14 +812,19 @@
 					onSuccess?.();
 				} catch (e) {
 					const status = (e as { status?: number })?.status;
-					if (status === 403) showUpgradeCta = true;
-					else if (status === 429) {
+					if (status === 403) {
+						upgradeCtaMode = 'generate';
+						showUpgradeCta = true;
+					} else if (status === 429) {
 						if (jwt) showUpgradeCta = true;
 						else showSignupCta = true;
 					} else {
 						agentOutcome = 'error';
 						agentOutcomeText = e instanceof Error ? e.message : 'Generation failed.';
-						showStatus('error', e instanceof Error ? e.message : 'Generation failed — please try again.');
+						showStatus(
+							'error',
+							e instanceof Error ? e.message : 'Generation failed — please try again.'
+						);
 					}
 					posthog.capture('create_flow_completed', { failed: true });
 				}
@@ -1869,7 +1909,7 @@
 						</div>
 						<button
 							onclick={() => removeFile(i)}
-							class="absolute -top-2 -right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white/90 text-[#F06292] shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-red-500 hover:scale-110"
+							class="absolute -top-2 -right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white/90 text-[#F06292] shadow-md backdrop-blur-sm transition-all hover:scale-110 hover:bg-white hover:text-red-500"
 							aria-label="Remove {file.name}"
 						>
 							<svg
@@ -1944,7 +1984,10 @@
 						bind:value={prompt}
 						oninput={autoGrow}
 						onkeydown={handleKeydown}
-						onfocus={() => { isFocused = true; warmAuth(); }}
+						onfocus={() => {
+							isFocused = true;
+							warmAuth();
+						}}
 						onblur={() => (isFocused = false)}
 						aria-label="Describe what you want"
 						rows="2"
@@ -2285,8 +2328,18 @@
 							disabled={isProcessing}
 							class="inline-flex items-center gap-1.5 rounded-xl border border-pink-100 bg-white px-3 py-1.5 text-xs font-bold text-[#F06292] transition-all hover:bg-pink-50 disabled:cursor-not-allowed disabled:opacity-50"
 						>
-							<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+							<svg
+								class="h-3.5 w-3.5"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								stroke-width="2.5"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+								/>
 							</svg>
 							Regenerate
 						</button>
@@ -2294,8 +2347,18 @@
 							onclick={downloadAllGen}
 							class="inline-flex items-center gap-1.5 rounded-xl bg-[#F06292] px-3 py-1.5 text-xs font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#D81B60]"
 						>
-							<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+							<svg
+								class="h-3.5 w-3.5"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								stroke-width="2.5"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+								/>
 							</svg>
 							Download all (ZIP)
 						</button>
@@ -2303,7 +2366,9 @@
 				</div>
 				<div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
 					{#each generatedImages as g (g.name)}
-						<div class="group relative overflow-hidden rounded-xl border border-pink-50 bg-[#FDFBF7]">
+						<div
+							class="group relative overflow-hidden rounded-xl border border-pink-50 bg-[#FDFBF7]"
+						>
 							<img
 								src={g.url}
 								alt={g.label}
@@ -2312,9 +2377,9 @@
 							/>
 							<div class="flex items-center justify-between gap-1 px-2 py-1.5">
 								<span class="min-w-0 flex-1 truncate text-[10px] font-bold text-[#875F42]">
-									{#if g.isOriginal}<span class="text-[#F06292]">★ </span>{/if}{g.label}{#if g.width}<span
-											class="opacity-60"
-										>
+									{#if g.isOriginal}<span class="text-[#F06292]"
+											>★
+										</span>{/if}{g.label}{#if g.width}<span class="opacity-60">
 											· {g.width}×{g.height}</span
 										>{/if}
 								</span>
@@ -2323,8 +2388,18 @@
 									aria-label="Download {g.label}"
 									class="flex-shrink-0 rounded-lg p-1 text-[#875F42]/60 transition-all hover:bg-pink-50 hover:text-[#F06292]"
 								>
-									<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-										<path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+									<svg
+										class="h-3.5 w-3.5"
+										fill="none"
+										stroke="currentColor"
+										viewBox="0 0 24 24"
+										stroke-width="2.5"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+										/>
 									</svg>
 								</button>
 							</div>
@@ -2468,11 +2543,19 @@
 					<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
 				</svg>
 			</div>
-			<h3 class="mb-2 text-lg font-black text-[#4A2C2C]">You've used your quota</h3>
-			<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
-				You've reached your plan's processing limit. Upgrade to get more images per month and unlock
-				batch processing up to 25 files.
-			</p>
+			{#if upgradeCtaMode === 'generate'}
+				<h3 class="mb-2 text-lg font-black text-[#4A2C2C]">Image generation is a Pro feature</h3>
+				<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
+					Describe any image and Mochify will create it in every format and size you need. Upgrade
+					to unlock AI image generation.
+				</p>
+			{:else}
+				<h3 class="mb-2 text-lg font-black text-[#4A2C2C]">You've used your quota</h3>
+				<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
+					You've reached your plan's processing limit. Upgrade to get more images per month and
+					unlock batch processing up to 25 files.
+				</p>
+			{/if}
 			<a
 				href="/pricing"
 				class="mb-3 block w-full rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] py-3 text-center font-black text-white shadow-lg shadow-pink-200/50 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-pink-300/60"
