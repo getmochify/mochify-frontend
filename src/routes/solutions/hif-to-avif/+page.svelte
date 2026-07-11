@@ -8,7 +8,7 @@
     <meta property="og:title" content="Convert HIF to AVIF (Fuji/Canon) - Soft & Squishy Image Tools">
 </svelte:head>
 
-<div class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full flex-grow">
+<div class="relative max-w-5xl mx-auto px-4 pt-7 pb-12 sm:px-6 lg:px-8 w-full flex-grow">
         
         <div class="text-center mb-12 space-y-6">
             <div class="flex flex-wrap justify-center gap-3">
