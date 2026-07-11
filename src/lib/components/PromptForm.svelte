@@ -694,6 +694,18 @@
 		if (!warmedAuth) warmedAuth = getSessionToken();
 	}
 
+	// Map a failed /v1/prompt response to a user-facing error. Unusable model
+	// output is deterministic (the worker runs Mistral at temperature 0), so it
+	// gets the rephrase hint — retrying the same prompt verbatim can never
+	// succeed. The worker reports it as a 422; older deployments used a 502,
+	// hence the body sniff alongside the status check.
+	async function nlpError(res: Response): Promise<Error> {
+		const body = (await res.json().catch(() => null)) as { error?: string } | null;
+		if (res.status >= 500 && body?.error !== 'AI returned invalid format')
+			return new Error('Something went wrong on our end — please try again in a moment.');
+		return new Error("Couldn't understand your request. Try rephrasing and submit again.");
+	}
+
 	async function submit() {
 		if (!prompt.trim() || isProcessing) return;
 
@@ -768,9 +780,7 @@
 						else showSignupCta = true;
 						return;
 					}
-					if (nlpResponse.status >= 500)
-						throw new Error('Something went wrong on our end — please try again in a moment.');
-					throw new Error("Couldn't understand your request. Try rephrasing and submit again.");
+					throw await nlpError(nlpResponse);
 				}
 				const cd = (await nlpResponse.json()) as {
 					agent_message?: string;
@@ -890,10 +900,7 @@
 					else showSignupCta = true;
 					return;
 				}
-				if (nlpResponse.status >= 500) {
-					throw new Error('Something went wrong on our end — please try again in a moment.');
-				}
-				throw new Error("Couldn't understand your request. Try rephrasing and submit again.");
+				throw await nlpError(nlpResponse);
 			}
 
 			const parsedData = (await nlpResponse.json()) as {
