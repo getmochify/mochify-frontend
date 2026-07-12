@@ -30,6 +30,11 @@
 		} else {
 			posthog.identify(email, { email });
 			posthog.capture('user_logged_in', { method: 'email' });
+			if (next.startsWith('/api/')) {
+				// Server endpoints (e.g. /api/checkout) aren't client routes — goto would 404.
+				window.location.href = next;
+				return;
+			}
 			await invalidateAll();
 			goto(next);
 		}

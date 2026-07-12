@@ -303,12 +303,14 @@
 				<div class="flex flex-wrap gap-3">
 					<a
 						href="/api/checkout?plan=seller&billing=monthly"
+						data-sveltekit-reload
 						class="rounded-2xl border border-[#875F42]/20 px-5 py-2.5 text-sm font-black text-[#4A2C2C] transition-all hover:border-[#F06292]/40 hover:bg-white/60 hover:text-[#F06292]"
 					>
 						Seller — $7.99/mo <span class="font-normal text-[#875F42]/50">· 300 images</span>
 					</a>
 					<a
 						href="/api/checkout?plan=pro&billing=monthly"
+						data-sveltekit-reload
 						class="rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-5 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 					>
 						Pro — $24.99/mo <span class="font-normal opacity-80">· 1,200 images</span>
@@ -325,6 +327,7 @@
 				</div>
 				<a
 					href="/api/checkout?plan=pro&billing=monthly"
+					data-sveltekit-reload
 					class="flex-shrink-0 rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-5 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 				>
 					Upgrade to Pro

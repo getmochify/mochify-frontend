@@ -26,7 +26,7 @@ export const GET: RequestHandler = async ({ locals, url, platform }) => {
 
 	if (!user) {
 		const loginUrl = new URL('/auth/login', url.origin);
-		loginUrl.searchParams.set('redirectTo', url.pathname + url.search);
+		loginUrl.searchParams.set('next', url.pathname + url.search);
 		throw redirect(303, loginUrl.toString());
 	}
 
