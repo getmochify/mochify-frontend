@@ -290,9 +290,9 @@
 
         <!-- Workflow card -->
         <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Mochify Workflow: Optimizing Generated Images Inside an Agent</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: Optimizing Generated Images Inside an Agent</h2>
             <p class="mb-7">Mochify's local MCP server is built for the optimize-after-generation pattern: the agent describes the task in plain language, the tool handles the file, and only a file path comes back into context. No image bytes enter the model, so the context window stays clean no matter how many images the job touches. Here is the full setup.</p>
-            <ol class="space-y-6 list-none p-0 m-0">
+            <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">
                     <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
                     <div class="min-w-0 flex-1">

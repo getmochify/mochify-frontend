@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "AVIF to JPG: How to Convert AVIF Files on Any Device",
+            description: "AVIF is a modern format browsers love but desktop apps often reject. Convert AVIF to JPG free online in seconds, or use native tools on Windows and Mac.",
+            url: "/guides/avif-to-jpg",
+            category: "Image Formats",
+            readTime: "13 min read",
+            date: "July 13, 2026"
+        },
+        {
             title: "AI Image Compression and Conversion: Describe the Result, Skip the Settings",
             description: "Describe the result in plain English and let Mochify pick the format, quality and size. How natural-language image compression works, from a browser prompt to a fully agentic pipeline.",
             url: "/guides/ai-image-compression-conversion",

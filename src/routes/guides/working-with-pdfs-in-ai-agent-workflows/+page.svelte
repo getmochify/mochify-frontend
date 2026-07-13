@@ -221,9 +221,9 @@
 
         <!-- Workflow card -->
         <section id="mochify-workflow-extract-and-split" class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Mochify Workflow: extract and split a PDF inside an agent pipeline</h2>
+            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: extract and split a PDF inside an agent pipeline</h2>
             <p class="mb-7">Here is how this looks with Mochify's PDF utility, which does the two operations above (page-level image extraction and precision splitting) and is built to be driven by an agent. Mochify treats documents like web assets: the same engine that gets your images web-ready handles PDF pages, and you talk to it in plain English through Magic Flow. A worked example: an agent ingesting a folder of multi-page contracts, producing a WebP preview of each cover page and splitting the rest into single-page PDFs for routing.</p>
-            <ol class="space-y-6 list-none p-0 m-0">
+            <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">
                     <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
                     <div>
