@@ -27,6 +27,11 @@
             title: "The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL",
             href: "/guides/2026-guide-next-gen-formats",
             desc: "Which next-gen format should you actually use? A practical comparison of WebP, AVIF, and JPEG XL for the web in 2026."
+        },
+        {
+            title: "What to Do When Someone Needs the AVIF as a JPG",
+            href: "/guides/avif-to-jpg",
+            desc: "Serving AVIF is right for your site - here's the fastest way to hand someone a JPG when they need one."
         }
     ];
 </script>
@@ -49,7 +54,7 @@
         "url": "https://mochify.app/guides/preload-avif-hero-images-wordpress-lcp",
         "inLanguage": "en",
         "datePublished": "2026-04-09",
-        "dateModified": "2026-04-09",
+        "dateModified": "2026-07-13",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",

@@ -10,7 +10,7 @@
         category: "Image Formats",
         readTime: "20 min read",
         datePublished: "February 10, 2026",
-        lastUpdated: "June 24, 2026"
+        lastUpdated: "July 13, 2026"
     };
 
     const related = [
@@ -101,7 +101,7 @@
             }
         ],
         "datePublished": "2026-02-05",
-        "dateModified": "2026-05-30"
+        "dateModified": "2026-07-13"
         }
     </script>
 </svelte:head>
@@ -404,6 +404,10 @@
             <InfoBox type="tip">
                 This is where our C-based engine at Mochify makes a measurable difference; interpreted languages struggle with AVIF encoding at scale.
             </InfoBox>
+
+            <p class="mb-4">
+                Compatibility is the one place AVIF still trips people up - a handful of older tools and apps still can't open it. When a recipient can't open one, <a href="/guides/avif-to-jpg">converting AVIF back to JPG</a> takes seconds.
+            </p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">JPEG XL: The Future-Forward Format (That Isn't Ready Yet)</h3>
             <p class="mb-4">
