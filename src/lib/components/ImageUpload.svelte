@@ -32,7 +32,7 @@
     } = props;
     const hasOutputOverride = $derived('output' in props);
 
-    let stripExif: boolean = $state(false);
+    let stripExif: boolean = $state(true);
     let smartCompress: boolean = $state(false);
     let isDragging: boolean = $state(false);
 
