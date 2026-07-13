@@ -963,6 +963,9 @@
             <p class="mb-4 text-lg">
                 The web is finally moving past JPEG and PNG. WebP is safe everywhere. AVIF is the performance king. JPEG XL is the promising future that isn't ready yet. Make your decisions accordingly.
             </p>
+            <p class="mb-4 text-lg">
+                The same economics apply outside images: if you're shipping <a href="https://mochify.app/guides/mp4-to-webm-web-video-guide">next-gen video: convert MP4 to WebM (VP9/AV1)</a>, the payload savings and Core Web Vitals wins carry over directly.
+            </p>
         </div>
 
         

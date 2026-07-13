@@ -282,6 +282,8 @@
                 {/each}
             </ul>
 
+            <p>Get the format or file size wrong and you'll run straight into <a href="https://mochify.app/guides/ebay-image-file-not-supported">eBay's "file not supported" error and the 12 MB limit</a>, so it's worth resizing and converting before you upload rather than after a listing bounces.</p>
+
             <p>If you're uploading directly to Shopify and nowhere else, swap <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">jpg</code> for <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">webp</code> or <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">avif</code> in the prompt and you'll get 25–50% smaller files with no compatibility trade-off.</p>
 
             <InfoBox type="note" title="Mochify uses jpegli for JPEG output">

@@ -911,7 +911,14 @@
 					extractAudio?: boolean;
 					[key: string]: any;
 				}[];
-				pdf?: { op: string; type: string; dpi: number; quality: number; page?: string };
+				pdf?: {
+					op: string;
+					type: string;
+					dpi: number;
+					quality: number;
+					page?: string;
+					combine?: boolean;
+				};
 			};
 			agentMessage = parsedData.agent_message || '';
 
@@ -920,6 +927,8 @@
 				const pdfConfig = parsedData.pdf!;
 				const page = pdfConfig.page ?? 'fit';
 				const quality = pdfConfig.quality ?? 85;
+				// combine=false → one PDF per image; the backend answers with a ZIP.
+				const combine = pdfConfig.combine !== false;
 				const totalImages = files.length;
 				const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
 				totalFiles = totalImages;
@@ -929,7 +938,12 @@
 				const form = new FormData();
 				for (const f of files) form.append('images', f, f.name);
 
-				const params = new URLSearchParams({ op: 'create', page, quality: String(quality) });
+				const params = new URLSearchParams({
+					op: 'create',
+					page,
+					quality: String(quality),
+					combine: combine ? '1' : '0'
+				});
 
 				try {
 					const blob = await withRetry(
@@ -981,11 +995,13 @@
 					);
 
 					processPhase = 'downloading';
+					// Separate PDFs come back as a ZIP; a combined document as a single PDF.
+					const isZip = blob.type.includes('zip');
 					const url = URL.createObjectURL(blob);
 					const a = document.createElement('a');
 					a.style.display = 'none';
 					a.href = url;
-					a.download = 'mochified.pdf';
+					a.download = isZip ? 'mochified-pdfs.zip' : 'mochified.pdf';
 					document.body.appendChild(a);
 					a.click();
 					setTimeout(() => {
@@ -999,10 +1015,12 @@
 					uploadMode = null;
 					if (fileInputEl) fileInputEl.value = '';
 
-					posthog.capture('imgpdf_flow_completed', { images: totalImages, page });
+					posthog.capture('imgpdf_flow_completed', { images: totalImages, page, combine });
 					showStatus(
 						'success',
-						`PDF created from ${totalImages} image${totalImages > 1 ? 's' : ''}! ✨`
+						isZip
+							? `${totalImages} PDFs created and zipped! ✨`
+							: `PDF created from ${totalImages} image${totalImages > 1 ? 's' : ''}! ✨`
 					);
 					onSuccess?.();
 				} catch (e: any) {

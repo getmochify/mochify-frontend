@@ -482,6 +482,8 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
             </ScrollableTable>
 
             <p>If you're optimizing images as part of a larger agent workflow - content pipelines, automated publishing, code-adjacent tasks - MCP is the right path. For quick, individual jobs, the web tool is faster to reach.</p>
+
+            <p class="mt-4">The same MCP connection isn't limited to image compression, either. It can also <a href="https://mochify.app/guides/working-with-pdfs-in-ai-agent-workflows">handle PDFs in an AI agent workflow</a> - extracting pages, splitting documents, and converting them alongside your image jobs.</p>
         </section>
 
         <section id="cheat-sheet" class="scroll-mt-24">

@@ -477,6 +477,7 @@
                     { href: '/guides/jpegli-shopify-product-images', title: 'How to Use Jpegli for Shopify Product Images', desc: 'Platform-specific dimension guides and pre-upload workflows for product photography.' },
                     { href: '/guides/privacy-image-optimization', title: 'Privacy & Image Optimization (2026)', desc: 'Zero-retention workflows for NDA and commercial work.' },
                     { href: '/guides/should-i-optimize-images-before-upload', title: 'Should I Optimize Images Before I Upload?', desc: 'A practical guide to pre-upload optimization for every platform.' },
+                    { href: '/guides/heic-to-pdf-iphone-photos', title: 'Convert iPhone HEIC Photos to PDF', desc: 'For iPhone .HEIC photos rather than pro-camera .HIF files: bundling HEIC shots into a single PDF.' },
                 ] as guide}
                     <li>
                         <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">

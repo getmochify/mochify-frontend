@@ -289,7 +289,7 @@
         <!-- 6. Mochify workflow -->
         <section id="mochify-workflow" class="scroll-mt-24">
             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">6. Mochify Workflow: Optimizing Images and PDFs Inside a Local Agent</h2>
-            <p class="mb-6">Mochify's local MCP server is built for exactly this pattern: the agent describes what it needs in plain language, the tool handles the file, and only a file path comes back into the agent's context. No image bytes enter the model. No context gets bloated.</p>
+            <p class="mb-6">Mochify's local MCP server is built for exactly this pattern: the agent describes what it needs in plain language, the tool handles the file, and only a file path comes back into the agent's context. No image bytes enter the model. No context gets bloated. For the PDF-specific side of this, see <a href="https://mochify.app/guides/working-with-pdfs-in-ai-agent-workflows">working with PDFs in AI agent workflows</a>, which digs into page extraction and splitting inside an agent pipeline in more detail.</p>
 
             <div class="bg-gradient-to-br from-[#FFF5F7] to-[#FDFBF7] rounded-3xl p-6 md:p-8 border border-pink-100 mb-6">
                 <ol class="space-y-6">

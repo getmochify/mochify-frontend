@@ -339,7 +339,9 @@
                 <li><strong>Output:</strong> Standard JPEG (jpegli encoder, quality 90).</li>
                 <li><strong>Variants:</strong> EXIF stripped vs. EXIF retained.</li>
               </ul>
-              
+
+              <p class="mb-4">The same stripping question applies if you bundle those iPhone photos into a document instead of sharing them as individual files. See <a href="https://mochify.app/guides/heic-to-pdf-iphone-photos">what happens to EXIF and location data when converting HEIC to PDF</a> for the specifics of that workflow.</p>
+
               <ScrollableTable class="mb-8">
                 <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
                     <thead class="bg-pink-50 text-[#4A2C2C]">

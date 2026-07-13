@@ -177,6 +177,9 @@
             <p>
                Standard image optimizers typically operate on a "store-and-delete" model. Even if a provider claims to delete your data, the fact that your images ever touch a physical disk on a third-party server creates a security liability. For agencies handling pre-release product shots or developers managing sensitive user-generated content, this "retention window" is a critical failure point in a modern security stack.
             </p>
+            <p>
+                The same problem shows up with video. See <a href="/guides/mp4-to-webm-web-video-guide">why online video converters are a privacy risk</a> for why an in-browser, no-upload workflow matters just as much for MP4-to-WebM conversion as it does for images.
+            </p>
         </section>
 
         <section id="zero-retention">

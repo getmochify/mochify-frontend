@@ -439,7 +439,7 @@
                     <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
                 </h2>
                 <p class="text-[#6C3F31] text-base mb-8 leading-relaxed">
-                    The Mochify HEIC-to-PDF tool at <a href="/solutions/heif-to-pdf" class="text-[#D81B60] hover:text-[#F06292] font-semibold transition-colors">mochify.app/solutions/heif-to-pdf</a> bundles iPhone and iPad <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded text-sm border border-pink-100">.heic</code> files into a single, shareable multi-page PDF in seconds. Useful when you want a clean result without touching a print dialog, or when native methods produce PDFs with awkward margins or page sizes.
+                    The Mochify HEIC-to-PDF tool at <a href="/solutions/heif-to-pdf" class="text-[#D81B60] hover:text-[#F06292] font-semibold transition-colors">mochify.app/solutions/heif-to-pdf</a> bundles iPhone and iPad <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded text-sm border border-pink-100">.heic</code> files into a single, shareable multi-page PDF in seconds. Useful when you want a clean result without touching a print dialog, or when native methods produce PDFs with awkward margins or page sizes. For WebP source images, use the same tool to <a href="https://mochify.app/solutions/webp-to-pdf" class="text-[#D81B60] hover:text-[#F06292] font-semibold transition-colors">combine WebP images into a PDF</a>.
                 </p>
 
                 <ol class="space-y-5 list-none p-0 m-0 mb-8">

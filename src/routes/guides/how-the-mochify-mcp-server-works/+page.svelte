@@ -471,6 +471,8 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
 
             <p class="mb-6">The <strong class="text-[#4A2C2C]">local install (CLI or <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">mochify serve</code>)</strong> is still the cheapest workflow per image. Nothing about the image ever enters the agent's context - not on the way in, not on the way back. For batch workflows the difference is dramatic: compressing 100 images via the hosted-MCP upload path would push 100 base64 payloads through your agent's context; compressing them via the local install puts a handful of summary lines in.</p>
 
+            <p class="mb-6">The same paths-not-bytes principle carries over to documents: you can <a href="https://mochify.app/guides/working-with-pdfs-in-ai-agent-workflows">extract, split, and convert PDF pages in an agent pipeline</a> without ever putting page bytes in the agent's context either.</p>
+
             <InfoBox type="note" title="Image bytes still travel to Mochify's servers">
                 In local modes, the image bytes still travel from your laptop to <code class="bg-blue-50 text-blue-600 px-1.5 py-px rounded font-mono text-sm">api.mochify.app</code> over HTTPS for the actual encoding work. They never hit your agent's context, but they do hit Mochify's servers, where the original is processed in RAM and discarded immediately. If you need image bytes to never leave your machine, the only option is to self-host the engine via our <a href="/guides/self-hosting-image-optimization-docker" class="text-blue-600 hover:text-blue-700 underline">Docker self-hosting guide</a>.
             </InfoBox>

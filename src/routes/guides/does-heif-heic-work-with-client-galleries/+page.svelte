@@ -122,6 +122,7 @@
             </InfoBox>
 
             <p>Magic Flow interprets the intent, applies the right resize, encodes via jpegli - Google's modern JPEG encoder, which produces files roughly 25–30% smaller than traditional encoders at equivalent quality - strips all metadata, and returns a gallery-ready ZIP. Files are processed entirely in memory and discarded immediately after your download completes.</p>
+            <p>If a platform will not accept HEIC at all rather than just re-compressing it, converting to a universally accepted format solves the same problem. For iPhone photo sets specifically, you can also <a href="https://mochify.app/guides/heic-to-pdf-iphone-photos">bundle iPhone HEIC photos into a single PDF</a> for delivery instead of a gallery link.</p>
         </section>
 
         <section id="exif-client-privacy">

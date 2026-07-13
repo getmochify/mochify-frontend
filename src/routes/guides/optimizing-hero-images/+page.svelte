@@ -238,6 +238,12 @@
                     <p>Switch from <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">background-image</code> in CSS to proper <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">&lt;img&gt;</code> elements. If your theme forces backgrounds (looking at you, Elementor sliders), move the hero to an Image widget and preload it manually. The LCP improvement is worth the template refactor.</p>
                 </div>
 
+                <!-- Video heroes -->
+                <div>
+                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">When Your Hero Is a Video, Not an Image</h3>
+                    <p class="mb-4">Autoplay hero videos have the same LCP problem as oversized images, and often worse, since a heavy MP4 has to start downloading and decoding before the browser can paint anything. If that is your setup, see how to <a href="https://mochify.app/guides/mp4-to-webm-web-video-guide">convert an MP4 hero video to WebM for a faster LCP</a>.</p>
+                </div>
+
                 <!-- fetchpriority -->
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Preload Your Hero with <code class="text-[#D81B60] font-mono text-lg">fetchpriority="high"</code></h3>
