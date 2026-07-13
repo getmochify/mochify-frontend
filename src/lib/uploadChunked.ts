@@ -51,17 +51,23 @@ export interface ChunkedUploadParams {
 
 export interface ChunkedUploadCallbacks {
 	jwt?: string | null;
-	// Reports (loaded, total) for THIS file's upload phase. `loaded` is a
-	// pure function of (chunkIndex, current attempt's event.loaded) — not an
-	// accumulated/rollback-adjusted running total. A chunk retry's fresh
-	// attempt naturally composes with this formula without any extra state;
-	// the only visible artifact is a small, bounded, self-correcting dip
-	// (at most one chunk's worth) while that one chunk retries, which is a
-	// far smaller failure mode than a stateful accumulator drifting out of
-	// sync from a rollback bug.
+	// Reports (loaded, total) for THIS file's upload phase. `loaded` is
+	// clamped to strict monotonic growth across the whole file: it is the
+	// highest byte offset ever reached, never the current attempt's raw
+	// event.loaded. When a dropped connection restarts the current chunk from
+	// zero, the raw offset dips, but the clamp absorbs it so callers only ever
+	// see the reported total move forward — no rubber-banding. A max() can't
+	// drift out of sync the way an add/rollback accumulator can, so this stays
+	// as cheap and robust as the old pure-function formula while removing the
+	// backward dip it used to expose.
 	onUploadProgress?: (loaded: number, total: number) => void;
 	onPhaseChange?: (phase: UploadPhase) => void;
 	onDownloadProgress?: (loaded: number, total: number) => void;
+	// Fires `true` when a chunk (or the finalize step) hits a retryable
+	// network drop and enters withRetry's backoff loop, and `false` once it
+	// recovers or gives up. Lets the UI surface a transient "unstable
+	// connection" hint without tearing down the in-progress upload.
+	onRetryStateChange?: (isRetrying: boolean) => void;
 }
 
 interface RetryableXhrError extends Error {
@@ -182,13 +188,20 @@ export async function uploadChunked(
 	params: ChunkedUploadParams,
 	callbacks: ChunkedUploadCallbacks = {}
 ): Promise<Blob> {
-	const { jwt, onUploadProgress, onPhaseChange, onDownloadProgress } = callbacks;
+	const { jwt, onUploadProgress, onPhaseChange, onDownloadProgress, onRetryStateChange } =
+		callbacks;
 
 	onPhaseChange?.('uploading');
 	const { sessionId } = await initSession(apiUrl, file, params, jwt);
 
 	const totalChunks = Math.ceil(file.size / CHUNK_SIZE_BYTES);
 	posthog.capture('chunked_upload_started', { fileSize: file.size, chunks: totalChunks });
+
+	// Highest byte offset reported so far, across every chunk and across any
+	// chunk's retries. Progress is clamped up to this, so a retry that
+	// re-sends the current chunk from zero can never push the reported total
+	// backward (see onUploadProgress's contract above).
+	let maxLoadedSeen = 0;
 
 	for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
 		const start = chunkIndex * CHUNK_SIZE_BYTES;
@@ -199,9 +212,15 @@ export async function uploadChunked(
 			() =>
 				uploadOneChunk(apiUrl, sessionId, chunkIndex, slice, jwt, (loadedInChunk) => {
 					const totalLoaded = Math.min(chunkIndex * CHUNK_SIZE_BYTES + loadedInChunk, file.size);
-					onUploadProgress?.(totalLoaded, file.size);
+					if (totalLoaded > maxLoadedSeen) {
+						maxLoadedSeen = totalLoaded;
+						onUploadProgress?.(maxLoadedSeen, file.size);
+					}
 				}),
-			'chunk_upload'
+			'chunk_upload',
+			2,
+			1000,
+			onRetryStateChange
 		);
 	}
 
@@ -215,7 +234,10 @@ export async function uploadChunked(
 					onPhaseChange?.('downloading');
 					onDownloadProgress?.(loaded, total);
 				}),
-			'chunk_complete'
+			'chunk_complete',
+			2,
+			1000,
+			onRetryStateChange
 		);
 		posthog.capture('chunked_upload_completed', { fileSize: file.size });
 		return blob;

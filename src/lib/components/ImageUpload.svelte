@@ -84,6 +84,9 @@
     let processPhase: 'idle' | 'uploading' | 'processing' | 'downloading' = $state('idle');
     let uploadPercent: number = $state(0);
     let downloadPercent: number = $state(0);
+    // True while a chunked upload is stalled in withRetry's backoff loop after
+    // a network drop. Drives the amber "unstable connection" banner.
+    let isRetrying: boolean = $state(false);
 
     // Token limit tracking
     let availableTokens: number = $state(0);
@@ -352,6 +355,7 @@
         processPhase = 'uploading';
         uploadPercent = 0;
         downloadPercent = 0;
+        isRetrying = false;
 
         fileProgress = selectedFiles.map((file) => ({
             file,
@@ -400,6 +404,9 @@
                             },
                             onDownloadProgress: (loaded, total) => {
                                 downloadPercent = Math.round((loaded / total) * 100);
+                            },
+                            onRetryStateChange: (retrying) => {
+                                isRetrying = retrying;
                             }
                         });
                     } else {
@@ -613,6 +620,7 @@
         } finally {
             isLoading = false;
             processPhase = 'idle';
+            isRetrying = false;
         }
     }
 
@@ -1100,6 +1108,16 @@
 
     <!-- Footer tray -->
     <div>
+    {#if isLoading && isRetrying}
+        <div
+            class="flex items-center gap-2 border-t border-amber-200/70 bg-amber-50 px-4 py-2.5 text-xs font-medium text-amber-800 sm:px-6"
+            role="status"
+            aria-live="polite"
+        >
+            <span class="animate-pulse">⚠️</span>
+            Unstable connection detected. Pausing and retrying…
+        </div>
+    {/if}
     {#if isLoading}
         <div class="relative h-1 overflow-hidden bg-pink-50">
             {#if processPhase === 'uploading'}

@@ -30,18 +30,36 @@ export function isRetryable(err: unknown): boolean {
  * reset any phase/progress state at the start of the attempt, and roll back
  * shared progress accounting in its reject paths so a retry doesn't
  * double-count uploaded bytes.
+ *
+ * `onRetry`, when provided, is called with `true` the first time a retryable
+ * failure sends us into the backoff loop, and with `false` once we either
+ * recover (a later attempt succeeds) or give up (final throw). It fires at
+ * most once per state so a caller can drive a transient "reconnecting" UI
+ * without deduping itself. It never fires for a non-retryable failure, which
+ * throws immediately without ever entering the retry state.
  */
 export async function withRetry<T>(
 	attempt: () => Promise<T>,
 	label: string,
 	retries = 2,
-	baseDelayMs = 1000
+	baseDelayMs = 1000,
+	onRetry?: (isRetrying: boolean) => void
 ): Promise<T> {
+	let signalledRetrying = false;
 	for (let attemptNo = 0; ; attemptNo++) {
 		try {
-			return await attempt();
+			const result = await attempt();
+			if (signalledRetrying) onRetry?.(false);
+			return result;
 		} catch (err) {
-			if (attemptNo >= retries || !isRetryable(err)) throw err;
+			if (attemptNo >= retries || !isRetryable(err)) {
+				if (signalledRetrying) onRetry?.(false);
+				throw err;
+			}
+			if (!signalledRetrying) {
+				signalledRetrying = true;
+				onRetry?.(true);
+			}
 			posthog.capture('upload_retry', {
 				label,
 				attempt: attemptNo + 1,
