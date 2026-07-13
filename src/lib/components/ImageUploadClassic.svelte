@@ -2,6 +2,7 @@
     import { zip } from 'fflate';
     import { env } from '$env/dynamic/public';
     import { getSessionToken, getPlan } from '$lib/user';
+    import { uploadChunked, CHUNK_THRESHOLD_BYTES, type ChunkedUploadParams } from '$lib/uploadChunked';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 
@@ -227,58 +228,82 @@
                 const jwt = await getSessionToken()
 
                 try {
-                    // Use XMLHttpRequest for upload progress tracking
-                    const blob = await new Promise<Blob>((resolve, reject) => {
-                        const xhr = new XMLHttpRequest();
-                        
-                        // Track upload progress (0-40%)
-                        xhr.upload.addEventListener('progress', (e) => {
-                            if (e.lengthComputable) {
-                                const uploadProgress = (e.loaded / e.total) * 40;
-                                fileProgress[index].progress = Math.round(uploadProgress);
+                    let blob: Blob;
+                    if (file.size > CHUNK_THRESHOLD_BYTES) {
+                        // Large file on a possibly-flaky connection: upload in
+                        // ~5MB chunks (each independently retried) instead of
+                        // one whole-file POST. See src/lib/uploadChunked.ts.
+                        const chunkedParams: ChunkedUploadParams = { type: imageType, stripExif: String(stripExif) };
+                        if (smartCompress) chunkedParams.smartCompress = '1';
+                        if (queryParams) new URLSearchParams(queryParams).forEach((v, k) => (chunkedParams[k] = v));
+
+                        blob = await uploadChunked(file, API_URL, chunkedParams, {
+                            jwt,
+                            // Same 0-40 / 40-60 / 60-100 phase mapping as the direct path below.
+                            onUploadProgress: (loaded, total) => {
+                                fileProgress[index].progress = Math.round((loaded / total) * 40);
+                            },
+                            onPhaseChange: (phase) => {
+                                if (phase === 'processing') fileProgress[index].progress = 50;
+                            },
+                            onDownloadProgress: (loaded, total) => {
+                                fileProgress[index].progress = Math.round(60 + (loaded / total) * 40);
                             }
                         });
-                        
-                        // Track download progress (60-100%)
-                        xhr.addEventListener('progress', (e) => {
-                            if (e.lengthComputable) {
-                                const downloadProgress = 60 + (e.loaded / e.total) * 40;
-                                fileProgress[index].progress = Math.round(downloadProgress);
-                            }
-                        });
-                        
-                        xhr.addEventListener('load', () => {
-                            if (xhr.status >= 200 && xhr.status < 300) {
-                                const latency = xhr.getResponseHeader('X-Latency-Ms');
-                                if (latency) console.log(`[C++ Engine] ${file.name} squished in ${latency}`);
-                                resolve(xhr.response);
-                            } else {
-                                const error: any = new Error(`Server error: ${xhr.status}`);
-                                error.status = xhr.status;
-                                reject(error);
-                            }
-                        });
-                        
-                        xhr.addEventListener('error', () => reject(new Error('Network error')));
-                        xhr.addEventListener('abort', () => reject(new Error('Upload cancelled')));
-                        
-                        // Upload complete, processing on server (40-60%)
-                        xhr.upload.addEventListener('load', () => {
-                            fileProgress[index].progress = 40;
-                            // Simulate server processing phase
-                            setTimeout(() => {
-                                if (fileProgress[index].progress < 60) {
-                                    fileProgress[index].progress = 50;
+                    } else {
+                        // Use XMLHttpRequest for upload progress tracking
+                        blob = await new Promise<Blob>((resolve, reject) => {
+                            const xhr = new XMLHttpRequest();
+
+                            // Track upload progress (0-40%)
+                            xhr.upload.addEventListener('progress', (e) => {
+                                if (e.lengthComputable) {
+                                    const uploadProgress = (e.loaded / e.total) * 40;
+                                    fileProgress[index].progress = Math.round(uploadProgress);
                                 }
-                            }, 100);
+                            });
+
+                            // Track download progress (60-100%)
+                            xhr.addEventListener('progress', (e) => {
+                                if (e.lengthComputable) {
+                                    const downloadProgress = 60 + (e.loaded / e.total) * 40;
+                                    fileProgress[index].progress = Math.round(downloadProgress);
+                                }
+                            });
+
+                            xhr.addEventListener('load', () => {
+                                if (xhr.status >= 200 && xhr.status < 300) {
+                                    const latency = xhr.getResponseHeader('X-Latency-Ms');
+                                    if (latency) console.log(`[C++ Engine] ${file.name} squished in ${latency}`);
+                                    resolve(xhr.response);
+                                } else {
+                                    const error: any = new Error(`Server error: ${xhr.status}`);
+                                    error.status = xhr.status;
+                                    reject(error);
+                                }
+                            });
+
+                            xhr.addEventListener('error', () => reject(new Error('Network error')));
+                            xhr.addEventListener('abort', () => reject(new Error('Upload cancelled')));
+
+                            // Upload complete, processing on server (40-60%)
+                            xhr.upload.addEventListener('load', () => {
+                                fileProgress[index].progress = 40;
+                                // Simulate server processing phase
+                                setTimeout(() => {
+                                    if (fileProgress[index].progress < 60) {
+                                        fileProgress[index].progress = 50;
+                                    }
+                                }, 100);
+                            });
+
+                            xhr.open('POST', `${API_URL}/v1/squish?type=${imageType}&stripExif=${stripExif}${smartCompress ? '&smartCompress=1' : ''}${queryParams ? '&' + queryParams : ''}`);
+                            xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+                            if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
+                            xhr.responseType = 'blob';
+                            xhr.send(file);
                         });
-                        
-                        xhr.open('POST', `${API_URL}/v1/squish?type=${imageType}&strip_exif=${stripExif}${smartCompress ? '&smartCompress=1' : ''}${queryParams ? '&' + queryParams : ''}`);
-                        xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
-                        if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
-                        xhr.responseType = 'blob';
-                        xhr.send(file);
-                    });
+                    }
 
                     compressedBlobs[index] = blob;
                     totalCompressedSize += blob.size;

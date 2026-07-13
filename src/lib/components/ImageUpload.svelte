@@ -5,6 +5,7 @@
     import { getPlan, getSessionToken } from '$lib/user';
     import { posthog } from '$lib/analytics';
     import { withRetry } from '$lib/uploadRetry';
+    import { uploadChunked, CHUNK_THRESHOLD_BYTES, type ChunkedUploadParams } from '$lib/uploadChunked';
     import { portal } from '$lib/portal';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
@@ -372,79 +373,108 @@
                 fileProgress[index].status = 'processing';
 
                 try {
-                    const blob = await withRetry(
-                        () =>
-                            new Promise<Blob>((resolve, reject) => {
-                                const xhr = new XMLHttpRequest();
-                                let lastLoaded = 0;
-                                // Undo this attempt's contribution to the shared batch counter so
-                                // a retried upload doesn't double-count.
-                                const rollback = () => {
-                                    uploadedBytes -= lastLoaded;
-                                    lastLoaded = 0;
-                                    uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
-                                };
+                    const ALLOWED_FORMATS = new Set(['jpg', 'jpeg', 'png', 'webp', 'avif', 'jxl']);
+                    const safeType = ALLOWED_FORMATS.has(imageType) ? imageType : 'jpg';
 
-                                xhr.upload.addEventListener('progress', (e) => {
-                                    const delta = e.loaded - lastLoaded;
-                                    lastLoaded = e.loaded;
-                                    uploadedBytes += delta;
-                                    processPhase = 'uploading';
-                                    uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
-                                });
+                    let blob: Blob;
+                    if (file.size > CHUNK_THRESHOLD_BYTES) {
+                        // Large file on a possibly-flaky connection: upload in
+                        // ~5MB chunks (each independently retried) instead of
+                        // one whole-file POST. See src/lib/uploadChunked.ts.
+                        let lastLoaded = 0;
+                        const chunkedParams: ChunkedUploadParams = { type: safeType, stripExif: String(stripExif) };
+                        if (smartCompress) chunkedParams.smartCompress = '1';
+                        if (queryParams) new URLSearchParams(queryParams).forEach((v, k) => (chunkedParams[k] = v));
 
-                                xhr.upload.addEventListener('load', () => {
-                                    uploadedBytes += file.size - lastLoaded;
-                                    lastLoaded = file.size;
-                                    uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
-                                    processPhase = 'processing';
-                                    downloadPercent = 0;
-                                });
+                        blob = await uploadChunked(file, API_URL, chunkedParams, {
+                            jwt,
+                            onUploadProgress: (loaded) => {
+                                const delta = loaded - lastLoaded;
+                                lastLoaded = loaded;
+                                uploadedBytes += delta;
+                                uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+                            },
+                            onPhaseChange: (phase) => {
+                                processPhase = phase;
+                                if (phase === 'downloading') downloadPercent = 0;
+                            },
+                            onDownloadProgress: (loaded, total) => {
+                                downloadPercent = Math.round((loaded / total) * 100);
+                            }
+                        });
+                    } else {
+                        blob = await withRetry(
+                            () =>
+                                new Promise<Blob>((resolve, reject) => {
+                                    const xhr = new XMLHttpRequest();
+                                    let lastLoaded = 0;
+                                    // Undo this attempt's contribution to the shared batch counter so
+                                    // a retried upload doesn't double-count.
+                                    const rollback = () => {
+                                        uploadedBytes -= lastLoaded;
+                                        lastLoaded = 0;
+                                        uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+                                    };
 
-                                xhr.addEventListener('progress', (e) => {
-                                    processPhase = 'downloading';
-                                    if (e.lengthComputable) {
-                                        downloadPercent = Math.round((e.loaded / e.total) * 100);
-                                    }
-                                });
+                                    xhr.upload.addEventListener('progress', (e) => {
+                                        const delta = e.loaded - lastLoaded;
+                                        lastLoaded = e.loaded;
+                                        uploadedBytes += delta;
+                                        processPhase = 'uploading';
+                                        uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+                                    });
 
-                                xhr.addEventListener('load', () => {
-                                    if (xhr.status >= 200 && xhr.status < 300) {
-                                        const latency = xhr.getResponseHeader('X-Latency-Ms');
-                                        if (latency) console.log(`[C++ Engine] ${file.name} squished in ${latency}`);
-                                        resolve(xhr.response);
-                                    } else {
+                                    xhr.upload.addEventListener('load', () => {
+                                        uploadedBytes += file.size - lastLoaded;
+                                        lastLoaded = file.size;
+                                        uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+                                        processPhase = 'processing';
+                                        downloadPercent = 0;
+                                    });
+
+                                    xhr.addEventListener('progress', (e) => {
+                                        processPhase = 'downloading';
+                                        if (e.lengthComputable) {
+                                            downloadPercent = Math.round((e.loaded / e.total) * 100);
+                                        }
+                                    });
+
+                                    xhr.addEventListener('load', () => {
+                                        if (xhr.status >= 200 && xhr.status < 300) {
+                                            const latency = xhr.getResponseHeader('X-Latency-Ms');
+                                            if (latency) console.log(`[C++ Engine] ${file.name} squished in ${latency}`);
+                                            resolve(xhr.response);
+                                        } else {
+                                            rollback();
+                                            const error: any = new Error(`Server error: ${xhr.status}`);
+                                            error.status = xhr.status;
+                                            reject(error);
+                                        }
+                                    });
+
+                                    xhr.addEventListener('error', () => {
                                         rollback();
-                                        const error: any = new Error(`Server error: ${xhr.status}`);
-                                        error.status = xhr.status;
+                                        const error: any = new Error('Network error');
+                                        error.retryable = true;
                                         reject(error);
-                                    }
-                                });
+                                    });
+                                    xhr.addEventListener('abort', () => {
+                                        rollback();
+                                        reject(new Error('Upload cancelled'));
+                                    });
 
-                                xhr.addEventListener('error', () => {
-                                    rollback();
-                                    const error: any = new Error('Network error');
-                                    error.retryable = true;
-                                    reject(error);
-                                });
-                                xhr.addEventListener('abort', () => {
-                                    rollback();
-                                    reject(new Error('Upload cancelled'));
-                                });
-
-                                const ALLOWED_FORMATS = new Set(['jpg', 'jpeg', 'png', 'webp', 'avif', 'jxl']);
-                                const safeType = ALLOWED_FORMATS.has(imageType) ? imageType : 'jpg';
-                                const squishParams = new URLSearchParams({ type: safeType, strip_exif: String(stripExif) });
-                                if (smartCompress) squishParams.append('smartCompress', '1');
-                                if (queryParams) new URLSearchParams(queryParams).forEach((v, k) => squishParams.append(k, v));
-                                xhr.open('POST', `${API_URL}/v1/squish?${squishParams}`);
-                                xhr.setRequestHeader('Content-Type', resolveContentType(file));
-                                if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
-                                xhr.responseType = 'blob';
-                                xhr.send(file);
-                            }),
-                        'manual_squish'
-                    );
+                                    const squishParams = new URLSearchParams({ type: safeType, stripExif: String(stripExif) });
+                                    if (smartCompress) squishParams.append('smartCompress', '1');
+                                    if (queryParams) new URLSearchParams(queryParams).forEach((v, k) => squishParams.append(k, v));
+                                    xhr.open('POST', `${API_URL}/v1/squish?${squishParams}`);
+                                    xhr.setRequestHeader('Content-Type', resolveContentType(file));
+                                    if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
+                                    xhr.responseType = 'blob';
+                                    xhr.send(file);
+                                }),
+                            'manual_squish'
+                        );
+                    }
 
                     compressedBlobs[index] = blob;
                     totalCompressedSize += blob.size;

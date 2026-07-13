@@ -6,6 +6,11 @@
 	import { posthog } from '$lib/analytics';
 	import { isChunkLoadError, recoverFromStaleChunk } from '$lib/chunkRecovery';
 	import { withRetry } from '$lib/uploadRetry';
+	import {
+		uploadChunked,
+		CHUNK_THRESHOLD_BYTES,
+		type ChunkedUploadParams
+	} from '$lib/uploadChunked';
 	import { portal } from '$lib/portal';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
@@ -1488,8 +1493,32 @@
 				file: File,
 				params: URLSearchParams,
 				onUploadEnd?: () => void
-			): Promise<Blob> =>
-				withRetry(
+			): Promise<Blob> => {
+				if (file.size > CHUNK_THRESHOLD_BYTES) {
+					// Large file on a possibly-flaky connection: upload in
+					// ~5MB chunks (each independently retried) instead of one
+					// whole-file POST. See src/lib/uploadChunked.ts.
+					const chunkedParams: ChunkedUploadParams = {};
+					for (const [key, value] of params.entries()) {
+						chunkedParams[key] = value;
+					}
+					let lastLoaded = 0;
+					return uploadChunked(file, API_URL, chunkedParams, {
+						jwt,
+						onUploadProgress: (loaded) => {
+							const delta = loaded - lastLoaded;
+							lastLoaded = loaded;
+							uploadedBytes += delta;
+							uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+						},
+						onPhaseChange: (phase) => {
+							processPhase = phase;
+							if (phase === 'processing') onUploadEnd?.();
+						}
+					});
+				}
+
+				return withRetry(
 					() =>
 						new Promise((resolve, reject) => {
 							processPhase = 'uploading';
@@ -1573,6 +1602,7 @@
 						}),
 					'squish_flow'
 				);
+			};
 
 			const processNextFile = async () => {
 				while (currentFileIndex < files.length) {
@@ -1608,7 +1638,7 @@
 							sharedParams.append('genPrompt', String(fileConfig.generate.prompt));
 					}
 					const stripExif = fileConfig.stripExif !== undefined ? fileConfig.stripExif : 1;
-					sharedParams.append('strip_exif', stripExif ? '1' : '0');
+					sharedParams.append('stripExif', stripExif ? '1' : '0');
 					if (fileConfig.rotate) sharedParams.append('rotate', String(fileConfig.rotate));
 					if (fileConfig.brightness != null && fileConfig.brightness !== 0)
 						sharedParams.append('brightness', String(fileConfig.brightness));

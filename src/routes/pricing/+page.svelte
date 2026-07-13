@@ -11,6 +11,11 @@
     // let { data } = $props(); // crypto buttons hidden temporarily
     let billing = $state<'monthly' | 'yearly'>('monthly');
 
+    // Growth is a not-yet-launched tier. Hidden for now to keep the pricing
+    // page focused on the three live plans + Day Pass. Flip to `true` to
+    // restore the "coming soon" card (and its Growth early-access mailto).
+    const showGrowth = false;
+
     // Send buyers back to the homepage after checkout so ImageUpload's
     // day_pass_success toast (magic-link instructions) is shown.
     const dayPassCheckoutUrl = $derived(
@@ -491,7 +496,28 @@
             </div>
         </div>
 
-        <!-- Growth — coming soon -->
+        <!-- Privacy trust strip — applies to every plan, so it spans all tiers
+             rather than repeating per card. Wording matches /privacy: uploads
+             are processed in RAM and discarded; deliberately says nothing about
+             the MCP processed-output exception documented there. -->
+        <div class="mt-8 max-w-4xl mx-auto">
+            <div class="flex items-center gap-4 rounded-3xl border border-pink-100 bg-[#FFF9FB] px-6 py-5 shadow-sm">
+                <span class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-[#FFF0F5] text-[#F06292]">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </span>
+                <p class="text-sm text-[#6C3F31] leading-relaxed">
+                    <strong class="text-[#4A2C2C]">Private by design.</strong>
+                    Your images are processed in memory and never stored, or used to train AI.
+                    <a href="/privacy" class="text-[#F06292] font-semibold hover:underline whitespace-nowrap">Learn more →</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Growth — coming soon (hidden for now; see showGrowth flag) -->
+        {#if showGrowth}
         <div class="mt-8 max-w-4xl mx-auto">
             <div class="relative overflow-hidden rounded-3xl border border-[#F06292]/20 bg-gradient-to-br from-[#FFF0F5] to-white p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-4">
                 <div class="absolute -top-6 -right-6 w-32 h-32 bg-[#F06292]/10 rounded-full blur-2xl pointer-events-none"></div>
@@ -512,6 +538,7 @@
                 </a>
             </div>
         </div>
+        {/if}
 
         <!-- Day Pass -->
         {#if env.PUBLIC_POLAR_DAY_PASS_URL}
