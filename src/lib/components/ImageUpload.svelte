@@ -386,7 +386,7 @@
                         // ~5MB chunks (each independently retried) instead of
                         // one whole-file POST. See src/lib/uploadChunked.ts.
                         let lastLoaded = 0;
-                        const chunkedParams: ChunkedUploadParams = { type: safeType, stripExif: String(stripExif) };
+                        const chunkedParams: ChunkedUploadParams = { type: safeType, stripExif: stripExif ? '1' : '0' };
                         if (smartCompress) chunkedParams.smartCompress = '1';
                         if (queryParams) new URLSearchParams(queryParams).forEach((v, k) => (chunkedParams[k] = v));
 
@@ -470,7 +470,7 @@
                                         reject(new Error('Upload cancelled'));
                                     });
 
-                                    const squishParams = new URLSearchParams({ type: safeType, stripExif: String(stripExif) });
+                                    const squishParams = new URLSearchParams({ type: safeType, stripExif: stripExif ? '1' : '0' });
                                     if (smartCompress) squishParams.append('smartCompress', '1');
                                     if (queryParams) new URLSearchParams(queryParams).forEach((v, k) => squishParams.append(k, v));
                                     xhr.open('POST', `${API_URL}/v1/squish?${squishParams}`);
