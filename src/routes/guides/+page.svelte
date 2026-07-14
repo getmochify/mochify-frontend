@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "What Is an AVIF File? (And How to Open One)",
+            description: "An AVIF file is an image in the AV1 Image File Format, up to 50% smaller than JPEG. Here's how to open it on Windows and Mac, or convert it to JPG.",
+            url: "/guides/what-is-an-avif-file",
+            category: "Quick Guides",
+            readTime: "2 min read",
+            date: "July 14, 2026"
+        },
+        {
             title: "AVIF to JPG: How to Convert AVIF Files on Any Device",
             description: "AVIF is a modern format browsers love but desktop apps often reject. Convert AVIF to JPG free online in seconds, or use native tools on Windows and Mac.",
             url: "/guides/avif-to-jpg",
