@@ -28,6 +28,11 @@
             title: "The History of Image Compression: From BMP to AVIF & Jpegli",
             href: "/guides/history-image-compression-2026",
             desc: "Trace the evolution of image formats from BMP to AVIF and Jpegli, and what it means for web performance in 2026."
+        },
+        {
+            title: "Converting Images to JPEG XL: The Practical Guide for 2026",
+            href: "/guides/converting-images-to-jpeg-xl",
+            desc: "Every conversion path to JXL, honest browser support, and how to serve it with picture fallbacks."
         }
     ];
 </script>
@@ -142,7 +147,7 @@
 
         <section id="the-2026-recommendation" class="scroll-mt-24">
             <SectionHeading>The 2026 recommendation</SectionHeading>
-            <p class="mb-4">Use JPEG XL in controlled workflows - archiving, internal tools, or future-proofing your image library. For any public-facing web delivery, stick with AVIF or WebP and keep a JPEG fallback. Revisit JPEG XL for production use in late 2026 if Chrome ships it enabled by default in a stable release.</p>
+            <p class="mb-4">Use JPEG XL in controlled workflows - archiving, internal tools, or future-proofing your image library. For any public-facing web delivery, stick with AVIF or WebP and keep a JPEG fallback. Revisit JPEG XL for production use in late 2026 if Chrome ships it enabled by default in a stable release. When you are ready to start, see <a href="https://mochify.app/guides/converting-images-to-jpeg-xl">converting images to JPEG XL: the practical guide</a>.</p>
 
             <InfoBox type="tip" title="Watch the Chrome release notes">
                 The Chrome release notes at <code>developer.chrome.com/release-notes</code> are the authoritative source. When JPEG XL ships without a flag, the feature will be listed under "New in Chrome" without a <code>chrome://flags</code> reference.

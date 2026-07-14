@@ -33,6 +33,16 @@
             title: "SVG Conversion Guide: When to Keep Vector and When to Rasterize",
             href: "/guides/svg-conversion-guide-vector-vs-raster",
             desc: "Handling vector assets in the same workflow."
+        },
+        {
+            title: "Should I convert HEIC to JPEG or WebP for WordPress uploads?",
+            href: "/guides/heic-to-jpeg-or-webp-wordpress",
+            desc: "Picking the right target format for iPhone HEIC photos before they reach the media library."
+        },
+        {
+            title: "Should I Use fetchpriority or rel=\"preload\" for My LCP Image?",
+            href: "/guides/fetchpriority-vs-preload-lcp-image",
+            desc: "fetchpriority vs preload for LCP images, and when each one actually helps."
         }
     ];
 </script>
@@ -217,7 +227,7 @@
 
             <p class="mb-4">Largest Contentful Paint (LCP) measures how long it takes for the largest element in the viewport (often a hero image, featured image, or large banner) to render.</p>
 
-            <p class="mb-4">So if your LCP element is a 900KB JPEG hero, you're effectively asking the browser to download and decode a big file before you can “look fast.” Convert that hero to WebP/AVIF, and you often reduce transfer size enough to move LCP in the right direction (especially on mobile connections).</p>
+            <p class="mb-4">So if your LCP element is a 900KB JPEG hero, you're effectively asking the browser to download and decode a big file before you can “look fast.” Convert that hero to WebP/AVIF, and you often reduce transfer size enough to move LCP in the right direction (especially on mobile connections). Once the file is small, the next lever is how early the browser fetches it, which is a question of <a href="https://mochify.app/guides/fetchpriority-vs-preload-lcp-image">fetchpriority vs preload for LCP images</a>.</p>
         </section>
 
         <section id="bloat">
@@ -261,7 +271,7 @@
                     iPhone/Creator Bonus: HEIC Support
                 </h3>
                 <p class="text-base text-[#6C3F31] leading-relaxed">
-                    If you or your team uploads iPhone photos (HEIC/HEIF), the plugin-free approach still works: convert them to web-friendly formats (JPEG/WebP/AVIF) <em>before</em> uploading to WordPress, so you don't fight compatibility and file size later.
+                    If you or your team uploads iPhone photos (HEIC/HEIF), the plugin-free approach still works: convert them to web-friendly formats (JPEG/WebP/AVIF) <em>before</em> uploading to WordPress, so you don't fight compatibility and file size later. Not sure which target format to pick? See <a href="https://mochify.app/guides/heic-to-jpeg-or-webp-wordpress">should you convert HEIC to JPEG or WebP for WordPress?</a>
                 </p>
             </div>
         </section>

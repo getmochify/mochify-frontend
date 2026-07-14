@@ -149,7 +149,7 @@
             </InfoBox>
 
             <p>The in-memory pipeline converts, resizes, encodes via jpegli (Google's modern JPEG encoder, producing files roughly 25–30% smaller than traditional encoders at equivalent quality), and strips metadata in a single pass. Nothing is retained after your download completes.</p>
-            <p>See the full workflow guide: <a href="/guides/heif-to-jpeg-workflow-photographers-guide">HIF/HEIF to JPEG for Professional Photographers</a>.</p>
+            <p>See the full workflow guide: <a href="/guides/heif-to-jpeg-workflow-photographers-guide">HIF/HEIF to JPEG for Professional Photographers</a>. Shooting Sony? Follow the body-specific steps in <a href="https://mochify.app/guides/sony-hif-to-jpg">how to convert Sony HIF files to JPG</a>.</p>
         </section>
 
         <!-- CTA -->
@@ -171,6 +171,7 @@
                     { href: '/guides/fujifilm-hif-to-jpg', title: 'Fuji HIF to JPEG: X-T5, X-H2, X100VI', desc: 'Specific workflow for Fujifilm HIF files from X-series cameras.' },
                     { href: '/guides/2026-guide-next-gen-formats', title: 'WebP vs AVIF vs JPEG XL: 2026 Comparison', desc: 'Comparing the dominant next-generation web image formats for quality and compatibility.' },
                     { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'A complete breakdown of metadata types, privacy risks, and how to strip selectively.' },
+                    { href: '/guides/sony-hif-to-jpg', title: 'How to Convert Sony HIF Files to JPG', desc: 'How to convert Sony HIF files to JPG with Imaging Edge Desktop or online, and which Alpha bodies shoot HEIF.' },
                 ] as guide}
                     <li>
                         <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">

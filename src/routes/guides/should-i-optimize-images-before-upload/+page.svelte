@@ -34,6 +34,11 @@
             title: "The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL",
             href: "/guides/2026-guide-next-gen-formats",
             desc: "Format-by-format breakdown with browser support data, compression benchmarks, and practical recommendations by use case."
+        },
+        {
+            title: "Do Marketplace Product Images Need to Be Square?",
+            href: "/guides/do-marketplace-product-images-need-to-be-square",
+            desc: "Marketplace rules on square product images, and why pre-cropped 1:1 images are the safer choice for most sellers."
         }
     ];
 
@@ -257,6 +262,8 @@
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Product images for Shopify, Etsy, eBay, and Amazon</h3>
             <p class="mb-4">Yes - strongly. Product photos are typically the heaviest assets on listing pages and the most likely LCP elements. Each marketplace has its own recommended dimensions: Etsy recommends at least 2000px on the longest side for full zoom quality, Amazon requires a minimum of 1000px but recommends 2000px or more, and eBay best practice lands around 1600×1600px. None of them gives you fine-grained guidance on compression - that's your job, and getting the format wrong is exactly <a href="https://mochify.app/guides/ebay-image-file-not-supported">why eBay says an image file is not supported</a> at the point of upload.</p>
             <p class="mb-4">Camera JPEGs and HEIC files from modern smartphones are routinely 5–12MB. Uploading those directly means the platform is working from massive originals, often re-compressing in ways that hurt sharpness at zoom. More importantly: none of these platforms consistently strips EXIF. If your product photography includes shots from your home, workshop, or client location, the GPS coordinates are in every file you upload.</p>
+            <p class="mb-4">Recommended dimensions are one thing; aspect ratio is another, and the <a href="https://mochify.app/guides/do-marketplace-product-images-need-to-be-square">marketplace rules on square product images</a> vary from platform to platform.</p>
+
             <p class="mb-4">The right workflow: convert to jpegli JPEG, WebP, or AVIF at the platform's recommended dimensions, target a clean file size (300–500KB for most marketplace images is realistic without visible quality loss), and strip all EXIF before upload.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">WordPress heroes, galleries, and WooCommerce stores</h3>

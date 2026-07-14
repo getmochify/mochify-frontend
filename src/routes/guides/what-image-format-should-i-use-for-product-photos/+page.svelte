@@ -27,6 +27,11 @@
             title: "What Should I Use in 2026: WebP, AVIF, or JPEG XL?",
             href: "/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl",
             desc: "In 2026, use AVIF as your primary format with WebP as fallback. JPEG XL is not production-ready for web delivery."
+        },
+        {
+            title: "Do Marketplace Product Images Need to Be Square?",
+            href: "/guides/do-marketplace-product-images-need-to-be-square",
+            desc: "Square vs non-square product images for marketplaces: what each platform requires and how thumbnails get cropped."
         }
     ];
 </script>

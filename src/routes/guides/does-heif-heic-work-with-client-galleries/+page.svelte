@@ -122,7 +122,7 @@
             </InfoBox>
 
             <p>Magic Flow interprets the intent, applies the right resize, encodes via jpegli - Google's modern JPEG encoder, which produces files roughly 25–30% smaller than traditional encoders at equivalent quality - strips all metadata, and returns a gallery-ready ZIP. Files are processed entirely in memory and discarded immediately after your download completes.</p>
-            <p>If a platform will not accept HEIC at all rather than just re-compressing it, converting to a universally accepted format solves the same problem. For iPhone photo sets specifically, you can also <a href="https://mochify.app/guides/heic-to-pdf-iphone-photos">bundle iPhone HEIC photos into a single PDF</a> for delivery instead of a gallery link.</p>
+            <p>If a platform will not accept HEIC at all rather than just re-compressing it, converting to a universally accepted format solves the same problem. If you host galleries on WordPress, see the format decision for <a href="https://mochify.app/guides/heic-to-jpeg-or-webp-wordpress">converting HEIC for WordPress uploads</a>. For iPhone photo sets specifically, you can also <a href="https://mochify.app/guides/heic-to-pdf-iphone-photos">bundle iPhone HEIC photos into a single PDF</a> for delivery instead of a gallery link.</p>
         </section>
 
         <section id="exif-client-privacy">
@@ -153,6 +153,7 @@
                     { href: '/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera', title: 'Should I Shoot HEIF or JPEG on My Mirrorless Camera?', desc: 'When to use each format at capture time, and how to convert for delivery.' },
                     { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'A complete breakdown of metadata types, privacy risks, and how to strip selectively.' },
                     { href: '/guides/should-i-optimize-images-before-upload', title: 'Should I Optimize Images Before I Upload Them?', desc: 'A practical guide covering LCP, EXIF privacy, format choice, and workflows for galleries and marketplaces.' },
+                    { href: '/guides/heic-to-jpeg-or-webp-wordpress', title: 'Should I convert HEIC to JPEG or WebP for WordPress uploads?', desc: 'Converting HEIC for WordPress uploads: which target format to pick when a platform will not take HEIC.' },
                 ] as guide}
                     <li>
                         <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">

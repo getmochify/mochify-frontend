@@ -50,6 +50,7 @@
         { href: '/guides/mochify-mcp-image-compression-agent-2026', title: 'How to Use Mochify via MCP: AI Agent Image Compression', desc: 'Connect Mochify to your AI assistant via MCP and compress images with plain English, no manual settings.' },
         { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'A complete breakdown of metadata types, privacy risks, and how to strip selectively.' },
         { href: '/guides/privacy-image-optimization', title: 'Privacy & Image Optimization: A Comprehensive Guide', desc: 'How to keep your images secure with zero-retention optimization in 2026.' },
+        { href: '/guides/compress-optimize-ai-generated-images', title: 'How to Compress and Optimize AI-Generated Images', desc: 'Extending agent workflows beyond camera files: compressing AI-generated images in automated workflows.' },
     ];
 </script>
 

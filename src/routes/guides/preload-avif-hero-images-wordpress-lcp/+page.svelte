@@ -32,6 +32,16 @@
             title: "What to Do When Someone Needs the AVIF as a JPG",
             href: "/guides/avif-to-jpg",
             desc: "Serving AVIF is right for your site - here's the fastest way to hand someone a JPG when they need one."
+        },
+        {
+            title: "Should I Use fetchpriority or rel=\"preload\" for My LCP Image?",
+            href: "/guides/fetchpriority-vs-preload-lcp-image",
+            desc: "When a fetchpriority attribute beats a preload hint for your hero image, and when you need both."
+        },
+        {
+            title: "Should I convert HEIC to JPEG or WebP for WordPress uploads?",
+            href: "/guides/heic-to-jpeg-or-webp-wordpress",
+            desc: "HEIC to JPEG or WebP for WordPress uploads: which target format to pick before the media library."
         }
     ];
 </script>
@@ -146,6 +156,8 @@
             <p class="mb-4">The priority of <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">1</code> passed to <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">add_action</code> ensures the hint is output at the very top of <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;head&gt;</code>, before any stylesheets or scripts. The browser's preload scanner picks it up immediately and begins the AVIF download in parallel with everything else.</p>
 
             <p class="mb-4">The <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">is_front_page()</code> guard limits the hint to the homepage. If your hero changes per template (category pages, landing pages), duplicate the action with the appropriate conditional and the correct URL for each context.</p>
+
+            <p class="mb-4">If your hero is a plain <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;img&gt;</code> already in the HTML rather than one discovered late via CSS, you may not need the preload tag at all: <a href="https://mochify.app/guides/fetchpriority-vs-preload-lcp-image">should you use fetchpriority instead of preload?</a></p>
 
             <InfoBox type="warning" title="Only preload the image that is actually the LCP element">
                 Preloading an image that isn't visible above the fold wastes bandwidth and can hurt performance by competing with critical resources. Confirm which element PageSpeed Insights flags as the LCP candidate before adding the hint.

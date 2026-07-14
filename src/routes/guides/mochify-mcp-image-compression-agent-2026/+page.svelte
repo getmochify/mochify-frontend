@@ -59,6 +59,8 @@
         { href: '/guides/2026-guide-next-gen-formats', title: 'The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL', desc: 'Format benchmarks and use cases.' },
         { href: '/guides/privacy-image-optimization', title: 'Privacy & Image Optimization: A Comprehensive Guide (2026)', desc: 'Zero-retention explained in depth.' },
         { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression (2026)', desc: 'Why metadata stripping matters.' },
+        { href: '/guides/ai-image-compression-conversion', title: 'AI Image Compression and Conversion: Describe the Result, Skip the Settings', desc: 'Prompt-driven image compression and conversion in one natural-language step.' },
+        { href: '/guides/llm-image-token-costs', title: 'LLM Image Token Costs: How Many Tokens Does an Image Use?', desc: 'Cut LLM image token costs by compressing before you send images to a model.' },
     ];
 
     const metadata = {

@@ -207,6 +207,8 @@
                     { href: '/guides/hif-to-jpg-canon-sony-fujifilm', title: 'HIF to JPG: Canon, Sony & Fujifilm', desc: 'Every conversion method on every platform, plus what changes going 10-bit to 8-bit.' },
                     { href: '/guides/heif-to-jpeg-workflow-photographers-guide', title: 'HIF/HEIF to JPEG for Professional Photographers', desc: 'Client delivery, archiving, and when to keep HIF originals.' },
                     { href: '/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera', title: 'Should I Shoot HEIF or JPEG?', desc: 'The format decision before you press the shutter.' },
+                    { href: '/guides/what-is-a-hif-file', title: 'What Is a HIF File? (And How to Open One)', desc: 'What the .HIF container is and how to open one on macOS, Windows, iOS and Linux.' },
+                    { href: '/guides/does-hif-to-jpg-lose-quality', title: 'Does Converting HIF to JPG Reduce Quality?', desc: 'Will converting HIF to JPG lose quality? The honest answer, and the one case where it really shows.' },
                 ] as guide}
                     <li>
                         <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">

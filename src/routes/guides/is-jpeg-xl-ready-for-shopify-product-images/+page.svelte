@@ -28,6 +28,11 @@
             title: "The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL",
             href: "/guides/2026-guide-next-gen-formats",
             desc: "Full comparison of WebP, AVIF, and JPEG XL for e-commerce and beyond."
+        },
+        {
+            title: "Converting Images to JPEG XL: The Practical Guide for 2026",
+            href: "/guides/converting-images-to-jpeg-xl",
+            desc: "When you are ready, how to convert your product images to JPEG XL, with picture-element fallbacks."
         }
     ];
 </script>

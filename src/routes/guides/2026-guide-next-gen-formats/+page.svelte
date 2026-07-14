@@ -38,6 +38,11 @@
             title: "Top 5 Secure Image Compressors of 2026",
             href: "/guides/top-5-secure-image-compressors-2026",
             desc: "Tools compared on format support and privacy."
+        },
+        {
+            title: "Converting Images to JPEG XL: The Practical Guide for 2026",
+            href: "/guides/converting-images-to-jpeg-xl",
+            desc: "Every conversion path to JXL, honest browser support, and how to serve it with picture fallbacks."
         }
     ];
 </script>
@@ -414,7 +419,7 @@
                 JPEG XL emerged from a 2018 standards competition, combining Google's PIK and Cloudinary's FUIF proposals. Finalized in 2022, it promised to replace JPEG, PNG, GIF, and even WebP with a single unified format.
             </p>
             <p class="mb-4">
-                On paper, it's impressive: Progressive decoding, lossless JPEG recompression (converting existing JPEGs to JXL without quality loss), practically unlimited color depth, and modular compression that adapts to content type. File size benchmarks show JPEG XL beating AVIF by 10-30% in certain scenarios.
+                On paper, it's impressive: Progressive decoding, lossless JPEG recompression (converting existing JPEGs to JXL without quality loss), practically unlimited color depth, and modular compression that adapts to content type. File size benchmarks show JPEG XL beating AVIF by 10-30% in certain scenarios. If you want to try it, our practical guide covers <a href="https://mochify.app/guides/converting-images-to-jpeg-xl">how to convert images to JPEG XL</a> from JPEG, PNG, or AVIF, with the picture-element fallbacks you need to serve it safely.
             </p>
             <p class="mb-4">
                 <strong>The reality in February 2026:</strong> Browser support is abysmal. Safari offers "partial" support (decoding only, no animation, no progressive rendering). Chrome added decoding back into Chromium in January 2026 but hasn't shipped it to stable releases. Firefox refuses implementation, citing decoder bloat and insufficient gains over AVIF.

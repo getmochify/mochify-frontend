@@ -188,6 +188,25 @@
             
         <div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow"><div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div> <div class="relative z-10 mb-6"><span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">Free Tool</span></div> <h3 class="text-2xl md:text-3xl font-black text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">Ready to convert your images?</h3> <p class="text-[#6C3F31] text-lg max-w-2xl mx-auto relative z-10 mb-8 leading-relaxed">Try Mochify's zero-retention WebP and AVIF converters - no accounts, no plugins, no stored files. Process in-memory with C++ engine speed, then upload directly to your site or marketplace.</p> <a href="https://mochify.app" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline"><span>Start Optimizing</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg></a></div>
 
+        <!-- Related guides -->
+        <section class="not-prose">
+            <SectionHeading>Related Guides</SectionHeading>
+            <ul class="space-y-3">
+                {#each [
+                    { href: '/guides/privacy-image-optimization', title: 'Privacy and image optimization: the comprehensive guide', desc: 'Zero-retention, GDPR, and how to evaluate image optimization tools for regulated and NDA-sensitive work.' },
+                    { href: '/guides/2026-guide-next-gen-formats', title: 'The 2026 guide to next-gen formats: WebP, AVIF, JPEG XL', desc: 'The format benchmarks and browser support behind the full engine\'s AVIF and JXL output.' },
+                    { href: '/guides/why-we-relaxed-zero-retention-for-mcp', title: 'Why we relaxed our zero-retention policy for MCP', desc: 'What zero-retention means on each Mochify surface, and why self-hosting is the strictest option.' },
+                ] as guide}
+                    <li>
+                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
+                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </li>
+                {/each}
+            </ul>
+        </section>
+
     </div>
 </article>
 

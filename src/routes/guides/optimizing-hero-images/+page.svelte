@@ -250,6 +250,7 @@
                     <p class="mb-4">Browsers prioritize resources in a specific order: CSS first, then scripts, then images. Your hero image often loads with default priority - meaning it waits behind other assets.</p>
                     <p class="mb-4">Fix this by preloading the hero and setting <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">fetchpriority="high"</code>:</p>
                     <CodeBlock filename="<head>" code={`<link rel="preload" as="image" href="hero.avif" fetchpriority="high">`} />
+                    <p class="mb-4 mt-4">Not every hero needs both hints. For a decision guide on when the attribute alone is enough, see <a href="https://mochify.app/guides/fetchpriority-vs-preload-lcp-image">fetchpriority vs rel="preload" for your LCP image</a>.</p>
                     <InfoBox type="technical" title="Why this matters">
                         Etsy deployed this technique site-wide and improved LCP by 4%, with some pages seeing 20–30% gains. Add this <code>&lt;link&gt;</code> tag in your <code>&lt;head&gt;</code> before other stylesheets and scripts. Without <code>fetchpriority="high"</code>, some browsers treat image preloads as low priority and negate the benefit entirely.
                     </InfoBox>
@@ -538,6 +539,11 @@
                 href: '/guides/jpeg-in-2026-jpegli',
                 title: 'Jpegli Guide 2026',
                 desc: "Master Google's modern JPEG encoder for marketplaces and legacy platforms - better quality per byte.",
+            },
+            {
+                href: '/guides/fetchpriority-vs-preload-lcp-image',
+                title: 'Should I Use fetchpriority or rel="preload" for My LCP Image?',
+                desc: 'When the fetchpriority attribute is enough on its own and when your hero also needs a preload hint.',
             },
         ]} />
 

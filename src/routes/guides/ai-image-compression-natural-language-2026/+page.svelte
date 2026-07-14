@@ -354,6 +354,12 @@
                         <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </li>
+                <li>
+                    <a href="/guides/ai-image-compression-conversion" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                        <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">AI Image Compression and Conversion: Describe the Result, Skip the Settings <span class="font-normal opacity-70">— Describe the result you want and skip the settings</span></span>
+                        <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
+                    </a>
+                </li>
             </ul>
         </section>
 

@@ -163,8 +163,8 @@
         <section id="why-stuck">
             <SectionHeading>Why photographers are stuck between HIF/HEIF and JPEG</SectionHeading>
             <p>The quality-per-byte advantage of native 10-bit HEIF over JPEG is real. The delivery world has not caught up.</p>
-            <p>Canon, Nikon, Fuji, and Sony mirrorless cameras now shoot native 10-bit HEIF files, and the capture quality argument for HEIF is straightforward: more tonal range, better highlight and shadow retention, smaller files than equivalent RAW. But client galleries, press wire services, e-commerce marketplaces, and editorial CMSes still expect JPEG, often with specific size and color profile requirements. The result is a conversion step that happens on every job, for every destination, with tools that were never designed for it.</p>
-            <p>This guide maps the exact friction points pro photographers hit converting from camera-native HIF/HEIF to gallery-ready, marketplace-optimized, or wire-ready JPEG (and AVIF/WebP where useful) without leaking client data or wasting hours in export queues.</p>
+            <p>Canon, Nikon, Fuji, and Sony mirrorless cameras now shoot native 10-bit HEIF files, saved with the .HIF extension (<a href="https://mochify.app/guides/what-is-a-hif-file">HIF files explained</a>), and the capture quality argument for HEIF is straightforward: more tonal range, better highlight and shadow retention, smaller files than equivalent RAW. But client galleries, press wire services, e-commerce marketplaces, and editorial CMSes still expect JPEG, often with specific size and color profile requirements. The result is a conversion step that happens on every job, for every destination, with tools that were never designed for it.</p>
+            <p>This guide maps the exact friction points pro photographers hit converting from camera-native HIF/HEIF to gallery-ready, marketplace-optimized, or wire-ready JPEG (and AVIF/WebP where useful) without leaking client data or wasting hours in export queues. Sony Alpha shooters can follow the body-specific steps in <a href="https://mochify.app/guides/sony-hif-to-jpg">Sony HIF to JPG conversion</a>.</p>
             <p>We built Mochify's HEIF support specifically around this gap. The workflows here use Mochify's Magic Flow natural language interface, but the format and privacy principles apply regardless of the tool you use.</p>
         </section>
 
@@ -478,6 +478,8 @@
                     { href: '/guides/privacy-image-optimization', title: 'Privacy & Image Optimization (2026)', desc: 'Zero-retention workflows for NDA and commercial work.' },
                     { href: '/guides/should-i-optimize-images-before-upload', title: 'Should I Optimize Images Before I Upload?', desc: 'A practical guide to pre-upload optimization for every platform.' },
                     { href: '/guides/heic-to-pdf-iphone-photos', title: 'Convert iPhone HEIC Photos to PDF', desc: 'For iPhone .HEIC photos rather than pro-camera .HIF files: bundling HEIC shots into a single PDF.' },
+                    { href: '/guides/what-is-a-hif-file', title: 'What Is a HIF File? (And How to Open One)', desc: 'HIF files explained: what the .HIF container is and how to open one across macOS, Windows, iOS and Linux.' },
+                    { href: '/guides/sony-hif-to-jpg', title: 'How to Convert Sony HIF Files to JPG', desc: 'Sony HIF to JPG conversion with Imaging Edge Desktop or online, and which Alpha bodies shoot HEIF.' },
                 ] as guide}
                     <li>
                         <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">

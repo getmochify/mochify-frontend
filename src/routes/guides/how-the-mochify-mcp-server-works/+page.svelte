@@ -465,7 +465,7 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
         <!-- Token Cost -->
         <section id="token-cost" class="scroll-mt-24">
             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">The Honest Answer on Token Cost</h2>
-            <p class="mb-4">The hosted MCP server used to be a workflow saver but not a token saver, because compressed results returned inline as binary. With URL passback, that's no longer true on the return side. The local install remains the cheapest workflow per image, because no image bytes ever enter the agent's context in either direction.</p>
+            <p class="mb-4">The hosted MCP server used to be a workflow saver but not a token saver, because compressed results returned inline as binary. With URL passback, that's no longer true on the return side. The local install remains the cheapest workflow per image, because no image bytes ever enter the agent's context in either direction. For the underlying numbers behind these tradeoffs, see our breakdown of <a href="https://mochify.app/guides/llm-image-token-costs">how many tokens does an image use?</a></p>
 
             <p class="mb-4">The <strong class="text-[#4A2C2C]">hosted MCP server with URL input</strong> is now genuinely cheap both ways - a URL string in, a URL string out. Upload input is still expensive on the way in because the image is base64-encoded into the tool-call payload, but the return is a short text URL rather than a binary blob; it's a one-way cost rather than a two-way one.</p>
 
@@ -519,6 +519,8 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
                     { href: '/guides/ai-agent-workflow-automation-photographers', title: 'AI Agent Workflow Automation for Photographers', desc: 'An end-to-end pipeline example using Claude, Dispatch, and the Mochify MCP server.' },
                     { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli: Why It Changes the Quality-Per-Byte Game', desc: 'How the JPEG output that Mochify produces gets 35% smaller files at matched quality.' },
                     { href: '/guides/privacy-image-optimization', title: 'Privacy & Image Optimization: A Comprehensive Guide', desc: 'The zero-retention story that underpins every Mochify surface, including the MCP server.' },
+                    { href: '/guides/compress-optimize-ai-generated-images', title: 'How to Compress and Optimize AI-Generated Images', desc: 'Optimizing AI-generated images through the MCP server: which formats win and how to automate the optimize-after-generation step.' },
+                    { href: '/guides/llm-image-token-costs', title: 'LLM Image Token Costs: How Many Tokens Does an Image Use?', desc: 'The per-model math behind image tokens, and why the MCP server returns file paths instead of image bytes.' },
                 ] as guide}
                     <li>
                         <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">

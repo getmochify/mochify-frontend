@@ -32,6 +32,11 @@
             title: "Ecommerce Product Photo Workflow: Resize & Convert in One Prompt",
             href: "/guides/ecommerce-product-photo-workflow-resize-convert",
             desc: "jpegli output inside a batch seller workflow."
+        },
+        {
+            title: "Does Converting HIF to JPG Reduce Quality?",
+            href: "/guides/does-hif-to-jpg-lose-quality",
+            desc: "Where jpegli's quality-per-byte matters most: converting 10-bit camera HIF files to 8-bit JPEG."
         }
     ];
 </script>
@@ -473,7 +478,7 @@
                     <p class="mb-3 font-bold text-[#4A2C2C]">Solution:</p>
                     
                     <ol class="list-decimal list-outside ml-6 space-y-3 mb-6 text-[#6C3F31]">
-                        <li><strong>Convert format first</strong> (if needed) – If your camera outputs HIF/HEIF/RAW, convert to JPEG. Tools like Mochify handle HIF-to-JPEG conversion with in-memory processing.</li>
+                        <li><strong>Convert format first</strong> (if needed) – If your camera outputs HIF/HEIF/RAW, convert to JPEG. Tools like Mochify handle HIF-to-JPEG conversion with in-memory processing. Worried about the 10-bit to 8-bit step? See <a href="https://mochify.app/guides/does-hif-to-jpg-lose-quality">does HIF to JPG conversion lose quality?</a></li>
                         <li><strong>Resize to platform specs</strong> – eBay recommends 1600×1600px. Etsy wants 2000-2400px width. Amazon specifies 2000×2000px minimum for zoom. Don't guess-check the current platform guidelines.</li>
                         <li><strong>Compress with jpegli</strong> – Use a quality setting that hits your target file size (typically 200-500KB per image for product photos). Jpegli at quality 85-90 will deliver better visual results than libjpeg-turbo or MozJPEG at the same file size (based on reported test results).</li>
                         <li><strong>Verify one image first</strong> – Encode one sample, upload it to the platform, check how it looks on desktop and mobile. If the platform recompresses on upload, you'll see it immediately.</li>

@@ -45,6 +45,8 @@
         { href: '/guides/jpegli-shopify-product-images', title: 'How to Use Jpegli for Shopify Product Images', desc: 'Pre-compress before upload to stop Shopify recompression degrading your image quality.' },
         { href: '/guides/ai-image-compression-natural-language-2026', title: 'AI-Powered Image Compression: How Magic Flow Works', desc: "How Mochify's natural-language feature maps plain-English prompts to processing parameters." },
         { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'Why stripping metadata from product photos matters before uploading to a public listing.' },
+        { href: '/guides/ai-image-compression-conversion', title: 'AI Image Compression and Conversion: Describe the Result, Skip the Settings', desc: 'AI image compression and conversion in one prompt, no manual format or quality settings.' },
+        { href: '/guides/do-marketplace-product-images-need-to-be-square', title: 'Do Marketplace Product Images Need to Be Square?', desc: 'What the major marketplaces actually require for product image dimensions and cropping.' },
     ];
 </script>
 
