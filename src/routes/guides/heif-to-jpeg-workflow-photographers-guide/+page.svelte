@@ -164,7 +164,7 @@
             <SectionHeading>Why photographers are stuck between HIF/HEIF and JPEG</SectionHeading>
             <p>The quality-per-byte advantage of native 10-bit HEIF over JPEG is real. The delivery world has not caught up.</p>
             <p>Canon, Nikon, Fuji, and Sony mirrorless cameras now shoot native 10-bit HEIF files, saved with the .HIF extension (<a href="https://mochify.app/guides/what-is-a-hif-file">HIF files explained</a>), and the capture quality argument for HEIF is straightforward: more tonal range, better highlight and shadow retention, smaller files than equivalent RAW. But client galleries, press wire services, e-commerce marketplaces, and editorial CMSes still expect JPEG, often with specific size and color profile requirements. The result is a conversion step that happens on every job, for every destination, with tools that were never designed for it.</p>
-            <p>This guide maps the exact friction points pro photographers hit converting from camera-native HIF/HEIF to gallery-ready, marketplace-optimized, or wire-ready JPEG (and AVIF/WebP where useful) without leaking client data or wasting hours in export queues. Sony Alpha shooters can follow the body-specific steps in <a href="https://mochify.app/guides/sony-hif-to-jpg">Sony HIF to JPG conversion</a>.</p>
+            <p>This guide maps the exact friction points pro photographers hit converting from camera-native HIF/HEIF to gallery-ready, marketplace-optimized, or wire-ready JPEG (and AVIF/WebP where useful) without leaking client data or wasting hours in export queues. Sony Alpha shooters can follow the body-specific steps in <a href="https://mochify.app/guides/sony-hif-to-jpg">Sony HIF to JPG conversion</a>. Before the archiving and EXIF-stripping blueprints below, if you need the actual conversion step laid out method by method (in-camera, DPP, Imaging Edge Desktop, Lightroom, and Mochify), see <a href="https://mochify.app/guides/heif-to-jpg-complete-guide">every HEIF to JPG conversion method compared</a>.</p>
             <p>We built Mochify's HEIF support specifically around this gap. The workflows here use Mochify's Magic Flow natural language interface, but the format and privacy principles apply regardless of the tool you use.</p>
         </section>
 
@@ -471,6 +471,7 @@
             <SectionHeading>Related Guides</SectionHeading>
             <ul class="space-y-3">
                 {#each [
+                    { href: '/guides/heif-to-jpg-complete-guide', title: 'HEIF to JPG: The Complete Conversion Guide', desc: 'Every conversion method compared side by side, in-camera, DPP, Imaging Edge, Lightroom, and Mochify.' },
                     { href: '/guides/fujifilm-hif-to-jpg', title: 'Fuji HIF to JPEG: X-T5, X-H2, X100VI', desc: 'Specific workflow for Fujifilm HIF files from X-series cameras.' },
                     { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'A complete breakdown of metadata types, privacy risks, and how to strip selectively.' },
                     { href: '/guides/2026-guide-next-gen-formats', title: 'WebP vs AVIF vs JPEG XL: 2026 Comparison', desc: 'Format comparison for web delivery, with real-world benchmark data.' },

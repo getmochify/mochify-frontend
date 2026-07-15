@@ -67,6 +67,7 @@
     ];
 
     const related = [
+        { href: '/guides/heif-to-jpg-complete-guide', title: 'HEIF to JPG: The Complete Conversion Guide', desc: 'The full method comparison, HDR and quality trade-off analysis, and cheat sheet, all in one guide.' },
         { href: '/guides/fujifilm-hif-to-jpg', title: 'Fuji HIF Files Explained: Convert X-T5, X-H2, X100VI, X-T50', desc: 'Deep dive into Fujifilm-specific HIF files, film simulations, and the best Fuji conversion workflows.' },
         { href: '/guides/heif-to-jpeg-workflow-photographers-guide', title: 'HIF/HEIF to JPEG for Professional Photographers', desc: 'Managing the full pro workflow: client delivery, archiving, and when to keep HIF originals.' },
         { href: '/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera', title: 'Should I Shoot HEIF or JPEG on My Mirrorless Camera?', desc: 'The format decision before you shoot, including when HIF is worth it and when JPEG is still the right call.' },
@@ -259,6 +260,7 @@
             <p><strong>Server-side converters:</strong> You upload the file, it is processed on a remote server, and you download the JPEG. Fast, but your file leaves your device. Quality depends entirely on the service's encoder.</p>
             <p><strong>Client-side (WebAssembly) converters:</strong> These run libheif or ImageMagick compiled to WebAssembly inside your browser tab. The file never leaves your machine. Performance is CPU-dependent. Look for explicit "runs locally" or "processed in your browser" language on the service page.</p>
             <p>For a privacy-first option that uses jpegli for JPEG encoding, see the Mochify Workflow section below.</p>
+            <p>For a side-by-side comparison of every method here, the HDR and quality trade-off analysis, and a full cheat sheet, see <a href="https://mochify.app/guides/heif-to-jpg-complete-guide">the complete HEIF to JPG conversion guide</a>.</p>
         </section>
 
         <!-- Section 4 -->

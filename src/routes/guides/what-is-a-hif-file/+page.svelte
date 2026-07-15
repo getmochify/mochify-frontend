@@ -14,6 +14,7 @@
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
 
     const related = [
+        { href: '/guides/heif-to-jpg-complete-guide', title: 'HEIF to JPG: The Complete Conversion Guide', desc: 'The next step once you know what a HIF file is: every method, the quality trade-offs, and batch workflows.' },
         { href: '/guides/hif-to-jpg-canon-sony-fujifilm', title: 'HIF to JPG: Convert Canon, Sony & Fujifilm Photos', desc: 'Every conversion method, on every platform, for every camera brand.' },
         { href: '/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera', title: 'Should I Shoot HEIF or JPEG on My Mirrorless Camera?', desc: 'The format decision before you press the shutter.' },
         { href: '/heic-to-jpeg', title: 'HEIC to JPEG Converter', desc: 'The path for iPhone .HEIC files, the Apple variant of HEIF.' },
@@ -138,7 +139,7 @@
         <section id="opening-vs-converting">
             <SectionHeading>Opening it is not converting it</SectionHeading>
             <p>Opening a <code class={inlineCode}>.HIF</code> lets you view it, but it still won't upload to a marketplace, CMS, or print service that only accepts JPEG. For that you convert it. Mochify's <a href="/solutions/hif-to-jpg">HIF to JPG converter</a> takes <code class={inlineCode}>.HIF</code> files straight from Canon, Sony, and Fujifilm bodies, up to 3 per session with no account needed. Describe the job in plain English and Magic Flow applies the settings for you. Files are streamed to the encoder, processed in memory, and wiped immediately.</p>
-            <p>For every conversion method and the 10-bit to 8-bit trade-offs, see the full <a href="/guides/hif-to-jpg-canon-sony-fujifilm">HIF to JPG guide</a>.</p>
+            <p>For every conversion method and the 10-bit to 8-bit trade-offs, see the full <a href="/guides/hif-to-jpg-canon-sony-fujifilm">HIF to JPG guide</a>. For the complete walkthrough across every camera brand, see <a href="https://mochify.app/guides/heif-to-jpg-complete-guide">how to convert a HIF file to JPG</a>.</p>
         </section>
 
         <!-- CTA -->
