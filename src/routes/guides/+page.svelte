@@ -14,6 +14,14 @@
             date: "July 14, 2026"
         },
         {
+            title: "HEIF to JPG: The Complete Conversion Guide",
+            description: "Convert HEIF (.HIF) files from Canon, Sony, and Fujifilm cameras to universally compatible JPG. Every method, the quality trade-offs, and batch workflows.",
+            url: "/guides/heif-to-jpg-complete-guide",
+            category: "Image Formats",
+            readTime: "14 min read",
+            date: "July 15, 2026"
+        },
+        {
             title: "AVIF to JPG: How to Convert AVIF Files on Any Device",
             description: "AVIF is a modern format browsers love but desktop apps often reject. Convert AVIF to JPG free online in seconds, or use native tools on Windows and Mac.",
             url: "/guides/avif-to-jpg",
