@@ -9,7 +9,8 @@
         description: "Use AVIF for the smallest files, WebP as a fallback, and JPEG for the broadest compatibility. Here's the practical order for ecommerce product images.",
         category: "Quick Guides",
         readTime: "2 min read",
-        date: "May 19, 2026"
+        datePublished: "May 19, 2026",
+        lastUpdated: "July 15, 2026"
     };
 
     const related = [
@@ -53,7 +54,7 @@
         "description": "Use AVIF for the smallest files, WebP as a fallback, and JPEG for the broadest compatibility. Here's the practical order for ecommerce product images.",
         "url": "https://mochify.app/guides/what-image-format-should-i-use-for-product-photos",
         "datePublished": "2026-05-19",
-        "dateModified": "2026-05-19",
+        "dateModified": "2026-07-15",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -97,7 +98,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -138,7 +139,7 @@
 
         <section id="why-avif-leads" class="scroll-mt-24">
             <SectionHeading>Why AVIF leads, not WebP</SectionHeading>
-            <p class="mb-4">AVIF typically produces files 20–50% smaller than equivalent WebP images at comparable visual quality, with gains most visible in smooth gradients and skin tones — common in product photography. WebP is still the safer choice if you cannot serve format fallbacks, because its browser support is broader and more consistent across older versions. JPEG remains important for marketplace uploads, email templates, print workflows, and any system that doesn't parse modern format headers reliably.</p>
+            <p class="mb-4">AVIF typically produces files 20–50% smaller than equivalent WebP images at comparable visual quality, with gains most visible in smooth gradients and skin tones — common in product photography. If you're not sure <a href="/guides/what-is-an-avif-file">what an AVIF file actually is</a>, it's a newer codec built for exactly this kind of compression win. WebP is still the safer choice if you cannot serve format fallbacks, because its browser support is broader and more consistent across older versions. JPEG remains important for marketplace uploads, email templates, print workflows, and any system that doesn't parse modern format headers reliably.</p>
         </section>
 
         <section id="keep-jpeg" class="scroll-mt-24">

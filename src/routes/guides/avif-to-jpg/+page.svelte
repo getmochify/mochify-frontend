@@ -9,7 +9,8 @@
         description: "AVIF is a modern format browsers love but desktop apps often reject. Convert AVIF to JPG free online in seconds, or use native tools on Windows and Mac.",
         category: "Image Formats",
         readTime: "13 min read",
-        date: "July 13, 2026"
+        datePublished: "July 13, 2026",
+        lastUpdated: "July 15, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -62,6 +63,7 @@
     ];
 
     const related = [
+        { href: '/guides/what-is-an-avif-file', title: 'What Is an AVIF File? (And How to Open One)', desc: 'The format basics: why AVIF exists, what makes it small, and how to open one if you get stuck.' },
         { href: '/guides/2026-guide-next-gen-formats', title: 'The 2026 Guide to Next-Gen Formats: WebP, AVIF, JPEG XL', desc: "Where AVIF fits in the modern format landscape and when to serve it." },
         { href: '/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl', title: 'What Should I Use in 2026: WebP, AVIF, or JPEG XL?', desc: 'The quick decision version for your own site.' },
         { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli Guide 2026: Quality-Per-Byte', desc: 'Why the JPEG encoder you convert with matters.' },
@@ -98,7 +100,7 @@
             "@id": "https://mochify.app/guides/avif-to-jpg"
         },
         "datePublished": "2026-07-13",
-        "dateModified": "2026-07-13",
+        "dateModified": "2026-07-15",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -155,7 +157,7 @@
         "description": "AVIF is a modern format browsers love but desktop apps often reject. Convert AVIF to JPG free online in seconds, or use native tools on Windows and Mac.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-13",
-        "dateModified": "2026-07-13"
+        "dateModified": "2026-07-15"
         }
     </script>
 
@@ -185,7 +187,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -373,7 +375,7 @@
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Mochify CLI / MCP / API</td>
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Scripted and agent workflows with natural language</td>
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Yes</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Client over api.mochify.app; same zero-retention model as the web app</td>
+                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Client over api.mochify.app; originals wiped immediately (hosted MCP holds the compressed output ~5 minutes for pickup)</td>
                         </tr>
                     </tbody>
                 </table>
