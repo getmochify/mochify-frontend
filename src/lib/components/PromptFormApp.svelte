@@ -696,7 +696,35 @@
 	// re-warms with a fresh token.
 	let warmedAuth: Promise<string | null> | null = null;
 	function warmAuth() {
-		if (!warmedAuth) warmedAuth = getSessionToken();
+		if (!warmedAuth) {
+			warmedAuth = getSessionToken();
+			checkTokenLimit();
+		}
+	}
+
+	// Upfront quota check (same pattern as ImageUpload): resolved on user intent
+	// via warmAuth() so submit() can wall a known-exhausted user synchronously,
+	// before the thinking animation and NLP round trip. Server 429s stay the
+	// source of truth — a failed or stale check just leaves the gate open.
+	let availableTokens: number = $state(Infinity);
+	let hasCheckedTokens: boolean = $state(false);
+	let isAuthenticated: boolean = $state(false);
+	async function checkTokenLimit() {
+		try {
+			const jwt = await (warmedAuth ?? getSessionToken());
+			isAuthenticated = !!jwt;
+			const res = await fetch(`${API_URL}/v1/checkTokens`, {
+				headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
+			});
+			if (!res.ok) throw new Error('checkTokens failed');
+			const data = (await res.json()) as { remaining?: number; available?: boolean };
+			// A "miss" (unseeded bucket) returns { available: true } with no remaining —
+			// treat as Infinity so first-time users are never walled.
+			availableTokens = data.remaining ?? (data.available !== false ? Infinity : 0);
+			hasCheckedTokens = true;
+		} catch {
+			hasCheckedTokens = false;
+		}
 	}
 
 	// Map a failed /v1/prompt response to a user-facing error. Unusable model
@@ -727,6 +755,29 @@
 			upgradeCtaMode = 'generate';
 			showUpgradeCta = true;
 			posthog.capture('create_flow_gated', { plan: userPlan });
+			return;
+		}
+
+		// Known-exhausted quota → wall immediately, before the thinking animation
+		// starts. Video is exempt (processed client-side, no core tokens) and
+		// create is covered by the pro gate above. The cached count can be stale,
+		// so the in-flight pre-flight + 429 handling below remain the backstop.
+		if (
+			!isCreate &&
+			uploadMode !== 'video' &&
+			hasCheckedTokens &&
+			Number.isFinite(availableTokens) &&
+			files.length > availableTokens
+		) {
+			if (isAuthenticated) {
+				upgradeCtaMode = 'quota';
+				showUpgradeCta = true;
+			} else {
+				showSignupCta = true;
+			}
+			posthog.capture(isAuthenticated ? 'upgrade_cta_shown' : 'signup_cta_shown', {
+				trigger: 'preflight_no_tokens'
+			});
 			return;
 		}
 
@@ -1820,6 +1871,8 @@
 			processPhase = 'idle';
 			clearInterval(msgInterval);
 			warmedAuth = null;
+			// This run consumed tokens — refresh the cached count for the next gate.
+			checkTokenLimit();
 		}
 	}
 </script>
