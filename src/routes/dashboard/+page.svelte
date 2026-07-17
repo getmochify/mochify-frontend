@@ -411,13 +411,7 @@
 				</p>
 			</div>
 		</div>
-
-		<!-- Usage note -->
-		<div class="mb-6 rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
-			<h2 class="mb-1 font-black text-[#4A2C2C]">Usage history</h2>
-			<p class="text-sm text-[#875F42]/60">Detailed per-request history coming soon.</p>
-		</div>
-
+		
 		<!-- Third-party AI consent -->
 		<div class="mb-6 rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
 			<div class="flex items-start justify-between gap-4">
