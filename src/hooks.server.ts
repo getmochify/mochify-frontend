@@ -4,6 +4,12 @@ import { svelteKitHandler } from 'better-auth/svelte-kit';
 import { createAuth } from '$lib/auth';
 import { getPostHogClient } from '$lib/server/posthog';
 
+const DISCOVERY_LINK_HEADER = [
+	'<https://mochify.app/sitemap.xml>; rel="sitemap"',
+	'<https://mochify.app/.well-known/api-catalog>; rel="api-catalog"',
+	'<https://mochify.app/docs>; rel="service-doc"'
+].join(', ');
+
 type Auth = ReturnType<typeof createAuth>;
 let _auth: Auth | undefined;
 
@@ -30,7 +36,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		response.headers.set('X-Content-Type-Options', 'nosniff');
 		response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 		response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-		response.headers.set('Link', '<https://mochify.app/sitemap.xml>; rel="sitemap"');
+		response.headers.set('Link', DISCOVERY_LINK_HEADER);
 		return response;
 	}
 
@@ -78,7 +84,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	response.headers.set('X-Content-Type-Options', 'nosniff');
 	response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 	response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-	response.headers.set('Link', '<https://mochify.app/sitemap.xml>; rel="sitemap"');
+	response.headers.set('Link', DISCOVERY_LINK_HEADER);
 
 	return response;
 };
