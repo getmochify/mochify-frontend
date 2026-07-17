@@ -1764,12 +1764,20 @@
 						// verbatim keys keep the ZIP-entry mapping deterministic.
 						params.append('sizes', sizes.map((s) => `${s.width ?? 0}x${s.height ?? 0}`).join(','));
 
+						// All variants now arrive in ONE response, so their individual
+						// downloads would fire in the same tick — browsers block every
+						// programmatic download after the first when that happens. Stagger
+						// them so each save is honored. (The zip path is immune: it collects
+						// entries and emits a single archive at the end.)
+						let downloadSlot = 0;
 						const deliverVariant = (finalName: string, bytes: Uint8Array, mime: string) => {
 							if (downloadAsZip) {
 								zipContents[finalName] = bytes;
-							} else {
-								const dlBlob = new Blob([bytes as Uint8Array<ArrayBuffer>], { type: mime });
-								const downloadUrl = window.URL.createObjectURL(dlBlob);
+								return;
+							}
+							const dlBlob = new Blob([bytes as Uint8Array<ArrayBuffer>], { type: mime });
+							const downloadUrl = window.URL.createObjectURL(dlBlob);
+							setTimeout(() => {
 								const a = document.createElement('a');
 								a.style.display = 'none';
 								a.href = downloadUrl;
@@ -1780,7 +1788,7 @@
 									window.URL.revokeObjectURL(downloadUrl);
 									document.body.removeChild(a);
 								}, 100);
-							}
+							}, downloadSlot++ * 300);
 						};
 
 						try {
