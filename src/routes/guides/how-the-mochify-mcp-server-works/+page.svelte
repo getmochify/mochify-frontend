@@ -11,6 +11,7 @@
         category: "AI & Automation",
         readTime: "9 min read",
         date: "May 28, 2026",
+        lastUpdated: "July 17, 2026",
     };
 
     const faqItems = [
@@ -42,7 +43,7 @@
       "author": { "@type": "Organization", "name": "Mochify Engineering Team" },
       "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
       "datePublished": "2026-05-28",
-      "dateModified": "2026-05-28",
+      "dateModified": "2026-07-17",
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://mochify.app/guides/how-the-mochify-mcp-server-works" }
     }
     </script>
@@ -80,7 +81,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
             </span>
         </div>
 
@@ -459,7 +460,7 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
 
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>find ./uploads -name "*.heic" | mochify -t jpg -o ./out</code></pre>
 
-            <p>No upload step, no download step, no chat round-trip, no per-image agent token cost. For container-based pipelines, see our <a href="/guides/self-hosting-image-optimization-docker">self-hosting image optimization with Docker guide</a>.</p>
+            <p>No upload step, no download step, no chat round-trip, no per-image agent token cost. For the full Claude-Code-specific walkthrough, see our guide to <a href="/guides/image-compression-claude-code-cli-mcp">compressing images inside Claude Code</a>. For container-based pipelines, see our <a href="/guides/self-hosting-image-optimization-docker">self-hosting image optimization with Docker guide</a>.</p>
         </section>
 
         <!-- Token Cost -->

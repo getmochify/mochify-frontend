@@ -9,7 +9,8 @@
         description: "No single number: Claude uses width×height/750 (~1,334 tokens for 1 MP), OpenAI and Gemini use tiling. Pass file paths, not image bytes, to save context.",
         category: "AI & Automation",
         readTime: "4 min read",
-        date: "June 2026"
+        date: "June 2026",
+        lastUpdated: "July 17, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -42,7 +43,7 @@
         "description": "No single number: Claude uses width×height/750 (~1,334 tokens for 1 MP), OpenAI and Gemini use tiling. Pass file paths, not image bytes, to save context.",
         "url": "https://mochify.app/guides/llm-image-token-costs",
         "datePublished": "2026-06-07",
-        "dateModified": "2026-06-07",
+        "dateModified": "2026-07-17",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -93,7 +94,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
             </span>
         </div>
 
@@ -192,7 +193,7 @@
         <section id="pass-file-paths-not-bytes">
             <SectionHeading>The fix: pass file paths, not image bytes</SectionHeading>
             <p>The durable pattern is to keep binary out of the context window and hand the model a reference instead. The <a href="https://modelcontextprotocol.io/docs/concepts/resources" target="_blank" rel="noopener noreferrer">Model Context Protocol resources specification</a> is built around exactly this: resources are identified by a URI (<code class={inlineCode}>file:///…</code>, <code class={inlineCode}>https://…</code>), so an agent receives a path or identifier rather than the encoded image. Anthropic's own guidance echoes the idea, noting that referencing uploaded images by <code class={inlineCode}>file_id</code> keeps request payloads small regardless of how many images accumulate in a conversation.</p>
-            <p>This is where Mochify's local MCP server fits a token-cost argument cleanly. Run as <code class={inlineCode}>mochify serve</code>, it returns file paths and metadata to the agent, not image bytes, so a compression step never injects a multi-thousand-token blob into the model's context. You drive it in plain English, for example: <code class={inlineCode}>compress the PNGs in ./screenshots to WebP and give me the new paths</code>. The encoding itself runs on Mochify's API (<code class={inlineCode}>api.mochify.app</code>), where files are streamed into memory and wiped immediately with zero retention; the image data travels to the API to be encoded, so it is not processed on your own machine, but it also never lands in the agent's context window. The hosted MCP server follows the same principle from the other direction, returning a short-lived download URL rather than inline binary. For a full local-workflow setup on constrained hardware, see the <a href="/guides/on-device-ai-agents-image-optimization">On-Device AI Agents guide</a>.</p>
+            <p>This is where Mochify's local MCP server fits a token-cost argument cleanly. Run as <code class={inlineCode}>mochify serve</code>, it returns file paths and metadata to the agent, not image bytes, so a compression step never injects a multi-thousand-token blob into the model's context. You drive it in plain English, for example: <code class={inlineCode}>compress the PNGs in ./screenshots to WebP and give me the new paths</code>. The encoding itself runs on Mochify's API (<code class={inlineCode}>api.mochify.app</code>), where files are streamed into memory and wiped immediately with zero retention; the image data travels to the API to be encoded, so it is not processed on your own machine, but it also never lands in the agent's context window. The hosted MCP server follows the same principle from the other direction, returning a short-lived download URL rather than inline binary. If you're working directly in Claude Code, see our guide to how to <a href="https://mochify.app/guides/image-compression-claude-code-cli-mcp">compress images in Claude Code without bloating the context window</a>. For a full local-workflow setup on constrained hardware, see the <a href="/guides/on-device-ai-agents-image-optimization">On-Device AI Agents guide</a>.</p>
         </section>
 
         <!-- CTA -->

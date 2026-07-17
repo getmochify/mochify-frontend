@@ -11,6 +11,7 @@
         category: "AI & Automation",
         readTime: "15 min read",
         date: "June 2, 2026",
+        lastUpdated: "July 17, 2026",
     };
 
     const toc = [
@@ -101,7 +102,7 @@
       "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
       "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app", "logo": { "@type": "ImageObject", "url": "https://mochify.app/logo.png" } },
       "datePublished": "2026-06-02",
-      "dateModified": "2026-06-02",
+      "dateModified": "2026-07-17",
       "inLanguage": "en",
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://mochify.app/guides/on-device-ai-agents-image-optimization" }
     }
@@ -189,7 +190,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
             </span>
         </div>
 
@@ -324,7 +325,7 @@
     }
   }
 }`}</code></pre>
-                            <p class="mb-0">For Claude Code: <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">claude mcp add mochify mochify serve</code></p>
+                            <p class="mb-0">For Claude Code: <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">claude mcp add mochify mochify serve</code>. For the full setup and workflows, see our guide to <a href="https://mochify.app/guides/image-compression-claude-code-cli-mcp">the Mochify CLI and MCP workflow in Claude Code</a>.</p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">
