@@ -518,6 +518,36 @@
 					Connect
 				</button>
 			</div>
+
+			<div class="mt-3 flex items-center gap-4 rounded-2xl border border-cocoa-milk/8 bg-white/40 p-4">
+				<!-- Bring your own bucket -->
+				<div class="shrink-0">
+					<svg width="32" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+						<path d="M5 8h22l-2.2 18.4a3 3 0 0 1-3 2.6H10.2a3 3 0 0 1-3-2.6L5 8Z" fill="#FFF0F5" stroke="#F06292" stroke-width="1.8" stroke-linejoin="round"/>
+						<path d="M8.5 8a7.5 4 0 0 1 15 0" fill="none" stroke="#F06292" stroke-width="1.8" stroke-linecap="round"/>
+						<path d="M11 14.5l3 3-3 3M18 14.5l3 3-3 3" stroke="#F06292" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+				</div>
+
+				<div class="min-w-0 flex-1">
+					<div class="flex items-center gap-2">
+						<p class="text-sm font-black text-[#4A2C2C]">Bring your own bucket</p>
+						<span class="rounded-full bg-[#FFF0F5] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-mochi-pink">
+							Coming soon
+						</span>
+					</div>
+					<p class="mt-0.5 text-xs text-cocoa-milk/60">
+						Point Mochify at your own S3 or R2 bucket → process in-place → results land straight back in your storage. Your keys, your data.
+					</p>
+				</div>
+
+				<button
+					disabled
+					class="shrink-0 cursor-not-allowed rounded-xl border border-cocoa-milk/15 px-4 py-2 text-xs font-bold text-cocoa-milk/30"
+				>
+					Connect
+				</button>
+			</div>
 		</div>
 
 		<!-- Danger zone -->
