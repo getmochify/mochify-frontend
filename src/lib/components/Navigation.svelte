@@ -1,20 +1,31 @@
 <script lang="ts">
-    import { goto, invalidateAll } from '$app/navigation'
     import { page } from '$app/state'
     import { authClient } from '$lib/auth-client'
     import { posthog } from '$lib/analytics'
 
     let mobileMenuOpen = $state(false)
     let userMenuOpen = $state(false)
+    let signingOut = $state(false)
 
     function toggleMenu() { mobileMenuOpen = !mobileMenuOpen }
     function closeMenu() { mobileMenuOpen = false }
 
     async function signOut() {
-        await authClient.signOut()
-        posthog.reset()
-        await invalidateAll()
-        goto('/')
+        // Guard against double-clicks while the async sign-out is in flight.
+        if (signingOut) return
+        signingOut = true
+        try {
+            await authClient.signOut()
+            posthog.reset()
+        } finally {
+            // Full-page navigation, matching the dashboard's sign-out. An SPA
+            // goto()/invalidateAll() cannot refresh session state here: the
+            // homepage (and most routes) are `prerender = true`, so their server
+            // load never re-runs at runtime and the nav keeps reading the stale
+            // signed-in `page.data.session`. A real navigation re-runs SSR with
+            // the now-cleared cookie, so the app renders signed-out immediately.
+            window.location.href = '/'
+        }
     }
 
     async function signInWithGoogle() {
@@ -70,10 +81,11 @@
                         </a>
                         <button
                             onclick={signOut}
-                            class="w-full text-left px-4 py-3 text-sm font-medium text-cocoa-milk/70 hover:bg-[#FFF5F7] hover:text-mochi-pink transition-colors border-t border-pink-50"
+                            disabled={signingOut}
+                            class="w-full text-left px-4 py-3 text-sm font-medium text-cocoa-milk/70 hover:bg-[#FFF5F7] hover:text-mochi-pink transition-colors border-t border-pink-50 disabled:opacity-50 disabled:cursor-wait"
                             role="menuitem"
                         >
-                            Sign out
+                            {signingOut ? 'Signing out…' : 'Sign out'}
                         </button>
                     </div>
                     <!-- click-away overlay -->
@@ -151,8 +163,8 @@
                     <a href="/dashboard" onclick={closeMenu} class="px-6 py-4 text-cocoa-deep font-medium rounded-2xl hover:bg-[#FFF5F7] transition-all active:scale-95 border-t border-pink-50">
                         Dashboard
                     </a>
-                    <button onclick={signOut} class="px-6 py-4 text-left text-cocoa-milk/70 font-medium rounded-2xl hover:bg-[#FFF5F7] hover:text-mochi-pink transition-all active:scale-95">
-                        Sign out
+                    <button onclick={signOut} disabled={signingOut} class="px-6 py-4 text-left text-cocoa-milk/70 font-medium rounded-2xl hover:bg-[#FFF5F7] hover:text-mochi-pink transition-all active:scale-95 disabled:opacity-50 disabled:cursor-wait">
+                        {signingOut ? 'Signing out…' : 'Sign out'}
                     </button>
                 {:else}
                     <a href="/auth/login" onclick={closeMenu} class="px-6 py-4 text-cocoa-deep font-medium rounded-2xl hover:bg-[#FFF5F7] transition-all active:scale-95 border-t border-pink-50">
