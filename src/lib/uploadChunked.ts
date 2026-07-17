@@ -26,6 +26,11 @@ export type UploadPhase = 'uploading' | 'processing' | 'downloading';
 // query params.
 export interface ChunkedUploadParams {
 	type?: string;
+	// Multi-variant CSV params (e.g. types="avif,webp", sizes="500x0,1200x0").
+	// Sent in the init JSON body and stored on the backend's UploadSession;
+	// /v1/upload/complete then returns an application/zip of all variants.
+	types?: string;
+	sizes?: string;
 	stripExif?: string;
 	smartCompress?: string;
 	removeBackground?: string;

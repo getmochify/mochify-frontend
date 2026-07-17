@@ -898,6 +898,11 @@
 			}
 
 			// Pre-flight quota check — skipped for video mode (processed client-side, no core tokens used).
+			// `preflightRemaining` is kept in scope for a second, stricter gate after
+			// the NLP parse reveals the true variant count (multi-variant requests
+			// are charged their full count atomically, so remaining < variants would
+			// 429 the whole request).
+			let preflightRemaining = Infinity;
 			if (uploadMode !== 'video') {
 				try {
 					const tokenRes = await fetch(`${API_URL}/v1/checkTokens`, {
@@ -905,8 +910,9 @@
 					});
 					if (tokenRes.ok) {
 						const tokenData: any = await tokenRes.json();
-						const remaining = tokenData.remaining ?? (tokenData.available !== false ? Infinity : 0);
-						if (remaining < files.length) {
+						preflightRemaining =
+							tokenData.remaining ?? (tokenData.available !== false ? Infinity : 0);
+						if (preflightRemaining < files.length) {
 							if (jwt) showUpgradeCta = true;
 							else showSignupCta = true;
 							return;
@@ -1522,13 +1528,21 @@
 				(sum, f, i) => sum + variantCount(fileMap[f.name] ?? fileArrayByIndex[i]),
 				0
 			);
+			// Second quota gate, now that the NLP parse revealed the true variant
+			// count: a multi-variant request is charged atomically (all-or-nothing),
+			// so surface the shortfall before any upload instead of a mid-run 429.
+			if (preflightRemaining < totalFiles) {
+				if (jwt) showUpgradeCta = true;
+				else showSignupCta = true;
+				return;
+			}
 			// Past the threshold, switch ZIP on — the bound toggle animates on so the
 			// user sees why they're getting an archive instead of many downloads.
 			if (totalFiles >= AUTO_ZIP_THRESHOLD) downloadAsZip = true;
-			const totalBytes = files.reduce(
-				(sum, f, i) => sum + f.size * variantCount(fileMap[f.name] ?? fileArrayByIndex[i]),
-				0
-			);
+			// Each file uploads exactly once — multi-variant fan-out happens
+			// server-side (types/sizes params → ZIP response) — so upload progress
+			// counts each file's bytes once, regardless of variant count.
+			const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
 			let uploadedBytes = 0;
 			let processedFiles = 0;
 			let currentFileIndex = 0;
@@ -1699,6 +1713,140 @@
 					if (fileConfig.quality != null)
 						sharedParams.append('quality', String(fileConfig.quality));
 
+					// Output filename for one variant — shared by the single-variant
+					// loop and the multi-variant ZIP-entry mapping below.
+					const variantFinalName = (fmt: string, size: SizeEntry): string => {
+						const rawOutputName =
+							typeof fileConfig.outputName === 'string'
+								? fileConfig.outputName
+										.replace(/[/\\:*?"<>|\r\n\t]/g, '')
+										.trim()
+										.slice(0, 100)
+								: '';
+						const baseName =
+							rawOutputName || file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+						const sizeSuffix = multiSize
+							? size.width && size.height
+								? `_${size.width}x${size.height}`
+								: size.width || size.height
+									? `_${size.width || size.height}w`
+									: ''
+							: '';
+						const fmtSuffix = multiFormat ? `_${fmt}` : '';
+						const mochifiedSuffix = rawOutputName ? '' : '_mochified';
+						let finalName = `${baseName}${mochifiedSuffix}${sizeSuffix}${fmtSuffix}.${fmt}`;
+						if (rawOutputName) {
+							const count = (usedOutputNames[finalName] = (usedOutputNames[finalName] ?? 0) + 1);
+							if (count > 1) {
+								const dot = finalName.lastIndexOf('.');
+								finalName = `${finalName.slice(0, dot)}-${count}${finalName.slice(dot)}`;
+							}
+						}
+						return finalName;
+					};
+
+					const totalVariants = formats.length * sizes.length;
+					if (totalVariants > 1) {
+						// ── Multi-variant: ONE upload; core fans out server-side and
+						// returns a ZIP keyed by requested "{w}x{h}.{fmt}" entries. ──
+						processPhase = 'uploading';
+						const MIME_BY_FMT: Record<string, string> = {
+							jpg: 'image/jpeg',
+							png: 'image/png',
+							webp: 'image/webp',
+							avif: 'image/avif',
+							jxl: 'image/jxl'
+						};
+						const params = new URLSearchParams(sharedParams.toString());
+						params.append('types', formats.join(','));
+						// Requested sizes go verbatim (no origDims echo-skip): core never
+						// upscales, so an echoed original size is a harmless no-op, and
+						// verbatim keys keep the ZIP-entry mapping deterministic.
+						params.append('sizes', sizes.map((s) => `${s.width ?? 0}x${s.height ?? 0}`).join(','));
+
+						const deliverVariant = (finalName: string, bytes: Uint8Array, mime: string) => {
+							if (downloadAsZip) {
+								zipContents[finalName] = bytes;
+							} else {
+								const dlBlob = new Blob([bytes as Uint8Array<ArrayBuffer>], { type: mime });
+								const downloadUrl = window.URL.createObjectURL(dlBlob);
+								const a = document.createElement('a');
+								a.style.display = 'none';
+								a.href = downloadUrl;
+								a.download = finalName;
+								document.body.appendChild(a);
+								a.click();
+								setTimeout(() => {
+									window.URL.revokeObjectURL(downloadUrl);
+									document.body.removeChild(a);
+								}, 100);
+							}
+						};
+
+						try {
+							const blob = await squishFile(file, params, () => {
+								processPhase = 'processing';
+							});
+							processPhase = 'downloading';
+
+							if (blob.type.includes('zip')) {
+								const entries = unzipSync(new Uint8Array(await blob.arrayBuffer()));
+								for (const [entryName, bytes] of Object.entries(entries)) {
+									const m = entryName.match(/^(\d+)x(\d+)\.(\w+)$/);
+									const fmt = m ? m[3] : entryName.split('.').pop() || 'jpg';
+									const size: SizeEntry = m
+										? (sizes.find(
+												(s) => (s.width ?? 0) === Number(m[1]) && (s.height ?? 0) === Number(m[2])
+											) ?? { width: Number(m[1]), height: Number(m[2]) })
+										: sizes[0];
+									deliverVariant(
+										variantFinalName(fmt, size),
+										bytes,
+										MIME_BY_FMT[fmt] ?? 'application/octet-stream'
+									);
+								}
+							} else {
+								// Deploy-skew fallback: an old core ignores types/sizes and
+								// returns a single raw blob — deliver it as the first variant
+								// rather than dropping the result.
+								console.warn(
+									`Expected application/zip for multi-variant request, got "${blob.type}" — old core?`
+								);
+								deliverVariant(
+									variantFinalName(formats[0], sizes[0]),
+									new Uint8Array(await blob.arrayBuffer()),
+									blob.type || (MIME_BY_FMT[formats[0]] ?? 'application/octet-stream')
+								);
+							}
+
+							processedFiles += totalVariants;
+							completedFiles = processedFiles;
+						} catch (e: any) {
+							console.error(`Error squishing ${file.name} (${totalVariants} variants):`, e);
+							if (e?.status === 429) {
+								hitRateLimit = true;
+								if (jwt) showUpgradeCta = true;
+								else showSignupCta = true;
+								break;
+							}
+							failedFiles = [
+								...failedFiles,
+								{
+									name: `${file.name} (${totalVariants} variants)`,
+									reason:
+										e instanceof Error
+											? e.message
+											: e?.status
+												? `Server error ${e.status}`
+												: 'Processing failed'
+								}
+							];
+							processedFiles += totalVariants;
+							completedFiles = processedFiles;
+						}
+						continue;
+					}
+
 					outer: for (const size of sizes) {
 						for (const fmt of formats) {
 							processPhase = 'uploading';
@@ -1718,33 +1866,7 @@
 
 								processPhase = 'downloading';
 
-								const rawOutputName =
-									typeof fileConfig.outputName === 'string'
-										? fileConfig.outputName
-												.replace(/[/\\:*?"<>|\r\n\t]/g, '')
-												.trim()
-												.slice(0, 100)
-										: '';
-								const baseName =
-									rawOutputName || file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-								const sizeSuffix = multiSize
-									? size.width && size.height
-										? `_${size.width}x${size.height}`
-										: size.width || size.height
-											? `_${size.width || size.height}w`
-											: ''
-									: '';
-								const fmtSuffix = multiFormat ? `_${fmt}` : '';
-								const mochifiedSuffix = rawOutputName ? '' : '_mochified';
-								let finalName = `${baseName}${mochifiedSuffix}${sizeSuffix}${fmtSuffix}.${fmt}`;
-								if (rawOutputName) {
-									const count = (usedOutputNames[finalName] =
-										(usedOutputNames[finalName] ?? 0) + 1);
-									if (count > 1) {
-										const dot = finalName.lastIndexOf('.');
-										finalName = `${finalName.slice(0, dot)}-${count}${finalName.slice(dot)}`;
-									}
-								}
+								const finalName = variantFinalName(fmt, size);
 
 								if (downloadAsZip) {
 									const arrayBuffer = await blob.arrayBuffer();
