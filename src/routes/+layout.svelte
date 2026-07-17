@@ -1,8 +1,28 @@
 <script lang="ts">
 	import './layout.css';
+	import { browser } from '$app/environment';
 	import { page } from '$app/state';
+	import { posthog } from '$lib/analytics';
 	import BlobBackground from '$lib/components/BlobBackground.svelte';
-	let { children } = $props();
+	let { children, data } = $props();
+
+	// Identify the signed-in user centrally, on every authenticated load. This is
+	// the ONLY place Google/magic-link logins get identified: those flows redirect
+	// off-page (accounts.google.com) so they can't call identify() inline the way
+	// the email login/register pages do. Without this, an OAuth user keeps their
+	// pre-login anonymous distinct_id forever while the same human on the email
+	// path becomes an identified person — so PostHog counts one human as several.
+	// Keyed by email to match the existing inline identify() calls (no split), and
+	// guarded so it fires once per user rather than on every navigation.
+	let identifiedEmail: string | null = null;
+	$effect(() => {
+		if (!browser) return;
+		const email = data.user?.email;
+		if (email && email !== identifiedEmail) {
+			posthog.identify(email, { email });
+			identifiedEmail = email;
+		}
+	});
 
 	const BLOB_ROUTES = new Set([
 		'/',

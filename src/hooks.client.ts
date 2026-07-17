@@ -2,6 +2,7 @@ import { posthog } from '$lib/analytics';
 import { PUBLIC_POSTHOG_PROJECT_TOKEN, PUBLIC_POSTHOG_HOST } from '$env/static/public';
 import { isDynamicImportError, recoverFromStaleChunk } from '$lib/chunkRecovery';
 import type { HandleClientError } from '@sveltejs/kit';
+import type { CaptureResult } from 'posthog-js';
 
 export async function init() {
 	posthog.init(PUBLIC_POSTHOG_PROJECT_TOKEN, {
@@ -11,7 +12,21 @@ export async function init() {
 		person_profiles: 'identified_only',
 		capture_exceptions: false,
 		capture_performance: false,
-		disable_session_recording: true
+		disable_session_recording: true,
+		// Google OAuth returns via accounts.google.com, which PostHog would
+		// otherwise record as the referrer — polluting acquisition sources and
+		// starting a new session that makes one returning login look like a fresh
+		// referred visit. No one organically arrives from accounts.google.com, so
+		// rewriting just that referrer to direct is safe (real google.com search
+		// traffic is untouched).
+		before_send: (event: CaptureResult | null) => {
+			const props = event?.properties;
+			if (props && props.$referring_domain === 'accounts.google.com') {
+				props.$referring_domain = '$direct';
+				props.$referrer = '$direct';
+			}
+			return event;
+		}
 	});
 }
 
