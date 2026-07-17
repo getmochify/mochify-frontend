@@ -286,6 +286,14 @@
             featured: true
         },
         {
+            title: "Image Compression Inside Claude Code: The Mochify CLI + MCP Guide",
+            description: "Can Claude Code use MCP? Yes. Here's how to compress images inside Claude Code with the Mochify CLI as a build step and a local MCP server.",
+            url: "/guides/image-compression-claude-code-cli-mcp",
+            category: "AI & Automation",
+            readTime: "15 min read",
+            date: "July 17, 2026"
+        },
+        {
             title: "A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression",
             description: "Looking for a GDPR-compliant image compressor hosted in the EU? Mochify processes images in memory only, never stores your files, and strips EXIF data by default.",
             url: "/guides/european-alternative-tinypng-gdpr-compliant-image-compression",
