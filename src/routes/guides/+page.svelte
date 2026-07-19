@@ -404,6 +404,14 @@
             category: "Data Privacy",
             readTime: "5 min read",
             date: "May 29, 2026"
+        },
+        {
+            title: "What Size Should Vinted Photos Be?",
+            description: "The best Vinted photo size is portrait 3:4, around 1080x1440px, item centered. Vinted sets no official spec - here is what its image pipeline actually does.",
+            url: "/guides/vinted-photo-size",
+            category: "Quick Guides",
+            readTime: "2 min read",
+            date: "July 19, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
