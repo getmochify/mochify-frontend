@@ -11,6 +11,7 @@
     };
 
     const related = [
+        { href: '/guides/vinted-photos-that-sell', title: 'How to Take Vinted Photos That Sell', desc: 'The full guide: light, backgrounds, privacy, and the one-prompt batch workflow.' },
         { href: '/guides/do-marketplace-product-images-need-to-be-square', title: 'Do Marketplace Product Images Need to Be Square?', desc: 'Why Vinted is a portrait platform while others crop to 1:1.' },
         { href: '/guides/what-image-format-should-i-use-for-product-photos', title: 'What Image Format Should I Use for Product Photos?', desc: 'The practical format order for marketplace uploads.' },
         { href: '/guides/ecommerce-product-photo-workflow-resize-convert', title: 'Ecommerce Product Photo Workflow: Resize & Convert in One Prompt', desc: 'Batch-preparing product photos across platforms.' },

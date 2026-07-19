@@ -412,6 +412,14 @@
             category: "Quick Guides",
             readTime: "2 min read",
             date: "July 19, 2026"
+        },
+        {
+            title: "How to Take Vinted Photos That Sell",
+            description: "How to take good photos for Vinted: light, backgrounds, the real size and ratio facts, privacy checks, and a one-prompt batch workflow for sellers.",
+            url: "/guides/vinted-photos-that-sell",
+            category: "Workflows",
+            readTime: "13 min read",
+            date: "July 19, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
