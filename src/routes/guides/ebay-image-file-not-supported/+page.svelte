@@ -9,7 +9,8 @@
         description: "eBay rejects HEIC, HIF, RAW and oversized images. Convert to JPEG before uploading to fix 'file not supported' errors instantly.",
         category: "Quick Guides",
         readTime: "2 min read",
-        datePublished: "June 24, 2026"
+        datePublished: "June 24, 2026",
+        lastUpdated: "July 19, 2026"
     };
 
     const related = [
@@ -27,6 +28,11 @@
             title: "Should I Optimize My Images Before I Upload Them?",
             href: "/guides/should-i-optimize-images-before-upload",
             desc: "Why pre-optimizing before any platform upload is faster and safer."
+        },
+        {
+            title: "How to Take Vinted Photos That Sell",
+            href: "/guides/vinted-photos-that-sell",
+            desc: "Photo prep for the other big second-hand marketplace."
         }
     ];
 </script>
@@ -53,7 +59,7 @@
             "@id": "https://mochify.app/guides/ebay-image-file-not-supported"
         },
         "datePublished": "2026-06-24",
-        "dateModified": "2026-06-24",
+        "dateModified": "2026-07-19",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -88,7 +94,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.datePublished}
+                {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -130,6 +136,8 @@
             </div>
 
             <p class="mb-4">Mochify interprets that and applies the right settings automatically. Your image is processed in-memory and deleted immediately: nothing is stored. The free plan covers 25 images per month, or 3 per session without signing up, which is enough for occasional listings.</p>
+
+            <p class="mb-4">If you also sell on Vinted, photo prep is different there (portrait, not square, and no official spec) - covered in <a href="/guides/vinted-photos-that-sell">our Vinted photo guide</a>.</p>
         </section>
 
         <aside class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-8">

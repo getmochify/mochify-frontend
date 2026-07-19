@@ -9,7 +9,8 @@
         description: "No marketplace universally requires square product images, but most crop thumbnails to 1:1 - making pre-cropped images the safer choice for any seller.",
         category: "Quick Guides",
         readTime: "2 min read",
-        datePublished: "29 June 2026"
+        datePublished: "29 June 2026",
+        lastUpdated: "July 19, 2026"
     };
 
     const related = [
@@ -27,6 +28,11 @@
             title: "Should I Optimize My Images Before I Upload Them? →",
             href: "/guides/should-i-optimize-images-before-upload",
             desc: "Why pre-compressing beats relying on marketplace auto-processing for file size and quality."
+        },
+        {
+            title: "What Size Should Vinted Photos Be? →",
+            href: "/guides/vinted-photo-size",
+            desc: "The two-minute answer on Vinted's sizes, ratios, and cropping."
         }
     ];
 
@@ -45,7 +51,7 @@
         },
         {
             name: "eBay, Vinted, and Depop",
-            body: "None of these platforms publish formal aspect-ratio requirements. All three display images in a full-image viewer on the listing page, but search result thumbnails typically render at or close to square."
+            body: `None of these platforms publish formal aspect-ratio requirements. All three display images in a full-image viewer on the listing page, but search result thumbnails typically render at or close to square. Vinted is the clearest portrait exception - its search grid crops every thumbnail to a portrait window. See <a href="/guides/vinted-photo-size">what size Vinted photos should be</a>.`
         }
     ];
 </script>
@@ -77,7 +83,7 @@
             "@id": "https://mochify.app/guides/do-marketplace-product-images-need-to-be-square"
         },
         "datePublished": "2026-06-29",
-        "dateModified": "2026-06-29",
+        "dateModified": "2026-07-19",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -113,7 +119,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.datePublished}
+                {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
             </span>
         </div>
 

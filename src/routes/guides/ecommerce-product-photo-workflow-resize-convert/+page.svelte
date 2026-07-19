@@ -10,7 +10,8 @@
         description: "How to batch-convert product photos to JPG at 1200px and 800px with a single natural-language prompt. The fastest workflow for Shopify, Etsy, eBay, and Amazon sellers.",
         category: "Workflows",
         readTime: "4 min read",
-        date: "May 2026"
+        date: "May 2026",
+        lastUpdated: "July 19, 2026"
     };
 
     const faqItems = [
@@ -47,6 +48,7 @@
         { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'Why stripping metadata from product photos matters before uploading to a public listing.' },
         { href: '/guides/ai-image-compression-conversion', title: 'AI Image Compression and Conversion: Describe the Result, Skip the Settings', desc: 'AI image compression and conversion in one prompt, no manual format or quality settings.' },
         { href: '/guides/do-marketplace-product-images-need-to-be-square', title: 'Do Marketplace Product Images Need to Be Square?', desc: 'What the major marketplaces actually require for product image dimensions and cropping.' },
+        { href: '/guides/vinted-photos-that-sell', title: 'How to Take Vinted Photos That Sell', desc: 'Light, backgrounds, the real size facts, and a one-prompt batch workflow.' },
     ];
 </script>
 
@@ -71,7 +73,7 @@
         "description": "How to batch-convert product photos to JPG at 1200px and 800px with a single natural-language prompt. The fastest workflow for Shopify, Etsy, eBay, and Amazon sellers.",
         "url": "https://mochify.app/guides/ecommerce-product-photo-workflow-resize-convert",
         "datePublished": "2026-05-23",
-        "dateModified": "2026-05-23",
+        "dateModified": "2026-07-19",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
         "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
@@ -146,7 +148,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
             </span>
         </div>
 
@@ -291,6 +293,8 @@
             <InfoBox type="note" title="Mochify uses jpegli for JPEG output">
                 All JPEG output uses Google's jpegli encoder, which produces files roughly 25–35% smaller than standard libjpeg at equivalent visual quality. The output is a fully standard JPEG - compatible with every platform, CMS, and image tool.
             </InfoBox>
+
+            <p>Selling second-hand on Vinted? The same one-prompt approach works there, with a portrait twist - see <a href="/guides/vinted-photos-that-sell">our guide to taking Vinted photos that sell</a>.</p>
         </section>
 
         <!-- 04 CLI -->
