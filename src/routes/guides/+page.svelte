@@ -420,6 +420,14 @@
             category: "Workflows",
             readTime: "13 min read",
             date: "July 19, 2026"
+        },
+        {
+            title: "Mochify vs TinyPNG: An Honest Comparison",
+            description: "TinyPNG stores files 48 hours; Mochify wipes them instantly. An honest head-to-head on pricing, formats, AI features, and where TinyPNG genuinely wins.",
+            url: "/guides/mochify-vs-tinypng",
+            category: "Image Optimization",
+            readTime: "13 min read",
+            date: "July 21, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -572,15 +580,15 @@
                 </span>
                 {/if}
             </div>
-    
+
             <h2 class="text-2xl md:text-3xl font-black text-[#4A2C2C] group-hover:text-[#F06292] transition-colors mb-3">
                 {guide.title}
             </h2>
-            
+
             <p class="text-[#875F42] leading-relaxed mb-6 opacity-80">
                 {guide.description}
             </p>
-            
+
             <div class="flex items-center justify-between text-xs font-bold text-[#875F42]/60 pt-6 border-t border-pink-50">
                 <span>{guide.date}{guide.lastUpdated ? ` · Updated ${guide.lastUpdated}` : ''} · {guide.readTime}</span>
                 <span class="text-[#F06292] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
@@ -593,7 +601,7 @@
 
 <div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
     <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-    
+
     <div class="relative z-10 mb-6">
         <span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">
             Free Tool
