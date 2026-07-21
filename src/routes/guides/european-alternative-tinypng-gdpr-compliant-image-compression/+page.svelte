@@ -7,7 +7,7 @@
         category: "Data Privacy",
         readTime: "15 min read",
         datePublished: "March 22, 2026",
-        lastUpdated: "June 24, 2026"
+        lastUpdated: "July 21, 2026"
     };
 </script>
 
@@ -49,7 +49,7 @@
             "CLOUD Act image data privacy"
         ],
         "datePublished": "2026-03-22",
-        "dateModified": "2026-06-24"
+        "dateModified": "2026-07-21"
         }
     </script>
 </svelte:head>
@@ -182,7 +182,7 @@
             TinyPNG is operated by Tinify B.V., a Dutch company, but its infrastructure relies on cloud providers that sit outside EU jurisdiction, and its privacy policy, at the time of writing, does not provide the granular guarantees many EU businesses now need around data residency, retention periods, and CLOUD Act exposure. For many use cases that is fine. For others: medical imagery, client product shots under NDA, or anything containing embedded location metadata, it is not fine at all.
         </p>
         <p class="mt-4">
-            That tension is driving genuine interest in a GDPR-compliant image compression workflow with clear EU data residency. This guide explains the landscape and shows where Mochify fits in.
+            That tension is driving genuine interest in a GDPR-compliant image compression workflow with clear EU data residency. This guide explains the landscape and shows where Mochify fits in. If you want the broader feature-by-feature picture rather than just the privacy angle, see <a href="/guides/mochify-vs-tinypng">our full Mochify vs TinyPNG comparison</a>.
         </p>
     </section>
 

@@ -11,7 +11,7 @@
         category: "AI & Automation",
         readTime: "9 min read",
         date: "May 28, 2026",
-        lastUpdated: "July 17, 2026",
+        lastUpdated: "July 21, 2026",
     };
 
     const faqItems = [
@@ -43,7 +43,7 @@
       "author": { "@type": "Organization", "name": "Mochify Engineering Team" },
       "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
       "datePublished": "2026-05-28",
-      "dateModified": "2026-07-17",
+      "dateModified": "2026-07-21",
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://mochify.app/guides/how-the-mochify-mcp-server-works" }
     }
     </script>
@@ -194,6 +194,8 @@
             <p class="mb-4">The <strong class="text-[#4A2C2C]">local MCP server</strong> is a single Rust binary (<code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mochify</code>) that ships via Homebrew, raw download, or <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">cargo install</code>. It runs as a direct CLI in your shell, and the same binary runs as a local MCP server when launched with <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mochify serve</code> and registered in your Claude Desktop config. In both local modes, the agent sees only file paths and metadata - image bytes flow from your disk to the API via the local binary and never enter the agent's context window.</p>
 
             <p>You don't pick one over the other for life. You pick the right one for the job at hand. The rest of this guide gets specific about which is which.</p>
+
+            <p class="mt-4">First-party MCP support like this is still rare among image compressors - TinyPNG, for instance, has no official MCP server or CLI as of July 2026. See <a href="/guides/mochify-vs-tinypng">how Mochify's agent surfaces compare to TinyPNG's</a> for the full picture.</p>
         </section>
 
         <!-- Hosted MCP -->

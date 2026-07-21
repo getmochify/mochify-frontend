@@ -9,7 +9,7 @@
         category: "Image Optimization",
         readTime: "15 min read",
         datePublished: "February 17, 2026",
-        lastUpdated: "June 24, 2026"
+        lastUpdated: "July 21, 2026"
     };
 
     const related = [
@@ -110,7 +110,7 @@
             ]
             },
             "datePublished": "2026-02-17",
-            "dateModified": "2026-05-30"
+            "dateModified": "2026-07-21"
         }
     </script>
 </svelte:head>
@@ -554,6 +554,7 @@
                 </div>
 
                 <p class="text-sm bg-gray-50 inline-block p-3 rounded-lg border border-gray-100"><strong>Who It's For:</strong> Casual bloggers compressing &lt;20 images at a time who trust the brand name and don't need modern formats.</p>
+                <p class="mt-4">For the full feature-by-feature breakdown beyond this summary, see <a href="/guides/mochify-vs-tinypng">the head-to-head Mochify vs TinyPNG comparison</a>.</p>
             </div>
 
             <div class="border-l-4 border-[#F06292] pl-6 py-2 bg-pink-50/30 rounded-r-3xl pr-6">
