@@ -727,16 +727,16 @@
 		}
 	}
 
-	// Map a failed /v1/prompt response to a user-facing error. Unusable model
-	// output is deterministic (the worker runs Mistral at temperature 0), so it
-	// gets the rephrase hint — retrying the same prompt verbatim can never
-	// succeed. The worker reports it as a 422; older deployments used a 502,
-	// hence the body sniff alongside the status check.
+	// Map a failed /v1/prompt response to a user-facing error. At temperature 0.2
+	// the model isn't deterministic, so retrying the same prompt may now succeed —
+	// the copy offers both "try again" and "rephrase". The worker reports unusable
+	// output as a 422; older deployments used a 502, hence the body sniff alongside
+	// the status check.
 	async function nlpError(res: Response): Promise<Error> {
 		const body = (await res.json().catch(() => null)) as { error?: string } | null;
 		if (res.status >= 500 && body?.error !== 'AI returned invalid format')
 			return new Error('Something went wrong on our end — please try again in a moment.');
-		return new Error("Couldn't understand your request. Try rephrasing and submit again.");
+		return new Error("Couldn't quite understand that — try again, or rephrase and resubmit.");
 	}
 
 	async function submit() {
