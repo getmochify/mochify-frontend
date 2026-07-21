@@ -191,14 +191,16 @@
             Mochify vs TinyPNG: An Honest Comparison
         </h1>
 
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            TinyPNG is the most recognizable name in image compression, and if all you need is dragging a few PNGs onto a page, it's genuinely good at that. Mochify is the better fit when you need larger files on a free plan, format conversion beyond the basics, natural-language control, background removal, video, PDFs, or an official CLI and MCP server for automated and AI-agent workflows. The deeper difference is generational: TinyPNG was built for the pre-AI web and does one thing automatically, while Mochify was built in the age of AI, and its defining features (plain-English control, AI background removal, saliency-guided cropping, agent-native surfaces) only exist because of it. The two products also treat your files differently after upload: TinyPNG stores them for up to 48 hours; Mochify wipes them from memory the moment encoding finishes. This comparison covers all of it, with every TinyPNG claim checked against Tinify's own live pages in July 2026. Where TinyPNG wins, we say so.
-        </p>
+        <div class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8 space-y-4">
+            <p><strong class="text-[#4A2C2C]">TinyPNG is the most recognizable name in image compression, and if all you need is dragging a few PNGs onto a page, it's genuinely good at that.</strong> Mochify is the better fit when you need larger files on a free plan, format conversion beyond the basics, natural-language control, background removal, video, PDFs, or an official CLI and MCP server for automated and AI-agent workflows.</p>
+            <p>The deeper difference is generational: TinyPNG was built for the pre-AI web and does one thing automatically, while Mochify was built in the age of AI, and its defining features (plain-English control, AI background removal, saliency-guided cropping, agent-native surfaces) only exist because of it.</p>
+            <p>The two products also treat your files differently after upload: TinyPNG stores them for up to 48 hours; Mochify wipes them from memory the moment encoding finishes.</p>
+            <p>This comparison covers all of it, with every TinyPNG claim checked against Tinify's own live pages in July 2026. Where TinyPNG wins, we say so.</p>
+        </div>
 
         <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
             <p class="text-[#6C3F31] text-base leading-relaxed m-0">
                 <strong class="text-[#4A2C2C]">Published July 21, 2026 by the Mochify Engineering Team.</strong>
-                Every TinyPNG claim in this comparison was checked against Tinify's live pages in July 2026, and the sections where TinyPNG wins are real.
             </p>
         </div>
     </header>
