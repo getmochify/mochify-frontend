@@ -58,6 +58,28 @@ async function reseedBucket(
 	}).catch((e) => console.error('[webhook] reseedBucket fetch error:', e));
 }
 
+// Resolve the app user id for a Polar customer. Prefer the externalId set at
+// checkout; fall back to an email match for customers created without one. A
+// day-pass buyer (order.created, bought via a raw Polar link while often logged
+// out) gets a Polar customer with NO externalId; when they later subscribe,
+// Polar reuses that email-matched customer, so the subscription webhook arrives
+// with externalId still empty. Without this fallback that webhook silently
+// no-ops (if (!userId) break) and the paying user stays on free.
+async function resolveUserId(
+	db: D1Database,
+	customer: { externalId?: string | null; email?: string | null }
+): Promise<string | null> {
+	if (customer.externalId) return customer.externalId;
+	if (customer.email) {
+		const row = await db
+			.prepare('SELECT id FROM user WHERE email = ? LIMIT 1')
+			.bind(customer.email)
+			.first<{ id: string }>();
+		return row?.id ?? null;
+	}
+	return null;
+}
+
 export const POST: RequestHandler = async ({ request, platform }) => {
 	const body = await request.text();
 	const headers = Object.fromEntries(request.headers.entries());
@@ -100,7 +122,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 		// Subscription renewed or plan changed.
 		case 'subscription.updated': {
 			const sub = event.data;
-			const userId = sub.customer.externalId;
+			const userId = await resolveUserId(db, sub.customer);
 			if (!userId) break;
 
 			const isActive = sub.status === 'active';
@@ -154,7 +176,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 		// User re-activated a previously cancelled subscription before it expired.
 		case 'subscription.uncanceled': {
 			const sub = event.data;
-			const userId = sub.customer.externalId;
+			const userId = await resolveUserId(db, sub.customer);
 			if (!userId) break;
 
 			const unctier = PRODUCT_PLAN_MAP[sub.product.id];
@@ -199,7 +221,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 		case 'subscription.canceled':
 		case 'subscription.revoked': {
 			const sub = event.data;
-			const userId = sub.customer.externalId;
+			const userId = await resolveUserId(db, sub.customer);
 			if (!userId) break;
 
 			const now = Date.now();
