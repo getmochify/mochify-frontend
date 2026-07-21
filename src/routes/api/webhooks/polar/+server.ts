@@ -2,6 +2,11 @@ import { validateEvent, WebhookVerificationError } from '@polar-sh/sdk/webhooks'
 import { Kysely } from 'kysely';
 import { D1Dialect } from 'kysely-d1';
 import { env } from '$env/dynamic/private';
+// Build-time inlined — CF_WORKER_* live in the build env (like the auth handoff
+// routes), NOT the Worker's runtime bindings, so they must come from static/private.
+// Reading them via $env/dynamic/private would resolve to undefined at runtime and
+// silently skip the token-bucket reseed on every plan change.
+import { CF_WORKER_URL, CF_WORKER_TOKEN } from '$env/static/private';
 import { PUBLIC_APP_URL } from '$env/static/public';
 import type { RequestHandler } from './$types';
 import { getPostHogClient } from '$lib/server/posthog';
@@ -42,16 +47,16 @@ async function reseedBucket(
 	opsLimit: number,
 	quotaPeriodEnd: number | null
 ): Promise<void> {
-	if (!env.CF_WORKER_URL || !env.CF_WORKER_TOKEN) return;
+	if (!CF_WORKER_URL || !CF_WORKER_TOKEN) return;
 	const identifier = await sha256Hex(userId);
 	let ttl = 30 * 24 * 60 * 60;
 	if (quotaPeriodEnd) {
 		const now = Date.now();
 		if (quotaPeriodEnd > now) ttl = Math.floor((quotaPeriodEnd - now) / 1000);
 	}
-	await fetch(`${env.CF_WORKER_URL}/seed/${identifier}`, {
+	await fetch(`${CF_WORKER_URL}/seed/${identifier}`, {
 		method: 'POST',
-		headers: { 'Content-Type': 'application/json', 'X-Worker-Token': env.CF_WORKER_TOKEN },
+		headers: { 'Content-Type': 'application/json', 'X-Worker-Token': CF_WORKER_TOKEN },
 		body: JSON.stringify({ remaining: opsLimit, quota: opsLimit, plan, ttl, userId })
 	}).then(async (r) => {
 		if (!r.ok) console.error(`[webhook] reseedBucket failed: ${r.status} ${await r.text().catch(() => '')}`);
