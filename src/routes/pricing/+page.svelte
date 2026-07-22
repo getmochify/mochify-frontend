@@ -1,14 +1,9 @@
 <script lang="ts">
-    // import { onMount } from 'svelte'; // crypto buttons hidden temporarily
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
     import { env } from '$env/dynamic/public';
     import { page } from '$app/state';
-    // crypto buttons hidden temporarily
-    // const DEPAY_INTEGRATION_SELLER = '98d95188-b18d-498c-a988-ef312881ed24';
-    // const DEPAY_INTEGRATION_PRO = ''; // TODO: add Pro integration ID from Depay admin
 
-    // let { data } = $props(); // crypto buttons hidden temporarily
     let billing = $state<'monthly' | 'yearly'>('monthly');
 
     // Growth is a not-yet-launched tier. Hidden for now to keep the pricing
@@ -23,28 +18,6 @@
             ? `${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(`${page.url.origin}/?day_pass_success=1`)}`
             : ''
     );
-    // let sellerDepayEl = $state<HTMLDivElement | null>(null);
-    // let proDepayEl = $state<HTMLDivElement | null>(null);
-
-    // function triggerDepay(el: HTMLDivElement | null) {
-    //     el?.querySelector('button')?.click();
-    // }
-
-    // onMount(() => {
-    //     if (!data.user?.id) return;
-    //     if (document.querySelector('script[src*="integrate.depay.com"]')) {
-    //         // @ts-ignore
-    //         if (typeof DePayButtons !== 'undefined') DePayButtons.init({ document });
-    //         return;
-    //     }
-    //     const script = document.createElement('script');
-    //     script.src = 'https://integrate.depay.com/buttons/v13.js';
-    //     script.onload = () => {
-    //         // @ts-ignore
-    //         if (typeof DePayButtons !== 'undefined') DePayButtons.init({ document });
-    //     };
-    //     document.head.appendChild(script);
-    // });
 </script>
 
 <svelte:head>
@@ -354,34 +327,6 @@
                 >
                     Get Seller
                 </a>
-                <!-- crypto buttons hidden temporarily
-                {#if billing === 'monthly'}
-                    {#if data.user?.id}
-                        <div bind:this={sellerDepayEl} style="position:fixed;top:-9999px;left:-9999px;">
-                            <div class="DePayButton" {...{
-                                label: 'Pay with crypto',
-                                integration: DEPAY_INTEGRATION_SELLER,
-                                blockchains: '["ethereum"]',
-                                track: JSON.stringify({ id: data.user.id, plan: 'seller' })
-                            }}></div>
-                        </div>
-                        <button
-                            type="button"
-                            onclick={() => triggerDepay(sellerDepayEl)}
-                            class="mt-2 w-full flex items-center justify-center gap-2 px-6 py-3 rounded-2xl border border-cocoa-milk/15 text-sm font-black text-cocoa-deep hover:border-mochi-pink/30 hover:text-mochi-pink hover:bg-[#FFF5F7] transition-all"
-                        >
-                            <span class="text-base">₿</span> Pay with crypto
-                        </button>
-                    {:else}
-                        <a
-                            href="/auth/login?redirectTo=/pricing"
-                            class="mt-2 w-full flex items-center justify-center gap-2 px-6 py-3 rounded-2xl border border-cocoa-milk/15 text-sm font-black text-cocoa-deep hover:border-mochi-pink/30 hover:text-mochi-pink hover:bg-[#FFF5F7] transition-all"
-                        >
-                            <span class="text-base">₿</span> Pay with crypto
-                        </a>
-                    {/if}
-                {/if}
-                -->
             </div>
 
             <!-- Pro tier -->
@@ -465,34 +410,6 @@
                 >
                     Get Pro
                 </a>
-                <!-- crypto buttons hidden temporarily
-                {#if billing === 'monthly'}
-                    {#if data.user?.id}
-                        <div bind:this={proDepayEl} style="position:fixed;top:-9999px;left:-9999px;">
-                            <div class="DePayButton" {...{
-                                label: 'Pay with crypto',
-                                integration: DEPAY_INTEGRATION_PRO,
-                                blockchains: '["ethereum"]',
-                                track: JSON.stringify({ id: data.user.id, plan: 'pro' })
-                            }}></div>
-                        </div>
-                        <button
-                            type="button"
-                            onclick={() => triggerDepay(proDepayEl)}
-                            class="mt-2 w-full flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-mochi-pink text-white text-sm font-black hover:bg-[#E0527F] transition-all shadow-sm hover:shadow-md active:scale-95"
-                        >
-                            <span class="text-base">₿</span> Pay with crypto
-                        </button>
-                    {:else}
-                        <a
-                            href="/auth/login?redirectTo=/pricing"
-                            class="mt-2 w-full flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-mochi-pink text-white text-sm font-black hover:bg-[#E0527F] transition-all shadow-sm hover:shadow-md active:scale-95"
-                        >
-                            <span class="text-base">₿</span> Pay with crypto
-                        </a>
-                    {/if}
-                {/if}
-                -->
             </div>
         </div>
 

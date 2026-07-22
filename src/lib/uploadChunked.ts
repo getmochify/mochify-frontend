@@ -92,7 +92,7 @@ function xhrError(
 
 async function initSession(
 	apiUrl: string,
-	file: File,
+	file: Blob,
 	params: ChunkedUploadParams,
 	jwt?: string | null
 ): Promise<{ sessionId: string }> {
@@ -171,8 +171,6 @@ function completeUpload(
 		});
 		xhr.addEventListener('load', () => {
 			if (xhr.status >= 200 && xhr.status < 300) {
-				const latency = xhr.getResponseHeader('X-Latency-Ms');
-				if (latency) console.log(`[C++ Engine] chunked upload squished in ${latency}`);
 				resolve(xhr.response);
 				return;
 			}
@@ -188,7 +186,9 @@ function completeUpload(
 }
 
 export async function uploadChunked(
-	file: File,
+	// Accepts a Blob (superclass of File) so callers can pass a reconstructed
+	// body for files that misreported size===0 — see $lib/uploadSize.
+	file: Blob,
 	apiUrl: string,
 	params: ChunkedUploadParams,
 	callbacks: ChunkedUploadCallbacks = {}

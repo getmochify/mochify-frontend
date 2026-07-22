@@ -11,6 +11,8 @@
 		CHUNK_THRESHOLD_BYTES,
 		type ChunkedUploadParams
 	} from '$lib/uploadChunked';
+	import { resolveUploadSize, effectiveSize, uploadBodyOf } from '$lib/uploadSize';
+	import { uploadErrorMessage, readXhrErrorText, trackUpload413 } from '$lib/uploadError';
 	import { portal } from '$lib/portal';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
@@ -338,7 +340,13 @@
 			if (!fileIsPdf && !fileIsVideo && !isImage) continue;
 
 			const sizeLimit = fileIsPdf ? MAX_PDF_BYTES : fileIsVideo ? MAX_VIDEO_BYTES : MAX_FILE_SIZE;
-			if (f.size > sizeLimit) {
+			// Images can be misreported as size===0 by cloud providers, so measure
+			// the true length for them (bounded by the image limit). PDFs/videos
+			// keep the cheap metadata check — never stream-measure a 2 GB video.
+			const overLimit = isImage
+				? (await resolveUploadSize(f, sizeLimit)).exceededLimit
+				: f.size > sizeLimit;
+			if (overLimit) {
 				rejectedCount++;
 				continue;
 			}
@@ -1559,7 +1567,7 @@
 				params: URLSearchParams,
 				onUploadEnd?: () => void
 			): Promise<Blob> => {
-				if (file.size > CHUNK_THRESHOLD_BYTES) {
+				if (effectiveSize(file) > CHUNK_THRESHOLD_BYTES) {
 					// Large file on a possibly-flaky connection: upload in
 					// ~5MB chunks (each independently retried) instead of one
 					// whole-file POST. See src/lib/uploadChunked.ts.
@@ -1568,7 +1576,7 @@
 						chunkedParams[key] = value;
 					}
 					let lastLoaded = 0;
-					return uploadChunked(file, API_URL, chunkedParams, {
+					return uploadChunked(uploadBodyOf(file), API_URL, chunkedParams, {
 						jwt,
 						onUploadProgress: (loaded) => {
 							const delta = loaded - lastLoaded;
@@ -1614,10 +1622,10 @@
 
 							xhr.onload = () => {
 								// Account for any bytes not reported via onprogress
-								const remaining = file.size - lastLoaded;
+								const remaining = effectiveSize(file) - lastLoaded;
 								if (remaining > 0) {
 									uploadedBytes += remaining;
-									lastLoaded = file.size;
+									lastLoaded = effectiveSize(file);
 									uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
 								}
 
@@ -1647,11 +1655,22 @@
 									resolve(xhr.response as Blob);
 								} else {
 									rollback();
-									const e: any = new Error(
-										`Failed processing ${file.name} (Status: ${xhr.status})`
-									);
-									e.status = xhr.status;
-									reject(e);
+									// Surface the server's plaintext message (e.g. the plan
+									// 413 text) and log reported-vs-resolved size to confirm
+									// misreported cloud-file sizes.
+									void (async () => {
+										const serverText = await readXhrErrorText(xhr);
+										if (xhr.status === 413) {
+											trackUpload413({
+												reportedSize: file.size,
+												resolvedSize: effectiveSize(file),
+												plan: userPlan ?? undefined
+											});
+										}
+										const e: any = new Error(uploadErrorMessage(xhr.status, serverText));
+										e.status = xhr.status;
+										reject(e);
+									})();
 								}
 							};
 
@@ -1663,7 +1682,7 @@
 								e.retryable = true;
 								reject(e);
 							};
-							xhr.send(file);
+							xhr.send(uploadBodyOf(file));
 						}),
 					'squish_flow'
 				);

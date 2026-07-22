@@ -6,6 +6,8 @@
     import { posthog } from '$lib/analytics';
     import { withRetry } from '$lib/uploadRetry';
     import { uploadChunked, CHUNK_THRESHOLD_BYTES, type ChunkedUploadParams } from '$lib/uploadChunked';
+    import { resolveUploadSize, effectiveSize, uploadBodyOf } from '$lib/uploadSize';
+    import { uploadErrorMessage, readXhrErrorText, trackUpload413 } from '$lib/uploadError';
     import { portal } from '$lib/portal';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
@@ -198,12 +200,19 @@
             if (allFiles.length === 0) return;
         }
 
-        const oversizedFiles = allFiles.filter((f) => f.size > MAX_INDIVIDUAL_FILE_SIZE);
+        // Resolve true sizes before the guard: files picked from cloud providers
+        // can misreport size===0, which would otherwise slip past this check and
+        // the chunk routing below. resolveUploadSize measures real bytes when
+        // needed (and caches them so the upload sends real content).
+        const resolved = await Promise.all(
+            allFiles.map(async (f) => ({ file: f, size: await resolveUploadSize(f, MAX_INDIVIDUAL_FILE_SIZE) }))
+        );
+        const oversizedFiles = resolved.filter((r) => r.size.exceededLimit);
 
         if (oversizedFiles.length > 0) {
             errorMessage = `${oversizedFiles.length} file${oversizedFiles.length !== 1 ? 's' : ''} exceeded the ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB limit and ${oversizedFiles.length === 1 ? 'was' : 'were'} skipped.`;
             isFileSizeError = true;
-            allFiles = allFiles.filter((f) => f.size <= MAX_INDIVIDUAL_FILE_SIZE);
+            allFiles = resolved.filter((r) => !r.size.exceededLimit).map((r) => r.file);
             if (allFiles.length === 0) return;
         }
 
@@ -340,6 +349,7 @@
         }
 
         const jwt = await getSessionToken();
+        const uploadPlan = await getPlan();
 
         posthog.capture('manual_compress_started', {
             files: selectedFiles.length,
@@ -369,7 +379,7 @@
             let totalCompressedSize = 0;
             const compressedBlobs: Blob[] = new Array(selectedFiles.length);
             let hitRateLimit = false;
-            const totalBytes = selectedFiles.reduce((sum, f) => sum + f.size, 0);
+            const totalBytes = selectedFiles.reduce((sum, f) => sum + effectiveSize(f), 0);
             let uploadedBytes = 0;
 
             const processFile = async (index: number) => {
@@ -381,7 +391,7 @@
                     const safeType = ALLOWED_FORMATS.has(imageType) ? imageType : 'jpg';
 
                     let blob: Blob;
-                    if (file.size > CHUNK_THRESHOLD_BYTES) {
+                    if (effectiveSize(file) > CHUNK_THRESHOLD_BYTES) {
                         // Large file on a possibly-flaky connection: upload in
                         // ~5MB chunks (each independently retried) instead of
                         // one whole-file POST. See src/lib/uploadChunked.ts.
@@ -390,7 +400,7 @@
                         if (smartCompress) chunkedParams.smartCompress = '1';
                         if (queryParams) new URLSearchParams(queryParams).forEach((v, k) => (chunkedParams[k] = v));
 
-                        blob = await uploadChunked(file, API_URL, chunkedParams, {
+                        blob = await uploadChunked(uploadBodyOf(file), API_URL, chunkedParams, {
                             jwt,
                             onUploadProgress: (loaded) => {
                                 const delta = loaded - lastLoaded;
@@ -432,8 +442,8 @@
                                     });
 
                                     xhr.upload.addEventListener('load', () => {
-                                        uploadedBytes += file.size - lastLoaded;
-                                        lastLoaded = file.size;
+                                        uploadedBytes += effectiveSize(file) - lastLoaded;
+                                        lastLoaded = effectiveSize(file);
                                         uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
                                         processPhase = 'processing';
                                         downloadPercent = 0;
@@ -448,14 +458,26 @@
 
                                     xhr.addEventListener('load', () => {
                                         if (xhr.status >= 200 && xhr.status < 300) {
-                                            const latency = xhr.getResponseHeader('X-Latency-Ms');
-                                            if (latency) console.log(`[C++ Engine] ${file.name} squished in ${latency}`);
                                             resolve(xhr.response);
                                         } else {
                                             rollback();
-                                            const error: any = new Error(`Server error: ${xhr.status}`);
-                                            error.status = xhr.status;
-                                            reject(error);
+                                            // Surface the server's own message (e.g. the plan-specific
+                                            // 413 text) instead of a bare "Server error: 413", and log
+                                            // the reported-vs-resolved size so we can confirm whether a
+                                            // misreported cloud-file size drove the oversize upload.
+                                            void (async () => {
+                                                const serverText = await readXhrErrorText(xhr);
+                                                if (xhr.status === 413) {
+                                                    trackUpload413({
+                                                        reportedSize: file.size,
+                                                        resolvedSize: effectiveSize(file),
+                                                        plan: uploadPlan
+                                                    });
+                                                }
+                                                const error: any = new Error(uploadErrorMessage(xhr.status, serverText));
+                                                error.status = xhr.status;
+                                                reject(error);
+                                            })();
                                         }
                                     });
 
@@ -477,7 +499,7 @@
                                     xhr.setRequestHeader('Content-Type', resolveContentType(file));
                                     if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
                                     xhr.responseType = 'blob';
-                                    xhr.send(file);
+                                    xhr.send(uploadBodyOf(file));
                                 }),
                             'manual_squish'
                         );

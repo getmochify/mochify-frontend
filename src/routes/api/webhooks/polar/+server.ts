@@ -292,7 +292,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			if (!userRow) break;
 
 			// Store timestamps as epoch-ms numbers to match every other profile writer
-			// (subscription cases, depay, admin upgrade). The day-pass path previously
+			// (subscription cases, admin upgrade). The day-pass path previously
 			// wrote ISO strings here and omitted created_at, which left quota_period_end
 			// holding mixed types across rows and risked a NOT NULL insert failure.
 			const dayNow = Date.now();
