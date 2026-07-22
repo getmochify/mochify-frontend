@@ -4,6 +4,8 @@ import { svelteKitHandler } from 'better-auth/svelte-kit';
 import { createAuth } from '$lib/auth';
 import { getPostHogClient } from '$lib/server/posthog';
 
+// Prerendered routes (/, /docs, etc.) are served as static assets and never hit this
+// hook, so the root _headers file duplicates this Link value — keep the two in sync.
 const DISCOVERY_LINK_HEADER = [
 	'<https://mochify.app/sitemap.xml>; rel="sitemap"',
 	'<https://mochify.app/.well-known/api-catalog>; rel="api-catalog"',
