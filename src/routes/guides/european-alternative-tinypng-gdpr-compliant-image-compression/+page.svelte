@@ -7,7 +7,7 @@
         category: "Data Privacy",
         readTime: "15 min read",
         datePublished: "March 22, 2026",
-        lastUpdated: "July 21, 2026"
+        lastUpdated: "July 23, 2026"
     };
 </script>
 
@@ -15,9 +15,9 @@
 
 <svelte:head>
     <title>A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression | Mochify</title>
-    <meta name="description" content="Looking for a GDPR-compliant image compressor hosted in the EU? Mochify processes images in memory only, never stores your files, and strips EXIF data by default.">
+    <meta name="description" content="Looking for a GDPR-compliant image compressor hosted in the EU? Mochify processes images in memory only, never stores your files, and re-encodes images so EXIF metadata does not survive.">
     <meta property="og:title" content="A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression | Mochify" />
-    <meta property="og:description" content="Looking for a GDPR-compliant image compressor hosted in the EU? Mochify processes images in memory only, never stores your files, and strips EXIF data by default." />
+    <meta property="og:description" content="Looking for a GDPR-compliant image compressor hosted in the EU? Mochify processes images in memory only, never stores your files, and re-encodes images so EXIF metadata does not survive." />
 
     <script type="application/ld+json">
         {
@@ -49,7 +49,7 @@
             "CLOUD Act image data privacy"
         ],
         "datePublished": "2026-03-22",
-        "dateModified": "2026-07-21"
+        "dateModified": "2026-07-23"
         }
     </script>
 </svelte:head>
@@ -189,7 +189,7 @@
     <section id="us-tech">
         <SectionHeading>Why Europeans Are Moving Away from US Tech for Image Workflows</SectionHeading>
         <p>
-            European organisations are increasingly scrutinising US-hosted tools not out of sentiment, but because the legal risk is real. The core issue is the <strong>CLOUD Act</strong> (Clarifying Lawful Overseas Use of Data Act), passed in 2018 in the United States. It allows US authorities to compel US companies to hand over data stored on their servers, regardless of where those servers physically sit. If your image optimisation tool runs on AWS, Google Cloud, or Azure in Frankfurt, the company operating it may still be subject to CLOUD Act disclosure obligations.
+            European organizations are increasingly scrutinizing US-hosted tools not out of sentiment, but because the legal risk is real. The core issue is the <strong>CLOUD Act</strong> (Clarifying Lawful Overseas Use of Data Act), passed in 2018 in the United States. It allows US authorities to compel US companies to hand over data stored on their servers, regardless of where those servers physically sit. If your image optimization tool runs on AWS, Google Cloud, or Azure in Frankfurt, the company operating it may still be subject to CLOUD Act disclosure obligations.
         </p>
         <p class="mt-4">
             This creates an uncomfortable situation for EU controllers under GDPR. You can choose a server located inside the EU and still have your data accessible to a foreign government without your knowledge or consent. <strong>Schrems II</strong> (the 2020 European Court of Justice ruling) reinforced this concern by invalidating the Privacy Shield framework and requiring companies to assess the "effective level of protection" offered by third-country data transfers. For tools that process sensitive client images, that assessment is increasingly difficult to pass.
@@ -225,7 +225,7 @@
         </div>
 
         <p class="mt-6">
-            None of this is catastrophic for someone compressing a stock photo of a coffee cup. But for agencies, healthcare-adjacent businesses, e-commerce brands with identifiable staff or customers in images, or any organisation subject to sector-specific regulation, these gaps are not theoretical.
+            None of this is catastrophic for someone compressing a stock photo of a coffee cup. But for agencies, healthcare-adjacent businesses, e-commerce brands with identifiable staff or customers in images, or any organization subject to sector-specific regulation, these gaps are not theoretical.
         </p>
     </section>
 
@@ -258,7 +258,7 @@
             </li>
             <li class="flex gap-3">
                 <span class="text-[#F06292] font-bold">·</span>
-                <span><strong>EXIF stripping:</strong> The API exposes a <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">stripExif</code> parameter that defaults to <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">true</code>. By default, GPS coordinates, device identifiers, and other metadata are removed from every file you compress, with no extra configuration required.</span>
+                <span><strong>Metadata handling:</strong> Mochify re-encodes rather than repackaging, so EXIF is stripped on the common paths, but the exact behavior depends on the surface and the workflow you use. Rather than rely on a default, state it explicitly in your request: a Magic Flow prompt like "compress these and strip all metadata" makes the handling visible and verifiable on any surface, browser UI or API.</span>
             </li>
             <li class="flex gap-3">
                 <span class="text-[#F06292] font-bold">·</span>
@@ -309,11 +309,11 @@
                             <td class="py-4 px-5 font-bold text-[#4A2C2C]">Yes</td>
                         </tr>
                         <tr class="hover:bg-[#FFF9FB] transition-colors duration-200">
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">EXIF stripped by default</td>
+                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">EXIF handling</td>
                             <td class="py-4 px-5">No</td>
                             <td class="py-4 px-5">Manual</td>
                             <td class="py-4 px-5">No</td>
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">Yes</td>
+                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">Explicit, on request</td>
                         </tr>
                         <tr class="hover:bg-[#FFF9FB] transition-colors duration-200">
                             <td class="py-4 px-5 font-bold text-[#4A2C2C]">GDPR DPA available</td>
@@ -376,15 +376,15 @@
             Product photography for e-commerce is a high-frequency, moderate-risk workflow. A typical merchant shoots 20–50 product images per SKU on a smartphone. Those images contain EXIF data: GPS location of the shoot, device model, and timestamp, which has no place on a product page and could expose information you would rather keep private.
         </p>
         <p class="mt-4">
-            The standard workflow: upload your raw JPEG or HEIC exports to Mochify, let <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">stripExif</code> default to <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">true</code>, and download compressed WebP or AVIF files ready for your store. A 4MB HEIC from an iPhone typically compresses to under 200KB as AVIF at quality 70 with no perceptible loss, a 95% reduction that directly improves your Largest Contentful Paint score and Core Web Vitals. You can run this as a batch through the browser UI or automate it via the REST API if your upload volume justifies it.
+            The standard workflow: upload your raw JPEG or HEIC exports to Mochify, ask for metadata to be stripped as part of your request, and download compressed WebP or AVIF files ready for your store. A 4MB HEIC from an iPhone typically compresses to under 200KB as AVIF at quality 70 with no perceptible loss, a 95% reduction that directly improves your Largest Contentful Paint score and Core Web Vitals. You can run this as a batch through the browser UI or automate it via the REST API if your upload volume justifies it.
         </p>
 
         <h3 class="text-[1.75rem] font-black text-[#4A2C2C] mt-10 mb-4">WordPress Publishers</h3>
         <p>
-            WordPress sites accumulate images fast. The privacy risk is lower here than for agencies, but page speed and format modernisation are real concerns. If you are serving JPEG files from five years ago, you are likely leaving 40–60% of your image weight on the table compared to AVIF equivalents.
+            WordPress sites accumulate images fast. The privacy risk is lower here than for agencies, but page speed and format modernization are real concerns. If you are serving JPEG files from five years ago, you are likely leaving 40–60% of your image weight on the table compared to AVIF equivalents.
         </p>
         <p class="mt-4">
-            For publishers, the practical Mochify workflow is to run existing libraries through the API in batches, converting JPEG and PNG to WebP or AVIF, and replacing the originals in your media library. The HEIC-to-JPEG conversion path is also useful if your editorial team shoots on iPhones and needs reliable, universally compatible output. See our <a href="/solutions/hif-to-jpg">HEIC to JPEG guide</a> for format compatibility details.
+            For publishers, the practical Mochify workflow is to run existing libraries through the API in batches, converting JPEG and PNG to WebP or AVIF, and replacing the originals in your media library. The HEIC-to-JPEG conversion path is also useful if your editorial team shoots on iPhones and needs reliable, universally compatible output. See our <a href="/heic-to-jpeg">HEIC to JPEG converter</a> for format compatibility details.
         </p>
 
         <h3 class="text-[1.75rem] font-black text-[#4A2C2C] mt-10 mb-4">Agencies Handling Client Assets</h3>
@@ -392,10 +392,10 @@
             This is the highest-stakes scenario. Agencies often process client photography, identifiable staff headshots, unreleased product imagery, and brand assets that are commercially sensitive. Uploading that material to a US-hosted tool without a DPA is a genuine compliance failure, not a grey area.
         </p>
         <p class="mt-4">
-            Mochify's zero-retention architecture means there is no client data persisting on our infrastructure after the API call completes. Combined with automatic EXIF stripping, you can give clients a credible, documented answer to the question "where did our images go?" The answer is: they were processed in memory and discarded. Nothing was retained.
+            Mochify's zero-retention architecture means there is no client data persisting on our infrastructure after the API call completes. Combined with explicit EXIF stripping requested as part of your workflow, you can give clients a credible, documented answer to the question "where did our images go?" The answer is: they were processed in memory and discarded. Nothing was retained.
         </p>
         <p class="mt-4">
-            For agencies with high volumes, the REST API supports integration into existing asset management pipelines. Mochify's Pro plan includes higher image limits, larger file sizes, and background removal, all with identical zero-retention privacy guarantees.
+            For agencies with high volumes, the REST API supports integration into existing asset management pipelines. Mochify's Pro plan includes higher image limits and larger file sizes, all with identical zero-retention privacy guarantees. Background removal is available on every tier, including Free.
         </p>
     </section>
 
@@ -462,7 +462,7 @@
 
             <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
                 <p class="font-black text-[#4A2C2C] mb-3">Does Mochify strip EXIF data automatically?</p>
-                <p>Yes. The <code class="bg-white px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">stripExif</code> parameter in our API defaults to <code class="bg-white px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">true</code>, which means GPS coordinates, device identifiers, timestamps, and other metadata are removed from every compressed file unless you explicitly pass <code class="bg-white px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">stripExif: false</code>. The browser UI applies the same default.</p>
+                <p>On the common paths, yes: Mochify re-encodes your image rather than repackaging it, so EXIF metadata including GPS coordinates, device identifiers, and timestamps does not survive the process. Because the exact behavior varies by surface and workflow, we recommend stating it explicitly rather than relying on a default - ask for it in the prompt ("compress these and strip all metadata") and the handling is explicit and checkable.</p>
             </div>
 
             <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
@@ -487,7 +487,7 @@
 
             <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
                 <p class="font-black text-[#4A2C2C] mb-3">What is an MCP server and why does it matter for image compression?</p>
-                <p>MCP (Model Context Protocol) is a standard that allows AI coding assistants like Claude and Cursor to call external tools directly. Mochify's MCP server means an AI agent can compress, convert, and optimise images as part of an automated workflow without any manual file handling. All image processing via the MCP server uses the same zero-retention Squish engine as the browser UI and REST API.</p>
+                <p>MCP (Model Context Protocol) is a standard that allows AI coding assistants like Claude and Cursor to call external tools directly. Mochify's MCP server means an AI agent can compress, convert, and optimize images as part of an automated workflow without any manual file handling. All image processing via the MCP server uses the same zero-retention Squish engine as the browser UI and REST API.</p>
             </div>
 
         </div>
@@ -526,7 +526,7 @@
                 </a>
             </li>
             <li>
-                <a href="/solutions/hif-to-jpg" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
+                <a href="/heic-to-jpeg" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
                     <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">HEIC to JPEG Converter<span class="font-normal opacity-70">, EXIF risks in HEIC files and how to convert at scale</span></span>
                     <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                 </a>
