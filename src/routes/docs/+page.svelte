@@ -260,7 +260,7 @@
                                     <code class="font-mono text-[#F06292] font-bold">removeBackground</code>
                                     <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">false</span>
                                     <div>
-                                        <p class="text-[#6C3F31]">AI background removal. Output is PNG/WebP with alpha channel. JPEG outputs flatten to white. Requires Seller or Pro plan. Accepts <code class="font-mono text-xs">1</code> or <code class="font-mono text-xs">true</code>.</p>
+                                        <p class="text-[#6C3F31]">AI background removal. Output is PNG/WebP with alpha channel. JPEG outputs flatten to white. Available on every plan, including Free. Accepts <code class="font-mono text-xs">1</code> or <code class="font-mono text-xs">true</code>.</p>
                                     </div>
                                 </div>
 
@@ -498,6 +498,14 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
                             <code class="font-mono text-sm text-[#F06292]">/v1/squish</code>. This powers the
                             <a href="/" class="text-[#F06292] font-semibold hover:underline">Magic Flow</a> feature.
                         </p>
+                        <div class="bg-[#FDFBF7] border border-pink-100 rounded-2xl px-5 py-4 flex gap-3">
+                            <span class="text-[#F06292] text-sm font-black flex-shrink-0 mt-0.5">i</span>
+                            <p class="text-sm text-[#6C3F31]/80 leading-relaxed">
+                                This endpoint is served from a different host than the rest of the API:
+                                <code class="font-mono text-xs">https://tokens.mochify.app</code>, not
+                                <code class="font-mono text-xs">api.mochify.app</code>.
+                            </p>
+                        </div>
 
                         <div>
                             <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Request Body <span class="text-[#875F42]/50 font-normal normal-case tracking-normal text-xs ml-1">application/json</span></h3>
@@ -527,7 +535,7 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
                             <div class="bg-[#4A2C2C] px-4 py-2 flex items-center gap-2">
                                 <span class="text-[#FFB3C6]/60 text-xs font-bold uppercase tracking-wider">cURL</span>
                             </div>
-                            <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl -X POST "https://api.mochify.app/v1/prompt" \
+                            <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl -X POST "https://tokens.mochify.app/v1/prompt" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer mchy_your_api_key" \
   -d '&#123;
