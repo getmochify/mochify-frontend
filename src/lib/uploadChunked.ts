@@ -78,6 +78,9 @@ export interface ChunkedUploadCallbacks {
 interface RetryableXhrError extends Error {
 	status?: number;
 	retryable?: boolean;
+	// Server's true received offset, echoed on a 409 gap so the client can
+	// re-sync without a separate status round-trip.
+	serverOffset?: number;
 }
 
 function xhrError(
@@ -119,42 +122,76 @@ async function initSession(
 	return { sessionId: body.sessionId };
 }
 
-function uploadOneChunk(
+// Sends one chunk starting at byte `offset` and resolves with the server's new
+// contiguous high-water mark. Re-sending the same chunk at the same offset is
+// safe: the server treats already-received bytes as an idempotent no-op, so a
+// withRetry re-send after a lost ACK advances correctly instead of 409-ing the
+// way the old sequential-index model did.
+function uploadOneChunkAtOffset(
 	apiUrl: string,
 	sessionId: string,
-	chunkIndex: number,
+	offset: number,
 	slice: Blob,
 	jwt: string | null | undefined,
 	onProgress: (loaded: number) => void
-): Promise<void> {
-	return new Promise<void>((resolve, reject) => {
+): Promise<number> {
+	return new Promise<number>((resolve, reject) => {
 		const xhr = new XMLHttpRequest();
 		xhr.upload.addEventListener('progress', (e) => onProgress(e.loaded));
 		xhr.addEventListener('load', () => {
 			if (xhr.status >= 200 && xhr.status < 300) {
 				onProgress(slice.size);
-				resolve();
+				// Server echoes the new high-water mark. Fall back to
+				// offset+size (correct for the normal append) if unparseable.
+				let newOffset = offset + slice.size;
+				try {
+					const body = JSON.parse(xhr.responseText) as { offset?: number };
+					if (typeof body?.offset === 'number') newOffset = body.offset;
+				} catch {
+					/* keep the fallback */
+				}
+				resolve(newOffset);
 				return;
 			}
-			let message = `Chunk ${chunkIndex} failed: ${xhr.status}`;
+			let message = `Chunk at ${offset} failed: ${xhr.status}`;
+			let serverOffset: number | undefined;
 			try {
-				const body = JSON.parse(xhr.responseText);
+				const body = JSON.parse(xhr.responseText) as { error?: string; offset?: number };
 				if (body?.error) message = body.error;
+				if (typeof body?.offset === 'number') serverOffset = body.offset;
 			} catch {
 				/* response wasn't JSON — keep the generic message */
 			}
-			reject(xhrError(message, { status: xhr.status }));
+			const err = xhrError(message, { status: xhr.status });
+			if (serverOffset !== undefined) err.serverOffset = serverOffset;
+			reject(err);
 		});
 		xhr.addEventListener('error', () => reject(xhrError('Network error', { retryable: true })));
 		xhr.addEventListener('abort', () => reject(new Error('Upload cancelled')));
 		xhr.open(
 			'POST',
-			`${apiUrl}/v1/upload/chunk?session=${encodeURIComponent(sessionId)}&index=${chunkIndex}`
+			`${apiUrl}/v1/upload/chunk?session=${encodeURIComponent(sessionId)}&offset=${offset}`
 		);
 		xhr.setRequestHeader('Content-Type', 'application/octet-stream');
 		if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
 		xhr.send(slice);
 	});
+}
+
+// The "where was I" query — re-syncs the client's offset after a defensive
+// 409 gap (or if a 409 body lacked the offset). Returns the server's
+// contiguous received offset.
+async function getUploadStatus(
+	apiUrl: string,
+	sessionId: string,
+	jwt: string | null | undefined
+): Promise<number> {
+	const resp = await fetch(`${apiUrl}/v1/upload/status?session=${encodeURIComponent(sessionId)}`, {
+		headers: { ...(jwt ? { Authorization: `Bearer ${jwt}` } : {}) }
+	});
+	if (!resp.ok) throw xhrError(`Upload status failed: ${resp.status}`, { status: resp.status });
+	const body = (await resp.json()) as { offset?: number };
+	return typeof body?.offset === 'number' ? body.offset : 0;
 }
 
 function completeUpload(
@@ -208,25 +245,54 @@ export async function uploadChunked(
 	// backward (see onUploadProgress's contract above).
 	let maxLoadedSeen = 0;
 
-	for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
-		const start = chunkIndex * CHUNK_SIZE_BYTES;
-		const end = Math.min(start + CHUNK_SIZE_BYTES, file.size);
-		const slice = file.slice(start, end);
-
-		await withRetry(
-			() =>
-				uploadOneChunk(apiUrl, sessionId, chunkIndex, slice, jwt, (loadedInChunk) => {
-					const totalLoaded = Math.min(chunkIndex * CHUNK_SIZE_BYTES + loadedInChunk, file.size);
-					if (totalLoaded > maxLoadedSeen) {
-						maxLoadedSeen = totalLoaded;
-						onUploadProgress?.(maxLoadedSeen, file.size);
+	// `offset` is the server-confirmed contiguous high-water mark. Each chunk is
+	// sent starting exactly here and, on success, advances to the server's
+	// reported offset. A dropped connection mid-chunk is retried in place by
+	// withRetry — re-sending the same chunk at the same offset is safe (the
+	// server no-ops already-received bytes), which fixes the lost-ACK case the
+	// old sequential-index model turned into an unrecoverable 409.
+	let offset = 0;
+	while (offset < file.size) {
+		const newOffset = await withRetry(
+			async () => {
+				const start = offset; // read fresh each attempt (a 409 re-sync below can move it)
+				const end = Math.min(start + CHUNK_SIZE_BYTES, file.size);
+				const slice = file.slice(start, end);
+				try {
+					return await uploadOneChunkAtOffset(
+						apiUrl,
+						sessionId,
+						start,
+						slice,
+						jwt,
+						(loadedInChunk) => {
+							const totalLoaded = Math.min(start + loadedInChunk, file.size);
+							if (totalLoaded > maxLoadedSeen) {
+								maxLoadedSeen = totalLoaded;
+								onUploadProgress?.(maxLoadedSeen, file.size);
+							}
+						}
+					);
+				} catch (err) {
+					// Defensive: a 409 gap means client and server disagree on
+					// the offset. Re-sync from the server's truth and retry from
+					// there. Never fires for a well-behaved client (the server's
+					// idempotent-duplicate rule absorbs lost-ACK re-sends), but
+					// self-heals rather than hard-failing.
+					if ((err as RetryableXhrError)?.status === 409) {
+						const e = err as RetryableXhrError;
+						offset = e.serverOffset ?? (await getUploadStatus(apiUrl, sessionId, jwt));
+						throw xhrError('Resyncing upload offset', { retryable: true });
 					}
-				}),
+					throw err;
+				}
+			},
 			'chunk_upload',
 			2,
 			1000,
 			onRetryStateChange
 		);
+		offset = newOffset;
 	}
 
 	posthog.capture('chunked_upload_all_chunks_sent', { fileSize: file.size, chunks: totalChunks });
