@@ -351,6 +351,21 @@
         const jwt = await getSessionToken();
         const uploadPlan = await getPlan();
 
+        // Guest-quota race guard: /v1/checkTokens is async, and a fast click can
+        // beat it — falling straight through handleButtonClick's insufficientTokens
+        // gate (which needs hasCheckedTokens) and firing an upload the server only
+        // rejects. Resolve the check here so an out-of-quota guest bails cleanly to
+        // the signup CTA instead of sending a doomed upload (which surfaced as a
+        // spurious "Network error").
+        if (!jwt) {
+            if (!hasCheckedTokens) await checkTokenLimit();
+            if (Number.isFinite(availableTokens) && selectedFiles.length > availableTokens) {
+                showSignupCta = true;
+                posthog.capture('signup_cta_shown', { trigger: 'button_click_no_tokens' });
+                return;
+            }
+        }
+
         posthog.capture('manual_compress_started', {
             files: selectedFiles.length,
             format: imageType,
