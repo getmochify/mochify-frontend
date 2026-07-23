@@ -10,6 +10,15 @@ import { posthog } from '$lib/analytics';
 export function uploadErrorMessage(status: number, serverText?: string): string {
 	const text = serverText?.trim();
 	if (status === 413) {
+		// This specific reason means the bomb-protection check couldn't parse the
+		// image header at all — in practice that's almost always an upload that
+		// didn't fully arrive (a dropped/flaky connection), not a bad file. The
+		// raw backend wording ("Failed to read image dimensions") means nothing
+		// to a user and reads like their photo is broken, so reframe it as a
+		// retry-the-upload prompt instead of passing it through verbatim.
+		if (text?.includes('Failed to read image dimensions')) {
+			return "That upload didn't fully go through — likely a connection hiccup. Please try again.";
+		}
 		return text && text.length > 0
 			? text
 			: 'That file is too large to upload. Try a smaller image or upgrade your plan.';
