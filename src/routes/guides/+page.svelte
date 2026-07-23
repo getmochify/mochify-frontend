@@ -428,6 +428,22 @@
             category: "Image Optimization",
             readTime: "13 min read",
             date: "July 21, 2026"
+        },
+        {
+            title: "Is Reselling Worth It in 2026? The Honest Math",
+            description: "Is reselling worth it in 2026? The honest math: market data, time per listing, tool costs, and when a free photo workflow beats a paid one.",
+            url: "/guides/is-reselling-worth-it",
+            category: "Workflows",
+            readTime: "14 min read",
+            date: "July 23, 2026"
+        },
+        {
+            title: "Photo File Too Large to Upload? Why Free Tools Reject Camera Files",
+            description: "Why free tools reject modern camera files: real sizes from 45-61MP bodies, the 5-20MB caps that refuse them, and the fastest path to files that upload anywhere.",
+            url: "/guides/photo-file-too-large-to-upload",
+            category: "Image Optimization",
+            readTime: "12 min read",
+            date: "July 23, 2026"
         }
     ];
     guides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
