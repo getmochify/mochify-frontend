@@ -30,6 +30,10 @@
 	let thinkingText: string = $state('Reading your images…');
 
 	let uploadPercent: number = $state(0);
+	// True while an upload is stalled in withRetry's backoff loop (or paused
+	// waiting to reconnect) after a network drop. Drives the amber
+	// "unstable connection" banner, mirroring ImageUpload.
+	let isRetrying: boolean = $state(false);
 	let completedFiles: number = $state(0);
 	let totalFiles: number = $state(0);
 	let downloadAsZip: boolean = $state(false);
@@ -1030,7 +1034,7 @@
 									if (totalBytes > 0)
 										uploadPercent = Math.min(Math.round((e.loaded / totalBytes) * 100), 100);
 								};
-								xhr.upload.onloadend = () => {
+								xhr.upload.onload = () => {
 									processPhase = 'processing';
 								};
 								xhr.onload = () => {
@@ -1061,7 +1065,10 @@
 								};
 								xhr.send(form);
 							}),
-						'imgpdf_flow'
+						'imgpdf_flow',
+						2,
+						1000,
+						(retrying) => (isRetrying = retrying)
 					);
 
 					processPhase = 'downloading';
@@ -1150,7 +1157,7 @@
 									uploadedBytes += delta;
 									uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
 								};
-								xhr.upload.onloadend = () => {
+								xhr.upload.onload = () => {
 									onUploadEnd?.();
 								};
 								xhr.onload = () => {
@@ -1190,7 +1197,10 @@
 								};
 								xhr.send(file);
 							}),
-						'pdf_flow'
+						'pdf_flow',
+						2,
+						1000,
+						(retrying) => (isRetrying = retrying)
 					);
 
 				for (const file of files) {
@@ -1578,6 +1588,7 @@
 					let lastLoaded = 0;
 					return uploadChunked(uploadBodyOf(file), API_URL, chunkedParams, {
 						jwt,
+						onRetryStateChange: (retrying) => (isRetrying = retrying),
 						onUploadProgress: (loaded) => {
 							const delta = loaded - lastLoaded;
 							lastLoaded = loaded;
@@ -1616,7 +1627,7 @@
 								uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
 							};
 
-							xhr.upload.onloadend = () => {
+							xhr.upload.onload = () => {
 								onUploadEnd?.();
 							};
 
@@ -1684,7 +1695,10 @@
 							};
 							xhr.send(uploadBodyOf(file));
 						}),
-					'squish_flow'
+					'squish_flow',
+					2,
+					1000,
+					(retrying) => (isRetrying = retrying)
 				);
 			};
 
@@ -2017,6 +2031,7 @@
 			);
 		} finally {
 			isProcessing = false;
+			isRetrying = false;
 			processPhase = 'idle';
 			clearInterval(msgInterval);
 			warmedAuth = null;
@@ -2254,6 +2269,16 @@
 			</div>
 
 			<div class="border-t border-white/40 bg-white/20 backdrop-blur-md">
+				{#if isProcessing && isRetrying}
+					<div
+						class="flex items-center gap-2 bg-amber-50/80 px-3 py-2 text-xs font-medium text-amber-800 sm:px-4"
+						role="status"
+						aria-live="polite"
+					>
+						<span class="animate-pulse">⚠️</span>
+						Unstable connection. Pausing and retrying…
+					</div>
+				{/if}
 				{#if isProcessing}
 					<div class="relative h-1 overflow-hidden bg-white/20">
 						{#if displayPhase === 'thinking' || displayPhase === 'packing'}

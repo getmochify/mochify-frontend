@@ -8,15 +8,26 @@
 // of the whole file. Files at or below CHUNK_THRESHOLD_BYTES keep using the
 // existing single-POST /v1/squish path unchanged — this is only for the
 // minority of large uploads where a flaky connection actually hurts.
-import { withRetry } from '$lib/uploadRetry';
+import { withRetry, isRetryable } from '$lib/uploadRetry';
 import { posthog } from '$lib/analytics';
 
-// Above this size, use chunked upload. Comfortably above typical compressed
-// photo sizes (keeps the common case on the fast unchanged path) and well
-// under the 20MB free-tier ceiling, so free-tier users on flaky connections
-// still benefit for their largest allowed uploads.
-export const CHUNK_THRESHOLD_BYTES = 8 * 1024 * 1024;
+// Above this size, use chunked (resumable) upload. Set to exactly one chunk:
+// anything larger is >=2 chunks, so a dropped connection costs at most one
+// ~5MB chunk of re-send (true partial resume), and — with the offline
+// pause/resume in withReconnect — survives going offline mid-upload. Files at
+// or below one chunk stay on the single-POST /v1/squish path, where chunking
+// would only add init/complete round-trips without buying partial resume.
+// Lowered from 8MB once offline-resume landed: the 5-8MB band (very common for
+// high-quality photos) is exactly what hurts on a slow mobile uplink, where an
+// 8MB single POST is a ~40s non-resumable transfer.
+export const CHUNK_THRESHOLD_BYTES = 5 * 1024 * 1024;
 const CHUNK_SIZE_BYTES = 5 * 1024 * 1024;
+
+// Longest we'll hold a stalled upload open waiting for the browser to come back
+// online before giving up. The server keeps the half-uploaded session in RAM
+// (zero-retention), so resuming within this window costs only the un-sent
+// chunks; past it we fail cleanly with a clear message rather than hang forever.
+const OFFLINE_MAX_WAIT_MS = 5 * 60 * 1000;
 
 export type UploadPhase = 'uploading' | 'processing' | 'downloading';
 
@@ -222,6 +233,76 @@ function completeUpload(
 	});
 }
 
+// The browser is reporting a hard offline state. `navigator.onLine === false`
+// is the reliable direction (true doesn't guarantee reachability, but false
+// does mean "no network"), which is exactly what we gate the pause on. DevTools'
+// "Offline" throttling drives this the same way a real disconnect does.
+function isOffline(): boolean {
+	return typeof navigator !== 'undefined' && navigator.onLine === false;
+}
+
+// Resolves as soon as the browser fires `online` (or immediately if it never
+// went offline / exposes no signal). Rejects once we've stayed offline past
+// OFFLINE_MAX_WAIT_MS so a permanently-dropped connection fails with a clear
+// message instead of hanging on a session the server will eventually reap.
+function waitForOnline(maxWaitMs = OFFLINE_MAX_WAIT_MS): Promise<void> {
+	if (!isOffline()) return Promise.resolve();
+	return new Promise<void>((resolve, reject) => {
+		const cleanup = () => {
+			window.removeEventListener('online', onOnline);
+			clearTimeout(timer);
+		};
+		const onOnline = () => {
+			cleanup();
+			resolve();
+		};
+		const timer = setTimeout(() => {
+			cleanup();
+			reject(
+				new Error(
+					`Upload paused: still offline after ${Math.round(maxWaitMs / 60000)} minutes. Please try again.`
+				)
+			);
+		}, maxWaitMs);
+		window.addEventListener('online', onOnline);
+	});
+}
+
+// Wraps a retryable upload op with offline-aware resume. While the browser is
+// offline we *pause* (not a retry) and wait for reconnection, then let the
+// op run — it re-reads the server's high-water mark each attempt, so a resumed
+// chunk picks up exactly where the drop left off. withRetry still handles the
+// short online blips (2 quick retries). A give-up that coincides with the
+// browser having gone offline again loops back into the wait instead of
+// failing, which is what turns "throttle to offline" from a hard error into a
+// resume once you're back on. `onRetry` drives the amber "reconnecting" banner.
+async function withReconnect<T>(
+	op: () => Promise<T>,
+	label: string,
+	onRetry?: (isRetrying: boolean) => void
+): Promise<T> {
+	for (;;) {
+		if (isOffline()) {
+			onRetry?.(true);
+			posthog.capture('upload_offline_wait', { label });
+			await waitForOnline();
+			posthog.capture('upload_offline_resumed', { label });
+		}
+		try {
+			const result = await withRetry(op, label, 2, 1000, onRetry);
+			onRetry?.(false);
+			return result;
+		} catch (err) {
+			// Stay in the retrying state and loop back into the wait: we only
+			// gave up because the connection dropped, not because the upload is
+			// actually broken.
+			if (isRetryable(err) && isOffline()) continue;
+			onRetry?.(false);
+			throw err;
+		}
+	}
+}
+
 export async function uploadChunked(
 	// Accepts a Blob (superclass of File) so callers can pass a reconstructed
 	// body for files that misreported size===0 — see $lib/uploadSize.
@@ -253,7 +334,7 @@ export async function uploadChunked(
 	// old sequential-index model turned into an unrecoverable 409.
 	let offset = 0;
 	while (offset < file.size) {
-		const newOffset = await withRetry(
+		const newOffset = await withReconnect(
 			async () => {
 				const start = offset; // read fresh each attempt (a 409 re-sync below can move it)
 				const end = Math.min(start + CHUNK_SIZE_BYTES, file.size);
@@ -288,8 +369,6 @@ export async function uploadChunked(
 				}
 			},
 			'chunk_upload',
-			2,
-			1000,
 			onRetryStateChange
 		);
 		offset = newOffset;
@@ -299,15 +378,13 @@ export async function uploadChunked(
 	onPhaseChange?.('processing');
 
 	try {
-		const blob = await withRetry(
+		const blob = await withReconnect(
 			() =>
 				completeUpload(apiUrl, sessionId, jwt, (loaded, total) => {
 					onPhaseChange?.('downloading');
 					onDownloadProgress?.(loaded, total);
 				}),
 			'chunk_complete',
-			2,
-			1000,
 			onRetryStateChange
 		);
 		posthog.capture('chunked_upload_completed', { fileSize: file.size });
