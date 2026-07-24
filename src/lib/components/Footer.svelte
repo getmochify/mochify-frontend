@@ -46,6 +46,10 @@
                 Contact
             </a>
             <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5]">•</span>
+            <a href="/sustainability" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
+                Sustainability
+            </a>
+            <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5]">•</span>
             <a href="/service-terms" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 Terms of Service
             </a>
