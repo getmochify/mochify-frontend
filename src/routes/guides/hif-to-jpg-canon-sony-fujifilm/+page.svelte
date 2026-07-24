@@ -10,7 +10,8 @@
         description: "Convert HIF to JPG from Canon, Sony and Fujifilm cameras. Every method on every platform, plus what you trade away going 10-bit to 8-bit.",
         category: "Image Formats",
         readTime: "19 min read",
-        date: "June 4, 2026"
+        date: "June 4, 2026",
+        lastUpdated: "July 24, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -99,7 +100,7 @@
         "description": "Convert HIF to JPG from Canon, Sony and Fujifilm cameras. Every method on every platform, plus what you trade away going 10-bit to 8-bit.",
         "url": "https://mochify.app/guides/hif-to-jpg-canon-sony-fujifilm",
         "datePublished": "2026-06-04",
-        "dateModified": "2026-06-04",
+        "dateModified": "2026-07-24",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
@@ -133,7 +134,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -356,7 +357,7 @@
 
                 <div class="mt-6 pt-5 border-t border-pink-100 space-y-3 text-base text-[#6C3F31]">
                     <p>Magic Flow uses a two-step pipeline: a language model (currently Mistral Small) parses your instruction, then Mochify's C++ encoder executes using jpegli for JPEG output. You get a universally compatible JPEG that holds significantly more quality per byte than a conventionally encoded file.</p>
-                    <p><strong>For larger shoots:</strong> a Seller or Pro subscription lifts the batch limit to 25 files and the file size ceiling to 75 MB, useful for high-resolution 10-bit HIF files from full-frame bodies.</p>
+                    <p><strong>For larger shoots:</strong> a Seller or Pro subscription lifts the batch limit to 25 files and the file size ceiling to 75 MB, useful for high-resolution 10-bit HIF files from full-frame bodies. If you're hitting rejections elsewhere first, see <a href="/guides/photo-file-too-large-to-upload">the file-size limits that reject pro-camera photos</a>.</p>
                 </div>
 
                 <div class="mt-5 pt-5 border-t border-pink-100 text-sm text-[#875F42] space-y-3">

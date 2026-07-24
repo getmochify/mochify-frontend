@@ -10,7 +10,8 @@
         description: "Convert HEIF (.HIF) files from Canon, Sony, and Fujifilm cameras to universally compatible JPG. Every method, the quality trade-offs, and batch workflows.",
         category: "Image Formats",
         readTime: "14 min read",
-        date: "July 15, 2026"
+        date: "July 15, 2026",
+        lastUpdated: "July 24, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -98,7 +99,7 @@
             "@id": "https://mochify.app/guides/heif-to-jpg-complete-guide"
         },
         "datePublished": "2026-07-15",
-        "dateModified": "2026-07-15",
+        "dateModified": "2026-07-24",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -185,7 +186,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -344,6 +345,7 @@
                     </div>
                 </li>
             </ol>
+            <p class="text-base mt-7 mb-0">HEIF originals from a full-frame or medium-format body can run well past what a free upload form or a generic web tool will accept. If a converted JPEG is still getting rejected on size, see <a href="/guides/photo-file-too-large-to-upload">why upload forms and free tools reject camera files</a>.</p>
             <p class="text-base mt-7 mb-0">Magic Flow runs a two-step pipeline: a language model (currently Mistral Small 4) parses the instruction, then the C++ engine executes it. Be explicit about metadata in the prompt - "strip all metadata" or "remove GPS" - so the output matches your privacy intent exactly.</p>
             <p class="text-base mt-4 mb-0">For batch and automated workflows, the same conversion runs from the CLI (<code class={inlineCode}>brew install mochify</code>) or from the local MCP server (<code class={inlineCode}>mochify serve</code>) inside an AI agent setup. Both are clients over the same API with no pickup store: outputs return straight to your machine, zero retention end to end. Tethered-to-deadline sports and event shooters can script an entire card dump this way.</p>
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 my-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify -p "convert to jpg and strip GPS" *.HIF</code></pre>

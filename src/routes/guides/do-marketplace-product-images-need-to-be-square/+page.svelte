@@ -10,7 +10,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         datePublished: "29 June 2026",
-        lastUpdated: "July 19, 2026"
+        lastUpdated: "July 24, 2026"
     };
 
     const related = [
@@ -83,7 +83,7 @@
             "@id": "https://mochify.app/guides/do-marketplace-product-images-need-to-be-square"
         },
         "datePublished": "2026-06-29",
-        "dateModified": "2026-07-19",
+        "dateModified": "2026-07-24",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -183,6 +183,10 @@
 
             <p class="mb-4">
                 You can also describe the task in plain language - tell Mochify <em>"square crop to 1200px, keep the main subject centered"</em> - and Magic Flow handles the batch automatically.
+            </p>
+
+            <p class="mb-4">
+                Pre-cropping at batch scale is a time question as much as a formatting one - see <a href="/guides/is-reselling-worth-it">what listing volume actually costs a reseller</a> for the honest math on where those hours go.
             </p>
         </section>
 

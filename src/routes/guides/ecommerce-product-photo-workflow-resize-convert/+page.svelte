@@ -11,7 +11,7 @@
         category: "Workflows",
         readTime: "4 min read",
         date: "May 2026",
-        lastUpdated: "July 19, 2026"
+        lastUpdated: "July 24, 2026"
     };
 
     const faqItems = [
@@ -73,7 +73,7 @@
         "description": "How to batch-convert product photos to JPG at 1200px and 800px with a single natural-language prompt. The fastest workflow for Shopify, Etsy, eBay, and Amazon sellers.",
         "url": "https://mochify.app/guides/ecommerce-product-photo-workflow-resize-convert",
         "datePublished": "2026-05-23",
-        "dateModified": "2026-07-19",
+        "dateModified": "2026-07-24",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
         "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
@@ -353,6 +353,8 @@
                     </div>
                 {/each}
             </div>
+
+            <p>The time this workflow saves compounds with every listing you process - one prompt instead of manual resizing per photo, per size. If you're weighing whether reselling at volume is worth the hours, see <a href="/guides/is-reselling-worth-it">the honest math on whether reselling is worth it</a>.</p>
         </section>
 
         <!-- FAQ -->

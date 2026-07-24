@@ -10,7 +10,8 @@
         description: "TinyPNG stores files 48 hours; Mochify wipes them instantly. An honest head-to-head on pricing, formats, AI features, and where TinyPNG genuinely wins.",
         category: "Image Optimization",
         readTime: "13 min read",
-        date: "July 21, 2026"
+        date: "July 21, 2026",
+        lastUpdated: "July 24, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -95,7 +96,7 @@
             "@id": "https://mochify.app/guides/mochify-vs-tinypng"
         },
         "datePublished": "2026-07-21",
-        "dateModified": "2026-07-21",
+        "dateModified": "2026-07-24",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -154,7 +155,7 @@
         "description": "TinyPNG stores files 48 hours; Mochify wipes them instantly. An honest head-to-head on pricing, formats, AI features, and where TinyPNG genuinely wins.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-21",
-        "dateModified": "2026-07-21"
+        "dateModified": "2026-07-24"
         }
     </script>
 
@@ -183,7 +184,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -253,7 +254,7 @@
             <SectionHeading>Where Mochify wins</SectionHeading>
             <p>One thread runs through this list: Mochify was built in the age of AI, and most of what separates it from TinyPNG is AI doing work that settings panels and manual editing used to do. A language model interpreting your intent, saliency models deciding where to crop, AI background removal on every tier, and surfaces designed for AI agents to call directly. Worth saying plainly: what AI can usefully do inside an image pipeline is still in its early days, and this list is the tip of the iceberg, not the finished shape of the product.</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Free tier handles real photos.</strong> TinyPNG's free tool caps files at 5MB; a modern phone photo or any camera JPEG regularly exceeds that. Mochify's free tier accepts files up to 20MB (75MB on paid tiers).</li>
+                <li><strong class="text-[#4A2C2C]">Free tier handles real photos.</strong> TinyPNG's free tool caps files at 5MB; a modern phone photo or any camera JPEG regularly exceeds that. Mochify's free tier accepts files up to 20MB (75MB on paid tiers) - see <a href="/guides/photo-file-too-large-to-upload">why free-tier file-size caps reject camera files</a> for how those numbers stack up against actual camera output.</li>
                 <li><strong class="text-[#4A2C2C]">You control the result.</strong> TinyPNG exposes no quality settings anywhere; the web tool and API are fully automatic (we verified the complete API reference: there is no quality parameter). That's a feature for simplicity and a limitation the moment you need something specific. Mochify's primary interface is Magic Flow: describe the outcome ("convert these to AVIF, keep them under 300KB, strip all metadata") and a language model parses the request before the C++ engine executes it.</li>
                 <li><strong class="text-[#4A2C2C]">Broader format and capability coverage.</strong> TinyPNG compresses and converts AVIF, WebP, JPEG, and PNG, with JPEG XL available only in its in-browser converter, not the API. Mochify treats JPEG XL as a first-class format on every surface, outputs JPEG through Google's jpegli encoder for better quality-per-byte, and accepts HEIC uploads. Beyond images: background removal is included on every Mochify tier including Free (TinyPNG has none), Mochify's web app converts and compresses video entirely in the browser (TinyPNG has no video tooling), and Mochify's PDF utility extracts pages as images and splits multi-page PDFs (no TinyPNG equivalent). Our <a href="https://mochify.app/guides/converting-images-to-jpeg-xl">JPEG XL conversion guide</a> and <a href="https://mochify.app/guides/jpeg-in-2026-jpegli">jpegli deep-dive</a> cover the format side in detail.</li>
                 <li><strong class="text-[#4A2C2C]">Metadata control on every surface.</strong> TinyPNG strips metadata by default and lets you preserve copyright, creation date, or location only through the API, opt-in, JPEG only. With Mochify you state metadata handling in the prompt on any surface ("compress these and strip all metadata"), which makes the behavior explicit where you can see it.</li>

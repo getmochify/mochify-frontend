@@ -9,7 +9,8 @@
         description: "Shoot HEIF for capture quality, deliver JPEG to clients. Here's the practical 2026 workflow for Canon EOS R, Nikon Z, and Sony Alpha shooters.",
         category: "Quick Guide",
         readTime: "3 min read",
-        date: "April 2026"
+        date: "April 2026",
+        lastUpdated: "July 24, 2026"
     };
 </script>
 
@@ -29,7 +30,7 @@
         "description": "Shoot HEIF for capture quality, deliver JPEG to clients. Here's the practical 2026 workflow for Canon EOS R, Nikon Z, and Sony Alpha shooters.",
         "url": "https://mochify.app/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera",
         "datePublished": "2026-04-01",
-        "dateModified": "2026-04-01",
+        "dateModified": "2026-07-24",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -77,7 +78,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -100,7 +101,7 @@
 
         <section id="why-heif-wins-for-capture">
             <SectionHeading>Why HEIF Wins for In-Camera Capture</SectionHeading>
-            <p>10-bit HEIF files preserve more tonal information than 8-bit JPEG, which matters during color grading and exposure recovery. You get more headroom in shadows and highlights, which is useful on high-contrast wedding and outdoor shoots. HEIF files are also meaningfully smaller than equivalent-quality JPEGs straight out of camera - a useful saving across multi-hundred-image commercial shoots where card space and ingest time add up.</p>
+            <p>10-bit HEIF files preserve more tonal information than 8-bit JPEG, which matters during color grading and exposure recovery. You get more headroom in shadows and highlights, which is useful on high-contrast wedding and outdoor shoots. HEIF files are also meaningfully smaller than equivalent-quality JPEGs straight out of camera - a useful saving across multi-hundred-image commercial shoots where card space and ingest time add up. That said, even a HEIF-sized file from a modern high-megapixel sensor can still be large enough to trip an upload cap - see <a href="/guides/photo-file-too-large-to-upload">how big camera files really are (and what rejects them)</a>.</p>
             <p>Canon's HIF format (the EOS R-series implementation of HEIF) and similar offerings from Nikon and Sony are worth using as working formats or as RAW companions for quick on-set review. They give you a better immediate preview than 8-bit JPEG while keeping files more manageable than RAW.</p>
         </section>
 
