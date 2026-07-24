@@ -42,7 +42,7 @@
                 About
             </a>
             <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5]">•</span>
-            <a href="mailto:hello@mochify.app" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
+            <a href="/contact" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 Contact
             </a>
             <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5]">•</span>

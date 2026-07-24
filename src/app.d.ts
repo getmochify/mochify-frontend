@@ -15,6 +15,7 @@ declare global {
 				USAGE_KV: KVNamespace
 				DB: D1Database
 				RESEND_API_KEY: string | undefined
+				TURNSTILE_SECRET: string | undefined
 			}
 			context?: {
 				waitUntil(promise: Promise<unknown>): void
