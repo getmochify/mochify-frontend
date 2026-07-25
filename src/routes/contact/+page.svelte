@@ -1,147 +1,235 @@
 <script lang="ts">
-    import { enhance } from '$app/forms'
-    import Navigation from '$lib/components/Navigation.svelte'
-    import Footer from '$lib/components/Footer.svelte'
+	import { enhance } from '$app/forms';
+	import { onMount } from 'svelte';
+	import Navigation from '$lib/components/Navigation.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 
-    let { data, form } = $props()
+	let { data, form } = $props();
 
-    let loading = $state(false)
+	let loading = $state(false);
 
-    const inputClass =
-        'w-full px-4 py-3 rounded-2xl border border-[#875F42]/15 bg-white/80 text-[#4A2C2C] placeholder-[#875F42]/30 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#F06292]/30 focus:border-[#F06292]/40 transition-all'
-    const labelClass = 'text-xs font-bold text-[#6C3F31] tracking-wide uppercase'
+	const inputClass =
+		'w-full px-4 py-3 rounded-2xl border border-[#875F42]/15 bg-white/80 text-[#4A2C2C] placeholder-[#875F42]/30 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#F06292]/30 focus:border-[#F06292]/40 transition-all';
+	const labelClass = 'text-xs font-bold text-[#6C3F31] tracking-wide uppercase';
 
-    // Cloudflare Turnstile — public sitekey (safe to expose); secret lives in env.
-    const TURNSTILE_SITE_KEY = '0x4AAAAAAD9Ccvbui6jzOPT2'
+	// Cloudflare Turnstile — public sitekey (safe to expose); secret lives in env.
+	const TURNSTILE_SITE_KEY = '0x4AAAAAAD9Ccvbui6jzOPT2';
+	// `render=explicit` stops the script auto-scanning for `.cf-turnstile`, so
+	// we control render/teardown ourselves.
+	const TURNSTILE_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+
+	let turnstileEl: HTMLDivElement | undefined = $state();
+	let widgetId: string | undefined;
+
+	// Implicit rendering (a `<script>` in <svelte:head> + a `.cf-turnstile` div)
+	// re-runs on every SvelteKit client-side navigation to /contact and never
+	// tears the widget down — leaked iframes/timers pile up until Safari's
+	// renderer OOM-crashes ("this webpage was reloaded because a problem
+	// occurred"). Explicit render + remove-on-unmount keeps exactly one widget.
+	onMount(() => {
+		let cancelled = false;
+
+		if (!document.querySelector('script[data-turnstile]')) {
+			const script = document.createElement('script');
+			script.src = TURNSTILE_SRC;
+			script.async = true;
+			script.defer = true;
+			script.dataset.turnstile = 'true';
+			document.head.appendChild(script);
+		}
+
+		// The script may still be loading (this visit) or already loaded (a
+		// prior visit, so its `load` event has long fired) — poll for readiness.
+		const timer = setInterval(() => {
+			if (cancelled) {
+				clearInterval(timer);
+				return;
+			}
+			if (turnstileEl && window.turnstile && widgetId === undefined) {
+				widgetId = window.turnstile.render(turnstileEl, {
+					sitekey: TURNSTILE_SITE_KEY,
+					action: 'turnstile-spin-v2'
+				});
+				clearInterval(timer);
+			}
+		}, 100);
+
+		return () => {
+			cancelled = true;
+			clearInterval(timer);
+			if (widgetId && window.turnstile) {
+				try {
+					window.turnstile.remove(widgetId);
+				} catch {
+					/* already removed */
+				}
+			}
+		};
+	});
 </script>
 
 <svelte:head>
-    <title>Contact — Mochify</title>
-    <meta name="description" content="Get in touch with the Mochify team — feedback, support, billing, or anything else." />
+	<title>Contact — Mochify</title>
+	<meta
+		name="description"
+		content="Get in touch with the Mochify team — feedback, support, billing, or anything else."
+	/>
 
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://mochify.app/contact" />
-    <meta property="og:title" content="Contact Mochify" />
-    <meta property="og:description" content="Get in touch with the Mochify team — feedback, support, billing, or anything else." />
-
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://mochify.app/contact" />
+	<meta property="og:title" content="Contact Mochify" />
+	<meta
+		property="og:description"
+		content="Get in touch with the Mochify team — feedback, support, billing, or anything else."
+	/>
 </svelte:head>
 
-<div class="min-h-screen bg-[#FDFBF7] flex flex-col">
-    <Navigation />
+<div class="flex min-h-screen flex-col bg-[#FDFBF7]">
+	<Navigation />
 
-    <main class="flex-grow flex items-start justify-center px-4 pt-16 pb-12">
-        <div class="w-full max-w-md">
-            <div class="text-center mb-8">
-                <h1 class="text-3xl md:text-4xl font-black text-[#4A2C2C] tracking-tight mb-1">Get in touch</h1>
-                <p class="text-sm text-[#875F42]/70">
-                    We usually reply within a day. Prefer email?
-                    <a href="mailto:hello@mochify.app" class="text-[#F06292] font-bold hover:underline">hello@mochify.app</a>
-                </p>
-            </div>
+	<main class="flex flex-grow items-start justify-center px-4 pt-6 pb-12 sm:pt-16">
+		<div class="w-full max-w-md">
+			<div class="mb-5 text-center sm:mb-8">
+				<h1 class="mb-1 text-3xl font-black tracking-tight text-[#4A2C2C] md:text-4xl">
+					Get in touch
+				</h1>
+				<p class="text-sm text-[#875F42]/70">
+					We usually reply within a day. Prefer email?
+					<a href="mailto:hello@mochify.app" class="font-bold text-[#F06292] hover:underline"
+						>hello@mochify.app</a
+					>
+				</p>
+			</div>
 
-            <div class="bg-white/60 backdrop-blur-sm rounded-3xl border border-white/80 shadow-[0_8px_32px_rgba(240,98,146,0.1)] p-8">
-                {#if form?.success}
-                    <div class="text-center py-4">
-                        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#A5D6A7]/30">
-                            <svg class="h-8 w-8 text-[#2E5C31]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <h2 class="mb-2 text-2xl font-black tracking-tight text-[#4A2C2C]">Message sent</h2>
-                        <p class="text-sm text-[#875F42]/70">
-                            Thanks for reaching out. We'll get back to you at the email you provided.
-                        </p>
-                    </div>
-                {:else}
-                    {#if form?.error}
-                        <div class="mb-5 px-4 py-3 bg-red-50 border border-red-100 rounded-2xl text-sm text-red-700 font-medium">
-                            {form.error}
-                        </div>
-                    {/if}
+			<div
+				class="rounded-3xl border border-white/80 bg-white/60 p-6 shadow-[0_8px_32px_rgba(240,98,146,0.1)] backdrop-blur-sm sm:p-8"
+			>
+				{#if form?.success}
+					<div class="py-4 text-center">
+						<div
+							class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#A5D6A7]/30"
+						>
+							<svg
+								class="h-8 w-8 text-[#2E5C31]"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								stroke-width="2.5"
+							>
+								<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+							</svg>
+						</div>
+						<h2 class="mb-2 text-2xl font-black tracking-tight text-[#4A2C2C]">Message sent</h2>
+						<p class="text-sm text-[#875F42]/70">
+							Thanks for reaching out. We'll get back to you at the email you provided.
+						</p>
+					</div>
+				{:else}
+					{#if form?.error}
+						<div
+							class="mb-5 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
+						>
+							{form.error}
+						</div>
+					{/if}
 
-                    <form
-                        method="POST"
-                        action="?/send"
-                        use:enhance={() => {
-                            loading = true
-                            return async ({ update }) => {
-                                await update()
-                                loading = false
-                            }
-                        }}
-                        class="flex flex-col gap-4"
-                    >
-                        <!-- Honeypot: hidden from real users, tempts bots -->
-                        <div class="hidden" aria-hidden="true">
-                            <label for="company">Company</label>
-                            <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
-                        </div>
+					<form
+						method="POST"
+						action="?/send"
+						use:enhance={() => {
+							loading = true;
+							return async ({ update }) => {
+								await update();
+								loading = false;
+								// Turnstile tokens are single-use; reset so a
+								// retry after a validation error gets a fresh one.
+								if (turnstileEl && widgetId && window.turnstile) {
+									try {
+										window.turnstile.reset(widgetId);
+									} catch {
+										/* widget already gone (success view) */
+									}
+								}
+							};
+						}}
+						class="flex flex-col gap-4"
+					>
+						<!-- Honeypot: hidden from real users, tempts bots -->
+						<div class="hidden" aria-hidden="true">
+							<label for="company">Company</label>
+							<input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+						</div>
 
-                        <div class="flex flex-col gap-1.5">
-                            <label for="topic" class={labelClass}>Topic</label>
-                            <select id="topic" name="topic" required class={inputClass}>
-                                <option value="" disabled selected={!(form?.values?.topic ?? data.presetTopic)}>Choose a topic…</option>
-                                {#each data.topics as topic (topic)}
-                                    <option value={topic} selected={(form?.values?.topic ?? data.presetTopic) === topic}>{topic}</option>
-                                {/each}
-                            </select>
-                        </div>
+						<div class="flex flex-col gap-1.5">
+							<label for="topic" class={labelClass}>Topic</label>
+							<select id="topic" name="topic" required class={inputClass}>
+								<option value="" disabled selected={!(form?.values?.topic ?? data.presetTopic)}
+									>Choose a topic…</option
+								>
+								{#each data.topics as topic (topic)}
+									<option
+										value={topic}
+										selected={(form?.values?.topic ?? data.presetTopic) === topic}>{topic}</option
+									>
+								{/each}
+							</select>
+						</div>
 
-                        <div class="flex flex-col gap-1.5">
-                            <label for="name" class={labelClass}>Name</label>
-                            <input
-                                id="name"
-                                name="name"
-                                type="text"
-                                required
-                                autocomplete="name"
-                                placeholder="Your name"
-                                value={form?.values?.name ?? ''}
-                                class={inputClass}
-                            />
-                        </div>
+						<div class="flex flex-col gap-1.5">
+							<label for="name" class={labelClass}>Name</label>
+							<input
+								id="name"
+								name="name"
+								type="text"
+								required
+								autocomplete="name"
+								placeholder="Your name"
+								value={form?.values?.name ?? ''}
+								class={inputClass}
+							/>
+						</div>
 
-                        <div class="flex flex-col gap-1.5">
-                            <label for="email" class={labelClass}>Email</label>
-                            <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                required
-                                autocomplete="email"
-                                placeholder="you@example.com"
-                                value={form?.values?.email ?? ''}
-                                class={inputClass}
-                            />
-                        </div>
+						<div class="flex flex-col gap-1.5">
+							<label for="email" class={labelClass}>Email</label>
+							<input
+								id="email"
+								name="email"
+								type="email"
+								required
+								autocomplete="email"
+								placeholder="you@example.com"
+								value={form?.values?.email ?? ''}
+								class={inputClass}
+							/>
+						</div>
 
-                        <div class="flex flex-col gap-1.5">
-                            <label for="message" class={labelClass}>Message</label>
-                            <textarea
-                                id="message"
-                                name="message"
-                                required
-                                rows="5"
-                                maxlength="5000"
-                                placeholder="How can we help?"
-                                class="{inputClass} resize-y">{form?.values?.message ?? ''}</textarea>
-                        </div>
+						<div class="flex flex-col gap-1.5">
+							<label for="message" class={labelClass}>Message</label>
+							<textarea
+								id="message"
+								name="message"
+								required
+								rows="5"
+								maxlength="5000"
+								placeholder="How can we help?"
+								class="{inputClass} resize-y">{form?.values?.message ?? ''}</textarea
+							>
+						</div>
 
-                        <div class="cf-turnstile mt-1" data-sitekey={TURNSTILE_SITE_KEY} data-action="turnstile-spin-v2"></div>
+						<div bind:this={turnstileEl} class="mt-1"></div>
 
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            class="mt-2 w-full py-3 rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white font-black text-sm tracking-wide shadow-[0_4px_16px_rgba(240,98,146,0.35)] hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
-                        >
-                            {loading ? 'Sending…' : 'Send message'}
-                        </button>
-                    </form>
-                {/if}
-            </div>
-        </div>
-    </main>
+						<button
+							type="submit"
+							disabled={loading}
+							class="mt-2 w-full rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] py-3 text-sm font-black tracking-wide text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] disabled:transform-none disabled:cursor-not-allowed disabled:opacity-60"
+						>
+							{loading ? 'Sending…' : 'Send message'}
+						</button>
+					</form>
+				{/if}
+			</div>
+		</div>
+	</main>
 
-    <Footer />
+	<Footer />
 </div>
