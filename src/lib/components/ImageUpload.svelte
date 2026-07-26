@@ -180,6 +180,17 @@
         return OUTPUT_FORMAT_MAP[`image/${ext}`] ?? (ext === 'jpg' || ext === 'jpeg' ? 'jpg' : 'jpg');
     }
 
+    // HEIC/HEIF/HIF are camera container formats that no mainstream browser can
+    // decode, so a blob-URL <img> for them renders as a broken thumbnail. Skip the
+    // object URL entirely and let the placeholder icon show instead. Other formats
+    // (e.g. JXL, which only Safari renders) are caught by the <img> onerror fallback.
+    const UNPREVIEWABLE_EXTENSIONS = new Set(['heic', 'heif', 'hif']);
+    const UNPREVIEWABLE_MIME = new Set(['image/heic', 'image/heif']);
+    function isUnpreviewableImage(file: File): boolean {
+        const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+        return UNPREVIEWABLE_MIME.has(file.type) || UNPREVIEWABLE_EXTENSIONS.has(ext);
+    }
+
     async function processFiles(allFiles: File[]) {
         // Await plan so paid-user limits (25 files, 75MB) are applied immediately,
         // not after files are already sliced to free-tier defaults.
@@ -235,7 +246,7 @@
                 progress: 0,
                 phase: 'uploading' as const,
                 status: 'pending' as const,
-                thumbnailUrl: URL.createObjectURL(file)
+                thumbnailUrl: isUnpreviewableImage(file) ? undefined : URL.createObjectURL(file)
             };
         });
         totalOriginalSize = combinedFiles.reduce((sum, file) => sum + file.size, 0);
@@ -794,16 +805,23 @@
                                 width="64"
                                 height="64"
                                 class="h-full w-full rounded-xl object-cover"
+                                onerror={() => {
+                                    if (fp.thumbnailUrl) URL.revokeObjectURL(fp.thumbnailUrl);
+                                    fp.thumbnailUrl = undefined;
+                                }}
                             />
                         {:else}
-                            <div class="flex h-full w-full items-center justify-center rounded-xl bg-white/40">
-                                <svg class="h-5 w-5 text-[#FFB3C6]" fill="currentColor" viewBox="0 0 20 20">
+                            <div class="flex h-full w-full flex-col items-center justify-center gap-0.5 rounded-xl bg-white/40">
+                                <svg class="h-5 w-5 text-[#FFB3C6]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                     <path
-                                        fill-rule="evenodd"
-                                        d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
-                                        clip-rule="evenodd"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
                                     />
                                 </svg>
+                                <span class="text-[7px] font-bold tracking-wide text-[#FFB3C6] uppercase">
+                                    {fp.file.name.split('.').pop()}
+                                </span>
                             </div>
                         {/if}
                     </div>

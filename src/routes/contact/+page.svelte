@@ -32,25 +32,34 @@
 		if (!document.querySelector('script[data-turnstile]')) {
 			const script = document.createElement('script');
 			script.src = TURNSTILE_SRC;
-			script.async = true;
+			// `defer` only (no `async`): matches Cloudflare's explicit-render guidance.
 			script.defer = true;
 			script.dataset.turnstile = 'true';
 			document.head.appendChild(script);
 		}
 
-		// The script may still be loading (this visit) or already loaded (a
-		// prior visit, so its `load` event has long fired) — poll for readiness.
+		// The script may still be loading (this visit) or already loaded (a prior
+		// visit, so its `load` event has long fired) — poll for readiness. Bounded
+		// to ~15s so a blocked script (Safari content blocker, offline) never spins.
+		let attempts = 0;
 		const timer = setInterval(() => {
-			if (cancelled) {
+			if (cancelled || widgetId !== undefined || attempts++ > 150) {
 				clearInterval(timer);
 				return;
 			}
-			if (turnstileEl && window.turnstile && widgetId === undefined) {
+			if (!turnstileEl || !window.turnstile?.render) return;
+			// Stop polling BEFORE calling render(). If render() throws (the API isn't
+			// fully initialised yet, or the widget was already rendered), re-looping
+			// would spawn a fresh iframe every 100ms until Safari's WebContent process
+			// runs out of memory and reloads the page ("a problem occurred").
+			clearInterval(timer);
+			try {
 				widgetId = window.turnstile.render(turnstileEl, {
 					sitekey: TURNSTILE_SITE_KEY,
 					action: 'turnstile-spin-v2'
 				});
-				clearInterval(timer);
+			} catch (e) {
+				console.error('[contact] turnstile render failed:', e);
 			}
 		}, 100);
 
