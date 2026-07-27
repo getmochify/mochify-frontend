@@ -1,5 +1,7 @@
-LLM.txt
-========
+# Mochify
+
+> Mochify is a privacy-first image compressor and converter that processes every image in memory, so ecommerce sites, publishers, and creators can optimise images without plugins, tracking, or shady free tools.
+
 Site: https://mochify.app
 Brand: Mochify
 Last-updated: 2026-07-02
