@@ -21,50 +21,67 @@
 	let turnstileEl: HTMLDivElement | undefined = $state();
 	let widgetId: string | undefined;
 
-	// Implicit rendering (a `<script>` in <svelte:head> + a `.cf-turnstile` div)
-	// re-runs on every SvelteKit client-side navigation to /contact and never
-	// tears the widget down — leaked iframes/timers pile up until Safari's
-	// renderer OOM-crashes ("this webpage was reloaded because a problem
-	// occurred"). Explicit render + remove-on-unmount keeps exactly one widget.
+	// Turnstile is loaded lazily, on the first user interaction, NOT during initial
+	// page load. Loading its script + running the bot challenge at load raced with
+	// hydration/PostHog/font work and spiked memory enough to crash Safari's
+	// WebContent process on a cold first visit ("reloaded because a problem
+	// occurred") — which is why it only ever happened on load #1 and never on the
+	// auto-reload (by then those assets are cached). The token is only needed at
+	// submit, so first-input is always early enough. Explicit render (no implicit
+	// `.cf-turnstile` auto-scan) + remove-on-unmount keeps exactly one widget.
 	onMount(() => {
 		let cancelled = false;
+		let started = false;
+		let timer: ReturnType<typeof setInterval> | undefined;
 
-		if (!document.querySelector('script[data-turnstile]')) {
-			const script = document.createElement('script');
-			script.src = TURNSTILE_SRC;
-			// `defer` only (no `async`): matches Cloudflare's explicit-render guidance.
-			script.defer = true;
-			script.dataset.turnstile = 'true';
-			document.head.appendChild(script);
+		const triggers = ['pointerdown', 'keydown', 'focusin'] as const;
+		const stopWaiting = () => triggers.forEach((t) => window.removeEventListener(t, initTurnstile));
+
+		function initTurnstile() {
+			if (started || cancelled) return;
+			started = true;
+			stopWaiting();
+
+			if (!document.querySelector('script[data-turnstile]')) {
+				const script = document.createElement('script');
+				script.src = TURNSTILE_SRC;
+				// `defer` only (no `async`): matches Cloudflare's explicit-render guidance.
+				script.defer = true;
+				script.dataset.turnstile = 'true';
+				document.head.appendChild(script);
+			}
+
+			// The script may still be loading or already loaded (cached from a prior
+			// visit) — poll for readiness. Bounded to ~15s so a blocked script (Safari
+			// content blocker, offline) never spins.
+			let attempts = 0;
+			timer = setInterval(() => {
+				if (cancelled || widgetId !== undefined || attempts++ > 150) {
+					clearInterval(timer);
+					return;
+				}
+				if (!turnstileEl || !window.turnstile?.render) return;
+				// Stop polling BEFORE calling render(). If render() throws (the API isn't
+				// fully initialised yet, or the widget was already rendered), re-looping
+				// would spawn a fresh iframe every 100ms until Safari's WebContent process
+				// runs out of memory and reloads the page ("a problem occurred").
+				clearInterval(timer);
+				try {
+					widgetId = window.turnstile.render(turnstileEl, {
+						sitekey: TURNSTILE_SITE_KEY,
+						action: 'turnstile-spin-v2'
+					});
+				} catch (e) {
+					console.error('[contact] turnstile render failed:', e);
+				}
+			}, 100);
 		}
 
-		// The script may still be loading (this visit) or already loaded (a prior
-		// visit, so its `load` event has long fired) — poll for readiness. Bounded
-		// to ~15s so a blocked script (Safari content blocker, offline) never spins.
-		let attempts = 0;
-		const timer = setInterval(() => {
-			if (cancelled || widgetId !== undefined || attempts++ > 150) {
-				clearInterval(timer);
-				return;
-			}
-			if (!turnstileEl || !window.turnstile?.render) return;
-			// Stop polling BEFORE calling render(). If render() throws (the API isn't
-			// fully initialised yet, or the widget was already rendered), re-looping
-			// would spawn a fresh iframe every 100ms until Safari's WebContent process
-			// runs out of memory and reloads the page ("a problem occurred").
-			clearInterval(timer);
-			try {
-				widgetId = window.turnstile.render(turnstileEl, {
-					sitekey: TURNSTILE_SITE_KEY,
-					action: 'turnstile-spin-v2'
-				});
-			} catch (e) {
-				console.error('[contact] turnstile render failed:', e);
-			}
-		}, 100);
+		triggers.forEach((t) => window.addEventListener(t, initTurnstile, { passive: true }));
 
 		return () => {
 			cancelled = true;
+			stopWaiting();
 			clearInterval(timer);
 			if (widgetId && window.turnstile) {
 				try {

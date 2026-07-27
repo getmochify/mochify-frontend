@@ -52,7 +52,7 @@
     "prettier": "^3.9.6",
     "prettier-plugin-svelte": "^3.5.2",
     "prettier-plugin-tailwindcss": "^0.7.4",
-    "svelte": "^5.56.7",
+    "svelte": "^5.56.8",
     "svelte-check": "^4.7.3",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
@@ -75,7 +75,7 @@
     "kysely": "^0.28.17",
     "kysely-d1": "^0.4.0",
     "mediabunny": "^1.51.0",
-    "posthog-js": "^1.407.2",
+    "posthog-js": "^1.407.3",
     "posthog-node": "^5.46.1",
     "resend": "^6.18.0"
   }
