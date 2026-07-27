@@ -545,7 +545,7 @@
                             <div class="flex items-center gap-3 flex-1 min-w-0">
                                 <div class="relative flex-shrink-0 w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
                                     {#if fp.thumbnailUrl}
-                                        <img src={fp.thumbnailUrl} alt={fp.file.name} class="w-full h-full rounded-lg object-cover" />
+                                        <img src={fp.thumbnailUrl} alt={fp.file.name} draggable="false" class="w-full h-full rounded-lg object-cover" />
                                     {:else}
                                         <svg class="w-5 h-5 text-[#FFB3C6]" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>

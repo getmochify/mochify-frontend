@@ -92,15 +92,21 @@ interface RetryableXhrError extends Error {
 	// Server's true received offset, echoed on a 409 gap so the client can
 	// re-sync without a separate status round-trip.
 	serverOffset?: number;
+	// Set only for a session-loss (404) during the UPLOAD phase, where no
+	// processing/charge has happened yet so a full restart is safe. Deliberately
+	// NOT set for a 404 from the complete phase — that can be an already-charged
+	// completion whose response was lost, which must not be re-run.
+	sessionExpired?: boolean;
 }
 
 function xhrError(
 	message: string,
-	opts: { status?: number; retryable?: boolean }
+	opts: { status?: number; retryable?: boolean; sessionExpired?: boolean }
 ): RetryableXhrError {
 	const err: RetryableXhrError = new Error(message);
 	if (opts.status !== undefined) err.status = opts.status;
 	if (opts.retryable !== undefined) err.retryable = opts.retryable;
+	if (opts.sessionExpired !== undefined) err.sessionExpired = opts.sessionExpired;
 	return err;
 }
 
@@ -110,14 +116,21 @@ async function initSession(
 	params: ChunkedUploadParams,
 	jwt?: string | null
 ): Promise<{ sessionId: string }> {
-	const resp = await fetch(`${apiUrl}/v1/upload/init`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			...(jwt ? { Authorization: `Bearer ${jwt}` } : {})
-		},
-		body: JSON.stringify({ totalBytes: file.size, ...params })
-	});
+	let resp: Response;
+	try {
+		resp = await fetch(`${apiUrl}/v1/upload/init`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				...(jwt ? { Authorization: `Bearer ${jwt}` } : {})
+			},
+			body: JSON.stringify({ totalBytes: file.size, ...params })
+		});
+	} catch {
+		// Connection dropped before any response — retryable, mirroring the
+		// chunk path's XHR 'error' handler so withReconnect can resume init.
+		throw xhrError('Network error', { retryable: true });
+	}
 	if (!resp.ok) {
 		let message = `Upload init failed: ${resp.status}`;
 		try {
@@ -303,6 +316,24 @@ async function withReconnect<T>(
 	}
 }
 
+// A 404 during the UPLOAD phase means the server no longer has our session: it
+// was evicted (its ~12-min sliding TTL lapsed during a long offline stall) or
+// never existed. The half-uploaded bytes live only in the server's RAM, so
+// there is nothing to resume — the only recovery is a fresh init and a full
+// re-send. uploadChunked retries the whole upload once on this (see below).
+// Gated on the explicit `sessionExpired` tag rather than a bare 404 so we never
+// restart on a complete-phase 404 (a possibly-already-charged completion whose
+// response was lost) — re-running that would double-charge and re-process.
+function isSessionExpired(err: unknown): boolean {
+	return (err as RetryableXhrError | null)?.sessionExpired === true;
+}
+
+// One full-upload restart budget for a server-side session loss. A second
+// consecutive eviction means either the connection is stalling longer than the
+// session TTL every time, or something is persistently wrong — surface the
+// error rather than loop re-uploading the whole file forever.
+const MAX_SESSION_RESTARTS = 1;
+
 export async function uploadChunked(
 	// Accepts a Blob (superclass of File) so callers can pass a reconstructed
 	// body for files that misreported size===0 — see $lib/uploadSize.
@@ -311,11 +342,41 @@ export async function uploadChunked(
 	params: ChunkedUploadParams,
 	callbacks: ChunkedUploadCallbacks = {}
 ): Promise<Blob> {
+	for (let restart = 0; ; restart++) {
+		try {
+			return await runChunkedUpload(file, apiUrl, params, callbacks);
+		} catch (err) {
+			// Fresh session, full re-send. Progress naturally re-reports from 0
+			// (maxLoadedSeen is scoped to runChunkedUpload) — honest, since the
+			// server discarded what we'd sent.
+			if (isSessionExpired(err) && restart < MAX_SESSION_RESTARTS) {
+				posthog.capture('chunked_upload_session_restart', { fileSize: file.size });
+				continue;
+			}
+			throw err;
+		}
+	}
+}
+
+async function runChunkedUpload(
+	file: Blob,
+	apiUrl: string,
+	params: ChunkedUploadParams,
+	callbacks: ChunkedUploadCallbacks
+): Promise<Blob> {
 	const { jwt, onUploadProgress, onPhaseChange, onDownloadProgress, onRetryStateChange } =
 		callbacks;
 
 	onPhaseChange?.('uploading');
-	const { sessionId } = await initSession(apiUrl, file, params, jwt);
+	// init is retried like every other step: a transient 503 (the backend now
+	// returns this when auth resolution is momentarily unavailable, rather than
+	// silently downgrading identity) or a network drop resumes instead of
+	// failing the whole upload before it starts.
+	const { sessionId } = await withReconnect(
+		() => initSession(apiUrl, file, params, jwt),
+		'chunk_init',
+		onRetryStateChange
+	);
 
 	const totalChunks = Math.ceil(file.size / CHUNK_SIZE_BYTES);
 	posthog.capture('chunked_upload_started', { fileSize: file.size, chunks: totalChunks });
@@ -364,6 +425,16 @@ export async function uploadChunked(
 						const e = err as RetryableXhrError;
 						offset = e.serverOffset ?? (await getUploadStatus(apiUrl, sessionId, jwt));
 						throw xhrError('Resyncing upload offset', { retryable: true });
+					}
+					// Session evicted server-side mid-upload (its TTL lapsed during
+					// a long offline stall). Nothing to resume, so tag it: uploadChunked
+					// restarts with a fresh init + full re-send. Safe to restart here —
+					// no processing or charge happens until the complete phase.
+					if ((err as RetryableXhrError)?.status === 404) {
+						throw xhrError('Upload session expired', {
+							status: 404,
+							sessionExpired: true
+						});
 					}
 					throw err;
 				}

@@ -2188,6 +2188,7 @@
 									alt={file.name}
 									width="64"
 									height="64"
+									draggable="false"
 									class="h-full w-full rounded-xl object-cover"
 									onerror={() => {
 										if (filePreviews[i]) URL.revokeObjectURL(filePreviews[i]);
