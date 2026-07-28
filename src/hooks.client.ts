@@ -1,6 +1,6 @@
 import { posthog } from '$lib/analytics';
 import { PUBLIC_POSTHOG_PROJECT_TOKEN, PUBLIC_POSTHOG_HOST } from '$env/static/public';
-import { isDynamicImportError, recoverFromStaleChunk } from '$lib/chunkRecovery';
+import { isChunkLoadError, recoverFromStaleChunk } from '$lib/chunkRecovery';
 import type { HandleClientError } from '@sveltejs/kit';
 import type { CaptureResult } from 'posthog-js';
 
@@ -33,7 +33,12 @@ export async function init() {
 export const handleError: HandleClientError = async ({ error, status, message }) => {
 	// A failed route-chunk import is almost always a client on a stale build after
 	// a deploy — reload once to recover instead of reporting it as a real error.
-	if (isDynamicImportError(error) && recoverFromStaleChunk()) {
+	// Use the broad matcher: Safari surfaces a failed route-module fetch during
+	// client navigation as a generic "Load failed", which the narrow
+	// isDynamicImportError misses — leaving Safari users with a dead link click
+	// while Chrome/Firefox self-heal. The 30s cooldown in recoverFromStaleChunk
+	// bounds the rare false positive (e.g. a load() fetch failure) to one reload.
+	if (isChunkLoadError(error) && recoverFromStaleChunk()) {
 		return { message, status };
 	}
 	posthog.captureException(error);
