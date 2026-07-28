@@ -36,6 +36,28 @@ export function isChunkLoadError(err: unknown): boolean {
 }
 
 /**
+ * A benign network/transport failure rather than a bug in our code: an
+ * interrupted, aborted, offline, or timed-out `fetch()`. Mobile Safari throws
+ * `TypeError: Load failed` whenever a request is cut off — the user navigating
+ * away, backgrounding the PWA, or losing connectivity mid-upload — where other
+ * engines report "Failed to fetch"/"NetworkError". These are expected
+ * conditions we surface to the user for a retry, not exceptions worth reporting
+ * to error tracking.
+ */
+export function isNetworkError(err: unknown): boolean {
+	if ((err as { name?: string })?.name === 'AbortError') return true;
+	const msg = message(err);
+	return (
+		/load failed/i.test(msg) || // Safari
+		/failed to fetch/i.test(msg) || // Chrome
+		/networkerror when attempting to fetch/i.test(msg) || // Firefox
+		/network connection was lost/i.test(msg) || // iOS
+		/the request timed out/i.test(msg) ||
+		/cancell?ed/i.test(msg)
+	);
+}
+
+/**
  * Reload once to pull the current build after a stale-chunk failure. A short
  * cooldown (in sessionStorage) stops a genuinely broken/offline chunk from
  * looping, while still allowing recovery from a later deploy in the same

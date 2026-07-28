@@ -4,7 +4,7 @@
 	import { env } from '$env/dynamic/public';
 	import { getSessionToken, getPlan } from '$lib/user';
 	import { posthog } from '$lib/analytics';
-	import { isChunkLoadError, recoverFromStaleChunk } from '$lib/chunkRecovery';
+	import { isChunkLoadError, isNetworkError, recoverFromStaleChunk } from '$lib/chunkRecovery';
 	import { withRetry } from '$lib/uploadRetry';
 	import {
 		uploadChunked,
@@ -2037,7 +2037,10 @@
 			posthog.capture('magic_flow_failed', {
 				error: err instanceof Error ? err.message : String(err)
 			});
-			posthog.captureException(err);
+			// An interrupted/offline fetch (Safari's "Load failed") is an expected
+			// network condition, not a code bug — the breadcrumb above and the retry
+			// message below cover it; don't report it as an exception.
+			if (!isNetworkError(err)) posthog.captureException(err);
 			showStatus(
 				'error',
 				err instanceof Error ? err.message : 'Something went wrong — please try again.'

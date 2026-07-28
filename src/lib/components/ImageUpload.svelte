@@ -8,6 +8,7 @@
     import { uploadChunked, CHUNK_THRESHOLD_BYTES, type ChunkedUploadParams } from '$lib/uploadChunked';
     import { resolveUploadSize, effectiveSize, uploadBodyOf } from '$lib/uploadSize';
     import { uploadErrorMessage, readXhrErrorText, trackUpload413 } from '$lib/uploadError';
+    import { isNetworkError } from '$lib/chunkRecovery';
     import { portal } from '$lib/portal';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
@@ -663,7 +664,10 @@
             posthog.capture('manual_compress_failed', {
                 error: error instanceof Error ? error.message : String(error)
             });
-            posthog.captureException(error);
+            // An interrupted/offline fetch (Safari's "Load failed") is an expected
+            // network condition, not a code bug — the breadcrumb above and the
+            // error message below cover it; don't report it as an exception.
+            if (!isNetworkError(error)) posthog.captureException(error);
             errorMessage = error instanceof Error ? error.message : 'Failed to compress images';
         } finally {
             isLoading = false;
