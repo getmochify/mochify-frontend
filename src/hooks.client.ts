@@ -30,15 +30,17 @@ export async function init() {
 	});
 }
 
-export const handleError: HandleClientError = async ({ error, status, message }) => {
+export const handleError: HandleClientError = async ({ error, event, status, message }) => {
 	// A failed route-chunk import is almost always a client on a stale build after
-	// a deploy — reload once to recover instead of reporting it as a real error.
+	// a deploy — recover once with a full load instead of reporting a real error.
 	// Use the broad matcher: Safari surfaces a failed route-module fetch during
 	// client navigation as a generic "Load failed", which the narrow
 	// isDynamicImportError misses — leaving Safari users with a dead link click
-	// while Chrome/Firefox self-heal. The 30s cooldown in recoverFromStaleChunk
-	// bounds the rare false positive (e.g. a load() fetch failure) to one reload.
-	if (isChunkLoadError(error) && recoverFromStaleChunk()) {
+	// while Chrome/Firefox self-heal. Recover to the destination (event.url), not
+	// the current page: reloading in place would just abort the nav and read as a
+	// dead first tap on Safari's cold-fetch failures. The 30s cooldown in
+	// recoverFromStaleChunk bounds the rare false positive to one navigation.
+	if (isChunkLoadError(error) && recoverFromStaleChunk(event?.url?.href)) {
 		return { message, status };
 	}
 	posthog.captureException(error);

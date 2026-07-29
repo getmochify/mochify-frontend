@@ -58,18 +58,26 @@ export function isNetworkError(err: unknown): boolean {
 }
 
 /**
- * Reload once to pull the current build after a stale-chunk failure. A short
+ * Recover once from a chunk-load failure with a full document load. A short
  * cooldown (in sessionStorage) stops a genuinely broken/offline chunk from
  * looping, while still allowing recovery from a later deploy in the same
- * session. Returns true when a reload was triggered (callers should bail out).
+ * session. Returns true when recovery was triggered (callers should bail out).
+ *
+ * Pass the intended destination when the failure happened during a client-side
+ * navigation: mobile Safari routinely fails the first cold route fetch with a
+ * generic "Load failed", and reloading the *current* page there just aborts the
+ * nav — the user sees a dead first tap and only the retry works. Navigating to
+ * the target instead turns that failed SPA hop into a successful full load, so
+ * the first tap lands where it should. With no href it falls back to a reload,
+ * which is right for a failure during initial page load/hydration.
  */
-export function recoverFromStaleChunk(): boolean {
+export function recoverFromStaleChunk(href?: string): boolean {
 	if (!browser) return false;
 	let last = 0;
 	try {
 		last = Number(sessionStorage.getItem(RELOAD_KEY)) || 0;
 	} catch {
-		// sessionStorage blocked (private mode) — fall through and reload once.
+		// sessionStorage blocked (private mode) — fall through and recover once.
 	}
 	if (Date.now() - last < COOLDOWN_MS) return false;
 	try {
@@ -77,6 +85,7 @@ export function recoverFromStaleChunk(): boolean {
 	} catch {
 		// ignore — best-effort guard
 	}
-	location.reload();
+	if (href) location.assign(href);
+	else location.reload();
 	return true;
 }
