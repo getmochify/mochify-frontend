@@ -17,7 +17,8 @@ function lastmod(urlPath: string): string {
             encoding: 'utf8'
         }).trim();
         return date || today();
-    } catch {
+    } catch (e) {
+        console.error('[sitemap] git lastmod failed for', urlPath, '-', (e as Error).message);
         return today();
     }
 }

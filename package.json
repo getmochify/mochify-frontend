@@ -25,7 +25,7 @@
   "private": false,
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "git fetch --unshallow --quiet 2>/dev/null || true; vite build",
     "preview": "vite preview",
     "og": "bun scripts/generate-og.js",
     "prepare": "svelte-kit sync || echo ''",
