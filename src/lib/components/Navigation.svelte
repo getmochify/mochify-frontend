@@ -143,12 +143,15 @@
 
 <!-- Mobile Menu Panel -->
 {#if mobileMenuOpen}
-    <div class="sm:hidden fixed inset-0 z-50" onclick={closeMenu} onkeydown={(e) => e.key === 'Escape' && closeMenu()} role="button" tabindex="-1">
-        <div class="absolute inset-0 bg-[#4A2C2C]/20 backdrop-blur-sm"></div>
+    <!-- The dim/blur backdrop is this element itself. Closing is gated on
+         target===currentTarget so only taps on the dim area close the menu — NOT
+         clicks bubbling up from the panel or its links. Do NOT stopPropagation on
+         the panel: that stops link clicks from reaching SvelteKit's document-level
+         router, forcing a full-page reload (slow, and mobile-only since the desktop
+         dropdown has no backdrop wrapper). -->
+    <div class="sm:hidden fixed inset-0 z-50 bg-[#4A2C2C]/20 backdrop-blur-sm" onclick={(e) => { if (e.target === e.currentTarget) closeMenu() }} onkeydown={(e) => e.key === 'Escape' && closeMenu()} role="button" tabindex="-1">
         <div
             class="absolute top-20 right-4 left-4 bg-white rounded-3xl shadow-2xl border border-pink-100 overflow-hidden"
-            onclick={(e) => e.stopPropagation()}
-            onkeydown={() => {}}
             role="dialog"
             aria-modal="true"
             tabindex="0"
