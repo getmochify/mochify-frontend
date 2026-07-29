@@ -11,7 +11,7 @@
             url: "/guides/can-safari-open-heic-images",
             category: "Quick Guides",
             readTime: "2 min read",
-            date: "Jul 10, 2026"
+            date: "Jul 29, 2026"
         },
         {
             title: "What Is an AVIF File? (And How to Open One)",
