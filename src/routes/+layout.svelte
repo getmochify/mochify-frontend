@@ -27,7 +27,7 @@
 
 	const BLOB_ROUTES = new Set([
 		'/',
-		'/app',
+		'/flow',
 		'/v3launch',
 		'/pricing',
 		'/ebay-seller',

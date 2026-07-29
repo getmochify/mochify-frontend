@@ -6,7 +6,7 @@
 
 <svelte:head>
     <title>Mochify</title>
-    <meta name="robots" content="noindex">
+    <meta name="robots" content="noindex, follow">
 </svelte:head>
 
 <div class="min-h-screen flex flex-col relative">

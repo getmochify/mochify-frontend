@@ -193,7 +193,7 @@
 			</div>
 			<div class="flex items-center gap-2">
 				<a
-					href="/app"
+					href="/flow"
 					class="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#F06292] px-4 py-2 text-sm font-bold text-white shadow-sm transition-all hover:bg-[#D81B60] hover:-translate-y-0.5 sm:flex-none"
 				>
 					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
@@ -411,7 +411,7 @@
 				</p>
 			</div>
 		</div>
-		
+
 		<!-- Third-party AI consent -->
 		<div class="mb-6 rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
 			<div class="flex items-start justify-between gap-4">

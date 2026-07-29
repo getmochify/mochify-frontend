@@ -40,7 +40,7 @@
         { tag: 'Shell', title: 'Direct CLI', body: 'Build scripts, CI, agentic pipelines. A single pipe-friendly Rust binary.', mono: 'mochify *.jpg -p "…"' },
         { tag: 'No install', title: 'Hosted MCP', body: 'OAuth connector that lives inside chat. Nothing to install.', mono: 'mcp.mochify.app' },
         { tag: 'Server-side', title: 'REST API', body: 'Bearer-token auth. cURL, JS, Python — anywhere you can make an HTTPS request.', mono: 'api.mochify.app' },
-        { tag: 'Browser', title: 'Web app', body: 'Drop, type, done. No install, 3 files free without an account.', mono: 'mochify.app/app' },
+        { tag: 'Browser', title: 'Web app', body: 'Drop, type, done. No install, 3 files free without an account.', mono: 'mochify.app/flow' },
         { tag: 'Extension', title: 'Chrome extension', body: 'One-click compression from any page you are browsing.', mono: 'chrome web store' },
     ];
 
@@ -129,7 +129,7 @@
                         {copied ? 'Copied' : 'Copy'}
                     </span>
                 </button>
-                <a href="/app" class="text-base font-bold text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-4 transition-colors whitespace-nowrap">
+                <a href="/flow" class="text-base font-bold text-[#F06292] hover:text-[#D81B60] underline decoration-2 underline-offset-4 transition-colors whitespace-nowrap">
                     Just want a browser? →
                 </a>
             </div>
