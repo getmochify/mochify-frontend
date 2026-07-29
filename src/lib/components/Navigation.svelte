@@ -1,6 +1,6 @@
 <script lang="ts">
     import { page } from '$app/state'
-    import { afterNavigate } from '$app/navigation'
+    import { beforeNavigate } from '$app/navigation'
     import { authClient } from '$lib/auth-client'
     import { posthog } from '$lib/analytics'
 
@@ -11,12 +11,15 @@
     function toggleMenu() { mobileMenuOpen = !mobileMenuOpen }
     function closeMenu() { mobileMenuOpen = false }
 
-    // Close both menus AFTER a navigation completes, not synchronously in each
-    // link's onclick. Closing on click unmounts the {#if} block that contains
-    // the tapped <a> while its navigation is still in flight; iOS Safari then
-    // aborts the navigation (the loading bar starts but the page never changes).
-    // Leaving the link mounted and closing here sidesteps that WebKit race.
-    afterNavigate(() => {
+    // Close both menus as soon as a navigation STARTS, so the tap gives instant
+    // feedback instead of the menu lingering open for the whole load (worst on the
+    // dashboard, whose server load blocks the navigation from completing). We can't
+    // close in the link's onclick: that unmounts the {#if} block holding the tapped
+    // <a> mid-click and iOS Safari aborts the navigation (loading bar starts, page
+    // never changes). beforeNavigate fires AFTER SvelteKit has already committed to
+    // the client-side navigation, so unmounting the anchor here can't abort it — the
+    // WebKit race is sidestepped while the menu still closes immediately.
+    beforeNavigate(() => {
         mobileMenuOpen = false
         userMenuOpen = false
     })
@@ -84,6 +87,7 @@
                     >
                         <a
                             href="/dashboard"
+                            data-sveltekit-preload-data="hover"
                             class="block px-4 py-3 text-sm font-medium text-cocoa-deep hover:bg-[#FFF5F7] transition-colors"
                             role="menuitem"
                         >
@@ -163,7 +167,7 @@
                     Pricing
                 </a>
                 {#if session}
-                    <a href="/dashboard" class="px-6 py-4 text-cocoa-deep font-medium rounded-2xl hover:bg-[#FFF5F7] transition-all active:scale-95 border-t border-pink-50">
+                    <a href="/dashboard" data-sveltekit-preload-data="hover" class="px-6 py-4 text-cocoa-deep font-medium rounded-2xl hover:bg-[#FFF5F7] transition-all active:scale-95 border-t border-pink-50">
                         Dashboard
                     </a>
                     <button onclick={signOut} disabled={signingOut} class="px-6 py-4 text-left text-cocoa-milk/70 font-medium rounded-2xl hover:bg-[#FFF5F7] hover:text-mochi-pink transition-all active:scale-95 disabled:opacity-50 disabled:cursor-wait">
