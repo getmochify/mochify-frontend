@@ -15,13 +15,17 @@
 
 	let justUpgraded = $state(false);
 
-	// API key state
-	let hasKey = $state(false);
-	let keyCreatedAt = $state<string | null>(null);
+	// API key state — seeded from the server load so the card renders immediately
+	// (no client-side status round-trip on mount). loadKeyStatus() still exists for
+	// the post-generate/regenerate recovery paths.
+	// svelte-ignore state_referenced_locally
+	let hasKey = $state(data.hasKey ?? false);
+	// svelte-ignore state_referenced_locally
+	let keyCreatedAt = $state<string | null>(data.keyCreatedAt ?? null);
 	let newKeyPlaintext = $state<string | null>(null);
 	let copied = $state(false);
 	let keyLoading = $state(false);
-	let keyChecking = $state(true); // true until the first successful status check
+	let keyChecking = $state(false);
 
 	// Usage state
 	let usageLoaded = $state(false);
@@ -166,7 +170,6 @@
 		quotaOps = data.profile?.ops_limit ?? 30;
 		aiOptin = data.profile?.ai_thirdparty_optin === 1;
 		justUpgraded = new URLSearchParams(window.location.search).get('upgraded') === 'true';
-		loadKeyStatus();
 		loadUsage();
 	});
 

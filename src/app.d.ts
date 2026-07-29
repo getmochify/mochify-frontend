@@ -16,6 +16,10 @@ declare global {
 				DB: D1Database;
 				RESEND_API_KEY: string | undefined;
 				TURNSTILE_SECRET: string | undefined;
+				// Service binding to the tokens worker (usage + API-key store).
+				// Optional: undefined until the `services` binding is added to
+				// wrangler.jsonc, so callers must fall back to a public fetch.
+				TOKENS?: Fetcher;
 			};
 			context?: {
 				waitUntil(promise: Promise<unknown>): void;

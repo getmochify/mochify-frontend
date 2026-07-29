@@ -1,8 +1,34 @@
 import { fail, redirect } from '@sveltejs/kit'
 import { Polar } from '@polar-sh/sdk'
 import { env } from '$env/dynamic/private'
+import { env as publicEnv } from '$env/dynamic/public'
 import { Kysely } from 'kysely'
 import { D1Dialect } from 'kysely-d1'
+import type { PageServerLoad } from './$types'
+
+// API-key status server-side, so the card renders with the page instead of the
+// old client waterfall (getSession round-trip + up to 3×500ms retries + a
+// cross-origin call to core). We already hold locals.session.token here, and the
+// edge->core hop is ~90ms, so this replaces seconds of mobile latency with one
+// fast call that runs in parallel with the layout's profile query. Core stays
+// the source of truth (it returns created_at); only the *timing* moves.
+export const load: PageServerLoad = async ({ locals, fetch }) => {
+    if (!locals.session) return { hasKey: false, keyCreatedAt: null }
+
+    const API_URL = publicEnv.PUBLIC_API_URL || 'https://api.mochify.app'
+    try {
+        const res = await fetch(`${API_URL}/v1/user/apikey`, {
+            headers: { Authorization: `Bearer ${locals.session.token}` },
+        })
+        if (res.ok) {
+            const body = (await res.json()) as { has_key?: boolean; created_at?: string | null }
+            return { hasKey: body.has_key ?? false, keyCreatedAt: body.created_at ?? null }
+        }
+    } catch (e) {
+        console.error('[dashboard] apikey status load failed:', e)
+    }
+    return { hasKey: false, keyCreatedAt: null }
+}
 
 export const actions = {
     // Third-party AI consent toggle. Privacy-first: stored explicitly per user,

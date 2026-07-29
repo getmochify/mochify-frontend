@@ -24,6 +24,14 @@
       "database_id": "5b476a87-44a7-4b3b-9687-d6173ab17420"
     }
   ],
+  // In-network binding to the tokens worker (tokens.mochify.app), used by
+  // /api/usage to avoid a public double-hop. Until this is uncommented the code
+  // falls back to a public fetch, so it's safe to leave off. Set "service" to
+  // the tokens worker's actual Cloudflare service name (its wrangler `name`) —
+  // a wrong/nonexistent name will fail `wrangler deploy`.
+  "services": [
+    { "binding": "TOKENS", "service": "mochify-tokens" }
+  ],
   // Non-secret vars belong here so they survive wrangler deploy (which
   // replaces the worker's plain vars with exactly what's in this file).
   // Actual secrets (POLAR_ACCESS_TOKEN, POLAR_WEBHOOK_SECRET, INTERNAL_TOKEN,
