@@ -3,21 +3,17 @@
 	import { goto } from '$app/navigation';
 	import { enhance } from '$app/forms';
 	import { authClient } from '$lib/auth-client';
-	import { getSessionToken } from '$lib/user';
 	import Navigation from '$lib/components/Navigation.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import { env } from '$env/dynamic/public';
 	import { posthog } from '$lib/analytics';
-
-	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 
 	let { data } = $props();
 
 	let justUpgraded = $state(false);
 
-	// API key state — seeded from the server load so the card renders immediately
-	// (no client-side status round-trip on mount). loadKeyStatus() still exists for
-	// the post-generate/regenerate recovery paths.
+	// API key state — seeded from the server load so the card renders immediately.
+	// Mutations (generate/regenerate) run as server form actions and update these
+	// from the action result; no client-side status round-trip.
 	// svelte-ignore state_referenced_locally
 	let hasKey = $state(data.hasKey ?? false);
 	// svelte-ignore state_referenced_locally
@@ -25,7 +21,6 @@
 	let newKeyPlaintext = $state<string | null>(null);
 	let copied = $state(false);
 	let keyLoading = $state(false);
-	let keyChecking = $state(false);
 
 	// Usage state
 	let usageLoaded = $state(false);
@@ -42,30 +37,6 @@
 	let isDay = $derived(data.profile?.plan === 'day');
 	let isPaid = $derived(isPro || isSeller || isDay);
 
-	async function loadKeyStatus(retries = 3) {
-		keyChecking = true;
-		let jwt = await getSessionToken();
-		// Session may not be hydrated on first mount — retry a couple of times
-		if (!jwt && retries > 0) {
-			await new Promise(r => setTimeout(r, 500));
-			return loadKeyStatus(retries - 1);
-		}
-		if (!jwt) { keyChecking = false; return; }
-		try {
-			const res = await fetch(`${API_URL}/v1/user/apikey`, {
-				headers: { Authorization: `Bearer ${jwt}` }
-			});
-			if (res.ok) {
-				const body = (await res.json()) as Record<string, unknown>;
-				hasKey = (body.has_key as boolean) ?? false;
-				keyCreatedAt = (body.created_at as string) ?? null;
-			}
-		} catch {
-			// network error — leave hasKey as-is
-		}
-		keyChecking = false;
-	}
-
 	async function loadUsage() {
 		try {
 			const res = await fetch('/api/usage');
@@ -78,71 +49,6 @@
 		} catch {
 			// silently ignore
 		}
-	}
-
-	async function generateKey() {
-		keyLoading = true;
-		newKeyPlaintext = null;
-		const jwt = await getSessionToken();
-		if (!jwt) {
-			keyLoading = false;
-			return;
-		}
-		try {
-			const res = await fetch(`${API_URL}/v1/user/apikey`, {
-				method: 'POST',
-				headers: { Authorization: `Bearer ${jwt}` }
-			});
-			if (res.ok) {
-				const body = (await res.json()) as Record<string, unknown>;
-				newKeyPlaintext = (body.key as string) ?? null;
-				hasKey = true;
-				keyCreatedAt = new Date().toISOString();
-				posthog.capture('api_key_created', { action: 'generate' });
-				await loadUsage();
-			} else {
-				// Key likely already exists (conflict) — re-check status and show dots
-				await loadKeyStatus();
-			}
-		} catch {
-			await loadKeyStatus();
-		}
-		keyLoading = false;
-	}
-
-	async function regenerateKey() {
-		keyLoading = true;
-		newKeyPlaintext = null;
-		const jwt = await getSessionToken();
-		if (!jwt) {
-			keyLoading = false;
-			return;
-		}
-		try {
-			// Revoke old key — abort if it fails to avoid issuing a duplicate
-			const delRes = await fetch(`${API_URL}/v1/user/apikey`, {
-				method: 'DELETE',
-				headers: { Authorization: `Bearer ${jwt}` }
-			});
-			if (!delRes.ok) {
-				await loadKeyStatus();
-				keyLoading = false;
-				return;
-			}
-			// Generate new key
-			const res = await fetch(`${API_URL}/v1/user/apikey`, {
-				method: 'POST',
-				headers: { Authorization: `Bearer ${jwt}` }
-			});
-			if (res.ok) {
-				const body = (await res.json()) as Record<string, unknown>;
-				newKeyPlaintext = (body.key as string) ?? null;
-				keyCreatedAt = new Date().toISOString();
-			}
-		} catch {
-			await loadKeyStatus();
-		}
-		keyLoading = false;
 	}
 
 	async function copyKey() {
@@ -348,13 +254,34 @@
 					</p>
 				</div>
 				{#if hasKey}
-					<button
-						onclick={regenerateKey}
-						disabled={keyLoading}
-						class="text-xs font-bold text-[#875F42]/60 transition-colors hover:text-[#F06292] disabled:opacity-40"
+					<form
+						method="POST"
+						action="?/regenerateKey"
+						use:enhance={() => {
+							keyLoading = true;
+							newKeyPlaintext = null;
+							return async ({ result }) => {
+								keyLoading = false;
+								const d =
+									result.type === 'success'
+										? (result.data as { apiKey?: string; createdAt?: string } | undefined)
+										: undefined;
+								if (d?.apiKey) {
+									newKeyPlaintext = d.apiKey;
+									keyCreatedAt = d.createdAt ?? new Date().toISOString();
+									posthog.capture('api_key_created', { action: 'regenerate' });
+								}
+							};
+						}}
 					>
-						{keyLoading ? 'Regenerating…' : 'Regenerate'}
-					</button>
+						<button
+							type="submit"
+							disabled={keyLoading}
+							class="text-xs font-bold text-[#875F42]/60 transition-colors hover:text-[#F06292] disabled:opacity-40"
+						>
+							{keyLoading ? 'Regenerating…' : 'Regenerate'}
+						</button>
+					</form>
 				{/if}
 			</div>
 
@@ -389,22 +316,41 @@
 						>
 					{/if}
 				</div>
-			{:else if keyChecking}
-				<div class="py-4 text-center">
-					<p class="text-sm text-cocoa-milk/40">Checking…</p>
-				</div>
 			{:else}
 				<div class="py-4 text-center">
 					<p class="mb-4 text-sm text-[#875F42]/60">
 						No API key yet. Generate one to start using authenticated processing.
 					</p>
-					<button
-						onclick={generateKey}
-						disabled={keyLoading}
-						class="cursor-pointer rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] disabled:transform-none disabled:opacity-60"
+					<form
+						method="POST"
+						action="?/generateKey"
+						use:enhance={() => {
+							keyLoading = true;
+							newKeyPlaintext = null;
+							return async ({ result }) => {
+								keyLoading = false;
+								const d =
+									result.type === 'success'
+										? (result.data as { apiKey?: string; createdAt?: string } | undefined)
+										: undefined;
+								if (d?.apiKey) {
+									newKeyPlaintext = d.apiKey;
+									hasKey = true;
+									keyCreatedAt = d.createdAt ?? new Date().toISOString();
+									posthog.capture('api_key_created', { action: 'generate' });
+									loadUsage();
+								}
+							};
+						}}
 					>
-						{keyLoading ? 'Generating…' : 'Generate API key'}
-					</button>
+						<button
+							type="submit"
+							disabled={keyLoading}
+							class="cursor-pointer rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] disabled:transform-none disabled:opacity-60"
+						>
+							{keyLoading ? 'Generating…' : 'Generate API key'}
+						</button>
+					</form>
 				</div>
 			{/if}
 

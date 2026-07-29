@@ -1,8 +1,9 @@
 import { redirect, fail } from '@sveltejs/kit'
 import { CF_WORKER_TOKEN } from '$env/static/private'
+import { env } from '$env/dynamic/private'
 import type { Actions, PageServerLoad } from './$types'
 
-const TOKEN_WORKER_URL = 'https://tokens.mochify.app'
+const TOKEN_WORKER_URL = env.CF_WORKER_URL || 'https://id.mochify.app'
 const EXT_ID_RE = /^[a-z]{32}$/
 
 export const load: PageServerLoad = async ({ locals, url }) => {

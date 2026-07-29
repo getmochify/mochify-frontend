@@ -1,25 +1,50 @@
 import { fail, redirect } from '@sveltejs/kit'
 import { Polar } from '@polar-sh/sdk'
 import { env } from '$env/dynamic/private'
-import { env as publicEnv } from '$env/dynamic/public'
 import { Kysely } from 'kysely'
 import { D1Dialect } from 'kysely-d1'
 import type { PageServerLoad } from './$types'
 
-// API-key status server-side, so the card renders with the page instead of the
-// old client waterfall (getSession round-trip + up to 3×500ms retries + a
-// cross-origin call to core). We already hold locals.session.token here, and the
-// edge->core hop is ~90ms, so this replaces seconds of mobile latency with one
-// fast call that runs in parallel with the layout's profile query. Core stays
-// the source of truth (it returns created_at); only the *timing* moves.
-export const load: PageServerLoad = async ({ locals, fetch }) => {
-    if (!locals.session) return { hasKey: false, keyCreatedAt: null }
+const WORKER_URL = env.CF_WORKER_URL || 'https://id.mochify.app'
 
-    const API_URL = publicEnv.PUBLIC_API_URL || 'https://api.mochify.app'
+// All key CRUD (status read + generate/regenerate) goes to the tokens worker, not
+// core (Frankfurt). We already hold locals.user.id here and vouch for it with
+// X-Worker-Token — the same trust model the extension/CLI key flows use — so there
+// is no need to round-trip a Bearer session out to Frankfurt. Core only ever
+// proxied these to the same worker anyway. Prefer the in-network TOKENS service
+// binding (RPC, no public hop) and fall back to a public fetch until it's bound.
+function callWorker(platform: App.Platform | undefined, path: string, init: RequestInit = {}) {
+    const headers = {
+        ...(init.headers as Record<string, string> | undefined),
+        'X-Worker-Token': env.CF_WORKER_TOKEN ?? '',
+    }
+    const req = new Request(`${WORKER_URL}${path}`, { ...init, headers })
+    return platform?.env?.TOKENS ? platform.env.TOKENS.fetch(req) : fetch(req)
+}
+
+// Generate "mchy_" + hex(24 random bytes) = 53-char opaque key, matching core's
+// historical format and the public docs. The stored hash is SHA-256 over the full
+// string (prefix included) — exactly what the squish hot path hashes to validate.
+// Only the hash reaches the worker; the plaintext is returned to the caller once.
+async function issueKey(platform: App.Platform | undefined, userId: string): Promise<string | null> {
+    const rawBytes = crypto.getRandomValues(new Uint8Array(24))
+    const key = 'mchy_' + Array.from(rawBytes).map((b) => b.toString(16).padStart(2, '0')).join('')
+    const hashBuf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key))
+    const keyHash = Array.from(new Uint8Array(hashBuf)).map((b) => b.toString(16).padStart(2, '0')).join('')
+    const res = await callWorker(platform, `/apikey/${keyHash}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId }),
+    })
+    return res.ok ? key : null
+}
+
+// API-key status: the worker returns the same { has_key, created_at } core proxied,
+// so the card renders from server data with no client round-trip.
+export const load: PageServerLoad = async ({ locals, platform }) => {
+    if (!locals.user) return { hasKey: false, keyCreatedAt: null }
     try {
-        const res = await fetch(`${API_URL}/v1/user/apikey`, {
-            headers: { Authorization: `Bearer ${locals.session.token}` },
-        })
+        const res = await callWorker(platform, `/user/${locals.user.id}/apikey`)
         if (res.ok) {
             const body = (await res.json()) as { has_key?: boolean; created_at?: string | null }
             return { hasKey: body.has_key ?? false, keyCreatedAt: body.created_at ?? null }
@@ -31,6 +56,38 @@ export const load: PageServerLoad = async ({ locals, fetch }) => {
 }
 
 export const actions = {
+    // Issue a new API key. Refuses if one already exists (mirrors core's old 409)
+    // so the caller regenerates instead — a bare re-PUT would orphan the previous
+    // key's KV entry, leaving it valid until its cache TTL expires.
+    generateKey: async ({ locals, platform }) => {
+        if (!locals.user) return fail(401, { error: 'Not authenticated' })
+
+        const statusRes = await callWorker(platform, `/user/${locals.user.id}/apikey`)
+        if (statusRes.ok) {
+            const s = (await statusRes.json()) as { has_key?: boolean; created_at?: string | null }
+            if (s.has_key) {
+                return fail(409, { error: 'A key already exists. Regenerate to replace it.' })
+            }
+        }
+
+        const key = await issueKey(platform, locals.user.id)
+        if (!key) return fail(502, { error: 'Could not generate a key. Try again.' })
+        return { apiKey: key, createdAt: new Date().toISOString() }
+    },
+
+    // Revoke-then-issue. The DELETE evicts the old key's KV entry (a bare re-PUT
+    // would leave it valid for up to the worker's 24h cache TTL); then a fresh key
+    // is minted. D1's INSERT OR REPLACE keeps it one-key-per-user.
+    regenerateKey: async ({ locals, platform }) => {
+        if (!locals.user) return fail(401, { error: 'Not authenticated' })
+
+        await callWorker(platform, `/user/${locals.user.id}/apikey`, { method: 'DELETE' }).catch(() => {})
+
+        const key = await issueKey(platform, locals.user.id)
+        if (!key) return fail(502, { error: 'Could not regenerate the key. Try again.' })
+        return { apiKey: key, createdAt: new Date().toISOString() }
+    },
+
     // Third-party AI consent toggle. Privacy-first: stored explicitly per user,
     // default off. Upserts because free users may not have a profile row yet —
     // a new row seeds free defaults, an existing row only touches the consent

@@ -16,7 +16,7 @@
 	import { portal } from '$lib/portal';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
-	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://tokens.mochify.app';
+	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://id.mochify.app';
 
 	let { onSuccess }: { onSuccess?: () => void } = $props();
 

@@ -1,7 +1,7 @@
 import { env } from '$env/dynamic/private'
 import type { RequestHandler } from './$types'
 
-const WORKER_URL = env.CF_WORKER_URL || 'https://tokens.mochify.app'
+const WORKER_URL = env.CF_WORKER_URL || 'https://id.mochify.app'
 const FREE_QUOTA = 25
 
 export const GET: RequestHandler = async ({ locals, request, platform }) => {
