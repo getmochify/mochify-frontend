@@ -738,7 +738,7 @@
 		try {
 			const jwt = await (warmedAuth ?? getSessionToken());
 			isAuthenticated = !!jwt;
-			const res = await fetch(`${API_URL}/v1/checkTokens`, {
+			const res = await fetch(`${WORKER_URL}/v1/usage`, {
 				headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
 			});
 			if (!res.ok) throw new Error('checkTokens failed');
@@ -930,7 +930,7 @@
 			let preflightRemaining = Infinity;
 			if (uploadMode !== 'video') {
 				try {
-					const tokenRes = await fetch(`${API_URL}/v1/checkTokens`, {
+					const tokenRes = await fetch(`${WORKER_URL}/v1/usage`, {
 						headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
 					});
 					if (tokenRes.ok) {

@@ -7,6 +7,7 @@
     import { uploadErrorMessage, readXhrErrorText, trackUpload413 } from '$lib/uploadError';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
+    const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://id.mochify.app';
 
     type FileProgress = {
         file: File;
@@ -117,7 +118,7 @@
             return;
         }
         try {
-            const response = await fetch(`${API_URL}/v1/checkTokens`);
+            const response = await fetch(`${WORKER_URL}/v1/usage`);
             if (!response.ok) {
                 throw new Error('Failed to check token limit');
             }

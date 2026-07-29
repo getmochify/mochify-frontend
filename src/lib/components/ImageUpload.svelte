@@ -12,6 +12,7 @@
     import { portal } from '$lib/portal';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
+    const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://id.mochify.app';
 
     type FileProgress = {
         file: File;
@@ -127,7 +128,7 @@
     async function checkTokenLimit(): Promise<void> {
         try {
             const jwt = await getSessionToken();
-            const response = await fetch(`${API_URL}/v1/checkTokens`, {
+            const response = await fetch(`${WORKER_URL}/v1/usage`, {
                 headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
             });
             if (!response.ok) {
@@ -363,7 +364,7 @@
         const jwt = await getSessionToken();
         const uploadPlan = await getPlan();
 
-        // Guest-quota race guard: /v1/checkTokens is async, and a fast click can
+        // Guest-quota race guard: the token check is async, and a fast click can
         // beat it — falling straight through handleButtonClick's insufficientTokens
         // gate (which needs hasCheckedTokens) and firing an upload the server only
         // rejects. Resolve the check here so an out-of-quota guest bails cleanly to
