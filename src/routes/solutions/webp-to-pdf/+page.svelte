@@ -7,7 +7,6 @@
     <meta name="description" content="Turn WebP images into a PDF in one step — one page per image, multi-page support, your choice of page size. Processed in memory, never stored. Free, no sign-up required.">
     <meta property="og:title" content="WebP to PDF — Combine Images into One PDF | Mochify" />
     <meta property="og:description" content="Turn WebP images into a PDF in one step — one page per image, multi-page support, your choice of page size. Processed in memory, never stored. Free, no sign-up required." />
-    <link rel="canonical" href="https://mochify.app/solutions/webp-to-pdf" />
 
     <script type="application/ld+json">
         {

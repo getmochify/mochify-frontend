@@ -96,7 +96,6 @@
     <meta property="og:description" content={metadata.description} />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://mochify.app/guides/ai-image-compression-conversion" />
-    <link rel="canonical" href="https://mochify.app/guides/ai-image-compression-conversion" />
 
     <script type="application/ld+json">
     {

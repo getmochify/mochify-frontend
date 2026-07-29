@@ -85,7 +85,6 @@
 <svelte:head>
     <title>{metadata.title}</title>
     <meta name="description" content={metadata.description} />
-    <link rel="canonical" href="https://mochify.app/guides/hif-to-jpg-canon-sony-fujifilm" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />

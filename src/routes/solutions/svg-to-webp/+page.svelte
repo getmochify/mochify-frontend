@@ -7,7 +7,6 @@
     <meta name="description" content="Convert SVG files to WebP instantly. Preserve transparency, get smaller files than PNG, and make your SVG assets compatible with every platform and CMS.">
     <meta property="og:title" content="Convert SVG to WebP - Free, Private & Instant | Mochify" />
     <meta property="og:description" content="Convert SVG files to WebP instantly. Preserve transparency, get smaller files than PNG, and make your SVG assets compatible with every platform and CMS." />
-    <link rel="canonical" href="https://mochify.app/solutions/svg-to-webp" />
 
     <script type="application/ld+json">
         {

@@ -7,7 +7,6 @@
     <meta name="description" content="Remove image backgrounds and download a transparent AVIF in one step. AI-powered cutouts, full alpha transparency, the smallest transparent format — processed in memory, never stored.">
     <meta property="og:title" content="Remove Background to AVIF — Free & Private | Mochify" />
     <meta property="og:description" content="Remove image backgrounds and download a transparent AVIF in one step. AI-powered cutouts, full alpha transparency, the smallest transparent format — processed in memory, never stored." />
-    <link rel="canonical" href="https://mochify.app/solutions/remove-background-avif" />
 
     <script type="application/ld+json">
         {

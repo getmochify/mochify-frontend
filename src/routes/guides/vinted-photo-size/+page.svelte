@@ -23,7 +23,6 @@
 <svelte:head>
     <title>{metadata.title} | Mochify</title>
     <meta name="description" content={metadata.description}>
-    <link rel="canonical" href="https://mochify.app/guides/vinted-photo-size" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content={metadata.title} />

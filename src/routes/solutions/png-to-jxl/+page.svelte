@@ -7,7 +7,6 @@
     <meta name="description" content="Convert PNG to JPEG XL (JXL) — true lossless mode that beats PNG on file size, full alpha transparency, and 16-bit color. Perfect for archiving and future-proofing.">
     <meta property="og:title" content="Convert PNG to JPEG XL (JXL) - Free, Private & Instant | Mochify" />
     <meta property="og:description" content="Convert PNG files to JPEG XL — lossless mode smaller than PNG, full transparency, and 16-bit color. Future-proof your PNG assets." />
-    <link rel="canonical" href="https://mochify.app/solutions/png-to-jxl" />
 
     <script type="application/ld+json">
         {

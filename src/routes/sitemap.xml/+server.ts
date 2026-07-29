@@ -1,15 +1,24 @@
-import { statSync } from 'fs';
-import { resolve } from 'path';
+import { execFileSync } from 'child_process';
 
 export const prerender = true;
 
+const today = () => new Date().toISOString().split('T')[0];
+
+// Last modified = the file's last git commit date, NOT its filesystem mtime.
+// On CI a fresh `git clone` resets every file's mtime to checkout time, which
+// would stamp every URL with lastmod = deploy date on every deploy. Bing (and
+// Google) distrust sitemaps where everything "changed" at once and start
+// ignoring lastmod entirely. The commit date is stable across deploys.
 function lastmod(urlPath: string): string {
-    const routeDir = urlPath === '' ? '.' : urlPath.slice(1).replace(/\//g, '/');
+    const routeDir = urlPath === '' ? '.' : urlPath.slice(1);
     try {
-        const file = resolve('src/routes', routeDir, '+page.svelte');
-        return statSync(file).mtime.toISOString().split('T')[0];
+        const file = `src/routes/${routeDir}/+page.svelte`;
+        const date = execFileSync('git', ['log', '-1', '--format=%cs', '--', file], {
+            encoding: 'utf8'
+        }).trim();
+        return date || today();
     } catch {
-        return new Date().toISOString().split('T')[0];
+        return today();
     }
 }
 

@@ -7,7 +7,6 @@
     <meta name="description" content="Remove image backgrounds and download a transparent WebP in one step. AI-powered cutouts, full alpha transparency, smaller than PNG — processed in memory, never stored.">
     <meta property="og:title" content="Remove Background to WebP — Free & Private | Mochify" />
     <meta property="og:description" content="Remove image backgrounds and download a transparent WebP in one step. AI-powered cutouts, full alpha transparency, smaller than PNG — processed in memory, never stored." />
-    <link rel="canonical" href="https://mochify.app/solutions/remove-background-webp" />
 
     <script type="application/ld+json">
         {

@@ -7,7 +7,6 @@
     <meta name="description" content="Convert MP4 to WebM free, right in your browser. Smaller files for web video, nothing uploaded, no account, no limits — your video never leaves your device.">
     <meta property="og:title" content="MP4 to WebM — Free & Private In-Browser Converter | Mochify" />
     <meta property="og:description" content="Convert MP4 to WebM free, right in your browser. Smaller files for web video, nothing uploaded, no account, no limits — your video never leaves your device." />
-    <link rel="canonical" href="https://mochify.app/solutions/mp4-to-webm" />
 
     <script type="application/ld+json">
         {

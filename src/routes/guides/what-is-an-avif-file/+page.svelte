@@ -54,7 +54,6 @@
 <svelte:head>
     <title>What Is an AVIF File? | Mochify</title>
     <meta name="description" content={metadata.description}>
-    <link rel="canonical" href="https://mochify.app/guides/what-is-an-avif-file" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="What Is an AVIF File? (And How to Open One)" />
     <meta property="og:description" content={metadata.description} />

@@ -85,7 +85,6 @@
 <svelte:head>
     <title>AI Image Compression - Optimize Generated Assets in Agent Workflows</title>
     <meta name="description" content={metadata.description}>
-    <link rel="canonical" href="https://mochify.app/guides/compress-optimize-ai-generated-images" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="How to Compress and Optimize AI-Generated Images (in Automated and Agent Workflows)" />
     <meta property="og:description" content={metadata.description} />

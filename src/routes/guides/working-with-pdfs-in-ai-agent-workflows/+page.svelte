@@ -63,7 +63,6 @@
 <svelte:head>
     <title>{metadata.title} | Mochify</title>
     <meta name="description" content={metadata.description}>
-    <link rel="canonical" href="https://mochify.app/guides/working-with-pdfs-in-ai-agent-workflows" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Extract Images from PDF in AI Agent Workflows - Split & Convert" />
     <meta property="og:description" content={metadata.description} />

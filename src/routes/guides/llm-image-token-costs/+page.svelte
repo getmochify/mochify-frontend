@@ -28,7 +28,6 @@
 <svelte:head>
     <title>{metadata.title} | Mochify</title>
     <meta name="description" content={metadata.description}>
-    <link rel="canonical" href="https://mochify.app/guides/llm-image-token-costs" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="LLM Image Token Costs: How Many Tokens Does an Image Use?" />
     <meta property="og:description" content={metadata.description} />

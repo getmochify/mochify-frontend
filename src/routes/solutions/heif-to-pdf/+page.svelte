@@ -7,7 +7,6 @@
     <meta name="description" content="Convert HEIC and HEIF photos from your iPhone or iPad into a single PDF. One page per image, multi-page support, your choice of page size. Processed in memory, never stored. Free, no sign-up required.">
     <meta property="og:title" content="HEIC/HEIF to PDF — Convert iPhone Photos to a PDF | Mochify" />
     <meta property="og:description" content="Convert HEIC and HEIF photos from your iPhone or iPad into a single PDF. One page per image, multi-page support, your choice of page size. Processed in memory, never stored. Free, no sign-up required." />
-    <link rel="canonical" href="https://mochify.app/solutions/heif-to-pdf" />
 
     <script type="application/ld+json">
         {

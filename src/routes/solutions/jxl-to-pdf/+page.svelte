@@ -7,7 +7,6 @@
     <meta name="description" content="Convert JPEG XL images to a PDF in one step — one page per image, multi-page support, your choice of page size. Processed in memory, never stored. Free, no sign-up required.">
     <meta property="og:title" content="JPEG XL to PDF — Convert JXL Images to a PDF | Mochify" />
     <meta property="og:description" content="Convert JPEG XL images to a PDF in one step — one page per image, multi-page support, your choice of page size. Processed in memory, never stored. Free, no sign-up required." />
-    <link rel="canonical" href="https://mochify.app/solutions/jxl-to-pdf" />
 
     <script type="application/ld+json">
         {

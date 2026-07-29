@@ -25,7 +25,6 @@
 <svelte:head>
     <title>{metadata.title} | Mochify</title>
     <meta name="description" content={metadata.description}>
-    <link rel="canonical" href="https://mochify.app/guides/sony-hif-to-jpg" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="How Do I Convert Sony HIF Files to JPG?" />
     <meta property="og:description" content={metadata.description} />

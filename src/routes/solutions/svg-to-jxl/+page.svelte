@@ -7,7 +7,6 @@
     <meta name="description" content="Convert SVG files to JPEG XL (JXL) — the next-generation format with outstanding compression, full transparency, and lossless mode. Great for archiving and future-proofing.">
     <meta property="og:title" content="Convert SVG to JPEG XL (JXL) - Free, Private & Instant | Mochify" />
     <meta property="og:description" content="Convert SVG files to JPEG XL — outstanding compression, full transparency, and lossless mode. Future-proof your SVG assets." />
-    <link rel="canonical" href="https://mochify.app/solutions/svg-to-jxl" />
 
     <script type="application/ld+json">
         {

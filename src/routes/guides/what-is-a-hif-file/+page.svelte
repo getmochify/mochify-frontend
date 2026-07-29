@@ -26,7 +26,6 @@
 <svelte:head>
     <title>{metadata.title} | Mochify</title>
     <meta name="description" content={metadata.description}>
-    <link rel="canonical" href="https://mochify.app/guides/what-is-a-hif-file" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="What Is a HIF File? (And How to Open One)" />
     <meta property="og:description" content={metadata.description} />

@@ -7,7 +7,6 @@
     <meta name="description" content="Convert SVG files to AVIF instantly. Get the smallest file sizes with full transparency support — the best raster format for SVG assets on modern web.">
     <meta property="og:title" content="Convert SVG to AVIF - Free, Private & Instant | Mochify" />
     <meta property="og:description" content="Convert SVG files to AVIF instantly. Get the smallest file sizes with full transparency support — the best raster format for SVG assets on modern web." />
-    <link rel="canonical" href="https://mochify.app/solutions/svg-to-avif" />
 
     <script type="application/ld+json">
         {

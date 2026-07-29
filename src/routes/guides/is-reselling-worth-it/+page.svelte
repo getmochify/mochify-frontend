@@ -73,7 +73,6 @@
 <svelte:head>
     <title>{metadata.seoTitle} | Mochify</title>
     <meta name="description" content={metadata.description}>
-    <link rel="canonical" href="https://mochify.app/guides/is-reselling-worth-it" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content={metadata.seoTitle} />

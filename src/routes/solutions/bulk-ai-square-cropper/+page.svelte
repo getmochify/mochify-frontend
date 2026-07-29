@@ -13,7 +13,6 @@
     <meta name="description" content="Batch crop images to a perfect square using AI saliency — the subject stays centered automatically. Pick your size, upload, download. Free, no sign-up required.">
     <meta property="og:title" content="Bulk AI Square Cropper — Smart-Crop Images to a Square | Mochify" />
     <meta property="og:description" content="Batch crop images to a perfect square using AI saliency — the subject stays centered automatically. Pick your size, upload, download. Free, no sign-up required." />
-    <link rel="canonical" href="https://mochify.app/solutions/bulk-ai-square-cropper" />
 
     <script type="application/ld+json">
         {
