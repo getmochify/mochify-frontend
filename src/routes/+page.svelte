@@ -73,14 +73,11 @@
     <meta property="og:url" content="https://mochify.app/" />
     <meta property="og:title" content="Mochify | Intelligent Image Workflows & Next-Gen Compression" />
     <meta property="og:description" content="Bulk process images with natural language. Smart square-crop for Shopify, next-gen AVIF/JXL compression, and a native MCP server for AI agents. Fast, private, and zero-retention." />
-    <meta property="og:image" content="https://mochify.app/screenshot_v3_mochified.webp" />
-    <meta property="og:image:alt" content="Mochify image compressor interface" />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Mochify | Intelligent Image Workflows & Next-Gen Compression" />
     <meta name="twitter:description" content="Bulk process images with natural language. Smart square-crop for Shopify, next-gen AVIF/JXL compression, and a native MCP server for AI agents. Fast, private, and zero-retention." />
-    <meta name="twitter:image" content="https://mochify.app/screenshot_v3_mochified.webp" />
 
     <script type="application/ld+json">
     {

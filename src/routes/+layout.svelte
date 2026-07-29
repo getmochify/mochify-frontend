@@ -3,6 +3,7 @@
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import { posthog } from '$lib/analytics';
+	import { ogImageFor } from '$lib/og/cards.js';
 	import BlobBackground from '$lib/components/BlobBackground.svelte';
 	let { children, data } = $props();
 
@@ -47,6 +48,11 @@
 		page.url.pathname.startsWith('/guides')
 	);
 
+	// Build-time OG card for this route (falls back to the generic card).
+	// Pages set their own og:title/description; the shared image is injected here
+	// so we don't have to repeat it across ~90 routes. See src/lib/og/cards.js.
+	const ogImage = $derived(ogImageFor(page.url.pathname));
+
 	// Import Outfit (Weights: 600, 700, 800, 900)
 	import '@fontsource/outfit/600.css';
 	import '@fontsource/outfit/700.css';
@@ -75,6 +81,12 @@
 	<link rel="preload" as="font" type="font/woff2" href={of700} crossorigin="anonymous">
 	<link rel="preload" as="font" type="font/woff2" href={of800} crossorigin="anonymous">
 	<link rel="canonical" href="https://mochify.app{page.url.pathname}" />
+	<meta property="og:image" content={ogImage} />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:image:type" content="image/png" />
+	<meta property="og:image:alt" content="Mochify" />
+	<meta name="twitter:image" content={ogImage} />
 	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 	<link rel="shortcut icon" href="/favicon.ico" />
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
