@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "Can Safari Open HEIC Images on the Web?",
+            description: "Yes, Safari 17+ renders HEIC natively on the web. Chrome, Firefox, and Edge do not. Convert to JPEG or WebP before publishing for full compatibility.",
+            url: "/guides/can-safari-open-heic-images",
+            category: "Quick Guides",
+            readTime: "2 min read",
+            date: "Jul 10, 2026"
+        },
+        {
             title: "What Is an AVIF File? (And How to Open One)",
             description: "An AVIF file is an image in the AV1 Image File Format, up to 50% smaller than JPEG. Here's how to open it on Windows and Mac, or convert it to JPG.",
             url: "/guides/what-is-an-avif-file",

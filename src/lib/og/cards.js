@@ -56,6 +56,7 @@ export const cards = [
 		eyebrow: 'GUIDE',
 		title: 'AVIF to JPG: How to Convert AVIF Files on Any Device'
 	},
+	{ path: '/guides/can-safari-open-heic-images', eyebrow: 'GUIDE', title: 'Can Safari Open HEIC Images on the Web?' },
 	{
 		path: '/guides/chrome-145-jpeg-xl-default',
 		eyebrow: 'GUIDE',

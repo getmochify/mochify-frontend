@@ -96,6 +96,13 @@ Each guide is a standalone `.svelte` file. The shared layout (`src/routes/guides
 - `ReadProgress` — reading progress bar; import at the top of each guide.
 - `Breadcrumb` — rendered by the layout automatically; no action needed.
 
+**Social card (OG image) — required for every new guide.** Guides get a build-time Open Graph card (system lives in `src/lib/og/cards.js`; generator is `scripts/generate-og.js`). When adding a guide:
+
+1. Add an entry to the `cards` array in `src/lib/og/cards.js`: `{ path: '/guides/<slug>', eyebrow: 'GUIDE', title: '<card title>' }`. Card copy follows house style (**no em dashes**); the page's `og:title` is usually fine, just trim any `| Mochify` suffix and keep it readable on a card.
+2. Regenerate and commit the PNG: `bun run og`, then commit `static/og/guides-<slug>.png`.
+
+Do **not** add an `<meta og:image>` to the guide — the root layout injects it automatically from the manifest. Skipping the steps above isn't fatal (the guide falls back to the generic `static/og/default.png`) but the guide won't get a bespoke share card.
+
 ### Mochify content publishing — non-negotiable preservation rules
 
 Source of record for any article is the handoff HTML in the content-ops repo (`article-originals/<slug>.html`). Do **not** tidy, reformat, or rewrite content that was handed over.
@@ -128,7 +135,12 @@ Run against the built `.svelte` file, not just the source. Fail the publish if a
 
 3. **External-link attributes** — every external anchor carries `target="_blank"` and `rel="noopener noreferrer"`.
 
-4. **Report** — state the em-dash count (must be 0) and source-vs-rendered external-link counts (must match) before marking publish done.
+4. **OG card exists** — confirm the guide's card was generated and committed:
+   ```bash
+   ls static/og/guides-<slug>.png   # missing? add to src/lib/og/cards.js then `bun run og`
+   ```
+
+5. **Report** — state the em-dash count (must be 0), source-vs-rendered external-link counts (must match), and whether the OG card exists before marking publish done.
 
 **Known pipeline regressions (content-ops fix pending — `dev-publishing-guardrails.md` Part A):**
 - Smart-dash typography (`remark-smartypants` / `markdown-it typographer: true`) converts hyphens to em dashes at build time.
