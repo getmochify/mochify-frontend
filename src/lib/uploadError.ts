@@ -7,8 +7,27 @@
 // sees a bare "Server error: 413".
 import { posthog } from '$lib/analytics';
 
-export function uploadErrorMessage(status: number, serverText?: string): string {
+export function uploadErrorMessage(
+	status: number,
+	serverText?: string,
+	rejectLabel?: string
+): string {
 	const text = serverText?.trim();
+
+	// Corrupt/truncated input — the server's `corrupt-image` taxonomy class (a
+	// 422). Prefer the X-Mochify-Reject header, but fall back to a status+body
+	// match so this still works if the header isn't readable (e.g. before the
+	// CORS expose-headers change is deployed). The dominant real cause is an
+	// iCloud "Optimize Storage" placeholder that never materialised to full-res,
+	// so steer the user to re-download the original rather than blaming the file.
+	const isCorrupt =
+		rejectLabel === 'corrupt-image' ||
+		(status === 422 && !!text && /corrupt or truncated/i.test(text));
+	if (isCorrupt) {
+		return "This image looks incomplete — if it's stored in iCloud, open it in " +
+			'Photos or Preview first to download the full-resolution original, then try again.';
+	}
+
 	if (status === 413) {
 		// This specific reason means the bomb-protection check couldn't parse the
 		// image header at all — in practice that's almost always an upload that
@@ -25,7 +44,45 @@ export function uploadErrorMessage(status: number, serverText?: string): string 
 	}
 	if (status === 415) return text && text.length > 0 ? text : 'That file type is not supported.';
 	if (status === 429) return 'Rate limit exceeded';
+	// Any other 422 (e.g. jpeg-missing-dht): the server's plaintext body is
+	// already user-facing, so pass it through rather than a bare "Server error".
+	if (status === 422) return text && text.length > 0 ? text : 'That image could not be processed.';
 	return text && text.length > 0 ? text : `Server error: ${status}`;
+}
+
+// The server's rejection taxonomy label (utils/ImageProcessor.h classifyLoadError),
+// surfaced as the X-Mochify-Reject response header. Readable cross-origin only
+// because Cors.h lists it in Access-Control-Expose-Headers; returns undefined if
+// absent (older core, or a non-pipeline rejection like a 413/429).
+export function readRejectLabel(xhr: XMLHttpRequest): string | undefined {
+	try {
+		return xhr.getResponseHeader('X-Mochify-Reject')?.trim() || undefined;
+	} catch {
+		return undefined;
+	}
+}
+
+// Fire-and-forget telemetry for a server-classified rejection. Only meaningful
+// when a label is present (the pipeline classified the failure), which lets us
+// measure the field rate of each class — e.g. what share of failures are
+// corrupt-image (truncated HEIC) vs a real engine-error. Mirrors trackUpload413.
+export function trackReject(opts: {
+	label?: string;
+	status: number;
+	source: 'squish' | 'chunked_complete';
+	plan?: string;
+}): void {
+	try {
+		posthog.capture('upload_reject', {
+			reject_label: opts.label ?? 'unknown',
+			status: opts.status,
+			source: opts.source,
+			plan: opts.plan ?? 'unknown',
+			ua: typeof navigator !== 'undefined' ? navigator.userAgent : ''
+		});
+	} catch {
+		/* analytics must never break an upload path */
+	}
 }
 
 // Read an XHR's plaintext error body regardless of responseType (we use

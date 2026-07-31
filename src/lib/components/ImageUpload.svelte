@@ -7,7 +7,7 @@
     import { withRetry } from '$lib/uploadRetry';
     import { uploadChunked, CHUNK_THRESHOLD_BYTES, type ChunkedUploadParams } from '$lib/uploadChunked';
     import { resolveUploadSize, effectiveSize, uploadBodyOf } from '$lib/uploadSize';
-    import { uploadErrorMessage, readXhrErrorText, trackUpload413 } from '$lib/uploadError';
+    import { uploadErrorMessage, readXhrErrorText, trackUpload413, readRejectLabel, trackReject } from '$lib/uploadError';
     import { isNetworkError } from '$lib/chunkRecovery';
     import { portal } from '$lib/portal';
 
@@ -495,6 +495,7 @@
                                             // misreported cloud-file size drove the oversize upload.
                                             void (async () => {
                                                 const serverText = await readXhrErrorText(xhr);
+                                                const rejectLabel = readRejectLabel(xhr);
                                                 if (xhr.status === 413) {
                                                     trackUpload413({
                                                         reportedSize: file.size,
@@ -502,7 +503,12 @@
                                                         plan: uploadPlan
                                                     });
                                                 }
-                                                const error: any = new Error(uploadErrorMessage(xhr.status, serverText));
+                                                // Pipeline-classified rejections (corrupt-image, jpeg-missing-dht,
+                                                // engine-error) carry a label; capture the field rate per class.
+                                                if (rejectLabel) {
+                                                    trackReject({ label: rejectLabel, status: xhr.status, source: 'squish', plan: uploadPlan });
+                                                }
+                                                const error: any = new Error(uploadErrorMessage(xhr.status, serverText, rejectLabel));
                                                 error.status = xhr.status;
                                                 reject(error);
                                             })();

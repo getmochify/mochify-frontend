@@ -10,6 +10,7 @@
 // minority of large uploads where a flaky connection actually hurts.
 import { withRetry, isRetryable } from '$lib/uploadRetry';
 import { posthog } from '$lib/analytics';
+import { uploadErrorMessage, readXhrErrorText, readRejectLabel } from '$lib/uploadError';
 
 // Above this size, use chunked (resumable) upload. Set to exactly one chunk:
 // anything larger is >=2 chunks, so a dropped connection costs at most one
@@ -97,6 +98,10 @@ interface RetryableXhrError extends Error {
 	// NOT set for a 404 from the complete phase — that can be an already-charged
 	// completion whose response was lost, which must not be re-run.
 	sessionExpired?: boolean;
+	// Server's rejection taxonomy label (X-Mochify-Reject), set on a
+	// pipeline-classified finalize failure (e.g. corrupt-image) so the caller
+	// can drive telemetry/messaging off a stable slug.
+	rejectLabel?: string;
 }
 
 function xhrError(
@@ -235,9 +240,20 @@ function completeUpload(
 				resolve(xhr.response);
 				return;
 			}
-			const error: RetryableXhrError = new Error(`Upload finalize failed: ${xhr.status}`);
-			error.status = xhr.status;
-			reject(error);
+			// Surface the server's classified reason (e.g. a corrupt-image 422 from
+			// a truncated HEIC) instead of a bare "finalize failed: 422". responseType
+			// is 'blob', so the body arrives as a Blob — read it async, same as the
+			// direct /v1/squish path in ImageUpload.svelte.
+			void (async () => {
+				const rejectLabel = readRejectLabel(xhr);
+				const serverText = await readXhrErrorText(xhr);
+				const error: RetryableXhrError = new Error(
+					uploadErrorMessage(xhr.status, serverText, rejectLabel)
+				);
+				error.status = xhr.status;
+				error.rejectLabel = rejectLabel;
+				reject(error);
+			})();
 		});
 		xhr.addEventListener('error', () => reject(xhrError('Network error', { retryable: true })));
 		xhr.open('POST', `${apiUrl}/v1/upload/complete?session=${encodeURIComponent(sessionId)}`);
@@ -462,7 +478,14 @@ async function runChunkedUpload(
 		return blob;
 	} catch (err) {
 		const status = (err as RetryableXhrError)?.status ?? 0;
-		posthog.capture('chunked_upload_failed', { fileSize: file.size, status });
+		const rejectLabel = (err as RetryableXhrError)?.rejectLabel;
+		posthog.capture('chunked_upload_failed', {
+			fileSize: file.size,
+			status,
+			// Present only on a pipeline-classified finalize failure — lets the
+			// corrupt-image (truncated HEIC) rate be measured on the chunked path too.
+			...(rejectLabel ? { reject_label: rejectLabel } : {})
+		});
 		throw err;
 	}
 }

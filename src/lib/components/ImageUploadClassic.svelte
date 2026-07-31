@@ -4,7 +4,7 @@
     import { getSessionToken, getPlan } from '$lib/user';
     import { uploadChunked, CHUNK_THRESHOLD_BYTES, type ChunkedUploadParams } from '$lib/uploadChunked';
     import { resolveUploadSize, effectiveSize, uploadBodyOf } from '$lib/uploadSize';
-    import { uploadErrorMessage, readXhrErrorText, trackUpload413 } from '$lib/uploadError';
+    import { uploadErrorMessage, readXhrErrorText, trackUpload413, readRejectLabel, trackReject } from '$lib/uploadError';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
     const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://id.mochify.app';
@@ -290,6 +290,7 @@
                                     // reported-vs-resolved size to confirm misreported cloud sizes.
                                     void (async () => {
                                         const serverText = await readXhrErrorText(xhr);
+                                        const rejectLabel = readRejectLabel(xhr);
                                         if (xhr.status === 413) {
                                             trackUpload413({
                                                 reportedSize: file.size,
@@ -297,7 +298,12 @@
                                                 plan: uploadPlan
                                             });
                                         }
-                                        const error: any = new Error(uploadErrorMessage(xhr.status, serverText));
+                                        // Pipeline-classified rejections (corrupt-image, jpeg-missing-dht,
+                                        // engine-error) carry a label; capture the field rate per class.
+                                        if (rejectLabel) {
+                                            trackReject({ label: rejectLabel, status: xhr.status, source: 'squish', plan: uploadPlan });
+                                        }
+                                        const error: any = new Error(uploadErrorMessage(xhr.status, serverText, rejectLabel));
                                         error.status = xhr.status;
                                         reject(error);
                                     })();
