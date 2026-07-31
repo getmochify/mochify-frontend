@@ -110,10 +110,10 @@
 	/>
 </svelte:head>
 
-<div class="flex min-h-screen flex-col bg-[#FDFBF7]">
+<div class="relative flex min-h-screen flex-col">
 	<Navigation />
 
-	<main class="flex flex-grow items-start justify-center px-4 pt-6 pb-12 sm:pt-16">
+	<main class="relative z-10 flex flex-grow items-start justify-center px-4 pt-6 pb-12 sm:pt-16">
 		<div class="w-full max-w-md">
 			<div class="mb-5 text-center sm:mb-8">
 				<h1 class="mb-1 text-3xl font-black tracking-tight text-[#4A2C2C] md:text-4xl">

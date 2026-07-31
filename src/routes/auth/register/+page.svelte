@@ -40,10 +40,10 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="flex min-h-screen flex-col bg-[#FDFBF7]">
+<div class="relative flex min-h-screen flex-col">
 	<Navigation />
 
-	<main class="flex flex-grow items-start justify-center px-4 pt-16 pb-12">
+	<main class="relative z-10 flex flex-grow items-start justify-center px-4 pt-16 pb-12">
 		<div class="w-full max-w-sm">
 			<div class="mb-8 text-center">
 				<h1 class="mb-1 text-3xl font-black tracking-tight text-[#4A2C2C]">Create account</h1>

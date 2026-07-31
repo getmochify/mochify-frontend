@@ -33,10 +33,10 @@
     <meta name="robots" content="noindex">
 </svelte:head>
 
-<div class="min-h-screen bg-[#FDFBF7] flex flex-col">
+<div class="relative min-h-screen flex flex-col">
     <Navigation />
 
-    <main class="flex-grow flex items-start justify-center px-4 pt-16 pb-12">
+    <main class="relative z-10 flex-grow flex items-start justify-center px-4 pt-16 pb-12">
         <div class="w-full max-w-sm">
             <div class="text-center mb-8">
                 <h1 class="text-3xl font-black text-[#4A2C2C] tracking-tight mb-1">Reset password</h1>

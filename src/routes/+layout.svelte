@@ -40,6 +40,7 @@
 		'/auth/register',
 		'/auth/forgot-password',
 		'/auth/reset-password',
+		'/contact',
 	]);
 
 	const showBlobs = $derived(
