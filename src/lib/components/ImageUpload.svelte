@@ -356,10 +356,21 @@
     }
 
     async function compressImage() {
+        // Hard re-entrancy guard. handleButtonClick already checks isLoading, but
+        // the button was only aria-disabled (still clickable) and isLoading used to
+        // latch late — after the awaits below — leaving a window where a second
+        // activation started an overlapping run that rebuilt fileProgress mid-flight
+        // and wiped the first run's completions (surfaced as "All files failed to
+        // convert" on uploads that actually succeeded).
+        if (isLoading) return;
         if (selectedFiles.length === 0) {
             errorMessage = 'Please select at least one image';
             return;
         }
+
+        // Latch before any await so no second activation can slip through the gap.
+        // Cleared in the finally below and on the guest-quota early-return path.
+        isLoading = true;
 
         const jwt = await getSessionToken();
         const uploadPlan = await getPlan();
@@ -375,6 +386,7 @@
             if (Number.isFinite(availableTokens) && selectedFiles.length > availableTokens) {
                 showSignupCta = true;
                 posthog.capture('signup_cta_shown', { trigger: 'button_click_no_tokens' });
+                isLoading = false;
                 return;
             }
         }
@@ -385,7 +397,6 @@
             authed: !!jwt
         });
 
-        isLoading = true;
         errorMessage = '';
         successMessage = '';
         isFileSizeError = false;
@@ -581,6 +592,17 @@
                     fileProgress = [];
                     return;
                 }
+                // Diagnostic: this throw fires only when nothing is marked complete
+                // AND nothing carries an error — i.e. the per-file result writes went
+                // missing. Capture the state so an occurrence tells us whether the
+                // blobs actually came back (uploads succeeded but results were wiped)
+                // vs a genuine all-fail. Remove once the "All files failed" reports stop.
+                posthog.capture('manual_compress_all_failed_debug', {
+                    statuses: fileProgress.map((fp) => fp.status),
+                    blobSizes: compressedBlobs.map((b) => b?.size ?? null),
+                    selected: selectedFiles.length,
+                    hitRateLimit
+                });
                 const firstError = fileProgress.find((fp) => fp.error)?.error;
                 throw new Error(firstError ?? 'All files failed to convert');
             }
@@ -1118,6 +1140,7 @@
     <div class="px-4 pb-4 sm:px-6">
         <button
             onclick={handleButtonClick}
+            disabled={isLoading}
             aria-disabled={isLoading}
             class="group flex w-full items-center justify-center gap-2 rounded-2xl px-6 py-3.5 font-bold transition-all duration-300
                 {shaking ? 'animate-shake' : ''}

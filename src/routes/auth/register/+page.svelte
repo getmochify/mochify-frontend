@@ -47,7 +47,9 @@
 		<div class="w-full max-w-sm">
 			<div class="mb-8 text-center">
 				<h1 class="mb-1 text-3xl font-black tracking-tight text-[#4A2C2C]">Create account</h1>
-				<p class="text-sm text-[#875F42]/70">Start compressing smarter</p>
+				<p class="text-sm text-[#875F42]/70">
+					Start compressing instantly. 100% free, no credit card required.
+				</p>
 			</div>
 
 			<div
@@ -143,6 +145,10 @@
 						>
 							{loading ? 'Creating account…' : 'Create account'}
 						</button>
+
+						<p class="-mt-1 text-center text-xs font-medium text-[#875F42]/50">
+							Free account • No credit card needed
+						</p>
 					</form>
 				{/if}
 			</div>
