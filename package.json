@@ -77,9 +77,9 @@
     "fflate": "^0.8.3",
     "kysely": "^0.28.17",
     "kysely-d1": "^0.4.0",
-    "mediabunny": "^1.51.0",
-    "posthog-js": "^1.407.6",
-    "posthog-node": "^5.46.1",
+    "mediabunny": "^1.52.2",
+    "posthog-js": "^1.409.5",
+    "posthog-node": "^5.47.3",
     "resend": "^6.18.1"
   }
 }
