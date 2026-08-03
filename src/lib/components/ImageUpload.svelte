@@ -220,12 +220,25 @@
         const resolved = await Promise.all(
             allFiles.map(async (f) => ({ file: f, size: await resolveUploadSize(f, MAX_INDIVIDUAL_FILE_SIZE) }))
         );
-        const oversizedFiles = resolved.filter((r) => r.size.exceededLimit);
+        // Files we can't read at all (size===0 and the stream gave us nothing):
+        // no upload path can succeed, so drop them up front with a clear reason
+        // rather than letting them fail as a confusing server error.
+        const unreadableFiles = resolved.filter((r) => r.size.unreadable);
+        const oversizedFiles = resolved.filter((r) => !r.size.unreadable && r.size.exceededLimit);
 
-        if (oversizedFiles.length > 0) {
-            errorMessage = `${oversizedFiles.length} file${oversizedFiles.length !== 1 ? 's' : ''} exceeded the ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB limit and ${oversizedFiles.length === 1 ? 'was' : 'were'} skipped.`;
-            isFileSizeError = true;
-            allFiles = resolved.filter((r) => !r.size.exceededLimit).map((r) => r.file);
+        if (unreadableFiles.length > 0 || oversizedFiles.length > 0) {
+            const msgs: string[] = [];
+            if (oversizedFiles.length > 0) {
+                msgs.push(`${oversizedFiles.length} file${oversizedFiles.length !== 1 ? 's' : ''} exceeded the ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB limit and ${oversizedFiles.length === 1 ? 'was' : 'were'} skipped.`);
+            }
+            if (unreadableFiles.length > 0) {
+                msgs.push(`${unreadableFiles.length} file${unreadableFiles.length !== 1 ? 's' : ''} couldn't be read and ${unreadableFiles.length === 1 ? 'was' : 'were'} skipped. If it's stored in iCloud or a cloud drive, open the original to download it first, then try again.`);
+            }
+            errorMessage = msgs.join(' ');
+            // Only the oversize case offers an upgrade path; an unreadable file
+            // isn't a plan-limit problem, so don't trigger the size-upsell UI.
+            if (oversizedFiles.length > 0) isFileSizeError = true;
+            allFiles = resolved.filter((r) => !r.size.unreadable && !r.size.exceededLimit).map((r) => r.file);
             if (allFiles.length === 0) return;
         }
 

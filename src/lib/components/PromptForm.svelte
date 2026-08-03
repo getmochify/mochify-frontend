@@ -342,6 +342,7 @@
 		MAX_FILES = plan === 'free' ? 3 : 25;
 		const validFiles: File[] = [];
 		let rejectedCount = 0;
+		let unreadableCount = 0;
 		let modeMismatch = 0;
 
 		let effectiveMode = uploadMode;
@@ -360,9 +361,15 @@
 			// Images can be misreported as size===0 by cloud providers, so measure
 			// the true length for them (bounded by the image limit). PDFs/videos
 			// keep the cheap metadata check — never stream-measure a 2 GB video.
-			const overLimit = isImage
-				? (await resolveUploadSize(f, sizeLimit)).exceededLimit
-				: f.size > sizeLimit;
+			const resolvedSize = isImage ? await resolveUploadSize(f, sizeLimit) : null;
+			if (resolvedSize?.unreadable) {
+				// No readable bytes (unmaterialised cloud placeholder): can't be
+				// uploaded by any path, so drop it with its own reason rather than
+				// as a generic size rejection.
+				unreadableCount++;
+				continue;
+			}
+			const overLimit = resolvedSize ? resolvedSize.exceededLimit : f.size > sizeLimit;
 			if (overLimit) {
 				rejectedCount++;
 				continue;
@@ -384,6 +391,12 @@
 
 		if (rejectedCount > 0) {
 			showStatus('error', `${rejectedCount} file(s) ignored (exceeds size limit)`);
+		}
+		if (unreadableCount > 0) {
+			showStatus(
+				'error',
+				`${unreadableCount} file(s) couldn't be read and were skipped. If stored in iCloud or a cloud drive, open the original to download it first, then try again.`
+			);
 		}
 		if (modeMismatch > 0) {
 			const modeLabel =

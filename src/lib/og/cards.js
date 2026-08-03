@@ -103,6 +103,11 @@ export const cards = [
 		title: 'Ecommerce Product Photo Workflow: Resize & Convert in One Prompt'
 	},
 	{
+		path: '/guides/etsy-listing-photo-size-guide',
+		eyebrow: 'GUIDE',
+		title: 'Etsy Listing Photo Size: The Complete Guide'
+	},
+	{
 		path: '/guides/european-alternative-tinypng-gdpr-compliant-image-compression',
 		eyebrow: 'GUIDE',
 		title: 'A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression'

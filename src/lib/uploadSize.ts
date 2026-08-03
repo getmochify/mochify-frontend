@@ -32,6 +32,12 @@ export interface ResolvedSize {
 	trusted: boolean;
 	// true when size is known to exceed the passed limit.
 	exceededLimit: boolean;
+	// true when file.size was unusable AND we could recover no bytes (the stream
+	// threw, or drained to zero). Such a file can't be uploaded by any path — no
+	// size to route on, chunking would send zero chunks, and a direct POST sends
+	// an empty/truncated body — so callers should drop it up front rather than
+	// letting it fail as a confusing server error.
+	unreadable: boolean;
 }
 
 // The body to actually upload for this file: the measured-bytes Blob when we
@@ -50,7 +56,7 @@ export function effectiveSize(file: File): number {
 export async function resolveUploadSize(file: File, limit: number): Promise<ResolvedSize> {
 	// Fast path: a plausible non-zero size is trustworthy — no read needed.
 	if (file.size > 0) {
-		return { size: file.size, trusted: true, exceededLimit: file.size > limit };
+		return { size: file.size, trusted: true, exceededLimit: file.size > limit, unreadable: false };
 	}
 
 	// file.size is 0/unknown — drain the stream to measure the real length,
@@ -67,16 +73,22 @@ export async function resolveUploadSize(file: File, limit: number): Promise<Reso
 			if (total > limit) {
 				// Over the ceiling — stop reading and drop it; no point buffering more.
 				await reader.cancel();
-				return { size: total, trusted: false, exceededLimit: true };
+				return { size: total, trusted: false, exceededLimit: true, unreadable: false };
 			}
 		}
+		// Drained cleanly but yielded no bytes: an empty or unmaterialised
+		// placeholder file. Nothing to upload, so flag it unreadable rather than
+		// letting it POST an empty body.
+		if (total === 0) return { size: 0, trusted: false, exceededLimit: false, unreadable: true };
 		// chunks are ArrayBuffer-backed Uint8Arrays from a File stream; the cast
 		// satisfies the lib's SharedArrayBuffer-pedantic BlobPart typing.
-		if (total > 0) bodyCache.set(file, new Blob(chunks as BlobPart[], { type: file.type }));
-		return { size: total, trusted: false, exceededLimit: false };
+		bodyCache.set(file, new Blob(chunks as BlobPart[], { type: file.type }));
+		return { size: total, trusted: false, exceededLimit: false, unreadable: false };
 	} catch {
-		// Streaming unsupported/failed — treat as unknown. Routing falls back to
-		// the File as-is; a truly empty body is caught server-side ("Empty Body").
-		return { size: 0, trusted: false, exceededLimit: false };
+		// Streaming unsupported/failed on a file that also reported size 0: we have
+		// no way to read its bytes, so it can't be uploaded correctly by any path.
+		// Flag it unreadable so callers drop it with a helpful message instead of
+		// streaming it into a confusing server error (a truncated 413).
+		return { size: 0, trusted: false, exceededLimit: false, unreadable: true };
 	}
 }

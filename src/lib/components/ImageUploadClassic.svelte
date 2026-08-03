@@ -141,7 +141,16 @@
         const resolved = await Promise.all(
             allFiles.map(async (f) => ({ file: f, size: await resolveUploadSize(f, MAX_INDIVIDUAL_FILE_SIZE) }))
         );
-        const oversizedFiles = resolved.filter((r) => r.size.exceededLimit);
+        // Files we can't read at all (size===0 and the stream gave us nothing)
+        // can't be uploaded by any path, so drop them with a clear reason.
+        const unreadableFiles = resolved.filter((r) => r.size.unreadable);
+        const oversizedFiles = resolved.filter((r) => !r.size.unreadable && r.size.exceededLimit);
+
+        if (unreadableFiles.length > 0) {
+            errorMessage = `${unreadableFiles.length} file(s) couldn't be read and were skipped. If a file is stored in iCloud or a cloud drive, open the original to download it first, then try again.`;
+            allFiles = resolved.filter((r) => !r.size.unreadable).map((r) => r.file);
+            if (allFiles.length === 0) return;
+        }
 
         if (oversizedFiles.length > 0) {
             errorMessage = `Individual file size limit is ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB. ${oversizedFiles.length} file(s) exceed this limit.`;

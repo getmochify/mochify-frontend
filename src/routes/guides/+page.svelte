@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "Etsy Listing Photo Size: The Complete Guide",
+            description: "Etsy listing photos should be at least 2000px and under 1MB. Every current spec from Etsy's docs, why photos blur after upload, and a one-prompt batch fix.",
+            url: "/guides/etsy-listing-photo-size-guide",
+            category: "Image Optimization",
+            readTime: "9 min read",
+            date: "August 3, 2026"
+        },
+        {
             title: "Can Safari Open HEIC Images on the Web?",
             description: "Yes, Safari 17+ renders HEIC natively on the web. Chrome, Firefox, and Edge do not. Convert to JPEG or WebP before publishing for full compatibility.",
             url: "/guides/can-safari-open-heic-images",

@@ -36,7 +36,7 @@ export function uploadErrorMessage(
 		// to a user and reads like their photo is broken, so reframe it as a
 		// retry-the-upload prompt instead of passing it through verbatim.
 		if (text?.includes('Failed to read image dimensions')) {
-			return "That upload didn't fully go through — likely a connection hiccup. Please try again.";
+			return "That upload didn't complete. The file may be too large to process, or the connection dropped partway. Try a smaller version, or upload it again.";
 		}
 		return text && text.length > 0
 			? text
