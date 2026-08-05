@@ -20,12 +20,8 @@
     <hr />
 
     <h2>Privacy-First Architecture</h2>
-    <p>Unlike many competitors that store images on their servers for hours or use them for AI training, Mochify uses a unique in-memory, zero-retention processing model.</p>
-    <ul>
-        <li><strong>Instant Discard:</strong> Your images are processed in the server's RAM and discarded immediately after the task is finished.</li>
-        <li><strong>No Disk Storage:</strong> We never write your original or optimized files to a hard drive, ensuring a truly ephemeral experience.</li>
-        <li><strong>Data Integrity:</strong> We do not track users or build profiles; our focus is purely on technical performance and file efficiency.</li>
-    </ul>
+    <p>Unlike many competitors that store images on their servers for hours or use them for AI training, Mochify uses an in-memory, zero-retention processing model. Your images are processed in RAM and discarded when the request ends. We never write your originals or optimized files to a disk, and we never use them to train anything.</p>
+    <p>That is a claim worth checking rather than taking on trust, so we publish the details: how the processing container is configured, what happens to large uploads, and what we do record. See <a href="/architecture">architecture and data handling</a>.</p>
 
     <h2>Built for High-Performance Teams</h2>
     <p>We understand that for e-commerce merchants on Shopify and Etsy, every millisecond of load time translates directly to revenue. Mochify is designed to deliver maximum compression for modern formats like WebP and AVIF while maintaining the visual fidelity required for high-end product photography. By offering a "no-plugin" workflow, we help WordPress and WooCommerce users maintain a clean, fast backend without unnecessary database bloat.</p>

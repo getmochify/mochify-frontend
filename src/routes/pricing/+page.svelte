@@ -148,6 +148,14 @@
                             "@type": "Answer",
                             "text": "Yes. Cancel any time and you keep access until the end of your billing period."
                         }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Is Pro worth it over Seller?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "It depends on volume. Pro gives you four times the images for a little over three times the price, so each image works out around 22% cheaper: about 2.1 cents on Pro versus 2.7 cents on Seller, or 1.7 cents versus 2.2 cents on annual billing. Pro also puts you at the front of the processing queue and gets priority email support. If you are comfortably inside 300 images a month, Seller is the better buy."
+                        }
                     }
                 ]
             }
@@ -196,8 +204,14 @@
             </div>
         </div>
 
-        <!-- Pricing cards -->
-        <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <!-- Pricing cards
+             Deliberately thin: a full feature comparison table sits directly
+             below, so each card carries only the differentiators someone scans
+             for when choosing a tier (volume, file size, batch, queue, and the
+             one or two headline capabilities). Everything ubiquitous across
+             plans — formats, resize/crop/rotate, video, MCP/API — lives in the
+             table instead of being repeated three times up here. -->
+        <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto items-start">
 
             <!-- Free tier -->
             <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-8 flex flex-col">
@@ -207,7 +221,7 @@
                         <span class="text-4xl font-black text-[#4A2C2C]">$0</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">/ forever</span>
                     </div>
-                    <p class="text-[#7A4A38] text-sm mt-2">Create a free account — no credit card needed. Just want to try? <a href="/" class="text-[#F06292] font-semibold hover:underline">3 images free, no sign-up.</a></p>
+                    <p class="text-[#7A4A38] text-sm mt-2">Create a free account, no credit card needed.</p>
                 </div>
 
                 <ul class="space-y-3 flex-grow mb-8">
@@ -217,23 +231,7 @@
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>All image formats — JPG, WEBP, AVIF, PNG, JXL, HEIC (upload)</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Resize, rotate &amp; crop</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>MCP &amp; API access</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Video &amp; audio conversion — <span class="text-cocoa-deep/60">nothing uploaded</span></span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Images → PDF — up to <strong>3 pages</strong></span>
+                        <span><strong>20MB</strong> max file size</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]/50">
                         <span class="mt-0.5 font-black">–</span>
@@ -241,20 +239,30 @@
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]/50">
                         <span class="mt-0.5 font-black">–</span>
-                        <span>Standard processing queue</span>
+                        <span>Standard queue</span>
                     </li>
                 </ul>
 
                 <a
                     href="/"
-                    class="block text-center px-6 py-3 rounded-2xl border border-[#875F42]/15 text-sm font-black text-[#6C3F31] hover:border-[#F06292]/30 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all"
+                    class="block text-center px-6 py-3 rounded-2xl border border-[#875F42]/25 text-sm font-black text-[#6C3F31] hover:border-[#F06292]/40 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all"
                 >
                     Start for free
                 </a>
+                <!-- Moved out of the card body: it competed with the plan's own
+                     value props while actually describing the no-account path. -->
+                <p class="text-center text-xs text-[#6C3F31]/50 mt-3">
+                    Just want to try? <a href="/" class="text-[#F06292] font-semibold hover:underline">3 images free, no sign-up</a>
+                </p>
             </div>
 
-            <!-- Seller tier -->
-            <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-8 flex flex-col">
+            <!-- Seller tier — flagged as the popular pick. Keeps the white card
+                 so Pro's gradient still reads as the top tier; the badge and a
+                 stronger border do the highlighting instead. -->
+            <div class="relative bg-white rounded-3xl border-2 border-[#F06292]/30 shadow-md p-8 flex flex-col">
+                <span class="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-1 rounded-full bg-[#F06292] text-white text-[10px] font-black uppercase tracking-wider shadow-sm">
+                    Most popular
+                </span>
                 <div class="mb-6">
                     <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-4">Seller</span>
                     <div class="flex items-end gap-1">
@@ -278,56 +286,26 @@
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>All image formats — JPG, WEBP, AVIF, PNG, JXL, HEIC (upload)</span>
+                        <span><strong>75MB</strong> max file size</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>75MB</strong> per file <span class="text-[#6C3F31]/50">(up from 20MB)</span></span>
+                        <span><strong>25 files</strong> per batch</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Resize, rotate &amp; crop</span>
+                        <span>Background removal &amp; PDF tools</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Background removal</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#F06292] font-black">✦</span>
-                        <span>AI backgrounds &amp; shadows
-                            <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-[#F06292]/10 text-[#F06292] text-[10px] font-black uppercase tracking-wide align-middle">Soon</span>
-                        </span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>25 photos</strong> per batch <span class="text-[#6C3F31]/50">(up from 3)</span></span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>Priority queue</strong> — ahead of free users</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Video &amp; audio conversion — <span class="text-cocoa-deep/60">nothing uploaded</span></span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>PDF tools — rasterize, split &amp; images→PDF, up to 10 pages</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>Bring your own bucket</strong> — results saved straight to your S3 or R2</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Email support</span>
+                        <span><strong>Priority</strong> processing</span>
                     </li>
                 </ul>
 
                 <a
                     href="/api/checkout?plan=seller&billing={billing}"
                     data-sveltekit-reload
-                    class="block text-center px-6 py-3 rounded-2xl border border-[#875F42]/15 text-sm font-black text-[#6C3F31] hover:border-[#F06292]/30 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all"
+                    class="block text-center px-6 py-3 rounded-2xl bg-[#FBD5E2] text-sm font-black text-[#AD1457] hover:bg-[#F8BBD0] transition-all shadow-sm hover:shadow-md active:scale-95"
                 >
                     Get Seller
                 </a>
@@ -354,59 +332,27 @@
                     </p>
                 </div>
 
-                <ul class="space-y-3 flex-grow mb-8">
+                <p class="relative text-xs font-black uppercase tracking-wider text-[#6C3F31]/50 mb-3">Everything in Seller, plus:</p>
+
+                <ul class="space-y-3 flex-grow mb-8 relative">
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#F06292] font-black">✓</span>
                         <span><strong>1,200 images</strong> per month</span>
                     </li>
+                    <!-- The volume jump is Pro's strongest argument and the card
+                         previously left the reader to divide 1,200 by 300 to find
+                         it. 4x volume for ~3.1x price is a genuine Pro-only claim,
+                         so it differentiates without repeating a Seller feature. -->
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span>All image formats — JPG, WEBP, AVIF, PNG, JXL, HEIC (upload)</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span><strong>75MB</strong> per file <span class="text-[#6C3F31]/50">(up from 20MB)</span></span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span>Resize, rotate &amp; crop</span>
+                        <span><strong>4x the images</strong> for 3x the price</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span>Background removal</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#F06292] font-black">✦</span>
-                        <span>AI backgrounds &amp; shadows
-                            <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-[#F06292]/10 text-[#F06292] text-[10px] font-black uppercase tracking-wide align-middle">Soon</span>
-                        </span>
+                        <span><strong>Top priority</strong> queue</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span>MCP &amp; API access</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span><strong>25 files</strong> per batch <span class="text-[#6C3F31]/50">(up from 3)</span></span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span><strong>Top priority queue</strong> — ahead of everyone</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-cocoa-deep">
-                        <span class="mt-0.5 text-mochi-pink font-black">✓</span>
-                        <span>Video &amp; audio conversion — <span class="text-cocoa-deep/60">nothing uploaded</span></span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span>PDF tools — rasterize, split &amp; images→PDF, up to 10 pages</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span><strong>Bring your own bucket</strong> — results saved straight to your S3 or R2</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-cocoa-deep">
-                        <span class="mt-0.5 text-mochi-pink font-black">✓</span>
                         <span>Priority email support</span>
                     </li>
                 </ul>
@@ -632,6 +578,16 @@
                     </summary>
                     <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
                         All tiers reset monthly. Free resets every calendar month; Seller and Pro reset on your billing date. Unused images do not roll over.
+                    </p>
+                </details>
+
+                <details class="bg-white rounded-2xl border border-pink-100 shadow-sm group">
+                    <summary class="px-6 py-4 cursor-pointer font-semibold text-[#4A2C2C] flex justify-between items-center select-none list-none">
+                        Is Pro worth it over Seller?
+                        <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
+                    </summary>
+                    <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
+                        It depends on volume. Pro gives you four times the images for a little over three times the price, so each image works out around 22% cheaper: about 2.1¢ on Pro versus 2.7¢ on Seller, or 1.7¢ versus 2.2¢ on annual billing. Pro also puts you at the front of the processing queue and gets priority email support. If you are comfortably inside 300 images a month, Seller is the better buy.
                     </p>
                 </details>
 
