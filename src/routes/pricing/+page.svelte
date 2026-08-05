@@ -316,6 +316,10 @@
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span><strong>Bring your own bucket</strong> — results saved straight to your S3 or R2</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
                         <span>Email support</span>
                     </li>
                 </ul>
@@ -396,6 +400,10 @@
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#F06292] font-black">✓</span>
                         <span>PDF tools — rasterize, split &amp; images→PDF, up to 10 pages</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
+                        <span><strong>Bring your own bucket</strong> — results saved straight to your S3 or R2</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-cocoa-deep">
                         <span class="mt-0.5 text-mochi-pink font-black">✓</span>
@@ -582,6 +590,12 @@
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">PDF tools <span class="text-[#6C3F31]/50 text-xs">(rasterize, split, images→PDF)</span></td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">images→PDF, 3 pages</td>
+                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
+                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-[#6C3F31]">Bring your own bucket <span class="text-[#6C3F31]/50 text-xs">(S3, R2, S3-compatible)</span></td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]/30 font-black">—</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                         </tr>
