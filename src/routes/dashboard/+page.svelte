@@ -35,7 +35,59 @@
 	let isPro = $derived(data.profile?.plan === 'pro');
 	let isSeller = $derived(data.profile?.plan === 'seller');
 	let isDay = $derived(data.profile?.plan === 'day');
-	let isPaid = $derived(isPro || isSeller || isDay);
+	// 'growth' was missing here, so growth subscribers were shown the upgrade CTA.
+	let isGrowth = $derived(data.profile?.plan === 'growth');
+	let isPaid = $derived(isPro || isSeller || isDay || isGrowth);
+
+	// Bucket connection. Seeded from the server load so the card renders without
+	// a client round-trip, then updated in place from each action's result —
+	// the same pattern the API-key card uses. The secret access key is never
+	// part of this state; the server only ever returns a masked key id.
+	type BucketConnection = {
+		connected: boolean;
+		label?: string;
+		provider?: 's3' | 'r2' | 'compatible';
+		endpoint?: string | null;
+		bucket?: string;
+		region?: string;
+		prefix?: string;
+		forcePathStyle?: boolean;
+		accessKeyIdMasked?: string;
+		status?: 'unverified' | 'ok' | 'error';
+		statusDetail?: string | null;
+		lastVerifiedAt?: string | null;
+	};
+	// svelte-ignore state_referenced_locally
+	let bucket = $state<BucketConnection>(data.bucket ?? { connected: false });
+	let showBucketForm = $state(false);
+	let bucketSaving = $state(false);
+	let bucketVerifying = $state(false);
+	let bucketDisconnecting = $state(false);
+	let showBucketDisconnect = $state(false);
+	let bucketError = $state<string | null>(null);
+	let bucketProvider = $state<'s3' | 'r2' | 'compatible'>('s3');
+
+	let bucketBusy = $derived(bucketSaving || bucketVerifying || bucketDisconnecting);
+
+	function openBucketForm() {
+		// Editing an existing connection pre-fills everything except the secret,
+		// which the server keeps and reuses when the field is left blank.
+		bucketProvider = bucket.provider ?? 's3';
+		bucketError = null;
+		showBucketForm = true;
+		posthog.capture('bucket_connect_started', { editing: bucket.connected });
+	}
+
+	function relativeTime(iso: string | null | undefined): string {
+		if (!iso) return 'never';
+		const diff = Date.now() - new Date(iso).getTime();
+		const mins = Math.round(diff / 60000);
+		if (mins < 1) return 'just now';
+		if (mins < 60) return `${mins}m ago`;
+		const hours = Math.round(mins / 60);
+		if (hours < 24) return `${hours}h ago`;
+		return `${Math.round(hours / 24)}d ago`;
+	}
 
 	async function loadUsage() {
 		try {
@@ -475,22 +527,331 @@
 				<div class="min-w-0 flex-1">
 					<div class="flex items-center gap-2">
 						<p class="text-sm font-black text-[#4A2C2C]">Bring your own bucket</p>
-						<span class="rounded-full bg-[#FFF0F5] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-mochi-pink">
-							Coming soon
-						</span>
+						{#if bucket.connected}
+							<span
+								class="h-2 w-2 shrink-0 rounded-full {bucket.status === 'ok'
+									? 'bg-[#66BB6A]'
+									: bucket.status === 'error'
+										? 'bg-red-400'
+										: 'bg-amber-400'}"
+								aria-hidden="true"
+							></span>
+							<span class="text-[10px] font-bold uppercase tracking-wide text-cocoa-milk/50">
+								{bucket.status === 'ok'
+									? `Verified ${relativeTime(bucket.lastVerifiedAt)}`
+									: bucket.status === 'error'
+										? 'Needs attention'
+										: 'Not verified'}
+							</span>
+						{:else if !isPaid}
+							<span
+								class="rounded-full bg-[#FFF0F5] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-mochi-pink"
+							>
+								Paid plans
+							</span>
+						{/if}
 					</div>
-					<p class="mt-0.5 text-xs text-cocoa-milk/60">
-						Point Mochify at your own S3 or R2 bucket → process in-place → results land straight back in your storage. Your keys, your data.
-					</p>
+
+					{#if bucket.connected}
+						<p class="mt-0.5 truncate text-xs text-cocoa-milk/60">
+							<span class="font-bold text-[#4A2C2C]">{bucket.bucket}</span>{bucket.prefix
+								? `/${bucket.prefix}`
+								: ''} · <span class="font-mono">{bucket.accessKeyIdMasked}</span>
+						</p>
+						{#if bucket.status === 'error' && bucket.statusDetail}
+							<p class="mt-1 text-xs font-medium text-red-600/80">{bucket.statusDetail}</p>
+						{:else if bucket.status === 'ok'}
+							<p class="mt-1 text-[11px] text-cocoa-milk/40">
+								Connected and writable. Processing straight to your bucket arrives next.
+							</p>
+						{/if}
+					{:else}
+						<p class="mt-0.5 text-xs text-cocoa-milk/60">
+							Point Mochify at your own S3, R2, or S3-compatible bucket. Your keys are stored
+							encrypted and only ever used on your behalf.
+						</p>
+					{/if}
 				</div>
 
-				<button
-					disabled
-					class="shrink-0 cursor-not-allowed rounded-xl border border-cocoa-milk/15 px-4 py-2 text-xs font-bold text-cocoa-milk/30"
-				>
-					Connect
-				</button>
+				{#if !isPaid}
+					<a
+						href="/pricing"
+						class="shrink-0 rounded-xl border border-mochi-pink/30 px-4 py-2 text-xs font-bold text-mochi-pink transition-all hover:bg-[#FFF0F5]"
+					>
+						Upgrade
+					</a>
+				{:else if !bucket.connected}
+					<button
+						onclick={openBucketForm}
+						disabled={showBucketForm}
+						class="shrink-0 cursor-pointer rounded-xl border border-cocoa-milk/15 px-4 py-2 text-xs font-bold text-[#4A2C2C] transition-all hover:border-mochi-pink/40 hover:text-mochi-pink disabled:opacity-40"
+					>
+						Connect
+					</button>
+				{:else if showBucketDisconnect}
+					<div class="flex shrink-0 items-center gap-2">
+						<span class="text-xs font-bold text-[#4A2C2C]">Remove credentials?</span>
+						<form
+							method="POST"
+							action="?/disconnectBucket"
+							use:enhance={() => {
+								bucketDisconnecting = true;
+								bucketError = null;
+								return async ({ result }) => {
+									bucketDisconnecting = false;
+									if (result.type === 'success') {
+										bucket = { connected: false };
+										showBucketDisconnect = false;
+										showBucketForm = false;
+										posthog.capture('bucket_disconnected');
+									} else if (result.type === 'failure') {
+										bucketError = (result.data?.error as string) ?? 'Could not disconnect.';
+									}
+								};
+							}}
+						>
+							<button
+								type="submit"
+								disabled={bucketDisconnecting}
+								class="cursor-pointer rounded-xl border border-red-300/60 px-3 py-2 text-xs font-bold text-red-600/80 transition-all hover:bg-red-50/60 disabled:opacity-50"
+							>
+								{bucketDisconnecting ? 'Removing…' : 'Yes, disconnect'}
+							</button>
+						</form>
+						<button
+							onclick={() => (showBucketDisconnect = false)}
+							class="cursor-pointer text-xs font-bold text-cocoa-milk/50 transition-colors hover:text-[#4A2C2C]"
+						>
+							Keep
+						</button>
+					</div>
+				{:else}
+					<div class="flex shrink-0 items-center gap-2">
+						<form
+							method="POST"
+							action="?/verifyBucket"
+							use:enhance={() => {
+								bucketVerifying = true;
+								bucketError = null;
+								return async ({ result }) => {
+									bucketVerifying = false;
+									if (result.type === 'success' && result.data?.bucket) {
+										bucket = result.data.bucket as BucketConnection;
+										if (bucket.status !== 'ok') {
+											posthog.capture('bucket_verify_failed', {
+												provider: bucket.provider,
+												reason: bucket.statusDetail
+											});
+										}
+									} else if (result.type === 'failure') {
+										bucketError = (result.data?.error as string) ?? 'Could not test the connection.';
+									}
+								};
+							}}
+						>
+							<button
+								type="submit"
+								disabled={bucketBusy}
+								class="cursor-pointer rounded-xl border border-cocoa-milk/15 px-3 py-2 text-xs font-bold text-[#4A2C2C] transition-all hover:border-mochi-pink/40 hover:text-mochi-pink disabled:opacity-40"
+							>
+								{bucketVerifying ? 'Testing…' : 'Test'}
+							</button>
+						</form>
+						<button
+							onclick={openBucketForm}
+							disabled={bucketBusy || showBucketForm}
+							class="cursor-pointer rounded-xl border border-cocoa-milk/15 px-3 py-2 text-xs font-bold text-[#4A2C2C] transition-all hover:border-mochi-pink/40 hover:text-mochi-pink disabled:opacity-40"
+						>
+							Edit
+						</button>
+						<button
+							onclick={() => (showBucketDisconnect = true)}
+							disabled={bucketBusy}
+							class="cursor-pointer rounded-xl px-2 py-2 text-xs font-bold text-red-600/50 transition-colors hover:text-red-700 disabled:opacity-40"
+						>
+							Disconnect
+						</button>
+					</div>
+				{/if}
 			</div>
+
+			{#if bucketError}
+				<p class="mt-2 px-1 text-xs font-medium text-red-600/80">{bucketError}</p>
+			{/if}
+
+			<!-- Connect / edit form. Inline disclosure rather than a modal, matching
+			     the delete-account flow further down the page. -->
+			{#if showBucketForm && isPaid}
+				<form
+					method="POST"
+					action="?/saveBucket"
+					class="mt-3 rounded-2xl border border-cocoa-milk/8 bg-white/40 p-4"
+					use:enhance={() => {
+						bucketSaving = true;
+						bucketError = null;
+						return async ({ result }) => {
+							bucketSaving = false;
+							if (result.type === 'success' && result.data?.bucket) {
+								bucket = result.data.bucket as BucketConnection;
+								showBucketForm = false;
+								posthog.capture('bucket_connect_saved', {
+									provider: bucket.provider,
+									status: bucket.status
+								});
+								if (bucket.status !== 'ok') {
+									posthog.capture('bucket_verify_failed', {
+										provider: bucket.provider,
+										reason: bucket.statusDetail
+									});
+								}
+							} else if (result.type === 'failure') {
+								bucketError = (result.data?.error as string) ?? 'Could not save the connection.';
+							}
+						};
+					}}
+				>
+					<div class="grid gap-3 sm:grid-cols-2">
+						<label class="block">
+							<span class="mb-1 block text-[11px] font-bold uppercase tracking-wide text-cocoa-milk/50">
+								Provider
+							</span>
+							<select
+								name="provider"
+								bind:value={bucketProvider}
+								class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-[#4A2C2C] focus:border-mochi-pink/40 focus:ring-2 focus:ring-[#F06292]/15 focus:outline-none"
+							>
+								<option value="s3">Amazon S3</option>
+								<option value="r2">Cloudflare R2</option>
+								<option value="compatible">S3-compatible</option>
+							</select>
+						</label>
+
+						<label class="block">
+							<span class="mb-1 block text-[11px] font-bold uppercase tracking-wide text-cocoa-milk/50">
+								Bucket
+							</span>
+							<input
+								name="bucket"
+								required
+								value={bucket.bucket ?? ''}
+								placeholder="my-store-images"
+								class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-[#4A2C2C] placeholder:text-[#875F42]/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-[#F06292]/15 focus:outline-none"
+							/>
+						</label>
+
+						{#if bucketProvider === 's3'}
+							<label class="block">
+								<span class="mb-1 block text-[11px] font-bold uppercase tracking-wide text-cocoa-milk/50">
+									Region
+								</span>
+								<input
+									name="region"
+									required
+									value={bucket.region ?? ''}
+									placeholder="eu-west-2"
+									class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-[#4A2C2C] placeholder:text-[#875F42]/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-[#F06292]/15 focus:outline-none"
+								/>
+							</label>
+						{:else}
+							<label class="block">
+								<span class="mb-1 block text-[11px] font-bold uppercase tracking-wide text-cocoa-milk/50">
+									Endpoint
+								</span>
+								<input
+									name="endpoint"
+									required
+									value={bucket.endpoint ?? ''}
+									placeholder="https://abc123.r2.cloudflarestorage.com"
+									class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-[#4A2C2C] placeholder:text-[#875F42]/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-[#F06292]/15 focus:outline-none"
+								/>
+							</label>
+						{/if}
+
+						<label class="block">
+							<span class="mb-1 block text-[11px] font-bold uppercase tracking-wide text-cocoa-milk/50">
+								Prefix <span class="font-medium normal-case text-cocoa-milk/30">optional</span>
+							</span>
+							<input
+								name="prefix"
+								value={bucket.prefix ?? ''}
+								placeholder="product-photos/"
+								class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-[#4A2C2C] placeholder:text-[#875F42]/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-[#F06292]/15 focus:outline-none"
+							/>
+						</label>
+
+						<label class="block">
+							<span class="mb-1 block text-[11px] font-bold uppercase tracking-wide text-cocoa-milk/50">
+								Access key ID
+							</span>
+							<input
+								name="accessKeyId"
+								autocomplete="off"
+								required={!bucket.connected}
+								placeholder={bucket.connected
+									? `Leave blank to keep ${bucket.accessKeyIdMasked}`
+									: 'AKIA…'}
+								class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 font-mono text-sm text-[#4A2C2C] placeholder:text-[#875F42]/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-[#F06292]/15 focus:outline-none"
+							/>
+						</label>
+
+						<label class="block">
+							<span class="mb-1 block text-[11px] font-bold uppercase tracking-wide text-cocoa-milk/50">
+								Secret access key
+							</span>
+							<input
+								name="secretAccessKey"
+								type="password"
+								autocomplete="off"
+								required={!bucket.connected}
+								placeholder={bucket.connected ? 'Leave blank to keep current' : '••••••••••••'}
+								class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 font-mono text-sm text-[#4A2C2C] placeholder:text-[#875F42]/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-[#F06292]/15 focus:outline-none"
+							/>
+						</label>
+					</div>
+
+					{#if bucketProvider === 'compatible'}
+						<label class="mt-3 flex cursor-pointer items-center gap-2">
+							<input
+								name="forcePathStyle"
+								type="checkbox"
+								checked={bucket.forcePathStyle ?? false}
+								class="h-4 w-4 rounded border-cocoa-milk/20 accent-[#F06292]"
+							/>
+							<span class="text-xs text-cocoa-milk/60">
+								Use path-style addressing (needed by MinIO and some self-hosted setups)
+							</span>
+						</label>
+					{/if}
+
+					<p class="mt-3 text-[11px] text-cocoa-milk/40">
+						Saving runs a read and write check against the bucket. The key needs
+						<span class="font-mono">s3:ListBucket</span>,
+						<span class="font-mono">s3:GetObject</span>,
+						<span class="font-mono">s3:PutObject</span>, and
+						<span class="font-mono">s3:DeleteObject</span> on this prefix.
+					</p>
+
+					<div class="mt-4 flex flex-wrap items-center gap-3">
+						<button
+							type="submit"
+							disabled={bucketSaving}
+							class="cursor-pointer rounded-xl bg-[#A5D6A7] px-4 py-2 text-xs font-black text-[#2E5C31] transition-all hover:bg-[#94cc96] disabled:opacity-50"
+						>
+							{bucketSaving ? 'Testing connection…' : 'Save and test'}
+						</button>
+						<button
+							type="button"
+							onclick={() => {
+								showBucketForm = false;
+								bucketError = null;
+							}}
+							class="cursor-pointer text-xs font-bold text-cocoa-milk/50 transition-colors hover:text-[#4A2C2C]"
+						>
+							Cancel
+						</button>
+					</div>
+				</form>
+			{/if}
 		</div>
 
 		<!-- Danger zone -->

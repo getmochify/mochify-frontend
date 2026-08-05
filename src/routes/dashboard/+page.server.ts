@@ -39,20 +39,84 @@ async function issueKey(platform: App.Platform | undefined, userId: string): Pro
     return res.ok ? key : null
 }
 
-// API-key status: the worker returns the same { has_key, created_at } core proxied,
-// so the card renders from server data with no client round-trip.
-export const load: PageServerLoad = async ({ locals, platform }) => {
-    if (!locals.user) return { hasKey: false, keyCreatedAt: null }
+// Shape the worker returns for a bucket connection. The secret is never part
+// of this — only a masked hint of the access key id.
+export interface BucketConnection {
+    connected: boolean
+    label?: string
+    provider?: 's3' | 'r2' | 'compatible'
+    endpoint?: string | null
+    bucket?: string
+    region?: string
+    prefix?: string
+    forcePathStyle?: boolean
+    accessKeyIdMasked?: string
+    status?: 'unverified' | 'ok' | 'error'
+    statusDetail?: string | null
+    lastVerifiedAt?: string | null
+}
+
+const PAID_PLANS = new Set(['seller', 'pro', 'day', 'growth'])
+
+// Bucket connections are a paid feature. The dashboard hides the card for free
+// users, but that is cosmetic — every mutating action re-checks the plan here,
+// because a form POST does not care what the client rendered.
+async function assertPaid(platform: App.Platform | undefined, userId: string): Promise<boolean> {
+    const db = platform?.env?.DB
+    if (!db) return false
     try {
-        const res = await callWorker(platform, `/user/${locals.user.id}/apikey`)
-        if (res.ok) {
-            const body = (await res.json()) as { has_key?: boolean; created_at?: string | null }
-            return { hasKey: body.has_key ?? false, keyCreatedAt: body.created_at ?? null }
-        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const kysely = new Kysely<any>({ dialect: new D1Dialect({ database: db }) })
+        const row = await kysely
+            .selectFrom('profile')
+            .select(['plan'])
+            .where('user_id', '=', userId)
+            .executeTakeFirst()
+        return PAID_PLANS.has(row?.plan ?? 'free')
     } catch (e) {
-        console.error('[dashboard] apikey status load failed:', e)
+        console.error('[dashboard] plan check failed:', e)
+        return false
     }
-    return { hasKey: false, keyCreatedAt: null }
+}
+
+async function loadBucket(
+    platform: App.Platform | undefined,
+    userId: string,
+): Promise<BucketConnection> {
+    try {
+        const res = await callWorker(platform, `/user/${userId}/bucket`)
+        if (res.ok) return (await res.json()) as BucketConnection
+    } catch (e) {
+        console.error('[dashboard] bucket status load failed:', e)
+    }
+    return { connected: false }
+}
+
+// API-key status: the worker returns the same { has_key, created_at } core proxied,
+// so the card renders from server data with no client round-trip. The bucket
+// connection is fetched alongside it — two independent worker calls, so they run
+// concurrently rather than stacking their latency.
+export const load: PageServerLoad = async ({ locals, platform }) => {
+    if (!locals.user) return { hasKey: false, keyCreatedAt: null, bucket: { connected: false } }
+
+    const userId = locals.user.id
+    const [keyResult, bucket] = await Promise.all([
+        (async () => {
+            try {
+                const res = await callWorker(platform, `/user/${userId}/apikey`)
+                if (res.ok) {
+                    const body = (await res.json()) as { has_key?: boolean; created_at?: string | null }
+                    return { hasKey: body.has_key ?? false, keyCreatedAt: body.created_at ?? null }
+                }
+            } catch (e) {
+                console.error('[dashboard] apikey status load failed:', e)
+            }
+            return { hasKey: false, keyCreatedAt: null }
+        })(),
+        loadBucket(platform, userId),
+    ])
+
+    return { ...keyResult, bucket }
 }
 
 export const actions = {
@@ -136,6 +200,78 @@ export const actions = {
         return { success: true, optin }
     },
 
+    // Save (create or update) the bucket connection. The plaintext secret passes
+    // through this worker in memory on its way to the tokens worker, which owns
+    // the encryption key — it is never written to D1 from here and never logged.
+    // A blank secret on an update means "keep the existing one", so editing a
+    // prefix does not force the user to re-enter their key.
+    saveBucket: async ({ request, locals, platform }) => {
+        if (!locals.user) return fail(401, { error: 'Not authenticated' })
+        if (!(await assertPaid(platform, locals.user.id))) {
+            return fail(403, { error: 'Bucket connections are available on paid plans.' })
+        }
+
+        const form = await request.formData()
+        const payload = {
+            label: String(form.get('label') ?? ''),
+            provider: String(form.get('provider') ?? ''),
+            endpoint: String(form.get('endpoint') ?? ''),
+            region: String(form.get('region') ?? ''),
+            bucket: String(form.get('bucket') ?? ''),
+            prefix: String(form.get('prefix') ?? ''),
+            forcePathStyle: form.get('forcePathStyle') === 'on',
+            accessKeyId: String(form.get('accessKeyId') ?? ''),
+            secretAccessKey: String(form.get('secretAccessKey') ?? ''),
+        }
+
+        try {
+            const res = await callWorker(platform, `/user/${locals.user.id}/bucket`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            })
+            const body = (await res.json()) as BucketConnection & { error?: string }
+            if (!res.ok) return fail(res.status === 400 ? 400 : 502, { error: body.error ?? 'Could not save the connection.' })
+            return { bucket: body }
+        } catch (e) {
+            console.error('[dashboard] saveBucket failed:', e)
+            return fail(502, { error: 'Could not reach the storage service. Try again.' })
+        }
+    },
+
+    // Re-run the probes against the stored credentials.
+    verifyBucket: async ({ locals, platform }) => {
+        if (!locals.user) return fail(401, { error: 'Not authenticated' })
+        if (!(await assertPaid(platform, locals.user.id))) {
+            return fail(403, { error: 'Bucket connections are available on paid plans.' })
+        }
+
+        try {
+            const res = await callWorker(platform, `/user/${locals.user.id}/bucket/verify`, {
+                method: 'POST',
+            })
+            const body = (await res.json()) as BucketConnection & { error?: string }
+            if (!res.ok) return fail(502, { error: body.error ?? 'Could not test the connection.' })
+            return { bucket: body }
+        } catch (e) {
+            console.error('[dashboard] verifyBucket failed:', e)
+            return fail(502, { error: 'Could not reach the storage service. Try again.' })
+        }
+    },
+
+    // Disconnect. No plan check: a downgraded user must always be able to
+    // remove credentials we hold for them.
+    disconnectBucket: async ({ locals, platform }) => {
+        if (!locals.user) return fail(401, { error: 'Not authenticated' })
+        try {
+            await callWorker(platform, `/user/${locals.user.id}/bucket`, { method: 'DELETE' })
+        } catch (e) {
+            console.error('[dashboard] disconnectBucket failed:', e)
+            return fail(502, { error: 'Could not disconnect. Try again.' })
+        }
+        return { bucket: { connected: false } as BucketConnection }
+    },
+
     // Soft delete with a 14-day grace period. The user row (and its email) is
     // kept so re-registering with the same address can't reset usage limits;
     // logging in again within the window cancels the deletion (see the session
@@ -157,6 +293,14 @@ export const actions = {
         } catch {
             // Not subscribed or Polar unreachable — proceed with deletion.
         }
+
+        // Storage credentials die now, not in 14 days. The rest of the account
+        // is recoverable by signing back in; live keys to someone else's bucket
+        // are not something to hold on to for a deactivated account. The purge
+        // cron re-runs this delete in case the call below fails.
+        await callWorker(platform, `/user/${locals.user.id}/bucket`, { method: 'DELETE' }).catch(
+            (e) => console.error('[dashboard] bucket credential wipe on delete failed:', e)
+        )
 
         const db = platform?.env?.DB
         if (!db) return fail(500, { error: 'Database unavailable' })
