@@ -761,7 +761,9 @@
 									name="endpoint"
 									required
 									value={bucket.endpoint ?? ''}
-									placeholder="https://abc123.r2.cloudflarestorage.com"
+									placeholder={bucketProvider === 'r2'
+										? 'https://abc123.r2.cloudflarestorage.com'
+										: 'https://s3.example.com'}
 									class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-[#4A2C2C] placeholder:text-[#875F42]/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-[#F06292]/15 focus:outline-none"
 								/>
 							</label>
