@@ -11,7 +11,7 @@
             url: "/guides/cross-listing-marketplace-photo-requirements",
             category: "Workflows",
             readTime: "11 min read",
-            date: "August 4, 2026"
+            date: "August 5, 2026"
         },
         {
             title: "Etsy Listing Photo Size: The Complete Guide",

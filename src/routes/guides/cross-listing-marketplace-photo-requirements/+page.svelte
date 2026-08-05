@@ -11,7 +11,7 @@
         description: "Cross-listing apps copy your photos as-is. Photo specs for eBay, Poshmark, Mercari, Depop, and Vinted, plus a batch workflow that preps one set for all.",
         category: "Workflows",
         readTime: "11 min read",
-        date: "August 4, 2026"
+        date: "August 5, 2026"
     };
 
     const toc = [
@@ -128,7 +128,7 @@
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/cross-listing-marketplace-photo-requirements"
         },
-        "datePublished": "2026-08-04",
+        "datePublished": "2026-08-05",
         "dateModified": "2026-08-05",
         "inLanguage": "en",
         "author": {
@@ -219,7 +219,7 @@
 
         <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
             <p class="text-[#6C3F31] text-base leading-relaxed m-0">
-                <strong class="text-[#4A2C2C]">Published August 4, 2026 by the Mochify Engineering Team.</strong>
+                <strong class="text-[#4A2C2C]">Published August 5, 2026 by the Mochify Engineering Team.</strong>
                 Written for resellers who list everywhere: what the cross-listing apps handle, what they leave to you, and the fastest way to close the gap.
             </p>
         </div>
