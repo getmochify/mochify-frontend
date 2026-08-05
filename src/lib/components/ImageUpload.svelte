@@ -44,11 +44,13 @@
     let fileProgress: FileProgress[] = $state([]);
     let imageType: string = $state(output);
     let isLoading: boolean = $state(false);
+    // Hard rejections only: unsupported type, oversized, unreadable, or a failed
+    // run. Batch truncation is NOT stored here — see truncatedCount.
     let errorMessage: string = $state('');
-    // True when errorMessage carries a skipped-file notice (oversized/unreadable)
-    // rather than only a batch trim. A skip is a real rejection, so it keeps its
-    // own box instead of being demoted into the token notice.
-    let errorHasSkipNotice: boolean = $state(false);
+    // How many files the batch cap left behind on the last ingest. Stored as a
+    // count rather than a sentence so the banner copy is derived at render time
+    // and cannot survive the condition that produced it.
+    let truncatedCount: number = $state(0);
     let successMessage: string = $state('');
     let totalOriginalSize: number = $state(0);
     let fileInputElement: HTMLInputElement;
@@ -67,7 +69,6 @@
     let showSignupCta = $state(false);
     let showUpgradeCta = $state(false);
     let isFileSizeError = $state(false);
-    let isFileLimitError = $state(false);
     let shaking = $state(false);
 
     const dayPassCheckoutUrl = $derived(
@@ -204,17 +205,36 @@
         MAX_FILES = plan === 'free' ? 3 : 25;
         MAX_INDIVIDUAL_FILE_SIZE = (plan === 'pro' || plan === 'day' || plan === 'seller' || plan === 'growth') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
 
+        // Rejections raised by THIS ingest, committed in one place at the end.
+        // They used to be written straight to errorMessage and read back later,
+        // which meant a clean drop re-committed the previous drop's message: add a
+        // .txt, then add a valid photo, and "1 file(s) not supported" stayed up
+        // over a batch that was fine. One ingest now produces exactly one banner
+        // state, and every exit path goes through commitIngestNotices.
+        const rejections: string[] = [];
+        let hasOversizeRejection = false;
+
+        function commitIngestNotices(dropped = 0) {
+            errorMessage = rejections.join(' ');
+            isFileSizeError = hasOversizeRejection;
+            truncatedCount = dropped;
+            successMessage = '';
+        }
+
         const invalidFiles = allFiles.filter((f) => {
             const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
             return !ACCEPTED_MIME_TYPES.has(f.type) && !ACCEPTED_EXTENSIONS.has(ext);
         });
         if (invalidFiles.length > 0) {
-            errorMessage = `${invalidFiles.length} file(s) not supported. Accepted: JPG, PNG, WebP, AVIF, HEIC, HEIF, HIF, JXL, SVG.`;
+            rejections.push(`${invalidFiles.length} file(s) not supported. Accepted: JPG, PNG, WebP, AVIF, HEIC, HEIF, HIF, JXL, SVG.`);
             allFiles = allFiles.filter((f) => {
                 const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
                 return ACCEPTED_MIME_TYPES.has(f.type) || ACCEPTED_EXTENSIONS.has(ext);
             });
-            if (allFiles.length === 0) return;
+            if (allFiles.length === 0) {
+                commitIngestNotices();
+                return;
+            }
         }
 
         // Resolve true sizes before the guard: files picked from cloud providers
@@ -231,19 +251,20 @@
         const oversizedFiles = resolved.filter((r) => !r.size.unreadable && r.size.exceededLimit);
 
         if (unreadableFiles.length > 0 || oversizedFiles.length > 0) {
-            const msgs: string[] = [];
             if (oversizedFiles.length > 0) {
-                msgs.push(`${oversizedFiles.length} file${oversizedFiles.length !== 1 ? 's' : ''} exceeded the ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB limit and ${oversizedFiles.length === 1 ? 'was' : 'were'} skipped.`);
+                rejections.push(`${oversizedFiles.length} file${oversizedFiles.length !== 1 ? 's' : ''} exceeded the ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB limit and ${oversizedFiles.length === 1 ? 'was' : 'were'} skipped.`);
+                // Only the oversize case offers an upgrade path; an unreadable file
+                // isn't a plan-limit problem, so don't trigger the size-upsell UI.
+                hasOversizeRejection = true;
             }
             if (unreadableFiles.length > 0) {
-                msgs.push(`${unreadableFiles.length} file${unreadableFiles.length !== 1 ? 's' : ''} couldn't be read and ${unreadableFiles.length === 1 ? 'was' : 'were'} skipped. If it's stored in iCloud or a cloud drive, open the original to download it first, then try again.`);
+                rejections.push(`${unreadableFiles.length} file${unreadableFiles.length !== 1 ? 's' : ''} couldn't be read and ${unreadableFiles.length === 1 ? 'was' : 'were'} skipped. If it's stored in iCloud or a cloud drive, open the original to download it first, then try again.`);
             }
-            errorMessage = msgs.join(' ');
-            // Only the oversize case offers an upgrade path; an unreadable file
-            // isn't a plan-limit problem, so don't trigger the size-upsell UI.
-            if (oversizedFiles.length > 0) isFileSizeError = true;
             allFiles = resolved.filter((r) => !r.size.unreadable && !r.size.exceededLimit).map((r) => r.file);
-            if (allFiles.length === 0) return;
+            if (allFiles.length === 0) {
+                commitIngestNotices();
+                return;
+            }
         }
 
         const existingFileKeys = new Set(selectedFiles.map((f) => `${f.name}-${f.size}`));
@@ -270,49 +291,22 @@
         });
         totalOriginalSize = combinedFiles.reduce((sum, file) => sum + file.size, 0);
 
-        // Skipped-file notices are set above and must survive the reset below.
-        // Without this they were cleared before ever rendering, so dropping four
-        // files with one oversized left three thumbnails and no explanation —
-        // the file vanished silently, which is the one outcome a user cannot
-        // diagnose for themselves. (When every file is skipped the function
-        // returns earlier, which is why that path always showed its message.)
-        const skippedMessage = errorMessage;
-        const skippedWasSizeLimit = isFileSizeError;
-
-        errorMessage = '';
-        successMessage = '';
-        isFileSizeError = false;
-        isFileLimitError = false;
-
+        // Batch truncation runs first and is recorded as a count, not a sentence:
+        // the banner derives its own wording, so the notice cannot outlive the
+        // condition. Rejections raised earlier in this ingest are still carried,
+        // because they name files the user handed us that are not in the list —
+        // that is the one outcome a user cannot diagnose for themselves.
+        let dropped = 0;
         if (addedCount === 0 && newFiles.length === 0) {
-            errorMessage = 'All selected files are already in the list.';
+            rejections.push('All selected files are already in the list.');
         } else if (selectedFiles.length >= MAX_FILES && allFiles.length > addedCount) {
-            // Nothing failed here: the batch was filled to its limit and the rest
-            // were left behind. Say what happened rather than quoting the rule,
-            // so a user holding a valid batch is not told they broke a limit.
-            const dropped = allFiles.length - addedCount;
-            if (MAX_FILES === 3) {
-                errorMessage = `Added the first ${MAX_FILES} — ${dropped} more didn't fit. Free plan does ${MAX_FILES} files per batch.`;
-                isFileLimitError = true;
-            } else {
-                errorMessage = `Added the first ${addedCount} — ${dropped} more didn't fit. ${MAX_FILES} files per batch.`;
-                isFileLimitError = true;
-            }
+            dropped = allFiles.length - addedCount;
         }
+        commitIngestNotices(dropped);
 
-        // Skipped files lead, since they are the ones the user handed us that are
-        // not in the list. A size skip outranks a batch trim for styling: the
-        // trim is recoverable in a second batch, an oversized file is not
-        // processable on this plan at all.
-        errorHasSkipNotice = !!skippedMessage;
-        if (skippedMessage) {
-            errorMessage = errorMessage ? `${skippedMessage} ${errorMessage}` : skippedMessage;
-            if (skippedWasSizeLimit) {
-                isFileSizeError = true;
-                isFileLimitError = false;
-            }
-        }
-
+        // Deliberately after truncation: sufficiency is judged against what is
+        // actually staged (capped at MAX_FILES), never the raw dropped count, so
+        // a 5-file drop on a 3-file plan asks for 3 operations and not 5.
         await checkTokenLimit();
     }
 
@@ -338,6 +332,8 @@
         });
     });
 
+    const stagedCount = $derived(selectedFiles.length);
+
     // Show plan quota on first visit before the bucket is seeded (availableTokens = Infinity)
     const displayTokens = $derived(
         Number.isFinite(availableTokens) ? availableTokens : (isAuthenticated ? planQuota : 3)
@@ -353,23 +349,59 @@
     // failed check leaves hasCheckedTokens false, which fails open.
     const insufficientTokens = $derived(
         hasCheckedTokens &&
-            selectedFiles.length > 0 &&
+            stagedCount > 0 &&
             Number.isFinite(availableTokens) &&
-            selectedFiles.length > availableTokens
+            stagedCount > availableTokens
     );
 
     // All dropped files were oversized — nothing left to compress
-    const blockedByFileSize = $derived(isFileSizeError && selectedFiles.length === 0);
+    const blockedByFileSize = $derived(isFileSizeError && stagedCount === 0);
 
-    const showTokenNotice = $derived(insufficientTokens && !isFileSizeError);
+    // ---- Banner state -----------------------------------------------------
+    // Everything below derives from staged files, token count, and truncatedCount.
+    // Nothing here is assigned imperatively, so no banner can outlive the state
+    // that produced it: remove a file and the whole chain re-evaluates.
 
-    // Two stacked amber boxes saying "this batch can't run" for two different
-    // reasons read as one broken form. They are still two facts, so the trim isn't
-    // dropped — it moves inside the token notice as a quiet second line. The token
-    // limit leads because it is the binding one: trimming to the batch size still
-    // leaves more files than operations.
-    const batchTrimInsideTokenNotice = $derived(
-        showTokenNotice && isFileLimitError && !!errorMessage && !errorHasSkipNotice
+    const truncationNote = $derived(
+        truncatedCount === 0
+            ? ''
+            : MAX_FILES === 3
+              ? `Added first ${MAX_FILES} files. (${truncatedCount} extra skipped — Free plan supports up to ${MAX_FILES} files per batch).`
+              : `Added first ${MAX_FILES} files. (${truncatedCount} extra skipped — ${MAX_FILES} files per batch max).`
+    );
+
+    type Banner =
+        | { kind: 'error'; text: string; note: string }
+        | { kind: 'tokens-short'; note: string }
+        | { kind: 'truncated'; text: string; note: string }
+        | { kind: 'tokens-ok' }
+        | null;
+
+    // One banner at a time, picked by severity, with the losing fact demoted to a
+    // muted second line inside the winner. Stacking two amber boxes that each say
+    // "this batch can't run" for different reasons reads as one broken form, and
+    // dropping the loser outright would silently lose files the user handed us.
+    //
+    // Order: a rejection (nothing we can do with those bytes) outranks the token
+    // wall (fixable by paying or removing), which outranks a trim (already
+    // handled, purely informational), which outranks the all-clear.
+    const activeBanner: Banner = $derived(
+        errorMessage
+            ? { kind: 'error', text: errorMessage, note: truncationNote }
+            : insufficientTokens
+              ? { kind: 'tokens-short', note: truncationNote }
+              : truncationNote
+                ? {
+                      kind: 'truncated',
+                      text: truncationNote,
+                      note:
+                          hasCheckedTokens && displayTokens > 0
+                              ? `${displayTokens} token${displayTokens !== 1 ? 's' : ''} available.`
+                              : ''
+                  }
+                : hasCheckedTokens && stagedCount > 0 && displayTokens > 0
+                  ? { kind: 'tokens-ok' }
+                  : null
     );
 
     function handleButtonClick() {
@@ -468,10 +500,9 @@
         });
 
         errorMessage = '';
-        errorHasSkipNotice = false;
         successMessage = '';
         isFileSizeError = false;
-        isFileLimitError = false;
+        truncatedCount = 0;
         processPhase = 'uploading';
         uploadPercent = 0;
         downloadPercent = 0;
@@ -800,6 +831,8 @@
         fileProgress = [];
         totalOriginalSize = 0;
         errorMessage = '';
+        truncatedCount = 0;
+        isFileSizeError = false;
         successMessage = '';
         imageType = output;
         if (fileInputElement) fileInputElement.value = '';
@@ -812,6 +845,15 @@
         selectedFiles = selectedFiles.filter((_, i) => i !== index);
         fileProgress = fileProgress.filter((_, i) => i !== index);
         totalOriginalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
+
+        // The trim notice describes the add that built this list, so it goes stale
+        // the moment the user edits it — "Added first 3 files" sitting above two
+        // thumbnails reads as a live complaint about a batch that is now fine.
+        // Token sufficiency needs no help here: insufficientTokens derives from
+        // stagedCount, so it re-evaluates on its own. Skip notices are left alone,
+        // since they refer to files that never entered the list at all and
+        // isFileSizeError still drives the size upsell.
+        truncatedCount = 0;
     }
 
     const formats = [
@@ -1102,128 +1144,108 @@
         </div>
     {/if}
 
-    <!-- Token status -->
-    {#if hasCheckedTokens && selectedFiles.length > 0 && !insufficientTokens && displayTokens > 0}
+    <!-- Success is orthogonal to the banner chain: it only exists after a run,
+         when every ingest-time condition has already been cleared. -->
+    {#if successMessage}
         <div
             class="mx-4 mb-3 flex items-center gap-2 rounded-2xl border border-green-100 bg-[#F0FDF4] px-4 py-3 sm:mx-6"
         >
-            <svg class="h-4 w-4 shrink-0 text-[#66BB6A]" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="h-4 w-4 flex-shrink-0 text-[#66BB6A]" fill="currentColor" viewBox="0 0 20 20">
                 <path
                     fill-rule="evenodd"
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                     clip-rule="evenodd"
                 />
             </svg>
-            <p class="text-xs font-bold text-[#33691E]">
-                {displayTokens} token{displayTokens !== 1 ? 's' : ''} available
-            </p>
+            <p class="text-xs font-bold text-[#33691E]">{successMessage}</p>
         </div>
     {/if}
 
-    <!-- The operations limit is the headline constraint: it is what the paywall
-         button below is for, and it outranks a batch trim because trimming to the
-         batch size still leaves more files than operations. When both apply, the
-         trim folds in below as a sub-line (batchTrimInsideTokenNotice) so the
-         dropped files are still accounted for without a second amber box. -->
-    {#if showTokenNotice}
+    <!-- Single banner slot. Exactly one of these renders (see activeBanner):
+         error > tokens-short > truncated > tokens-ok. A trimmed batch is a
+         notice, not a failure, so only 'error' gets the red treatment. -->
+    {#if activeBanner}
         <div
-            class="mx-4 mb-3 flex items-start gap-2 rounded-2xl border border-amber-100 bg-amber-50 px-4 py-3 sm:mx-6"
+            class="mx-4 mb-3 flex items-start gap-2 rounded-2xl border px-4 py-3 sm:mx-6 {activeBanner.kind ===
+            'error'
+                ? 'border-red-100 bg-red-50'
+                : activeBanner.kind === 'tokens-ok'
+                  ? 'border-green-100 bg-[#F0FDF4]'
+                  : 'border-amber-100 bg-amber-50'}"
         >
-            <svg
-                class="mt-0.5 h-4 w-4 shrink-0 text-[#F57C00]"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-            >
-                <path
-                    fill-rule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                    clip-rule="evenodd"
-                />
-            </svg>
+            {#if activeBanner.kind === 'error'}
+                <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#EF5350]" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+            {:else if activeBanner.kind === 'tokens-ok'}
+                <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#66BB6A]" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+            {:else}
+                <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#F57C00]" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+            {/if}
+
             <div class="flex flex-col gap-1">
-                {#if availableTokens === 0}
-                    <!-- "Guest limit" is meaningless to someone signed in, and signing
-                         up is not a fix they can act on. Their route is an upgrade. -->
-                    {#if isAuthenticated}
+                {#if activeBanner.kind === 'tokens-ok'}
+                    <p class="text-xs font-bold text-[#33691E]">
+                        {displayTokens} token{displayTokens !== 1 ? 's' : ''} available
+                    </p>
+                {:else if activeBanner.kind === 'tokens-short'}
+                    {#if availableTokens === 0}
+                        <!-- "Guest limit" is meaningless to someone signed in, and signing
+                             up is not a fix they can act on. Their route is an upgrade. -->
+                        {#if isAuthenticated}
+                            <p class="text-xs font-bold text-cocoa-deep">
+                                You've used your monthly images. <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">Upgrade your plan</a> for more, or come back next month.
+                            </p>
+                        {:else if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
+                            <p class="text-xs font-bold text-cocoa-deep">Guest limit reached — get instant access or create a free account.</p>
+                        {:else}
+                            <p class="text-xs font-bold text-cocoa-deep">
+                                Guest limit reached. <a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> for 25 images/month, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">see plans</a>.
+                            </p>
+                        {/if}
+                    {:else if isAuthenticated}
                         <p class="text-xs font-bold text-cocoa-deep">
-                            You've used your monthly images. <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">Upgrade your plan</a> for more, or come back next month.
+                            You have {availableTokens} image{availableTokens !== 1 ? 's' : ''} left this month, but {stagedCount} file{stagedCount !== 1 ? 's' : ''} staged. Remove {stagedCount - availableTokens}, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">upgrade</a> for more.
                         </p>
                     {:else if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
-                        <p class="text-xs font-bold text-cocoa-deep">Guest limit reached — get instant access or create a free account.</p>
+                        <p class="text-xs font-bold text-cocoa-deep">
+                            You have {availableTokens} token{availableTokens !== 1 ? 's' : ''} left, but {stagedCount} file{stagedCount !== 1 ? 's' : ''} staged. Remove {stagedCount - availableTokens}, or get more access:
+                        </p>
                     {:else}
                         <p class="text-xs font-bold text-cocoa-deep">
-                            Guest limit reached. <a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> for 25 images/month, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">see plans</a>.
+                            You have {availableTokens} token{availableTokens !== 1 ? 's' : ''} left, but {stagedCount} file{stagedCount !== 1 ? 's' : ''} staged. Remove {stagedCount - availableTokens}, or <a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">sign up</a> for more.
                         </p>
                     {/if}
-                {:else if isAuthenticated}
-                    <p class="text-xs font-bold text-cocoa-deep">
-                        {availableTokens} image{availableTokens !== 1 ? 's' : ''} left this month — remove {selectedFiles.length - availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''}, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">upgrade</a> for more.
-                    </p>
-                {:else if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
-                    <p class="text-xs font-bold text-cocoa-deep">
-                        {availableTokens} token{availableTokens !== 1 ? 's' : ''} left — remove {selectedFiles.length - availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''}, or get more access:
-                    </p>
                 {:else}
-                    <p class="text-xs font-bold text-cocoa-deep">
-                        {availableTokens} token{availableTokens !== 1 ? 's' : ''} available — remove {selectedFiles.length - availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''} or <a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">sign up</a> for more.
+                    <p
+                        class="text-xs font-bold {activeBanner.kind === 'error'
+                            ? 'text-red-700'
+                            : 'text-cocoa-deep'}"
+                    >
+                        {activeBanner.text}
                     </p>
                 {/if}
-                {#if batchTrimInsideTokenNotice}
-                    <p class="text-xs text-cocoa-deep/70">{errorMessage}</p>
+
+                {#if activeBanner.kind !== 'tokens-ok' && activeBanner.note}
+                    <p class="text-xs text-cocoa-deep/70">{activeBanner.note}</p>
                 {/if}
             </div>
-        </div>
-    {/if}
-
-    <!-- Success / error messages (Moved above submit button) -->
-    {#if successMessage || (errorMessage && !batchTrimInsideTokenNotice)}
-        <div class="flex flex-col gap-2 px-4 pb-4 sm:px-6">
-            {#if successMessage}
-                <div
-                    class="flex items-center gap-2 rounded-2xl border border-green-100 bg-[#F0FDF4] px-4 py-3"
-                >
-                    <svg class="h-4 w-4 flex-shrink-0 text-[#66BB6A]" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd"
-                        />
-                    </svg>
-                    <p class="text-xs font-bold text-[#33691E]">{successMessage}</p>
-                </div>
-            {/if}
-            <!-- A trimmed batch is a notice, not a failure: the files that fit were
-                 accepted and the user can carry on. Rendering it in the same red
-                 error styling as a genuine rejection is what made a perfectly
-                 valid 3-file batch look broken. -->
-            {#if errorMessage && !batchTrimInsideTokenNotice}
-                <div
-                    class="flex items-start gap-2 rounded-2xl border px-4 py-3 {isFileLimitError
-                        ? 'border-amber-100 bg-amber-50'
-                        : 'border-red-100 bg-red-50'}"
-                >
-                    {#if isFileLimitError}
-                        <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#F57C00]" fill="currentColor" viewBox="0 0 20 20">
-                            <path
-                                fill-rule="evenodd"
-                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
-                    {:else}
-                        <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#EF5350]" fill="currentColor" viewBox="0 0 20 20">
-                            <path
-                                fill-rule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
-                    {/if}
-                    <p class="text-xs font-bold {isFileLimitError ? 'text-cocoa-deep' : 'text-red-700'}">
-                        {errorMessage}
-                    </p>
-                </div>
-            {/if}
         </div>
     {/if}
 
