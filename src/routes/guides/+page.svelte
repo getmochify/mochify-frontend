@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "Cross-Listing for Resellers: One Set of Photos, Every Marketplace",
+            description: "Cross-listing apps copy your photos as-is. Photo specs for eBay, Poshmark, Mercari, Depop, and Vinted, plus a batch workflow that preps one set for all.",
+            url: "/guides/cross-listing-marketplace-photo-requirements",
+            category: "Workflows",
+            readTime: "11 min read",
+            date: "August 4, 2026"
+        },
+        {
             title: "Etsy Listing Photo Size: The Complete Guide",
             description: "Etsy listing photos should be at least 2000px and under 1MB. Every current spec from Etsy's docs, why photos blur after upload, and a one-prompt batch fix.",
             url: "/guides/etsy-listing-photo-size-guide",

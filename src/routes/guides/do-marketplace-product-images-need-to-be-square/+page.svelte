@@ -10,7 +10,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         datePublished: "29 June 2026",
-        lastUpdated: "July 24, 2026"
+        lastUpdated: "August 5, 2026"
     };
 
     const related = [
@@ -83,7 +83,7 @@
             "@id": "https://mochify.app/guides/do-marketplace-product-images-need-to-be-square"
         },
         "datePublished": "2026-06-29",
-        "dateModified": "2026-07-24",
+        "dateModified": "2026-08-05",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -166,6 +166,10 @@
 
             <p class="mb-6">
                 Portrait images shot at 2:3 or 3:4 carry the highest risk. A product centered on a portrait background will lose the top and bottom of the frame when auto-cropped to square. Uploading a pre-cropped square image keeps the focal point exactly where you intend it.
+            </p>
+
+            <p class="mb-6">
+                The shape question also cuts the other way now: Poshmark moved its display layer to 3:4 portrait in March 2026, joining Vinted, so "square-safe" is no longer a universal default. When you list the same item across several platforms, <a href="/guides/cross-listing-marketplace-photo-requirements">the cross-listing photo guide</a> maps each marketplace's current shape, size, and format in one place.
             </p>
 
             <InfoBox type="tip" title="Shooting tip">

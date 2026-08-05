@@ -11,7 +11,8 @@
         description: "Should you optimize images before upload? Almost always yes. A practical guide covering LCP, EXIF privacy, formats, and the right workflow for Shopify, WordPress, and marketplaces.",
         category: "Image Optimization",
         readTime: "15 min read",
-        date: "April 13, 2026"
+        date: "April 13, 2026",
+        lastUpdated: "August 5, 2026"
     };
 
     const related = [
@@ -85,7 +86,7 @@
         "description": "A practical guide to pre-upload image optimization: when it is mandatory, when it is optional, and the right workflow for Shopify, WordPress, and marketplaces.",
         "url": "https://mochify.app/guides/should-i-optimize-images-before-upload",
         "datePublished": "2026-04-13",
-        "dateModified": "2026-04-13",
+        "dateModified": "2026-08-05",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team" },
         "isPartOf": { "@type": "CollectionPage", "name": "Image Optimization Guides", "url": "https://mochify.app/guides" },
@@ -148,7 +149,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -262,6 +263,8 @@
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Product images for Shopify, Etsy, eBay, and Amazon</h3>
             <p class="mb-4">Yes - strongly. Product photos are typically the heaviest assets on listing pages and the most likely LCP elements. Each marketplace has its own recommended dimensions: Etsy recommends at least 2000px on the longest side for full zoom quality, Amazon requires a minimum of 1000px but recommends 2000px or more, and eBay best practice lands around 1600×1600px. None of them gives you fine-grained guidance on compression - that's your job, and getting the format wrong is exactly <a href="https://mochify.app/guides/ebay-image-file-not-supported">why eBay says an image file is not supported</a> at the point of upload.</p>
             <p class="mb-4">Camera JPEGs and HEIC files from modern smartphones are routinely 5–12MB. Uploading those directly means the platform is working from massive originals, often re-compressing in ways that hurt sharpness at zoom. More importantly: none of these platforms consistently strips EXIF. If your product photography includes shots from your home, workshop, or client location, the GPS coordinates are in every file you upload.</p>
+            <p class="mb-4">For Etsy specifically, <a href="/guides/etsy-listing-photo-size-guide">Etsy's current photo specs</a> (at least 2000px, under 1MB) explain why so many listing photos come back blurry after upload.</p>
+
             <p class="mb-4">Recommended dimensions are one thing; aspect ratio is another, and the <a href="https://mochify.app/guides/do-marketplace-product-images-need-to-be-square">marketplace rules on square product images</a> vary from platform to platform.</p>
 
             <p class="mb-4">The right workflow: convert to jpegli JPEG, WebP, or AVIF at the platform's recommended dimensions, target a clean file size (300–500KB for most marketplace images is realistic without visible quality loss), and strip all EXIF before upload.</p>

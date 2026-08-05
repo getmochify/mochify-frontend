@@ -10,7 +10,8 @@
         description: "How to take good photos for Vinted: light, backgrounds, the real size and ratio facts, privacy checks, and a one-prompt batch workflow for sellers.",
         category: "Workflows",
         readTime: "13 min read",
-        date: "July 19, 2026"
+        date: "July 19, 2026",
+        lastUpdated: "August 5, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -99,7 +100,7 @@
             "@id": "https://mochify.app/guides/vinted-photos-that-sell"
         },
         "datePublished": "2026-07-19",
-        "dateModified": "2026-07-19",
+        "dateModified": "2026-08-05",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -156,7 +157,7 @@
         "description": "How to take good photos for Vinted: light, backgrounds, the real size and ratio facts, privacy checks, and a one-prompt batch workflow for sellers.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-19",
-        "dateModified": "2026-07-19"
+        "dateModified": "2026-08-05"
         }
     </script>
 
@@ -186,7 +187,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -331,6 +332,7 @@
                 </li>
             </ol>
             <p class="text-base mt-7 mb-0">Two upgrades worth knowing about. High-volume sellers on the Seller or Pro plan get 25-file batches and 75MB files, which turns a 60-photo clear-out from a session-by-session job into three drag-and-drops. And background removal - placing your item on a clean white background, the brand-listing look - is part of the standard toolkit on every plan, including Free.</p>
+            <p class="text-base mt-4 mb-0">Selling the same pieces elsewhere too? Vinted's portrait crop is not what eBay, Poshmark, or Depop want, so <a href="/guides/cross-listing-marketplace-photo-requirements">cross-listing your Vinted photos to other marketplaces</a> means re-exporting each set to the right shape, the same batch prompt with one line changed per platform.</p>
             <p class="text-base text-[#875F42] mt-4 mb-0">A note on privacy, because clothes photographed in your home are personal data in every sense: images sent to Mochify are streamed into server memory at <code class={inlineCode}>api.mochify.app</code>, processed, and wiped immediately. No disk writes, no logs containing your files, zero retention. Our <a href="/guides/privacy-image-optimization">privacy and image optimization guide</a> explains the model in depth.</p>
         </section>
 

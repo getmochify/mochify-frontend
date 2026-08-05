@@ -10,7 +10,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         datePublished: "June 24, 2026",
-        lastUpdated: "July 24, 2026"
+        lastUpdated: "August 5, 2026"
     };
 
     const related = [
@@ -59,7 +59,7 @@
             "@id": "https://mochify.app/guides/ebay-image-file-not-supported"
         },
         "datePublished": "2026-06-24",
-        "dateModified": "2026-07-24",
+        "dateModified": "2026-08-05",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -138,6 +138,8 @@
             <p class="mb-4">Mochify interprets that and applies the right settings automatically. Your image is processed in-memory and deleted immediately: nothing is stored. The free plan covers 25 images per month, or 3 per session without signing up, which is enough for occasional listings.</p>
 
             <p class="mb-4">If you also sell on Vinted, photo prep is different there (portrait, not square, and no official spec) - covered in <a href="/guides/vinted-photos-that-sell">our Vinted photo guide</a>.</p>
+
+            <p class="mb-4">Listing the same items on more than one platform? The <a href="/guides/cross-listing-marketplace-photo-requirements">photo requirements for every major marketplace</a> differ - eBay, Poshmark, Mercari, Depop, and Vinted each want a different shape, size, or format.</p>
 
             <p class="mb-4">Hitting upload errors on every listing is a volume problem as much as a format one. If you're reselling at any real scale, see <a href="/guides/is-reselling-worth-it">our reseller ROI guide</a> for the honest math on where the time actually goes.</p>
         </section>

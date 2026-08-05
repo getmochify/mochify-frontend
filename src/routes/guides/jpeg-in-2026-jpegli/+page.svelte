@@ -9,7 +9,7 @@
         category: "Image Optimization",
         readTime: "20 min read",
         date: "February 09, 2026",
-        lastUpdated: "June 24, 2026"
+        lastUpdated: "August 5, 2026"
     };
 
     const related = [
@@ -75,7 +75,7 @@
             "zero-retention image optimization"
         ],
         "datePublished": "2026-02-09",
-        "dateModified": "2026-05-30"
+        "dateModified": "2026-08-05"
         }
     </script>
 </svelte:head>
@@ -479,7 +479,7 @@
                     
                     <ol class="list-decimal list-outside ml-6 space-y-3 mb-6 text-[#6C3F31]">
                         <li><strong>Convert format first</strong> (if needed) – If your camera outputs HIF/HEIF/RAW, convert to JPEG. Tools like Mochify handle HIF-to-JPEG conversion with in-memory processing. Worried about the 10-bit to 8-bit step? See <a href="https://mochify.app/guides/does-hif-to-jpg-lose-quality">does HIF to JPG conversion lose quality?</a></li>
-                        <li><strong>Resize to platform specs</strong> – eBay recommends 1600×1600px. Etsy wants 2000-2400px width. Amazon specifies 2000×2000px minimum for zoom. Don't guess-check the current platform guidelines.</li>
+                        <li><strong>Resize to platform specs</strong> – eBay recommends 1600×1600px. Etsy wants 2000-2400px width (see the <a href="/guides/etsy-listing-photo-size-guide">Etsy listing photo size guide</a>). Amazon specifies 2000×2000px minimum for zoom. Don't guess-check the current platform guidelines.</li>
                         <li><strong>Compress with jpegli</strong> – Use a quality setting that hits your target file size (typically 200-500KB per image for product photos). Jpegli at quality 85-90 will deliver better visual results than libjpeg-turbo or MozJPEG at the same file size (based on reported test results).</li>
                         <li><strong>Verify one image first</strong> – Encode one sample, upload it to the platform, check how it looks on desktop and mobile. If the platform recompresses on upload, you'll see it immediately.</li>
                     </ol>

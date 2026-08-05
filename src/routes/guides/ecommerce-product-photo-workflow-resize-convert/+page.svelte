@@ -11,7 +11,7 @@
         category: "Workflows",
         readTime: "4 min read",
         date: "May 2026",
-        lastUpdated: "July 24, 2026"
+        lastUpdated: "August 5, 2026"
     };
 
     const faqItems = [
@@ -73,7 +73,7 @@
         "description": "How to batch-convert product photos to JPG at 1200px and 800px with a single natural-language prompt. The fastest workflow for Shopify, Etsy, eBay, and Amazon sellers.",
         "url": "https://mochify.app/guides/ecommerce-product-photo-workflow-resize-convert",
         "datePublished": "2026-05-23",
-        "dateModified": "2026-07-24",
+        "dateModified": "2026-08-05",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
         "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
@@ -288,6 +288,8 @@
 
             <p>Get the format or file size wrong and you'll run straight into <a href="https://mochify.app/guides/ebay-image-file-not-supported">eBay's "file not supported" error and the 12 MB limit</a>, so it's worth resizing and converting before you upload rather than after a listing bounces.</p>
 
+            <p>Etsy is the exception worth checking before you batch: it caps files at 1MB and wants 2000px or more on the long edge, so see <a href="/guides/etsy-listing-photo-size-guide">the Etsy photo size guide</a> for its current specs.</p>
+
             <p>If you're uploading directly to Shopify and nowhere else, swap <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">jpg</code> for <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">webp</code> or <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">avif</code> in the prompt and you'll get 25–50% smaller files with no compatibility trade-off.</p>
 
             <InfoBox type="note" title="Mochify uses jpegli for JPEG output">
@@ -295,6 +297,8 @@
             </InfoBox>
 
             <p>Selling second-hand on Vinted? The same one-prompt approach works there, with a portrait twist - see <a href="/guides/vinted-photos-that-sell">our guide to taking Vinted photos that sell</a>.</p>
+
+            <p>Listing the same catalog on more than one marketplace? Each platform wants a different shape, size, and format, and <a href="/guides/cross-listing-marketplace-photo-requirements">cross-listing for resellers</a> walks through the specs for eBay, Poshmark, Mercari, Depop, and Vinted alongside the batch workflow.</p>
         </section>
 
         <!-- 04 CLI -->
@@ -377,7 +381,7 @@
                 {#each relatedGuides as guide}
                     <li>
                         <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
+                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>

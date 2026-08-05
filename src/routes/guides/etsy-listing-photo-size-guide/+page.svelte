@@ -81,7 +81,7 @@
             "@id": "https://mochify.app/guides/etsy-listing-photo-size-guide"
         },
         "datePublished": "2026-08-03",
-        "dateModified": "2026-08-03",
+        "dateModified": "2026-08-05",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -266,7 +266,7 @@
                 <li><strong class="text-[#4A2C2C]">First photo sets the tone.</strong> Etsy recommends the first photo be landscape or square, and it dictates how your other photos display on the listing.</li>
                 <li><strong class="text-[#4A2C2C]">Don't crop tight in-camera.</strong> Tight crops look decisive in the editor and lose product edges in Etsy's thumbnails. Leave margin; crop happens at display time whether you like it or not.</li>
             </ul>
-            <p>If you sell across marketplaces, this multi-crop behavior is Etsy's version of a problem every platform has: our quick answer on <a href="https://mochify.app/guides/do-marketplace-product-images-need-to-be-square">whether marketplace product images need to be square</a> covers the cross-platform default.</p>
+            <p>If you <a href="/guides/cross-listing-marketplace-photo-requirements">sell across marketplaces</a>, this multi-crop behavior is Etsy's version of a problem every platform has: our quick answer on <a href="https://mochify.app/guides/do-marketplace-product-images-need-to-be-square">whether marketplace product images need to be square</a> covers the cross-platform default.</p>
         </section>
 
         <!-- 04 Every other size -->
@@ -368,6 +368,7 @@
             </InfoBox>
 
             <p class="text-sm text-[#875F42]">Privacy note: your photos travel over HTTPS to api.mochify.app, are processed in RAM, and are wiped immediately after encoding - no disk writes, no logs containing file data. Batches run up to 25 files on the Seller and Pro tiers (3 per batch on Free), so a 20-photo listing preps in a single pass.</p>
+            <p>Prepping a whole shop's worth of listings is as much a time question as a formatting one. If Etsy is one of several places you sell, <a href="/guides/is-reselling-worth-it">the reseller volume math</a> covers when a paid photo workflow starts paying for itself.</p>
         </section>
 
         <!-- Inline CTA -->

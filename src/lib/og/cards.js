@@ -73,6 +73,11 @@ export const cards = [
 		title: 'Converting Images to JPEG XL: The Practical Guide for 2026'
 	},
 	{
+		path: '/guides/cross-listing-marketplace-photo-requirements',
+		eyebrow: 'GUIDE',
+		title: 'Cross-Listing for Resellers: One Set of Photos, Every Marketplace'
+	},
+	{
 		path: '/guides/do-journaling-apps-compress-images',
 		eyebrow: 'GUIDE',
 		title: 'Do Journaling Apps Compress Images? Avoid Storage Bloat.'
