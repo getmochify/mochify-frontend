@@ -79,13 +79,41 @@ async function assertPaid(platform: App.Platform | undefined, userId: string): P
     }
 }
 
+// The worker answers some failures with plain text — 'Unauthorized' on a token
+// mismatch, 'Not found' on an unrouted path, and a bare message when a handler
+// throws. Calling res.json() on those raises a SyntaxError, which the callers'
+// catch blocks then report as "could not reach the storage service", hiding a
+// service that was reached and had something useful to say. Read text first.
+async function workerJson(
+    res: Response,
+): Promise<{ data: Record<string, unknown>; raw: string | null }> {
+    const raw = await res.text()
+    try {
+        return { data: JSON.parse(raw) as Record<string, unknown>, raw: null }
+    } catch {
+        return { data: {}, raw: raw.slice(0, 120) }
+    }
+}
+
+// Keep the HTTP status in the message. It is the difference between "the route
+// is not deployed" (404), "the tokens are mismatched" (401), and "the handler
+// blew up" (500) — three very different fixes that otherwise look identical.
+function workerError(res: Response, data: Record<string, unknown>, raw: string | null): string {
+    if (typeof data.error === 'string') return data.error
+    return `Storage service error (HTTP ${res.status})${raw ? `: ${raw}` : ''}`
+}
+
 async function loadBucket(
     platform: App.Platform | undefined,
     userId: string,
 ): Promise<BucketConnection> {
     try {
         const res = await callWorker(platform, `/user/${userId}/bucket`)
-        if (res.ok) return (await res.json()) as BucketConnection
+        const { data, raw } = await workerJson(res)
+        if (res.ok) return data as unknown as BucketConnection
+        // Degrade to "not connected" so the dashboard still renders, but say
+        // why in the logs — a silent 404 here means the routes are not deployed.
+        console.error('[dashboard] bucket status load rejected:', res.status, raw ?? data)
     } catch (e) {
         console.error('[dashboard] bucket status load failed:', e)
     }
@@ -230,9 +258,12 @@ export const actions = {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
             })
-            const body = (await res.json()) as BucketConnection & { error?: string }
-            if (!res.ok) return fail(res.status === 400 ? 400 : 502, { error: body.error ?? 'Could not save the connection.' })
-            return { bucket: body }
+            const { data, raw } = await workerJson(res)
+            if (!res.ok) {
+                console.error('[dashboard] saveBucket rejected:', res.status, raw ?? data)
+                return fail(res.status === 400 ? 400 : 502, { error: workerError(res, data, raw) })
+            }
+            return { bucket: data as unknown as BucketConnection }
         } catch (e) {
             console.error('[dashboard] saveBucket failed:', e)
             return fail(502, { error: 'Could not reach the storage service. Try again.' })
@@ -250,9 +281,12 @@ export const actions = {
             const res = await callWorker(platform, `/user/${locals.user.id}/bucket/verify`, {
                 method: 'POST',
             })
-            const body = (await res.json()) as BucketConnection & { error?: string }
-            if (!res.ok) return fail(502, { error: body.error ?? 'Could not test the connection.' })
-            return { bucket: body }
+            const { data, raw } = await workerJson(res)
+            if (!res.ok) {
+                console.error('[dashboard] verifyBucket rejected:', res.status, raw ?? data)
+                return fail(502, { error: workerError(res, data, raw) })
+            }
+            return { bucket: data as unknown as BucketConnection }
         } catch (e) {
             console.error('[dashboard] verifyBucket failed:', e)
             return fail(502, { error: 'Could not reach the storage service. Try again.' })
