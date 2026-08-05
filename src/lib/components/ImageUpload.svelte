@@ -265,6 +265,16 @@
             };
         });
         totalOriginalSize = combinedFiles.reduce((sum, file) => sum + file.size, 0);
+
+        // Skipped-file notices are set above and must survive the reset below.
+        // Without this they were cleared before ever rendering, so dropping four
+        // files with one oversized left three thumbnails and no explanation —
+        // the file vanished silently, which is the one outcome a user cannot
+        // diagnose for themselves. (When every file is skipped the function
+        // returns earlier, which is why that path always showed its message.)
+        const skippedMessage = errorMessage;
+        const skippedWasSizeLimit = isFileSizeError;
+
         errorMessage = '';
         successMessage = '';
         isFileSizeError = false;
@@ -273,11 +283,28 @@
         if (addedCount === 0 && newFiles.length === 0) {
             errorMessage = 'All selected files are already in the list.';
         } else if (selectedFiles.length >= MAX_FILES && allFiles.length > addedCount) {
+            // Nothing failed here: the batch was filled to its limit and the rest
+            // were left behind. Say what happened rather than quoting the rule,
+            // so a user holding a valid batch is not told they broke a limit.
+            const dropped = allFiles.length - addedCount;
             if (MAX_FILES === 3) {
-                errorMessage = `Free plan is limited to 3 files per batch.`;
+                errorMessage = `Added the first ${MAX_FILES} — ${dropped} more didn't fit. Free plan does ${MAX_FILES} files per batch.`;
                 isFileLimitError = true;
             } else {
-                errorMessage = `Maximum ${MAX_FILES} files. Added ${addedCount} file(s).`;
+                errorMessage = `Added the first ${addedCount} — ${dropped} more didn't fit. ${MAX_FILES} files per batch.`;
+                isFileLimitError = true;
+            }
+        }
+
+        // Skipped files lead, since they are the ones the user handed us that are
+        // not in the list. A size skip outranks a batch trim for styling: the
+        // trim is recoverable in a second batch, an oversized file is not
+        // processable on this plan at all.
+        if (skippedMessage) {
+            errorMessage = errorMessage ? `${skippedMessage} ${errorMessage}` : skippedMessage;
+            if (skippedWasSizeLimit) {
+                isFileSizeError = true;
+                isFileLimitError = false;
             }
         }
 
@@ -311,10 +338,17 @@
         Number.isFinite(availableTokens) ? availableTokens : (isAuthenticated ? planQuota : 3)
     );
 
+    // Applies to signed-in users too. This used to be guest-only, which meant an
+    // account holder out of operations got no warning at all: they filled a
+    // batch, waited out the upload, and took a 429 from the server. Telling them
+    // before the upload is strictly better, and it is the same check either way.
+    //
+    // Safe against false positives by construction: an unseeded bucket resolves
+    // to Infinity (see checkTokenLimit) so Number.isFinite screens it out, and a
+    // failed check leaves hasCheckedTokens false, which fails open.
     const insufficientTokens = $derived(
         hasCheckedTokens &&
             selectedFiles.length > 0 &&
-            !isAuthenticated &&
             Number.isFinite(availableTokens) &&
             selectedFiles.length > availableTokens
     );
@@ -346,10 +380,17 @@
             return;
         }
 
-        // Intercept click if they lack tokens (non-authed only) to show signup CTA
+        // Intercept the click when they lack the operations for this batch.
+        // Signing up is not a fix for someone already signed in, so send them to
+        // the upgrade path instead.
         if (insufficientTokens) {
-            showSignupCta = true;
-            posthog.capture('signup_cta_shown', { trigger: 'button_click_no_tokens' });
+            if (isAuthenticated) {
+                showUpgradeCta = true;
+                posthog.capture('upgrade_cta_shown', { trigger: 'button_click_no_tokens' });
+            } else {
+                showSignupCta = true;
+                posthog.capture('signup_cta_shown', { trigger: 'button_click_no_tokens' });
+            }
             return;
         }
 
@@ -1062,7 +1103,12 @@
         </div>
     {/if}
 
-    {#if insufficientTokens && !isFileLimitError && !isFileSizeError}
+    <!-- Shown alongside a batch-trim notice rather than instead of it. These are
+         two unrelated constraints: the trim is about how many files fit in one
+         batch, this is about how many operations are left. Suppressing this one
+         left the paywall button below with no visible reason, next to a message
+         about a limit the user was already inside. -->
+    {#if insufficientTokens && !isFileSizeError}
         <div
             class="mx-4 mb-3 flex items-start gap-2 rounded-2xl border border-amber-100 bg-amber-50 px-4 py-3 sm:mx-6"
         >
@@ -1078,16 +1124,26 @@
                 />
             </svg>
             {#if availableTokens === 0}
-                {#if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
+                <!-- "Guest limit" is meaningless to someone signed in, and signing
+                     up is not a fix they can act on. Their route is an upgrade. -->
+                {#if isAuthenticated}
+                    <p class="text-xs font-bold text-cocoa-deep">
+                        You've used your monthly images. <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">Upgrade your plan</a> for more, or come back next month.
+                    </p>
+                {:else if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
                     <div class="flex flex-col gap-2">
                         <p class="text-xs font-bold text-cocoa-deep">Guest limit reached — get instant access or create a free account.</p>
-                        
+
                     </div>
                 {:else}
                     <p class="text-xs font-bold text-cocoa-deep">
                         Guest limit reached. <a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> for 25 images/month, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">see plans</a>.
                     </p>
                 {/if}
+            {:else if isAuthenticated}
+                <p class="text-xs font-bold text-cocoa-deep">
+                    {availableTokens} image{availableTokens !== 1 ? 's' : ''} left this month — remove {selectedFiles.length - availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''}, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">upgrade</a> for more.
+                </p>
             {:else}
                 {#if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
                     <div class="flex flex-col gap-2">
@@ -1121,28 +1177,36 @@
                     <p class="text-xs font-bold text-[#33691E]">{successMessage}</p>
                 </div>
             {/if}
+            <!-- A trimmed batch is a notice, not a failure: the files that fit were
+                 accepted and the user can carry on. Rendering it in the same red
+                 error styling as a genuine rejection is what made a perfectly
+                 valid 3-file batch look broken. -->
             {#if errorMessage}
                 <div
-                    class="flex items-start gap-2 rounded-2xl border border-red-100 bg-red-50 px-4 py-3"
+                    class="flex items-start gap-2 rounded-2xl border px-4 py-3 {isFileLimitError
+                        ? 'border-amber-100 bg-amber-50'
+                        : 'border-red-100 bg-red-50'}"
                 >
-                    <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#EF5350]" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                            clip-rule="evenodd"
-                        />
-                    </svg>
                     {#if isFileLimitError}
-                        <div class="flex flex-col gap-2">
-                            <p class="text-xs font-bold text-red-700">{errorMessage}</p>
-                        </div>
-                    {:else if isFileSizeError}
-                        <div class="flex flex-col gap-2">
-                            <p class="text-xs font-bold text-red-700">{errorMessage}</p>
-                        </div>
+                        <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#F57C00]" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                fill-rule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
                     {:else}
-                        <p class="text-xs font-bold text-red-700">{errorMessage}</p>
+                        <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#EF5350]" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
                     {/if}
+                    <p class="text-xs font-bold {isFileLimitError ? 'text-cocoa-deep' : 'text-red-700'}">
+                        {errorMessage}
+                    </p>
                 </div>
             {/if}
         </div>
