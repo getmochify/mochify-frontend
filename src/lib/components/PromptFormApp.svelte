@@ -2,7 +2,7 @@
 	import { tick, onMount } from 'svelte';
 	import { zip, unzipSync } from 'fflate';
 	import { env } from '$env/dynamic/public';
-	import { getSessionToken, getPlan } from '$lib/user';
+	import { getSessionToken, getPlan, getBucketConnection } from '$lib/user';
 	import { posthog } from '$lib/analytics';
 	import { isChunkLoadError, isNetworkError, recoverFromStaleChunk } from '$lib/chunkRecovery';
 	import { withRetry } from '$lib/uploadRetry';
@@ -37,6 +37,19 @@
 	let completedFiles: number = $state(0);
 	let totalFiles: number = $state(0);
 	let downloadAsZip: boolean = $state(false);
+
+	// "Save to bucket" — results are written straight to the user's own S3/R2 by
+	// core instead of coming back as downloads.
+	//
+	// Deliberately named for what it does. "Use my bucket" would imply reading
+	// from the bucket too, which is a different feature (an object browser) and
+	// not this control.
+	let bucketConnected: boolean = $state(false);
+	let bucketName: string | null = $state(null);
+	let saveToBucket: boolean = $state(false);
+	// Count of objects written in the current run, for the status line.
+	let bucketStored: number = $state(0);
+	const BUCKET_PREF_KEY = 'mochify:saveToBucket';
 	// When a job fans out into many outputs, auto-enable ZIP so the user gets one
 	// archive instead of a barrage of separate downloads (which browsers block).
 	const AUTO_ZIP_THRESHOLD = 4;
@@ -108,6 +121,13 @@
 	const MAX_PDF_BYTES = 100 * 1024 * 1024;
 	const MAX_VIDEO_BYTES = 2 * 1024 * 1024 * 1024;
 	let uploadMode: 'image' | 'pdf' | 'video' | null = $state(null);
+
+	// Only offered when a *verified* connection exists. That is a stricter test
+	// than the plan — a paid user who has not connected anything has nothing to
+	// save to — and it cannot drift out of sync with the connection itself.
+	// Hidden in video mode: that conversion runs entirely in the browser via
+	// MediaBunny, so core never holds the bytes and has nothing to upload.
+	let canSaveToBucket = $derived(bucketConnected && uploadMode !== 'video');
 
 	function isPdf(f: File): boolean {
 		return f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
@@ -233,6 +253,16 @@
 	// known-'free' plan, so an in-flight plan lookup never blocks a paying user.
 	let userPlan: 'free' | 'seller' | 'pro' | 'day' | 'growth' | null = $state(null);
 	$effect(() => {
+		getBucketConnection().then((b) => {
+			bucketConnected = b.connected && b.status === 'ok';
+			bucketName = b.bucket;
+			// Restore the last choice, but never default it on: writing to
+			// someone's storage should be something they asked for this session
+			// or explicitly asked for before, not a surprise.
+			if (bucketConnected && localStorage.getItem(BUCKET_PREF_KEY) === '1') {
+				saveToBucket = true;
+			}
+		});
 		getPlan().then((plan) => {
 			userPlan = plan;
 			MAX_FILE_SIZE =
@@ -827,6 +857,7 @@
 		processPhase = 'thinking';
 		uploadPercent = 0;
 		completedFiles = 0;
+		bucketStored = 0;
 		hitRateLimit = false;
 		upgradeCtaMode = 'quota';
 		agentMessage = '';
@@ -1582,7 +1613,12 @@
 			}
 			// Past the threshold, switch ZIP on — the bound toggle animates on so the
 			// user sees why they're getting an archive instead of many downloads.
-			if (totalFiles >= AUTO_ZIP_THRESHOLD) downloadAsZip = true;
+			// Auto-ZIP exists to stop browsers blocking a barrage of downloads.
+			// When results go to the bucket there are no downloads to block, and
+			// a ZIP would just be a second, unwanted artefact.
+			if (totalFiles >= AUTO_ZIP_THRESHOLD && !(saveToBucket && canSaveToBucket)) {
+				downloadAsZip = true;
+			}
 			// Each file uploads exactly once — multi-variant fan-out happens
 			// server-side (types/sizes params → ZIP response) — so upload progress
 			// counts each file's bytes once, regardless of variant count.
@@ -1667,6 +1703,18 @@
 								}
 
 								const contentType = xhr.getResponseHeader('content-type') || '';
+								// A 2xx JSON body is a bucket receipt, not a failure. This
+								// branch predates that: it assumed JSON could only ever be an
+								// error shape, which would have turned every successful bucket
+								// write into "Server rejected <file>".
+								if (
+									contentType.includes('application/json') &&
+									xhr.status >= 200 &&
+									xhr.status < 300
+								) {
+									resolve(xhr.response as Blob);
+									return;
+								}
 								if (contentType.includes('application/json')) {
 									rollback();
 									const status = xhr.status;
@@ -1926,6 +1974,18 @@
 							if (size.height && (size.height !== origDims[fileIdx]?.h || fileConfig.smartCrop))
 								params.append('height', String(size.height));
 
+							const finalName = variantFinalName(fmt, size);
+
+							// Core needs the destination filename up front, because writes
+							// overwrite and it refuses to guess. Both upload routes carry
+							// these: squishFile copies params into the chunked request's
+							// init body, where the session stores them until completion.
+							const bucketThisFile = saveToBucket && canSaveToBucket;
+							if (bucketThisFile) {
+								params.append('dest', 'bucket');
+								params.append('name', finalName);
+							}
+
 							try {
 								const blob = await squishFile(file, params, () => {
 									processPhase = 'processing';
@@ -1933,9 +1993,17 @@
 
 								processPhase = 'downloading';
 
-								const finalName = variantFinalName(fmt, size);
-
-								if (downloadAsZip) {
+								if (bucketThisFile) {
+									// Success is a receipt, not an image: nothing to download
+									// or zip. Trust but verify — if the body is not the shape
+									// core promises, treat it as a failure rather than
+									// reporting a write that may not have happened.
+									const receipt = JSON.parse(await blob.text());
+									if (!receipt?.stored) {
+										throw new Error(`Could not confirm ${finalName} was saved to your bucket.`);
+									}
+									bucketStored += 1;
+								} else if (downloadAsZip) {
 									const arrayBuffer = await blob.arrayBuffer();
 									zipContents[finalName] = new Uint8Array(arrayBuffer as ArrayBuffer);
 								} else {
@@ -2402,6 +2470,42 @@
 							>
 						</label>
 					{/if}
+					{#if canSaveToBucket && files.length > 0}
+						<div class="h-4 w-px flex-shrink-0 bg-white/40"></div>
+						<label
+							class="flex flex-shrink-0 cursor-pointer items-center gap-1.5"
+							title={bucketName
+								? `Save results to ${bucketName} instead of downloading`
+								: 'Save results to your bucket instead of downloading'}
+						>
+							<div class="relative">
+								<input
+									type="checkbox"
+									bind:checked={saveToBucket}
+									onchange={() => {
+										localStorage.setItem(BUCKET_PREF_KEY, saveToBucket ? '1' : '0');
+										posthog.capture('bucket_output_toggled', { on: saveToBucket });
+									}}
+									class="sr-only"
+								/>
+								<div
+									class="block h-3.5 w-7 rounded-full border transition-all duration-300 {saveToBucket
+										? 'border-[#F8BBD0] bg-[#F8BBD0]'
+										: 'border-[#F8BBD0]/40 bg-[#FFF0F5] shadow-inner'}"
+								></div>
+								<div
+									class="dot absolute top-0.5 left-0.5 h-2.5 w-2.5 rounded-full bg-white shadow-sm transition-transform duration-300 {saveToBucket
+										? 'translate-x-3.5 transform'
+										: ''}"
+								></div>
+							</div>
+							<span
+								class="text-[10px] font-extrabold tracking-widest uppercase transition-colors duration-300 {saveToBucket
+									? 'text-[#AD1457]'
+									: 'text-[#875F42]/50'}">Bucket</span
+							>
+						</label>
+					{/if}
 					<div class="h-4 w-px flex-shrink-0 bg-white/40"></div>
 					<!-- Status text -->
 					<span
@@ -2428,6 +2532,9 @@
 							{:else if displayPhase === 'packing'}
 								Packing your zip file…
 							{/if}
+						{:else if bucketStored > 0}
+							Saved {bucketStored}
+							{bucketStored === 1 ? 'image' : 'images'} to {bucketName ?? 'your bucket'}
 						{:else if files.length === 0}
 							Drop files — or just describe an image to generate one
 						{:else if uploadMode === 'pdf'}

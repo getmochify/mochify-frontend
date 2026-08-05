@@ -59,6 +59,14 @@ export interface ChunkedUploadParams {
 	brightness?: string;
 	clarity?: string;
 	quality?: string;
+	// "Bring your own bucket": dest="bucket" diverts the result into the user's
+	// own storage, and name is the object to write. Both are read at init and
+	// stored on the UploadSession, because /v1/upload/complete carries only the
+	// session id — so unlike the direct path there is no later chance to send
+	// them. A successful completion then answers with a JSON receipt rather
+	// than image bytes.
+	dest?: string;
+	name?: string;
 	// Passthrough for extra params (e.g. solution-page presets carried via a
 	// component's `queryParams` prop) — unrecognized keys are ignored by the
 	// backend's JSON parsing the same way an unrecognized query param is

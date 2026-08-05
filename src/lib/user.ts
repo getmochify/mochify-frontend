@@ -41,3 +41,44 @@ export function invalidatePlanCache() {
     _planCache = null
 }
 
+// Bucket connection state for the app surface. Same dedupe-and-cache shape as
+// getPlan(): components ask on every mount, and the answer changes roughly
+// never — a user connects a bucket once and then forgets about it.
+export type BucketState = {
+    connected: boolean
+    bucket: string | null
+    prefix: string
+    status: 'unverified' | 'ok' | 'error'
+}
+
+const DISCONNECTED: BucketState = { connected: false, bucket: null, prefix: '', status: 'unverified' }
+
+let _bucketRequest: Promise<BucketState> | null = null
+let _bucketCache: { value: BucketState; expires: number } | null = null
+const BUCKET_TTL = 5 * 60 * 1000
+
+export function getBucketConnection(): Promise<BucketState> {
+    if (_bucketCache && Date.now() < _bucketCache.expires) return Promise.resolve(_bucketCache.value)
+    if (!_bucketRequest) {
+        _bucketRequest = fetch('/api/bucket')
+            .then(res => res.ok ? res.json() as Promise<Partial<BucketState>> : {} as Partial<BucketState>)
+            .then(data => {
+                const value: BucketState = {
+                    connected: data.connected === true,
+                    bucket: data.bucket ?? null,
+                    prefix: data.prefix ?? '',
+                    status: data.status === 'ok' ? 'ok' : data.status === 'error' ? 'error' : 'unverified',
+                }
+                _bucketCache = { value, expires: Date.now() + BUCKET_TTL }
+                return value
+            })
+            .catch(() => DISCONNECTED)
+            .finally(() => { _bucketRequest = null })
+    }
+    return _bucketRequest
+}
+
+export function invalidateBucketCache() {
+    _bucketCache = null
+}
+
