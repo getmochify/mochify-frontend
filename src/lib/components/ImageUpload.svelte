@@ -45,6 +45,10 @@
     let imageType: string = $state(output);
     let isLoading: boolean = $state(false);
     let errorMessage: string = $state('');
+    // True when errorMessage carries a skipped-file notice (oversized/unreadable)
+    // rather than only a batch trim. A skip is a real rejection, so it keeps its
+    // own box instead of being demoted into the token notice.
+    let errorHasSkipNotice: boolean = $state(false);
     let successMessage: string = $state('');
     let totalOriginalSize: number = $state(0);
     let fileInputElement: HTMLInputElement;
@@ -300,6 +304,7 @@
         // not in the list. A size skip outranks a batch trim for styling: the
         // trim is recoverable in a second batch, an oversized file is not
         // processable on this plan at all.
+        errorHasSkipNotice = !!skippedMessage;
         if (skippedMessage) {
             errorMessage = errorMessage ? `${skippedMessage} ${errorMessage}` : skippedMessage;
             if (skippedWasSizeLimit) {
@@ -355,6 +360,17 @@
 
     // All dropped files were oversized — nothing left to compress
     const blockedByFileSize = $derived(isFileSizeError && selectedFiles.length === 0);
+
+    const showTokenNotice = $derived(insufficientTokens && !isFileSizeError);
+
+    // Two stacked amber boxes saying "this batch can't run" for two different
+    // reasons read as one broken form. They are still two facts, so the trim isn't
+    // dropped — it moves inside the token notice as a quiet second line. The token
+    // limit leads because it is the binding one: trimming to the batch size still
+    // leaves more files than operations.
+    const batchTrimInsideTokenNotice = $derived(
+        showTokenNotice && isFileLimitError && !!errorMessage && !errorHasSkipNotice
+    );
 
     function handleButtonClick() {
         if (isLoading) return;
@@ -452,6 +468,7 @@
         });
 
         errorMessage = '';
+        errorHasSkipNotice = false;
         successMessage = '';
         isFileSizeError = false;
         isFileLimitError = false;
@@ -1103,12 +1120,12 @@
         </div>
     {/if}
 
-    <!-- Shown alongside a batch-trim notice rather than instead of it. These are
-         two unrelated constraints: the trim is about how many files fit in one
-         batch, this is about how many operations are left. Suppressing this one
-         left the paywall button below with no visible reason, next to a message
-         about a limit the user was already inside. -->
-    {#if insufficientTokens && !isFileSizeError}
+    <!-- The operations limit is the headline constraint: it is what the paywall
+         button below is for, and it outranks a batch trim because trimming to the
+         batch size still leaves more files than operations. When both apply, the
+         trim folds in below as a sub-line (batchTrimInsideTokenNotice) so the
+         dropped files are still accounted for without a second amber box. -->
+    {#if showTokenNotice}
         <div
             class="mx-4 mb-3 flex items-start gap-2 rounded-2xl border border-amber-100 bg-amber-50 px-4 py-3 sm:mx-6"
         >
@@ -1123,45 +1140,43 @@
                     clip-rule="evenodd"
                 />
             </svg>
-            {#if availableTokens === 0}
-                <!-- "Guest limit" is meaningless to someone signed in, and signing
-                     up is not a fix they can act on. Their route is an upgrade. -->
-                {#if isAuthenticated}
+            <div class="flex flex-col gap-1">
+                {#if availableTokens === 0}
+                    <!-- "Guest limit" is meaningless to someone signed in, and signing
+                         up is not a fix they can act on. Their route is an upgrade. -->
+                    {#if isAuthenticated}
+                        <p class="text-xs font-bold text-cocoa-deep">
+                            You've used your monthly images. <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">Upgrade your plan</a> for more, or come back next month.
+                        </p>
+                    {:else if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
+                        <p class="text-xs font-bold text-cocoa-deep">Guest limit reached — get instant access or create a free account.</p>
+                    {:else}
+                        <p class="text-xs font-bold text-cocoa-deep">
+                            Guest limit reached. <a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> for 25 images/month, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">see plans</a>.
+                        </p>
+                    {/if}
+                {:else if isAuthenticated}
                     <p class="text-xs font-bold text-cocoa-deep">
-                        You've used your monthly images. <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">Upgrade your plan</a> for more, or come back next month.
+                        {availableTokens} image{availableTokens !== 1 ? 's' : ''} left this month — remove {selectedFiles.length - availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''}, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">upgrade</a> for more.
                     </p>
                 {:else if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
-                    <div class="flex flex-col gap-2">
-                        <p class="text-xs font-bold text-cocoa-deep">Guest limit reached — get instant access or create a free account.</p>
-
-                    </div>
-                {:else}
                     <p class="text-xs font-bold text-cocoa-deep">
-                        Guest limit reached. <a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> for 25 images/month, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">see plans</a>.
+                        {availableTokens} token{availableTokens !== 1 ? 's' : ''} left — remove {selectedFiles.length - availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''}, or get more access:
                     </p>
-                {/if}
-            {:else if isAuthenticated}
-                <p class="text-xs font-bold text-cocoa-deep">
-                    {availableTokens} image{availableTokens !== 1 ? 's' : ''} left this month — remove {selectedFiles.length - availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''}, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">upgrade</a> for more.
-                </p>
-            {:else}
-                {#if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
-                    <div class="flex flex-col gap-2">
-                        <p class="text-xs font-bold text-cocoa-deep">
-                            {availableTokens} token{availableTokens !== 1 ? 's' : ''} left — remove {selectedFiles.length - availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''}, or get more access:
-                        </p>
-                    </div>
                 {:else}
                     <p class="text-xs font-bold text-cocoa-deep">
                         {availableTokens} token{availableTokens !== 1 ? 's' : ''} available — remove {selectedFiles.length - availableTokens} file{selectedFiles.length - availableTokens !== 1 ? 's' : ''} or <a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">sign up</a> for more.
                     </p>
                 {/if}
-            {/if}
+                {#if batchTrimInsideTokenNotice}
+                    <p class="text-xs text-cocoa-deep/70">{errorMessage}</p>
+                {/if}
+            </div>
         </div>
     {/if}
 
     <!-- Success / error messages (Moved above submit button) -->
-    {#if successMessage || errorMessage}
+    {#if successMessage || (errorMessage && !batchTrimInsideTokenNotice)}
         <div class="flex flex-col gap-2 px-4 pb-4 sm:px-6">
             {#if successMessage}
                 <div
@@ -1181,7 +1196,7 @@
                  accepted and the user can carry on. Rendering it in the same red
                  error styling as a genuine rejection is what made a perfectly
                  valid 3-file batch look broken. -->
-            {#if errorMessage}
+            {#if errorMessage && !batchTrimInsideTokenNotice}
                 <div
                     class="flex items-start gap-2 rounded-2xl border px-4 py-3 {isFileLimitError
                         ? 'border-amber-100 bg-amber-50'
