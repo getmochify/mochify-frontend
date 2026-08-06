@@ -233,6 +233,11 @@ export const cards = [
 		title: 'Photo File Too Large to Upload? Why Free Tools Reject Camera Files'
 	},
 	{
+		path: '/guides/product-image-requirements-marketplace-guide',
+		eyebrow: 'GUIDE',
+		title: 'Product Image Requirements for Every Major Marketplace'
+	},
+	{
 		path: '/guides/preload-avif-hero-images-wordpress-lcp',
 		eyebrow: 'GUIDE',
 		title: 'How Do I Preload AVIF Hero Images in WordPress to Pass the LCP Threshold?'

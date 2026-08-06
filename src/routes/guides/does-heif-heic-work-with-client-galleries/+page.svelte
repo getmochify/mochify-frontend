@@ -8,7 +8,8 @@
         description: "HEIF and HEIC files don't work reliably with most client gallery platforms. Here's what actually happens on upload, and how to keep control of your output.",
         category: "Quick Guide",
         readTime: "3 min read",
-        date: "April 2026"
+        date: "April 2026",
+        lastUpdated: "August 6, 2026"
     };
 </script>
 
@@ -28,7 +29,7 @@
         "description": "HEIF and HEIC files don't work reliably with most client gallery platforms. Here's what actually happens on upload, and how to keep control of your output.",
         "url": "https://mochify.app/guides/does-heif-heic-work-with-client-galleries",
         "datePublished": "2026-04-26",
-        "dateModified": "2026-04-26",
+        "dateModified": "2026-08-06",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -79,7 +80,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -105,6 +106,7 @@
             <p>SmugMug accepts HEIC/HEIF as an upload format but converts it to JPEG during ingest and retains only the JPEG. The conversion is silent - there is no warning that your original file has been replaced, and you have no control over the JPEG quality setting or output dimensions the platform applies.</p>
             <p>Pixieset and similar platforms expect JPEG as the primary upload format, and their previewing, downloading, and print-ordering pipelines are built around JPEG delivery.</p>
             <p>Platforms running older open-source gallery software - such as Piwigo or some self-hosted WordPress gallery themes - often lack HEIF codec support entirely. Uploads are treated as unrecognised file types or generic attachments rather than images, which breaks thumbnail generation and gallery display.</p>
+            <p>When no preview is generated, the browser side of the question matters too, because the raw file is what your client ends up looking at: <a href="https://mochify.app/guides/can-safari-open-heic-images">which browsers can display HEIC</a> comes down to Safari 17 and later, and nothing else.</p>
         </section>
 
         <section id="why-pre-converting">

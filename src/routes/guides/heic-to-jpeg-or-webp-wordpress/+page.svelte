@@ -9,7 +9,8 @@
         description: "JPEG works everywhere and is the safest default. WebP is better when file size matters - it's 25–35% smaller and has 97%+ browser coverage. HEIC must always be converted before serving.",
         category: "Quick Guides",
         readTime: "3 min read",
-        datePublished: "June 25, 2026"
+        datePublished: "June 25, 2026",
+        lastUpdated: "August 6, 2026"
     };
 
     const related = [
@@ -53,7 +54,7 @@
             "@id": "https://mochify.app/guides/heic-to-jpeg-or-webp-wordpress"
         },
         "datePublished": "2026-06-25",
-        "dateModified": "2026-06-25",
+        "dateModified": "2026-08-06",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -90,7 +91,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.datePublished}
+                {metadata.readTime} · {metadata.datePublished} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -139,6 +140,7 @@
 
             <p class="mb-4">Mochify accepts HEIC files directly and converts them to JPEG or WebP using its C++ compression engine. You can describe the output in plain English, <em>"convert to WebP, max 1200px wide, strip EXIF"</em>, and Magic Flow interprets the instruction and applies the right settings automatically. Images are streamed into server RAM and wiped immediately after processing, with no retention.</p>
             <p class="mb-4">JPEG works everywhere. WebP is the better choice when file size matters and you don't need to support very old browsers: global WebP support is now above 97%.</p>
+            <p class="mb-4">Serving the HEIC itself is not an option either way: <a href="/guides/can-safari-open-heic-images">only Safari renders HEIC in a browser</a>, so every visitor on Chrome, Firefox, or Edge gets a broken image.</p>
             <p class="mb-4">Convert your iPhone photos before they reach WordPress at <a href="/heic-to-jpeg">mochify.app/heic-to-jpeg</a>.</p>
         </section>
 

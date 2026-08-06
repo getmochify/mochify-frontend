@@ -10,7 +10,8 @@
         description: "Convert iPhone HEIC photos to PDF on any device - iPhone, Mac, Windows, or online. Native methods, batch tips, and a one-click tool. No app needed.",
         category: "Image Formats",
         readTime: "12 min read",
-        datePublished: "29 June 2026"
+        datePublished: "29 June 2026",
+        lastUpdated: "6 August 2026"
     };
 
     const related = [
@@ -112,7 +113,7 @@
             "@id": "https://mochify.app/guides/heic-to-pdf-iphone-photos"
         },
         "datePublished": "2026-06-29",
-        "dateModified": "2026-06-29",
+        "dateModified": "2026-08-06",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -222,7 +223,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.datePublished}
+                {metadata.readTime} · {metadata.datePublished} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -269,7 +270,7 @@
         <section id="why-heic-causes-compatibility-problems" class="scroll-mt-24">
             <SectionHeading>Why HEIC Causes Compatibility Problems</SectionHeading>
             <p class="mb-4">
-                HEIC is Apple's format for iPhone photos - efficient, high quality, and essentially invisible on Apple hardware. Off Apple, it's a different story. Windows requires a separate codec from the Microsoft Store to open HEIC files at all, and that codec may be blocked entirely on managed corporate machines. As of early 2026, <a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">no major browser supports HEIC natively</a> - Chrome, Firefox, and Edge will not display a <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded text-sm border border-pink-100">.heic</code> file. Platforms like WordPress and Shopify either reject HEIC uploads outright or silently convert them on the server side.
+                HEIC is Apple's format for iPhone photos - efficient, high quality, and essentially invisible on Apple hardware. Off Apple, it's a different story. Windows requires a separate codec from the Microsoft Store to open HEIC files at all, and that codec may be blocked entirely on managed corporate machines. As of early 2026, <a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">no major browser supports HEIC natively</a> - Chrome, Firefox, and Edge will not display a <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded text-sm border border-pink-100">.heic</code> file. <a href="/guides/can-safari-open-heic-images">Safari is the only browser that opens HEIC</a>, and even there only from version 17 onward. Platforms like WordPress and Shopify either reject HEIC uploads outright or silently convert them on the server side.
             </p>
             <p class="mb-4">
                 The format is a HEIF container using HEVC compression - technically capable and space-efficient, carrying about twice the image quality per byte of JPEG. But that encoding depends on hardware decoding support that isn't guaranteed outside Apple's ecosystem. Android 10 and later can technically support HEIC, but only when device manufacturers ship the required codecs, which makes Android compatibility vendor-dependent rather than reliable.

@@ -11,7 +11,7 @@
         category: "Image Formats",
         readTime: "14 min read",
         date: "July 15, 2026",
-        lastUpdated: "July 24, 2026"
+        lastUpdated: "August 6, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -99,7 +99,7 @@
             "@id": "https://mochify.app/guides/heif-to-jpg-complete-guide"
         },
         "datePublished": "2026-07-15",
-        "dateModified": "2026-07-24",
+        "dateModified": "2026-08-06",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -156,7 +156,7 @@
         "description": "Convert HEIF (.HIF) files from Canon, Sony, and Fujifilm cameras to universally compatible JPG. Every method, the quality trade-offs, and batch workflows.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-15",
-        "dateModified": "2026-07-15"
+        "dateModified": "2026-08-06"
         }
     </script>
 
@@ -247,7 +247,7 @@
         <section id="why-heif-files-need-converting-in-2026" class="scroll-mt-24">
             <SectionHeading>Why HEIF files need converting in 2026</SectionHeading>
             <p>HEIF is a capture format, not a delivery format: outside your own ecosystem, almost nothing displays it. Converting HEIF to JPG is what makes the shoot shareable, printable, and publishable.</p>
-            <p>The numbers are stark. According to <a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">caniuse.com's HEIF support table</a>, no version of Chrome, Edge, or Firefox can display HEIF at all. Safari 17 and later can. That works out to about 13.6% of global browser users - meaning roughly six of every seven visitors cannot see a HEIF image embedded in a web page. The reason browsers refuse it is licensing: HEVC decoding carries patent royalties, so browser vendors have put their weight behind royalty-free formats like AVIF and JPEG XL instead.</p>
+            <p>The numbers are stark. According to <a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">caniuse.com's HEIF support table</a>, no version of Chrome, Edge, or Firefox can display HEIF at all. Safari 17 and later can. That works out to about 13.6% of global browser users - meaning roughly six of every seven visitors cannot see a HEIF image embedded in a web page. The reason browsers refuse it is licensing: HEVC decoding carries patent royalties, so browser vendors have put their weight behind royalty-free formats like AVIF and JPEG XL instead. The picture is the same for iPhone <code class={inlineCode}>.HEIC</code> files, covered in our answer on <a href="https://mochify.app/guides/can-safari-open-heic-images">HEIC browser support</a>.</p>
             <p>The friction goes beyond browsers:</p>
             <ul class="list-disc pl-6 space-y-3">
                 <li><strong>Client galleries reject it.</strong> ShootProof requires JPEG uploads in sRGB. Pixieset limits uploads to JPEG, PNG, GIF, and RAW - HEIF is not on the list, and print-product sales there require JPEG specifically.</li>

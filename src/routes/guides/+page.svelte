@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "Product Image Requirements for Every Major Marketplace",
+            description: "The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted, and Depop - dimensions, formats, file size limits, and what each platform enforces.",
+            url: "/guides/product-image-requirements-marketplace-guide",
+            category: "Image Formats",
+            readTime: "17 min read",
+            date: "August 6, 2026"
+        },
+        {
             title: "Cross-Listing for Resellers: One Set of Photos, Every Marketplace",
             description: "Cross-listing apps copy your photos as-is. Photo specs for eBay, Poshmark, Mercari, Depop, and Vinted, plus a batch workflow that preps one set for all.",
             url: "/guides/cross-listing-marketplace-photo-requirements",
