@@ -134,7 +134,7 @@
     </div>
 
     <!-- CTA into the real app -->
-    <a href="/app" class="mt-5 w-full flex items-center justify-center gap-2 rounded-2xl bg-[#F06292] py-3.5 font-black text-white shadow-lg transition-all hover:bg-[#D81B60] hover:-translate-y-0.5 no-underline">
+    <a href="/flow" class="mt-5 w-full flex items-center justify-center gap-2 rounded-2xl bg-[#F06292] py-3.5 font-black text-white shadow-lg transition-all hover:bg-[#D81B60] hover:-translate-y-0.5 no-underline">
         Try it free — no signup
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
     </a>

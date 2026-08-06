@@ -1,6 +1,6 @@
 <script lang="ts">
     // `minimal` drops the marketing block (Popular Tools + Solutions/Guides CTAs)
-    // for surfaces like /app where the focus is the tool, not routing to content.
+    // for surfaces like /flow where the focus is the tool, not routing to content.
     // Leaves the legal links, address and attribution intact.
     let { minimal = false } = $props();
 </script>
