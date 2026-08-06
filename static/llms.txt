@@ -84,7 +84,7 @@ Day Pass -- $2 one-time
 - Activated by magic link, no subscription
 - Offered at upload time when a file exceeds the free 20MB limit
 
-One operation = one image processed, regardless of how many transformations are applied.
+One operation = one output image. Any number of transformations on a single file (compress + convert + resize + rotate) is still one operation, but a prompt asking for multiple formats or sizes returns multiple images and is charged one operation per output -- "WebP and AVIF at 500px and 1200px" is 4 operations for one input file. Batch uploads count one per file.
 Unused monthly images do not roll over. Credit Pack images never expire.
 
 ## 6. API reference summary

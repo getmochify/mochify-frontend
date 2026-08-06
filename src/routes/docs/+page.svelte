@@ -150,7 +150,7 @@
                         </div>
                         <p class="text-sm text-[#6C3F31]/70 leading-relaxed pt-2">
                             Without an account: 3 ops/month (IP-based). Free account: 25 ops/month. Paid API keys use per-key limits.
-                            Each image processed — regardless of operations applied — counts as one operation.
+                            Each image returned counts as one operation, however many transformations were applied to it. A request for multiple formats or sizes of one file returns multiple images and costs one operation per output.
                         </p>
                     </div>
                 </section>

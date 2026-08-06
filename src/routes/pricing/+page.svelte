@@ -122,7 +122,7 @@
                         "name": "What counts as one image?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Each image you process — compressed, converted, resized, or any combination — uses one from your monthly allowance. Batch uploads count one per file."
+                            "text": "Each image we hand back uses one from your monthly allowance. Compressing, converting, resizing, or any combination of those on a single file is one image. Asking for several formats or sizes of the same file returns several images, so each one counts: WebP and AVIF at two widths is four. Batch uploads count one per file."
                         }
                     },
                     {
@@ -567,7 +567,7 @@
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
-                        Each image you process — compressed, converted, resized, or any combination — uses one from your monthly allowance. Batch uploads count one per file.
+                        Each image we hand back uses one from your monthly allowance. Compressing, converting, resizing, or any combination of those on a single file is one image. Asking for several formats or sizes of the same file returns several images, so each one counts: WebP and AVIF at two widths is four. Batch uploads count one per file.
                     </p>
                 </details>
 

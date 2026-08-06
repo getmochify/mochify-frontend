@@ -1611,18 +1611,28 @@
 				else showSignupCta = true;
 				return;
 			}
+			// Latch the destination once for the whole run: toggling the switch
+			// mid-flight must not split one batch across two destinations.
+			const bucketDest = saveToBucket && canSaveToBucket;
 			// Past the threshold, switch ZIP on — the bound toggle animates on so the
 			// user sees why they're getting an archive instead of many downloads.
 			// Auto-ZIP exists to stop browsers blocking a barrage of downloads.
 			// When results go to the bucket there are no downloads to block, and
 			// a ZIP would just be a second, unwanted artefact.
-			if (totalFiles >= AUTO_ZIP_THRESHOLD && !(saveToBucket && canSaveToBucket)) {
+			if (totalFiles >= AUTO_ZIP_THRESHOLD && !bucketDest) {
 				downloadAsZip = true;
 			}
-			// Each file uploads exactly once — multi-variant fan-out happens
+			// Normally each file uploads exactly once — multi-variant fan-out happens
 			// server-side (types/sizes params → ZIP response) — so upload progress
-			// counts each file's bytes once, regardless of variant count.
-			const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
+			// counts each file's bytes once, regardless of variant count. Bucket
+			// writes can't use that fan-out (one session carries one object name),
+			// so there the file is uploaded once per variant and the byte budget
+			// has to be scaled to match or the bar pins at 100% early.
+			const totalBytes = files.reduce(
+				(sum, f, i) =>
+					sum + f.size * (bucketDest ? variantCount(fileMap[f.name] ?? fileArrayByIndex[i]) : 1),
+				0
+			);
 			let uploadedBytes = 0;
 			let processedFiles = 0;
 			let currentFileIndex = 0;
@@ -1853,9 +1863,14 @@
 					};
 
 					const totalVariants = formats.length * sizes.length;
-					if (totalVariants > 1) {
+					if (totalVariants > 1 && !bucketDest) {
 						// ── Multi-variant: ONE upload; core fans out server-side and
 						// returns a ZIP keyed by requested "{w}x{h}.{fmt}" entries. ──
+						// Deliberately skipped for bucket writes: the fan-out answers
+						// with a ZIP of all variants, and dest/name are latched onto the
+						// upload session at init, so one request can only name one
+						// object. Bucket runs fall through to the per-variant loop
+						// below, which uploads once per variant and names each write.
 						processPhase = 'uploading';
 						const MIME_BY_FMT: Record<string, string> = {
 							jpg: 'image/jpeg',
@@ -1980,8 +1995,7 @@
 							// overwrite and it refuses to guess. Both upload routes carry
 							// these: squishFile copies params into the chunked request's
 							// init body, where the session stores them until completion.
-							const bucketThisFile = saveToBucket && canSaveToBucket;
-							if (bucketThisFile) {
+							if (bucketDest) {
 								params.append('dest', 'bucket');
 								params.append('name', finalName);
 							}
@@ -1993,7 +2007,7 @@
 
 								processPhase = 'downloading';
 
-								if (bucketThisFile) {
+								if (bucketDest) {
 									// Success is a receipt, not an image: nothing to download
 									// or zip. Trust but verify — if the body is not the shape
 									// core promises, treat it as a failure rather than
