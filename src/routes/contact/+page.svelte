@@ -25,23 +25,19 @@
 	let turnstileError = $state(false);
 	let widgetId: string | undefined;
 
-	// Turnstile loads lazily, on first user interaction rather than during page
-	// load, so its script and challenge never compete with hydration for a cold
-	// first paint. The token is only needed at submit, so first-input is early
-	// enough.
+	// Turnstile loads on mount. It used to wait for the first user interaction, on
+	// the theory that loading it at page load crashed Safari's WebContent process —
+	// that theory was wrong. The Safari reload was Bot Fight Mode serving
+	// interstitial challenge pages zone-wide, plus a render race here. Gating on
+	// input only bought a late-arriving widget that looked broken.
 	//
-	// Readiness is taken from Turnstile itself (`onload` for a fresh script,
-	// `turnstile.ready()` when the script is already cached), never by polling for
-	// `window.turnstile.render` to appear. The API object is published before it
-	// is initialised, so a poll wins the race and calls render() too early: the
-	// widget no-shows on first load and then materialises later out of Turnstile's
-	// own init, which is the "renders late" behaviour this replaces.
+	// Readiness comes from Turnstile itself: `onload` for a fresh script,
+	// `turnstile.ready()` when the script is already cached. Never poll for
+	// `window.turnstile.render` to appear — the API object is published before it
+	// is initialised, so a poll wins the race and renders too early, which is what
+	// made the widget no-show and then materialise later out of Turnstile's own init.
 	onMount(() => {
 		let cancelled = false;
-		let started = false;
-
-		const triggers = ['pointerdown', 'keydown', 'focusin'] as const;
-		const stopWaiting = () => triggers.forEach((t) => window.removeEventListener(t, initTurnstile));
 
 		function renderWidget() {
 			// Re-check both: `ready` fires asynchronously, so the component may have
@@ -60,31 +56,35 @@
 						return true;
 					}
 				});
+				if (widgetId !== undefined) clearTimeout(watchdog);
 			} catch (e) {
 				console.error('[contact] turnstile render failed:', e);
 				turnstileError = true;
 			}
 		}
 
-		function initTurnstile() {
-			if (started || cancelled) return;
-			started = true;
-			stopWaiting();
-
-			// Script already present (cached, or a previous mount in this SPA session):
-			// `onload` will not fire again, so go straight through ready().
-			if (window.turnstile) {
-				window.turnstile.ready(renderWidget);
-				return;
+		// A blocked script (content blocker, VPN, offline) can leave the container
+		// silently empty with no error event of any kind. Say so rather than showing
+		// a blank gap above a submit button that will always fail server-side.
+		const watchdog = setTimeout(() => {
+			if (widgetId === undefined && !cancelled) {
+				console.error('[contact] turnstile did not render within 15s');
+				turnstileError = true;
 			}
+		}, 15_000);
 
+		// Script already present (cached, or a previous mount in this SPA session):
+		// `onload` will not fire again, so go straight through ready().
+		if (window.turnstile) {
+			window.turnstile.ready(renderWidget);
+		} else {
 			window.onloadTurnstileCallback = () => window.turnstile?.ready(renderWidget);
 
 			if (!document.querySelector('script[data-turnstile]')) {
 				const script = document.createElement('script');
 				script.src = TURNSTILE_SRC;
-				// `defer` only (no `async`): matches Cloudflare's explicit-render guidance.
-				script.defer = true;
+				// Dynamically inserted scripts are async by default; `defer` would be
+				// ignored here, so readiness is handled by onload/ready() above.
 				script.dataset.turnstile = 'true';
 				script.onerror = () => {
 					console.error('[contact] turnstile script failed to load');
@@ -94,11 +94,9 @@
 			}
 		}
 
-		triggers.forEach((t) => window.addEventListener(t, initTurnstile, { passive: true }));
-
 		return () => {
 			cancelled = true;
-			stopWaiting();
+			clearTimeout(watchdog);
 			removeWidget();
 		};
 	});
