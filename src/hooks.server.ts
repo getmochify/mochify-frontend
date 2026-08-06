@@ -12,6 +12,26 @@ const DISCOVERY_LINK_HEADER = [
 	'<https://mochify.app/docs>; rel="service-doc"'
 ].join(', ');
 
+/**
+ * SvelteKit ships this page's `modulepreload`/stylesheet/font hints in the `Link`
+ * header on server-rendered routes (it only inlines them as `<link>` tags when
+ * prerendering). `set()` here would drop every one of them, leaving SSR routes
+ * — /contact, /pricing, /auth/* — with no resource hints at all: the browser
+ * discovers start.js → app.js → the route chunk only by executing the inline
+ * bootstrap, so they load as a cold serial waterfall. Safari fails that first
+ * cold route fetch often enough that `handleError` in hooks.client.ts treated it
+ * as a stale chunk and reloaded the page. Append, never set.
+ */
+function setSecurityHeaders(response: Response): Response {
+	response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+	response.headers.set('X-Frame-Options', 'DENY');
+	response.headers.set('X-Content-Type-Options', 'nosniff');
+	response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+	response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+	response.headers.append('Link', DISCOVERY_LINK_HEADER);
+	return response;
+}
+
 type Auth = ReturnType<typeof createAuth>;
 let _auth: Auth | undefined;
 
@@ -32,14 +52,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		// Prerendering or local dev without platform bindings — skip auth.
 		event.locals.user = null;
 		event.locals.session = null;
-		const response = await resolve(event);
-		response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-		response.headers.set('X-Frame-Options', 'DENY');
-		response.headers.set('X-Content-Type-Options', 'nosniff');
-		response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-		response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-		response.headers.set('Link', DISCOVERY_LINK_HEADER);
-		return response;
+		return setSecurityHeaders(await resolve(event));
 	}
 
 	const auth = getAuth(db, event.platform?.env?.RESEND_API_KEY);
@@ -79,16 +92,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.user = session?.user ?? null;
 	event.locals.session = session?.session ?? null;
 
-	const response = await svelteKitHandler({ event, resolve, auth, building });
-
-	response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-	response.headers.set('X-Frame-Options', 'DENY');
-	response.headers.set('X-Content-Type-Options', 'nosniff');
-	response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-	response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-	response.headers.set('Link', DISCOVERY_LINK_HEADER);
-
-	return response;
+	return setSecurityHeaders(await svelteKitHandler({ event, resolve, auth, building }));
 };
 
 export const handleError: HandleServerError = async ({ error, status, message }) => {
