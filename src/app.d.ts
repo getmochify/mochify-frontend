@@ -34,10 +34,14 @@ declare global {
 
 	interface Window {
 		turnstile?: {
-			render(el: HTMLElement, options: Record<string, unknown>): string;
+			/** Queues `cb` until the Turnstile API has finished initialising. */
+			ready(cb: () => void): void;
+			render(el: HTMLElement, options: Record<string, unknown>): string | undefined;
 			remove(widgetId: string): void;
 			reset(widgetId?: string): void;
 		};
+		/** Named in the api.js `onload=` param; Turnstile calls it once the API is ready. */
+		onloadTurnstileCallback?: () => void;
 	}
 }
 

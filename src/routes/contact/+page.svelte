@@ -14,33 +14,71 @@
 
 	// Cloudflare Turnstile — public sitekey (safe to expose); secret lives in env.
 	const TURNSTILE_SITE_KEY = '0x4AAAAAAD9Ccvbui6jzOPT2';
-	// `render=explicit` stops the script auto-scanning for `.cf-turnstile`, so
-	// we control render/teardown ourselves.
-	const TURNSTILE_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+	// `render=explicit` stops the script auto-scanning for `.cf-turnstile`, so we
+	// control render/teardown ourselves. `onload` names the global Turnstile calls
+	// once its API has finished initialising — the documented entry point for
+	// explicit rendering.
+	const TURNSTILE_SRC =
+		'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onloadTurnstileCallback';
 
 	let turnstileEl: HTMLDivElement | undefined = $state();
+	let turnstileError = $state(false);
 	let widgetId: string | undefined;
 
-	// Turnstile is loaded lazily, on the first user interaction, NOT during initial
-	// page load. Loading its script + running the bot challenge at load raced with
-	// hydration/PostHog/font work and spiked memory enough to crash Safari's
-	// WebContent process on a cold first visit ("reloaded because a problem
-	// occurred") — which is why it only ever happened on load #1 and never on the
-	// auto-reload (by then those assets are cached). The token is only needed at
-	// submit, so first-input is always early enough. Explicit render (no implicit
-	// `.cf-turnstile` auto-scan) + remove-on-unmount keeps exactly one widget.
+	// Turnstile loads lazily, on first user interaction rather than during page
+	// load, so its script and challenge never compete with hydration for a cold
+	// first paint. The token is only needed at submit, so first-input is early
+	// enough.
+	//
+	// Readiness is taken from Turnstile itself (`onload` for a fresh script,
+	// `turnstile.ready()` when the script is already cached), never by polling for
+	// `window.turnstile.render` to appear. The API object is published before it
+	// is initialised, so a poll wins the race and calls render() too early: the
+	// widget no-shows on first load and then materialises later out of Turnstile's
+	// own init, which is the "renders late" behaviour this replaces.
 	onMount(() => {
 		let cancelled = false;
 		let started = false;
-		let timer: ReturnType<typeof setInterval> | undefined;
 
 		const triggers = ['pointerdown', 'keydown', 'focusin'] as const;
 		const stopWaiting = () => triggers.forEach((t) => window.removeEventListener(t, initTurnstile));
+
+		function renderWidget() {
+			// Re-check both: `ready` fires asynchronously, so the component may have
+			// unmounted, and a rendered widget must never be rendered over.
+			if (cancelled || widgetId !== undefined || !turnstileEl) return;
+			try {
+				widgetId = window.turnstile?.render(turnstileEl, {
+					sitekey: TURNSTILE_SITE_KEY,
+					action: 'turnstile-spin-v2',
+					// Surface failures instead of retrying invisibly forever (the default
+					// is retry: 'auto' on an 8s loop, which hides a broken challenge).
+					retry: 'never',
+					'error-callback': (code: string) => {
+						console.error('[contact] turnstile error:', code);
+						turnstileError = true;
+						return true;
+					}
+				});
+			} catch (e) {
+				console.error('[contact] turnstile render failed:', e);
+				turnstileError = true;
+			}
+		}
 
 		function initTurnstile() {
 			if (started || cancelled) return;
 			started = true;
 			stopWaiting();
+
+			// Script already present (cached, or a previous mount in this SPA session):
+			// `onload` will not fire again, so go straight through ready().
+			if (window.turnstile) {
+				window.turnstile.ready(renderWidget);
+				return;
+			}
+
+			window.onloadTurnstileCallback = () => window.turnstile?.ready(renderWidget);
 
 			if (!document.querySelector('script[data-turnstile]')) {
 				const script = document.createElement('script');
@@ -48,33 +86,12 @@
 				// `defer` only (no `async`): matches Cloudflare's explicit-render guidance.
 				script.defer = true;
 				script.dataset.turnstile = 'true';
+				script.onerror = () => {
+					console.error('[contact] turnstile script failed to load');
+					turnstileError = true;
+				};
 				document.head.appendChild(script);
 			}
-
-			// The script may still be loading or already loaded (cached from a prior
-			// visit) — poll for readiness. Bounded to ~15s so a blocked script (Safari
-			// content blocker, offline) never spins.
-			let attempts = 0;
-			timer = setInterval(() => {
-				if (cancelled || widgetId !== undefined || attempts++ > 150) {
-					clearInterval(timer);
-					return;
-				}
-				if (!turnstileEl || !window.turnstile?.render) return;
-				// Stop polling BEFORE calling render(). If render() throws (the API isn't
-				// fully initialised yet, or the widget was already rendered), re-looping
-				// would spawn a fresh iframe every 100ms until Safari's WebContent process
-				// runs out of memory and reloads the page ("a problem occurred").
-				clearInterval(timer);
-				try {
-					widgetId = window.turnstile.render(turnstileEl, {
-						sitekey: TURNSTILE_SITE_KEY,
-						action: 'turnstile-spin-v2'
-					});
-				} catch (e) {
-					console.error('[contact] turnstile render failed:', e);
-				}
-			}, 100);
 		}
 
 		triggers.forEach((t) => window.addEventListener(t, initTurnstile, { passive: true }));
@@ -82,15 +99,25 @@
 		return () => {
 			cancelled = true;
 			stopWaiting();
-			clearInterval(timer);
-			if (widgetId && window.turnstile) {
-				try {
-					window.turnstile.remove(widgetId);
-				} catch {
-					/* already removed */
-				}
-			}
+			removeWidget();
 		};
+	});
+
+	function removeWidget() {
+		if (widgetId === undefined) return;
+		try {
+			window.turnstile?.remove(widgetId);
+		} catch {
+			/* already gone */
+		}
+		widgetId = undefined;
+	}
+
+	// The success view replaces the whole form, so Svelte would otherwise tear the
+	// widget's container out from under a live Turnstile instance. Tell Turnstile
+	// to drop it first.
+	$effect(() => {
+		if (form?.success) removeWidget();
 	});
 </script>
 
@@ -127,8 +154,12 @@
 				</p>
 			</div>
 
+			<!-- No backdrop-blur here: this card contains the Turnstile iframe, and an
+			     iframe inside a backdrop-filter subtree is a known WebKit compositing
+			     hazard. The backdrop is a soft pastel gradient with no detail to blur,
+			     so a slightly more opaque white reads the same. -->
 			<div
-				class="rounded-3xl border border-white/80 bg-white/60 p-6 shadow-[0_8px_32px_rgba(240,98,146,0.1)] backdrop-blur-sm sm:p-8"
+				class="rounded-3xl border border-white/80 bg-white/80 p-6 shadow-[0_8px_32px_rgba(240,98,146,0.1)] sm:p-8"
 			>
 				{#if form?.success}
 					<div class="py-4 text-center">
@@ -169,7 +200,7 @@
 								loading = false;
 								// Turnstile tokens are single-use; reset so a
 								// retry after a validation error gets a fresh one.
-								if (turnstileEl && widgetId && window.turnstile) {
+								if (widgetId !== undefined && window.turnstile) {
 									try {
 										window.turnstile.reset(widgetId);
 									} catch {
@@ -242,7 +273,18 @@
 							>
 						</div>
 
-						<div bind:this={turnstileEl} class="mt-1"></div>
+						<!-- min-h reserves the widget's height so its arrival on first
+						     interaction doesn't shove the submit button down mid-tap. -->
+						<div bind:this={turnstileEl} class="mt-1 min-h-[65px]"></div>
+
+						{#if turnstileError}
+							<p class="-mt-2 text-xs font-medium text-red-700">
+								The bot check couldn't load. Please refresh, or email
+								<a href="mailto:hello@mochify.app" class="font-bold underline"
+									>hello@mochify.app</a
+								> directly.
+							</p>
+						{/if}
 
 						<button
 							type="submit"
