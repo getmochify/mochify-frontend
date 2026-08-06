@@ -23,6 +23,7 @@
 
 	let turnstileEl: HTMLDivElement | undefined = $state();
 	let turnstileError = $state(false);
+	let turnstileErrorCode = $state('');
 	let widgetId: string | undefined;
 
 	// Turnstile loads on mount. It used to wait for the first user interaction, on
@@ -31,11 +32,10 @@
 	// interstitial challenge pages zone-wide, plus a render race here. Gating on
 	// input only bought a late-arriving widget that looked broken.
 	//
-	// Readiness comes from Turnstile itself: `onload` for a fresh script,
-	// `turnstile.ready()` when the script is already cached. Never poll for
-	// `window.turnstile.render` to appear — the API object is published before it
-	// is initialised, so a poll wins the race and renders too early, which is what
-	// made the widget no-show and then materialise later out of Turnstile's own init.
+	// Readiness comes from Turnstile's `onload` callback, never from polling for
+	// `window.turnstile.render` to appear: that published-but-not-ready window is
+	// what made the widget no-show and then materialise later out of Turnstile's
+	// own init.
 	onMount(() => {
 		let cancelled = false;
 
@@ -52,8 +52,13 @@
 					retry: 'never',
 					'error-callback': (code: string) => {
 						console.error('[contact] turnstile error:', code);
+						turnstileErrorCode = code;
 						turnstileError = true;
-						return true;
+						// Return false so Turnstile still renders its own error state.
+						// Returning true suppresses it, which turns a diagnosable failure
+						// (e.g. 110200 "unknown domain") into a blank box — no use to the
+						// user, and no use on iOS where there is no console to check.
+						return false;
 					}
 				});
 				if (widgetId !== undefined) clearTimeout(watchdog);
@@ -73,18 +78,24 @@
 			}
 		}, 15_000);
 
-		// Script already present (cached, or a previous mount in this SPA session):
-		// `onload` will not fire again, so go straight through ready().
+		// Never call turnstile.ready() here. It throws outright — "Remove async/defer
+		// from the Turnstile api.js script tag before using turnstile.ready()" — and
+		// any script built with createElement() is async by definition, so that
+		// applies to every path below. ready() exists for a synchronous inline
+		// <script> tag, which this is not. The `onload=` callback is the readiness
+		// signal for a dynamically loaded api.js, and it is sufficient on its own.
 		if (window.turnstile) {
-			window.turnstile.ready(renderWidget);
+			// Already initialised by an earlier mount in this SPA session; `onload`
+			// will not fire a second time, so render directly.
+			renderWidget();
 		} else {
-			window.onloadTurnstileCallback = () => window.turnstile?.ready(renderWidget);
+			// Set before injecting, and also covers the case where a previous mount
+			// injected the script but it hasn't finished loading yet.
+			window.onloadTurnstileCallback = renderWidget;
 
 			if (!document.querySelector('script[data-turnstile]')) {
 				const script = document.createElement('script');
 				script.src = TURNSTILE_SRC;
-				// Dynamically inserted scripts are async by default; `defer` would be
-				// ignored here, so readiness is handled by onload/ready() above.
 				script.dataset.turnstile = 'true';
 				script.onerror = () => {
 					console.error('[contact] turnstile script failed to load');
@@ -280,7 +291,9 @@
 								The bot check couldn't load. Please refresh, or email
 								<a href="mailto:hello@mochify.app" class="font-bold underline"
 									>hello@mochify.app</a
-								> directly.
+								> directly.{#if turnstileErrorCode}
+									<span class="font-mono opacity-70">({turnstileErrorCode})</span>
+								{/if}
 							</p>
 						{/if}
 

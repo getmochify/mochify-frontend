@@ -34,8 +34,9 @@ declare global {
 
 	interface Window {
 		turnstile?: {
-			/** Queues `cb` until the Turnstile API has finished initialising. */
-			ready(cb: () => void): void;
+			// `ready()` is deliberately not declared. It throws when api.js was loaded
+			// async or deferred, which is always true for a script we inject via
+			// createElement — use the `onload=` callback for readiness instead.
 			render(el: HTMLElement, options: Record<string, unknown>): string | undefined;
 			remove(widgetId: string): void;
 			reset(widgetId?: string): void;
