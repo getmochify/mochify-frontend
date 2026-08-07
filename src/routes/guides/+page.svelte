@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "Does Stripping EXIF Data Improve WordPress Image SEO?",
+            description: "Stripping EXIF data doesn't improve WordPress image SEO rankings, but it trims file size and removes private location data.",
+            url: "/guides/does-stripping-exif-data-improve-wordpress-image-seo",
+            category: "Quick Guides",
+            readTime: "2 min read",
+            date: "August 7, 2026"
+        },
+        {
             title: "Product Image Requirements for Every Major Marketplace",
             description: "The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted, and Depop - dimensions, formats, file size limits, and what each platform enforces.",
             url: "/guides/product-image-requirements-marketplace-guide",
