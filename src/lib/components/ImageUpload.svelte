@@ -2,7 +2,7 @@
     import { zip } from 'fflate';
     import { env } from '$env/dynamic/public';
     import { page } from '$app/state';
-    import { getPlan, getSessionToken } from '$lib/user';
+    import { getPlan, getSessionToken, resolveRemaining, GUEST_QUOTA, type UsageResponse } from '$lib/user';
     import { posthog } from '$lib/analytics';
     import { withRetry } from '$lib/uploadRetry';
     import { uploadChunked, CHUNK_THRESHOLD_BYTES, type ChunkedUploadParams } from '$lib/uploadChunked';
@@ -57,7 +57,7 @@
     let MAX_FILES = $state(3);
     const CONCURRENT_UPLOADS = 1;
     let MAX_INDIVIDUAL_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro/day
-    let planQuota = $state(25); // expected ops quota for authenticated users; anon gets 3
+    let planQuota = $state(25); // expected ops quota for authenticated users; anon gets GUEST_QUOTA
     $effect(() => {
         getPlan().then((plan) => {
             MAX_FILES = plan === 'free' ? 3 : 25;
@@ -139,10 +139,8 @@
             if (!response.ok) {
                 throw new Error('Failed to check token limit');
             }
-            const data = (await response.json()) as { remaining?: number; available?: boolean };
-            // A "miss" (unseeded bucket) returns { available: true } with no remaining.
-            // Treat that as Infinity so we don't false-positive the insufficientTokens check.
-            availableTokens = data.remaining ?? (data.available !== false ? Infinity : 0);
+            const data = (await response.json()) as UsageResponse;
+            availableTokens = resolveRemaining(data, !jwt);
             hasCheckedTokens = true;
         } catch (error) {
             console.error('Token check failed:', error);
@@ -336,7 +334,7 @@
 
     // Show plan quota on first visit before the bucket is seeded (availableTokens = Infinity)
     const displayTokens = $derived(
-        Number.isFinite(availableTokens) ? availableTokens : (isAuthenticated ? planQuota : 3)
+        Number.isFinite(availableTokens) ? availableTokens : (isAuthenticated ? planQuota : GUEST_QUOTA)
     );
 
     // Applies to signed-in users too. This used to be guest-only, which meant an

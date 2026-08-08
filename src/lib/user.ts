@@ -1,5 +1,33 @@
 import { authClient } from '$lib/auth-client'
 
+// Anonymous callers get a 3-op/month bucket keyed on hashed IP, seeded by
+// mochify-core's TokenLimiter (`anonQuota` in filters/TokenLimiter.cc). Keep in
+// step with that constant and with ANON_QUOTA in mochify-worker.
+export const GUEST_QUOTA = 3
+
+/** Shape of the /v1/usage response we care about. */
+export type UsageResponse = { remaining?: number; available?: boolean }
+
+/**
+ * Resolve the remaining-operations count from a /v1/usage payload.
+ *
+ * Two corrections live here so every caller gets them:
+ *
+ * 1. An unseeded bucket reports no `remaining` at all. That resolves to Infinity
+ *    so a first-time user is never walled by a count we don't actually have —
+ *    server 429s stay the source of truth.
+ * 2. Guests are clamped to GUEST_QUOTA. /v1/usage used to resolve an unseeded
+ *    anonymous IP to the free *plan's* quota (25), so a first-time visitor was
+ *    shown "25 tokens available" by the endpoint that reports quota while the
+ *    endpoint that enforces it cut them off at 3. The worker now reports 3, and
+ *    this clamp keeps the UI honest against any deploy that doesn't — it's a
+ *    no-op when the server is right, since min(n, 3) === n for a real guest count.
+ */
+export function resolveRemaining(data: UsageResponse, isGuest: boolean): number {
+    const reported = data.remaining ?? (data.available !== false ? Infinity : 0)
+    return isGuest ? Math.min(reported, GUEST_QUOTA) : reported
+}
+
 // Deduplicate concurrent calls — multiple components often call getSessionToken()
 // in the same tick; without this each call fires a separate /api/auth/get-session request.
 let _sessionRequest: Promise<string | null> | null = null

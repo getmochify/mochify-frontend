@@ -2,7 +2,13 @@
 	import { tick, onMount } from 'svelte';
 	import { zip, unzipSync } from 'fflate';
 	import { env } from '$env/dynamic/public';
-	import { getSessionToken, getPlan, getBucketConnection } from '$lib/user';
+	import {
+		getSessionToken,
+		getPlan,
+		getBucketConnection,
+		resolveRemaining,
+		type UsageResponse
+	} from '$lib/user';
 	import { posthog } from '$lib/analytics';
 	import { isChunkLoadError, isNetworkError, recoverFromStaleChunk } from '$lib/chunkRecovery';
 	import { withRetry } from '$lib/uploadRetry';
@@ -785,10 +791,8 @@
 				headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
 			});
 			if (!res.ok) throw new Error('checkTokens failed');
-			const data = (await res.json()) as { remaining?: number; available?: boolean };
-			// A "miss" (unseeded bucket) returns { available: true } with no remaining —
-			// treat as Infinity so first-time users are never walled.
-			availableTokens = data.remaining ?? (data.available !== false ? Infinity : 0);
+			const data = (await res.json()) as UsageResponse;
+			availableTokens = resolveRemaining(data, !jwt);
 			hasCheckedTokens = true;
 		} catch {
 			hasCheckedTokens = false;
@@ -978,9 +982,8 @@
 						headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
 					});
 					if (tokenRes.ok) {
-						const tokenData: any = await tokenRes.json();
-						preflightRemaining =
-							tokenData.remaining ?? (tokenData.available !== false ? Infinity : 0);
+						const tokenData = (await tokenRes.json()) as UsageResponse;
+						preflightRemaining = resolveRemaining(tokenData, !jwt);
 						if (preflightRemaining < files.length) {
 							if (jwt) showUpgradeCta = true;
 							else showSignupCta = true;
