@@ -313,7 +313,7 @@ export const cards = [
 		title: 'Why We Relaxed Our Zero-Retention Policy for MCP Server Compressions'
 	},
 	{
-		path: '/guides/working-with-pdfs-in-ai-agent-workflows',
+		path: '/guides/extract-images-from-pdf-agent-workflows',
 		eyebrow: 'GUIDE',
 		title: 'Extract Images from PDF in AI Agent Workflows - Split & Convert'
 	},

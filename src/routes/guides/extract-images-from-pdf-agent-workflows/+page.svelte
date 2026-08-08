@@ -66,7 +66,7 @@
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Extract Images from PDF in AI Agent Workflows - Split & Convert" />
     <meta property="og:description" content={metadata.description} />
-    <meta property="og:url" content="https://mochify.app/guides/working-with-pdfs-in-ai-agent-workflows" />
+    <meta property="og:url" content="https://mochify.app/guides/extract-images-from-pdf-agent-workflows" />
     <meta name="twitter:card" content="summary_large_image" />
 
     <script type="application/ld+json">
@@ -75,7 +75,7 @@
         "@type": "Article",
         "headline": "Working with PDFs in AI Agent Workflows: Extract, Split, and Convert Pages",
         "description": "How to extract images from PDF, split multi-page files, and convert pages to WebP inside an AI agent pipeline. Mechanics, pitfalls, and a privacy-first workflow.",
-        "url": "https://mochify.app/guides/working-with-pdfs-in-ai-agent-workflows",
+        "url": "https://mochify.app/guides/extract-images-from-pdf-agent-workflows",
         "datePublished": "2026-06-16",
         "dateModified": "2026-06-16",
         "inLanguage": "en",
@@ -111,7 +111,7 @@
         "itemListElement": [
             { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app" },
             { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Working with PDFs in AI Agent Workflows", "item": "https://mochify.app/guides/working-with-pdfs-in-ai-agent-workflows" }
+            { "@type": "ListItem", "position": 3, "name": "Working with PDFs in AI Agent Workflows", "item": "https://mochify.app/guides/extract-images-from-pdf-agent-workflows" }
         ]
         }
     </script>

@@ -11,7 +11,7 @@
         category: "Workflows",
         readTime: "4 min read",
         date: "May 2026",
-        lastUpdated: "August 5, 2026"
+        lastUpdated: "August 7, 2026"
     };
 
     const faqItems = [
@@ -73,7 +73,7 @@
         "description": "How to batch-convert product photos to JPG at 1200px and 800px with a single natural-language prompt. The fastest workflow for Shopify, Etsy, eBay, and Amazon sellers.",
         "url": "https://mochify.app/guides/ecommerce-product-photo-workflow-resize-convert",
         "datePublished": "2026-05-23",
-        "dateModified": "2026-08-05",
+        "dateModified": "2026-08-07",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
         "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
@@ -265,6 +265,7 @@
             </ScrollableTable>
 
             <p>Running both from a single upload means your original file is processed once, not twice. No quality loss from re-processing a previously compressed image.</p>
+            <p>These two sizes are the safe general-purpose pair, but individual platforms do diverge on minimums, aspect ratios, and file-size ceilings. If you need the exact numbers for a specific marketplace rather than a default that works nearly everywhere, <a href="/guides/product-image-requirements-marketplace-guide">the full per-marketplace image spec</a> lists them side by side.</p>
         </section>
 
         <!-- 03 Format Choice -->

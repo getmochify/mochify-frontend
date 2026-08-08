@@ -72,6 +72,9 @@
                         <p class="leading-relaxed text-[#6C3F31]">
                             It's also fully open and royalty-free, and supported by every major modern browser via the native <code class="bg-pink-50 text-[#F06292] px-2 py-0.5 rounded font-mono text-base">&lt;video&gt;</code> element — ideal when you control the markup and want lean delivery.
                         </p>
+                        <p class="leading-relaxed text-[#6C3F31]">
+                            For the background on VP9 versus AV1, quality settings, and how to set up fallbacks for older clients, read <a href="/guides/mp4-to-webm-web-video-guide" class="text-[#F06292] font-bold hover:text-[#ec407a]">the full MP4 to WebM guide</a>.
+                        </p>
                     </div>
 
                     <div class="bg-white p-8 rounded-2xl border border-pink-50 shadow-sm">

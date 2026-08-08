@@ -10,7 +10,7 @@
         category: "WordPress Optimization",
         readTime: "15 min read",
         datePublished: "February 09, 2026",
-        lastUpdated: "June 24, 2026"
+        lastUpdated: "August 7, 2026"
     };
 
     const related = [
@@ -111,7 +111,7 @@
             }
         ],
         "datePublished": "2026-02-09",
-        "dateModified": "2026-05-30"
+        "dateModified": "2026-08-07"
         }
     </script>
 </svelte:head>
@@ -264,6 +264,10 @@
                 <li>Mochify runs a high-performance C++ engine for fast conversions and compression.</li>
                 <li>You can process up to 25 images in parallel in a batch (for free), which makes "cleaning up" a page or a small library realistic in one sitting.</li>
             </ul>
+
+            <p class="mb-4">
+                Converting before upload is also the point at which you decide what happens to embedded metadata, since WordPress applies its own handling once a file is in the media library. If you are weighing that up, <a href="/guides/does-stripping-exif-data-improve-wordpress-image-seo">stripping EXIF data on WordPress uploads</a> covers what it does and does not do for you.
+            </p>
             
             <div class="my-8 bg-gradient-to-br from-pink-50 to-orange-50 p-6 rounded-2xl border border-pink-100">
                 <h3 class="text-lg font-black text-[#875F42] mb-3 flex items-center gap-2">

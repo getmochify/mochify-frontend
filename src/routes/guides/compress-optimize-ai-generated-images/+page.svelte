@@ -9,7 +9,8 @@
         description: "AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize-after-generation step in an agent pipeline.",
         category: "AI & Automation",
         readTime: "15 min read",
-        date: "July 2, 2026"
+        date: "July 2, 2026",
+        lastUpdated: "August 7, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -105,7 +106,7 @@
             "@id": "https://mochify.app/guides/compress-optimize-ai-generated-images"
         },
         "datePublished": "2026-07-02",
-        "dateModified": "2026-07-02",
+        "dateModified": "2026-08-07",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -163,7 +164,7 @@
         "description": "AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize-after-generation step in an agent pipeline.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-02",
-        "dateModified": "2026-07-02"
+        "dateModified": "2026-08-07"
         }
     </script>
 
@@ -193,7 +194,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -266,6 +267,7 @@
             <p>The reason is token cost, and it is steep. Vision-enabled models bill images as token-heavy inputs. <a href="https://platform.claude.com/docs/en/build-with-claude/vision" target="_blank" rel="noopener noreferrer">Claude's vision documentation</a> gives the formula as approximately <code class={inlineCode}>width * height / 750</code> tokens per image, which puts a 1-megapixel image at around 1,334 tokens and a 3000x2000 generation at roughly 8,000. Pass ten freshly generated images inline to kick off a batch and you have burned 80,000-plus tokens before any optimization has happened. On local models with 8k-32k context windows, a handful of inline images can exhaust the context entirely and the workflow simply stops working.</p>
             <p>The <a href="https://modelcontextprotocol.io/specification/2025-06-18/server/tools" target="_blank" rel="noopener noreferrer">Model Context Protocol</a> formalizes the alternative. Tools are typed endpoints an agent invokes for side-effectful operations like file transformation, and the protocol's resource model is built around passing URI references such as <code class={inlineCode}>file:///path/to/image.png</code> rather than binary blobs. Anthropic's engineering write-up on <a href="https://www.anthropic.com/engineering/code-execution-with-mcp" target="_blank" rel="noopener noreferrer">code execution with MCP</a> frames the payoff directly: moving heavy data and compute into dedicated tool processes lets the agent "use fewer tokens" while the model sees only references and summaries.</p>
             <p>In practice that means an image-optimization capability should be exposed as a tool that accepts a path and returns the optimized path plus metadata (format, dimensions, compression ratio). The agent chains the steps - generate, optimize via tool call, then commit or publish - without ever holding pixels. For a pipeline handling dozens of images per job, designing it so only references live in context can cut token usage by orders of magnitude and makes execution far more predictable.</p>
+            <p>Nothing about that design is image-specific, and <a href="/guides/extract-images-from-pdf-agent-workflows">the same pattern applies to PDF pages</a>: extracting or splitting a document returns paths and metadata to the agent, so a generated report or a scanned reference sheet moves through the pipeline on the same terms as a rendered image.</p>
         </section>
 
         <section id="workflows" class="scroll-mt-24">

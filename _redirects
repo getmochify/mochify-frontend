@@ -1,0 +1,5 @@
+# Permanent slug redirects. Copied to the build output by adapter-cloudflare
+# (project root only - not static/). One rule per line: from to status.
+#
+# 2026-08-07: slug realigned to the head term "extract images from pdf".
+/guides/working-with-pdfs-in-ai-agent-workflows /guides/extract-images-from-pdf-agent-workflows 301

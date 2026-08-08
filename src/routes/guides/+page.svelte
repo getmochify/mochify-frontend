@@ -153,7 +153,7 @@
         {
             title: "Working with PDFs in AI Agent Workflows: Extract, Split, and Convert Pages",
             description: "How to extract images from PDF, split multi-page files, and convert pages to WebP inside an AI agent pipeline. Mechanics, pitfalls, and a privacy-first workflow.",
-            url: "/guides/working-with-pdfs-in-ai-agent-workflows",
+            url: "/guides/extract-images-from-pdf-agent-workflows",
             category: "AI & Automation",
             readTime: "12 min read",
             date: "June 16, 2026"

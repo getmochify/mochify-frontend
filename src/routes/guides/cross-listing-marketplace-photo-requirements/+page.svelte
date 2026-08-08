@@ -11,7 +11,8 @@
         description: "Cross-listing apps copy your photos as-is. Photo specs for eBay, Poshmark, Mercari, Depop, and Vinted, plus a batch workflow that preps one set for all.",
         category: "Workflows",
         readTime: "11 min read",
-        date: "August 5, 2026"
+        date: "August 5, 2026",
+        lastUpdated: "August 7, 2026"
     };
 
     const toc = [
@@ -129,7 +130,7 @@
             "@id": "https://mochify.app/guides/cross-listing-marketplace-photo-requirements"
         },
         "datePublished": "2026-08-05",
-        "dateModified": "2026-08-05",
+        "dateModified": "2026-08-07",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -205,7 +206,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -380,6 +381,7 @@
                 </table>
             </ScrollableTable>
             <p>Three things jump out of that table. First, no two platforms agree. Second, the shape question alone splits three ways: square for Depop and Mercari, portrait for Poshmark and Vinted, flexible for eBay. Third, the first photo matters most everywhere, because every platform uses it as the search thumbnail, and several crop it differently in search than on the listing page.</p>
+            <p>The table above covers the six resale marketplaces most cross-listers work across. If your catalog also goes to Amazon, Shopify, Etsy, or a WooCommerce storefront, where the specs are stricter and enforcement is automated, <a href="/guides/product-image-requirements-marketplace-guide">the complete requirements table for every major marketplace</a> sets all of them out side by side.</p>
             <p>Shooting advice follows directly: photograph with generous negative space around the item, so the same frame survives a square crop and a portrait crop. For the platforms that crop aggressively, our quick answer on <a href="https://mochify.app/guides/do-marketplace-product-images-need-to-be-square">whether marketplace product images need to be square</a> covers the safe default.</p>
         </section>
 

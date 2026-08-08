@@ -11,7 +11,7 @@
         category: "Data Privacy",
         readTime: "15 min read",
         date: "February 13, 2026",
-        lastUpdated: "June 24, 2026"
+        lastUpdated: "August 7, 2026"
     };
 
     const related = [
@@ -104,7 +104,7 @@
             }
         ],
         "datePublished": "2026-02-13",
-        "dateModified": "2026-05-30"
+        "dateModified": "2026-08-07"
         }
     </script>
 </svelte:head>
@@ -275,6 +275,8 @@
                     </tbody>
                 </table>
             </ScrollableTable>
+
+            <p class="mb-4">One reason that does not belong on that list is search ranking. It comes up often enough with site owners that it is worth being clear about: metadata removal is a privacy and file-size decision, not a ranking lever. For the WordPress-specific version of that question, see <a href="/guides/does-stripping-exif-data-improve-wordpress-image-seo">whether stripping EXIF helps WordPress SEO</a>.</p>
 
             <InfoBox type="tip" title="Pro Tip">
                 If you're unsure, strip first. You can't reverse metadata removal, but you can always re-export with EXIF from your original RAW files.

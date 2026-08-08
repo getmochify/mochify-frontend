@@ -21,6 +21,14 @@
             HIF to JPG
         </a>
         <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5] font-bold">•</span>
+        <a href="/solutions/webp-to-pdf" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">
+            WebP to PDF
+        </a>
+        <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5] font-bold">•</span>
+        <a href="/solutions/mp4-to-webm" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">
+            MP4 to WebM
+        </a>
+        <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5] font-bold">•</span>
         <a href="/comparison" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">
             Quality Comparison
         </a>

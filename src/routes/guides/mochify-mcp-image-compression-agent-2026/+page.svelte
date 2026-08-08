@@ -485,7 +485,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
             <p>If you're optimizing images as part of a larger agent workflow - content pipelines, automated publishing, code-adjacent tasks - MCP is the right path. For quick, individual jobs, the web tool is faster to reach. If you're working in Claude Code specifically, see our guide to <a href="https://mochify.app/guides/image-compression-claude-code-cli-mcp">image compression inside Claude Code</a> for the setup and workflows.</p>
 
-            <p class="mt-4">The same MCP connection isn't limited to image compression, either. It can also <a href="https://mochify.app/guides/working-with-pdfs-in-ai-agent-workflows">handle PDFs in an AI agent workflow</a> - extracting pages, splitting documents, and converting them alongside your image jobs.</p>
+            <p class="mt-4">The same MCP connection isn't limited to image compression, either. It can also <a href="https://mochify.app/guides/extract-images-from-pdf-agent-workflows">handle PDFs in an AI agent workflow</a> - extracting pages, splitting documents, and converting them alongside your image jobs.</p>
         </section>
 
         <section id="cheat-sheet" class="scroll-mt-24">

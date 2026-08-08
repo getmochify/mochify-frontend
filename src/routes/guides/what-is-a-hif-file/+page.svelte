@@ -8,7 +8,8 @@
         description: "A HIF file is a 10-bit HEIF photo from Canon, Sony and Fujifilm cameras. Here is what it is and how to open one on macOS, Windows, iOS and Linux.",
         category: "Quick Guides",
         readTime: "3 min read",
-        date: "June 13, 2026"
+        date: "June 13, 2026",
+        lastUpdated: "August 7, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -40,7 +41,7 @@
         "description": "A HIF file is a 10-bit HEIF photo from Canon, Sony and Fujifilm cameras. Here is what it is and how to open one on macOS, Windows, iOS and Linux.",
         "url": "https://mochify.app/guides/what-is-a-hif-file",
         "datePublished": "2026-06-13",
-        "dateModified": "2026-06-13",
+        "dateModified": "2026-08-07",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -88,7 +89,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -139,6 +140,7 @@
             <SectionHeading>Opening it is not converting it</SectionHeading>
             <p>Opening a <code class={inlineCode}>.HIF</code> lets you view it, but it still won't upload to a marketplace, CMS, or print service that only accepts JPEG. For that you convert it. Mochify's <a href="/solutions/hif-to-jpg">HIF to JPG converter</a> takes <code class={inlineCode}>.HIF</code> files straight from Canon, Sony, and Fujifilm bodies, up to 3 per session with no account needed. Describe the job in plain English and Magic Flow applies the settings for you. Files are streamed to the encoder, processed in memory, and wiped immediately.</p>
             <p>For every conversion method and the 10-bit to 8-bit trade-offs, see the full <a href="/guides/hif-to-jpg-canon-sony-fujifilm">HIF to JPG guide</a>. For the complete walkthrough across every camera brand, see <a href="https://mochify.app/guides/heif-to-jpg-complete-guide">how to convert a HIF file to JPG</a>.</p>
+            <p>JPEG is the right target when the destination wants individual images. When it wants one document instead, a contact sheet for a client, an insurance claim, or anything going to a print shop, the equivalent step on the Apple side of the HEIF family is to <a href="/guides/heic-to-pdf-iphone-photos">convert HEIC photos to a PDF</a>, which keeps a whole shoot together in a single shareable file.</p>
         </section>
 
         <!-- CTA -->

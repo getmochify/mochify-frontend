@@ -8,7 +8,8 @@
         description: "Convert Sony .HIF files to JPG with Sony's free Imaging Edge Desktop, or convert online in one step. Which Alpha bodies shoot HEIF, and how to export.",
         category: "Quick Guides",
         readTime: "3 min read",
-        date: "June 17, 2026"
+        date: "June 17, 2026",
+        lastUpdated: "August 7, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -39,7 +40,7 @@
         "description": "Convert Sony .HIF files to JPG with Sony's free Imaging Edge Desktop, or convert online in one step. Which Alpha bodies shoot HEIF, and how to export.",
         "url": "https://mochify.app/guides/sony-hif-to-jpg",
         "datePublished": "2026-06-17",
-        "dateModified": "2026-06-17",
+        "dateModified": "2026-08-07",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -87,7 +88,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -135,6 +136,8 @@
             <InfoBox type="tip" title="On privacy">
                 Your <code class={inlineCode}>.HIF</code> does travel to Mochify's encoder at <code class={inlineCode}>api.mochify.app</code> over HTTPS, where it is streamed into memory, encoded, and the original wiped immediately, with no disk writes and no logs of your file. This is the pro-camera HEIF lane. If your file is actually a <code class={inlineCode}>.HEIC</code> from an iPhone, use the <a href="/heic-to-jpeg">HEIC to JPEG converter</a> instead.
             </InfoBox>
+
+            <p>Once you have the JPEGs, delivery is the next decision. A folder of images suits a gallery or an upload form, but a client proof, a print order, or an insurance submission usually wants one file. The same HEIF family handles that too: here is how to go about <a href="/guides/heic-to-pdf-iphone-photos">turning those photos into a PDF</a>.</p>
 
             <p class="text-sm text-[#875F42]">Source for the compression figure: <a href="https://support.d-imaging.sony.co.jp/support/ilc/heif/01/en/index.html" target="_blank" rel="noopener noreferrer">Sony, Characteristics of the HEIF format</a>.</p>
         </section>
