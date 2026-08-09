@@ -45,12 +45,8 @@
     let imageType: string = $state(output);
     let isLoading: boolean = $state(false);
     // Hard rejections only: unsupported type, oversized, unreadable, or a failed
-    // run. Batch truncation is NOT stored here — see truncatedCount.
+    // run. Batch truncation is NOT stored here — it goes to the toast.
     let errorMessage: string = $state('');
-    // How many files the batch cap left behind on the last ingest. Stored as a
-    // count rather than a sentence so the banner copy is derived at render time
-    // and cannot survive the condition that produced it.
-    let truncatedCount: number = $state(0);
     let successMessage: string = $state('');
     let totalOriginalSize: number = $state(0);
     let fileInputElement: HTMLInputElement;
@@ -58,13 +54,32 @@
     const CONCURRENT_UPLOADS = 1;
     let MAX_INDIVIDUAL_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro/day
     let planQuota = $state(25); // expected ops quota for authenticated users; anon gets GUEST_QUOTA
+    // Kept alongside MAX_FILES because the token wall needs the tier itself, not
+    // just the limits it implies: getPlan() answers 'free' for signed-out callers
+    // too, so plan alone cannot tell a guest from a free account (see warningTier).
+    let plan: 'free' | 'seller' | 'pro' | 'day' | 'growth' = $state('free');
     $effect(() => {
-        getPlan().then((plan) => {
-            MAX_FILES = plan === 'free' ? 3 : 25;
-            MAX_INDIVIDUAL_FILE_SIZE = (plan === 'pro' || plan === 'day' || plan === 'seller' || plan === 'growth') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
-            planQuota = plan === 'pro' ? 1200 : plan === 'seller' ? 300 : plan === 'day' ? 500 : plan === 'growth' ? 5000 : 25;
+        getPlan().then((p) => {
+            plan = p;
+            MAX_FILES = p === 'free' ? 3 : 25;
+            MAX_INDIVIDUAL_FILE_SIZE = (p === 'pro' || p === 'day' || p === 'seller' || p === 'growth') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
+            planQuota = p === 'pro' ? 1200 : p === 'seller' ? 300 : p === 'day' ? 500 : p === 'growth' ? 5000 : 25;
         });
     });
+
+    // Batch-cap trims get a transient toast rather than a banner slot. Keeping
+    // them out of activeBanner is the whole point: once the thumbnails render the
+    // trim is self-evident, whereas the banner is reserved for the token wall,
+    // the one message that carries a conversion action. Two amber boxes saying
+    // different things about the same drop is what this replaces.
+    let toastMessage: string = $state('');
+    let toastTimer: ReturnType<typeof setTimeout> | undefined;
+    function showToast(message: string) {
+        toastMessage = message;
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => (toastMessage = ''), 4500);
+    }
+    $effect(() => () => clearTimeout(toastTimer));
 
     let showSignupCta = $state(false);
     let showUpgradeCta = $state(false);
@@ -199,7 +214,7 @@
     async function processFiles(allFiles: File[]) {
         // Await plan so paid-user limits (25 files, 75MB) are applied immediately,
         // not after files are already sliced to free-tier defaults.
-        const plan = await getPlan();
+        plan = await getPlan();
         MAX_FILES = plan === 'free' ? 3 : 25;
         MAX_INDIVIDUAL_FILE_SIZE = (plan === 'pro' || plan === 'day' || plan === 'seller' || plan === 'growth') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
 
@@ -212,10 +227,9 @@
         const rejections: string[] = [];
         let hasOversizeRejection = false;
 
-        function commitIngestNotices(dropped = 0) {
+        function commitIngestNotices() {
             errorMessage = rejections.join(' ');
             isFileSizeError = hasOversizeRejection;
-            truncatedCount = dropped;
             successMessage = '';
         }
 
@@ -289,18 +303,23 @@
         });
         totalOriginalSize = combinedFiles.reduce((sum, file) => sum + file.size, 0);
 
-        // Batch truncation runs first and is recorded as a count, not a sentence:
-        // the banner derives its own wording, so the notice cannot outlive the
-        // condition. Rejections raised earlier in this ingest are still carried,
-        // because they name files the user handed us that are not in the list —
-        // that is the one outcome a user cannot diagnose for themselves.
-        let dropped = 0;
+        // The cap is applied silently by the slice above; all the user gets is a
+        // toast confirming what was staged. Rejections raised earlier in this
+        // ingest still go to the banner, because they name files the user handed
+        // us that are not in the list at all — that is the one outcome a user
+        // cannot diagnose from the thumbnails in front of them.
         if (addedCount === 0 && newFiles.length === 0) {
             rejections.push('All selected files are already in the list.');
         } else if (selectedFiles.length >= MAX_FILES && allFiles.length > addedCount) {
-            dropped = allFiles.length - addedCount;
+            const dropped = allFiles.length - addedCount;
+            showToast(
+                MAX_FILES === 3
+                    ? `Free and guest batches are capped at ${MAX_FILES} files. Staging first ${MAX_FILES} items.`
+                    : `Batches are capped at ${MAX_FILES} files. Staging first ${MAX_FILES} items.`
+            );
+            posthog.capture('batch_cap_trimmed', { cap: MAX_FILES, dropped, authed: isAuthenticated });
         }
-        commitIngestNotices(dropped);
+        commitIngestNotices();
 
         // Deliberately after truncation: sufficiency is judged against what is
         // actually staged (capped at MAX_FILES), never the raw dropped count, so
@@ -352,54 +371,66 @@
             stagedCount > availableTokens
     );
 
+    // Which wall the user is standing at, and therefore which way out we offer.
+    // A guest converts by creating an account; a free account is already past
+    // that, so its only route is paying. Splitting on isAuthenticated rather than
+    // plan is deliberate — getPlan() reports 'free' for signed-out callers, so a
+    // plan-only check would offer a guest the upgrade page and a free user the
+    // signup page, which is exactly backwards.
+    const warningTier: 'guest' | 'free' | 'paid' = $derived(
+        !isAuthenticated ? 'guest' : plan === 'free' ? 'free' : 'paid'
+    );
+
+    // How many staged files the remaining tokens can actually cover. Only
+    // meaningful while insufficientTokens holds, which already guarantees a
+    // finite count strictly below stagedCount.
+    const trimTarget = $derived(Number.isFinite(availableTokens) ? Math.max(0, availableTokens) : 0);
+
+    // Secondary action on the token wall: drop the overflow instead of paying.
+    // Revokes the thumbnails it discards, matching removeFile — a trim that
+    // leaked object URLs would be a slow bleed on exactly the users who trim
+    // repeatedly rather than convert.
+    function trimToAvailable() {
+        if (!Number.isFinite(availableTokens)) return;
+        if (selectedFiles.length <= trimTarget) return;
+        fileProgress.slice(trimTarget).forEach((fp) => {
+            if (fp.thumbnailUrl) URL.revokeObjectURL(fp.thumbnailUrl);
+        });
+        selectedFiles = selectedFiles.slice(0, trimTarget);
+        fileProgress = fileProgress.slice(0, trimTarget);
+        totalOriginalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
+        posthog.capture('token_wall_trimmed', { kept: trimTarget, tier: warningTier });
+    }
+
     // All dropped files were oversized — nothing left to compress
     const blockedByFileSize = $derived(isFileSizeError && stagedCount === 0);
 
     // ---- Banner state -----------------------------------------------------
-    // Everything below derives from staged files, token count, and truncatedCount.
-    // Nothing here is assigned imperatively, so no banner can outlive the state
-    // that produced it: remove a file and the whole chain re-evaluates.
-
-    const truncationNote = $derived(
-        truncatedCount === 0
-            ? ''
-            : MAX_FILES === 3
-              ? `Added first ${MAX_FILES} files. (${truncatedCount} extra skipped — Free plan supports up to ${MAX_FILES} files per batch).`
-              : `Added first ${MAX_FILES} files. (${truncatedCount} extra skipped — ${MAX_FILES} files per batch max).`
-    );
+    // Everything below derives from staged files and the token count. Nothing
+    // here is assigned imperatively, so no banner can outlive the state that
+    // produced it: remove a file and the whole chain re-evaluates.
 
     type Banner =
-        | { kind: 'error'; text: string; note: string }
-        | { kind: 'tokens-short'; note: string }
-        | { kind: 'truncated'; text: string; note: string }
+        | { kind: 'error'; text: string }
+        | { kind: 'tokens-short' }
         | { kind: 'tokens-ok' }
         | null;
 
-    // One banner at a time, picked by severity, with the losing fact demoted to a
-    // muted second line inside the winner. Stacking two amber boxes that each say
-    // "this batch can't run" for different reasons reads as one broken form, and
-    // dropping the loser outright would silently lose files the user handed us.
+    // One banner at a time, picked by severity. The batch cap no longer competes
+    // for this slot (it toasts instead), so the amber state now means exactly one
+    // thing: you do not have the tokens for what is staged. That is what makes
+    // the conversion CTA inside it unambiguous.
     //
     // Order: a rejection (nothing we can do with those bytes) outranks the token
-    // wall (fixable by paying or removing), which outranks a trim (already
-    // handled, purely informational), which outranks the all-clear.
+    // wall (fixable by paying or trimming), which outranks the all-clear.
     const activeBanner: Banner = $derived(
         errorMessage
-            ? { kind: 'error', text: errorMessage, note: truncationNote }
+            ? { kind: 'error', text: errorMessage }
             : insufficientTokens
-              ? { kind: 'tokens-short', note: truncationNote }
-              : truncationNote
-                ? {
-                      kind: 'truncated',
-                      text: truncationNote,
-                      note:
-                          hasCheckedTokens && displayTokens > 0
-                              ? `${displayTokens} token${displayTokens !== 1 ? 's' : ''} available.`
-                              : ''
-                  }
-                : hasCheckedTokens && stagedCount > 0 && displayTokens > 0
-                  ? { kind: 'tokens-ok' }
-                  : null
+              ? { kind: 'tokens-short' }
+              : hasCheckedTokens && stagedCount > 0 && displayTokens > 0
+                ? { kind: 'tokens-ok' }
+                : null
     );
 
     function handleButtonClick() {
@@ -500,7 +531,6 @@
         errorMessage = '';
         successMessage = '';
         isFileSizeError = false;
-        truncatedCount = 0;
         processPhase = 'uploading';
         uploadPercent = 0;
         downloadPercent = 0;
@@ -829,7 +859,6 @@
         fileProgress = [];
         totalOriginalSize = 0;
         errorMessage = '';
-        truncatedCount = 0;
         isFileSizeError = false;
         successMessage = '';
         imageType = output;
@@ -844,14 +873,11 @@
         fileProgress = fileProgress.filter((_, i) => i !== index);
         totalOriginalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
 
-        // The trim notice describes the add that built this list, so it goes stale
-        // the moment the user edits it — "Added first 3 files" sitting above two
-        // thumbnails reads as a live complaint about a batch that is now fine.
-        // Token sufficiency needs no help here: insufficientTokens derives from
-        // stagedCount, so it re-evaluates on its own. Skip notices are left alone,
-        // since they refer to files that never entered the list at all and
+        // Nothing to clear here any more: the cap notice is a toast that expires
+        // on its own, and insufficientTokens derives from stagedCount so it
+        // re-evaluates as the list shrinks. Skip notices are left alone, since
+        // they refer to files that never entered the list at all and
         // isFileSizeError still drives the size upsell.
-        truncatedCount = 0;
     }
 
     const formats = [
@@ -907,6 +933,30 @@
             <p class="text-lg font-bold tracking-tight text-[#4A2C2C] drop-shadow-md">
                 Drop it like it's hot
             </p>
+        </div>
+    {/if}
+
+    <!-- Batch-cap toast. Lives inside the card so it can't collide with a page-level
+         toast, and is aria-live so the trim is announced even though it never
+         occupies the banner slot. -->
+    {#if toastMessage}
+        <div
+            class="animate-toast-in pointer-events-none absolute inset-x-4 bottom-4 z-30 flex justify-center sm:inset-x-6"
+            role="status"
+            aria-live="polite"
+        >
+            <div
+                class="flex items-center gap-2 rounded-2xl bg-[#4A2C2C]/90 px-4 py-2.5 text-xs font-bold text-white shadow-[0_8px_24px_rgba(74,44,44,0.35)] backdrop-blur-sm"
+            >
+                <svg class="h-4 w-4 shrink-0 text-[#FFD54F]" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 10-2 0v4a1 1 0 102 0V6zm-1 8a1 1 0 100-2 1 1 0 000 2z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+                {toastMessage}
+            </div>
         </div>
     {/if}
 
@@ -1203,33 +1253,63 @@
                         {displayTokens} token{displayTokens !== 1 ? 's' : ''} available
                     </p>
                 {:else if activeBanner.kind === 'tokens-short'}
-                    {#if availableTokens === 0}
-                        <!-- "Guest limit" is meaningless to someone signed in, and signing
-                             up is not a fix they can act on. Their route is an upgrade. -->
-                        {#if isAuthenticated}
-                            <p class="text-xs font-bold text-cocoa-deep">
-                                You've used your monthly images. <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">Upgrade your plan</a> for more, or come back next month.
-                            </p>
-                        {:else if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
-                            <p class="text-xs font-bold text-cocoa-deep">Guest limit reached — get instant access or create a free account.</p>
+                    <!-- One sentence stating the shortfall, then exactly two ways out:
+                         a primary action that raises the limit and a secondary that
+                         lowers the batch to fit. The copy splits on warningTier, not
+                         on availableTokens === 0, because "create an account" and
+                         "upgrade" are different offers and only one applies to any
+                         given user. -->
+                    <p class="text-xs font-bold text-cocoa-deep">
+                        {#if warningTier === 'guest'}
+                            You have {availableTokens} guest token{availableTokens !== 1 ? 's' : ''} left, but {stagedCount}
+                            file{stagedCount !== 1 ? 's' : ''} staged.
+                        {:else if warningTier === 'free'}
+                            You've used your {planQuota} monthly tokens ({availableTokens} remaining).
                         {:else}
-                            <p class="text-xs font-bold text-cocoa-deep">
-                                Guest limit reached. <a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">Create a free account</a> for 25 images/month, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">see plans</a>.
-                            </p>
+                            You have {availableTokens} image{availableTokens !== 1 ? 's' : ''} left this month, but {stagedCount}
+                            file{stagedCount !== 1 ? 's' : ''} staged.
                         {/if}
-                    {:else if isAuthenticated}
-                        <p class="text-xs font-bold text-cocoa-deep">
-                            You have {availableTokens} image{availableTokens !== 1 ? 's' : ''} left this month, but {stagedCount} file{stagedCount !== 1 ? 's' : ''} staged. Remove {stagedCount - availableTokens}, or <a href="/pricing" class="text-mochi-pink underline hover:text-[#E91E8C]">upgrade</a> for more.
-                        </p>
-                    {:else if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
-                        <p class="text-xs font-bold text-cocoa-deep">
-                            You have {availableTokens} token{availableTokens !== 1 ? 's' : ''} left, but {stagedCount} file{stagedCount !== 1 ? 's' : ''} staged. Remove {stagedCount - availableTokens}, or get more access:
-                        </p>
-                    {:else}
-                        <p class="text-xs font-bold text-cocoa-deep">
-                            You have {availableTokens} token{availableTokens !== 1 ? 's' : ''} left, but {stagedCount} file{stagedCount !== 1 ? 's' : ''} staged. Remove {stagedCount - availableTokens}, or <a href="/auth/register" class="text-mochi-pink underline hover:text-[#E91E8C]">sign up</a> for more.
-                        </p>
-                    {/if}
+                    </p>
+
+                    <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-2">
+                        {#if warningTier === 'guest'}
+                            <a
+                                href="/auth/register"
+                                onclick={() => posthog.capture('signup_cta_clicked', { trigger: 'token_wall_banner' })}
+                                class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+                            >
+                                Create Free Account for 25/mo
+                            </a>
+                        {:else if warningTier === 'free'}
+                            <a
+                                href="/pricing"
+                                onclick={() => posthog.capture('upgrade_cta_clicked', { trigger: 'token_wall_banner' })}
+                                class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+                            >
+                                Get Day Pass ($2) or Upgrade
+                            </a>
+                        {:else}
+                            <a
+                                href="/pricing"
+                                onclick={() => posthog.capture('upgrade_cta_clicked', { trigger: 'token_wall_banner' })}
+                                class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+                            >
+                                Upgrade for more images
+                            </a>
+                        {/if}
+
+                        <!-- Hidden at zero tokens: "Trim to 0 files" would just empty
+                             the tray, which is not an offer worth making. -->
+                        {#if trimTarget > 0}
+                            <button
+                                type="button"
+                                onclick={trimToAvailable}
+                                class="cursor-pointer text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+                            >
+                                Trim to {trimTarget} file{trimTarget !== 1 ? 's' : ''}
+                            </button>
+                        {/if}
+                    </div>
                 {:else}
                     <p
                         class="text-xs font-bold {activeBanner.kind === 'error'
@@ -1240,9 +1320,6 @@
                     </p>
                 {/if}
 
-                {#if activeBanner.kind !== 'tokens-ok' && activeBanner.note}
-                    <p class="text-xs text-cocoa-deep/70">{activeBanner.note}</p>
-                {/if}
             </div>
         </div>
     {/if}
@@ -1551,6 +1628,17 @@
     }
     .animate-shake {
         animation: shake 0.4s ease-in-out;
+    }
+
+    @keyframes toast-in {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-toast-in {
+        animation: toast-in 0.2s ease-out;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .animate-toast-in { animation: none; }
     }
 
     @keyframes shimmer {
