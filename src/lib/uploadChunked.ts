@@ -10,7 +10,13 @@
 // minority of large uploads where a flaky connection actually hurts.
 import { withRetry, isRetryable } from '$lib/uploadRetry';
 import { posthog } from '$lib/analytics';
-import { uploadErrorMessage, readXhrErrorText, readRejectLabel } from '$lib/uploadError';
+import {
+	uploadErrorMessage,
+	readXhrErrorText,
+	readRejectLabel,
+	readDetectedHeader,
+	trackReject
+} from '$lib/uploadError';
 
 // Above this size, use chunked (resumable) upload. Set to exactly one chunk:
 // anything larger is >=2 chunks, so a dropped connection costs at most one
@@ -255,6 +261,17 @@ function completeUpload(
 			void (async () => {
 				const rejectLabel = readRejectLabel(xhr);
 				const serverText = await readXhrErrorText(xhr);
+				// The chunked path read the label but never reported it, so every
+				// rejection of a chunk-uploaded file was invisible in PostHog — and
+				// this is the path large camera files take, which is exactly where
+				// corrupt-image / unsupported-format land. Track it at the one place
+				// the response is already being inspected.
+				trackReject({
+					label: rejectLabel,
+					status: xhr.status,
+					source: 'chunked_complete',
+					detected: readDetectedHeader(xhr)
+				});
 				const error: RetryableXhrError = new Error(
 					uploadErrorMessage(xhr.status, serverText, rejectLabel)
 				);

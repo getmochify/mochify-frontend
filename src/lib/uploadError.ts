@@ -62,6 +62,22 @@ export function readRejectLabel(xhr: XMLHttpRequest): string | undefined {
 	}
 }
 
+// The server's header-bytes diagnostic (X-Mochify-Detected, from core's
+// ImageValidator::describeHeader) — e.g. "len=28 magic=46554a4946494c4d4343442d"
+// or "len=2480762 magic=... brands=heic,mif1,...". Set on a 415, which core
+// decides from magic bytes alone BEFORE any decoder runs, so nothing downstream
+// ever sees the file: this string and core's own log line are the only records
+// that the rejection happened. Capturing it here is what turns "Unknown or
+// unsupported image format" from an unactionable count into a named file type.
+// Readable cross-origin only because Cors.h lists it in Access-Control-Expose-Headers.
+export function readDetectedHeader(xhr: XMLHttpRequest): string | undefined {
+	try {
+		return xhr.getResponseHeader('X-Mochify-Detected')?.trim() || undefined;
+	} catch {
+		return undefined;
+	}
+}
+
 // Fire-and-forget telemetry for a server-classified rejection. Only meaningful
 // when a label is present (the pipeline classified the failure), which lets us
 // measure the field rate of each class — e.g. what share of failures are
@@ -71,6 +87,7 @@ export function trackReject(opts: {
 	status: number;
 	source: 'squish' | 'chunked_complete';
 	plan?: string;
+	detected?: string;
 }): void {
 	try {
 		posthog.capture('upload_reject', {
@@ -78,6 +95,7 @@ export function trackReject(opts: {
 			status: opts.status,
 			source: opts.source,
 			plan: opts.plan ?? 'unknown',
+			detected: opts.detected ?? 'unknown',
 			ua: typeof navigator !== 'undefined' ? navigator.userAgent : ''
 		});
 	} catch {

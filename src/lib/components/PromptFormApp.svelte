@@ -202,8 +202,8 @@
 			: uploadMode === 'video'
 				? '.mp4,.webm,.mkv,.mov,.avi,.m4v,.mp3,.wav,.aac,.flac,.ogg,.m4a,.opus,video/*,audio/*'
 				: uploadMode === 'image'
-					? '.jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.svg,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/svg+xml'
-					: '.jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.svg,.pdf,.mp4,.webm,.mkv,.mov,.mp3,.wav,.aac,.flac,.ogg,.m4a,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/svg+xml,application/pdf,video/*,audio/*'
+					? '.jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.gif,.svg,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/gif,image/svg+xml'
+					: '.jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.gif,.svg,.pdf,.mp4,.webm,.mkv,.mov,.mp3,.wav,.aac,.flac,.ogg,.m4a,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/gif,image/svg+xml,application/pdf,video/*,audio/*'
 	);
 
 	const imagePlaceholders = [
@@ -333,6 +333,7 @@
 		'image/png',
 		'image/jxl',
 		'image/webp',
+		'image/gif',
 		'image/svg+xml',
 		'application/pdf'
 	]);
@@ -346,6 +347,7 @@
 		'png',
 		'jxl',
 		'webp',
+		'gif',
 		'svg',
 		'pdf'
 	]);
@@ -363,6 +365,7 @@
 			webp: 'image/webp',
 			avif: 'image/avif',
 			jxl: 'image/jxl',
+			gif: 'image/gif',
 			svg: 'image/svg+xml'
 		};
 		return MIME_BY_EXT[ext] ?? 'application/octet-stream';

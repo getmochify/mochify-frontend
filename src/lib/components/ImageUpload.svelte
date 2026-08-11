@@ -7,7 +7,7 @@
     import { withRetry } from '$lib/uploadRetry';
     import { uploadChunked, CHUNK_THRESHOLD_BYTES, type ChunkedUploadParams } from '$lib/uploadChunked';
     import { resolveUploadSize, effectiveSize, uploadBodyOf } from '$lib/uploadSize';
-    import { uploadErrorMessage, readXhrErrorText, trackUpload413, readRejectLabel, trackReject } from '$lib/uploadError';
+    import { uploadErrorMessage, readXhrErrorText, trackUpload413, readRejectLabel, readDetectedHeader, trackReject } from '$lib/uploadError';
     import { isNetworkError } from '$lib/chunkRecovery';
     import { portal } from '$lib/portal';
 
@@ -163,6 +163,10 @@
         }
     }
 
+    // Keep in sync with core's ImageValidator allowlist (utils/ImageValidator.h).
+    // Anything accepted here that core rejects becomes a 415 the user can't
+    // understand; anything core accepts that's missing here is silently
+    // unreachable — which is how GIF sat unsupported despite decoding fine.
     const ACCEPTED_MIME_TYPES = new Set([
         'image/jpeg',
         'image/heic',
@@ -171,6 +175,7 @@
         'image/png',
         'image/jxl',
         'image/webp',
+        'image/gif',
         'image/svg+xml'
     ]);
     const ACCEPTED_EXTENSIONS = new Set([
@@ -183,6 +188,7 @@
         'png',
         'jxl',
         'webp',
+        'gif',
         'svg'
     ]);
 
@@ -481,7 +487,7 @@
             heic: 'image/heic', heif: 'image/heif', hif: 'image/heif',
             jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png',
             webp: 'image/webp', avif: 'image/avif', jxl: 'image/jxl',
-            svg: 'image/svg+xml'
+            gif: 'image/gif', svg: 'image/svg+xml'
         };
         return MIME_BY_EXT[ext] ?? 'application/octet-stream';
     }
@@ -646,8 +652,18 @@
                                                 }
                                                 // Pipeline-classified rejections (corrupt-image, jpeg-missing-dht,
                                                 // engine-error) carry a label; capture the field rate per class.
+                                                // `detected` carries the server's header-bytes diagnostic, which is
+                                                // the only way to tell WHICH file type an unsupported-format 415 was
+                                                // — core decides that from magic bytes before any decoder runs, so
+                                                // there is nothing else downstream to inspect.
                                                 if (rejectLabel) {
-                                                    trackReject({ label: rejectLabel, status: xhr.status, source: 'squish', plan: uploadPlan });
+                                                    trackReject({
+                                                        label: rejectLabel,
+                                                        status: xhr.status,
+                                                        source: 'squish',
+                                                        plan: uploadPlan,
+                                                        detected: readDetectedHeader(xhr)
+                                                    });
                                                 }
                                                 const error: any = new Error(uploadErrorMessage(xhr.status, serverText, rejectLabel));
                                                 error.status = xhr.status;
@@ -902,7 +918,7 @@
         bind:this={fileInputElement}
         id="file-input"
         type="file"
-        accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.svg,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/svg+xml"
+        accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.gif,.svg,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/gif,image/svg+xml"
         multiple
         onchange={handleFileSelect}
         class="sr-only"
