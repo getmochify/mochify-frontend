@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "What Is a JXL File? How to Open, Convert, and Share JPEG XL",
+            description: "A .jxl file is a JPEG XL image. Browser and OS support is still uneven in 2026 - here is how to open one, convert it to JPEG, or share it as a PDF.",
+            url: "/guides/what-is-a-jxl-file",
+            category: "Quick Guides",
+            readTime: "2 min read",
+            date: "August 12, 2026"
+        },
+        {
             title: "Does Stripping EXIF Data Improve WordPress Image SEO?",
             description: "Stripping EXIF data doesn't improve WordPress image SEO rankings, but it trims file size and removes private location data.",
             url: "/guides/does-stripping-exif-data-improve-wordpress-image-seo",
