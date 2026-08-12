@@ -298,6 +298,11 @@ export const cards = [
 		title: 'What Is a HIF File? (And How to Open One)'
 	},
 	{
+		path: '/guides/what-is-a-jxl-file',
+		eyebrow: 'GUIDE',
+		title: 'What Is a JXL File? How to Open, Convert, and Share JPEG XL'
+	},
+	{
 		path: '/guides/what-is-an-avif-file',
 		eyebrow: 'GUIDE',
 		title: 'What Is an AVIF File? (And How to Open One)'
