@@ -17,8 +17,8 @@ export const GET: RequestHandler = async ({ locals, request, platform }) => {
         // Prefer the in-network service binding (RPC on Cloudflare's network, no
         // public round-trip) over a public fetch — the latter double-hops out to
         // the edge and back, which measured ~300-600ms vs the worker's own ~70ms.
-        // Falls back to the public URL until TOKENS is bound in wrangler, so this
-        // is safe to deploy before the binding exists. Same path either way, so
+        // TOKENS is bound in wrangler.jsonc; the fallback now only covers plain
+        // `vite dev`, where platform is undefined. Same path either way, so
         // the worker routes identically. This endpoint backs getPlan() too, so
         // the speed-up lands on every plan gate (solutions pages, PromptForm).
         const workerRes = platform?.env?.TOKENS

@@ -1,12 +1,11 @@
 import { redirect, fail } from '@sveltejs/kit'
 import { CF_WORKER_TOKEN } from '$env/static/private'
-import { env } from '$env/dynamic/private'
+import { tokensFetch } from '$lib/server/tokensWorker'
 import type { Actions, PageServerLoad } from './$types'
 
-const TOKEN_WORKER_URL = env.CF_WORKER_URL || 'https://id.mochify.app'
 const EXT_ID_RE = /^[a-z]{32}$/
 
-export const load: PageServerLoad = async ({ locals, url }) => {
+export const load: PageServerLoad = async ({ locals, url, platform }) => {
     const extId = url.searchParams.get('ext') ?? ''
 
     if (!EXT_ID_RE.test(extId)) redirect(302, '/')
@@ -17,7 +16,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 
     let hasKey = false
     try {
-        const res = await fetch(`${TOKEN_WORKER_URL}/user/${locals.user.id}/apikey`, {
+        const res = await tokensFetch(platform, `/user/${locals.user.id}/apikey`, {
             headers: { 'X-Worker-Token': CF_WORKER_TOKEN },
         })
         if (res.ok) hasKey = true
@@ -27,7 +26,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 }
 
 export const actions: Actions = {
-    authorize: async ({ request, locals }) => {
+    authorize: async ({ request, locals, platform }) => {
         if (!locals.user || !locals.session) return fail(401, { error: 'Not authenticated' })
 
         const data = await request.formData()
@@ -38,7 +37,7 @@ export const actions: Actions = {
         const userId = locals.user.id
 
         // Revoke existing key then issue a fresh one.
-        await fetch(`${TOKEN_WORKER_URL}/user/${userId}/apikey`, {
+        await tokensFetch(platform, `/user/${userId}/apikey`, {
             method: 'DELETE',
             headers: { 'X-Worker-Token': CF_WORKER_TOKEN },
         }).catch(() => {})
@@ -48,7 +47,7 @@ export const actions: Actions = {
         const hashBuf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key))
         const keyHash = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('')
 
-        const storeRes = await fetch(`${TOKEN_WORKER_URL}/apikey/${keyHash}`, {
+        const storeRes = await tokensFetch(platform, `/apikey/${keyHash}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', 'X-Worker-Token': CF_WORKER_TOKEN },
             body: JSON.stringify({ userId }),

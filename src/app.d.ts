@@ -17,8 +17,11 @@ declare global {
 				RESEND_API_KEY: string | undefined;
 				TURNSTILE_SECRET: string | undefined;
 				// Service binding to the tokens worker (usage + API-key store).
-				// Optional: undefined until the `services` binding is added to
-				// wrangler.jsonc, so callers must fall back to a public fetch.
+				// Bound in wrangler.jsonc, so this is always present in
+				// production. Still optional because `platform` is undefined
+				// under plain `vite dev` — that, not a missing binding, is why
+				// callers keep a public-fetch fallback. Prefer reaching it via
+				// tokensFetch() in src/lib/server/tokensWorker.ts.
 				TOKENS?: Fetcher;
 			};
 			context?: {

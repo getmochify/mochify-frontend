@@ -128,7 +128,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 		.execute();
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const kv = (platform?.env as any)?.USAGE_KV as KVNamespace | undefined;
+	const kv = platform?.env?.USAGE_KV;
 	await updateUsageKv(kv, userId, plan, ops_limit);
 	await reseedBucket(userId, plan, ops_limit, periodEnd);
 

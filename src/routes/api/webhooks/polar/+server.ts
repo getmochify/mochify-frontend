@@ -105,7 +105,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const kysely = new Kysely<any>({ dialect: new D1Dialect({ database: db }) });
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const kv = (platform?.env as any)?.USAGE_KV as KVNamespace | undefined;
+	const kv = platform?.env?.USAGE_KV;
 
 	const PRODUCT_PLAN_MAP: Record<string, { plan: 'seller' | 'pro' | 'growth'; ops_limit: number }> = {
 		[env.POLAR_PRODUCT_ID_SELLER_MONTHLY]: { plan: 'seller', ops_limit: 300 },

@@ -1,13 +1,11 @@
 import { redirect, fail } from '@sveltejs/kit'
 import { CF_WORKER_TOKEN } from '$env/static/private'
-import { env } from '$env/dynamic/private'
+import { tokensFetch } from '$lib/server/tokensWorker'
 import type { Actions, PageServerLoad } from './$types'
-
-const TOKEN_WORKER_URL = env.CF_WORKER_URL || 'https://id.mochify.app'
 
 const STATE_RE = /^[a-f0-9]{64}$/
 
-export const load: PageServerLoad = async ({ locals, url }) => {
+export const load: PageServerLoad = async ({ locals, url, platform }) => {
     const state = url.searchParams.get('state') ?? ''
 
     if (!STATE_RE.test(state)) redirect(302, '/')
@@ -18,7 +16,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 
     let hasKey = false
     try {
-        const res = await fetch(`${TOKEN_WORKER_URL}/user/${locals.user.id}/apikey`, {
+        const res = await tokensFetch(platform, `/user/${locals.user.id}/apikey`, {
             headers: { 'X-Worker-Token': CF_WORKER_TOKEN },
         })
         if (res.ok) hasKey = true
@@ -28,7 +26,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 }
 
 export const actions: Actions = {
-    authorize: async ({ request, locals }) => {
+    authorize: async ({ request, locals, platform }) => {
         if (!locals.user || !locals.session) return fail(401, { error: 'Not authenticated' })
 
         const data = await request.formData()
@@ -38,8 +36,11 @@ export const actions: Actions = {
 
         const userId = locals.user.id
 
-        // Delete any existing key, then generate a fresh one directly via worker
-        await fetch(`${TOKEN_WORKER_URL}/user/${userId}/apikey`, {
+        // Delete any existing key, then generate a fresh one directly via worker.
+        // This action makes three sequential calls to the tokens worker; over a
+        // public fetch that was three full edge round-trips on the critical path
+        // of a user waiting at an auth prompt.
+        await tokensFetch(platform, `/user/${userId}/apikey`, {
             method: 'DELETE',
             headers: { 'X-Worker-Token': CF_WORKER_TOKEN },
         }).catch(() => {})
@@ -49,7 +50,7 @@ export const actions: Actions = {
         const hashBuf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key))
         const keyHash = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('')
 
-        const storeRes = await fetch(`${TOKEN_WORKER_URL}/apikey/${keyHash}`, {
+        const storeRes = await tokensFetch(platform, `/apikey/${keyHash}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', 'X-Worker-Token': CF_WORKER_TOKEN },
             body: JSON.stringify({ userId }),
@@ -57,7 +58,9 @@ export const actions: Actions = {
 
         if (!storeRes.ok) return fail(502, { error: 'Failed to generate API key. Try again.' })
 
-        const depositRes = await fetch(`${TOKEN_WORKER_URL}/v1/cli/session/${state}`, {
+        // No X-Worker-Token: this route is public on the worker, gated by the
+        // 64-char state value acting as its own capability token.
+        const depositRes = await tokensFetch(platform, `/v1/cli/session/${state}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ apiKey: key }),
