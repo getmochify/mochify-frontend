@@ -2,6 +2,7 @@
     import { zip } from 'fflate';
     import { env } from '$env/dynamic/public';
     import { page } from '$app/state';
+    import { goto } from '$app/navigation';
     import { getPlan, getSessionToken, resolveRemaining, GUEST_QUOTA, type UsageResponse } from '$lib/user';
     import { posthog } from '$lib/analytics';
     import { withRetry } from '$lib/uploadRetry';
@@ -73,6 +74,12 @@
     const BATCH_LIMIT_PAID = 25;
     const FILE_SIZE_LIMIT_STANDARD = 20 * 1024 * 1024;
     const FILE_SIZE_LIMIT_PAID = 75 * 1024 * 1024;
+    // What $2 actually buys, in the unit the count walls are denominated in.
+    // Named because the Day Pass has to be explained wherever it is offered:
+    // "Day Pass" tells a first-time visitor nothing, "500 conversions in 24
+    // hours" tells them whether it solves the problem in front of them.
+    const DAY_PASS_OPS = 500;
+    const CHEAPEST_PAID_MONTHLY = '$7.99';
 
     type UserTier = 'guest' | 'free' | 'pro';
 
@@ -104,7 +111,7 @@
     $effect(() => {
         Promise.all([getPlan(), getSessionToken()]).then(([p, jwt]) => {
             plan = p;
-            planQuota = p === 'pro' ? 1200 : p === 'seller' ? 300 : p === 'day' ? 500 : p === 'growth' ? 5000 : 25;
+            planQuota = p === 'pro' ? 1200 : p === 'seller' ? 300 : p === 'day' ? DAY_PASS_OPS : p === 'growth' ? 5000 : 25;
             isAuthed = !!jwt;
             tierResolved = true;
             // Signed-in only, deliberately. For someone with an account the
@@ -570,13 +577,20 @@
         // Intercept the click when they lack the operations for this batch.
         // Signing up is not a fix for someone already signed in, so send them to
         // the upgrade path instead.
+        //
+        // Guests go straight to registration rather than through the signup
+        // modal: the banner directly above this button already states both
+        // offers in full, so the dialog would restate the choice the user just
+        // made and charge them a second click for it. The modal still serves
+        // its other callers (a 429, and the race guard in compressImage for a
+        // click that beats the token check).
         if (insufficientTokens) {
             if (isAuthed) {
                 showUpgradeCta = true;
                 posthog.capture('upgrade_cta_shown', { trigger: 'button_click_no_tokens' });
             } else {
-                showSignupCta = true;
-                posthog.capture('signup_cta_shown', { trigger: 'button_click_no_tokens' });
+                posthog.capture('signup_cta_clicked', { trigger: 'button_click_no_tokens' });
+                void goto('/auth/register');
             }
             return;
         }
@@ -1508,12 +1522,13 @@
                     </p>
                     {#if userTier !== 'pro'}
                         <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-2">
-                            <!-- A Day Pass lands the user on plan 'day', which carries the
-                                 same 25-file batch as Pro, so where it is offered it is a
-                                 real answer to this cap and not a consolation prize. It
-                                 takes the primary slot on the same logic as the size card:
-                                 cheapest thing that actually lifts the limit in front of
-                                 them. Both paths are still one tap from /pricing. -->
+                            <!-- Every non-free plan carries the same 25-file batch, so a
+                                 Day Pass is a real answer to this cap rather than a
+                                 consolation prize, and the cheapest subscription that
+                                 lifts it is Seller, not Pro. Both slots quote the true
+                                 entry price for the limit in front of the user: naming
+                                 Pro here asked $24.99 for something $7.99 buys, and
+                                 contradicted the pricing page's own comparison table. -->
                             {#if dayPassOffered}
                                 <a
                                     href={dayPassCheckoutUrl}
@@ -1532,7 +1547,7 @@
                                         posthog.capture('upgrade_cta_clicked', { trigger: 'batch_cap_banner' })}
                                     class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
                                 >
-                                    Upgrade to Pro for {BATCH_LIMIT_PAID} at a time
+                                    Upgrade from {CHEAPEST_PAID_MONTHLY}/mo for {BATCH_LIMIT_PAID} at a time
                                 </a>
                             {/if}
                             {#if userTier === 'guest'}
@@ -1551,16 +1566,19 @@
                         </p>
                     {/if}
                 {:else if activeBanner.kind === 'tokens-short'}
-                    <!-- One sentence stating the shortfall, then exactly two ways out:
-                         a primary action that raises the limit and a secondary that
-                         lowers the batch to fit. The copy splits on userTier, not
-                         on availableTokens === 0, because "create an account" and
-                         "upgrade" are different offers and only one applies to any
-                         given user. -->
+                    <!-- One sentence stating the shortfall, then the ways out. The copy
+                         splits on userTier, not on availableTokens === 0, because
+                         "create an account" and "upgrade" are different offers and only
+                         one applies to any given user.
+
+                         Both offers are stated here, in full, because this is the last
+                         surface before money changes hands: a $2 charge should never be
+                         the first place someone learns what they are buying. -->
                     <p class="text-xs font-bold text-cocoa-deep">
                         {#if userTier === 'guest'}
                             {availableTokens} of your {GUEST_QUOTA} guest uploads remain this month, but {stagedCount}
-                            file{stagedCount !== 1 ? 's' : ''} {stagedCount !== 1 ? 'are' : 'is'} staged.
+                            file{stagedCount !== 1 ? 's' : ''} {stagedCount !== 1 ? 'are' : 'is'} staged. A free
+                            account gives you {planQuota} a month.
                         {:else if userTier === 'free'}
                             You've used your {monthlyQuota} free monthly uploads ({availableTokens} left), but {stagedCount}
                             file{stagedCount !== 1 ? 's' : ''} {stagedCount !== 1 ? 'are' : 'is'} staged.
@@ -1572,6 +1590,11 @@
 
                     <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-2">
                         {#if userTier === 'guest'}
+                            <!-- Free account leads, and the Day Pass is the aside. This
+                                 user needs a handful more uploads; an account gives them
+                                 25 for nothing, and both paths cost the same email and
+                                 magic link. Charging $2 for the slower fix to a problem
+                                 the free tier already solves would read as a trick. -->
                             <a
                                 href="/auth/register"
                                 onclick={() => posthog.capture('signup_cta_clicked', { trigger: 'token_wall_banner' })}
@@ -1579,14 +1602,44 @@
                             >
                                 Create free account for {planQuota}/mo
                             </a>
+                            {#if dayPassOffered}
+                                <a
+                                    href={dayPassCheckoutUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onclick={() =>
+                                        posthog.capture('day_pass_cta_clicked', { trigger: 'token_wall_banner' })}
+                                    class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+                                >
+                                    or Day Pass, $2 for {DAY_PASS_OPS} conversions in 24h
+                                </a>
+                            {/if}
                         {:else if userTier === 'free'}
+                            <!-- Running out of a monthly allowance is a recurring-need
+                                 signal by construction, so the subscription leads here
+                                 and the pass is the "just today" escape hatch. Per op the
+                                 pass undercuts every plan several times over; putting it
+                                 first in front of someone who has just demonstrated
+                                 monthly demand would train them to never subscribe. -->
                             <a
                                 href="/pricing"
                                 onclick={() => posthog.capture('upgrade_cta_clicked', { trigger: 'token_wall_banner' })}
                                 class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
                             >
-                                Get Day Pass ($2) or Upgrade
+                                Upgrade from {CHEAPEST_PAID_MONTHLY}/mo
                             </a>
+                            {#if dayPassOffered}
+                                <a
+                                    href={dayPassCheckoutUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onclick={() =>
+                                        posthog.capture('day_pass_cta_clicked', { trigger: 'token_wall_banner' })}
+                                    class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+                                >
+                                    or just today, Day Pass $2 for {DAY_PASS_OPS} conversions
+                                </a>
+                            {/if}
                         {:else}
                             <a
                                 href="/pricing"
@@ -1655,12 +1708,14 @@
                 <svg class="h-4 w-4 transition-transform group-hover:scale-110" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
                 </svg>
+                <!-- Mirrors the banner's primary action rather than competing with
+                     it. It used to say "Unlock with Day Pass — $2" while the banner
+                     underneath offered a free account, so the two loudest elements
+                     on the card pushed different products at the same moment. -->
                 <span>
-                    {!isAuthed && dayPassOffered
-                        ? 'Unlock with Day Pass — $2'
-                        : !isAuthed
-                            ? 'Create free account to unlock'
-                            : 'Upgrade plan to continue'}
+                    {!isAuthed
+                        ? `Create free account to convert ${stagedCount} image${stagedCount !== 1 ? 's' : ''}`
+                        : 'Upgrade plan to continue'}
                 </span>
             {:else if blockedByFileSize}
                 <svg class="h-4 w-4 transition-transform group-hover:scale-110" fill="currentColor" viewBox="0 0 20 20">
@@ -1800,7 +1855,7 @@
                 {#if hasOversized}
                     <h3 class="mb-2 text-lg font-black text-[#4A2C2C]">File too large</h3>
                     <p class="mb-6 text-sm leading-relaxed text-cocoa-milk/70">
-                        Your plan supports files up to {maxFileSizeMb}MB. Upgrade to Pro or grab a Day Pass to process files up to {paidFileSizeMb}MB.
+                        Your plan supports files up to {maxFileSizeMb}MB. Every paid plan handles up to {paidFileSizeMb}MB, from {CHEAPEST_PAID_MONTHLY}/mo, or a $2 Day Pass covers it for 24 hours.
                     </p>
                     <div class="flex flex-col gap-3">
                         {#if dayPassOffered}
@@ -1889,21 +1944,28 @@
                 <h3 class="mb-2 text-lg font-black text-[#4A2C2C]">Limit reached</h3>
                 
                 {#if dayPassOffered}
+                    <!-- Reached now only by a 429 or by a click that beat the token
+                         check, both of which are count walls. The pitch is therefore
+                         the count: this used to sell "75MB files and larger batches",
+                         which are real Day Pass benefits but answer a limit this user
+                         did not hit. Order matches the banner, free account first. -->
                     <p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
-                        You've hit the guest limit. Get a Day Pass for instant access to 75MB files and larger batches, or create a free account for a smaller monthly allowance.
+                        You've used your {GUEST_QUOTA} guest uploads for this month. A free account gives you {planQuota} a month. Or a Day Pass is {DAY_PASS_OPS} conversions in 24 hours for $2, with no subscription and no account needed.
                     </p>
                     <div class="flex flex-col gap-3">
                         <a
-                            href={dayPassCheckoutUrl}
+                            href="/auth/register"
                             class="block rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
                         >
-                            Get Day Pass — $2
+                            Create free account for {planQuota}/mo
                         </a>
                         <a
-                            href="/auth/register"
+                            href={dayPassCheckoutUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             class="block rounded-2xl border border-[#875F42]/15 px-6 py-3 text-center text-sm font-bold text-[#6C3F31] transition-all hover:border-[#F06292]/30 hover:bg-[#FFF5F7] hover:text-[#F06292]"
                         >
-                            Create free account (Max 20MB)
+                            Day Pass — $2 for {DAY_PASS_OPS} conversions
                         </a>
                     </div>
                 {:else}
