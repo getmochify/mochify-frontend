@@ -139,6 +139,12 @@
         })()
     )
 
+    // Whether this page may offer the Day Pass at all: the host page has to opt
+    // in AND the checkout URL has to be configured. Named once because every
+    // upsell surface has to ask, and a surface that forgets either half either
+    // hides a live offer or links to an empty checkout.
+    const dayPassOffered = $derived(!!showDayPass && !!env.PUBLIC_POLAR_DAY_PASS_URL)
+
     let dayPassSuccess = $state(false)
     $effect(() => {
         if (page.url.searchParams.has('day_pass_success')) {
@@ -541,7 +547,7 @@
         if (isLoading) return;
 
         if (blockedByFileSize) {
-            if (!isAuthed && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL) {
+            if (!isAuthed && dayPassOffered) {
                 posthog.capture('day_pass_cta_clicked', { trigger: 'button_click_file_size' });
                 window.open(dayPassCheckoutUrl, '_blank', 'noopener,noreferrer');
             } else if (!isAuthed) {
@@ -1326,16 +1332,34 @@
 
                     <div class="min-w-0 flex-1">
                         <p class="truncate text-xs font-bold text-[#4A2C2C]">{blocked.file.name}</p>
+                        <!-- One link, pointed at whichever offer actually clears this
+                             file. Where the Day Pass is live it is the exact answer to
+                             the size ceiling ($2, same {paidFileSizeMb}MB) and a far
+                             smaller ask than a subscription, so it wins the slot; the
+                             modal behind this same condition already leads with it. -->
                         <p class="mt-0.5 text-xs font-bold text-red-700">
                             Exceeds {maxFileSizeMb}MB limit ({formatFileSize(blocked.size)}).
-                            <a
-                                href="/pricing"
-                                onclick={() =>
-                                    posthog.capture('upgrade_cta_clicked', { trigger: 'file_size_card' })}
-                                class="underline underline-offset-2 hover:text-red-900"
-                            >
-                                Upgrade for up to {paidFileSizeMb}MB
-                            </a>
+                            {#if dayPassOffered}
+                                <a
+                                    href={dayPassCheckoutUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onclick={() =>
+                                        posthog.capture('day_pass_cta_clicked', { trigger: 'file_size_card' })}
+                                    class="underline underline-offset-2 hover:text-red-900"
+                                >
+                                    Day Pass ($2) for files up to {paidFileSizeMb}MB
+                                </a>
+                            {:else}
+                                <a
+                                    href="/pricing"
+                                    onclick={() =>
+                                        posthog.capture('upgrade_cta_clicked', { trigger: 'file_size_card' })}
+                                    class="underline underline-offset-2 hover:text-red-900"
+                                >
+                                    Upgrade for up to {paidFileSizeMb}MB
+                                </a>
+                            {/if}
                         </p>
                     </div>
 
@@ -1484,14 +1508,33 @@
                     </p>
                     {#if userTier !== 'pro'}
                         <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-2">
-                            <a
-                                href="/pricing"
-                                onclick={() =>
-                                    posthog.capture('upgrade_cta_clicked', { trigger: 'batch_cap_banner' })}
-                                class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
-                            >
-                                Upgrade to Pro for {BATCH_LIMIT_PAID} at a time
-                            </a>
+                            <!-- A Day Pass lands the user on plan 'day', which carries the
+                                 same 25-file batch as Pro, so where it is offered it is a
+                                 real answer to this cap and not a consolation prize. It
+                                 takes the primary slot on the same logic as the size card:
+                                 cheapest thing that actually lifts the limit in front of
+                                 them. Both paths are still one tap from /pricing. -->
+                            {#if dayPassOffered}
+                                <a
+                                    href={dayPassCheckoutUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onclick={() =>
+                                        posthog.capture('day_pass_cta_clicked', { trigger: 'batch_cap_banner' })}
+                                    class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+                                >
+                                    Day Pass ($2) for {BATCH_LIMIT_PAID} at a time
+                                </a>
+                            {:else}
+                                <a
+                                    href="/pricing"
+                                    onclick={() =>
+                                        posthog.capture('upgrade_cta_clicked', { trigger: 'batch_cap_banner' })}
+                                    class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+                                >
+                                    Upgrade to Pro for {BATCH_LIMIT_PAID} at a time
+                                </a>
+                            {/if}
                             {#if userTier === 'guest'}
                                 <a
                                     href="/auth/register"
@@ -1613,7 +1656,7 @@
                     <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
                 </svg>
                 <span>
-                    {!isAuthed && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL
+                    {!isAuthed && dayPassOffered
                         ? 'Unlock with Day Pass — $2'
                         : !isAuthed
                             ? 'Create free account to unlock'
@@ -1624,7 +1667,7 @@
                     <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
                 </svg>
                 <span>
-                    {!isAuthed && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL
+                    {!isAuthed && dayPassOffered
                         ? `Unlock with Day Pass — $2 · ${paidFileSizeMb}MB files`
                         : !isAuthed
                             ? 'Create free account to unlock'
@@ -1760,7 +1803,7 @@
                         Your plan supports files up to {maxFileSizeMb}MB. Upgrade to Pro or grab a Day Pass to process files up to {paidFileSizeMb}MB.
                     </p>
                     <div class="flex flex-col gap-3">
-                        {#if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
+                        {#if dayPassOffered}
                             <a
                                 href={dayPassCheckoutUrl}
                                 target="_blank" rel="noopener noreferrer"
@@ -1771,7 +1814,7 @@
                         {/if}
                         <a
                             href="/pricing"
-                            class="block rounded-2xl {showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL ? 'border border-cocoa-milk/15 text-cocoa-deep hover:border-mochi-pink/30 hover:bg-[#FFF5F7] hover:text-mochi-pink' : 'bg-linear-to-br from-[#FF9EBB] to-mochi-pink text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]'} px-6 py-3 text-center text-sm font-black transition-all"
+                            class="block rounded-2xl {dayPassOffered ? 'border border-cocoa-milk/15 text-cocoa-deep hover:border-mochi-pink/30 hover:bg-[#FFF5F7] hover:text-mochi-pink' : 'bg-linear-to-br from-[#FF9EBB] to-mochi-pink text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]'} px-6 py-3 text-center text-sm font-black transition-all"
                         >
                             Upgrade plan
                         </a>
@@ -1845,7 +1888,7 @@
                 </div>
                 <h3 class="mb-2 text-lg font-black text-[#4A2C2C]">Limit reached</h3>
                 
-                {#if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
+                {#if dayPassOffered}
                     <p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
                         You've hit the guest limit. Get a Day Pass for instant access to 75MB files and larger batches, or create a free account for a smaller monthly allowance.
                     </p>
