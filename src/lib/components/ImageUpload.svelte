@@ -40,51 +40,95 @@
     let smartCompress: boolean = $state(false);
     let isDragging: boolean = $state(false);
 
+    // A file we accepted the type of but cannot convert on this plan. It still
+    // gets a card in the tray — silently discarding the user's drop is what made
+    // the size ceiling feel like a bug rather than a plan limit — but it is held
+    // apart from selectedFiles so it never enters the upload pipeline.
+    type BlockedFile = {
+        file: File;
+        size: number;
+        thumbnailUrl?: string;
+    };
+
     let selectedFiles: File[] = $state([]);
     let fileProgress: FileProgress[] = $state([]);
+    let oversizedFiles: BlockedFile[] = $state([]);
     let imageType: string = $state(output);
     let isLoading: boolean = $state(false);
-    // Hard rejections only: unsupported type, oversized, unreadable, or a failed
-    // run. Batch truncation is NOT stored here — it goes to the toast.
+    // Hard rejections only: unsupported type, unreadable, or a failed run.
+    // Batch truncation and oversize both have their own dedicated UI (the
+    // batch-cap banner and the per-file error card), so neither lands here.
     let errorMessage: string = $state('');
     let successMessage: string = $state('');
     let totalOriginalSize: number = $state(0);
     let fileInputElement: HTMLInputElement;
-    let MAX_FILES = $state(3);
     const CONCURRENT_UPLOADS = 1;
-    let MAX_INDIVIDUAL_FILE_SIZE = $state(20 * 1024 * 1024); // 20MB, 75MB for pro/day
-    let planQuota = $state(25); // expected ops quota for authenticated users; anon gets GUEST_QUOTA
-    // Kept alongside MAX_FILES because the token wall needs the tier itself, not
-    // just the limits it implies: getPlan() answers 'free' for signed-out callers
-    // too, so plan alone cannot tell a guest from a free account (see warningTier).
+
+    // ---- Tier limits ------------------------------------------------------
+    // Guest and Free share the per-batch and per-file ceilings; the only thing
+    // an account buys is the monthly allowance (3 -> 25). Only a paid plan lifts
+    // the batch and file-size caps, which is why the batch-cap upsell has to
+    // offer Pro and cannot promise anything from signing up.
+    const BATCH_LIMIT_STANDARD = 3;
+    const BATCH_LIMIT_PAID = 25;
+    const FILE_SIZE_LIMIT_STANDARD = 20 * 1024 * 1024;
+    const FILE_SIZE_LIMIT_PAID = 75 * 1024 * 1024;
+
+    type UserTier = 'guest' | 'free' | 'pro';
+
     let plan: 'free' | 'seller' | 'pro' | 'day' | 'growth' = $state('free');
+    let isAuthed: boolean = $state(false);
+    let planQuota = $state(25); // monthly ops for an authenticated plan; guests get GUEST_QUOTA
+
+    // The single tier value every limit and every string keys off.
+    //
+    // Plan is tested first: getPlan() only ever answers non-'free' for a caller
+    // with a session, so a paid plan implies authentication even in the window
+    // before getSessionToken() resolves — checking isAuthed first would briefly
+    // demote a Pro user to guest limits on mount. isAuthed then separates guest
+    // from free, which plan alone cannot do, since getPlan() answers 'free' for
+    // signed-out callers too.
+    const userTier: UserTier = $derived(plan !== 'free' ? 'pro' : isAuthed ? 'free' : 'guest');
+    const batchLimit = $derived(userTier === 'pro' ? BATCH_LIMIT_PAID : BATCH_LIMIT_STANDARD);
+    const maxFileSize = $derived(userTier === 'pro' ? FILE_SIZE_LIMIT_PAID : FILE_SIZE_LIMIT_STANDARD);
+    const maxFileSizeMb = $derived(Math.round(maxFileSize / 1024 / 1024));
+    const paidFileSizeMb = FILE_SIZE_LIMIT_PAID / 1024 / 1024;
+    const monthlyQuota = $derived(userTier === 'guest' ? GUEST_QUOTA : planQuota);
+
+    // Gates the usage badge. Both lookups are async and the initial state reads
+    // as a guest, so rendering before they settle would flash "3 guest uploads
+    // remaining this month" at a signed-in Pro user — on a funnel page, the one
+    // number they'd be most annoyed to see misreported.
+    let tierResolved: boolean = $state(false);
+
     $effect(() => {
-        getPlan().then((p) => {
+        Promise.all([getPlan(), getSessionToken()]).then(([p, jwt]) => {
             plan = p;
-            MAX_FILES = p === 'free' ? 3 : 25;
-            MAX_INDIVIDUAL_FILE_SIZE = (p === 'pro' || p === 'day' || p === 'seller' || p === 'growth') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
             planQuota = p === 'pro' ? 1200 : p === 'seller' ? 300 : p === 'day' ? 500 : p === 'growth' ? 5000 : 25;
+            isAuthed = !!jwt;
+            tierResolved = true;
+            // Signed-in only, deliberately. For someone with an account the
+            // remaining count is a budget they already know they have, and
+            // showing it on arrival is useful. For a guest it is a scarcity
+            // number attached to a product they have not tried yet, which is
+            // more likely to close the tab than to convert; their count is
+            // fetched on first drop instead (see processFiles). It also keeps
+            // the anonymous majority of landing-page traffic, bots and bounces
+            // included, from costing a /v1/usage call per pageview.
+            if (jwt) void checkTokenLimit();
         });
     });
 
-    // Batch-cap trims get a transient toast rather than a banner slot. Keeping
-    // them out of activeBanner is the whole point: once the thumbnails render the
-    // trim is self-evident, whereas the banner is reserved for the token wall,
-    // the one message that carries a conversion action. Two amber boxes saying
-    // different things about the same drop is what this replaces.
-    let toastMessage: string = $state('');
-    let toastTimer: ReturnType<typeof setTimeout> | undefined;
-    function showToast(message: string) {
-        toastMessage = message;
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => (toastMessage = ''), 4500);
-    }
-    $effect(() => () => clearTimeout(toastTimer));
+    // What the last ingest staged versus what it was offered, when the batch cap
+    // forced a trim. Held as a pair rather than a boolean so the banner can name
+    // both numbers ("Staging 3 of 8"), and cleared by anything that invalidates
+    // those numbers: a new ingest, a manual removal, or a reset.
+    let batchTrim: { staged: number; offered: number } | null = $state(null);
 
     let showSignupCta = $state(false);
     let showUpgradeCta = $state(false);
-    let isFileSizeError = $state(false);
     let shaking = $state(false);
+    let showUsageHint = $state(false);
 
     const dayPassCheckoutUrl = $derived(
         (() => {
@@ -112,7 +156,8 @@
     // a network drop. Drives the amber "unstable connection" banner.
     let isRetrying: boolean = $state(false);
 
-    // Token limit tracking
+    // Monthly-allowance tracking. Seeded on mount for signed-in users and on
+    // first drop for everyone else — see the tier effect above.
     let availableTokens: number = $state(0);
     let hasCheckedTokens: boolean = $state(false);
 
@@ -218,11 +263,16 @@
     }
 
     async function processFiles(allFiles: File[]) {
-        // Await plan so paid-user limits (25 files, 75MB) are applied immediately,
-        // not after files are already sliced to free-tier defaults.
-        plan = await getPlan();
-        MAX_FILES = plan === 'free' ? 3 : 25;
-        MAX_INDIVIDUAL_FILE_SIZE = (plan === 'pro' || plan === 'day' || plan === 'seller' || plan === 'growth') ? 75 * 1024 * 1024 : 20 * 1024 * 1024;
+        // Await both before applying any limit, so paid-user ceilings (25 files,
+        // 75MB) are in force immediately rather than after files have already
+        // been sliced to standard-tier defaults. userTier/batchLimit/maxFileSize
+        // are derived, so they re-read correctly the moment these land.
+        const [resolvedPlan, resolvedJwt] = await Promise.all([getPlan(), getSessionToken()]);
+        plan = resolvedPlan;
+        isAuthed = !!resolvedJwt;
+
+        // A fresh ingest supersedes the previous one's trim notice.
+        batchTrim = null;
 
         // Rejections raised by THIS ingest, committed in one place at the end.
         // They used to be written straight to errorMessage and read back later,
@@ -231,11 +281,9 @@
         // over a batch that was fine. One ingest now produces exactly one banner
         // state, and every exit path goes through commitIngestNotices.
         const rejections: string[] = [];
-        let hasOversizeRejection = false;
 
         function commitIngestNotices() {
             errorMessage = rejections.join(' ');
-            isFileSizeError = hasOversizeRejection;
             successMessage = '';
         }
 
@@ -260,23 +308,43 @@
         // the chunk routing below. resolveUploadSize measures real bytes when
         // needed (and caches them so the upload sends real content).
         const resolved = await Promise.all(
-            allFiles.map(async (f) => ({ file: f, size: await resolveUploadSize(f, MAX_INDIVIDUAL_FILE_SIZE) }))
+            allFiles.map(async (f) => ({ file: f, size: await resolveUploadSize(f, maxFileSize) }))
         );
         // Files we can't read at all (size===0 and the stream gave us nothing):
         // no upload path can succeed, so drop them up front with a clear reason
         // rather than letting them fail as a confusing server error.
-        const unreadableFiles = resolved.filter((r) => r.size.unreadable);
-        const oversizedFiles = resolved.filter((r) => !r.size.unreadable && r.size.exceededLimit);
+        const unreadable = resolved.filter((r) => r.size.unreadable);
+        const oversized = resolved.filter((r) => !r.size.unreadable && r.size.exceededLimit);
 
-        if (unreadableFiles.length > 0 || oversizedFiles.length > 0) {
-            if (oversizedFiles.length > 0) {
-                rejections.push(`${oversizedFiles.length} file${oversizedFiles.length !== 1 ? 's' : ''} exceeded the ${MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB limit and ${oversizedFiles.length === 1 ? 'was' : 'were'} skipped.`);
-                // Only the oversize case offers an upgrade path; an unreadable file
-                // isn't a plan-limit problem, so don't trigger the size-upsell UI.
-                hasOversizeRejection = true;
+        if (unreadable.length > 0 || oversized.length > 0) {
+            // Oversize is a plan limit, not a rejection: the file stays visible as
+            // its own card carrying the ceiling it broke and the upgrade that
+            // clears it. It never joins selectedFiles, so it cannot be uploaded.
+            if (oversized.length > 0) {
+                const alreadyBlocked = new Set(oversizedFiles.map((b) => `${b.file.name}-${b.file.size}`));
+                const newlyBlocked = oversized
+                    .filter((r) => !alreadyBlocked.has(`${r.file.name}-${r.file.size}`))
+                    .map((r) => ({
+                        file: r.file,
+                        size: r.size.size,
+                        thumbnailUrl: isUnpreviewableImage(r.file) ? undefined : URL.createObjectURL(r.file)
+                    }));
+                // Capped like the staging tray: a drop of fifty large files should
+                // make the point, not fill the card with identical error rows. The
+                // ones past the cap are revoked immediately rather than leaked.
+                const room = Math.max(0, batchLimit - oversizedFiles.length);
+                newlyBlocked.slice(room).forEach((b) => {
+                    if (b.thumbnailUrl) URL.revokeObjectURL(b.thumbnailUrl);
+                });
+                oversizedFiles = [...oversizedFiles, ...newlyBlocked.slice(0, room)];
+                posthog.capture('file_size_blocked', {
+                    files: oversized.length,
+                    limit_mb: maxFileSizeMb,
+                    tier: userTier
+                });
             }
-            if (unreadableFiles.length > 0) {
-                rejections.push(`${unreadableFiles.length} file${unreadableFiles.length !== 1 ? 's' : ''} couldn't be read and ${unreadableFiles.length === 1 ? 'was' : 'were'} skipped. If it's stored in iCloud or a cloud drive, open the original to download it first, then try again.`);
+            if (unreadable.length > 0) {
+                rejections.push(`${unreadable.length} file${unreadable.length !== 1 ? 's' : ''} couldn't be read and ${unreadable.length === 1 ? 'was' : 'were'} skipped. If it's stored in iCloud or a cloud drive, open the original to download it first, then try again.`);
             }
             allFiles = resolved.filter((r) => !r.size.unreadable && !r.size.exceededLimit).map((r) => r.file);
             if (allFiles.length === 0) {
@@ -288,8 +356,13 @@
         const existingFileKeys = new Set(selectedFiles.map((f) => `${f.name}-${f.size}`));
         const newFiles = allFiles.filter((f) => !existingFileKeys.has(`${f.name}-${f.size}`));
 
-        const combinedFiles = [...selectedFiles, ...newFiles].slice(0, MAX_FILES);
+        // Everything that could be staged if there were no cap, then what the cap
+        // actually allows. The banner reports both numbers, so they're named here
+        // rather than recovered from lengths further down.
+        const eligibleFiles = [...selectedFiles, ...newFiles];
+        const combinedFiles = eligibleFiles.slice(0, batchLimit);
         const addedCount = combinedFiles.length - selectedFiles.length;
+        const droppedByCap = eligibleFiles.length - combinedFiles.length;
 
         if (!hasOutputOverride && selectedFiles.length === 0 && newFiles.length > 0) {
             imageType = detectOutputFormat(newFiles[0]);
@@ -309,26 +382,26 @@
         });
         totalOriginalSize = combinedFiles.reduce((sum, file) => sum + file.size, 0);
 
-        // The cap is applied silently by the slice above; all the user gets is a
-        // toast confirming what was staged. Rejections raised earlier in this
-        // ingest still go to the banner, because they name files the user handed
-        // us that are not in the list at all — that is the one outcome a user
-        // cannot diagnose from the thumbnails in front of them.
+        // A cap trim is not a rejection — the files are legal, there are just too
+        // many for this tier — so it gets its own banner with the upsell rather
+        // than the red error slot. Rejections raised earlier in this ingest still
+        // go to the error banner, because they name files that are not in the
+        // tray at all: the one outcome a user cannot diagnose from what's on
+        // screen in front of them.
         if (addedCount === 0 && newFiles.length === 0) {
             rejections.push('All selected files are already in the list.');
-        } else if (selectedFiles.length >= MAX_FILES && allFiles.length > addedCount) {
-            const dropped = allFiles.length - addedCount;
-            showToast(
-                MAX_FILES === 3
-                    ? `Free and guest batches are capped at ${MAX_FILES} files. Staging first ${MAX_FILES} items.`
-                    : `Batches are capped at ${MAX_FILES} files. Staging first ${MAX_FILES} items.`
-            );
-            posthog.capture('batch_cap_trimmed', { cap: MAX_FILES, dropped, authed: isAuthenticated });
+        } else if (droppedByCap > 0) {
+            batchTrim = { staged: combinedFiles.length, offered: eligibleFiles.length };
+            posthog.capture('batch_cap_trimmed', {
+                cap: batchLimit,
+                dropped: droppedByCap,
+                tier: userTier
+            });
         }
         commitIngestNotices();
 
         // Deliberately after truncation: sufficiency is judged against what is
-        // actually staged (capped at MAX_FILES), never the raw dropped count, so
+        // actually staged (capped at batchLimit), never the raw dropped count, so
         // a 5-file drop on a 3-file plan asks for 3 operations and not 5.
         await checkTokenLimit();
     }
@@ -347,19 +420,31 @@
         }
     });
 
-    // Pre-flight token check
-    let isAuthenticated: boolean = $state(false);
-    $effect(() => {
-        getSessionToken().then((jwt) => {
-            isAuthenticated = !!jwt;
-        });
-    });
-
     const stagedCount = $derived(selectedFiles.length);
 
-    // Show plan quota on first visit before the bucket is seeded (availableTokens = Infinity)
-    const displayTokens = $derived(
-        Number.isFinite(availableTokens) ? availableTokens : (isAuthenticated ? planQuota : GUEST_QUOTA)
+    // Uploads left in the current calendar month. Falls back to the tier's full
+    // quota on first visit, before the bucket is seeded (availableTokens = Infinity).
+    const monthlyUploadsRemaining = $derived(
+        Number.isFinite(availableTokens) ? availableTokens : monthlyQuota
+    );
+
+    // Usage copy is tier-specific because the number means something different in
+    // each case: a guest's 3 is an anonymous allowance tied to their IP, a free
+    // account's 25 is a quota they own, and a paid quota is large enough that the
+    // fraction matters more than the remainder.
+    const usageLabel = $derived(
+        userTier === 'guest'
+            ? `${monthlyUploadsRemaining} guest upload${monthlyUploadsRemaining !== 1 ? 's' : ''} remaining this month`
+            : userTier === 'free'
+              ? `${monthlyUploadsRemaining} / ${monthlyQuota} free monthly uploads left`
+              : `${monthlyUploadsRemaining} / ${monthlyQuota} monthly uploads left`
+    );
+
+    // The two limits are routinely confused with each other — users read "3" on
+    // the badge and assume it is the batch cap, or trim to 3 and expect the
+    // monthly count to stop falling. Say which is which, in the same breath.
+    const usageHint = $derived(
+        `${userTier === 'guest' ? 'Guest uploads are counted per month against your IP address and reset' : 'Your monthly allowance resets'} on the 1st. Separately, you can stage up to ${batchLimit} files (${maxFileSizeMb}MB each) in one go. That is a per-batch cap, not a monthly one, so you can run batch after batch until the monthly total runs out.`
     );
 
     // Applies to signed-in users too. This used to be guest-only, which meant an
@@ -375,16 +460,6 @@
             stagedCount > 0 &&
             Number.isFinite(availableTokens) &&
             stagedCount > availableTokens
-    );
-
-    // Which wall the user is standing at, and therefore which way out we offer.
-    // A guest converts by creating an account; a free account is already past
-    // that, so its only route is paying. Splitting on isAuthenticated rather than
-    // plan is deliberate — getPlan() reports 'free' for signed-out callers, so a
-    // plan-only check would offer a guest the upgrade page and a free user the
-    // signup page, which is exactly backwards.
-    const warningTier: 'guest' | 'free' | 'paid' = $derived(
-        !isAuthenticated ? 'guest' : plan === 'free' ? 'free' : 'paid'
     );
 
     // How many staged files the remaining tokens can actually cover. Only
@@ -405,11 +480,30 @@
         selectedFiles = selectedFiles.slice(0, trimTarget);
         fileProgress = fileProgress.slice(0, trimTarget);
         totalOriginalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
-        posthog.capture('token_wall_trimmed', { kept: trimTarget, tier: warningTier });
+        posthog.capture('token_wall_trimmed', { kept: trimTarget, tier: userTier });
     }
 
-    // All dropped files were oversized — nothing left to compress
-    const blockedByFileSize = $derived(isFileSizeError && stagedCount === 0);
+    // Drop one blocked card. Kept separate from removeFile because the two lists
+    // are separate: nothing here indexes into fileProgress.
+    function removeOversized(index: number) {
+        const blocked = oversizedFiles[index];
+        if (blocked?.thumbnailUrl) URL.revokeObjectURL(blocked.thumbnailUrl);
+        oversizedFiles = oversizedFiles.filter((_, i) => i !== index);
+    }
+
+    const hasOversized = $derived(oversizedFiles.length > 0);
+
+    // Everything the user handed us was oversized — there is nothing to convert,
+    // so the CTA becomes the upgrade that would make the batch convertible.
+    const blockedByFileSize = $derived(hasOversized && stagedCount === 0);
+
+    // The CTA states the outcome and the format, and recounts as thumbnails are
+    // removed. 'jpeg' is normalised to JPG so the button matches the extension
+    // the user actually receives.
+    const outputLabel = $derived((imageType === 'jpeg' ? 'jpg' : imageType).toUpperCase());
+    const convertLabel = $derived(
+        `Convert ${stagedCount} image${stagedCount !== 1 ? 's' : ''} to ${outputLabel}`
+    );
 
     // ---- Banner state -----------------------------------------------------
     // Everything below derives from staged files and the token count. Nothing
@@ -419,34 +513,38 @@
     type Banner =
         | { kind: 'error'; text: string }
         | { kind: 'tokens-short' }
-        | { kind: 'tokens-ok' }
+        | { kind: 'batch-cap' }
+        | { kind: 'limits-ok' }
         | null;
 
-    // One banner at a time, picked by severity. The batch cap no longer competes
-    // for this slot (it toasts instead), so the amber state now means exactly one
-    // thing: you do not have the tokens for what is staged. That is what makes
-    // the conversion CTA inside it unambiguous.
+    // One banner at a time, picked by severity. Oversize no longer competes for
+    // this slot — it renders per-file, on the card that broke the limit, which is
+    // the only place that can name the offending file without listing names.
     //
-    // Order: a rejection (nothing we can do with those bytes) outranks the token
-    // wall (fixable by paying or trimming), which outranks the all-clear.
+    // Order: a rejection (nothing we can do with those bytes) outranks the
+    // monthly wall (you cannot convert what is staged), which outranks the batch
+    // trim (you can convert what is staged, just not all of it at once), which
+    // outranks the all-clear.
     const activeBanner: Banner = $derived(
         errorMessage
             ? { kind: 'error', text: errorMessage }
             : insufficientTokens
               ? { kind: 'tokens-short' }
-              : hasCheckedTokens && stagedCount > 0 && displayTokens > 0
-                ? { kind: 'tokens-ok' }
-                : null
+              : batchTrim
+                ? { kind: 'batch-cap' }
+                : hasCheckedTokens && stagedCount > 0 && monthlyUploadsRemaining > 0
+                  ? { kind: 'limits-ok' }
+                  : null
     );
 
     function handleButtonClick() {
         if (isLoading) return;
 
         if (blockedByFileSize) {
-            if (!isAuthenticated && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL) {
+            if (!isAuthed && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL) {
                 posthog.capture('day_pass_cta_clicked', { trigger: 'button_click_file_size' });
                 window.open(dayPassCheckoutUrl, '_blank', 'noopener,noreferrer');
-            } else if (!isAuthenticated) {
+            } else if (!isAuthed) {
                 showSignupCta = true;
                 posthog.capture('signup_cta_shown', { trigger: 'button_click_file_size' });
             } else {
@@ -467,7 +565,7 @@
         // Signing up is not a fix for someone already signed in, so send them to
         // the upgrade path instead.
         if (insufficientTokens) {
-            if (isAuthenticated) {
+            if (isAuthed) {
                 showUpgradeCta = true;
                 posthog.capture('upgrade_cta_shown', { trigger: 'button_click_no_tokens' });
             } else {
@@ -536,7 +634,7 @@
 
         errorMessage = '';
         successMessage = '';
-        isFileSizeError = false;
+        batchTrim = null;
         processPhase = 'uploading';
         uploadPercent = 0;
         downloadPercent = 0;
@@ -871,11 +969,15 @@
         fileProgress.forEach((fp) => {
             if (fp.thumbnailUrl) URL.revokeObjectURL(fp.thumbnailUrl);
         });
+        oversizedFiles.forEach((b) => {
+            if (b.thumbnailUrl) URL.revokeObjectURL(b.thumbnailUrl);
+        });
         selectedFiles = [];
         fileProgress = [];
+        oversizedFiles = [];
         totalOriginalSize = 0;
         errorMessage = '';
-        isFileSizeError = false;
+        batchTrim = null;
         successMessage = '';
         imageType = output;
         if (fileInputElement) fileInputElement.value = '';
@@ -889,11 +991,12 @@
         fileProgress = fileProgress.filter((_, i) => i !== index);
         totalOriginalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
 
-        // Nothing to clear here any more: the cap notice is a toast that expires
-        // on its own, and insufficientTokens derives from stagedCount so it
-        // re-evaluates as the list shrinks. Skip notices are left alone, since
-        // they refer to files that never entered the list at all and
-        // isFileSizeError still drives the size upsell.
+        // The trim notice names a staged count that this removal has just made
+        // wrong ("Staging 3 of 8" over a tray of two), so it goes. Everything
+        // else re-evaluates on its own: insufficientTokens and the CTA counter
+        // both derive from stagedCount, and skip notices refer to files that
+        // never entered the tray at all.
+        batchTrim = null;
     }
 
     const formats = [
@@ -952,26 +1055,54 @@
         </div>
     {/if}
 
-    <!-- Batch-cap toast. Lives inside the card so it can't collide with a page-level
-         toast, and is aria-live so the trim is announced even though it never
-         occupies the banner slot. -->
-    {#if toastMessage}
-        <div
-            class="animate-toast-in pointer-events-none absolute inset-x-4 bottom-4 z-30 flex justify-center sm:inset-x-6"
-            role="status"
-            aria-live="polite"
-        >
-            <div
-                class="flex items-center gap-2 rounded-2xl bg-[#4A2C2C]/90 px-4 py-2.5 text-xs font-bold text-white shadow-[0_8px_24px_rgba(74,44,44,0.35)] backdrop-blur-sm"
+    <!-- Remaining-uploads badge. Sits above the dropzone rather than in the footer
+         so it reads as a property of the tool and not a footnote on the run. The
+         hint carries the distinction the number alone cannot: monthly total vs
+         per-batch cap.
+
+         Shown on arrival to signed-in users, and only once files are staged to
+         guests: a guest who has not tried the converter yet is the one visitor a
+         scarcity count is most likely to lose. By the time they have committed
+         files, the same number is answering a question they are actually asking. -->
+    {#if hasCheckedTokens && tierResolved && (isAuthed || stagedCount > 0)}
+        <div class="flex items-center gap-2 border-b border-pink-50 bg-[#FDFBF7] px-4 py-2 sm:px-6">
+            <span
+                class="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-xs font-bold text-[#6C3F31] shadow-[0_0_0_1px_rgba(135,95,66,0.12)]"
             >
-                <svg class="h-4 w-4 shrink-0 text-[#FFD54F]" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                        fill-rule="evenodd"
-                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 10-2 0v4a1 1 0 102 0V6zm-1 8a1 1 0 100-2 1 1 0 000 2z"
-                        clip-rule="evenodd"
-                    />
-                </svg>
-                {toastMessage}
+                <span
+                    class="h-1.5 w-1.5 rounded-full {monthlyUploadsRemaining > 0
+                        ? 'bg-[#66BB6A]'
+                        : 'bg-[#EF5350]'}"
+                ></span>
+                {usageLabel}
+            </span>
+
+            <div class="relative flex items-center">
+                <button
+                    type="button"
+                    onclick={() => (showUsageHint = !showUsageHint)}
+                    onblur={() => (showUsageHint = false)}
+                    aria-expanded={showUsageHint}
+                    aria-label="How the upload limits work"
+                    class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-full text-[#875F42]/50 transition-colors hover:bg-white hover:text-[#F06292]"
+                >
+                    <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            fill-rule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                </button>
+
+                {#if showUsageHint}
+                    <div
+                        class="absolute top-full left-0 z-30 mt-2 w-64 rounded-2xl border border-pink-100 bg-white p-3 text-xs leading-relaxed font-medium text-[#6C3F31] shadow-[0_8px_24px_rgba(74,44,44,0.14)]"
+                        role="tooltip"
+                    >
+                        {usageHint}
+                    </div>
+                {/if}
             </div>
         </div>
     {/if}
@@ -1158,9 +1289,69 @@
                 Drop images here or <span class="text-[#F06292]">browse</span>
             </p>
             <p class="text-xs text-[#6C3F31]/60">
-                {types} · max {MAX_FILES} files, {MAX_INDIVIDUAL_FILE_SIZE / 1024 / 1024}MB each
+                {types} · max {batchLimit} files per batch, {maxFileSizeMb}MB each
             </p>
         </label>
+
+    <!-- Blocked cards: files we accepted but cannot convert on this plan. Rendered
+         outside the staging tray because they are not staged — they carry the
+         ceiling they broke and the upgrade that clears it, on the card itself,
+         so the user never has to match a count in a banner to a missing file. -->
+    {#if hasOversized}
+        <div class="flex flex-col gap-2 px-4 sm:px-6 {stagedCount === 0 ? 'pt-4' : 'pt-3'}">
+            {#each oversizedFiles as blocked, index (blocked.file.name + blocked.file.size)}
+                <div
+                    class="flex items-center gap-3 rounded-2xl border border-red-100 bg-red-50 px-3 py-2.5"
+                >
+                    <div
+                        class="h-10 w-10 flex-shrink-0 overflow-hidden rounded-xl border border-red-200 bg-white p-0.5"
+                    >
+                        {#if blocked.thumbnailUrl}
+                            <img
+                                src={blocked.thumbnailUrl}
+                                alt={blocked.file.name}
+                                width="40"
+                                height="40"
+                                draggable="false"
+                                class="h-full w-full rounded-lg object-cover opacity-60"
+                            />
+                        {:else}
+                            <div
+                                class="flex h-full w-full items-center justify-center rounded-lg text-[7px] font-bold tracking-wide text-[#EF5350] uppercase"
+                            >
+                                {blocked.file.name.split('.').pop()}
+                            </div>
+                        {/if}
+                    </div>
+
+                    <div class="min-w-0 flex-1">
+                        <p class="truncate text-xs font-bold text-[#4A2C2C]">{blocked.file.name}</p>
+                        <p class="mt-0.5 text-xs font-bold text-red-700">
+                            Exceeds {maxFileSizeMb}MB limit ({formatFileSize(blocked.size)}).
+                            <a
+                                href="/pricing"
+                                onclick={() =>
+                                    posthog.capture('upgrade_cta_clicked', { trigger: 'file_size_card' })}
+                                class="underline underline-offset-2 hover:text-red-900"
+                            >
+                                Upgrade for up to {paidFileSizeMb}MB
+                            </a>
+                        </p>
+                    </div>
+
+                    <button
+                        onclick={() => removeOversized(index)}
+                        class="flex h-6 w-6 flex-shrink-0 cursor-pointer items-center justify-center rounded-full text-red-400 transition-colors hover:bg-white hover:text-red-600"
+                        aria-label="Remove {blocked.file.name}"
+                    >
+                        <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            {/each}
+        </div>
+    {/if}
 
     <!-- Toggles -->
     {#if (showExifOption || showSmartMode) && selectedFiles.length > 0}
@@ -1226,14 +1417,14 @@
     {/if}
 
     <!-- Single banner slot. Exactly one of these renders (see activeBanner):
-         error > tokens-short > truncated > tokens-ok. A trimmed batch is a
+         error > tokens-short > batch-cap > limits-ok. A trimmed batch is a
          notice, not a failure, so only 'error' gets the red treatment. -->
     {#if activeBanner}
         <div
             class="mx-4 mb-3 flex items-start gap-2 rounded-2xl border px-4 py-3 sm:mx-6 {activeBanner.kind ===
             'error'
                 ? 'border-red-100 bg-red-50'
-                : activeBanner.kind === 'tokens-ok'
+                : activeBanner.kind === 'limits-ok'
                   ? 'border-green-100 bg-[#F0FDF4]'
                   : 'border-amber-100 bg-amber-50'}"
         >
@@ -1245,7 +1436,7 @@
                         clip-rule="evenodd"
                     />
                 </svg>
-            {:else if activeBanner.kind === 'tokens-ok'}
+            {:else if activeBanner.kind === 'limits-ok'}
                 <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#66BB6A]" fill="currentColor" viewBox="0 0 20 20">
                     <path
                         fill-rule="evenodd"
@@ -1264,39 +1455,88 @@
             {/if}
 
             <div class="flex flex-col gap-1">
-                {#if activeBanner.kind === 'tokens-ok'}
+                {#if activeBanner.kind === 'limits-ok'}
+                    <!-- The all-clear doubles as the caps reminder: the allowance the
+                         run will draw from, then the two ceilings it must fit inside.
+                         Stating them here, while files are staged, is what stops the
+                         batch cap from being discovered by hitting it. -->
                     <p class="text-xs font-bold text-[#33691E]">
-                        {displayTokens} token{displayTokens !== 1 ? 's' : ''} available
+                        {usageLabel}
                     </p>
+                    <p class="text-xs font-medium text-[#33691E]/80">
+                        Up to {batchLimit} files per batch, {maxFileSizeMb}MB each.
+                        This batch uses {stagedCount} of your monthly uploads.
+                    </p>
+                {:else if activeBanner.kind === 'batch-cap'}
+                    <!-- A cap trim, with the honest version of the upsell. Only a paid
+                         plan raises the per-batch cap: guest and free are both capped
+                         at 3, so offering "sign up" as a way to convert all at once
+                         would be a promise the free tier does not keep. Guests still
+                         get the signup link, labelled with what it actually buys
+                         (the monthly allowance), below the offer that fixes the cap. -->
+                    <p class="text-xs font-bold text-cocoa-deep">
+                        Staging {batchTrim?.staged} of {batchTrim?.offered} files.
+                        {userTier === 'guest'
+                            ? 'Guest and free batches are'
+                            : userTier === 'free'
+                              ? 'The free tier is'
+                              : 'Batches are'} capped at {batchLimit} files per batch.
+                    </p>
+                    {#if userTier !== 'pro'}
+                        <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-2">
+                            <a
+                                href="/pricing"
+                                onclick={() =>
+                                    posthog.capture('upgrade_cta_clicked', { trigger: 'batch_cap_banner' })}
+                                class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+                            >
+                                Upgrade to Pro for {BATCH_LIMIT_PAID} at a time
+                            </a>
+                            {#if userTier === 'guest'}
+                                <a
+                                    href="/auth/register"
+                                    onclick={() =>
+                                        posthog.capture('signup_cta_clicked', { trigger: 'batch_cap_banner' })}
+                                    class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+                                >
+                                    Sign up free for {planQuota} uploads a month
+                                </a>
+                            {/if}
+                        </div>
+                        <p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+                            Or convert these {batchTrim?.staged} now and drop the rest in a second batch.
+                        </p>
+                    {/if}
                 {:else if activeBanner.kind === 'tokens-short'}
                     <!-- One sentence stating the shortfall, then exactly two ways out:
                          a primary action that raises the limit and a secondary that
-                         lowers the batch to fit. The copy splits on warningTier, not
+                         lowers the batch to fit. The copy splits on userTier, not
                          on availableTokens === 0, because "create an account" and
                          "upgrade" are different offers and only one applies to any
                          given user. -->
                     <p class="text-xs font-bold text-cocoa-deep">
-                        {#if warningTier === 'guest'}
-                            You have {availableTokens} guest token{availableTokens !== 1 ? 's' : ''} left, but {stagedCount}
-                            file{stagedCount !== 1 ? 's' : ''} staged.
-                        {:else if warningTier === 'free'}
-                            You've used your {planQuota} monthly tokens ({availableTokens} remaining).
+                        {#if userTier === 'guest'}
+                            {availableTokens} of your {GUEST_QUOTA} guest uploads remain this month, but {stagedCount}
+                            file{stagedCount !== 1 ? 's' : ''} {stagedCount !== 1 ? 'are' : 'is'} staged.
+                        {:else if userTier === 'free'}
+                            You've used your {monthlyQuota} free monthly uploads ({availableTokens} left), but {stagedCount}
+                            file{stagedCount !== 1 ? 's' : ''} {stagedCount !== 1 ? 'are' : 'is'} staged.
                         {:else}
-                            You have {availableTokens} image{availableTokens !== 1 ? 's' : ''} left this month, but {stagedCount}
-                            file{stagedCount !== 1 ? 's' : ''} staged.
+                            {availableTokens} of your {monthlyQuota} monthly uploads remain, but {stagedCount}
+                            file{stagedCount !== 1 ? 's' : ''} {stagedCount !== 1 ? 'are' : 'is'} staged.
                         {/if}
                     </p>
 
                     <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-2">
-                        {#if warningTier === 'guest'}
+                        {#if userTier === 'guest'}
                             <a
                                 href="/auth/register"
                                 onclick={() => posthog.capture('signup_cta_clicked', { trigger: 'token_wall_banner' })}
                                 class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
                             >
-                                Create Free Account for 25/mo
+                                Create free account for {planQuota}/mo
                             </a>
-                        {:else if warningTier === 'free'}
+                        {:else if userTier === 'free'}
                             <a
                                 href="/pricing"
                                 onclick={() => posthog.capture('upgrade_cta_clicked', { trigger: 'token_wall_banner' })}
@@ -1340,7 +1580,10 @@
         </div>
     {/if}
 
-    {#if selectedFiles.length > 0}
+    <!-- Also mounts on a tray of nothing-but-blocked files: that is precisely the
+         state whose only way forward is the size upsell, and gating this block on
+         selectedFiles alone used to make blockedByFileSize unreachable. -->
+    {#if stagedCount > 0 || hasOversized}
     <!-- Submit / CTA button -->
     <div class="px-4 pb-4 sm:px-6">
         <button
@@ -1353,7 +1596,7 @@
                     ? 'cursor-wait border border-[#875F42]/15 bg-white/40 text-[#875F42]/60'
                     : insufficientTokens || blockedByFileSize
                         ? 'cursor-pointer bg-gradient-to-br from-[#FFD54F] to-[#FFCA28] text-[#5D4037] shadow-[0_4px_16px_rgba(255,202,40,0.35)] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(255,202,40,0.5)]'
-                        : selectedFiles.length > 0
+                        : stagedCount > 0
                             ? 'cursor-pointer bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(240,98,146,0.5)]'
                             : 'cursor-not-allowed border border-[#875F42]/15 bg-white/40 text-[#875F42]/60'}"
         >
@@ -1362,17 +1605,17 @@
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                <span>Squishing{selectedFiles.length > 1 ? ` ${selectedFiles.length} images` : ''}…</span>
-            
+                <span>Converting {stagedCount} image{stagedCount !== 1 ? 's' : ''} to {outputLabel}…</span>
+
             <!-- Active CTAs instead of a dead disabled state -->
             {:else if insufficientTokens}
                 <svg class="h-4 w-4 transition-transform group-hover:scale-110" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
                 </svg>
                 <span>
-                    {!isAuthenticated && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL
+                    {!isAuthed && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL
                         ? 'Unlock with Day Pass — $2'
-                        : !isAuthenticated
+                        : !isAuthed
                             ? 'Create free account to unlock'
                             : 'Upgrade plan to continue'}
                 </span>
@@ -1381,22 +1624,26 @@
                     <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
                 </svg>
                 <span>
-                    {!isAuthenticated && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL
-                        ? 'Unlock with Day Pass — $2 · 75MB files'
-                        : !isAuthenticated
+                    {!isAuthed && showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL
+                        ? `Unlock with Day Pass — $2 · ${paidFileSizeMb}MB files`
+                        : !isAuthed
                             ? 'Create free account to unlock'
-                            : 'Upgrade for 75MB files'}
+                            : `Upgrade for ${paidFileSizeMb}MB files`}
                 </span>
-                
+
             {:else}
                 <svg
-                    class="h-4 w-4 {selectedFiles.length > 0 ? 'transition-transform group-hover:scale-110' : ''}"
+                    class="h-4 w-4 {stagedCount > 0 ? 'transition-transform group-hover:scale-110' : ''}"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                 >
                     <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
-                <span>Squish{selectedFiles.length > 1 ? ` ${selectedFiles.length} images as ZIP` : ' your image'}</span>
+                <!-- States the outcome and the format, and recounts live as
+                     thumbnails are removed. Multi-file runs still arrive as a ZIP;
+                     that is a delivery detail the success line covers, not
+                     something the CTA needs to lead with. -->
+                <span>{convertLabel}</span>
             {/if}
         </button>
     </div>
@@ -1454,10 +1701,16 @@
                 {:else if processPhase === 'downloading'}
                     Saving…
                 {/if}
-            {:else if selectedFiles.length > 0}
-                {selectedFiles.length}
-                {selectedFiles.length === 1 ? 'image' : 'images'} ready
-                {#if selectedFiles.length > 1}
+            {:else if stagedCount > 0 || hasOversized}
+                {#if stagedCount > 0}
+                    {stagedCount}
+                    {stagedCount === 1 ? 'image' : 'images'} ready
+                {/if}
+                {#if stagedCount > 0 && hasOversized}·{/if}
+                {#if hasOversized}
+                    {oversizedFiles.length} over {maxFileSizeMb}MB
+                {/if}
+                {#if stagedCount > 1 || hasOversized}
                     · <button
                         onclick={resetForm}
                         class="cursor-pointer text-[#F06292]/70 transition-colors hover:text-[#F06292]"
@@ -1501,10 +1754,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                 </div>
-                {#if isFileSizeError}
+                {#if hasOversized}
                     <h3 class="mb-2 text-lg font-black text-[#4A2C2C]">File too large</h3>
                     <p class="mb-6 text-sm leading-relaxed text-cocoa-milk/70">
-                        Your plan supports files up to 20MB. Upgrade to Pro or grab a Day Pass to process files up to 75MB.
+                        Your plan supports files up to {maxFileSizeMb}MB. Upgrade to Pro or grab a Day Pass to process files up to {paidFileSizeMb}MB.
                     </p>
                     <div class="flex flex-col gap-3">
                         {#if showDayPass && env.PUBLIC_POLAR_DAY_PASS_URL}
@@ -1644,17 +1897,6 @@
     }
     .animate-shake {
         animation: shake 0.4s ease-in-out;
-    }
-
-    @keyframes toast-in {
-        from { opacity: 0; transform: translateY(8px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
-    .animate-toast-in {
-        animation: toast-in 0.2s ease-out;
-    }
-    @media (prefers-reduced-motion: reduce) {
-        .animate-toast-in { animation: none; }
     }
 
     @keyframes shimmer {

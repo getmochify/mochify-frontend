@@ -112,7 +112,7 @@
                 "applicationCategory": "DeveloperApplication",
                 "operatingSystem": "Windows, macOS, Linux",
                 "downloadUrl": "https://github.com/getmochify/mochify-cli/releases",
-                "softwareVersion": "0.2.2"
+                "softwareVersion": "1.5.0"
             },
             {
                 "@type": "FAQPage",
@@ -173,11 +173,11 @@
 </svelte:head>
 
 <div class="min-h-screen flex flex-col relative">
-    
+
     <Navigation />
-    
+
     <main class="relative z-10 flex-grow w-full max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-        
+
         <header class="text-center mb-10">
             <h1 class="text-5xl md:text-7xl font-black text-[#4A2C2C] leading-tight tracking-tight mb-3">
                 Mochify
