@@ -9,7 +9,8 @@
         description: "An AVIF file is an image in the AV1 Image File Format, up to 50% smaller than JPEG. Here's how to open it on Windows and Mac, or convert it to JPG.",
         category: "Quick Guides",
         readTime: "2 min read",
-        date: "July 14, 2026"
+        date: "July 14, 2026",
+        lastUpdated: "August 14, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -68,7 +69,7 @@
         "description": "An AVIF file is an image in the AV1 Image File Format, up to 50% smaller than JPEG. Here's how to open it on Windows and Mac, or convert it to JPG.",
         "url": "https://mochify.app/guides/what-is-an-avif-file",
         "datePublished": "2026-07-14",
-        "dateModified": "2026-07-14",
+        "dateModified": "2026-08-14",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -131,7 +132,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
             </span>
         </div>
 
@@ -170,7 +171,7 @@
             <p>Converting takes seconds: drop the file on Mochify's <a href="/avif-to-jpg">AVIF to JPG converter</a> and type what you want in plain English, for example "convert to JPG and strip all metadata". No signup is needed for up to 3 images per session, and your file is processed in memory and wiped immediately after conversion.</p>
 
             <InfoBox type="tip" title="AVIF is not the same as WebP or JPEG XL">
-                AVIF, WebP, and JPEG XL are all next-gen formats that beat JPEG on size. If you are deciding which to serve on your own site rather than just trying to open a file, see <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl">What Should I Use in 2026: WebP, AVIF, or JPEG XL?</a>
+                AVIF, WebP, and JPEG XL are all next-gen formats that beat JPEG on size. If you are deciding which to serve on your own site rather than just trying to open a file, see <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl">What Should I Use in 2026: WebP, AVIF, or JPEG XL?</a> Selling on a hosted storefront narrows the question further, because the platform may already be converting for you: see <a href="/guides/should-my-product-images-be-avif-or-webp-in-2026">whether your product images should be AVIF or WebP</a>.
             </InfoBox>
         </section>
 

@@ -49,8 +49,8 @@
             "name": "Mochify",
             "url": "https://mochify.app"
         },
-        "datePublished": "2026-05-08",
-        "dateModified": "2026-05-08",
+        "datePublished": "2026-05-16",
+        "dateModified": "2026-05-16",
         "url": "https://mochify.app/guides/svg-conversion-guide-vector-vs-raster",
         "isPartOf": {
             "@type": "CollectionPage",

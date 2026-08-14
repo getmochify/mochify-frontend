@@ -5,11 +5,12 @@
     import InfoBox from '$lib/components/InfoBox.svelte';
 
     const metadata = {
-        title: "Working with PDFs in AI Agent Workflows: Extract, Split, and Convert Pages",
+        title: "Extract Images from PDF in AI Agent Workflows: Split and Convert Pages",
         description: "How to extract images from PDF, split multi-page files, and convert pages to WebP inside an AI agent pipeline. Mechanics, pitfalls, and a privacy-first workflow.",
         category: "AI & Automation",
         readTime: "12 min read",
-        date: "June 16, 2026"
+        date: "June 16, 2026",
+        lastUpdated: "August 14, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -73,11 +74,11 @@
         {
         "@context": "https://schema.org",
         "@type": "Article",
-        "headline": "Working with PDFs in AI Agent Workflows: Extract, Split, and Convert Pages",
+        "headline": "Extract Images from PDF in AI Agent Workflows: Split and Convert Pages",
         "description": "How to extract images from PDF, split multi-page files, and convert pages to WebP inside an AI agent pipeline. Mechanics, pitfalls, and a privacy-first workflow.",
         "url": "https://mochify.app/guides/extract-images-from-pdf-agent-workflows",
         "datePublished": "2026-06-16",
-        "dateModified": "2026-06-16",
+        "dateModified": "2026-08-14",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -111,7 +112,7 @@
         "itemListElement": [
             { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app" },
             { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Working with PDFs in AI Agent Workflows", "item": "https://mochify.app/guides/extract-images-from-pdf-agent-workflows" }
+            { "@type": "ListItem", "position": 3, "name": "Extract Images from PDF in AI Agent Workflows", "item": "https://mochify.app/guides/extract-images-from-pdf-agent-workflows" }
         ]
         }
     </script>
@@ -142,12 +143,12 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
             </span>
         </div>
 
         <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Working with PDFs in AI Agent Workflows: Extract, Split, and Convert Pages
+            Extract Images from PDF in AI Agent Workflows: Split and Convert Pages
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">

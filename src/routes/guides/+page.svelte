@@ -43,7 +43,8 @@
             url: "/guides/cross-listing-marketplace-photo-requirements",
             category: "Workflows",
             readTime: "11 min read",
-            date: "August 5, 2026"
+            date: "August 5, 2026",
+            lastUpdated: "August 7, 2026"
         },
         {
             title: "Etsy Listing Photo Size: The Complete Guide",
@@ -59,7 +60,7 @@
             url: "/guides/can-safari-open-heic-images",
             category: "Quick Guides",
             readTime: "2 min read",
-            date: "Jul 29, 2026"
+            date: "July 29, 2026"
         },
         {
             title: "What Is an AVIF File? (And How to Open One)",
@@ -67,7 +68,8 @@
             url: "/guides/what-is-an-avif-file",
             category: "Quick Guides",
             readTime: "2 min read",
-            date: "July 14, 2026"
+            date: "July 14, 2026",
+            lastUpdated: "August 14, 2026"
         },
         {
             title: "HEIF to JPG: The Complete Conversion Guide",
@@ -75,7 +77,8 @@
             url: "/guides/heif-to-jpg-complete-guide",
             category: "Image Formats",
             readTime: "14 min read",
-            date: "July 15, 2026"
+            date: "July 15, 2026",
+            lastUpdated: "August 6, 2026"
         },
         {
             title: "AVIF to JPG: How to Convert AVIF Files on Any Device",
@@ -83,7 +86,8 @@
             url: "/guides/avif-to-jpg",
             category: "Image Formats",
             readTime: "13 min read",
-            date: "July 13, 2026"
+            date: "July 13, 2026",
+            lastUpdated: "July 15, 2026"
         },
         {
             title: "AI Image Compression and Conversion: Describe the Result, Skip the Settings",
@@ -100,7 +104,8 @@
             url: "/guides/compress-optimize-ai-generated-images",
             category: "AI & Automation",
             readTime: "15 min read",
-            date: "July 2, 2026"
+            date: "July 2, 2026",
+            lastUpdated: "August 7, 2026"
         },
         {
             title: "How to Convert iPhone Photos (HEIC) to PDF",
@@ -108,7 +113,8 @@
             url: "/guides/heic-to-pdf-iphone-photos",
             category: "Image Formats",
             readTime: "12 min read",
-            date: "June 29, 2026"
+            date: "June 29, 2026",
+            lastUpdated: "August 6, 2026"
         },
         {
             title: "Convert MP4 to WebM for the Web: Smaller Files, Faster Pages, No Upload Required",
@@ -116,7 +122,7 @@
             url: "/guides/mp4-to-webm-web-video-guide",
             category: "Web Performance",
             readTime: "17 min read",
-            date: "June 24, 2026"
+            date: "June 26, 2026"
         },
         {
             title: "Converting Images to JPEG XL: The Practical Guide for 2026",
@@ -132,7 +138,8 @@
             url: "/guides/heic-to-jpeg-or-webp-wordpress",
             category: "Quick Guides",
             readTime: "3 min read",
-            date: "June 25, 2026"
+            date: "June 25, 2026",
+            lastUpdated: "August 7, 2026"
         },
         {
             title: "Do Marketplace Product Images Need to Be Square?",
@@ -140,7 +147,8 @@
             url: "/guides/do-marketplace-product-images-need-to-be-square",
             category: "Quick Guides",
             readTime: "2 min read",
-            date: "June 29, 2026"
+            date: "June 29, 2026",
+            lastUpdated: "August 5, 2026"
         },
         {
             title: "Why Does eBay Say My Image File Is Not Supported?",
@@ -148,7 +156,8 @@
             url: "/guides/ebay-image-file-not-supported",
             category: "Quick Guides",
             readTime: "2 min read",
-            date: "June 24, 2026"
+            date: "June 24, 2026",
+            lastUpdated: "August 5, 2026"
         },
         {
             title: "Should I Use fetchpriority or rel=\"preload\" for My LCP Image?",
@@ -164,7 +173,8 @@
             url: "/guides/sony-hif-to-jpg",
             category: "Quick Guides",
             readTime: "3 min read",
-            date: "June 17, 2026"
+            date: "June 17, 2026",
+            lastUpdated: "August 7, 2026"
         },
         {
             title: "Working with PDFs in AI Agent Workflows: Extract, Split, and Convert Pages",
@@ -172,7 +182,8 @@
             url: "/guides/extract-images-from-pdf-agent-workflows",
             category: "AI & Automation",
             readTime: "12 min read",
-            date: "June 16, 2026"
+            date: "June 16, 2026",
+            lastUpdated: "August 14, 2026"
         },
         {
             title: "LLM Image Token Costs: How Many Tokens Does an Image Use?",
@@ -180,7 +191,8 @@
             url: "/guides/llm-image-token-costs",
             category: "AI & Automation",
             readTime: "4 min read",
-            date: "June 7, 2026"
+            date: "June 7, 2026",
+            lastUpdated: "August 7, 2026"
         },
         {
             title: "What Is a HIF File? (And How to Open One)",
@@ -188,7 +200,8 @@
             url: "/guides/what-is-a-hif-file",
             category: "Quick Guides",
             readTime: "3 min read",
-            date: "June 13, 2026"
+            date: "June 13, 2026",
+            lastUpdated: "August 7, 2026"
         },
         {
             title: "Does Converting HIF to JPG Reduce Quality?",
@@ -204,7 +217,8 @@
             url: "/guides/hif-to-jpg-canon-sony-fujifilm",
             category: "Image Formats",
             readTime: "19 min read",
-            date: "June 4, 2026"
+            date: "June 4, 2026",
+            lastUpdated: "July 24, 2026"
         },
         {
             title: "On-Device AI Agents: Image and PDF Optimization for Local Workflows",
@@ -213,6 +227,7 @@
             category: "AI & Automation",
             readTime: "15 min read",
             date: "June 2, 2026",
+            lastUpdated: "July 17, 2026",
             featured: true
         },
         {
@@ -237,7 +252,7 @@
             url: "/guides/fujifilm-hif-to-jpg",
             category: "Image Formats",
             readTime: "5 min read",
-            date: "Feb 01, 2026",
+            date: "February 1, 2026",
             lastUpdated: "June 4, 2026"
         },
         {
@@ -246,8 +261,8 @@
             url: "/guides/privacy-image-optimization",
             category: "Data Privacy",
             readTime: "6 min read",
-            date: "Feb 05, 2026",
-            lastUpdated: "Mar 13, 2026"
+            date: "February 5, 2026",
+            lastUpdated: "June 24, 2026"
         },
         {
             title: "Fix \"Next-Gen Formats\" in WordPress (No Plugins) & Boost LCP",
@@ -255,8 +270,8 @@
             url: "/guides/next-gen-image-formats-wordpress",
             category: "WordPress Performance",
             readTime: "15 min read",
-            date: "Feb 09, 2026",
-            lastUpdated: "Mar 13, 2026"
+            date: "February 9, 2026",
+            lastUpdated: "August 7, 2026"
         },
         {
             title: "The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL",
@@ -264,8 +279,8 @@
             url: "/guides/2026-guide-next-gen-formats",
             category: "Image Formats",
             readTime: "20 min read",
-            date: "Feb 10, 2026",
-            lastUpdated: "Mar 13, 2026"
+            date: "February 10, 2026",
+            lastUpdated: "August 14, 2026"
         },
         {
             title: "Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game",
@@ -273,7 +288,8 @@
             url: "/guides/jpeg-in-2026-jpegli",
             category: "Image Optimization",
             readTime: "20 min read",
-            date: "Feb 09, 2026"
+            date: "February 9, 2026",
+            lastUpdated: "August 14, 2026"
         },
         {
             title: "The Risks of EXIF Data in Image Compression (2026 Guide)",
@@ -281,7 +297,8 @@
             url: "/guides/exif-data-risks-image-compression-2026",
             category: "Data Privacy",
             readTime: "15 min read",
-            date: "Feb 13, 2026"
+            date: "February 13, 2026",
+            lastUpdated: "August 7, 2026"
         },
         {
             title: "The History of Image Compression: From BMP to AVIF & Jpegli (2026 Guide)",
@@ -289,7 +306,7 @@
             url: "/guides/history-image-compression-2026",
             category: "Image Formats",
             readTime: "15 min read",
-            date: "Feb 15, 2026"
+            date: "February 15, 2026"
         },
         {
             title: "Top 5 Secure Image Compressors of 2026: Privacy, Performance, and Format Support Comparison",
@@ -297,8 +314,8 @@
             url: "/guides/top-5-secure-image-compressors-2026",
             category: "Image Optimization",
             readTime: "15 min read",
-            date: "Feb 17, 2026",
-            lastUpdated: "Mar 13, 2026"
+            date: "February 17, 2026",
+            lastUpdated: "July 21, 2026"
         },
         {
             title: "How to Self-Host an Image Optimization API with Docker",
@@ -306,7 +323,7 @@
             url: "/guides/self-hosting-image-optimization-docker",
             category: "Image Optimization",
             readTime: "5 min read",
-            date: "Feb 18, 2026"
+            date: "February 18, 2026"
         },
         {
             title: "Optimizing Hero Images for Web Performance: A 2026 Guide",
@@ -314,7 +331,7 @@
             url: "/guides/optimizing-hero-images",
             category: "Image Optimization",
             readTime: "14 min read",
-            date: "Feb 20, 2026"
+            date: "February 20, 2026"
         },
         {
             title: "AI-Powered Image Compression: How Mochify's Natural Language Feature Works (2026)",
@@ -322,7 +339,7 @@
             url: "/guides/ai-image-compression-natural-language-2026",
             category: "AI & Automation",
             readTime: "8 min read",
-            date: "Mar 08, 2026"
+            date: "March 8, 2026"
         },
         {
             title: "How to Use Mochify via MCP: AI Agent Image Compression (2026)",
@@ -330,7 +347,7 @@
             url: "/guides/mochify-mcp-image-compression-agent-2026",
             category: "AI & Automation",
             readTime: "7 min read",
-            date: "Mar 09, 2026"
+            date: "March 9, 2026"
         },
         {
             title: "How the Mochify MCP Server Works: Hosted vs Local, with Worked Examples",
@@ -339,6 +356,7 @@
             category: "AI & Automation",
             readTime: "9 min read",
             date: "May 28, 2026",
+            lastUpdated: "August 14, 2026",
             featured: true
         },
         {
@@ -355,7 +373,8 @@
             url: "/guides/european-alternative-tinypng-gdpr-compliant-image-compression",
             category: "Data Privacy",
             readTime: "15 min read",
-            date: "Mar 22, 2026"
+            date: "March 22, 2026",
+            lastUpdated: "July 23, 2026"
         },
         {
             title: "How to Use Jpegli for Shopify Product Images",
@@ -363,7 +382,7 @@
             url: "/guides/jpegli-shopify-product-images",
             category: "Quick Guides",
             readTime: "6 min read",
-            date: "Apr 06, 2026"
+            date: "April 6, 2026"
         },
         {
             title: "How Do I Preload AVIF Hero Images in WordPress to Pass the LCP Threshold?",
@@ -371,7 +390,7 @@
             url: "/guides/preload-avif-hero-images-wordpress-lcp",
             category: "Quick Guides",
             readTime: "3 min read",
-            date: "Apr 09, 2026"
+            date: "April 9, 2026"
         },
         {
             title: "Does Chrome 145 Enable JPEG XL by Default in 2026?",
@@ -379,7 +398,8 @@
             url: "/guides/chrome-145-jpeg-xl-default",
             category: "Quick Guides",
             readTime: "3 min read",
-            date: "Apr 10, 2026"
+            date: "April 10, 2026",
+            lastUpdated: "August 14, 2026"
         },
         {
             title: "What Should I Use in 2026: WebP, AVIF, or JPEG XL?",
@@ -387,7 +407,8 @@
             url: "/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl",
             category: "Quick Guides",
             readTime: "2 min read",
-            date: "Apr 13, 2026"
+            date: "April 13, 2026",
+            lastUpdated: "August 14, 2026"
         },
         {
             title: "Should I Optimize My Images Before I Upload Them?",
@@ -395,7 +416,8 @@
             url: "/guides/should-i-optimize-images-before-upload",
             category: "Image Optimization",
             readTime: "15 min read",
-            date: "Apr 13, 2026"
+            date: "April 13, 2026",
+            lastUpdated: "August 5, 2026"
         },
         {
             title: "Is JPEG XL Ready for Shopify Product Images in 2026?",
@@ -403,7 +425,7 @@
             url: "/guides/is-jpeg-xl-ready-for-shopify-product-images",
             category: "Quick Guides",
             readTime: "3 min read",
-            date: "Apr 14, 2026"
+            date: "April 14, 2026"
         },
         {
             title: "HIF/HEIF to JPEG for Professional Photographers: A Privacy-First Workflow Guide",
@@ -411,7 +433,7 @@
             url: "/guides/heif-to-jpeg-workflow-photographers-guide",
             category: "Workflows",
             readTime: "12 min read",
-            date: "Apr 23, 2026"
+            date: "April 23, 2026"
         },
         {
             title: "Should I Shoot HEIF or JPEG on My Mirrorless Camera?",
@@ -419,7 +441,8 @@
             url: "/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera",
             category: "Quick Guides",
             readTime: "3 min read",
-            date: "Apr 25, 2026"
+            date: "April 25, 2026",
+            lastUpdated: "July 24, 2026"
         },
         {
             title: "Does HEIF/HEIC Work With Client Gallery Platforms Like Pixieset and SmugMug?",
@@ -427,7 +450,8 @@
             url: "/guides/does-heif-heic-work-with-client-galleries",
             category: "Quick Guides",
             readTime: "3 min read",
-            date: "Apr 26, 2026"
+            date: "April 26, 2026",
+            lastUpdated: "August 6, 2026"
         },
         {
             title: "AI Agent Workflow Automation for Photographers: Save Hours with Claude and Mochify",
@@ -435,7 +459,8 @@
             url: "/guides/ai-agent-workflow-automation-photographers",
             category: "Workflows",
             readTime: "10 min read",
-            date: "May 03, 2026"
+            date: "May 3, 2026",
+            lastUpdated: "June 24, 2026"
         },
         {
             title: "What Image Format Should I Use for Product Photos?",
@@ -443,7 +468,8 @@
             url: "/guides/what-image-format-should-i-use-for-product-photos",
             category: "Quick Guides",
             readTime: "2 min read",
-            date: "May 19, 2026"
+            date: "May 19, 2026",
+            lastUpdated: "August 7, 2026"
         },
         {
             title: "Ecommerce Product Photo Workflow: Resize & Convert in One Prompt",
@@ -451,7 +477,8 @@
             url: "/guides/ecommerce-product-photo-workflow-resize-convert",
             category: "Workflows",
             readTime: "4 min read",
-            date: "May 23, 2026"
+            date: "May 23, 2026",
+            lastUpdated: "August 14, 2026"
         },
         {
             title: "Why We Relaxed Our Zero-Retention Policy for MCP Server Compressions",
@@ -475,7 +502,8 @@
             url: "/guides/vinted-photos-that-sell",
             category: "Workflows",
             readTime: "13 min read",
-            date: "July 19, 2026"
+            date: "July 19, 2026",
+            lastUpdated: "August 5, 2026"
         },
         {
             title: "Mochify vs TinyPNG: An Honest Comparison",
@@ -483,7 +511,8 @@
             url: "/guides/mochify-vs-tinypng",
             category: "Image Optimization",
             readTime: "13 min read",
-            date: "July 21, 2026"
+            date: "July 21, 2026",
+            lastUpdated: "July 24, 2026"
         },
         {
             title: "Is Reselling Worth It in 2026? The Honest Math",

@@ -9,7 +9,7 @@
         description: "No single number: Claude uses width×height/750 (~1,334 tokens for 1 MP), OpenAI and Gemini use tiling. Pass file paths, not image bytes, to save context.",
         category: "AI & Automation",
         readTime: "4 min read",
-        date: "June 2026",
+        date: "June 7, 2026",
         lastUpdated: "August 7, 2026"
     };
 

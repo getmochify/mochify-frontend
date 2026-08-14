@@ -73,8 +73,11 @@
                     <strong>16-bit color</strong> and <strong>HDR</strong>. 
                 </p>
                 <p class="leading-relaxed text-[#6C3F31]">
-                    Mochify uses the high-performance <strong class="text-[#7E685E]">libjxl</strong> C++ library to ensure your 
+                    Mochify uses the high-performance <strong class="text-[#7E685E]">libjxl</strong> C++ library to ensure your
                     conversions are bit-perfect and processed in-memory for maximum privacy.
+                </p>
+                <p class="leading-relaxed text-[#6C3F31]">
+                    New to the format? Our guide explains <a href="/guides/what-is-a-jxl-file" class="text-[#F06292] hover:text-[#D81B60] underline underline-offset-2">what a JXL file is</a>, which apps open one today, and when converting back to JPEG is the safer choice.
                 </p>
             </div>
 

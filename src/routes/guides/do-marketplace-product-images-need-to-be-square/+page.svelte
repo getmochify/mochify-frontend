@@ -9,7 +9,7 @@
         description: "No marketplace universally requires square product images, but most crop thumbnails to 1:1 - making pre-cropped images the safer choice for any seller.",
         category: "Quick Guides",
         readTime: "2 min read",
-        datePublished: "29 June 2026",
+        datePublished: "June 29, 2026",
         lastUpdated: "August 5, 2026"
     };
 

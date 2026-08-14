@@ -10,7 +10,8 @@
         description: "In 2026, use AVIF as your primary format with WebP as fallback. JPEG XL is not production-ready for web at ~15% browser support.",
         category: "Quick Guides",
         readTime: "2 min read",
-        date: "April 13, 2026"
+        date: "April 13, 2026",
+        lastUpdated: "August 14, 2026"
     };
 
     const related = [
@@ -48,8 +49,8 @@
         "headline": "What Should I Use in 2026: WebP, AVIF, or JPEG XL?",
         "description": "In 2026, use AVIF as your primary format with WebP as fallback. JPEG XL is not production-ready for web at ~15% browser support.",
         "url": "https://mochify.app/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl",
-        "datePublished": "2026-04-10",
-        "dateModified": "2026-07-13",
+        "datePublished": "2026-04-13",
+        "dateModified": "2026-08-14",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -93,7 +94,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
             </span>
         </div>
 
@@ -180,6 +181,8 @@
         <section id="avif-vs-webp" class="scroll-mt-24">
             <SectionHeading>AVIF vs WebP: the trade-off that matters</SectionHeading>
             <p class="mb-4">AVIF delivers superior quality at low bitrates - it is the right choice for hero images, product photography, and any asset where visual fidelity matters. WebP encodes faster and has wider legacy support, which makes it the right fallback in the <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> stack rather than a primary target. For the vast majority of web workflows in 2026, the pattern above handles both automatically.</p>
+
+            <p class="mb-4">Product photography is the one case where the answer can be "neither, manually". On a hosted storefront the CDN already negotiates the format per browser, so converting by hand duplicates work the platform does for you. For that decision, see <a href="/guides/should-my-product-images-be-avif-or-webp-in-2026">the product-image version of this question</a>.</p>
 
             <p class="mb-4">Serving AVIF is the right call for the web - but compatibility questions still come up once a file leaves your site, like when someone downloads an image and needs to open it in a tool that doesn't support AVIF yet. For those cases, see <a href="/guides/avif-to-jpg">our AVIF to JPG conversion guide</a>.</p>
 

@@ -10,7 +10,7 @@
         category: "Image Formats",
         readTime: "20 min read",
         datePublished: "February 10, 2026",
-        lastUpdated: "July 13, 2026"
+        lastUpdated: "August 14, 2026"
     };
 
     const related = [
@@ -105,8 +105,8 @@
             "text": "Monitor Core Web Vitals and bandwidth usage after rollout, then adjust formats and quality based on field data from your analytics and RUM tooling."
             }
         ],
-        "datePublished": "2026-02-05",
-        "dateModified": "2026-07-13"
+        "datePublished": "2026-02-10",
+        "dateModified": "2026-08-14"
         }
     </script>
 </svelte:head>
@@ -423,6 +423,10 @@
             </p>
             <p class="mb-4">
                 <strong>The reality in February 2026:</strong> Browser support is abysmal. Safari offers "partial" support (decoding only, no animation, no progressive rendering). Chrome added decoding back into Chromium in January 2026 but hasn't shipped it to stable releases. Firefox refuses implementation, citing decoder bloat and insufficient gains over AVIF.
+            </p>
+
+            <p class="mb-4">
+                The practical consequence is that readers meet JPEG XL as a file they were sent and cannot open rather than as a format they chose. If that is where you are, start with <a href="/guides/what-is-a-jxl-file">how to open a JXL file</a> and convert it to something your tools accept.
             </p>
             
             <InfoBox type="warning">

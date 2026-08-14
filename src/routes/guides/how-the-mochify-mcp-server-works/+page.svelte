@@ -11,7 +11,7 @@
         category: "AI & Automation",
         readTime: "9 min read",
         date: "May 28, 2026",
-        lastUpdated: "July 21, 2026",
+        lastUpdated: "August 14, 2026",
     };
 
     const faqItems = [
@@ -21,7 +21,7 @@
         { q: "What's the difference between Magic Flow and the squish tool?", a: "squish is the low-level tool the MCP server exposes - it takes explicit parameters: format, quality, dimensions, options. Magic Flow is the natural-language layer that lets you describe the goal in plain English and have the agent resolve the parameters automatically. Most users only ever interact with Magic Flow." },
         { q: "Can I run mochify without an agent?", a: "Yes. mochify is a standalone Rust binary. It works from the shell, in scripts, in CI, in Docker - anywhere you can run a single static binary. Many users run the CLI directly as a build step with no agent involved at all." },
         { q: "Which formats does squish actually output?", a: "JPEG (encoded with jpegli for ~35% smaller files at matched quality), AVIF, JPEG XL, WebP, and PNG. AVIF is our default recommendation for web delivery; jpegli-encoded JPEG is the broad-compatibility fallback." },
-        { q: "Does the MCP server support background removal and smart crop?", a: "Yes. squish exposes removeBackground, crop (smart crop to the subject), smartCompress (saliency-guided quality selection), brightness, clarity, stripExif, rotate, and HDR gain-map preservation. Background removal requires a Seller or Pro plan; the rest are available on all tiers." },
+        { q: "Does the MCP server support background removal and smart crop?", a: "Yes. squish exposes removeBackground, crop (smart crop to the subject), smartCompress (saliency-guided quality selection), brightness, clarity, stripExif, rotate, and HDR gain-map preservation. All of these are available on every plan, including Free." },
         { q: "Can I use the MCP server through Cursor or other MCP clients?", a: "Yes. For the hosted server, any client that supports remote MCP connectors over HTTP with OAuth can register https://mcp.mochify.app. For the local server, any client that supports the standard stdio MCP pattern - Cursor, Continue, Cline, Claude Code with custom config, and others - can spawn mochify serve as a subprocess. Mochify is also listed on Smithery and Glama MCP marketplaces." },
     ];
 </script>
@@ -43,7 +43,7 @@
       "author": { "@type": "Organization", "name": "Mochify Engineering Team" },
       "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
       "datePublished": "2026-05-28",
-      "dateModified": "2026-07-21",
+      "dateModified": "2026-08-14",
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://mochify.app/guides/how-the-mochify-mcp-server-works" }
     }
     </script>

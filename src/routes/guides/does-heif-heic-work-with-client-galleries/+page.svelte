@@ -8,7 +8,7 @@
         description: "HEIF and HEIC files don't work reliably with most client gallery platforms. Here's what actually happens on upload, and how to keep control of your output.",
         category: "Quick Guide",
         readTime: "3 min read",
-        date: "April 2026",
+        date: "April 26, 2026",
         lastUpdated: "August 6, 2026"
     };
 </script>

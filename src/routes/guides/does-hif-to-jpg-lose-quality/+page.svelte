@@ -9,7 +9,7 @@
         description: "Converting HIF to JPG rarely reduces visible quality. The real exception is Canon HDR PQ, where the HDR-to-SDR tone-map changes the look more than bit depth.",
         category: "Quick Guides",
         readTime: "3 min read",
-        date: "June 2026"
+        date: "June 5, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";

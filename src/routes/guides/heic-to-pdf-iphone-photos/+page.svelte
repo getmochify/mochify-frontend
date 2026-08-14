@@ -10,8 +10,8 @@
         description: "Convert iPhone HEIC photos to PDF on any device - iPhone, Mac, Windows, or online. Native methods, batch tips, and a one-click tool. No app needed.",
         category: "Image Formats",
         readTime: "12 min read",
-        datePublished: "29 June 2026",
-        lastUpdated: "6 August 2026"
+        datePublished: "June 29, 2026",
+        lastUpdated: "August 6, 2026"
     };
 
     const related = [

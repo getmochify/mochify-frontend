@@ -9,7 +9,7 @@
         category: "Image Optimization",
         readTime: "20 min read",
         date: "February 09, 2026",
-        lastUpdated: "August 5, 2026"
+        lastUpdated: "August 14, 2026"
     };
 
     const related = [
@@ -75,7 +75,7 @@
             "zero-retention image optimization"
         ],
         "datePublished": "2026-02-09",
-        "dateModified": "2026-08-05"
+        "dateModified": "2026-08-14"
         }
     </script>
 </svelte:head>
@@ -361,7 +361,7 @@
                         <li>Encode speed matters more than the last 10% of compression efficiency.</li>
                     </ul>
 
-                    <p class="mb-4">JPEG is not the right choice for graphics with sharp edges (logos, diagrams, UI screenshots)-use PNG. For web delivery with modern browser support, <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl">AVIF and WebP</a> deliver better compression. But when you're forced into JPEG, use the best encoder available.</p>
+                    <p class="mb-4">JPEG is not the right choice for graphics with sharp edges (logos, diagrams, UI screenshots)-use PNG. For web delivery with modern browser support, <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl">AVIF and WebP</a> deliver better compression. If you sell online, the answer also depends on your platform, because a hosted storefront may already negotiate the format for you: see <a href="/guides/should-my-product-images-be-avif-or-webp-in-2026">whether product images should be AVIF or WebP at all</a>. But when you're forced into JPEG, use the best encoder available.</p>
                 </div>
             </div>
         </section>
@@ -396,7 +396,7 @@
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Why This Is Different from "New Formats" Like AVIF or JPEG XL</h3>
                     
-                    <p class="mb-4">AVIF and JPEG XL are modern image formats with better compression than JPEG but require explicit browser/app support. As of 2026, AVIF has ~94% browser support, and JPEG XL support varies (Apple announced support in 2025, but adoption is still rolling out).</p>
+                    <p class="mb-4">AVIF and JPEG XL are modern image formats with better compression than JPEG but require explicit browser/app support. As of 2026, AVIF has ~94% browser support, and JPEG XL support varies (Apple announced support in 2025, but adoption is still rolling out). That uneven support is why a <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.jxl</code> file so often arrives and refuses to open, so it is worth knowing <a href="/guides/what-is-a-jxl-file">what a .jxl file actually is</a> before you commit to it as a delivery format.</p>
 
                     <p class="mb-4 font-bold text-[#D81B60]">Jpegli doesn't require any browser updates. A jpegli-encoded JPEG is just a JPEG. The improvement is invisible to the decoder-it simply receives a smaller file that looks better.</p>
                 </div>

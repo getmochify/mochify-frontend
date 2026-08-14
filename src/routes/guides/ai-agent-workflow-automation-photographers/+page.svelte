@@ -10,7 +10,7 @@
         description: "Build a hands-off post-shoot pipeline with Claude, Dispatch, and Mochify MCP. Files land in upload-ready folders while you're still in the field.",
         category: "Workflow Automation",
         readTime: "10 min read",
-        date: "May 2026",
+        date: "May 3, 2026",
         lastUpdated: "June 24, 2026"
     };
 
@@ -70,7 +70,7 @@
         "description": "Build a hands-off post-shoot pipeline with Claude, Dispatch, and Mochify MCP. Files land in upload-ready folders while you're still in the field.",
         "url": "https://mochify.app/guides/ai-agent-workflow-automation-photographers",
         "datePublished": "2026-05-03",
-        "dateModified": "2026-06-01",
+        "dateModified": "2026-06-24",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",

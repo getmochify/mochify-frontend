@@ -10,8 +10,8 @@
         description: "How to batch-convert product photos to JPG at 1200px and 800px with a single natural-language prompt. The fastest workflow for Shopify, Etsy, eBay, and Amazon sellers.",
         category: "Workflows",
         readTime: "4 min read",
-        date: "May 2026",
-        lastUpdated: "August 7, 2026"
+        date: "May 23, 2026",
+        lastUpdated: "August 14, 2026"
     };
 
     const faqItems = [
@@ -73,7 +73,7 @@
         "description": "How to batch-convert product photos to JPG at 1200px and 800px with a single natural-language prompt. The fastest workflow for Shopify, Etsy, eBay, and Amazon sellers.",
         "url": "https://mochify.app/guides/ecommerce-product-photo-workflow-resize-convert",
         "datePublished": "2026-05-23",
-        "dateModified": "2026-08-07",
+        "dateModified": "2026-08-14",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
         "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
@@ -230,6 +230,8 @@
 
             <p>Magic Flow parses that intent and runs the squish engine twice per file - once at 1200px, once at 800px - returning both outputs in a single ZIP. No format picker, no slider for each size, no second upload. The engine resolves width-only instructions against the longest edge and preserves the original aspect ratio unless you explicitly ask for a crop.</p>
 
+            <p>The convert step above assumes JPG, which is the safe default across marketplaces. If you are publishing to a hosted storefront that negotiates formats for you, it is worth checking <a href="/guides/should-my-product-images-be-avif-or-webp-in-2026">which format your product images should actually be in</a> before you standardise on one.</p>
+
             <InfoBox type="tip" title="EXIF is stripped by default">
                 Product photos often carry GPS coordinates from your home studio, device serial numbers, and shoot timestamps. Mochify strips all EXIF metadata automatically on every job. Add <strong>"keep metadata"</strong> to the prompt only if you need to preserve copyright fields for editorial licensing.
             </InfoBox>
@@ -349,7 +351,7 @@
                     },
                     {
                         prompt: '"convert to jpg, resize to 1200px and 800px, remove background"',
-                        note: 'Same dual-size workflow with AI background removal. Requires Seller or Pro plan.'
+                        note: 'Same dual-size workflow with AI background removal, which is included on every plan.'
                     },
                 ] as v}
                     <div class="rounded-2xl border border-pink-100 bg-white p-5">
@@ -369,7 +371,7 @@
         <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
             <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Ready to process your catalog?</h3>
-            <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base">Start free. Upgrade for batches up to 25 files, background removal, and priority processing.</p>
+            <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base">Background removal is included on every plan. Upgrade for batches up to 25 files and priority processing.</p>
             <a href="/pricing" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                 See plans &amp; pricing →
             </a>

@@ -31,6 +31,7 @@
     "prepare": "svelte-kit sync || echo ''",
     "postinstall": "patch-package",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:dates": "node scripts/check-guide-dates.mjs",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write ."

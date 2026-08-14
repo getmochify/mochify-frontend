@@ -9,7 +9,7 @@
         description: "Shoot HEIF for capture quality, deliver JPEG to clients. Here's the practical 2026 workflow for Canon EOS R, Nikon Z, and Sony Alpha shooters.",
         category: "Quick Guide",
         readTime: "3 min read",
-        date: "April 2026",
+        date: "April 25, 2026",
         lastUpdated: "July 24, 2026"
     };
 </script>
@@ -29,7 +29,7 @@
         "headline": "Should I Shoot HEIF or JPEG on My Mirrorless Camera?",
         "description": "Shoot HEIF for capture quality, deliver JPEG to clients. Here's the practical 2026 workflow for Canon EOS R, Nikon Z, and Sony Alpha shooters.",
         "url": "https://mochify.app/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera",
-        "datePublished": "2026-04-01",
+        "datePublished": "2026-04-25",
         "dateModified": "2026-07-24",
         "inLanguage": "en",
         "author": {

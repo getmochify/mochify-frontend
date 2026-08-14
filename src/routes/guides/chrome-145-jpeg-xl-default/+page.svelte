@@ -10,7 +10,8 @@
         description: "Chrome 145 adds JPEG XL decoding support, but the feature is off by default and requires a browser flag. Here is what that means for serving images in 2026.",
         category: "Quick Guides",
         readTime: "3 min read",
-        date: "April 10, 2026"
+        date: "April 10, 2026",
+        lastUpdated: "August 14, 2026"
     };
 
     const related = [
@@ -55,7 +56,7 @@
         "url": "https://mochify.app/guides/chrome-145-jpeg-xl-default",
         "inLanguage": "en",
         "datePublished": "2026-04-10",
-        "dateModified": "2026-04-10",
+        "dateModified": "2026-08-14",
         "author": {
             "@type": "Organization",
             "name": "Mochify Engineering Team"
@@ -90,7 +91,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
             </span>
         </div>
 
@@ -115,6 +116,8 @@
             <SectionHeading>Flag-only, not default</SectionHeading>
             <p class="mb-4">To use JPEG XL in Chrome 145, a user must navigate to <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">chrome://flags/#enable-jxl-image-format</code> and toggle the feature on manually. No ordinary user does this. As of early 2026, JPEG XL has roughly 12–17% browser support globally, concentrated in Safari on macOS and iOS. Chrome and Firefox both require a manual opt-in.</p>
             <p class="mb-4">Google has set explicit conditions for enabling the feature by default: a long-term maintenance commitment and meeting standard Chrome launch criteria. Neither has been publicly confirmed as met.</p>
+
+            <p class="mb-4">Because most users cannot render one, a <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.jxl</code> that lands in your downloads folder is usually a dead end until you convert it. Our explainer covers <a href="/guides/what-is-a-jxl-file">what a JXL file is and how to open one</a> on Windows, macOS, and the web.</p>
 
             <InfoBox type="warning" title="Do not serve .jxl without a fallback">
                 A <code>.jxl</code> file served without a <code>&lt;picture&gt;</code> fallback will fail silently for the majority of visitors. Until Chrome enables JPEG XL by default in a stable release, always pair it with an AVIF or WebP fallback.

@@ -18,6 +18,34 @@
 <meta name="description" content="Learn how to self-host your own image compression engine with Mochify-Lite on Docker. Complete setup guide with API usage examples, security best practices, and comparison to the full Mochify engine.">
 <meta property="og:title" content="Self-Host Your Own Image Optimizer: Mochify-Lite on Docker" />
 <meta property="og:description" content="Stop relying on third-party services. Set up Mochify-Lite on Docker for private, local image compression with libjpeg-turbo. Perfect for developers who want full control." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mochify.app/guides/self-hosting-image-optimization-docker" />
+
+<script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Self-Hosting Image Optimization with Mochify-Lite on Docker (2026 Guide)",
+    "description": "Learn how to self-host your own image compression engine with Mochify-Lite on Docker. Complete setup guide with API usage examples, security best practices, and comparison to the full Mochify engine.",
+    "author": {
+        "@type": "Organization",
+        "name": "Mochify Engineering Team"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Mochify",
+        "url": "https://mochify.app"
+    },
+    "datePublished": "2026-02-18",
+    "dateModified": "2026-02-18",
+    "url": "https://mochify.app/guides/self-hosting-image-optimization-docker",
+    "isPartOf": {
+        "@type": "CollectionPage",
+        "name": "Image Optimization Guides",
+        "url": "https://mochify.app/guides"
+    }
+    }
+</script>
 </svelte:head>
 
 <article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">

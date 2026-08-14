@@ -7,7 +7,7 @@
     const metadata = {
         category: "Data Privacy",
         readTime: "6 min read",
-        datePublished: "February 05, 2026",
+        datePublished: "February 5, 2026",
         lastUpdated: "June 24, 2026"
     };
 
@@ -74,7 +74,7 @@
             "2026 privacy-first vendor checklist"
         ],
         "datePublished": "2026-02-05",
-        "dateModified": "2026-05-30"
+        "dateModified": "2026-06-24"
         }
     </script>
 </svelte:head>
