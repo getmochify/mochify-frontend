@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "Should My Product Images Be AVIF or WebP in 2026?",
+            description: "Neither, manually, on Shopify: the CDN already negotiates AVIF, WebP, or JPEG per browser. Manual conversion matters once you step outside that pipeline.",
+            url: "/guides/should-my-product-images-be-avif-or-webp-in-2026",
+            category: "Quick Guides",
+            readTime: "2 min read",
+            date: "August 14, 2026"
+        },
+        {
             title: "What Is a JXL File? How to Open, Convert, and Share JPEG XL",
             description: "A .jxl file is a JPEG XL image. Browser and OS support is still uneven in 2026 - here is how to open one, convert it to JPEG, or share it as a PDF.",
             url: "/guides/what-is-a-jxl-file",

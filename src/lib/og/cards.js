@@ -263,6 +263,11 @@ export const cards = [
 		title: 'Should I Shoot HEIF or JPEG on My Mirrorless Camera?'
 	},
 	{
+		path: '/guides/should-my-product-images-be-avif-or-webp-in-2026',
+		eyebrow: 'GUIDE',
+		title: 'Should My Product Images Be AVIF or WebP in 2026?'
+	},
+	{
 		path: '/guides/sony-hif-to-jpg',
 		eyebrow: 'GUIDE',
 		title: 'How Do I Convert Sony HIF Files to JPG?'
