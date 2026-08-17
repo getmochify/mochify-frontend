@@ -59,8 +59,10 @@
 			error = err.message ?? 'Registration failed';
 			loading = false;
 		} else {
+			// `user_signed_up` is captured server-side in the user-create database
+			// hook (src/lib/auth.ts) so OAuth and magic-link signups are counted too.
+			// Don't capture it here as well or email signups would double-count.
 			posthog.identify(email, { email });
-			posthog.capture('user_signed_up', { method: 'email' });
 			success = true;
 		}
 	}
