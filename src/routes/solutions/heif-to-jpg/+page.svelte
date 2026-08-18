@@ -69,7 +69,7 @@
         },
         {
             q: 'What happens to my files after conversion?',
-            a: 'They are streamed into memory on our encoder, converted, and discarded. Nothing is written to disk and nothing is logged. EXIF is preserved unless you tick the strip option before converting.'
+            a: 'They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, so turn the Strip EXIF toggle off before converting if you need the camera data kept.'
         }
     ];
 </script>
@@ -118,7 +118,7 @@
                 { "@type": "Question", "name": "HEIF is a container, so what is actually inside it?", "acceptedAnswer": { "@type": "Answer", "text": "Usually HEVC, which is what makes licensing awkward. The same container can also hold AV1 data, in which case the file is what everyone calls AVIF, or even plain JPEG data. That is why a HEIF that will not open has a different answer on different machines." } },
                 { "@type": "Question", "name": "Will converting change how the photo looks?", "acceptedAnswer": { "@type": "Answer", "text": "JPEG is 8-bit, so a 10-bit HEIF loses tonal precision in principle. At sensible quality settings the difference is invisible in normal viewing. The exception is HDR source material, where mapping down to standard range is a genuine change in appearance rather than a rounding error." } },
                 { "@type": "Question", "name": "Can I convert a folder of mixed HEIF, HEIC, and HIF files in one go?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Drop them in together, extensions mixed, and every one comes back as a JPEG. Batch size depends on your plan." } },
-                { "@type": "Question", "name": "What happens to my files after conversion?", "acceptedAnswer": { "@type": "Answer", "text": "They are streamed into memory on our encoder, converted, and discarded. Nothing is written to disk and nothing is logged. EXIF is preserved unless you tick the strip option before converting." } }
+                { "@type": "Question", "name": "What happens to my files after conversion?", "acceptedAnswer": { "@type": "Answer", "text": "They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, so turn the Strip EXIF toggle off before converting if you need the camera data kept." } }
             ]
         }
     </script>

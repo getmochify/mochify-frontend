@@ -25,7 +25,7 @@
             "featureList": [
                 "Preserves 10-bit dynamic range via Jpegli psychovisual quantization",
                 "Converts professional HDR containers to standard 8-bit JPEGs",
-                "Browser-side privacy (no file uploads to server)",
+                "Files streamed into memory on the encoder, never written to disk",
                 "Supports 10-bit HEIF/HIF formats from Fuji X-T5, Sony A7 IV, Canon R5"
             ],
             "applicationSubCategory": "Image Converter",
@@ -65,7 +65,7 @@
         </div>
 
         <div class="mb-16">
-            <ImageUpload types=".HEIF, .HIF" quality={90} output="jpg" showQuality={true} showTypes={false} compact queryParams="photography=1" showExifOption={true} showDayPass={true} />
+            <ImageUpload types=".HEIF, .HIF" quality={90} output="jpg" showQuality={true} showTypes={false} compact queryParams="photography=1" showExifOption={true} stripExifDefault={false} showDayPass={true} />
         </div>
 
         <section class="mt-10 mb-20 max-w-2xl mx-auto">
@@ -119,7 +119,7 @@
                     { q: "Do you see my photos?", a: "Never. Your images are processed in RAM and deleted the instant you download them." },
                     { q: "What is the difference?", a: "HIF stores 10-bit color data in a tiny file. JPG is the 8-bit global standard. Shoots in HIF, share in JPG." },
                     { q: "Does this keep Fuji film sims?", a: "Yes, Mochify preserves Fuji film simulations (Velvia, Classic Chrome, etc.) so your intended look stays intact." },
-                    { q: "What about EXIF metadata?", a: "By default, we preserve all camera metadata (ISO, Shutter, GPS). If you want to remove it for privacy, simply check the 'Strip Metadata' option before converting."}
+                    { q: "What about EXIF metadata?", a: "By default, we preserve all camera metadata (ISO, Shutter, GPS). If you want to remove it for privacy, add your files and then switch on the 'Strip EXIF' toggle before converting."}
                 ] as faq}
                     <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md transition-all">
                         <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-[#4A2C2C] list-none select-none">

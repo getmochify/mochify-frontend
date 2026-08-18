@@ -33,11 +33,17 @@
         queryParams = '',
         showExifOption = false,
         showSmartMode = false,
-        showDayPass = false
+        showDayPass = false,
+        // Stripping metadata is the safe default everywhere except the camera
+        // pages: a photographer converting HIF wants ISO, shutter, lens and
+        // copyright to survive the trip to JPEG. Those pages opt out, which does
+        // mean GPS rides along too, so the Strip EXIF toggle is always shown
+        // alongside it.
+        stripExifDefault = true
     } = props;
     const hasOutputOverride = $derived('output' in props);
 
-    let stripExif: boolean = $state(true);
+    let stripExif: boolean = $state(stripExifDefault);
     let smartCompress: boolean = $state(false);
     let isDragging: boolean = $state(false);
 
