@@ -81,6 +81,13 @@
             tag: "Photography"
         },
         {
+            name: "HEIF to JPG Converter",
+            slug: "solutions/heif-to-jpg",
+            desc: "Convert any HEIF variant to JPG: .heif, .heic and .hif, mixed in one batch.",
+            iconPaths: ["M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"],
+            tag: "Photography"
+        },
+        {
             name: "AVIF to JPG Converter",
             slug: "avif-to-jpg",
             desc: "Turn modern AVIF files into high-quality JPEGs that work with every app and device.",
@@ -183,6 +190,12 @@
             "position": 6,
             "name": "PNG to JPEG XL Converter",
             "url": "https://mochify.app/solutions/png-to-jxl"
+            },
+            {
+            "@type": "ListItem",
+            "position": 7,
+            "name": "HEIF to JPG Converter",
+            "url": "https://mochify.app/solutions/heif-to-jpg"
             }
         ]
         }

@@ -346,6 +346,11 @@ export const cards = [
 		eyebrow: 'TOOL',
 		title: 'HEIC/HEIF to PDF - Convert iPhone Photos to a PDF'
 	},
+	{
+		path: '/solutions/heif-to-jpg',
+		eyebrow: 'TOOL',
+		title: 'HEIF to JPG - Convert .heif, .heic and .hif Files'
+	},
 	{ path: '/solutions/hif-to-avif', eyebrow: 'TOOL', title: 'Convert HIF to AVIF (Fuji/Canon)' },
 	{ path: '/solutions/hif-to-jpg', eyebrow: 'TOOL', title: 'Convert HIF to JPG (Fuji/Canon)' },
 	{

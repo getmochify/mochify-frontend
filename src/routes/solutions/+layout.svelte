@@ -11,6 +11,7 @@
         'remove-background-webp': 'Remove Background to WebP',
         'hif-to-avif': 'HIF to AVIF',
         'hif-to-jpg': 'HIF to JPG',
+        'heif-to-jpg': 'HEIF to JPG',
         'heif-to-pdf': 'HEIF to PDF',
         'jxl-to-pdf': 'JXL to PDF',
         'webp-to-pdf': 'WebP to PDF',
