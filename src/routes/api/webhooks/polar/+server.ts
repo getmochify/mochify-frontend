@@ -11,6 +11,15 @@ import { PUBLIC_APP_URL } from '$env/static/public';
 import type { RequestHandler } from './$types';
 import { getPostHogClient } from '$lib/server/posthog';
 import { createAuth } from '$lib/auth';
+import { mintAbandonedCartDiscount, planForProduct } from '$lib/server/discounts';
+import { sendAbandonedCartEmails } from '$lib/server/emails/abandonedCart';
+import {
+	qualifyForRecovery,
+	claimCheckout,
+	attachDiscount,
+	settleConversion,
+	recoveryForDiscount
+} from '$lib/server/abandonedCart';
 
 async function sha256Hex(input: string): Promise<string> {
 	const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input));
@@ -167,14 +176,125 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			await updateUsageKv(kv, userId, plan, opsLimit);
 			await reseedBucket(userId, plan, opsLimit, periodEnd);
 			if (isActive) {
+				// Runs on all three of created/active/updated, not just active, so the
+				// follow-up cancel gets more than one attempt. See settleConversion.
+				const recovery = sub.discountId ? await recoveryForDiscount(db, sub.discountId) : null;
+				await settleConversion(db, platform?.env?.RESEND_API_KEY, userId, sub.discountId ?? null)
+					.catch((e) => console.error('[abandoned-cart] settle failed:', e));
+
 				const posthog = getPostHogClient();
 				posthog.capture({
 					distinctId: userId,
 					event: 'subscription_activated',
 					properties: { plan, ops_limit: opsLimit, webhook_event: event.type }
 				});
+				if (recovery) {
+					posthog.capture({
+						distinctId: userId,
+						event: 'abandoned_cart_converted',
+						properties: { plan, discount_code: recovery.discount_code, checkout_id: recovery.id }
+					});
+				}
 				await posthog.flush();
 			}
+			break;
+		}
+
+		// Checkout session timed out without being completed. This is the abandoned
+		// cart trigger. It is inert until `checkout.expired` is ticked on for this
+		// endpoint in the Polar dashboard — adding the case here is not enough.
+		case 'checkout.expired': {
+			const co = event.data;
+			const posthog = getPostHogClient();
+
+			const userId = await resolveUserId(db, {
+				externalId: co.externalCustomerId,
+				email: co.customerEmail
+			});
+			const email = co.customerEmail;
+			// Only subscription plans. A day pass checkout that expires is not a
+			// cart we have an offer for, and the discount is scoped to monthly
+			// subscription products anyway.
+			const target = planForProduct(co.productId);
+
+			const skip = !userId ? 'no_user' : !email ? 'no_email' : !target ? 'not_a_plan' : null;
+			if (skip) {
+				posthog.capture({
+					distinctId: userId ?? (email ?? 'anonymous'),
+					event: 'abandoned_cart_detected',
+					properties: { qualified: false, reason: skip }
+				});
+				await posthog.flush();
+				break;
+			}
+
+			const qualified = await qualifyForRecovery(db, userId!);
+			posthog.capture({
+				distinctId: userId!,
+				event: 'abandoned_cart_detected',
+				properties: {
+					qualified: qualified.ok,
+					reason: qualified.ok ? null : qualified.reason,
+					plan: target!.plan
+				}
+			});
+
+			if (!qualified.ok) {
+				await posthog.flush();
+				break;
+			}
+
+			// Claim before minting. A Polar redelivery that gets here concurrently
+			// loses this insert and exits, rather than minting a second live code.
+			const claimed = await claimCheckout(db, {
+				id: co.id,
+				userId: userId!,
+				email: email!,
+				productId: co.productId,
+				plan: target!.plan,
+				billing: target!.billing
+			});
+			if (!claimed) {
+				await posthog.flush();
+				break;
+			}
+
+			const discount = await mintAbandonedCartDiscount(userId!);
+			if (!discount) {
+				// The row stays claimed with no discount. Deliberate: retrying risks
+				// a duplicate mint, and the 30-day suppression will not trap the user
+				// forever. The console.error in mintAbandonedCartDiscount is the alert.
+				await posthog.flush();
+				break;
+			}
+
+			const emails = await sendAbandonedCartEmails(
+				platform?.env?.RESEND_API_KEY,
+				email!,
+				userId!,
+				{
+					plan: target!.plan,
+					// Always offer monthly. The discount is scoped to the monthly
+					// products, so linking someone back to an annual checkout would
+					// hand them a code Polar then refuses to apply.
+					billing: 'monthly',
+					code: discount.code,
+					appUrl: PUBLIC_APP_URL
+				}
+			);
+
+			await attachDiscount(db, co.id, discount, emails);
+
+			posthog.capture({
+				distinctId: userId!,
+				event: 'abandoned_cart_email_sent',
+				properties: {
+					plan: target!.plan,
+					discount_code: discount.code,
+					scheduled_followup: emails.followupId !== null
+				}
+			});
+			await posthog.flush();
 			break;
 		}
 

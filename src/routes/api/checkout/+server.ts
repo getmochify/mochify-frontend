@@ -3,6 +3,7 @@ import { env } from '$env/dynamic/private';
 import { redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getPostHogClient } from '$lib/server/posthog';
+import { discountIdForCode } from '$lib/server/abandonedCart';
 
 const POLAR_TIMEOUT_MS = 8000;
 
@@ -35,6 +36,21 @@ export const GET: RequestHandler = async ({ locals, url, platform }) => {
 		...(env.POLAR_SANDBOX === 'true' ? { server: 'sandbox' } : {})
 	});
 
+	// Recovery links from the abandoned cart email carry the minted code. Resolving
+	// it to a discount id here means the customer never has to copy and paste
+	// anything, which is the single biggest drop-off in a code-redemption flow.
+	//
+	// The lookup is scoped to the logged-in user's own rows, so a leaked code is
+	// useless to anyone else even before Polar's maxRedemptions cap applies.
+	let discountId: string | null = null;
+	const code = url.searchParams.get('code');
+	if (code && platform?.env?.DB) {
+		discountId = await discountIdForCode(platform.env.DB, user.id, code).catch((e) => {
+			console.error('[checkout] discount lookup failed:', e);
+			return null;
+		});
+	}
+
 	let checkoutUrl: string;
 	try {
 		const timeout = new Promise<never>((_, reject) =>
@@ -45,7 +61,8 @@ export const GET: RequestHandler = async ({ locals, url, platform }) => {
 				products: [productId],
 				successUrl: `${url.origin}/dashboard?upgraded=true`,
 				externalCustomerId: user.id,
-				customerEmail: user.email ?? undefined
+				customerEmail: user.email ?? undefined,
+				...(discountId ? { discountId } : {})
 			}),
 			timeout
 		]);
@@ -59,7 +76,7 @@ export const GET: RequestHandler = async ({ locals, url, platform }) => {
 	posthog.capture({
 		distinctId: user.id,
 		event: 'checkout_initiated',
-		properties: { plan, billing, $set: { email: user.email } }
+		properties: { plan, billing, recovered: discountId !== null, $set: { email: user.email } }
 	});
 	// Fire-and-forget — don't block the redirect waiting for PostHog.
 	const flushPromise = posthog.flush().catch(() => {});
