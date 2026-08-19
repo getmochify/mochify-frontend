@@ -223,6 +223,11 @@ export const cards = [
 		title: 'On-Device AI Agents - Image and PDF Optimization for Local Workflows'
 	},
 	{
+		path: '/guides/open-heif-files-on-windows',
+		eyebrow: 'GUIDE',
+		title: 'How to Open HEIF Files on Windows (or Convert Them to JPG)'
+	},
+	{
 		path: '/guides/optimizing-hero-images',
 		eyebrow: 'GUIDE',
 		title: 'Optimizing Hero Images: Fix LCP & Boost SEO with No Plugins'

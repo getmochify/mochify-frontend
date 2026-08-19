@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "How to Open HEIF Files on Windows (or Convert Them to JPG)",
+            description: "Windows needs two codec extensions to open HEIF files, and 10-bit camera HIFs often fail anyway. Every fix that works, plus the fast JPG route.",
+            url: "/guides/open-heif-files-on-windows",
+            category: "Image Formats",
+            readTime: "12 min read",
+            date: "August 19, 2026"
+        },
+        {
             title: "Should My Product Images Be AVIF or WebP in 2026?",
             description: "Neither, manually, on Shopify: the CDN already negotiates AVIF, WebP, or JPEG per browser. Manual conversion matters once you step outside that pipeline.",
             url: "/guides/should-my-product-images-be-avif-or-webp-in-2026",
@@ -78,7 +86,7 @@
             category: "Image Formats",
             readTime: "14 min read",
             date: "July 15, 2026",
-            lastUpdated: "August 6, 2026"
+            lastUpdated: "August 19, 2026"
         },
         {
             title: "AVIF to JPG: How to Convert AVIF Files on Any Device",
@@ -201,7 +209,7 @@
             category: "Quick Guides",
             readTime: "3 min read",
             date: "June 13, 2026",
-            lastUpdated: "August 7, 2026"
+            lastUpdated: "August 19, 2026"
         },
         {
             title: "Does Converting HIF to JPG Reduce Quality?",

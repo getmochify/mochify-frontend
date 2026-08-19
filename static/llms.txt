@@ -286,6 +286,7 @@ MCP Server:     https://mcp.mochify.app
 MCP Guide:      https://mochify.app/guides/mochify-mcp-image-compression-agent-2026
 MCP Deep Dive:  https://mochify.app/guides/how-the-mochify-mcp-server-works
 Retention FAQ:  https://mochify.app/guides/why-we-relaxed-zero-retention-for-mcp
+Windows HEIF:   https://mochify.app/guides/open-heif-files-on-windows
 
 Magic Flow is the default tab on the homepage; /flow is the same prompt-driven experience as a standalone app surface (it is noindex and not linked from the marketing nav).
 

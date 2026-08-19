@@ -30,7 +30,10 @@
     const openIssues = [
         {
             platform: 'Windows',
-            detail: 'Needs two pieces: the HEIF Image Extension, free and bundled with Windows 11, plus the HEVC Video Extensions, which cost $0.99 in the Microsoft Store because of HEVC patent licensing. Without the second one, Photos opens the container and finds image data it cannot decode.'
+            detail: 'Needs two pieces: the HEIF Image Extension, free and bundled with Windows 11, plus the HEVC Video Extensions, which cost $0.99 in the Microsoft Store because of HEVC patent licensing. Without the second one, Photos opens the container and finds image data it cannot decode.',
+            moreLabel: 'Full fix-by-fix walkthrough:',
+            moreHref: 'https://mochify.app/guides/open-heif-files-on-windows',
+            moreText: 'opening HEIF files on Windows'
         },
         {
             platform: 'Browsers',
@@ -209,7 +212,12 @@
                     {#each openIssues as issue (issue.platform)}
                         <div class="bg-white p-5 rounded-2xl border border-pink-50 shadow-sm">
                             <h3 class="font-black text-[#4A2C2C] text-sm mb-1.5">{issue.platform}</h3>
-                            <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">{issue.detail}</p>
+                            <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">
+                                {issue.detail}{#if issue.moreHref}
+                                    {' '}{issue.moreLabel}
+                                    <a href={issue.moreHref} class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">{issue.moreText}</a>.
+                                {/if}
+                            </p>
                         </div>
                     {/each}
                 </div>

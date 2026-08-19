@@ -9,7 +9,7 @@
         category: "Quick Guides",
         readTime: "3 min read",
         date: "June 13, 2026",
-        lastUpdated: "August 7, 2026"
+        lastUpdated: "August 19, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -41,7 +41,7 @@
         "description": "A HIF file is a 10-bit HEIF photo from Canon, Sony and Fujifilm cameras. Here is what it is and how to open one on macOS, Windows, iOS and Linux.",
         "url": "https://mochify.app/guides/what-is-a-hif-file",
         "datePublished": "2026-06-13",
-        "dateModified": "2026-08-07",
+        "dateModified": "2026-08-19",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -127,7 +127,7 @@
             <ul class="list-disc pl-6 space-y-2 my-4">
                 <li><strong class="text-[#4A2C2C]">macOS:</strong> No setup needed. Finder, Preview, and Photos have opened HEIF natively since High Sierra (10.13, 2017). Select the file and press spacebar to preview, or double-click to open (<a href="https://support.apple.com/en-us/116944" target="_blank" rel="noopener noreferrer">Apple Support</a>).</li>
                 <li><strong class="text-[#4A2C2C]">iOS / iPadOS:</strong> Transfer the file by AirDrop, cable, or SD card reader. Photos and Files open it with no extras.</li>
-                <li><strong class="text-[#4A2C2C]">Windows 10 and 11:</strong> Install "HEIF Image Extensions" (free) and "HEVC Video Extensions" from the Microsoft Store. With both in place, the Photos app opens <code class={inlineCode}>.HIF</code> files.</li>
+                <li><strong class="text-[#4A2C2C]">Windows 10 and 11:</strong> Install "HEIF Image Extensions" (free) and "HEVC Video Extensions" from the Microsoft Store. With both in place, the Photos app opens <code class={inlineCode}>.HIF</code> files. If they refuse to open even with both installed, see <a href="https://mochify.app/guides/open-heif-files-on-windows">how to open HEIF files on Windows</a> for the fixes that work on 10-bit camera files.</li>
                 <li><strong class="text-[#4A2C2C]">Linux:</strong> Install libheif. It provides command-line viewers, and image apps such as Eye of GNOME and Geeqie can then display <code class={inlineCode}>.HIF</code>.</li>
             </ul>
 
@@ -160,7 +160,7 @@
                 {#each related as guide}
                     <li>
                         <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
+                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>

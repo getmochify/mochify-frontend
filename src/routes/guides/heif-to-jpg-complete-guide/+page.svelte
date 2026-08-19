@@ -11,7 +11,7 @@
         category: "Image Formats",
         readTime: "14 min read",
         date: "July 15, 2026",
-        lastUpdated: "August 6, 2026"
+        lastUpdated: "August 19, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -99,7 +99,7 @@
             "@id": "https://mochify.app/guides/heif-to-jpg-complete-guide"
         },
         "datePublished": "2026-07-15",
-        "dateModified": "2026-08-06",
+        "dateModified": "2026-08-19",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -156,7 +156,7 @@
         "description": "Convert HEIF (.HIF) files from Canon, Sony, and Fujifilm cameras to universally compatible JPG. Every method, the quality trade-offs, and batch workflows.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-15",
-        "dateModified": "2026-08-06"
+        "dateModified": "2026-08-19"
         }
     </script>
 
@@ -281,7 +281,7 @@
             <p>HEIF support has been built into macOS since High Sierra. Open the file in Preview or Photos, choose File, then Export, pick JPEG, set quality, save. Preview's "Export Selected Images" handles small batches. Note that Canon HDR PQ files come out as SDR JPEGs with automatic tone mapping - expect the exported file to look flatter than the HDR original did on an HDR display.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Windows: codecs first, then Photos</h3>
-            <p>Install the free HEIF Image Extension from the Microsoft Store plus the $0.99 HEVC Video Extensions, and the Photos app can open <code class={inlineCode}>.HIF</code> files and save them as JPEG. Skip the codecs and you get "we can't open this file." For batches, IrfanView or ImageMagick built with libheif support remain the reliable free options.</p>
+            <p>Install the free HEIF Image Extension from the Microsoft Store plus the $0.99 HEVC Video Extensions, and the Photos app can open <code class={inlineCode}>.HIF</code> files and save them as JPEG. Skip the codecs and you get "we can't open this file." For batches, IrfanView or ImageMagick built with libheif support remain the reliable free options. If the codecs are installed and a 10-bit <code class={inlineCode}>.HIF</code> still will not open - a common failure on pro-camera files - our <a href="https://mochify.app/guides/open-heif-files-on-windows">Windows HEIF troubleshooting guide</a> covers every route that works.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Lightroom and Camera Raw</h3>
             <p><a href="https://helpx.adobe.com/lightroom-cc/kb/heic-files-support.html" target="_blank" rel="noopener noreferrer">Adobe's support matrix</a> confirms Lightroom Classic, Lightroom, and Camera Raw read HEIF files including the <code class={inlineCode}>.HIF</code> extension directly (macOS 10.13+, Windows 10+; Windows needs the Microsoft codecs installed). Import, edit, export as JPEG - the standard workflow, with full quality control. Photoshop on Windows likewise requires both Microsoft codecs.</p>
