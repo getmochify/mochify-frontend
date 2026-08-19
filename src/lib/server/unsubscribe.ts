@@ -73,10 +73,14 @@ export function unsubscribeUrl(appUrl: string, token: string): string {
  */
 export async function setMarketingOptOut(db: D1Database, userId: string): Promise<void> {
 	const now = Date.now();
+	// ops_limit 25 matches the free tier on /pricing and the seed the dashboard's
+	// own upserts use. The Polar webhook seeds 30 on downgrade, a pre-existing
+	// inconsistency; copying 30 here would quietly hand a free user 5 extra ops
+	// for the sin of unsubscribing.
 	await db
 		.prepare(
 			`INSERT INTO profile (user_id, plan, ops_limit, marketing_opt_out, created_at, updated_at)
-			 VALUES (?, 'free', 30, 1, ?, ?)
+			 VALUES (?, 'free', 25, 1, ?, ?)
 			 ON CONFLICT(user_id) DO UPDATE SET marketing_opt_out = 1, updated_at = ?`
 		)
 		.bind(userId, now, now, now)

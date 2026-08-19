@@ -16,6 +16,7 @@ Scope: `mochify-frontend` only. No changes needed in `mochify-core` or the MCP w
 | `src/lib/server/unsubscribe.ts` | Signed opt-out tokens, opt-out write |
 | `src/routes/unsubscribe/+page.svelte`, `+page.server.ts` | Confirm page and opt-out action |
 | `src/routes/unsubscribe/one-click/+server.ts` | RFC 8058 one-click endpoint |
+| `src/routes/dashboard/**` | "Offers and reminders" toggle, mirroring the AI consent card |
 | `src/routes/api/webhooks/polar/+server.ts` | `checkout.expired` case, conversion settle |
 | `src/routes/api/checkout/+server.ts` | Auto-applies a minted code from an email link |
 
@@ -325,6 +326,39 @@ already being sent, it needs:
 Given Mochify's privacy positioning and the GDPR-focused guide content, getting
 this wrong is a brand problem as much as a legal one. Worth doing properly on the
 first pass.
+
+### Why marketing defaults on when AI consent defaults off
+
+The two flags have deliberately opposite polarity, and it is worth writing down
+so nobody later "fixes" one to match the other.
+
+- `ai_thirdparty_optin` defaults to **0, off**. Sending a user's images to an
+  external provider is processing that needs affirmative consent. No consent, no
+  send.
+- `marketing_opt_out` defaults to **0, meaning they receive it**. UK PECR
+  reg 22 "soft opt-in" permits marketing email without prior consent where the
+  address was obtained *in the course of negotiations for a sale*, the marketing
+  is for your own similar products, and a simple means to refuse is offered both
+  at collection and in every message. An abandoned checkout is squarely
+  "negotiations for a sale", which is exactly why the trigger is scoped to
+  `checkout.expired` and not to, say, everyone who signed up.
+
+Three conditions, and the build satisfies two and a half:
+
+| Condition | Status |
+|---|---|
+| Obtained during negotiations for a sale | Met, by the `checkout.expired` trigger |
+| Own similar products | Met |
+| Simple refusal in every message | Met, unsubscribe link plus RFC 8058 header |
+| Simple refusal **at the point of collection** | **Not met** |
+
+**The remaining gap: registration.** There is no "don't send me offers" option on
+the signup form, so the refusal opportunity only exists after the fact, via the
+dashboard toggle and the in-email link. A dashboard preference is a reasonable
+compensating control and is what most SaaS ships, but the strict reading of
+reg 22 wants the choice offered when the address is captured. Adding an unticked
+checkbox to `/auth/register` that writes `marketing_opt_out` would close it
+properly. Small change, not yet done.
 
 ## Attribution
 

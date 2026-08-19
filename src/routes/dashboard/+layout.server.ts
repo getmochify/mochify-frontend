@@ -12,11 +12,18 @@ export const load = async ({ locals, platform }) => {
         ops_limit: number
         quota_period_end: string | null
         ai_thirdparty_optin: number
+        marketing_opt_out: number
     } = {
         plan: 'free',
         ops_limit: PLAN_LIMITS.free,
         quota_period_end: null,
         ai_thirdparty_optin: 0,
+        // Opposite polarity to ai_thirdparty_optin on purpose. Sending images to a
+        // third party needs affirmative consent, so that one defaults off. Marketing
+        // to someone who abandoned a checkout runs on PECR reg 22 soft opt-in, which
+        // is a right to refuse rather than a duty to obtain consent, so this defaults
+        // to 0 (they receive it) and the toggle below is how they refuse.
+        marketing_opt_out: 0,
     }
 
     const db = platform?.env?.DB
@@ -26,7 +33,13 @@ export const load = async ({ locals, platform }) => {
             const kysely = new Kysely<any>({ dialect: new D1Dialect({ database: db }) })
             const row = await kysely
                 .selectFrom('profile')
-                .select(['plan', 'ops_limit', 'quota_period_end', 'ai_thirdparty_optin'])
+                .select([
+                    'plan',
+                    'ops_limit',
+                    'quota_period_end',
+                    'ai_thirdparty_optin',
+                    'marketing_opt_out',
+                ])
                 .where('user_id', '=', locals.user.id)
                 .executeTakeFirst()
 
@@ -36,6 +49,7 @@ export const load = async ({ locals, platform }) => {
                     ops_limit: row.ops_limit ?? PLAN_LIMITS[row.plan ?? 'free'] ?? PLAN_LIMITS.free,
                     quota_period_end: row.quota_period_end ?? null,
                     ai_thirdparty_optin: row.ai_thirdparty_optin ?? 0,
+                    marketing_opt_out: row.marketing_opt_out ?? 0,
                 }
             }
         } catch (e) {

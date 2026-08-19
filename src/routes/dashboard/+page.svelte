@@ -32,6 +32,12 @@
 	let aiOptin = $state(false);
 	let aiSaving = $state(false);
 
+	// Marketing email. Tracked as "emails on" rather than as the stored opt-out
+	// flag so the switch reads the same way round as every other toggle here:
+	// on means you get them. Inverted back to opt_out at submit time.
+	let marketingOn = $state(true);
+	let marketingSaving = $state(false);
+
 	let isPro = $derived(data.profile?.plan === 'pro');
 	let isSeller = $derived(data.profile?.plan === 'seller');
 	let isDay = $derived(data.profile?.plan === 'day');
@@ -127,6 +133,7 @@
 	onMount(() => {
 		quotaOps = data.profile?.ops_limit ?? 30;
 		aiOptin = data.profile?.ai_thirdparty_optin === 1;
+		marketingOn = data.profile?.marketing_opt_out !== 1;
 		justUpgraded = new URLSearchParams(window.location.search).get('upgraded') === 'true';
 		loadUsage();
 	});
@@ -469,6 +476,65 @@
 				{aiOptin
 					? 'Generative features may process your images via third parties.'
 					: "All processing stays on Mochify's own in-memory pipeline — nothing leaves to a third party."}
+			</p>
+		</div>
+
+		<!-- Marketing email preference -->
+		<div class="mb-6 rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
+			<div class="flex items-start justify-between gap-4">
+				<div class="min-w-0">
+					<div class="flex items-center gap-2">
+						<h2 class="font-black text-[#4A2C2C]">Offers and reminders</h2>
+						<span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide {marketingOn ? 'bg-[#A5D6A7]/30 text-[#2E5C31]' : 'bg-[#FFF0F5] text-mochi-pink'}">
+							{marketingOn ? 'On' : 'Off'}
+						</span>
+					</div>
+					<p class="mt-1 text-sm text-[#875F42]/60">
+						Occasional email about upgrades and discounts, such as a reminder if you start
+						setting up a plan and do not finish.
+						<strong class="font-bold text-[#875F42]/80">Never more than a couple a month.</strong>
+						Turning this off never affects account email like sign-in links and receipts.
+					</p>
+				</div>
+				<form
+					method="POST"
+					action="?/setMarketingOptOut"
+					class="shrink-0 pt-1"
+					use:enhance={() => {
+						const desired = !marketingOn;
+						marketingSaving = true;
+						return async ({ result }) => {
+							marketingSaving = false;
+							if (result.type === 'success') {
+								marketingOn = desired;
+								posthog.capture('marketing_optout_changed', { opt_out: !desired });
+							}
+						};
+					}}
+				>
+					<input type="hidden" name="opt_out" value={marketingOn ? '1' : '0'} />
+					<button
+						type="submit"
+						role="switch"
+						aria-checked={marketingOn}
+						aria-label="Toggle offers and reminders email"
+						disabled={marketingSaving}
+						class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors disabled:opacity-50 {marketingOn
+							? 'bg-[#66BB6A]'
+							: 'bg-[#875F42]/20'}"
+					>
+						<span
+							class="inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform {marketingOn
+								? 'translate-x-[22px]'
+								: 'translate-x-0.5'}"
+						></span>
+					</button>
+				</form>
+			</div>
+			<p class="mt-3 text-xs text-[#875F42]/40">
+				{marketingOn
+					? 'You can also unsubscribe from the link in any of these emails.'
+					: "You will not receive offers or reminders. Sign-in links and receipts still arrive."}
 			</p>
 		</div>
 

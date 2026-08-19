@@ -228,6 +228,54 @@ export const actions = {
         return { success: true, optin }
     },
 
+    // Marketing email preference. Note the inverted polarity against setAiOptin:
+    // the AI consent is opt-IN (default off, because sending images to a third
+    // party needs affirmative consent), while this is opt-OUT (default on, under
+    // PECR reg 22 soft opt-in, which grants a right to refuse rather than
+    // requiring consent up front). Same upsert reasoning as above: free users may
+    // have no profile row, and an existing row must only have the one column
+    // touched so a paid user's plan and limits are never disturbed.
+    setMarketingOptOut: async ({ request, locals, platform }) => {
+        if (!locals.user) return fail(401, { error: 'Not authenticated' })
+
+        const db = platform?.env?.DB
+        if (!db) return fail(500, { error: 'Database unavailable' })
+
+        const form = await request.formData()
+        const optOut = form.get('opt_out') === '1' ? 1 : 0
+        const now = Date.now()
+
+        try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const kysely = new Kysely<any>({ dialect: new D1Dialect({ database: db }) })
+            await kysely
+                .insertInto('profile')
+                .values({
+                    user_id: locals.user.id,
+                    plan: 'free',
+                    polar_subscription_id: null,
+                    polar_customer_id: null,
+                    quota_period_end: null,
+                    ops_limit: 25,
+                    marketing_opt_out: optOut,
+                    created_at: now,
+                    updated_at: now,
+                })
+                .onConflict((oc) =>
+                    oc.column('user_id').doUpdateSet({
+                        marketing_opt_out: optOut,
+                        updated_at: now,
+                    })
+                )
+                .execute()
+        } catch (e) {
+            console.error('[dashboard] setMarketingOptOut failed:', e)
+            return fail(500, { error: 'Could not save your preference' })
+        }
+
+        return { success: true, optOut }
+    },
+
     // Save (create or update) the bucket connection. The plaintext secret passes
     // through this worker in memory on its way to the tokens worker, which owns
     // the encryption key — it is never written to D1 from here and never logged.
