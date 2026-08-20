@@ -20,6 +20,7 @@ import {
 	settleConversion,
 	recoveryForDiscount
 } from '$lib/server/abandonedCart';
+import { mirrorPlan } from '$lib/server/resendContacts';
 
 async function sha256Hex(input: string): Promise<string> {
 	const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input));
@@ -175,6 +176,11 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				.execute();
 			await updateUsageKv(kv, userId, plan, opsLimit);
 			await reseedBucket(userId, plan, opsLimit, periodEnd);
+			// Keep the Resend contact's `tier` property honest. Segments are built
+			// on it, so a subscriber left sitting at `free` would keep receiving the
+			// upgrade nudges they have just paid to stop seeing. Awaited after the
+			// D1 write like every other mirror, and it swallows its own errors.
+			await mirrorPlan(db, platform?.env?.RESEND_API_KEY, userId);
 			if (isActive) {
 				// Runs on all three of created/active/updated, not just active, so the
 				// follow-up cancel gets more than one attempt. See settleConversion.
@@ -337,6 +343,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				.execute();
 			await updateUsageKv(kv, userId, tier.plan, tier.ops_limit);
 			await reseedBucket(userId, tier.plan, tier.ops_limit, periodEnd);
+			await mirrorPlan(db, platform?.env?.RESEND_API_KEY, userId);
 			break;
 		}
 
@@ -375,6 +382,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				.execute();
 			await updateUsageKv(kv, userId, 'free', 30);
 			await reseedBucket(userId, 'free', 30, null);
+			await mirrorPlan(db, platform?.env?.RESEND_API_KEY, userId);
 			const posthog = getPostHogClient();
 			posthog.capture({
 				distinctId: userId,
@@ -439,6 +447,10 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				.execute();
 
 			await reseedBucket(userRow.id, 'day', 500, quotaPeriodEnd);
+			// A first-time day-pass buyer was only just created by the magic link
+			// above and is not verified until they click it, so mirrorPlan declines
+			// to create the contact here — afterEmailVerification picks them up.
+			await mirrorPlan(db, platform?.env?.RESEND_API_KEY, userRow.id);
 
 			const posthog = getPostHogClient();
 			posthog.capture({

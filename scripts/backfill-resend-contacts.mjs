@@ -7,7 +7,9 @@
 // src/lib/auth.ts); this only exists to catch up the accounts that predate that.
 // Safe to re-run: it reads each contact before writing and skips ones already in
 // the right state, so a second pass costs reads and changes nothing. That also
-// makes it the repair tool if the mirror is ever suspected of having drifted.
+// makes it the repair tool if the mirror is ever suspected of having drifted —
+// including the `tier` and `signup_date` properties, which contacts created
+// before those existed are missing entirely until this runs over them.
 //
 // Rules match the live sync exactly, and each exclusion is deliberate:
 //   - unverified addresses are skipped (bounce risk on the sending domain)
@@ -31,7 +33,8 @@ if (!API_KEY) {
 const resend = new Resend(API_KEY);
 
 const SQL = `
-	SELECT u.email AS email, u.name AS name, p.marketing_opt_out AS opt_out
+	SELECT u.email AS email, u.name AS name, u.createdAt AS created_at,
+	       p.marketing_opt_out AS opt_out, p.plan AS plan
 	FROM user u
 	LEFT JOIN profile p ON p.user_id = u.id
 	WHERE u.emailVerified = 1 AND u.deleted_at IS NULL
@@ -49,16 +52,44 @@ function readUsers() {
 
 const firstNameOf = (name) => name?.trim().split(/\s+/)[0] || undefined;
 
+// Keep these three in step with src/lib/server/resendContacts.ts. They are copied
+// rather than imported because this runs under plain node, outside the SvelteKit
+// module graph the $lib alias belongs to.
+function signupDate(value) {
+	if (value === null || value === undefined || value === '') return undefined;
+	const ms = typeof value === 'number' ? value : /^\d+$/.test(value) ? Number(value) : value;
+	const date = new Date(ms);
+	return Number.isNaN(date.getTime()) ? undefined : date.toISOString().slice(0, 10);
+}
+
+function propertiesFor(row) {
+	const signedUp = signupDate(row.created_at);
+	return {
+		tier: row.plan ?? 'free',
+		...(signedUp ? { signup_date: signedUp } : {})
+	};
+}
+
+// Resend returns properties as `{ key: { type, value } }`; we hold plain values.
+const propertiesMatch = (existing, desired) =>
+	Object.entries(desired).every(([key, value]) => existing?.[key]?.value === value);
+
 // Mirrors syncContact() in src/lib/server/resendContacts.ts: read first, because
 // create against an existing address does not reliably overwrite `unsubscribed`.
 async function syncOne(row) {
 	const unsubscribed = row.opt_out === 1;
+	const properties = propertiesFor(row);
 	const existing = await resend.contacts.get({ email: row.email });
 
 	if (existing.data) {
-		if (existing.data.unsubscribed === unsubscribed) return 'unchanged';
+		if (
+			existing.data.unsubscribed === unsubscribed &&
+			propertiesMatch(existing.data.properties, properties)
+		) {
+			return 'unchanged';
+		}
 		if (DRY_RUN) return 'would-update';
-		const { error } = await resend.contacts.update({ email: row.email, unsubscribed });
+		const { error } = await resend.contacts.update({ email: row.email, unsubscribed, properties });
 		if (error) throw new Error(`update: ${error.name} ${error.message}`);
 		return 'updated';
 	}
@@ -67,6 +98,7 @@ async function syncOne(row) {
 	const { error } = await resend.contacts.create({
 		email: row.email,
 		unsubscribed,
+		properties,
 		...(firstNameOf(row.name) ? { firstName: firstNameOf(row.name) } : {})
 	});
 	if (error) throw new Error(`create: ${error.name} ${error.message}`);

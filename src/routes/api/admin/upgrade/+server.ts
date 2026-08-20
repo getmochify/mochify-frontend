@@ -7,6 +7,7 @@ import { env } from '$env/dynamic/private';
 // silently skip the token-bucket reseed, leaving upgraded users on their old quota.
 import { CF_WORKER_URL, CF_WORKER_TOKEN } from '$env/static/private';
 import type { RequestHandler } from './$types';
+import { mirrorPlan } from '$lib/server/resendContacts';
 
 const PLAN_CONFIG: Record<string, { ops_limit: number }> = {
 	pro: { ops_limit: 1200 },
@@ -131,6 +132,9 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 	const kv = platform?.env?.USAGE_KV;
 	await updateUsageKv(kv, userId, plan, ops_limit);
 	await reseedBucket(userId, plan, ops_limit, periodEnd);
+	// Same mirror the Polar webhook runs, so a hand-granted plan is not the one
+	// path that leaves the Resend `tier` property behind.
+	await mirrorPlan(db, platform?.env?.RESEND_API_KEY, userId);
 
 	console.log(`[admin/upgrade] ${email} (${userId}) → ${plan}`);
 
