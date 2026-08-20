@@ -67,6 +67,33 @@ body {
     @apply pl-5;
   }
 
+  /* Content list rhythm.
+     Preflight resets `ul`/`ol` margins to 0, and guide paragraphs only carry a
+     margin-bottom — so a `<p>` directly after a list had no gap above it.
+     Restore a block gap matching the 1.25em the typography plugin gives
+     `.prose` lists, so guides and prose pages share one rhythm.
+
+     These live in `base` on purpose: authored utilities (`mb-6`, `my-4`, and
+     the deliberate `list-none p-0 m-0` card lists) sit in the `utilities`
+     layer and still win, so this only fills in the missing default. */
+  article ul,
+  article ol {
+    margin-bottom: 1.25rem;
+  }
+
+  /* Nested lists belong to their parent item, not the block flow. */
+  article li > ul,
+  article li > ol {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+  }
+
+  /* A list closing a section shouldn't add trailing space. */
+  article ul:last-child,
+  article ol:last-child {
+    margin-bottom: 0;
+  }
+
   .prose ol > li::marker,
   .prose ul > li::marker {
     color: var(--cocoa-deep);

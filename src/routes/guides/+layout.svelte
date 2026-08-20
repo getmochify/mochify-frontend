@@ -93,6 +93,15 @@
         margin-bottom: 0;
     }
 
+    /* List items share the paragraph text colour. Without this they inherit the
+       lighter `--cocoa-deep` (#6C3F31) from `article`, so bullets and numbered
+       items read visibly warmer than the paragraphs around them - and lighter
+       than their own `<strong>`, which is already #4A2C2C.
+       Body text only: `marker:text-*` utilities still colour the bullets. */
+    :global(article li) {
+        color: #4A2C2C;
+    }
+
     /* FAQ rhythm */
     :global(article .faq-item) {
         margin-bottom: 2.5rem;
