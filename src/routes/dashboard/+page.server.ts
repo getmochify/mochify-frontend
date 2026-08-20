@@ -3,6 +3,7 @@ import { Polar } from '@polar-sh/sdk'
 import { env } from '$env/dynamic/private'
 import { Kysely } from 'kysely'
 import { D1Dialect } from 'kysely-d1'
+import { mirrorMarketingConsent, removeContact } from '$lib/server/resendContacts'
 import type { PageServerLoad } from './$types'
 
 const WORKER_URL = env.CF_WORKER_URL || 'https://id.mochify.app'
@@ -273,6 +274,12 @@ export const actions = {
             return fail(500, { error: 'Could not save your preference' })
         }
 
+        // Mirror onto the Resend contact so a broadcast honours the toggle that
+        // was just flipped here. Deliberately after the D1 write and not part of
+        // its try: D1 is the source of truth and already gates our own sending,
+        // so a Resend failure logs and leaves the mirror to the next change.
+        await mirrorMarketingConsent(db, platform?.env?.RESEND_API_KEY, locals.user.id, optOut === 1)
+
         return { success: true, optOut }
     },
 
@@ -397,6 +404,13 @@ export const actions = {
         // The hard delete revoked sessions via cascade; the soft delete must do
         // it explicitly so the user is signed out everywhere.
         await kysely.deleteFrom('session').where('userId', '=', locals.user.id).execute()
+
+        // Drop them from the Resend contact list now, not at purge time. The
+        // account survives 14 days so usage limits can't be reset by re-signup,
+        // but that is no reason to leave the address sitting in a third party's
+        // marketing list after someone asked to be deleted. Signing back in
+        // during the grace window re-adds it (see the session hook in auth.ts).
+        await removeContact(platform?.env?.RESEND_API_KEY, locals.user.email)
 
         // Purge KV session cache so the cookie is immediately invalid.
         const kv = platform?.env?.USAGE_KV

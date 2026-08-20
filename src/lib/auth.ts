@@ -7,6 +7,7 @@ import { Resend } from "resend";
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET } from "$env/static/private";
 import { PUBLIC_APP_URL } from "$env/static/public";
 import { getPostHogClient } from "$lib/server/posthog";
+import { syncContactFromProfile } from "$lib/server/resendContacts";
 
 // Which flow created the account, derived from the Better Auth endpoint that ran.
 // Mirrors better-auth's own last-login-method resolver, so the path shapes below
@@ -66,6 +67,17 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                             // Analytics must never block account creation.
                             console.error("[auth] signup capture failed:", e);
                         }
+
+                        // Marketing list. Gated on emailVerified because the
+                        // email/password flow creates this row BEFORE the address
+                        // is proven, and pushing typo'd or disposable addresses
+                        // onto a list we later broadcast to buys bounces on the
+                        // same domain the magic links go out on. Google OAuth and
+                        // magic-link users arrive here already verified; the
+                        // password flow is picked up by afterEmailVerification.
+                        if (user.emailVerified) {
+                            await syncContactFromProfile(db, resendKey, user.id);
+                        }
                     },
                 },
             },
@@ -76,12 +88,19 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                     // its userId, so usage counters carry over untouched.
                     after: async (session) => {
                         try {
-                            await kysely
+                            const res = await kysely
                                 .updateTable("user")
                                 .set({ deleted_at: null })
                                 .where("id", "=", session.userId)
                                 .where("deleted_at", "is not", null)
                                 .execute();
+                            // Rows only change on the sign-in that cancels a
+                            // pending deletion, so this stays off the hot path of
+                            // ordinary logins. deleteAccount removed the Resend
+                            // contact; restore it at whatever consent D1 holds,
+                            // which may well be opted out.
+                            const reactivated = res.some((r) => (r.numUpdatedRows ?? 0n) > 0n);
+                            if (reactivated) await syncContactFromProfile(db, resendKey, session.userId);
                         } catch (e) {
                             console.error("[auth] clearing deleted_at failed:", e);
                         }
@@ -109,6 +128,13 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
         emailVerification: {
             sendOnSignUp: true,
             autoSignInAfterVerification: true,
+            // Counterpart to the create hook: for email/password signups this is
+            // the first moment the address is known to deliver. Syncing from the
+            // profile rather than forcing unsubscribed:false matters here, since
+            // this also fires when an existing user verifies a changed address.
+            afterEmailVerification: async (user) => {
+                await syncContactFromProfile(db, resendKey, user.id);
+            },
             sendVerificationEmail: async ({ user, url }) => {
                 if (!resend) return;
                 try {

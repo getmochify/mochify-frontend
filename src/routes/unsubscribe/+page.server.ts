@@ -33,7 +33,11 @@ export const actions: Actions = {
 		}
 
 		try {
-			await setMarketingOptOut(db, userId);
+			// Resend key passed so the contact is flipped in the same breath: a
+			// broadcast going out an hour later must not reach someone who used
+			// this page. A Resend failure is logged, not surfaced — the D1 write
+			// has already stopped the sending we control.
+			await setMarketingOptOut(db, userId, platform?.env?.RESEND_API_KEY);
 		} catch (e) {
 			console.error('[unsubscribe] opt-out write failed:', e);
 			return fail(500, {

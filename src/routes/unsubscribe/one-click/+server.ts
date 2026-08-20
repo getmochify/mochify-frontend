@@ -1,4 +1,5 @@
 import { verifyUnsubscribeToken, setMarketingOptOut } from '$lib/server/unsubscribe';
+import { mirrorMarketingConsent } from '$lib/server/resendContacts';
 import type { RequestHandler } from './$types';
 
 // RFC 8058 one-click unsubscribe. This is the target of the List-Unsubscribe /
@@ -31,6 +32,14 @@ export const POST: RequestHandler = async ({ url, platform }) => {
 	} catch (e) {
 		console.error('[unsubscribe] one-click opt-out write failed:', e);
 	}
+
+	// The Resend contact is mirrored out of band rather than awaited. The mail
+	// provider is holding this request open and scores a slow response against
+	// us, and the D1 write above is the one that actually stops our sending —
+	// the mirror only matters to a broadcast, which is minutes away at best.
+	const mirror = mirrorMarketingConsent(db, platform?.env?.RESEND_API_KEY, userId, true);
+	if (platform?.context?.waitUntil) platform.context.waitUntil(mirror);
+	else await mirror;
 
 	return new Response(null, { status: 200 });
 };

@@ -1,4 +1,5 @@
 import { BETTER_AUTH_SECRET } from '$env/static/private';
+import { mirrorMarketingConsent } from './resendContacts';
 
 // One-click unsubscribe for marketing email. The token is self-contained and
 // HMAC-signed so the link works with no session: requiring a login to opt out is
@@ -70,9 +71,33 @@ export function unsubscribeUrl(appUrl: string, token: string): string {
  * Record the opt-out. Upserts because free users may not have a profile row yet
  * (the same reason /dashboard upserts) — a bare UPDATE would silently affect
  * zero rows and we would keep emailing someone who asked us not to.
+ *
+ * Pass `resendKey` to mirror the change onto the Resend contact. The D1 write
+ * happens first and is what gates sending, so a Resend failure downgrades to a
+ * stale mirror rather than a lost opt-out.
  */
-export async function setMarketingOptOut(db: D1Database, userId: string): Promise<void> {
+export async function setMarketingOptOut(
+	db: D1Database,
+	userId: string,
+	resendKey?: string
+): Promise<void> {
+	await setMarketingPreference(db, userId, true);
+	if (resendKey) await mirrorMarketingConsent(db, resendKey, userId, true);
+}
+
+/**
+ * The D1 half on its own, in both directions. Separate from the above because
+ * the Resend webhook needs to write consent back *without* mirroring it out
+ * again — the change already came from Resend, and echoing it would have the two
+ * systems talking past each other over an unsubscribe neither of them owns.
+ */
+export async function setMarketingPreference(
+	db: D1Database,
+	userId: string,
+	optOut: boolean
+): Promise<void> {
 	const now = Date.now();
+	const flag = optOut ? 1 : 0;
 	// ops_limit 25 matches the free tier on /pricing and the seed the dashboard's
 	// own upserts use. The Polar webhook seeds 30 on downgrade, a pre-existing
 	// inconsistency; copying 30 here would quietly hand a free user 5 extra ops
@@ -80,9 +105,9 @@ export async function setMarketingOptOut(db: D1Database, userId: string): Promis
 	await db
 		.prepare(
 			`INSERT INTO profile (user_id, plan, ops_limit, marketing_opt_out, created_at, updated_at)
-			 VALUES (?, 'free', 25, 1, ?, ?)
-			 ON CONFLICT(user_id) DO UPDATE SET marketing_opt_out = 1, updated_at = ?`
+			 VALUES (?, 'free', 25, ?, ?, ?)
+			 ON CONFLICT(user_id) DO UPDATE SET marketing_opt_out = ?, updated_at = ?`
 		)
-		.bind(userId, now, now, now)
+		.bind(userId, flag, now, now, flag, now)
 		.run();
 }
