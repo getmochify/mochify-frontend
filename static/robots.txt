@@ -4,6 +4,6 @@ Disallow: /auth/
 Disallow: /dashboard
 Disallow: /flow
 Disallow: /v2launch
-Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Sitemap: https://mochify.app/sitemap.xml
