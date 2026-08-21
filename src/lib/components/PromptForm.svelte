@@ -1765,7 +1765,13 @@
 						sharedParams.append('brightness', String(fileConfig.brightness));
 					if (fileConfig.clarity) sharedParams.append('clarity', '1');
 					if (fileConfig.optimizeForWeb) sharedParams.append('optimizeForWeb', '1');
-					if (fileConfig.hdr) sharedParams.append('hdr', '1');
+					// 'generate' rather than '1': the server preserves an existing gain
+					// map either way, and additionally synthesises one when the source
+					// has none. '1' is preserve-only, which for a user who typed "make
+					// it HDR" would silently do nothing on the SDR photos that are most
+					// of the uploads. Which happened is reported back in X-Mochify-HDR
+					// as 'true' (source's own headroom) vs 'generated' (invented).
+					if (fileConfig.hdr) sharedParams.append('hdr', 'generate');
 					if (fileConfig.quality != null)
 						sharedParams.append('quality', String(fileConfig.quality));
 
