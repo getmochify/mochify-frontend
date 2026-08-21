@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "Can WordPress 7.1 Optimize Images Without a Plugin?",
+            description: "Mostly, yes. WordPress 7.1 compresses, resizes, and converts HEIC images in-browser, but only in Chrome/Edge and only to fixed defaults.",
+            url: "/guides/can-wordpress-7-1-optimize-images-without-a-plugin",
+            category: "WordPress Performance",
+            readTime: "2 min read",
+            date: "August 21, 2026"
+        },
+        {
             title: "How to Open HEIF Files on Windows (or Convert Them to JPG)",
             description: "Windows needs two codec extensions to open HEIF files, and 10-bit camera HIFs often fail anyway. Every fix that works, plus the fast JPG route.",
             url: "/guides/open-heif-files-on-windows",

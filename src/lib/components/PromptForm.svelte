@@ -2266,7 +2266,7 @@
 
 				{#if files.length === 0}
 					<span class="text-sm font-medium text-[#875F42]/70"
-						>Add files — or just describe an image to generate one</span
+						>Add images, PDFs, or video</span
 					>
 				{/if}
 
@@ -2426,7 +2426,7 @@
 								Packing your zip file…
 							{/if}
 						{:else if files.length === 0}
-							Drop files — or just describe an image to generate one
+							Drop images, PDFs, or video
 						{:else if uploadMode === 'pdf'}
 							{files.length} {files.length === 1 ? 'PDF' : 'PDFs'} attached
 						{:else if uploadMode === 'video'}

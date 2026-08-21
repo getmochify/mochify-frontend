@@ -10,7 +10,7 @@
         category: "WordPress Optimization",
         readTime: "15 min read",
         datePublished: "February 09, 2026",
-        lastUpdated: "August 7, 2026"
+        lastUpdated: "August 21, 2026"
     };
 
     const related = [
@@ -111,7 +111,7 @@
             }
         ],
         "datePublished": "2026-02-09",
-        "dateModified": "2026-08-07"
+        "dateModified": "2026-08-21"
         }
     </script>
 </svelte:head>
@@ -581,7 +581,7 @@
                 </div>
                 <div>
                     <h4 class="font-bold text-[#4A2C2C] text-lg">Do I need a plugin to use WebP in WordPress?</h4>
-                    <p class="mt-2 text-[#6C3F31]">On modern WordPress, WebP uploads are supported natively (since 5.8), so a no-plugin workflow is viable.</p>
+                    <p class="mt-2 text-[#6C3F31]">On modern WordPress, WebP uploads are supported natively (since 5.8), so a no-plugin workflow is viable. Since WordPress 7.1 (August 2026), core also compresses and resizes uploads in the browser; see <a href="/guides/can-wordpress-7-1-optimize-images-without-a-plugin">what 7.1 optimizes natively without a plugin</a> for where that helps and where it stops.</p>
                 </div>
                 <div>
                     <h4 class="font-bold text-[#4A2C2C] text-lg">Is it safe to upload client/product images to Mochify?</h4>

@@ -4,7 +4,7 @@
 
 Site: https://mochify.app
 Brand: Mochify
-Last-updated: 2026-08-06
+Last-updated: 2026-08-21
 
 ## 1. Canonical description
 
@@ -287,6 +287,7 @@ MCP Guide:      https://mochify.app/guides/mochify-mcp-image-compression-agent-2
 MCP Deep Dive:  https://mochify.app/guides/how-the-mochify-mcp-server-works
 Retention FAQ:  https://mochify.app/guides/why-we-relaxed-zero-retention-for-mcp
 Windows HEIF:   https://mochify.app/guides/open-heif-files-on-windows
+WordPress 7.1:  https://mochify.app/guides/can-wordpress-7-1-optimize-images-without-a-plugin
 
 Magic Flow is the default tab on the homepage; /flow is the same prompt-driven experience as a standalone app surface (it is noindex and not linked from the marketing nav).
 

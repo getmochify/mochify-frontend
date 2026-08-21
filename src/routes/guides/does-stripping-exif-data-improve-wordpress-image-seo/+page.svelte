@@ -7,7 +7,8 @@
         description: "Stripping EXIF data doesn't improve WordPress image SEO rankings, but it trims file size and removes private location data.",
         category: "Quick Guides",
         readTime: "2 min read",
-        date: "August 7, 2026"
+        date: "August 7, 2026",
+        lastUpdated: "August 21, 2026"
     };
 
     const related = [
@@ -45,7 +46,7 @@
             "@id": "https://mochify.app/guides/does-stripping-exif-data-improve-wordpress-image-seo"
         },
         "datePublished": "2026-08-07",
-        "dateModified": "2026-08-07",
+        "dateModified": "2026-08-21",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -101,7 +102,7 @@
         "description": "Stripping EXIF data doesn't improve WordPress image SEO rankings, but it trims file size and removes private location data.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-08-07",
-        "dateModified": "2026-08-07"
+        "dateModified": "2026-08-21"
         }
     </script>
 </svelte:head>
@@ -114,7 +115,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -143,7 +144,7 @@
 
         <section id="what-actually-happens-in-wordpress">
             <SectionHeading>What actually happens in WordPress</SectionHeading>
-            <p>The original upload keeps its EXIF data, but visitors and Googlebot usually see the generated intermediate sizes, and whether those retain metadata depends on the image library WordPress is using. GD, the default on many hosts, typically strips EXIF and IPTC on resize; Imagick can preserve it. A <a href="https://core.trac.wordpress.org/ticket/11877" target="_blank" rel="noopener noreferrer">long-standing WordPress Trac ticket</a> documents this behavior. So the real question for most sites isn't whether to strip EXIF, it's which processing path the host is actually using.</p>
+            <p>The original upload keeps its EXIF data, but visitors and Googlebot usually see the generated intermediate sizes, and whether those retain metadata depends on the image library WordPress is using. GD, the default on many hosts, typically strips EXIF and IPTC on resize; Imagick can preserve it. A <a href="https://core.trac.wordpress.org/ticket/11877" target="_blank" rel="noopener noreferrer">long-standing WordPress Trac ticket</a> documents this behavior. So the real question for most sites isn't whether to strip EXIF, it's which processing path the host is actually using. (WordPress 7.1 added a third path - <a href="/guides/can-wordpress-7-1-optimize-images-without-a-plugin">browser-side processing</a> - so the answer now also depends on the uploader's browser.)</p>
             <p>If you're compressing images through Mochify before upload, you control this directly rather than leaving it to whatever library the host picked. Describe it in plain English: <em>"compress these product photos and strip all metadata"</em> tells Magic Flow exactly what to do, rather than relying on a default you can't see.</p>
         </section>
 

@@ -58,6 +58,11 @@ export const cards = [
 	},
 	{ path: '/guides/can-safari-open-heic-images', eyebrow: 'GUIDE', title: 'Can Safari Open HEIC Images on the Web?' },
 	{
+		path: '/guides/can-wordpress-7-1-optimize-images-without-a-plugin',
+		eyebrow: 'GUIDE',
+		title: 'Can WordPress 7.1 Optimize Images Without a Plugin?'
+	},
+	{
 		path: '/guides/chrome-145-jpeg-xl-default',
 		eyebrow: 'GUIDE',
 		title: 'Does Chrome 145 Enable JPEG XL by Default?'
