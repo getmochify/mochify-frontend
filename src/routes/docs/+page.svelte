@@ -308,7 +308,8 @@
                                     <code class="font-mono text-[#F06292] font-bold">hdr</code>
                                     <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">false</span>
                                     <div>
-                                        <p class="text-[#6C3F31]">Preserve HDR gain map as Ultra HDR / ISO 21496-1 JPEG. Silently ignored if the source image is not HDR. Accepts <code class="font-mono text-xs">1</code> or <code class="font-mono text-xs">true</code>.</p>
+                                        <p class="text-[#6C3F31]">Ultra HDR / ISO 21496-1 gain map handling. <code class="font-mono text-xs">1</code> or <code class="font-mono text-xs">true</code> <strong>preserves</strong> a gain map the source already has, and never invents one — silently ignored if the source is not HDR. <code class="font-mono text-xs">generate</code> does that <em>and</em> <strong>synthesises</strong> a gain map when the source is plain SDR.</p>
+                                        <p class="text-[#6C3F31] mt-2">Only <code class="font-mono text-xs">jpg</code> output can carry a gain map (<code class="font-mono text-xs">jxl</code> carries HDR by a different route; <code class="font-mono text-xs">avif</code>, <code class="font-mono text-xs">webp</code> and <code class="font-mono text-xs">png</code> cannot). Skipped when combined with <code class="font-mono text-xs">brightness</code>, <code class="font-mono text-xs">clarity</code> or <code class="font-mono text-xs">removeBackground</code>, since those change the base the gain map is a ratio to. Check <code class="font-mono text-xs">X-Mochify-HDR</code> for what was actually emitted.</p>
                                     </div>
                                 </div>
 
@@ -361,6 +362,10 @@
                                 <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm">
                                     <code class="font-mono text-[#F06292] font-bold">X-Mochify-BgRemoved</code>
                                     <p class="text-[#6C3F31]"><code class="font-mono text-xs">true</code> when background removal was applied.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Mochify-HDR</code>
+                                    <p class="text-[#6C3F31]">Only present when <code class="font-mono text-xs">hdr</code> was requested. <code class="font-mono text-xs">true</code> — the emitted file carries headroom the source captured. <code class="font-mono text-xs">generated</code> — headroom Mochify synthesised. <code class="font-mono text-xs">false</code> — the output carries none. It describes the bytes actually returned, so a format that cannot hold a gain map reports <code class="font-mono text-xs">false</code> even when the source was HDR.</p>
                                 </div>
                             </div>
                         </div>

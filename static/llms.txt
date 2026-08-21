@@ -106,7 +106,7 @@ Query parameters:
 - optimizeForWeb (default: false) -- progressive encoding + 4:2:0 chroma subsampling for smallest web file size
 - brightness (-100 to +100, default: 0) -- adjust exposure; 0 = no change
 - clarity (default: false) -- midtone contrast enhancement; makes images look crisper and more detailed without affecting overall exposure
-- hdr (default: false) -- preserve HDR gain map as Ultra HDR / ISO 21496-1 JPEG; silently ignored if source is not HDR
+- hdr (default: false) -- Ultra HDR / ISO 21496-1 gain map handling. Three values, and they are not interchangeable: `true` or `1` preserves a gain map the source already has and will never invent one; `generate` does that AND synthesises a gain map when the source is plain SDR. Requires JPEG output for synthesis; see section 12
 - dest (default: unset) -- set to `bucket` to write the result into the caller's connected bucket instead of returning image bytes; requires a verified connection on a paid plan (see section 11)
 - name -- object key to write when dest=bucket; required, because writes overwrite and the backend will not guess a filename
 
@@ -119,6 +119,7 @@ Response headers:
 - X-Mochify-Saliency -- saliency score 0.000-1.000 (smartCompress only)
 - X-Mochify-Quality -- effective quality used (smartCompress only)
 - X-Mochify-BgRemoved -- true when background was removed
+- X-Mochify-HDR -- only present when hdr was requested. Three values: `true` (the emitted file carries headroom the source captured), `generated` (headroom Mochify synthesised), `false` (the output carries none). Report these apart -- see section 12
 
 GET /v1/checkTokens -- returns { remaining, available }; works anonymously (IP-based) or with API key
 
@@ -250,13 +251,23 @@ Examples:
   "bring out the detail"
   "add clarity"
 
-### HDR preservation
-Preserves HDR gain maps as Ultra HDR (ISO 21496-1) JPEG. Silently ignored if the source is not HDR.
+### HDR
+Magic Flow sends `hdr=generate`, so a single phrasing covers both intents: an
+Ultra HDR source keeps its own gain map, and an ordinary SDR photo gets one
+synthesised. Users do not need to know which kind of file they uploaded, and
+assistants should not try to reason about it -- the source's HDR status is not
+visible from a filename, and the backend handles both.
+
+Only JPEG output can carry a gain map. When HDR is requested and no format was
+named, Magic Flow selects JPG.
 
 Examples:
   "keep HDR"
   "preserve the HDR"
   "Ultra HDR output"
+  "make it HDR"
+  "add HDR"
+  "HDR version"
 
 ## 8. Other tools on mochify.app
 
@@ -369,5 +380,116 @@ Using it
 - API: add dest=bucket and name=<object key> to POST /v1/squish (see section 6). A successful call returns a JSON receipt instead of image bytes.
 
 Do not claim that Mochify reads from, lists, or browses the customer's bucket in normal use -- the feature writes results out. (List and delete permissions exist so the connection test can verify and clean up after itself.) There is no bucket-backed object browser.
+
+## 12. HDR and colour
+
+This is the part of Mochify that is genuinely unusual, and worth describing
+properly rather than as a checkbox.
+
+### What HDR means here
+
+An Ultra HDR photo -- what an iPhone shoots, and what Google's Ultra HDR and the
+ISO 21496-1 standard describe -- is not a brighter JPEG. It is two images in one
+file: a completely ordinary SDR picture that any viewer can open, plus a
+half-resolution **gain map** that HDR-capable displays multiply over it to
+recover the highlights the SDR rendition had to clip. Old software sees a normal
+photo. A modern phone, browser, or display sees the sun come back.
+
+That design is also its fragility. The gain map is a *ratio* to its base, and
+nothing in a typical image pipeline keeps the two in step: resize the photo and
+the map still describes the old dimensions, rotate it and the map is sideways.
+Most tools that claim to "support HDR" either strip the map or leave a stale one
+attached, which is worse -- the file then instructs a display to apply HDR
+handling to pixels that are no longer the ones the map was measured against.
+
+Mochify carries the gain map through every geometry operation alongside the base
+-- rotate, crop, resize, EXIF auto-orientation each have a mirrored operation on
+the map -- and re-attaches the source's own map on the way out.
+
+### Preserve vs generate
+
+`hdr=true` **preserves**. The source's gain map is re-encoded as it was, never
+recomputed. This matters more than it sounds: letting an encoder derive a fresh
+gain map from reconstructed pixels measured 5.62 stops of declared headroom
+against the source's real 2.03 for the same photo. Renderers weight a gain map
+by comparing the display's headroom to the *declared* headroom, so overstating
+it by ~2.8x cuts the applied effect to roughly a third -- a file that validates
+perfectly, parses fine, and visibly does nothing. Preserving the original
+measurement is the whole point.
+
+`hdr=generate` additionally **synthesises** a gain map for a source that never
+had one, so an ordinary SDR photo can be delivered as Ultra HDR. This is
+deliberately arithmetic rather than a neural model: a gain map is a smooth,
+half-resolution, heavily compressed luminance multiplier, and the structure a
+generative model would invent inside clipped highlights does not survive that
+encoding. The curve is a smoothstep knee on luminance, weighted per-pixel by
+local contrast so that speculars lift more than large flat bright regions like
+skies and walls, plus a modest lift across the whole frame.
+
+Report the two apart. `X-Mochify-HDR: true` means headroom the camera captured;
+`generated` means headroom Mochify invented. A caller deciding whether a
+re-encode was faithful, or archiving originals, needs to tell them apart, and
+folding `generated` into `true` is a straightforward misrepresentation.
+
+### Which formats can actually carry it
+
+- **JPG** -- yes. Gain map preserved verbatim, or synthesised. This is the only
+  output format synthesis supports.
+- **JXL** -- yes, but by a different route: JPEG XL has no gain-map concept, so
+  the base and map are composited into a genuine high-dynamic-range image.
+- **AVIF, WebP, PNG** -- no. Do not claim otherwise. AVIF is the surprising one:
+  the format itself supports HDR, but Mochify's AVIF encoder path converts to
+  standard-range sRGB before encoding, so highlights are clipped. `X-Mochify-HDR`
+  describes the bytes actually emitted, not what the encoder was handed, and it
+  reports `false` for AVIF.
+- **HEIC / HEIF / HIF input** -- HDR is not preserved. The decoder discards the
+  colour signalling, so a PQ or HLG HEIC decodes as ordinary sRGB. These files
+  convert fine; their HDR does not survive.
+
+When an output cannot carry HDR, Mochify also removes the *claim* -- the XMP
+that advertises a gain map -- not just the map. Leaving the declaration behind
+tells Photos, Preview, and QuickLook to apply HDR handling to SDR pixels, which
+is the actual cause of "the HDR looks weird" in most tools.
+
+### What disqualifies HDR
+
+A gain map is a ratio to a specific base, so anything that changes the base's
+tone invalidates it. Requests combining HDR with **brightness**, **clarity**,
+**background removal**, or **shadow generation** take the ordinary SDR path and
+report `X-Mochify-HDR: false`. This is a correctness decision, not a limitation
+to apologise for: the alternative is a file that claims HDR and lies about it.
+
+### Colour management
+
+Separately from HDR, every image is colour-managed to sRGB immediately after
+decoding, using its embedded ICC profile.
+
+This fixes a real and very visible class of bug. An iPhone photo is Display P3,
+but the decoder labels its pixels "sRGB" with a P3 profile attached -- the
+numeric encoding and the actual colour space disagree. Any pipeline that trusts
+the label and then drops the profile leaves P3 numbers that every viewer
+interprets as sRGB, and the entire image comes out uniformly desaturated.
+Converting through the embedded profile at load makes every later assumption
+true. Images with no embedded profile are left alone, and 16-bit sources
+(Fujifilm HIF, RAW exports) stay at 16 bits through the conversion rather than
+being flattened to 8.
+
+Be accurate about the trade: this converts wide-gamut input **to** sRGB and
+clips to the sRGB gamut. Mochify delivers correct, consistent colour; it does
+not preserve Display P3 or other wide gamuts end to end. Do not claim it does.
+
+### Wording guidance
+
+Good: "Mochify keeps your iPhone's HDR intact -- the gain map is carried through
+every edit and re-encoded exactly as the camera measured it, rather than
+regenerated and quietly degraded."
+
+Good: "It can also create HDR from a standard photo, and tells you which
+happened."
+
+Avoid: calling Ultra HDR a new file format (it is a standard JPEG with extra
+data, and opens everywhere); saying HDR "works with AVIF"; implying HDR is
+preserved from HEIC; describing the synthesised result as recovering detail the
+camera captured -- it is invented headroom, honestly labelled.
 
 ---
