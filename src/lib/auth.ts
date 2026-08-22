@@ -167,7 +167,7 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                             subject: "Your Mochify Day Pass is ready",
                             html: `
                                 <p style="font-family:sans-serif;color:#4A2C2C">Your Day Pass has been activated.</p>
-                                <p style="font-family:sans-serif;color:#4A2C2C">Click below to start converting — you have 500 images for the next 24 hours.</p>
+                                <p style="font-family:sans-serif;color:#4A2C2C">Click below to start converting — you have 100 images for the next 24 hours.</p>
                                 <p><a href="${url}" style="display:inline-block;padding:12px 28px;background:#F06292;color:white;border-radius:10px;text-decoration:none;font-family:sans-serif;font-weight:bold">Activate Day Pass →</a></p>
                                 <p style="font-family:sans-serif;font-size:12px;color:#875F42">This link expires in 10 minutes. If you didn't purchase a Day Pass, you can ignore this email.</p>
                             `,

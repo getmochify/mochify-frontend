@@ -431,7 +431,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				.values({
 					user_id: userRow.id,
 					plan: 'day',
-					ops_limit: 500,
+					ops_limit: 100,
 					quota_period_end: quotaPeriodEnd,
 					created_at: dayNow,
 					updated_at: dayNow
@@ -439,14 +439,14 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				.onConflict((oc) =>
 					oc.column('user_id').doUpdateSet({
 						plan: 'day',
-						ops_limit: 500,
+						ops_limit: 100,
 						quota_period_end: quotaPeriodEnd,
 						updated_at: dayNow
 					})
 				)
 				.execute();
 
-			await reseedBucket(userRow.id, 'day', 500, quotaPeriodEnd);
+			await reseedBucket(userRow.id, 'day', 100, quotaPeriodEnd);
 			// A first-time day-pass buyer was only just created by the magic link
 			// above and is not verified until they click it, so mirrorPlan declines
 			// to create the contact here — afterEmailVerification picks them up.

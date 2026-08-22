@@ -82,9 +82,9 @@
     const FILE_SIZE_LIMIT_PAID = 75 * 1024 * 1024;
     // What $2 actually buys, in the unit the count walls are denominated in.
     // Named because the Day Pass has to be explained wherever it is offered:
-    // "Day Pass" tells a first-time visitor nothing, "500 conversions in 24
+    // "Day Pass" tells a first-time visitor nothing, "100 conversions in 24
     // hours" tells them whether it solves the problem in front of them.
-    const DAY_PASS_OPS = 500;
+    const DAY_PASS_OPS = 100;
     const CHEAPEST_PAID_MONTHLY = '$7.99';
 
     type UserTier = 'guest' | 'free' | 'pro';
@@ -1143,7 +1143,7 @@
             </div>
             <div class="flex-1 min-w-0">
                 <p class="text-sm font-black text-[#4A2C2C]">Payment received — check your email</p>
-                <p class="mt-0.5 text-xs text-[#6C3F31]/70">We've sent a magic link to activate your Day Pass. Click it to unlock 500 image ops for 24 hours.</p>
+                <p class="mt-0.5 text-xs text-[#6C3F31]/70">We've sent a magic link to activate your Day Pass. Click it to unlock 100 image ops for 24 hours.</p>
             </div>
             <button onclick={() => (dayPassSuccess = false)} aria-label="Dismiss" class="flex-shrink-0 text-[#875F42]/40 hover:text-[#875F42] transition-colors">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
