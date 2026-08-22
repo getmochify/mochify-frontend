@@ -22,11 +22,11 @@
 
 <svelte:head>
     <title>Pricing — Mochify</title>
-    <meta name="description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month. Or grab a $2 Day Pass — 500 image ops for 24 hours, no subscription." />
+    <meta name="description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mochify.app/pricing" />
     <meta property="og:title" content="Pricing — Mochify" />
-    <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month. Or grab a $2 Day Pass — 500 image ops for 24 hours, no subscription." />
+    <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription." />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -110,7 +110,7 @@
                         "name": "Day Pass",
                         "price": "2.00",
                         "priceCurrency": "USD",
-                        "description": "24-hour pass, one-time purchase. 500 image ops, files up to 75MB, larger batches. No subscription or account required — activated instantly by magic link."
+                        "description": "24-hour pass, one-time purchase. Upload up to 100 images, files up to 75MB, larger batches. No subscription or account required — activated instantly by magic link."
                     }
                 ]
             },
