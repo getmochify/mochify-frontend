@@ -433,7 +433,7 @@
                     <ul class="flex flex-wrap gap-x-6 gap-y-2">
                         <li class="flex items-center gap-2 text-sm text-[#6C3F31]">
                             <span class="text-[#A5D6A7] font-black">✓</span>
-                            <span><strong>500 image ops</strong> for 24 hours</span>
+                            <span><strong>100 uploads</strong> within 24 hours</span>
                         </li>
                         <li class="flex items-center gap-2 text-sm text-[#6C3F31]">
                             <span class="text-[#A5D6A7] font-black">✓</span>
@@ -607,7 +607,7 @@
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
-                        Pay $2 and we email you a magic link — click it to unlock 500 image ops, 75MB files and larger batches for 24 hours. No account or subscription needed.
+                        Pay $2 and we email you a magic link — click it to unlock 100 image uploads within 24 hours, 75MB files and larger batches for 24 hours. No account or subscription needed.
                     </p>
                 </details>
 
