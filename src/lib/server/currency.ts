@@ -1,4 +1,3 @@
-import type { Polar } from '@polar-sh/sdk';
 import type { CheckoutCreate } from '@polar-sh/sdk/models/components/checkoutcreate.js';
 
 /** The currencies Polar will accept as a checkout presentment currency. */
@@ -109,62 +108,4 @@ export function currencyForCountry(country: string | null): Currency {
 	if (!country) return DEFAULT_CURRENCY;
 	// Cloudflare sends T1 for Tor exits and XX when it can't place the IP.
 	return COUNTRY_CURRENCY[country.toUpperCase()] ?? DEFAULT_CURRENCY;
-}
-
-// Product currencies change only when we edit pricing in Polar, so an
-// in-isolate cache saves a round trip on the hot path. Cloudflare recycles
-// isolates often enough that a short TTL is belt-and-braces.
-const CACHE_TTL_MS = 10 * 60 * 1000;
-// Deliberately tighter than the checkout call's own budget: this lookup is an
-// enhancement, and a slow Polar should cost the buyer a localised price, not
-// the checkout itself.
-const PRODUCT_TIMEOUT_MS = 3000;
-const currencyCache = new Map<string, { currencies: Set<string>; expires: number }>();
-
-async function productCurrencies(polar: Polar, productId: string): Promise<Set<string>> {
-	const cached = currencyCache.get(productId);
-	if (cached && cached.expires > Date.now()) return cached.currencies;
-
-	const product = await polar.products.get({ id: productId }, { timeoutMs: PRODUCT_TIMEOUT_MS });
-	const currencies = new Set<string>();
-	for (const price of product.prices ?? []) {
-		const currency = (price as { priceCurrency?: string }).priceCurrency;
-		if (currency) currencies.add(currency.toLowerCase());
-	}
-
-	currencyCache.set(productId, { currencies, expires: Date.now() + CACHE_TTL_MS });
-	return currencies;
-}
-
-/**
- * The currency to open the Polar checkout in.
- *
- * Polar's hosted (direct link) checkout picks the buyer's local currency by
- * itself; a checkout created through the API does not, which is why every
- * API-driven subscription checkout was showing USD. We reproduce the same
- * behaviour here: local currency when the product is priced in it, USD
- * otherwise.
- *
- * Returns `null` when the caller should send no currency at all — either the
- * product has no USD price either, or Polar wouldn't tell us its prices, and
- * in both cases Polar's own default beats a guess from us.
- */
-export async function resolveCheckoutCurrency(
-	polar: Polar,
-	productId: string,
-	country: string | null
-): Promise<Currency | null> {
-	const candidate = currencyForCountry(country);
-	if (candidate === DEFAULT_CURRENCY) return DEFAULT_CURRENCY;
-
-	let available: Set<string>;
-	try {
-		available = await productCurrencies(polar, productId);
-	} catch (err) {
-		console.error('[checkout] product currency lookup failed:', err);
-		return null;
-	}
-
-	if (available.has(candidate)) return candidate;
-	return available.has(DEFAULT_CURRENCY) ? DEFAULT_CURRENCY : null;
 }

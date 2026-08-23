@@ -3,8 +3,34 @@
     import Footer from '$lib/components/Footer.svelte';
     import { env } from '$env/dynamic/public';
     import { page } from '$app/state';
+    import { formatMonthlyEquivalent, formatPrice, savingsPercent } from '$lib/currency';
+    import type { PageData } from './$types';
+
+    let { data }: { data: PageData } = $props();
 
     let billing = $state<'monthly' | 'yearly'>('monthly');
+
+    // What every visitor sees unless Polar holds a price in their own currency
+    // (see +page.server.ts). Amounts are in cents, matching Polar. These are
+    // the last line of defence: if Polar is unreachable the page still renders
+    // real prices rather than blanks.
+    const USD_PRICES: Record<string, number> = {
+        sellerMonthly: 799,
+        sellerYearly: 7999,
+        proMonthly: 2499,
+        proYearly: 24999,
+        dayPass: 200
+    };
+
+    const currency = $derived(data.pricing?.currency ?? 'usd');
+    const amounts = $derived({ ...USD_PRICES, ...(data.pricing?.prices ?? {}) });
+
+    // Reads the derived state above, so it stays reactive to the billing toggle.
+    const price = (plan: string) => formatPrice(amounts[plan], currency);
+    // Derived rather than a hardcoded "17%", so a local price that rounds to a
+    // different discount can't leave a false claim next to it.
+    const yearlySaving = $derived(savingsPercent(amounts.sellerMonthly, amounts.sellerYearly));
+    const proYearlySaving = $derived(savingsPercent(amounts.proMonthly, amounts.proYearly));
 
     // Growth is a not-yet-launched tier. Hidden for now to keep the pricing
     // page focused on the three live plans + Day Pass. Flip to `true` to
@@ -199,7 +225,7 @@
                     class="cursor-pointer px-5 py-2 rounded-full text-sm font-black transition-all flex items-center gap-2 {billing === 'yearly' ? 'bg-white text-mochi-pink shadow-sm' : 'text-cocoa-deep/50 hover:text-cocoa-deep'}"
                 >
                     Yearly
-                    <span class="inline-block px-2 py-0.5 rounded-full bg-matcha-green/40 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
+                    <span class="inline-block px-2 py-0.5 rounded-full bg-matcha-green/40 text-[#3A6B3C] text-xs font-bold">Save {yearlySaving}%</span>
                 </button>
             </div>
         </div>
@@ -218,7 +244,7 @@
                 <div class="mb-6">
                     <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-4">Free</span>
                     <div class="flex items-end gap-1">
-                        <span class="text-4xl font-black text-[#4A2C2C]">$0</span>
+                        <span class="text-4xl font-black text-[#4A2C2C]">{formatPrice(0, currency)}</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">/ forever</span>
                     </div>
                     <p class="text-[#7A4A38] text-sm mt-2">Create a free account, no credit card needed.</p>
@@ -266,15 +292,15 @@
                 <div class="mb-6">
                     <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-4">Seller</span>
                     <div class="flex items-end gap-1">
-                        <span class="text-4xl font-black text-[#4A2C2C]">{billing === 'monthly' ? '$7.99' : '$79.99'}</span>
+                        <span class="text-4xl font-black text-[#4A2C2C]">{billing === 'monthly' ? price('sellerMonthly') : price('sellerYearly')}</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">{billing === 'monthly' ? '/ month' : '/ year'}</span>
                     </div>
                     <p class="text-[#7A4A38] text-sm mt-1">
                         {#if billing === 'monthly'}
-                            Or <strong class="text-cocoa-deep">$79.99 / year</strong>
-                            <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-matcha-green/30 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
+                            Or <strong class="text-cocoa-deep">{price('sellerYearly')} / year</strong>
+                            <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-matcha-green/30 text-[#3A6B3C] text-xs font-bold">Save {yearlySaving}%</span>
                         {:else}
-                            <span class="text-cocoa-deep/50">$6.67 / mo, billed annually</span>
+                            <span class="text-cocoa-deep/50">{formatMonthlyEquivalent(amounts.sellerYearly, currency)} / mo, billed annually</span>
                         {/if}
                     </p>
                 </div>
@@ -319,15 +345,15 @@
                 <div class="mb-6 relative">
                     <span class="inline-block px-3 py-1 rounded-full bg-[#F06292] text-white text-xs font-black uppercase tracking-wider mb-4">Pro</span>
                     <div class="flex items-end gap-1">
-                        <span class="text-4xl font-black text-[#4A2C2C]">{billing === 'monthly' ? '$24.99' : '$249.99'}</span>
+                        <span class="text-4xl font-black text-[#4A2C2C]">{billing === 'monthly' ? price('proMonthly') : price('proYearly')}</span>
                         <span class="text-[#6C3F31]/50 mb-2 text-sm">{billing === 'monthly' ? '/ month' : '/ year'}</span>
                     </div>
                     <p class="text-[#7A4A38] text-sm mt-1">
                         {#if billing === 'monthly'}
-                            Or <strong class="text-cocoa-deep">$249.99 / year</strong>
-                            <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-matcha-green/30 text-[#3A6B3C] text-xs font-bold">Save 17%</span>
+                            Or <strong class="text-cocoa-deep">{price('proYearly')} / year</strong>
+                            <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-matcha-green/30 text-[#3A6B3C] text-xs font-bold">Save {proYearlySaving}%</span>
                         {:else}
-                            <span class="text-cocoa-deep/50">$20.83 / mo, billed annually</span>
+                            <span class="text-cocoa-deep/50">{formatMonthlyEquivalent(amounts.proYearly, currency)} / mo, billed annually</span>
                         {/if}
                     </p>
                 </div>
@@ -424,7 +450,7 @@
                 <div class="flex-shrink-0">
                     <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-3">Day Pass</span>
                     <div class="flex items-end gap-1">
-                        <span class="text-3xl font-black text-[#4A2C2C]">$2</span>
+                        <span class="text-3xl font-black text-[#4A2C2C]">{price('dayPass')}</span>
                         <span class="text-[#6C3F31]/50 mb-1.5 text-sm">one-time</span>
                     </div>
                 </div>
@@ -456,7 +482,7 @@
                         target="_blank" rel="noopener noreferrer"
                         class="block text-center px-6 py-3 rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
                     >
-                        Get Day Pass — $2
+                        Get Day Pass — {price('dayPass')}
                     </a>
                 </div>
             </div>
@@ -607,7 +633,7 @@
                         <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
                     </summary>
                     <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
-                        Pay $2 and we email you a magic link — click it to unlock 100 image uploads within 24 hours, 75MB files and larger batches for 24 hours. No account or subscription needed.
+                        Pay {price('dayPass')} and we email you a magic link — click it to unlock 100 image uploads within 24 hours, 75MB files and larger batches for 24 hours. No account or subscription needed.
                     </p>
                 </details>
 

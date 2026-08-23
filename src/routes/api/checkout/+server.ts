@@ -4,7 +4,8 @@ import { redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getPostHogClient } from '$lib/server/posthog';
 import { discountIdForCode } from '$lib/server/abandonedCart';
-import { countryFromRequest, resolveCheckoutCurrency } from '$lib/server/currency';
+import { countryFromRequest } from '$lib/server/currency';
+import { currencyForCheckout } from '$lib/server/prices';
 
 const POLAR_TIMEOUT_MS = 8000;
 
@@ -62,8 +63,9 @@ export const GET: RequestHandler = async ({ locals, url, platform, request }) =>
 	// product's base currency (USD). Resolve the presentment currency here so
 	// subscriptions match: local currency when the product is priced in it,
 	// USD otherwise.
-	const currency = await resolveCheckoutCurrency(
+	const currency = await currencyForCheckout(
 		polar,
+		platform?.env?.USAGE_KV,
 		productId,
 		countryFromRequest(request, platform)
 	);
