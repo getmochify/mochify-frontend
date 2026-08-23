@@ -11,6 +11,7 @@
     import { uploadErrorMessage, readXhrErrorText, trackUpload413, readRejectLabel, readDetectedHeader, trackReject } from '$lib/uploadError';
     import { isNetworkError } from '$lib/chunkRecovery';
     import { portal } from '$lib/portal';
+    import { formatPrice } from '$lib/currency';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
     const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://id.mochify.app';
@@ -85,7 +86,41 @@
     // "Day Pass" tells a first-time visitor nothing, "100 conversions in 24
     // hours" tells them whether it solves the problem in front of them.
     const DAY_PASS_OPS = 100;
-    const CHEAPEST_PAID_MONTHLY = '$7.99';
+
+    // Prices in cents, the unit Polar quotes. These are what everyone sees
+    // unless Polar holds a price in the visitor's own currency: this component
+    // renders on prerendered pages, so the country is only knowable after
+    // hydration (see /api/prices).
+    const DAY_PASS_USD = 200;
+    const CHEAPEST_PAID_MONTHLY_USD = 799;
+
+    type LocalPrices = { currency: string; prices: Record<string, number> };
+    let localPrices = $state<LocalPrices | null>(null);
+    let pricesRequested = false;
+
+    const priceCurrency = $derived(localPrices?.currency ?? 'usd');
+    const dayPassPrice = $derived(formatPrice(localPrices?.prices?.dayPass ?? DAY_PASS_USD, priceCurrency));
+    const cheapestPlanPrice = $derived(
+        formatPrice(localPrices?.prices?.sellerMonthly ?? CHEAPEST_PAID_MONTHLY_USD, priceCurrency)
+    );
+
+    // Deliberately lazy. Every price string below sits inside an upgrade wall,
+    // a batch-cap banner or the file-too-large modal, none of which can appear
+    // before the visitor hands us files — so fetching here keeps the price
+    // ahead of the first wall while sparing the request on every landing-page
+    // view. Failure is silent: USD is already on screen and stays.
+    async function loadLocalPrices() {
+        if (pricesRequested) return;
+        pricesRequested = true;
+        try {
+            const res = await fetch('/api/prices');
+            if (!res.ok) return;
+            const body = (await res.json()) as { pricing: LocalPrices | null };
+            if (body.pricing) localPrices = body.pricing;
+        } catch {
+            /* stay on USD */
+        }
+    }
 
     type UserTier = 'guest' | 'free' | 'pro';
 
@@ -191,6 +226,10 @@
         event.preventDefault();
         event.stopPropagation();
         isDragging = true;
+        // Earliest possible signal that files are coming. Staging alone would
+        // be late enough in the ordinary case, but a batch that trips the cap
+        // on arrival renders its banner in the same tick as the drop.
+        loadLocalPrices();
     }
 
     function handleDragLeave(event: DragEvent) {
@@ -511,6 +550,12 @@
     }
 
     const hasOversized = $derived(oversizedFiles.length > 0);
+
+    // Backstop for the paths that never fire a dragover: the file picker, and
+    // files handed over by a parent surface.
+    $effect(() => {
+        if (stagedCount > 0 || hasOversized) loadLocalPrices();
+    });
 
     // Everything the user handed us was oversized — there is nothing to convert,
     // so the CTA becomes the upgrade that would make the batch convertible.
@@ -1368,7 +1413,7 @@
                                         posthog.capture('day_pass_cta_clicked', { trigger: 'file_size_card' })}
                                     class="underline underline-offset-2 hover:text-red-900"
                                 >
-                                    Day Pass ($2) for files up to {paidFileSizeMb}MB
+                                    Day Pass ({dayPassPrice}) for files up to {paidFileSizeMb}MB
                                 </a>
                             {:else}
                                 <a
@@ -1544,7 +1589,7 @@
                                         posthog.capture('day_pass_cta_clicked', { trigger: 'batch_cap_banner' })}
                                     class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
                                 >
-                                    Day Pass ($2) for {BATCH_LIMIT_PAID} at a time
+                                    Day Pass ({dayPassPrice}) for {BATCH_LIMIT_PAID} at a time
                                 </a>
                             {:else}
                                 <a
@@ -1553,7 +1598,7 @@
                                         posthog.capture('upgrade_cta_clicked', { trigger: 'batch_cap_banner' })}
                                     class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
                                 >
-                                    Upgrade from {CHEAPEST_PAID_MONTHLY}/mo for {BATCH_LIMIT_PAID} at a time
+                                    Upgrade from {cheapestPlanPrice}/mo for {BATCH_LIMIT_PAID} at a time
                                 </a>
                             {/if}
                             {#if userTier === 'guest'}
@@ -1617,7 +1662,7 @@
                                         posthog.capture('day_pass_cta_clicked', { trigger: 'token_wall_banner' })}
                                     class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
                                 >
-                                    or Day Pass, $2 for {DAY_PASS_OPS} conversions in 24h
+                                    or Day Pass, {dayPassPrice} for {DAY_PASS_OPS} conversions in 24h
                                 </a>
                             {/if}
                         {:else if userTier === 'free'}
@@ -1632,7 +1677,7 @@
                                 onclick={() => posthog.capture('upgrade_cta_clicked', { trigger: 'token_wall_banner' })}
                                 class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
                             >
-                                Upgrade from {CHEAPEST_PAID_MONTHLY}/mo
+                                Upgrade from {cheapestPlanPrice}/mo
                             </a>
                             {#if dayPassOffered}
                                 <a
@@ -1643,7 +1688,7 @@
                                         posthog.capture('day_pass_cta_clicked', { trigger: 'token_wall_banner' })}
                                     class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
                                 >
-                                    or just today, Day Pass $2 for {DAY_PASS_OPS} conversions
+                                    or just today, Day Pass {dayPassPrice} for {DAY_PASS_OPS} conversions
                                 </a>
                             {/if}
                         {:else}
@@ -1729,7 +1774,7 @@
                 </svg>
                 <span>
                     {!isAuthed && dayPassOffered
-                        ? `Unlock with Day Pass — $2 · ${paidFileSizeMb}MB files`
+                        ? `Unlock with Day Pass — ${dayPassPrice} · ${paidFileSizeMb}MB files`
                         : !isAuthed
                             ? 'Create free account to unlock'
                             : `Upgrade for ${paidFileSizeMb}MB files`}
@@ -1861,7 +1906,7 @@
                 {#if hasOversized}
                     <h3 class="mb-2 text-lg font-black text-[#4A2C2C]">File too large</h3>
                     <p class="mb-6 text-sm leading-relaxed text-cocoa-milk/70">
-                        Your plan supports files up to {maxFileSizeMb}MB. Every paid plan handles up to {paidFileSizeMb}MB, from {CHEAPEST_PAID_MONTHLY}/mo, or a $2 Day Pass covers it for 24 hours.
+                        Your plan supports files up to {maxFileSizeMb}MB. Every paid plan handles up to {paidFileSizeMb}MB, from {cheapestPlanPrice}/mo, or a {dayPassPrice} Day Pass covers it for 24 hours.
                     </p>
                     <div class="flex flex-col gap-3">
                         {#if dayPassOffered}
@@ -1870,7 +1915,7 @@
                                 target="_blank" rel="noopener noreferrer"
                                 class="block rounded-2xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
                             >
-                                Get Day Pass — $2 · 75MB files
+                                Get Day Pass — {dayPassPrice} · 75MB files
                             </a>
                         {/if}
                         <a
@@ -1956,7 +2001,7 @@
                          which are real Day Pass benefits but answer a limit this user
                          did not hit. Order matches the banner, free account first. -->
                     <p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
-                        You've used your {GUEST_QUOTA} guest uploads for this month. A free account gives you {planQuota} a month. Or a Day Pass is {DAY_PASS_OPS} conversions in 24 hours for $2, with no subscription and no account needed.
+                        You've used your {GUEST_QUOTA} guest uploads for this month. A free account gives you {planQuota} a month. Or a Day Pass is {DAY_PASS_OPS} conversions in 24 hours for {dayPassPrice}, with no subscription and no account needed.
                     </p>
                     <div class="flex flex-col gap-3">
                         <a
@@ -1971,7 +2016,7 @@
                             rel="noopener noreferrer"
                             class="block rounded-2xl border border-[#875F42]/15 px-6 py-3 text-center text-sm font-bold text-[#6C3F31] transition-all hover:border-[#F06292]/30 hover:bg-[#FFF5F7] hover:text-[#F06292]"
                         >
-                            Day Pass — $2 for {DAY_PASS_OPS} conversions
+                            Day Pass — {dayPassPrice} for {DAY_PASS_OPS} conversions
                         </a>
                     </div>
                 {:else}

@@ -97,6 +97,42 @@ export async function getPriceTable(polar: Polar, kv?: KVNamespace): Promise<Pri
 }
 
 /**
+ * Every plan's price in the visitor's own currency, or `null` to leave the
+ * caller on its hardcoded USD copy.
+ *
+ * Two rules, both about not lying to the buyer:
+ *
+ * 1. Only ever show an amount Polar actually holds. No FX conversion here — a
+ *    converted "approximately £19" next to a USD charge is worse than showing
+ *    USD throughout.
+ * 2. All or nothing. A surface mixing £6.99 against $249.99 is unreadable, so
+ *    a plan missing a local price drops the whole thing back to USD.
+ */
+export async function localisedPlanPrices(
+	polar: Polar,
+	kv: KVNamespace | undefined,
+	country: string | null
+): Promise<{ currency: Currency; prices: Record<string, number> } | null> {
+	const currency = currencyForCountry(country);
+	if (currency === DEFAULT_CURRENCY) return null;
+
+	const table = await getPriceTable(polar, kv);
+	if (!table) return null;
+
+	const prices: Record<string, number> = {};
+	for (const [plan, productId] of Object.entries(PLAN_PRODUCT_IDS())) {
+		// An unset product id is a plan we don't sell yet (Day Pass on a
+		// deployment without it configured), not a reason to drop to USD.
+		if (!productId) continue;
+		const amount = table[productId]?.[currency];
+		if (amount === undefined) return null;
+		prices[plan] = amount;
+	}
+
+	return { currency, prices };
+}
+
+/**
  * The currency to open a checkout in for one product.
  *
  * Local currency when Polar has a catalog price in it, USD otherwise. Returns
