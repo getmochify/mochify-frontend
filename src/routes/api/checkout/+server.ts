@@ -26,9 +26,9 @@ export const GET: RequestHandler = async ({ locals, url, platform }) => {
 	const { user } = locals;
 
 	if (!user) {
-		const loginUrl = new URL('/auth/login', url.origin);
-		loginUrl.searchParams.set('next', url.pathname + url.search);
-		throw redirect(303, loginUrl.toString());
+		const signupUrl = new URL('/auth/register', url.origin);
+		signupUrl.searchParams.set('next', url.pathname + url.search);
+		throw redirect(303, signupUrl.toString());
 	}
 
 	const polar = new Polar({
