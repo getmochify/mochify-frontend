@@ -4,22 +4,28 @@ import { redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getPostHogClient } from '$lib/server/posthog';
 import { discountIdForCode } from '$lib/server/abandonedCart';
+import { countryFromRequest, resolveCheckoutCurrency } from '$lib/server/currency';
 
 const POLAR_TIMEOUT_MS = 8000;
 
-export const GET: RequestHandler = async ({ locals, url, platform }) => {
+export const GET: RequestHandler = async ({ locals, url, platform, request }) => {
 	const plan = url.searchParams.get('plan') ?? 'pro';
 	const billing = url.searchParams.get('billing') ?? 'monthly';
 
 	const PRODUCTS: Record<string, Record<string, string>> = {
-		seller: { monthly: env.POLAR_PRODUCT_ID_SELLER_MONTHLY, yearly: env.POLAR_PRODUCT_ID_SELLER_YEARLY },
+		seller: {
+			monthly: env.POLAR_PRODUCT_ID_SELLER_MONTHLY,
+			yearly: env.POLAR_PRODUCT_ID_SELLER_YEARLY
+		},
 		pro: { monthly: env.POLAR_PRODUCT_ID_PRO_MONTHLY, yearly: env.POLAR_PRODUCT_ID_PRO_YEARLY }
 	};
 
 	const productId = PRODUCTS[plan]?.[billing];
 
 	if (!productId) {
-		console.error(`[checkout] No product ID for plan=${plan} billing=${billing}. Check POLAR_PRODUCT_ID_* env vars.`);
+		console.error(
+			`[checkout] No product ID for plan=${plan} billing=${billing}. Check POLAR_PRODUCT_ID_* env vars.`
+		);
 		return new Response('Invalid plan or billing cycle', { status: 400 });
 	}
 
@@ -51,6 +57,17 @@ export const GET: RequestHandler = async ({ locals, url, platform }) => {
 		});
 	}
 
+	// Polar's hosted day-pass link picks the buyer's local currency on its own.
+	// A checkout created over the API does not, so it always rendered in the
+	// product's base currency (USD). Resolve the presentment currency here so
+	// subscriptions match: local currency when the product is priced in it,
+	// USD otherwise.
+	const currency = await resolveCheckoutCurrency(
+		polar,
+		productId,
+		countryFromRequest(request, platform)
+	);
+
 	let checkoutUrl: string;
 	try {
 		const timeout = new Promise<never>((_, reject) =>
@@ -62,6 +79,7 @@ export const GET: RequestHandler = async ({ locals, url, platform }) => {
 				successUrl: `${url.origin}/dashboard?upgraded=true`,
 				externalCustomerId: user.id,
 				customerEmail: user.email ?? undefined,
+				...(currency ? { currency } : {}),
 				...(discountId ? { discountId } : {})
 			}),
 			timeout
@@ -76,7 +94,13 @@ export const GET: RequestHandler = async ({ locals, url, platform }) => {
 	posthog.capture({
 		distinctId: user.id,
 		event: 'checkout_initiated',
-		properties: { plan, billing, recovered: discountId !== null, $set: { email: user.email } }
+		properties: {
+			plan,
+			billing,
+			currency: currency ?? 'default',
+			recovered: discountId !== null,
+			$set: { email: user.email }
+		}
 	});
 	// Fire-and-forget — don't block the redirect waiting for PostHog.
 	const flushPromise = posthog.flush().catch(() => {});

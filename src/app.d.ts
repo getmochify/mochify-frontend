@@ -27,6 +27,9 @@ declare global {
 			context?: {
 				waitUntil(promise: Promise<unknown>): void;
 			};
+			// Cloudflare's request metadata (country, colo, TLS...). Undefined
+			// under plain `vite dev`, same as `context`.
+			cf?: IncomingRequestCfProperties;
 		}
 	}
 
