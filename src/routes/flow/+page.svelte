@@ -17,7 +17,7 @@
 
         <header class="text-center mb-10">
             <p class="text-xs font-bold tracking-[0.18em] uppercase text-[#F06292]/80 mb-4">Images · Video · PDFs</p>
-            <h1 class="font-heading text-4xl md:text-6xl font-black text-[#4A2C2C] leading-tight tracking-tight text-balance max-w-3xl mx-auto mb-3">Drop your images. <span class="text-[#F06292]">Tell us what you need.</span></h1>
+            <h1 class="font-heading text-4xl md:text-6xl font-black text-[#4A2C2C] leading-tight tracking-tight text-balance max-w-3xl mx-auto mb-3">Drop your images<span class="text-[#F06292]">.</span> <span class="text-[#F06292]">Tell us what you need<span class="text-[#6C3F31]">.</span></span></h1>
             <p class="text-base md:text-lg text-[#875F42] max-w-lg mx-auto leading-relaxed text-pretty">Smart compression for product photos, websites, and everything else — no format pickers, no quality sliders.</p>
         </header>
 

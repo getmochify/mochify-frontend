@@ -389,6 +389,11 @@ export const cards = [
 		title: 'Remove Background to WebP - Free & Private'
 	},
 	{
+		path: '/solutions/sdr-to-hdr',
+		eyebrow: 'TOOL',
+		title: 'SDR to HDR - Add a Gain Map to Any Photo'
+	},
+	{
 		path: '/solutions/svg-to-avif',
 		eyebrow: 'TOOL',
 		title: 'Convert SVG to AVIF - Free, Private & Instant'

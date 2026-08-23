@@ -1,6 +1,13 @@
 <script lang="ts">
     const imageTools = [
         {
+            name: "SDR to HDR Converter",
+            slug: "solutions/sdr-to-hdr",
+            desc: "Give any photo an Ultra HDR gain map - preserved when your camera captured one, generated when it did not.",
+            iconPaths: ["M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"],
+            tag: "HDR"
+        },
+        {
             name: "Background Remover (WebP)",
             slug: "solutions/remove-background-webp",
             desc: "Cut out the subject and download a transparent WebP — AI removal, full alpha, smaller than PNG.",
@@ -196,6 +203,12 @@
             "position": 7,
             "name": "HEIF to JPG Converter",
             "url": "https://mochify.app/solutions/heif-to-jpg"
+            },
+            {
+            "@type": "ListItem",
+            "position": 8,
+            "name": "SDR to HDR Converter",
+            "url": "https://mochify.app/solutions/sdr-to-hdr"
             }
         ]
         }

@@ -22,6 +22,7 @@
         'mp4-to-webm': 'MP4 to WebM',
         'ebay-image-converter': 'eBay Image Converter',
         'bulk-ai-square-cropper': 'Bulk AI Square Cropper',
+        'sdr-to-hdr': 'SDR to HDR',
     };
 
     function formatSlug(slug: string): string {
