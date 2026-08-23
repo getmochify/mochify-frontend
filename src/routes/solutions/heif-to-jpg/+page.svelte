@@ -67,8 +67,8 @@
             a: 'JPEG is 8-bit, so a 10-bit HEIF loses tonal precision in principle. At sensible quality settings the difference is invisible in normal viewing. The exception is HDR source material, where mapping down to standard range is a genuine change in appearance rather than a rounding error.'
         },
         {
-            q: 'Can I convert a folder of mixed HEIF, HEIC, and HIF files in one go?',
-            a: 'Yes. Drop them in together, extensions mixed, and every one comes back as a JPEG. Batch size depends on your plan.'
+            q: 'Can I convert a folder of multiple HEIF files in one go?',
+            a: 'Yes. Drop in multiple .heif files and every one comes back as a JPEG. Batch size depends on your plan.'
         },
         {
             q: 'What happens to my files after conversion?',
@@ -78,10 +78,10 @@
 </script>
 
 <svelte:head>
-    <title>HEIF to JPG Converter - Convert .HEIF, .HEIC & .HIF Free | Mochify</title>
-    <meta name="description" content="Convert HEIF images to JPG in seconds. Handles every flavour of the format: .heif, .heic and .hif, mixed together in one batch. Free, in-memory, no sign-up for your first files.">
-    <meta property="og:title" content="HEIF to JPG Converter - Every Flavour of HEIF, One Converter">
-    <meta property="og:description" content="Convert HEIF images to JPG in seconds. Handles .heif, .heic and .hif in one batch. Free, processed in memory, never stored.">
+    <title>HEIF to JPG Converter - Fast, Free &amp; Private | Mochify</title>
+    <meta name="description" content="Convert standard .heif images to universally compatible JPEGs in seconds. Free, in-memory processing with optional EXIF stripping.">
+    <meta property="og:title" content="HEIF to JPG Converter - Mochify">
+    <meta property="og:description" content="Convert HEIF images to JPG in seconds. Free, processed in memory, never stored.">
     <link rel="canonical" href="https://mochify.app/solutions/heif-to-jpg">
 
     <script type="application/ld+json">
@@ -93,7 +93,7 @@
             "applicationCategory": "MultimediaApplication",
             "applicationSubCategory": "Image Converter",
             "url": "https://mochify.app/solutions/heif-to-jpg",
-            "description": "Convert HEIF container images to JPEG, including the .heif, .heic and .hif variants, without installing platform codecs.",
+            "description": "Convert HEIF container images to JPEG without installing platform codecs.",
             "offers": {
                 "@type": "Offer",
                 "price": "0",
@@ -101,8 +101,8 @@
                 "availability": "https://schema.org/InStock"
             },
             "featureList": [
-                "Accepts every HEIF variant: .heif, .heic and .hif",
-                "Converts mixed-extension batches in a single pass",
+                "Fast browser-based .heif to .jpg conversion",
+                "Batch convert multiple .heif files at once",
                 "No Microsoft Store HEVC codec purchase required",
                 "Optional EXIF and GPS stripping",
                 "Processed in memory and discarded, never written to disk"
@@ -120,7 +120,7 @@
                 { "@type": "Question", "name": "Why does my HEIF open on my phone but not my laptop?", "acceptedAnswer": { "@type": "Answer", "text": "Phones ship a hardware HEVC decoder and the operating system wires it into the photo viewer. Desktops often have the hardware but not the licensed software decoder, so the file is readable as a container and unreadable as an image. Converting to JPG sidesteps the codec question entirely." } },
                 { "@type": "Question", "name": "HEIF is a container, so what is actually inside it?", "acceptedAnswer": { "@type": "Answer", "text": "Usually HEVC, which is what makes licensing awkward. The same container can also hold AV1 data, in which case the file is what everyone calls AVIF, or even plain JPEG data. That is why a HEIF that will not open has a different answer on different machines." } },
                 { "@type": "Question", "name": "Will converting change how the photo looks?", "acceptedAnswer": { "@type": "Answer", "text": "JPEG is 8-bit, so a 10-bit HEIF loses tonal precision in principle. At sensible quality settings the difference is invisible in normal viewing. The exception is HDR source material, where mapping down to standard range is a genuine change in appearance rather than a rounding error." } },
-                { "@type": "Question", "name": "Can I convert a folder of mixed HEIF, HEIC, and HIF files in one go?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Drop them in together, extensions mixed, and every one comes back as a JPEG. Batch size depends on your plan." } },
+                { "@type": "Question", "name": "Can I convert a folder of multiple HEIF files in one go?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Drop in multiple .heif files and every one comes back as a JPEG. Batch size depends on your plan." } },
                 { "@type": "Question", "name": "What happens to my files after conversion?", "acceptedAnswer": { "@type": "Answer", "text": "They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, so turn the Strip EXIF toggle off before converting if you need the camera data kept." } }
             ]
         }
@@ -153,7 +153,7 @@
         </h1>
 
         <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-            One converter for every flavour of the format. Drop in <strong class="text-[#4A2C2C]">.heif</strong>, <strong class="text-[#4A2C2C]">.heic</strong> and <strong class="text-[#4A2C2C]">.hif</strong> files, mixed together if you like, and get JPEGs back. No codec purchase, no install.
+            Universal converter for the HEIF standard. Convert desktop and Android <strong class="text-[#4A2C2C]">.heif</strong> images to JPEGs instantly. No codec purchase, no software install.
         </p>
     </div>
 
