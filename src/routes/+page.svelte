@@ -495,7 +495,7 @@
                         <h3 class="font-heading font-bold text-xl text-[#4A2C2C]">Install</h3>
                     </div>
                     <p class="text-[#875F42] leading-relaxed mb-5">macOS via Homebrew. Linux and Cargo paths on the repo.</p>
-                    <div class="h-full flex flex-col rounded-2xl overflow-hidden bg-[#1C1C1E] shadow-lg ring-1 ring-black/5">
+                    <div class="md:h-full flex flex-col rounded-2xl overflow-hidden bg-[#1C1C1E] shadow-lg ring-1 ring-black/5">
                         <div class="shrink-0 flex items-center gap-2 px-4 py-2.5 bg-[#2C2C2E] border-b border-white/5">
                             <div class="w-3 h-3 shrink-0 rounded-full bg-[#FF5F57]"></div>
                             <div class="w-3 h-3 shrink-0 rounded-full bg-[#FFBD2E]"></div>
@@ -518,7 +518,7 @@
                         <h3 class="font-heading font-bold text-xl text-[#4A2C2C]">Wire it into Claude</h3>
                     </div>
                     <p class="text-[#875F42] leading-relaxed mb-5">Three lines of JSON. Restart Claude Desktop.</p>
-                    <div class="h-full flex flex-col rounded-2xl overflow-hidden bg-[#1C1C1E] shadow-lg ring-1 ring-black/5">
+                    <div class="md:h-full flex flex-col rounded-2xl overflow-hidden bg-[#1C1C1E] shadow-lg ring-1 ring-black/5">
                         <div class="shrink-0 flex items-center gap-2 px-4 py-2.5 bg-[#2C2C2E] border-b border-white/5">
                             <div class="w-3 h-3 shrink-0 rounded-full bg-[#FF5F57]"></div>
                             <div class="w-3 h-3 shrink-0 rounded-full bg-[#FFBD2E]"></div>
@@ -537,7 +537,7 @@
                         <h3 class="font-heading font-bold text-xl text-[#4A2C2C]">Compress</h3>
                     </div>
                     <p class="text-[#875F42] leading-relaxed mb-5">Ask Claude in plain English. The image stays on your laptop; only paths cross the context.</p>
-                    <div class="h-full flex flex-col rounded-2xl overflow-hidden bg-[#1C1C1E] shadow-lg ring-1 ring-black/5">
+                    <div class="md:h-full flex flex-col rounded-2xl overflow-hidden bg-[#1C1C1E] shadow-lg ring-1 ring-black/5">
                         <div class="shrink-0 flex items-center gap-2 px-4 py-2.5 bg-[#2C2C2E] border-b border-white/5">
                             <div class="w-3 h-3 shrink-0 rounded-full bg-[#FF5F57]"></div>
                             <div class="w-3 h-3 shrink-0 rounded-full bg-[#FFBD2E]"></div>
