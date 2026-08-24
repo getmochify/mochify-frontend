@@ -1,7 +1,10 @@
 # Abandoned cart recovery + NEW50 discount
 
-Status: code complete, not yet live. Three manual steps remain, listed under
-"Before the first send".
+Status: live as of 2026-08-24. All three manual steps under "Before the first
+send" are done and `checkout.expired` is ticked on in Polar, so the trigger is
+armed. Nothing has run end to end yet: `abandoned_checkout` was empty at the
+moment the event was enabled, so the first real send is still unobserved. Step 8
+below is the outstanding work.
 Owner: Taylor.
 Scope: `mochify-frontend` only. No changes needed in `mochify-core` or the MCP worker.
 
@@ -37,12 +40,16 @@ Scope: `mochify-frontend` only. No changes needed in `mochify-core` or the MCP w
 
 ## Before the first send
 
-1. **Apply the migration.** `wrangler d1 execute mochify-auth --remote --file=migrations/0001_abandoned_cart.sql`
-2. **Tick `checkout.expired`** on the webhook endpoint in the Polar dashboard.
-   The `case` is inert until this is done.
-3. **Set `POSTAL_ADDRESS`** in `src/lib/server/emails/abandonedCart.ts`. It is
-   empty, which renders a footer with no address. That is a PECR/CAN-SPAM gap,
-   not a cosmetic one.
+All three are done.
+
+1. ~~**Apply the migration.**~~ Applied to `--remote`. Verified: `abandoned_checkout`
+   is present on `mochify-auth`.
+2. ~~**Tick `checkout.expired`**~~ on the webhook endpoint in the Polar dashboard.
+   Enabled 2026-08-24. This was the reason nothing had ever fired: the code
+   shipped on 19 Aug and deployed on 23 Aug, but the event was not subscribed,
+   so the `case` never ran and the table stayed empty.
+3. ~~**Set `POSTAL_ADDRESS`**~~ in `src/lib/server/emails/abandonedCart.ts`. Set to
+   `Suite RA01, 195-197 Wood Street, London, E17 3NU`.
 
 ## Decisions taken
 
@@ -350,15 +357,26 @@ Three conditions, and the build satisfies two and a half:
 | Obtained during negotiations for a sale | Met, by the `checkout.expired` trigger |
 | Own similar products | Met |
 | Simple refusal in every message | Met, unsubscribe link plus RFC 8058 header |
-| Simple refusal **at the point of collection** | **Not met** |
+| Simple refusal **at the point of collection** | Met on email/password signup, not on Google OAuth |
 
-**The remaining gap: registration.** There is no "don't send me offers" option on
-the signup form, so the refusal opportunity only exists after the fact, via the
-dashboard toggle and the in-email link. A dashboard preference is a reasonable
-compensating control and is what most SaaS ships, but the strict reading of
-reg 22 wants the choice offered when the address is captured. Adding an unticked
-checkbox to `/auth/register` that writes `marketing_opt_out` would close it
-properly. Small change, not yet done.
+**Registration: closed for the email/password flow, open for OAuth.** An unticked
+"Don't email me offers or product news" checkbox now sits on `/auth/register`.
+It travels in the signup request body (the Better Auth client merges
+`fetchOptions.body` into the body, see `client/proxy.mjs`) and the user-create
+hook in `src/lib/auth.ts` reads it back off `ctx.body` and calls
+`setMarketingPreference`. It is deliberately **not** a declared
+`additionalField`: that would add a column to `user` that nothing ever reads and
+that can drift from `profile.marketing_opt_out`, which is the flag every send
+actually gates on. The write only happens when they refused, because writing a 0
+would create a `profile` row for every signup and the rest of the code treats a
+missing row as an ordinary free user on purpose.
+
+The gap that remains is **Google OAuth**. "Continue with Google" leaves the page
+before the checkbox is read, so those users are still only offered refusal after
+the fact, via the dashboard toggle and the in-email link. Closing it properly
+means stashing the choice before the redirect and applying it on return. Worth
+doing if OAuth becomes the dominant signup path; the compensating controls are
+in place either way.
 
 ## Attribution
 
@@ -413,7 +431,9 @@ Not needed for launch.
 5. ~~Add the `checkout.expired` case to the Polar webhook handler.~~ Done.
 6. ~~Add the cancel-and-stamp logic to the subscription case.~~ Done, on the
    shared created/active/updated path.
-7. Enable `checkout.expired` in the Polar dashboard, pointed at sandbox first.
+7. ~~Enable `checkout.expired` in the Polar dashboard, pointed at sandbox first.~~
+   Done 2026-08-24, on production rather than sandbox, which means step 8 is now
+   being tested against real abandoners.
 8. Test end to end in sandbox. This is the step that has not happened, and the
    checks below are the ones that matter:
    - The code arrives and the emailed button applies it with no typing.
@@ -423,7 +443,10 @@ Not needed for launch.
    - The follow-up cancels on conversion.
    - A second abandoned checkout inside 30 days sends nothing.
    - Unsubscribe works from a logged-out browser.
-9. Set `POSTAL_ADDRESS`, apply the migration to `--remote`, then ship.
+9. ~~Set `POSTAL_ADDRESS`, apply the migration to `--remote`, then ship.~~ Done.
+   Redeploy is required for the address to appear in a sent email: the constant
+   is compiled into the worker, so a deploy has to follow this change before the
+   first send, or the footer ships without it.
 
 ## Verification run on the code as written
 

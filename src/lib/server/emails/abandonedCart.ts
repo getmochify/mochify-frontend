@@ -13,10 +13,9 @@ const FOLLOWUP_DELAY_HOURS = 48;
 // with a physical postal address. Mochify's ICO registration is public but is not
 // a substitute for one.
 //
-// TODO(taylor): set this before the first production send. Leaving it empty
-// renders the footer without an address, which is a compliance gap, not a
-// cosmetic one.
-const POSTAL_ADDRESS = '';
+// This is the only marketing stream on the domain, so it is also the only send
+// that needs it. Transactional mail (magic links, receipts) is exempt.
+const POSTAL_ADDRESS = 'Suite RA01, 195-197 Wood Street, London, E17 3NU';
 
 const PLAN_COPY: Record<string, { name: string; full: string; discounted: string }> = {
 	seller: { name: 'Seller', full: '$7.99', discounted: '$4.00' },

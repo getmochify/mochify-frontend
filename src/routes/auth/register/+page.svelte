@@ -8,6 +8,11 @@
 	let loading = $state(false);
 	let error = $state('');
 	let success = $state(false);
+	// Unticked by default, and ticking it refuses. Deliberately the opposite
+	// polarity to the AI consent card: PECR soft opt-in permits marketing to
+	// someone who has started a purchase, provided refusal is offered here at
+	// collection as well as in every message. See docs/abandoned-cart-new50.md.
+	let marketingOptOut = $state(false);
 
 	async function handleGoogle() {
 		await authClient.signIn.social({ provider: 'google', callbackURL: '/dashboard' });
@@ -52,7 +57,14 @@
 		const { error: err } = await authClient.signUp.email({
 			email,
 			password,
-			name: email.split('@')[0] ?? email
+			name: email.split('@')[0] ?? email,
+			// Rides along in the request body rather than as a top-level argument,
+			// because the client only types the fields Better Auth knows about and
+			// this one is deliberately not a declared additionalField: it belongs on
+			// `profile`, not on `user`. The client merges fetchOptions.body into the
+			// request body (client/proxy.mjs), and the user-create hook in
+			// src/lib/auth.ts reads it back off ctx.body.
+			fetchOptions: { body: { marketingOptOut } }
 		});
 
 		if (err) {
@@ -245,6 +257,23 @@
 									class="w-full rounded-2xl border border-[#875F42]/15 bg-white/80 px-4 py-3 text-sm font-medium text-[#4A2C2C] placeholder-[#875F42]/30 transition-all focus:border-[#F06292]/40 focus:ring-2 focus:ring-[#F06292]/30 focus:outline-none"
 								/>
 							</div>
+
+							<label
+								class="flex cursor-pointer items-start gap-3 rounded-2xl bg-white/50 px-3.5 py-3 text-left"
+							>
+								<input
+									type="checkbox"
+									bind:checked={marketingOptOut}
+									class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[#F06292]"
+								/>
+								<span class="text-xs leading-relaxed font-medium text-[#875F42]/80">
+									Don't email me offers or product news.
+									<span class="block text-[#875F42]/50">
+										Account and security emails are sent either way. You can change this any time in
+										your dashboard.
+									</span>
+								</span>
+							</label>
 
 							<button
 								type="submit"

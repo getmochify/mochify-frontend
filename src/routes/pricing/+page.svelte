@@ -270,7 +270,7 @@
                 </ul>
 
                 <a
-                    href="/"
+                    href="/flow"
                     class="block text-center px-6 py-3 rounded-2xl border border-[#875F42]/25 text-sm font-black text-[#6C3F31] hover:border-[#F06292]/40 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all"
                 >
                     Start for free
@@ -278,7 +278,7 @@
                 <!-- Moved out of the card body: it competed with the plan's own
                      value props while actually describing the no-account path. -->
                 <p class="text-center text-xs text-[#6C3F31]/50 mt-3">
-                    Just want to try? <a href="/" class="text-[#F06292] font-semibold hover:underline">3 images free, no sign-up</a>
+                    Just want to try? <a href="/flow" class="text-[#F06292] font-semibold hover:underline">3 images free, no sign-up</a>
                 </p>
             </div>
 

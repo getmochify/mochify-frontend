@@ -8,6 +8,7 @@ import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET } from "$env
 import { PUBLIC_APP_URL } from "$env/static/public";
 import { getPostHogClient } from "$lib/server/posthog";
 import { syncContactFromProfile } from "$lib/server/resendContacts";
+import { setMarketingPreference } from "$lib/server/unsubscribe";
 
 // Which flow created the account, derived from the Better Auth endpoint that ran.
 // Mirrors better-auth's own last-login-method resolver, so the path shapes below
@@ -66,6 +67,33 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                         } catch (e) {
                             // Analytics must never block account creation.
                             console.error("[auth] signup capture failed:", e);
+                        }
+
+                        // The refusal checkbox on the register form. UK PECR
+                        // reg 22 soft opt-in wants the chance to refuse offered
+                        // at the point the address is collected, not only after
+                        // the fact, so the choice rides along on the signup
+                        // request and is recorded in the same round trip.
+                        //
+                        // Read off ctx.body rather than declared as a Better Auth
+                        // additionalField: sign-up destructures `...rest` off the
+                        // body, so undeclared keys survive the trip, and the flag
+                        // then lives only in profile, which is the one place every
+                        // send already gates on. A second copy on `user` would be
+                        // a column that nothing reads and that can drift.
+                        //
+                        // Only written when they refused. Writing a 0 would create
+                        // a profile row for every signup, and the rest of the code
+                        // treats a missing row as an ordinary free user on purpose.
+                        if (ctx?.body?.marketingOptOut === true) {
+                            try {
+                                await setMarketingPreference(db, user.id, true);
+                            } catch (e) {
+                                // Never fail a signup over a preference write. The
+                                // dashboard toggle and the in-email unsubscribe are
+                                // both still there if this one drops.
+                                console.error("[auth] signup marketing opt-out failed:", e);
+                            }
                         }
 
                         // Marketing list. Gated on emailVerified because the
