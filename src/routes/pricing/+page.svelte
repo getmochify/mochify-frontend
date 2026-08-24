@@ -197,6 +197,13 @@
 
         <!-- Header -->
         <div class="text-center mb-14">
+            <!-- Eyebrow, not a heading. Visually this sits above the h1, but marking
+                 it up as an h2 would put an h2 before the h1 in document order: screen
+                 readers announce it first and the page's real heading reads as
+                 subordinate to it. Same styling as ProseDocument's eyebrow. -->
+            <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#F06292] mb-3">
+                The image toolkit that works where you work
+            </p>
             <h1 class="text-4xl md:text-5xl font-black text-[#4A2C2C] tracking-tight mb-4">
                 Simple,
                 <span class="bg-gradient-to-r from-[#F06292] to-[#FF9EBB] bg-clip-text text-transparent">
@@ -205,7 +212,14 @@
                 pricing
             </h1>
             <p class="text-[#6C3F31] text-lg max-w-xl mx-auto">
-                No subscriptions required to get started. Jump in free — upgrade when you need more.
+                No subscriptions required to get started. Jump in free, upgrade when you need more.
+            </p>
+            <!-- Deliberately one text node rather than spans joined by separator
+                 elements: a styled separator strands at the end of a line when the
+                 row wraps, which is the bug just fixed in the footer. Plain text
+                 wraps like prose instead. -->
+            <p class="mt-5 text-sm font-semibold text-[#875F42]/60">
+                Web · CLI · Chrome extension · MCP · API
             </p>
         </div>
 
