@@ -256,7 +256,7 @@
                             "name": "Is Mochify free to use?",
                             "acceptedAnswer": {
                                 "@type": "Answer",
-                                "text": "Yes. Try 3 images free without an account. Create a free account (no credit card) for 25 images per month — up to 20 MB each — with all next-generation formats included. Seller ($7.99/month) unlocks 300 images per month and a dedicated API key. Pro ($24.99/month) unlocks 1,200 images per month, CLI access, and MCP server support for AI agents."
+                                "text": "Yes. Try 3 images free without an account. Create a free account (no credit card) for 25 images per month, up to 20 MB each, with all next-generation formats included. Every account tier, free, Seller and Pro, includes API, CLI and MCP server access for AI agents. Seller ($7.99/month) unlocks 300 images per month and Pro ($24.99/month) unlocks 1,200 images per month."
                             }
                         },
                         {
@@ -288,7 +288,7 @@
                             "name": "Does Mochify have an API?",
                             "acceptedAnswer": {
                                 "@type": "Answer",
-                                "text": "Yes. The REST API is available at api.mochify.app. Without an API key, 3 images per month are available (IP-based). Create a free account for 25 images per month. Seller provides 300 and Pro provides 1,200 — both include a Bearer-token key for higher-volume automation."
+                                "text": "Yes. The REST API is available at api.mochify.app. Without an API key, 3 images per month are available (IP-based). Every account tier includes a Bearer-token API key: free covers 25 images per month, Seller 300 and Pro 1,200."
                             }
                         },
                         {
@@ -772,7 +772,7 @@
                         <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
                     <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        Yes. Try 3 images free without an account, no sign-up needed. Create a free account (no credit card) for 25 images per month, up to 20 MB each, with all next-generation formats included at no cost. Seller ($7.99/month) unlocks 300 images per month and a dedicated API key. Pro ($24.99/month) unlocks 1,200 images per month, CLI access, and MCP server support for AI agents.
+                        Yes. Try 3 images free without an account, no sign-up needed. Create a free account (no credit card) for 25 images per month, up to 20 MB each, with all next-generation formats included at no cost. Every account tier, free, Seller and Pro, includes API, CLI and MCP server access for AI agents. Seller ($7.99/month) unlocks 300 images per month and Pro ($24.99/month) unlocks 1,200 images per month.
                     </p>
                 </details>
 
@@ -812,7 +812,7 @@
                         <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
                     <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        Yes. The REST API is available at <code class="font-mono text-xs text-[#F06292]">api.mochify.app</code>. Without an API key, 3 images per month are available (IP-based): just send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">?type=</code> parameter. Create a free account for 25 images/month. Seller provides 300 and Pro provides 1,200, both including a Bearer-token key for higher-volume automation. See the <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> for examples in cURL, JavaScript, and Python.
+                        Yes. The REST API is available at <code class="font-mono text-xs text-[#F06292]">api.mochify.app</code>. Without an API key, 3 images per month are available (IP-based): just send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">?type=</code> parameter. Every account tier includes a Bearer-token API key: free covers 25 images/month, Seller 300 and Pro 1,200. See the <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> for examples in cURL, JavaScript, and Python.
                     </p>
                 </details>
 

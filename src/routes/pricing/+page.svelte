@@ -156,7 +156,7 @@
                         "name": "Do unused images roll over?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Free tier resets every month. Seller and Pro images reset monthly on your billing date and do not roll over."
+                            "text": "All tiers reset monthly. Free resets every calendar month; Seller and Pro reset on your billing date. Unused images do not roll over."
                         }
                     },
                     {
@@ -165,6 +165,14 @@
                         "acceptedAnswer": {
                             "@type": "Answer",
                             "text": "Yes — all tiers have full MCP and API access. The same monthly limit applies."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How does the Day Pass work?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Pay $2 and we email you a magic link. Click it to unlock 100 image uploads within 24 hours, 75MB files and larger batches for 24 hours. No account or subscription needed."
                         }
                     },
                     {
@@ -214,13 +222,16 @@
             <p class="text-[#6C3F31] text-lg max-w-xl mx-auto">
                 No subscriptions required to get started. Jump in free, upgrade when you need more.
             </p>
-            <!-- Deliberately one text node rather than spans joined by separator
-                 elements: a styled separator strands at the end of a line when the
-                 row wraps, which is the bug just fixed in the footer. Plain text
-                 wraps like prose instead. -->
-            <p class="mt-5 text-sm font-semibold text-[#875F42]/60">
-                Web · CLI · Chrome extension · MCP · API
-            </p>
+            <!-- Surface list: this is the proof of the eyebrow's claim, so it reads
+                 as a badge rather than fine print. Still deliberately one text node
+                 rather than spans joined by separator elements: a styled separator
+                 strands at the end of a line when the row wraps, which is the bug
+                 just fixed in the footer. Plain text wraps like prose instead. -->
+            <div class="mt-6 flex justify-center">
+                <p class="inline-block rounded-2xl border border-pink-100 bg-[#FFF0F3]/70 shadow-sm px-5 py-2.5 text-sm md:text-base font-black tracking-tight text-[#6C3F31]">
+                    Web · CLI · Chrome extension · MCP · API
+                </p>
+            </div>
         </div>
 
         <!-- Billing toggle -->
@@ -597,69 +608,96 @@
             </div>
         </div>
 
-        <!-- FAQ -->
-        <div class="mt-16 max-w-2xl mx-auto">
-            <h2 class="text-xl font-black text-[#4A2C2C] text-center mb-8">Common questions</h2>
-            <div class="space-y-4">
-                <details class="bg-white rounded-2xl border border-pink-100 shadow-sm group">
-                    <summary class="px-6 py-4 cursor-pointer font-semibold text-[#4A2C2C] flex justify-between items-center select-none list-none">
+        <!-- FAQ · same one-card, hairline-divided treatment as the homepage FAQ.
+             Six separate shadowed pills read as a stack of buttons rather than a
+             reference list. -->
+        <div class="mt-16 max-w-3xl mx-auto">
+            <h2 class="text-center font-heading font-black text-3xl md:text-[2.5rem] leading-[1.1] text-[#4A2C2C] mb-3">Common questions</h2>
+            <p class="text-center text-[#875F42] mb-8">Limits, billing, and what changes when you upgrade.</p>
+            <div class="rounded-3xl border border-pink-100 bg-white shadow-sm overflow-hidden divide-y divide-pink-100">
+
+                <details class="group open:bg-[#FFFAFB] transition-colors">
+                    <summary class="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] hover:text-[#D81B60] transition-colors select-none">
                         What counts as one image?
-                        <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
+                        <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
-                    <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
+                    <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
                         Each image we hand back uses one from your monthly allowance. Compressing, converting, resizing, or any combination of those on a single file is one image. Asking for several formats or sizes of the same file returns several images, so each one counts: WebP and AVIF at two widths is four. Batch uploads count one per file.
                     </p>
                 </details>
 
-                <details class="bg-white rounded-2xl border border-pink-100 shadow-sm group">
-                    <summary class="px-6 py-4 cursor-pointer font-semibold text-[#4A2C2C] flex justify-between items-center select-none list-none">
+                <details class="group open:bg-[#FFFAFB] transition-colors">
+                    <summary class="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] hover:text-[#D81B60] transition-colors select-none">
                         Do unused images roll over?
-                        <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
+                        <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
-                    <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
+                    <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
                         All tiers reset monthly. Free resets every calendar month; Seller and Pro reset on your billing date. Unused images do not roll over.
                     </p>
                 </details>
 
-                <details class="bg-white rounded-2xl border border-pink-100 shadow-sm group">
-                    <summary class="px-6 py-4 cursor-pointer font-semibold text-[#4A2C2C] flex justify-between items-center select-none list-none">
+                <details class="group open:bg-[#FFFAFB] transition-colors">
+                    <summary class="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] hover:text-[#D81B60] transition-colors select-none">
                         Is Pro worth it over Seller?
-                        <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
+                        <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
-                    <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
+                    <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
                         It depends on volume. Pro gives you four times the images for a little over three times the price, so each image works out around 22% cheaper: about 2.1¢ on Pro versus 2.7¢ on Seller, or 1.7¢ versus 2.2¢ on annual billing. Pro also puts you at the front of the processing queue and gets priority email support. If you are comfortably inside 300 images a month, Seller is the better buy.
                     </p>
                 </details>
 
-                <details class="bg-white rounded-2xl border border-pink-100 shadow-sm group">
-                    <summary class="px-6 py-4 cursor-pointer font-semibold text-[#4A2C2C] flex justify-between items-center select-none list-none">
+                <details class="group open:bg-[#FFFAFB] transition-colors">
+                    <summary class="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] hover:text-[#D81B60] transition-colors select-none">
                         Can I use the API on the free tier?
-                        <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
+                        <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
-                    <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
+                    <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
                         Yes — all tiers have full MCP and API access. The same monthly limit applies.
                     </p>
                 </details>
 
-                <details class="bg-white rounded-2xl border border-pink-100 shadow-sm group">
-                    <summary class="px-6 py-4 cursor-pointer font-semibold text-[#4A2C2C] flex justify-between items-center select-none list-none">
+                <details class="group open:bg-[#FFFAFB] transition-colors">
+                    <summary class="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] hover:text-[#D81B60] transition-colors select-none">
                         How does the Day Pass work?
-                        <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
+                        <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
-                    <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
+                    <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
                         Pay {price('dayPass')} and we email you a magic link — click it to unlock 100 image uploads within 24 hours, 75MB files and larger batches for 24 hours. No account or subscription needed.
                     </p>
                 </details>
 
-                <details class="bg-white rounded-2xl border border-pink-100 shadow-sm group">
-                    <summary class="px-6 py-4 cursor-pointer font-semibold text-[#4A2C2C] flex justify-between items-center select-none list-none">
+                <details class="group open:bg-[#FFFAFB] transition-colors">
+                    <summary class="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] hover:text-[#D81B60] transition-colors select-none">
                         Can I cancel anytime?
-                        <span class="text-[#F06292] group-open:rotate-180 transition-transform text-lg font-black">↓</span>
+                        <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
-                    <p class="px-6 pb-5 text-sm text-[#6C3F31] leading-relaxed">
+                    <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
                         Yes. Cancel any time and you keep access until the end of your billing period.
                     </p>
                 </details>
+
+            </div>
+        </div>
+
+        <!-- Closing CTA · blush card, mirrors the homepage's final CTA so the two
+             pages end on the same note. -->
+        <div class="mt-14 md:mt-16 max-w-3xl mx-auto">
+            <div class="rounded-3xl border border-pink-100 bg-gradient-to-b from-[#FFF0F3]/70 to-white shadow-sm px-6 py-10 md:px-12 md:py-12 text-center">
+                <h2 class="font-heading font-black text-2xl md:text-3xl leading-[1.15] text-[#4A2C2C] mb-3">Start free, upgrade when you outgrow it</h2>
+                <p class="text-[#6C3F31] leading-relaxed mb-8 max-w-md mx-auto">
+                    25 images a month on the free plan, no card needed. MCP, CLI and API access on every tier, free included.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <a href="/auth/register" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
+                        Create a free account →
+                    </a>
+                    <a href="/flow" class="w-full sm:w-auto inline-flex items-center justify-center px-7 py-4 rounded-2xl border border-[#875F42]/25 font-black text-[#6C3F31] hover:border-[#F06292]/40 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all no-underline">
+                        Try 3 images, no sign-up
+                    </a>
+                </div>
+                <p class="text-xs text-[#6C3F31]/60 mt-6">
+                    Still not sure which plan fits? Email <a href="mailto:hello@mochify.app" class="text-[#F06292] font-semibold hover:underline">hello@mochify.app</a>.
+                </p>
             </div>
         </div>
 
