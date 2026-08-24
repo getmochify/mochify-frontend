@@ -25,6 +25,7 @@ export const cards = [
 	},
 	{ path: '/contact', eyebrow: 'MOCHIFY', title: 'Contact Mochify' },
 	{ path: '/docs', eyebrow: 'MOCHIFY', title: 'API Documentation' },
+	{ path: '/flow', eyebrow: 'WEB APP', title: 'Compress Images, Video and PDFs Online' },
 	{
 		path: '/ebay-seller',
 		eyebrow: 'FOR SELLERS',

@@ -4,3 +4,9 @@
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# Demo loops in /videos are versioned by hand: a re-recorded clip gets a new
+# filename, so a long immutable TTL is safe and stops repeat visits re-fetching
+# them. Poster frames sit alongside and follow the same rule.
+/videos/*
+  Cache-Control: public, max-age=31536000, immutable

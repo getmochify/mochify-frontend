@@ -5,8 +5,23 @@
 </script>
 
 <svelte:head>
-    <title>Mochify</title>
+    <title>Compress Images, Video and PDFs Online | Mochify</title>
+    <meta name="description" content="Drop images, PDFs or video and describe what you need in plain English. Bulk compress and convert to AVIF, WebP, JPEG XL and Jpegli. Zero retention, 3 files free without an account.">
+
+    <!-- Indexing stays off until the new homepage ships. Removing this alone is not
+         enough: static/robots.txt also has `Disallow: /flow`, which stops crawlers
+         fetching the page at all, so they would never see a noindex removal here. -->
     <meta name="robots" content="noindex, follow">
+
+    <!-- canonical, og:image and twitter:image are injected by the root layout. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mochify.app/flow" />
+    <meta property="og:title" content="Compress Images, Video and PDFs Online | Mochify" />
+    <meta property="og:description" content="Drop your files and say what you need. Bulk compression and conversion to AVIF, WebP, JPEG XL and Jpegli, with zero retention and no format pickers." />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Compress Images, Video and PDFs Online | Mochify" />
+    <meta name="twitter:description" content="Drop your files and say what you need. Bulk compression and conversion to AVIF, WebP, JPEG XL and Jpegli, with zero retention and no format pickers." />
 </svelte:head>
 
 <div class="min-h-screen flex flex-col relative">
@@ -18,7 +33,7 @@
         <header class="text-center mb-10">
             <p class="text-xs font-bold tracking-[0.18em] uppercase text-[#F06292]/80 mb-4">Images · Video · PDFs</p>
             <h1 class="font-heading text-4xl md:text-6xl font-black text-[#4A2C2C] leading-tight tracking-tight text-balance max-w-3xl mx-auto mb-3">Drop your images<span class="text-[#F06292]">.</span> <span class="text-[#F06292]">Tell us what you need<span class="text-[#6C3F31]">.</span></span></h1>
-            <p class="text-base md:text-lg text-[#875F42] max-w-lg mx-auto leading-relaxed text-pretty">Smart compression for product photos, websites, and everything else — no format pickers, no quality sliders.</p>
+            <p class="text-base md:text-lg text-[#875F42] max-w-lg mx-auto leading-relaxed text-pretty">Smart compression for product photos, websites, and everything else. No format pickers, no quality sliders.</p>
         </header>
 
         <PromptFormApp />
