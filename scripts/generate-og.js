@@ -70,7 +70,7 @@ function titleSize(title) {
 	return 44;
 }
 
-function card({ eyebrow, title }) {
+function card({ eyebrow, title, strap }) {
 	title = sanitize(title);
 	return h(
 		'div',
@@ -159,7 +159,7 @@ function card({ eyebrow, title }) {
 			h(
 				'div',
 				{ style: { fontFamily: 'Nunito', fontWeight: 600, fontSize: '24px', color: '#B79A8C' } },
-				'Fast · Private · Zero-retention'
+				strap ?? 'Fast · Private · Zero-retention'
 			)
 		)
 	);

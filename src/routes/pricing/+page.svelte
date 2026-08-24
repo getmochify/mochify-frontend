@@ -77,7 +77,7 @@
                         "name": "Free",
                         "price": "0",
                         "priceCurrency": "USD",
-                        "description": "3 images free without an account. Create a free account for 25 images per month. Includes all formats, resize, rotate, crop, MCP and API access. Standard processing queue."
+                        "description": "3 images free without an account. Create a free account for 25 images per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Standard processing queue."
                     },
                     {
                         "@type": "Offer",
@@ -290,6 +290,10 @@
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span>Background removal</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
                         <span>Standard queue</span>
                     </li>
                 </ul>
@@ -309,8 +313,12 @@
 
             <!-- Seller tier — flagged as the popular pick. Keeps the white card
                  so Pro's gradient still reads as the top tier; the badge and a
-                 stronger border do the highlighting instead. -->
-            <div class="relative bg-white rounded-3xl border-2 border-[#F06292]/30 shadow-md p-8 flex flex-col">
+                 stronger border do the highlighting instead.
+                 `order-first` on mobile only: stacked in one column, the middle
+                 card is the one nobody scrolls to, so the recommended plan leads
+                 and Free follows immediately after. DOM order stays Free, Seller,
+                 Pro, which is the reading order at every width from md up. -->
+            <div class="relative order-first md:order-none bg-white rounded-3xl border-2 border-[#F06292]/30 shadow-md p-8 flex flex-col">
                 <span class="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-1 rounded-full bg-[#F06292] text-white text-[10px] font-black uppercase tracking-wider shadow-sm">
                     Most popular
                 </span>
@@ -345,7 +353,7 @@
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Background removal &amp; PDF tools</span>
+                        <span>Full <strong>PDF tools</strong></span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
@@ -462,9 +470,10 @@
         </div>
         {/if}
 
-        <!-- Day Pass -->
+        <!-- Day Pass · `day-pass` is the anchor the homepage ecommerce block links
+             to; scroll-mt keeps the heading clear of the sticky nav on landing. -->
         {#if env.PUBLIC_POLAR_DAY_PASS_URL}
-        <div class="mt-8 max-w-4xl mx-auto">
+        <div id="day-pass" class="mt-8 max-w-4xl mx-auto scroll-mt-24">
             <div class="flex items-center gap-4 mb-6">
                 <div class="flex-grow h-px bg-gradient-to-r from-transparent via-pink-100 to-transparent"></div>
                 <span class="text-xs font-bold text-[#6C3F31]/40 uppercase tracking-widest whitespace-nowrap">Or, no subscription</span>
@@ -562,7 +571,7 @@
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">Background removal</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/30 font-black">—</td>
+                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                         </tr>

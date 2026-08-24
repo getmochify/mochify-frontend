@@ -105,11 +105,20 @@
 	{
 		"@context": "https://schema.org",
 		"@type": "Organization",
+		"@id": "https://mochify.app/#organization",
 		"name": "Mochify",
 		"url": "https://mochify.app",
 		"logo": {
 			"@type": "ImageObject",
 			"url": "https://mochify.app/logo.png"
+		},
+		"email": "hello@mochify.app",
+		"address": {
+			"@type": "PostalAddress",
+			"streetAddress": "Suite RA01, 195-197 Wood Street",
+			"addressLocality": "London",
+			"postalCode": "E17 3NU",
+			"addressCountry": "GB"
 		},
 		"sameAs": [
 			"https://github.com/getmochify",

@@ -199,64 +199,98 @@
 </script>
 
 <svelte:head>
-    <title>Mochify | Intelligent Image Workflows & Next-Gen Compression</title>
-    <meta name="description" content="Bulk process images with natural language. Smart square-crop for Shopify, next-gen AVIF/JXL compression, and a native MCP server for AI agents. Fast & private.">
+    <title>Compress images, video & PDFs with plain language | Mochify</title>
+    <meta name="description" content="Drop a file and say what you want. AVIF, WebP, JPEG XL and PDF compression in your browser, from the CLI, or inside Claude via a local MCP server. Zero retention.">
+
+        <!-- canonical, og:image and twitter:image are injected by the root layout. -->
 
         <!-- Open Graph -->
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://mochify.app/" />
-        <meta property="og:title" content="Mochify | Intelligent Image Workflows & Next-Gen Compression" />
-        <meta property="og:description" content="Bulk process images with natural language. Smart square-crop for Shopify, next-gen AVIF/JXL compression, and a native MCP server for AI agents. Fast, private, and zero-retention." />
+        <meta property="og:title" content="Compress images, video & PDFs with plain language | Mochify" />
+        <meta property="og:description" content="One engine, six surfaces: web app, CLI, local and hosted MCP, REST API, Chrome extension. Zero retention on images and PDFs; video never leaves your browser." />
 
         <!-- Twitter / X -->
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Mochify | Intelligent Image Workflows & Next-Gen Compression" />
-        <meta name="twitter:description" content="Bulk process images with natural language. Smart square-crop for Shopify, next-gen AVIF/JXL compression, and a native MCP server for AI agents. Fast, private, and zero-retention." />
+        <meta name="twitter:title" content="Compress images, video & PDFs with plain language | Mochify" />
+        <meta name="twitter:description" content="Web app, CLI, local and hosted MCP, REST API, Chrome extension. Zero retention on images and PDFs; video never leaves your browser." />
 
+        <!-- Single graph for the page. The Organization node it references by
+             @id is emitted sitewide from the root layout, so it is not repeated
+             here; same-page JSON-LD is merged by @id. -->
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
             "@graph": [
                 {
+                    "@type": "WebSite",
+                    "@id": "https://mochify.app/#website",
+                    "url": "https://mochify.app",
+                    "name": "Mochify",
+                    "publisher": { "@id": "https://mochify.app/#organization" },
+                    "inLanguage": "en"
+                },
+                {
                     "@type": "WebApplication",
+                    "@id": "https://mochify.app/#webapp",
                     "name": "Mochify",
                     "url": "https://mochify.app",
-                    "description": "Bulk image compressor for WebP, HEIC, JXL & AVIF. Try 3 images free without signing up. Free account unlocks 25 images per month. Native C++ engine — files never touch disk.",
+                    "description": "Compress, convert, resize and crop images, video and PDFs by describing what you want in plain language. Images and PDFs are streamed through a native C++ engine in RAM with zero retention; video is converted entirely in the browser and never uploaded. Try 3 files free with no account.",
                     "applicationCategory": "MultimediaApplication",
                     "operatingSystem": "Any",
+                    "browserRequirements": "Requires a modern browser with JavaScript enabled",
+                    "publisher": { "@id": "https://mochify.app/#organization" },
                     "offers": {
                         "@type": "Offer",
                         "price": "0",
-                        "priceCurrency": "USD"
+                        "priceCurrency": "USD",
+                        "description": "Free tier: 3 files per batch with no account, or 25 images per month with a free account. Paid plans raise the monthly allowance, file size and batch size; see https://mochify.app/pricing for local pricing.",
+                        "url": "https://mochify.app/pricing"
                     },
-                    "featureList": [
-                        "AVIF, WebP, JXL, Jpegli compression",
-                        "Batch processing up to 25 files (Seller & Pro) or 3 files free",
-                        "Zero data retention",
-                        "EXIF stripping",
-                        "NLP-driven Magic Flow"
-                    ],
                     "isAccessibleForFree": true,
+                    "featureList": [
+                        "Natural-language Magic Flow: describe the output instead of choosing settings",
+                        "AVIF, WebP, JPEG XL, Jpegli JPEG and PNG output; JPEG, PNG, WebP, AVIF, HEIC/HEIF and JPEG XL input",
+                        "Resize, rotate, saliency-guided smart crop and background removal",
+                        "EXIF stripping",
+                        "PDF tools: recompress embedded images, rasterize pages, split documents",
+                        "In-browser video and audio conversion (MP4, WebM, MKV, MOV, MP3, WAV, FLAC) with no upload",
+                        "Batch processing: 3 files free, up to 25 per batch on paid plans, zipped output",
+                        "Zero retention on images and PDFs; video never leaves the browser",
+                        "Local and hosted MCP servers, CLI, REST API and Chrome extension on every plan"
+                    ],
                     "inLanguage": "en"
                 },
                 {
                     "@type": "SoftwareApplication",
+                    "@id": "https://mochify.app/#cli",
                     "name": "Mochify CLI",
-                    "description": "Rust-based CLI and MCP server for high-performance image compression compatible with Claude CLI.",
+                    "description": "Rust binary that runs as a direct command-line tool or as a local MCP server for Claude Desktop, Claude Code, Cursor and any stdio MCP client. Only file paths and result metadata enter the agent context; image bytes never do.",
                     "applicationCategory": "DeveloperApplication",
-                    "operatingSystem": "Windows, macOS, Linux",
+                    "operatingSystem": "macOS, Linux, Windows",
+                    "softwareVersion": "1.5.0",
                     "downloadUrl": "https://github.com/getmochify/mochify-cli/releases",
-                    "softwareVersion": "1.5.0"
+                    "installUrl": "https://github.com/getmochify/mochify-cli",
+                    "codeRepository": "https://github.com/getmochify/mochify-cli",
+                    "programmingLanguage": "Rust",
+                    "publisher": { "@id": "https://mochify.app/#organization" },
+                    "isAccessibleForFree": true,
+                    "offers": {
+                        "@type": "Offer",
+                        "price": "0",
+                        "priceCurrency": "USD"
+                    }
                 },
                 {
                     "@type": "FAQPage",
+                    "@id": "https://mochify.app/#faq",
                     "mainEntity": [
                         {
                             "@type": "Question",
                             "name": "Is Mochify free to use?",
                             "acceptedAnswer": {
                                 "@type": "Answer",
-                                "text": "Yes. Try 3 images free without an account. Create a free account (no credit card) for 25 images per month, up to 20 MB each, with all next-generation formats included. Every account tier, free, Seller and Pro, includes API, CLI and MCP server access for AI agents. Seller ($7.99/month) unlocks 300 images per month and Pro ($24.99/month) unlocks 1,200 images per month."
+                                "text": "Yes. Try 3 files free without an account. A free account (no card needed) gives you 25 images a month at up to 20 MB each, with every output format, Magic Flow, background removal, and full CLI, MCP and API access. Seller and Pro plans raise the monthly allowance to 300 and 1,200 images, lift the file limit to 75 MB, allow batches of 25 files, and add priority processing. If you just need a bigger batch for one afternoon, a Day Pass unlocks 100 uploads for 24 hours with no subscription. Current prices for your region are on the pricing page."
                             }
                         },
                         {
@@ -264,7 +298,7 @@
                             "name": "Are my images stored or shared?",
                             "acceptedAnswer": {
                                 "@type": "Answer",
-                                "text": "No. Mochify streams each file directly into server RAM, compresses it with a native C++ engine, and returns the result. Files are never written to disk and are wiped from memory immediately after processing. There is no cloud storage, no third-party access, and no logs containing your image data."
+                                "text": "No. Mochify streams each image or PDF straight into the encoder in server RAM, compresses it, returns the result and discards it. Originals are never written to disk and no logs contain image data. The one exception is the hosted MCP connector, which keeps the compressed output on an unguessable URL for up to five minutes so your chat client can fetch it; the original is still discarded immediately, and the local CLI and MCP server hold nothing server-side at all. Video is converted entirely in your browser and never uploaded."
                             }
                         },
                         {
@@ -272,7 +306,7 @@
                             "name": "How much smaller will my images be?",
                             "acceptedAnswer": {
                                 "@type": "Answer",
-                                "text": "Results depend on format and source content. Jpegli typically produces files 35% smaller than standard JPEG at equivalent visual quality. AVIF averages 50% smaller than JPEG and 20% smaller than WebP. WebP averages 26% smaller than JPEG. Smart Compress mode automatically targets the best quality-to-size balance for each individual image."
+                                "text": "It depends on the format and the source. As a guide, Jpegli typically produces JPEGs around 35% smaller than a standard encoder at the same visual quality, WebP is around 26% smaller than JPEG, and AVIF is roughly 50% smaller than JPEG and 20% smaller than WebP. Smart Compress picks the best quality-to-size balance for each image automatically, so you never have to guess a quality setting."
                             }
                         },
                         {
@@ -280,7 +314,7 @@
                             "name": "What image formats does Mochify support?",
                             "acceptedAnswer": {
                                 "@type": "Answer",
-                                "text": "Input formats: JPEG, PNG, WebP, AVIF, HEIC/HEIF, and JPEG XL. Output formats: JPEG (via Jpegli), PNG, WebP, AVIF, and JPEG XL. Free users can process 3 files per batch; Seller and Pro unlock batches up to 25 files. For even larger volumes, use the REST API or CLI."
+                                "text": "Input: JPEG, PNG, WebP, AVIF, HEIC/HEIF and JPEG XL. Output: JPEG (via Jpegli), PNG, WebP, AVIF and JPEG XL. Without an account you can process 3 files per batch; paid plans allow batches of up to 25. For larger volumes, the CLI and REST API handle scripted bulk processing with no per-file overhead."
                             }
                         },
                         {
@@ -288,7 +322,15 @@
                             "name": "Does Mochify have an API?",
                             "acceptedAnswer": {
                                 "@type": "Answer",
-                                "text": "Yes. The REST API is available at api.mochify.app. Without an API key, 3 images per month are available (IP-based). Every account tier includes a Bearer-token API key: free covers 25 images per month, Seller 300 and Pro 1,200."
+                                "text": "Yes. The REST API lives at api.mochify.app and is available on every plan, including Free. Send a raw image body to POST /v1/squish with a type parameter, or use POST /v1/pdf for PDF tools. A free account gives you a bearer token and 25 images a month; Seller and Pro raise that to 300 and 1,200. The API documentation has examples in cURL, JavaScript and Python."
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "Can I use Mochify from the command line or inside Claude?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "Yes, on every plan. Install the Rust binary with brew install mochify (Linux and Cargo paths are on the repo). The same binary runs as a direct CLI and, with mochify serve, as a local MCP server for Claude Desktop, Claude Code, Cursor and any stdio MCP client. Because the binary opens files on your own disk, only file paths and result metadata cross the agent context, never image bytes. If you would rather not install anything, the hosted MCP at mcp.mochify.app connects with OAuth."
                             }
                         },
                         {
@@ -296,7 +338,7 @@
                             "name": "What is Magic Flow?",
                             "acceptedAnswer": {
                                 "@type": "Answer",
-                                "text": "Magic Flow is Mochify's NLP-driven upload interface. Instead of selecting a format and quality setting manually, you describe what you want in plain language — for example, 'convert to AVIF and strip location data' — and Mochify interprets the intent and applies the right parameters to each file automatically."
+                                "text": "Magic Flow is Mochify's natural-language interface. Instead of choosing a format and quality setting, you describe what you want, for example \"convert to AVIF and strip location data\" or \"make these web-ready, max 1600px wide\", and Mochify works out the right parameters for each file. It uses a two-step pipeline: a language model parses the prompt, then the native engine executes it. Magic Flow is available in the web app, the CLI (-p) and both MCP servers."
                             }
                         }
                     ]
@@ -746,7 +788,7 @@
                 <div class="rounded-3xl border border-pink-100 bg-white shadow-sm p-6">
                     <p class="font-heading font-black text-4xl text-[#F06292] leading-none mb-3">25</p>
                     <p class="font-heading font-bold text-lg text-[#4A2C2C] mb-1.5">Images per batch</p>
-                    <p class="text-sm text-[#875F42] leading-relaxed">Drop a whole set of product shots at once. Describe what you need, like "convert to WebP, max 1600px wide", and Mochify handles the rest.</p>
+                    <p class="text-sm text-[#875F42] leading-relaxed">Drop a whole set of product shots at once on Seller, Pro or a Day Pass. Describe what you need, like "convert to WebP, max 1600px wide", and Mochify handles the rest.</p>
                 </div>
                 <div class="rounded-3xl border border-pink-100 bg-white shadow-sm p-6">
                     <p class="font-heading font-black text-4xl text-[#F06292] leading-none mb-3">0</p>
@@ -754,6 +796,14 @@
                     <p class="text-sm text-[#875F42] leading-relaxed">Images are never stored or logged. Safe for unreleased products, private SKUs, and anything not yet live on your store.</p>
                 </div>
             </div>
+            <!-- Day Pass sits here, on the batch-size objection, rather than in the
+                 hero or a CTA: it converts the one-batch-today seller who would
+                 otherwise bounce at "sign up for a subscription", without competing
+                 with Seller for the visitor who would take a plan. Text link only,
+                 no button, so the hierarchy stays free trial -> plans. -->
+            <p class="mt-6 text-sm text-[#875F42]/80 leading-relaxed">
+                Need a bigger batch just for today? A <strong class="font-bold text-[#6C3F31]">Day Pass</strong> unlocks 100 uploads and 25-file batches for 24 hours, no account or subscription, or see how Seller compares on the <a href="/pricing#day-pass" class="text-[#F06292] font-semibold hover:underline">pricing page</a>.
+            </p>
         </div>
     </section>
 
@@ -772,7 +822,7 @@
                         <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
                     <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        Yes. Try 3 images free without an account, no sign-up needed. Create a free account (no credit card) for 25 images per month, up to 20 MB each, with all next-generation formats included at no cost. Every account tier, free, Seller and Pro, includes API, CLI and MCP server access for AI agents. Seller ($7.99/month) unlocks 300 images per month and Pro ($24.99/month) unlocks 1,200 images per month.
+                        Yes. Try 3 files free without an account. A free account (no card needed) gives you 25 images a month at up to 20 MB each, with every output format, Magic Flow, background removal, and full CLI, MCP and API access. Seller and Pro plans raise the monthly allowance to 300 and 1,200 images, lift the file limit to 75 MB, allow batches of 25 files, and add priority processing. If you just need a bigger batch for one afternoon, a Day Pass unlocks 100 uploads for 24 hours with no subscription. Current prices for your region are on the <a href="/pricing" class="text-[#F06292] font-semibold hover:underline">pricing page</a>.
                     </p>
                 </details>
 
@@ -782,7 +832,7 @@
                         <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
                     <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        No. Mochify streams each file directly into server RAM, compresses it with a native C++ engine, and returns the result. Files are never written to disk and are wiped from memory immediately after processing. There is no cloud storage, no third-party access, and no logs containing your image data.
+                        No. Mochify streams each image or PDF straight into the encoder in server RAM, compresses it, returns the result and discards it. Originals are never written to disk and no logs contain image data. The one exception is the hosted MCP connector, which keeps the compressed output on an unguessable URL for up to five minutes so your chat client can fetch it; the original is still discarded immediately, and the local CLI and MCP server hold nothing server-side at all. Video is converted entirely in your browser and never uploaded.
                     </p>
                 </details>
 
@@ -792,7 +842,7 @@
                         <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
                     <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        Results depend on format and source content. Jpegli typically produces files 35% smaller than standard JPEG at equivalent visual quality. AVIF averages 50% smaller than JPEG and 20% smaller than WebP. WebP averages 26% smaller than JPEG. Smart Compress mode automatically targets the best quality-to-size balance for each individual image, so you never have to guess a quality setting.
+                        It depends on the format and the source. As a guide, Jpegli typically produces JPEGs around 35% smaller than a standard encoder at the same visual quality, WebP is around 26% smaller than JPEG, and AVIF is roughly 50% smaller than JPEG and 20% smaller than WebP. Smart Compress picks the best quality-to-size balance for each image automatically, so you never have to guess a quality setting.
                     </p>
                 </details>
 
@@ -802,7 +852,7 @@
                         <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
                     <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        Input formats: JPEG, PNG, WebP, AVIF, HEIC/HEIF, and JPEG XL. Output formats: JPEG (via Jpegli), PNG, WebP, AVIF, and JPEG XL. Free users can process up to 3 files per batch with no account required; Seller and Pro plans unlock batches up to 25 files. For even larger volumes, use the REST API or CLI. Both support scripted bulk processing with no per-file overhead.
+                        Input: JPEG, PNG, WebP, AVIF, HEIC/HEIF and JPEG XL. Output: JPEG (via Jpegli), PNG, WebP, AVIF and JPEG XL. Without an account you can process 3 files per batch; paid plans allow batches of up to 25. For larger volumes, the CLI and REST API handle scripted bulk processing with no per-file overhead.
                     </p>
                 </details>
 
@@ -812,7 +862,7 @@
                         <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
                     <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        Yes. The REST API is available at <code class="font-mono text-xs text-[#F06292]">api.mochify.app</code>. Without an API key, 3 images per month are available (IP-based): just send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">?type=</code> parameter. Every account tier includes a Bearer-token API key: free covers 25 images/month, Seller 300 and Pro 1,200. See the <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> for examples in cURL, JavaScript, and Python.
+                        Yes. The REST API lives at <code class="font-mono text-xs text-[#F06292]">api.mochify.app</code> and is available on every plan, including Free. Send a raw image body to <code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code> with a <code class="font-mono text-xs">type</code> parameter, or use <code class="font-mono text-xs text-[#F06292]">POST /v1/pdf</code> for PDF tools. A free account gives you a bearer token and 25 images a month; Seller and Pro raise that to 300 and 1,200. The <a href="/docs" class="text-[#F06292] font-semibold hover:underline">API documentation</a> has examples in cURL, JavaScript and Python.
                     </p>
                 </details>
 
@@ -822,7 +872,7 @@
                         <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
                     <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        Yes. Install the Rust binary with <code class="font-mono text-xs text-[#F06292]">brew install mochify</code>. The same binary runs as a direct CLI and as a local MCP server for Claude Desktop, Cursor, and any stdio MCP client. Because the binary opens files on your own disk, only file paths and result metadata cross the agent context, never image bytes.
+                        Yes, on every plan. Install the Rust binary with <code class="font-mono text-xs text-[#F06292]">brew install mochify</code> (Linux and Cargo paths are on the repo). The same binary runs as a direct CLI and, with <code class="font-mono text-xs text-[#F06292]">mochify serve</code>, as a local MCP server for Claude Desktop, Claude Code, Cursor and any stdio MCP client. Because the binary opens files on your own disk, only file paths and result metadata cross the agent context, never image bytes. If you would rather not install anything, the hosted MCP at <code class="font-mono text-xs text-[#F06292]">mcp.mochify.app</code> connects with OAuth.
                     </p>
                 </details>
 
@@ -832,7 +882,7 @@
                         <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
                     <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        Magic Flow is Mochify's NLP-driven upload interface. Instead of selecting a format and quality setting manually, you describe what you want in plain language, for example <em>"convert to AVIF and strip location data"</em> or <em>"make these web-ready, max 1600px wide"</em>, and Mochify interprets the intent and applies the right parameters to each file automatically. It uses a two-step pipeline: a language model parses the prompt, then the C++ engine executes the compression.
+                        Magic Flow is Mochify's natural-language interface. Instead of choosing a format and quality setting, you describe what you want, for example <em>"convert to AVIF and strip location data"</em> or <em>"make these web-ready, max 1600px wide"</em>, and Mochify works out the right parameters for each file. It uses a two-step pipeline: a language model parses the prompt, then the native engine executes it. Magic Flow is available in the web app, the CLI (<code class="font-mono text-xs text-[#F06292]">-p</code>) and both MCP servers.
                     </p>
                 </details>
 

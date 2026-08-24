@@ -12,8 +12,9 @@
 export const cards = [
 	{
 		path: '/',
-		eyebrow: 'IMAGE TOOLKIT',
-		title: 'Intelligent Image Workflows & Next-Gen Compression'
+		eyebrow: 'BUILT FOR AI-NATIVE WORKFLOWS',
+		title: 'Compress images, video, and PDFs with plain language.',
+		strap: 'Web · CLI · MCP · API · Zero retention'
 	},
 	{ path: '/about', eyebrow: 'MOCHIFY', title: 'About Mochify' },
 	{ path: '/avif-to-jpegxl', eyebrow: 'CONVERTER', title: 'Convert AVIF to JPEG XL' },
@@ -25,7 +26,11 @@ export const cards = [
 	},
 	{ path: '/contact', eyebrow: 'MOCHIFY', title: 'Contact Mochify' },
 	{ path: '/docs', eyebrow: 'MOCHIFY', title: 'API Documentation' },
-	{ path: '/flow', eyebrow: 'WEB APP', title: 'Compress Images, Video and PDFs Online' },
+	{
+		path: '/flow',
+		eyebrow: 'WEB APP',
+		title: 'Convert, Resize and Compress Images, Video and PDFs'
+	},
 	{
 		path: '/ebay-seller',
 		eyebrow: 'FOR SELLERS',

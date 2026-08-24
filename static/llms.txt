@@ -56,15 +56,14 @@ Free -- $0/month
 - 25 ops/month (with account); 3 ops per batch without sign-up
 - Up to 3 files per batch
 - 20MB max file size
-- All formats, resize, rotate, crop, MCP and API access
-- Background removal not available
+- All formats, resize, rotate, crop, background removal, MCP and API access
 - Bring your own bucket not available
 
 Seller -- $7.99/month (or $79.99/year, about $6.67/month)
 - 300 ops/month
 - Up to 25 files per batch
 - 75MB max file size
-- All Free features plus background removal, bring your own bucket (S3 / R2 / S3-compatible), priority queue
+- All Free features plus bring your own bucket (S3 / R2 / S3-compatible), priority queue
 
 Pro -- $24.99/month (or $249.99/year, about $20.83/month)
 - 1,200 ops/month
@@ -100,7 +99,7 @@ Query parameters:
 - quality (1-100, default: auto) -- overrides smart compression; JXL maps linearly (70 is roughly distance 3.0)
 - smartCompress (default: false) -- saliency-guided quality selection
 - smartCrop / crop (default: false) -- saliency-guided crop centred on subject; requires width and height
-- removeBackground (default: false) -- AI background removal; Seller/Pro only; outputs PNG/WebP with alpha, JPEG flattens to white
+- removeBackground (default: false) -- AI background removal; available on all plans including Free; outputs PNG/WebP with alpha, JPEG flattens to white
 - rotate (default: 0) -- 90 | 180 | 270 (clockwise)
 - stripExif (default: true) -- set false or 0 to preserve metadata
 - optimizeForWeb (default: false) -- progressive encoding + 4:2:0 chroma subsampling for smallest web file size
@@ -195,7 +194,7 @@ Saliency-guided quality selection -- the backend analyses subject prominence and
 Examples:
   "smart compress", "optimize for listing", "product image"
 
-### Background removal (Seller/Pro)
+### Background removal
 AI foreground isolation. Output retains alpha for PNG/WebP; JPEG flattens to white.
 
 Examples:
@@ -336,7 +335,7 @@ squish -- compress, convert, resize, or transform an image
   - quality (integer 1-100): output quality; omit for auto
   - crop (boolean): smart-crop to exact dimensions centred on subject
   - rotate (integer): 0 | 90 | 180 | 270 (clockwise)
-  - removeBackground (boolean): AI background removal; Seller/Pro only
+  - removeBackground (boolean): AI background removal; available on all plans
   - stripExif (boolean): strip metadata (default: true)
   - smartCompress (boolean): saliency-guided quality selection
   - optimizeForWeb (boolean): progressive encoding + 4:2:0 chroma subsampling
