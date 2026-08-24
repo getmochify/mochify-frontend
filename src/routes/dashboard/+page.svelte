@@ -151,7 +151,9 @@
 <div class="relative flex min-h-screen flex-col bg-[#FDFBF7]">
 	<Navigation />
 
-	<div class="absolute top-16 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[250px] bg-gradient-to-r from-pink-200/0 via-pink-200/20 to-pink-200/0 blur-3xl rounded-full pointer-events-none"></div>
+	<div
+		class="pointer-events-none absolute top-16 left-1/2 h-[250px] w-full max-w-3xl -translate-x-1/2 rounded-full bg-gradient-to-r from-pink-200/0 via-pink-200/20 to-pink-200/0 blur-3xl"
+	></div>
 
 	<main class="relative mx-auto w-full max-w-4xl grow px-4 py-12 sm:px-6">
 		<div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -162,9 +164,20 @@
 			<div class="flex items-center gap-2">
 				<a
 					href="/flow"
-					class="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#F06292] px-4 py-2 text-sm font-bold text-white shadow-sm transition-all hover:bg-[#D81B60] hover:-translate-y-0.5 sm:flex-none"
+					class="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#F06292] px-4 py-2 text-sm font-bold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#D81B60] sm:flex-none"
 				>
-					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+					<svg
+						class="h-4 w-4"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+						stroke-width="2.5"
+						><path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M13 7l5 5m0 0l-5 5m5-5H6"
+						/></svg
+					>
 					Launch app
 				</a>
 				<button
@@ -184,7 +197,10 @@
 				<span class="text-sm font-black text-[#2E5C31]"
 					>You're on {isSeller ? 'Seller' : 'Pro'}!</span
 				>
-				<span class="text-sm text-[#2E5C31]/70">Your new limits are being applied — your usage numbers may take a minute or two to reflect the change.</span>
+				<span class="text-sm text-[#2E5C31]/70"
+					>Your new limits are being applied — your usage numbers may take a minute or two to
+					reflect the change.</span
+				>
 			</div>
 		{/if}
 
@@ -247,7 +263,11 @@
 					</div>
 					<p class="mt-2 text-xs text-[#875F42]/50">
 						{#if data.profile?.quota_period_end}
-							Resets {new Date(data.profile.quota_period_end).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+							Resets {new Date(data.profile.quota_period_end).toLocaleDateString(undefined, {
+								month: 'short',
+								day: 'numeric',
+								year: 'numeric'
+							})}
 						{:else}
 							Resets every 30 days
 						{/if}
@@ -287,16 +307,16 @@
 			</div>
 		{:else if isSeller}
 			<div
-				class="mb-6 flex items-center justify-between gap-4 rounded-3xl border border-[#F06292]/15 bg-gradient-to-br from-[#FFF0F5] to-[#FFF8F0] p-6 shadow-sm"
+				class="mb-6 flex flex-col gap-4 rounded-3xl border border-[#F06292]/15 bg-gradient-to-br from-[#FFF0F5] to-[#FFF8F0] p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between"
 			>
 				<div>
-					<p class="text-base font-black text-[#4A2C2C]">Upgrade to Pro — 1,200 images/month</p>
+					<p class="text-base font-black text-[#4A2C2C]">Upgrade to Pro, 1,200 images a month</p>
 					<p class="mt-0.5 text-sm text-[#875F42]/60">4× the images, top priority queue.</p>
 				</div>
 				<a
 					href="/api/checkout?plan=pro&billing=monthly"
 					data-sveltekit-reload
-					class="flex-shrink-0 rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-5 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
+					class="flex-shrink-0 self-start rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-5 py-2.5 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] sm:self-auto"
 				>
 					Upgrade to Pro
 				</a>
@@ -365,7 +385,9 @@
 					</div>
 				</div>
 			{:else if hasKey}
-				<div class="flex items-center gap-3 rounded-2xl border border-white/60 bg-white/40 p-4">
+				<div
+					class="flex flex-col gap-1 rounded-2xl border border-white/60 bg-white/40 p-4 sm:flex-row sm:items-center sm:gap-3"
+				>
 					<code class="min-w-0 flex-1 truncate font-mono text-sm text-[#875F42]/60"
 						>••••••••••••••••••••••••••••••••</code
 					>
@@ -426,15 +448,19 @@
 				<div class="min-w-0">
 					<div class="flex items-center gap-2">
 						<h2 class="font-black text-[#4A2C2C]">Third-party AI features</h2>
-						<span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide {aiOptin ? 'bg-[#A5D6A7]/30 text-[#2E5C31]' : 'bg-[#FFF0F5] text-mochi-pink'}">
+						<span
+							class="rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase {aiOptin
+								? 'bg-[#A5D6A7]/30 text-[#2E5C31]'
+								: 'bg-[#FFF0F5] text-mochi-pink'}"
+						>
 							{aiOptin ? 'Enabled' : 'Off'}
 						</span>
 					</div>
 					<p class="mt-1 text-sm text-[#875F42]/60">
-						Lets Mochify send your images to third-party AI providers for upcoming
-						generative features (e.g. AI-generated backgrounds).
-						<strong class="font-bold text-[#875F42]/80">Off by default</strong> — your images
-						are never sent to a third party without this, and you can revoke it anytime.
+						Lets Mochify send your images to third-party AI providers for upcoming generative
+						features (e.g. AI-generated backgrounds).
+						<strong class="font-bold text-[#875F42]/80">Off by default</strong> — your images are never
+						sent to a third party without this, and you can revoke it anytime.
 					</p>
 				</div>
 				<form
@@ -485,13 +511,17 @@
 				<div class="min-w-0">
 					<div class="flex items-center gap-2">
 						<h2 class="font-black text-[#4A2C2C]">Offers and reminders</h2>
-						<span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide {marketingOn ? 'bg-[#A5D6A7]/30 text-[#2E5C31]' : 'bg-[#FFF0F5] text-mochi-pink'}">
+						<span
+							class="rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase {marketingOn
+								? 'bg-[#A5D6A7]/30 text-[#2E5C31]'
+								: 'bg-[#FFF0F5] text-mochi-pink'}"
+						>
 							{marketingOn ? 'On' : 'Off'}
 						</span>
 					</div>
 					<p class="mt-1 text-sm text-[#875F42]/60">
-						Occasional email about upgrades and discounts, such as a reminder if you start
-						setting up a plan and do not finish.
+						Occasional email about upgrades and discounts, such as a reminder if you start setting
+						up a plan and do not finish.
 						<strong class="font-bold text-[#875F42]/80">Never more than a couple a month.</strong>
 						Turning this off never affects account email like sign-in links and receipts.
 					</p>
@@ -534,7 +564,7 @@
 			<p class="mt-3 text-xs text-[#875F42]/40">
 				{marketingOn
 					? 'You can also unsubscribe from the link in any of these emails.'
-					: "You will not receive offers or reminders. Sign-in links and receipts still arrive."}
+					: 'You will not receive offers or reminders. Sign-in links and receipts still arrive.'}
 			</p>
 		</div>
 
@@ -543,106 +573,171 @@
 			<div class="mb-4 flex items-center justify-between">
 				<div>
 					<h2 class="font-black text-[#4A2C2C]">Connections</h2>
-					<p class="mt-0.5 text-xs text-cocoa-milk/60">Connect external services to your workflow</p>
+					<p class="mt-0.5 text-xs text-cocoa-milk/60">
+						Connect external services to your workflow
+					</p>
 				</div>
 			</div>
 
-			<div class="flex items-center gap-4 rounded-2xl border border-cocoa-milk/8 bg-white/40 p-4">
-				<!-- Google Drive tri-color logo -->
-				<div class="shrink-0">
-					<svg width="32" height="28" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-						<path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
-						<path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/>
-						<path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/>
-						<path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/>
-						<path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
-						<path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/>
-					</svg>
-				</div>
-
-				<div class="min-w-0 flex-1">
-					<div class="flex items-center gap-2">
-						<p class="text-sm font-black text-[#4A2C2C]">Google Drive</p>
-						<span class="rounded-full bg-[#FFF0F5] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-mochi-pink">
-							Coming soon
-						</span>
+			<!-- Stacks on mobile. As a single row the 32px logo and the action button
+			     are both shrink-0, so everything they take comes out of the text column,
+			     which collapsed to one word per line on a phone. -->
+			<div
+				class="flex flex-col gap-3 rounded-2xl border border-cocoa-milk/8 bg-white/40 p-4 sm:flex-row sm:items-center sm:gap-4"
+			>
+				<div class="flex min-w-0 flex-1 items-start gap-3 sm:items-center sm:gap-4">
+					<!-- Google Drive tri-color logo -->
+					<div class="shrink-0">
+						<svg
+							width="32"
+							height="28"
+							viewBox="0 0 87.3 78"
+							xmlns="http://www.w3.org/2000/svg"
+							aria-hidden="true"
+						>
+							<path
+								d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z"
+								fill="#0066da"
+							/>
+							<path
+								d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z"
+								fill="#00ac47"
+							/>
+							<path
+								d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z"
+								fill="#ea4335"
+							/>
+							<path
+								d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z"
+								fill="#00832d"
+							/>
+							<path
+								d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z"
+								fill="#2684fc"
+							/>
+							<path
+								d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z"
+								fill="#ffba00"
+							/>
+						</svg>
 					</div>
-					<p class="mt-0.5 text-xs text-cocoa-milk/60">
-						Upload from Drive → process through Mochify → save back to Drive. Zero retention — your images never touch our storage.
-					</p>
+
+					<div class="min-w-0 flex-1">
+						<div class="flex items-center gap-2">
+							<p class="text-sm font-black text-[#4A2C2C]">Google Drive</p>
+							<span
+								class="rounded-full bg-[#FFF0F5] px-2 py-0.5 text-[10px] font-bold tracking-wide text-mochi-pink uppercase"
+							>
+								Coming soon
+							</span>
+						</div>
+						<p class="mt-0.5 text-xs text-cocoa-milk/60">
+							Upload from Drive → process through Mochify → save back to Drive. Zero retention. Your
+							images never touch our storage.
+						</p>
+					</div>
 				</div>
 
 				<button
 					disabled
-					class="shrink-0 cursor-not-allowed rounded-xl border border-cocoa-milk/15 px-4 py-2 text-xs font-bold text-cocoa-milk/30"
+					class="shrink-0 cursor-not-allowed self-start rounded-xl border border-cocoa-milk/15 px-4 py-2 text-xs font-bold text-cocoa-milk/30 sm:self-auto"
 				>
 					Connect
 				</button>
 			</div>
 
-			<div class="mt-3 flex items-center gap-4 rounded-2xl border border-cocoa-milk/8 bg-white/40 p-4">
-				<!-- Bring your own bucket -->
-				<div class="shrink-0">
-					<svg width="32" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-						<path d="M5 8h22l-2.2 18.4a3 3 0 0 1-3 2.6H10.2a3 3 0 0 1-3-2.6L5 8Z" fill="#FFF0F5" stroke="#F06292" stroke-width="1.8" stroke-linejoin="round"/>
-						<path d="M8.5 8a7.5 4 0 0 1 15 0" fill="none" stroke="#F06292" stroke-width="1.8" stroke-linecap="round"/>
-						<path d="M11 14.5l3 3-3 3M18 14.5l3 3-3 3" stroke="#F06292" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-					</svg>
-				</div>
-
-				<div class="min-w-0 flex-1">
-					<div class="flex items-center gap-2">
-						<p class="text-sm font-black text-[#4A2C2C]">Bring your own bucket</p>
-						{#if bucket.connected}
-							<span
-								class="h-2 w-2 shrink-0 rounded-full {bucket.status === 'ok'
-									? 'bg-[#66BB6A]'
-									: bucket.status === 'error'
-										? 'bg-red-400'
-										: 'bg-amber-400'}"
-								aria-hidden="true"
-							></span>
-							<span class="text-[10px] font-bold uppercase tracking-wide text-cocoa-milk/50">
-								{bucket.status === 'ok'
-									? `Verified ${relativeTime(bucket.lastVerifiedAt)}`
-									: bucket.status === 'error'
-										? 'Needs attention'
-										: 'Not verified'}
-							</span>
-						{:else if !isPaid}
-							<span
-								class="rounded-full bg-[#FFF0F5] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-mochi-pink"
-							>
-								Paid plans
-							</span>
-						{/if}
+			<div
+				class="mt-3 flex flex-col gap-3 rounded-2xl border border-cocoa-milk/8 bg-white/40 p-4 sm:flex-row sm:items-center sm:gap-4"
+			>
+				<div class="flex min-w-0 flex-1 items-start gap-3 sm:items-center sm:gap-4">
+					<!-- Bring your own bucket -->
+					<div class="shrink-0">
+						<svg
+							width="32"
+							height="28"
+							viewBox="0 0 32 32"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+							aria-hidden="true"
+						>
+							<path
+								d="M5 8h22l-2.2 18.4a3 3 0 0 1-3 2.6H10.2a3 3 0 0 1-3-2.6L5 8Z"
+								fill="#FFF0F5"
+								stroke="#F06292"
+								stroke-width="1.8"
+								stroke-linejoin="round"
+							/>
+							<path
+								d="M8.5 8a7.5 4 0 0 1 15 0"
+								fill="none"
+								stroke="#F06292"
+								stroke-width="1.8"
+								stroke-linecap="round"
+							/>
+							<path
+								d="M11 14.5l3 3-3 3M18 14.5l3 3-3 3"
+								stroke="#F06292"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+						</svg>
 					</div>
 
-					{#if bucket.connected}
-						<p class="mt-0.5 truncate text-xs text-cocoa-milk/60">
-							<span class="font-bold text-[#4A2C2C]">{bucket.bucket}</span>{bucket.prefix
-								? `/${bucket.prefix}`
-								: ''} · <span class="font-mono">{bucket.accessKeyIdMasked}</span>
-						</p>
-						{#if bucket.status === 'error' && bucket.statusDetail}
-							<p class="mt-1 text-xs font-medium text-red-600/80">{bucket.statusDetail}</p>
-						{:else if bucket.status === 'ok'}
-							<p class="mt-1 text-[11px] text-cocoa-milk/40">
-								Connected and writable. Processing straight to your bucket arrives next.
+					<div class="min-w-0 flex-1">
+						<div class="flex items-center gap-2">
+							<p class="text-sm font-black text-[#4A2C2C]">Bring your own bucket</p>
+							{#if bucket.connected}
+								<span
+									class="h-2 w-2 shrink-0 rounded-full {bucket.status === 'ok'
+										? 'bg-[#66BB6A]'
+										: bucket.status === 'error'
+											? 'bg-red-400'
+											: 'bg-amber-400'}"
+									aria-hidden="true"
+								></span>
+								<span class="text-[10px] font-bold tracking-wide text-cocoa-milk/50 uppercase">
+									{bucket.status === 'ok'
+										? `Verified ${relativeTime(bucket.lastVerifiedAt)}`
+										: bucket.status === 'error'
+											? 'Needs attention'
+											: 'Not verified'}
+								</span>
+							{:else if !isPaid}
+								<span
+									class="rounded-full bg-[#FFF0F5] px-2 py-0.5 text-[10px] font-bold tracking-wide text-mochi-pink uppercase"
+								>
+									Paid plans
+								</span>
+							{/if}
+						</div>
+
+						{#if bucket.connected}
+							<p class="mt-0.5 truncate text-xs text-cocoa-milk/60">
+								<span class="font-bold text-[#4A2C2C]">{bucket.bucket}</span>{bucket.prefix
+									? `/${bucket.prefix}`
+									: ''} · <span class="font-mono">{bucket.accessKeyIdMasked}</span>
+							</p>
+							{#if bucket.status === 'error' && bucket.statusDetail}
+								<p class="mt-1 text-xs font-medium text-red-600/80">{bucket.statusDetail}</p>
+							{:else if bucket.status === 'ok'}
+								<p class="mt-1 text-[11px] text-cocoa-milk/40">
+									Connected and writable. Processing straight to your bucket arrives next.
+								</p>
+							{/if}
+						{:else}
+							<p class="mt-0.5 text-xs text-cocoa-milk/60">
+								Point Mochify at your own S3, R2, or S3-compatible bucket. Your keys are stored
+								encrypted and only ever used on your behalf.
 							</p>
 						{/if}
-					{:else}
-						<p class="mt-0.5 text-xs text-cocoa-milk/60">
-							Point Mochify at your own S3, R2, or S3-compatible bucket. Your keys are stored
-							encrypted and only ever used on your behalf.
-						</p>
-					{/if}
+					</div>
 				</div>
 
 				{#if !isPaid}
 					<a
 						href="/pricing"
-						class="shrink-0 rounded-xl border border-mochi-pink/30 px-4 py-2 text-xs font-bold text-mochi-pink transition-all hover:bg-[#FFF0F5]"
+						class="shrink-0 self-start rounded-xl border border-mochi-pink/30 px-4 py-2 text-xs font-bold text-mochi-pink transition-all hover:bg-[#FFF0F5] sm:self-auto"
 					>
 						Upgrade
 					</a>
@@ -650,12 +745,12 @@
 					<button
 						onclick={openBucketForm}
 						disabled={showBucketForm}
-						class="shrink-0 cursor-pointer rounded-xl border border-cocoa-milk/15 px-4 py-2 text-xs font-bold text-[#4A2C2C] transition-all hover:border-mochi-pink/40 hover:text-mochi-pink disabled:opacity-40"
+						class="shrink-0 cursor-pointer self-start rounded-xl border border-cocoa-milk/15 px-4 py-2 text-xs font-bold text-[#4A2C2C] transition-all hover:border-mochi-pink/40 hover:text-mochi-pink disabled:opacity-40 sm:self-auto"
 					>
 						Connect
 					</button>
 				{:else if showBucketDisconnect}
-					<div class="flex shrink-0 items-center gap-2">
+					<div class="flex shrink-0 flex-wrap items-center gap-2 self-start sm:self-auto">
 						<span class="text-xs font-bold text-[#4A2C2C]">Remove credentials?</span>
 						<form
 							method="POST"
@@ -692,7 +787,7 @@
 						</button>
 					</div>
 				{:else}
-					<div class="flex shrink-0 items-center gap-2">
+					<div class="flex shrink-0 flex-wrap items-center gap-2 self-start sm:self-auto">
 						<form
 							method="POST"
 							action="?/verifyBucket"
@@ -710,7 +805,8 @@
 											});
 										}
 									} else if (result.type === 'failure') {
-										bucketError = (result.data?.error as string) ?? 'Could not test the connection.';
+										bucketError =
+											(result.data?.error as string) ?? 'Could not test the connection.';
 									}
 								};
 							}}
@@ -778,7 +874,9 @@
 				>
 					<div class="grid gap-3 sm:grid-cols-2">
 						<label class="block">
-							<span class="mb-1 block text-[11px] font-bold uppercase tracking-wide text-cocoa-milk/50">
+							<span
+								class="mb-1 block text-[11px] font-bold tracking-wide text-cocoa-milk/50 uppercase"
+							>
 								Provider
 							</span>
 							<select
@@ -793,7 +891,9 @@
 						</label>
 
 						<label class="block">
-							<span class="mb-1 block text-[11px] font-bold uppercase tracking-wide text-cocoa-milk/50">
+							<span
+								class="mb-1 block text-[11px] font-bold tracking-wide text-cocoa-milk/50 uppercase"
+							>
 								Bucket
 							</span>
 							<input
@@ -807,7 +907,9 @@
 
 						{#if bucketProvider === 's3'}
 							<label class="block">
-								<span class="mb-1 block text-[11px] font-bold uppercase tracking-wide text-cocoa-milk/50">
+								<span
+									class="mb-1 block text-[11px] font-bold tracking-wide text-cocoa-milk/50 uppercase"
+								>
 									Region
 								</span>
 								<input
@@ -820,7 +922,9 @@
 							</label>
 						{:else}
 							<label class="block">
-								<span class="mb-1 block text-[11px] font-bold uppercase tracking-wide text-cocoa-milk/50">
+								<span
+									class="mb-1 block text-[11px] font-bold tracking-wide text-cocoa-milk/50 uppercase"
+								>
 									Endpoint
 								</span>
 								<input
@@ -836,8 +940,10 @@
 						{/if}
 
 						<label class="block">
-							<span class="mb-1 block text-[11px] font-bold uppercase tracking-wide text-cocoa-milk/50">
-								Prefix <span class="font-medium normal-case text-cocoa-milk/30">optional</span>
+							<span
+								class="mb-1 block text-[11px] font-bold tracking-wide text-cocoa-milk/50 uppercase"
+							>
+								Prefix <span class="font-medium text-cocoa-milk/30 normal-case">optional</span>
 							</span>
 							<input
 								name="prefix"
@@ -848,7 +954,9 @@
 						</label>
 
 						<label class="block">
-							<span class="mb-1 block text-[11px] font-bold uppercase tracking-wide text-cocoa-milk/50">
+							<span
+								class="mb-1 block text-[11px] font-bold tracking-wide text-cocoa-milk/50 uppercase"
+							>
 								Access key ID
 							</span>
 							<input
@@ -863,7 +971,9 @@
 						</label>
 
 						<label class="block">
-							<span class="mb-1 block text-[11px] font-bold uppercase tracking-wide text-cocoa-milk/50">
+							<span
+								class="mb-1 block text-[11px] font-bold tracking-wide text-cocoa-milk/50 uppercase"
+							>
 								Secret access key
 							</span>
 							<input
@@ -926,9 +1036,9 @@
 		<div class="rounded-3xl border border-red-200/60 p-6">
 			<h2 class="mb-1 font-black text-red-700/80">Danger zone</h2>
 			<p class="mb-4 text-sm text-[#875F42]/60">
-				Delete your account and all associated data. Your account is deactivated immediately
-				and permanently deleted after 14 days — signing in again within that window cancels
-				the deletion.
+				Delete your account and all associated data. Your account is deactivated immediately and
+				permanently deleted after 14 days — signing in again within that window cancels the
+				deletion.
 			</p>
 			{#if !showDeleteConfirm}
 				<button

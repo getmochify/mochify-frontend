@@ -373,14 +373,35 @@
 								/>
 							</div>
 
+							<!-- Custom box rather than `accent-*`: the native control keeps its square
+							     corners and system tick, which reads as an OS widget in a card where
+							     everything else is rounded and soft. The input stays in the DOM as an
+							     sr-only peer, so it is still a real checkbox for keyboard and screen
+							     reader users and still drives the focus ring. -->
 							<label
-								class="flex cursor-pointer items-start gap-3 rounded-2xl bg-white/50 px-3.5 py-3 text-left"
+								class="flex cursor-pointer items-start gap-3 rounded-2xl bg-white/50 px-3.5 py-3 text-left transition-colors hover:bg-white/70"
 							>
-								<input
-									type="checkbox"
-									bind:checked={marketingOptOut}
-									class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[#F06292]"
-								/>
+								<input type="checkbox" bind:checked={marketingOptOut} class="peer sr-only" />
+								<span
+									aria-hidden="true"
+									class="mt-px flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[7px] border transition-all duration-150 peer-focus-visible:ring-2 peer-focus-visible:ring-[#F06292]/40 peer-focus-visible:ring-offset-2 {marketingOptOut
+										? 'border-transparent bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)]'
+										: 'border-[#875F42]/20 bg-white/80'}"
+								>
+									<svg
+										class="h-2.5 w-2.5 text-white transition-transform duration-150 {marketingOptOut
+											? 'scale-100'
+											: 'scale-0'}"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="4"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<path d="M5 13l4 4L19 7" />
+									</svg>
+								</span>
 								<span class="text-xs leading-relaxed font-medium text-[#875F42]/80">
 									Don't email me offers or product news.
 									<span class="block text-[#875F42]/50">
