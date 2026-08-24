@@ -45,31 +45,32 @@
     {/if}
 
     <div class="space-y-5">
-        <div class="grid grid-cols-2 justify-items-center gap-x-4 gap-y-3 sm:flex sm:flex-wrap sm:justify-center sm:items-center sm:gap-x-6 sm:gap-y-2 text-xs">
+        <div class="grid grid-cols-2 justify-items-center gap-x-4 gap-y-3 sm:flex sm:flex-wrap sm:justify-center sm:items-center sm:gap-x-7 sm:gap-y-3 text-xs">
             <a href="/about" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 About
             </a>
-            <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5]">•</span>
             <a href="/contact" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 Contact
             </a>
-            <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5]">•</span>
             <a href="/sustainability" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 Sustainability
             </a>
-            <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5]">•</span>
+            <!-- Sits with the transparency links rather than the legal ones: it
+                 is the page that lets someone check the zero-retention claim
+                 against the design. Its only other inbound internal link is one
+                 line in /about. -->
+            <a href="/architecture" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
+                Architecture
+            </a>
             <a href="/service-terms" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 Terms of Service
             </a>
-            <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5]">•</span>
             <a href="/privacy" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 Privacy Policy
             </a>
-            <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5]">•</span>
             <a href="/terms" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 Terms &amp; Conditions
             </a>
-            <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5]">•</span>
             <a href="/dpa" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 Data Processing Agreement
             </a>

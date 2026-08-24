@@ -3,11 +3,18 @@
 	import Navigation from '$lib/components/Navigation.svelte';
 	import { posthog } from '$lib/analytics';
 
+	let { data } = $props();
+
 	let email = $state('');
 	let password = $state('');
 	let loading = $state(false);
 	let error = $state('');
 	let success = $state(false);
+
+	// Where the visitor was headed before signup bounced them here, and which
+	// plan that implies. Both come from the load, which validates them.
+	const next = $derived(data?.next ?? '/dashboard');
+	const intent = $derived(data?.plan ?? null);
 	// Unticked by default, and ticking it refuses. Deliberately the opposite
 	// polarity to the AI consent card: PECR soft opt-in permits marketing to
 	// someone who has started a purchase, provided refusal is offered here at
@@ -15,39 +22,137 @@
 	let marketingOptOut = $state(false);
 
 	async function handleGoogle() {
-		await authClient.signIn.social({ provider: 'google', callbackURL: '/dashboard' });
+		await authClient.signIn.social({ provider: 'google', callbackURL: next });
 	}
 
-	const benefits = [
-		{
-			title: '25 Images / Month',
-			desc: 'Convert or compress files up to 20MB each.',
-			tone: 'pink',
-			highlight: true,
-			path: 'M3 16.5l4.5-4.5a2 2 0 012.8 0l3.2 3.2m0 0l2.2-2.2a2 2 0 012.8 0L21 15.5M4 4h16a1 1 0 011 1v14a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1zm5.5 4.5h.01'
+	// The four `d` strings, named once. Every panel draws from the same set, so
+	// inlining them per entry would mean three copies of each path.
+	const ICON = {
+		image:
+			'M3 16.5l4.5-4.5a2 2 0 012.8 0l3.2 3.2m0 0l2.2-2.2a2 2 0 012.8 0L21 15.5M4 4h16a1 1 0 011 1v14a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1zm5.5 4.5h.01',
+		spark:
+			'M12 3l1.9 4.4L18.5 9l-4.6 1.6L12 15l-1.9-4.4L5.5 9l4.6-1.6L12 3zm6 10l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1zM6 14l.7 1.6 1.6.7-1.6.7L6 18.6l-.7-1.6-1.6-.7 1.6-.7L6 14z',
+		sliders: 'M4 6h10m4 0h2M4 12h2m4 0h10M4 18h10m4 0h2M14 4v4M8 10v4M14 16v4',
+		badge:
+			'M9 12.5l2 2 4-4.5M12 3l2.4 1.8 3 .1.9 2.8 2.4 1.8-.9 2.9.9 2.9-2.4 1.8-.9 2.8-3 .1L12 22l-2.4-1.8-3-.1-.9-2.8L3.3 15.5l.9-2.9-.9-2.9 2.4-1.8.9-2.8 3-.1L12 3z'
+	};
+
+	// One panel per signup intent. Someone who clicked "Get Seller" on /pricing
+	// should not arrive here reading "100% Free Forever": that is a downsell at
+	// the exact moment they had decided to pay. Feature copy mirrors the matching
+	// card on /pricing so the two pages cannot drift into contradicting values.
+	const PLAN_PANELS = {
+		free: {
+			heading: 'What you get with a Free Account:',
+			subtitle: 'Unlock higher limits and advanced features, 100% free forever.',
+			footnote: 'Free account • No credit card required • Resets monthly',
+			benefits: [
+				{
+					title: '25 Images / Month',
+					desc: 'Convert or compress files up to 20MB each.',
+					tone: 'pink',
+					highlight: true,
+					path: ICON.image
+				},
+				{
+					title: 'Advanced Formats',
+					desc: 'Access to AVIF, WebP, JPEG XL, and Jpegli.',
+					tone: 'amber',
+					highlight: false,
+					path: ICON.spark
+				},
+				{
+					title: 'EXIF Control',
+					desc: 'Strip metadata and apply custom settings.',
+					tone: 'pink',
+					highlight: false,
+					path: ICON.sliders
+				},
+				{
+					title: '100% Free Forever',
+					desc: 'No credit card required, resets monthly.',
+					tone: 'amber',
+					highlight: false,
+					path: ICON.badge
+				}
+			]
 		},
-		{
-			title: 'Advanced Formats',
-			highlight: false,
-			desc: 'Access to AVIF, WebP, JPEG XL, and Jpegli.',
-			tone: 'amber',
-			path: 'M12 3l1.9 4.4L18.5 9l-4.6 1.6L12 15l-1.9-4.4L5.5 9l4.6-1.6L12 3zm6 10l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1zM6 14l.7 1.6 1.6.7-1.6.7L6 18.6l-.7-1.6-1.6-.7 1.6-.7L6 14z'
+		seller: {
+			heading: 'What you get with Seller:',
+			subtitle: 'One step before checkout. Your account comes first.',
+			footnote: 'Verify your email and we take you straight to checkout',
+			benefits: [
+				{
+					title: '300 Images / Month',
+					desc: 'Twelve times the free allowance.',
+					tone: 'pink',
+					highlight: true,
+					path: ICON.image
+				},
+				{
+					title: '75MB Files, 25 Per Batch',
+					desc: 'Drop a whole folder in at once.',
+					tone: 'amber',
+					highlight: false,
+					path: ICON.sliders
+				},
+				{
+					title: 'Background Removal & PDF',
+					desc: 'Plus everything on the free plan.',
+					tone: 'pink',
+					highlight: false,
+					path: ICON.spark
+				},
+				{
+					title: 'Priority Processing',
+					desc: 'Your jobs skip the standard queue.',
+					tone: 'amber',
+					highlight: false,
+					path: ICON.badge
+				}
+			]
 		},
-		{
-			title: 'EXIF Control',
-			highlight: false,
-			desc: 'Strip metadata and apply custom settings.',
-			tone: 'pink',
-			path: 'M4 6h10m4 0h2M4 12h2m4 0h10M4 18h10m4 0h2M14 4v4M8 10v4M14 16v4'
-		},
-		{
-			title: '100% Free Forever',
-			highlight: false,
-			desc: 'No credit card required, resets monthly.',
-			tone: 'amber',
-			path: 'M9 12.5l2 2 4-4.5M12 3l2.4 1.8 3 .1.9 2.8 2.4 1.8-.9 2.9.9 2.9-2.4 1.8-.9 2.8-3 .1L12 22l-2.4-1.8-3-.1-.9-2.8L3.3 15.5l.9-2.9-.9-2.9 2.4-1.8.9-2.8 3-.1L12 3z'
+		pro: {
+			heading: 'What you get with Pro:',
+			subtitle: 'One step before checkout. Your account comes first.',
+			footnote: 'Verify your email and we take you straight to checkout',
+			benefits: [
+				{
+					title: '1,200 Images / Month',
+					desc: 'Four times the volume of Seller for three times the price.',
+					tone: 'pink',
+					highlight: true,
+					path: ICON.image
+				},
+				{
+					title: 'Everything In Seller',
+					desc: '75MB files, 25 per batch, background removal.',
+					tone: 'amber',
+					highlight: false,
+					path: ICON.sliders
+				},
+				{
+					title: 'Top Priority Queue',
+					desc: 'The front of the line, ahead of Seller.',
+					tone: 'pink',
+					highlight: false,
+					path: ICON.spark
+				},
+				{
+					title: 'Priority Email Support',
+					desc: 'Answered ahead of the general queue.',
+					tone: 'amber',
+					highlight: false,
+					path: ICON.badge
+				}
+			]
 		}
-	];
+	};
+
+	const panel = $derived(
+		intent === 'seller' ? PLAN_PANELS.seller : intent === 'pro' ? PLAN_PANELS.pro : PLAN_PANELS.free
+	);
+	const planName = $derived(intent === 'seller' ? 'Seller' : intent === 'pro' ? 'Pro' : null);
 
 	async function handleRegister(e: Event) {
 		e.preventDefault();
@@ -58,6 +163,11 @@
 			email,
 			password,
 			name: email.split('@')[0] ?? email,
+			// The verification link comes back here. With autoSignInAfterVerification
+			// on, a buyer who clicked "Get Seller" is signed in and dropped straight
+			// into checkout instead of landing on the dashboard and having to find
+			// the pricing page again.
+			callbackURL: next,
 			// Rides along in the request body rather than as a top-level argument,
 			// because the client only types the fields Better Auth knows about and
 			// this one is deliberately not a declared additionalField: it belongs on
@@ -100,13 +210,13 @@
 						class="rounded-3xl border border-white/80 bg-gradient-to-br from-[#FFF4F8] to-[#FFFAF2] p-7 shadow-[0_8px_32px_rgba(240,98,146,0.08)] sm:p-8"
 					>
 						<h2 class="mb-7 text-lg font-black tracking-tight text-[#4A2C2C]">
-							What you get with a Free Account:
+							{panel.heading}
 						</h2>
 
 						<!-- -mx-3 cancels each row's px-3 so text lines up with the heading, while the
 						     highlighted row's pill still bleeds toward the card edge. -->
 						<ul class="-mx-3 flex flex-col gap-2">
-							{#each benefits as benefit (benefit.title)}
+							{#each panel.benefits as benefit (benefit.title)}
 								<li
 									class="flex items-start gap-4 rounded-2xl px-3 py-3 {benefit.highlight
 										? 'bg-white/80 shadow-[0_2px_10px_rgba(240,98,146,0.08)] ring-1 ring-[#F06292]/20'
@@ -150,7 +260,7 @@
 				<div class="mb-8 text-center">
 					<h1 class="mb-1 text-3xl font-black tracking-tight text-[#4A2C2C]">Create account</h1>
 					<p class="text-sm text-[#875F42]/70">
-						Unlock higher limits and advanced features, 100% free forever.
+						{panel.subtitle}
 					</p>
 				</div>
 
@@ -180,6 +290,11 @@
 							<p class="text-sm text-[#875F42]/70">
 								We sent a confirmation link to <strong class="text-[#6C3F31]">{email}</strong>.
 							</p>
+							{#if planName}
+								<p class="mt-2 text-sm text-[#875F42]/70">
+									Open it and we will take you straight to {planName} checkout.
+								</p>
+							{/if}
 							<p class="mt-2 text-sm text-[#875F42]/70">
 								Already have an account? <a
 									href="/auth/login"
@@ -284,7 +399,7 @@
 							</button>
 
 							<p class="-mt-1 text-center text-xs font-medium text-[#875F42]/50">
-								Free account • No credit card required • Resets monthly
+								{panel.footnote}
 							</p>
 						</form>
 					{/if}

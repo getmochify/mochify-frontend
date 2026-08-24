@@ -259,18 +259,18 @@
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
                         <span><strong>20MB</strong> max file size</span>
                     </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]/50">
-                        <span class="mt-0.5 font-black">–</span>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
                         <span>Up to <strong>3 files</strong> per batch</span>
                     </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]/50">
-                        <span class="mt-0.5 font-black">–</span>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
                         <span>Standard queue</span>
                     </li>
                 </ul>
 
                 <a
-                    href="/flow"
+                    href="/auth/register"
                     class="block text-center px-6 py-3 rounded-2xl border border-[#875F42]/25 text-sm font-black text-[#6C3F31] hover:border-[#F06292]/40 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all"
                 >
                     Start for free

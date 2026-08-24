@@ -80,7 +80,7 @@
     "kysely": "^0.28.17",
     "kysely-d1": "^0.4.0",
     "mediabunny": "^1.55.2",
-    "posthog-js": "^1.418.10",
+    "posthog-js": "^1.418.11",
     "posthog-node": "^5.50.0",
     "resend": "^6.22.0"
   }
