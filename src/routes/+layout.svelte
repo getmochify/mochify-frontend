@@ -3,7 +3,7 @@
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import { posthog } from '$lib/analytics';
-	import { ogImageFor } from '$lib/og/cards.js';
+	import { ogImageFor, ogAltFor } from '$lib/og/cards.js';
 	import BlobBackground from '$lib/components/BlobBackground.svelte';
 	let { children, data } = $props();
 
@@ -54,6 +54,7 @@
 	// Pages set their own og:title/description; the shared image is injected here
 	// so we don't have to repeat it across ~90 routes. See src/lib/og/cards.js.
 	const ogImage = $derived(ogImageFor(page.url.pathname));
+	const ogAlt = $derived(ogAltFor(page.url.pathname));
 
 	// Import Outfit (Weights: 600, 700, 800, 900)
 	import '@fontsource/outfit/600.css';
@@ -87,7 +88,7 @@
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
 	<meta property="og:image:type" content="image/png" />
-	<meta property="og:image:alt" content="Mochify" />
+	<meta property="og:image:alt" content={ogAlt} />
 	<meta name="twitter:image" content={ogImage} />
 	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 	<link rel="shortcut icon" href="/favicon.ico" />

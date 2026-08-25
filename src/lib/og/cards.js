@@ -402,7 +402,8 @@ export const cards = [
 	{
 		path: '/solutions/sdr-to-hdr',
 		eyebrow: 'TOOL',
-		title: 'SDR to HDR - Add a Gain Map to Any Photo'
+		title: 'SDR to HDR Photo Converter - Ultra HDR JPEG',
+		alt: 'Side-by-side of the same sunlit lobby photo as standard JPEG and Ultra HDR JPEG'
 	},
 	{
 		path: '/solutions/svg-to-avif',
@@ -458,4 +459,15 @@ const byPath = new Map(cards.map((c) => [c.path, c]));
 export function ogImageFor(pathname) {
 	const clean = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
 	return byPath.has(clean) ? `${ORIGIN}/og/${slugFor(clean)}.png` : `${ORIGIN}/og/default.png`;
+}
+
+/**
+ * Alt text for a route's OG image. Falls back to 'Mochify' for cards that
+ * don't set a bespoke `alt` (matches the pre-existing default in the root
+ * layout's og:image:alt meta tag).
+ * @param {string} pathname
+ */
+export function ogAltFor(pathname) {
+	const clean = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+	return byPath.get(clean)?.alt ?? 'Mochify';
 }
