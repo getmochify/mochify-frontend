@@ -60,10 +60,66 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const cookieHeader = event.request.headers.get('cookie') ?? '';
 	const tokenMatch = cookieHeader.match(/better-auth\.session_token=([^;]+)/);
 	const sessionToken = tokenMatch?.[1];
+	const kv = event.platform?.env?.USAGE_KV;
+
+	// better-auth's SvelteKit adapter (svelteKitHandler, invoked below) routes any
+	// `/api/auth/*` request straight to `auth.handler(request)` and returns that
+	// Response without ever calling `resolve(event)`. That means `event.locals`,
+	// populated further down for `load` functions, is never consulted for auth-API
+	// requests — so narrowing the `isAuthRoute` exclusion below would NOT get
+	// GET /api/auth/get-session onto the KV fast path; it would just populate an
+	// `event.locals` nobody reads while `auth.handler()` still runs its own,
+	// separate D1-backed session lookup for the response body. Confirmed by
+	// reading node_modules/better-auth/dist/integrations/svelte-kit.mjs
+	// (`svelteKitHandler`) and dist/api/routes/session.mjs (`getSession()`, which
+	// always hits `ctx.context.internalAdapter.findSession` because this app
+	// doesn't enable better-auth's own `session.cookieCache`).
+	//
+	// So get-session gets its own short-circuit instead: on a KV cache hit for
+	// this exact route, answer directly from the cache and skip `svelteKitHandler`
+	// (and therefore `auth.handler()` and D1) entirely. `auth.api.getSession()`
+	// and the HTTP `/get-session` route both dispatch to the identical endpoint
+	// definition (see getEndpoints() in dist/api/index.mjs), so the object already
+	// cached below under `sc:<token>` is byte-identical, once JSON-serialized, to
+	// what a live response body would contain — safe to replay verbatim.
+	//
+	// Only ever short-circuits on a HIT. On a miss, fall through to the ordinary
+	// `isAuthRoute` bypass and let `auth.handler()` do the authoritative lookup —
+	// duplicating that lookup here just to warm the cache would reintroduce a
+	// second D1 query on every miss. In practice the cache is already warm almost
+	// always: the SSR render of whatever page triggered this client-side call
+	// populates the same `sc:<token>` entry moments earlier via the fast path below.
+	//
+	// Staleness/invalidation: identical tradeoff to every other KV-cached page.
+	// Sign-out clears the cookie, so the (cookie-less) next request can't replay a
+	// stale hit. A session revoked from another device (or via better-auth's own
+	// revoke-session/revoke-other-sessions, which only touch D1) can still read as
+	// valid here for up to the 5-minute TTL — deleteAccount is the one path that
+	// proactively purges `sc:<token>` (see dashboard/+page.server.ts). No new risk
+	// introduced; this route now just shares the risk every other page accepts.
+	const isGetSessionRoute =
+		event.request.method === 'GET' && event.url.pathname === '/api/auth/get-session';
+	if (sessionToken && kv && isGetSessionRoute) {
+		try {
+			const cached = await kv.get(`sc:${sessionToken}`, 'json');
+			if (cached) {
+				return setSecurityHeaders(
+					new Response(JSON.stringify(cached), {
+						headers: {
+							'content-type': 'application/json',
+							'cache-control': 'no-store',
+							pragma: 'no-cache'
+						}
+					})
+				);
+			}
+		} catch {
+			/* ignore cache errors, fall through to the authoritative path */
+		}
+	}
 
 	let session = null;
 	if (sessionToken) {
-		const kv = event.platform?.env?.USAGE_KV;
 		const isAuthRoute = event.url.pathname.startsWith('/api/auth/');
 
 		// KV fast path — skip D1 for cached sessions on non-auth routes.

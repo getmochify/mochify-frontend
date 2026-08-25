@@ -22,10 +22,15 @@
 	let copied = $state(false);
 	let keyLoading = $state(false);
 
-	// Usage state
-	let usageLoaded = $state(false);
-	let usedOps = $state(0);
-	let quotaOps = $state(30);
+	// Usage state — seeded from the server load so the card renders with real
+	// numbers on first paint (no loading flash). loadUsage() is kept only as a
+	// manual-refresh path, invoked after a fresh API key is generated.
+	// svelte-ignore state_referenced_locally
+	let usageLoaded = $state(data.usage != null);
+	// svelte-ignore state_referenced_locally
+	let usedOps = $state(data.usage?.used ?? 0);
+	// svelte-ignore state_referenced_locally
+	let quotaOps = $state(data.usage?.quota ?? data.profile?.ops_limit ?? 30);
 
 	// Third-party AI consent (default off; managed here, enforced when gen-AI ships).
 	// Seeded from server data in onMount, then managed locally by the toggle.
@@ -131,11 +136,9 @@
 	let canConfirmDelete = $derived(deleteConfirmText.trim().toLowerCase() === 'delete my account');
 
 	onMount(() => {
-		quotaOps = data.profile?.ops_limit ?? 30;
 		aiOptin = data.profile?.ai_thirdparty_optin === 1;
 		marketingOn = data.profile?.marketing_opt_out !== 1;
 		justUpgraded = new URLSearchParams(window.location.search).get('upgraded') === 'true';
-		loadUsage();
 	});
 
 	let usagePercent = $derived(
