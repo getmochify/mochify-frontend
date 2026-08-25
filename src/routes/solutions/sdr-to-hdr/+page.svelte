@@ -168,8 +168,8 @@
                 </svg>
             </div>
             <div class="flex-1 text-center sm:text-left">
-                <p class="font-black text-[#4A2C2C] text-base leading-snug">Need to resize or crop too? Just say so.</p>
-                <p class="text-sm text-[#6C3F31]/70 mt-1 leading-relaxed">Type something like <span class="font-semibold text-[#6C3F31]">"add HDR and resize to 2000px"</span> and our prompt form handles the rest. Resize, crop and rotate all carry the gain map through.</p>
+                <p class="font-black text-[#4A2C2C] text-base leading-snug">Need to resize too? Just say so.</p>
+                <p class="text-sm text-[#6C3F31]/70 mt-1 leading-relaxed">Type something like <span class="font-semibold text-[#6C3F31]">"add HDR and resize to 2000px"</span> and our prompt form handles the rest.</p>
             </div>
             <a
                 href="/auth/register"
@@ -344,3 +344,20 @@ grep X-Mochify-HDR headers.txt
         </div>
     </section>
 </div>
+
+<style>
+    /* Scoped per-page, matching /solutions/hif-to-jpg and /solutions/heif-to-jpg.
+       `.liquid-glass` is not a global utility: every file that uses it carries its
+       own copy, because Svelte scopes component styles. Using the class without
+       this block renders the card with no background, border or shadow. */
+    .liquid-glass {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow:
+            0 8px 32px 0 rgba(240, 98, 146, 0.15),
+            inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
+            inset 0 -1px 0 0 rgba(255, 255, 255, 0.1);
+    }
+</style>
