@@ -76,8 +76,7 @@ function firstEmail(ctx: CartContext): string {
 		`
 	    <h1 style="font-size:21px;color:#4A2C2C;margin:0 0 16px">You were partway to ${p.name}</h1>
 	    <p style="font-size:15px;color:#4A2C2C;line-height:1.6;margin:0 0 14px">
-	      You started setting up Mochify ${p.name} and did not finish. No problem, your images are
-	      still where you left them.
+	      You started setting up Mochify ${p.name} and did not finish.
 	    </p>
 	    <p style="font-size:15px;color:#4A2C2C;line-height:1.6;margin:0 0 14px">
 	      If it was the price that gave you pause, here is a code for 50% off your first month.
