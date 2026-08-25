@@ -12,7 +12,7 @@
         category: "Image Optimization",
         readTime: "15 min read",
         date: "April 13, 2026",
-        lastUpdated: "August 5, 2026"
+        lastUpdated: "August 25, 2026"
     };
 
     const related = [
@@ -86,7 +86,7 @@
         "description": "A practical guide to pre-upload image optimization: when it is mandatory, when it is optional, and the right workflow for Shopify, WordPress, and marketplaces.",
         "url": "https://mochify.app/guides/should-i-optimize-images-before-upload",
         "datePublished": "2026-04-13",
-        "dateModified": "2026-08-05",
+        "dateModified": "2026-08-25",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team" },
         "isPartOf": { "@type": "CollectionPage", "name": "Image Optimization Guides", "url": "https://mochify.app/guides" },
@@ -238,7 +238,7 @@
             <p class="mb-4">Better Core Web Vitals translate directly into visibility. Research from DebugBear and others has documented cases where improving Web Vitals scores increased the number of URLs with "Good" rankings by hundreds of percent, with corresponding lifts in organic impressions. For an image-heavy site - ecommerce stores, portfolios, publisher blogs - getting images right before they ever hit your CMS is the single highest-leverage thing you can do.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">How platforms actually handle your images</h3>
-            <p class="mb-4">Shopify's CDN automatically generates multiple responsive sizes and can serve WebP based on browser support. WordPress stores the original plus multiple derivatives. Etsy and Amazon both re-compress at ingest. So the question isn't "do they optimize anything?" - they do. The question is whether you're comfortable with opaque, platform-defined defaults.</p>
+            <p class="mb-4">Shopify's CDN automatically generates multiple responsive sizes and can serve WebP based on browser support. Our breakdown of <a href="/guides/what-automatic-image-optimization-actually-does">what automatic image optimization actually does</a> covers what each platform's automatic layer handles, and where it stops. WordPress stores the original plus multiple derivatives. Etsy and Amazon both re-compress at ingest. So the question isn't "do they optimize anything?" - they do. The question is whether you're comfortable with opaque, platform-defined defaults.</p>
             <p class="mb-4">The problem with relying entirely on platform processing is unpredictability. Shopify can convert to WebP but still serves your original as the base for all transformations - if that original is a 12MB DSLR file, every generated size is working from unnecessarily large source material, and aggressive CDN re-compression often introduces visible sharpness loss. WordPress plugin behavior varies wildly by host and configuration. Marketplaces don't publish their compression parameters. Optimizing before upload puts you in control of the quality-to-size trade-off rather than discovering it after launch.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Privacy and EXIF: what your metadata reveals</h3>

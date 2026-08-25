@@ -19,7 +19,8 @@
             url: "/guides/can-wordpress-7-1-optimize-images-without-a-plugin",
             category: "WordPress Performance",
             readTime: "2 min read",
-            date: "August 21, 2026"
+            date: "August 21, 2026",
+            lastUpdated: "August 25, 2026"
         },
         {
             title: "How to Open HEIF Files on Windows (or Convert Them to JPG)",
@@ -441,7 +442,7 @@
             category: "Image Optimization",
             readTime: "15 min read",
             date: "April 13, 2026",
-            lastUpdated: "August 5, 2026"
+            lastUpdated: "August 25, 2026"
         },
         {
             title: "Is JPEG XL Ready for Shopify Product Images in 2026?",
@@ -502,7 +503,7 @@
             category: "Workflows",
             readTime: "4 min read",
             date: "May 23, 2026",
-            lastUpdated: "August 14, 2026"
+            lastUpdated: "August 25, 2026"
         },
         {
             title: "Why We Relaxed Our Zero-Retention Policy for MCP Server Compressions",

@@ -11,7 +11,7 @@
         category: "Workflows",
         readTime: "4 min read",
         date: "May 23, 2026",
-        lastUpdated: "August 14, 2026"
+        lastUpdated: "August 25, 2026"
     };
 
     const faqItems = [
@@ -73,7 +73,7 @@
         "description": "How to batch-convert product photos to JPG at 1200px and 800px with a single natural-language prompt. The fastest workflow for Shopify, Etsy, eBay, and Amazon sellers.",
         "url": "https://mochify.app/guides/ecommerce-product-photo-workflow-resize-convert",
         "datePublished": "2026-05-23",
-        "dateModified": "2026-08-14",
+        "dateModified": "2026-08-25",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
         "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
@@ -289,7 +289,7 @@
                 {/each}
             </ul>
 
-            <p>Get the format or file size wrong and you'll run straight into <a href="https://mochify.app/guides/ebay-image-file-not-supported">eBay's "file not supported" error and the 12 MB limit</a>, so it's worth resizing and converting before you upload rather than after a listing bounces.</p>
+            <p>Get the format or file size wrong and you'll run straight into <a href="https://mochify.app/guides/ebay-image-file-not-supported">eBay's "file not supported" error and the 12 MB limit</a>, so it's worth resizing and converting before you upload rather than after a listing bounces. And even an accepted upload still passes through <a href="/guides/what-automatic-image-optimization-actually-does">the marketplace's own automatic processing</a> on the way in, so what you ship should already be at display size.</p>
 
             <p>Etsy is the exception worth checking before you batch: it caps files at 1MB and wants 2000px or more on the long edge, so see <a href="/guides/etsy-listing-photo-size-guide">the Etsy photo size guide</a> for its current specs.</p>
 

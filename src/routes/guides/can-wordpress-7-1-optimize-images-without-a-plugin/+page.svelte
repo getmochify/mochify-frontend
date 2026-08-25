@@ -7,7 +7,8 @@
         description: "Mostly, yes. WordPress 7.1 compresses, resizes, and converts HEIC images in-browser, but only in Chrome/Edge and only to fixed defaults.",
         category: "WordPress Performance",
         readTime: "2 min read",
-        date: "August 21, 2026"
+        date: "August 21, 2026",
+        lastUpdated: "August 25, 2026"
     };
 
     const related = [
@@ -45,7 +46,7 @@
             "@id": "https://mochify.app/guides/can-wordpress-7-1-optimize-images-without-a-plugin"
         },
         "datePublished": "2026-08-21",
-        "dateModified": "2026-08-21",
+        "dateModified": "2026-08-25",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -103,7 +104,7 @@
         "description": "Mostly, yes. WordPress 7.1 compresses, resizes, and converts HEIC images in-browser, but only in Chrome/Edge and only to fixed defaults.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-08-21",
-        "dateModified": "2026-08-21"
+        "dateModified": "2026-08-25"
         }
     </script>
 </svelte:head>
@@ -116,7 +117,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -159,7 +160,7 @@
 
         <section id="where-pre-upload-optimization-still-fits">
             <SectionHeading>Where pre-upload optimization still fits</SectionHeading>
-            <p>Optimizing before upload gives you what 7.1 does not: exact dimensions, your chosen format and quality, and clean metadata, identical in every browser. Files are streamed into memory on Mochify's servers for processing and wiped immediately, with nothing retained. If your library is full of iPhone photos, start with the <a href="/heic-to-jpeg">HEIC to JPEG converter</a>, and see our guide to <a href="/guides/next-gen-image-formats-wordpress">fixing next-gen image formats in WordPress</a> for the delivery side that 7.1 still does not solve.</p>
+            <p>Optimizing before upload gives you what 7.1 does not: exact dimensions, your chosen format and quality, and clean metadata, identical in every browser. WordPress is one case of a pattern that now runs everywhere; see <a href="/guides/what-automatic-image-optimization-actually-does">the bigger picture on platform defaults</a> for how the same trade-off plays out across Shopify, Instagram, and the marketplaces. Files are streamed into memory on Mochify's servers for processing and wiped immediately, with nothing retained. If your library is full of iPhone photos, start with the <a href="/heic-to-jpeg">HEIC to JPEG converter</a>, and see our guide to <a href="/guides/next-gen-image-formats-wordpress">fixing next-gen image formats in WordPress</a> for the delivery side that 7.1 still does not solve.</p>
         </section>
 
         <!-- CTA -->

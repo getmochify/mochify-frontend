@@ -155,6 +155,31 @@
         <ImageUpload types=".JPG, .JPEG, .PNG, .WEBP, .AVIF, .HEIC, .HEIF, .HIF" output="jpg" showTypes={false} queryParams="hdr=generate" showExifOption={true} showDayPass={true} />
     </div>
 
+    <!-- Prompt upsell, mirroring /solutions/hif-to-jpg. The example deliberately
+         names resize: resize, crop and rotate carry a gain map through, whereas
+         brightness, clarity and background removal disqualify the HDR lane
+         entirely (see `disqualifiers` above). Suggesting one of those here would
+         send people down a path that silently returns a standard-range file. -->
+    <section class="mt-10 mb-20 max-w-2xl mx-auto">
+        <div class="liquid-glass rounded-[2rem] px-7 py-6 flex flex-col sm:flex-row items-center gap-5">
+            <div class="flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FFD6E5] to-[#F06292]/20">
+                <svg class="h-6 w-6 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                </svg>
+            </div>
+            <div class="flex-1 text-center sm:text-left">
+                <p class="font-black text-[#4A2C2C] text-base leading-snug">Need to resize or crop too? Just say so.</p>
+                <p class="text-sm text-[#6C3F31]/70 mt-1 leading-relaxed">Type something like <span class="font-semibold text-[#6C3F31]">"add HDR and resize to 2000px"</span> and our prompt form handles the rest. Resize, crop and rotate all carry the gain map through.</p>
+            </div>
+            <a
+                href="/auth/register"
+                class="flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-black text-white bg-[#F06292] hover:bg-[#E91E8C] shadow-sm hover:shadow-md transition-all active:scale-95 whitespace-nowrap"
+            >
+                Try it free
+            </a>
+        </div>
+    </section>
+
     <!-- Preserve vs generate. The distinction core is careful to report separately,
          so it gets the most prominent position on the page rather than a footnote. -->
     <section class="mt-10 max-w-4xl mx-auto">
