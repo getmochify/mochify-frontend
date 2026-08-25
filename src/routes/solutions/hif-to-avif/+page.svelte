@@ -39,7 +39,14 @@
         </div>
 
         <div class="mb-16">
-            <ImageUpload types=".HEIF, .HIF" quality={90} output="avif" showQuality={true} showTypes={false} compact queryParams="photography=1" showExifOption={true} stripExifDefault={false} />
+            <!-- quality goes in queryParams, NOT as a prop: ImageUpload takes no
+                 `quality`/`showQuality`, so the `quality={90}` that used to sit here
+                 was silently dropped and this page ran at core's AVIF default of 60.
+                 72 rather than the 85 used on the JPEG pages: an explicit quality
+                 overwrites both scales with one number, and AVIF's is not JPEG's.
+                 72 lands about where JPEG 85 does perceptually while keeping the
+                 size advantage that is the reason to pick AVIF at all. -->
+            <ImageUpload types=".HEIF, .HIF" output="avif" showTypes={false} compact queryParams="photography=1&quality=72" showExifOption={true} stripExifDefault={false} />
         </div>
 
         <section class="mt-20 max-w-4xl mx-auto">

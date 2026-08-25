@@ -152,7 +152,17 @@
     </div>
 
     <div class="mb-16">
-        <ImageUpload types=".JPG, .JPEG, .PNG, .WEBP, .AVIF, .HEIC, .HEIF, .HIF" output="jpg" showTypes={false} queryParams="hdr=generate" showExifOption={true} showDayPass={true} />
+        <!-- quality=85 rather than core's default of 65. Q65 is fine on a clean
+             source, but almost nothing arriving here is one: people upload JPEGs
+             that have already been through a camera and a share sheet, and a
+             second lossy pass at 65 stacks visible artifacts on top of the ones
+             already baked in. 85 keeps that generational loss below notice
+             without the file-size cost of 90. On the generate lane Q is
+             forwarded straight to uhdrsave, so this is the quality of the SDR
+             base the gain map sits on top of. Passed via queryParams because
+             ImageUpload has no `quality` prop, only the query string it appends
+             to /v1/squish. -->
+        <ImageUpload types=".JPG, .JPEG, .PNG, .WEBP, .AVIF, .HEIC, .HEIF, .HIF" output="jpg" showTypes={false} queryParams="hdr=generate&quality=85" showExifOption={true} showDayPass={true} />
     </div>
 
     <!-- Prompt upsell, mirroring /solutions/hif-to-jpg. The example deliberately

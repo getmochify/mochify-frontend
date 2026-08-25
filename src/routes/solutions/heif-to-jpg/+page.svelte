@@ -158,7 +158,10 @@
     </div>
 
     <div class="mb-16">
-        <ImageUpload types=".HEIF, .HEIC, .HIF" output="jpg" showTypes={false} queryParams="photography=1" showExifOption={true} showDayPass={true} />
+        <!-- quality=85, matching /solutions/hif-to-jpg: same camera source, same
+             second-lossy-pass problem, so the two pages should not diverge. Core
+             defaults to 65 when this is absent. -->
+        <ImageUpload types=".HEIF, .HEIC, .HIF" output="jpg" showTypes={false} queryParams="photography=1&quality=85" showExifOption={true} showDayPass={true} />
     </div>
 
     <!-- Extension triage: the anti-duplication centrepiece. Routes visitors to the

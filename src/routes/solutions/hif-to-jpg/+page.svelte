@@ -65,7 +65,12 @@
         </div>
 
         <div class="mb-16">
-            <ImageUpload types=".HEIF, .HIF" quality={90} output="jpg" showQuality={true} showTypes={false} compact queryParams="photography=1" showExifOption={true} stripExifDefault={false} showDayPass={true} />
+            <!-- quality goes in queryParams, NOT as a prop: ImageUpload takes no
+                 `quality`/`showQuality`, so the `quality={90}` that used to sit here
+                 was silently dropped and this page ran at core's Q65 default. 85
+                 because a HIF has already been through HEVC once, and a second lossy
+                 pass at 65 stacks fresh artifacts on top of the baked-in ones. -->
+            <ImageUpload types=".HEIF, .HIF" output="jpg" showTypes={false} compact queryParams="photography=1&quality=85" showExifOption={true} stripExifDefault={false} showDayPass={true} />
         </div>
 
         <section class="mt-10 mb-20 max-w-2xl mx-auto">
