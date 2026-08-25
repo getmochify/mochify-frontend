@@ -37,14 +37,11 @@
 </div>
 
 <style>
-	/* Smooth-scroll the #top jump target used by BackToTop.svelte's plain
-       anchor link, so "back to top" still feels animated with zero JS.
-       Respects reduced-motion preferences. */
-	@media (prefers-reduced-motion: no-preference) {
-		:global(html) {
-			scroll-behavior: smooth;
-		}
-	}
+	/* No `scroll-behavior: smooth` on html here: this stylesheet leaks beyond
+       guides (shared CSS chunks + preload-on-hover injection), and a global
+       smooth rule makes the SvelteKit router's scrollTo(0,0) reset animate
+       from the previous page's scroll position on every client-side
+       navigation. BackToTop's #top anchor jumps instantly instead. */
 
 	/* Guide-specific typography styles */
 	:global(article) {

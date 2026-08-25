@@ -1,8 +1,9 @@
 <!--
     Back-to-top control - reimplemented as a plain anchor jump so it works
-    with zero client JS (guide pages ship csr = false). Scrolling is handled
-    by the browser (`href="#top"` + `scroll-behavior: smooth` on the guides
-    layout, see guides/+layout.svelte).
+    with zero client JS (guide pages ship csr = false). The #top jump is
+    instant by design: a global `scroll-behavior: smooth` would leak into
+    shared CSS chunks and animate the SvelteKit router's scroll reset on
+    every client-side navigation (see guides/+layout.svelte).
 
     The show-after-scrolling behaviour is reproduced with a CSS scroll-driven
     animation (`animation-timeline: scroll(root)`) that fades/reveals the
