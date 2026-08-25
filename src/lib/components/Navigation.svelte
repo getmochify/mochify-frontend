@@ -59,10 +59,20 @@
     let user = $derived($sessionStore.data?.user ?? page.data.user ?? null)
     let initials = $derived(user?.email?.slice(0, 1).toUpperCase() ?? '')
 
-    // /flow IS the app, so the "Launch app" CTA hides there rather than linking to the
-    // page you're already on. Same reasoning as showGetStarted on /auth/register, but
-    // keyed off the path: /flow renders <Navigation /> with no props.
-    let onFlow = $derived(page.url.pathname === '/flow')
+    // Paths where the "Launch app" CTA is suppressed, for two different reasons.
+    //
+    //   /flow      IS the app, so the CTA would link to the page you are already on.
+    //              Same reasoning as showGetStarted on /auth/register, but keyed off
+    //              the path: /flow renders <Navigation /> with no props.
+    //   /dashboard already renders its own larger "Launch app" as the page's primary
+    //              action, roughly 100px below this one. Two identical pink pills in
+    //              one viewport read as a rendering bug rather than a choice, and the
+    //              nav is `relative`, not sticky, so keeping it buys no persistent
+    //              access to justify the duplication: it scrolls away either way.
+    // Also guards the two "Dashboard" links (avatar dropdown + mobile menu) from
+    // pointing at the page you are already on.
+    let onDashboard = $derived(page.url.pathname === '/dashboard')
+    let hideLaunch = $derived(onDashboard || page.url.pathname === '/flow')
 </script>
 
 <nav class="relative z-20 w-full max-w-5xl mx-auto px-4 py-6 flex justify-between items-center">
@@ -81,7 +91,7 @@
         <a href="/pricing" data-sveltekit-preload-data="hover" class="text-sm font-medium text-cocoa-deep hover:text-mochi-pink transition-colors">Pricing</a>
 
         {#if session}
-            {#if !onFlow}
+            {#if !hideLaunch}
                 <a
                     href="/flow"
                     data-sveltekit-preload-data="hover"
@@ -90,7 +100,7 @@
                     Launch app
                 </a>
             {/if}
-            <div class="relative {onFlow ? 'ml-2' : ''}">
+            <div class="relative {hideLaunch ? 'ml-2' : ''}">
                 <button
                     onclick={() => userMenuOpen = !userMenuOpen}
                     class="w-9 h-9 rounded-xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink text-white font-black text-sm flex items-center justify-center shadow-sm hover:shadow-md transition-all cursor-pointer"
@@ -104,18 +114,24 @@
                         class="absolute right-0 top-11 w-44 bg-white rounded-2xl shadow-xl border border-pink-100 overflow-hidden z-50"
                         role="menu"
                     >
-                        <a
-                            href="/dashboard"
-                            data-sveltekit-preload-data="hover"
-                            class="block px-4 py-3 text-sm font-medium text-cocoa-deep hover:bg-[#FFF5F7] transition-colors"
-                            role="menuitem"
-                        >
-                            Dashboard
-                        </a>
+                        {#if !onDashboard}
+                            <a
+                                href="/dashboard"
+                                data-sveltekit-preload-data="hover"
+                                class="block px-4 py-3 text-sm font-medium text-cocoa-deep hover:bg-[#FFF5F7] transition-colors"
+                                role="menuitem"
+                            >
+                                Dashboard
+                            </a>
+                        {/if}
+                        <!-- The divider belongs BETWEEN the two items, so it goes away
+                             with the first one: on /dashboard this button is the only
+                             thing in the menu and a top border would draw a rule
+                             against the dropdown's own rounded edge. -->
                         <button
                             onclick={signOut}
                             disabled={signingOut}
-                            class="w-full text-left px-4 py-3 text-sm font-medium text-cocoa-milk/70 hover:bg-[#FFF5F7] hover:text-mochi-pink transition-colors border-t border-pink-50 disabled:opacity-50 disabled:cursor-wait"
+                            class="w-full text-left px-4 py-3 text-sm font-medium text-cocoa-milk/70 hover:bg-[#FFF5F7] hover:text-mochi-pink transition-colors disabled:opacity-50 disabled:cursor-wait {onDashboard ? '' : 'border-t border-pink-50'}"
                             role="menuitem"
                         >
                             {signingOut ? 'Signing out…' : 'Sign out'}
@@ -191,15 +207,19 @@
                     Pricing
                 </a>
                 {#if session}
-                    {#if !onFlow}
+                    {#if !hideLaunch}
                         <a href="/flow" class="mx-2 mt-2 px-6 py-4 text-center text-white font-black rounded-2xl bg-mochi-pink hover:bg-[#E91E8C] transition-all active:scale-95 shadow-sm">
                             Launch app
                         </a>
                     {/if}
-                    <a href="/dashboard" data-sveltekit-preload-data="hover" class="px-6 py-4 text-cocoa-deep font-medium rounded-2xl hover:bg-[#FFF5F7] transition-all active:scale-95 border-t border-pink-50">
-                        Dashboard
-                    </a>
-                    <button onclick={signOut} disabled={signingOut} class="px-6 py-4 text-left text-cocoa-milk/70 font-medium rounded-2xl hover:bg-[#FFF5F7] hover:text-mochi-pink transition-all active:scale-95 disabled:opacity-50 disabled:cursor-wait">
+                    {#if !onDashboard}
+                        <a href="/dashboard" data-sveltekit-preload-data="hover" class="px-6 py-4 text-cocoa-deep font-medium rounded-2xl hover:bg-[#FFF5F7] transition-all active:scale-95 border-t border-pink-50">
+                            Dashboard
+                        </a>
+                    {/if}
+                    <!-- Inherits the border-t that Dashboard was carrying, so the rule
+                         separating page links from account actions survives its removal. -->
+                    <button onclick={signOut} disabled={signingOut} class="px-6 py-4 text-left text-cocoa-milk/70 font-medium rounded-2xl hover:bg-[#FFF5F7] hover:text-mochi-pink transition-all active:scale-95 disabled:opacity-50 disabled:cursor-wait {onDashboard ? 'border-t border-pink-50' : ''}">
                         {signingOut ? 'Signing out…' : 'Sign out'}
                     </button>
                 {:else}

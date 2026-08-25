@@ -464,12 +464,19 @@
         await checkTokenLimit();
     }
 
+    // Formats a magnitude, signed. Math.log of a negative is NaN, which used to
+    // cascade into `sizes[NaN]` and render the string "NaN undefined" whenever a
+    // caller passed a negative size delta. Callers now pass magnitudes, but the
+    // guard stays because a silent NaN here surfaces as user-facing copy.
     function formatFileSize(bytes: number): string {
-        if (bytes === 0) return '0 Bytes';
+        if (!Number.isFinite(bytes) || bytes === 0) return '0 Bytes';
+        const sign = bytes < 0 ? '-' : '';
+        const abs = Math.abs(bytes);
         const k = 1024;
         const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+        // Clamped so anything past GB keeps a unit instead of indexing off the end.
+        const i = Math.min(Math.floor(Math.log(abs) / Math.log(k)), sizes.length - 1);
+        return sign + Math.round((abs / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
     }
 
     $effect(() => {
@@ -955,8 +962,23 @@
             // Compare against the successful files' original sizes only, so failed
             // files don't inflate the reported savings.
             const successfulOriginalSize = successfulFiles.reduce((sum, f) => sum + f.size, 0);
-            const reduction = ((1 - totalCompressedSize / successfulOriginalSize) * 100).toFixed(1);
-            const spaceSaved = formatFileSize(successfulOriginalSize - totalCompressedSize);
+
+            // Output is not always smaller, and when it isn't that is usually the
+            // point rather than a failure: hdr=generate attaches a gain map, a
+            // resize can scale up, and PNG output from a photographic source grows
+            // almost every time. So the delta is signed (positive = saved) and the
+            // copy below is picked off its sign. Reporting it plainly beats hiding
+            // the box, which would leave a successful conversion with no
+            // confirmation that anything happened at all.
+            const delta = successfulOriginalSize - totalCompressedSize;
+            const grew = delta < 0;
+            // Guarded: successfulFiles can only be empty on paths that don't reach
+            // here, but a 0 denominator would put Infinity into the copy.
+            const changePct = successfulOriginalSize
+                ? Math.abs((delta / successfulOriginalSize) * 100).toFixed(1)
+                : '0.0';
+            const deltaSize = formatFileSize(Math.abs(delta));
+            const finalSize = formatFileSize(totalCompressedSize);
 
             if (hitRateLimit) {
                 const pendingFiles = fileProgress.filter((fp) => fp.status === 'pending').length;
@@ -971,18 +993,36 @@
                     failed: failedFiles.length,
                     format: imageType
                 });
-                successMessage = `${successfulFiles.length} of ${selectedFiles.length} squished. Saved ${spaceSaved}. ${failedFiles.length} failed.`;
+                successMessage = `${successfulFiles.length} of ${selectedFiles.length} squished. ${grew ? `Now ${finalSize}.` : `Saved ${deltaSize}.`} ${failedFiles.length} failed.`;
             } else {
                 posthog.capture('manual_compress_completed', {
                     files: successfulFiles.length,
-                    reduction: parseFloat(reduction),
+                    // Signed, so growth stays visible in analytics rather than being
+                    // flattened to a positive "reduction".
+                    reduction: parseFloat(
+                        successfulOriginalSize
+                            ? ((delta / successfulOriginalSize) * 100).toFixed(1)
+                            : '0.0'
+                    ),
                     format: imageType,
                     space_saved_bytes: totalOriginalSize - totalCompressedSize
                 });
-                successMessage =
-                    selectedFiles.length === 1
-                        ? `Squished! Saved ${spaceSaved} (${reduction}% smaller).`
-                        : `Done! ${selectedFiles.length} images optimised. Saved ${spaceSaved} total.`;
+                const single = selectedFiles.length === 1;
+                if (delta === 0) {
+                    successMessage = single
+                        ? `Done! Size unchanged (${finalSize}).`
+                        : `Done! ${selectedFiles.length} images processed. ${finalSize} total, size unchanged.`;
+                } else if (grew) {
+                    // "processed" rather than "optimised": the file got bigger, and
+                    // claiming otherwise next to a larger number reads as a bug.
+                    successMessage = single
+                        ? `Done! Your image is now ${finalSize} (${changePct}% larger).`
+                        : `Done! ${selectedFiles.length} images processed. ${finalSize} total (${changePct}% larger).`;
+                } else {
+                    successMessage = single
+                        ? `Squished! Saved ${deltaSize} (${changePct}% smaller).`
+                        : `Done! ${selectedFiles.length} images optimised. Saved ${deltaSize} total.`;
+                }
             }
 
             if (hitRateLimit) {
