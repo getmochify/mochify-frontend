@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { tick, onMount } from 'svelte';
-	import { zip, unzipSync } from 'fflate';
+	import { tick, onMount, onDestroy } from 'svelte';
+	import { unzipSync } from 'fflate';
+	import { zipBlobs } from '$lib/zipWorker';
+	import { getImagePreview, releaseImagePreview } from '$lib/imagePreview';
 	import { env } from '$env/dynamic/public';
 	import { getSessionToken, getPlan, resolveRemaining, type UsageResponse } from '$lib/user';
 	import { posthog } from '$lib/analytics';
@@ -244,12 +246,40 @@
 	});
 
 	let filePreviews = $state<string[]>([]);
+	// Files this tray currently has a preview slot for (whether resolved yet or
+	// not) — a plain array, not $state, purely so the effect below can diff
+	// against it without becoming its own dependency. Thumbnails come from the
+	// shared imagePreview cache (one decode per File, reused at submit time by
+	// getDimensions), so a rerun must only release previews for files that
+	// actually left the tray — reusing a still-present file's URL is the point.
+	let previewedFiles: File[] = [];
 	$effect(() => {
-		const urls = files.map((f) =>
-			isPdf(f) || isVideoOrAudio(f) || isUnpreviewableImage(f) ? '' : URL.createObjectURL(f)
-		);
-		filePreviews = urls;
-		return () => urls.filter((u) => u).forEach((u) => URL.revokeObjectURL(u));
+		const currentFiles = files;
+		const currentSet = new Set(currentFiles);
+		for (const f of previewedFiles) {
+			if (!currentSet.has(f)) releaseImagePreview(f);
+		}
+		previewedFiles = currentFiles;
+
+		let cancelled = false;
+		(async () => {
+			const urls = await Promise.all(
+				currentFiles.map(async (f) => {
+					if (isPdf(f) || isVideoOrAudio(f) || isUnpreviewableImage(f)) return '';
+					const preview = await getImagePreview(f);
+					return preview.thumbUrl ?? '';
+				})
+			);
+			if (!cancelled) filePreviews = urls;
+		})();
+		return () => {
+			cancelled = true;
+		};
+	});
+	// Component teardown isn't a `files` change, so the effect above never runs
+	// again to diff it away — release whatever's still cached on unmount.
+	onDestroy(() => {
+		for (const f of previewedFiles) releaseImagePreview(f);
 	});
 
 	// Status state
@@ -557,21 +587,14 @@
 		if (files.length === 0) uploadMode = null;
 	}
 
-	function getDimensions(file: File): Promise<{ w: number; h: number }> {
-		if (isPdf(file) || isVideoOrAudio(file)) return Promise.resolve({ w: 0, h: 0 });
-		return new Promise((resolve) => {
-			const url = window.URL.createObjectURL(file);
-			const img = new Image();
-			const cleanup = (dims: { w: number; h: number }) => {
-				clearTimeout(timer);
-				window.URL.revokeObjectURL(url);
-				resolve(dims);
-			};
-			const timer = setTimeout(() => cleanup({ w: 0, h: 0 }), 5000);
-			img.onload = () => cleanup({ w: img.width, h: img.height });
-			img.onerror = () => cleanup({ w: 0, h: 0 });
-			img.src = url;
-		});
+	// Consults the shared imagePreview cache first — for anything already
+	// thumbnailed by the filePreviews effect above, this is a cache hit with no
+	// extra decode. Only files that bypassed thumbnailing (shouldn't normally
+	// happen for images reaching here) trigger a fresh decode.
+	async function getDimensions(file: File): Promise<{ w: number; h: number }> {
+		if (isPdf(file) || isVideoOrAudio(file) || isUnpreviewableImage(file)) return { w: 0, h: 0 };
+		const preview = await getImagePreview(file);
+		return { w: preview.width, h: preview.height };
 	}
 
 	function genMime(ext: string): string {
@@ -2006,25 +2029,24 @@
 			if (downloadAsZip && Object.keys(zipContents).length > 0) {
 				processPhase = 'packing';
 
-				await new Promise<void>((resolve, reject) => {
-					zip(zipContents, { level: 0 }, (err, zippedData) => {
-						if (err) return reject(err);
-
-						const zipBlob = new Blob([zippedData as Uint8Array<ArrayBuffer>], {
-							type: 'application/zip'
-						});
-						const url = URL.createObjectURL(zipBlob);
-						const a = document.createElement('a');
-						a.href = url;
-						a.download = 'mochified_batch.zip';
-						document.body.appendChild(a);
-						a.click();
-						setTimeout(() => {
-							URL.revokeObjectURL(url);
-							document.body.removeChild(a);
-							resolve();
-						}, 100);
-					});
+				const zipBlob = await zipBlobs(
+					Object.entries(zipContents).map(([name, bytes]) => ({
+						name,
+						blob: new Blob([bytes as Uint8Array<ArrayBuffer>])
+					}))
+				);
+				const url = URL.createObjectURL(zipBlob);
+				const a = document.createElement('a');
+				a.href = url;
+				a.download = 'mochified_batch.zip';
+				document.body.appendChild(a);
+				a.click();
+				await new Promise<void>((resolve) => {
+					setTimeout(() => {
+						URL.revokeObjectURL(url);
+						document.body.removeChild(a);
+						resolve();
+					}, 100);
 				});
 			}
 
@@ -2210,7 +2232,7 @@
 									draggable="false"
 									class="h-full w-full rounded-xl object-cover"
 									onerror={() => {
-										if (filePreviews[i]) URL.revokeObjectURL(filePreviews[i]);
+										releaseImagePreview(file);
 										filePreviews[i] = '';
 									}}
 								/>
@@ -2271,9 +2293,7 @@
 				</label>
 
 				{#if files.length === 0}
-					<span class="text-sm font-medium text-[#875F42]/70"
-						>Add images, PDFs, or video</span
-					>
+					<span class="text-sm font-medium text-[#875F42]/70">Add images, PDFs, or video</span>
 				{/if}
 
 				<div class="absolute right-8 bottom-0 left-8">
