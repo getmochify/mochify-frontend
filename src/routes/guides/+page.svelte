@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "What Automatic Image Optimization Actually Does (and When to Take Control)",
+            description: "Platforms optimize images automatically, but everyone gets the same defaults. What the automatic layer does, where it stops, and how to take control.",
+            url: "/guides/what-automatic-image-optimization-actually-does",
+            category: "Image Optimization",
+            readTime: "13 min read",
+            date: "August 25, 2026"
+        },
+        {
             title: "Can WordPress 7.1 Optimize Images Without a Plugin?",
             description: "Mostly, yes. WordPress 7.1 compresses, resizes, and converts HEIC images in-browser, but only in Chrome/Edge and only to fixed defaults.",
             url: "/guides/can-wordpress-7-1-optimize-images-without-a-plugin",

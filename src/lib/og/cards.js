@@ -309,6 +309,11 @@ export const cards = [
 		title: 'How to Take Vinted Photos That Sell'
 	},
 	{
+		path: '/guides/what-automatic-image-optimization-actually-does',
+		eyebrow: 'GUIDE',
+		title: 'What Automatic Image Optimization Actually Does'
+	},
+	{
 		path: '/guides/what-image-format-should-i-use-for-product-photos',
 		eyebrow: 'GUIDE',
 		title: 'What Image Format Should I Use for Product Photos?'
