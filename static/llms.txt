@@ -105,7 +105,7 @@ Credit Pack -- $5 one-time
 - Good for occasional or burst use
 
 Day Pass -- $2 one-time
-- 500 image ops for 24 hours
+- 100 image ops for 24 hours
 - 75MB max file size
 - Activated by magic link, no subscription
 - Offered at upload time when a file exceeds the free 20MB limit
