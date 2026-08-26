@@ -203,8 +203,8 @@
             <figure class="m-0">
                 <img
                     src="/img/interior.jpg"
-                    width="2046"
-                    height="3074"
+                    width="1200"
+                    height="1803"
                     alt="Sunlit hotel lobby with a stone wall, hanging light tubes and an arched fireplace, as a standard-range JPEG"
                     loading="lazy"
                     decoding="async"
@@ -216,8 +216,8 @@
             <figure class="m-0">
                 <img
                     src="/img/interior-hdr.jpg"
-                    width="2046"
-                    height="3074"
+                    width="1200"
+                    height="1803"
                     alt="The same lobby as an Ultra HDR JPEG with a generated gain map; the sunlight, shadows and light tubes render brighter on HDR displays"
                     loading="lazy"
                     decoding="async"
@@ -233,7 +233,7 @@
                 <strong class="text-[#4A2C2C]">If the right-hand image looks brighter in the highlights, your screen and browser are showing HDR.</strong> A phone from the last few years, a recent Mac or iPad, or an HDR monitor in Safari 26 or a Chromium browser (Chrome, Edge, Brave, Opera) will show it.
             </p>
             <p class="text-[#6C3F31] leading-relaxed">
-                <strong class="text-[#4A2C2C]">If the two images look identical, you are looking at the standard-range version of both.</strong> That is not a fault in the file. Either the display has no headroom above white, or the browser does not read gain maps yet (Firefox does not, as of this writing, and neither do most desktop image viewers). Open this page on a recent phone and the difference appears.
+                <strong class="text-[#4A2C2C]">If the two images look identical, you are looking at the standard-range version of both.</strong> That is not a fault in the file. Either the display has no headroom above white, or the browser does not read gain maps yet (Firefox does not, as of this writing, and neither do most desktop image viewers). Open this page on a recent phone and the difference appears. For the full list of where HDR photos display and why they go flat elsewhere, read <a href="/guides/why-hdr-photos-look-flat-when-shared" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">why HDR photos look flat when you share them</a>.
             </p>
             <p class="text-[#6C3F31] leading-relaxed">
                 This is also why the effect matters for anyone selling online: a product photo with a gain map looks like an ordinary photo to every customer, and noticeably more vivid to the growing share viewing on a phone that renders HDR. Nobody sees a worse image.
@@ -402,7 +402,7 @@ grep X-Mochify-HDR headers.txt
 
     <section class="mt-16 max-w-4xl mx-auto">
         <p class="text-xs font-black text-[#875F42] uppercase tracking-widest mb-4">Also available</p>
-        <div class="grid sm:grid-cols-3 gap-4">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <a href="/solutions/heif-to-jpg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                 <span class="w-9 h-9 rounded-xl bg-[#EEF2FF] flex items-center justify-center shrink-0 border border-[#C7D2FE]">
                     <svg class="w-4 h-4 text-[#4338CA]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5z" /></svg>
@@ -428,6 +428,15 @@ grep X-Mochify-HDR headers.txt
                 <div>
                     <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">API docs →</p>
                     <p class="text-xs text-[#875F42]">Every parameter and header</p>
+                </div>
+            </a>
+            <a href="/guides/why-hdr-photos-look-flat-when-shared" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
+                <span class="w-9 h-9 rounded-xl bg-[#FFF5F7] flex items-center justify-center shrink-0 border border-[#FBCFE8]">
+                    <svg class="w-4 h-4 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
+                </span>
+                <div>
+                    <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">Why HDR photos look flat when shared →</p>
+                    <p class="text-xs text-[#875F42]">The guide to gain maps, and where they get lost</p>
                 </div>
             </a>
         </div>

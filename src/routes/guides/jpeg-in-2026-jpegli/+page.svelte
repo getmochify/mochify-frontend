@@ -9,7 +9,7 @@
         category: "Image Optimization",
         readTime: "20 min read",
         date: "February 09, 2026",
-        lastUpdated: "August 14, 2026"
+        lastUpdated: "August 26, 2026"
     };
 
     const related = [
@@ -75,7 +75,7 @@
             "zero-retention image optimization"
         ],
         "datePublished": "2026-02-09",
-        "dateModified": "2026-08-14"
+        "dateModified": "2026-08-26"
         }
     </script>
 </svelte:head>
@@ -418,7 +418,7 @@
                 </ul>
             </div>
 
-            <p class="mb-4 font-bold text-[#D81B60]">Bottom line: Jpegli improves quality-per-byte in tests and reported real-world use, but it is not a universal 35% win on every image. Test it on your specific content at your target quality level.</p>
+            <p class="mb-4 font-bold text-[#D81B60]">Bottom line: Jpegli improves quality-per-byte in tests and reported real-world use, but it is not a universal 35% win on every image. Where that efficiency matters most is an Ultra HDR JPEG, which pays for a second layer out of the same byte budget; see <a href="https://mochify.app/guides/why-hdr-photos-look-flat-when-shared">why HDR photos look flat when shared and how gain maps fix it</a>. Test it on your specific content at your target quality level.</p>
         </section>
 
         <section id="adoption">

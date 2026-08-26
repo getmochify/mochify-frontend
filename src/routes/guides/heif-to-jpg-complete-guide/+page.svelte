@@ -11,7 +11,7 @@
         category: "Image Formats",
         readTime: "14 min read",
         date: "July 15, 2026",
-        lastUpdated: "August 19, 2026"
+        lastUpdated: "August 26, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -99,7 +99,7 @@
             "@id": "https://mochify.app/guides/heif-to-jpg-complete-guide"
         },
         "datePublished": "2026-07-15",
-        "dateModified": "2026-08-19",
+        "dateModified": "2026-08-26",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -156,7 +156,7 @@
         "description": "Convert HEIF (.HIF) files from Canon, Sony, and Fujifilm cameras to universally compatible JPG. Every method, the quality trade-offs, and batch workflows.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-15",
-        "dateModified": "2026-08-19"
+        "dateModified": "2026-08-26"
         }
     </script>
 
@@ -294,7 +294,7 @@
             <SectionHeading>What you lose converting 10-bit HEIF to 8-bit JPG</SectionHeading>
             <p>The honest answer: bit depth always, HDR sometimes, and in a well-handled conversion neither is visible in normal delivery work. Understanding the two losses helps you decide when they matter.</p>
             <p><strong>Bit depth.</strong> Going from 1,024 tonal values per channel to 256 is inherent to JPEG - no converter avoids it. The risk is banding in smooth gradients, and it grows if the file gets edited after conversion. That argues for a simple rule: do your tonal edits on the 10-bit original (or a 16-bit TIFF, per Sony's guidance), and make JPEG the last step. A modern encoder also shrinks the visible cost: Mochify encodes JPEG with Google's jpegli, whose adaptive quantization specifically targets banding in slow gradients. Our <a href="https://mochify.app/guides/jpeg-in-2026-jpegli">jpegli guide</a> covers how it wrings more quality per byte out of a 34-year-old format.</p>
-            <p><strong>HDR tone mapping.</strong> Canon HDR PQ files encode brightness the way an HDR display reproduces it. Any JPEG conversion tone-maps that to SDR, and Canon's documentation is upfront that "color and gradation will seem somewhat different from display in HDR PQ mode." Every converter makes slightly different highlight and shadow choices here, so check the result on a standard display before client delivery. The full quality analysis, with test methodology, is in <a href="https://mochify.app/guides/does-hif-to-jpg-lose-quality">Does Converting HIF to JPG Reduce Quality?</a></p>
+            <p><strong>HDR tone mapping.</strong> Canon HDR PQ files encode brightness the way an HDR display reproduces it. Any JPEG conversion tone-maps that to SDR, and Canon's documentation is upfront that "color and gradation will seem somewhat different from display in HDR PQ mode." Every converter makes slightly different highlight and shadow choices here, so check the result on a standard display before client delivery. If the delivery target is an HDR screen, a gain-map JPEG is the format that keeps the headroom while still opening everywhere; <a href="https://mochify.app/guides/why-hdr-photos-look-flat-when-shared">the gain-map explainer</a> walks through which edits and pipelines strip it. The full quality analysis, with test methodology, is in <a href="https://mochify.app/guides/does-hif-to-jpg-lose-quality">Does Converting HIF to JPG Reduce Quality?</a></p>
             <p><strong>What survives.</strong> Sharpness, resolution, film simulations (on Fujifilm bodies, where HEIF is sRGB-locked in camera anyway), and your EXIF metadata - including GPS coordinates, which is worth a deliberate decision rather than a default. Strip location data on anything shared publicly; our <a href="https://mochify.app/guides/exif-data-risks-image-compression-2026">EXIF data risks guide</a> explains what lives in the metadata and why it matters.</p>
         </section>
 

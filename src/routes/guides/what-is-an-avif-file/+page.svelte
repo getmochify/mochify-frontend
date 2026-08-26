@@ -10,7 +10,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         date: "July 14, 2026",
-        lastUpdated: "August 14, 2026"
+        lastUpdated: "August 26, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -69,7 +69,7 @@
         "description": "An AVIF file is an image in the AV1 Image File Format, up to 50% smaller than JPEG. Here's how to open it on Windows and Mac, or convert it to JPG.",
         "url": "https://mochify.app/guides/what-is-an-avif-file",
         "datePublished": "2026-07-14",
-        "dateModified": "2026-08-14",
+        "dateModified": "2026-08-26",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -157,7 +157,7 @@
         <section id="why-you-keep-running-into-avif-files">
             <SectionHeading>Why You Keep Running Into AVIF Files</SectionHeading>
             <p>Websites switched to AVIF for speed, and the switch mostly happened without anyone telling you. WordPress 6.5 and later accepts AVIF uploads out of the box and can convert images to AVIF automatically, and image CDNs quietly serve AVIF to any browser that accepts it. So when you right-click and save an image, you often get an <code class={inlineCode}>.avif</code> file - the format the site served, not the JPG you expected.</p>
-            <p>The format itself is genuinely good: alongside the smaller file sizes, AVIF supports 10-bit color, HDR, transparency, and even animation. The catch is that support outside the browser lags behind.</p>
+            <p>The format itself is genuinely good: alongside the smaller file sizes, AVIF supports 10-bit color, HDR, transparency, and even animation. (AVIF stores HDR in the pixels rather than as a gain map over an SDR base, which changes how it falls back on ordinary screens; our guide to <a href="https://mochify.app/guides/why-hdr-photos-look-flat-when-shared">HDR photos that look flat when shared</a> covers the difference.) The catch is that support outside the browser lags behind.</p>
         </section>
 
         <section id="how-to-open-an-avif-file">

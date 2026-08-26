@@ -102,7 +102,7 @@
             category: "Quick Guides",
             readTime: "2 min read",
             date: "July 14, 2026",
-            lastUpdated: "August 14, 2026"
+            lastUpdated: "August 26, 2026"
         },
         {
             title: "HEIF to JPG: The Complete Conversion Guide",
@@ -111,7 +111,7 @@
             category: "Image Formats",
             readTime: "14 min read",
             date: "July 15, 2026",
-            lastUpdated: "August 19, 2026"
+            lastUpdated: "August 26, 2026"
         },
         {
             title: "AVIF to JPG: How to Convert AVIF Files on Any Device",
@@ -322,7 +322,7 @@
             category: "Image Optimization",
             readTime: "20 min read",
             date: "February 9, 2026",
-            lastUpdated: "August 14, 2026"
+            lastUpdated: "August 26, 2026"
         },
         {
             title: "The Risks of EXIF Data in Image Compression (2026 Guide)",

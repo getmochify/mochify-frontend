@@ -10,3 +10,9 @@
 # them. Poster frames sit alongside and follow the same rule.
 /videos/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Comparison stills in /img follow the same hand-versioned rule as /videos: a
+# regenerated image gets a new filename rather than being replaced in place,
+# because these responses stay immutable for a year in any client that saw them.
+/img/*
+  Cache-Control: public, max-age=31536000, immutable
