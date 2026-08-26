@@ -6,6 +6,14 @@
 
     const guides = [
         {
+            title: "Why HDR Photos Look Flat When You Share Them (and How Gain Maps Fix It)",
+            description: "HDR photos look flat when shared because the extra brightness lives in a gain map that many viewers, platforms, and export paths silently strip or ignore.",
+            url: "/guides/why-hdr-photos-look-flat-when-shared",
+            category: "Image Formats",
+            readTime: "17 min read",
+            date: "August 26, 2026"
+        },
+        {
             title: "What Automatic Image Optimization Actually Does (and When to Take Control)",
             description: "Platforms optimize images automatically, but everyone gets the same defaults. What the automatic layer does, where it stops, and how to take control.",
             url: "/guides/what-automatic-image-optimization-actually-does",

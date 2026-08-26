@@ -319,6 +319,11 @@ export const cards = [
 		title: 'What Image Format Should I Use for Product Photos?'
 	},
 	{
+		path: '/guides/why-hdr-photos-look-flat-when-shared',
+		eyebrow: 'GUIDE',
+		title: 'Why HDR Photos Look Flat When You Share Them'
+	},
+	{
 		path: '/guides/what-is-a-hif-file',
 		eyebrow: 'GUIDE',
 		title: 'What Is a HIF File? (And How to Open One)'
