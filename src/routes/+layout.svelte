@@ -42,6 +42,7 @@
 		'/auth/forgot-password',
 		'/auth/reset-password',
 		'/contact',
+		'/dashboard',
 	]);
 
 	const showBlobs = $derived(

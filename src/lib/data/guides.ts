@@ -1,0 +1,654 @@
+// Source of truth for the /guides index cards and the guide breadcrumb label.
+//
+// Guide pages run with `csr = false`, so importing this from the guides layout
+// is prerender-only work: the array never reaches the client bundle there. The
+// index page (csr = true) already shipped it.
+
+export type Guide = {
+	title: string;
+	description: string;
+	url: string;
+	category: string;
+	readTime: string;
+	date: string;
+	lastUpdated?: string;
+	featured?: boolean;
+};
+
+export const guides: Guide[] = [
+	{
+		title: 'Why HDR Photos Look Flat When You Share Them (and How Gain Maps Fix It)',
+		description:
+			'HDR photos look flat when shared because the extra brightness lives in a gain map that many viewers, platforms, and export paths silently strip or ignore.',
+		url: '/guides/why-hdr-photos-look-flat-when-shared',
+		category: 'Image Formats',
+		readTime: '17 min read',
+		date: 'August 26, 2026'
+	},
+	{
+		title: 'What Automatic Image Optimization Actually Does (and When to Take Control)',
+		description:
+			'Platforms optimize images automatically, but everyone gets the same defaults. What the automatic layer does, where it stops, and how to take control.',
+		url: '/guides/what-automatic-image-optimization-actually-does',
+		category: 'Image Optimization',
+		readTime: '13 min read',
+		date: 'August 25, 2026'
+	},
+	{
+		title: 'Can WordPress 7.1 Optimize Images Without a Plugin?',
+		description:
+			'Mostly, yes. WordPress 7.1 compresses, resizes, and converts HEIC images in-browser, but only in Chrome/Edge and only to fixed defaults.',
+		url: '/guides/can-wordpress-7-1-optimize-images-without-a-plugin',
+		category: 'WordPress Performance',
+		readTime: '2 min read',
+		date: 'August 21, 2026',
+		lastUpdated: 'August 25, 2026'
+	},
+	{
+		title: 'How to Open HEIF Files on Windows (or Convert Them to JPG)',
+		description:
+			'Windows needs two codec extensions to open HEIF files, and 10-bit camera HIFs often fail anyway. Every fix that works, plus the fast JPG route.',
+		url: '/guides/open-heif-files-on-windows',
+		category: 'Image Formats',
+		readTime: '12 min read',
+		date: 'August 19, 2026'
+	},
+	{
+		title: 'Should My Product Images Be AVIF or WebP in 2026?',
+		description:
+			'Neither, manually, on Shopify: the CDN already negotiates AVIF, WebP, or JPEG per browser. Manual conversion matters once you step outside that pipeline.',
+		url: '/guides/should-my-product-images-be-avif-or-webp-in-2026',
+		category: 'Quick Guides',
+		readTime: '2 min read',
+		date: 'August 14, 2026'
+	},
+	{
+		title: 'What Is a JXL File? How to Open, Convert, and Share JPEG XL',
+		description:
+			'A .jxl file is a JPEG XL image. Browser and OS support is still uneven in 2026 - here is how to open one, convert it to JPEG, or share it as a PDF.',
+		url: '/guides/what-is-a-jxl-file',
+		category: 'Quick Guides',
+		readTime: '2 min read',
+		date: 'August 12, 2026'
+	},
+	{
+		title: 'Does Stripping EXIF Data Improve WordPress Image SEO?',
+		description:
+			"Stripping EXIF data doesn't improve WordPress image SEO rankings, but it trims file size and removes private location data.",
+		url: '/guides/does-stripping-exif-data-improve-wordpress-image-seo',
+		category: 'Quick Guides',
+		readTime: '2 min read',
+		date: 'August 7, 2026'
+	},
+	{
+		title: 'Product Image Requirements for Every Major Marketplace',
+		description:
+			'The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted, and Depop - dimensions, formats, file size limits, and what each platform enforces.',
+		url: '/guides/product-image-requirements-marketplace-guide',
+		category: 'Image Formats',
+		readTime: '17 min read',
+		date: 'August 6, 2026'
+	},
+	{
+		title: 'Cross-Listing for Resellers: One Set of Photos, Every Marketplace',
+		description:
+			'Cross-listing apps copy your photos as-is. Photo specs for eBay, Poshmark, Mercari, Depop, and Vinted, plus a batch workflow that preps one set for all.',
+		url: '/guides/cross-listing-marketplace-photo-requirements',
+		category: 'Workflows',
+		readTime: '11 min read',
+		date: 'August 5, 2026',
+		lastUpdated: 'August 7, 2026'
+	},
+	{
+		title: 'Etsy Listing Photo Size: The Complete Guide',
+		description:
+			"Etsy listing photos should be at least 2000px and under 1MB. Every current spec from Etsy's docs, why photos blur after upload, and a one-prompt batch fix.",
+		url: '/guides/etsy-listing-photo-size-guide',
+		category: 'Image Optimization',
+		readTime: '9 min read',
+		date: 'August 3, 2026'
+	},
+	{
+		title: 'Can Safari Open HEIC Images on the Web?',
+		description:
+			'Yes, Safari 17+ renders HEIC natively on the web. Chrome, Firefox, and Edge do not. Convert to JPEG or WebP before publishing for full compatibility.',
+		url: '/guides/can-safari-open-heic-images',
+		category: 'Quick Guides',
+		readTime: '2 min read',
+		date: 'July 29, 2026'
+	},
+	{
+		title: 'What Is an AVIF File? (And How to Open One)',
+		description:
+			"An AVIF file is an image in the AV1 Image File Format, up to 50% smaller than JPEG. Here's how to open it on Windows and Mac, or convert it to JPG.",
+		url: '/guides/what-is-an-avif-file',
+		category: 'Quick Guides',
+		readTime: '2 min read',
+		date: 'July 14, 2026',
+		lastUpdated: 'August 26, 2026'
+	},
+	{
+		title: 'HEIF to JPG: The Complete Conversion Guide',
+		description:
+			'Convert HEIF (.HIF) files from Canon, Sony, and Fujifilm cameras to universally compatible JPG. Every method, the quality trade-offs, and batch workflows.',
+		url: '/guides/heif-to-jpg-complete-guide',
+		category: 'Image Formats',
+		readTime: '14 min read',
+		date: 'July 15, 2026',
+		lastUpdated: 'August 26, 2026'
+	},
+	{
+		title: 'AVIF to JPG: How to Convert AVIF Files on Any Device',
+		description:
+			'AVIF is a modern format browsers love but desktop apps often reject. Convert AVIF to JPG free online in seconds, or use native tools on Windows and Mac.',
+		url: '/guides/avif-to-jpg',
+		category: 'Image Formats',
+		readTime: '13 min read',
+		date: 'July 13, 2026',
+		lastUpdated: 'July 15, 2026'
+	},
+	{
+		title: 'AI Image Compression and Conversion: Describe the Result, Skip the Settings',
+		description:
+			'Describe the result in plain English and let Mochify pick the format, quality and size. How natural-language image compression works, from a browser prompt to a fully agentic pipeline.',
+		url: '/guides/ai-image-compression-conversion',
+		category: 'AI & Automation',
+		readTime: '12 min read',
+		date: 'June 30, 2026',
+		featured: true
+	},
+	{
+		title: 'How to Compress and Optimize AI-Generated Images (in Automated and Agent Workflows)',
+		description:
+			'AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize-after-generation step in an agent pipeline.',
+		url: '/guides/compress-optimize-ai-generated-images',
+		category: 'AI & Automation',
+		readTime: '15 min read',
+		date: 'July 2, 2026',
+		lastUpdated: 'August 7, 2026'
+	},
+	{
+		title: 'How to Convert iPhone Photos (HEIC) to PDF',
+		description:
+			'Convert iPhone HEIC photos to PDF on any device - iPhone, Mac, Windows, or online. Native methods, batch tips, and a one-click tool. No app needed.',
+		url: '/guides/heic-to-pdf-iphone-photos',
+		category: 'Image Formats',
+		readTime: '12 min read',
+		date: 'June 29, 2026',
+		lastUpdated: 'August 6, 2026'
+	},
+	{
+		title: 'Convert MP4 to WebM for the Web: Smaller Files, Faster Pages, No Upload Required',
+		description:
+			'Converting an MP4 hero video to WebM using VP9 typically cuts file size by 30–50% with no visible quality difference. Covers browser support, Core Web Vitals impact, the video fallback pattern, and in-browser conversion.',
+		url: '/guides/mp4-to-webm-web-video-guide',
+		category: 'Web Performance',
+		readTime: '17 min read',
+		date: 'June 26, 2026'
+	},
+	{
+		title: 'Converting Images to JPEG XL: The Practical Guide for 2026',
+		description:
+			'Compression benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), honest 2026 browser support, and how to serve JXL safely with picture fallbacks.',
+		url: '/guides/converting-images-to-jpeg-xl',
+		category: 'Image Formats',
+		readTime: '11 min read',
+		date: 'June 26, 2026'
+	},
+	{
+		title: 'Should I convert HEIC to JPEG or WebP for WordPress uploads?',
+		description:
+			"JPEG works everywhere and is the safest default. WebP is better when file size matters - it's 25–35% smaller and has 97%+ browser coverage. HEIC must always be converted before serving.",
+		url: '/guides/heic-to-jpeg-or-webp-wordpress',
+		category: 'Quick Guides',
+		readTime: '3 min read',
+		date: 'June 25, 2026',
+		lastUpdated: 'August 7, 2026'
+	},
+	{
+		title: 'Do Marketplace Product Images Need to Be Square?',
+		description:
+			'No marketplace universally requires square product images, but most crop thumbnails to 1:1 - making pre-cropped images the safer choice for any seller.',
+		url: '/guides/do-marketplace-product-images-need-to-be-square',
+		category: 'Quick Guides',
+		readTime: '2 min read',
+		date: 'June 29, 2026',
+		lastUpdated: 'August 5, 2026'
+	},
+	{
+		title: 'Why Does eBay Say My Image File Is Not Supported?',
+		description:
+			"eBay rejects HEIC, HIF, RAW and oversized images. Convert to JPEG before uploading to fix 'file not supported' errors instantly.",
+		url: '/guides/ebay-image-file-not-supported',
+		category: 'Quick Guides',
+		readTime: '2 min read',
+		date: 'June 24, 2026',
+		lastUpdated: 'August 5, 2026'
+	},
+	{
+		title: 'Should I Use fetchpriority or rel="preload" for My LCP Image?',
+		description:
+			'Use fetchpriority="high" on an <img> tag found in HTML. Use rel="preload" when the browser discovers the image late, via CSS or JavaScript.',
+		url: '/guides/fetchpriority-vs-preload-lcp-image',
+		category: 'Quick Guides',
+		readTime: '2 min read',
+		date: 'June 20, 2026'
+	},
+	{
+		title: 'How to Convert Sony HIF Files to JPG',
+		description:
+			"Convert Sony .HIF files to JPG with Sony's free Imaging Edge Desktop, or convert online in one step. Which Alpha bodies shoot HEIF, and how to export.",
+		url: '/guides/sony-hif-to-jpg',
+		category: 'Quick Guides',
+		readTime: '3 min read',
+		date: 'June 17, 2026',
+		lastUpdated: 'August 7, 2026'
+	},
+	{
+		title: 'Working with PDFs in AI Agent Workflows: Extract, Split, and Convert Pages',
+		description:
+			'How to extract images from PDF, split multi-page files, and convert pages to WebP inside an AI agent pipeline. Mechanics, pitfalls, and a privacy-first workflow.',
+		url: '/guides/extract-images-from-pdf-agent-workflows',
+		category: 'AI & Automation',
+		readTime: '12 min read',
+		date: 'June 16, 2026',
+		lastUpdated: 'August 14, 2026'
+	},
+	{
+		title: 'LLM Image Token Costs: How Many Tokens Does an Image Use?',
+		description:
+			'No single number: Claude uses width×height/750 (~1,334 tokens for 1 MP), OpenAI and Gemini use tiling. Pass file paths, not image bytes, to save context.',
+		url: '/guides/llm-image-token-costs',
+		category: 'AI & Automation',
+		readTime: '4 min read',
+		date: 'June 7, 2026',
+		lastUpdated: 'August 7, 2026'
+	},
+	{
+		title: 'What Is a HIF File? (And How to Open One)',
+		description:
+			"A HIF file is a 10-bit HEIF photo from Canon, Sony and Fujifilm cameras. What it is, why it won't open, and how to view one on macOS, Windows, iOS and Linux.",
+		url: '/guides/what-is-a-hif-file',
+		category: 'Quick Guides',
+		readTime: '3 min read',
+		date: 'June 13, 2026',
+		lastUpdated: 'August 19, 2026'
+	},
+	{
+		title: 'Does Converting HIF to JPG Reduce Quality?',
+		description:
+			'Converting HIF to JPG rarely reduces visible quality. The real exception is Canon HDR PQ, where the HDR-to-SDR tone-map changes the look more than bit depth.',
+		url: '/guides/does-hif-to-jpg-lose-quality',
+		category: 'Quick Guides',
+		readTime: '3 min read',
+		date: 'June 5, 2026'
+	},
+	{
+		title: 'HIF to JPG: Convert Canon, Sony & Fujifilm Photos to Shareable JPEGs',
+		description:
+			'Convert HIF to JPG from Canon, Sony and Fujifilm cameras. Every method on every platform, plus what you trade away going 10-bit to 8-bit.',
+		url: '/guides/hif-to-jpg-canon-sony-fujifilm',
+		category: 'Image Formats',
+		readTime: '19 min read',
+		date: 'June 4, 2026',
+		lastUpdated: 'July 24, 2026'
+	},
+	{
+		title: 'On-Device AI Agents: Image and PDF Optimization for Local Workflows',
+		description:
+			"From NVIDIA DGX Spark to Apple Silicon, local AI agents are real in 2026. What that means for handling images and PDFs inside MCP agent pipelines - and why a local model doesn't mean local data.",
+		url: '/guides/on-device-ai-agents-image-optimization',
+		category: 'AI & Automation',
+		readTime: '15 min read',
+		date: 'June 2, 2026',
+		lastUpdated: 'July 17, 2026',
+		featured: true
+	},
+	{
+		title: 'SVG Conversion Guide: When to Keep Vector and When to Rasterize',
+		description:
+			"The real question isn't 'can I use SVG?' - it's 'should I use SVG here, for this workflow?' Decision framework, format comparison, and WordPress workflows for designers and developers.",
+		url: '/guides/svg-conversion-guide-vector-vs-raster',
+		category: 'Image Formats',
+		readTime: '8 min read',
+		date: 'May 16, 2026'
+	},
+	{
+		title: 'Do Journaling Apps Compress Images? Avoid Storage Bloat.',
+		description:
+			"Most journaling apps skip real compression or make it worse. Day One converts HEIC to larger JPEGs. Here's how to fix storage bloat before it hits.",
+		url: '/guides/do-journaling-apps-compress-images',
+		category: 'Quick Guides',
+		readTime: '4 min read',
+		date: 'May 18, 2026'
+	},
+	{
+		title: 'Fuji HIF Files Explained: How to Convert X-T5 / X-H2 / X100VI / X-T50 HIF to JPEG',
+		description:
+			"Fuji's HIF files are highly efficient and better quality at 10-bit but they're not supported everywhere, which can lead to frustration. Learn how to convert your camera's .HIF files to JPGs",
+		url: '/guides/fujifilm-hif-to-jpg',
+		category: 'Image Formats',
+		readTime: '5 min read',
+		date: 'February 1, 2026',
+		lastUpdated: 'June 4, 2026'
+	},
+	{
+		title: 'Privacy & Image Optimization: A Comprehensive Guide (2026)',
+		description:
+			'Learn how to keep your images secure with zero-retention optimization. The only way to ensure 100% data privacy in 2026 while still getting fast, high-quality compression.',
+		url: '/guides/privacy-image-optimization',
+		category: 'Data Privacy',
+		readTime: '6 min read',
+		date: 'February 5, 2026',
+		lastUpdated: 'June 24, 2026'
+	},
+	{
+		title: 'Fix "Next-Gen Formats" in WordPress (No Plugins) & Boost LCP',
+		description:
+			'Boost LCP on your WordPress site by fixing "Serve images in next-gen formats" without plugins. A simple, plugin-free workflow for pre-optimizing images with Mochify before uploading to WordPress.',
+		url: '/guides/next-gen-image-formats-wordpress',
+		category: 'WordPress Performance',
+		readTime: '15 min read',
+		date: 'February 9, 2026',
+		lastUpdated: 'August 7, 2026'
+	},
+	{
+		title: 'The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL',
+		description:
+			'Your 2MB JPEG homepage hero is killing your LCP score. Google\'s PageSpeed Insights keeps screaming "Serve images in next-gen formats," but which one should you actually use? WebP has been around since 2010, AVIF promises 50% better compression, and JPEG XL keeps showing up in conversations despite near-zero browser support.',
+		url: '/guides/2026-guide-next-gen-formats',
+		category: 'Image Formats',
+		readTime: '20 min read',
+		date: 'February 10, 2026',
+		lastUpdated: 'August 14, 2026'
+	},
+	{
+		title: 'Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game',
+		description:
+			"Boost eBay & Etsy sales with Jpegli. Get 35% better compression than MozJPEG with no quality loss. Master chroma & workflows via Mochify's encoder.",
+		url: '/guides/jpeg-in-2026-jpegli',
+		category: 'Image Optimization',
+		readTime: '20 min read',
+		date: 'February 9, 2026',
+		lastUpdated: 'August 26, 2026'
+	},
+	{
+		title: 'The Risks of EXIF Data in Image Compression (2026 Guide)',
+		description:
+			'Learn why stripping EXIF metadata during image compression is crucial for privacy and security. Understand the risks of leaving GPS coordinates, device info, and other sensitive data in your images.',
+		url: '/guides/exif-data-risks-image-compression-2026',
+		category: 'Data Privacy',
+		readTime: '15 min read',
+		date: 'February 13, 2026',
+		lastUpdated: 'August 7, 2026'
+	},
+	{
+		title: 'The History of Image Compression: From BMP to AVIF & Jpegli (2026 Guide)',
+		description:
+			'Trace the evolution of images from BMP to AVIF and Jpegli. Learn how 2026 compression tech boosts Core Web Vitals and SEO for developers and creators.',
+		url: '/guides/history-image-compression-2026',
+		category: 'Image Formats',
+		readTime: '15 min read',
+		date: 'February 15, 2026'
+	},
+	{
+		title:
+			'Top 5 Secure Image Compressors of 2026: Privacy, Performance, and Format Support Comparison',
+		description:
+			'Compare the best secure image compressors of 2026. Find out which tools offer true zero-retention privacy, support HEIC/AVIF/JPEG XL, and deliver the smallest files.',
+		url: '/guides/top-5-secure-image-compressors-2026',
+		category: 'Image Optimization',
+		readTime: '15 min read',
+		date: 'February 17, 2026',
+		lastUpdated: 'July 21, 2026'
+	},
+	{
+		title: 'How to Self-Host an Image Optimization API with Docker',
+		description:
+			'Tired of uploading your images to third-party services? Learn how to set up your own image optimization API using Docker and the Mochify-Lite engine for secure, private compression.',
+		url: '/guides/self-hosting-image-optimization-docker',
+		category: 'Image Optimization',
+		readTime: '5 min read',
+		date: 'February 18, 2026'
+	},
+	{
+		title: 'Optimizing Hero Images for Web Performance: A 2026 Guide',
+		description:
+			"Learn how to optimize your website's hero images for faster load times and better Core Web Vitals in 2026. A step-by-step guide to choosing the right format, compression settings, and responsive techniques.",
+		url: '/guides/optimizing-hero-images',
+		category: 'Image Optimization',
+		readTime: '14 min read',
+		date: 'February 20, 2026'
+	},
+	{
+		title: "AI-Powered Image Compression: How Mochify's Natural Language Feature Works (2026)",
+		description:
+			"Describe your image goal in plain English and Mochify's AI picks the right format, size, and settings automatically. Powered by Mistral Small 4. No tech knowledge needed.",
+		url: '/guides/ai-image-compression-natural-language-2026',
+		category: 'AI & Automation',
+		readTime: '8 min read',
+		date: 'March 8, 2026'
+	},
+	{
+		title: 'How to Use Mochify via MCP: AI Agent Image Compression (2026)',
+		description:
+			'Connect Mochify to your AI assistant via MCP and compress images with plain English - no manual settings, no uploads to a browser tab. For Claude Desktop, Cursor, and any MCP-compatible client.',
+		url: '/guides/mochify-mcp-image-compression-agent-2026',
+		category: 'AI & Automation',
+		readTime: '7 min read',
+		date: 'March 9, 2026'
+	},
+	{
+		title: 'How the Mochify MCP Server Works: Hosted vs Local, with Worked Examples',
+		description:
+			'The hosted and local MCP surfaces compared - architecture, token costs, retention behavior, and four worked examples covering URL input, uploaded images, Claude Desktop file work, and build pipelines.',
+		url: '/guides/how-the-mochify-mcp-server-works',
+		category: 'AI & Automation',
+		readTime: '9 min read',
+		date: 'May 28, 2026',
+		lastUpdated: 'August 14, 2026',
+		featured: true
+	},
+	{
+		title: 'Image Compression Inside Claude Code: The Mochify CLI + MCP Guide',
+		description:
+			"Can Claude Code use MCP? Yes. Here's how to compress images inside Claude Code with the Mochify CLI as a build step and a local MCP server.",
+		url: '/guides/image-compression-claude-code-cli-mcp',
+		category: 'AI & Automation',
+		readTime: '15 min read',
+		date: 'July 17, 2026'
+	},
+	{
+		title: 'A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression',
+		description:
+			'Looking for a GDPR-compliant image compressor hosted in the EU? Mochify processes images in memory only, never stores your files, and strips EXIF data by default.',
+		url: '/guides/european-alternative-tinypng-gdpr-compliant-image-compression',
+		category: 'Data Privacy',
+		readTime: '15 min read',
+		date: 'March 22, 2026',
+		lastUpdated: 'July 23, 2026'
+	},
+	{
+		title: 'How to Use Jpegli for Shopify Product Images',
+		description:
+			"Pre-compress Shopify product images with Jpegli before upload. Stop Shopify's recompression from degrading quality - get ~35% smaller files, faster LCP, and better search rankings.",
+		url: '/guides/jpegli-shopify-product-images',
+		category: 'Quick Guides',
+		readTime: '6 min read',
+		date: 'April 6, 2026'
+	},
+	{
+		title: 'How Do I Preload AVIF Hero Images in WordPress to Pass the LCP Threshold?',
+		description:
+			"Serving AVIF isn't enough - browsers still discover it late. Add a preload hint to your WordPress theme so the hero image starts downloading before the render tree is built, and hit Google's 2.5s LCP target.",
+		url: '/guides/preload-avif-hero-images-wordpress-lcp',
+		category: 'Quick Guides',
+		readTime: '3 min read',
+		date: 'April 9, 2026'
+	},
+	{
+		title: 'Does Chrome 145 Enable JPEG XL by Default in 2026?',
+		description:
+			'Chrome 145 adds JPEG XL decoding support, but the feature is off by default and requires a browser flag. Here is what that means for serving images in 2026.',
+		url: '/guides/chrome-145-jpeg-xl-default',
+		category: 'Quick Guides',
+		readTime: '3 min read',
+		date: 'April 10, 2026',
+		lastUpdated: 'August 14, 2026'
+	},
+	{
+		title: 'What Should I Use in 2026: WebP, AVIF, or JPEG XL?',
+		description:
+			'In 2026, use AVIF as your primary format with WebP as fallback. JPEG XL is not production-ready for web at ~15% browser support.',
+		url: '/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl',
+		category: 'Quick Guides',
+		readTime: '2 min read',
+		date: 'April 13, 2026',
+		lastUpdated: 'August 14, 2026'
+	},
+	{
+		title: 'Should I Optimize My Images Before I Upload Them?',
+		description:
+			'Almost always yes. A practical guide to pre-upload image optimization covering LCP, EXIF privacy, format choice, and workflows for Shopify, WordPress, and marketplaces.',
+		url: '/guides/should-i-optimize-images-before-upload',
+		category: 'Image Optimization',
+		readTime: '15 min read',
+		date: 'April 13, 2026',
+		lastUpdated: 'August 25, 2026'
+	},
+	{
+		title: 'Is JPEG XL Ready for Shopify Product Images in 2026?',
+		description:
+			"JPEG XL is not ready for live Shopify stores in 2026. Browser support sits at 12–17% globally and Shopify doesn't accept JXL uploads. Use AVIF with a WebP fallback.",
+		url: '/guides/is-jpeg-xl-ready-for-shopify-product-images',
+		category: 'Quick Guides',
+		readTime: '3 min read',
+		date: 'April 14, 2026'
+	},
+	{
+		title: 'HIF/HEIF to JPEG for Professional Photographers: A Privacy-First Workflow Guide',
+		description:
+			'Convert Canon HIF and HEIF to JPEG with confidence. Wedding, commercial, and editorial workflow blueprints with EXIF stripping, batch sizing, and zero-retention processing.',
+		url: '/guides/heif-to-jpeg-workflow-photographers-guide',
+		category: 'Workflows',
+		readTime: '12 min read',
+		date: 'April 23, 2026'
+	},
+	{
+		title: 'Should I Shoot HEIF or JPEG on My Mirrorless Camera?',
+		description:
+			"Shoot HEIF for capture quality, deliver JPEG to clients. Here's the practical 2026 workflow for Canon EOS R, Nikon Z, and Sony Alpha shooters.",
+		url: '/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera',
+		category: 'Quick Guides',
+		readTime: '3 min read',
+		date: 'April 25, 2026',
+		lastUpdated: 'July 24, 2026'
+	},
+	{
+		title: 'Does HEIF/HEIC Work With Client Gallery Platforms Like Pixieset and SmugMug?',
+		description:
+			"HEIF and HEIC files don't work reliably with most client gallery platforms. Here's what actually happens on upload, and how to keep control of your output.",
+		url: '/guides/does-heif-heic-work-with-client-galleries',
+		category: 'Quick Guides',
+		readTime: '3 min read',
+		date: 'April 26, 2026',
+		lastUpdated: 'August 6, 2026'
+	},
+	{
+		title: 'AI Agent Workflow Automation for Photographers: Save Hours with Claude and Mochify',
+		description:
+			"Build a hands-off post-shoot pipeline with Claude, Dispatch, and Mochify MCP. Files land in upload-ready folders while you're still in the field.",
+		url: '/guides/ai-agent-workflow-automation-photographers',
+		category: 'Workflows',
+		readTime: '10 min read',
+		date: 'May 3, 2026',
+		lastUpdated: 'June 24, 2026'
+	},
+	{
+		title: 'What Image Format Should I Use for Product Photos?',
+		description:
+			"Use AVIF for the smallest files, WebP as a fallback, and JPEG for the broadest compatibility. Here's the practical format fallback order for ecommerce product images.",
+		url: '/guides/what-image-format-should-i-use-for-product-photos',
+		category: 'Quick Guides',
+		readTime: '2 min read',
+		date: 'May 19, 2026',
+		lastUpdated: 'August 7, 2026'
+	},
+	{
+		title: 'Ecommerce Product Photo Workflow: Resize & Convert in One Prompt',
+		description:
+			'How to batch-convert product photos to JPG at 1200px and 800px with a single natural-language prompt. The fastest workflow for Shopify, Etsy, eBay, and Amazon sellers.',
+		url: '/guides/ecommerce-product-photo-workflow-resize-convert',
+		category: 'Workflows',
+		readTime: '4 min read',
+		date: 'May 23, 2026',
+		lastUpdated: 'August 25, 2026'
+	},
+	{
+		title: 'Why We Relaxed Our Zero-Retention Policy for MCP Server Compressions',
+		description:
+			"Why we softened Mochify's 'wiped immediately' claim on hosted MCP compressions to a five-minute pickup window, what we kept end-to-end, and what it means for your workflow.",
+		url: '/guides/why-we-relaxed-zero-retention-for-mcp',
+		category: 'Data Privacy',
+		readTime: '5 min read',
+		date: 'May 29, 2026'
+	},
+	{
+		title: 'What Size Should Vinted Photos Be?',
+		description:
+			'The best Vinted photo size is portrait 3:4, around 1080x1440px, item centered. Vinted sets no official spec - here is what its image pipeline actually does.',
+		url: '/guides/vinted-photo-size',
+		category: 'Quick Guides',
+		readTime: '2 min read',
+		date: 'July 19, 2026'
+	},
+	{
+		title: 'How to Take Vinted Photos That Sell',
+		description:
+			'How to take good photos for Vinted: light, backgrounds, the real size and ratio facts, privacy checks, and a one-prompt batch workflow for sellers.',
+		url: '/guides/vinted-photos-that-sell',
+		category: 'Workflows',
+		readTime: '13 min read',
+		date: 'July 19, 2026',
+		lastUpdated: 'August 5, 2026'
+	},
+	{
+		title: 'Mochify vs TinyPNG: An Honest Comparison',
+		description:
+			'TinyPNG stores files 48 hours; Mochify wipes them instantly. An honest head-to-head on pricing, formats, AI features, and where TinyPNG genuinely wins.',
+		url: '/guides/mochify-vs-tinypng',
+		category: 'Image Optimization',
+		readTime: '13 min read',
+		date: 'July 21, 2026',
+		lastUpdated: 'July 24, 2026'
+	},
+	{
+		title: 'Is Reselling Worth It in 2026? The Honest Math',
+		description:
+			'Is reselling worth it in 2026? The honest math: market data, time per listing, tool costs, and when a free photo workflow beats a paid one.',
+		url: '/guides/is-reselling-worth-it',
+		category: 'Workflows',
+		readTime: '14 min read',
+		date: 'July 23, 2026'
+	},
+	{
+		title: 'Photo File Too Large to Upload? Why Free Tools Reject Camera Files',
+		description:
+			'Why free tools reject modern camera files: real sizes from 45-61MP bodies, the 5-20MB caps that refuse them, and the fastest path to files that upload anywhere.',
+		url: '/guides/photo-file-too-large-to-upload',
+		category: 'Image Optimization',
+		readTime: '12 min read',
+		date: 'July 23, 2026'
+	}
+];
+
+const titleByUrl = new Map(guides.map((g) => [g.url, g.title]));
+
+/**
+ * The published title for a guide path, e.g. `/guides/can-safari-open-heic-images`.
+ * Returns undefined for paths that aren't in the index above, so callers can
+ * fall back to a slug-derived label.
+ */
+export function guideTitle(pathname: string): string | undefined {
+	return titleByUrl.get(pathname.replace(/\/+$/, ''));
+}

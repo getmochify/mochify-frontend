@@ -3,6 +3,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import GuideFAQs from '$lib/components/GuideFAQs.svelte';
+    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Photo File Too Large to Upload? Why Free Tools Reject Camera Files",
@@ -417,14 +418,13 @@
         <GuideFAQs items={faqs} />
 
         <!-- CTA -->
-        <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Hit a size wall today?</h3>
-            <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6 text-base">Drop the file into Mochify and prompt <em>"resize to 2000px, convert to JPEG, keep under 10MB"</em> - 3 images per session free with no signup, 20MB per file on the Free tier.</p>
-            <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
-                Start Optimizing Now →
-            </a>
-        </div>
+        <GuideCTA
+            heading="Hit a size wall today?"
+            href="/"
+            label="Start Optimizing Now →"
+        >
+            Drop the file into Mochify and prompt <em>"resize to 2000px, convert to JPEG, keep under 10MB"</em> - 3 images per session free with no signup, 20MB per file on the Free tier.
+        </GuideCTA>
 
         <!-- Related guides -->
         <section>

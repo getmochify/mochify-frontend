@@ -3,6 +3,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "How to Compress and Optimize AI-Generated Images (in Automated and Agent Workflows)",
@@ -401,14 +402,13 @@
         </section>
 
         <!-- CTA -->
-        <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Put the optimize-after-generation step on autopilot</h3>
-            <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6 text-base">Wire the local MCP server into your agent and describe the job in plain English: <em>"convert every PNG in /build/generated to AVIF at web quality, max 1600px wide."</em></p>
-            <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
-                Try it free at mochify.app →
-            </a>
-        </div>
+        <GuideCTA
+            heading="Put the optimize-after-generation step on autopilot"
+            href="/"
+            label="Try it free at mochify.app →"
+        >
+            Wire the local MCP server into your agent and describe the job in plain English: <em>"convert every PNG in /build/generated to AVIF at web quality, max 1600px wide."</em>
+        </GuideCTA>
 
         <!-- Related guides -->
         <section>

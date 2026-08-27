@@ -2,6 +2,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Does HEIF/HEIC Work With Client Gallery Platforms Like Pixieset and SmugMug?",
@@ -137,14 +138,13 @@
         </section>
 
         <!-- CTA -->
-        <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Pre-convert HEIF to gallery-ready JPEG free</h3>
-            <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base">Just describe what you need - Magic Flow handles the rest. No account needed for your first 3 files.</p>
-            <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
-                Try it free at mochify.app →
-            </a>
-        </div>
+        <GuideCTA
+            heading="Pre-convert HEIF to gallery-ready JPEG free"
+            href="/"
+            label="Try it free at mochify.app →"
+        >
+            Just describe what you need - Magic Flow handles the rest. No account needed for your first 3 files.
+        </GuideCTA>
 
         <!-- Related guides -->
         <section>

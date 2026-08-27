@@ -5,6 +5,7 @@
     import InfoBox from '$lib/components/InfoBox.svelte';
     import GuideFAQs from '$lib/components/GuideFAQs.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "What Automatic Image Optimization Actually Does (and When to Take Control)",
@@ -396,14 +397,13 @@
         <GuideFAQs items={faqItems} />
 
         <!-- Final CTA -->
-        <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Close the gap instead of leaving it open</h3>
-            <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6 text-base">See what your own images look like with the gap closed instead of left open: drop a batch into Mochify and prompt <em>"resize to 2000px on the long edge, convert to WebP, and strip location data"</em>, then compare it to what the platform default would have shipped.</p>
-            <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
-                Open mochify.app →
-            </a>
-        </div>
+        <GuideCTA
+            heading="Close the gap instead of leaving it open"
+            href="/"
+            label="Open mochify.app →"
+        >
+            See what your own images look like with the gap closed instead of left open: drop a batch into Mochify and prompt <em>"resize to 2000px on the long edge, convert to WebP, and strip location data"</em>, then compare it to what the platform default would have shipped.
+        </GuideCTA>
 
         <RelatedGuides guides={related} />
 

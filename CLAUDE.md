@@ -93,8 +93,11 @@ Each guide is a standalone `.svelte` file. The shared layout (`src/routes/guides
 - `SectionHeading` — renders an `<h2>` with a self-stretching pink bar that scales with multi-line headings. Use for all section headings instead of bare `<h2>`.
 - `InfoBox` — callout box with types `tip | technical | note | warning`. Uses a coloured dot (not emoji) as the indicator. Keep content concise.
 - `RelatedGuides` — takes an array of `{ title, href, desc }` objects.
+- `GuideCTA` — closing call-to-action card; mirrors the pricing page's final CTA. Props: `heading`, `href`, `label`, optional `secondaryHref`/`secondaryLabel`, `note` snippet, and `class` for spacing. Body copy goes in the default slot, so inline links and `<em>` still work. Use it instead of hand-rolling a CTA panel.
 - `ReadProgress` — reading progress bar; import at the top of each guide.
 - `Breadcrumb` — rendered by the layout automatically; no action needed.
+
+The guide's card metadata lives in `src/lib/data/guides.ts` — add an entry there when publishing. It drives the `/guides` index, and the breadcrumb label on the guide itself (without it the breadcrumb falls back to a slug-derived label).
 
 **Social card (OG image) — required for every new guide.** Guides get a build-time Open Graph card (system lives in `src/lib/og/cards.js`; generator is `scripts/generate-og.js`). When adding a guide:
 

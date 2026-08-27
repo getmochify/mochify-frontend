@@ -13,8 +13,9 @@
                     >{item.name}</a>
                 {:else}
                     <span
-                        class="text-xs font-semibold text-[#4A2C2C] truncate max-w-[160px] sm:max-w-xs"
+                        class="text-xs font-semibold text-[#4A2C2C] truncate max-w-[200px] sm:max-w-lg"
                         aria-current="page"
+                        title={item.name}
                     >{item.name}</span>
                 {/if}
                 {#if i < items.length - 1}

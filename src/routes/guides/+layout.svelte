@@ -4,21 +4,25 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import BackToTop from '$lib/components/BackToTop.svelte';
 	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
+	import { guideTitle } from '$lib/data/guides';
 
 	const { children } = $props();
 
+	// Fallback only: every published guide has a real title in $lib/data/guides,
+	// so this runs for a guide that has not been added to the index yet. Title
+	// casing a slug mangles version numbers and product names ("wordpress-7-1"
+	// -> "Wordpress 7 1"), so keep it to sentence case and let the index win.
 	function formatSlug(slug: string): string {
-		return slug
-			.split('-')
-			.map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-			.join(' ');
+		const words = slug.split('-');
+		return words[0].charAt(0).toUpperCase() + words[0].slice(1) + ' ' + words.slice(1).join(' ');
 	}
 
 	const segments = $derived(page.url.pathname.split('/').filter(Boolean));
+	const slug = $derived(segments[1]);
 	const breadcrumbItems = $derived([
 		{ name: 'Home', href: '/' },
 		segments.length > 1 ? { name: 'Guides', href: '/guides' } : { name: 'Guides' },
-		...(segments[1] ? [{ name: formatSlug(segments[1]) }] : [])
+		...(slug ? [{ name: guideTitle(`/guides/${slug}`) ?? formatSlug(slug) }] : [])
 	]);
 </script>
 

@@ -6,6 +6,7 @@
     import CodeBlock from '$lib/components/CodeBlock.svelte';
     import GuideFAQs from '$lib/components/GuideFAQs.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Why HDR Photos Look Flat When You Share Them (and How Gain Maps Fix It)",
@@ -465,14 +466,13 @@ grep X-Mochify-HDR headers.txt
         <GuideFAQs items={faqItems} />
 
         <!-- Final CTA -->
-        <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Ready to check your own file?</h3>
-            <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6 text-base">Convert SDR to HDR returns an Ultra HDR JPEG and tells you in the response whether the map was preserved, generated, or absent.</p>
-            <a href="/solutions/sdr-to-hdr" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
-                Convert SDR to HDR →
-            </a>
-        </div>
+        <GuideCTA
+            heading="Ready to check your own file?"
+            href="/solutions/sdr-to-hdr"
+            label="Convert SDR to HDR →"
+        >
+            Convert SDR to HDR returns an Ultra HDR JPEG and tells you in the response whether the map was preserved, generated, or absent.
+        </GuideCTA>
 
         <RelatedGuides guides={related} />
 

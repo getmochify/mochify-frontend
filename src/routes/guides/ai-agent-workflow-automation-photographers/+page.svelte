@@ -4,6 +4,7 @@
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import GuideFAQs from '$lib/components/GuideFAQs.svelte';
+    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "AI Agent Workflow Automation for Photographers: Save Hours with Claude and Mochify",
@@ -413,14 +414,14 @@ dispatch trigger mochify-agent --param folder="$FOLDER_PATH"</code></pre>
             <p>The <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">--prompt</code> flag accepts the same natural language instruction as the MCP call. This is useful for one-off runs, debugging, or verifying output before you trust the agent to run unsupervised.</p>
 
             <!-- CTA -->
-            <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow mt-6">
-                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-                <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Process your own batch right now</h3>
-                <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base">No setup required. Drag, describe, download.</p>
-                <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
-                    Try Mochify free →
-                </a>
-            </div>
+            <GuideCTA
+                class="mt-6"
+                heading="Process your own batch right now"
+                href="/"
+                label="Try Mochify free →"
+            >
+                No setup required. Drag, describe, download.
+            </GuideCTA>
         </section>
 
         <!-- 06 Multi-destination -->
@@ -480,14 +481,13 @@ strip GPS and device metadata, 2,400px long edge, JPEG"</code></pre>
         </section>
 
         <!-- Final CTA -->
-        <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">Set up your agent workflow today</h3>
-            <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base">Connect Mochify's MCP server, available on all plans, no developer paywall.</p>
-            <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
-                Get started at mochify.app →
-            </a>
-        </div>
+        <GuideCTA
+            heading="Set up your agent workflow today"
+            href="/"
+            label="Get started at mochify.app →"
+        >
+            Connect Mochify's MCP server, available on all plans, no developer paywall.
+        </GuideCTA>
 
         <!-- FAQ -->
         <GuideFAQs items={faqItems} />

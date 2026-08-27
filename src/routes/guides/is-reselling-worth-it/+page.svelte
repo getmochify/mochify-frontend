@@ -3,6 +3,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import GuideFAQs from '$lib/components/GuideFAQs.svelte';
+    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Is Reselling Worth It in 2026? The Honest Math",
@@ -430,14 +431,13 @@
         <GuideFAQs items={faqs} />
 
         <!-- CTA -->
-        <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Ready to run the math on your own listings?</h3>
-            <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6 text-base">Drop this week's photos into Mochify and prompt <em>"crop these square, convert to JPEG, keep under 12MB, and strip all metadata"</em> - 3 images per session free with no signup, 25 a month with a free account.</p>
-            <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
-                Start Optimizing Now →
-            </a>
-        </div>
+        <GuideCTA
+            heading="Ready to run the math on your own listings?"
+            href="/"
+            label="Start Optimizing Now →"
+        >
+            Drop this week's photos into Mochify and prompt <em>"crop these square, convert to JPEG, keep under 12MB, and strip all metadata"</em> - 3 images per session free with no signup, 25 a month with a free account.
+        </GuideCTA>
 
         <!-- Related guides -->
         <section>

@@ -3,6 +3,7 @@
     import InfoBox from '$lib/components/InfoBox.svelte';
     import RelatedGuides from '$lib/components/RelatedGuides.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Do Marketplace Product Images Need to Be Square?",
@@ -195,16 +196,14 @@
         </section>
 
         <!-- CTA -->
-        <aside class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Crop your product catalog to square automatically</h3>
-            <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base leading-relaxed">
-                Preparing a product catalog for multiple marketplaces? Mochify's saliency engine identifies the focal point in each photo and crops to square automatically - no manual adjustments per image.
-            </p>
-            <a href="/solutions/bulk-ai-square-cropper" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline text-base">
-                Try the Bulk AI Square Cropper →
-            </a>
-        </aside>
+        <GuideCTA
+            heading="Crop your product catalog to square automatically"
+            href="/solutions/bulk-ai-square-cropper"
+            label="Try the Bulk AI Square Cropper →"
+        >
+            Preparing a product catalog for multiple marketplaces? Mochify's saliency engine identifies the focal point in each photo and crops to square automatically - no manual adjustments per image.
+
+        </GuideCTA>
 
         <!-- Related guides -->
         <RelatedGuides guides={related} />

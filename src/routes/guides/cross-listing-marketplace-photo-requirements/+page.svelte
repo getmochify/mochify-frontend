@@ -4,6 +4,7 @@
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import GuideFAQs from '$lib/components/GuideFAQs.svelte';
+    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Cross-Listing for Resellers: One Set of Photos, Every Marketplace",
@@ -413,14 +414,13 @@
         <GuideFAQs items={faqs} />
 
         <!-- CTA -->
-        <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3 mt-0">One shoot, every marketplace</h3>
-            <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6 text-base">Three prompts per shoot batch, a few minutes total, and every marketplace gets photos shaped for its layout instead of one platform's leftovers. Upload your next batch and try <em>"smart-crop these to square, 1080px, JPEG, strip all metadata"</em> for yourself.</p>
-            <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
-                Open Magic Flow →
-            </a>
-        </div>
+        <GuideCTA
+            heading="One shoot, every marketplace"
+            href="/"
+            label="Open Magic Flow →"
+        >
+            Three prompts per shoot batch, a few minutes total, and every marketplace gets photos shaped for its layout instead of one platform's leftovers. Upload your next batch and try <em>"smart-crop these to square, 1080px, JPEG, strip all metadata"</em> for yourself.
+        </GuideCTA>
 
         <!-- Related guides -->
         <section>

@@ -1,6 +1,7 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "What Is a JXL File? How to Open, Convert, and Share JPEG XL",
@@ -139,14 +140,13 @@
         </section>
 
         <!-- CTA -->
-        <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Work with your JXL files</h3>
-            <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6 text-base">Try <a href="/solutions/jxl-to-pdf">Mochify's JXL to PDF tool</a> to bundle JXL images into a shareable document, or use the <a href="/jpg-to-jpegxl">JPEG XL Optimizer</a> if you want to go the other direction and convert your JPEGs into space-efficient JXL files.</p>
-            <a href="/solutions/jxl-to-pdf" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
-                Try JXL to PDF free →
-            </a>
-        </div>
+        <GuideCTA
+            heading="Work with your JXL files"
+            href="/solutions/jxl-to-pdf"
+            label="Try JXL to PDF free →"
+        >
+            Try <a href="/solutions/jxl-to-pdf">Mochify's JXL to PDF tool</a> to bundle JXL images into a shareable document, or use the <a href="/jpg-to-jpegxl">JPEG XL Optimizer</a> if you want to go the other direction and convert your JPEGs into space-efficient JXL files.
+        </GuideCTA>
 
         <!-- Related guides -->
         <section>

@@ -3,6 +3,7 @@
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Should I Shoot HEIF or JPEG on My Mirrorless Camera?",
@@ -154,14 +155,13 @@
         </section>
 
         <!-- CTA -->
-        <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Convert HEIF to client-ready JPEG free</h3>
-            <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6 text-base">Your files are processed in memory and wiped immediately after download. No account needed.</p>
-            <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
-                Try it free at mochify.app →
-            </a>
-        </div>
+        <GuideCTA
+            heading="Convert HEIF to client-ready JPEG free"
+            href="/"
+            label="Try it free at mochify.app →"
+        >
+            Your files are processed in memory and wiped immediately after download. No account needed.
+        </GuideCTA>
 
         <!-- Related guides -->
         <section>

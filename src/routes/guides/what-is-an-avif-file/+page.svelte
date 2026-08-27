@@ -3,6 +3,7 @@
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import InfoBox from '$lib/components/InfoBox.svelte';
     import GuideFAQs from '$lib/components/GuideFAQs.svelte';
+    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "What Is an AVIF File? (And How to Open One)",
@@ -176,14 +177,13 @@
         </section>
 
         <!-- CTA -->
-        <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8 md:p-10 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-            <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Got an AVIF file that will not open where you need it to?</h3>
-            <p class="text-[#6C3F31] max-w-lg mx-auto relative z-10 mb-6 text-base">Drop it into Mochify and just describe what you want, like <em>"convert to JPG and strip all metadata"</em> - no signup needed for up to 3 images per session.</p>
-            <a href="/avif-to-jpg" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
-                Try AVIF to JPG free →
-            </a>
-        </div>
+        <GuideCTA
+            heading="Got an AVIF file that will not open where you need it to?"
+            href="/avif-to-jpg"
+            label="Try AVIF to JPG free →"
+        >
+            Drop it into Mochify and just describe what you want, like <em>"convert to JPG and strip all metadata"</em> - no signup needed for up to 3 images per session.
+        </GuideCTA>
 
         <GuideFAQs items={faqs} />
 
