@@ -45,10 +45,13 @@
 		'/dashboard',
 	]);
 
+	// /guides/style-demo previews the new guide style: top-only wash owned by
+	// the page, no site-wide fixed blobs. If the style rolls out, drop
+	// startsWith('/guides') here entirely.
 	const showBlobs = $derived(
 		BLOB_ROUTES.has(page.url.pathname) ||
 		page.url.pathname.startsWith('/solutions') ||
-		page.url.pathname.startsWith('/guides')
+		(page.url.pathname.startsWith('/guides') && page.url.pathname !== '/guides/style-demo')
 	);
 
 	// Build-time OG card for this route (falls back to the generic card).
