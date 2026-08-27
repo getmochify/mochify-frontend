@@ -53,7 +53,12 @@
 	   so there is no clipped edge and no blotching through the frost. */
 	.cta-glow {
 		position: absolute;
-		inset: -3rem -5rem;
+		/* No horizontal bleed below the safe breakpoint: the article's own
+		   side padding drops to 0 at exactly 768px (the same point it hits
+		   max-w-3xl), so at that width the reading column has zero margin
+		   and ANY horizontal bleed here overflows the viewport. Vertical
+		   bleed is always safe (page scrolls vertically anyway). */
+		inset: -2rem 0;
 		z-index: 0;
 		pointer-events: none;
 		background: radial-gradient(
@@ -62,6 +67,15 @@
 			rgba(255, 194, 209, 0.3) 45%,
 			transparent 100%
 		);
+	}
+
+	/* Only bleed horizontally once the column has stopped growing and the
+	   viewport has margin outside it: at 1024px, margin = (1024-768)/2 =
+	   128px per side, comfortably clearing the 80px (-5rem) bleed below. */
+	@media (min-width: 1024px) {
+		.cta-glow {
+			inset: -3rem -5rem;
+		}
 	}
 
 	.cta-card {

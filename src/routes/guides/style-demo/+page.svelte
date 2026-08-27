@@ -1,7 +1,7 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
     import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import VerdictPill from '$lib/components/guide-demo/VerdictPill.svelte';
@@ -118,7 +118,10 @@ grep X-Mochify-HDR headers.txt
     <meta name="robots" content="noindex,nofollow" />
 </svelte:head>
 
-<article class="relative px-5 sm:px-6 md:px-0 pt-6 md:pt-0 text-lg text-[#6C3F31] leading-relaxed">
+<!-- Single max-w-3xl reading column: header, prose, and every card share the
+     same container edges. At rollout this constraint moves to the guides
+     layout's <main> so the breadcrumb shares it too. -->
+<article class="relative mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-0 pt-6 md:pt-0 text-lg text-[#6C3F31] leading-relaxed">
 
     <!-- Top-only mochi wash: absolute (scrolls away with the page, unlike the
          fixed BlobBackground), full-bleed via the 100vw trick, and faded out
@@ -127,7 +130,7 @@ grep X-Mochify-HDR headers.txt
     <div class="hero-wash" aria-hidden="true"></div>
 
 
-    <header class="mb-12 md:mb-14 max-w-3xl">
+    <header class="mb-12 md:mb-14">
         <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#F06292] mb-3 mt-0">
             {metadata.category} · Guide
         </p>
@@ -321,7 +324,7 @@ grep X-Mochify-HDR headers.txt
         </section>
 
         <!-- 10 FAQ -->
-        <GuideFAQs items={faqItems} />
+        <GlassFAQs items={faqItems} />
 
         <!-- Final CTA -->
         <GlassCTA
@@ -338,6 +341,35 @@ grep X-Mochify-HDR headers.txt
 </article>
 
 <style>
+    /* Demo-only breadcrumb adjustments. The breadcrumb renders in the shared
+       guides layout at max-w-4xl; align it with this page's 3xl reading
+       column and drop the current-page crumb (the h1 is two lines below it,
+       and the JSON-LD BreadcrumbList keeps the full trail for SEO). At
+       rollout both moves belong in the layout: constrain <main> to 3xl and
+       stop appending the page-name crumb. */
+    :global(nav[aria-label='Breadcrumb']) {
+        max-width: 48rem;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1.25rem;
+    }
+
+    /* Hide the page-name crumb and the separator that precedes it. */
+    :global(nav[aria-label='Breadcrumb'] li:last-child) {
+        display: none;
+    }
+    :global(nav[aria-label='Breadcrumb'] li:nth-last-child(2) > span[aria-hidden='true']) {
+        display: none;
+    }
+
+    /* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+    @media (max-width: 767px) {
+        :global(nav[aria-label='Breadcrumb']) {
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+        }
+    }
+
     .hero-wash {
         position: absolute;
         top: -20rem; /* start well above the viewport so no seam shows behind the nav */

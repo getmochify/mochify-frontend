@@ -14,7 +14,7 @@
         "kysely": "^0.28.17",
         "kysely-d1": "^0.4.0",
         "mediabunny": "^1.55.3",
-        "posthog-js": "^1.421.2",
+        "posthog-js": "^1.422.0",
         "posthog-node": "^5.51.3",
         "resend": "^6.24.0",
       },
@@ -768,7 +768,7 @@
 
     "detect-libc": ["detect-libc@2.1.2", "", {}, "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ=="],
 
-    "devalue": ["devalue@5.9.1", "", {}, "sha512-+17vil3EVQRzvtDJSFuTWEb8XJRvXqAiV3qZyQWD398QeXUa6CxsUyMdD1fxzEhUrd4FojitFz7lhIHBTlV4fw=="],
+    "devalue": ["devalue@5.9.2", "", {}, "sha512-po4PAY5c53tw5XMocSnf8A/5OHhbbUftpr93aEN6BBoAdntUmK7vu7wOATqvt7cXO7m1Cl4gMVn6p7n6n4mj0w=="],
 
     "dompurify": ["dompurify@3.4.14", "", { "optionalDependencies": { "@types/trusted-types": "^2.0.7" } }, "sha512-dVoH9z+MY+C9IilgGCk3YfFqjLi3fChm2OiKJMzh6axrJ5qwxqWaZamgmHrpv22CN/KdbZJuGEGgfQoL00LTdg=="],
 
@@ -1172,7 +1172,7 @@
 
     "postcss-value-parser": ["postcss-value-parser@4.2.0", "", {}, "sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ=="],
 
-    "posthog-js": ["posthog-js@1.421.2", "", { "dependencies": { "@posthog/browser-common": "^0.6.0", "@posthog/core": "^1.49.0", "@posthog/types": "^1.407.0", "core-js": "^3.49.0", "dompurify": "^3.4.13", "fflate": "^0.4.8", "preact": "^10.29.3", "query-selector-shadow-dom": "^1.0.1", "web-vitals": "^5.3.0", "web-vitals-soft-navs": "npm:web-vitals@6.0.0" }, "peerDependencies": { "@types/react": ">=16.8.0", "react": ">=16.8.0" }, "optionalPeers": ["@types/react", "react"] }, "sha512-+/U0nFypfzNA7z3vrCMWDqgYIYDaethuShUYh6Hbkz20azHdhEQeAWTCqA5yveFRc/RwvibvUFMAvYzIAqvMmg=="],
+    "posthog-js": ["posthog-js@1.422.0", "", { "dependencies": { "@posthog/browser-common": "^0.6.0", "@posthog/core": "^1.49.0", "@posthog/types": "^1.407.0", "core-js": "^3.49.0", "dompurify": "^3.4.13", "fflate": "^0.4.8", "preact": "^10.29.3", "query-selector-shadow-dom": "^1.0.1", "web-vitals": "^5.3.0", "web-vitals-soft-navs": "npm:web-vitals@6.0.0" }, "peerDependencies": { "@types/react": ">=16.8.0", "react": ">=16.8.0" }, "optionalPeers": ["@types/react", "react"] }, "sha512-m2mg6SLFZs9L2/L+a8+aeraR0LyijMrXLuwSbgfSeBLjHe99C4IR11Q2DV7R5qktVTwSx0Dg2kdMosx35/FfwQ=="],
 
     "posthog-node": ["posthog-node@5.51.3", "", { "dependencies": { "@posthog/core": "^1.48.12" }, "peerDependencies": { "rxjs": "^7.0.0" }, "optionalPeers": ["rxjs"] }, "sha512-11bPNCIAec9cjVdaX6vllYTtGviIX6k/qdF3IXG5dbbmXalym91nmkFy9npalSv8DQi8jcbEkhVz3AD7qrhaww=="],
 

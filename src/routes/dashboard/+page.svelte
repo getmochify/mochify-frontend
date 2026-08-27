@@ -151,10 +151,13 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<!-- No background of its own: the root layout paints the shared blob wash over
-     the body's cream for this route (see BLOB_ROUTES), so the dashboard matches
-     the homepage instead of running its own flat fill plus a local pink blur. -->
+<!-- Top-only wash instead of the sitewide fixed BlobBackground (see the guide
+     redesign): this is a long scrolling settings page, and a fixed blur that
+     follows every scroll position reads as noise once you're past the stat
+     cards. The wash fades out before the API Key card; everything below that
+     sits on plain --mochi-bg, same as the guide pages. -->
 <div class="relative flex min-h-screen flex-col">
+	<div class="dash-wash" aria-hidden="true"></div>
 	<Navigation />
 
 	<main class="relative z-10 mx-auto w-full max-w-4xl grow px-4 py-12 sm:px-6">
@@ -208,7 +211,7 @@
 
 		<!-- Stats row -->
 		<div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-			<div class="rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
+			<div class="dash-glass rounded-3xl p-6 shadow-sm">
 				<p class="mb-1 text-xs font-bold tracking-widest text-[#875F42]/50 uppercase">Plan</p>
 				{#if isPro}
 					<p class="text-2xl font-black text-[#4A2C2C]">Pro</p>
@@ -247,7 +250,7 @@
 					>
 				{/if}
 			</div>
-			<div class="rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
+			<div class="dash-glass rounded-3xl p-6 shadow-sm">
 				<p class="mb-2 text-xs font-bold tracking-widest text-[#875F42]/50 uppercase">
 					Images this month
 				</p>
@@ -326,7 +329,7 @@
 		{/if}
 
 		<!-- API Key card -->
-		<div class="mb-6 rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
+		<div class="dash-card mb-6 rounded-3xl border border-cocoa-milk/10 p-6 shadow-sm">
 			<div class="mb-4 flex items-start justify-between">
 				<div>
 					<h2 class="text-lg font-black text-[#4A2C2C]">API Key</h2>
@@ -445,7 +448,7 @@
 		</div>
 
 		<!-- Third-party AI consent -->
-		<div class="mb-6 rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
+		<div class="dash-card mb-6 rounded-3xl border border-cocoa-milk/10 p-6 shadow-sm">
 			<div class="flex items-start justify-between gap-4">
 				<div class="min-w-0">
 					<div class="flex items-center gap-2">
@@ -508,7 +511,7 @@
 		</div>
 
 		<!-- Marketing email preference -->
-		<div class="mb-6 rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
+		<div class="dash-card mb-6 rounded-3xl border border-cocoa-milk/10 p-6 shadow-sm">
 			<div class="flex items-start justify-between gap-4">
 				<div class="min-w-0">
 					<div class="flex items-center gap-2">
@@ -571,7 +574,7 @@
 		</div>
 
 		<!-- Connections -->
-		<div class="mb-6 rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
+		<div class="dash-card mb-6 rounded-3xl border border-cocoa-milk/10 p-6 shadow-sm">
 			<div class="mb-4 flex items-center justify-between">
 				<div>
 					<h2 class="font-black text-[#4A2C2C]">Connections</h2>
@@ -1035,7 +1038,7 @@
 		</div>
 
 		<!-- Danger zone -->
-		<div class="rounded-3xl border border-red-200/60 p-6">
+		<div class="dash-card rounded-3xl border border-red-200/60 p-6">
 			<h2 class="mb-1 font-black text-red-700/80">Danger zone</h2>
 			<p class="mb-4 text-sm text-[#875F42]/60">
 				Delete your account and all associated data. Your account is deactivated immediately and
@@ -1098,3 +1101,72 @@
 
 	<Footer />
 </div>
+
+<style>
+	/* Top-only wash, same recipe as the guide redesign: absolute (scrolls away
+	   with the page, unlike the old fixed BlobBackground), full-bleed via the
+	   100vw + translateX trick, faded out before the settings cards start. */
+	.dash-wash {
+		position: absolute;
+		top: -20rem;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 100vw;
+		height: 1100px;
+		z-index: -1;
+		pointer-events: none;
+		background:
+			radial-gradient(ellipse 60% 45% at 12% 8%, rgba(255, 179, 198, 0.4) 0%, transparent 70%),
+			radial-gradient(ellipse 50% 40% at 90% 18%, rgba(224, 172, 213, 0.32) 0%, transparent 70%),
+			radial-gradient(ellipse 45% 35% at 55% 55%, rgba(255, 214, 224, 0.25) 0%, transparent 70%);
+		mask-image: linear-gradient(to bottom, black 0%, black 45%, transparent 100%);
+		-webkit-mask-image: linear-gradient(to bottom, black 0%, black 45%, transparent 100%);
+	}
+
+	@media (max-width: 768px) {
+		.dash-wash {
+			height: 900px;
+			background:
+				radial-gradient(ellipse 60% 45% at 12% 8%, rgba(255, 179, 198, 0.22) 0%, transparent 70%),
+				radial-gradient(ellipse 50% 40% at 90% 18%, rgba(224, 172, 213, 0.16) 0%, transparent 70%),
+				radial-gradient(ellipse 45% 35% at 55% 55%, rgba(255, 214, 224, 0.12) 0%, transparent 70%);
+		}
+	}
+
+	/* Glass tier — the two at-a-glance stat cards (Plan, Images this month).
+	   Fully self-contained like GlassPanel: no Tailwind border/bg utilities on
+	   these elements, so there is nothing for this to fight in the cascade. */
+	.dash-glass {
+		background: #fff9fa;
+		border: 1px solid rgba(255, 255, 255, 0.7);
+		box-shadow:
+			0 8px 32px 0 rgba(240, 98, 146, 0.12),
+			inset 0 1px 0 0 rgba(255, 255, 255, 0.8),
+			inset 0 -1px 0 0 rgba(255, 255, 255, 0.2);
+	}
+
+	@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+		.dash-glass {
+			background: linear-gradient(
+				135deg,
+				rgba(255, 255, 255, 0.55) 0%,
+				rgba(255, 255, 255, 0.25) 100%
+			);
+			backdrop-filter: blur(20px);
+			-webkit-backdrop-filter: blur(20px);
+		}
+	}
+
+	/* Flat tier — API key, toggles, connections, account deletion: anywhere
+	   holding a sensitive action or data readers need to trust at a glance.
+	   Frosted glass lowers contrast, which is the wrong trade here, so this
+	   only sets an opaque fill. Border/shadow stay as ordinary Tailwind
+	   utilities on each element (border-cocoa-milk/10, border-red-200/60 for
+	   the danger zone) — .dash-card must never set border-color itself: this
+	   is a plain unscoped class in a component <style> block, so it beats
+	   Tailwind's layered utilities regardless of source order, and would
+	   silently override the danger zone's red border if it tried. */
+	.dash-card {
+		background-color: #ffffff;
+	}
+</style>

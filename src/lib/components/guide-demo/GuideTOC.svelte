@@ -79,14 +79,25 @@
 		box-shadow: 0 0 6px rgba(240, 98, 146, 0.5);
 	}
 
+	/* One column on mobile; two on md+ so a constrained-width TOC doesn't
+	   stack into excessive vertical height. Rows read down each column in
+	   document order (grid auto-placement is row-major, which keeps numbered
+	   pairs side by side; fine for a scan list). */
 	.toc ul {
 		list-style: none;
 		counter-reset: toc;
 		margin: 0;
 		padding: 0;
-		display: flex;
-		flex-direction: column;
+		display: grid;
+		grid-template-columns: 1fr;
 		gap: 0.6rem;
+	}
+
+	@media (min-width: 768px) {
+		.toc ul {
+			grid-template-columns: 1fr 1fr;
+			gap: 0.75rem;
+		}
 	}
 
 	.toc li {
@@ -96,6 +107,7 @@
 	.toc a {
 		display: flex;
 		align-items: center;
+		height: 100%; /* cells in the same grid row match heights when a label wraps */
 		gap: 1rem;
 		padding: 0.7rem 0.9rem;
 		border-radius: 0.9rem;

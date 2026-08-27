@@ -42,7 +42,6 @@
 		'/auth/forgot-password',
 		'/auth/reset-password',
 		'/contact',
-		'/dashboard',
 	]);
 
 	// /guides/style-demo previews the new guide style: top-only wash owned by
