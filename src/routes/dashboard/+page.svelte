@@ -169,7 +169,7 @@
 			<div class="flex items-center gap-2">
 				<a
 					href="/flow"
-					class="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#F06292] px-4 py-2 text-sm font-bold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#D81B60] sm:flex-none"
+					class="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-4 py-2 text-sm font-bold text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] sm:flex-none"
 				>
 					<svg
 						class="h-4 w-4"
@@ -329,7 +329,7 @@
 		{/if}
 
 		<!-- API Key card -->
-		<div class="dash-card mb-6 rounded-3xl border border-cocoa-milk/10 p-6 shadow-sm">
+		<div class="dash-card mb-6 rounded-3xl border border-[rgba(0,0,0,0.06)] p-6 shadow-sm">
 			<div class="mb-4 flex items-start justify-between">
 				<div>
 					<h2 class="text-lg font-black text-[#4A2C2C]">API Key</h2>
@@ -448,7 +448,7 @@
 		</div>
 
 		<!-- Third-party AI consent -->
-		<div class="dash-card mb-6 rounded-3xl border border-cocoa-milk/10 p-6 shadow-sm">
+		<div class="dash-card mb-6 rounded-3xl border border-[rgba(0,0,0,0.06)] p-6 shadow-sm">
 			<div class="flex items-start justify-between gap-4">
 				<div class="min-w-0">
 					<div class="flex items-center gap-2">
@@ -511,7 +511,7 @@
 		</div>
 
 		<!-- Marketing email preference -->
-		<div class="dash-card mb-6 rounded-3xl border border-cocoa-milk/10 p-6 shadow-sm">
+		<div class="dash-card mb-6 rounded-3xl border border-[rgba(0,0,0,0.06)] p-6 shadow-sm">
 			<div class="flex items-start justify-between gap-4">
 				<div class="min-w-0">
 					<div class="flex items-center gap-2">
@@ -574,7 +574,7 @@
 		</div>
 
 		<!-- Connections -->
-		<div class="dash-card mb-6 rounded-3xl border border-cocoa-milk/10 p-6 shadow-sm">
+		<div class="dash-card mb-6 rounded-3xl border border-[rgba(0,0,0,0.06)] p-6 shadow-sm">
 			<div class="mb-4 flex items-center justify-between">
 				<div>
 					<h2 class="font-black text-[#4A2C2C]">Connections</h2>
