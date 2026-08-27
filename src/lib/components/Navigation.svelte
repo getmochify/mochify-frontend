@@ -184,7 +184,7 @@
 			{#if showGetStarted}
 				<a
 					href="/auth/register"
-					class="cursor-pointer rounded-full bg-mochi-pink px-5 py-2 text-sm font-black text-white shadow-sm transition-all hover:bg-[#E91E8C] hover:shadow-md active:scale-95"
+					class="cursor-pointer rounded-full bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-5 py-2 text-sm font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] active:scale-95"
 				>
 					Get started
 				</a>
@@ -337,7 +337,7 @@
 			{#if showGetStarted}
 				<a
 					href="/auth/register"
-					class="mx-2 mb-2 rounded-2xl bg-mochi-pink px-6 py-4 text-center font-black text-white shadow-sm transition-all hover:bg-[#E91E8C] active:scale-95"
+					class="mx-2 mb-2 rounded-2xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-6 py-4 text-center font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] active:scale-95"
 				>
 					Get started
 				</a>
