@@ -570,8 +570,21 @@
 	// The two limits are routinely confused with each other — users read "3" on
 	// the badge and assume it is the batch cap, or trim to 3 and expect the
 	// monthly count to stop falling. Say which is which, in the same breath.
+	//
+	// The reset clause used to say "on the 1st" for every tier, which is wrong
+	// across the board: guest and free buckets are a rolling 30-day window
+	// seeded on first use after the last one expired (TokenBucket.ts), not
+	// calendar-anchored, and paid buckets reset on the Polar subscription's
+	// billing date (see api/webhooks/polar), not the 1st either.
+	const resetClause = $derived(
+		userTier === 'guest'
+			? 'Guest uploads are counted against your IP address and reset 30 days after you start using them'
+			: userTier === 'free'
+				? 'Your monthly allowance resets 30 days after you start using it'
+				: 'Your monthly allowance resets on your billing date'
+	);
 	const usageHint = $derived(
-		`${userTier === 'guest' ? 'Guest uploads are counted per month against your IP address and reset' : 'Your monthly allowance resets'} on the 1st. Separately, you can stage up to ${batchLimit} files (${maxFileSizeMb}MB each) in one go. That is a per-batch cap, not a monthly one, so you can run batch after batch until the monthly total runs out.`
+		`${resetClause}. Separately, you can stage up to ${batchLimit} files (${maxFileSizeMb}MB each) in one go. That is a per-batch cap, not a monthly one, so you can run batch after batch until the monthly total runs out.`
 	);
 
 	// Applies to signed-in users too. This used to be guest-only, which meant an

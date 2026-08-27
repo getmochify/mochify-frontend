@@ -156,7 +156,7 @@
                         "name": "Do unused images roll over?",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "All tiers reset monthly. Free resets every calendar month; Seller and Pro reset on your billing date. Unused images do not roll over."
+                            "text": "No. Free resets on a rolling 30-day cycle from when you start using it; Seller and Pro reset on your billing date. Unused images do not roll over."
                         }
                     },
                     {
@@ -641,7 +641,7 @@
                         <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </summary>
                     <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        All tiers reset monthly. Free resets every calendar month; Seller and Pro reset on your billing date. Unused images do not roll over.
+                        No. Free resets on a rolling 30-day cycle from when you start using it; Seller and Pro reset on your billing date. Unused images do not roll over.
                     </p>
                 </details>
 
