@@ -67,16 +67,16 @@
                         <h3 class="font-heading font-bold text-lg text-[#4A2C2C]">Images</h3>
                     </div>
                     <ul class="space-y-2">
-                        <li class="rounded-xl bg-[#FFF7F9] border border-pink-100/80 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
+                        <li class="rounded-xl bg-[#FFF0F3] border border-pink-100/60 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
                             Convert to WebP and AVIF at 1200px and 500px
                         </li>
-                        <li class="rounded-xl bg-[#FFF7F9] border border-pink-100/80 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
+                        <li class="rounded-xl bg-[#FFF0F3] border border-pink-100/60 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
                             Remove the background, transparent PNG
                         </li>
-                        <li class="rounded-xl bg-[#FFF7F9] border border-pink-100/80 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
+                        <li class="rounded-xl bg-[#FFF0F3] border border-pink-100/60 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
                             Square crop and optimize for eBay
                         </li>
-                        <li class="rounded-xl bg-[#FFF7F9] border border-pink-100/80 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
+                        <li class="rounded-xl bg-[#FFF0F3] border border-pink-100/60 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
                             Make it brighter and add clarity
                         </li>
                     </ul>
@@ -90,16 +90,16 @@
                         <h3 class="font-heading font-bold text-lg text-[#4A2C2C]">PDFs</h3>
                     </div>
                     <ul class="space-y-2">
-                        <li class="rounded-xl bg-[#FFF7F9] border border-pink-100/80 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
+                        <li class="rounded-xl bg-[#FFF0F3] border border-pink-100/60 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
                             Split into individual pages
                         </li>
-                        <li class="rounded-xl bg-[#FFF7F9] border border-pink-100/80 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
+                        <li class="rounded-xl bg-[#FFF0F3] border border-pink-100/60 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
                             Rasterize to PNG at 150 DPI
                         </li>
-                        <li class="rounded-xl bg-[#FFF7F9] border border-pink-100/80 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
+                        <li class="rounded-xl bg-[#FFF0F3] border border-pink-100/60 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
                             Convert pages to WebP, 200 DPI
                         </li>
-                        <li class="rounded-xl bg-[#FFF7F9] border border-pink-100/80 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
+                        <li class="rounded-xl bg-[#FFF0F3] border border-pink-100/60 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
                             High-res rasterize at 300 DPI
                         </li>
                     </ul>
@@ -113,16 +113,16 @@
                         <h3 class="font-heading font-bold text-lg text-[#4A2C2C]">Video and audio</h3>
                     </div>
                     <ul class="space-y-2">
-                        <li class="rounded-xl bg-[#FFF7F9] border border-pink-100/80 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
+                        <li class="rounded-xl bg-[#FFF0F3] border border-pink-100/60 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
                             Convert to WebM for the web
                         </li>
-                        <li class="rounded-xl bg-[#FFF7F9] border border-pink-100/80 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
+                        <li class="rounded-xl bg-[#FFF0F3] border border-pink-100/60 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
                             Extract the audio as MP3
                         </li>
-                        <li class="rounded-xl bg-[#FFF7F9] border border-pink-100/80 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
+                        <li class="rounded-xl bg-[#FFF0F3] border border-pink-100/60 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
                             Compress this for sharing
                         </li>
-                        <li class="rounded-xl bg-[#FFF7F9] border border-pink-100/80 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
+                        <li class="rounded-xl bg-[#FFF0F3] border border-pink-100/60 px-3.5 py-2.5 text-sm text-[#6C3F31] leading-snug">
                             Convert audio to AAC
                         </li>
                     </ul>
