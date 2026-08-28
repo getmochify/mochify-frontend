@@ -6,6 +6,24 @@ body {
   background-color: #FDFBF7;
 }
 
+/* Defensive clip against 100vw full-bleed decorative elements (hero washes,
+   glows) that intentionally break out of a narrower container. 100vw always
+   equals the full viewport width including the vertical scrollbar's own
+   track, so on any browser with a space-reserving (non-overlay) scrollbar,
+   a "100vw + translateX(-50%)" bleed ends up a few pixels wider than the
+   page and produces a permanent horizontal scrollbar site-wide — the exact
+   bug found on the dashboard's top wash. Clipping here only affects the
+   page-level scrollbar; elements with their own overflow-x: auto (guide
+   tables, code blocks) keep scrolling internally regardless. */
+html {
+  overflow-x: clip;
+  /* Pinned explicitly: setting only overflow-x on an element with no
+     overflow-y declared computes overflow-y to auto per spec, not visible.
+     Harmless in practice for document scroll, but pinning it avoids relying
+     on that implicit rule. */
+  overflow-y: visible;
+}
+
 /* --- 1. TAILWIND V4 THEME CONFIG --- */
 /* This tells Tailwind: "When I say font-sans, use Nunito." */
 @theme {

@@ -1107,11 +1107,17 @@
 	   with the page, unlike the old fixed BlobBackground), full-bleed via the
 	   100vw + translateX trick, faded out before the settings cards start. */
 	.dash-wash {
+		/* Unlike the guide pages' hero-wash, this sits directly in the
+		   full-width page wrapper, not inside a max-w-* column — so it never
+		   needs to break out via 100vw. left/right: 0 already spans exactly
+		   the parent's width. 100vw would count the vertical scrollbar's own
+		   width as part of the viewport, making this a few pixels wider than
+		   the page and causing a permanent horizontal scrollbar on any
+		   browser with a space-reserving (non-overlay) scrollbar. */
 		position: absolute;
 		top: -20rem;
-		left: 50%;
-		transform: translateX(-50%);
-		width: 100vw;
+		left: 0;
+		right: 0;
 		height: 1100px;
 		z-index: -1;
 		pointer-events: none;
