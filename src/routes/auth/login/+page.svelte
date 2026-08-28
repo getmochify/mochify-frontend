@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { authClient } from '$lib/auth-client';
 	import Navigation from '$lib/components/Navigation.svelte';
@@ -12,6 +13,11 @@
 	let error = $state('');
 
 	const next = $derived(data?.next ?? '/dashboard');
+	// Set by reset-password/+page.svelte on a successful reset. resetPassword
+	// never creates a session, so redirecting here (rather than /dashboard)
+	// and saying so is what actually gets an unverified user to the message
+	// that fixes their account, instead of a silent bounce.
+	const justReset = $derived(page.url.searchParams.get('reset') === 'success');
 
 	async function handleGoogle() {
 		await authClient.signIn.social({ provider: 'google', callbackURL: next });
@@ -25,7 +31,16 @@
 		const { error: err } = await authClient.signIn.email({ email, password });
 
 		if (err) {
-			error = err.message ?? 'Sign in failed';
+			// EMAIL_NOT_VERIFIED: auth.ts sets emailVerification.sendOnSignIn,
+			// so this exact failed attempt just triggered a fresh verification
+			// email server-side. Say that explicitly, or a user who missed
+			// their original signup email sees the same dead-end message
+			// again and reaches for "Forgot password" instead, which cannot
+			// fix an unverified account.
+			error =
+				err.code === 'EMAIL_NOT_VERIFIED'
+					? "We've sent a new verification link to your email — check your inbox to finish setting up your account."
+					: (err.message ?? 'Sign in failed');
 			loading = false;
 		} else {
 			posthog.identify(email, { email });
@@ -59,6 +74,13 @@
 			<div
 				class="rounded-3xl border border-white/80 bg-white/60 p-8 shadow-[0_8px_32px_rgba(240,98,146,0.1)] backdrop-blur-sm"
 			>
+				{#if justReset && !error}
+					<div
+						class="mb-5 rounded-2xl border border-[#66BB6A]/30 bg-[#A5D6A7]/20 px-4 py-3 text-sm font-medium text-[#2E5C31]"
+					>
+						Password updated — sign in below.
+					</div>
+				{/if}
 				{#if error}
 					<div
 						class="mb-5 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-700"

@@ -28,7 +28,15 @@
             error = err.message ?? 'Password reset failed'
             loading = false
         } else {
-            goto('/dashboard')
+            // resetPassword only updates the password credential — it never
+            // sets emailVerified and never creates a session (see
+            // better-auth's reset-password endpoint). Redirecting straight to
+            // /dashboard assumed the latter, so an unverified user landed
+            // here, got silently bounced back to /auth/login by the
+            // dashboard's own guard, and had no idea why. Send them to sign
+            // in explicitly instead, where a still-unverified account now
+            // gets a clear message and a fresh verification email.
+            goto('/auth/login?reset=success')
         }
     }
 </script>

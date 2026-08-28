@@ -1037,25 +1037,35 @@
 			{/if}
 		</div>
 
-		<!-- Danger zone -->
-		<div class="dash-card rounded-3xl border border-red-200/60 p-6">
-			<h2 class="mb-1 font-black text-red-700/80">Danger zone</h2>
-			<p class="mb-4 text-sm text-[#875F42]/60">
-				Delete your account and all associated data. Your account is deactivated immediately and
-				permanently deleted after 14 days — signing in again within that window cancels the
-				deletion.
-			</p>
+		<!-- Delete account — deliberately not a peer card. A red "Danger zone"
+		     card matching every other card's size and weight made it the
+		     loudest thing on the page: red is the highest-contrast color
+		     against an otherwise pink/cream/white palette, exactly backwards
+		     from wanting people to walk past this. Danger styling now only
+		     appears once someone has actually opted into the confirm step —
+		     the ambient state is a quiet text link, matching the muted
+		     account-utility tone rather than competing with the cards above. -->
+		<div class="border-t border-[rgba(0,0,0,0.06)] pt-6">
 			{#if !showDeleteConfirm}
-				<button
-					onclick={() => {
-						showDeleteConfirm = true;
-					}}
-					class="cursor-pointer rounded-xl border border-red-300/60 px-4 py-2 text-sm font-bold text-red-600/70 transition-all hover:border-red-400/60 hover:bg-red-50/60 hover:text-red-700"
-				>
-					Delete account
-				</button>
+				<p class="text-sm text-[#875F42]/50">
+					Want to leave?
+					<button
+						onclick={() => {
+							showDeleteConfirm = true;
+						}}
+						class="cursor-pointer font-semibold text-[#875F42]/70 underline decoration-[#875F42]/30 underline-offset-2 transition-colors hover:text-[#4A2C2C]"
+					>
+						Delete your account
+					</button>
+					 and all associated data.
+				</p>
 			{:else}
-				<div class="space-y-3">
+				<div class="dash-card space-y-3 rounded-3xl border border-red-200/60 p-6">
+					<h2 class="font-black text-red-700/80">Delete account</h2>
+					<p class="text-sm text-[#875F42]/60">
+						Your account is deactivated immediately and permanently deleted after 14 days —
+						signing in again within that window cancels the deletion.
+					</p>
 					<p class="text-sm font-bold text-red-700/80">
 						Type <span class="font-mono">delete my account</span> to confirm:
 					</p>

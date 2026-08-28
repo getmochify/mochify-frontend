@@ -155,6 +155,16 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
         },
         emailVerification: {
             sendOnSignUp: true,
+            // A user who missed the signup email and comes back later to sign
+            // in was previously stuck: requireEmailVerification blocks the
+            // sign-in with no way to get a fresh link, and the only other
+            // control on that page is "Forgot password" — which changes the
+            // password but never touches emailVerified or creates a session,
+            // so it dead-ends too. This makes the blocked sign-in itself
+            // resend a verification email (better-auth's built-in behavior
+            // for this exact case; see sign-in.mjs's requireEmailVerification
+            // branch), closing the loop without a separate resend endpoint.
+            sendOnSignIn: true,
             autoSignInAfterVerification: true,
             // Counterpart to the create hook: for email/password signups this is
             // the first moment the address is known to deliver. Syncing from the
