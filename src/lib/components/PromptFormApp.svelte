@@ -1054,8 +1054,18 @@
 				files.length > 0 &&
 				shouldSpeculate()
 			) {
+				// The progress bar is hidden behind the 'thinking' display phase
+				// while this runs, but uploadPercent must track it anyway: the
+				// instant the phase flips to 'uploading' the bar reads this value,
+				// and staged files fire no upload events of their own afterwards.
+				// Without this it showed 0% for work that was already done — and
+				// kept showing it, since a fully-staged batch never uploads again.
+				const speculativeTotal = files.reduce((sum, f) => sum + f.size, 0);
 				stager = startStaging(files, API_URL, jwt, (delta) => {
 					speculativeBytes += delta;
+					if (speculativeTotal > 0) {
+						uploadPercent = Math.min(Math.round((speculativeBytes / speculativeTotal) * 100), 100);
+					}
 				});
 			}
 
@@ -1698,6 +1708,12 @@
 			// counter with them keeps the progress bar truthful rather than
 			// restarting it at 0 for work that is already done.
 			let uploadedBytes = speculativeBytes;
+			// Re-derive against the authoritative totalBytes: the staging callback
+			// above works from a plain byte sum, which differs here when variants
+			// are counted per file.
+			if (totalBytes > 0) {
+				uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
+			}
 			let processedFiles = 0;
 			let currentFileIndex = 0;
 			// Matched to the backend worker pool: WorkerPool::instance() runs 4
