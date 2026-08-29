@@ -1,7 +1,9 @@
 # Speculative upload — overlap the NLP round trip with the upload
 
-**Status:** Proposed (2026-08-29). No runtime changes yet — this is the design of
-record to turn into tickets.
+**Status:** Phase 1 SHIPPED 2026-08-29 and verified working end to end — a magic
+flow with sub-5MB images now hands straight from the parse to a pre-filled
+upload. Remaining phases (large-file speculation, abort endpoint, unclaimed
+sub-budget, merged progress) tracked under "Still outstanding" below.
 **Spans:** `mochify-frontend`, `mochify-core`, `mochify-worker`.
 **Not affected:** `mochify-chrome`, `mochify-cli` (see "Compatibility").
 **Prerequisite:** `mochify-core/docs/upload-session-guardrails.md` — the session
@@ -81,7 +83,9 @@ breaks that property and bills the innocent case.
 
 ### The processing queue is not the risk
 
-`WorkerPool` (25 tasks, 2GB `kMaxQueuedBytes`) is only entered at `/complete`,
+`WorkerPool` (100 tasks or 2GB `kMaxQueuedBytes`, whichever binds first — the 25
+in the constructor signature is only a default that `instance()` overrides) is
+only entered at `/complete`,
 *after* `Worker::decrement` succeeds. Queue entry costs a token. A caller who
 never supplies a prompt cannot put anything in it. That surface is fine as-is.
 
@@ -308,6 +312,43 @@ rate depends on prompt *and* file-shape repetition — plausible for common case
 Worth an experiment because it is a header, not an architecture. Not a substitute
 for speculation: it does nothing for the first request of any shape, which is the
 one users notice.
+
+## What shipped in Phase 1
+
+| Piece | Where |
+|---|---|
+| `POST /v1/upload/stage` — whole body, no params, returns a session id | `mochify-core` `UploadController::stageUpload` |
+| `deferred` session state + `kUnclaimedTtl` (120s) | `UploadSessionStore.h` |
+| `/v1/upload/complete` accepts a params JSON body | `UploadController::completeUpload` |
+| `applyParams()` shared by init and complete | `UploadController.cc` |
+| Staging client, 6-wide, fails soft | `src/lib/uploadStage.ts` |
+| `completeUpload` exported with optional body | `src/lib/uploadChunked.ts` |
+| Wiring + progress seeding | both `PromptForm` forks |
+| `CONCURRENCY_LIMIT` 2 → 4 (stale `vips_concurrency` comment) | both `PromptForm` forks |
+
+Two bugs found during the build, both worth remembering:
+
+1. **`dest=bucket` bypassed its validation.** All three of `init`'s bucket rules
+   (signed-in, name required, no multi-variant) were skipped by deferred
+   sessions, which never pass through `init`. Re-checked in `complete`.
+2. **The progress bar read 0% at hand-off.** `uploadedBytes` was seeded from the
+   speculative pass but `uploadPercent` was not recomputed, and staged files
+   fire no upload events — so a fully-staged batch would have sat at 0 forever
+   rather than briefly. Staging now drives `uploadPercent` live.
+
+## Still outstanding
+
+- **Merged progress model.** The phase is still binary: "thinking", then a
+  mostly-full bar. Truthful, but not one continuous progression. A
+  `speculative_miss` also steps the bar backwards when the rollback un-counts
+  its bytes.
+- **Large files do not speculate.** >5MB still uses the classic chunked path;
+  deferred-chunked is unbuilt.
+- **No abort endpoint** (guardrails item 3), so an abandoned prompt's bytes wait
+  out the 120s TTL.
+- **No unclaimed sub-budget** (guardrails item 5, second half) — speculative
+  bytes still draw on the shared 1.5GB.
+- **`ctest` has never been run** against any of the core changes.
 
 ## Suggested order
 

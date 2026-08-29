@@ -30,22 +30,27 @@ PUBLIC_API_URL=http://localhost   # Defaults to https://api.mochify.app in produ
 
 The homepage (`/`) lets users toggle between:
 
-1. **Magic Flow** — `PromptForm.svelte`: NLP-driven. User describes what they want in plain text, files are attached, and a two-step API call is made: first `POST /v1/nlp/parse` to interpret the prompt, then `POST /v1/squish` per file with the parsed parameters.
+1. **Magic Flow** — `PromptFormApp.svelte`: NLP-driven. User describes what they want in plain text, files are attached, and a two-step API call is made: first `POST /v1/prompt` (on the worker) to interpret the prompt, then the upload per file with the parsed parameters. Small files (≤5MB) are **speculatively staged** via `POST /v1/upload/stage` while the prompt is still parsing, then finished with `POST /v1/upload/complete` carrying the params — see `src/lib/uploadStage.ts` and `docs/speculative-upload.md`. Larger files use the resumable chunked path (`src/lib/uploadChunked.ts`); files that cannot be staged fall back to `POST /v1/squish`.
 
 2. **Manual Settings** — `ImageUpload.svelte`: Classic form with format selector. Sends files directly to `POST /v1/squish`. Supports batch processing up to 25 files (2 concurrent), token-limit checking via `GET /v1/checkTokens`, EXIF stripping, and smart-compress toggles. Multiple outputs are zipped client-side with `fflate`.
 
-`/app` is the standalone PWA surface (the web app manifest's `start_url`, `display: standalone`). It renders `PromptFormApp.svelte` — a fork of `PromptForm.svelte` kept separate so the installed-app experience can diverge (e.g. agentic/MCP "Mochify 2.0" framing) without affecting the homepage. It uses the shared `Navigation` and `Footer` and is `noindex`.
+`/flow` is the standalone PWA surface (the web app manifest's `start_url`, `display: standalone`) and the main product. It uses the shared `Navigation` and `Footer` and is `noindex`.
+
+`PromptFormApp.svelte` serves **both** `/flow` and the homepage. It was previously forked as `PromptForm.svelte` for the homepage; the two drifted (the fork missed "save to bucket" and GIF support) and every change had to be made twice, so they were merged back into one component. The only per-surface difference is the `maxWidth` prop — `/flow` uses the default `max-w-4xl`, the homepage passes `max-w-3xl` to fit its two-column grid. **Do not re-fork it**; add a prop instead.
 
 ### API endpoints used
 
 - `POST /v1/squish?type=<format>&strip_exif=<bool>&smartCompress=1` — Upload a single image (raw body), returns compressed blob. `X-Latency-Ms` header on response.
 - `GET /v1/checkTokens` — Returns `{ remaining, available }`. Works anonymously (IP-based) or with an API key.
-- `POST /v1/nlp/parse` — Body: `{ prompt, fileData: [{name, width, height}] }`. Returns per-file processing config.
+- `POST /v1/prompt` (worker, `PUBLIC_WORKER_URL`) — Body: `{ prompt, fileData: [{name, width, height}], mode? }`. Returns per-file processing config. Enforces a monthly NLP quota and proxies Mistral via CF AI Gateway (which caches).
+- `POST /v1/upload/stage` — Whole file as the raw body, **no params**. Returns `{ sessionId, expiresInSeconds }`. Used by speculative upload; the session holds the bytes in RAM under a short unclaimed TTL until completed.
+- `POST /v1/upload/init|chunk|complete|status` — Resumable chunked upload for files >5MB. `complete` also accepts a JSON params body, which is how a staged (deferred) session is told what to produce.
+- Tokens are charged at `complete`, never at `stage`/`init` — so an abandoned or rejected prompt costs the user nothing.
 
 ### Route structure
 
-- `/` — Homepage with tab-switcher between PromptForm and ImageUpload
-- `/app` — Standalone PWA surface (manifest `start_url`); renders the `PromptFormApp.svelte` fork, with shared Navigation + Footer, `noindex`
+- `/` — Homepage with tab-switcher between `PromptFormApp` (narrowed via `maxWidth`) and ImageUpload
+- `/flow` — Standalone PWA surface (manifest `start_url`) and the main product; renders `PromptFormApp.svelte`, with shared Navigation + Footer, `noindex`
 - `/solutions/*` — Use-case landing pages (eBay converter, HIF-to-AVIF, etc.) — each embeds `ImageUpload` with preset `output` and `queryParams` props
 - `/guides/*` — Long-form content articles; shares `src/routes/guides/+layout.svelte` for typography, link styling, and nav chrome
 - `/comparison`, `/about`, `/privacy`, `/terms`, `/service-terms` — Static pages
@@ -65,7 +70,7 @@ Body font: **Quicksand**. Heading font: **Outfit** (both via `@fontsource`).
 
 Custom utility classes: `.reveal` (scroll-triggered fade-in), `.shimmer-text`, `.animate-float`, `.btn-mochi`, `.card-mochi`.
 
-The `PromptForm` uses a `.liquid-glass` CSS style (frosted glass card with `backdrop-filter: blur`).
+The `PromptFormApp` uses a `.liquid-glass` CSS style (frosted glass card with `backdrop-filter: blur`).
 
 ### Key component props
 

@@ -28,7 +28,12 @@
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://id.mochify.app';
 
-	let { onSuccess }: { onSuccess?: () => void } = $props();
+	// `maxWidth` exists only because the two surfaces frame the compose bar
+	// differently: /flow gives it the full column, while the homepage sits it in a
+	// two-column grid beside the headline and wants the narrower cap it had when
+	// this was a separate component. Everything else is identical between them.
+	let { onSuccess, maxWidth = 'max-w-4xl' }: { onSuccess?: () => void; maxWidth?: string } =
+		$props();
 
 	let prompt: string = $state('');
 	let files: File[] = $state([]);
@@ -2321,7 +2326,7 @@
 	</div>
 {/if}
 
-<div class="w-full max-w-4xl">
+<div class="w-full {maxWidth}">
 	<div
 		class="relative rounded-[2rem] transition-all duration-300 {isDragging
 			? 'liquid-glow scale-[1.02]'
