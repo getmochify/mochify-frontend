@@ -24,8 +24,10 @@ export function uploadErrorMessage(
 		rejectLabel === 'corrupt-image' ||
 		(status === 422 && !!text && /corrupt or truncated/i.test(text));
 	if (isCorrupt) {
-		return "This image looks incomplete — if it's stored in iCloud, open it in " +
-			'Photos or Preview first to download the full-resolution original, then try again.';
+		return (
+			"This image looks incomplete — if it's stored in iCloud, open it in " +
+			'Photos or Preview first to download the full-resolution original, then try again.'
+		);
 	}
 
 	if (status === 413) {
@@ -85,7 +87,10 @@ export function readDetectedHeader(xhr: XMLHttpRequest): string | undefined {
 export function trackReject(opts: {
 	label?: string;
 	status: number;
-	source: 'squish' | 'chunked_complete';
+	// 'staged_complete' is the speculative path in $lib/uploadStage.ts — same
+	// /v1/upload/complete endpoint as 'chunked_complete', different upload route
+	// in, so rejections stay distinguishable in telemetry.
+	source: 'squish' | 'chunked_complete' | 'staged_complete';
 	plan?: string;
 	detected?: string;
 }): void {

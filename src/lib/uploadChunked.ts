@@ -237,11 +237,21 @@ async function getUploadStatus(
 	return typeof body?.offset === 'number' ? body.offset : 0;
 }
 
-function completeUpload(
+// Exported because the speculative staging path in $lib/uploadStage.ts finishes
+// its uploads through exactly this endpoint — the only difference being that it
+// sends the output params in the body (its session was staged without them).
+// Sharing the function keeps one place that classifies a complete-phase failure,
+// rather than a second copy that would quietly drift on error handling.
+export function completeUpload(
 	apiUrl: string,
 	sessionId: string,
 	jwt: string | null | undefined,
-	onDownloadProgress?: (loaded: number, total: number) => void
+	onDownloadProgress?: (loaded: number, total: number) => void,
+	// Deferred sessions only: the params the server could not be told at stage
+	// time. Omitted for chunked uploads, whose session already carries them.
+	params?: ChunkedUploadParams,
+	// Distinguishes the two callers in reject telemetry.
+	source: 'chunked_complete' | 'staged_complete' = 'chunked_complete'
 ): Promise<Blob> {
 	return new Promise<Blob>((resolve, reject) => {
 		const xhr = new XMLHttpRequest();
@@ -269,7 +279,7 @@ function completeUpload(
 				trackReject({
 					label: rejectLabel,
 					status: xhr.status,
-					source: 'chunked_complete',
+					source,
 					detected: readDetectedHeader(xhr)
 				});
 				const error: RetryableXhrError = new Error(
@@ -283,7 +293,12 @@ function completeUpload(
 		xhr.addEventListener('error', () => reject(xhrError('Network error', { retryable: true })));
 		xhr.open('POST', `${apiUrl}/v1/upload/complete?session=${encodeURIComponent(sessionId)}`);
 		if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
-		xhr.send();
+		if (params) {
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.send(JSON.stringify(params));
+		} else {
+			xhr.send();
+		}
 	});
 }
 

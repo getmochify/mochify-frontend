@@ -10,10 +10,12 @@
 	import { withRetry } from '$lib/uploadRetry';
 	import {
 		uploadChunked,
+		completeUpload,
 		CHUNK_THRESHOLD_BYTES,
 		type ChunkedUploadParams
 	} from '$lib/uploadChunked';
 	import { resolveUploadSize, effectiveSize, uploadBodyOf } from '$lib/uploadSize';
+	import { startStaging, noStager, shouldSpeculate, type Stager } from '$lib/uploadStage';
 	import { uploadErrorMessage, readXhrErrorText, trackUpload413 } from '$lib/uploadError';
 	import { portal } from '$lib/portal';
 
@@ -867,6 +869,14 @@
 		thinkingText = thinkingMessages[0];
 		let msgIdx = 1;
 
+		// Speculative upload. Declared out here so the `finally` below can call
+		// abandon() on every exit path — quota wall, NLP error, blocked prompt,
+		// thrown exception — without each of them having to remember to.
+		let stager: Stager = noStager();
+		// Bytes the speculative pass has already put on the wire. Lives out here
+		// because staging starts before the upload loop's own counter exists.
+		let speculativeBytes = 0;
+
 		const msgInterval = setInterval(() => {
 			if (processPhase === 'thinking') {
 				thinkingText = thinkingMessages[msgIdx % thinkingMessages.length];
@@ -986,6 +996,29 @@
 				authed: !!jwt,
 				prompt_length: prompt.length
 			});
+
+			// ── Speculative upload ────────────────────────────────────────────────
+			// Start pushing bytes NOW, in parallel with the parse below, instead of
+			// waiting 1.5-2s to learn params that do not affect the bytes at all.
+			// Only the plain image → squish path qualifies: PDF and video are routed
+			// elsewhere entirely, and an images→PDF prompt uses the multipart create
+			// flow rather than per-file squish. All three are knowable here, before
+			// the parse, so this costs nothing to check.
+			//
+			// Staged bytes are counted into the same uploadedBytes total the upload
+			// loop below maintains, so the progress bar is already partly (often
+			// fully) filled by the time it flips to 'uploading'. That is the effect
+			// the whole feature exists for.
+			if (
+				uploadMode === 'image' &&
+				!/\bpdfs?\b/i.test(prompt) &&
+				files.length > 0 &&
+				shouldSpeculate()
+			) {
+				stager = startStaging(files, API_URL, jwt, (delta) => {
+					speculativeBytes += delta;
+				});
+			}
 
 			const fileDetails = await Promise.all(
 				files.map(async (f) => {
@@ -1607,22 +1640,63 @@
 			// server-side (types/sizes params → ZIP response) — so upload progress
 			// counts each file's bytes once, regardless of variant count.
 			const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
-			let uploadedBytes = 0;
+			// Bytes already on the wire from the speculative pass. Seeding the
+			// counter with them keeps the progress bar truthful rather than
+			// restarting it at 0 for work that is already done.
+			let uploadedBytes = speculativeBytes;
 			let processedFiles = 0;
 			let currentFileIndex = 0;
-			// 2 concurrent uploads roughly halves wall-clock time for batches while
-			// staying within the backend worker pool (and aligned with vips_concurrency=2).
+			// Matched to the backend worker pool: WorkerPool::instance() runs 4
+			// workers and main.cc sets vips_concurrency_set(4), so 2 left half the
+			// available processing capacity idle. (The old comment here claimed
+			// alignment with vips_concurrency=2 — that value has since changed.)
 			// The worker-pool loop below already supports this; the progress UI reads a
 			// coarse 'working' phase (see displayPhase) so it doesn't flicker per-file.
-			const CONCURRENCY_LIMIT = 2;
+			const CONCURRENCY_LIMIT = 4;
 			const zipContents: Record<string, Uint8Array> = {};
 			const usedOutputNames: Record<string, number> = {};
 
-			const squishFile = (
+			const squishFile = async (
 				file: File,
 				params: URLSearchParams,
 				onUploadEnd?: () => void
 			): Promise<Blob> => {
+				// Speculative hit: the bytes are already in core's RAM, so all that
+				// is left is to hand over the params the parse just produced. This
+				// is where the 1.5-2s of parse time gets given back.
+				const stagedId = await stager.get(file);
+				if (stagedId) {
+					const stagedParams: ChunkedUploadParams = {};
+					for (const [key, value] of params.entries()) stagedParams[key] = value;
+					try {
+						processPhase = 'processing';
+						onUploadEnd?.();
+						const blob = await completeUpload(
+							API_URL,
+							stagedId,
+							jwt,
+							undefined,
+							stagedParams,
+							'staged_complete'
+						);
+						posthog.capture('speculative_hit', { size: file.size });
+						return blob;
+					} catch (e) {
+						const status = (e as { status?: number })?.status;
+						// 404 means the staged session is gone — the parse outlived
+						// its 120s unclaimed TTL, or it was already consumed. Nothing
+						// was charged (the charge happens inside complete), so fall
+						// through and upload normally. Any other status is a real
+						// rejection (415 bad image, 429 quota, 422 corrupt) that a
+						// re-upload would hit identically, so surface it.
+						if (status && status !== 404) throw e;
+						// Un-count the staged bytes: this file is about to be sent
+						// again, and would otherwise be counted twice.
+						uploadedBytes -= file.size;
+						posthog.capture('speculative_miss', { status: status ?? 'network' });
+					}
+				}
+
 				if (effectiveSize(file) > CHUNK_THRESHOLD_BYTES) {
 					// Large file on a possibly-flaky connection: upload in
 					// ~5MB chunks (each independently retried) instead of one
@@ -2087,6 +2161,7 @@
 			isProcessing = false;
 			isRetrying = false;
 			processPhase = 'idle';
+			stager.abandon();
 			clearInterval(msgInterval);
 			warmedAuth = null;
 			// This run consumed tokens — refresh the cached count for the next gate.
