@@ -11,6 +11,7 @@
 	let password = $state('');
 	let loading = $state(false);
 	let error = $state('');
+	let errorCode = $state('');
 
 	const next = $derived(data?.next ?? '/dashboard');
 	// Set by reset-password/+page.svelte on a successful reset. resetPassword
@@ -27,6 +28,7 @@
 		e.preventDefault();
 		loading = true;
 		error = '';
+		errorCode = '';
 
 		const { error: err } = await authClient.signIn.email({ email, password });
 
@@ -37,6 +39,7 @@
 			// their original signup email sees the same dead-end message
 			// again and reaches for "Forgot password" instead, which cannot
 			// fix an unverified account.
+			errorCode = err.code ?? '';
 			error =
 				err.code === 'EMAIL_NOT_VERIFIED'
 					? "We've sent a new verification link to your email — check your inbox to finish setting up your account."
@@ -85,7 +88,17 @@
 					<div
 						class="mb-5 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
 					>
-						{error}
+						<p>{error}</p>
+						{#if errorCode === 'EMAIL_NOT_VERIFIED'}
+							<!-- The one nav gap flagged for signed-out users stuck here: no
+							     Contact link is reachable without knowing to scroll to the
+							     footer. Surfacing it right at the point of confusion covers
+							     that better than adding a permanent nav item would. -->
+							<p class="mt-1.5 text-red-700/70">
+								Still stuck?
+								<a href="/contact" class="font-bold underline hover:text-red-800">Contact us</a>.
+							</p>
+						{/if}
 					</div>
 				{/if}
 
