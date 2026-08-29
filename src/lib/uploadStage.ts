@@ -44,7 +44,12 @@ export interface Stager {
 	 * "use the normal upload path".
 	 */
 	get(file: File): Promise<string | null>;
-	/** Stop starting new uploads. In-flight ones are left to finish. */
+	/**
+	 * Stop starting new uploads AND release any staged session the upload loop
+	 * never took. Safe to call more than once, and safe to call on the success
+	 * path — a session that was handed out via get() is treated as the caller's
+	 * and is never aborted from here.
+	 */
 	abandon(): void;
 	/** How many files this stager will attempt (for telemetry/progress maths). */
 	readonly eligible: number;
@@ -57,6 +62,24 @@ export function isStageEligible(file: File): boolean {
 /** A stager that stages nothing — used when speculation is switched off. */
 export function noStager(): Stager {
 	return { get: async () => null, abandon: () => {}, eligible: 0 };
+}
+
+/**
+ * Tell core to drop a staged session now rather than at its TTL.
+ *
+ * Fire-and-forget: the server answers 204 whether or not the session was still
+ * there, and nothing the caller could do differs either way. `keepalive` lets
+ * the request outlive the page if this is ever wired to a teardown handler.
+ */
+function abortStaged(apiUrl: string, sessionId: string, jwt: string | null | undefined): void {
+	void fetch(`${apiUrl}/v1/upload/abort?session=${encodeURIComponent(sessionId)}`, {
+		method: 'POST',
+		keepalive: true,
+		headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
+	}).catch(() => {
+		// The TTL is the real guarantee; a failed abort just means the bytes wait
+		// it out. Never surface this.
+	});
 }
 
 /**
@@ -151,6 +174,11 @@ export function startStaging(
 ): Stager {
 	const eligible = files.filter(isStageEligible);
 	const results = new Map<File, Promise<string | null>>();
+	// Session ids we hold that the upload loop has not taken responsibility for.
+	// A file leaves this map the moment get() hands its id out — from then on the
+	// caller will either complete it (which consumes the session server-side) or
+	// fail, and aborting underneath an in-flight completion would be a bug.
+	const unclaimed = new Map<File, string>();
 	let abandoned = false;
 	let cursor = 0;
 
@@ -169,7 +197,18 @@ export function startStaging(
 				resolve(null);
 				continue;
 			}
-			resolve(await stageOne(apiUrl, file, jwt, onProgress));
+			const sessionId = await stageOne(apiUrl, file, jwt, onProgress);
+			if (sessionId) {
+				// abandon() may have fired while this upload was in flight; that
+				// call could not have seen this session, so release it here.
+				if (abandoned) {
+					abortStaged(apiUrl, sessionId, jwt);
+					resolve(null);
+					continue;
+				}
+				unclaimed.set(file, sessionId);
+			}
+			resolve(sessionId);
 		}
 	};
 
@@ -183,9 +222,19 @@ export function startStaging(
 	}
 
 	return {
-		get: (file: File) => results.get(file) ?? Promise.resolve(null),
+		get: (file: File) => {
+			// Handing the id out transfers ownership: the upload loop will consume
+			// it at /v1/upload/complete, so abandon() must not abort it afterwards.
+			unclaimed.delete(file);
+			return results.get(file) ?? Promise.resolve(null);
+		},
 		abandon: () => {
 			abandoned = true;
+			if (unclaimed.size > 0) {
+				posthog.capture('speculative_aborted', { sessions: unclaimed.size });
+				for (const sessionId of unclaimed.values()) abortStaged(apiUrl, sessionId, jwt);
+				unclaimed.clear();
+			}
 		},
 		eligible: eligible.length
 	};

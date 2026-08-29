@@ -344,8 +344,13 @@ Two bugs found during the build, both worth remembering:
   its bytes.
 - **Large files do not speculate.** >5MB still uses the classic chunked path;
   deferred-chunked is unbuilt.
-- **No abort endpoint** (guardrails item 3), so an abandoned prompt's bytes wait
-  out the 120s TTL.
+- ~~No abort endpoint~~ — **done.** `POST /v1/upload/abort` plus `stager.abandon()`
+  releasing sessions the upload loop never took. Wired to the in-page
+  abandonment paths only (parse error, blocked prompt, quota wall, thrown
+  exception), which are 100% reliable because the page is still alive.
+  Deliberately NOT wired to `pagehide`: it fires on mobile app-switching, not
+  just close, so it would abort sessions belonging to a run the user is about to
+  return to. The TTL remains the guarantee either way.
 - **No unclaimed sub-budget** (guardrails item 5, second half) — speculative
   bytes still draw on the shared 1.5GB.
 - **`ctest` has never been run** against any of the core changes.
