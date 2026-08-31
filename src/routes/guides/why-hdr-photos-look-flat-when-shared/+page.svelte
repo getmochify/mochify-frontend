@@ -1,12 +1,20 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import CodeBlock from '$lib/components/CodeBlock.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import VerdictPill from '$lib/components/guide-demo/VerdictPill.svelte';
+    import GlassPanel from '$lib/components/guide-demo/GlassPanel.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import StepList from '$lib/components/guide-demo/StepList.svelte';
+    import CodeCard from '$lib/components/guide-demo/CodeCard.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
+
+    // Uses the guide-demo component set (open reading column, mochi glass
+    // surfaces) rather than the boxed card layout the other guides still use.
+    // /guides/style-demo stays as the noindex reference copy of this design.
 
     const metadata = {
         title: "Why HDR Photos Look Flat When You Share Them (and How Gain Maps Fix It)",
@@ -17,16 +25,39 @@
     };
 
     const toc = [
-        { id: "the-short-answer", num: "01", label: "The short answer" },
-        { id: "what-a-gain-map-is", num: "02", label: "What a gain map actually is" },
-        { id: "three-reasons", num: "03", label: "The three reasons an HDR photo goes flat" },
-        { id: "where-hdr-displays", num: "04", label: "Where HDR photos actually display right now" },
-        { id: "check-your-screen", num: "05", label: "Check whether your screen shows HDR" },
-        { id: "which-formats", num: "06", label: "Which formats can carry HDR (and which cannot)" },
-        { id: "edits-that-switch-hdr-off", num: "07", label: "The edits that switch HDR off" },
-        { id: "mochify-workflow", num: "08", label: "Mochify Workflow: keep the gain map, or add one" },
-        { id: "cheat-sheet", num: "09", label: "Cheat Sheet: does this keep my gain map?" },
-        { id: "faq", num: "10", label: "FAQ" }
+        { id: "the-short-answer", label: "The short answer" },
+        { id: "what-a-gain-map-is", label: "What a gain map actually is" },
+        { id: "three-reasons", label: "The three reasons an HDR photo goes flat" },
+        { id: "where-hdr-displays", label: "Where HDR photos actually display right now" },
+        { id: "check-your-screen", label: "Check whether your screen shows HDR" },
+        { id: "which-formats", label: "Which formats can carry HDR (and which cannot)" },
+        { id: "edits-that-switch-hdr-off", label: "The edits that switch HDR off" },
+        { id: "mochify-workflow", label: "Mochify Workflow: keep the gain map, or add one" },
+        { id: "cheat-sheet", label: "Cheat Sheet: does this keep my gain map?" },
+        { id: "faq", label: "FAQ" }
+    ];
+
+    const workflowSteps = [
+        {
+            title: "Sort your sources.",
+            html: "<p>Files from a recent iPhone or Android phone probably carry a map already. Files from cameras, older phones, scans, screenshots, or anything that has been through an editor or a website probably do not. You do not need to know for sure; the converter checks.</p>"
+        },
+        {
+            title: "Finish destructive edits first.",
+            html: "<p>Crop, brightness, sharpening, background removal, and shadows all belong before this step, on the SDR base (see the section above). Resize, crop, and rotate are safe on the HDR path and carry an existing map through untouched.</p>"
+        },
+        {
+            title: "Drop the files on the converter.",
+            html: "<p>It accepts JPG, JPEG, PNG, WebP, AVIF, HEIC, HEIF, and HIF, up to 3 files at 20MB each without an account, and choose JPG as the output. If a file already carries a gain map, it is re-encoded verbatim; nothing is recomputed, because a derived map is measurably worse than the one the sensor produced. If the file is plain SDR, a map is generated from the highlights already in the frame: a smooth ramp that starts around three-quarters brightness and climbs to roughly 1.5 stops, tempered by local contrast so a bright sky lifts differently from a white shirt. Generated headroom is invented, not recovered. It looks convincing on an HDR screen, but it is an effect, not measured data, and we would rather say so than pretend otherwise.</p>"
+        },
+        {
+            title: "Read the result.",
+            html: "<p>Every response says which lane the file took. The <code>X-Mochify-HDR</code> header is <code>true</code> for preserved, <code>generated</code> for synthesized, and <code>false</code> when the output carries no map, which happens if you chose a format that cannot carry one or requested an edit that switches HDR off.</p>"
+        },
+        {
+            title: "Same thing from the API.",
+            html: "<p>One parameter: <code>hdr=true</code> preserves only, <code>hdr=generate</code> preserves and synthesizes.</p>"
+        }
     ];
 
     const curlExample = `curl -X POST "https://api.mochify.app/v1/squish?type=jpg&hdr=generate" \\
@@ -207,64 +238,57 @@ grep X-Mochify-HDR headers.txt
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<!-- Single max-w-3xl reading column: header, prose, and every card share the
+     same container edges. At rollout this constraint moves to the guides
+     layout's <main> so the breadcrumb shares it too. -->
+<article class="relative mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-0 pt-6 md:pt-0 text-lg text-[#6C3F31] leading-relaxed">
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
-            </span>
-        </div>
+    <!-- Top-only mochi wash: absolute (scrolls away with the page, unlike the
+         fixed BlobBackground), full-bleed via the 100vw trick, and faded out
+         by a mask before the body text starts. The reading surface below is
+         plain --mochi-bg, matching /about and /architecture. -->
+    <div class="hero-wash" aria-hidden="true"></div>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
+
+    <header class="mb-12 md:mb-14">
+        <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#F06292] mb-3 mt-0">
+            {metadata.category} · Guide
+        </p>
+        <h1 class="text-3xl md:text-[2.75rem] font-black text-[#4A2C2C] tracking-tight leading-[1.1] mb-0">
             Why HDR Photos Look Flat When You Share Them (and How Gain Maps Fix It)
         </h1>
+        <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+        <p class="mt-5 text-sm font-bold text-[#875F42] mb-0">
+            {metadata.readTime} · {metadata.date} · Mochify Engineering Team
+        </p>
 
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed mt-8 mb-0">
             HDR photos look flat when you share them because the extra brightness lives in a separate layer, called a gain map, that only some screens and apps know how to use. Everything else silently shows the standard-range base image underneath, and a photo that glowed on your phone turns dull on a client's laptop, in a browser, or after an export. The base image is what it always was. What changed is that nothing is applying the map. This guide explains the mechanism in plain English, walks through each place the map gets lost, and shows how to get a file that keeps it, or a plausible one when the original never had it.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <GlassPanel>
+            <p>
                 <strong class="text-[#4A2C2C]">Published August 26, 2026 by the Mochify Engineering Team.</strong>
                 Written for the moment a photo that glowed on your phone turns flat somewhere else: the mechanism first, then every place along the way the map actually gets lost.
             </p>
-        </div>
+        </GlassPanel>
     </header>
 
-    <div class="space-y-12 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
         <!-- TOC -->
         <section>
-            <SectionHeading>What's in this guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                    <li>
-                        <a href="#{item.id}" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform flex-shrink-0">{item.num}</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors text-sm md:text-base">{item.label}</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    {/each}
-                </ul>
-            </nav>
+            <GuideTOC items={toc} />
         </section>
 
         <!-- 01 -->
         <section id="the-short-answer" class="scroll-mt-24">
             <SectionHeading>The short answer</SectionHeading>
-            <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-                <p class="text-[#6C3F31] leading-relaxed m-0">
+            <GlassPanel label="Key takeaway">
+                <p>
                     A modern HDR photo is two pictures in one file: a normal standard-range (SDR) image that everything can show, plus a small gain map that tells an HDR display how much brighter each region may go. When a viewer, a platform, or an export path ignores or strips that map, you get the SDR image alone, which is exactly the "flat and washed out" result people describe. The photo has not been damaged. The extra headroom is either still there and unread, or it has been removed on the way.
                 </p>
-            </div>
+            </GlassPanel>
             <p class="mb-4 mt-6">That distinction matters because the fixes are different. If the map is still in the file, the fix is to view it somewhere that renders HDR. If the map was stripped by an edit or an upload pipeline, you need a copy that keeps it. And if the source was never HDR to begin with, no viewer will make it glow; the only honest option is to generate a plausible map, and to know that is what you did.</p>
         </section>
 
@@ -339,142 +363,164 @@ grep X-Mochify-HDR headers.txt
             <SectionHeading>Mochify Workflow: keep the gain map, or add one</SectionHeading>
             <p class="mb-4">Mochify's <a href="/solutions/sdr-to-hdr">SDR to HDR converter</a> takes any photo and returns an Ultra HDR JPEG, preserving the gain map if the file already has one and synthesizing a plausible one if it does not, so the same tool handles a Pixel capture that needs to survive a resize and a plain JPEG that never had headroom. The lane is decided by the file, not by a setting.</p>
 
-            <div class="bg-gradient-to-b from-[#FFF5F7] to-[#FDFBF7] rounded-3xl border border-pink-100 p-6 md:p-8 my-6">
-                <ol class="space-y-8">
-                    <li class="flex gap-4 items-start">
-                        <span class="w-10 h-10 rounded-full bg-[#F06292] flex items-center justify-center text-white font-black text-base flex-shrink-0">1</span>
-                        <div>
-                            <p class="font-black text-[#4A2C2C] mb-2">Sort your sources.</p>
-                            <p class="m-0">Files from a recent iPhone or Android phone probably carry a map already. Files from cameras, older phones, scans, screenshots, or anything that has been through an editor or a website probably do not. You do not need to know for sure; the converter checks.</p>
-                        </div>
-                    </li>
-                    <li class="flex gap-4 items-start">
-                        <span class="w-10 h-10 rounded-full bg-[#F06292] flex items-center justify-center text-white font-black text-base flex-shrink-0">2</span>
-                        <div>
-                            <p class="font-black text-[#4A2C2C] mb-2">Finish destructive edits first.</p>
-                            <p class="m-0">Crop, brightness, sharpening, background removal, and shadows all belong before this step, on the SDR base (see the section above). Resize, crop, and rotate are safe on the HDR path and carry an existing map through untouched.</p>
-                        </div>
-                    </li>
-                    <li class="flex gap-4 items-start">
-                        <span class="w-10 h-10 rounded-full bg-[#F06292] flex items-center justify-center text-white font-black text-base flex-shrink-0">3</span>
-                        <div>
-                            <p class="font-black text-[#4A2C2C] mb-2">Drop the files on the converter.</p>
-                            <p class="m-0">It accepts JPG, JPEG, PNG, WebP, AVIF, HEIC, HEIF, and HIF, up to 3 files at 20MB each without an account, and choose JPG as the output. If a file already carries a gain map, it is re-encoded verbatim; nothing is recomputed, because a derived map is measurably worse than the one the sensor produced. If the file is plain SDR, a map is generated from the highlights already in the frame: a smooth ramp that starts around three-quarters brightness and climbs to roughly 1.5 stops, tempered by local contrast so a bright sky lifts differently from a white shirt. Generated headroom is invented, not recovered. It looks convincing on an HDR screen, but it is an effect, not measured data, and we would rather say so than pretend otherwise.</p>
-                        </div>
-                    </li>
-                    <li class="flex gap-4 items-start">
-                        <span class="w-10 h-10 rounded-full bg-[#F06292] flex items-center justify-center text-white font-black text-base flex-shrink-0">4</span>
-                        <div>
-                            <p class="font-black text-[#4A2C2C] mb-2">Read the result.</p>
-                            <p class="m-0">Every response says which lane the file took. The <code>X-Mochify-HDR</code> header is <code>true</code> for preserved, <code>generated</code> for synthesized, and <code>false</code> when the output carries no map, which happens if you chose a format that cannot carry one or requested an edit that switches HDR off.</p>
-                        </div>
-                    </li>
-                    <li class="flex gap-4 items-start">
-                        <span class="w-10 h-10 rounded-full bg-[#F06292] flex items-center justify-center text-white font-black text-base flex-shrink-0">5</span>
-                        <div>
-                            <p class="font-black text-[#4A2C2C] mb-2">Same thing from the API.</p>
-                            <p class="m-0">One parameter: <code>hdr=true</code> preserves only, <code>hdr=generate</code> preserves and synthesizes.</p>
-                        </div>
-                    </li>
-                </ol>
-            </div>
+            <GlassPanel>
+                <StepList steps={workflowSteps} />
+            </GlassPanel>
 
-            <CodeBlock filename="bash" code={curlExample} />
+            <CodeCard filename="bash" code={curlExample} />
 
             <p class="mb-4">On the HDR path only the <code>quality</code> parameter reaches the encoder; <code>optimizeForWeb</code> is accepted but has no effect, because progressive scan and chroma subsampling belong to the plain JPEG writer that an Ultra HDR request does not go through. The encoder is Google's jpegli across the whole pipeline, which is what keeps the map close to free: better quality per byte on the base image pays for the extra layer, and the map itself usually lands in the low single-digit percentages. The <a href="/guides/jpeg-in-2026-jpegli">jpegli guide</a> covers why that matters for every JPEG, HDR or not.</p>
 
-            <InfoBox type="note" title="Privacy note for this path">
+            <GlassInfoBox type="note" title="Privacy note for this path">
                 Images travel to <code>api.mochify.app</code> over HTTPS, are streamed into memory, processed, and discarded. Nothing is written to disk and nothing is logged. Metadata, including GPS, is stripped by default. This is the same in-memory model as every image operation; the <a href="/architecture">architecture and data handling page</a> describes the read-only processing container in detail.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- 09 -->
         <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>Cheat Sheet: does this keep my gain map?</SectionHeading>
 
-            <ScrollableTable class="my-6">
-                <table class="w-full text-left bg-white text-base">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Step or destination</th>
-                            <th class="p-4 font-black">Gain map survives?</th>
-                            <th class="p-4 font-black">Why</th>
+                            <th>Step or destination</th>
+                            <th>Gain map survives?</th>
+                            <th>Why</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
+                    <tbody>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Viewing in Photos on iOS 18+ / Android 14+</td>
-                            <td class="p-4">Yes, rendered</td>
-                            <td class="p-4">Native gain-map support</td>
+                            <td>Viewing in Photos on iOS 18+ / Android 14+</td>
+                            <td><VerdictPill kind="yes">Yes, rendered</VerdictPill></td>
+                            <td>Native gain-map support</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Safari 26, Chrome, Edge, Brave, Opera on an HDR screen</td>
-                            <td class="p-4">Yes, rendered</td>
-                            <td class="p-4">Browser support shipped</td>
+                            <td>Safari 26, Chrome, Edge, Brave, Opera on an HDR screen</td>
+                            <td><VerdictPill kind="yes">Yes, rendered</VerdictPill></td>
+                            <td>Browser support shipped</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Firefox, most desktop viewers, email previews</td>
-                            <td class="p-4">Present but not shown</td>
-                            <td class="p-4">Viewer ignores the map; file is intact</td>
+                            <td>Firefox, most desktop viewers, email previews</td>
+                            <td><VerdictPill kind="mixed">Present but not shown</VerdictPill></td>
+                            <td>Viewer ignores the map; file is intact</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Instagram or Threads, posted from the phone app</td>
-                            <td class="p-4">Usually</td>
-                            <td class="p-4">Gain-map support since March 2024; Stories and desktop uploads excepted</td>
+                            <td>Instagram or Threads, posted from the phone app</td>
+                            <td><VerdictPill kind="mixed">Usually</VerdictPill></td>
+                            <td>Gain-map support since March 2024; Stories and desktop uploads excepted</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Website builder that re-encodes uploads</td>
-                            <td class="p-4">Often stripped</td>
-                            <td class="p-4">Pipeline does not understand the map</td>
+                            <td>Website builder that re-encodes uploads</td>
+                            <td><VerdictPill kind="no">Often stripped</VerdictPill></td>
+                            <td>Pipeline does not understand the map</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Resize, crop, rotate on the HDR path</td>
-                            <td class="p-4">Yes, carried through</td>
-                            <td class="p-4">Base changes proportionally; map re-encoded verbatim</td>
+                            <td>Resize, crop, rotate on the HDR path</td>
+                            <td><VerdictPill kind="yes">Yes, carried through</VerdictPill></td>
+                            <td>Base changes proportionally; map re-encoded verbatim</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Brightness, clarity, background removal, shadow generation</td>
-                            <td class="p-4">No, returns SDR</td>
-                            <td class="p-4">Base image changed; the ratio no longer applies</td>
+                            <td>Brightness, clarity, background removal, shadow generation</td>
+                            <td><VerdictPill kind="no">No, returns SDR</VerdictPill></td>
+                            <td>Base image changed; the ratio no longer applies</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Export to JPEG (Ultra HDR) or HEIC</td>
-                            <td class="p-4">Yes</td>
-                            <td class="p-4">Formats carry a gain map</td>
+                            <td>Export to JPEG (Ultra HDR) or HEIC</td>
+                            <td><VerdictPill kind="yes">Yes</VerdictPill></td>
+                            <td>Formats carry a gain map</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Export to AVIF or JPEG XL</td>
-                            <td class="p-4">Different mechanism</td>
-                            <td class="p-4">HDR in the pixels, no SDR-base fallback</td>
+                            <td>Export to AVIF or JPEG XL</td>
+                            <td><VerdictPill kind="note">Different mechanism</VerdictPill></td>
+                            <td>HDR in the pixels, no SDR-base fallback</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Export to WebP or PNG</td>
-                            <td class="p-4">No</td>
-                            <td class="p-4">Formats cannot carry it in common use</td>
+                            <td>Export to WebP or PNG</td>
+                            <td><VerdictPill kind="no">No</VerdictPill></td>
+                            <td>Formats cannot carry it in common use</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Print</td>
-                            <td class="p-4">No</td>
-                            <td class="p-4">Paper is SDR</td>
+                            <td>Print</td>
+                            <td><VerdictPill kind="no">No</VerdictPill></td>
+                            <td>Paper is SDR</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <!-- 10 FAQ -->
-        <GuideFAQs items={faqItems} />
+        <GlassFAQs items={faqItems} jsonLd={false} />
 
         <!-- Final CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Ready to check your own file?"
             href="/solutions/sdr-to-hdr"
             label="Convert SDR to HDR →"
         >
             Convert SDR to HDR returns an Ultra HDR JPEG and tells you in the response whether the map was preserved, generated, or absent.
-        </GuideCTA>
+        </GlassCTA>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+    /* Demo-only breadcrumb adjustments. The breadcrumb renders in the shared
+       guides layout at max-w-4xl; align it with this page's 3xl reading
+       column and drop the current-page crumb (the h1 is two lines below it,
+       and the JSON-LD BreadcrumbList keeps the full trail for SEO). At
+       rollout both moves belong in the layout: constrain <main> to 3xl and
+       stop appending the page-name crumb. */
+    :global(nav[aria-label='Breadcrumb']) {
+        max-width: 48rem;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1.25rem;
+    }
+
+    /* Hide the page-name crumb and the separator that precedes it. */
+    :global(nav[aria-label='Breadcrumb'] li:last-child) {
+        display: none;
+    }
+    :global(nav[aria-label='Breadcrumb'] li:nth-last-child(2) > span[aria-hidden='true']) {
+        display: none;
+    }
+
+    /* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+    @media (max-width: 767px) {
+        :global(nav[aria-label='Breadcrumb']) {
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+        }
+    }
+
+    .hero-wash {
+        position: absolute;
+        top: -20rem; /* start well above the viewport so no seam shows behind the nav */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100vw;
+        height: 1450px;
+        z-index: -1;
+        pointer-events: none;
+        background:
+            radial-gradient(ellipse 60% 45% at 12% 8%, rgba(255, 179, 198, 0.4) 0%, transparent 70%),
+            radial-gradient(ellipse 50% 40% at 90% 18%, rgba(224, 172, 213, 0.32) 0%, transparent 70%),
+            radial-gradient(ellipse 45% 35% at 55% 55%, rgba(255, 214, 224, 0.25) 0%, transparent 70%);
+        mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+    }
+
+    @media (max-width: 768px) {
+        .hero-wash {
+            height: 1000px;
+            background:
+                radial-gradient(ellipse 60% 45% at 12% 8%, rgba(255, 179, 198, 0.22) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 90% 18%, rgba(224, 172, 213, 0.16) 0%, transparent 70%),
+                radial-gradient(ellipse 45% 35% at 55% 55%, rgba(255, 214, 224, 0.12) 0%, transparent 70%);
+        }
+    }
+</style>
