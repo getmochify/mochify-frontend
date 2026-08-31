@@ -1,9 +1,11 @@
 # Speculative upload — overlap the NLP round trip with the upload
 
-**Status:** Phase 1 SHIPPED 2026-08-29 and verified working end to end — a magic
-flow with sub-5MB images now hands straight from the parse to a pre-filled
-upload. Remaining phases (large-file speculation, abort endpoint, unclaimed
-sub-budget, merged progress) tracked under "Still outstanding" below.
+**Status:** Phase 1 SHIPPED and deployed 2026-08-29, verified working end to end
+— a magic flow with sub-5MB images hands straight from the parse to a pre-filled
+upload, and on fibre the upload is typically already finished when the parse
+returns. The abort endpoint shipped alongside it. Remaining items (large-file
+speculation — deliberately declined, unclaimed sub-budget, merged progress) are
+under "Still outstanding" below.
 **Spans:** `mochify-frontend`, `mochify-core`, `mochify-worker`.
 **Not affected:** `mochify-chrome`, `mochify-cli` (see "Compatibility").
 **Prerequisite:** `mochify-core/docs/upload-session-guardrails.md` — the session
@@ -96,7 +98,9 @@ memory committed at init, debited immediately against the server-wide budget.
 Init costs **zero tokens**; it only does a `Worker::peek()` that rejects an
 already-exhausted bucket.
 
-Current constants (`utils/UploadSessionStore.h:272-275`):
+Constants **as they were before the guardrails work** (all since changed — see
+`mochify-core/docs/upload-session-guardrails.md`; kept here because they are what
+the exposure below was measured against):
 
 | Constant | Value |
 |---|---|
@@ -335,6 +339,46 @@ Two bugs found during the build, both worth remembering:
    speculative pass but `uploadPercent` was not recomputed, and staged files
    fire no upload events — so a fully-staged batch would have sat at 0 forever
    rather than briefly. Staging now drives `uploadPercent` live.
+
+## Speculative *decode* — considered and declined
+
+A natural follow-on: while a staged session waits for params, core could decode
+the image so `complete` only has to transform and encode. It should not be done.
+
+1. **It would defeat shrink-on-load.** `SquishPipeline.h` decodes a
+   plainly-downscaled JPEG at 1/2, 1/4 or 1/8 via the DCT scaler, so the
+   full-resolution image never exists — its own comment notes this "removes work
+   rather than doing it faster". The shrink factor comes from the target size,
+   i.e. from the params that do not exist at stage time. Pre-decoding at full
+   resolution means strictly *more* work for the commonest magic-flow job.
+2. **A 5MB input cap does not bound decoded size.** Compression ratio is
+   unbounded: a 10000×10000 flat-colour PNG compresses under 5MB and decodes to
+   ~300MB. That is the definition of a decompression bomb. Even ordinary cases
+   inflate ~7x (a 5MB 4000×3000 JPEG is ~36MB decoded), so a 6-wide staging
+   window would hold ~216MB of raster against a budget denominated in compressed
+   bytes.
+3. **vips is demand-driven.** `new_from_buffer` builds a pipeline that decodes in
+   strips as the sink pulls, with access mode chosen per operation. Forcing
+   materialisation discards that — and the operation is unknown at stage time
+   anyway (`removeBackground`, `smartCrop` and the HDR paths all differ).
+
+**What was done instead:** the decompression-bomb check moved from `complete` to
+`stage`. It is header-only (`VIPS_ACCESS_SEQUENTIAL`, no pixels decoded), so it
+is cheap on the speculative path, and the limits are unchanged — nothing is being
+decoded, so there is no reason to be stricter. Three wins: a bomb or corrupt file
+is refused while the user is still typing, it never occupies the session store,
+and `complete` skips both content checks for pre-validated sessions
+(`UploadSession::preValidated` carries the verdict and `detectedFormat`).
+
+That required a client change to be worth anything: staging previously failed
+soft on every error, so a rejected file would have silently re-uploaded down the
+normal path and been refused again. `stageOne` now separates **content**
+verdicts (400/413/415/422 — final, the same bytes get the same answer) from
+**condition** failures (503, 429, network — fall back silently). Rejected files
+are skipped by the upload loop, reported through the existing `failedFiles`
+mechanism with the server's own reason, and removed from the progress
+denominator. They are deliberately *not* spliced out of `files` mid-run: several
+workers index that array concurrently.
 
 ## Still outstanding
 

@@ -21,6 +21,7 @@
 // latency for nothing, so a failure must never become a user-visible error.
 import { posthog } from '$lib/analytics';
 import { CHUNK_THRESHOLD_BYTES } from '$lib/uploadChunked';
+import { uploadErrorMessage } from '$lib/uploadError';
 
 // How many files to stage at once.
 //
@@ -45,6 +46,15 @@ export interface Stager {
 	 */
 	get(file: File): Promise<string | null>;
 	/**
+	 * Why `file` will never upload, if staging rejected it outright.
+	 *
+	 * Distinct from a null `get()`: that means "stage was unavailable, use the
+	 * normal path", whereas a rejection means the server has inspected the bytes
+	 * and refused them. Re-uploading would fail identically, so the caller must
+	 * skip the file and report this reason instead of silently retrying.
+	 */
+	rejectionFor(file: File): string | undefined;
+	/**
 	 * Stop starting new uploads AND release any staged session the upload loop
 	 * never took. Safe to call more than once, and safe to call on the success
 	 * path — a session that was handed out via get() is treated as the caller's
@@ -61,7 +71,12 @@ export function isStageEligible(file: File): boolean {
 
 /** A stager that stages nothing — used when speculation is switched off. */
 export function noStager(): Stager {
-	return { get: async () => null, abandon: () => {}, eligible: 0 };
+	return {
+		get: async () => null,
+		rejectionFor: () => undefined,
+		abandon: () => {},
+		eligible: 0
+	};
 }
 
 /**
@@ -103,24 +118,45 @@ export function shouldSpeculate(): boolean {
 	return true;
 }
 
+// Statuses where the server has judged the FILE, not the moment. /v1/upload/stage
+// runs ImageValidator and the decompression-bomb check over the whole body before
+// reserving anything, so these verdicts are final: the same bytes sent again down
+// the normal path get the same answer, having wasted a second upload to do it.
+//
+// Everything else — 503 (budgets, concurrency), 429 (quota), network failure — is
+// about conditions rather than content, and falls back silently.
+const HARD_REJECT_STATUSES = new Set([400, 413, 415, 422]);
+
+export interface StageOutcome {
+	sessionId: string | null;
+	/** Set only for a definitive content rejection. */
+	rejection?: string;
+}
+
 function stageOne(
 	apiUrl: string,
 	file: File,
 	jwt: string | null | undefined,
 	onProgress?: (deltaBytes: number) => void
-): Promise<string | null> {
+): Promise<StageOutcome> {
 	return new Promise((resolve) => {
 		const xhr = new XMLHttpRequest();
 		let lastLoaded = 0;
 
 		// Resolve rather than reject on every failure path. The caller's fallback
 		// is the existing upload, so a staging failure must be invisible.
-		const giveUp = (reason: string, status?: number) => {
+		const giveUp = (reason: string, status?: number, rejection?: string) => {
 			// Undo this attempt's contribution so the batch byte counter stays
-			// truthful when the file is re-uploaded through the normal path.
+			// truthful when the file is re-uploaded through the normal path (or
+			// skipped entirely, for a rejection).
 			if (lastLoaded > 0) onProgress?.(-lastLoaded);
-			posthog.capture('speculative_stage_failed', { reason, status, size: file.size });
-			resolve(null);
+			posthog.capture('speculative_stage_failed', {
+				reason,
+				status,
+				size: file.size,
+				rejected: !!rejection
+			});
+			resolve({ sessionId: null, rejection });
 		};
 
 		xhr.upload.onprogress = (e) => {
@@ -130,10 +166,22 @@ function stageOne(
 		};
 		xhr.onload = () => {
 			if (xhr.status < 200 || xhr.status >= 300) {
-				// 503 (budget/concurrency), 429 (quota), 413 (plan ceiling), 415
-				// (not an image) all land here. None are worth surfacing: either
-				// the normal path will hit the same wall and report it properly,
-				// or staging simply was not available this time.
+				if (HARD_REJECT_STATUSES.has(xhr.status)) {
+					// The server has seen the bytes and refused them. Carry the
+					// reason back so the caller can drop the file and say why,
+					// rather than uploading it a second time to be told again.
+					giveUp(
+						'rejected',
+						xhr.status,
+						uploadErrorMessage(
+							xhr.status,
+							xhr.responseText,
+							xhr.getResponseHeader('X-Mochify-Reject') ?? undefined
+						)
+					);
+					return;
+				}
+				// Conditions, not content — fall back silently.
 				giveUp('http', xhr.status);
 				return;
 			}
@@ -143,7 +191,7 @@ function stageOne(
 					giveUp('no-session-id', xhr.status);
 					return;
 				}
-				resolve(body.sessionId);
+				resolve({ sessionId: body.sessionId });
 			} catch {
 				giveUp('bad-json', xhr.status);
 			}
@@ -179,6 +227,8 @@ export function startStaging(
 	// caller will either complete it (which consumes the session server-side) or
 	// fail, and aborting underneath an in-flight completion would be a bug.
 	const unclaimed = new Map<File, string>();
+	// Files the server refused outright, with the reason to show the user.
+	const rejections = new Map<File, string>();
 	let abandoned = false;
 	let cursor = 0;
 
@@ -197,7 +247,8 @@ export function startStaging(
 				resolve(null);
 				continue;
 			}
-			const sessionId = await stageOne(apiUrl, file, jwt, onProgress);
+			const { sessionId, rejection } = await stageOne(apiUrl, file, jwt, onProgress);
+			if (rejection) rejections.set(file, rejection);
 			if (sessionId) {
 				// abandon() may have fired while this upload was in flight; that
 				// call could not have seen this session, so release it here.
@@ -228,6 +279,7 @@ export function startStaging(
 			unclaimed.delete(file);
 			return results.get(file) ?? Promise.resolve(null);
 		},
+		rejectionFor: (file: File) => rejections.get(file),
 		abandon: () => {
 			abandoned = true;
 			if (unclaimed.size > 0) {

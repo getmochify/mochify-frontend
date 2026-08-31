@@ -1704,7 +1704,10 @@
 			// writes can't use that fan-out (one session carries one object name),
 			// so there the file is uploaded once per variant and the byte budget
 			// has to be scaled to match or the bar pins at 100% early.
-			const totalBytes = files.reduce(
+			// `let`, not `const`: a file rejected during staging is skipped below and
+			// its bytes never reach this counter, so they have to come back out of
+			// the denominator or the bar tops out short of 100% for the whole run.
+			let totalBytes = files.reduce(
 				(sum, f, i) =>
 					sum + f.size * (bucketDest ? variantCount(fileMap[f.name] ?? fileArrayByIndex[i]) : 1),
 				0
@@ -1913,6 +1916,30 @@
 				while (currentFileIndex < files.length) {
 					const fileIdx = currentFileIndex;
 					const file = files[currentFileIndex++];
+
+					// Staging already showed this file to the server, which refused
+					// it on content (not a supported image, a decompression bomb, a
+					// corrupt header, or over the plan's size ceiling). Those
+					// verdicts are final, so uploading it again would only spend the
+					// user's bandwidth to be told the same thing. Skip it and report
+					// the server's own reason.
+					//
+					// Note it is not removed from `files` here: the loop indexes that
+					// array while several workers walk it concurrently, so mutating
+					// it mid-run would reshuffle everyone's position. A completed run
+					// clears the tray anyway.
+					const rejection = stager.rejectionFor(file);
+					if (rejection) {
+						failedFiles = [...failedFiles, { name: file.name, reason: rejection }];
+						// This file contributes no bytes to the run; drop it from the
+						// denominator so the remaining files can still reach 100%.
+						totalBytes -=
+							file.size *
+							(bucketDest ? variantCount(fileMap[file.name] ?? fileArrayByIndex[fileIdx]) : 1);
+						posthog.capture('speculative_file_rejected');
+						continue;
+					}
+
 					const fileConfig = fileMap[file.name] ?? fileArrayByIndex[fileIdx] ?? {};
 
 					const formats: string[] =
