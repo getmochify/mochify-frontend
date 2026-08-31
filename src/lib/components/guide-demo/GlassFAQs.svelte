@@ -5,24 +5,59 @@
 	// pattern: one card, hairline dividers, native <details>/<summary> so it
 	// needs zero JS (guides ship csr = false). Same props as GuideFAQs so it
 	// can be swapped in without touching the items data.
+	//
+	// The question is a real <h3> inside the <summary>, styled to look exactly
+	// like the plain text it replaced. Accordions must not cost the guide its
+	// question headings - those are what earn long-tail and People-Also-Ask
+	// visibility. Answers are server-rendered and stay in the DOM when
+	// collapsed, so the text is indexable either way.
 	const {
 		items,
 		id = 'faq',
-		heading = 'FAQ'
+		heading = 'FAQ',
+		openFirst = true,
+		jsonLd = true
 	}: {
 		items: { q: string; a: string }[];
 		id?: string;
 		heading?: string;
+		openFirst?: boolean;
+		jsonLd?: boolean;
 	} = $props();
+
+	// FAQPage schema built from the same array the section renders, so the
+	// markup and the structured data cannot drift apart.
+	const faqSchema = $derived(
+		JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'FAQPage',
+			mainEntity: items.map((item) => ({
+				'@type': 'Question',
+				name: item.q,
+				acceptedAnswer: { '@type': 'Answer', text: item.a }
+			}))
+		}).replace(/</g, '\\u003c')
+	);
 </script>
+
+<svelte:head>
+	{#if jsonLd}
+		<!-- Safe: the payload is JSON.stringify output with every < escaped above.
+		     {@html} is the only option here - Svelte does not interpolate
+		     expressions inside a literal <script> element. The closing tag stays
+		     escaped because the ESLint Svelte parser trips over a bare one. -->
+		<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
+		{@html `<script type="application/ld+json">${faqSchema}<\/script>`}
+	{/if}
+</svelte:head>
 
 <section {id} class="scroll-mt-24">
 	<SectionHeading>{heading}</SectionHeading>
 	<div class="faq-card">
-		{#each items as item}
-			<details>
+		{#each items as item, i (item.q)}
+			<details open={openFirst && i === 0}>
 				<summary>
-					<span class="q">{item.q}</span>
+					<h3 class="q">{item.q}</h3>
 					<svg
 						class="chev"
 						fill="none"
@@ -75,10 +110,16 @@
 		display: none;
 	}
 
+	/* Sized to match the plain <span> this heading replaced: the guides layout
+	   styles `article h3` at 1.5rem with a 2.5rem top margin, and the base
+	   layer swaps the font to Outfit, so all three are overridden here. */
 	.q {
+		margin: 0;
+		font-family: inherit;
 		font-weight: 700;
 		font-size: 1.05rem;
 		line-height: 1.35;
+		letter-spacing: 0;
 		color: #4a2c2c;
 		transition: color 0.2s ease;
 	}
