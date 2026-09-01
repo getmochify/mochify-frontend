@@ -468,25 +468,16 @@ grep X-Mochify-HDR headers.txt
 </article>
 
 <style>
-    /* Demo-only breadcrumb adjustments. The breadcrumb renders in the shared
-       guides layout at max-w-4xl; align it with this page's 3xl reading
-       column and drop the current-page crumb (the h1 is two lines below it,
-       and the JSON-LD BreadcrumbList keeps the full trail for SEO). At
-       rollout both moves belong in the layout: constrain <main> to 3xl and
-       stop appending the page-name crumb. */
+    /* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. The full trail stays visible,
+       current-page crumb included, so what the reader sees matches the
+       BreadcrumbList JSON-LD. At rollout the width constraint belongs in the
+       layout: constrain <main> to 3xl. */
     :global(nav[aria-label='Breadcrumb']) {
         max-width: 48rem;
         margin-left: auto;
         margin-right: auto;
         margin-bottom: 1.25rem;
-    }
-
-    /* Hide the page-name crumb and the separator that precedes it. */
-    :global(nav[aria-label='Breadcrumb'] li:last-child) {
-        display: none;
-    }
-    :global(nav[aria-label='Breadcrumb'] li:nth-last-child(2) > span[aria-hidden='true']) {
-        display: none;
     }
 
     /* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */

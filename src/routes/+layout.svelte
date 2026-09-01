@@ -44,13 +44,19 @@
 		'/contact',
 	]);
 
-	// /guides/style-demo previews the new guide style: top-only wash owned by
-	// the page, no site-wide fixed blobs. If the style rolls out, drop
-	// startsWith('/guides') here entirely.
+	// Guides on the new style paint their own top-only wash, which scrolls away
+	// with the page. The site-wide blobs are fixed, so leaving them on would
+	// track the reader down the article. Add each guide here as it converts;
+	// once they all have, drop the startsWith('/guides') branch entirely.
+	const NEW_STYLE_GUIDES = new Set([
+		'/guides/style-demo',
+		'/guides/why-hdr-photos-look-flat-when-shared',
+	]);
+
 	const showBlobs = $derived(
 		BLOB_ROUTES.has(page.url.pathname) ||
 		page.url.pathname.startsWith('/solutions') ||
-		(page.url.pathname.startsWith('/guides') && page.url.pathname !== '/guides/style-demo')
+		(page.url.pathname.startsWith('/guides') && !NEW_STYLE_GUIDES.has(page.url.pathname))
 	);
 
 	// Build-time OG card for this route (falls back to the generic card).
