@@ -9,7 +9,7 @@
         category: "Image Optimization",
         readTime: "15 min read",
         datePublished: "February 17, 2026",
-        lastUpdated: "July 21, 2026"
+        lastUpdated: "September 3, 2026"
     };
 
     const related = [
@@ -110,7 +110,7 @@
             ]
             },
             "datePublished": "2026-02-17",
-            "dateModified": "2026-07-21"
+            "dateModified": "2026-09-03"
         }
     </script>
 </svelte:head>
@@ -610,7 +610,7 @@
                 
                 <div class="mb-4">
                     <h4 class="font-bold text-green-600 mb-2">Strengths:</h4>
-                    <p class="mb-4">Mochify's architecture is its differentiator. Images are processed in server RAM only - never written to disk, never cached, wiped the instant compression finishes. This <strong>zero-retention model</strong> eliminates the privacy gray area that haunts disk-based tools. The 25-file batch limit is a deliberate performance/privacy guardrail, ensuring lightning-fast processing without requiring persistent storage.</p>
+                    <p class="mb-4">Mochify's architecture is its differentiator. Images are processed in server RAM only - never written to disk, never cached, wiped the instant compression finishes. This <strong>zero-retention model</strong> eliminates the privacy gray area that haunts disk-based tools. The 25-file batch limit is a deliberate performance/privacy guardrail, ensuring lightning-fast processing without requiring persistent storage. If you do want the output kept somewhere, Seller and Pro plans can write it into <a href="https://mochify.app/guides/bring-your-own-bucket-s3-r2">a bucket you own, via one-object pre-signed URLs</a>.</p>
                     <p class="mb-4">Format support is comprehensive: AVIF, HEIC, JPEG XL, plus standard JPG/PNG/WebP. And crucially, Mochify's JPEG output uses <strong>jpegli</strong> - Google's next-generation encoder that delivers up to 35% better compression at high quality vs. older stacks like libjpeg-turbo. When you're forced to deliver JPEG (eBay, Etsy, legacy CMSs), jpegli means smaller files without quality loss.</p>
                     <p class="mb-4">No account is required for the standard web tool. The interface is clean, presets are thoughtfully designed for real-world use cases (eBay, Shopify, WordPress), and results are instant.</p>
                 </div>

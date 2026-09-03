@@ -5,6 +5,7 @@
     import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import GlassPanel from '$lib/components/guide-demo/GlassPanel.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
     import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
     import StepList from '$lib/components/guide-demo/StepList.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
@@ -20,7 +21,7 @@
         description: "Send every processed image straight into your own S3, R2, or S3-compatible bucket. Seller and Pro, write-only, one-object pre-signed URLs, zero retention.",
         category: "Data Privacy",
         readTime: "18 min read",
-        date: "August 28, 2026"
+        date: "September 3, 2026"
     };
 
     const toc = [
@@ -91,7 +92,7 @@
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/bring-your-own-bucket-s3-r2"
         },
-        "datePublished": "2026-08-28",
+        "datePublished": "2026-09-03",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -168,7 +169,7 @@
 
         <GlassPanel>
             <p>
-                <strong class="text-[#4A2C2C]">Published August 28, 2026 by the Mochify Engineering Team.</strong>
+                <strong class="text-[#4A2C2C]">Published September 3, 2026 by the Mochify Engineering Team.</strong>
                 A plain-language explainer of the Bring your own bucket feature for stores and agencies, written from the live architecture page and verified against the product ledger.
             </p>
         </GlassPanel>
@@ -272,6 +273,11 @@
             <GlassPanel>
                 <StepList steps={workflowSteps} />
             </GlassPanel>
+
+            <p class="mb-4">For developers: the REST API (<code>POST /v1/squish</code> on <code>api.mochify.app</code>, authenticated with <code>Authorization: Bearer &lt;key&gt;</code>), the <code>mochify</code> CLI, and the local and hosted MCP servers all return results to the caller as before. Bucket output is a web app feature at launch. If your automation needs files in a bucket today, write them there from the client that receives the result, using your own scoped key, which is the same pattern we use on our side.</p>
+            <GlassInfoBox type="note" title="Privacy note for this path">
+                Images travel to <code>api.mochify.app</code> over HTTPS, are streamed into memory, processed, and discarded; nothing is written to disk and nothing is logged. With a bucket connected, the result then travels from the processing container straight to your storage and is not staged in between. Mochify retains nothing in either case; the only copy of the result is the one in your bucket.
+            </GlassInfoBox>
         </section>
 
         <section id="cheat-sheet" class="scroll-mt-24">
@@ -292,6 +298,8 @@
                     </tbody> 
                 </table>
             </GuideTable>
+
+            <p class="mb-4">Bring your own bucket: Seller and Pro only, web app only at launch, write-only, S3 / R2 / S3-compatible. Not on Free, not on a Day Pass.</p>
         </section>
 
         <!-- FAQ -->

@@ -7,7 +7,7 @@
         category: "Data Privacy",
         readTime: "15 min read",
         datePublished: "March 22, 2026",
-        lastUpdated: "July 23, 2026"
+        lastUpdated: "September 3, 2026"
     };
 </script>
 
@@ -49,7 +49,7 @@
             "CLOUD Act image data privacy"
         ],
         "datePublished": "2026-03-22",
-        "dateModified": "2026-07-23"
+        "dateModified": "2026-09-03"
         }
     </script>
 </svelte:head>
@@ -392,7 +392,7 @@
             This is the highest-stakes scenario. Agencies often process client photography, identifiable staff headshots, unreleased product imagery, and brand assets that are commercially sensitive. Uploading that material to a US-hosted tool without a DPA is a genuine compliance failure, not a grey area.
         </p>
         <p class="mt-4">
-            Mochify's zero-retention architecture means there is no client data persisting on our infrastructure after the API call completes. Combined with explicit EXIF stripping requested as part of your workflow, you can give clients a credible, documented answer to the question "where did our images go?" The answer is: they were processed in memory and discarded. Nothing was retained.
+            Mochify's zero-retention architecture means there is no client data persisting on our infrastructure after the API call completes. Agencies on Seller or Pro can also have processed files land directly in the client's own storage; <a href="https://mochify.app/guides/bring-your-own-bucket-s3-r2">the Bring your own bucket explainer</a> covers the key handling and the GDPR position. Combined with explicit EXIF stripping requested as part of your workflow, you can give clients a credible, documented answer to the question "where did our images go?" The answer is: they were processed in memory and discarded. Nothing was retained.
         </p>
         <p class="mt-4">
             For agencies with high volumes, the REST API supports integration into existing asset management pipelines. Mochify's Pro plan includes higher image limits and larger file sizes, all with identical zero-retention privacy guarantees. Background removal is available on every tier, including Free.

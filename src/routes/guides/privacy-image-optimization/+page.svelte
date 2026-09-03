@@ -8,7 +8,7 @@
         category: "Data Privacy",
         readTime: "6 min read",
         datePublished: "February 5, 2026",
-        lastUpdated: "June 24, 2026"
+        lastUpdated: "September 3, 2026"
     };
 
     const related = [
@@ -74,7 +74,7 @@
             "2026 privacy-first vendor checklist"
         ],
         "datePublished": "2026-02-05",
-        "dateModified": "2026-06-24"
+        "dateModified": "2026-09-03"
         }
     </script>
 </svelte:head>
@@ -190,7 +190,7 @@
             <ul class="space-y-4 mt-6 ml-2">
                 <li class="flex gap-3">
                     <span class="text-[#F06292] font-bold">·</span>
-                    <span><strong>In-memory execution: </strong> Assets are processed in the server's volatile memory (RAM) and purged the millisecond the asset is sent back to the user.</span>
+                    <span><strong>In-memory execution: </strong> Assets are processed in the server's volatile memory (RAM) and purged the millisecond the asset is sent back to the user. On Seller and Pro the result can instead be written straight into your own S3, R2, or S3-compatible bucket; see <a href="https://mochify.app/guides/bring-your-own-bucket-s3-r2">how Bring your own bucket writes results without ever holding your key</a>.</span>
                 </li>
                 <li class="flex gap-3">
                     <span class="text-[#F06292] font-bold">·</span>

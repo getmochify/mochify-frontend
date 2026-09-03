@@ -51,6 +51,7 @@
 	const NEW_STYLE_GUIDES = new Set([
 		'/guides/style-demo',
 		'/guides/why-hdr-photos-look-flat-when-shared',
+		'/guides/bring-your-own-bucket-s3-r2',
 	]);
 
 	const showBlobs = $derived(

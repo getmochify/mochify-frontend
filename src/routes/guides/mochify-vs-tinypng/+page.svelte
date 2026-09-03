@@ -12,7 +12,7 @@
         category: "Image Optimization",
         readTime: "13 min read",
         date: "July 21, 2026",
-        lastUpdated: "July 24, 2026"
+        lastUpdated: "September 3, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -52,7 +52,7 @@
         },
         {
             q: "Which is cheaper, Mochify or TinyPNG?",
-            a: "For unlimited browser-based compression of smaller files, TinyPNG Web Pro (published at roughly $39/year) is cheaper than any Mochify subscription. For metered API use, TinyPNG charges $0.009 per compression after 500 free each month, with resizes and conversions billed as extra compressions; Mochify includes API and MCP access in every tier's flat monthly quota, and a $5 Credit Pack covers 100 images with no expiry."
+            a: "For unlimited browser-based compression of smaller files, TinyPNG Web Pro (published at roughly $39/year) is cheaper than any Mochify subscription. For metered API use, TinyPNG charges $0.009 per compression after 500 free each month, with resizes and conversions billed as extra compressions; Mochify includes API and MCP access in every tier's flat monthly quota, and a $2 Day Pass adds 100 uploads for 24 hours on top of whatever your plan allows, with no subscription."
         },
         {
             q: "What happens to my files after I upload them to each service?",
@@ -97,7 +97,7 @@
             "@id": "https://mochify.app/guides/mochify-vs-tinypng"
         },
         "datePublished": "2026-07-21",
-        "dateModified": "2026-07-24",
+        "dateModified": "2026-09-03",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -156,7 +156,7 @@
         "description": "TinyPNG stores files 48 hours; Mochify wipes them instantly. An honest head-to-head on pricing, formats, AI features, and where TinyPNG genuinely wins.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-21",
-        "dateModified": "2026-07-24"
+        "dateModified": "2026-09-03"
         }
     </script>
 
@@ -170,7 +170,7 @@
             { "@type": "Question", "name": "Does TinyPNG support AVIF and JPEG XL?", "acceptedAnswer": { "@type": "Answer", "text": "TinyPNG supports AVIF in both its web tool and API, despite older articles claiming otherwise. JPEG XL is available only in its in-browser converter, not through the API. Mochify supports JPEG XL across the web app, CLI, MCP servers, and REST API." } },
             { "@type": "Question", "name": "Can TinyPNG remove backgrounds or compress video?", "acceptedAnswer": { "@type": "Answer", "text": "No. As of July 2026, TinyPNG offers no background removal (only background fill for transparency) and no video tooling. Mochify includes background removal on every tier and in-browser video compression, conversion, and resizing in the web app." } },
             { "@type": "Question", "name": "Does TinyPNG have an MCP server for AI agents?", "acceptedAnswer": { "@type": "Answer", "text": "Not an official one. The TinyPNG MCP servers and CLIs that exist are community projects, listed as third-party in Tinify's own directory. Mochify ships an official CLI, a local MCP server (mochify serve), and a hosted MCP server at mcp.mochify.app." } },
-            { "@type": "Question", "name": "Which is cheaper, Mochify or TinyPNG?", "acceptedAnswer": { "@type": "Answer", "text": "For unlimited browser-based compression of smaller files, TinyPNG Web Pro (published at roughly $39/year) is cheaper than any Mochify subscription. For metered API use, TinyPNG charges $0.009 per compression after 500 free each month, with resizes and conversions billed as extra compressions; Mochify includes API and MCP access in every tier's flat monthly quota, and a $5 Credit Pack covers 100 images with no expiry." } },
+            { "@type": "Question", "name": "Which is cheaper, Mochify or TinyPNG?", "acceptedAnswer": { "@type": "Answer", "text": "For unlimited browser-based compression of smaller files, TinyPNG Web Pro (published at roughly $39/year) is cheaper than any Mochify subscription. For metered API use, TinyPNG charges $0.009 per compression after 500 free each month, with resizes and conversions billed as extra compressions; Mochify includes API and MCP access in every tier's flat monthly quota, and a $2 Day Pass adds 100 uploads for 24 hours on top of whatever your plan allows, with no subscription." } },
             { "@type": "Question", "name": "What happens to my files after I upload them to each service?", "acceptedAnswer": { "@type": "Answer", "text": "TinyPNG stores uploads for up to 48 hours, then deletes them; connection logs including a file fingerprint persist up to 31 days, per Tinify's terms. Mochify streams images and PDFs into RAM, encodes, and wipes them immediately, keeping no disk copies and no file-data logs; the hosted MCP server's compressed output is the one exception, held behind an expiring URL for up to five minutes." } }
         ]
         }
@@ -305,7 +305,7 @@
                         <tr class="bg-white align-top">
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Pay-as-you-go</td>
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">API: 500 free/mo, then $0.009 per compression</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Credit Pack $5 one-time: 100 images, no expiry</td>
+                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Day Pass $2 one-time: 100 uploads within 24 hours, no subscription</td>
                         </tr>
                         <tr class="bg-[#FDFBF7] align-top">
                             <td class="px-4 py-3 text-sm text-[#6C3F31] font-bold">Developer access</td>

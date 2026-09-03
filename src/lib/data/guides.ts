@@ -24,7 +24,7 @@ export const guides: Guide[] = [
 		url: '/guides/bring-your-own-bucket-s3-r2',
 		category: 'Data Privacy',
 		readTime: '18 min read',
-		date: 'August 28, 2026'
+		date: 'September 3, 2026'
 	},
 	{
 		title: 'Why HDR Photos Look Flat When You Share Them (and How Gain Maps Fix It)',

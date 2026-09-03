@@ -158,7 +158,10 @@
     </ul>
     <p>
         The result travels from the processing container straight to your storage. It does not pass
-        back through your browser and it is not staged anywhere in between.
+        back through your browser and it is not staged anywhere in between. For a plain-language
+        walkthrough of the feature, including how a bucket with a CDN in front of it serves the
+        output, read <a href="https://mochify.app/guides/bring-your-own-bucket-s3-r2">the Bring your
+        own bucket guide</a>.
     </p>
 
     <h2>What we do record</h2>
