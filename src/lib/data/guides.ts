@@ -17,6 +17,16 @@ export type Guide = {
 
 export const guides: Guide[] = [
 	{
+		title:
+			'Bring Your Own Bucket: Send Processed Images Straight to Your Own S3 or R2',
+		description:
+			'Send every processed image straight into your own S3, R2, or S3-compatible bucket. Seller and Pro, write-only, one-object pre-signed URLs, zero retention.',
+		url: '/guides/bring-your-own-bucket-s3-r2',
+		category: 'Data Privacy',
+		readTime: '18 min read',
+		date: 'August 28, 2026'
+	},
+	{
 		title: 'Why HDR Photos Look Flat When You Share Them (and How Gain Maps Fix It)',
 		description:
 			'HDR photos look flat when shared because the extra brightness lives in a gain map that many viewers, platforms, and export paths silently strip or ignore.',
@@ -592,15 +602,6 @@ export const guides: Guide[] = [
 		category: 'Data Privacy',
 		readTime: '5 min read',
 		date: 'May 29, 2026'
-	},
-	{
-		title: 'What Size Should Vinted Photos Be?',
-		description:
-			'The best Vinted photo size is portrait 3:4, around 1080x1440px, item centered. Vinted sets no official spec - here is what its image pipeline actually does.',
-		url: '/guides/vinted-photo-size',
-		category: 'Quick Guides',
-		readTime: '2 min read',
-		date: 'July 19, 2026'
 	},
 	{
 		title: 'How to Take Vinted Photos That Sell',

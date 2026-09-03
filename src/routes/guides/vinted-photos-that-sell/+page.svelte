@@ -8,11 +8,15 @@
 
     const metadata = {
         title: "How to Take Vinted Photos That Sell",
-        description: "How to take good photos for Vinted: light, backgrounds, the real size and ratio facts, privacy checks, and a one-prompt batch workflow for sellers.",
+        // Title tag deliberately differs from the H1 and from og:title: this page
+        // is served for size / ratio / rules queries, so the SERP line leads with
+        // those. og:title, twitter:title and JSON-LD headline stay on the H1.
+        seoTitle: "Vinted Photo Size, Aspect Ratio and Rules (and Photos That Sell) | Mochify",
+        description: "Vinted photo size and aspect ratio (portrait, about 3:4, 1080px or wider), the photo rules including stock photos, why Vinted crops your photos, and how to shoot photos that sell.",
         category: "Workflows",
         readTime: "13 min read",
         date: "July 19, 2026",
-        lastUpdated: "August 5, 2026"
+        lastUpdated: "September 2, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -22,7 +26,7 @@
         { n: '02', href: '#vinted-rules', label: 'The Rules Vinted Actually Sets' },
         { n: '03', href: '#how-to-shoot', label: 'How to Shoot: Light, Background, Framing' },
         { n: '04', href: '#flat-lay-hanger-worn', label: 'Flat Lay, Hanger, or Worn?' },
-        { n: '05', href: '#technical-facts', label: 'Photo Size, Ratio, and Format: The Real Numbers' },
+        { n: '05', href: '#technical-facts', label: 'Vinted Photo Size and Aspect Ratio: The Real Numbers' },
         { n: '06', href: '#privacy', label: 'The Privacy Check Most Sellers Skip' },
         { n: '07', href: '#mochify-workflow', label: 'Mochify Workflow: Fix a Whole Clear-Out in One Prompt' },
         { n: '08', href: '#cheat-sheet', label: 'Cheat Sheet' },
@@ -55,7 +59,7 @@
             a: "Worn photos help buyers judge fit, and many sellers report better results with them, but they are not required and there is no reliable public data proving a specific uplift. Vinted itself suggests flat lay, hangers, or a mannequin if you prefer not to appear in photos. A headless mirror shot is a solid middle ground."
         },
         {
-            q: "Why do my Vinted photos look cropped in search?",
+            q: "Why is Vinted cropping my photos?",
             a: "Because the search grid crops every first photo to a fixed portrait thumbnail (310x430 pixels when served). If your photo is landscape or the item sits off-center, the sides get cut. Shoot portrait with the item centered, or batch-crop to 3:4 portrait before uploading."
         },
         {
@@ -65,7 +69,6 @@
     ];
 
     const related = [
-        { href: '/guides/vinted-photo-size', title: 'What Size Should Vinted Photos Be?', desc: 'The two-minute answer on sizes, ratios, and what Vinted\'s pipeline does to uploads.' },
         { href: '/guides/ecommerce-product-photo-workflow-resize-convert', title: 'Ecommerce Product Photo Workflow: Resize & Convert in One Prompt', desc: 'The same batch approach for Shopify, Etsy, eBay, and Amazon sellers.' },
         { href: '/guides/do-marketplace-product-images-need-to-be-square', title: 'Do Marketplace Product Images Need to Be Square?', desc: 'Why Vinted is portrait while most marketplaces crop to 1:1.' },
         { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'What your photos reveal and how stripping metadata protects you.' },
@@ -76,7 +79,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title} - Sell Faster | Mochify</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
@@ -94,14 +97,14 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "How to Take Vinted Photos That Sell",
-        "description": "How to take good photos for Vinted: light, backgrounds, the real size and ratio facts, privacy checks, and a one-prompt batch workflow for sellers.",
+        "description": "Vinted photo size and aspect ratio (portrait, about 3:4, 1080px or wider), the photo rules including stock photos, why Vinted crops your photos, and how to shoot photos that sell.",
         "url": "https://mochify.app/guides/vinted-photos-that-sell",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/vinted-photos-that-sell"
         },
         "datePublished": "2026-07-19",
-        "dateModified": "2026-08-05",
+        "dateModified": "2026-09-02",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -155,10 +158,10 @@
         "@type": "WebPage",
         "name": "How to Take Vinted Photos That Sell",
         "url": "https://mochify.app/guides/vinted-photos-that-sell",
-        "description": "How to take good photos for Vinted: light, backgrounds, the real size and ratio facts, privacy checks, and a one-prompt batch workflow for sellers.",
+        "description": "Vinted photo size and aspect ratio (portrait, about 3:4, 1080px or wider), the photo rules including stock photos, why Vinted crops your photos, and how to shoot photos that sell.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-19",
-        "dateModified": "2026-08-05"
+        "dateModified": "2026-09-02"
         }
     </script>
 
@@ -173,7 +176,7 @@
             { "@type": "Question", "name": "Can I use stock photos on Vinted?", "acceptedAnswer": { "@type": "Answer", "text": "No. Vinted's rules require your own photos of the actual item, and listings using stock or watermarked images can be hidden or removed. Buyers also treat stock photos as a scam signal, so even where a listing survives, it converts poorly." } },
             { "@type": "Question", "name": "Should I show flaws in my Vinted photos?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, always. Vinted's rules state that if a defect is not shown in photos and mentioned in the description, the buyer can return the item as significantly not as described. An honest close-up of a flaw costs a little on price and saves you a cancelled sale, a return, and a negative review." } },
             { "@type": "Question", "name": "Do worn photos really sell items faster?", "acceptedAnswer": { "@type": "Answer", "text": "Worn photos help buyers judge fit, and many sellers report better results with them, but they are not required and there is no reliable public data proving a specific uplift. Vinted itself suggests flat lay, hangers, or a mannequin if you prefer not to appear in photos. A headless mirror shot is a solid middle ground." } },
-            { "@type": "Question", "name": "Why do my Vinted photos look cropped in search?", "acceptedAnswer": { "@type": "Answer", "text": "Because the search grid crops every first photo to a fixed portrait thumbnail (310x430 pixels when served). If your photo is landscape or the item sits off-center, the sides get cut. Shoot portrait with the item centered, or batch-crop to 3:4 portrait before uploading." } },
+            { "@type": "Question", "name": "Why is Vinted cropping my photos?", "acceptedAnswer": { "@type": "Answer", "text": "Because the search grid crops every first photo to a fixed portrait thumbnail (310x430 pixels when served). If your photo is landscape or the item sits off-center, the sides get cut. Shoot portrait with the item centered, or batch-crop to 3:4 portrait before uploading." } },
             { "@type": "Question", "name": "Do I need to remove metadata from Vinted photos?", "acceptedAnswer": { "@type": "Answer", "text": "It is the safe habit. Phone photos can carry EXIF metadata including GPS coordinates of your home. Platforms usually strip metadata on re-encode, but the same photos often get shared in chats or reused elsewhere. Stripping EXIF yourself before upload, with an explicit instruction like \"strip all metadata\", removes the question entirely." } }
         ]
         }
@@ -199,6 +202,15 @@
         <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
             Good photos are the single biggest lever a Vinted seller controls. The feed is a grid of portrait thumbnails, buyers decide in a glance, and two identical hoodies at the same price will sell at very different speeds depending on which one looks like a shop listing and which one looks like a pile on a bed. This guide covers how to take good photos for Vinted from the ground up: what Vinted's own rules ask for, how to shoot with a phone and daylight, the real technical facts about sizes and cropping (which almost every blog post gets wrong), and how to batch-fix an entire wardrobe clear-out in one plain-English prompt.
         </p>
+
+        <InfoBox type="technical" title="The short answers">
+            <p class="mb-3">If that is all you came for:</p>
+            <ul class="list-disc pl-6 space-y-2 m-0">
+                <li><strong class="text-[#4A2C2C]">Vinted photo size and aspect ratio:</strong> portrait, about 3:4, 1080px wide or more (for example 1080x1440), item centered. Vinted sets no official spec; this is what its image pipeline actually rewards. <a href="#technical-facts">The real numbers</a>.</li>
+                <li><strong class="text-[#4A2C2C]">Vinted photo rules:</strong> up to 20 photos, the first must show the whole item, and every photo must be your own. No stock, catalog or watermarked images. <a href="#vinted-rules">The rules Vinted actually sets</a>.</li>
+                <li><strong class="text-[#4A2C2C]">Why Vinted crops your photos:</strong> the search grid crops every first photo to a fixed portrait thumbnail, so landscape or off-center shots lose their edges. <a href="#faq">More in the FAQ</a>.</li>
+            </ul>
+        </InfoBox>
 
         <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
             <p class="text-[#6C3F31] text-base leading-relaxed m-0">
@@ -274,14 +286,14 @@
         </section>
 
         <section id="technical-facts" class="scroll-mt-24">
-            <SectionHeading>Photo Size, Ratio, and Format: The Real Numbers</SectionHeading>
+            <SectionHeading>Vinted Photo Size and Aspect Ratio: The Real Numbers</SectionHeading>
             <p>Vinted publishes no official photo size, aspect ratio, or file-size requirement; the numbers that matter are the ones its image pipeline actually produces, and those favor a centered, portrait, roughly 3:4 shot at 1080px wide or more. This is the part nearly every "Vinted photo requirements" blog post invents, so here is what we actually verified in July 2026:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
                 <li><strong class="text-[#4A2C2C]">Vinted's help center sets no technical spec.</strong> No dimensions, no ratio, no file size, no format list appears anywhere in the official photo guidance. Claims like "Vinted requires 4:5 at 1080x1350" are third-party guesses.</li>
                 <li><strong class="text-[#4A2C2C]">The search grid crops your first photo to a fixed portrait window.</strong> We inspected the live catalog: grid thumbnails are served as 310x430 pixel portrait crops of your first photo, regardless of the shape you uploaded. A landscape photo loses its left and right edges in exactly the view where buyers decide whether to tap.</li>
                 <li><strong class="text-[#4A2C2C]">Item pages preserve your ratio but downscale hard.</strong> Full listing photos are re-encoded to WebP and served at roughly 800 pixels on the long side. Uploading a 4000px export gains you nothing; a sharp 1080-1600px photo is already more than Vinted will ever show.</li>
             </ul>
-            <p>The practical spec, based on how the pipeline behaves: <strong class="text-[#4A2C2C]">portrait, 3:4 ratio (the default on most phone cameras), around 1080x1440 pixels, item centered, saved as JPEG or PNG.</strong> For the full breakdown of what Vinted does to your uploads, see our companion piece, <a href="/guides/vinted-photo-size">What Size Should Vinted Photos Be?</a></p>
+            <p>The practical spec, based on how the pipeline behaves: <strong class="text-[#4A2C2C]">portrait, 3:4 ratio (the default on most phone cameras), around 1080x1440 pixels, item centered, saved as JPEG or PNG.</strong></p>
 
             <InfoBox type="note" title="iPhone sellers: convert HEIC first">
                 Your camera saves .HEIC files. The Vinted app handles them, but browsers and desktop editing tools often do not. If you organize or edit listing photos on a computer, convert them first with our <a href="/heic-to-jpeg">HEIC to JPEG converter</a> - and see <a href="/guides/heic-to-jpeg-or-webp-wordpress">Should I convert HEIC to JPEG or WebP for WordPress uploads?</a> if you also sell on your own site.

@@ -25,6 +25,20 @@
 		jsonLd?: boolean;
 	} = $props();
 
+	// Answers may carry inline markup (<code>, <em>, a link) because they are
+	// authored copy, not user input - the same footing as StepList's bodies.
+	// Schema wants the words only, so tags come off for the JSON-LD text.
+	const plain = (html: string) =>
+		html
+			.replace(/<[^>]+>/g, '')
+			.replace(/&amp;/g, '&')
+			.replace(/&lt;/g, '<')
+			.replace(/&gt;/g, '>')
+			.replace(/&quot;/g, '"')
+			.replace(/&#39;/g, "'")
+			.replace(/\s+/g, ' ')
+			.trim();
+
 	// FAQPage schema built from the same array the section renders, so the
 	// markup and the structured data cannot drift apart.
 	const faqSchema = $derived(
@@ -33,8 +47,8 @@
 			'@type': 'FAQPage',
 			mainEntity: items.map((item) => ({
 				'@type': 'Question',
-				name: item.q,
-				acceptedAnswer: { '@type': 'Answer', text: item.a }
+				name: plain(item.q),
+				acceptedAnswer: { '@type': 'Answer', text: plain(item.a) }
 			}))
 		}).replace(/</g, '\\u003c')
 	);
@@ -69,7 +83,8 @@
 						aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg
 					>
 				</summary>
-				<p class="a">{item.a}</p>
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+				<p class="a">{@html item.a}</p>
 			</details>
 		{/each}
 	</div>

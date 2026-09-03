@@ -11,7 +11,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         datePublished: "June 29, 2026",
-        lastUpdated: "August 5, 2026"
+        lastUpdated: "September 2, 2026"
     };
 
     const related = [
@@ -31,9 +31,9 @@
             desc: "Why pre-compressing beats relying on marketplace auto-processing for file size and quality."
         },
         {
-            title: "What Size Should Vinted Photos Be? →",
-            href: "/guides/vinted-photo-size",
-            desc: "The two-minute answer on Vinted's sizes, ratios, and cropping."
+            title: "Vinted Photo Size and Aspect Ratio →",
+            href: "/guides/vinted-photos-that-sell#technical-facts",
+            desc: "Vinted's real sizes and ratios, and what its search grid crops."
         }
     ];
 
@@ -52,7 +52,7 @@
         },
         {
             name: "eBay, Vinted, and Depop",
-            body: `None of these platforms publish formal aspect-ratio requirements. All three display images in a full-image viewer on the listing page, but search result thumbnails typically render at or close to square. Vinted is the clearest portrait exception - its search grid crops every thumbnail to a portrait window. See <a href="/guides/vinted-photo-size">what size Vinted photos should be</a>.`
+            body: `None of these platforms publish formal aspect-ratio requirements. All three display images in a full-image viewer on the listing page, but search result thumbnails typically render at or close to square. Vinted is the clearest portrait exception - its search grid crops every thumbnail to a portrait window. See <a href="/guides/vinted-photos-that-sell#technical-facts">Vinted photo size and aspect ratio</a>.`
         }
     ];
 </script>
@@ -84,7 +84,7 @@
             "@id": "https://mochify.app/guides/do-marketplace-product-images-need-to-be-square"
         },
         "datePublished": "2026-06-29",
-        "dateModified": "2026-08-05",
+        "dateModified": "2026-09-02",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {

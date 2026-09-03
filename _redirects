@@ -3,3 +3,6 @@
 #
 # 2026-08-07: slug realigned to the head term "extract images from pdf".
 /guides/working-with-pdfs-in-ai-agent-workflows /guides/extract-images-from-pdf-agent-workflows 301
+#
+# 2026-09-02: QA retired into the guide it duplicated (Mode 11 treatment).
+/guides/vinted-photo-size /guides/vinted-photos-that-sell#technical-facts 301

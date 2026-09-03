@@ -62,6 +62,11 @@ export const cards = [
 		eyebrow: 'GUIDE',
 		title: 'AVIF to JPG: How to Convert AVIF Files on Any Device'
 	},
+	{
+		path: '/guides/bring-your-own-bucket-s3-r2',
+		eyebrow: 'GUIDE',
+		title: 'Bring Your Own Bucket: Processed Images Straight to Your S3 or R2'
+	},
 	{ path: '/guides/can-safari-open-heic-images', eyebrow: 'GUIDE', title: 'Can Safari Open HEIC Images on the Web?' },
 	{
 		path: '/guides/can-wordpress-7-1-optimize-images-without-a-plugin',
@@ -297,11 +302,6 @@ export const cards = [
 		path: '/guides/top-5-secure-image-compressors-2026',
 		eyebrow: 'GUIDE',
 		title: 'Top 5 Secure Image Compressors - Privacy & Performance Comparison (2026)'
-	},
-	{
-		path: '/guides/vinted-photo-size',
-		eyebrow: 'GUIDE',
-		title: 'What Size Should Vinted Photos Be?'
 	},
 	{
 		path: '/guides/vinted-photos-that-sell',
