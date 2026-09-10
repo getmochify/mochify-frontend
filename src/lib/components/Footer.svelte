@@ -1,8 +1,49 @@
 <script lang="ts">
+    import { posthog } from '$lib/analytics';
+
     // `minimal` drops the marketing block (Popular Tools + Solutions/Guides CTAs)
     // for surfaces like /flow where the focus is the tool, not routing to content.
     // Leaves the legal links, address and attribution intact.
     let { minimal = false } = $props();
+
+    // "Ask AI about Mochify" row. Plain GET links that hand the visitor a
+    // pre-filled, neutrally worded question about Mochify. Only engines that run
+    // the question immediately when signed out, with no account, interstitial or
+    // caution banner, are listed: Claude (`claude.ai/new?q=`) and Grok are
+    // deliberately out because both gate or warn before the prompt runs.
+    // The `title` carries the decoded question so the visitor can read it before
+    // clicking. Re-test signed out before changing or adding an engine.
+    const askAiLinks = [
+        {
+            id: 'chatgpt',
+            label: 'ChatGPT',
+            // `hints=search` makes ChatGPT run a live web search rather than
+            // answer from memory.
+            href: 'https://chatgpt.com/?q=What+is+Mochify+%28mochify.app%29+and+what+does+it+do%3F&hints=search',
+            title: 'Opens ChatGPT with the question: What is Mochify (mochify.app) and what does it do?'
+        },
+        {
+            id: 'perplexity',
+            label: 'Perplexity',
+            // Citation-first engine, so it gets the comparison question.
+            href: 'https://www.perplexity.ai/search?q=Mochify+vs+TinyPNG+for+image+compression%3A+formats%2C+privacy+and+API',
+            title: 'Opens Perplexity with the question: Mochify vs TinyPNG for image compression: formats, privacy and API'
+        },
+        {
+            id: 'google-ai-mode',
+            // Google AI Mode (`udm=50`), not Gemini: `gemini.google.com/app?q=`
+            // does not prefill for a signed-out visitor.
+            label: 'Google AI Mode',
+            href: 'https://www.google.com/search?udm=50&q=How+does+Mochify+%28mochify.app%29+handle+image+privacy+and+data+retention%3F',
+            title: 'Opens Google AI Mode with the question: How does Mochify (mochify.app) handle image privacy and data retention?'
+        }
+    ];
+
+    // Distinct event so the row can be reported on its own. PostHog adds
+    // $pathname, so we only need which assistant was picked.
+    function trackAskAi(assistant: string) {
+        posthog.capture('ask_ai_click', { assistant });
+    }
 </script>
 
 <footer class="relative z-10 w-full max-w-5xl mx-auto px-4 pb-12 sm:px-6 lg:px-8 text-center">
@@ -118,5 +159,38 @@
                 <img width="150" height="53" loading="lazy" src="https://media.theresanaiforthat.com/featured-on-taaft.png?width=300" alt="Featured on There's An AI For That" />
             </a>
         </div>
+
+        <nav class="flex flex-wrap justify-center items-center gap-x-3 gap-y-2 text-xs" aria-label="Ask an AI assistant about Mochify">
+            <a
+                href={askAiLinks[0].href}
+                title={askAiLinks[0].title}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+                onclick={() => trackAskAi(askAiLinks[0].id)}
+                class="font-bold text-mochi-pink hover:text-[#D81B60] hover:underline transition-colors"
+            >
+                Ask AI about Mochify
+            </a>
+            <ul class="flex flex-wrap justify-center items-center gap-x-3 gap-y-2 list-none m-0 p-0">
+                {#each askAiLinks as link, i (link.id)}
+                    <li class="flex items-center gap-x-3">
+                        {#if i > 0}
+                            <span aria-hidden="true" class="text-[#D4A0B5] font-bold">•</span>
+                        {/if}
+                        <a
+                            href={link.href}
+                            title={link.title}
+                            target="_blank"
+                            rel="nofollow noopener noreferrer"
+                            aria-label={`Ask ${link.label} about Mochify`}
+                            onclick={() => trackAskAi(link.id)}
+                            class="text-cocoa-milk hover:text-mochi-pink hover:underline transition-colors"
+                        >
+                            {link.label}
+                        </a>
+                    </li>
+                {/each}
+            </ul>
+        </nav>
     </div>
 </footer>
