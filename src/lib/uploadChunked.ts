@@ -65,6 +65,10 @@ export interface ChunkedUploadParams {
 	brightness?: string;
 	clarity?: string;
 	quality?: string;
+	// "1" asks for a pixel-exact encode. Only jxl/webp/png can honour it —
+	// the backend 400s the whole request for jpg/avif — so senders must gate
+	// it on the resolved output format, not just on a user preference.
+	lossless?: string;
 	// "Bring your own bucket": dest="bucket" diverts the result into the user's
 	// own storage, and name is the object to write. Both are read at init and
 	// stored on the UploadSession, because /v1/upload/complete carries only the

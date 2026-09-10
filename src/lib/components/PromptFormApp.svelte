@@ -1985,6 +1985,12 @@
 					if (fileConfig.hdr) sharedParams.append('hdr', 'generate');
 					if (fileConfig.quality != null)
 						sharedParams.append('quality', String(fileConfig.quality));
+					// Pixel-exact encode. The worker has already coerced this to a real
+					// boolean and cleared it for any format that cannot comply (core 400s
+					// lossless+jpg/avif), so no format check is needed here. When the
+					// source was already lossy the backend downgrades to its best lossy
+					// encode and says so in X-Mochify-Lossless.
+					if (fileConfig.lossless === true) sharedParams.append('lossless', '1');
 
 					// Output filename for one variant — shared by the single-variant
 					// loop and the multi-variant ZIP-entry mapping below.

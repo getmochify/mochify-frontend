@@ -60,12 +60,21 @@
 		// copyright to survive the trip to JPEG. Those pages opt out, which does
 		// mean GPS rides along too, so the Strip EXIF toggle is always shown
 		// alongside it.
-		stripExifDefault = true
+		stripExifDefault = true,
+		// Pixel-exact output. Off everywhere by default; the pages that turn it
+		// on are the ones whose whole premise is a lossless re-encode (PNG→JXL),
+		// where a lossy default would quietly contradict the page's own copy.
+		// showLosslessOption additionally renders the toggle so a user with a
+		// photographic PNG can drop back to lossy, which is much smaller for
+		// photo content even though it is the wrong default for graphics.
+		losslessDefault = false,
+		showLosslessOption = false
 	} = props;
 	const hasOutputOverride = $derived('output' in props);
 
 	let stripExif: boolean = $state(stripExifDefault);
 	let smartCompress: boolean = $state(false);
+	let lossless: boolean = $state(losslessDefault);
 	let isDragging: boolean = $state(false);
 
 	// A file we accepted the type of but cannot convert on this plan. It still
@@ -82,6 +91,12 @@
 	let fileProgress: FileProgress[] = $state([]);
 	let oversizedFiles: BlockedFile[] = $state([]);
 	let imageType: string = $state(output);
+	// Only these three encoders can emit pixel-exact bytes — the backend 400s a
+	// lossless request naming jpg or avif. The type selector can move the output
+	// off JXL after the toggle has been set, so both the param and the toggle
+	// itself are gated on the CURRENT format rather than on the user's intent.
+	const LOSSLESS_FORMATS = ['jxl', 'webp', 'png'];
+	const losslessApplies = $derived(LOSSLESS_FORMATS.includes(imageType));
 	let isLoading: boolean = $state(false);
 	// Hard rejections only: unsupported type, unreadable, or a failed run.
 	// Batch truncation and oversize both have their own dedicated UI (the
@@ -837,6 +852,7 @@
 							stripExif: stripExif ? '1' : '0'
 						};
 						if (smartCompress) chunkedParams.smartCompress = '1';
+						if (lossless && LOSSLESS_FORMATS.includes(safeType)) chunkedParams.lossless = '1';
 						if (queryParams)
 							new URLSearchParams(queryParams).forEach((v, k) => (chunkedParams[k] = v));
 
@@ -955,6 +971,8 @@
 										stripExif: stripExif ? '1' : '0'
 									});
 									if (smartCompress) squishParams.append('smartCompress', '1');
+									if (lossless && LOSSLESS_FORMATS.includes(safeType))
+										squishParams.append('lossless', '1');
 									if (queryParams)
 										new URLSearchParams(queryParams).forEach((v, k) => squishParams.append(k, v));
 									xhr.open('POST', `${API_URL}/v1/squish?${squishParams}`);
@@ -1593,7 +1611,7 @@
 	{/if}
 
 	<!-- Toggles -->
-	{#if (showExifOption || showSmartMode) && selectedFiles.length > 0}
+	{#if (showExifOption || showSmartMode || (showLosslessOption && losslessApplies)) && selectedFiles.length > 0}
 		<div class="flex flex-wrap gap-x-6 gap-y-3 px-4 pt-3 pb-3 sm:px-6">
 			{#if showExifOption}
 				<label class="group flex cursor-pointer items-center gap-2.5 select-none">
@@ -1612,6 +1630,26 @@
 					<span
 						class="text-xs font-semibold text-[#6C3F31] transition-colors group-hover:text-[#4A2C2C]"
 						>Strip EXIF</span
+					>
+				</label>
+			{/if}
+			{#if showLosslessOption && losslessApplies}
+				<label class="group flex cursor-pointer items-center gap-2.5 select-none">
+					<input type="checkbox" bind:checked={lossless} class="sr-only" />
+					<div
+						class="relative h-5 w-10 rounded-full transition-all duration-300 {lossless
+							? 'bg-[#F06292] shadow-[0_0_0_1px_#F06292]'
+							: 'bg-[#875F42]/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.15),0_0_0_1px_rgba(135,95,66,0.25)]'}"
+					>
+						<div
+							class="absolute top-[3px] left-[3px] h-3.5 w-3.5 rounded-full bg-white shadow-md transition-transform duration-300 {lossless
+								? 'translate-x-5'
+								: ''}"
+						></div>
+					</div>
+					<span
+						class="text-xs font-semibold text-[#6C3F31] transition-colors group-hover:text-[#4A2C2C]"
+						>Lossless</span
 					>
 				</label>
 			{/if}

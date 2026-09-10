@@ -232,7 +232,7 @@
                                     <code class="font-mono text-[#F06292] font-bold">quality</code>
                                     <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">auto</span>
                                     <div>
-                                        <p class="text-[#6C3F31]">Output quality override (1–100). Overrides smart compression. JXL maps linearly — 70 ≈ distance 3.0.</p>
+                                        <p class="text-[#6C3F31]">Output quality override (1–100). Overrides smart compression. JXL maps linearly — 70 ≈ distance 3.0. <code class="font-mono text-xs">100</code> is the best <em>lossy</em> setting, not lossless — see <code class="font-mono text-xs">lossless</code>.</p>
                                     </div>
                                 </div>
 
@@ -313,6 +313,15 @@
                                     </div>
                                 </div>
 
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">lossless</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">false</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Pixel-exact output. Accepts <code class="font-mono text-xs">1</code> or <code class="font-mono text-xs">true</code>, and overrides <code class="font-mono text-xs">quality</code> and <code class="font-mono text-xs">smartCompress</code>.</p>
+                                        <p class="text-[#6C3F31] mt-2">Only <code class="font-mono text-xs">jxl</code>, <code class="font-mono text-xs">webp</code> and <code class="font-mono text-xs">png</code> can honour it — <code class="font-mono text-xs">jpg</code> and <code class="font-mono text-xs">avif</code> are rejected with a <code class="font-mono text-xs">400</code> rather than silently encoded lossy. A source that is <em>already</em> lossy (JPEG, AVIF, HEIC) is re-encoded at the highest lossy setting instead, since nothing can restore what that file already discarded. Expect the output to be <strong>larger</strong> than the input: lossless preserves pixels, not file size. Check <code class="font-mono text-xs">X-Mochify-Lossless</code> for what was actually emitted.</p>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
@@ -366,6 +375,10 @@
                                 <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
                                     <code class="font-mono text-[#F06292] font-bold">X-Mochify-HDR</code>
                                     <p class="text-[#6C3F31]">Only present when <code class="font-mono text-xs">hdr</code> was requested. <code class="font-mono text-xs">true</code> — the emitted file carries headroom the source captured. <code class="font-mono text-xs">generated</code> — headroom Mochify synthesised. <code class="font-mono text-xs">false</code> — the output carries none. It describes the bytes actually returned, so a format that cannot hold a gain map reports <code class="font-mono text-xs">false</code> even when the source was HDR.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Mochify-Lossless</code>
+                                    <p class="text-[#6C3F31]">Only present when <code class="font-mono text-xs">lossless</code> was requested. <code class="font-mono text-xs">true</code> — the returned bytes reproduce the submitted pixels exactly. <code class="font-mono text-xs">downgraded</code> — they are the best lossy encode instead, because the source was already lossy or because HDR reconstruction replaced the submitted pixels.</p>
                                 </div>
                             </div>
                         </div>

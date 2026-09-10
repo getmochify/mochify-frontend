@@ -66,7 +66,15 @@
         </div>
 
         <div class="mb-16">
-            <ImageUpload output="jxl" types=".PNG" showTypes={true} showExifOption={false} compact />
+            <ImageUpload
+                output="jxl"
+                types=".PNG"
+                showTypes={true}
+                showExifOption={false}
+                losslessDefault={true}
+                showLosslessOption={true}
+                compact
+            />
         </div>
 
         <section class="mt-20 max-w-4xl mx-auto">
