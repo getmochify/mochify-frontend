@@ -69,7 +69,7 @@
         },
         {
             q: 'What happens to my files?',
-            a: 'They travel to our encoder over HTTPS, are streamed into memory, processed, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, with nothing to set on this page. The gain map survives stripping either way.'
+            a: 'They travel to our encoder over HTTPS, are streamed into memory, processed, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, so turn the Strip EXIF toggle off before converting if you need camera data kept. The gain map survives stripping either way.'
         }
     ];
 </script>
@@ -122,7 +122,7 @@
                 { "@type": "Question", "name": "How much brighter does it actually get?", "acceptedAnswer": { "@type": "Answer", "text": "Synthesis targets about 1.5 stops of headroom, applied only above roughly three-quarters brightness and ramped in smoothly. A real capture typically carries 2 to 4 stops. We deliberately stay conservative: overclaiming headroom is what makes fake HDR look plastic." } },
                 { "@type": "Question", "name": "Why did my conversion come back without HDR?", "acceptedAnswer": { "@type": "Answer", "text": "Most often the output format cannot carry it (AVIF, WebP, and PNG cannot), or the request also asked for a brightness, clarity, or background-removal change, which disqualifies the HDR lane. In both cases we return a clean standard-range file and report X-Mochify-HDR as false rather than labeling something HDR that is not." } },
                 { "@type": "Question", "name": "Does the result get bigger?", "acceptedAnswer": { "@type": "Answer", "text": "A gain map adds a small amount, typically a few percent, because it is stored at half resolution and compressed hard. When encoding the map would cost more than it is worth, the plain file is returned instead." } },
-                { "@type": "Question", "name": "What happens to my files?", "acceptedAnswer": { "@type": "Answer", "text": "They travel to our encoder over HTTPS, are streamed into memory, processed, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, with nothing to set on this page. The gain map survives stripping either way." } }
+                { "@type": "Question", "name": "What happens to my files?", "acceptedAnswer": { "@type": "Answer", "text": "They travel to our encoder over HTTPS, are streamed into memory, processed, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, so turn the Strip EXIF toggle off before converting if you need camera data kept. The gain map survives stripping either way." } }
             ]
         }
     </script>
