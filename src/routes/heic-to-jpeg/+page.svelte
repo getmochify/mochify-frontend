@@ -22,7 +22,7 @@
         },
         {
             q: 'Do you see my photos?',
-            a: 'No. They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included; turn the Strip EXIF toggle off before converting if you need it kept.'
+            a: 'No. They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, with nothing to set on this page. If you need it kept, the Mochify web app has a Strip EXIF switch and the API takes stripExif=false.'
         },
         {
             q: 'Why do my iPhone photos save as HEIC instead of JPG?',
@@ -108,7 +108,7 @@
             "@type": "FAQPage",
             "mainEntity": [
                 { "@type": "Question", "name": "Is this HEIC to JPG converter free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Convert up to 3 images per session with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time." } },
-                { "@type": "Question", "name": "Do you see my photos?", "acceptedAnswer": { "@type": "Answer", "text": "No. They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included; turn the Strip EXIF toggle off before converting if you need it kept." } },
+                { "@type": "Question", "name": "Do you see my photos?", "acceptedAnswer": { "@type": "Answer", "text": "No. They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, with nothing to set on this page. If you need it kept, the Mochify web app has a Strip EXIF switch and the API takes stripExif=false." } },
                 { "@type": "Question", "name": "Why do my iPhone photos save as HEIC instead of JPG?", "acceptedAnswer": { "@type": "Answer", "text": "Because HEIC has been the iPhone's default since iOS 11: the same picture at about half the size of a JPEG. Settings, Camera, Formats, Most Compatible switches new photos to JPEG; photos you already have need converting." } },
                 { "@type": "Question", "name": "Why can't I save a HEIC file as a JPG?", "acceptedAnswer": { "@type": "Answer", "text": "Usually because the app cannot decode it in the first place. On Windows, Photos and Paint need the HEIF Image Extension and the paid HEVC Video Extensions from the Microsoft Store before Save as offers JPG. This page needs neither." } },
                 { "@type": "Question", "name": "Is there a file size limit?", "acceptedAnswer": { "@type": "Answer", "text": "20MB per file and 3 files per batch with no signup or a free account; 75MB per file and 25 per batch on Seller, Pro and the Day Pass." } },
@@ -168,7 +168,7 @@
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
                     <span class="shrink-0 w-8 h-8 rounded-xl bg-[#FFF5F7] border border-pink-100 text-[#F06292] font-black text-sm flex items-center justify-center">2</span>
                     <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Say what you want in plain English</strong>, for example "convert to JPG" or "convert to JPG and keep the metadata". There are no settings panels; Mochify reads the instruction and does the rest.
+                        <strong class="text-[#4A2C2C]">Let it run.</strong> There is nothing to type and nothing to set: this page does one job, a HEIC to JPG conversion tuned for quality, and starts it as soon as the files land.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
@@ -198,7 +198,7 @@
                         Not visibly, with a good encoder. An iPhone HEIC is already a lossy file, and converting it to JPEG is a second lossy encode, so the encoder decides how much survives. Mochify writes every JPEG through Google's jpegli, which in published testing was preferred over libjpeg-turbo and MozJPEG output while using fewer bits per pixel. The <a href="/guides/jpeg-in-2026-jpegli" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">jpegli guide</a> has the numbers.
                     </p>
                     <p class="leading-relaxed text-[#6C3F31]">
-                        Three things do not make the trip, whatever the encoder. JPEG is standard-range 8-bit, so the extra headroom in an iPhone HDR photo does not carry into a plain JPEG. A Live Photo is a HEIC plus a short video, and converting keeps the still only. And the JPG will be bigger than the HEIC was, usually around twice the size: you are trading bytes for compatibility. Metadata is stripped by default, GPS included; turn the Strip EXIF toggle off before converting if you need the camera data kept. The <a href="/guides/exif-data-risks-image-compression-2026" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">EXIF guide</a> explains what is in there.
+                        Three things do not make the trip, whatever the encoder. JPEG is standard-range 8-bit, so the extra headroom in an iPhone HDR photo does not carry into a plain JPEG. A Live Photo is a HEIC plus a short video, and converting keeps the still only. And the JPG will be bigger than the HEIC was, usually around twice the size: you are trading bytes for compatibility. Metadata is stripped by default, GPS included, with nothing to set on this page; if you need the camera data kept, the Mochify web app has a Strip EXIF switch and the API takes stripExif=false. The <a href="/guides/exif-data-risks-image-compression-2026" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">EXIF guide</a> explains what is in there.
                     </p>
                 </div>
             </div>

@@ -29,7 +29,7 @@
         },
         {
             q: 'What happens to my files?',
-            a: 'They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included; turn the Strip EXIF toggle off before converting if you need camera data kept.'
+            a: 'They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, with nothing to set on this page. If you need the camera data kept, the Mochify web app has a Strip EXIF switch and the API takes stripExif=false.'
         },
         {
             q: 'Why did my downloaded image save as AVIF instead of JPG?',
@@ -108,7 +108,7 @@
                 { "@type": "Question", "name": "Is this AVIF to JPG converter free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Convert up to 3 images per session with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time." } },
                 { "@type": "Question", "name": "Will my photos lose quality?", "acceptedAnswer": { "@type": "Answer", "text": "Slightly in principle, because both formats are lossy, but in practice a good encoder makes the difference invisible. Mochify encodes with jpegli, which was preferred over standard JPEG encoders in published testing at a lower bitrate. HDR AVIFs are the exception: tone-mapping to 8-bit changes the look." } },
                 { "@type": "Question", "name": "Is there a file size limit?", "acceptedAnswer": { "@type": "Answer", "text": "20MB per file and 3 files per batch with no signup or a free account; 75MB per file and 25 per batch on Seller, Pro and the Day Pass." } },
-                { "@type": "Question", "name": "What happens to my files?", "acceptedAnswer": { "@type": "Answer", "text": "They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included; turn the Strip EXIF toggle off before converting if you need camera data kept." } },
+                { "@type": "Question", "name": "What happens to my files?", "acceptedAnswer": { "@type": "Answer", "text": "They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, with nothing to set on this page. If you need the camera data kept, the Mochify web app has a Strip EXIF switch and the API takes stripExif=false." } },
                 { "@type": "Question", "name": "Why did my downloaded image save as AVIF instead of JPG?", "acceptedAnswer": { "@type": "Answer", "text": "Because the website served AVIF: your browser supports it and the file is smaller. Right-click-save gives you whatever the server sent, and on most modern sites and image CDNs that is AVIF." } },
                 { "@type": "Question", "name": "Can I open an AVIF file without converting it?", "acceptedAnswer": { "@type": "Answer", "text": "Drag it into any current browser tab and it displays. On Windows, the free AV1 Video Extension lets Photos, Paint and File Explorer handle it; on macOS Ventura or later, Preview and Quick Look open it. Converting is for the apps and forms that still refuse it." } },
                 { "@type": "Question", "name": "Can I convert AVIF to JPG on Windows 11 without installing anything?", "acceptedAnswer": { "@type": "Answer", "text": "Yes: this page runs in Edge or Chrome with nothing to install. Paint can do it too, but only after the AV1 Video Extension is installed from the Microsoft Store." } },
@@ -167,7 +167,7 @@
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
                     <span class="shrink-0 w-8 h-8 rounded-xl bg-[#FFF5F7] border border-pink-100 text-[#F06292] font-black text-sm flex items-center justify-center">2</span>
                     <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Say what you want in plain English</strong>, for example "convert to JPG at high quality" or "convert to JPG and keep the metadata". There are no settings panels; Mochify reads the instruction and does the rest.
+                        <strong class="text-[#4A2C2C]">Let it run.</strong> There is nothing to type and nothing to set: this page does one job, an AVIF to JPG conversion tuned for quality, and starts it as soon as the files land.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
