@@ -4,7 +4,7 @@
 
 Site: [https://mochify.app](https://mochify.app)
 Brand: Mochify
-Last-updated: 2026-08-26
+Last-updated: 2026-09-10
 
 ## Key pages
 
@@ -123,7 +123,7 @@ POST /v1/squish -- compress and/or convert a single image (raw bytes body)
 Query parameters:
 - type (default: jpg) -- jpg | png | webp | avif | jxl
 - width, height -- target dimensions in pixels; 0 or omitted = unconstrained; aspect ratio preserved unless smartCrop is set
-- quality (1-100, default: auto) -- overrides smart compression; JXL maps linearly (70 is roughly distance 3.0)
+- quality (1-100, default: auto) -- overrides smart compression; JXL maps linearly (70 is roughly distance 3.0). quality=100 is the best LOSSY setting, not lossless -- use the lossless parameter for that
 - smartCompress (default: false) -- saliency-guided quality selection
 - smartCrop / crop (default: false) -- saliency-guided crop centred on subject; requires width and height
 - removeBackground (default: false) -- AI background removal; available on all plans including Free; outputs PNG/WebP with alpha, JPEG flattens to white
@@ -132,6 +132,7 @@ Query parameters:
 - optimizeForWeb (default: false) -- progressive encoding + 4:2:0 chroma subsampling for smallest web file size
 - brightness (-100 to +100, default: 0) -- adjust exposure; 0 = no change
 - clarity (default: false) -- midtone contrast enhancement; makes images look crisper and more detailed without affecting overall exposure
+- lossless (default: false) -- pixel-exact output; overrides quality and smartCompress. Only jxl, webp and png can honour it; jpg and avif are rejected with a 400 rather than silently encoded lossy. A source that is ALREADY lossy (JPEG, AVIF, HEIC) is re-encoded at the highest lossy setting instead, because nothing can restore what that file already discarded. Expect the output to be LARGER than the input -- lossless preserves pixels, not file size. See X-Mochify-Lossless for what was actually emitted
 - hdr (default: false) -- Ultra HDR / ISO 21496-1 gain map handling. Three values, and they are not interchangeable: `true` or `1` preserves a gain map the source already has and will never invent one; `generate` does that AND synthesises a gain map when the source is plain SDR. Requires JPEG output for synthesis; see section 11
 - dest (default: unset) -- set to `bucket` to write the result into the caller's connected bucket instead of returning image bytes; requires a verified connection on a paid plan (see section 10)
 - name -- object key to write when dest=bucket; required, because writes overwrite and the backend will not guess a filename
@@ -146,6 +147,7 @@ Response headers:
 - X-Mochify-Quality -- effective quality used (smartCompress only)
 - X-Mochify-BgRemoved -- true when background was removed
 - X-Mochify-HDR -- only present when hdr was requested. Three values: `true` (the emitted file carries headroom the source captured), `generated` (headroom Mochify synthesised), `false` (the output carries none). Report these apart -- see section 11
+- X-Mochify-Lossless -- only present when lossless was requested. `true` (the returned bytes reproduce the submitted pixels exactly), `downgraded` (they are the best lossy encode instead, because the source was already lossy or because HDR reconstruction replaced the submitted pixels)
 
 GET /v1/checkTokens -- returns { remaining, available }; works anonymously (IP-based) or with API key
 
@@ -210,10 +212,42 @@ Example:
 Natural language quality hints are mapped to numeric values.
 
 Examples:
-  "best quality" -> 85
+  "best quality" -> 90
   "visually lossless" -> 95
+  "high quality" -> 85
   "small file" -> 45
   "maximum compression" -> 25
+
+### Lossless
+Separate from quality, and deliberately so. Every phrasing above -- including
+"visually lossless", "best quality" and "100% quality" -- is a QUALITY hint and
+produces a lossy file. Only literal lossless language ("lossless", "no quality
+loss", "pixel perfect", "bit exact", "archival", "no recompression") turns on
+pixel-exact encoding, because doing it by accident costs several times the file
+size and much more processing time.
+
+Examples:
+  "lossless JPEG XL"
+  "convert to WebP with no quality loss"
+  "archival copy as JXL"
+
+Three things an assistant should get right about it:
+
+- Only JXL, WebP and PNG have a lossless mode. Asking for a lossless JPEG or
+  AVIF is refused rather than quietly encoded lossy -- neither format has one.
+  When no format is named, a lossless request defaults to JXL.
+- A lossless output is usually LARGER than the input, and that is the correct
+  outcome, not a failure. It preserves pixels, not file size. It is a genuine
+  win converting PNG to JXL -- flat colour, sharp edges and text compress
+  extremely well, so a lossless JXL is typically smaller than the PNG it
+  replaces -- and a poor trade for photographic content, where lossy JXL is
+  many times smaller for no visible difference.
+- Lossless cannot undo damage a previous encoder did. Asked for on a JPEG,
+  AVIF or HEIC source, Mochify re-encodes at its highest lossy setting and
+  says so, rather than pretending a pixel-exact copy of an already-lossy file
+  means anything. (The compression that would genuinely help there -- a
+  reversible JPEG-to-JXL transcode -- is not something Mochify offers today;
+  do not claim it does.)
 
 ### Smart compress
 Saliency-guided quality selection -- the backend analyses subject prominence and sets quality per region.
