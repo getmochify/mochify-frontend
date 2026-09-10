@@ -1,8 +1,8 @@
 <script lang="ts">
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
-    import { env } from '$env/dynamic/public';
-    import { page } from '$app/state';
+    import DayPassButton from '$lib/components/DayPassButton.svelte';
+    import { dayPassEnabled } from '$lib/dayPass';
     import { formatMonthlyEquivalent, formatPrice, savingsPercent } from '$lib/currency';
     import type { PageData } from './$types';
 
@@ -36,14 +36,6 @@
     // page focused on the three live plans + Day Pass. Flip to `true` to
     // restore the "coming soon" card (and its Growth early-access mailto).
     const showGrowth = false;
-
-    // Send buyers back to the homepage after checkout so ImageUpload's
-    // day_pass_success toast (magic-link instructions) is shown.
-    const dayPassCheckoutUrl = $derived(
-        env.PUBLIC_POLAR_DAY_PASS_URL
-            ? `${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(`${page.url.origin}/?day_pass_success=1`)}`
-            : ''
-    );
 </script>
 
 <svelte:head>
@@ -472,7 +464,7 @@
 
         <!-- Day Pass · `day-pass` is the anchor the homepage ecommerce block links
              to; scroll-mt keeps the heading clear of the sticky nav on landing. -->
-        {#if env.PUBLIC_POLAR_DAY_PASS_URL}
+        {#if dayPassEnabled()}
         <div id="day-pass" class="mt-8 max-w-4xl mx-auto scroll-mt-24">
             <div class="flex items-center gap-4 mb-6">
                 <div class="flex-grow h-px bg-gradient-to-r from-transparent via-pink-100 to-transparent"></div>
@@ -511,13 +503,15 @@
                 </div>
 
                 <div class="flex-shrink-0 flex flex-col items-start sm:items-end gap-1.5">
-                    <a
-                        href={dayPassCheckoutUrl}
-                        target="_blank" rel="noopener noreferrer"
+                    <!-- Buyers land back on the homepage so ImageUpload's
+                         day_pass_success toast (magic-link instructions) is shown. -->
+                    <DayPassButton
+                        trigger="pricing_page"
+                        next="/"
                         class="block text-center px-6 py-3 rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
                     >
                         Get Day Pass — {price('dayPass')}
-                    </a>
+                    </DayPassButton>
                 </div>
             </div>
         </div>

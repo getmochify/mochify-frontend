@@ -30,6 +30,8 @@
 	import { portal } from '$lib/portal';
 	import { formatPrice } from '$lib/currency';
 	import { getImagePreview, releaseImagePreview } from '$lib/imagePreview';
+	import DayPassButton from '$lib/components/DayPassButton.svelte';
+	import { DAY_PASS_ACTION, dayPassEnabled, dayPassNext } from '$lib/dayPass';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://id.mochify.app';
@@ -209,20 +211,21 @@
 	let shaking = $state(false);
 	let showUsageHint = $state(false);
 
-	const dayPassCheckoutUrl = $derived(
-		(() => {
-			if (!env.PUBLIC_POLAR_DAY_PASS_URL) return '';
-			const u = new URL(page.url.href);
-			u.searchParams.set('day_pass_success', '1');
-			return `${env.PUBLIC_POLAR_DAY_PASS_URL}?successUrl=${encodeURIComponent(u.toString())}`;
-		})()
-	);
+	// Buyers come back to whichever page they were converting on, with the
+	// converter's own query params intact. The endpoint validates this and adds
+	// `day_pass_success=1` itself, so the toast below can't be faked by a link.
+	const dayPassReturnTo = $derived(dayPassNext(page.url));
+
+	// Submitted by handleButtonClick, which offers the pass without a CTA of its
+	// own (the main action button doubles as one for an oversized file). Every
+	// other surface renders its own DayPassButton.
+	let dayPassDirectForm: HTMLFormElement | undefined = $state();
 
 	// Whether this page may offer the Day Pass at all: the host page has to opt
-	// in AND the checkout URL has to be configured. Named once because every
-	// upsell surface has to ask, and a surface that forgets either half either
-	// hides a live offer or links to an empty checkout.
-	const dayPassOffered = $derived(!!showDayPass && !!env.PUBLIC_POLAR_DAY_PASS_URL);
+	// in AND the pass has to be live. Named once because every upsell surface has
+	// to ask, and a surface that forgets either half either hides a live offer or
+	// posts to a checkout that isn't configured.
+	const dayPassOffered = $derived(!!showDayPass && dayPassEnabled());
 
 	let dayPassSuccess = $state(false);
 	$effect(() => {
@@ -687,7 +690,9 @@
 		if (blockedByFileSize) {
 			if (!isAuthed && dayPassOffered) {
 				posthog.capture('day_pass_cta_clicked', { trigger: 'button_click_file_size' });
-				window.open(dayPassCheckoutUrl, '_blank', 'noopener,noreferrer');
+				// Submitting inside the click keeps the user-gesture chain, so the
+				// new tab isn't treated as a popup.
+				dayPassDirectForm?.requestSubmit();
 			} else if (!isAuthed) {
 				showSignupCta = true;
 				posthog.capture('signup_cta_shown', { trigger: 'button_click_file_size' });
@@ -1194,6 +1199,23 @@
 	role="region"
 	aria-label="Upload images"
 >
+	<!-- The Day Pass offer made by the main action button (see handleButtonClick).
+	     A form rather than a link because the checkout is POST-only: the hosted
+	     Polar URL this replaced minted a real checkout session on every crawl. -->
+	{#if dayPassOffered}
+		<form
+			bind:this={dayPassDirectForm}
+			method="POST"
+			action={DAY_PASS_ACTION}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="hidden"
+		>
+			<input type="hidden" name="next" value={dayPassReturnTo} />
+			<input type="hidden" name="trigger" value="button_click_file_size" />
+		</form>
+	{/if}
+
 	<!-- Hidden file input -->
 	<input
 		bind:this={fileInputElement}
@@ -1528,19 +1550,15 @@
                              the size ceiling ($2, same {paidFileSizeMb}MB) and a far
                              smaller ask than a subscription, so it wins the slot; the
                              modal behind this same condition already leads with it. -->
-						<p class="mt-0.5 text-xs font-bold text-red-700">
+						<div class="mt-0.5 text-xs font-bold text-red-700">
 							Exceeds {maxFileSizeMb}MB limit ({formatFileSize(blocked.size)}).
 							{#if dayPassOffered}
-								<a
-									href={dayPassCheckoutUrl}
-									target="_blank"
-									rel="noopener noreferrer"
-									onclick={() =>
-										posthog.capture('day_pass_cta_clicked', { trigger: 'file_size_card' })}
+								<DayPassButton
+									trigger="file_size_card"
 									class="underline underline-offset-2 hover:text-red-900"
 								>
 									Day Pass ({dayPassPrice}) for files up to {paidFileSizeMb}MB
-								</a>
+								</DayPassButton>
 							{:else}
 								<a
 									href="/pricing"
@@ -1551,7 +1569,7 @@
 									Upgrade for up to {paidFileSizeMb}MB
 								</a>
 							{/if}
-						</p>
+						</div>
 					</div>
 
 					<button
@@ -1713,16 +1731,12 @@
                                  Pro here asked $24.99 for something $7.99 buys, and
                                  contradicted the pricing page's own comparison table. -->
 							{#if dayPassOffered}
-								<a
-									href={dayPassCheckoutUrl}
-									target="_blank"
-									rel="noopener noreferrer"
-									onclick={() =>
-										posthog.capture('day_pass_cta_clicked', { trigger: 'batch_cap_banner' })}
+								<DayPassButton
+									trigger="batch_cap_banner"
 									class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
 								>
 									Day Pass ({dayPassPrice}) for {BATCH_LIMIT_PAID} at a time
-								</a>
+								</DayPassButton>
 							{:else}
 								<a
 									href="/pricing"
@@ -1789,16 +1803,12 @@
 								Create free account for {planQuota}/mo
 							</a>
 							{#if dayPassOffered}
-								<a
-									href={dayPassCheckoutUrl}
-									target="_blank"
-									rel="noopener noreferrer"
-									onclick={() =>
-										posthog.capture('day_pass_cta_clicked', { trigger: 'token_wall_banner' })}
+								<DayPassButton
+									trigger="token_wall_banner"
 									class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
 								>
 									or Day Pass, {dayPassPrice} for {DAY_PASS_OPS} conversions in 24h
-								</a>
+								</DayPassButton>
 							{/if}
 						{:else if userTier === 'free'}
 							<!-- Running out of a monthly allowance is a recurring-need
@@ -1816,16 +1826,12 @@
 								Upgrade from {cheapestPlanPrice}/mo
 							</a>
 							{#if dayPassOffered}
-								<a
-									href={dayPassCheckoutUrl}
-									target="_blank"
-									rel="noopener noreferrer"
-									onclick={() =>
-										posthog.capture('day_pass_cta_clicked', { trigger: 'token_wall_banner' })}
+								<DayPassButton
+									trigger="token_wall_banner"
 									class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
 								>
 									or just today, Day Pass {dayPassPrice} for {DAY_PASS_OPS} conversions
-								</a>
+								</DayPassButton>
 							{/if}
 						{:else}
 							<a
@@ -2094,14 +2100,12 @@
 					</p>
 					<div class="flex flex-col gap-3">
 						{#if dayPassOffered}
-							<a
-								href={dayPassCheckoutUrl}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="block rounded-2xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
+							<DayPassButton
+								trigger="upgrade_modal_file_size"
+								class="block w-full rounded-2xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 							>
 								Get Day Pass — {dayPassPrice} · 75MB files
-							</a>
+							</DayPassButton>
 						{/if}
 						<a
 							href="/pricing"
@@ -2208,14 +2212,12 @@
 						>
 							Create free account for {planQuota}/mo
 						</a>
-						<a
-							href={dayPassCheckoutUrl}
-							target="_blank"
-							rel="noopener noreferrer"
-							class="block rounded-2xl border border-[#875F42]/15 px-6 py-3 text-center text-sm font-bold text-[#6C3F31] transition-all hover:border-[#F06292]/30 hover:bg-[#FFF5F7] hover:text-[#F06292]"
+						<DayPassButton
+							trigger="limit_reached_modal"
+							class="block w-full rounded-2xl border border-[#875F42]/15 px-6 py-3 text-center text-sm font-bold text-[#6C3F31] transition-all hover:border-[#F06292]/30 hover:bg-[#FFF5F7] hover:text-[#F06292]"
 						>
 							Day Pass — {dayPassPrice} for {DAY_PASS_OPS} conversions
-						</a>
+						</DayPassButton>
 					</div>
 				{:else}
 					<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
