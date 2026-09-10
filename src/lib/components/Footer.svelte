@@ -14,11 +14,15 @@
 
     <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-3 mb-8">
         <a href="/heic-to-jpeg" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">
-            HEIC to JPEG
+            HEIC to JPG
         </a>
         <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5] font-bold">•</span>
         <a href="/solutions/hif-to-jpg" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">
             HIF to JPG
+        </a>
+        <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5] font-bold">•</span>
+        <a href="/avif-to-jpg" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">
+            AVIF to JPG
         </a>
         <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5] font-bold">•</span>
         <a href="/solutions/webp-to-pdf" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">

@@ -148,14 +148,14 @@ export const guides: Guide[] = [
 		lastUpdated: 'August 26, 2026'
 	},
 	{
-		title: 'AVIF to JPG: How to Convert AVIF Files on Any Device',
+		title: 'How to Convert AVIF to JPG on Windows 11, Mac, or Any Device',
 		description:
 			'AVIF is a modern format browsers love but desktop apps often reject. Convert AVIF to JPG free online in seconds, or use native tools on Windows and Mac.',
 		url: '/guides/avif-to-jpg',
 		category: 'Image Formats',
 		readTime: '13 min read',
 		date: 'July 13, 2026',
-		lastUpdated: 'July 15, 2026'
+		lastUpdated: 'September 10, 2026'
 	},
 	{
 		title: 'AI Image Compression and Conversion: Describe the Result, Skip the Settings',
@@ -370,7 +370,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '20 min read',
 		date: 'February 10, 2026',
-		lastUpdated: 'August 14, 2026'
+		lastUpdated: 'September 10, 2026'
 	},
 	{
 		title: 'Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game',
@@ -514,7 +514,7 @@ export const guides: Guide[] = [
 		category: 'Quick Guides',
 		readTime: '2 min read',
 		date: 'April 13, 2026',
-		lastUpdated: 'August 14, 2026'
+		lastUpdated: 'September 10, 2026'
 	},
 	{
 		title: 'Should I Optimize My Images Before I Upload Them?',

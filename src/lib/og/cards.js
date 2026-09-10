@@ -18,7 +18,12 @@ export const cards = [
 	},
 	{ path: '/about', eyebrow: 'MOCHIFY', title: 'About Mochify' },
 	{ path: '/avif-to-jpegxl', eyebrow: 'CONVERTER', title: 'Convert AVIF to JPEG XL' },
-	{ path: '/avif-to-jpg', eyebrow: 'CONVERTER', title: 'AVIF to JPG Converter' },
+	{
+		path: '/avif-to-jpg',
+		eyebrow: 'CONVERTER',
+		title: 'AVIF to JPG Converter',
+		alt: 'Mochify AVIF to JPG converter'
+	},
 	{
 		path: '/comparison',
 		eyebrow: 'MOCHIFY',
@@ -60,7 +65,7 @@ export const cards = [
 	{
 		path: '/guides/avif-to-jpg',
 		eyebrow: 'GUIDE',
-		title: 'AVIF to JPG: How to Convert AVIF Files on Any Device'
+		title: 'How to Convert AVIF to JPG on Windows 11, Mac or Online'
 	},
 	{
 		path: '/guides/bring-your-own-bucket-s3-r2',
@@ -353,7 +358,12 @@ export const cards = [
 		eyebrow: 'GUIDE',
 		title: 'Extract Images from PDF in AI Agent Workflows - Split & Convert'
 	},
-	{ path: '/heic-to-jpeg', eyebrow: 'CONVERTER', title: 'Convert HEIC to JPEG' },
+	{
+		path: '/heic-to-jpeg',
+		eyebrow: 'CONVERTER',
+		title: 'HEIC to JPG Converter',
+		alt: 'Mochify HEIC to JPG converter'
+	},
 	{ path: '/jpg-to-jpegxl', eyebrow: 'CONVERTER', title: 'Convert JPG to JPEG XL' },
 	{ path: '/pricing', eyebrow: 'MOCHIFY', title: 'Simple, Honest Pricing' },
 	{ path: '/solutions', eyebrow: 'TOOLS', title: 'Compare & Choose the Best Image Optimizer' },

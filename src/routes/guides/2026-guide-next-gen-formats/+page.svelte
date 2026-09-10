@@ -10,7 +10,7 @@
         category: "Image Formats",
         readTime: "20 min read",
         datePublished: "February 10, 2026",
-        lastUpdated: "August 14, 2026"
+        lastUpdated: "September 10, 2026"
     };
 
     const related = [
@@ -106,7 +106,7 @@
             }
         ],
         "datePublished": "2026-02-10",
-        "dateModified": "2026-08-14"
+        "dateModified": "2026-09-10"
         }
     </script>
 </svelte:head>
@@ -411,7 +411,7 @@
             </InfoBox>
 
             <p class="mb-4">
-                Compatibility is the one place AVIF still trips people up - a handful of older tools and apps still can't open it. When a recipient can't open one, <a href="/guides/avif-to-jpg">converting AVIF back to JPG</a> takes seconds.
+                Compatibility is the one place AVIF still trips people up - a handful of older tools and apps still can't open it. When a recipient can't open one, <a href="/avif-to-jpg">converting AVIF back to JPG</a> takes seconds, and the <a href="/guides/avif-to-jpg">full conversion guide</a> covers the native routes.
             </p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">JPEG XL: The Future-Forward Format (That Isn't Ready Yet)</h3>

@@ -12,7 +12,7 @@
         category: "Image Formats",
         readTime: "14 min read",
         date: "July 15, 2026",
-        lastUpdated: "August 26, 2026"
+        lastUpdated: "September 10, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -100,7 +100,7 @@
             "@id": "https://mochify.app/guides/heif-to-jpg-complete-guide"
         },
         "datePublished": "2026-07-15",
-        "dateModified": "2026-08-26",
+        "dateModified": "2026-09-10",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -157,7 +157,7 @@
         "description": "Convert HEIF (.HIF) files from Canon, Sony, and Fujifilm cameras to universally compatible JPG. Every method, the quality trade-offs, and batch workflows.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-15",
-        "dateModified": "2026-08-26"
+        "dateModified": "2026-09-10"
         }
     </script>
 
@@ -288,7 +288,7 @@
             <p><a href="https://helpx.adobe.com/lightroom-cc/kb/heic-files-support.html" target="_blank" rel="noopener noreferrer">Adobe's support matrix</a> confirms Lightroom Classic, Lightroom, and Camera Raw read HEIF files including the <code class={inlineCode}>.HIF</code> extension directly (macOS 10.13+, Windows 10+; Windows needs the Microsoft codecs installed). Import, edit, export as JPEG - the standard workflow, with full quality control. Photoshop on Windows likewise requires both Microsoft codecs.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Online converters</h3>
-            <p>Generic upload-and-convert sites work for one-off files, but check two things before trusting them with client work: what encoder produces the JPEG (quality varies widely), and what happens to your upload afterward (retention policies range from clear to nonexistent). For a converter built around a stated zero-retention model and a modern JPEG encoder, see the <a href="#mochify-workflow">Mochify workflow below</a>.</p>
+            <p>Generic upload-and-convert sites work for one-off files, but check two things before trusting them with client work: what encoder produces the JPEG (quality varies widely), and what happens to your upload afterward (retention policies range from clear to nonexistent). For a converter built around a stated zero-retention model and a modern JPEG encoder, see the <a href="#mochify-workflow">Mochify workflow below</a>; for a plain .heif from a desktop editor or an Android phone, the <a href="/solutions/heif-to-jpg">HEIF to JPG converter</a> takes every variant in one batch.</p>
         </section>
 
         <section id="what-you-lose-converting-10-bit-heif-to-8-bit-jpg" class="scroll-mt-24">

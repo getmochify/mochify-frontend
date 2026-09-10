@@ -6,12 +6,12 @@
     import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
-        title: "AVIF to JPG: How to Convert AVIF Files on Any Device",
+        title: "How to Convert AVIF to JPG on Windows 11, Mac, or Any Device",
         description: "AVIF is a modern format browsers love but desktop apps often reject. Convert AVIF to JPG free online in seconds, or use native tools on Windows and Mac.",
         category: "Image Formats",
         readTime: "13 min read",
         datePublished: "July 13, 2026",
-        lastUpdated: "July 15, 2026"
+        lastUpdated: "September 10, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -19,7 +19,7 @@
     const toc = [
         { n: '01', href: '#why-everything-is-suddenly-an-avif-file', label: 'Why Everything Is Suddenly an AVIF File' },
         { n: '02', href: '#the-fastest-way-to-convert-avif-to-jpg', label: 'The Fastest Way to Convert AVIF to JPG' },
-        { n: '03', href: '#convert-avif-to-jpg-on-windows', label: 'Convert AVIF to JPG on Windows' },
+        { n: '03', href: '#convert-avif-to-jpg-on-windows', label: 'Convert AVIF to JPG on Windows 11 or 10' },
         { n: '04', href: '#convert-avif-to-jpg-on-mac', label: 'Convert AVIF to JPG on Mac' },
         { n: '05', href: '#command-line-and-batch-conversion', label: 'Command-Line and Batch Conversion' },
         { n: '06', href: '#will-converting-avif-to-jpg-lose-quality', label: 'Will Converting AVIF to JPG Lose Quality?' },
@@ -76,24 +76,24 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>AVIF to JPG - Convert Any AVIF File on Any Device</title>
+    <title>How to Convert AVIF to JPG on Windows 11, Mac or Online (2026 Guide) | Mochify</title>
     <meta name="description" content={metadata.description}>
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="AVIF to JPG: How to Convert AVIF Files on Any Device" />
+    <meta property="og:title" content="How to Convert AVIF to JPG on Windows 11, Mac, or Any Device" />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/avif-to-jpg" />
     <meta property="og:site_name" content="Mochify" />
     <meta property="og:locale" content="en" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="AVIF to JPG - Convert Any AVIF File on Any Device" />
+    <meta name="twitter:title" content="How to Convert AVIF to JPG on Windows 11, Mac or Online (2026 Guide) | Mochify" />
     <meta name="twitter:description" content={metadata.description} />
 
     <script type="application/ld+json">
         {
         "@context": "https://schema.org",
         "@type": "Article",
-        "headline": "AVIF to JPG: How to Convert AVIF Files on Any Device",
+        "headline": "How to Convert AVIF to JPG on Windows 11, Mac, or Any Device",
         "description": "AVIF is a modern format browsers love but desktop apps often reject. Convert AVIF to JPG free online in seconds, or use native tools on Windows and Mac.",
         "url": "https://mochify.app/guides/avif-to-jpg",
         "mainEntityOfPage": {
@@ -101,7 +101,7 @@
             "@id": "https://mochify.app/guides/avif-to-jpg"
         },
         "datePublished": "2026-07-13",
-        "dateModified": "2026-07-15",
+        "dateModified": "2026-09-10",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -144,7 +144,7 @@
         "itemListElement": [
             { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
             { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "AVIF to JPG: How to Convert AVIF Files on Any Device", "item": "https://mochify.app/guides/avif-to-jpg" }
+            { "@type": "ListItem", "position": 3, "name": "How to Convert AVIF to JPG on Windows 11, Mac, or Any Device", "item": "https://mochify.app/guides/avif-to-jpg" }
         ]
         }
     </script>
@@ -153,12 +153,12 @@
         {
         "@context": "https://schema.org",
         "@type": "WebPage",
-        "name": "AVIF to JPG: How to Convert AVIF Files on Any Device",
+        "name": "How to Convert AVIF to JPG on Windows 11, Mac, or Any Device",
         "url": "https://mochify.app/guides/avif-to-jpg",
         "description": "AVIF is a modern format browsers love but desktop apps often reject. Convert AVIF to JPG free online in seconds, or use native tools on Windows and Mac.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-13",
-        "dateModified": "2026-07-15"
+        "dateModified": "2026-09-10"
         }
     </script>
 
@@ -193,7 +193,7 @@
         </div>
 
         <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            AVIF to JPG: How to Convert AVIF Files on Any Device
+            How to Convert AVIF to JPG on Windows 11, Mac, or Any Device
         </h1>
 
         <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
@@ -246,7 +246,7 @@
         </section>
 
         <section id="convert-avif-to-jpg-on-windows" class="scroll-mt-24">
-            <SectionHeading>Convert AVIF to JPG on Windows</SectionHeading>
+            <SectionHeading>Convert AVIF to JPG on Windows 11 or 10</SectionHeading>
             <p>Windows can open and convert AVIF natively, but only after you install a free codec, which is the step most people are missing. Photos, Paint, and File Explorer thumbnails all depend on the <strong>AV1 Video Extension</strong> from the Microsoft Store. Without it, double-clicking an AVIF gets you an error or a prompt to buy or download a codec.</p>
             <p>The native route, step by step:</p>
             <ol class="list-decimal pl-6 space-y-2">

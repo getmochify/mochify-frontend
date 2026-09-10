@@ -16,7 +16,7 @@
             from: 'iPhone and iPad, plus most photos shared out of iCloud',
             note: 'Works here, but the iPhone page has the Apple-specific notes',
             href: '/heic-to-jpeg',
-            hrefLabel: 'HEIC to JPEG'
+            hrefLabel: 'HEIC to JPG'
         },
         {
             ext: '.HIF',
@@ -57,6 +57,13 @@
         {
             q: 'Why does my HEIF open on my phone but not my laptop?',
             a: 'Phones ship a hardware HEVC decoder and the operating system wires it into the photo viewer. Desktops often have the hardware but not the licensed software decoder, so the file is readable as a container and unreadable as an image. Converting to JPG sidesteps the codec question entirely.'
+        },
+        {
+            q: 'My iPhone photos say HEIF. Is this the right converter?',
+            a: 'Yes, they convert here. An iPhone saves HEIF files as .heic, and some exports and downloads label them .heif; either way the file is the same container and this page reads it. The ',
+            linkHref: '/heic-to-jpeg',
+            linkLabel: 'HEIC to JPG page',
+            aAfter: ' has the iPhone-specific notes, including how to stop the phone saving HEIC in the first place.'
         },
         {
             q: 'HEIF is a container, so what is actually inside it?',
@@ -118,6 +125,7 @@
             "mainEntity": [
                 { "@type": "Question", "name": "Is HEIF the same thing as HEIC?", "acceptedAnswer": { "@type": "Answer", "text": "HEIF is the container standard, ISO/IEC 23008-12. HEIC is what Apple calls a HEIF file whose image data is HEVC-encoded. Camera makers call the same thing HIF. The wrapper is identical in all three cases, which is why one converter handles the lot." } },
                 { "@type": "Question", "name": "Why does my HEIF open on my phone but not my laptop?", "acceptedAnswer": { "@type": "Answer", "text": "Phones ship a hardware HEVC decoder and the operating system wires it into the photo viewer. Desktops often have the hardware but not the licensed software decoder, so the file is readable as a container and unreadable as an image. Converting to JPG sidesteps the codec question entirely." } },
+                { "@type": "Question", "name": "My iPhone photos say HEIF. Is this the right converter?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, they convert here. An iPhone saves HEIF files as .heic, and some exports and downloads label them .heif; either way the file is the same container and this page reads it. The HEIC to JPG page has the iPhone-specific notes, including how to stop the phone saving HEIC in the first place." } },
                 { "@type": "Question", "name": "HEIF is a container, so what is actually inside it?", "acceptedAnswer": { "@type": "Answer", "text": "Usually HEVC, which is what makes licensing awkward. The same container can also hold AV1 data, in which case the file is what everyone calls AVIF, or even plain JPEG data. That is why a HEIF that will not open has a different answer on different machines." } },
                 { "@type": "Question", "name": "Will converting change how the photo looks?", "acceptedAnswer": { "@type": "Answer", "text": "JPEG is 8-bit, so a 10-bit HEIF loses tonal precision in principle. At sensible quality settings the difference is invisible in normal viewing. The exception is HDR source material, where mapping down to standard range is a genuine change in appearance rather than a rounding error." } },
                 { "@type": "Question", "name": "Can I convert a folder of multiple HEIF files in one go?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Drop in multiple .heif files and every one comes back as a JPEG. Batch size depends on your plan." } },
@@ -243,7 +251,7 @@
                             </span>
                         </summary>
                         <div class="px-6 pb-6 text-base text-[#6C3F31] leading-relaxed">
-                            {faq.a}
+                            {faq.a}{#if faq.linkHref}<a href={faq.linkHref} class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">{faq.linkLabel}</a>{faq.aAfter}{/if}
                         </div>
                     </details>
                 {/each}
@@ -279,7 +287,7 @@
                     <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 9l1.5 1.5 3-3.75" /></svg>
                 </span>
                 <div>
-                    <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">HEIC to JPEG →</p>
+                    <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">HEIC to JPG →</p>
                     <p class="text-xs text-[#875F42]">The iPhone and iPad lane</p>
                 </div>
             </a>

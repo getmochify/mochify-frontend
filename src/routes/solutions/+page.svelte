@@ -57,7 +57,7 @@
             tag: "Marketplace"
         },
         {
-            name: "HEIC to JPEG",
+            name: "HEIC to JPG",
             slug: "heic-to-jpeg",
             desc: "Instant iPhone photo conversion for universal compatibility.",
             iconPaths: ["M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 9l1.5 1.5 3-3.75"],
@@ -171,7 +171,7 @@
             {
             "@type": "ListItem",
             "position": 2,
-            "name": "HEIC to JPEG Converter",
+            "name": "HEIC to JPG Converter",
             "url": "https://mochify.app/heic-to-jpeg"
             },
             {
