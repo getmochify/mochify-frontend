@@ -32,9 +32,17 @@ export type ImagePreviewResult = {
 
 // Longest edge of the generated thumbnail, in device pixels. The trays render
 // previews at 64 CSS px (the h-16 w-16 bubbles in PromptForm/PromptFormApp/
-// ImageUpload); 2x covers retina without asking canvas to hold anything close
-// to the original's resolution.
-const DEFAULT_TARGET_PX = 128;
+// ImageUpload), so 192 covers a 3x display (iPhone Pro, most recent Android)
+// without asking canvas to hold anything close to the original's resolution.
+// It was 128, which is only 2x and left every thumbnail slightly soft on a 3x
+// screen; at this size the encoded blob is a few kB either way.
+const DEFAULT_TARGET_PX = 192;
+
+// WebP quality for the thumbnail. 0.82 was inherited from a time when this
+// encoded larger previews. At 192px the blob is a handful of kB at any quality,
+// so the lower setting bought nothing and put visible blocking on screenshots
+// and flat graphics, on top of the resampling artefacts fixed below.
+const THUMB_QUALITY = 0.92;
 
 // Cap on simultaneous decodes. Adding a 25-file batch at once shouldn't spike
 // to 25 concurrent createImageBitmap calls in a burst — a small handful in
@@ -95,12 +103,77 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
 // needs to handle revoking the object URL still alive inside it.
 const previewCache = new WeakMap<File, Promise<ImagePreviewResult>>();
 
+/**
+ * Decode the file, honouring EXIF rotation.
+ *
+ * `imageOrientation` is passed explicitly because the default has moved: the
+ * spec now says `from-image`, but older Chrome defaulted to `none` and Safari
+ * has varied, which is what left portrait phone photos lying on their side in
+ * the tray. Being explicit also makes the reported width/height the *display*
+ * dimensions, which is what the /v1/prompt payload wants: a user asking for
+ * "800 wide" means the picture as they see it, not as the sensor stored it.
+ *
+ * The retry exists because the options bag itself is not universally accepted.
+ * Where it is rejected, a bare decode is still far better than no thumbnail,
+ * which is what a single failed call would have produced.
+ */
+async function decodeBitmap(file: File): Promise<ImageBitmap> {
+	try {
+		return await withTimeout(createImageBitmap(file, { imageOrientation: 'from-image' }), 8000);
+	} catch {
+		return await withTimeout(createImageBitmap(file), 8000);
+	}
+}
+
+/**
+ * Downscale to exactly outW x outH, halving as many times as it takes.
+ *
+ * One `drawImage` from a 6000px bitmap straight down to 192px undersamples
+ * badly: the fast path reads too few source pixels, which is what produced
+ * aliasing on fine repeating detail (fabric, brickwork), moire, and mush where
+ * a screenshot had text. Halving keeps every step inside the filter's
+ * competence, and five small draws cost nothing next to the decode that
+ * preceded them. `imageSmoothingQuality` is set on every context because
+ * Chrome's default is 'low'.
+ */
+function downscale(bitmap: ImageBitmap, outW: number, outH: number): HTMLCanvasElement | null {
+	let src: ImageBitmap | HTMLCanvasElement = bitmap;
+	let srcW = bitmap.width;
+	let srcH = bitmap.height;
+
+	while (srcW > outW * 2 && srcH > outH * 2) {
+		const stepW = Math.max(outW, Math.round(srcW / 2));
+		const stepH = Math.max(outH, Math.round(srcH / 2));
+		const step = document.createElement('canvas');
+		step.width = stepW;
+		step.height = stepH;
+		const stepCtx = step.getContext('2d');
+		if (!stepCtx) return null;
+		stepCtx.imageSmoothingEnabled = true;
+		stepCtx.imageSmoothingQuality = 'high';
+		stepCtx.drawImage(src, 0, 0, stepW, stepH);
+		src = step;
+		srcW = stepW;
+		srcH = stepH;
+	}
+
+	const canvas = document.createElement('canvas');
+	canvas.width = outW;
+	canvas.height = outH;
+	const ctx = canvas.getContext('2d');
+	if (!ctx) return null;
+	ctx.imageSmoothingEnabled = true;
+	ctx.imageSmoothingQuality = 'high';
+	ctx.drawImage(src, 0, 0, outW, outH);
+	return canvas;
+}
+
 async function decode(file: File, targetPx: number): Promise<ImagePreviewResult> {
 	await acquireSlot();
 	try {
 		let bitmap: ImageBitmap;
 		try {
-			bitmap = await withTimeout(createImageBitmap(file), 8000);
+			bitmap = await decodeBitmap(file);
 		} catch {
 			// Not decodable via createImageBitmap — HEIC/HEIF in the rare case a
 			// caller didn't already filter it out, JXL outside Safari (always),
@@ -117,16 +190,21 @@ async function decode(file: File, targetPx: number): Promise<ImagePreviewResult>
 				return { thumbUrl: safeObjectUrl(file), width, height };
 			}
 			const scale = Math.min(1, targetPx / Math.max(width, height));
+			// Already thumbnail-sized: the original IS the best thumbnail. Re-encoding
+			// it would only add lossy WebP on top of an image that needed no resizing
+			// at all, which is what visibly degraded small logos, icons and graphics.
+			// Nothing to free memory-wise either: the file is small by definition.
+			if (scale === 1) {
+				return { thumbUrl: safeObjectUrl(file), width, height };
+			}
 			const outW = Math.max(1, Math.round(width * scale));
 			const outH = Math.max(1, Math.round(height * scale));
-			const canvas = document.createElement('canvas');
-			canvas.width = outW;
-			canvas.height = outH;
-			const ctx = canvas.getContext('2d');
-			if (!ctx) return { thumbUrl: safeObjectUrl(file), width, height };
-			ctx.drawImage(bitmap, 0, 0, outW, outH);
+			const canvas = downscale(bitmap, outW, outH);
+			if (!canvas) return { thumbUrl: safeObjectUrl(file), width, height };
+			// An unsupported type makes toBlob fall back to PNG rather than fail,
+			// which is a fine outcome at this size.
 			const blob = await new Promise<Blob | null>((resolve) =>
-				canvas.toBlob(resolve, 'image/webp', 0.82)
+				canvas.toBlob(resolve, 'image/webp', THUMB_QUALITY)
 			);
 			if (!blob) return { thumbUrl: safeObjectUrl(file), width, height };
 			return { thumbUrl: URL.createObjectURL(blob), width, height };
