@@ -218,6 +218,11 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				email: co.customerEmail
 			});
 			const email = co.customerEmail;
+			// Billing country, for the payment-method targeting in the recovery
+			// email (see indiaPaymentNote in emails/abandonedCart). Null when the
+			// buyer left before filling the address in, which is fine: a decline
+			// happens after that step.
+			const country = co.customerBillingAddress?.country ?? null;
 			// Only subscription plans. A day pass checkout that expires is not a
 			// cart we have an offer for, and the discount is scoped to monthly
 			// subscription products anyway.
@@ -241,7 +246,8 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				properties: {
 					qualified: qualified.ok,
 					reason: qualified.ok ? null : qualified.reason,
-					plan: target!.plan
+					plan: target!.plan,
+					country
 				}
 			});
 
@@ -258,7 +264,8 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				email: email!,
 				productId: co.productId,
 				plan: target!.plan,
-				billing: target!.billing
+				billing: target!.billing,
+				country
 			});
 			if (!claimed) {
 				await posthog.flush();
@@ -285,7 +292,8 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 					// hand them a code Polar then refuses to apply.
 					billing: 'monthly',
 					code: discount.code,
-					appUrl: PUBLIC_APP_URL
+					appUrl: PUBLIC_APP_URL,
+					country
 				}
 			);
 

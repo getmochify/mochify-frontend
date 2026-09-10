@@ -68,15 +68,26 @@ export async function claimCheckout(
 		productId: string | null;
 		plan: string;
 		billing: string;
+		/** ISO 3166-1 alpha-2, or null when the checkout carried no address. */
+		country: string | null;
 	}
 ): Promise<boolean> {
 	const res = await db
 		.prepare(
 			`INSERT OR IGNORE INTO abandoned_checkout
-			 (id, user_id, email, product_id, plan, billing, created_at)
-			 VALUES (?, ?, ?, ?, ?, ?, ?)`
+			 (id, user_id, email, product_id, plan, billing, country, created_at)
+			 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
 		)
-		.bind(row.id, row.userId, row.email, row.productId, row.plan, row.billing, Date.now())
+		.bind(
+			row.id,
+			row.userId,
+			row.email,
+			row.productId,
+			row.plan,
+			row.billing,
+			row.country,
+			Date.now()
+		)
 		.run();
 	return (res.meta?.changes ?? 0) > 0;
 }

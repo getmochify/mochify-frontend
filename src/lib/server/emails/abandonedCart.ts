@@ -28,6 +28,8 @@ type CartContext = {
 	code: string;
 	appUrl: string;
 	unsubscribe: string;
+	/** Billing country of the abandoned checkout, ISO 3166-1 alpha-2, or null. */
+	country: string | null;
 };
 
 function shell(inner: string, unsubscribe: string): string {
@@ -54,6 +56,49 @@ function button(href: string, label: string): string {
 
 function codeBlock(code: string): string {
 	return `<p style="margin:20px 0;padding:14px;background:#FFF0F3;border-radius:12px;text-align:center;font-size:19px;font-weight:bold;letter-spacing:1px;color:#BE185D">${code}</p>`;
+}
+
+/**
+ * India-only payment-method escape hatch.
+ *
+ * Indian recurring card payments fail often: the RBI e-mandate rules mean the
+ * decline is usually the mandate rather than the card, and no discount code
+ * fixes that. UPI does, but UPI is a one-time push payment, so the offer that
+ * can actually take it is the Day Pass, not a subscription.
+ *
+ * Three deliberate choices:
+ *
+ * 1. Country-gated. "You can pay by UPI" shown to a UK abandoner is noise, and
+ *    the line is only true for the market that has UPI.
+ * 2. Links to `/pricing#day-pass`, not to a checkout. The Day Pass checkout is
+ *    POST-only now (see api/checkout), so there is no URL to link to, and that
+ *    is a feature here: an email link scanner cannot mint a Polar session.
+ * 3. Quotes no price. The pricing page localizes it, and Polar may hold an INR
+ *    price, so a hardcoded dollar amount could be simply wrong on arrival.
+ *
+ * Not asserted: that the Seller/Pro checkout itself offers UPI. If Polar
+ * confirms UPI on the subscription products, the stronger line ("choose UPI at
+ * checkout") belongs here and this fallback can become secondary.
+ */
+function indiaPaymentNote(ctx: CartContext, short = false): string {
+	if (ctx.country !== 'IN') return '';
+	const link = `${ctx.appUrl}/pricing#day-pass`;
+	const anchor = `<a href="${link}" style="color:#F06292;font-weight:bold;text-decoration:underline">`;
+	if (short) {
+		return `
+	    <p style="font-size:14px;color:#4A2C2C;line-height:1.6;margin:0 0 14px">
+	      Paying from India? If the card was the problem rather than the price, the
+	      Day Pass takes UPI as a one-time payment.
+	      ${anchor}See the Day Pass</a>.
+	    </p>`;
+	}
+	return `
+	    <p style="font-size:14px;color:#4A2C2C;line-height:1.6;margin:0 0 14px;padding:14px;background:#FFF8F0;border-radius:12px">
+	      <strong>Paying from India?</strong> A declined card is usually the recurring
+	      mandate rather than the card itself. The Day Pass takes UPI and is a
+	      one-time payment: 100 uploads in 24 hours, no subscription and no mandate
+	      to set up. ${anchor}Get a Day Pass instead</a>.
+	    </p>`;
 }
 
 function checkoutLink(ctx: CartContext): string {
@@ -83,10 +128,11 @@ function firstEmail(ctx: CartContext): string {
 	      It works once, and only for you.
 	    </p>
 	    ${codeBlock(ctx.code)}
-	    <p style="font-size:15px;color:#4A2C2C;line-height:1.6;margin:0">
+	    <p style="font-size:15px;color:#4A2C2C;line-height:1.6;margin:0 0 14px">
 	      That is <strong>${p.discounted} for your first month</strong> instead of ${p.full}.
 	      It renews at ${p.full} a month afterwards, and you can cancel any time before then.
 	    </p>
+	    ${indiaPaymentNote(ctx)}
 	    ${button(checkoutLink(ctx), `Finish setting up ${p.name}`)}
 	    <p style="font-size:13px;color:#875F42;line-height:1.6;margin:0">
 	      The code is applied automatically when you use that button. It expires in
@@ -106,6 +152,7 @@ function followupEmail(ctx: CartContext): string {
 	      ${p.discounted} for the first month, then ${p.full} a month.
 	    </p>
 	    ${codeBlock(ctx.code)}
+	    ${indiaPaymentNote(ctx, true)}
 	    ${button(checkoutLink(ctx), 'Use the code')}
 	    <p style="font-size:13px;color:#875F42;line-height:1.6;margin:0">
 	      If you have decided Mochify is not for you, that is genuinely fine. This is the last
@@ -127,7 +174,13 @@ export async function sendAbandonedCartEmails(
 	resendKey: string | undefined,
 	to: string,
 	userId: string,
-	opts: { plan: string; billing: string; code: string; appUrl: string }
+	opts: {
+		plan: string;
+		billing: string;
+		code: string;
+		appUrl: string;
+		country: string | null;
+	}
 ): Promise<SentEmails> {
 	if (!resendKey) {
 		console.warn('[abandoned-cart] RESEND_API_KEY is not set — skipping send');

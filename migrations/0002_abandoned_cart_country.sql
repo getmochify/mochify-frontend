@@ -1,0 +1,19 @@
+-- Billing country on the abandoned checkout, so recovery email can be targeted
+-- by payment market. See docs/abandoned-cart-new50.md.
+--
+-- Apply with:
+--   wrangler d1 execute mochify-auth --local  --file=migrations/0002_abandoned_cart_country.sql
+--   wrangler d1 execute mochify-auth --remote --file=migrations/0002_abandoned_cart_country.sql
+--
+-- MUST be applied before the code that writes it deploys: claimCheckout inserts
+-- this column unconditionally, and a missing column would fail the insert, which
+-- means a 500 from the webhook and a Polar retry loop on every expired checkout.
+--
+-- ISO 3166-1 alpha-2, taken from Polar's `checkout.expired` payload
+-- (`customerBillingAddress.country`). Nullable, because a checkout abandoned
+-- before the address was entered carries no address. That costs us nothing: the
+-- segment this exists to serve, a payment declined after the address was filled
+-- in, always has one.
+--
+-- D1 has no `ADD COLUMN IF NOT EXISTS`, so this errors harmlessly if applied twice.
+ALTER TABLE abandoned_checkout ADD COLUMN country TEXT;
