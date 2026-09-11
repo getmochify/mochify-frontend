@@ -29,9 +29,9 @@
             tag: "PDF"
         },
         {
-            name: "JPEG XL to PDF",
+            name: "JXL to PDF",
             slug: "solutions/jxl-to-pdf",
-            desc: "Convert JPEG XL images to a shareable PDF — lossless quality preserved, one page per image.",
+            desc: "Combine up to 20 JXL images into one PDF, a page per image, stored as standard JPEG so it opens anywhere.",
             iconPaths: ["M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"],
             tag: "PDF"
         },
@@ -64,16 +64,16 @@
             tag: "Mobile"
         },
         {
-            name: "JPEG XL Optimizer",
+            name: "JPG to JXL",
             slug: "jpg-to-jpegxl",
-            desc: "The future of the web. Best-in-class compression for 2026.",
+            desc: "Re-encode JPEGs as JPEG XL, one high-quality path. Experimental because browser support for JXL is still uneven.",
             iconPaths: ["M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"],
             tag: "Experimental"
         },
         {
-            name: "AVIF to JXL Converter",
+            name: "AVIF to JXL",
             slug: "avif-to-jpegxl",
-            desc: "Transcode AVIF files to JPEG XL for superior compression and HDR support.",
+            desc: "Decode AVIF and re-encode as JPEG XL, one high-quality path. Standard-range output.",
             iconPaths: ["M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"],
             tag: "Next-Gen"
         },
@@ -133,9 +133,9 @@
             tag: "Next-Gen"
         },
         {
-            name: "PNG to JPEG XL Converter",
+            name: "PNG to JXL",
             slug: "solutions/png-to-jxl",
-            desc: "Re-encode PNG files to JPEG XL — lossless mode smaller than PNG, with full transparency and 16-bit color.",
+            desc: "Re-encode PNG files as JPEG XL: high-quality compressed by default, pixel-exact lossless on request.",
             iconPaths: ["M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"],
             tag: "Next-Gen"
         }
@@ -177,13 +177,13 @@
             {
             "@type": "ListItem",
             "position": 3,
-            "name": "AVIF to JXL Converter",
+            "name": "AVIF to JXL",
             "url": "https://mochify.app/avif-to-jpegxl"
             },
             {
             "@type": "ListItem",
             "position": 4,
-            "name": "JPEG XL Optimizer",
+            "name": "JPG to JXL",
             "url": "https://mochify.app/jpg-to-jpegxl"
             },
             {
@@ -195,7 +195,7 @@
             {
             "@type": "ListItem",
             "position": 6,
-            "name": "PNG to JPEG XL Converter",
+            "name": "PNG to JXL",
             "url": "https://mochify.app/solutions/png-to-jxl"
             },
             {

@@ -11,7 +11,8 @@
         description: "JPEG XL compression benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), honest 2026 browser support, and how to serve JXL safely with picture fallbacks.",
         category: "Image Formats",
         readTime: "11 min read",
-        datePublished: "June 26, 2026"
+        datePublished: "June 26, 2026",
+        lastUpdated: "September 11, 2026"
     };
 
     const related = [
@@ -72,7 +73,7 @@
             "@id": "https://mochify.app/guides/converting-images-to-jpeg-xl"
         },
         "datePublished": "2026-06-26",
-        "dateModified": "2026-06-26",
+        "dateModified": "2026-09-11",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -157,7 +158,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.datePublished}
+                {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -248,7 +249,7 @@
             <p class="mb-4"><strong class="text-[#4A2C2C]">Lossless transcode mode</strong> wraps the original JPEG data inside a JXL container with no re-encoding. You retain bit-for-bit reconstructability of the source file, and you typically see 20–30% file size reduction. This is the right choice for archival use and for any pipeline where you might need the original JPEG again downstream - legacy systems, social preview generation, ad networks.</p>
             <p class="mb-4"><strong class="text-[#4A2C2C]">Lossy re-encode mode</strong> fully decodes the JPEG and re-encodes to JXL at the target quality. You get larger savings - 40–60% vs the original JPEG at similar perceptual quality - but you are making a generation copy. If the source JPEG was already lossy, you are stacking artifacts. This is the right choice when you have access to the raw source (a TIFF, a RAW export, or a lossless master) and are producing a fresh JXL for serving.</p>
             <p class="mb-4">For web delivery in mid-2026, JPEG-to-JXL primarily serves Safari users and Chrome users who have enabled the flag. The baseline JPEG remains the universal fallback.</p>
-            <p>You can convert to JPEG XL directly at <a href="/jpg-to-jpegxl">mochify.app/jpg-to-jpegxl</a> - describe what you need in plain English, or drop your files and let Magic Flow choose the right settings. For batch workflows, the CLI and MCP routes are covered in the <a href="#mochify-workflow">Mochify Workflow section</a> below.</p>
+            <p>You can convert to JPEG XL directly with the <a href="/jpg-to-jpegxl">JPG to JXL converter</a>: drop the files and it re-encodes them with one high-quality setting, nothing to set. It is a re-encode, not the reversible JPEG transcode described above, so keep your JPEG masters. For batch workflows, the CLI and MCP routes are covered in the <a href="#mochify-workflow">Mochify Workflow section</a> below.</p>
         </section>
 
         <section id="png-to-jxl" class="scroll-mt-24">
@@ -257,14 +258,14 @@
             <p class="mb-4">For <strong class="text-[#4A2C2C]">photographic PNGs</strong> (PNG exports of photos, which are common from Figma and similar tools), lossy JPEG XL typically cuts file size by 60–80% at similar visual quality. The format's VarDCT mode handles photographic content the same way AVIF or WebP do - much better than PNG's lossless model.</p>
             <p class="mb-4">For <strong class="text-[#4A2C2C]">graphics, illustrations, UI elements, and transparent assets</strong>, JPEG XL lossless is the right mode. You keep the transparency, the sharp edges, and the exact pixel data. The compression win over PNG (19–50% depending on encoder effort) is a genuine improvement, not a trade-off.</p>
             <p class="mb-4">In practice, the main reason to convert PNG to JXL today is archival compression and the Safari audience. For web delivery, you would pair the JXL source with a WebP or PNG fallback in a <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;picture&gt;</code> element. For pipelines using Fastly Image Optimizer or a JXL-aware CDN, the CDN can negotiate the format automatically based on the client <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">Accept</code> header.</p>
-            <p>Convert PNG to JPEG XL at <a href="/solutions/png-to-jxl">mochify.app/solutions/png-to-jxl</a>.</p>
+            <p>Convert PNG to JPEG XL with the <a href="/solutions/png-to-jxl">PNG to JXL converter</a>: a high-quality compressed encode by default, or switch Lossless on after uploading for a pixel-exact copy that is usually still smaller than the PNG.</p>
         </section>
 
         <section id="avif-to-jxl" class="scroll-mt-24">
             <SectionHeading>Converting AVIF to JPEG XL</SectionHeading>
             <p class="mb-4">Converting AVIF to JPEG XL for current web delivery does not make much sense on compression grounds alone - both formats are competitive, and AVIF has far broader browser support across Chrome, Firefox, Safari, and Edge. You would be trading ecosystem compatibility for marginal compression gains.</p>
             <p class="mb-4">The case for AVIF-to-JXL conversion is narrower and more specific. For <strong class="text-[#4A2C2C]">HDR and wide-gamut archival</strong>, AVIF supports HDR but tops out at 12-bit depth. JPEG XL goes to 32-bit. If you are building a long-term archive from AVIF masters, JPEG XL is the stronger archival target for high-bit-depth content. For <strong class="text-[#4A2C2C]">consolidating a mixed archive</strong>, if you have a mix of JPEGs, PNGs, and AVIFs and want a single high-quality master format for storage, JPEG XL can ingest all of them. The masters become JXL; AVIF, WebP, and JPEG derivatives are generated from those masters for web delivery. And for <strong class="text-[#4A2C2C]">pipeline readiness</strong>, building AVIF-to-JXL into your workflow now means you are ready to serve JXL when Chrome and Firefox ship it by default - you just flip the <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;source&gt;</code> priority.</p>
-            <p>Convert AVIF to JPEG XL at <a href="/avif-to-jpegxl">mochify.app/avif-to-jpegxl</a>.</p>
+            <p>Convert AVIF to JPEG XL with the <a href="/avif-to-jpegxl">AVIF to JXL converter</a>: a decode and high-quality re-encode, nothing to set.</p>
         </section>
 
         <section id="fallback-pattern" class="scroll-mt-24">

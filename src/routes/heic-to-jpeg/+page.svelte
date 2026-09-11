@@ -3,6 +3,8 @@
     import Footer from '$lib/components/Footer.svelte';
     import Navigation from '$lib/components/Navigation.svelte';
     import Breadcrumb from '$lib/components/Breadcrumb.svelte';
+    import FaqAccordion from '$lib/components/FaqAccordion.svelte';
+    import type { FaqItem } from '$lib/faq';
 
     // The URL stays /heic-to-jpeg, but every visible label says "JPG": that is the
     // spelling the SERP uses and the one the sibling pages (HEIF to JPG, HIF to
@@ -15,7 +17,7 @@
 
     // Answers render inside their <details>, so they are in the served HTML rather
     // than injected on click, and they mirror the FAQPage block below verbatim.
-    const faqs = [
+    const faqs: FaqItem[] = [
         {
             q: 'Is this HEIC to JPG converter free?',
             a: 'Yes. Convert up to 3 images per session with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time.'
@@ -247,21 +249,7 @@
 
         <section class="mt-20 max-w-4xl mx-auto">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">FAQ</h2>
-            <div class="grid md:grid-cols-2 gap-4 items-start">
-                {#each faqs as faq (faq.q)}
-                    <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md open:shadow-md transition-all">
-                        <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-[#4A2C2C] select-none list-none gap-4">
-                            <span>{faq.q}</span>
-                            <span class="text-[#7E685E] transition-transform duration-300 group-open:rotate-180 shrink-0">
-                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                            </span>
-                        </summary>
-                        <div class="px-6 pb-6 text-[#6C3F31] leading-relaxed">
-                            {faq.a}
-                        </div>
-                    </details>
-                {/each}
-            </div>
+            <FaqAccordion {faqs} class="grid md:grid-cols-2 gap-4 items-start" />
         </section>
 
         <!-- Also available -->

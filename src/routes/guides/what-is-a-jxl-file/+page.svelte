@@ -8,7 +8,8 @@
         description: "A .jxl file is a JPEG XL image. Browser and OS support is still uneven in 2026 - here is how to open one, convert it to JPEG, or share it as a PDF.",
         category: "Quick Guides",
         readTime: "2 min read",
-        date: "August 12, 2026"
+        date: "August 12, 2026",
+        lastUpdated: "September 11, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -39,7 +40,7 @@
         "description": "A .jxl file is a JPEG XL image. Browser and OS support is still uneven in 2026 - here is how to open one, convert it to JPEG, or share it as a PDF.",
         "url": "https://mochify.app/guides/what-is-a-jxl-file",
         "datePublished": "2026-08-12",
-        "dateModified": "2026-08-12",
+        "dateModified": "2026-09-11",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -103,7 +104,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -145,7 +146,7 @@
             href="/solutions/jxl-to-pdf"
             label="Try JXL to PDF free →"
         >
-            Try <a href="/solutions/jxl-to-pdf">Mochify's JXL to PDF tool</a> to bundle JXL images into a shareable document, or use the <a href="/jpg-to-jpegxl">JPEG XL Optimizer</a> if you want to go the other direction and convert your JPEGs into space-efficient JXL files.
+            Try <a href="/solutions/jxl-to-pdf">Mochify's JXL to PDF tool</a> to bundle JXL images into a shareable document, or use the <a href="/jpg-to-jpegxl">JPG to JXL converter</a> if you want to go the other direction and convert your JPEGs into space-efficient JXL files.
         </GuideCTA>
 
         <!-- Related guides -->

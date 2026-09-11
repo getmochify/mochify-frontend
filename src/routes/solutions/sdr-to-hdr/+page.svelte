@@ -1,5 +1,7 @@
 <script lang="ts">
     import ImageUpload from '$lib/components/ImageUpload.svelte';
+    import FaqAccordion from '$lib/components/FaqAccordion.svelte';
+    import type { FaqItem } from '$lib/faq';
 
     // Two lanes, and the page exists to keep them distinguishable. `hdr=generate`
     // preserves a camera's own measured gain map when the file has one, and
@@ -38,7 +40,7 @@
         { op: 'Shadow generation', why: 'Same reason as background removal: the compositing step has no notion of headroom.' }
     ];
 
-    const faqs = [
+    const faqs: FaqItem[] = [
         {
             q: 'Is generated HDR the same as real HDR?',
             a: 'No, and we report it differently for exactly that reason. A camera measures headroom at capture time. Synthesis infers a plausible one from the highlights that survived in your SDR file. It looks convincing on an HDR display, but it is an effect, not recovered data. The X-Mochify-HDR response header says "true" for preserved and "generated" for synthesized so the two are never confused.'
@@ -348,21 +350,7 @@
                 </div>
             </div>
 
-            <div class="space-y-4">
-                {#each faqs as faq (faq.q)}
-                    <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md transition-all">
-                        <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-[#4A2C2C] list-none select-none gap-4">
-                            <span>{faq.q}</span>
-                            <span class="text-[#7E685E] transition-transform duration-300 group-open:rotate-180 shrink-0">
-                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7" /></svg>
-                            </span>
-                        </summary>
-                        <div class="px-6 pb-6 text-base text-[#6C3F31] leading-relaxed">
-                            {faq.a}
-                        </div>
-                    </details>
-                {/each}
-            </div>
+            <FaqAccordion {faqs} />
         </div>
     </section>
 

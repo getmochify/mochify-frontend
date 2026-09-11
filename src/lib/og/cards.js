@@ -17,7 +17,12 @@ export const cards = [
 		strap: 'Web · CLI · MCP · API · Zero retention'
 	},
 	{ path: '/about', eyebrow: 'MOCHIFY', title: 'About Mochify' },
-	{ path: '/avif-to-jpegxl', eyebrow: 'CONVERTER', title: 'Convert AVIF to JPEG XL' },
+	{
+		path: '/avif-to-jpegxl',
+		eyebrow: 'CONVERTER',
+		title: 'AVIF to JXL Converter',
+		alt: 'Mochify AVIF to JXL converter'
+	},
 	{
 		path: '/avif-to-jpg',
 		eyebrow: 'CONVERTER',
@@ -364,7 +369,12 @@ export const cards = [
 		title: 'HEIC to JPG Converter',
 		alt: 'Mochify HEIC to JPG converter'
 	},
-	{ path: '/jpg-to-jpegxl', eyebrow: 'CONVERTER', title: 'Convert JPG to JPEG XL' },
+	{
+		path: '/jpg-to-jpegxl',
+		eyebrow: 'CONVERTER',
+		title: 'JPG to JXL Converter',
+		alt: 'Mochify JPG to JXL converter'
+	},
 	{ path: '/pricing', eyebrow: 'MOCHIFY', title: 'Simple, Honest Pricing' },
 	{ path: '/solutions', eyebrow: 'TOOLS', title: 'Compare & Choose the Best Image Optimizer' },
 	{
@@ -392,7 +402,8 @@ export const cards = [
 	{
 		path: '/solutions/jxl-to-pdf',
 		eyebrow: 'TOOL',
-		title: 'JPEG XL to PDF - Convert JXL Images to a PDF'
+		title: 'JXL to PDF Converter',
+		alt: 'Mochify JXL to PDF converter'
 	},
 	{
 		path: '/solutions/mp4-to-webm',
@@ -402,7 +413,8 @@ export const cards = [
 	{
 		path: '/solutions/png-to-jxl',
 		eyebrow: 'TOOL',
-		title: 'Convert PNG to JPEG XL (JXL) - Free, Private & Instant'
+		title: 'PNG to JXL Converter',
+		alt: 'Mochify PNG to JXL converter'
 	},
 	{
 		path: '/solutions/remove-background-avif',
