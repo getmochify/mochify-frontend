@@ -194,17 +194,6 @@
 		return VIDEO_AUDIO_MIME_TYPES.has(f.type) || VIDEO_AUDIO_EXTENSIONS.has(ext);
 	}
 
-	// HEIC/HEIF/HIF are camera container formats no mainstream browser can decode,
-	// so a blob-URL <img> for them renders as a broken thumbnail. Skip the object
-	// URL and show a photo-icon placeholder instead. Other formats (e.g. JXL, which
-	// only Safari renders) are caught by the <img> onerror fallback.
-	const UNPREVIEWABLE_EXTENSIONS = new Set(['heic', 'heif', 'hif']);
-	const UNPREVIEWABLE_MIME = new Set(['image/heic', 'image/heif']);
-	function isUnpreviewableImage(f: File): boolean {
-		const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
-		return UNPREVIEWABLE_MIME.has(f.type) || UNPREVIEWABLE_EXTENSIONS.has(ext);
-	}
-
 	const fileAccept = $derived(
 		uploadMode === 'pdf'
 			? '.pdf,application/pdf'
@@ -308,7 +297,7 @@
 		(async () => {
 			const urls = await Promise.all(
 				currentFiles.map(async (f) => {
-					if (isPdf(f) || isVideoOrAudio(f) || isUnpreviewableImage(f)) return '';
+					if (isPdf(f) || isVideoOrAudio(f)) return '';
 					const preview = await getImagePreview(f);
 					return preview.thumbUrl ?? '';
 				})
@@ -638,7 +627,7 @@
 	// extra decode. Only files that bypassed thumbnailing (shouldn't normally
 	// happen for images reaching here) trigger a fresh decode.
 	async function getDimensions(file: File): Promise<{ w: number; h: number }> {
-		if (isPdf(file) || isVideoOrAudio(file) || isUnpreviewableImage(file)) return { w: 0, h: 0 };
+		if (isPdf(file) || isVideoOrAudio(file)) return { w: 0, h: 0 };
 		const preview = await getImagePreview(file);
 		return { w: preview.width, h: preview.height };
 	}

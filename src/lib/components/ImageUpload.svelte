@@ -358,17 +358,6 @@
 		return OUTPUT_FORMAT_MAP[`image/${ext}`] ?? (ext === 'jpg' || ext === 'jpeg' ? 'jpg' : 'jpg');
 	}
 
-	// HEIC/HEIF/HIF are camera container formats that no mainstream browser can
-	// decode, so a blob-URL <img> for them renders as a broken thumbnail. Skip the
-	// object URL entirely and let the placeholder icon show instead. Other formats
-	// (e.g. JXL, which only Safari renders) are caught by the <img> onerror fallback.
-	const UNPREVIEWABLE_EXTENSIONS = new Set(['heic', 'heif', 'hif']);
-	const UNPREVIEWABLE_MIME = new Set(['image/heic', 'image/heif']);
-	function isUnpreviewableImage(file: File): boolean {
-		const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
-		return UNPREVIEWABLE_MIME.has(file.type) || UNPREVIEWABLE_EXTENSIONS.has(ext);
-	}
-
 	// Thumbnails are generated async (one decode via the shared imagePreview
 	// cache) but fileProgress/oversizedFiles are populated synchronously, so
 	// each card starts with no thumbnailUrl and these fill it in once ready.
@@ -376,7 +365,6 @@
 	// on an unchanged file (e.g. re-ingesting an already-staged batch) doesn't
 	// kick off a redundant decode.
 	function attachFileProgressThumbnail(file: File) {
-		if (isUnpreviewableImage(file)) return;
 		getImagePreview(file).then((preview) => {
 			if (!preview.thumbUrl) return;
 			const fp = fileProgress.find((x) => x.file === file);
@@ -385,7 +373,6 @@
 	}
 
 	function attachBlockedThumbnail(file: File) {
-		if (isUnpreviewableImage(file)) return;
 		getImagePreview(file).then((preview) => {
 			if (!preview.thumbUrl) return;
 			const blocked = oversizedFiles.find((x) => x.file === file);
@@ -1551,6 +1538,10 @@
 								height="40"
 								draggable="false"
 								class="h-full w-full rounded-lg object-cover opacity-60"
+								onerror={() => {
+									releaseImagePreview(blocked.file);
+									blocked.thumbnailUrl = undefined;
+								}}
 							/>
 						{:else}
 							<div

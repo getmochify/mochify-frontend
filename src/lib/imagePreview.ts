@@ -50,6 +50,49 @@ const THUMB_QUALITY = 0.92;
 // of batch size.
 const MAX_CONCURRENT_DECODES = 3;
 
+// ---- HEIF capability ---------------------------------------------------
+//
+// HEIC/HEIF/HIF decode support is a browser property, not a file property.
+// Safari decodes the whole family natively (both createImageBitmap and <img>);
+// Chromium and Firefox decode none of it, because neither links an HEVC image
+// decoder regardless of what the OS has installed.
+//
+// This used to be a static extension blocklist in ImageUpload and
+// PromptFormApp, which meant Safari users got a placeholder icon for every
+// .hif/.heic file even though the browser could have rendered a real
+// thumbnail. Probing beats guessing: the first HEIF-family file of the session
+// IS the probe, so there is no synthetic sample to ship and at most one failed
+// decode per session on a browser that cannot do it.
+//
+// null = not yet known, true/false = answered by real decode attempts.
+let heifDecodable: boolean | null = null;
+
+// A single failure is not proof the browser lacks the decoder — the file
+// itself may be truncated or corrupt, and latching `false` off one bad file
+// would silently downgrade every valid .heic for the rest of the session on a
+// browser that could have rendered them. Two distinct failures is: where the
+// decoder is genuinely missing every HEIF fails, so the second one arrives
+// immediately, while two corrupt files in a row is not a case worth optimising
+// for. Successes latch `true` on the first one, since a success cannot lie.
+const HEIF_FAILURES_BEFORE_GIVING_UP = 2;
+let heifFailures = 0;
+
+const HEIF_EXTENSIONS = new Set(['heic', 'heif', 'hif']);
+const HEIF_MIME = new Set([
+	'image/heic',
+	'image/heif',
+	'image/heic-sequence',
+	'image/heif-sequence'
+]);
+
+// .hif in particular usually arrives with an empty File.type, because most
+// operating systems have no MIME mapping for the extension the camera wrote.
+// Extension and type are therefore both consulted, either one is enough.
+function isHeif(file: File): boolean {
+	const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+	return HEIF_MIME.has(file.type.toLowerCase()) || HEIF_EXTENSIONS.has(ext);
+}
+
 let activeDecodes = 0;
 const decodeQueue: (() => void)[] = [];
 
@@ -169,19 +212,41 @@ function downscale(bitmap: ImageBitmap, outW: number, outH: number): HTMLCanvasE
 }
 
 async function decode(file: File, targetPx: number): Promise<ImagePreviewResult> {
+	const heif = isHeif(file);
+	// Already proved this browser cannot decode the HEIF family, so skip both the
+	// decode attempt and the object-URL fallback: an <img> pointed at HEIF bytes
+	// here renders as a broken image, not a picture. Callers show their
+	// placeholder icon on a null thumbUrl, which is the pre-existing behaviour
+	// the old static blocklist produced — just now reached by measurement.
+	if (heif && heifDecodable === false) {
+		return { thumbUrl: null, width: 0, height: 0 };
+	}
 	await acquireSlot();
 	try {
 		let bitmap: ImageBitmap;
 		try {
 			bitmap = await decodeBitmap(file);
+			if (heif) heifDecodable = true;
 		} catch {
-			// Not decodable via createImageBitmap — HEIC/HEIF in the rare case a
-			// caller didn't already filter it out, JXL outside Safari (always),
-			// and occasionally AVIF on older Safari. Preserve today's fallback:
-			// hand back the original file's object URL so the <img> itself gets
-			// a shot at rendering it (some engines' <img> decoder differs from
-			// createImageBitmap's), with dimensions unknown — exactly what the
-			// old per-component getDimensions() returned on decode failure.
+			// Not decodable via createImageBitmap — JXL outside Safari (always),
+			// HEIC/HEIF/HIF anywhere but Safari, and occasionally AVIF on older
+			// Safari.
+			if (heif) {
+				// Count it, and once the browser has proved it cannot do this at
+				// all, the rest of the session skips straight to the placeholder.
+				// Either way return no URL: unlike the formats below, no engine has
+				// an <img> decoder for HEIF that createImageBitmap lacks, so handing
+				// one over only buys a broken-image flash before onerror fires.
+				if (heifDecodable !== true && ++heifFailures >= HEIF_FAILURES_BEFORE_GIVING_UP) {
+					heifDecodable = false;
+				}
+				return { thumbUrl: null, width: 0, height: 0 };
+			}
+			// Everything else keeps today's fallback: hand back the original
+			// file's object URL so the <img> itself gets a shot at rendering it
+			// (some engines' <img> decoder differs from createImageBitmap's),
+			// with dimensions unknown — exactly what the old per-component
+			// getDimensions() returned on decode failure.
 			return { thumbUrl: safeObjectUrl(file), width: 0, height: 0 };
 		}
 		try {
