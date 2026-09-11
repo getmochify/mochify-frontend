@@ -71,7 +71,7 @@
                 types=".PNG"
                 showTypes={true}
                 showExifOption={false}
-                losslessDefault={true}
+                losslessDefault={false}
                 showLosslessOption={true}
                 compact
             />
@@ -214,4 +214,3 @@
         </section>
 
     </div>
-
