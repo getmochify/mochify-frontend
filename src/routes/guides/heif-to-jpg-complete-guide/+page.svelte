@@ -12,7 +12,7 @@
         category: "Image Formats",
         readTime: "14 min read",
         date: "July 15, 2026",
-        lastUpdated: "September 10, 2026"
+        lastUpdated: "September 12, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -31,7 +31,7 @@
     const faqs = [
         {
             q: "How do I convert HEIF to JPG?",
-            a: "On macOS, open the file in Preview and use File, Export, JPEG. On Windows, install the HEIF Image Extension and HEVC Video Extensions from the Microsoft Store, then export from Photos. Canon bodies convert in the Playback menu; Sony's Imaging Edge Desktop converts on the desktop. Online, Mochify converts up to 3 HEIF files per session free with no account."
+            a: "On macOS, open the file in Preview and use File, Export, JPEG. On Windows, install the HEIF Image Extension and HEVC Video Extensions from the Microsoft Store, then export from Photos. Canon bodies convert in the Playback menu; Sony's Imaging Edge Desktop converts on the desktop. Online, Mochify converts up to 3 HEIF files a month free with no account."
         },
         {
             q: "Is HEIF the same as HEIC?",
@@ -59,7 +59,7 @@
         },
         {
             q: "Can I batch convert HEIF files to JPG?",
-            a: "Yes, several ways: Canon's in-camera \"Select range,\" DPP and Imaging Edge batch processing, Preview's Export Selected Images, or Mochify with one prompt across a batch (3 files per free session, 25 per batch on Seller and Pro)."
+            a: "Yes, several ways: Canon's in-camera \"Select range,\" DPP and Imaging Edge batch processing, Preview's Export Selected Images, or Mochify with one prompt across a batch (3 files per batch on Free, 25 per batch on Seller and Pro)."
         }
     ];
 
@@ -100,7 +100,7 @@
             "@id": "https://mochify.app/guides/heif-to-jpg-complete-guide"
         },
         "datePublished": "2026-07-15",
-        "dateModified": "2026-09-10",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -157,7 +157,7 @@
         "description": "Convert HEIF (.HIF) files from Canon, Sony, and Fujifilm cameras to universally compatible JPG. Every method, the quality trade-offs, and batch workflows.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-15",
-        "dateModified": "2026-09-10"
+        "dateModified": "2026-09-12"
         }
     </script>
 
@@ -166,14 +166,14 @@
         "@context": "https://schema.org",
         "@type": "FAQPage",
         "mainEntity": [
-            { "@type": "Question", "name": "How do I convert HEIF to JPG?", "acceptedAnswer": { "@type": "Answer", "text": "On macOS, open the file in Preview and use File, Export, JPEG. On Windows, install the HEIF Image Extension and HEVC Video Extensions from the Microsoft Store, then export from Photos. Canon bodies convert in the Playback menu; Sony's Imaging Edge Desktop converts on the desktop. Online, Mochify converts up to 3 HEIF files per session free with no account." } },
+            { "@type": "Question", "name": "How do I convert HEIF to JPG?", "acceptedAnswer": { "@type": "Answer", "text": "On macOS, open the file in Preview and use File, Export, JPEG. On Windows, install the HEIF Image Extension and HEVC Video Extensions from the Microsoft Store, then export from Photos. Canon bodies convert in the Playback menu; Sony's Imaging Edge Desktop converts on the desktop. Online, Mochify converts up to 3 HEIF files a month free with no account." } },
             { "@type": "Question", "name": "Is HEIF the same as HEIC?", "acceptedAnswer": { "@type": "Answer", "text": "Same format underneath (HEIF, ISO/IEC 23008-12), different hardware worlds. Professional cameras from Canon, Sony, and Fujifilm write .HIF files; iPhones write .HEIC. The workflows and tools differ, so pick the lane that matches your file: this guide for .HIF, or the HEIC to JPEG converter for iPhone files." } },
             { "@type": "Question", "name": "Can I convert HEIF to JPG without losing quality?", "acceptedAnswer": { "@type": "Answer", "text": "Some loss is inherent: JPEG is 8-bit, so the HEIF's 10-bit tonal range (1,024 values per channel down to 256) is reduced in every conversion. In practice a good encoder at quality 85 or above makes the difference invisible in normal viewing. The most visible case is Canon HDR PQ files, where HDR-to-SDR tone mapping changes the look more than bit depth does." } },
             { "@type": "Question", "name": "Why won't my HEIF file open on Windows?", "acceptedAnswer": { "@type": "Answer", "text": "Windows needs two codecs: the free HEIF Image Extension (bundled with Windows 11) and the HEVC Video Extensions, which cost $0.99 in the Microsoft Store because of HEVC patent licensing. Without the HEVC codec, the Photos app cannot decode the image data inside the HEIF container." } },
             { "@type": "Question", "name": "Can browsers display HEIF images?", "acceptedAnswer": { "@type": "Answer", "text": "Only Safari (version 17 and later). Chrome, Edge, and Firefox have no HEIF support in any version, which leaves global browser coverage at about 13.6% per caniuse.com. For web use, convert HEIF to JPG, WebP, or AVIF." } },
             { "@type": "Question", "name": "Does converting HEIF to JPG remove the metadata?", "acceptedAnswer": { "@type": "Answer", "text": "Not by default in most tools - platform converters like Preview and DPP generally carry EXIF across, including GPS coordinates. Decide deliberately: in Mochify, state it in the prompt (convert to JPG and strip all metadata, or remove GPS but keep copyright), and the output matches the instruction." } },
             { "@type": "Question", "name": "What is the best JPEG quality setting when converting from HEIF?", "acceptedAnswer": { "@type": "Answer", "text": "Quality 85-90 is the sweet spot for delivery: clean enough for print and screen, without the wasted bytes above 95. Below 80, artifacts start appearing sooner than they would from an 8-bit source, because the conversion is already quantizing the 10-bit data." } },
-            { "@type": "Question", "name": "Can I batch convert HEIF files to JPG?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, several ways: Canon's in-camera Select range, DPP and Imaging Edge batch processing, Preview's Export Selected Images, or Mochify with one prompt across a batch (3 files per free session, 25 per batch on Seller and Pro)." } }
+            { "@type": "Question", "name": "Can I batch convert HEIF files to JPG?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, several ways: Canon's in-camera Select range, DPP and Imaging Edge batch processing, Preview's Export Selected Images, or Mochify with one prompt across a batch (3 files per batch on Free, 25 per batch on Seller and Pro)." } }
         ]
         }
     </script>
@@ -328,7 +328,7 @@
                     <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
                     <div class="min-w-0 flex-1">
                         <strong class="block text-[#4A2C2C] text-lg mb-1.5">Drop in your files</strong>
-                        <p class="text-base m-0">Drop in your files. Up to 3 per session free with no signup, 25 per month with a free account, or 25-file batches with 75MB per file on Seller and Pro.</p>
+                        <p class="text-base m-0">Drop in your files. Up to 3 a month free with no signup, 25 per month with a free account, or 25-file batches with 75MB per file on Seller and Pro.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">

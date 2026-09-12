@@ -42,7 +42,8 @@ export const guides: Guide[] = [
 		url: '/guides/what-automatic-image-optimization-actually-does',
 		category: 'Image Optimization',
 		readTime: '13 min read',
-		date: 'August 25, 2026'
+		date: 'August 25, 2026',
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'Can WordPress 7.1 Optimize Images Without a Plugin?',
@@ -61,7 +62,8 @@ export const guides: Guide[] = [
 		url: '/guides/open-heif-files-on-windows',
 		category: 'Image Formats',
 		readTime: '12 min read',
-		date: 'August 19, 2026'
+		date: 'August 19, 2026',
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'Should My Product Images Be AVIF or WebP in 2026?',
@@ -97,7 +99,8 @@ export const guides: Guide[] = [
 		url: '/guides/product-image-requirements-marketplace-guide',
 		category: 'Image Formats',
 		readTime: '17 min read',
-		date: 'August 6, 2026'
+		date: 'August 6, 2026',
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'Cross-Listing for Resellers: One Set of Photos, Every Marketplace',
@@ -135,7 +138,7 @@ export const guides: Guide[] = [
 		category: 'Quick Guides',
 		readTime: '2 min read',
 		date: 'July 14, 2026',
-		lastUpdated: 'August 26, 2026'
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'HEIF to JPG: The Complete Conversion Guide',
@@ -145,7 +148,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '14 min read',
 		date: 'July 15, 2026',
-		lastUpdated: 'August 26, 2026'
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'How to Convert AVIF to JPG on Windows 11, Mac, or Any Device',
@@ -155,7 +158,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '13 min read',
 		date: 'July 13, 2026',
-		lastUpdated: 'September 10, 2026'
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'AI Image Compression and Conversion: Describe the Result, Skip the Settings',
@@ -175,7 +178,7 @@ export const guides: Guide[] = [
 		category: 'AI & Automation',
 		readTime: '15 min read',
 		date: 'July 2, 2026',
-		lastUpdated: 'August 7, 2026'
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'How to Convert iPhone Photos (HEIC) to PDF',
@@ -233,7 +236,7 @@ export const guides: Guide[] = [
 		category: 'Quick Guides',
 		readTime: '2 min read',
 		date: 'June 24, 2026',
-		lastUpdated: 'August 5, 2026'
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'Should I Use fetchpriority or rel="preload" for My LCP Image?',
@@ -252,7 +255,7 @@ export const guides: Guide[] = [
 		category: 'Quick Guides',
 		readTime: '3 min read',
 		date: 'June 17, 2026',
-		lastUpdated: 'August 7, 2026'
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'Working with PDFs in AI Agent Workflows: Extract, Split, and Convert Pages',
@@ -262,7 +265,7 @@ export const guides: Guide[] = [
 		category: 'AI & Automation',
 		readTime: '12 min read',
 		date: 'June 16, 2026',
-		lastUpdated: 'August 14, 2026'
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'LLM Image Token Costs: How Many Tokens Does an Image Use?',
@@ -282,7 +285,7 @@ export const guides: Guide[] = [
 		category: 'Quick Guides',
 		readTime: '3 min read',
 		date: 'June 13, 2026',
-		lastUpdated: 'August 19, 2026'
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'Does Converting HIF to JPG Reduce Quality?',
@@ -301,7 +304,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '19 min read',
 		date: 'June 4, 2026',
-		lastUpdated: 'July 24, 2026'
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'On-Device AI Agents: Image and PDF Optimization for Local Workflows',
@@ -321,7 +324,8 @@ export const guides: Guide[] = [
 		url: '/guides/svg-conversion-guide-vector-vs-raster',
 		category: 'Image Formats',
 		readTime: '8 min read',
-		date: 'May 16, 2026'
+		date: 'May 16, 2026',
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'Do Journaling Apps Compress Images? Avoid Storage Bloat.',
@@ -446,7 +450,8 @@ export const guides: Guide[] = [
 		url: '/guides/mochify-mcp-image-compression-agent-2026',
 		category: 'AI & Automation',
 		readTime: '7 min read',
-		date: 'March 9, 2026'
+		date: 'March 9, 2026',
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'How the Mochify MCP Server Works: Hosted vs Local, with Worked Examples',
@@ -485,7 +490,8 @@ export const guides: Guide[] = [
 		url: '/guides/jpegli-shopify-product-images',
 		category: 'Quick Guides',
 		readTime: '6 min read',
-		date: 'April 6, 2026'
+		date: 'April 6, 2026',
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'How Do I Preload AVIF Hero Images in WordPress to Pass the LCP Threshold?',
@@ -524,7 +530,7 @@ export const guides: Guide[] = [
 		category: 'Image Optimization',
 		readTime: '15 min read',
 		date: 'April 13, 2026',
-		lastUpdated: 'August 25, 2026'
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'Is JPEG XL Ready for Shopify Product Images in 2026?',
@@ -611,7 +617,7 @@ export const guides: Guide[] = [
 		category: 'Workflows',
 		readTime: '13 min read',
 		date: 'July 19, 2026',
-		lastUpdated: 'August 5, 2026'
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'Mochify vs TinyPNG: An Honest Comparison',
@@ -621,7 +627,7 @@ export const guides: Guide[] = [
 		category: 'Image Optimization',
 		readTime: '13 min read',
 		date: 'July 21, 2026',
-		lastUpdated: 'July 24, 2026'
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'Is Reselling Worth It in 2026? The Honest Math',
@@ -630,7 +636,8 @@ export const guides: Guide[] = [
 		url: '/guides/is-reselling-worth-it',
 		category: 'Workflows',
 		readTime: '14 min read',
-		date: 'July 23, 2026'
+		date: 'July 23, 2026',
+		lastUpdated: 'September 12, 2026'
 	},
 	{
 		title: 'Photo File Too Large to Upload? Why Free Tools Reject Camera Files',
@@ -639,7 +646,8 @@ export const guides: Guide[] = [
 		url: '/guides/photo-file-too-large-to-upload',
 		category: 'Image Optimization',
 		readTime: '12 min read',
-		date: 'July 23, 2026'
+		date: 'July 23, 2026',
+		lastUpdated: 'September 12, 2026'
 	}
 ];
 

@@ -11,7 +11,8 @@
         description: "Is reselling worth it in 2026? The honest math: market data, time per listing, tool costs, and when a free photo workflow beats a paid one.",
         category: "Workflows",
         readTime: "14 min read",
-        date: "July 23, 2026"
+        date: "July 23, 2026",
+        lastUpdated: "September 12, 2026"
     };
 
     const toc = [
@@ -97,7 +98,7 @@
             "@id": "https://mochify.app/guides/is-reselling-worth-it"
         },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-07-23",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -157,7 +158,7 @@
         "description": "Is reselling worth it in 2026? The honest math: market data, time per listing, tool costs, and when a free photo workflow beats a paid one.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-07-23"
+        "dateModified": "2026-09-12"
         }
     </script>
 
@@ -187,7 +188,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -436,7 +437,7 @@
             href="/"
             label="Start Optimizing Now →"
         >
-            Drop this week's photos into Mochify and prompt <em>"crop these square, convert to JPEG, keep under 12MB, and strip all metadata"</em> - 3 images per session free with no signup, 25 a month with a free account.
+            Drop this week's photos into Mochify and prompt <em>"crop these square, convert to JPEG, keep under 12MB, and strip all metadata"</em> - 3 images a month free with no signup, 25 a month with a free account.
         </GuideCTA>
 
         <!-- Related guides -->

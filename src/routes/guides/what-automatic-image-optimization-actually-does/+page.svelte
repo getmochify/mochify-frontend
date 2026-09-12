@@ -12,7 +12,8 @@
         description: "Platforms optimize images automatically, but everyone gets the same defaults. What the automatic layer does, where it stops, and how to take control.",
         category: "Image Optimization",
         readTime: "13 min read",
-        date: "August 25, 2026"
+        date: "August 25, 2026",
+        lastUpdated: "September 12, 2026"
     };
 
     const toc = [
@@ -94,7 +95,7 @@
             "@id": "https://mochify.app/guides/what-automatic-image-optimization-actually-does"
         },
         "datePublished": "2026-08-25",
-        "dateModified": "2026-08-25",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -195,7 +196,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -309,7 +310,7 @@
                         <span class="w-10 h-10 rounded-full bg-[#F06292] flex items-center justify-center text-white font-black text-base flex-shrink-0">1</span>
                         <div>
                             <p class="font-black text-[#4A2C2C] mb-2">Start from your masters, not from platform re-downloads</p>
-                            <p class="m-0">Free accounts process 25 images a month (3 per session with no signup, 20MB per file); Seller and Pro raise the limits to 75MB files and 25-file batches.</p>
+                            <p class="m-0">Free accounts process 25 images a month (3 a month with no signup, 20MB per file); Seller and Pro raise the limits to 75MB files and 25-file batches.</p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">

@@ -19,7 +19,7 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is this AVIF to JPG converter free?',
-            a: 'Yes. Convert up to 3 images per session with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time.'
+            a: 'Yes. Convert up to 3 images a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time.'
         },
         {
             q: 'Will my photos lose quality?',
@@ -58,9 +58,9 @@
 
 <svelte:head>
     <title>AVIF to JPG Converter - Free, Online, No Signup | Mochify</title>
-    <meta name="description" content="Convert AVIF to JPG online in seconds: up to 3 files per session with no signup, jpegli-encoded JPEGs that open everywhere. Processed in memory, never saved to disk.">
+    <meta name="description" content="Convert AVIF to JPG online in seconds: up to 3 files with no signup, jpegli-encoded JPEGs that open everywhere. Processed in memory, never saved to disk.">
     <meta property="og:title" content="AVIF to JPG Converter - Mochify">
-    <meta property="og:description" content="Convert AVIF to JPG online in seconds: up to 3 files per session with no signup, jpegli-encoded JPEGs that open everywhere. Processed in memory, never saved to disk.">
+    <meta property="og:description" content="Convert AVIF to JPG online in seconds: up to 3 files with no signup, jpegli-encoded JPEGs that open everywhere. Processed in memory, never saved to disk.">
 
     <script type="application/ld+json">
         {
@@ -83,7 +83,7 @@
             "applicationCategory": "MultimediaApplication",
             "applicationSubCategory": "Image Converter",
             "url": "https://mochify.app/avif-to-jpg",
-            "description": "Convert AVIF to JPG online in seconds: up to 3 files per session with no signup, jpegli-encoded JPEGs that open everywhere. Processed in memory, never saved to disk.",
+            "description": "Convert AVIF to JPG online in seconds: up to 3 files with no signup, jpegli-encoded JPEGs that open everywhere. Processed in memory, never saved to disk.",
             "offers": {
                 "@type": "Offer",
                 "price": "0",
@@ -93,7 +93,7 @@
             "featureList": [
                 "Convert AVIF to JPEG in the browser",
                 "jpegli encoder for better quality per byte",
-                "Up to 3 files per session with no signup",
+                "Up to 3 files with no signup",
                 "Batch conversion of up to 25 files on paid plans",
                 "CLI, MCP server and REST API for automated conversion",
                 "Files processed in memory and never saved to disk"
@@ -107,7 +107,7 @@
             "@context": "https://schema.org",
             "@type": "FAQPage",
             "mainEntity": [
-                { "@type": "Question", "name": "Is this AVIF to JPG converter free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Convert up to 3 images per session with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time." } },
+                { "@type": "Question", "name": "Is this AVIF to JPG converter free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Convert up to 3 images a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time." } },
                 { "@type": "Question", "name": "Will my photos lose quality?", "acceptedAnswer": { "@type": "Answer", "text": "Slightly in principle, because both formats are lossy, but in practice a good encoder makes the difference invisible. Mochify encodes with jpegli, which was preferred over standard JPEG encoders in published testing at a lower bitrate. HDR AVIFs are the exception: tone-mapping to 8-bit changes the look." } },
                 { "@type": "Question", "name": "Is there a file size limit?", "acceptedAnswer": { "@type": "Answer", "text": "20MB per file and 3 files per batch with no signup or a free account; 75MB per file and 25 per batch on Seller, Pro and the Day Pass." } },
                 { "@type": "Question", "name": "What happens to my files?", "acceptedAnswer": { "@type": "Answer", "text": "They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, with nothing to set on this page. If you need the camera data kept, the Mochify web app has a Strip EXIF switch and the API takes stripExif=false." } },
@@ -149,7 +149,7 @@
             </h1>
 
             <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-                Drop in an .avif file and get a JPEG that opens in every app, on every device. Up to 3 files per session with no signup, encoded with Google's jpegli for better quality per byte, processed in memory and never saved to disk.
+                Drop in an .avif file and get a JPEG that opens in every app, on every device. Up to 3 files with no signup (3 a month without an account, 25 a month with a free one), encoded with Google's jpegli for better quality per byte, processed in memory and never saved to disk.
             </p>
         </div>
 
@@ -163,7 +163,7 @@
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
                     <span class="shrink-0 w-8 h-8 rounded-xl bg-[#FFF5F7] border border-pink-100 text-[#F06292] font-black text-sm flex items-center justify-center">1</span>
                     <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Drop your .avif files above</strong>, or click browse. Up to 3 per session with no account, 25 a month with a free account.
+                        <strong class="text-[#4A2C2C]">Drop your .avif files above</strong>, or click browse. Up to 3 a month with no account, 25 a month with a free account.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">

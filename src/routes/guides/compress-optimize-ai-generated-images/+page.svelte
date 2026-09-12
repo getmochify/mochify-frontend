@@ -11,7 +11,7 @@
         category: "AI & Automation",
         readTime: "15 min read",
         date: "July 2, 2026",
-        lastUpdated: "August 7, 2026"
+        lastUpdated: "September 12, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -107,7 +107,7 @@
             "@id": "https://mochify.app/guides/compress-optimize-ai-generated-images"
         },
         "datePublished": "2026-07-02",
-        "dateModified": "2026-08-07",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -165,7 +165,7 @@
         "description": "AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize-after-generation step in an agent pipeline.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-02",
-        "dateModified": "2026-08-07"
+        "dateModified": "2026-09-12"
         }
     </script>
 
@@ -354,7 +354,7 @@
                     Images travel from your machine to <code class={inlineCode}>api.mochify.app</code> over HTTPS for the encoding step. They are streamed into the encoder in RAM, wiped immediately, with no disk writes of the source and no logs containing file data. The local Rust binary is a client over that API; it does not encode locally, so this is zero-retention, not "your images never leave your laptop." Because the local MCP path uses no pickup store, compressed bytes come straight back to the binary and are written to your disk, keeping the path zero-retention end to end. The hosted MCP server at <code class={inlineCode}>mcp.mochify.app</code> works differently: it returns a short-lived download URL on <code class={inlineCode}>files.mochify.app</code> (about a five-minute window) instead of a file path, which suits non-developers who want OAuth access with nothing to install. For a full comparison, see <a href="/guides/how-the-mochify-mcp-server-works">How the Mochify MCP Server Works</a>.
                 </InfoBox>
             </div>
-            <p class="text-base text-[#875F42] mt-5 mb-0">MCP and API access are included on every tier, Free included (25 images per month, or 3 per session with no signup). For heavier batch work, Seller at $7.99/month raises that to 300 images and 25-file batches. Current limits are on the <a href="/pricing">pricing page</a>.</p>
+            <p class="text-base text-[#875F42] mt-5 mb-0">MCP and API access are included on every tier, Free included (25 images per month, or 3 a month with no signup). For heavier batch work, Seller at $7.99/month raises that to 300 images and 25-file batches. Current limits are on the <a href="/pricing">pricing page</a>.</p>
         </section>
 
         <section id="cheat-sheet" class="scroll-mt-24">

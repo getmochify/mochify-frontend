@@ -9,7 +9,8 @@
         description: "Windows needs two codec extensions to open HEIF files, and 10-bit camera HIFs often fail anyway. Every fix that works, plus the fast JPG route.",
         category: "Image Formats",
         readTime: "12 min read",
-        date: "August 19, 2026"
+        date: "August 19, 2026",
+        lastUpdated: "September 12, 2026"
     };
 
     const toc = [
@@ -61,7 +62,7 @@
             "@id": "https://mochify.app/guides/open-heif-files-on-windows"
         },
         "datePublished": "2026-08-19",
-        "dateModified": "2026-08-19",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -119,7 +120,7 @@
         "description": "Windows needs two codec extensions to open HEIF files, and 10-bit camera HIFs often fail anyway. Every fix that works, plus the fast JPG route.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-08-19",
-        "dateModified": "2026-08-19"
+        "dateModified": "2026-09-12"
         }
     </script>
 
@@ -147,7 +148,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -267,7 +268,7 @@
                 <li>Output is standard JPG encoded with Google's jpegli encoder, so the files are efficient without any compatibility tricks.</li>
                 <li>Privacy: files are streamed into memory, converted, and discarded - nothing is written to disk and nothing is logged. Metadata, including GPS location, is stripped by default.</li>
             </ul>
-            <p class="text-base mt-4">The free session handles 3 files up to 20MB each with no signup; a free account covers 25 images a month, and paid tiers raise that with 25-file batches and 75MB files for full shoot-scale work. For photographers clearing whole cards regularly, the same conversions run from the Mochify CLI, so a folder of <code>.HIF</code> files becomes a folder of JPGs in one command.</p>
+            <p class="text-base mt-4">The free allowance handles 3 files a month up to 20MB each with no signup; a free account covers 25 images a month, and paid tiers raise that with 25-file batches and 75MB files for full shoot-scale work. For photographers clearing whole cards regularly, the same conversions run from the Mochify CLI, so a folder of <code>.HIF</code> files becomes a folder of JPGs in one command.</p>
             <p class="text-base mt-4 mb-0">And if you specifically want to keep the 10-bit quality rather than flatten to JPG, converting <code>.HIF</code> to AVIF preserves the extra depth in a format browsers actually display - the <a href="https://mochify.app/solutions/hif-to-avif">HIF to AVIF converter</a> handles that route.</p>
         </section>
 

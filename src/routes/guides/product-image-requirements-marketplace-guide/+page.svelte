@@ -9,7 +9,8 @@
         description: "The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted, and Depop - dimensions, formats, file size limits, and what each platform enforces.",
         category: "Image Formats",
         readTime: "17 min read",
-        datePublished: "August 6, 2026"
+        datePublished: "August 6, 2026",
+        lastUpdated: "September 12, 2026"
     };
 
     const toc = [
@@ -63,7 +64,7 @@
             "@id": "https://mochify.app/guides/product-image-requirements-marketplace-guide"
         },
         "datePublished": "2026-08-06",
-        "dateModified": "2026-08-06",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -121,7 +122,7 @@
         "description": "The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted, and Depop - dimensions, formats, file size limits, and what each platform enforces.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-08-06",
-        "dateModified": "2026-08-06"
+        "dateModified": "2026-09-12"
         }
     </script>
 
@@ -151,7 +152,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.datePublished}
+                {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -399,7 +400,7 @@
                     <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
                     <div class="min-w-0 flex-1">
                         <strong class="block text-[#4A2C2C] text-lg mb-1.5">Process in batches</strong>
-                        <p class="text-base m-0">If you're preparing images for multiple SKUs in one session, Mochify processes up to 25 files at once on Seller and Pro plans, or 3 per session on Free. Upload your batch, describe the transformation once, and download the full set.</p>
+                        <p class="text-base m-0">If you're preparing images for multiple SKUs in one session, Mochify processes up to 25 files at once on Seller and Pro plans, or 3 at a time on Free. Upload your batch, describe the transformation once, and download the full set.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">

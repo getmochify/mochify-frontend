@@ -10,7 +10,8 @@
         description: "Pre-compress Shopify product images with Jpegli before upload. Stop Shopify's recompression from degrading quality - get ~35% smaller files, faster LCP, and better search rankings.",
         category: "Quick Guides",
         readTime: "6 min read",
-        date: "April 6, 2026"
+        date: "April 6, 2026",
+        lastUpdated: "September 12, 2026"
     };
 
     const related = [
@@ -50,7 +51,7 @@
         "url": "https://mochify.app/guides/jpegli-shopify-product-images",
         "inLanguage": "en",
         "datePublished": "2026-04-06",
-        "dateModified": "2026-04-06",
+        "dateModified": "2026-09-12",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",
@@ -64,7 +65,7 @@
         "about": ["Jpegli", "Shopify image optimization", "LCP", "Core Web Vitals", "EXIF stripping"],
         "step": [
             { "@type": "HowToStep", "name": "Resize first", "text": "Scale product images to 2048 x 2048 px or your largest display size." },
-            { "@type": "HowToStep", "name": "Open Mochify", "text": "Go to mochify.app. No account required for up to 3 files per session." },
+            { "@type": "HowToStep", "name": "Open Mochify", "text": "Go to mochify.app. No account required for up to 3 files a month." },
             { "@type": "HowToStep", "name": "Describe your goal using Magic Flow", "text": "Type your intent in plain English, e.g. 'compress as jpegli at quality 82, strip location data, max 2048px'." },
             { "@type": "HowToStep", "name": "Upload your images", "text": "Drag and drop up to 3 files (Free) or 25 files (Seller/Pro). Magic Flow handles the rest." },
             { "@type": "HowToStep", "name": "Download and upload to Shopify", "text": "Replace existing product images with your jpegli-compressed files." }
@@ -81,7 +82,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -209,7 +210,7 @@
             <SectionHeading>Step-by-step: compress Shopify images with Jpegli</SectionHeading>
             <ol class="list-decimal pl-6 mb-6 space-y-3 marker:text-[#F06292] marker:font-bold">
                 <li><strong>Resize first.</strong> Scale product images to 2048 × 2048 px (or your largest display size). Shopify will not upscale, so never upload smaller than needed.</li>
-                <li><strong>Open <a href="https://mochify.app">mochify.app</a>.</strong> No account is required for up to 3 files per session. Free tier: 25 images/month.</li>
+                <li><strong>Open <a href="https://mochify.app">mochify.app</a>.</strong> No account is required for up to 3 files a month. Free tier: 25 images/month.</li>
                 <li><strong>Describe what you want using Magic Flow.</strong> Instead of manually picking settings, type your intent in plain English - for example: <em>"compress as jpegli at quality 82, strip location data, max 2048px"</em>. Mochify's NLP engine parses the prompt and applies the right format, quality, and metadata settings to every file automatically.</li>
                 <li><strong>Upload your images.</strong> Drag and drop up to 3 files (Free) or 25 files (Seller/Pro batch). Magic Flow handles the rest - no format dropdowns, no manual quality sliders.</li>
                 <li><strong>Review and download.</strong> Confirm the output looks right, then download your compressed files.</li>

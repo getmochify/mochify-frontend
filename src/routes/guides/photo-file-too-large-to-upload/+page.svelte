@@ -11,7 +11,8 @@
         description: "Why free tools reject modern camera files: real sizes from 45-61MP bodies, the 5-20MB caps that refuse them, and the fastest path to files that upload anywhere.",
         category: "Image Optimization",
         readTime: "12 min read",
-        date: "July 23, 2026"
+        date: "July 23, 2026",
+        lastUpdated: "September 12, 2026"
     };
 
     const toc = [
@@ -94,7 +95,7 @@
             "@id": "https://mochify.app/guides/photo-file-too-large-to-upload"
         },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-07-23",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -155,7 +156,7 @@
         "description": "Why free tools reject modern camera files: real sizes from 45-61MP bodies, the 5-20MB caps that refuse them, and the fastest path to files that upload anywhere.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-07-23"
+        "dateModified": "2026-09-12"
         }
     </script>
 
@@ -184,7 +185,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -423,7 +424,7 @@
             href="/"
             label="Start Optimizing Now →"
         >
-            Drop the file into Mochify and prompt <em>"resize to 2000px, convert to JPEG, keep under 10MB"</em> - 3 images per session free with no signup, 20MB per file on the Free tier.
+            Drop the file into Mochify and prompt <em>"resize to 2000px, convert to JPEG, keep under 10MB"</em> - 3 images a month free with no signup, 20MB per file on the Free tier.
         </GuideCTA>
 
         <!-- Related guides -->

@@ -11,7 +11,7 @@
         category: "Image Formats",
         readTime: "13 min read",
         datePublished: "July 13, 2026",
-        lastUpdated: "September 10, 2026"
+        lastUpdated: "September 12, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -39,7 +39,7 @@
         },
         {
             q: "Is converting AVIF to JPG free?",
-            a: "Yes. Mochify converts up to 3 images per session with no signup, and a free account covers 25 images per month at up to 20MB each. The native routes (Paint on Windows, Preview on Mac) are free too, one file at a time."
+            a: "Yes. Mochify converts up to 3 images a month with no signup, and a free account covers 25 images per month at up to 20MB each. The native routes (Paint on Windows, Preview on Mac) are free too, one file at a time."
         },
         {
             q: "Does AVIF to JPG conversion reduce image quality?",
@@ -101,7 +101,7 @@
             "@id": "https://mochify.app/guides/avif-to-jpg"
         },
         "datePublished": "2026-07-13",
-        "dateModified": "2026-09-10",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -158,7 +158,7 @@
         "description": "AVIF is a modern format browsers love but desktop apps often reject. Convert AVIF to JPG free online in seconds, or use native tools on Windows and Mac.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-13",
-        "dateModified": "2026-09-10"
+        "dateModified": "2026-09-12"
         }
     </script>
 
@@ -169,7 +169,7 @@
         "mainEntity": [
             { "@type": "Question", "name": "Why did my downloaded image save as AVIF instead of JPG?", "acceptedAnswer": { "@type": "Answer", "text": "The website served AVIF because your browser supports it and the file is smaller. Sites on WordPress 6.5+ and most image CDNs deliver AVIF automatically to compatible browsers, so right-click-save gives you whatever the server sent, not necessarily a JPEG." } },
             { "@type": "Question", "name": "How do I open an AVIF file without converting it?", "acceptedAnswer": { "@type": "Answer", "text": "Drag it into any modern browser tab - Chrome, Firefox, Safari, and Edge all render AVIF natively. On Windows, installing the free AV1 Video Extension lets Photos and File Explorer handle it; on macOS Ventura or later, Preview and Quick Look open it out of the box." } },
-            { "@type": "Question", "name": "Is converting AVIF to JPG free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Mochify converts up to 3 images per session with no signup, and a free account covers 25 images per month at up to 20MB each. The native routes (Paint on Windows, Preview on Mac) are free too, one file at a time." } },
+            { "@type": "Question", "name": "Is converting AVIF to JPG free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Mochify converts up to 3 images a month with no signup, and a free account covers 25 images per month at up to 20MB each. The native routes (Paint on Windows, Preview on Mac) are free too, one file at a time." } },
             { "@type": "Question", "name": "Does AVIF to JPG conversion reduce image quality?", "acceptedAnswer": { "@type": "Answer", "text": "Slightly, in principle: both formats are lossy, so a conversion is a re-encode. In practice a good encoder makes the difference invisible - in published testing, raters preferred jpegli JPEGs over libjpeg-turbo and MozJPEG output 54% of the time at a lower bitrate. HDR AVIFs are the exception, since tone-mapping to 8-bit SDR visibly changes the look." } },
             { "@type": "Question", "name": "Why is the JPG bigger than the AVIF was?", "acceptedAnswer": { "@type": "Answer", "text": "Because AVIF compresses more efficiently than JPEG - that is the reason websites use it. Converting trades file size for universal compatibility. If small files matter more than compatibility for your use case, keep the AVIF or use it on your own site with a fallback." } },
             { "@type": "Question", "name": "Can I convert a whole folder of AVIF files at once?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Mochify's Seller and Pro tiers batch up to 25 files per job at up to 75MB each, and the CLI takes a single plain-English prompt for a whole directory. Paint and Preview only handle files one at a time." } },
@@ -197,7 +197,7 @@
         </h1>
 
         <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            You saved an image from a website, tried to open it, and your computer refused. The file ends in <code class={inlineCode}>.avif</code>, and suddenly you are searching for answers instead of getting on with your day. Here is the short version: AVIF is a modern image format that browsers love and desktop software often does not, and the fastest fix is converting it to JPG. Drop your file on our <a href="https://mochify.app/avif-to-jpg">AVIF to JPG converter</a> and you will have a universally compatible JPEG in seconds, no signup needed for up to 3 images per session. If you want to understand what happened, or you need a native route on Windows, Mac, or the command line, this guide covers every option.
+            You saved an image from a website, tried to open it, and your computer refused. The file ends in <code class={inlineCode}>.avif</code>, and suddenly you are searching for answers instead of getting on with your day. Here is the short version: AVIF is a modern image format that browsers love and desktop software often does not, and the fastest fix is converting it to JPG. Drop your file on our <a href="https://mochify.app/avif-to-jpg">AVIF to JPG converter</a> and you will have a universally compatible JPEG in seconds, no signup needed for up to 3 images a month. If you want to understand what happened, or you need a native route on Windows, Mac, or the command line, this guide covers every option.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
@@ -239,7 +239,7 @@
 
         <section id="the-fastest-way-to-convert-avif-to-jpg" class="scroll-mt-24">
             <SectionHeading>The Fastest Way to Convert AVIF to JPG</SectionHeading>
-            <p>The fastest route is a purpose-built converter in your browser: open <a href="https://mochify.app/avif-to-jpg">mochify.app/avif-to-jpg</a>, drop the file in, download the JPG. No account is required for up to 3 images per session, and a free account raises that to 25 images per month with a 20MB per-file limit.</p>
+            <p>The fastest route is a purpose-built converter in your browser: open <a href="https://mochify.app/avif-to-jpg">mochify.app/avif-to-jpg</a>, drop the file in, download the JPG. No account is required for up to 3 images a month, and a free account raises that to 25 images per month with a 20MB per-file limit.</p>
             <p>Two things make this route worth choosing over a random converter site. First, the encoder: Mochify re-encodes to JPEG with Google's jpegli, which produces noticeably better quality per byte than the legacy encoders most converters use (more on the data in the <a href="#will-converting-avif-to-jpg-lose-quality">quality section</a> below). Second, the privacy model: your image is streamed into server RAM at api.mochify.app, encoded, returned, and wiped immediately - no disk writes, no logs containing file data, nothing retained after the request completes.</p>
             <p>You can also skip the format decision entirely. Mochify's Magic Flow interface takes plain English, so a prompt like "convert these to JPG for email and strip all metadata" handles the format, the quality, and the EXIF cleanup in one pass. There are no settings panels to learn; you describe the result you want.</p>
             <p><strong>Got a folder of them?</strong> Paid tiers batch up to 25 files at a time, which turns a scraped product catalog or a client's mixed-format handoff into one job instead of twenty-five tabs. <a href="https://mochify.app/avif-to-jpg">Try it now</a>.</p>
@@ -308,7 +308,7 @@
                     <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
                     <div class="min-w-0 flex-1">
                         <strong class="block text-[#4A2C2C] text-lg mb-1.5">Drop in your files</strong>
-                        <p class="text-base m-0">Drop in your <code class={inlineCode}>.avif</code> files - up to 3 per session with no signup, 25 per month with a free account, or 25 per batch on Seller and Pro.</p>
+                        <p class="text-base m-0">Drop in your <code class={inlineCode}>.avif</code> files - up to 3 a month with no signup, 25 per month with a free account, or 25 per batch on Seller and Pro.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
@@ -392,7 +392,7 @@
             href="/"
             label="Try it free at mochify.app →"
         >
-            Stuck with a folder of AVIF files right now? <a href="https://mochify.app/avif-to-jpg">Convert them to JPG in seconds</a> - free for up to 3 per session, no account needed.
+            Stuck with a folder of AVIF files right now? <a href="https://mochify.app/avif-to-jpg">Convert them to JPG in seconds</a> - free for up to 3 a month, no account needed.
         </GuideCTA>
 
         <!-- Related guides -->

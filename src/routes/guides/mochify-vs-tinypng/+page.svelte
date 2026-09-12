@@ -12,7 +12,7 @@
         category: "Image Optimization",
         readTime: "13 min read",
         date: "July 21, 2026",
-        lastUpdated: "September 3, 2026"
+        lastUpdated: "September 12, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -97,7 +97,7 @@
             "@id": "https://mochify.app/guides/mochify-vs-tinypng"
         },
         "datePublished": "2026-07-21",
-        "dateModified": "2026-09-03",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -156,7 +156,7 @@
         "description": "TinyPNG stores files 48 hours; Mochify wipes them instantly. An honest head-to-head on pricing, formats, AI features, and where TinyPNG genuinely wins.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-21",
-        "dateModified": "2026-09-03"
+        "dateModified": "2026-09-12"
         }
     </script>
 
@@ -244,7 +244,7 @@
             <p>Credit where due. TinyPNG has real advantages, and pretending otherwise would make everything else on this page less believable.</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
                 <li><strong class="text-[#4A2C2C]">Brand trust and scale.</strong> <a href="https://tinify.com/developers" target="_blank" rel="noopener noreferrer">Tinify's live counter</a> shows more than 6.5 billion images compressed, and its customer wall includes Airbnb, Microsoft, and Samsung. When you recommend TinyPNG to a client, nobody asks what it is.</li>
-                <li><strong class="text-[#4A2C2C]">Frictionless free sessions.</strong> The free tool takes 20 images per session with no signup. Mochify's no-signup session allows 3 images (25 per month with a free account). For batch-compressing small web assets without an account, TinyPNG is more generous.</li>
+                <li><strong class="text-[#4A2C2C]">Frictionless free sessions.</strong> The free tool takes 20 images per session with no signup. Mochify allows 3 images a month with no signup (25 per month with a free account). For batch-compressing small web assets without an account, TinyPNG is more generous.</li>
                 <li><strong class="text-[#4A2C2C]">Cheapest unlimited web compression.</strong> Tinify has published pricing of roughly $39 per year for Web Pro, which removes compression limits entirely and raises the file cap to 75MB. If your only need is high-volume web compression in a browser tab, that undercuts Mochify's Seller tier, and we're not going to pretend otherwise. Web Ultra (~$149/yr) goes to 150MB files, above Mochify's 75MB ceiling.</li>
                 <li><strong class="text-[#4A2C2C]">A big, mature ecosystem.</strong> Official WordPress and Figma plugins, six official API client libraries, direct save to Amazon S3 and Google Cloud Storage, around 50 community integrations, and a separate image CDN product. (One caveat: the well-known Photoshop plugin is officially deprecated, per Tinify's own notice.)</li>
                 <li><strong class="text-[#4A2C2C]">A generous API free tier.</strong> 500 free compressions per month, no payment method required.</li>
@@ -285,7 +285,7 @@
                         <tr class="bg-white align-top">
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Free, no signup</td>
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">20 images/session, 5MB each, 3 conversions</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">3 images/session, 20MB each</td>
+                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">3 images/month, 20MB each</td>
                         </tr>
                         <tr class="bg-[#FDFBF7] align-top">
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Free, with account</td>
@@ -347,7 +347,7 @@
                         <tr class="bg-[#FDFBF7] align-top">
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Free batch (no signup)</td>
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">20/session</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">3/session</td>
+                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">3 per batch</td>
                         </tr>
                         <tr class="bg-white align-top">
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Formats</td>

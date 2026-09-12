@@ -154,9 +154,17 @@
             </div>
         </div>
 
-        <div class="flex justify-center">
+        <!-- Badges are self-hosted in /img rather than hot-linked: each directory's
+             own CDN would otherwise cost a DNS + TLS handshake on every page, and
+             /img/* already carries the one-year immutable Cache-Control from
+             _headers. Both are sized at their true aspect ratio (the TAAFT PNG is
+             300x63, so the old 150x53 was stretching it) and height-matched at 40. -->
+        <div class="flex flex-wrap justify-center items-center gap-5">
             <a href="https://theresanaiforthat.com/ai/mochify/?ref=featured&v=10637185" target="_blank" rel="nofollow noopener">
-                <img width="150" height="53" loading="lazy" src="https://media.theresanaiforthat.com/featured-on-taaft.png?width=300" alt="Featured on There's An AI For That" />
+                <img width="190" height="40" loading="lazy" src="/img/badge-taaft.png" alt="Featured on There's An AI For That" />
+            </a>
+            <a href="https://alternativeto.net/software/mochify/about/?utm_source=badge&utm_medium=referral" target="_blank" rel="nofollow noopener">
+                <img width="118" height="40" loading="lazy" src="/img/badge-alternativeto.svg" alt="Mochify on AlternativeTo" />
             </a>
         </div>
 

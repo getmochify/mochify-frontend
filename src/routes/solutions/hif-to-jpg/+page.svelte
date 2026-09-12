@@ -5,7 +5,7 @@
 <svelte:head>
     <title>Convert HIF to JPG Online (Fuji/Canon) - Free & Fast | Mochify</title>
     <meta name="description" content="Convert Fuji, Canon & Sony HIF photos to JPEG instantly. Perfect for photographers using X-T5, R5, or Sony Alpha. Free, secure, and runs in-memory.">
-    <meta property="og:title" content="Convert HIF to JPG (Fuji/Canon) - Soft & Squishy Image Tools">
+    <meta property="og:title" content="HIF to JPG Converter - Mochify">
 
     <script type="application/ld+json">
         {
@@ -81,8 +81,8 @@
                     </svg>
                 </div>
                 <div class="flex-1 text-center sm:text-left">
-                    <p class="font-black text-[#4A2C2C] text-base leading-snug">Need to resize too? Just say so.</p>
-                    <p class="text-sm text-[#6C3F31]/70 mt-1 leading-relaxed">Type something like <span class="font-semibold text-[#6C3F31]">"convert to JPG and resize to 1200px"</span> — our prompt form handles the rest.</p>
+                    <p class="font-black text-[#4A2C2C] text-base leading-snug">Need to resize as well?</p>
+                    <p class="text-sm text-[#6C3F31]/70 mt-1 leading-relaxed">In the Mochify web app you can type a request such as <span class="font-semibold text-[#6C3F31]">"convert to JPG and resize to 1200px"</span> and Magic Flow does the rest.</p>
                 </div>
                 <a
                     href="/auth/register"

@@ -9,7 +9,8 @@
         description: "Know exactly when to keep SVG and when to convert it. Decision framework, format comparison, and WordPress workflows from the Mochify Engineering Team.",
         category: "Image Formats",
         readTime: "8 min read",
-        date: "May 16, 2026"
+        date: "May 16, 2026",
+        lastUpdated: "September 12, 2026"
     };
 
     const faqItems = [
@@ -50,7 +51,7 @@
             "url": "https://mochify.app"
         },
         "datePublished": "2026-05-16",
-        "dateModified": "2026-05-16",
+        "dateModified": "2026-09-12",
         "url": "https://mochify.app/guides/svg-conversion-guide-vector-vs-raster",
         "isPartOf": {
             "@type": "CollectionPage",
@@ -115,7 +116,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-cocoa-milk">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -556,7 +557,7 @@
                     <span class="w-1.5 h-8 bg-mochi-pink rounded-sm shrink-0"></span>
                     <h2 class="text-xl font-black text-[#4A2C2C]">Mochify Workflow: Convert SVG to WebP, AVIF, or PNG</h2>
                 </div>
-                <p class="text-sm text-cocoa-milk mb-6 ml-4">No account required on the free tier. Up to 3 files per session.</p>
+                <p class="text-sm text-cocoa-milk mb-6 ml-4">No account required on the free tier. Up to 3 files a month.</p>
 
                 <ol class="space-y-5">
                     {#each [

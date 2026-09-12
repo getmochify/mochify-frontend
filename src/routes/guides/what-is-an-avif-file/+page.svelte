@@ -11,7 +11,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         date: "July 14, 2026",
-        lastUpdated: "August 26, 2026"
+        lastUpdated: "September 12, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -39,7 +39,7 @@
         },
         {
             q: "How do I convert an AVIF file to JPG?",
-            a: "Drop the file on Mochify's AVIF to JPG converter and describe what you want in plain English, for example \"convert to JPG and strip all metadata\". No signup is needed for up to 3 images per session, and your file is processed in memory and wiped immediately after conversion."
+            a: "Drop the file on Mochify's AVIF to JPG converter and describe what you want in plain English, for example \"convert to JPG and strip all metadata\". No signup is needed for up to 3 images a month, and your file is processed in memory and wiped immediately after conversion."
         }
     ];
 
@@ -70,7 +70,7 @@
         "description": "An AVIF file is an image in the AV1 Image File Format, up to 50% smaller than JPEG. Here's how to open it on Windows and Mac, or convert it to JPG.",
         "url": "https://mochify.app/guides/what-is-an-avif-file",
         "datePublished": "2026-07-14",
-        "dateModified": "2026-08-26",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -119,7 +119,7 @@
             { "@type": "Question", "name": "How do I open an AVIF file on Windows?", "acceptedAnswer": { "@type": "Answer", "text": "Install the free AV1 Video Extension from the Microsoft Store. Once it is in place, Photos, Paint, and File Explorer thumbnails all start handling .avif files. Before that, dragging the file into any modern browser tab is the quickest way to view it." } },
             { "@type": "Question", "name": "How do I open an AVIF file on a Mac?", "acceptedAnswer": { "@type": "Answer", "text": "On macOS Ventura (macOS 13) and later, Preview and Quick Look open AVIF natively, so you can select the file and press spacebar to preview it. Older macOS versions have no built-in support, so open it in a browser or convert it to JPG." } },
             { "@type": "Question", "name": "Is AVIF better than JPEG?", "acceptedAnswer": { "@type": "Answer", "text": "For the web, largely yes: AVIF files can be up to 50% smaller than equivalent JPEGs at the same visual quality, and the format also supports 10-bit color, HDR, transparency, and animation. JPEG's advantage is universal compatibility, which is why converting to JPG is still the safe choice when an app or workflow rejects AVIF." } },
-            { "@type": "Question", "name": "How do I convert an AVIF file to JPG?", "acceptedAnswer": { "@type": "Answer", "text": "Drop the file on Mochify's AVIF to JPG converter and describe what you want in plain English, for example \"convert to JPG and strip all metadata\". No signup is needed for up to 3 images per session, and your file is processed in memory and wiped immediately after conversion." } }
+            { "@type": "Question", "name": "How do I convert an AVIF file to JPG?", "acceptedAnswer": { "@type": "Answer", "text": "Drop the file on Mochify's AVIF to JPG converter and describe what you want in plain English, for example \"convert to JPG and strip all metadata\". No signup is needed for up to 3 images a month, and your file is processed in memory and wiped immediately after conversion." } }
         ]
         }
     </script>
@@ -169,7 +169,7 @@
                 <li><strong class="text-[#4A2C2C]">macOS:</strong> Preview and Quick Look open AVIF natively on Ventura (macOS 13) and later. Older versions have no built-in support.</li>
                 <li><strong class="text-[#4A2C2C]">Everything else:</strong> if an app, upload form, or workflow rejects the file, convert it to JPG - the format that works everywhere.</li>
             </ul>
-            <p>Converting takes seconds: drop the file on Mochify's <a href="/avif-to-jpg">AVIF to JPG converter</a> and type what you want in plain English, for example "convert to JPG and strip all metadata". No signup is needed for up to 3 images per session, and your file is processed in memory and wiped immediately after conversion.</p>
+            <p>Converting takes seconds: drop the file on Mochify's <a href="/avif-to-jpg">AVIF to JPG converter</a> and type what you want in plain English, for example "convert to JPG and strip all metadata". No signup is needed for up to 3 images a month, and your file is processed in memory and wiped immediately after conversion.</p>
 
             <InfoBox type="tip" title="AVIF is not the same as WebP or JPEG XL">
                 AVIF, WebP, and JPEG XL are all next-gen formats that beat JPEG on size. If you are deciding which to serve on your own site rather than just trying to open a file, see <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl">What Should I Use in 2026: WebP, AVIF, or JPEG XL?</a> Selling on a hosted storefront narrows the question further, because the platform may already be converting for you: see <a href="/guides/should-my-product-images-be-avif-or-webp-in-2026">whether your product images should be AVIF or WebP</a>.
@@ -182,7 +182,7 @@
             href="/avif-to-jpg"
             label="Try AVIF to JPG free →"
         >
-            Drop it into Mochify and just describe what you want, like <em>"convert to JPG and strip all metadata"</em> - no signup needed for up to 3 images per session.
+            Drop it into Mochify and just describe what you want, like <em>"convert to JPG and strip all metadata"</em> - no signup needed for up to 3 images a month.
         </GuideCTA>
 
         <GuideFAQs items={faqs} />

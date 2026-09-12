@@ -69,7 +69,7 @@
         category: "AI & Automation",
         readTime: "7 min read",
         date: "March 9, 2026",
-        lastEdited: "July 17, 2026"
+        lastEdited: "September 12, 2026"
     };
 </script>
 
@@ -134,7 +134,7 @@
             }
         ],
         "datePublished": "2026-03-09",
-        "dateModified": "2026-07-17"
+        "dateModified": "2026-09-12"
         }
     </script>
 
@@ -374,7 +374,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
             <p class="mb-4">Restart Claude Desktop after saving. The Mochify <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">squish</code> tool will appear in your assistant's available functions - test it with: <em>"Compress this image as a WebP for the web."</em></p>
 
             <InfoBox type="tip" title="No API key needed to start">
-                Without a key, requests run on the free tier - 25 images per month (IP-based), or 3 per session with no signup. To use your plan's higher limits (Seller 300/month, Pro 1,200/month), run <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">mochify auth login</code> once to authenticate against your Mochify account.
+                Without a key, requests run on the free tier - 25 images per month, or 3 images a month with no signup (tracked by IP address). To use your plan's higher limits (Seller 300/month, Pro 1,200/month), run <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">mochify auth login</code> once to authenticate against your Mochify account.
             </InfoBox>
         </section>
 

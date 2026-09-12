@@ -20,7 +20,7 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is this HEIC to JPG converter free?',
-            a: 'Yes. Convert up to 3 images per session with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time.'
+            a: 'Yes. Convert up to 3 images a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time.'
         },
         {
             q: 'Do you see my photos?',
@@ -59,9 +59,9 @@
 
 <svelte:head>
     <title>HEIC to JPG Converter - Free, Online, No Signup | Mochify</title>
-    <meta name="description" content="Convert iPhone HEIC photos to JPG online in seconds: up to 3 files per session with no signup, jpegli-encoded JPEGs that open everywhere. Nothing to install, no codec to buy, processed in memory and never saved to disk.">
+    <meta name="description" content="Convert iPhone HEIC photos to JPG online in seconds: up to 3 files with no signup, jpegli-encoded JPEGs that open everywhere. Nothing to install, no codec to buy, processed in memory and never saved to disk.">
     <meta property="og:title" content="HEIC to JPG Converter - Mochify">
-    <meta property="og:description" content="Convert iPhone HEIC photos to JPG online in seconds: up to 3 files per session with no signup, jpegli-encoded JPEGs that open everywhere. Nothing to install, no codec to buy, processed in memory and never saved to disk.">
+    <meta property="og:description" content="Convert iPhone HEIC photos to JPG online in seconds: up to 3 files with no signup, jpegli-encoded JPEGs that open everywhere. Nothing to install, no codec to buy, processed in memory and never saved to disk.">
 
     <script type="application/ld+json">
         {
@@ -72,7 +72,7 @@
             "applicationCategory": "MultimediaApplication",
             "applicationSubCategory": "Image Converter",
             "url": "https://mochify.app/heic-to-jpeg",
-            "description": "Convert iPhone HEIC photos to JPG online in seconds: up to 3 files per session with no signup, jpegli-encoded JPEGs that open everywhere. Nothing to install, no codec to buy, processed in memory and never saved to disk.",
+            "description": "Convert iPhone HEIC photos to JPG online in seconds: up to 3 files with no signup, jpegli-encoded JPEGs that open everywhere. Nothing to install, no codec to buy, processed in memory and never saved to disk.",
             "offers": {
                 "@type": "Offer",
                 "price": "0",
@@ -82,7 +82,7 @@
             "featureList": [
                 "Convert iPhone HEIC photos to JPEG in the browser",
                 "jpegli encoder for better quality per byte",
-                "Up to 3 files per session with no signup",
+                "Up to 3 files with no signup",
                 "No software install or Microsoft Store codec purchase required",
                 "Batch conversion of up to 25 files on paid plans",
                 "CLI, MCP server and REST API for automated conversion",
@@ -109,7 +109,7 @@
             "@context": "https://schema.org",
             "@type": "FAQPage",
             "mainEntity": [
-                { "@type": "Question", "name": "Is this HEIC to JPG converter free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Convert up to 3 images per session with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time." } },
+                { "@type": "Question", "name": "Is this HEIC to JPG converter free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Convert up to 3 images a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time." } },
                 { "@type": "Question", "name": "Do you see my photos?", "acceptedAnswer": { "@type": "Answer", "text": "No. They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, with nothing to set on this page. If you need it kept, the Mochify web app has a Strip EXIF switch and the API takes stripExif=false." } },
                 { "@type": "Question", "name": "Why do my iPhone photos save as HEIC instead of JPG?", "acceptedAnswer": { "@type": "Answer", "text": "Because HEIC has been the iPhone's default since iOS 11: the same picture at about half the size of a JPEG. Settings, Camera, Formats, Most Compatible switches new photos to JPEG; photos you already have need converting." } },
                 { "@type": "Question", "name": "Why can't I save a HEIC file as a JPG?", "acceptedAnswer": { "@type": "Answer", "text": "Usually because the app cannot decode it in the first place. On Windows, Photos and Paint need the HEIF Image Extension and the paid HEVC Video Extensions from the Microsoft Store before Save as offers JPG. This page needs neither." } },
@@ -150,7 +150,7 @@
             </h1>
 
             <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-                Drop in the .heic photos from your iPhone and get JPGs that open in every app, on every device, with nothing to install. Up to 3 files per session with no signup, encoded with Google's jpegli for better quality per byte, processed in memory and never saved to disk.
+                Drop in the .heic photos from your iPhone and get JPGs that open in every app, on every device, with nothing to install. Up to 3 files with no signup (3 a month without an account, 25 a month with a free one), encoded with Google's jpegli for better quality per byte, processed in memory and never saved to disk.
             </p>
         </div>
 
@@ -164,7 +164,7 @@
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
                     <span class="shrink-0 w-8 h-8 rounded-xl bg-[#FFF5F7] border border-pink-100 text-[#F06292] font-black text-sm flex items-center justify-center">1</span>
                     <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Drop your .heic files above</strong>, or click browse. Up to 3 per session with no account, 25 a month with a free account. Files from an iPhone, iPad or iCloud download all work; .heif and .hif files convert here too.
+                        <strong class="text-[#4A2C2C]">Drop your .heic files above</strong>, or click browse. Up to 3 a month with no account, 25 a month with a free account. Files from an iPhone, iPad or iCloud download all work; .heif and .hif files convert here too.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">

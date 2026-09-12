@@ -9,7 +9,7 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is this PNG to JXL converter free?',
-            a: 'Yes, including lossless mode. Convert up to 3 files per session with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time.'
+            a: 'Yes, including lossless mode. Convert up to 3 files a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time.'
         },
         {
             q: 'Is the conversion lossless?',
@@ -74,7 +74,7 @@
             'Convert PNG to JPEG XL in the browser',
             'High-quality compressed encode by default',
             'Optional pixel-exact lossless mode',
-            'Up to 3 files per session with no signup',
+            'Up to 3 files with no signup',
             'Processed in memory, never saved to disk',
             'Metadata including GPS stripped by default',
             'Batch conversion of up to 25 files on paid plans'
@@ -164,7 +164,7 @@
             </h1>
 
             <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-                Drop PNG files here and get JPEG XL (JXL) files back. By default each file gets one high-quality encode tuned for PNG content, which makes the smallest file; switch <strong class="text-[#7E685E]">Lossless</strong> on after uploading and the JXL reproduces your PNG pixel for pixel, usually still smaller than the original. Up to 3 files per session with no signup and 20MB per file, or 25 a month with a free account. Files are processed in memory at api.mochify.app and wiped the moment your download is ready.
+                Drop PNG files here and get JPEG XL (JXL) files back. By default each file gets one high-quality encode tuned for PNG content, which makes the smallest file; switch <strong class="text-[#7E685E]">Lossless</strong> on after uploading and the JXL reproduces your PNG pixel for pixel, usually still smaller than the original. Up to 3 files a month with no signup and 20MB per file, or 25 a month with a free account. Files are processed in memory at api.mochify.app and wiped the moment your download is ready.
             </p>
         </div>
 

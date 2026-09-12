@@ -11,7 +11,7 @@
         category: "Image Formats",
         readTime: "19 min read",
         date: "June 4, 2026",
-        lastUpdated: "July 24, 2026"
+        lastUpdated: "September 12, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -58,12 +58,12 @@
 
     const faqs = [
         { q: 'What is a HIF file?', a: `A HIF file is a still image shot on a professional mirrorless camera (Canon, Sony, Fujifilm) and saved in the HEIF format with the .HIF extension. It uses HEVC (H.265) compression inside an ISO container at typically 10-bit color depth. The format delivers roughly twice the compression efficiency of JPEG at comparable perceived quality, with less gradient banding in skies and smooth tones.` },
-        { q: 'How do I convert HIF to JPG?', a: `The fastest desktop methods: on macOS, open the file in Preview and choose File → Export → JPEG. On Windows, install HEIF Image Extensions from the Microsoft Store and export from the Photos app. Canon bodies have a built-in HEIF-JPEG conversion option in the Playback menu. For any brand online, Mochify's HIF-to-JPG converter accepts .HIF files directly, with no account required for up to 3 files per session.` },
+        { q: 'How do I convert HIF to JPG?', a: `The fastest desktop methods: on macOS, open the file in Preview and choose File → Export → JPEG. On Windows, install HEIF Image Extensions from the Microsoft Store and export from the Photos app. Canon bodies have a built-in HEIF-JPEG conversion option in the Playback menu. For any brand online, Mochify's HIF-to-JPG converter accepts .HIF files directly, with no account required for up to 3 files a month.` },
         { q: 'Can I convert HIF to JPG without losing quality?', a: `There is always some information loss going from 10-bit HIF to 8-bit JPEG; the bit depth reduction is inherent. In practice, the difference is hard to see in most shots. Using a quality-aware encoder like jpegli and setting JPEG quality at 85 or above minimizes visible banding and artifacts. The most noticeable case is Canon HDR PQ files, where the HDR-to-SDR tone-mapping step alters the look more significantly than bit depth alone.` },
         { q: 'Why does my HIF file open on my Mac but get rejected on upload?', a: `macOS provides an OS-level HEIF codec that lets Photos and Preview render .HIF files regardless of whether a third-party app supports the format. Web platforms use their own decoders and often lack HEVC support or HEIF parsing. The file is valid; the upload destination simply cannot read it.` },
         { q: 'Is HIF the same as HEIC?', a: `They share the same underlying format (HEIF, ISO/IEC 23008-12, an ISO container with HEVC-encoded stills) but come from different hardware and serve different audiences. .HIF is the extension professional cameras write; .HEIC is the extension iPhones use. If your file is a .HEIC from an iPhone, use the HEIC to JPEG converter instead.` },
         { q: 'Does converting HIF to JPG strip EXIF data?', a: `It depends on the tool. Most platform converters (macOS Preview, Canon DPP) preserve EXIF by default. Mochify gives you explicit control: keep all EXIF, strip everything, or remove just GPS coordinates via the Magic Flow prompt ("convert to JPG and strip location data"). For any shared photo where privacy matters, stripping GPS before upload is good practice.` },
-        { q: 'Can I batch-convert HIF to JPG?', a: `Yes. Canon in-camera conversion supports "Select range" for converting multiple frames at once. Canon DPP and Sony Imaging Edge Desktop both batch-process. macOS Preview's "Export Selected Images" converts multiple files in one go. Mochify processes up to 3 files per free session, or up to 25 per batch on Seller and Pro plans, using a single Magic Flow prompt.` },
+        { q: 'Can I batch-convert HIF to JPG?', a: `Yes. Canon in-camera conversion supports "Select range" for converting multiple frames at once. Canon DPP and Sony Imaging Edge Desktop both batch-process. macOS Preview's "Export Selected Images" converts multiple files in one go. Mochify processes up to 3 files per batch on Free, or up to 25 per batch on Seller and Pro plans, using a single Magic Flow prompt.` },
         { q: 'What JPEG quality setting should I use when converting from HIF?', a: `85–90 is the practical sweet spot for most photography: visually clean for display and printing, with file sizes that work for sharing and web delivery. Above 95 adds bytes with minimal visible gain. Below 80 risks visible artifacts, particularly in 10-bit-to-8-bit conversions. Mochify's defaults are calibrated for high quality output with jpegli's adaptive quantisation handling the subtle detail.` },
     ];
 
@@ -99,7 +99,7 @@
         "description": "Convert HIF to JPG from Canon, Sony and Fujifilm cameras. Every method on every platform, plus what you trade away going 10-bit to 8-bit.",
         "url": "https://mochify.app/guides/hif-to-jpg-canon-sony-fujifilm",
         "datePublished": "2026-06-04",
-        "dateModified": "2026-07-24",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
@@ -113,12 +113,12 @@
         "@type": "FAQPage",
         "mainEntity": [
             { "@type": "Question", "name": "What is a HIF file?", "acceptedAnswer": { "@type": "Answer", "text": "A HIF file is a still image shot on a professional mirrorless camera (Canon, Sony, Fujifilm) and saved in the HEIF format with the .HIF extension. It uses HEVC (H.265) compression inside an ISO container at typically 10-bit color depth. The format delivers roughly twice the compression efficiency of JPEG at comparable perceived quality, with less gradient banding in skies and smooth tones." } },
-            { "@type": "Question", "name": "How do I convert HIF to JPG?", "acceptedAnswer": { "@type": "Answer", "text": "The fastest desktop methods: on macOS, open the file in Preview and choose File > Export > JPEG. On Windows, install HEIF Image Extensions from the Microsoft Store and export from the Photos app. Canon bodies have a built-in HEIF-JPEG conversion option in the Playback menu. For any brand online, Mochify's HIF-to-JPG converter accepts .HIF files directly, with no account required for up to 3 files per session." } },
+            { "@type": "Question", "name": "How do I convert HIF to JPG?", "acceptedAnswer": { "@type": "Answer", "text": "The fastest desktop methods: on macOS, open the file in Preview and choose File > Export > JPEG. On Windows, install HEIF Image Extensions from the Microsoft Store and export from the Photos app. Canon bodies have a built-in HEIF-JPEG conversion option in the Playback menu. For any brand online, Mochify's HIF-to-JPG converter accepts .HIF files directly, with no account required for up to 3 files a month." } },
             { "@type": "Question", "name": "Can I convert HIF to JPG without losing quality?", "acceptedAnswer": { "@type": "Answer", "text": "There is always some information loss going from 10-bit HIF to 8-bit JPEG; the bit depth reduction is inherent. In practice, the difference is hard to see in most shots. Using a quality-aware encoder like jpegli and setting JPEG quality at 85 or above minimizes visible banding and artifacts. The most noticeable case is Canon HDR PQ files, where the HDR-to-SDR tone-mapping step alters the look more significantly than bit depth alone." } },
             { "@type": "Question", "name": "Why does my HIF file open on my Mac but get rejected on upload?", "acceptedAnswer": { "@type": "Answer", "text": "macOS provides an OS-level HEIF codec that lets Photos and Preview render .HIF files regardless of whether a third-party app supports the format. Web platforms use their own decoders and often lack HEVC support or HEIF parsing. The file is valid; the upload destination simply cannot read it." } },
             { "@type": "Question", "name": "Is HIF the same as HEIC?", "acceptedAnswer": { "@type": "Answer", "text": "They share the same underlying format (HEIF, ISO/IEC 23008-12) but come from different hardware. .HIF is the extension professional cameras write; .HEIC is the extension iPhones use." } },
             { "@type": "Question", "name": "Does converting HIF to JPG strip EXIF data?", "acceptedAnswer": { "@type": "Answer", "text": "It depends on the tool. Most platform converters preserve EXIF by default. Mochify gives you explicit control: keep all EXIF, strip everything, or remove just GPS coordinates via the Magic Flow prompt. For any shared photo where privacy matters, stripping GPS before upload is good practice." } },
-            { "@type": "Question", "name": "Can I batch-convert HIF to JPG?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Canon in-camera conversion supports Select range. Canon DPP and Sony Imaging Edge Desktop both batch-process. macOS Preview converts multiple files at once. Mochify processes up to 3 files per free session, or up to 25 per batch on Seller and Pro plans." } },
+            { "@type": "Question", "name": "Can I batch-convert HIF to JPG?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Canon in-camera conversion supports Select range. Canon DPP and Sony Imaging Edge Desktop both batch-process. macOS Preview converts multiple files at once. Mochify processes up to 3 files per batch on Free, or up to 25 per batch on Seller and Pro plans." } },
             { "@type": "Question", "name": "What JPEG quality setting should I use when converting from HIF?", "acceptedAnswer": { "@type": "Answer", "text": "85-90 is the practical sweet spot for most photography. Above 95 adds bytes with minimal visible gain. Below 80 risks visible artifacts, particularly in 10-bit-to-8-bit conversions. Mochify's defaults are calibrated for high quality output with jpegli's adaptive quantisation." } }
         ]
         }
@@ -337,7 +337,7 @@
                     </li>
                     <li class="flex gap-4 items-start m-0 p-0">
                         <span class="flex-shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center">2</span>
-                        <div class="flex-1 pt-0.5"><p class="text-[#6C3F31] text-base m-0">Drop your <code class={inlineCode}>.HIF</code> files into the upload area. Up to 3 files per session on Free with no account needed; up to 25 per batch on Seller and Pro.</p></div>
+                        <div class="flex-1 pt-0.5"><p class="text-[#6C3F31] text-base m-0">Drop your <code class={inlineCode}>.HIF</code> files into the upload area. Up to 3 files a month on Free with no account needed; up to 25 per batch on Seller and Pro.</p></div>
                     </li>
                     <li class="flex gap-4 items-start m-0 p-0">
                         <span class="flex-shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center">3</span>

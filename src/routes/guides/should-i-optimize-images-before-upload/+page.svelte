@@ -12,7 +12,7 @@
         category: "Image Optimization",
         readTime: "15 min read",
         date: "April 13, 2026",
-        lastUpdated: "August 25, 2026"
+        lastUpdated: "September 12, 2026"
     };
 
     const related = [
@@ -86,7 +86,7 @@
         "description": "A practical guide to pre-upload image optimization: when it is mandatory, when it is optional, and the right workflow for Shopify, WordPress, and marketplaces.",
         "url": "https://mochify.app/guides/should-i-optimize-images-before-upload",
         "datePublished": "2026-04-13",
-        "dateModified": "2026-08-25",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team" },
         "isPartOf": { "@type": "CollectionPage", "name": "Image Optimization Guides", "url": "https://mochify.app/guides" },
@@ -343,7 +343,7 @@
             <p class="mb-4">Keep your masters. Treat pre-upload optimization as producing delivery variants from those masters, not replacing them. For web portfolios and client review links, target 2560px long edge, jpegli at quality 85, under 1MB. For client deliverables, strip GPS and device serial numbers as a default. For HEIC input from iPhone shoots, Mochify converts directly to AVIF/WebP/JPEG without manual intermediate steps.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Privacy-conscious users and casual creators</h3>
-            <p class="mb-4">The "just strip EXIF and resize" use case is fully served on the free tier, with no account required for up to 3 files per session. Use the Magic Flow default prompt, download the optimized files, upload to wherever you're sharing. The free tier gives you 25 images per month.</p>
+            <p class="mb-4">The "just strip EXIF and resize" use case is fully served on the free tier, with no account required for up to 3 files a month. Use the Magic Flow default prompt, download the optimized files, upload to wherever you're sharing. The free tier gives you 25 images per month.</p>
         </section>
 
         <!-- 07 -->
@@ -388,7 +388,7 @@
                         <div>
                             <p class="font-black text-[#4A2C2C] mb-2">{title}</p>
                             {#if i === 1}
-                            <p class="mb-3">Open <a href="https://mochify.app">mochify.app</a>, upload your files (up to 25 at a time on paid tiers, up to 3 per session on the free tier without signup), and type what you need in the prompt field. You don't need to know encoder settings or format flags. Magic Flow parses your prompt, maps intent to compression parameters, and passes them to the processing engine.</p>
+                            <p class="mb-3">Open <a href="https://mochify.app">mochify.app</a>, upload your files (up to 25 at a time on paid tiers, up to 3 a month on the free tier without signup), and type what you need in the prompt field. You don't need to know encoder settings or format flags. Magic Flow parses your prompt, maps intent to compression parameters, and passes them to the processing engine.</p>
                             <div class="bg-blue-50 rounded-2xl border border-blue-100 p-4 text-sm text-[#4A2C2C] italic space-y-1">
                                 <p>"Shopify product photos, 2048px square, jpegli JPEG, under 400KB, strip EXIF"</p>
                                 <p>"WordPress blog images, 1400px wide, WebP, under 200KB, strip all metadata"</p>

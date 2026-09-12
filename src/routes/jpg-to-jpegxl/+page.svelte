@@ -13,12 +13,12 @@
     ];
 
     const metaDescription =
-        'Convert JPG to JXL online in seconds: up to 3 files per session with no signup, one high-quality JPEG XL re-encode per photo, processed in memory and never saved to disk. Nothing to install and nothing to set.';
+        'Convert JPG to JXL online in seconds: up to 3 files with no signup, one high-quality JPEG XL re-encode per photo, processed in memory and never saved to disk. Nothing to install and nothing to set.';
 
     const faqs: FaqItem[] = [
         {
             q: 'Is this JPG to JXL converter free?',
-            a: 'Yes. Convert up to 3 files per session with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time.'
+            a: 'Yes. Convert up to 3 files a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time.'
         },
         {
             q: 'Is the conversion lossless? Can I get my original JPEG back?',
@@ -82,7 +82,7 @@
         featureList: [
             'Convert JPG to JPEG XL in the browser',
             'One high-quality re-encode per photo, nothing to set',
-            'Up to 3 files per session with no signup',
+            'Up to 3 files with no signup',
             'Processed in memory, never saved to disk',
             'Metadata including GPS stripped by default',
             'Batch conversion of up to 25 files on paid plans'
@@ -136,7 +136,7 @@
             </h1>
 
             <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-                Drop JPEG photos here and get JPEG XL (JXL) files back: one high-quality re-encode per photo, with nothing to set. Up to 3 files per session with no signup and 20MB per file, or 25 a month with a free account. Files are processed in memory at api.mochify.app and wiped the moment your download is ready.
+                Drop JPEG photos here and get JPEG XL (JXL) files back: one high-quality re-encode per photo, with nothing to set. Up to 3 files a month with no signup and 20MB per file, or 25 a month with a free account. Files are processed in memory at api.mochify.app and wiped the moment your download is ready.
             </p>
         </div>
 

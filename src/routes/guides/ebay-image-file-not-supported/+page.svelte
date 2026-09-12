@@ -10,7 +10,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         datePublished: "June 24, 2026",
-        lastUpdated: "August 5, 2026"
+        lastUpdated: "September 12, 2026"
     };
 
     const related = [
@@ -59,7 +59,7 @@
             "@id": "https://mochify.app/guides/ebay-image-file-not-supported"
         },
         "datePublished": "2026-06-24",
-        "dateModified": "2026-08-05",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -135,7 +135,7 @@
                 <p class="font-mono text-sm text-[#4A2C2C] leading-relaxed">Convert to JPEG, resize to 1600px on the longest side, and keep quality around 85</p>
             </div>
 
-            <p class="mb-4">Mochify interprets that and applies the right settings automatically. Your image is processed in-memory and deleted immediately: nothing is stored. The free plan covers 25 images per month, or 3 per session without signing up, which is enough for occasional listings.</p>
+            <p class="mb-4">Mochify interprets that and applies the right settings automatically. Your image is processed in-memory and deleted immediately: nothing is stored. The free plan covers 25 images per month, or 3 a month without signing up, which is enough for occasional listings.</p>
 
             <p class="mb-4">If you also sell on Vinted, photo prep is different there (portrait, not square, and no official spec) - covered in <a href="/guides/vinted-photos-that-sell">our Vinted photo guide</a>.</p>
 

@@ -16,7 +16,7 @@
         category: "Workflows",
         readTime: "13 min read",
         date: "July 19, 2026",
-        lastUpdated: "September 2, 2026"
+        lastUpdated: "September 12, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -104,7 +104,7 @@
             "@id": "https://mochify.app/guides/vinted-photos-that-sell"
         },
         "datePublished": "2026-07-19",
-        "dateModified": "2026-09-02",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -161,7 +161,7 @@
         "description": "Vinted photo size and aspect ratio (portrait, about 3:4, 1080px or wider), the photo rules including stock photos, why Vinted crops your photos, and how to shoot photos that sell.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-19",
-        "dateModified": "2026-09-02"
+        "dateModified": "2026-09-12"
         }
     </script>
 
@@ -326,7 +326,7 @@
                     <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
                     <div class="min-w-0 flex-1">
                         <strong class="block text-[#4A2C2C] text-lg mb-1.5">Open Mochify</strong>
-                        <p class="text-base m-0">Go to <a href="/vinted-seller">mochify.app/vinted-seller</a> in your browser. No install needed. Without an account you can process up to 3 images per session; a free account covers 25 images per month, with a 3-file batch size and 20MB per file.</p>
+                        <p class="text-base m-0">Go to <a href="/vinted-seller">mochify.app/vinted-seller</a> in your browser. No install needed. Without an account you can process up to 3 images a month; a free account covers 25 images per month, with a 3-file batch size and 20MB per file.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">

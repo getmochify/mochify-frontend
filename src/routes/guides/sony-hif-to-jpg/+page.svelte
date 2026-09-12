@@ -10,7 +10,7 @@
         category: "Quick Guides",
         readTime: "3 min read",
         date: "June 17, 2026",
-        lastUpdated: "August 7, 2026"
+        lastUpdated: "September 12, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -41,7 +41,7 @@
         "description": "Convert Sony .HIF files to JPG with Sony's free Imaging Edge Desktop, or convert online in one step. Which Alpha bodies shoot HEIF, and how to export.",
         "url": "https://mochify.app/guides/sony-hif-to-jpg",
         "datePublished": "2026-06-17",
-        "dateModified": "2026-08-07",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -132,7 +132,7 @@
 
         <section id="faster-route">
             <SectionHeading>The faster route: convert in one step</SectionHeading>
-            <p>If you do not have Sony's software to hand, Mochify's <a href="/solutions/hif-to-jpg">HIF to JPG converter</a> accepts <code class={inlineCode}>.HIF</code> files from any Sony Alpha body directly. Describe what you want in plain English and Magic Flow applies the settings for you, for example: <em>"convert these Sony HIF files to JPG"</em> or <em>"convert to JPG and strip location data"</em>. You can do up to 3 files per session with no account needed.</p>
+            <p>If you do not have Sony's software to hand, Mochify's <a href="/solutions/hif-to-jpg">HIF to JPG converter</a> accepts <code class={inlineCode}>.HIF</code> files from any Sony Alpha body directly. Describe what you want in plain English and Magic Flow applies the settings for you, for example: <em>"convert these Sony HIF files to JPG"</em> or <em>"convert to JPG and strip location data"</em>. You can do up to 3 files a month with no account needed.</p>
 
             <InfoBox type="tip" title="On privacy">
                 Your <code class={inlineCode}>.HIF</code> does travel to Mochify's encoder at <code class={inlineCode}>api.mochify.app</code> over HTTPS, where it is streamed into memory, encoded, and the original wiped immediately, with no disk writes and no logs of your file. This is the pro-camera HEIF lane. If your file is actually a <code class={inlineCode}>.HEIC</code> from an iPhone, use the <a href="/heic-to-jpeg">HEIC to JPEG converter</a> instead.

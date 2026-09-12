@@ -11,7 +11,7 @@
         category: "AI & Automation",
         readTime: "12 min read",
         date: "June 16, 2026",
-        lastUpdated: "August 14, 2026"
+        lastUpdated: "September 12, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -43,7 +43,7 @@
         },
         {
             q: "Can I use the PDF utility on the free tier?",
-            a: "Yes. MCP and API access are included on every tier, including Free, which allows 25 operations per month (or 3 per session with no signup) and a 20MB file-size limit. Seller and Pro raise the file-size limit to 75MB and batch size to 25 files."
+            a: "Yes. MCP and API access are included on every tier, including Free, which allows 25 operations per month (or 3 a month with no signup) and a 20MB file-size limit. Seller and Pro raise the file-size limit to 75MB and batch size to 25 files."
         },
         {
             q: "WebP or AVIF for PDF page previews?",
@@ -79,7 +79,7 @@
         "description": "How to extract images from PDF, split multi-page files, and convert pages to WebP inside an AI agent pipeline. Mechanics, pitfalls, and a privacy-first workflow.",
         "url": "https://mochify.app/guides/extract-images-from-pdf-agent-workflows",
         "datePublished": "2026-06-16",
-        "dateModified": "2026-08-14",
+        "dateModified": "2026-09-12",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -129,7 +129,7 @@
             { "@type": "Question", "name": "Why return file paths instead of the image bytes to my agent?", "acceptedAnswer": { "@type": "Answer", "text": "Images are billed as tokens (a 512x512 image is roughly 210 tokens in OpenAI's worked example), so piping every page through the model context is expensive at batch scale, and the MCP resources spec is built around returning URIs and metadata rather than blobs. Returning paths keeps cost down and lets the bytes enter context only when a step genuinely needs them. Mochify's local MCP server returns paths and metadata by default." } },
             { "@type": "Question", "name": "Is Mochify's PDF utility available to AI agents, or only in the web app?", "acceptedAnswer": { "@type": "Answer", "text": "It is available across the web app, the CLI, both MCP servers, and the REST API, all served by POST /v1/pdf. Video is the one capability that is web-app-only; the PDF utility is not. For agent work, the local MCP server is the surface to lead with because it returns paths, not bytes." } },
             { "@type": "Question", "name": "Is PDF processing on Mochify private? Does the file stay on my machine?", "acceptedAnswer": { "@type": "Answer", "text": "The file does not stay on your machine. PDFs travel to api.mochify.app over HTTPS exactly like images, are processed in RAM, and are wiped immediately with no source disk writes and no logs containing file data. That is zero-retention, which is a stronger and more honest claim than \"never leaves your device.\" Local CLI and local MCP paths are zero-retention end-to-end; the hosted MCP holds only the output behind a five-minute download URL." } },
-            { "@type": "Question", "name": "Can I use the PDF utility on the free tier?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. MCP and API access are included on every tier, including Free, which allows 25 operations per month (or 3 per session with no signup) and a 20MB file-size limit. Seller and Pro raise the file-size limit to 75MB and batch size to 25 files." } },
+            { "@type": "Question", "name": "Can I use the PDF utility on the free tier?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. MCP and API access are included on every tier, including Free, which allows 25 operations per month (or 3 a month with no signup) and a 20MB file-size limit. Seller and Pro raise the file-size limit to 75MB and batch size to 25 files." } },
             { "@type": "Question", "name": "WebP or AVIF for PDF page previews?", "acceptedAnswer": { "@type": "Answer", "text": "Default to WebP: it is widely supported and typically 25-34% smaller than JPEG at similar quality. Use AVIF where your tooling and audience support it for even smaller files, and keep a JPEG fallback in a picture element for older clients." } }
         ]
         }
