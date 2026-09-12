@@ -17,6 +17,15 @@ export type Guide = {
 
 export const guides: Guide[] = [
 	{
+		title: 'JPEG XL vs PNG for Screenshots: Half the Size, Same Pixels',
+		description:
+			'A measured comparison: one macOS screenshot at 1.84 MiB as PNG and 0.99 MiB as lossless JPEG XL. Why screenshots compress so well, what lossless really guarantees, and when to stay on PNG.',
+		url: '/guides/jxl-vs-png-for-screenshots',
+		category: 'Image Formats',
+		readTime: '8 min read',
+		date: 'September 12, 2026'
+	},
+	{
 		title:
 			'Bring Your Own Bucket: Send Processed Images Straight to Your Own S3 or R2',
 		description:

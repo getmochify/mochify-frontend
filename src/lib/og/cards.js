@@ -48,6 +48,11 @@ export const cards = [
 	},
 	{ path: '/guides', eyebrow: 'GUIDES', title: 'Image Optimization Guides' },
 	{
+		path: '/guides/jxl-vs-png-for-screenshots',
+		eyebrow: 'GUIDE',
+		title: 'JPEG XL vs PNG for Screenshots'
+	},
+	{
 		path: '/guides/2026-guide-next-gen-formats',
 		eyebrow: 'GUIDE',
 		title: 'WebP vs AVIF vs JPEG XL: 2026 Comparison Guide'
