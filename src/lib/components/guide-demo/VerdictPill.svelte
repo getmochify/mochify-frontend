@@ -3,16 +3,23 @@
 
 	// Status pill for verdict columns in guide tables: coloured dot + label.
 	// yes = matcha, no = strawberry, mixed = warm amber, note = neutral blue.
+	//
+	// `banner` switches the pill from a nowrap table label to a standalone
+	// block that wraps. The default nowrap is what keeps short verdicts from
+	// breaking mid-phrase in a narrow table column, but it makes a
+	// sentence-length pill overflow the viewport on mobile.
 	let {
 		kind = 'note',
+		banner = false,
 		children
 	}: {
 		kind?: 'yes' | 'no' | 'mixed' | 'note';
+		banner?: boolean;
 		children: Snippet;
 	} = $props();
 </script>
 
-<span class="pill {kind}"><span class="dot"></span>{@render children()}</span>
+<span class="pill {kind}" class:banner><span class="dot"></span>{@render children()}</span>
 
 <style>
 	.pill {
@@ -26,6 +33,24 @@
 		line-height: 1.35;
 		white-space: nowrap;
 		border: 1px solid;
+	}
+
+	/* Wrapping variant. Stays inline-flex so it shrink-wraps to the sentence
+	   where there is room and only takes the full width once the text has to
+	   wrap. At one line the 1.1rem radius is still a full stadium (the box is
+	   ~2.3rem tall), so the desktop look is unchanged; multi-line it reads as
+	   a rounded banner rather than a stretched capsule. */
+	.pill.banner {
+		align-items: flex-start;
+		white-space: normal;
+		text-wrap: pretty;
+		padding: 0.6rem 0.95rem;
+		border-radius: 1.1rem;
+	}
+
+	/* Centre the dot on the first line rather than the whole flex box. */
+	.pill.banner .dot {
+		margin-top: 0.41em;
 	}
 
 	.dot {

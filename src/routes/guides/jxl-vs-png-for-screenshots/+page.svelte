@@ -15,18 +15,19 @@
     // bring-your-own-bucket-s3-r2). Every number in this guide comes from one
     // measured pair of files, not from a vendor benchmark: a macOS screenshot
     // saved as PNG (1,924,519 bytes) and the same shot re-encoded to lossless
-    // JXL by Mochify (1,034,300 bytes). The pixel-identity and colour-profile
+    // JXL by Mochify (1,034,300 bytes). The pixel-identity and color-profile
     // claims in "What lossless actually guarantees" were verified by decoding
-    // both files and diffing them channel by channel. First publish, so there
-    // is no dateModified and no visible Updated line.
+    // both files and diffing them channel by channel. Patched 2026-09-14 for
+    // the content-ops compliance pass (ledger v22 + writing manual v9).
 
     const metadata = {
         title: "JPEG XL vs PNG for Screenshots: Half the Size, Same Pixels",
         seoTitle: "JPEG XL vs PNG for Screenshots - Half the Size, Same Pixels",
-        description: "A measured comparison: one macOS screenshot at 1.84 MiB as PNG and 0.99 MiB as lossless JPEG XL. Why screenshots compress so well, what lossless really guarantees, and when to stay on PNG.",
+        description: "One macOS screenshot, measured: 1.84 MiB as PNG, 0.99 MiB as lossless JPEG XL. Why screenshots compress so well in JXL, and when to stay on PNG.",
         category: "Image Formats",
-        readTime: "8 min read",
-        date: "September 12, 2026"
+        readTime: "10 min read",
+        date: "September 12, 2026",
+        lastUpdated: "September 14, 2026"
     };
 
     const toc = [
@@ -42,15 +43,15 @@
     const convertSteps = [
         {
             title: "Drop the PNG on the converter.",
-            html: "<p>Open the <a href=\"/solutions/png-to-jxl\">PNG to JXL converter</a> and add your screenshots. Up to 3 files a month with no signup and 20MB per file, or 25 a month with a free account.</p>"
+            html: "<p>Open the <a href=\"/solutions/png-to-jxl\">PNG to JXL converter</a> and add your screenshots. Up to 3 files a month with no signup and 20MB per file, or 25 a month with a free account. Metadata is stripped on the way through, GPS included, with nothing to set for it on this page; a screenshot rarely carries any, so for this test it made no difference.</p>"
         },
         {
             title: "Switch Lossless on.",
-            html: "<p>This matters. The default PNG to JXL encode is a high-quality <em>lossy</em> pass, because for most PNGs that makes the smallest file and the difference is invisible. For screenshots you want the toggle on, so the result is pixel-exact and still smaller than the PNG.</p>"
+            html: "<p>This matters. The default PNG to JXL encode is a high-quality <em>lossy</em> pass, because for most PNGs that makes the smallest file and the difference is invisible. For screenshots you want the switch on, so the result is pixel-exact and still smaller than the PNG.</p>"
         },
         {
             title: "Check the size before you commit.",
-            html: "<p>Lossless JXL beats PNG on essentially every screenshot we have measured, but a tiny image with very few colours is one case where PNG's palette mode can win. If the output is not smaller, keep the PNG.</p>"
+            html: "<p>Lossless JXL beats PNG on essentially every screenshot we have measured, but a tiny image with very few colors is one case where PNG's palette mode can win. If the output is not smaller, keep the PNG.</p>"
         },
         {
             title: "Keep the PNG if the file is going anywhere public.",
@@ -61,11 +62,11 @@
     const faqItems = [
         {
             q: "Is lossless JPEG XL really identical to the PNG?",
-            a: "Yes, in the sense that matters: every pixel value survives the round trip. We verified this by decoding both files and comparing them channel by channel. The one caveat is the colour profile, which is a separate thing from the pixel data and is covered in the section above."
+            a: "Yes, in the sense that matters: every pixel value survives the round trip. We verified this by decoding both files and comparing them channel by channel. The one caveat is the color profile, which is a separate thing from the pixel data and is covered in the section above."
         },
         {
             q: "How much smaller is JXL than PNG for screenshots?",
-            a: "In the test on this page, 46% smaller: 1,924,519 bytes as PNG against 1,034,300 bytes as lossless JXL, for a 3056x1982 macOS screenshot. Expect roughly 30% to 50% on typical UI screenshots. Photographic content inside the screenshot pushes the saving higher, flat single-colour areas push it lower."
+            a: "In the test on this page, 46% smaller: 1,924,519 bytes as PNG against 1,034,300 bytes as lossless JXL, for a 3056x1982 macOS screenshot. Expect roughly 30% to 50% on typical UI screenshots. Photographic content inside the screenshot pushes the saving higher, flat single-color areas push it lower."
         },
         {
             q: "Can I put a JXL screenshot on a website?",
@@ -112,7 +113,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>JPEG XL vs PNG for Screenshots - Half the Size, Same Pixels | Mochify</title>
+    <title>JPEG XL vs PNG for Screenshots - Half the Size, Same Pixels</title>
     <meta name="description" content={metadata.description}>
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
@@ -130,13 +131,14 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "JPEG XL vs PNG for Screenshots: Half the Size, Same Pixels",
-        "description": "A measured comparison: one macOS screenshot at 1.84 MiB as PNG and 0.99 MiB as lossless JPEG XL. Why screenshots compress so well, what lossless really guarantees, and when to stay on PNG.",
+        "description": "One macOS screenshot, measured: 1.84 MiB as PNG, 0.99 MiB as lossless JPEG XL. Why screenshots compress so well in JXL, and when to stay on PNG.",
         "url": "https://mochify.app/guides/jxl-vs-png-for-screenshots",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/jxl-vs-png-for-screenshots"
         },
         "datePublished": "2026-09-12",
+        "dateModified": "2026-09-14",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -151,6 +153,14 @@
                 "@type": "ImageObject",
                 "url": "https://mochify.app/logo.png"
             }
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app"},
+                {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides"},
+                {"@type": "ListItem", "position": 3, "name": "JPEG XL vs PNG for Screenshots: Half the Size, Same Pixels", "item": "https://mochify.app/guides/jxl-vs-png-for-screenshots"}
+            ]
         },
         "isPartOf": {
             "@type": "CollectionPage",
@@ -176,11 +186,11 @@
         </h1>
         <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
         <p class="mt-5 text-sm font-bold text-[#875F42] mb-0">
-            {metadata.readTime} · {metadata.date} · Mochify Engineering Team
+            {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
         </p>
 
         <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed mt-8 mb-0">
-            Screenshots are the one image type almost everybody produces every day, and almost nobody optimizes. Your operating system saves them as PNG, PNG is lossless, and there the thinking usually stops. But lossless is a property of the result, not of the format, and PNG is not the only way to get there. This guide takes a single real macOS screenshot, re-encodes it as lossless JPEG XL, and reports what actually happened: the sizes, the pixels, and the one piece of metadata that changed and is worth knowing about.
+            Screenshots are the one image type almost everybody produces every day, and almost nobody optimizes. Your operating system saves them as PNG, PNG is lossless, and there the thinking usually stops. But lossless is a property of the result, not of the format, and PNG is not the only way to get there. This guide takes a single real macOS screenshot, re-encodes it as lossless JPEG XL, and reports what actually happened: the sizes, the pixels, and the one piece of metadata that changed in a way worth knowing about.
         </p>
 
         <GlassPanel>
@@ -200,7 +210,7 @@
         <section id="the-short-answer" class="scroll-mt-24">
             <SectionHeading>The short answer</SectionHeading>
 
-            <VerdictPill kind="yes">
+            <VerdictPill kind="yes" banner>
                 Lossless JPEG XL stored the same screenshot in 46% less space than PNG, with every pixel preserved.
             </VerdictPill>
 
@@ -208,7 +218,7 @@
                 One macOS screenshot, 3056x1982, saved by the system as PNG came to <strong class="text-[#4A2C2C]">1,924,519 bytes</strong>. Re-encoded to lossless JPEG XL it came to <strong class="text-[#4A2C2C]">1,034,300 bytes</strong>. That is 890,219 bytes saved, a 46% reduction, for a file that decodes back to the same image.
             </p>
             <p>
-                The catch is not quality, it is compatibility. JXL opens natively on current macOS and in Safari 17 and later, but Chrome and Firefox still keep JPEG XL decoding behind a flag. So the honest recommendation is narrow: JXL is an excellent format for a screenshot you are <em>keeping</em>, and a bad format for one you are about to <em>send</em>.
+                The catch is not quality, it is compatibility. JXL opens natively on current macOS and in Safari 17 and later, but Chrome and Firefox still keep <a href="/guides/chrome-145-jpeg-xl-default">JPEG XL decoding behind a flag</a>. So the honest recommendation is narrow: JXL is an excellent format for a screenshot you are <em>keeping</em>, and a bad format for one you are about to <em>send</em>.
             </p>
         </section>
 
@@ -250,7 +260,7 @@
                             <td>Yes</td>
                         </tr>
                         <tr>
-                            <td>Colour profile</td>
+                            <td>Color profile</td>
                             <td>Display P3</td>
                             <td>sRGB IEC61966-2.1</td>
                         </tr>
@@ -264,12 +274,12 @@
             </GuideTable>
 
             <p>
-                Two things in that table deserve more than a row each. The bytes-per-pixel figures explain <em>why</em> the saving happens, and the colour profile row is the one genuine caveat in this whole comparison. Both get their own section below.
+                Two things in that table deserve more than a row each. The bytes-per-pixel figures explain <em>why</em> the saving happens, and the color profile row is the one genuine caveat in this whole comparison. Both get their own section below.
             </p>
 
             <GlassInfoBox type="note" title="One file is not a benchmark">
                 <p class="m-0">
-                    These are real measurements from one real pair of files, which is more useful than a vendor chart and less authoritative than a corpus. On typical UI screenshots expect somewhere in the 30% to 50% range. A screenshot that is mostly flat colour will save less, because PNG is already good at flat colour. A screenshot containing photos, gradients, or a video still will save more.
+                    These are real measurements from one real pair of files, which is more useful than a vendor chart and less authoritative than a corpus. On typical UI screenshots expect somewhere in the 30% to 50% range. A screenshot that is mostly flat color will save less, because PNG is already good at flat color. A screenshot containing photos, gradients, or a video still will save more.
                 </p>
             </GlassInfoBox>
         </section>
@@ -278,18 +288,18 @@
             <SectionHeading>Why screenshots compress so well in JXL</SectionHeading>
 
             <p>
-                PNG compresses in two stages. First it applies one of five per-row filters that predict each pixel from its left and upper neighbours and store the difference. Then it runs the whole filtered stream through DEFLATE, the same general-purpose algorithm as a zip file. That design is from the mid-1990s and it is remarkable how well it has aged, but both halves are limited: the filters only look one row up and one pixel left, and DEFLATE knows nothing about images at all.
+                Because JPEG XL's lossless mode is image-aware and PNG's is not, and on a screenshot that difference is worth roughly 46%. PNG compresses in two stages. First it applies one of <a href="https://www.w3.org/TR/png-3/" target="_blank" rel="noopener noreferrer">five per-row filters</a> that predict each pixel from its left and upper neighbours and store the difference. Then it runs the whole filtered stream through DEFLATE, the same general-purpose algorithm as a zip file. That design is from the mid-1990s and it is remarkable how well it has aged, but both halves are limited: the filters only look one row up and one pixel left, and DEFLATE knows nothing about images at all.
             </p>
             <p>
-                JPEG XL's lossless path, called modular mode, replaces both stages with something image-aware. It uses a self-correcting predictor that weighs several different predictions per pixel and learns which is working, it can split the image into regions that get different treatment, and it entropy-codes the residuals with adaptive context modelling rather than a generic dictionary compressor.
+                JPEG XL's lossless path, called modular mode, replaces both stages with something image-aware. It uses a self-correcting predictor that weighs several different predictions per pixel and learns which is working, it can split the image into regions that get different treatment, and it entropy-codes the residuals with adaptive context modeling rather than a generic dictionary compressor.
             </p>
             <p>
-                Screenshots reward that. A screenshot is full of long exact repeats, hard edges, text rendered with the same antialiasing over and over, and large areas of a single flat colour interrupted by fine detail. PNG's row filters handle the flat areas well and the text poorly. Modular mode handles both, which is where the extra 46% comes from. The bytes-per-pixel numbers say it plainly: 0.318 for PNG against 0.171 for JXL, on identical pixels.
+                Screenshots reward that. A screenshot is full of long exact repeats, hard edges, text rendered with the same antialiasing over and over, and large areas of a single flat color interrupted by fine detail. PNG's row filters handle the flat areas well and the text poorly. Modular mode handles both, which is where the extra 46% comes from. The bytes-per-pixel numbers say it plainly: 0.318 for PNG against 0.171 for JXL, on identical pixels. You can reproduce the pair on your own screenshot with the <a href="/solutions/png-to-jxl">PNG to JXL converter</a>.
             </p>
 
             <GlassInfoBox type="technical" title="Also worth knowing: lossless JPEG recompression">
                 <p class="m-0">
-                    JXL has a second lossless trick that does not apply here but is worth knowing if you also have a folder of JPEGs. It can re-encode an existing JPEG into JXL, typically around 20% smaller, and reconstruct the original JPEG file bit for bit later. That is a different mechanism from modular mode, and it is the one genuinely unique feature JPEG XL has over every other format.
+                    JXL has a second lossless trick that does not apply here but is worth knowing if you also have a folder of JPEGs. It can re-encode an existing JPEG into JXL, typically around 20% smaller, and reconstruct the original JPEG file bit for bit later. That is a different mechanism from modular mode, and it is the one genuinely unique feature JPEG XL has over every other format. Mochify's JPG to JXL converter does not do this: it is a high-quality re-encode, so keep your JPEG masters. The <a href="/guides/converting-images-to-jpeg-xl">guide to converting a library to JPEG XL</a> covers both paths.
                 </p>
             </GlassInfoBox>
         </section>
@@ -298,21 +308,21 @@
             <SectionHeading>What lossless actually guarantees</SectionHeading>
 
             <p>
-                We did not take the word "lossless" on trust. Both files were decoded to raw pixels and compared channel by channel, and the comparison is worth reporting carefully, because the first result looks alarming and the explanation is the interesting part.
+                Lossless guarantees the pixel values, not the color profile: here every pixel value survived the round trip and only the profile changed, from Display P3 to sRGB. We did not take the word "lossless" on trust. Both files were decoded to raw pixels and compared channel by channel, and the comparison is worth reporting carefully, because the first result looks alarming and the explanation is the interesting part.
             </p>
             <p>
-                Compared directly, 12.8% of the colour channel values differed, some by as much as 87 levels out of 255. That is not compression loss. That is the colour profile row in the table above: the PNG is tagged <strong class="text-[#4A2C2C]">Display P3</strong> and the JXL is tagged <strong class="text-[#4A2C2C]">sRGB</strong>, and converting between two colour spaces changes the numbers stored for a pixel even when the colour it represents stays as close as the smaller space allows. Saturated colours move the most, which is exactly where the large differences landed.
+                Compared directly, 12.8% of the color channel values differed, some by as much as 87 levels out of 255. That is not compression loss. That is the color profile row in the table above: the PNG is tagged <strong class="text-[#4A2C2C]">Display P3</strong> and the JXL is tagged <strong class="text-[#4A2C2C]">sRGB</strong>, and converting between two color spaces changes the numbers stored for a pixel even when the color it represents stays as close as the smaller space allows. Saturated colors move the most, which is exactly where the large differences landed.
             </p>
             <p>
-                Convert the original to sRGB first, so both files are in the same space, and the comparison changes completely: <strong class="text-[#4A2C2C]">99.2% of values are bit-identical, and the maximum difference anywhere in the image is 1 level out of 255</strong>. A maximum delta of one is the signature of rounding between two implementations of the same colour conversion, not of a lossy encoder. Lossy compression at any useful quality produces errors many times larger than that, concentrated exactly on the text edges a screenshot is full of.
+                Convert the original to sRGB first, so both files are in the same space, and the comparison changes completely: <strong class="text-[#4A2C2C]">99.2% of values are bit-identical, and the maximum difference anywhere in the image is 1 level out of 255</strong>. A maximum delta of one is the signature of rounding between two implementations of the same color conversion, not of a lossy encoder. Lossy compression at any useful quality produces errors many times larger than that, concentrated exactly on the text edges a screenshot is full of.
             </p>
             <p>
-                So the encode is genuinely lossless. The pixels went through unharmed. What changed was the colour space they are described in.
+                So the encode is genuinely lossless. The pixels went through unharmed. What changed was the color space they are described in.
             </p>
 
             <GlassInfoBox type="warning" title="Check this if you work in wide gamut">
                 <p class="m-0">
-                    In this conversion the Display P3 profile became sRGB. For a screenshot of a normal web page that is a non-event, because the content was sRGB to begin with and nothing visible changes. It matters if your screenshot contains wide-gamut content that genuinely uses the P3 space: photography, video stills, colour-graded design work, or a display calibration target. In that case the colours outside sRGB are mapped into it, and that part is not recoverable. JPEG XL itself has no such limitation, it handles wide gamut and high bit depth well, so if you need P3 preserved, verify the profile on the output before converting an archive in bulk.
+                    In this conversion the Display P3 profile became sRGB. For a screenshot of a normal web page that is a non-event, because the content was sRGB to begin with and nothing visible changes. It matters if your screenshot contains wide-gamut content that genuinely uses the P3 space: photography, video stills, color-graded design work, or a display calibration target. In that case the colors outside sRGB are mapped into it, and that part is not recoverable. JPEG XL itself has no such limitation, it handles wide gamut and high bit depth well, so if you need P3 preserved, verify the profile on the output before converting an archive in bulk.
                 </p>
             </GlassInfoBox>
         </section>
@@ -321,7 +331,7 @@
             <SectionHeading>When to use JXL for screenshots (and when not to)</SectionHeading>
 
             <p>
-                The size argument is settled. The only real question is whether the file will open where it needs to open, and for JPEG XL in 2026 the answer still depends heavily on where that is.
+                The size argument is settled. The only real question is whether the file will open where it needs to open, and for JPEG XL in 2026 the answer still depends heavily on where that is (<a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer">current browser support on caniuse.com</a>).
             </p>
 
             <GuideTable>
@@ -342,7 +352,7 @@
                         <tr>
                             <td>Long-term storage or backup</td>
                             <td><strong>JXL</strong></td>
-                            <td>Lossless, smaller, and an open ISO standard rather than a vendor format.</td>
+                            <td>Lossless, smaller, and an <a href="https://jpeg.org/jpegxl/" target="_blank" rel="noopener noreferrer">open ISO standard</a> rather than a vendor format.</td>
                         </tr>
                         <tr>
                             <td>Pasted into Slack, Jira, Notion, a doc</td>
@@ -369,7 +379,7 @@
             </GuideTable>
 
             <p>
-                The pattern is consistent: JXL wins wherever <em>you</em> control what opens the file, and loses wherever you do not. That is a compatibility problem rather than a technical one, and it is slowly improving, but it is the state of things today and it is worth planning around rather than hoping past.
+                The pattern is consistent: JXL wins wherever <em>you</em> control what opens the file, and loses wherever you do not. That is a compatibility problem rather than a technical one, and it is slowly improving, but it is the state of things today and it is worth planning around rather than hoping past. If the choice is wider than JXL or PNG, <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl">how WebP, AVIF and JPEG XL compare</a> covers the other two.
             </p>
         </section>
 
@@ -380,7 +390,7 @@
 
             <GlassInfoBox type="tip" title="Keep the originals until you have checked">
                 <p class="m-0">
-                    Converting an archive is a one-way decision if you delete the sources. Convert a handful first, open them in whatever you actually use, confirm the colour profile is what you expect, and only then run the rest. Disk space is cheaper than a screenshot you cannot open.
+                    Converting an archive is a one-way decision if you delete the sources. Convert a handful first, open them in whatever you actually use, confirm the color profile is what you expect, and only then run the rest. Disk space is cheaper than a screenshot you cannot open.
                 </p>
             </GlassInfoBox>
         </section>
@@ -394,7 +404,7 @@
             secondaryHref="/guides/what-is-a-jxl-file"
             secondaryLabel="What is a JXL file?"
         >
-            Drop a PNG in, switch <em>Lossless</em> on, and compare the two sizes yourself. Files are processed in memory and wiped the moment your download is ready, and nothing is kept on disk.
+            Drop a PNG in, switch <em>Lossless</em> on, and compare the two sizes yourself. Files are processed in memory at api.mochify.app and wiped the moment your download is ready. Nothing is written to disk and no logs contain your image data.
         </GlassCTA>
 
         <RelatedGuidesGrid guides={related} />

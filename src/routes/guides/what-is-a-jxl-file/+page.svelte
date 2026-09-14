@@ -9,7 +9,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         date: "August 12, 2026",
-        lastUpdated: "September 11, 2026"
+        lastUpdated: "September 14, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -40,7 +40,7 @@
         "description": "A .jxl file is a JPEG XL image. Browser and OS support is still uneven in 2026 - here is how to open one, convert it to JPEG, or share it as a PDF.",
         "url": "https://mochify.app/guides/what-is-a-jxl-file",
         "datePublished": "2026-08-12",
-        "dateModified": "2026-09-11",
+        "dateModified": "2026-09-14",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -137,7 +137,7 @@
         <section id="how-to-convert-or-share-a-jxl-file">
             <SectionHeading>How to Convert or Share a JXL File</SectionHeading>
             <p><strong>JXL to JPEG</strong> is the most compatible output. JPEG opens everywhere - in email clients, older apps, and every browser. If you need to send a JXL image to a client or upload it to a platform that does not yet support the format, converting to JPEG is the safest route.</p>
-            <p><strong>JXL to PDF</strong> is the right move when you need to share a batch of JXL images as a single document. If you have shot or received JXL files and need to send them to a client whose email viewer or platform cannot handle the format, bundling them into a PDF sidesteps the compatibility issue entirely. <a href="/solutions/jxl-to-pdf">Mochify's JXL to PDF tool</a> combines up to 20 JXL files - along with PNG, JPG, WebP, AVIF, or HEIC - into one shareable PDF. No software to install; the files are processed server-side and wiped immediately.</p>
+            <p><strong>JXL to PDF</strong> is the right move when you need to share a batch of JXL images as a single document. If you have shot or received JXL files and need to send them to a client whose email viewer or platform cannot handle the format, bundling them into a PDF sidesteps the compatibility issue entirely. <a href="/solutions/jxl-to-pdf">Mochify's JXL to PDF tool</a> combines up to 20 JXL files - along with PNG, JPG, WebP, AVIF, or HEIC - into one shareable PDF. No software to install; the files are processed server-side and wiped immediately. Screenshots are the clearest case for lossless JXL: <a href="/guides/jxl-vs-png-for-screenshots">a real macOS screenshot came out 46% smaller than PNG</a> with the pixels intact.</p>
         </section>
 
         <!-- CTA -->

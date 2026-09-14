@@ -11,7 +11,7 @@
         category: "Quick Guides",
         readTime: "3 min read",
         date: "April 10, 2026",
-        lastUpdated: "August 14, 2026"
+        lastUpdated: "September 14, 2026"
     };
 
     const related = [
@@ -56,7 +56,7 @@
         "url": "https://mochify.app/guides/chrome-145-jpeg-xl-default",
         "inLanguage": "en",
         "datePublished": "2026-04-10",
-        "dateModified": "2026-08-14",
+        "dateModified": "2026-09-14",
         "author": {
             "@type": "Organization",
             "name": "Mochify Engineering Team"
@@ -157,6 +157,8 @@
             </InfoBox>
 
             <p class="mb-4">Mochify compresses and converts images to AVIF, WebP, and JPEG with privacy-first, zero-retention processing - no files stored, no data retained. Try it free at <a href="https://mochify.app">mochify.app</a>.</p>
+
+            <p class="mb-4">Off the web, the calculation changes: for screenshots you keep rather than serve, <a href="/guides/jxl-vs-png-for-screenshots">lossless JXL is already the better archive format</a>.</p>
         </section>
 
         <RelatedGuides guides={related} />
