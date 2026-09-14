@@ -30,7 +30,21 @@ export const GET: RequestHandler = async ({ locals, url, platform }) => {
 
     const code = url.searchParams.get('code')
     const state = url.searchParams.get('state')
-    if (!code || !state) throw redirect(303, back({ drive_error: 'incomplete' }))
+    if (!code || !state) {
+        // Reported separately rather than as one "incomplete", because the two
+        // have nothing to do with each other. No `code` at all usually means the
+        // callback was reached other than by Google sending someone here — a
+        // refresh, a back button, a direct visit, or something upstream
+        // stripping the query string. A missing `state` alone would point at the
+        // consent URL being built wrong.
+        //
+        // Parameter NAMES only. `code` is a one-time credential and must not be
+        // written to a log line, which is also why it is not echoed to the URL.
+        console.error(
+            `[drive/callback] missing parameter — received: [${[...url.searchParams.keys()].join(', ') || 'none'}]`
+        )
+        throw redirect(303, back({ drive_error: code ? 'no_state' : 'no_code' }))
+    }
 
     if (!BETTER_AUTH_SECRET) {
         console.error('[drive/callback] BETTER_AUTH_SECRET is not set')
