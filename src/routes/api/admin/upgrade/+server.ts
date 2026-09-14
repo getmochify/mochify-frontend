@@ -64,7 +64,16 @@ async function reseedBucket(
 	await fetch(`${CF_WORKER_URL}/seed/${identifier}`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json', 'X-Worker-Token': CF_WORKER_TOKEN },
-		body: JSON.stringify({ remaining: opsLimit, quota: opsLimit, plan, ttl, userId })
+		body: JSON.stringify({
+			remaining: opsLimit,
+			quota: opsLimit,
+			plan,
+			ttl,
+			userId,
+			// Sent so the worker's usage mirror can tell a lapsed Day Pass
+			// from a live one without going back to D1.
+			periodEnd: quotaPeriodEnd
+		})
 	})
 		.then(async (r) => {
 			if (!r.ok)
