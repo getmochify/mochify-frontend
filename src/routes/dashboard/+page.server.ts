@@ -5,6 +5,9 @@ import { Kysely } from 'kysely';
 import { D1Dialect } from 'kysely-d1';
 import { mirrorMarketingConsent, removeContact } from '$lib/server/resendContacts';
 import { fetchUsage, type UsageSummary } from '$lib/server/usage';
+// Shared with /api/drive/connect, which needs the same gate before it sends
+// anyone to Google.
+import { assertStoragePlan } from '$lib/server/storagePlan';
 import { createPolarClient } from '$lib/server/discounts';
 import { countryFromRequest } from '$lib/server/currency';
 import { localisedPlanPrices } from '$lib/server/prices';
@@ -68,39 +71,6 @@ export interface BucketConnection {
 	status?: 'unverified' | 'ok' | 'error';
 	statusDetail?: string | null;
 	lastVerifiedAt?: string | null;
-}
-
-// Storage destinations are a *subscription* feature, which is narrower than
-// "paid": a Day Pass is a 24-hour unlock, and a connection that outlives the
-// pass by months is not what someone bought for $2. Deliberately not named
-// PAID_PLANS — `day` is a paid plan, it just is not entitled to this.
-//
-// Keep in step with BUCKET_PLANS in ../mochify-worker/src/index.ts, which is
-// the gate that actually stops writes after a downgrade.
-const STORAGE_PLANS = new Set(['seller', 'pro', 'growth']);
-
-// The dashboard hides the card for everyone else, but that is cosmetic — every
-// mutating action re-checks the plan here, because a form POST does not care
-// what the client rendered.
-async function assertStoragePlan(
-	platform: App.Platform | undefined,
-	userId: string
-): Promise<boolean> {
-	const db = platform?.env?.DB;
-	if (!db) return false;
-	try {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const kysely = new Kysely<any>({ dialect: new D1Dialect({ database: db }) });
-		const row = await kysely
-			.selectFrom('profile')
-			.select(['plan'])
-			.where('user_id', '=', userId)
-			.executeTakeFirst();
-		return STORAGE_PLANS.has(row?.plan ?? 'free');
-	} catch (e) {
-		console.error('[dashboard] plan check failed:', e);
-		return false;
-	}
 }
 
 // The worker answers some failures with plain text — 'Unauthorized' on a token
@@ -434,10 +404,20 @@ export const actions = {
 		// Storage credentials die now, not in 14 days. The rest of the account
 		// is recoverable by signing back in; live keys to someone else's bucket
 		// are not something to hold on to for a deactivated account. The purge
-		// cron re-runs this delete in case the call below fails.
-		await callWorker(platform, `/user/${locals.user.id}/bucket`, { method: 'DELETE' }).catch((e) =>
-			console.error('[dashboard] bucket credential wipe on delete failed:', e)
-		);
+		// cron re-runs these deletes in case the calls below fail.
+		//
+		// The Drive delete matters more than the bucket one, not less: deleting
+		// our copy of an access key makes it unusable to us, but an OAuth grant
+		// keeps existing in the user's Google account until it is revoked. That
+		// DELETE revokes before it drops the row.
+		await Promise.all([
+			callWorker(platform, `/user/${locals.user.id}/bucket`, { method: 'DELETE' }).catch((e) =>
+				console.error('[dashboard] bucket credential wipe on delete failed:', e)
+			),
+			callWorker(platform, `/user/${locals.user.id}/drive`, { method: 'DELETE' }).catch((e) =>
+				console.error('[dashboard] drive credential wipe on delete failed:', e)
+			)
+		]);
 
 		const db = platform?.env?.DB;
 		if (!db) return fail(500, { error: 'Database unavailable' });
