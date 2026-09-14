@@ -25,7 +25,7 @@ export function uploadErrorMessage(
 		(status === 422 && !!text && /corrupt or truncated/i.test(text));
 	if (isCorrupt) {
 		return (
-			"This image looks incomplete — if it's stored in iCloud, open it in " +
+			"This image looks incomplete. If it's stored in iCloud, open it in " +
 			'Photos or Preview first to download the full-resolution original, then try again.'
 		);
 	}
@@ -80,6 +80,26 @@ export function readDetectedHeader(xhr: XMLHttpRequest): string | undefined {
 	}
 }
 
+// The decoder's own sentence (X-Mochify-Decoder, sanitised server-side by
+// ImageValidator::sanitizeForHeader) — e.g. "heifload_buffer: bad seek to 9491"
+// vs "heif: Unsupported feature: ...". Set on header-read rejections and, since
+// the decode-time catch sites in core's SquishPipeline started emitting it, on
+// pipeline rejections too.
+//
+// This is the field that splits `corrupt-image`. That label is reached BOTH by a
+// genuinely truncated file and by any other libheif failure, because core's
+// isCorruptImageError matches the bare "heifload" domain — so the count alone
+// cannot tell a real iCloud placeholder from an intact photo we simply failed to
+// decode, and both get told their image is incomplete.
+// Readable cross-origin only because Cors.h lists it in Access-Control-Expose-Headers.
+export function readDecoderHeader(xhr: XMLHttpRequest): string | undefined {
+	try {
+		return xhr.getResponseHeader('X-Mochify-Decoder')?.trim() || undefined;
+	} catch {
+		return undefined;
+	}
+}
+
 // Fire-and-forget telemetry for a server-classified rejection. Only meaningful
 // when a label is present (the pipeline classified the failure), which lets us
 // measure the field rate of each class — e.g. what share of failures are
@@ -89,10 +109,13 @@ export function trackReject(opts: {
 	status: number;
 	// 'staged_complete' is the speculative path in $lib/uploadStage.ts — same
 	// /v1/upload/complete endpoint as 'chunked_complete', different upload route
-	// in, so rejections stay distinguishable in telemetry.
-	source: 'squish' | 'chunked_complete' | 'staged_complete';
+	// in, so rejections stay distinguishable in telemetry. 'stage' is the
+	// speculative POST itself, which refuses a file while the user is still
+	// typing; it was previously the one reject path that reported nothing.
+	source: 'squish' | 'chunked_complete' | 'staged_complete' | 'stage';
 	plan?: string;
 	detected?: string;
+	decoder?: string;
 }): void {
 	try {
 		posthog.capture('upload_reject', {
@@ -101,6 +124,7 @@ export function trackReject(opts: {
 			source: opts.source,
 			plan: opts.plan ?? 'unknown',
 			detected: opts.detected ?? 'unknown',
+			decoder: opts.decoder ?? 'unknown',
 			ua: typeof navigator !== 'undefined' ? navigator.userAgent : ''
 		});
 	} catch {

@@ -21,6 +21,7 @@
 		type ChunkedUploadParams
 	} from '$lib/uploadChunked';
 	import { resolveUploadSize, effectiveSize, uploadBodyOf } from '$lib/uploadSize';
+	import { checkTruncation } from '$lib/truncationCheck';
 	import { startStaging, noStager, shouldSpeculate, type Stager } from '$lib/uploadStage';
 	import { uploadErrorMessage, readXhrErrorText, trackUpload413 } from '$lib/uploadError';
 	import { portal } from '$lib/portal';
@@ -408,6 +409,7 @@
 		const validFiles: File[] = [];
 		let rejectedCount = 0;
 		let unreadableCount = 0;
+		let truncatedCount = 0;
 		let modeMismatch = 0;
 
 		let effectiveMode = uploadMode;
@@ -440,6 +442,30 @@
 				continue;
 			}
 
+			// Bytes that stop before the container says they should. This is the
+			// same file the server would reject as `corrupt-image` after a full
+			// upload and a decode attempt, so catching it from the header here
+			// saves the round trip and the token, and lets us say which file it
+			// was while the tray is still on screen. Reads container metadata
+			// only. See $lib/truncationCheck for why a false never means "fine".
+			if (isImage) {
+				const trunc = await checkTruncation(f);
+				if (trunc.truncated) {
+					truncatedCount++;
+					// The count this is really measuring is how much of the
+					// corrupt-image bucket was genuine truncation all along, which
+					// the server-side label alone could never tell us.
+					posthog.capture('upload_truncated_preflight', {
+						container: trunc.container ?? 'unknown',
+						reason: trunc.reason ?? 'unknown',
+						short_by: trunc.shortBy ?? -1,
+						size: f.size,
+						surface: 'prompt'
+					});
+					continue;
+				}
+			}
+
 			const fileMode: 'pdf' | 'image' | 'video' = fileIsPdf
 				? 'pdf'
 				: fileIsVideo
@@ -461,6 +487,12 @@
 			showStatus(
 				'error',
 				`${unreadableCount} file(s) couldn't be read and were skipped. If stored in iCloud or a cloud drive, open the original to download it first, then try again.`
+			);
+		}
+		if (truncatedCount > 0) {
+			showStatus(
+				'error',
+				`${truncatedCount} file(s) are incomplete and were skipped. This usually means the photo hasn't fully downloaded from iCloud or Google Photos. Open the original there first, then try again.`
 			);
 		}
 		if (modeMismatch > 0) {

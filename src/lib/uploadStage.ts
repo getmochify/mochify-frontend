@@ -21,7 +21,13 @@
 // latency for nothing, so a failure must never become a user-visible error.
 import { posthog } from '$lib/analytics';
 import { CHUNK_THRESHOLD_BYTES } from '$lib/uploadChunked';
-import { uploadErrorMessage } from '$lib/uploadError';
+import {
+	uploadErrorMessage,
+	readRejectLabel,
+	readDetectedHeader,
+	readDecoderHeader,
+	trackReject
+} from '$lib/uploadError';
 
 // How many files to stage at once.
 //
@@ -170,14 +176,25 @@ function stageOne(
 					// The server has seen the bytes and refused them. Carry the
 					// reason back so the caller can drop the file and say why,
 					// rather than uploading it a second time to be told again.
+					const rejectLabel = readRejectLabel(xhr);
+					// Stage is the EARLIEST point a content rejection can happen —
+					// core runs ImageValidator and the bomb check over the whole body
+					// here, while the user is still typing. It was also the only
+					// reject path that reported nothing beyond a generic
+					// `speculative_stage_failed`, so a truncated HEIC caught at the
+					// best possible moment was invisible in the same breakdown as the
+					// squish/complete rejections. Same event, same shape.
+					trackReject({
+						label: rejectLabel,
+						status: xhr.status,
+						source: 'stage',
+						detected: readDetectedHeader(xhr),
+						decoder: readDecoderHeader(xhr)
+					});
 					giveUp(
 						'rejected',
 						xhr.status,
-						uploadErrorMessage(
-							xhr.status,
-							xhr.responseText,
-							xhr.getResponseHeader('X-Mochify-Reject') ?? undefined
-						)
+						uploadErrorMessage(xhr.status, xhr.responseText, rejectLabel)
 					);
 					return;
 				}

@@ -15,6 +15,7 @@ import {
 	readXhrErrorText,
 	readRejectLabel,
 	readDetectedHeader,
+	readDecoderHeader,
 	trackReject
 } from '$lib/uploadError';
 
@@ -284,7 +285,8 @@ export function completeUpload(
 					label: rejectLabel,
 					status: xhr.status,
 					source,
-					detected: readDetectedHeader(xhr)
+					detected: readDetectedHeader(xhr),
+					decoder: readDecoderHeader(xhr)
 				});
 				const error: RetryableXhrError = new Error(
 					uploadErrorMessage(xhr.status, serverText, rejectLabel)
