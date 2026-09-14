@@ -18,7 +18,7 @@
 		type ChunkedUploadParams
 	} from '$lib/uploadChunked';
 	import { resolveUploadSize, effectiveSize, uploadBodyOf } from '$lib/uploadSize';
-	import { checkTruncation } from '$lib/truncationCheck';
+	import { checkTruncation, truncationVerdictOf } from '$lib/truncationCheck';
 	import {
 		uploadErrorMessage,
 		readXhrErrorText,
@@ -479,38 +479,19 @@
 			}
 		}
 
-		// Bytes that stop before the container says they should. This is the same
-		// file the server would reject as `corrupt-image` after a full upload and
-		// a decode attempt, so catching it from the header here saves the round
-		// trip and the token, and lets us name the file while the tray is still on
-		// screen. Reads container metadata only, and runs after the size filters
-		// so nothing already being dropped gets read a second time. See
-		// $lib/truncationCheck for why a false never means "fine".
-		const truncationChecked = await Promise.all(
-			allFiles.map(async (f) => ({ file: f, trunc: await checkTruncation(f) }))
-		);
-		const truncated = truncationChecked.filter((r) => r.trunc.truncated);
-		if (truncated.length > 0) {
-			rejections.push(
-				`${truncated.length} file${truncated.length !== 1 ? 's' : ''} ${truncated.length === 1 ? 'is' : 'are'} incomplete and ${truncated.length === 1 ? 'was' : 'were'} skipped. This usually means the photo hasn't fully downloaded from iCloud or Google Photos. Open the original there first, then try again.`
-			);
-			for (const r of truncated) {
-				// The count this is really measuring is how much of the
-				// corrupt-image bucket was genuine truncation all along, which the
-				// server-side label alone could never tell us.
-				posthog.capture('upload_truncated_preflight', {
-					container: r.trunc.container ?? 'unknown',
-					reason: r.trunc.reason ?? 'unknown',
-					short_by: r.trunc.shortBy ?? -1,
-					size: r.file.size,
-					surface: 'manual'
-				});
-			}
-			allFiles = truncationChecked.filter((r) => !r.trunc.truncated).map((r) => r.file);
-			if (allFiles.length === 0) {
-				commitIngestNotices();
-				return;
-			}
+		// Bytes that stop before the container says they should. OBSERVE ONLY: the
+		// files still upload. See the same block in PromptFormApp for why blocking
+		// on this signal was wrong, and $lib/truncationCheck for what it measures.
+		for (const f of allFiles) {
+			const trunc = await checkTruncation(f);
+			if (!trunc.truncated) continue;
+			posthog.capture('upload_truncated_preflight', {
+				container: trunc.container ?? 'unknown',
+				reason: trunc.reason ?? 'unknown',
+				short_by: trunc.shortBy ?? -1,
+				size: f.size,
+				surface: 'manual'
+			});
 		}
 
 		const existingFileKeys = new Set(selectedFiles.map((f) => `${f.name}-${f.size}`));
@@ -967,7 +948,13 @@
 														source: 'squish',
 														plan: uploadPlan,
 														detected: readDetectedHeader(xhr),
-														decoder: readDecoderHeader(xhr)
+														decoder: readDecoderHeader(xhr),
+														// What the add-time pre-flight thought of this same file.
+														// Joined with `decoder` above, this is the whole question:
+														// of the corrupt-image rejections, how many did the
+														// container already declare short, and how many short
+														// files never got rejected at all.
+														preflightTruncated: truncationVerdictOf(file)?.truncated
 													});
 												}
 												const error: any = new Error(

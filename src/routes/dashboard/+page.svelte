@@ -6,6 +6,7 @@
 	import Navigation from '$lib/components/Navigation.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import { posthog } from '$lib/analytics';
+	import { formatPrice, USD_PRICES } from '$lib/currency';
 
 	let { data } = $props();
 
@@ -43,12 +44,25 @@
 	let marketingOn = $state(true);
 	let marketingSaving = $state(false);
 
+	// Plan prices in the visitor's own currency where Polar holds one, falling
+	// back to the shared USD table — the same contract the pricing page renders
+	// under, so the upgrade CTA below can't quote $7.99 to a buyer who will be
+	// charged £6.99 at checkout.
+	const currency = $derived(data.pricing?.currency ?? 'usd');
+	const amounts = $derived({ ...USD_PRICES, ...(data.pricing?.prices ?? {}) });
+
 	let isPro = $derived(data.profile?.plan === 'pro');
 	let isSeller = $derived(data.profile?.plan === 'seller');
 	let isDay = $derived(data.profile?.plan === 'day');
 	// 'growth' was missing here, so growth subscribers were shown the upgrade CTA.
 	let isGrowth = $derived(data.profile?.plan === 'growth');
 	let isPaid = $derived(isPro || isSeller || isDay || isGrowth);
+	// Narrower than isPaid, and deliberately so: a Day Pass is paid but is not
+	// entitled to a storage destination that would outlive the pass. isPaid
+	// still governs the upgrade CTA, because a day-pass user does not need to be
+	// nagged to buy something they just bought. Mirrors STORAGE_PLANS in
+	// +page.server.ts and BUCKET_PLANS in the tokens worker.
+	let canUseStorage = $derived(isPro || isSeller || isGrowth);
 
 	// Bucket connection. Seeded from the server load so the card renders without
 	// a client round-trip, then updated in place from each action's result —
@@ -299,14 +313,16 @@
 						data-sveltekit-reload
 						class="rounded-2xl border border-[#875F42]/20 px-5 py-2.5 text-sm font-black text-[#4A2C2C] transition-all hover:border-[#F06292]/40 hover:bg-white/60 hover:text-[#F06292]"
 					>
-						Seller — $7.99/mo <span class="font-normal text-[#875F42]/50">· 300 images</span>
+						Seller — {formatPrice(amounts.sellerMonthly, currency)}/mo
+						<span class="font-normal text-[#875F42]/50">· 300 images</span>
 					</a>
 					<a
 						href="/api/checkout?plan=pro&billing=monthly"
 						data-sveltekit-reload
 						class="rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-5 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 					>
-						Pro — $24.99/mo <span class="font-normal opacity-80">· 1,200 images</span>
+						Pro — {formatPrice(amounts.proMonthly, currency)}/mo
+						<span class="font-normal opacity-80">· 1,200 images</span>
 					</a>
 				</div>
 			</div>
@@ -708,11 +724,11 @@
 											? 'Needs attention'
 											: 'Not verified'}
 								</span>
-							{:else if !isPaid}
+							{:else if !canUseStorage}
 								<span
 									class="rounded-full bg-[#FFF0F5] px-2 py-0.5 text-[10px] font-bold tracking-wide text-mochi-pink uppercase"
 								>
-									Paid plans
+									Seller and Pro
 								</span>
 							{/if}
 						</div>
@@ -739,7 +755,11 @@
 					</div>
 				</div>
 
-				{#if !isPaid}
+				<!-- Order matters: an existing connection keeps its Test/Disconnect
+				     controls even on a plan that could no longer create one, so a
+				     downgraded user can always remove their own credentials.
+				     disconnectBucket is ungated server-side for the same reason. -->
+				{#if !canUseStorage && !bucket.connected}
 					<a
 						href="/pricing"
 						class="shrink-0 self-start rounded-xl border border-mochi-pink/30 px-4 py-2 text-xs font-bold text-mochi-pink transition-all hover:bg-[#FFF0F5] sm:self-auto"
@@ -848,7 +868,7 @@
 
 			<!-- Connect / edit form. Inline disclosure rather than a modal, matching
 			     the delete-account flow further down the page. -->
-			{#if showBucketForm && isPaid}
+			{#if showBucketForm && canUseStorage}
 				<form
 					method="POST"
 					action="?/saveBucket"
@@ -1057,14 +1077,14 @@
 					>
 						Delete your account
 					</button>
-					 and all associated data.
+					and all associated data.
 				</p>
 			{:else}
 				<div class="dash-card space-y-3 rounded-3xl border border-red-200/60 p-6">
 					<h2 class="font-black text-red-700/80">Delete account</h2>
 					<p class="text-sm text-[#875F42]/60">
-						Your account is deactivated immediately and permanently deleted after 14 days —
-						signing in again within that window cancels the deletion.
+						Your account is deactivated immediately and permanently deleted after 14 days — signing
+						in again within that window cancels the deletion.
 					</p>
 					<p class="text-sm font-bold text-red-700/80">
 						Type <span class="font-mono">delete my account</span> to confirm:

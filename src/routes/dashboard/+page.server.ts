@@ -5,6 +5,9 @@ import { Kysely } from 'kysely';
 import { D1Dialect } from 'kysely-d1';
 import { mirrorMarketingConsent, removeContact } from '$lib/server/resendContacts';
 import { fetchUsage, type UsageSummary } from '$lib/server/usage';
+import { createPolarClient } from '$lib/server/discounts';
+import { countryFromRequest } from '$lib/server/currency';
+import { localisedPlanPrices } from '$lib/server/prices';
 import type { PageServerLoad } from './$types';
 
 const WORKER_URL = env.CF_WORKER_URL || 'https://id.mochify.app';
@@ -67,12 +70,22 @@ export interface BucketConnection {
 	lastVerifiedAt?: string | null;
 }
 
-const PAID_PLANS = new Set(['seller', 'pro', 'day', 'growth']);
+// Storage destinations are a *subscription* feature, which is narrower than
+// "paid": a Day Pass is a 24-hour unlock, and a connection that outlives the
+// pass by months is not what someone bought for $2. Deliberately not named
+// PAID_PLANS — `day` is a paid plan, it just is not entitled to this.
+//
+// Keep in step with BUCKET_PLANS in ../mochify-worker/src/index.ts, which is
+// the gate that actually stops writes after a downgrade.
+const STORAGE_PLANS = new Set(['seller', 'pro', 'growth']);
 
-// Bucket connections are a paid feature. The dashboard hides the card for free
-// users, but that is cosmetic — every mutating action re-checks the plan here,
-// because a form POST does not care what the client rendered.
-async function assertPaid(platform: App.Platform | undefined, userId: string): Promise<boolean> {
+// The dashboard hides the card for everyone else, but that is cosmetic — every
+// mutating action re-checks the plan here, because a form POST does not care
+// what the client rendered.
+async function assertStoragePlan(
+	platform: App.Platform | undefined,
+	userId: string
+): Promise<boolean> {
 	const db = platform?.env?.DB;
 	if (!db) return false;
 	try {
@@ -83,7 +96,7 @@ async function assertPaid(platform: App.Platform | undefined, userId: string): P
 			.select(['plan'])
 			.where('user_id', '=', userId)
 			.executeTakeFirst();
-		return PAID_PLANS.has(row?.plan ?? 'free');
+		return STORAGE_PLANS.has(row?.plan ?? 'free');
 	} catch (e) {
 		console.error('[dashboard] plan check failed:', e);
 		return false;
@@ -147,11 +160,12 @@ export const load: PageServerLoad = async ({ locals, request, platform }) => {
 			hasKey: false,
 			keyCreatedAt: null,
 			bucket: { connected: false },
-			usage: null as UsageSummary | null
+			usage: null as UsageSummary | null,
+			pricing: null as Awaited<ReturnType<typeof localisedPlanPrices>>
 		};
 
 	const userId = locals.user.id;
-	const [keyResult, bucket, usage] = await Promise.all([
+	const [keyResult, bucket, usage, pricing] = await Promise.all([
 		(async () => {
 			try {
 				const res = await callWorker(platform, `/user/${userId}/apikey`);
@@ -165,10 +179,19 @@ export const load: PageServerLoad = async ({ locals, request, platform }) => {
 			return { hasKey: false, keyCreatedAt: null };
 		})(),
 		loadBucket(platform, userId),
-		fetchUsage({ locals, request, platform })
+		fetchUsage({ locals, request, platform }),
+		// Same localised prices the pricing page shows, so the upgrade CTA below
+		// the usage card doesn't quote USD to a buyer Polar will charge in GBP.
+		// Cached in KV and in the isolate, and a USD visitor never calls Polar
+		// at all, so this rides along in the Promise.all for free.
+		localisedPlanPrices(
+			createPolarClient(),
+			platform?.env?.USAGE_KV,
+			countryFromRequest(request, platform)
+		)
 	]);
 
-	return { ...keyResult, bucket, usage };
+	return { ...keyResult, bucket, usage, pricing };
 };
 
 export const actions = {
@@ -315,8 +338,8 @@ export const actions = {
 	// prefix does not force the user to re-enter their key.
 	saveBucket: async ({ request, locals, platform }) => {
 		if (!locals.user) return fail(401, { error: 'Not authenticated' });
-		if (!(await assertPaid(platform, locals.user.id))) {
-			return fail(403, { error: 'Bucket connections are available on paid plans.' });
+		if (!(await assertStoragePlan(platform, locals.user.id))) {
+			return fail(403, { error: 'Bucket connections are available on Seller and Pro.' });
 		}
 
 		const form = await request.formData();
@@ -353,8 +376,8 @@ export const actions = {
 	// Re-run the probes against the stored credentials.
 	verifyBucket: async ({ locals, platform }) => {
 		if (!locals.user) return fail(401, { error: 'Not authenticated' });
-		if (!(await assertPaid(platform, locals.user.id))) {
-			return fail(403, { error: 'Bucket connections are available on paid plans.' });
+		if (!(await assertStoragePlan(platform, locals.user.id))) {
+			return fail(403, { error: 'Bucket connections are available on Seller and Pro.' });
 		}
 
 		try {

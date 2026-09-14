@@ -409,7 +409,6 @@
 		const validFiles: File[] = [];
 		let rejectedCount = 0;
 		let unreadableCount = 0;
-		let truncatedCount = 0;
 		let modeMismatch = 0;
 
 		let effectiveMode = uploadMode;
@@ -442,19 +441,24 @@
 				continue;
 			}
 
-			// Bytes that stop before the container says they should. This is the
-			// same file the server would reject as `corrupt-image` after a full
-			// upload and a decode attempt, so catching it from the header here
-			// saves the round trip and the token, and lets us say which file it
-			// was while the tray is still on screen. Reads container metadata
-			// only. See $lib/truncationCheck for why a false never means "fine".
+			// Bytes that stop before the container says they should. OBSERVE ONLY:
+			// the file still uploads.
+			//
+			// It was written to drop the file, on the assumption that a short
+			// container is the same thing the server rejects as `corrupt-image`.
+			// Measured against production, it is not: a HEIC missing 950 bytes off
+			// its mdat returned a 200 and a full JPEG, because libheif decodes the
+			// tiles it has rather than giving up at the first missing one. Blocking
+			// on this signal would have refused a photo we can actually process,
+			// which is a worse failure than the one it set out to prevent.
+			//
+			// So it records instead. Pairing this event with the server's
+			// `upload_reject` is what will say how much of the corrupt-image bucket
+			// was genuine truncation, and how often a short file sails through
+			// anyway. Blocking is a decision for after that data exists.
 			if (isImage) {
 				const trunc = await checkTruncation(f);
 				if (trunc.truncated) {
-					truncatedCount++;
-					// The count this is really measuring is how much of the
-					// corrupt-image bucket was genuine truncation all along, which
-					// the server-side label alone could never tell us.
 					posthog.capture('upload_truncated_preflight', {
 						container: trunc.container ?? 'unknown',
 						reason: trunc.reason ?? 'unknown',
@@ -462,7 +466,6 @@
 						size: f.size,
 						surface: 'prompt'
 					});
-					continue;
 				}
 			}
 
@@ -489,12 +492,7 @@
 				`${unreadableCount} file(s) couldn't be read and were skipped. If stored in iCloud or a cloud drive, open the original to download it first, then try again.`
 			);
 		}
-		if (truncatedCount > 0) {
-			showStatus(
-				'error',
-				`${truncatedCount} file(s) are incomplete and were skipped. This usually means the photo hasn't fully downloaded from iCloud or Google Photos. Open the original there first, then try again.`
-			);
-		}
+
 		if (modeMismatch > 0) {
 			const modeLabel =
 				effectiveMode === 'pdf' ? 'PDFs' : effectiveMode === 'video' ? 'video/audio' : 'images';

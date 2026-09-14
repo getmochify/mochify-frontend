@@ -3,25 +3,21 @@
     import Footer from '$lib/components/Footer.svelte';
     import DayPassButton from '$lib/components/DayPassButton.svelte';
     import { dayPassEnabled } from '$lib/dayPass';
-    import { formatMonthlyEquivalent, formatPrice, savingsPercent } from '$lib/currency';
+    import {
+        formatMonthlyEquivalent,
+        formatPrice,
+        savingsPercent,
+        USD_PRICES
+    } from '$lib/currency';
     import type { PageData } from './$types';
 
     let { data }: { data: PageData } = $props();
 
     let billing = $state<'monthly' | 'yearly'>('monthly');
 
-    // What every visitor sees unless Polar holds a price in their own currency
-    // (see +page.server.ts). Amounts are in cents, matching Polar. These are
-    // the last line of defence: if Polar is unreachable the page still renders
-    // real prices rather than blanks.
-    const USD_PRICES: Record<string, number> = {
-        sellerMonthly: 799,
-        sellerYearly: 7999,
-        proMonthly: 2499,
-        proYearly: 24999,
-        dayPass: 200
-    };
-
+    // USD_PRICES is the shared fallback every price surface renders from (see
+    // $lib/currency); `data.pricing` overrides it when Polar holds prices in
+    // the visitor's own currency (see +page.server.ts).
     const currency = $derived(data.pricing?.currency ?? 'usd');
     const amounts = $derived({ ...USD_PRICES, ...(data.pricing?.prices ?? {}) });
 

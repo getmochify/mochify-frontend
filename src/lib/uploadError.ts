@@ -116,6 +116,8 @@ export function trackReject(opts: {
 	plan?: string;
 	detected?: string;
 	decoder?: string;
+	/** undefined when the file was never pre-flighted (non-image, or another path). */
+	preflightTruncated?: boolean;
 }): void {
 	try {
 		posthog.capture('upload_reject', {
@@ -125,6 +127,8 @@ export function trackReject(opts: {
 			plan: opts.plan ?? 'unknown',
 			detected: opts.detected ?? 'unknown',
 			decoder: opts.decoder ?? 'unknown',
+			preflight_truncated:
+				opts.preflightTruncated === undefined ? 'unchecked' : opts.preflightTruncated,
 			ua: typeof navigator !== 'undefined' ? navigator.userAgent : ''
 		});
 	} catch {

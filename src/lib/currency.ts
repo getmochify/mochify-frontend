@@ -30,6 +30,20 @@ const GROUPING_LOCALE: Record<string, string> = {
 	inr: 'en-IN'
 };
 
+/**
+ * What every visitor sees unless Polar holds a price in their own currency.
+ * Amounts are minor units, matching Polar. Shared by every surface that quotes
+ * a plan price so a repricing can't leave one of them stale, and the last line
+ * of defence when Polar is unreachable: render real prices, never blanks.
+ */
+export const USD_PRICES: Record<string, number> = {
+	sellerMonthly: 799,
+	sellerYearly: 7999,
+	proMonthly: 2499,
+	proYearly: 24999,
+	dayPass: 200
+};
+
 /** Minor units (or whole units for zero-decimal currencies) to a real number. */
 export function toMajorUnits(amount: number, currency: string): number {
 	return ZERO_DECIMAL.has(currency.toLowerCase()) ? amount : amount / 100;
