@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
 	import { enhance } from '$app/forms';
 	import { authClient } from '$lib/auth-client';
 	import Navigation from '$lib/components/Navigation.svelte';
@@ -93,6 +94,67 @@
 	let bucketProvider = $state<'s3' | 'r2' | 'compatible'>('s3');
 
 	let bucketBusy = $derived(bucketSaving || bucketVerifying || bucketDisconnecting);
+
+	// Google Drive. Same shape as the bucket card, minus the form: there are no
+	// credentials to type, so "connect" is a redirect to Google rather than an
+	// inline disclosure. No folder id and no tokens — see DriveConnection in
+	// +page.server.ts for why the browser is told as little as it is.
+	type DriveConnection = {
+		connected: boolean;
+		email?: string | null;
+		folderName?: string;
+		status?: 'unverified' | 'ok' | 'error';
+		statusDetail?: string | null;
+		lastVerifiedAt?: string | null;
+	};
+	// svelte-ignore state_referenced_locally
+	let drive = $state<DriveConnection>(data.drive ?? { connected: false });
+	let driveVerifying = $state(false);
+	let driveDisconnecting = $state(false);
+	let showDriveDisconnect = $state(false);
+	let driveError = $state<string | null>(null);
+
+	let driveBusy = $derived(driveVerifying || driveDisconnecting);
+
+	// Coming back from Google's consent screen.
+	//
+	// The callback cannot render anything itself — it is a server endpoint whose
+	// only job is to redirect — so it reports through the query string and this
+	// reads it once and cleans the URL up. Same pattern as the Day Pass toast in
+	// ImageUpload: strip the params with replaceState so a refresh or a shared
+	// link does not replay a stale outcome.
+	$effect(() => {
+		const params = page.url.searchParams;
+		if (!params.has('drive') && !params.has('drive_error')) return;
+
+		const outcome = params.get('drive');
+		const failure = params.get('drive_error');
+
+		if (outcome === 'connected') {
+			posthog.capture('drive_connect_saved');
+		} else if (outcome === 'cancelled') {
+			driveError = 'Google Drive was not connected.';
+		} else if (failure) {
+			// The worker writes these for people ("Your Google Drive is full"),
+			// so show them as they are. The internal labels are the exception:
+			// nobody can act on "no_code".
+			const internal: Record<string, string> = {
+				no_code: 'That connection did not complete. Try connecting again.',
+				no_state: 'That connection did not complete. Try connecting again.',
+				state: 'That connection link had expired. Try connecting again.',
+				incomplete: 'That connection did not complete. Try connecting again.',
+				unavailable: 'Google Drive connections are not available right now.',
+				failed: 'Could not connect Google Drive. Try again.'
+			};
+			driveError = internal[failure] ?? failure;
+			posthog.capture('drive_connect_failed', { reason: failure });
+		}
+
+		const clean = new URL(page.url.href);
+		clean.searchParams.delete('drive');
+		clean.searchParams.delete('drive_error');
+		history.replaceState({}, '', clean.toString());
+	});
 
 	function openBucketForm() {
 		// Editing an existing connection pre-fills everything except the secret,
@@ -646,26 +708,164 @@
 					<div class="min-w-0 flex-1">
 						<div class="flex items-center gap-2">
 							<p class="text-sm font-black text-[#4A2C2C]">Google Drive</p>
-							<span
-								class="rounded-full bg-[#FFF0F5] px-2 py-0.5 text-[10px] font-bold tracking-wide text-mochi-pink uppercase"
-							>
-								Coming soon
-							</span>
+							{#if drive.connected}
+								<span
+									class="inline-block h-1.5 w-1.5 rounded-full {drive.status === 'ok'
+										? 'bg-[#66BB6A]'
+										: drive.status === 'error'
+											? 'bg-red-500'
+											: 'bg-amber-400'}"
+									aria-hidden="true"
+								></span>
+								<span class="text-[10px] font-bold tracking-wide text-cocoa-milk/50 uppercase">
+									{drive.status === 'ok'
+										? `Verified ${relativeTime(drive.lastVerifiedAt)}`
+										: drive.status === 'error'
+											? 'Needs attention'
+											: 'Not verified'}
+								</span>
+							{:else if !canUseStorage}
+								<span
+									class="rounded-full bg-[#FFF0F5] px-2 py-0.5 text-[10px] font-bold tracking-wide text-mochi-pink uppercase"
+								>
+									Seller and Pro
+								</span>
+							{/if}
 						</div>
-						<p class="mt-0.5 text-xs text-cocoa-milk/60">
-							Upload from Drive → process through Mochify → save back to Drive. Zero retention. Your
-							images never touch our storage.
-						</p>
+
+						{#if drive.connected}
+							<p class="mt-0.5 truncate text-xs text-cocoa-milk/60">
+								<span class="font-bold text-[#4A2C2C]">{drive.email ?? 'Google account'}</span>
+								· saves to <span class="font-bold text-[#4A2C2C]">{drive.folderName ?? 'Mochify'}</span
+								>
+							</p>
+							{#if drive.status === 'error' && drive.statusDetail}
+								<p class="mt-1 text-xs font-medium text-red-600/80">{drive.statusDetail}</p>
+							{:else if drive.status === 'ok'}
+								<p class="mt-1 text-[11px] text-cocoa-milk/40">
+									Connected and writable. Results save straight to your Drive.
+								</p>
+							{/if}
+						{:else}
+							<p class="mt-0.5 text-xs text-cocoa-milk/60">
+								Save results straight to a Mochify folder in your Drive. Mochify can only see files
+								it puts there, never the rest of your Drive.
+							</p>
+						{/if}
 					</div>
 				</div>
 
-				<button
-					disabled
-					class="shrink-0 cursor-not-allowed self-start rounded-xl border border-cocoa-milk/15 px-4 py-2 text-xs font-bold text-cocoa-milk/30 sm:self-auto"
-				>
-					Connect
-				</button>
+				<!-- Same ordering rule as the bucket card: an existing connection keeps
+				     its controls on a plan that could no longer create one, so a
+				     downgraded user can always revoke our access to their Drive. -->
+				{#if !canUseStorage && !drive.connected}
+					<a
+						href="/pricing"
+						class="shrink-0 self-start rounded-xl border border-mochi-pink/30 px-4 py-2 text-xs font-bold text-mochi-pink transition-all hover:bg-[#FFF0F5] sm:self-auto"
+					>
+						Upgrade
+					</a>
+				{:else if !drive.connected}
+					<!-- A plain link, not a form action: this leaves the app entirely for
+					     Google's consent screen. data-sveltekit-reload stops the router
+					     trying to client-navigate to a server endpoint. -->
+					<a
+						href="/api/drive/connect"
+						data-sveltekit-reload
+						onclick={() => posthog.capture('drive_connect_started')}
+						class="shrink-0 cursor-pointer self-start rounded-xl border border-cocoa-milk/15 px-4 py-2 text-xs font-bold text-[#4A2C2C] transition-all hover:border-mochi-pink/40 hover:text-mochi-pink sm:self-auto"
+					>
+						Connect
+					</a>
+				{:else if showDriveDisconnect}
+					<div class="flex shrink-0 flex-wrap items-center gap-2 self-start sm:self-auto">
+						<span class="text-xs font-bold text-[#4A2C2C]">Revoke access?</span>
+						<form
+							method="POST"
+							action="?/disconnectDrive"
+							use:enhance={() => {
+								driveDisconnecting = true;
+								driveError = null;
+								return async ({ result }) => {
+									driveDisconnecting = false;
+									if (result.type === 'success') {
+										drive = { connected: false };
+										showDriveDisconnect = false;
+										posthog.capture('drive_disconnected');
+									} else if (result.type === 'failure') {
+										driveError = (result.data?.error as string) ?? 'Could not disconnect.';
+									}
+								};
+							}}
+						>
+							<button
+								type="submit"
+								disabled={driveDisconnecting}
+								class="cursor-pointer rounded-xl border border-red-300/60 px-3 py-2 text-xs font-bold text-red-600/80 transition-all hover:bg-red-50/60 disabled:opacity-50"
+							>
+								{driveDisconnecting ? 'Removing…' : 'Yes, disconnect'}
+							</button>
+						</form>
+						<button
+							onclick={() => (showDriveDisconnect = false)}
+							class="cursor-pointer text-xs font-bold text-cocoa-milk/50 transition-colors hover:text-[#4A2C2C]"
+						>
+							Keep
+						</button>
+					</div>
+				{:else}
+					<div class="flex shrink-0 flex-wrap items-center gap-2 self-start sm:self-auto">
+						<form
+							method="POST"
+							action="?/verifyDrive"
+							use:enhance={() => {
+								driveVerifying = true;
+								driveError = null;
+								return async ({ result }) => {
+									driveVerifying = false;
+									if (result.type === 'success' && result.data?.drive) {
+										drive = result.data.drive as DriveConnection;
+										if (drive.status !== 'ok') {
+											posthog.capture('drive_verify_failed', { reason: drive.statusDetail });
+										}
+									} else if (result.type === 'failure') {
+										driveError = (result.data?.error as string) ?? 'Could not test the connection.';
+									}
+								};
+							}}
+						>
+							<button
+								type="submit"
+								disabled={driveBusy}
+								class="cursor-pointer rounded-xl border border-cocoa-milk/15 px-3 py-2 text-xs font-bold text-[#4A2C2C] transition-all hover:border-mochi-pink/40 hover:text-mochi-pink disabled:opacity-40"
+							>
+								{driveVerifying ? 'Testing…' : 'Test'}
+							</button>
+						</form>
+						<!-- Reconnect rather than Edit: there are no fields to change, and a
+						     revoked or expired grant is fixed by walking the consent flow
+						     again. Same endpoint as first-time connect. -->
+						<a
+							href="/api/drive/connect"
+							data-sveltekit-reload
+							class="cursor-pointer rounded-xl border border-cocoa-milk/15 px-3 py-2 text-xs font-bold text-[#4A2C2C] transition-all hover:border-mochi-pink/40 hover:text-mochi-pink"
+						>
+							Reconnect
+						</a>
+						<button
+							onclick={() => (showDriveDisconnect = true)}
+							disabled={driveBusy}
+							class="cursor-pointer rounded-xl px-2 py-2 text-xs font-bold text-red-600/50 transition-colors hover:text-red-700 disabled:opacity-40"
+						>
+							Disconnect
+						</button>
+					</div>
+				{/if}
 			</div>
+
+			{#if driveError}
+				<p class="mt-2 px-1 text-xs font-medium text-red-600/80">{driveError}</p>
+			{/if}
 
 			<div
 				class="mt-3 flex flex-col gap-3 rounded-2xl border border-cocoa-milk/8 bg-white/40 p-4 sm:flex-row sm:items-center sm:gap-4"

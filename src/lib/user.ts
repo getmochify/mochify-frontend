@@ -110,3 +110,49 @@ export function invalidateBucketCache() {
     _bucketCache = null
 }
 
+// Google Drive connection state. Same dedupe-and-cache shape as the bucket,
+// for the same reason: the compose bar asks on every mount and the answer
+// changes about once in the life of an account.
+export type DriveState = {
+    connected: boolean
+    email: string | null
+    folderName: string
+    status: 'unverified' | 'ok' | 'error'
+}
+
+const DRIVE_DISCONNECTED: DriveState = {
+    connected: false,
+    email: null,
+    folderName: 'Mochify',
+    status: 'unverified',
+}
+
+let _driveRequest: Promise<DriveState> | null = null
+let _driveCache: { value: DriveState; expires: number } | null = null
+const DRIVE_TTL = 5 * 60 * 1000
+
+export function getDriveConnection(): Promise<DriveState> {
+    if (_driveCache && Date.now() < _driveCache.expires) return Promise.resolve(_driveCache.value)
+    if (!_driveRequest) {
+        _driveRequest = fetch('/api/drive')
+            .then(res => res.ok ? res.json() as Promise<Partial<DriveState>> : {} as Partial<DriveState>)
+            .then(data => {
+                const value: DriveState = {
+                    connected: data.connected === true,
+                    email: data.email ?? null,
+                    folderName: data.folderName ?? 'Mochify',
+                    status: data.status === 'ok' ? 'ok' : data.status === 'error' ? 'error' : 'unverified',
+                }
+                _driveCache = { value, expires: Date.now() + DRIVE_TTL }
+                return value
+            })
+            .catch(() => DRIVE_DISCONNECTED)
+            .finally(() => { _driveRequest = null })
+    }
+    return _driveRequest
+}
+
+export function invalidateDriveCache() {
+    _driveCache = null
+}
+

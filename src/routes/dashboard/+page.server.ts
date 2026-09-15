@@ -73,6 +73,18 @@ export interface BucketConnection {
 	lastVerifiedAt?: string | null;
 }
 
+// Shape the worker returns for a Google Drive connection. No tokens and no
+// folder id: the browser has no use for either, and a credential that never
+// reaches a DOM cannot leak from one.
+export interface DriveConnection {
+	connected: boolean;
+	email?: string | null;
+	folderName?: string;
+	status?: 'unverified' | 'ok' | 'error';
+	statusDetail?: string | null;
+	lastVerifiedAt?: string | null;
+}
+
 // The worker answers some failures with plain text — 'Unauthorized' on a token
 // mismatch, 'Not found' on an unrouted path, and a bare message when a handler
 // throws. Calling res.json() on those raises a SyntaxError, which the callers'
@@ -114,6 +126,21 @@ async function loadBucket(
 	return { connected: false };
 }
 
+async function loadDrive(
+	platform: App.Platform | undefined,
+	userId: string
+): Promise<DriveConnection> {
+	try {
+		const res = await callWorker(platform, `/user/${userId}/drive`);
+		const { data, raw } = await workerJson(res);
+		if (res.ok) return data as unknown as DriveConnection;
+		console.error('[dashboard] drive status load rejected:', res.status, raw ?? data);
+	} catch (e) {
+		console.error('[dashboard] drive status load failed:', e);
+	}
+	return { connected: false };
+}
+
 // API-key status: the worker returns the same { has_key, created_at } core proxied,
 // so the card renders from server data with no client round-trip. The bucket
 // connection and usage summary are fetched alongside it — three independent
@@ -130,12 +157,13 @@ export const load: PageServerLoad = async ({ locals, request, platform }) => {
 			hasKey: false,
 			keyCreatedAt: null,
 			bucket: { connected: false },
+			drive: { connected: false },
 			usage: null as UsageSummary | null,
 			pricing: null as Awaited<ReturnType<typeof localisedPlanPrices>>
 		};
 
 	const userId = locals.user.id;
-	const [keyResult, bucket, usage, pricing] = await Promise.all([
+	const [keyResult, bucket, drive, usage, pricing] = await Promise.all([
 		(async () => {
 			try {
 				const res = await callWorker(platform, `/user/${userId}/apikey`);
@@ -149,6 +177,7 @@ export const load: PageServerLoad = async ({ locals, request, platform }) => {
 			return { hasKey: false, keyCreatedAt: null };
 		})(),
 		loadBucket(platform, userId),
+		loadDrive(platform, userId),
 		fetchUsage({ locals, request, platform }),
 		// Same localised prices the pricing page shows, so the upgrade CTA below
 		// the usage card doesn't quote USD to a buyer Polar will charge in GBP.
@@ -161,7 +190,7 @@ export const load: PageServerLoad = async ({ locals, request, platform }) => {
 		)
 	]);
 
-	return { ...keyResult, bucket, usage, pricing };
+	return { ...keyResult, bucket, drive, usage, pricing };
 };
 
 export const actions = {
@@ -377,6 +406,47 @@ export const actions = {
 			return fail(502, { error: 'Could not disconnect. Try again.' });
 		}
 		return { bucket: { connected: false } as BucketConnection };
+	},
+
+	// Re-run the probes against the stored grant. Unlike the bucket's Test, this
+	// also silently refreshes the access token, so it doubles as a check that the
+	// user has not revoked Mochify in their Google account settings.
+	verifyDrive: async ({ locals, platform }) => {
+		if (!locals.user) return fail(401, { error: 'Not authenticated' });
+		if (!(await assertStoragePlan(platform, locals.user.id))) {
+			return fail(403, { error: 'Google Drive is available on Seller and Pro.' });
+		}
+
+		try {
+			const res = await callWorker(platform, `/user/${locals.user.id}/drive/verify`, {
+				method: 'POST'
+			});
+			const { data, raw } = await workerJson(res);
+			if (!res.ok) {
+				console.error('[dashboard] verifyDrive rejected:', res.status, raw ?? data);
+				return fail(502, {
+					error: (data as { error?: string }).error ?? 'Could not test the connection.'
+				});
+			}
+			return { drive: data as unknown as DriveConnection };
+		} catch (e) {
+			console.error('[dashboard] verifyDrive failed:', e);
+			return fail(502, { error: 'Could not test the connection. Try again.' });
+		}
+	},
+
+	// Ungated on purpose, exactly like disconnectBucket: someone who downgrades
+	// must always be able to revoke our access to their Drive. The worker revokes
+	// the grant at Google before dropping the row.
+	disconnectDrive: async ({ locals, platform }) => {
+		if (!locals.user) return fail(401, { error: 'Not authenticated' });
+		try {
+			await callWorker(platform, `/user/${locals.user.id}/drive`, { method: 'DELETE' });
+		} catch (e) {
+			console.error('[dashboard] disconnectDrive failed:', e);
+			return fail(502, { error: 'Could not disconnect. Try again.' });
+		}
+		return { drive: { connected: false } as DriveConnection };
 	},
 
 	// Soft delete with a 14-day grace period. The user row (and its email) is

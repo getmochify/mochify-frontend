@@ -8,6 +8,7 @@
 		getSessionToken,
 		getPlan,
 		getBucketConnection,
+		getDriveConnection,
 		resolveRemaining,
 		type UsageResponse
 	} from '$lib/user';
@@ -54,18 +55,30 @@
 	let totalFiles: number = $state(0);
 	let downloadAsZip: boolean = $state(false);
 
-	// "Save to bucket" — results are written straight to the user's own S3/R2 by
-	// core instead of coming back as downloads.
+	// Output destination — results are written straight to the user's own storage
+	// by core instead of coming back as downloads.
 	//
-	// Deliberately named for what it does. "Use my bucket" would imply reading
-	// from the bucket too, which is a different feature (an object browser) and
-	// not this control.
+	// A destination rather than a boolean, because there are now two: an S3/R2
+	// bucket and Google Drive. Deliberately named for what it does; "use my
+	// bucket" would imply reading *from* it too, which is a different feature (an
+	// object browser) and not this control.
+	type Destination = 'download' | 'bucket' | 'drive';
+
 	let bucketConnected: boolean = $state(false);
 	let bucketName: string | null = $state(null);
-	let saveToBucket: boolean = $state(false);
-	// Count of objects written in the current run, for the status line.
+	let driveConnected: boolean = $state(false);
+	let driveFolder: string = $state('Mochify');
+	// $state<Destination> rather than an annotated `let`: the $derived expressions
+	// below are type-checked inline, so flow analysis would otherwise narrow this
+	// to the literal 'download' and call every comparison against it impossible.
+	let destination = $state<Destination>('download');
+	// Count of files written in the current run, for the status line.
 	let bucketStored: number = $state(0);
-	const BUCKET_PREF_KEY = 'mochify:saveToBucket';
+	// Was `mochify:saveToBucket` holding '1'/'0'. Migrated below rather than
+	// abandoned: someone who turned bucket output on should not silently find it
+	// off after a deploy.
+	const DEST_PREF_KEY = 'mochify:saveTo';
+	const LEGACY_BUCKET_PREF_KEY = 'mochify:saveToBucket';
 	// When a job fans out into many outputs, auto-enable ZIP so the user gets one
 	// archive instead of a barrage of separate downloads (which browsers block).
 	const AUTO_ZIP_THRESHOLD = 4;
@@ -143,7 +156,15 @@
 	// save to — and it cannot drift out of sync with the connection itself.
 	// Hidden in video mode: that conversion runs entirely in the browser via
 	// MediaBunny, so core never holds the bytes and has nothing to upload.
-	let canSaveToBucket = $derived(bucketConnected && uploadMode !== 'video');
+	let canSaveRemote = $derived((bucketConnected || driveConnected) && uploadMode !== 'video');
+	// Both connected is the rare case, so the pill stays a plain on/off toggle and
+	// only grows a chooser when someone actually has two destinations.
+	let hasBothDestinations = $derived(bucketConnected && driveConnected);
+	let savingRemote = $derived(destination !== 'download');
+	let destinationLabel = $derived(destination === 'drive' ? 'Drive' : 'Bucket');
+	let destinationName = $derived(
+		destination === 'drive' ? driveFolder : (bucketName ?? 'your bucket')
+	);
 
 	function isPdf(f: File): boolean {
 		return f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
@@ -258,15 +279,29 @@
 	// known-'free' plan, so an in-flight plan lookup never blocks a paying user.
 	let userPlan: 'free' | 'seller' | 'pro' | 'day' | 'growth' | null = $state(null);
 	$effect(() => {
-		getBucketConnection().then((b) => {
+		Promise.all([getBucketConnection(), getDriveConnection()]).then(([b, d]) => {
 			bucketConnected = b.connected && b.status === 'ok';
 			bucketName = b.bucket;
+			driveConnected = d.connected && d.status === 'ok';
+			driveFolder = d.folderName;
+
 			// Restore the last choice, but never default it on: writing to
 			// someone's storage should be something they asked for this session
 			// or explicitly asked for before, not a surprise.
-			if (bucketConnected && localStorage.getItem(BUCKET_PREF_KEY) === '1') {
-				saveToBucket = true;
+			//
+			// The legacy key held '1'/'0' when bucket was the only destination.
+			// Read it once and translate, so an existing preference survives.
+			let saved = localStorage.getItem(DEST_PREF_KEY);
+			if (!saved && localStorage.getItem(LEGACY_BUCKET_PREF_KEY) === '1') {
+				saved = 'bucket';
+				localStorage.setItem(DEST_PREF_KEY, saved);
 			}
+
+			// Never restore a destination that is no longer connected — a stale
+			// preference must not silently send results somewhere the user has
+			// since disconnected.
+			if (saved === 'bucket' && bucketConnected) destination = 'bucket';
+			else if (saved === 'drive' && driveConnected) destination = 'drive';
 		});
 		getPlan().then((plan) => {
 			userPlan = plan;
@@ -1708,7 +1743,11 @@
 			}
 			// Latch the destination once for the whole run: toggling the switch
 			// mid-flight must not split one batch across two destinations.
-			const bucketDest = saveToBucket && canSaveToBucket;
+			// Resolved once per run: the pill can only be on for a connected,
+			// non-video destination, and re-reading it mid-run would let a toggle
+			// change where half a batch lands.
+			const remoteDest = canSaveRemote && destination !== 'download' ? destination : null;
+			const bucketDest = remoteDest !== null;
 			// Past the threshold, switch ZIP on — the bound toggle animates on so the
 			// user sees why they're getting an archive instead of many downloads.
 			// Auto-ZIP exists to stop browsers blocking a barrage of downloads.
@@ -2176,8 +2215,8 @@
 							// overwrite and it refuses to guess. Both upload routes carry
 							// these: squishFile copies params into the chunked request's
 							// init body, where the session stores them until completion.
-							if (bucketDest) {
-								params.append('dest', 'bucket');
+							if (remoteDest) {
+								params.append('dest', remoteDest);
 								params.append('name', finalName);
 							}
 
@@ -2195,7 +2234,11 @@
 									// reporting a write that may not have happened.
 									const receipt = JSON.parse(await blob.text());
 									if (!receipt?.stored) {
-										throw new Error(`Could not confirm ${finalName} was saved to your bucket.`);
+										throw new Error(
+											`Could not confirm ${finalName} was saved to ${
+												remoteDest === 'drive' ? 'Google Drive' : 'your bucket'
+											}.`
+										);
 									}
 									bucketStored += 1;
 								} else if (downloadAsZip) {
@@ -2663,40 +2706,74 @@
 							>
 						</label>
 					{/if}
-					{#if canSaveToBucket && files.length > 0}
+					{#if canSaveRemote && files.length > 0}
 						<div class="h-4 w-px flex-shrink-0 bg-white/40"></div>
 						<label
 							class="flex flex-shrink-0 cursor-pointer items-center gap-1.5"
-							title={bucketName
-								? `Save results to ${bucketName} instead of downloading`
-								: 'Save results to your bucket instead of downloading'}
+							title={savingRemote
+								? `Save results to ${destinationName} instead of downloading`
+								: `Save results to ${bucketConnected ? (bucketName ?? 'your bucket') : driveFolder} instead of downloading`}
 						>
 							<div class="relative">
 								<input
 									type="checkbox"
-									bind:checked={saveToBucket}
+									checked={savingRemote}
 									onchange={() => {
-										localStorage.setItem(BUCKET_PREF_KEY, saveToBucket ? '1' : '0');
-										posthog.capture('bucket_output_toggled', { on: saveToBucket });
+										// Off flips back to downloading. On picks the connected
+										// destination — or the one already remembered, when
+										// someone has both.
+										destination = savingRemote
+											? 'download'
+											: bucketConnected
+												? 'bucket'
+												: 'drive';
+										localStorage.setItem(DEST_PREF_KEY, destination);
+										posthog.capture('remote_output_toggled', {
+											destination
+										});
 									}}
 									class="sr-only"
 								/>
 								<div
-									class="block h-3.5 w-7 rounded-full border transition-all duration-300 {saveToBucket
+									class="block h-3.5 w-7 rounded-full border transition-all duration-300 {savingRemote
 										? 'border-[#F8BBD0] bg-[#F8BBD0]'
 										: 'border-[#F8BBD0]/40 bg-[#FFF0F5] shadow-inner'}"
 								></div>
 								<div
-									class="dot absolute top-0.5 left-0.5 h-2.5 w-2.5 rounded-full bg-white shadow-sm transition-transform duration-300 {saveToBucket
+									class="dot absolute top-0.5 left-0.5 h-2.5 w-2.5 rounded-full bg-white shadow-sm transition-transform duration-300 {savingRemote
 										? 'translate-x-3.5 transform'
 										: ''}"
 								></div>
 							</div>
-							<span
-								class="text-[10px] font-extrabold tracking-widest uppercase transition-colors duration-300 {saveToBucket
-									? 'text-[#AD1457]'
-									: 'text-[#875F42]/50'}">Bucket</span
-							>
+							{#if hasBothDestinations && savingRemote}
+								<!-- Only when there are genuinely two places results could go.
+								     A chooser that never has a second option is noise, so the
+								     label stays a plain word for everyone else. -->
+								<button
+									type="button"
+									onclick={(e) => {
+										e.preventDefault();
+										destination = destination === 'bucket' ? 'drive' : 'bucket';
+										localStorage.setItem(DEST_PREF_KEY, destination);
+										posthog.capture('remote_output_switched', { destination });
+									}}
+									title="Switch destination"
+									class="cursor-pointer text-[10px] font-extrabold tracking-widest text-[#AD1457] uppercase underline decoration-dotted underline-offset-2 transition-colors hover:text-[#F06292]"
+								>
+									{destinationLabel}
+								</button>
+							{:else}
+								<span
+									class="text-[10px] font-extrabold tracking-widest uppercase transition-colors duration-300 {savingRemote
+										? 'text-[#AD1457]'
+										: 'text-[#875F42]/50'}"
+									>{savingRemote
+										? destinationLabel
+										: bucketConnected
+											? 'Bucket'
+											: 'Drive'}</span
+								>
+							{/if}
 						</label>
 					{/if}
 					<div class="h-4 w-px flex-shrink-0 bg-white/40"></div>
@@ -2727,7 +2804,7 @@
 							{/if}
 						{:else if bucketStored > 0}
 							Saved {bucketStored}
-							{bucketStored === 1 ? 'image' : 'images'} to {bucketName ?? 'your bucket'}
+							{bucketStored === 1 ? 'image' : 'images'} to {destinationName}
 						{:else if files.length === 0}
 							Drop images, PDFs, or video
 						{:else if uploadMode === 'pdf'}
