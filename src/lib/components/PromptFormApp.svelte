@@ -146,6 +146,7 @@
 
 	let textareaEl: HTMLTextAreaElement;
 	let fileInputEl: HTMLInputElement;
+	let composeEl: HTMLElement | undefined = $state();
 
 	const MAX_PDF_BYTES = 100 * 1024 * 1024;
 	const MAX_VIDEO_BYTES = 2 * 1024 * 1024 * 1024;
@@ -634,18 +635,32 @@
 		showRotatePicker = false;
 	}
 
-	function fillPrompt(text: string) {
+	function fillPrompt(text: string, preventScroll = false) {
 		prompt = text;
 		tick().then(() => {
 			autoGrow();
-			textareaEl?.focus();
+			textareaEl?.focus({ preventScroll });
 		});
+	}
+
+	// Exposed via `bind:this` so the surface framing this component can load an
+	// example into the compose bar. The /flow example cards sit well below the
+	// form, so we scroll it back into view ourselves and suppress the instant
+	// jump that focus() would otherwise do.
+	export function useExample(text: string) {
+		const reduceMotion =
+			typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+		composeEl?.scrollIntoView({
+			behavior: reduceMotion ? 'auto' : 'smooth',
+			block: 'center'
+		});
+		fillPrompt(text, true);
 	}
 
 	function autoGrow() {
 		if (!textareaEl) return;
 		textareaEl.style.height = 'auto';
-		textareaEl.style.height = Math.max(72, Math.min(textareaEl.scrollHeight, 200)) + 'px';
+		textareaEl.style.height = Math.max(48, Math.min(textareaEl.scrollHeight, 200)) + 'px';
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
@@ -2421,7 +2436,7 @@
 	</div>
 {/if}
 
-<div class="w-full {maxWidth}">
+<div bind:this={composeEl} class="w-full {maxWidth}">
 	<div
 		class="relative rounded-[2rem] transition-all duration-300 {isDragging
 			? 'liquid-glow scale-[1.02]'
@@ -2603,7 +2618,7 @@
 					{#if !prompt && !isFocused}
 						<div
 							aria-hidden="true"
-							class="pointer-events-none absolute inset-0 flex items-start py-1 text-base leading-relaxed font-medium text-[#875F42]/40 transition-opacity duration-300 sm:text-lg {placeholderVisible
+							class="pointer-events-none absolute inset-0 flex items-start py-1 text-base leading-relaxed font-medium text-[#875F42]/55 transition-opacity duration-300 sm:text-lg {placeholderVisible
 								? 'opacity-100'
 								: 'opacity-0'}"
 						>
@@ -2622,11 +2637,106 @@
 						onblur={() => (isFocused = false)}
 						aria-label="Describe what you want"
 						rows="2"
-						class="max-h-[200px] min-h-[72px] w-full resize-none [appearance:none] overflow-y-auto border-0 bg-transparent px-0 py-1 text-base leading-relaxed font-medium text-[#4A2C2C] placeholder-transparent focus:ring-0 focus:outline-none sm:text-lg"
+						class="max-h-[200px] min-h-[48px] w-full resize-none [appearance:none] overflow-y-auto border-0 bg-transparent px-0 py-1 text-base leading-relaxed font-medium text-[#4A2C2C] placeholder-transparent focus:ring-0 focus:outline-none sm:text-lg"
 					></textarea>
 				</div>
 			</div>
 
+			<!-- Suggestions live inside the card, directly under the prompt field:
+			     they are completions for what you are about to type, and the resting
+			     composer had a large empty band here doing nothing. Keeping them
+			     outside also left three stacked centre-aligned rows under the card. -->
+			<div class="flex flex-wrap gap-2 px-4 pb-4 sm:px-6">
+				{#if showFormatPicker || showRotatePicker}
+					<!-- Back button -->
+					<button
+						onclick={closePickers}
+						class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-white/80 px-3 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:text-[#F06292] hover:shadow-md"
+					>
+						<svg
+							class="h-2.5 w-2.5 flex-shrink-0"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							stroke-width="2.5"
+							><path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+							/></svg
+						>
+						Back
+					</button>
+					<!-- Sub-options -->
+					{#each showFormatPicker ? formatSuggestions : rotateSuggestions as s}
+						<button
+							onclick={() => {
+								fillPrompt(s.prompt);
+								closePickers();
+							}}
+							class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"
+						>
+							{s.label}
+						</button>
+					{/each}
+				{:else}
+					<!-- Main suggestions -->
+					{#each suggestions as s}
+						<button
+							onclick={() => fillPrompt(s.prompt)}
+							class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"
+						>
+							<span class="h-1.5 w-1.5 flex-shrink-0 rounded-full opacity-80 {s.dot}"></span>{s.label}
+						</button>
+					{/each}
+					{#if uploadMode !== 'pdf' && uploadMode !== 'video'}
+						<!-- Convert to… expander -->
+						<button
+							onclick={() => {
+								showFormatPicker = true;
+								showRotatePicker = false;
+							}}
+							class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"
+						>
+							<svg
+								class="h-2.5 w-2.5 flex-shrink-0"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								stroke-width="2.5"
+								><path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"
+								/></svg
+							>
+							Convert to…
+						</button>
+						<!-- Rotate… expander -->
+						<button
+							onclick={() => {
+								showRotatePicker = true;
+								showFormatPicker = false;
+							}}
+							class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"
+						>
+							<svg
+								class="h-2.5 w-2.5 flex-shrink-0"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								stroke-width="2.5"
+								><path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+								/></svg
+							>
+							Rotate…
+						</button>
+					{/if}
+				{/if}
+			</div>
 			<div class="border-t border-white/40 bg-white/20 backdrop-blur-md">
 				{#if isProcessing && isRetrying}
 					<div
@@ -2806,7 +2916,7 @@
 							Saved {bucketStored}
 							{bucketStored === 1 ? 'image' : 'images'} to {destinationName}
 						{:else if files.length === 0}
-							Drop images, PDFs, or video
+							No files yet
 						{:else if uploadMode === 'pdf'}
 							{files.length} {files.length === 1 ? 'PDF' : 'PDFs'} attached
 						{:else if uploadMode === 'video'}
@@ -2843,7 +2953,7 @@
 						class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl font-bold transition-all duration-300
                         {prompt.trim() && !isProcessing
 							? 'cursor-pointer bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)]'
-							: 'cursor-not-allowed border border-white/60 bg-white/50 text-[#F06292]/30'}"
+							: 'cursor-not-allowed border border-[#F06292]/25 bg-white/70 text-[#F06292]/45'}"
 					>
 						{#if isProcessing}
 							<svg
@@ -3124,97 +3234,6 @@
 		</div>
 	{/if}
 
-	<div class="mt-3 flex flex-wrap gap-2 px-1">
-		{#if showFormatPicker || showRotatePicker}
-			<!-- Back button -->
-			<button
-				onclick={closePickers}
-				class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-white/80 px-3 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:text-[#F06292] hover:shadow-md"
-			>
-				<svg
-					class="h-2.5 w-2.5 flex-shrink-0"
-					fill="none"
-					stroke="currentColor"
-					viewBox="0 0 24 24"
-					stroke-width="2.5"
-					><path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-					/></svg
-				>
-				Back
-			</button>
-			<!-- Sub-options -->
-			{#each showFormatPicker ? formatSuggestions : rotateSuggestions as s}
-				<button
-					onclick={() => {
-						fillPrompt(s.prompt);
-						closePickers();
-					}}
-					class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"
-				>
-					{s.label}
-				</button>
-			{/each}
-		{:else}
-			<!-- Main suggestions -->
-			{#each suggestions as s}
-				<button
-					onclick={() => fillPrompt(s.prompt)}
-					class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"
-				>
-					<span class="h-1.5 w-1.5 flex-shrink-0 rounded-full opacity-80 {s.dot}"></span>{s.label}
-				</button>
-			{/each}
-			{#if uploadMode !== 'pdf' && uploadMode !== 'video'}
-				<!-- Convert to… expander -->
-				<button
-					onclick={() => {
-						showFormatPicker = true;
-						showRotatePicker = false;
-					}}
-					class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"
-				>
-					<svg
-						class="h-2.5 w-2.5 flex-shrink-0"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-						stroke-width="2.5"
-						><path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"
-						/></svg
-					>
-					Convert to…
-				</button>
-				<!-- Rotate… expander -->
-				<button
-					onclick={() => {
-						showRotatePicker = true;
-						showFormatPicker = false;
-					}}
-					class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"
-				>
-					<svg
-						class="h-2.5 w-2.5 flex-shrink-0"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-						stroke-width="2.5"
-						><path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
-						/></svg
-					>
-					Rotate…
-				</button>
-			{/if}
-		{/if}
-	</div>
 </div>
 
 {#if showUpgradeCta}
@@ -3375,15 +3394,27 @@
 		}
 	}
 
+	/* The compose bar is the largest object on /flow and the actual product, so
+	   it has to hold its own against the hero type above it. The previous values
+	   (40%/10% white on a white border) dissolved into the page's pink wash: the
+	   top edge was invisible and only the shadow hinted the card was there.
+	   Higher fill opacity + a pink hairline + a layered pink shadow read as a
+	   lifted surface against both the wash and the cream background. */
 	.liquid-glass {
-		background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+		background: linear-gradient(
+			135deg,
+			rgba(255, 255, 255, 0.72) 0%,
+			rgba(255, 255, 255, 0.38) 100%
+		);
 		backdrop-filter: blur(24px);
 		-webkit-backdrop-filter: blur(24px);
-		border: 1px solid rgba(255, 255, 255, 0.4);
+		border: 1px solid rgba(240, 98, 146, 0.14);
 		box-shadow:
-			0 8px 32px 0 rgba(240, 98, 146, 0.15),
-			inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
-			inset 0 -1px 0 0 rgba(255, 255, 255, 0.1);
+			0 2px 6px -2px rgba(108, 63, 49, 0.06),
+			0 18px 48px -12px rgba(240, 98, 146, 0.26),
+			0 40px 80px -32px rgba(240, 98, 146, 0.18),
+			inset 0 1px 0 0 rgba(255, 255, 255, 0.9),
+			inset 0 -1px 0 0 rgba(255, 255, 255, 0.35);
 	}
 
 	.liquid-bubble {
