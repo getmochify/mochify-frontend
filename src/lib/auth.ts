@@ -8,6 +8,7 @@ import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET } from "$env
 import { PUBLIC_APP_URL } from "$env/static/public";
 import { getPostHogClient } from "$lib/server/posthog";
 import { syncContactFromProfile } from "$lib/server/resendContacts";
+import { startOnboarding } from "$lib/server/emails/onboarding";
 import { setMarketingPreference } from "$lib/server/unsubscribe";
 
 // Which flow created the account, derived from the Better Auth endpoint that ran.
@@ -105,6 +106,20 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                         // password flow is picked up by afterEmailVerification.
                         if (user.emailVerified) {
                             await syncContactFromProfile(db, resendKey, user.id);
+                            // Strictly after the sync: the onboarding event
+                            // addresses the contact by email, so the contact has
+                            // to exist in Resend before it fires.
+                            //
+                            // Only the already-verified flows reach this. The
+                            // email/password flow starts its sequence from
+                            // afterEmailVerification instead, for the same reason
+                            // the sync is gated here — an unverified address may
+                            // be a typo or disposable, and this domain also sends
+                            // the magic links.
+                            await startOnboarding(db, resendKey, {
+                                userId: user.id,
+                                email: user.email,
+                            });
                         }
                     },
                 },
@@ -172,6 +187,14 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
             // this also fires when an existing user verifies a changed address.
             afterEmailVerification: async (user) => {
                 await syncContactFromProfile(db, resendKey, user.id);
+                // The email/password half of the split above. OAuth and
+                // magic-link users never land here — they arrive verified and
+                // are started from the create hook — so between the two every
+                // signup starts the sequence exactly once.
+                await startOnboarding(db, resendKey, {
+                    userId: user.id,
+                    email: user.email,
+                });
             },
             sendVerificationEmail: async ({ user, url }) => {
                 if (!resend) return;
