@@ -41,6 +41,12 @@ export const USD_PRICES: Record<string, number> = {
 	sellerYearly: 7999,
 	proMonthly: 2499,
 	proYearly: 24999,
+	// Growth sits on the same curve the other steps do: Seller -> Pro is 4x the
+	// volume for ~3.1x the price, and Pro -> Growth (1,200 -> 5,000 ops) applies
+	// the same multiplier. 1.60c/op, ~23% under Pro's 2.08c, so "4x the images
+	// for ~3x the price" stays true at every rung rather than only Pro's.
+	growthMonthly: 7999,
+	growthYearly: 79999,
 	dayPass: 200
 };
 

@@ -36,6 +36,10 @@ The homepage (`/`) lets users toggle between:
 
 `/flow` is the standalone PWA surface (the web app manifest's `start_url`, `display: standalone`) and the main product. It uses the shared `Navigation` and `Footer` and is `noindex`.
 
+**PDF mode is a separate branch inside `PromptFormApp`.** `uploadMode` is `'image' | 'pdf' | 'video'`, and each takes its own path through `handleSubmit`. The PDF branch calls `POST /v1/prompt` with `mode: 'pdf'` (a different, much smaller NLP schema returning one `pdf` object rather than a `files` array), then hits `/v1/pdf` per file. It **returns before the image path's shared setup runs** — which is how the save-to-destination toggle silently did nothing for PDFs for a while: `remoteDest` was latched further down, in code the PDF branch never reached. If you add anything batch-wide, check whether all three branches get it.
+
+A format named in the prompt deterministically overrides the model's `type` for `op=extract` (`namedOutputFormat` in the worker's `fastPath.ts`). The model reliably writes a correct `agent_message` promising WebP and then leaves `type` on its `"original"` default, so the prompt is treated as ground truth rather than a tie-break.
+
 `PromptFormApp.svelte` serves **both** `/flow` and the homepage. It was previously forked as `PromptForm.svelte` for the homepage; the two drifted (the fork missed "save to bucket" and GIF support) and every change had to be made twice, so they were merged back into one component. The only per-surface difference is the `maxWidth` prop — `/flow` uses the default `max-w-4xl`, the homepage passes `max-w-3xl` to fit its two-column grid. **Do not re-fork it**; add a prop instead.
 
 ### API endpoints used
@@ -45,6 +49,9 @@ The homepage (`/`) lets users toggle between:
 - `POST /v1/prompt` (worker, `PUBLIC_WORKER_URL`) — Body: `{ prompt, fileData: [{name, width, height}], mode? }`. Returns per-file processing config. Enforces a monthly NLP quota and proxies Mistral via CF AI Gateway (which caches).
 - `POST /v1/upload/stage` — Whole file as the raw body, **no params**. Returns `{ sessionId, expiresInSeconds }`. Used by speculative upload; the session holds the bytes in RAM under a short unclaimed TTL until completed.
 - `POST /v1/upload/init|chunk|complete|status` — Resumable chunked upload for files >5MB. `complete` also accepts a JSON params body, which is how a staged (deferred) session is told what to produce.
+- `POST /v1/pdf?op=<op>` — The PDF toolkit. Five ops: `optimize` (recompress the images inside a PDF in place, returns a smaller PDF), `extract` (pull the embedded images out, returns a ZIP), `rasterize` (render pages to images, ZIP), `split` (one single-page PDF per page, ZIP), `create` (images → PDF, multipart). The four PDF-in ops require a paid plan; `create` is open to all. Full parameter reference lives in `/docs` and `static/llms.txt` — keep all three in sync when this changes.
+  - **Output encoding inside a PDF is always JPEG.** The format has no WebP/AVIF/JXL, so `optimize` uses jpegli and nothing else is on offer. Those formats *are* available from `extract`, which writes files out rather than back in.
+  - `dest=bucket|drive` is accepted **only** by the single-file ops (`optimize`, and `create` with `combine=1`); the ZIP-producing ops reject it with a 400 rather than filing an archive under a made-up name.
 - Tokens are charged at `complete`, never at `stage`/`init` — so an abandoned or rejected prompt costs the user nothing.
 
 ### Route structure

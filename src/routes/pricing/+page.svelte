@@ -28,10 +28,15 @@
     const yearlySaving = $derived(savingsPercent(amounts.sellerMonthly, amounts.sellerYearly));
     const proYearlySaving = $derived(savingsPercent(amounts.proMonthly, amounts.proYearly));
 
-    // Growth is a not-yet-launched tier. Hidden for now to keep the pricing
-    // page focused on the three live plans + Day Pass. Flip to `true` to
-    // restore the "coming soon" card (and its Growth early-access mailto).
-    const showGrowth = false;
+    const growthYearlySaving = $derived(savingsPercent(amounts.growthMonthly, amounts.growthYearly));
+
+    // Growth is implemented in the backend (PLAN_LIMITS.growth = 5000, and it
+    // already has the uncapped PDF entitlements) but is not purchasable yet, so
+    // the card shows its real price with a "coming soon" badge and an
+    // early-access mailto in place of a checkout link. Set to false to pull it
+    // back out of the grid; the three-column layout works either way because
+    // Free moved to its own full-width card below.
+    const showGrowth = true;
 </script>
 
 <svelte:head>
@@ -41,6 +46,12 @@
     <meta property="og:url" content="https://mochify.app/pricing" />
     <meta property="og:title" content="Pricing — Mochify" />
     <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription." />
+    <!-- Growth is deliberately ABSENT from this offer catalogue. A schema.org
+         Offer asserts something is purchasable, and Growth's CTA is an
+         early-access mailto rather than a checkout — publishing a price nobody
+         can pay is exactly the kind of structured data that gets flagged. Add
+         the monthly ($79.99) and annual ($799.99) offers here the moment the
+         Polar products go live, and update og:description at the same time. -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -250,54 +261,13 @@
              one or two headline capabilities). Everything ubiquitous across
              plans — formats, resize/crop/rotate, video, MCP/API — lives in the
              table instead of being repeated three times up here. -->
-        <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto items-start">
-
-            <!-- Free tier -->
-            <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-8 flex flex-col">
-                <div class="mb-6">
-                    <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-4">Free</span>
-                    <div class="flex items-end gap-1">
-                        <span class="text-4xl font-black text-[#4A2C2C]">{formatPrice(0, currency)}</span>
-                        <span class="text-[#6C3F31]/50 mb-2 text-sm">/ forever</span>
-                    </div>
-                    <p class="text-[#7A4A38] text-sm mt-2">Create a free account, no credit card needed.</p>
-                </div>
-
-                <ul class="space-y-3 flex-grow mb-8">
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>25 images</strong> per month</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>20MB</strong> max file size</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Up to <strong>3 files</strong> per batch</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Background removal</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Standard queue</span>
-                    </li>
-                </ul>
-
-                <a
-                    href="/auth/register"
-                    class="block text-center px-6 py-3 rounded-2xl border border-[#875F42]/25 text-sm font-black text-[#6C3F31] hover:border-[#F06292]/40 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all"
-                >
-                    Start for free
-                </a>
-                <!-- Moved out of the card body: it competed with the plan's own
-                     value props while actually describing the no-account path. -->
-                <p class="text-center text-xs text-[#6C3F31]/50 mt-3">
-                    Just want to try? <a href="/flow" class="text-[#F06292] font-semibold hover:underline">3 images free, no sign-up</a>
-                </p>
-            </div>
+        <!-- Three SUBSCRIPTION tiers. Free is deliberately not among them: it is a
+             top-of-funnel entry rather than a purchase decision, and giving it a
+             column made the buyer compare four things when only three are for
+             sale. It moves to a full-width card directly below, where it still
+             reads first on mobile. max-w-5xl because three cards at max-w-4xl
+             were already tight before Growth existed. -->
+        <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
 
             <!-- Seller tier — flagged as the popular pick. Keeps the white card
                  so Pro's gradient still reads as the top tier; the badge and a
@@ -342,6 +312,18 @@
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
                         <span>Full <strong>PDF tools</strong></span>
+                    </li>
+                    <!-- The clearest paid-only line on the card: Free cannot do
+                         this at all (worker gates both destinations on
+                         BUCKET_PLANS = seller/pro/growth, so Day Pass is out
+                         too). It was previously visible only in the comparison
+                         table, well below the fold. Named on Seller alone
+                         because Pro's list opens with "Everything in Seller,
+                         plus:" and repeating it there would spend one of Pro's
+                         four lines restating a Seller feature. -->
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span>Save to <strong>Google Drive</strong> or your own bucket</span>
                     </li>
                     <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
                         <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
@@ -412,6 +394,115 @@
                     Get Pro
                 </a>
             </div>
+
+            <!-- Growth — priced but not yet purchasable. Everything it claims is
+                 already enforced in core/worker: PLAN_LIMITS.growth = 5000, and
+                 the PDF page cap that stops every other paid plan at 10 pages
+                 does not apply to it. Deliberately NOT claiming bucket/Drive,
+                 gen-AI or priority queue: Pro has all three, so "Everything in
+                 Pro, plus:" already covers them and repeating them would pad the
+                 card with non-differentiators. -->
+            {#if showGrowth}
+            <div class="bg-white rounded-3xl border-2 border-dashed border-[#F06292]/30 shadow-sm p-8 flex flex-col relative overflow-hidden">
+                <div class="mb-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider">Growth</span>
+                        <span class="inline-block px-2 py-1 rounded-full bg-[#F06292]/10 text-[#F06292] text-[10px] font-black uppercase tracking-wide">Coming soon</span>
+                    </div>
+                    <div class="flex items-end gap-1">
+                        <span class="text-4xl font-black text-[#4A2C2C]">{billing === 'monthly' ? price('growthMonthly') : price('growthYearly')}</span>
+                        <span class="text-[#6C3F31]/50 mb-2 text-sm">{billing === 'monthly' ? '/ month' : '/ year'}</span>
+                    </div>
+                    <p class="text-[#7A4A38] text-sm mt-1">
+                        {#if billing === 'monthly'}
+                            Or <strong class="text-cocoa-deep">{price('growthYearly')} / year</strong>
+                            <span class="text-[#6C3F31]/50">(save {growthYearlySaving}%)</span>
+                        {:else}
+                            <strong class="text-cocoa-deep">{growthYearlySaving}% off</strong> vs monthly
+                        {/if}
+                    </p>
+                </div>
+
+                <p class="text-xs font-black uppercase tracking-wider text-[#6C3F31]/50 mb-3">Everything in Pro, plus:</p>
+
+                <ul class="space-y-3 flex-grow mb-8">
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
+                        <span><strong>5,000 images</strong> per month</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
+                        <span><strong>Unlimited PDF pages</strong> <span class="text-[#6C3F31]/50">(others cap at 10)</span></span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
+                        <span>Build PDFs from <strong>200 images</strong></span>
+                    </li>
+                </ul>
+
+                <a
+                    href="mailto:hello@mochify.app?subject=Growth%20early%20access"
+                    class="block text-center px-6 py-3 rounded-2xl border border-[#F06292]/30 text-sm font-black text-[#F06292] hover:bg-[#FFF5F7] transition-all"
+                >
+                    Get early access
+                </a>
+            </div>
+            {/if}
+        </div>
+
+        <!-- Free — full width beneath the paid tiers. It keeps every feature it
+             listed as a column, just laid out horizontally: the point of the
+             move is to stop it competing for attention in the buying decision,
+             not to hide what it includes. `md:` guards the row layout so it
+             stacks normally on mobile, where it still appears directly after the
+             three cards. -->
+        <div class="mt-6 max-w-5xl mx-auto">
+            <div class="rounded-3xl border border-[#875F42]/15 bg-white shadow-sm p-6 sm:p-8 flex flex-col md:flex-row md:items-center gap-6">
+                <div class="md:w-1/4 flex-shrink-0">
+                    <span class="inline-block px-3 py-1 rounded-full bg-[#F5F0E8] text-[#6C3F31] text-xs font-black uppercase tracking-wider mb-3">Free</span>
+                    <div class="flex items-end gap-1">
+                        <span class="text-3xl font-black text-[#4A2C2C]">{formatPrice(0, currency)}</span>
+                        <span class="text-[#6C3F31]/50 mb-1 text-sm">/ forever</span>
+                    </div>
+                </div>
+
+                <ul class="flex-grow grid sm:grid-cols-2 gap-x-6 gap-y-3">
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span><strong>25 images</strong> per month</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span><strong>20MB</strong> max file size</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span>Up to <strong>3 files</strong> per batch</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span>Background removal</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
+                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
+                        <span>Standard queue</span>
+                    </li>
+                </ul>
+
+                <div class="md:w-1/5 flex-shrink-0">
+                    <a
+                        href="/auth/register"
+                        class="block text-center px-6 py-3 rounded-2xl border border-[#875F42]/25 text-sm font-black text-[#6C3F31] hover:border-[#F06292]/40 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all"
+                    >
+                        Start for free
+                    </a>
+                    <!-- Describes the no-account path, not the Free plan, so it
+                         stays outside the feature list exactly as it did before. -->
+                    <p class="text-center text-xs text-[#6C3F31]/50 mt-3">
+                        Or <a href="/flow" class="text-[#F06292] font-semibold hover:underline">3 images, no sign-up</a>
+                    </p>
+                </div>
+            </div>
         </div>
 
         <!-- Privacy trust strip — applies to every plan, so it spans all tiers
@@ -433,30 +524,6 @@
                 </p>
             </div>
         </div>
-
-        <!-- Growth — coming soon (hidden for now; see showGrowth flag) -->
-        {#if showGrowth}
-        <div class="mt-8 max-w-4xl mx-auto">
-            <div class="relative overflow-hidden rounded-3xl border border-[#F06292]/20 bg-gradient-to-br from-[#FFF0F5] to-white p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-4">
-                <div class="absolute -top-6 -right-6 w-32 h-32 bg-[#F06292]/10 rounded-full blur-2xl pointer-events-none"></div>
-                <div class="flex-grow relative">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="text-lg font-black text-[#4A2C2C]">Growth</span>
-                        <span class="inline-block px-2 py-0.5 rounded-full bg-[#F06292]/10 text-[#F06292] text-[10px] font-black uppercase tracking-wide">Coming soon</span>
-                    </div>
-                    <p class="text-[#6C3F31] text-sm leading-relaxed">
-                        Agency-grade PDF workflows — split, merge, compress, and pull every image out of a PDF. Video &amp; audio conversion in-browser. Built for high-volume sellers and studios. Includes priority email support.
-                    </p>
-                </div>
-                <a
-                    href="mailto:hello@mochify.app?subject=Growth%20early%20access"
-                    class="flex-shrink-0 relative text-center px-6 py-3 rounded-2xl border border-[#F06292]/30 text-sm font-black text-[#F06292] hover:bg-[#FFF5F7] transition-all"
-                >
-                    Get early access
-                </a>
-            </div>
-        </div>
-        {/if}
 
         <!-- Day Pass · `day-pass` is the anchor the homepage ecommerce block links
              to; scroll-mt keeps the heading clear of the sticky nav on landing. -->
@@ -526,6 +593,7 @@
                             <th class="px-6 py-4 text-center font-black text-[#6C3F31]">Free</th>
                             <th class="px-6 py-4 text-center font-black text-[#6C3F31]">Seller</th>
                             <th class="px-6 py-4 text-center font-black text-[#F06292]">Pro</th>
+                            <th class="px-6 py-4 text-center font-black text-[#F06292]">Growth <span class="block text-[9px] font-black uppercase tracking-wide text-[#F06292]/60">Coming soon</span></th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-pink-50">
@@ -534,17 +602,20 @@
                             <td class="px-6 py-4 text-center text-[#6C3F31]">25 / month</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]">300 / month</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]">1,200 / month</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">5,000 / month</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">Max file size</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]">20MB</td>
                             <td class="px-6 py-4 text-center font-bold text-[#6C3F31]">75MB</td>
                             <td class="px-6 py-4 text-center font-bold text-[#6C3F31]">75MB</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">75MB</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">JPG, WEBP, AVIF, PNG, JXL</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
+                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                         </tr>
                         <tr>
@@ -552,11 +623,13 @@
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
+                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">Resize, rotate &amp; crop</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
+                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                         </tr>
                         <tr>
@@ -564,17 +637,20 @@
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
+                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">AI backgrounds &amp; shadows</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]/30 font-black">—</td>
                             <td class="px-6 py-4 text-center text-[#F06292]/70 font-bold text-[11px] uppercase tracking-wide">Soon</td>
                             <td class="px-6 py-4 text-center text-[#F06292]/70 font-bold text-[11px] uppercase tracking-wide">Soon</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">Soon</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">MCP &amp; API access</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
+                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                         </tr>
                         <tr>
@@ -582,17 +658,20 @@
                             <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">3 files</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31] font-semibold text-xs">25 files</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-bold text-xs">25 files</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">25 files</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-[#6C3F31]">PDF tools <span class="text-[#6C3F31]/50 text-xs">(rasterize, split, images→PDF)</span></td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">images→PDF, 3 pages</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">✓ unlimited pages</td>
                         </tr>
                         <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">Bring your own bucket <span class="text-[#6C3F31]/50 text-xs">(S3, R2, S3-compatible)</span></td>
+                            <td class="px-6 py-4 text-[#6C3F31]">Save to your own storage <span class="text-[#6C3F31]/50 text-xs">(Google Drive, or S3 / R2 / S3-compatible)</span></td>
                             <td class="px-6 py-4 text-center text-[#6C3F31]/30 font-black">—</td>
                             <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
+                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
                         </tr>
                         <tr>
@@ -600,6 +679,7 @@
                             <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">Standard</td>
                             <td class="px-6 py-4 text-center text-[#6C3F31] font-semibold text-xs">Priority</td>
                             <td class="px-6 py-4 text-center text-[#F06292] font-bold text-xs">Top priority</td>
+                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">Top priority</td>
                         </tr>
                     </tbody>
                 </table>
