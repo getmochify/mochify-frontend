@@ -163,6 +163,7 @@ Run against the built `.svelte` file, not just the source. Fail the publish if a
 
 ### Security
 
-- Strict CSP configured in `svelte.config.js` — `connect-src` is limited to `self`, `PUBLIC_API_URL`, and `analytics.mochify.xyz`. Adding new external fetch targets requires updating this.
-- Security headers (`X-Frame-Options`, `X-Content-Type-Options`, etc.) set in `src/hooks.server.js`.
-- Analytics via self-hosted Umami at `analytics.mochify.xyz`. Events tracked via `window.umami.track(...)`.
+- Security headers (`X-Frame-Options`, `X-Content-Type-Options`, etc.) set in `src/hooks.server.ts`.
+- **CSP is not defined anywhere in this repo.** `Content-Security-Policy` / `connect-src` appear only in prose (README.md, this file, `docs/byo-bucket-phase1.md`) — there is no `csp` block in `svelte.config.js` and no `_headers` file. It may well be enforced at the Cloudflare layer, which is outside the repo; verify with `curl -I https://mochify.app` before assuming either way. This entry previously asserted a `svelte.config.js` CSP allowing `analytics.mochify.xyz`, which is doubly stale (see below).
+- **Analytics is PostHog, not Umami.** Umami is gone: no reference to it survives in `src/` or `static/`. PostHog Cloud **EU** is initialised in `src/hooks.client.ts` through the `t.mochify.app` reverse proxy, lazily via `$lib/analytics.ts` (a queueing wrapper that keeps the ~63kB bundle off the critical path). Notable config: `person_profiles: 'identified_only'`, `disable_session_recording: true`, `capture_exceptions: false` (errors are sent manually from `handleError`). Server-side capture uses `posthog-node` via `$lib/server/posthog.ts`.
+  - `posthog-setup-report.md` in the repo root is the original wizard output and is **stale** — it states session replay is enabled, which `disable_session_recording: true` contradicts.
