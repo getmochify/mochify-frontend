@@ -165,6 +165,8 @@ optimize, extract, rasterize and split take the PDF as the raw request body and 
 
 PDF limits: 100MB request body, 200 pages absolute. For the PDF-in ops, Growth is unlimited within that and other paid plans cap at 10 pages. For op=create, Free allows 3 images, Seller/Pro/Day Pass 10, Growth 200.
 
+Saving PDF output to the user's own storage: add dest=bucket|drive plus name=<filename>. Accepted ONLY by the single-file operations -- op=optimize, and op=create with combine=1. The archive-producing operations (extract, rasterize, split, and create with combine=0) reject dest with a 400 rather than filing a zip under a made-up name. Requires a signed-in account with that destination connected; the response becomes a JSON receipt ({ "stored": true, ... }) instead of the file. A failed write falls back to returning the bytes with an X-Mochify-Bucket-Error header, so it never costs the user the work. See section 10.
+
 PDF response headers:
 - X-Mochify-Pages -- pages processed (rasterize, split, create)
 - X-Mochify-Images, X-Mochify-Skipped, X-Mochify-Duplicates -- extract

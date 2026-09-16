@@ -664,6 +664,32 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
                             </div>
                         </div>
 
+                        <!-- Saving to your own storage -->
+                        <div>
+                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Saving to your own storage</h3>
+                            <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
+                                    <span>Parameter</span>
+                                    <span>Default</span>
+                                    <span>Description</span>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">dest</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">&mdash;</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Write the result to your connected storage instead of returning it. One of <code class="font-mono text-xs">bucket</code> or <code class="font-mono text-xs">drive</code>. The response becomes a JSON receipt, <code class="font-mono text-xs">&#123; "stored": true, ... &#125;</code>, and the bytes go straight from Mochify to your storage rather than back through the browser.</p>
+                                        <p class="text-[#875F42]/60 text-xs mt-1">Only the operations that produce a single file accept it: <code class="font-mono">op=optimize</code>, and <code class="font-mono">op=create</code> with <code class="font-mono">combine=1</code>. <code class="font-mono">extract</code>, <code class="font-mono">rasterize</code>, <code class="font-mono">split</code> and <code class="font-mono">combine=0</code> return an archive and are refused with a 400 rather than filed under a made-up name.</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">name</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">&mdash;</span>
+                                    <p class="text-[#6C3F31]">Required whenever <code class="font-mono text-xs">dest</code> is set. The destination filename, including extension. Without it every file in a batch would derive the same fallback name and overwrite each other.</p>
+                                </div>
+                            </div>
+                            <p class="mt-3 text-sm text-[#6C3F31]">Requires a signed-in account with that destination connected in the <a href="/dashboard" class="text-[#F06292] font-semibold hover:underline">dashboard</a>; an anonymous request gets a 401. If the write fails, the file is returned as a normal download with an <code class="font-mono text-xs">X-Mochify-Bucket-Error</code> header rather than erroring, so a storage problem never costs you the work.</p>
+                        </div>
+
                         <!-- Plans and limits -->
                         <div>
                             <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Plans and limits</h3>

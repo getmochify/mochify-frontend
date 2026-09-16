@@ -1232,6 +1232,18 @@
 					combine: combine ? '1' : '0'
 				});
 
+				// combine=0 returns a ZIP of one PDF per image, which core refuses to
+				// file into a bucket or Drive folder — so only the combined document
+				// can be sent to a destination.
+				const imgPdfDest =
+					canSaveRemote && destination !== 'download' && combine ? destination : null;
+				const imgPdfRemoteIgnored =
+					canSaveRemote && destination !== 'download' && !combine;
+				if (imgPdfDest) {
+					params.set('dest', imgPdfDest);
+					params.set('name', 'mochified.pdf');
+				}
+
 				try {
 					const blob = await withRetry(
 						() =>
@@ -1285,6 +1297,39 @@
 					);
 
 					processPhase = 'downloading';
+
+					if (imgPdfDest) {
+						// Success is a receipt, not a document. Verify the shape rather
+						// than reporting a write that may not have happened.
+						const receipt = JSON.parse(await blob.text());
+						if (!receipt?.stored) {
+							throw new Error(
+								`Could not confirm the PDF was saved to ${
+									imgPdfDest === 'drive' ? 'Google Drive' : 'your bucket'
+								}.`
+							);
+						}
+						completedFiles = totalImages;
+						prompt = '';
+						files = [];
+						uploadMode = null;
+						if (fileInputEl) fileInputEl.value = '';
+						posthog.capture('imgpdf_flow_completed', {
+							images: totalImages,
+							page,
+							combine,
+							dest: imgPdfDest
+						});
+						showStatus(
+							'success',
+							`PDF created from ${totalImages} image${totalImages > 1 ? 's' : ''} and saved to ${
+								destination === 'drive' ? 'Google Drive' : destinationName
+							}! ✨`
+						);
+						onSuccess?.();
+						return;
+					}
+
 					// Separate PDFs come back as a ZIP; a combined document as a single PDF.
 					const isZip = blob.type.includes('zip');
 					const url = URL.createObjectURL(blob);
@@ -1308,9 +1353,13 @@
 					posthog.capture('imgpdf_flow_completed', { images: totalImages, page, combine });
 					showStatus(
 						'success',
-						isZip
-							? `${totalImages} PDFs created and zipped! ✨`
-							: `PDF created from ${totalImages} image${totalImages > 1 ? 's' : ''}! ✨`
+						imgPdfRemoteIgnored
+							? `${totalImages} PDFs created and zipped — a zip can't be filed into ${
+									destination === 'drive' ? 'Google Drive' : destinationName
+								}, so it downloaded instead.`
+							: isZip
+								? `${totalImages} PDFs created and zipped! ✨`
+								: `PDF created from ${totalImages} image${totalImages > 1 ? 's' : ''}! ✨`
 					);
 					onSuccess?.();
 				} catch (e: any) {
@@ -1342,6 +1391,22 @@
 				let uploadedBytes = 0;
 				let processedPdfs = 0;
 				let lastSavedPct: number | null = null;
+				let pdfStored = 0;
+
+				// Latched once for the whole run, same as the image path: toggling
+				// the switch mid-flight must not split a batch across destinations.
+				//
+				// Only op=optimize returns a single PDF. extract, rasterize and
+				// split answer with a ZIP, which core refuses to file into a
+				// bucket or Drive folder under a made-up name — so those fall back
+				// to downloading, and say so rather than silently ignoring the
+				// toggle.
+				const pdfRemoteDest =
+					canSaveRemote && destination !== 'download' && pdfConfig.op === 'optimize'
+						? destination
+						: null;
+				const remoteIgnored =
+					canSaveRemote && destination !== 'download' && pdfConfig.op !== 'optimize';
 
 				// Resolves the saving alongside the blob: op=optimize's whole point is
 				// how much smaller the file got, and that only exists in a response
@@ -1428,6 +1493,13 @@
 					if (hitRateLimit) break;
 
 					const params = new URLSearchParams({ op: pdfConfig.op });
+					const baseName = file.name.replace(/\.pdf$/i, '');
+					if (pdfRemoteDest) {
+						params.set('dest', pdfRemoteDest);
+						// Core requires a name: it is the destination filename, and
+						// without it every PDF in a batch would collide.
+						params.set('name', `${baseName}_compressed.pdf`);
+					}
 					if (pdfConfig.op === 'rasterize') {
 						params.set('type', pdfConfig.type);
 						params.set('dpi', String(pdfConfig.dpi));
@@ -1455,7 +1527,24 @@
 						processPhase = 'downloading';
 						lastSavedPct = savedPct;
 
-						const baseName = file.name.replace(/\.pdf$/i, '');
+						if (pdfRemoteDest) {
+							// Success is a receipt, not a file. Trust but verify: if the
+							// body is not the shape core promises, report a failure
+							// rather than a write that may not have happened.
+							const receipt = JSON.parse(await blob.text());
+							if (!receipt?.stored) {
+								throw new Error(
+									`Could not confirm ${file.name} was saved to ${
+										pdfRemoteDest === 'drive' ? 'Google Drive' : 'your bucket'
+									}.`
+								);
+							}
+							pdfStored += 1;
+							processedPdfs++;
+							completedFiles = processedPdfs;
+							continue;
+						}
+
 						// optimize hands back a PDF; every other op hands back a ZIP.
 						const opSuffix =
 							pdfConfig.op === 'split'
@@ -1525,14 +1614,21 @@
 					// saying "compressed by 0%" would read as a bug.
 					const compressed =
 						pdfConfig.op === 'optimize' && failedFiles.length === 0 && lastSavedPct !== null;
+					const savedTo = destination === 'drive' ? 'Google Drive' : destinationName;
 					const msg =
 						failedFiles.length > 0
 							? `${processedPdfs} of ${totalPdfFiles} PDFs processed. ✨`
-							: compressed && lastSavedPct! > 0
-								? `PDF compressed — ${lastSavedPct}% smaller! ✨`
-								: compressed
-									? 'This PDF is already well optimized, so it was left as-is.'
-									: `PDF${totalPdfFiles > 1 ? 's' : ''} processed successfully! ✨`;
+							: pdfStored > 0
+								? lastSavedPct !== null && lastSavedPct > 0
+									? `Compressed ${lastSavedPct}% and saved to ${savedTo}! ✨`
+									: `Saved ${pdfStored} PDF${pdfStored > 1 ? 's' : ''} to ${savedTo}! ✨`
+								: compressed && lastSavedPct! > 0
+									? `PDF compressed — ${lastSavedPct}% smaller! ✨`
+									: compressed
+										? 'This PDF is already well optimized, so it was left as-is.'
+										: remoteIgnored
+											? `PDF${totalPdfFiles > 1 ? 's' : ''} downloaded — this one returns a zip, which can't be filed into ${savedTo}.`
+											: `PDF${totalPdfFiles > 1 ? 's' : ''} processed successfully! ✨`;
 					showStatus('success', msg);
 					onSuccess?.();
 				}
