@@ -235,6 +235,8 @@
 		'vinted, compress, 1080x1080 and 500px…'
 	];
 	const pdfPlaceholders = [
+		'Extract the embedded images…',
+		'Pull out the photos as WebP…',
 		'Split into individual pages…',
 		'Rasterize to PNG at 150 DPI…',
 		'Convert pages to WebP, 200 DPI…',
@@ -582,6 +584,12 @@
 		}
 	];
 	const pdfSuggestions = [
+		{ label: 'Extract images', prompt: 'Extract the embedded images', dot: 'bg-purple-400' },
+		{
+			label: 'Images as WebP',
+			prompt: 'Extract the embedded images as WebP',
+			dot: 'bg-teal-400'
+		},
 		{ label: 'Split pages', prompt: 'Split into individual page PDFs', dot: 'bg-blue-400' },
 		{ label: 'PNG images', prompt: 'Rasterize each page to PNG at 150 DPI', dot: 'bg-slate-400' },
 		{ label: 'WebP images', prompt: 'Convert pages to WebP at 200 DPI', dot: 'bg-green-400' },
@@ -1192,6 +1200,7 @@
 					type: string;
 					dpi: number;
 					quality: number;
+					maxWidth?: number;
 					page?: string;
 					combine?: boolean;
 				};
@@ -1413,6 +1422,12 @@
 						params.set('type', pdfConfig.type);
 						params.set('dpi', String(pdfConfig.dpi));
 						params.set('quality', String(pdfConfig.quality));
+					} else if (pdfConfig.op === 'extract') {
+						// type=original keeps each embedded image in the encoding it
+						// already has, so quality only matters when re-encoding.
+						params.set('type', pdfConfig.type);
+						params.set('quality', String(pdfConfig.quality));
+						if (pdfConfig.maxWidth) params.set('maxWidth', String(pdfConfig.maxWidth));
 					}
 
 					try {
@@ -1423,7 +1438,13 @@
 						processPhase = 'downloading';
 
 						const baseName = file.name.replace(/\.pdf$/i, '');
-						const zipName = `${baseName}_${pdfConfig.op === 'split' ? 'pages' : 'rasterized'}.zip`;
+						const opSuffix =
+							pdfConfig.op === 'split'
+								? 'pages'
+								: pdfConfig.op === 'extract'
+									? 'images'
+									: 'rasterized';
+						const zipName = `${baseName}_${opSuffix}.zip`;
 						const url = URL.createObjectURL(blob);
 						const a = document.createElement('a');
 						a.style.display = 'none';
