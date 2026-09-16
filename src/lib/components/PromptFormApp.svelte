@@ -235,6 +235,7 @@
 		'vinted, compress, 1080x1080 and 500px…'
 	];
 	const pdfPlaceholders = [
+		'Compress this PDF…',
 		'Extract the embedded images…',
 		'Pull out the photos as WebP…',
 		'Split into individual pages…',
@@ -584,6 +585,7 @@
 		}
 	];
 	const pdfSuggestions = [
+		{ label: 'Compress PDF', prompt: 'Compress this PDF', dot: 'bg-emerald-400' },
 		{ label: 'Extract images', prompt: 'Extract the embedded images', dot: 'bg-purple-400' },
 		{
 			label: 'Images as WebP',
@@ -1339,12 +1341,16 @@
 				const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
 				let uploadedBytes = 0;
 				let processedPdfs = 0;
+				let lastSavedPct: number | null = null;
 
+				// Resolves the saving alongside the blob: op=optimize's whole point is
+				// how much smaller the file got, and that only exists in a response
+				// header (exposed via Access-Control-Expose-Headers in core's Cors.h).
 				const pdfXhr = (
 					file: File,
 					params: URLSearchParams,
 					onUploadEnd?: () => void
-				): Promise<Blob> =>
+				): Promise<{ blob: Blob; savedPct: number | null }> =>
 					withRetry(
 						() =>
 							new Promise((resolve, reject) => {
@@ -1379,7 +1385,11 @@
 										uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
 									}
 									if (xhr.status >= 200 && xhr.status < 300) {
-										resolve(xhr.response as Blob);
+										const saved = xhr.getResponseHeader('X-Mochify-Saved-Pct');
+										resolve({
+											blob: xhr.response as Blob,
+											savedPct: saved === null ? null : Number(saved)
+										});
 										return;
 									}
 									rollback();
@@ -1422,6 +1432,10 @@
 						params.set('type', pdfConfig.type);
 						params.set('dpi', String(pdfConfig.dpi));
 						params.set('quality', String(pdfConfig.quality));
+					} else if (pdfConfig.op === 'optimize') {
+						params.set('quality', String(pdfConfig.quality));
+						// maxWidth carries "cap the longest side" for this op.
+						if (pdfConfig.maxWidth) params.set('maxDimension', String(pdfConfig.maxWidth));
 					} else if (pdfConfig.op === 'extract') {
 						// type=original keeps each embedded image in the encoding it
 						// already has, so quality only matters when re-encoding.
@@ -1432,19 +1446,24 @@
 
 					try {
 						processPhase = 'uploading';
-						const blob = await pdfXhr(file, params, () => {
+						const { blob, savedPct } = await pdfXhr(file, params, () => {
 							processPhase = 'processing';
 						});
 						processPhase = 'downloading';
+						lastSavedPct = savedPct;
 
 						const baseName = file.name.replace(/\.pdf$/i, '');
+						// optimize hands back a PDF; every other op hands back a ZIP.
 						const opSuffix =
 							pdfConfig.op === 'split'
 								? 'pages'
 								: pdfConfig.op === 'extract'
 									? 'images'
 									: 'rasterized';
-						const zipName = `${baseName}_${opSuffix}.zip`;
+						const zipName =
+							pdfConfig.op === 'optimize'
+								? `${baseName}_compressed.pdf`
+								: `${baseName}_${opSuffix}.zip`;
 						const url = URL.createObjectURL(blob);
 						const a = document.createElement('a');
 						a.style.display = 'none';
@@ -1498,10 +1517,19 @@
 						files: totalPdfFiles,
 						failed: failedFiles.length
 					});
+					// A 0% saving is not a failure: core returns the original bytes
+					// when recompressing would not have made the file smaller, and
+					// saying "compressed by 0%" would read as a bug.
+					const compressed =
+						pdfConfig.op === 'optimize' && failedFiles.length === 0 && lastSavedPct !== null;
 					const msg =
 						failedFiles.length > 0
 							? `${processedPdfs} of ${totalPdfFiles} PDFs processed. ✨`
-							: `PDF${totalPdfFiles > 1 ? 's' : ''} processed successfully! ✨`;
+							: compressed && lastSavedPct! > 0
+								? `PDF compressed — ${lastSavedPct}% smaller! ✨`
+								: compressed
+									? 'This PDF is already well optimized, so it was left as-is.'
+									: `PDF${totalPdfFiles > 1 ? 's' : ''} processed successfully! ✨`;
 					showStatus('success', msg);
 					onSuccess?.();
 				}
