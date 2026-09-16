@@ -8,6 +8,7 @@
         { id: 'overview', label: 'Overview' },
         { id: 'authentication', label: 'Authentication' },
         { id: 'squish', label: 'POST /v1/squish' },
+        { id: 'pdf', label: 'POST /v1/pdf' },
         { id: 'check-tokens', label: 'GET /v1/checkTokens' },
         { id: 'errors', label: 'Errors' },
     ];
@@ -457,6 +458,375 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
                     </div>
                 </section>
 
+                <!-- POST /v1/pdf -->
+                <section id="pdf">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="px-2.5 py-1 rounded-lg bg-[#F06292] text-white text-xs font-black uppercase tracking-wide">POST</span>
+                        <h2 class="text-2xl font-black text-[#4A2C2C] font-mono">/v1/pdf</h2>
+                    </div>
+                    <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-6 space-y-6">
+                        <p class="text-[#6C3F31] leading-relaxed">
+                            The PDF toolkit. A single endpoint with five operations, selected with <code class="font-mono text-xs">?op=</code>.
+                            Four of them take a PDF as the raw request body; <code class="font-mono text-xs">op=create</code> takes images and produces one.
+                        </p>
+
+                        <!-- Operations -->
+                        <div>
+                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Operations</h3>
+                            <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
+                                <div class="grid grid-cols-[auto_auto_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
+                                    <span>op</span>
+                                    <span>Returns</span>
+                                    <span>Description</span>
+                                </div>
+                                <div class="grid grid-cols-[auto_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">optimize</code>
+                                    <span class="text-[#875F42]/60 font-mono text-xs mt-0.5">PDF</span>
+                                    <p class="text-[#6C3F31]">Recompress the images inside a PDF, in place, and return a smaller PDF. Text, fonts, vector art, links and layout are untouched, so the document stays searchable.</p>
+                                </div>
+                                <div class="grid grid-cols-[auto_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">extract</code>
+                                    <span class="text-[#875F42]/60 font-mono text-xs mt-0.5">ZIP</span>
+                                    <p class="text-[#6C3F31]">Pull the images embedded in a PDF out of it, at the resolution they were stored at. These are the pictures somebody placed into the document, not a render of each page.</p>
+                                </div>
+                                <div class="grid grid-cols-[auto_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">rasterize</code>
+                                    <span class="text-[#875F42]/60 font-mono text-xs mt-0.5">ZIP</span>
+                                    <p class="text-[#6C3F31]">Render every page to an image, text and all. The default operation when <code class="font-mono text-xs">op</code> is omitted.</p>
+                                </div>
+                                <div class="grid grid-cols-[auto_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">split</code>
+                                    <span class="text-[#875F42]/60 font-mono text-xs mt-0.5">ZIP</span>
+                                    <p class="text-[#6C3F31]">Explode a PDF into one single-page PDF per page. Takes no parameters.</p>
+                                </div>
+                                <div class="grid grid-cols-[auto_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">create</code>
+                                    <span class="text-[#875F42]/60 font-mono text-xs mt-0.5">PDF</span>
+                                    <p class="text-[#6C3F31]">Build a PDF from images, one page per image in upload order. Send a single raw image body, or a <code class="font-mono text-xs">multipart/form-data</code> upload with each file appended as <code class="font-mono text-xs">images</code>.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rounded-2xl bg-[#FFF5F7] border border-pink-100 px-5 py-4">
+                            <p class="text-[#6C3F31] text-sm leading-relaxed">
+                                <strong class="text-[#4A2C2C]">Images inside a PDF are always JPEG.</strong>
+                                The PDF format has no WebP, AVIF or JXL, so <code class="font-mono text-xs">op=optimize</code> re-encodes with jpegli and nothing else is offered.
+                                Those formats <em>are</em> available from <code class="font-mono text-xs">op=extract</code>, which writes files out rather than back into the document.
+                            </p>
+                        </div>
+
+                        <!-- op=optimize -->
+                        <div>
+                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Parameters: op=optimize</h3>
+                            <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
+                                    <span>Parameter</span>
+                                    <span>Default</span>
+                                    <span>Description</span>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">quality</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">75</span>
+                                    <p class="text-[#6C3F31]">jpegli quality for the re-encode (1&ndash;100). Lower is smaller.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">maxDimension</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">2000</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Downsample any image whose longest side exceeds this, preserving aspect ratio. Set <code class="font-mono text-xs">0</code> to leave pixel dimensions alone.</p>
+                                        <p class="text-[#875F42]/60 text-xs mt-1">Resizing is layout-safe: a PDF image is drawn into the unit square, so changing its pixel size cannot move or rescale it on the page.</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">minSize</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">64</span>
+                                    <p class="text-[#6C3F31]">Leave images smaller than this (on either axis) untouched. Keeps spacers, rules and bullet glyphs out of the work.</p>
+                                </div>
+                            </div>
+                            <div class="mt-3 space-y-2 text-sm text-[#6C3F31]">
+                                <p><strong class="text-[#4A2C2C]">It never returns a larger file.</strong> If recompression would not help, the original bytes come back and <code class="font-mono text-xs">X-Mochify-Saved-Pct</code> is <code class="font-mono text-xs">0</code>. Running it twice changes nothing.</p>
+                                <p><strong class="text-[#4A2C2C]">It never drops what it cannot handle.</strong> Images in encodings outside the supported set (CMYK, indexed palettes, JPEG 2000, CCITT and JBIG2 scans, stencil masks) are passed through byte-for-byte rather than skipped.</p>
+                            </div>
+                        </div>
+
+                        <!-- op=extract -->
+                        <div>
+                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Parameters: op=extract</h3>
+                            <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
+                                    <span>Parameter</span>
+                                    <span>Default</span>
+                                    <span>Description</span>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">type</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">original</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Output format for the extracted files.</p>
+                                        <p class="text-[#875F42]/60 text-xs mt-1">One of: <code class="font-mono">original</code> · <code class="font-mono">png</code> · <code class="font-mono">jpg</code> · <code class="font-mono">webp</code> · <code class="font-mono">avif</code> · <code class="font-mono">jxl</code></p>
+                                        <p class="text-[#875F42]/60 text-xs mt-1"><code class="font-mono">original</code> copies each embedded JPEG out byte-for-byte, with no re-encode and no quality loss; images stored in other encodings come out as lossless PNG. Setting <code class="font-mono">maxWidth</code> forces a re-encode.</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">quality</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">82</span>
+                                    <p class="text-[#6C3F31]">Output quality (1&ndash;100). Ignored for <code class="font-mono text-xs">original</code> and <code class="font-mono text-xs">png</code>.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">maxWidth</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">0</span>
+                                    <p class="text-[#6C3F31]">Cap the width of each extracted image, preserving aspect ratio. <code class="font-mono text-xs">0</code> leaves sizes alone.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">minSize</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">64</span>
+                                    <p class="text-[#6C3F31]">Skip images smaller than this on either axis. Exported PDFs are full of 1&times;1 spacers and hairline rules; without a floor the archive is mostly junk. Set <code class="font-mono text-xs">0</code> to take everything.</p>
+                                </div>
+                            </div>
+                            <p class="mt-3 text-sm text-[#6C3F31]">An image repeated across pages, such as a logo or letterhead, is returned once rather than once per page. Files are named <code class="font-mono text-xs">page-003-image-002.webp</code>, recording the page each image was first found on.</p>
+                        </div>
+
+                        <!-- op=rasterize -->
+                        <div>
+                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Parameters: op=rasterize</h3>
+                            <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
+                                    <span>Parameter</span>
+                                    <span>Default</span>
+                                    <span>Description</span>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">type</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">png</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Output image format for each rendered page.</p>
+                                        <p class="text-[#875F42]/60 text-xs mt-1">One of: <code class="font-mono">png</code> · <code class="font-mono">jpg</code> · <code class="font-mono">webp</code> · <code class="font-mono">avif</code> · <code class="font-mono">jxl</code></p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">dpi</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">150</span>
+                                    <p class="text-[#6C3F31]">Render resolution, 36&ndash;300. Use 72 for screen previews, 300 for print.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">quality</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">82</span>
+                                    <p class="text-[#6C3F31]">Output quality (1&ndash;100). Ignored for <code class="font-mono text-xs">png</code>.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- op=create -->
+                        <div>
+                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Parameters: op=create</h3>
+                            <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
+                                    <span>Parameter</span>
+                                    <span>Default</span>
+                                    <span>Description</span>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">page</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">fit</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Page size. <code class="font-mono text-xs">fit</code> makes each page exactly the image, with no whitespace.</p>
+                                        <p class="text-[#875F42]/60 text-xs mt-1">One of: <code class="font-mono">fit</code> · <code class="font-mono">a4</code> · <code class="font-mono">letter</code></p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">quality</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">82</span>
+                                    <p class="text-[#6C3F31]">jpegli quality (1&ndash;100) for the JPEG embedded in each page.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">dpi</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">96</span>
+                                    <p class="text-[#6C3F31]">Pixels per inch used to size a <code class="font-mono text-xs">fit</code> page, 36&ndash;600.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">maxWidth</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">0</span>
+                                    <p class="text-[#6C3F31]">Downscale images wider than this before embedding. <code class="font-mono text-xs">0</code> leaves them alone.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">combine</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">1</span>
+                                    <p class="text-[#6C3F31]">Set to <code class="font-mono text-xs">0</code> to get one single-page PDF per image, returned as a ZIP, instead of one combined document.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Plans and limits -->
+                        <div>
+                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Plans and limits</h3>
+                            <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <span class="text-[#4A2C2C] font-bold">Plan access</span>
+                                    <p class="text-[#6C3F31]"><code class="font-mono text-xs">optimize</code>, <code class="font-mono text-xs">extract</code>, <code class="font-mono text-xs">rasterize</code> and <code class="font-mono text-xs">split</code> require a paid plan (Seller, Pro, Growth, or Day Pass). <code class="font-mono text-xs">create</code> is available on every plan, including Free.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <span class="text-[#4A2C2C] font-bold">Request body</span>
+                                    <p class="text-[#6C3F31]">100 MB maximum.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <span class="text-[#4A2C2C] font-bold">Pages</span>
+                                    <p class="text-[#6C3F31]">200 absolute. For the PDF-in operations, Growth is unlimited within that and other paid plans cap at 10 pages.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <span class="text-[#4A2C2C] font-bold">Images per <code class="font-mono text-xs">create</code></span>
+                                    <p class="text-[#6C3F31]">Free 3, Seller / Pro / Day Pass 10, Growth 200.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <span class="text-[#4A2C2C] font-bold">Cost</span>
+                                    <p class="text-[#6C3F31]">One operation per request, whatever the page or image count.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Response headers -->
+                        <div>
+                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Response Headers</h3>
+                            <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
+                                    <span>Header</span>
+                                    <span>Description</span>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Latency-Ms</code>
+                                    <p class="text-[#6C3F31]">Processing time in milliseconds. All operations.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Mochify-Pages</code>
+                                    <p class="text-[#6C3F31]">Pages processed. <code class="font-mono text-xs">rasterize</code>, <code class="font-mono text-xs">split</code>, <code class="font-mono text-xs">create</code>.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Mochify-Images</code>
+                                    <p class="text-[#6C3F31]">Images returned in the archive. <code class="font-mono text-xs">extract</code>.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Mochify-Skipped</code>
+                                    <p class="text-[#6C3F31]">Images skipped for being too small, too large, or in an encoding that cannot be extracted. <code class="font-mono text-xs">extract</code>.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Mochify-Duplicates</code>
+                                    <p class="text-[#6C3F31]">Repeat references to an image already returned once. <code class="font-mono text-xs">extract</code>.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Mochify-Images-Recompressed</code>
+                                    <p class="text-[#6C3F31]">Images actually replaced. <code class="font-mono text-xs">optimize</code>.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Mochify-Images-Kept</code>
+                                    <p class="text-[#6C3F31]">Images left as they were, either because recompressing them would not have saved enough or because they were outside the supported set. <code class="font-mono text-xs">optimize</code>.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Mochify-Original-Bytes</code>
+                                    <p class="text-[#6C3F31]">Size of the submitted PDF. <code class="font-mono text-xs">optimize</code>.</p>
+                                </div>
+                                <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">X-Mochify-Saved-Pct</code>
+                                    <p class="text-[#6C3F31]">Percentage saved, as a whole number. <code class="font-mono text-xs">0</code> means the original was returned unchanged. <code class="font-mono text-xs">optimize</code>.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Examples -->
+                        <div>
+                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Examples</h3>
+                            <div class="space-y-3">
+
+                                <div class="rounded-2xl overflow-hidden border border-pink-100">
+                                    <div class="bg-[#4A2C2C] px-4 py-2 flex items-center gap-2">
+                                        <span class="text-[#FFB3C6]/60 text-xs font-bold uppercase tracking-wider">cURL &middot; compress a PDF</span>
+                                    </div>
+                                    <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl -X POST "https://api.mochify.app/v1/pdf?op=optimize&quality=75&maxDimension=2000" \
+  -H "Content-Type: application/pdf" \
+  -H "Authorization: Bearer mchy_your_api_key" \
+  --data-binary @report.pdf \
+  --output report-compressed.pdf \
+  --dump-header -
+
+# X-Mochify-Images-Recompressed: 12
+# X-Mochify-Saved-Pct: 47</code></pre>
+                                </div>
+
+                                <div class="rounded-2xl overflow-hidden border border-pink-100">
+                                    <div class="bg-[#4A2C2C] px-4 py-2 flex items-center gap-2">
+                                        <span class="text-[#FFB3C6]/60 text-xs font-bold uppercase tracking-wider">cURL &middot; extract the images as WebP</span>
+                                    </div>
+                                    <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl -X POST "https://api.mochify.app/v1/pdf?op=extract&type=webp&maxWidth=1600" \
+  -H "Content-Type: application/pdf" \
+  -H "Authorization: Bearer mchy_your_api_key" \
+  --data-binary @brochure.pdf \
+  --output images.zip
+
+# Omit type= to get the embedded images byte-for-byte, with no re-encode.</code></pre>
+                                </div>
+
+                                <div class="rounded-2xl overflow-hidden border border-pink-100">
+                                    <div class="bg-[#4A2C2C] px-4 py-2 flex items-center gap-2">
+                                        <span class="text-[#FFB3C6]/60 text-xs font-bold uppercase tracking-wider">JavaScript &middot; compress and report the saving</span>
+                                    </div>
+                                    <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>const file = document.querySelector('input[type="file"]').files[0];
+
+const response = await fetch(
+  'https://api.mochify.app/v1/pdf?op=optimize&quality=75',
+  &#123;
+    method: 'POST',
+    headers: &#123;
+      'Content-Type': 'application/pdf',
+      'Authorization': 'Bearer mchy_your_api_key',
+    &#125;,
+    body: file,
+  &#125;
+);
+
+const blob = await response.blob();
+const saved = response.headers.get('X-Mochify-Saved-Pct');
+
+// 0 means the PDF was already well compressed and came back untouched.
+console.log(saved === '0' ? 'Already optimal' : `Saved $&#123;saved&#125;%`);</code></pre>
+                                </div>
+
+                                <div class="rounded-2xl overflow-hidden border border-pink-100">
+                                    <div class="bg-[#4A2C2C] px-4 py-2 flex items-center gap-2">
+                                        <span class="text-[#FFB3C6]/60 text-xs font-bold uppercase tracking-wider">Python &middot; render pages to PNG</span>
+                                    </div>
+                                    <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>import requests, zipfile, io
+
+with open('report.pdf', 'rb') as f:
+    response = requests.post(
+        'https://api.mochify.app/v1/pdf',
+        params=&#123;'op': 'rasterize', 'type': 'png', 'dpi': '300'&#125;,
+        headers=&#123;
+            'Content-Type': 'application/pdf',
+            'Authorization': 'Bearer mchy_your_api_key',
+        &#125;,
+        data=f,
+    )
+
+zipfile.ZipFile(io.BytesIO(response.content)).extractall('pages/')
+print(f"&#123;response.headers.get('X-Mochify-Pages')&#125; pages rendered")</code></pre>
+                                </div>
+
+                                <div class="rounded-2xl overflow-hidden border border-pink-100">
+                                    <div class="bg-[#4A2C2C] px-4 py-2 flex items-center gap-2">
+                                        <span class="text-[#FFB3C6]/60 text-xs font-bold uppercase tracking-wider">cURL &middot; build a PDF from images</span>
+                                    </div>
+                                    <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl -X POST "https://api.mochify.app/v1/pdf?op=create&page=a4" \
+  -H "Authorization: Bearer mchy_your_api_key" \
+  -F "images=@page1.jpg" \
+  -F "images=@page2.jpg" \
+  -F "images=@page3.jpg" \
+  --output album.pdf</code></pre>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
                 <!-- GET /v1/checkTokens -->
                 <section id="check-tokens">
                     <div class="flex items-center gap-3 mb-4">
@@ -528,12 +898,32 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
                                 <p class="text-[#6C3F31]">Unauthorized — invalid or missing API key.</p>
                             </div>
                             <div class="grid grid-cols-[auto_1fr] gap-x-6 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                <code class="font-mono font-black text-[#FFB74D]">403</code>
+                                <p class="text-[#6C3F31]">Your plan does not include this operation. The PDF-in operations on <code class="font-mono text-xs">/v1/pdf</code> require a paid plan. <a href="/pricing" class="text-[#F06292] font-semibold hover:underline">Upgrade</a> to enable them.</p>
+                            </div>
+                            <div class="grid grid-cols-[auto_1fr] gap-x-6 px-5 py-4 items-start text-sm">
+                                <code class="font-mono font-black text-[#FFB74D]">413</code>
+                                <p class="text-[#6C3F31]">Payload too large. The request body, or the output it would produce, exceeds the limit for your plan.</p>
+                            </div>
+                            <div class="grid grid-cols-[auto_1fr] gap-x-6 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                <code class="font-mono font-black text-[#FFB74D]">415</code>
+                                <p class="text-[#6C3F31]">Unsupported media type. The body was not a file this operation accepts, for example an image sent to a PDF-in operation.</p>
+                            </div>
+                            <div class="grid grid-cols-[auto_1fr] gap-x-6 px-5 py-4 items-start text-sm">
+                                <code class="font-mono font-black text-[#FFB74D]">422</code>
+                                <p class="text-[#6C3F31]">The file was readable but could not be processed as asked. The body explains why, for example a PDF with more pages than your plan allows, a password-protected PDF, or a PDF holding no extractable images.</p>
+                            </div>
+                            <div class="grid grid-cols-[auto_1fr] gap-x-6 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
                                 <code class="font-mono font-black text-[#EF5350]">429</code>
                                 <p class="text-[#6C3F31]">Rate limit exceeded. Free tier resets monthly; Seller and Pro reset on your billing date. <a href="/pricing" class="text-[#F06292] font-semibold hover:underline">Upgrade</a> for higher limits.</p>
                             </div>
                             <div class="grid grid-cols-[auto_1fr] gap-x-6 px-5 py-4 items-start text-sm">
                                 <code class="font-mono font-black text-[#EF5350]">500</code>
-                                <p class="text-[#6C3F31]">Server error — the image could not be processed.</p>
+                                <p class="text-[#6C3F31]">Server error — the file could not be processed.</p>
+                            </div>
+                            <div class="grid grid-cols-[auto_1fr] gap-x-6 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
+                                <code class="font-mono font-black text-[#EF5350]">503</code>
+                                <p class="text-[#6C3F31]">At capacity. Retry after the delay in the <code class="font-mono text-xs">Retry-After</code> header. Nothing is charged for a request that returns this.</p>
                             </div>
                         </div>
                     </div>

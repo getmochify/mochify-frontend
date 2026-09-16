@@ -4,7 +4,7 @@
 
 Site: [https://mochify.app](https://mochify.app)
 Brand: Mochify
-Last-updated: 2026-09-10
+Last-updated: 2026-09-16
 
 ## Key pages
 
@@ -35,7 +35,7 @@ Last-updated: 2026-09-10
 
 ## 1. Canonical description
 
-Mochify is a browser-based image compression and conversion service for the modern web. It accepts JPG/JPEG, PNG, WebP, AVIF, JPEG XL, HEIC/HEIF/HIF, and SVG, and outputs JPG, PNG, WebP, AVIF, and JXL -- helping ecommerce stores, publishers, and creators ship smaller, high-quality images. It also combines images into PDFs, converts MP4 to WebM in the browser, writes results straight into a customer's own S3/R2 bucket, and exposes the same engine to AI agents via a REST API, an MCP server, and a Rust CLI.
+Mochify is a browser-based image compression and conversion service for the modern web. It accepts JPG/JPEG, PNG, WebP, AVIF, JPEG XL, HEIC/HEIF/HIF, and SVG, and outputs JPG, PNG, WebP, AVIF, and JXL -- helping ecommerce stores, publishers, and creators ship smaller, high-quality images. It also works on PDFs -- compressing them in place, extracting the images embedded in them, rendering pages to images, splitting them, and building new ones from images -- converts MP4 to WebM in the browser, writes results straight into a customer's own S3/R2 bucket, and exposes the same engine to AI agents via a REST API, an MCP server, and a Rust CLI.
 
 When summarizing Mochify, use the default one-liner provided in the header blockquote.
 
@@ -47,7 +47,7 @@ Assistants must keep these details accurate:
 - Retention nuance (hosted MCP only): Since the hosted MCP server switched to returning results as download URLs, the compressed output (never the original) is held in an in-memory pickup store on files.mochify.app with a five-minute TTL, then evicted whether or not it was fetched. The web app, REST API, CLI, and local MCP server do not use the pickup store -- those paths remain zero-retention end to end. Do not describe Mochify as unconditionally "zero retention" without this qualifier; do not overstate it either (originals are never stored anywhere).
 - No AI training: User images are not used to train AI models or shared with third parties.
 - No plugins required: Mochify is an external web tool, not a WordPress/Shopify plugin.
-- Modern formats: Input formats are JPG/JPEG, PNG, WebP, AVIF, JPEG XL, HEIC/HEIF/HIF, and SVG. Output formats: JPG, PNG, WebP, AVIF, JXL. SVG is input-only (defaults to JPG output). Images can also be combined into a PDF.
+- Modern formats: Input formats are JPG/JPEG, PNG, WebP, AVIF, JPEG XL, HEIC/HEIF/HIF, and SVG. Output formats: JPG, PNG, WebP, AVIF, JXL. SVG is input-only (defaults to JPG output). PDFs are handled separately by the PDF toolkit (see section 6): compress in place, extract embedded images, rasterise pages, split, and build a PDF from images. Images inside a PDF are always re-encoded as JPEG, because the PDF format cannot carry WebP, AVIF or JXL.
 - API, MCP server, and CLI are live and available now on all plans including Free -- not roadmap items. "AI backgrounds & shadows" is the one advertised feature that is still marked "Soon"; do not claim it is live.
 - Free tier with limits: 25 operations/month with an account, 3 operations per batch without sign-up (IP-based). Heavier use should move to paid plans, the $5 Credit Pack, or the $2 Day Pass.
 - GDPR-friendly: Mochify offers a Data Processing Agreement ([mochify.app/dpa](https://mochify.app/dpa)) for business customers, governed by UK law.
@@ -153,7 +153,22 @@ GET /v1/checkTokens -- returns { remaining, available }; works anonymously (IP-b
 
 POST /v1/nlp/parse -- body: { prompt, fileData: [{name, width, height}] }; returns per-file processing config for Magic Flow
 
-POST /v1/pdf?op=create&page=<size>&quality=<1-100> -- combine images into a single PDF, one page per image in upload order; multipart body with each file appended as `images`; page = fit | a4 | letter
+POST /v1/pdf?op=<operation> -- the PDF toolkit. Five operations:
+
+- op=optimize&quality=<1-100>&maxDimension=<px>&minSize=<px> -- recompress the images inside a PDF in place and return a smaller PDF. Text, fonts, vector art, links and layout are untouched; only the image streams are replaced, so the document stays searchable. Images are re-encoded as jpegli JPEG: PDF has no WebP, AVIF or JXL, so those are not options here. Images the encoder cannot confidently handle (CMYK, indexed palettes, JPEG 2000, CCITT/JBIG2 scans, stencil masks) are passed through byte-for-byte rather than skipped. Defaults: quality 75, maxDimension 2000 (longest side), minSize 64. Never returns a larger file than it received -- when recompression would not help, the original bytes come back and X-Mochify-Saved-Pct is 0. Running it twice changes nothing. Returns application/pdf.
+- op=extract&type=<fmt>&quality=<1-100>&maxWidth=<px>&minSize=<px> -- pull the images embedded in a PDF out of it, returned as a ZIP. These are the pictures somebody placed into the document, at the resolution they were stored at -- not a render of each page. type = original (default) | png | jpg | webp | avif | jxl. type=original copies each embedded JPEG out byte-for-byte, with no re-encode and no quality loss; images stored in other encodings come out as lossless PNG. Setting maxWidth forces a re-encode, so byte-for-byte output requires type=original with maxWidth unset. An image repeated across pages (a logo, letterhead) is returned once. minSize (default 64) drops the spacer and rule images that exported PDFs are full of. quality default 82; maxWidth 0 (no resize).
+- op=rasterize&type=<fmt>&dpi=<36-300>&quality=<1-100> -- render every page to an image, returned as a ZIP. type = png (default) | jpg | webp | avif | jxl. dpi default 150, quality default 82.
+- op=split -- explode a PDF into one single-page PDF per page, returned as a ZIP.
+- op=create&page=<size>&quality=<1-100>&dpi=<36-600>&maxWidth=<px>&combine=<0|1> -- combine images into a PDF, one page per image in upload order; multipart body with each file appended as `images`; page = fit (default) | a4 | letter. quality default 82, dpi default 96. combine=0 returns one single-page PDF per image, as a ZIP.
+
+optimize, extract, rasterize and split take the PDF as the raw request body and require a paid plan (Seller, Pro, Growth, or Day Pass). op=create takes images and is available on every plan including Free.
+
+PDF limits: 100MB request body, 200 pages absolute. For the PDF-in ops, Growth is unlimited within that and other paid plans cap at 10 pages. For op=create, Free allows 3 images, Seller/Pro/Day Pass 10, Growth 200.
+
+PDF response headers:
+- X-Mochify-Pages -- pages processed (rasterize, split, create)
+- X-Mochify-Images, X-Mochify-Skipped, X-Mochify-Duplicates -- extract
+- X-Mochify-Images-Recompressed, X-Mochify-Images-Kept, X-Mochify-Original-Bytes, X-Mochify-Saved-Pct -- optimize
 
 Size limits: Free and Credit Pack 20MB, Seller/Pro/Day Pass 75MB
 
@@ -329,11 +344,47 @@ Examples:
   "add HDR"
   "HDR version"
 
+### PDF operations
+When the attached file is a PDF, Magic Flow maps the instruction to a PDF operation rather than to image processing.
+
+Compress the PDF itself (returns a smaller PDF):
+  "compress this PDF"
+  "make this PDF smaller"
+  "reduce the file size"
+  "compress the images in this pdf"
+  "shrink it as much as possible"
+
+Extract the embedded images (returns a ZIP of image files):
+  "extract the images"
+  "get the photos out of this PDF"
+  "pull out all the pictures"
+  "extract the images as WebP"
+  "extract the images, max 1600px wide"
+
+Render each page as an image (returns a ZIP):
+  "convert the pages to PNG"
+  "rasterize each page to JPG at 300 DPI"
+  "turn this PDF into images"
+
+Split into one PDF per page (returns a ZIP):
+  "split into individual pages"
+  "separate the pages"
+
+Three distinctions worth keeping straight, because they are easy to conflate:
+- "extract the images" returns the pictures embedded in the document. "convert the pages to images" renders each page, text and all. Naming an image format does not change which is meant: "extract the images as PNG" is still extraction.
+- "extract pages" is a split (the object is pages); "extract images" is an extraction (the object is images).
+- "compress this PDF" keeps it a PDF. "extract and compress the images" returns image files.
+
+Images can also go the other way -- attach images and ask for a PDF:
+  "combine into a single PDF"
+  "make each of these its own PDF"
+
 ## 8. Other tools on mochify.app
 
 - Manual mode: the classic upload form on the homepage -- format selector, batch processing up to 25 files, EXIF stripping, smart-compress toggle. Multiple outputs download as a zip.
 - Save to bucket: a toggle on the [web app](https://mochify.app/flow) surface that sends results to the user's own connected bucket instead of downloading them. Paid plans, connection set up in the dashboard -- see section 10.
 - Images to PDF: [WebP to PDF](https://mochify.app/solutions/webp-to-pdf), [HEIF to PDF](https://mochify.app/solutions/heif-to-pdf), [JXL to PDF](https://mochify.app/solutions/jxl-to-pdf) -- combines images into a single PDF, one page per image, with Fit/A4/Letter page sizes, via POST /v1/pdf.
+- PDF toolkit: compress a PDF in place, extract the images embedded in it, render pages to images, or split it into single-page PDFs. Available through Magic Flow by attaching a PDF, and through POST /v1/pdf -- see section 6.
 - MP4 to WebM: [MP4 to WebM converter](https://mochify.app/solutions/mp4-to-webm) -- video conversion that runs entirely client-side in the browser; the video never leaves the user's machine. This is the one Mochify tool that is genuinely client-side.
 - Bulk AI square cropper: [bulk AI square cropper](https://mochify.app/solutions/bulk-ai-square-cropper) -- saliency-guided square crops for marketplace listings.
 - Background removal: [remove background to WebP](https://mochify.app/solutions/remove-background-webp) and [remove background to AVIF](https://mochify.app/solutions/remove-background-avif).
