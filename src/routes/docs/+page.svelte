@@ -530,14 +530,22 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
                                     <p class="text-[#6C3F31]">jpegli quality for the re-encode (1&ndash;100). Lower is smaller.</p>
                                 </div>
                                 <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
-                                    <code class="font-mono text-[#F06292] font-bold">maxDimension</code>
-                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">2000</span>
+                                    <code class="font-mono text-[#F06292] font-bold">maxDpi</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">150</span>
                                     <div>
-                                        <p class="text-[#6C3F31]">Downsample any image whose longest side exceeds this, preserving aspect ratio. Set <code class="font-mono text-xs">0</code> to leave pixel dimensions alone.</p>
-                                        <p class="text-[#875F42]/60 text-xs mt-1">Resizing is layout-safe: a PDF image is drawn into the unit square, so changing its pixel size cannot move or rescale it on the page.</p>
+                                        <p class="text-[#6C3F31]">Target resolution, measured against how large each image is actually <em>drawn</em> on the page rather than how many pixels it stores. Use 96 for screen and email, 150 for general use, 300 to keep print quality. Set <code class="font-mono text-xs">0</code> to disable and rely on <code class="font-mono text-xs">maxDimension</code> alone.</p>
+                                        <p class="text-[#875F42]/60 text-xs mt-1">A 4000px photo placed in a two-inch box is 2000 DPI of waste; the same photo full-bleed on A4 is not. Only the drawn size can tell those apart, so it is read from the content stream. An image drawn at several sizes is targeted at its largest, never its average.</p>
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm">
+                                    <code class="font-mono text-[#F06292] font-bold">maxDimension</code>
+                                    <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">2000</span>
+                                    <div>
+                                        <p class="text-[#6C3F31]">Absolute backstop applied alongside <code class="font-mono text-xs">maxDpi</code>: no image keeps a side longer than this. It is what limits an image the placement scan never saw drawn. Set <code class="font-mono text-xs">0</code> to remove the cap.</p>
+                                        <p class="text-[#875F42]/60 text-xs mt-1">Resizing is layout-safe: a PDF image is drawn into the unit square, so changing its pixel size cannot move or rescale it on the page.</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-4 items-start text-sm bg-[#FDFBF7]">
                                     <code class="font-mono text-[#F06292] font-bold">minSize</code>
                                     <span class="text-[#875F42]/40 font-mono text-xs mt-0.5">64</span>
                                     <p class="text-[#6C3F31]">Leave images smaller than this (on either axis) untouched. Keeps spacers, rules and bullet glyphs out of the work.</p>
@@ -739,7 +747,7 @@ print(f"Done in &#123;response.headers.get('X-Latency-Ms')&#125;ms")</code></pre
                                     <div class="bg-[#4A2C2C] px-4 py-2 flex items-center gap-2">
                                         <span class="text-[#FFB3C6]/60 text-xs font-bold uppercase tracking-wider">cURL &middot; compress a PDF</span>
                                     </div>
-                                    <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl -X POST "https://api.mochify.app/v1/pdf?op=optimize&quality=75&maxDimension=2000" \
+                                    <pre class="bg-[#2E1A14] text-[#FFE5EC] text-sm font-mono px-5 py-4 overflow-x-auto leading-relaxed whitespace-pre"><code>curl -X POST "https://api.mochify.app/v1/pdf?op=optimize&quality=75&maxDpi=150" \
   -H "Content-Type: application/pdf" \
   -H "Authorization: Bearer mchy_your_api_key" \
   --data-binary @report.pdf \

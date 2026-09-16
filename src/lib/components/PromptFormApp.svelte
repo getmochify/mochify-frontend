@@ -1434,6 +1434,9 @@
 						params.set('quality', String(pdfConfig.quality));
 					} else if (pdfConfig.op === 'optimize') {
 						params.set('quality', String(pdfConfig.quality));
+						// dpi is the target resolution for the images kept inside the
+						// PDF, measured against how large each one is actually drawn.
+						if (pdfConfig.dpi) params.set('maxDpi', String(pdfConfig.dpi));
 						// maxWidth carries "cap the longest side" for this op.
 						if (pdfConfig.maxWidth) params.set('maxDimension', String(pdfConfig.maxWidth));
 					} else if (pdfConfig.op === 'extract') {
