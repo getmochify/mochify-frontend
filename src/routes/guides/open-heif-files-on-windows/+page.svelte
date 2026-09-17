@@ -10,7 +10,7 @@
         category: "Image Formats",
         readTime: "12 min read",
         date: "August 19, 2026",
-        lastUpdated: "September 12, 2026"
+        lastUpdated: "September 17, 2026"
     };
 
     const toc = [
@@ -62,7 +62,7 @@
             "@id": "https://mochify.app/guides/open-heif-files-on-windows"
         },
         "datePublished": "2026-08-19",
-        "dateModified": "2026-09-12",
+        "dateModified": "2026-09-17",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -120,7 +120,7 @@
         "description": "Windows needs two codec extensions to open HEIF files, and 10-bit camera HIFs often fail anyway. Every fix that works, plus the fast JPG route.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-08-19",
-        "dateModified": "2026-09-12"
+        "dateModified": "2026-09-17"
         }
     </script>
 
@@ -263,7 +263,7 @@
             <p class="text-base mb-4">Our <a href="https://mochify.app/solutions/heif-to-jpg">HEIF to JPG converter</a> is built for exactly the stuck-file case this guide describes:</p>
             <ul class="list-disc pl-6 space-y-3 text-base">
                 <li>It accepts <code>.heif</code>, <code>.heic</code>, and <code>.hif</code> - including the 10-bit camera files Windows chokes on - and you can mix extensions in one batch.</li>
-                <li>Nothing to install: it runs in the browser, so it works the same on a locked-down work PC as on your own machine.</li>
+                <li>Nothing to install: it runs in the browser, so it works the same on a locked-down work PC as on your own machine. If Mochify says a file looks incomplete, it may not have finished downloading from OneDrive or another cloud folder yet; <a href="https://mochify.app/guides/why-did-my-upload-fail">here is what each upload error means</a>.</li>
                 <li>You describe what you want in plain English if you want more than a straight conversion - Magic Flow prompts like "convert these to JPG and keep them under 5MB for email" set format, quality, and size in one line.</li>
                 <li>Output is standard JPG encoded with Google's jpegli encoder, so the files are efficient without any compatibility tricks.</li>
                 <li>Privacy: files are streamed into memory, converted, and discarded - nothing is written to disk and nothing is logged. Metadata, including GPS location, is stripped by default.</li>

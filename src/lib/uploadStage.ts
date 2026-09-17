@@ -26,7 +26,8 @@ import {
 	readRejectLabel,
 	readDetectedHeader,
 	readDecoderHeader,
-	trackReject
+	trackReject,
+	type UploadErrorInfo
 } from '$lib/uploadError';
 
 // How many files to stage at once.
@@ -59,7 +60,7 @@ export interface Stager {
 	 * and refused them. Re-uploading would fail identically, so the caller must
 	 * skip the file and report this reason instead of silently retrying.
 	 */
-	rejectionFor(file: File): string | undefined;
+	rejectionFor(file: File): UploadErrorInfo | undefined;
 	/**
 	 * Stop starting new uploads AND release any staged session the upload loop
 	 * never took. Safe to call more than once, and safe to call on the success
@@ -135,8 +136,8 @@ const HARD_REJECT_STATUSES = new Set([400, 413, 415, 422]);
 
 export interface StageOutcome {
 	sessionId: string | null;
-	/** Set only for a definitive content rejection. */
-	rejection?: string;
+	/** Set only for a definitive content rejection. Carries the help key with the message. */
+	rejection?: UploadErrorInfo;
 }
 
 function stageOne(
@@ -151,7 +152,7 @@ function stageOne(
 
 		// Resolve rather than reject on every failure path. The caller's fallback
 		// is the existing upload, so a staging failure must be invisible.
-		const giveUp = (reason: string, status?: number, rejection?: string) => {
+		const giveUp = (reason: string, status?: number, rejection?: UploadErrorInfo) => {
 			// Undo this attempt's contribution so the batch byte counter stays
 			// truthful when the file is re-uploaded through the normal path (or
 			// skipped entirely, for a rejection).
@@ -245,7 +246,7 @@ export function startStaging(
 	// fail, and aborting underneath an in-flight completion would be a bug.
 	const unclaimed = new Map<File, string>();
 	// Files the server refused outright, with the reason to show the user.
-	const rejections = new Map<File, string>();
+	const rejections = new Map<File, UploadErrorInfo>();
 	let abandoned = false;
 	let cursor = 0;
 

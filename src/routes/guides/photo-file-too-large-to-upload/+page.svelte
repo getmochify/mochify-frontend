@@ -12,7 +12,7 @@
         category: "Image Optimization",
         readTime: "12 min read",
         date: "July 23, 2026",
-        lastUpdated: "September 12, 2026"
+        lastUpdated: "September 17, 2026"
     };
 
     const toc = [
@@ -95,7 +95,7 @@
             "@id": "https://mochify.app/guides/photo-file-too-large-to-upload"
         },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-09-12",
+        "dateModified": "2026-09-17",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -156,7 +156,7 @@
         "description": "Why free tools reject modern camera files: real sizes from 45-61MP bodies, the 5-20MB caps that refuse them, and the fastest path to files that upload anywhere.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-09-12"
+        "dateModified": "2026-09-17"
         }
     </script>
 
@@ -332,7 +332,7 @@
                     <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
                     <div class="min-w-0 flex-1">
                         <strong class="block text-[#4A2C2C] text-lg mb-1.5">Load your files into Mochify</strong>
-                        <p class="text-base m-0">Free takes files up to 20MB, 3 per batch, 25 per month. Seller and Pro take up to 75MB per file, 25 per batch, 300 or 1,200 per month, with a priority queue - the tier for 61MP bodies and weekly shoot volume.</p>
+                        <p class="text-base m-0">Free takes files up to 20MB, 3 per batch, 25 per month. Seller and Pro take up to 75MB per file, 25 per batch, 300 or 1,200 per month, with a priority queue - the tier for 61MP bodies and weekly shoot volume. If an upload still stops with an error, <a href="/guides/why-did-my-upload-fail">find the message you saw in our upload error guide</a>.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">

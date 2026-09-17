@@ -24,7 +24,13 @@
 	import { resolveUploadSize, effectiveSize, uploadBodyOf } from '$lib/uploadSize';
 	import { checkTruncation } from '$lib/truncationCheck';
 	import { startStaging, noStager, shouldSpeculate, type Stager } from '$lib/uploadStage';
-	import { uploadErrorMessage, readXhrErrorText, trackUpload413 } from '$lib/uploadError';
+	import {
+		uploadErrorMessage,
+		readXhrErrorText,
+		trackUpload413,
+		type UploadErrorKey
+	} from '$lib/uploadError';
+	import UploadHelpLink from '$lib/components/UploadHelpLink.svelte';
 	import { portal } from '$lib/portal';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
@@ -355,7 +361,11 @@
 	});
 
 	// Status state
-	let statusMessage: { type: 'success' | 'error' | null; text: string } = $state({
+	let statusMessage: {
+		type: 'success' | 'error' | null;
+		text: string;
+		key?: UploadErrorKey;
+	} = $state({
 		type: null,
 		text: ''
 	});
@@ -365,7 +375,7 @@
 	let showUpgradeCta: boolean = $state(false);
 	// Which copy the upgrade modal shows: quota exhaustion vs. gen-AI paywall.
 	let upgradeCtaMode: 'quota' | 'generate' = $state('quota');
-	let failedFiles: { name: string; reason: string }[] = $state([]);
+	let failedFiles: { name: string; reason: string; key?: UploadErrorKey }[] = $state([]);
 	let victoryGlow: boolean = $state(false);
 
 	function triggerVictoryGlow() {
@@ -375,8 +385,8 @@
 		}, 1800);
 	}
 
-	function showStatus(type: 'success' | 'error', text: string) {
-		statusMessage = { type, text };
+	function showStatus(type: 'success' | 'error', text: string, key?: UploadErrorKey) {
+		statusMessage = { type, text, key };
 		// Resolve the agent message box for the active flow only — the isProcessing
 		// guard stops pre-flight validation errors (file too big, mode mismatch)
 		// from flipping a previous run's box to an unrelated outcome.
@@ -386,6 +396,11 @@
 		}
 		if (type === 'success') triggerVictoryGlow();
 		if (statusTimeout) clearTimeout(statusTimeout);
+		// A failure stands until the next submit. It used to self-dismiss after
+		// five seconds like a success does, which is wrong for a message the
+		// reader has to act on: it now carries a help link, and a link that
+		// disappears while you are reaching for it is worse than no link.
+		if (type === 'error') return;
 		statusTimeout = setTimeout(() => {
 			statusMessage = { type: null, text: '' };
 		}, 5000);
@@ -918,8 +933,15 @@
 	// the status check.
 	async function nlpError(res: Response): Promise<Error> {
 		const body = (await res.json().catch(() => null)) as { error?: string } | null;
-		if (res.status >= 500 && body?.error !== 'AI returned invalid format')
-			return new Error('Something went wrong on our end — please try again in a moment.');
+		if (res.status >= 500 && body?.error !== 'AI returned invalid format') {
+			const e: any = new Error('Something went wrong on our end — please try again in a moment.');
+			// The prompt service answered with an error: the files are untouched, so
+			// this is the nlp-unreachable case, not an upload failure.
+			e.errorKey = 'nlp_unreachable';
+			return e;
+		}
+		// Deliberately unkeyed: the model asking for a clearer instruction is not a
+		// failure the guide can help with, and pointing at it would be noise.
 		return new Error("Couldn't quite understand that — try again, or rephrase and resubmit.");
 	}
 
@@ -2109,8 +2131,10 @@
 												plan: userPlan ?? undefined
 											});
 										}
-										const e: any = new Error(uploadErrorMessage(xhr.status, serverText));
+										const { message, key } = uploadErrorMessage(xhr.status, serverText);
+										const e: any = new Error(message);
 										e.status = xhr.status;
+										e.errorKey = key;
 										reject(e);
 									})();
 								}
@@ -2122,6 +2146,7 @@
 									`Lost connection while processing ${file.name} — check your internet and try again.`
 								);
 								e.retryable = true;
+								e.errorKey = 'network_error';
 								reject(e);
 							};
 							xhr.send(uploadBodyOf(file));
@@ -2151,7 +2176,10 @@
 					// clears the tray anyway.
 					const rejection = stager.rejectionFor(file);
 					if (rejection) {
-						failedFiles = [...failedFiles, { name: file.name, reason: rejection }];
+						failedFiles = [
+							...failedFiles,
+							{ name: file.name, reason: rejection.message, key: rejection.key }
+						];
 						// This file contributes no bytes to the run; drop it from the
 						// denominator so the remaining files can still reach 100%.
 						totalBytes -=
@@ -2502,7 +2530,8 @@
 				posthog.capture('magic_flow_completed', { files: totalFiles, all_failed: true });
 				showStatus(
 					'error',
-					failedFiles[0]?.reason ?? 'All files failed to process — please try again.'
+					failedFiles[0]?.reason ?? 'All files failed to process — please try again.',
+					failedFiles[0]?.key ?? 'processing_failed'
 				);
 			} else {
 				posthog.capture('magic_flow_completed', { files: totalFiles, failed: failedFiles.length });
@@ -2515,7 +2544,13 @@
 			}
 		} catch (err) {
 			console.error(err);
+			// An unkeyed network failure here is the browser never reaching the
+			// prompt service (Safari's "Load failed"), which is nlp_unreachable —
+			// the transport drops that happen mid-upload are keyed at their source.
+			const failureKey: UploadErrorKey | undefined =
+				(err as any)?.errorKey ?? (isNetworkError(err) ? 'nlp_unreachable' : undefined);
 			posthog.capture('magic_flow_failed', {
+				error_key: failureKey ?? 'unknown',
 				error: err instanceof Error ? err.message : String(err)
 			});
 			// An interrupted/offline fetch (Safari's "Load failed") is an expected
@@ -2524,7 +2559,8 @@
 			if (!isNetworkError(err)) posthog.captureException(err);
 			showStatus(
 				'error',
-				err instanceof Error ? err.message : 'Something went wrong — please try again.'
+				err instanceof Error ? err.message : 'Something went wrong — please try again.',
+				failureKey
 			);
 		} finally {
 			isProcessing = false;
@@ -2541,17 +2577,20 @@
 
 {#if statusMessage.type}
 	<div
-		class="animate-fade-in pointer-events-none fixed top-4 right-4 z-50 sm:top-24 sm:right-auto sm:left-1/2 sm:-translate-x-1/2"
+		class="animate-fade-in fixed top-4 right-4 z-50 sm:top-24 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 {statusMessage.type ===
+		'error'
+			? ''
+			: 'pointer-events-none'}"
 	>
 		<div
-			class="flex items-center gap-3 rounded-2xl border px-5 py-3 shadow-xl backdrop-blur-md transition-all duration-300
+			class="flex items-start gap-3 rounded-2xl border px-5 py-3 shadow-xl backdrop-blur-md transition-all duration-300
             {statusMessage.type === 'error'
 				? 'border-red-200 bg-red-50/90 text-red-800 shadow-red-500/10'
 				: 'border-[#A5D6A7]/50 bg-[#F4FBF2]/90 text-[#2E5C31] shadow-green-500/10'}"
 		>
 			{#if statusMessage.type === 'error'}
 				<svg
-					class="h-5 w-5 flex-shrink-0 text-red-500"
+					class="mt-0.5 h-5 w-5 flex-shrink-0 text-red-500"
 					fill="none"
 					stroke="currentColor"
 					viewBox="0 0 24 24"
@@ -2565,7 +2604,7 @@
 				</svg>
 			{:else}
 				<svg
-					class="h-5 w-5 flex-shrink-0 text-green-500"
+					class="mt-0.5 h-5 w-5 flex-shrink-0 text-green-500"
 					fill="none"
 					stroke="currentColor"
 					viewBox="0 0 24 24"
@@ -2579,7 +2618,16 @@
 				</svg>
 			{/if}
 
-			<span class="text-sm font-bold tracking-tight sm:text-base">{statusMessage.text}</span>
+			<div class="flex min-w-0 flex-col gap-1">
+				<span class="text-sm font-bold tracking-tight sm:text-base">{statusMessage.text}</span>
+				{#if statusMessage.type === 'error' && statusMessage.key}
+					<UploadHelpLink
+						errorKey={statusMessage.key}
+						surface="magic_flow_status"
+						class="self-start text-red-800"
+					/>
+				{/if}
+			</div>
 		</div>
 	</div>
 {/if}

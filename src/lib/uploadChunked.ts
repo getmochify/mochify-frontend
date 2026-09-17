@@ -16,7 +16,8 @@ import {
 	readRejectLabel,
 	readDetectedHeader,
 	readDecoderHeader,
-	trackReject
+	trackReject,
+	type UploadErrorKey
 } from '$lib/uploadError';
 
 // Above this size, use chunked (resumable) upload. Set to exactly one chunk:
@@ -121,16 +122,26 @@ interface RetryableXhrError extends Error {
 	// pipeline-classified finalize failure (e.g. corrupt-image) so the caller
 	// can drive telemetry/messaging off a stable slug.
 	rejectLabel?: string;
+	// Which section of the upload-error guide answers this failure. Set
+	// everywhere a user-facing message is produced, so the surface that renders
+	// the message can render the matching help link without re-deriving it.
+	errorKey?: UploadErrorKey;
 }
 
 function xhrError(
 	message: string,
-	opts: { status?: number; retryable?: boolean; sessionExpired?: boolean }
+	opts: {
+		status?: number;
+		retryable?: boolean;
+		sessionExpired?: boolean;
+		errorKey?: UploadErrorKey;
+	}
 ): RetryableXhrError {
 	const err: RetryableXhrError = new Error(message);
 	if (opts.status !== undefined) err.status = opts.status;
 	if (opts.retryable !== undefined) err.retryable = opts.retryable;
 	if (opts.sessionExpired !== undefined) err.sessionExpired = opts.sessionExpired;
+	if (opts.errorKey !== undefined) err.errorKey = opts.errorKey;
 	return err;
 }
 
@@ -153,7 +164,7 @@ async function initSession(
 	} catch {
 		// Connection dropped before any response — retryable, mirroring the
 		// chunk path's XHR 'error' handler so withReconnect can resume init.
-		throw xhrError('Network error', { retryable: true });
+		throw xhrError('Network error', { retryable: true, errorKey: 'network_error' });
 	}
 	if (!resp.ok) {
 		let message = `Upload init failed: ${resp.status}`;
@@ -163,7 +174,10 @@ async function initSession(
 		} catch {
 			/* body wasn't JSON — keep the generic message */
 		}
-		throw xhrError(message, { status: resp.status });
+		throw xhrError(message, {
+			status: resp.status,
+			errorKey: uploadErrorMessage(resp.status, message).key
+		});
 	}
 	const body = (await resp.json()) as { sessionId?: string };
 	if (!body?.sessionId) throw new Error('Upload init did not return a sessionId.');
@@ -210,11 +224,16 @@ function uploadOneChunkAtOffset(
 			} catch {
 				/* response wasn't JSON — keep the generic message */
 			}
-			const err = xhrError(message, { status: xhr.status });
+			const err = xhrError(message, {
+				status: xhr.status,
+				errorKey: uploadErrorMessage(xhr.status, message).key
+			});
 			if (serverOffset !== undefined) err.serverOffset = serverOffset;
 			reject(err);
 		});
-		xhr.addEventListener('error', () => reject(xhrError('Network error', { retryable: true })));
+		xhr.addEventListener('error', () =>
+			reject(xhrError('Network error', { retryable: true, errorKey: 'network_error' }))
+		);
 		xhr.addEventListener('abort', () => reject(new Error('Upload cancelled')));
 		xhr.open(
 			'POST',
@@ -288,15 +307,17 @@ export function completeUpload(
 					detected: readDetectedHeader(xhr),
 					decoder: readDecoderHeader(xhr)
 				});
-				const error: RetryableXhrError = new Error(
-					uploadErrorMessage(xhr.status, serverText, rejectLabel)
-				);
+				const { message, key } = uploadErrorMessage(xhr.status, serverText, rejectLabel);
+				const error: RetryableXhrError = new Error(message);
 				error.status = xhr.status;
 				error.rejectLabel = rejectLabel;
+				error.errorKey = key;
 				reject(error);
 			})();
 		});
-		xhr.addEventListener('error', () => reject(xhrError('Network error', { retryable: true })));
+		xhr.addEventListener('error', () =>
+			reject(xhrError('Network error', { retryable: true, errorKey: 'network_error' }))
+		);
 		xhr.open('POST', `${apiUrl}/v1/upload/complete?session=${encodeURIComponent(sessionId)}`);
 		if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
 		if (params) {
@@ -495,7 +516,8 @@ async function runChunkedUpload(
 					if ((err as RetryableXhrError)?.status === 404) {
 						throw xhrError('Upload session expired', {
 							status: 404,
-							sessionExpired: true
+							sessionExpired: true,
+							errorKey: 'session_expired'
 						});
 					}
 					throw err;

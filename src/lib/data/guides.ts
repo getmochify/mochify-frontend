@@ -81,7 +81,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '12 min read',
 		date: 'August 19, 2026',
-		lastUpdated: 'September 12, 2026'
+		lastUpdated: 'September 17, 2026'
 	},
 	{
 		title: 'Should My Product Images Be AVIF or WebP in 2026?',
@@ -254,7 +254,7 @@ export const guides: Guide[] = [
 		category: 'Quick Guides',
 		readTime: '2 min read',
 		date: 'June 24, 2026',
-		lastUpdated: 'September 12, 2026'
+		lastUpdated: 'September 17, 2026'
 	},
 	{
 		title: 'Should I Use fetchpriority or rel="preload" for My LCP Image?',
@@ -665,7 +665,7 @@ export const guides: Guide[] = [
 		category: 'Image Optimization',
 		readTime: '12 min read',
 		date: 'July 23, 2026',
-		lastUpdated: 'September 12, 2026'
+		lastUpdated: 'September 17, 2026'
 	}
 ];
 

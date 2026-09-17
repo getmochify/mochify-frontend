@@ -7,11 +7,88 @@
 // sees a bare "Server error: 413".
 import { posthog } from '$lib/analytics';
 
+// Stable machine keys for every user-facing upload failure. These exist so the
+// failure surfaces can link to the right section of the upload-error guide and
+// so PostHog can group failures on a slug instead of on prose — before this,
+// manual_compress_failed and magic_flow_failed carried only a free-text
+// `error` string, which made the failure inventory a grouping exercise.
+//
+// Names deliberately diverge from the server's X-Mochify-Reject taxonomy in two
+// places: `network_error` is a transport drop while `nlp_unreachable` is the
+// prompt service being unreachable (different causes, different advice), and
+// the 429 is `quota_exhausted` because it is monthly-allowance exhaustion, not
+// a rate limiter — `rate_limited` stays free in case a real one is ever added.
+export type UploadErrorKey =
+	| 'incomplete_image'
+	| 'network_error'
+	| 'nlp_unreachable'
+	| 'unsupported_format'
+	| 'too_many_uploads'
+	| 'file_too_large'
+	| 'batch_trimmed'
+	| 'quota_exhausted'
+	| 'processing_failed'
+	| 'server_error'
+	| 'session_expired';
+
+export interface UploadErrorInfo {
+	message: string;
+	key: UploadErrorKey;
+}
+
+const UPLOAD_HELP_GUIDE = '/guides/why-did-my-upload-fail';
+
+// Section anchors in the published guide. The guide's section ids are frozen
+// for exactly this reason: these links are in-product help, so a renamed id
+// silently degrades every failure surface to a mid-page scroll.
+const HELP_ANCHORS: Record<UploadErrorKey, string> = {
+	incomplete_image: '#incomplete-image',
+	network_error: '#network-error',
+	nlp_unreachable: '#nlp-unreachable',
+	unsupported_format: '#unsupported-format',
+	too_many_uploads: '#too-many-uploads',
+	file_too_large: '#file-too-large',
+	batch_trimmed: '#batch-trimmed',
+	quota_exhausted: '#quota-exhausted',
+	// Both land on the same section: the guide treats a decode failure and a
+	// bare 5xx as one "this is ours, not yours" case.
+	processing_failed: '#processing-failed',
+	server_error: '#processing-failed',
+	session_expired: '#session-expired'
+};
+
+/** Guide URL for an error key. Anything unmapped goes to the "still stuck" section. */
+export function helpUrlForKey(key?: string): string {
+	const anchor = key ? HELP_ANCHORS[key as UploadErrorKey] : undefined;
+	return `${UPLOAD_HELP_GUIDE}${anchor ?? '#still-stuck'}`;
+}
+
+// Fired from the help link's onclick, following the upgrade_cta_clicked /
+// signup_cta_clicked pattern. `decoder` rides along on incomplete_image only:
+// core's corrupt-image label covers both a genuinely truncated file and any
+// other libheif failure, so without it the counts for that one anchor mix two
+// unrelated causes and cannot be read.
+export function trackHelpLinkClicked(opts: {
+	key?: string;
+	surface: string;
+	decoder?: string;
+}): void {
+	try {
+		posthog.capture('help_link_clicked', {
+			error_key: opts.key ?? 'unknown',
+			surface: opts.surface,
+			...(opts.decoder ? { decoder: opts.decoder } : {})
+		});
+	} catch {
+		/* analytics must never break an upload path */
+	}
+}
+
 export function uploadErrorMessage(
 	status: number,
 	serverText?: string,
 	rejectLabel?: string
-): string {
+): UploadErrorInfo {
 	const text = serverText?.trim();
 
 	// Corrupt/truncated input — the server's `corrupt-image` taxonomy class (a
@@ -20,14 +97,21 @@ export function uploadErrorMessage(
 	// CORS expose-headers change is deployed). The dominant real cause is an
 	// iCloud "Optimize Storage" placeholder that never materialised to full-res,
 	// so steer the user to re-download the original rather than blaming the file.
+	//
+	// Names cloud storage generally rather than iCloud alone: OneDrive's Files
+	// On-Demand and Google Drive's streaming mode produce the identical partial
+	// file, and 71% of these messages are on Windows, where the iCloud-only
+	// wording named the one service the reader was not using.
 	const isCorrupt =
 		rejectLabel === 'corrupt-image' ||
 		(status === 422 && !!text && /corrupt or truncated/i.test(text));
 	if (isCorrupt) {
-		return (
-			"This image looks incomplete. If it's stored in iCloud, open it in " +
-			'Photos or Preview first to download the full-resolution original, then try again.'
-		);
+		return {
+			message:
+				'This image looks incomplete. If it lives in iCloud, OneDrive, Google Drive or ' +
+				'another cloud folder, open it once so the full-size original downloads, then try again.',
+			key: 'incomplete_image'
+		};
 	}
 
 	if (status === 413) {
@@ -38,18 +122,55 @@ export function uploadErrorMessage(
 		// to a user and reads like their photo is broken, so reframe it as a
 		// retry-the-upload prompt instead of passing it through verbatim.
 		if (text?.includes('Failed to read image dimensions')) {
-			return "That upload didn't complete. The file may be too large to process, or the connection dropped partway. Try a smaller version, or upload it again.";
+			return {
+				message:
+					"That upload didn't complete. The file may be too large to process, or the connection dropped partway. Try a smaller version, or upload it again.",
+				key: 'file_too_large'
+			};
 		}
-		return text && text.length > 0
-			? text
-			: 'That file is too large to upload. Try a smaller image or upgrade your plan.';
+		return {
+			message:
+				text && text.length > 0
+					? text
+					: 'That file is too large to upload. Try a smaller image or upgrade your plan.',
+			key: 'file_too_large'
+		};
 	}
-	if (status === 415) return text && text.length > 0 ? text : 'That file type is not supported.';
-	if (status === 429) return 'Rate limit exceeded';
+	if (status === 415) {
+		return {
+			message: text && text.length > 0 ? text : 'That file type is not supported.',
+			key: 'unsupported_format'
+		};
+	}
+	if (status === 429) return { message: 'Rate limit exceeded', key: 'quota_exhausted' };
+	// Both 503s: the per-identity session cap on init/stage ("Too many concurrent
+	// uploads.") and queue saturation on /v1/squish ("Mochify is at capacity.").
+	// Different causes and different Retry-After values, but the same advice, and
+	// the server's own body already says which one happened.
+	if (status === 503) {
+		return {
+			message:
+				text && text.length > 0 ? text : 'Mochify is busy right now. Please retry in a moment.',
+			key: 'too_many_uploads'
+		};
+	}
+	// A session the server has already reaped (or a completion sent twice). Only
+	// a 404 whose body says so — a bare 404 on any other path is not this.
+	if (status === 404 && !!text && /session (not found|expired)|already completed/i.test(text)) {
+		return { message: text, key: 'session_expired' };
+	}
 	// Any other 422 (e.g. jpeg-missing-dht): the server's plaintext body is
 	// already user-facing, so pass it through rather than a bare "Server error".
-	if (status === 422) return text && text.length > 0 ? text : 'That image could not be processed.';
-	return text && text.length > 0 ? text : `Server error: ${status}`;
+	if (status === 422) {
+		return {
+			message: text && text.length > 0 ? text : 'That image could not be processed.',
+			key: 'processing_failed'
+		};
+	}
+	return {
+		message: text && text.length > 0 ? text : `Server error: ${status}`,
+		key: 'server_error'
+	};
 }
 
 // The server's rejection taxonomy label (utils/ImageProcessor.h classifyLoadError),

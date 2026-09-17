@@ -21,6 +21,7 @@
 	import { checkTruncation, truncationVerdictOf } from '$lib/truncationCheck';
 	import {
 		uploadErrorMessage,
+		type UploadErrorKey,
 		readXhrErrorText,
 		trackUpload413,
 		readRejectLabel,
@@ -29,6 +30,7 @@
 		trackReject
 	} from '$lib/uploadError';
 	import { isNetworkError } from '$lib/chunkRecovery';
+	import UploadHelpLink from '$lib/components/UploadHelpLink.svelte';
 	import { portal } from '$lib/portal';
 	import { formatPrice } from '$lib/currency';
 	import { getImagePreview, releaseImagePreview } from '$lib/imagePreview';
@@ -44,6 +46,10 @@
 		phase: 'uploading' | 'processing' | 'downloading';
 		status: 'pending' | 'processing' | 'complete' | 'error';
 		error?: string;
+		/** Guide section for this file's failure; drives the banner's help link. */
+		errorKey?: UploadErrorKey;
+		/** X-Mochify-Decoder, kept only to disambiguate the corrupt-image anchor. */
+		errorDecoder?: string;
 		thumbnailUrl?: string;
 	};
 
@@ -104,6 +110,15 @@
 	// Batch truncation and oversize both have their own dedicated UI (the
 	// batch-cap banner and the per-file error card), so neither lands here.
 	let errorMessage: string = $state('');
+	// Which guide section answers the message currently in the banner. Kept
+	// beside errorMessage rather than derived from it: the message is prose that
+	// gets reworded, the key is the stable thing the help link is built from.
+	let errorKey: UploadErrorKey | undefined = $state(undefined);
+	let errorDecoder: string | undefined = $state(undefined);
+	// Mirrors the run-local hitRateLimit so the success banner (which is where a
+	// 429 actually surfaces, alongside the files that did convert) can offer the
+	// allowance explainer after the run has finished.
+	let quotaExhausted: boolean = $state(false);
 	let successMessage: string = $state('');
 	let totalOriginalSize: number = $state(0);
 	let fileInputElement: HTMLInputElement;
@@ -400,10 +415,13 @@
 		// .txt, then add a valid photo, and "1 file(s) not supported" stayed up
 		// over a batch that was fine. One ingest now produces exactly one banner
 		// state, and every exit path goes through commitIngestNotices.
-		const rejections: string[] = [];
+		const rejections: { text: string; key?: UploadErrorKey }[] = [];
 
 		function commitIngestNotices() {
-			errorMessage = rejections.join(' ');
+			errorMessage = rejections.map((r) => r.text).join(' ');
+			// First keyed rejection wins the help link: an ingest that rejects on
+			// two different grounds is rare, and one link beats two competing ones.
+			errorKey = rejections.find((r) => r.key)?.key;
 			successMessage = '';
 		}
 
@@ -412,9 +430,10 @@
 			return !ACCEPTED_MIME_TYPES.has(f.type) && !ACCEPTED_EXTENSIONS.has(ext);
 		});
 		if (invalidFiles.length > 0) {
-			rejections.push(
-				`${invalidFiles.length} file(s) not supported. Accepted: JPG, PNG, WebP, AVIF, HEIC, HEIF, HIF, JXL, SVG.`
-			);
+			rejections.push({
+				text: `${invalidFiles.length} file(s) not supported. Accepted: JPG, PNG, WebP, AVIF, HEIC, HEIF, HIF, JXL, GIF, SVG.`,
+				key: 'unsupported_format'
+			});
 			allFiles = allFiles.filter((f) => {
 				const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
 				return ACCEPTED_MIME_TYPES.has(f.type) || ACCEPTED_EXTENSIONS.has(ext);
@@ -460,15 +479,17 @@
 				oversizedFiles = [...oversizedFiles, ...accepted];
 				accepted.forEach((b) => attachBlockedThumbnail(b.file));
 				posthog.capture('file_size_blocked', {
+					error_key: 'file_too_large',
 					files: oversized.length,
 					limit_mb: maxFileSizeMb,
 					tier: userTier
 				});
 			}
 			if (unreadable.length > 0) {
-				rejections.push(
-					`${unreadable.length} file${unreadable.length !== 1 ? 's' : ''} couldn't be read and ${unreadable.length === 1 ? 'was' : 'were'} skipped. If it's stored in iCloud or a cloud drive, open the original to download it first, then try again.`
-				);
+				rejections.push({
+					text: `${unreadable.length} file${unreadable.length !== 1 ? 's' : ''} couldn't be read and ${unreadable.length === 1 ? 'was' : 'were'} skipped. If it's stored in iCloud or a cloud drive, open the original to download it first, then try again.`,
+					key: 'incomplete_image'
+				});
 			}
 			allFiles = resolved
 				.filter((r) => !r.size.unreadable && !r.size.exceededLimit)
@@ -531,10 +552,12 @@
 		// tray at all: the one outcome a user cannot diagnose from what's on
 		// screen in front of them.
 		if (addedCount === 0 && newFiles.length === 0) {
-			rejections.push('All selected files are already in the list.');
+			// No key: nothing failed, so there is nothing for the guide to explain.
+			rejections.push({ text: 'All selected files are already in the list.' });
 		} else if (droppedByCap > 0) {
 			batchTrim = { staged: combinedFiles.length, offered: eligibleFiles.length };
 			posthog.capture('batch_cap_trimmed', {
+				error_key: 'batch_trimmed',
 				cap: batchLimit,
 				dropped: droppedByCap,
 				tier: userTier
@@ -815,6 +838,8 @@
 		});
 
 		errorMessage = '';
+		errorKey = undefined;
+		errorDecoder = undefined;
 		successMessage = '';
 		batchTrim = null;
 		processPhase = 'uploading';
@@ -834,6 +859,7 @@
 			let totalCompressedSize = 0;
 			const compressedBlobs: Blob[] = new Array(selectedFiles.length);
 			let hitRateLimit = false;
+			quotaExhausted = false;
 			const totalBytes = selectedFiles.reduce((sum, f) => sum + effectiveSize(f), 0);
 			let uploadedBytes = 0;
 
@@ -957,10 +983,18 @@
 														preflightTruncated: truncationVerdictOf(file)?.truncated
 													});
 												}
-												const error: any = new Error(
-													uploadErrorMessage(xhr.status, serverText, rejectLabel)
+												const { message, key } = uploadErrorMessage(
+													xhr.status,
+													serverText,
+													rejectLabel
 												);
+												const error: any = new Error(message);
 												error.status = xhr.status;
+												error.errorKey = key;
+												// The decoder's own sentence splits corrupt-image into a
+												// truly truncated file vs a decode gap on our side; it
+												// rides along on the help-link event for that anchor only.
+												error.decoder = readDecoderHeader(xhr);
 												reject(error);
 											})();
 										}
@@ -970,6 +1004,7 @@
 										rollback();
 										const error: any = new Error('Network error');
 										error.retryable = true;
+										error.errorKey = 'network_error';
 										reject(error);
 									});
 									xhr.addEventListener('abort', () => {
@@ -1003,7 +1038,9 @@
 					fileProgress[index].status = 'error';
 					if (error.status === 429) {
 						hitRateLimit = true;
+						quotaExhausted = true;
 						fileProgress[index].error = 'Rate limit exceeded';
+						fileProgress[index].errorKey = 'quota_exhausted';
 						if (!jwt) {
 							showSignupCta = true;
 							posthog.capture('signup_cta_shown', { trigger: 'rate_limit' });
@@ -1013,6 +1050,8 @@
 						}
 					} else {
 						fileProgress[index].error = error instanceof Error ? error.message : 'Unknown error';
+						fileProgress[index].errorKey = error?.errorKey;
+						fileProgress[index].errorDecoder = error?.decoder;
 					}
 				}
 			};
@@ -1047,8 +1086,14 @@
 					selected: selectedFiles.length,
 					hitRateLimit
 				});
-				const firstError = fileProgress.find((fp) => fp.error)?.error;
-				throw new Error(firstError ?? 'All files failed to convert');
+				const firstFailure = fileProgress.find((fp) => fp.error);
+				const allFailed: any = new Error(firstFailure?.error ?? 'All files failed to convert');
+				// No per-file key means nothing classified the failure, which is the
+				// should-be-unreachable fallback: send those readers to the guide's
+				// "Processing Failed" section rather than to a bare scroll.
+				allFailed.errorKey = firstFailure?.errorKey ?? 'processing_failed';
+				allFailed.decoder = firstFailure?.errorDecoder;
+				throw allFailed;
 			}
 
 			if (successfulFiles.length === 1) {
@@ -1152,7 +1197,10 @@
 			if (fileInputElement) fileInputElement.value = '';
 			await checkTokenLimit();
 		} catch (error) {
+			const failureKey: UploadErrorKey | undefined =
+				(error as any)?.errorKey ?? (isNetworkError(error) ? 'network_error' : undefined);
 			posthog.capture('manual_compress_failed', {
+				error_key: failureKey ?? 'unknown',
 				error: error instanceof Error ? error.message : String(error)
 			});
 			// An interrupted/offline fetch (Safari's "Load failed") is an expected
@@ -1160,6 +1208,8 @@
 			// error message below cover it; don't report it as an exception.
 			if (!isNetworkError(error)) posthog.captureException(error);
 			errorMessage = error instanceof Error ? error.message : 'Failed to compress images';
+			errorKey = failureKey;
+			errorDecoder = (error as any)?.decoder;
 		} finally {
 			isLoading = false;
 			processPhase = 'idle';
@@ -1191,6 +1241,8 @@
 		oversizedFiles = [];
 		totalOriginalSize = 0;
 		errorMessage = '';
+		errorKey = undefined;
+		errorDecoder = undefined;
 		batchTrim = null;
 		successMessage = '';
 		imageType = output;
@@ -1602,6 +1654,12 @@
 									Upgrade for up to {paidFileSizeMb}MB
 								</a>
 							{/if}
+							<UploadHelpLink
+								errorKey="file_too_large"
+								surface="file_size_card"
+								label="Why?"
+								class="ml-1.5 text-red-700"
+							/>
 						</div>
 					</div>
 
@@ -1695,16 +1753,30 @@
          when every ingest-time condition has already been cleared. -->
 	{#if successMessage}
 		<div
-			class="mx-4 mb-3 flex items-center gap-2 rounded-2xl border border-green-100 bg-[#F0FDF4] px-4 py-3 sm:mx-6"
+			class="mx-4 mb-3 flex items-start gap-2 rounded-2xl border border-green-100 bg-[#F0FDF4] px-4 py-3 sm:mx-6"
 		>
-			<svg class="h-4 w-4 flex-shrink-0 text-[#66BB6A]" fill="currentColor" viewBox="0 0 20 20">
+			<svg
+				class="mt-0.5 h-4 w-4 flex-shrink-0 text-[#66BB6A]"
+				fill="currentColor"
+				viewBox="0 0 20 20"
+			>
 				<path
 					fill-rule="evenodd"
 					d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
 					clip-rule="evenodd"
 				/>
 			</svg>
-			<p class="text-xs font-bold text-[#33691E]">{successMessage}</p>
+			<div class="flex flex-col gap-1">
+				<p class="text-xs font-bold text-[#33691E]">{successMessage}</p>
+				{#if quotaExhausted}
+					<UploadHelpLink
+						errorKey="quota_exhausted"
+						surface="rate_limit_notice"
+						label="What does this mean?"
+						class="self-start text-[#33691E]"
+					/>
+				{/if}
+			</div>
 		</div>
 	{/if}
 
@@ -1815,6 +1887,12 @@
 							Or convert these {batchTrim?.staged} now and drop the rest in a second batch.
 						</p>
 					{/if}
+					<UploadHelpLink
+						errorKey="batch_trimmed"
+						surface="batch_cap_banner"
+						label="Why was my batch trimmed?"
+						class="mt-1.5 self-start text-[#8D6E63]"
+					/>
 				{:else if activeBanner.kind === 'tokens-short'}
 					<!-- One sentence stating the shortfall, then the ways out. The copy
                          splits on userTier, not on availableTokens === 0, because
@@ -1917,6 +1995,18 @@
 					>
 						{activeBanner.text}
 					</p>
+					<!-- The banner has no auto-dismiss: it stands until the next
+                         action, so the link is still here when the reader comes
+                         back from the guide. Shown only when something actually
+                         failed - a duplicate-files notice has nothing to explain. -->
+					{#if activeBanner.kind === 'error' && errorKey}
+						<UploadHelpLink
+							{errorKey}
+							surface="manual_banner"
+							decoder={errorKey === 'incomplete_image' ? errorDecoder : undefined}
+							class="mt-1 self-start text-red-700"
+						/>
+					{/if}
 				{/if}
 			</div>
 		</div>
