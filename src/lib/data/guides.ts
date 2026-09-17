@@ -17,6 +17,15 @@ export type Guide = {
 
 export const guides: Guide[] = [
 	{
+		title: 'Why Did My Upload Fail? Every Mochify Error, Explained',
+		description:
+			'Every upload and conversion error Mochify shows, what caused it, what we already did about it, and the one thing to try next. From the engineers who built it.',
+		url: '/guides/why-did-my-upload-fail',
+		category: 'Image Optimization',
+		readTime: '17 min read',
+		date: 'September 17, 2026'
+	},
+	{
 		title: 'JPEG XL vs PNG for Screenshots: Half the Size, Same Pixels',
 		description:
 			'A measured comparison: one macOS screenshot at 1.84 MiB as PNG and 0.99 MiB as lossless JPEG XL. Why screenshots compress so well, what lossless really guarantees, and when to stay on PNG.',

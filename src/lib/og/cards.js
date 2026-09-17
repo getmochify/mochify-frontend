@@ -48,6 +48,11 @@ export const cards = [
 	},
 	{ path: '/guides', eyebrow: 'GUIDES', title: 'Image Optimization Guides' },
 	{
+		path: '/guides/why-did-my-upload-fail',
+		eyebrow: 'GUIDE',
+		title: 'Why Did My Upload Fail? Every Mochify Error, Explained'
+	},
+	{
 		path: '/guides/jxl-vs-png-for-screenshots',
 		eyebrow: 'GUIDE',
 		title: 'JPEG XL vs PNG for Screenshots'
