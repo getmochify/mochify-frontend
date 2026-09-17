@@ -30,28 +30,23 @@
 
     const growthYearlySaving = $derived(savingsPercent(amounts.growthMonthly, amounts.growthYearly));
 
-    // Growth is implemented in the backend (PLAN_LIMITS.growth = 5000, and it
-    // already has the uncapped PDF entitlements) but is not purchasable yet, so
-    // the card shows its real price with a "coming soon" badge and an
-    // early-access mailto in place of a checkout link. Set to false to pull it
-    // back out of the grid; the three-column layout works either way because
-    // Free moved to its own full-width card below.
+    // Kill switch for the Growth tier, kept now that it is live: flipping this to
+    // false pulls the card out of the grid without touching anything else. The
+    // layout holds either way because Free lives in its own full-width card
+    // below rather than in this grid.
+    //
+    // It does NOT gate the checkout route or the Polar webhook, so an in-flight
+    // subscription keeps working if the card is ever hidden.
     const showGrowth = true;
 </script>
 
 <svelte:head>
     <title>Pricing — Mochify</title>
-    <meta name="description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription." />
+    <meta name="description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mochify.app/pricing" />
     <meta property="og:title" content="Pricing — Mochify" />
-    <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription." />
-    <!-- Growth is deliberately ABSENT from this offer catalogue. A schema.org
-         Offer asserts something is purchasable, and Growth's CTA is an
-         early-access mailto rather than a checkout — publishing a price nobody
-         can pay is exactly the kind of structured data that gets flagged. Add
-         the monthly ($79.99) and annual ($799.99) offers here the moment the
-         Polar products go live, and update og:description at the same time. -->
+    <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription." />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -61,7 +56,7 @@
                 "@id": "https://mochify.app/pricing",
                 "url": "https://mochify.app/pricing",
                 "name": "Pricing — Mochify",
-                "description": "Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300 or Pro for 1,200 images a month.",
+                "description": "Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month.",
                 "isPartOf": { "@id": "https://mochify.app" }
             },
             {
@@ -106,6 +101,19 @@
                     },
                     {
                         "@type": "Offer",
+                        "name": "Growth — Monthly",
+                        "price": "79.99",
+                        "priceCurrency": "USD",
+                        "priceSpecification": {
+                            "@type": "UnitPriceSpecification",
+                            "price": "79.99",
+                            "priceCurrency": "USD",
+                            "unitCode": "MON"
+                        },
+                        "description": "5,000 images per month. Everything in Pro plus unlimited PDF pages and PDFs built from up to 200 images. Save results to your own bucket or Google Drive. Top priority processing queue."
+                    },
+                    {
+                        "@type": "Offer",
                         "name": "Seller — Annual",
                         "price": "79.99",
                         "priceCurrency": "USD",
@@ -129,6 +137,19 @@
                             "unitCode": "ANN"
                         },
                         "description": "1,200 images per month, billed annually at $249.99/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Top priority processing queue."
+                    },
+                    {
+                        "@type": "Offer",
+                        "name": "Growth — Annual",
+                        "price": "799.99",
+                        "priceCurrency": "USD",
+                        "priceSpecification": {
+                            "@type": "UnitPriceSpecification",
+                            "price": "799.99",
+                            "priceCurrency": "USD",
+                            "unitCode": "ANN"
+                        },
+                        "description": "5,000 images per month, billed annually at $799.99/year. Save 17% versus monthly. Unlimited PDF pages. Top priority processing queue."
                     },
                     {
                         "@type": "Offer",
@@ -403,11 +424,10 @@
                  Pro, plus:" already covers them and repeating them would pad the
                  card with non-differentiators. -->
             {#if showGrowth}
-            <div class="bg-white rounded-3xl border-2 border-dashed border-[#F06292]/30 shadow-sm p-8 flex flex-col relative overflow-hidden">
+            <div class="bg-white rounded-3xl border border-[#F06292]/20 shadow-md p-8 flex flex-col relative overflow-hidden">
                 <div class="mb-6">
                     <div class="flex items-center gap-2 mb-4">
                         <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider">Growth</span>
-                        <span class="inline-block px-2 py-1 rounded-full bg-[#F06292]/10 text-[#F06292] text-[10px] font-black uppercase tracking-wide">Coming soon</span>
                     </div>
                     <div class="flex items-end gap-1">
                         <span class="text-4xl font-black text-[#4A2C2C]">{billing === 'monthly' ? price('growthMonthly') : price('growthYearly')}</span>
@@ -441,10 +461,11 @@
                 </ul>
 
                 <a
-                    href="mailto:hello@mochify.app?subject=Growth%20early%20access"
-                    class="block text-center px-6 py-3 rounded-2xl border border-[#F06292]/30 text-sm font-black text-[#F06292] hover:bg-[#FFF5F7] transition-all"
+                    href="/api/checkout?plan=growth&billing={billing}"
+                    data-sveltekit-reload
+                    class="block text-center px-6 py-3 rounded-2xl border border-[#F06292]/40 text-sm font-black text-[#F06292] hover:bg-[#FFF5F7] transition-all shadow-sm hover:shadow-md active:scale-95"
                 >
-                    Get early access
+                    Get Growth
                 </a>
             </div>
             {/if}
@@ -593,7 +614,7 @@
                             <th class="px-6 py-4 text-center font-black text-[#6C3F31]">Free</th>
                             <th class="px-6 py-4 text-center font-black text-[#6C3F31]">Seller</th>
                             <th class="px-6 py-4 text-center font-black text-[#F06292]">Pro</th>
-                            <th class="px-6 py-4 text-center font-black text-[#F06292]">Growth <span class="block text-[9px] font-black uppercase tracking-wide text-[#F06292]/60">Coming soon</span></th>
+                            <th class="px-6 py-4 text-center font-black text-[#F06292]">Growth</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-pink-50">

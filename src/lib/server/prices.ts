@@ -13,6 +13,12 @@ export const PLAN_PRODUCT_IDS = (): Record<string, string> => ({
 	sellerYearly: env.POLAR_PRODUCT_ID_SELLER_YEARLY,
 	proMonthly: env.POLAR_PRODUCT_ID_PRO_MONTHLY,
 	proYearly: env.POLAR_PRODUCT_ID_PRO_YEARLY,
+	// `?? ''` matches the Polar webhook's handling of the same two vars: an unset
+	// id is a plan this deployment does not sell yet, which both loops below
+	// already skip (filter(Boolean) / `if (!productId) continue`) rather than
+	// treating as a reason to fall back to USD.
+	growthMonthly: env.POLAR_PRODUCT_ID_GROWTH_MONTHLY ?? '',
+	growthYearly: env.POLAR_PRODUCT_ID_GROWTH_YEARLY ?? '',
 	dayPass: env.POLAR_PRODUCT_ID_DAY_PASS
 });
 

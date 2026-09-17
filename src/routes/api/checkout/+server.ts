@@ -105,7 +105,14 @@ export const GET: RequestHandler = async ({ locals, url, platform, request }) =>
 			monthly: env.POLAR_PRODUCT_ID_SELLER_MONTHLY,
 			yearly: env.POLAR_PRODUCT_ID_SELLER_YEARLY
 		},
-		pro: { monthly: env.POLAR_PRODUCT_ID_PRO_MONTHLY, yearly: env.POLAR_PRODUCT_ID_PRO_YEARLY }
+		pro: { monthly: env.POLAR_PRODUCT_ID_PRO_MONTHLY, yearly: env.POLAR_PRODUCT_ID_PRO_YEARLY },
+		// Unset until the Growth products are configured; the `!productId` guard
+		// below then returns a 400 with a log naming the missing var, rather than
+		// sending someone to Polar with an empty product id.
+		growth: {
+			monthly: env.POLAR_PRODUCT_ID_GROWTH_MONTHLY ?? '',
+			yearly: env.POLAR_PRODUCT_ID_GROWTH_YEARLY ?? ''
+		}
 	};
 
 	const productId = PRODUCTS[plan]?.[billing];
