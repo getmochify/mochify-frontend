@@ -22,7 +22,30 @@ export const PLAN_PRODUCT_IDS = (): Record<string, string> => ({
 	dayPass: env.POLAR_PRODUCT_ID_DAY_PASS
 });
 
-const KV_KEY = 'polar:prices:v1';
+/**
+ * Cache key, derived from the PRODUCT SET rather than fixed.
+ *
+ * It used to be the constant `polar:prices:v1`, and that is how adding the
+ * Growth tier silently un-localised every price on the site: KV still held a
+ * table fetched before those product ids existed, so `table[growthId]` was
+ * undefined, the all-or-nothing rule in localisedPlanPrices() fired, and every
+ * plan on every surface fell back to USD until the hour-long TTL expired.
+ *
+ * Folding the ids into the key means a table that predates a plan can never be
+ * served for a request that needs it — adding or changing a product invalidates
+ * on the next request instead of needing a manual version bump nobody would
+ * remember to do.
+ */
+function priceCacheKey(): string {
+	const ids = Object.values(PLAN_PRODUCT_IDS()).filter(Boolean).sort().join(',');
+	// FNV-1a. Not security-sensitive; it only has to change when the ids do.
+	let hash = 2166136261;
+	for (let i = 0; i < ids.length; i++) {
+		hash ^= ids.charCodeAt(i);
+		hash = Math.imul(hash, 16777619);
+	}
+	return `polar:prices:v2:${(hash >>> 0).toString(36)}`;
+}
 const KV_TTL_SECONDS = 3600;
 // Shorter than the KV TTL so a price edit in Polar reaches buyers within the
 // hour even on an isolate that never gets recycled.
@@ -76,7 +99,7 @@ export async function getPriceTable(polar: Polar, kv?: KVNamespace): Promise<Pri
 
 	if (kv) {
 		try {
-			const cached = (await kv.get(KV_KEY, 'json')) as PriceTable | null;
+			const cached = (await kv.get(priceCacheKey(), 'json')) as PriceTable | null;
 			if (cached) {
 				memoryCache = { table: cached, expires: Date.now() + MEMORY_TTL_MS };
 				return cached;
@@ -97,7 +120,9 @@ export async function getPriceTable(polar: Polar, kv?: KVNamespace): Promise<Pri
 
 	memoryCache = { table, expires: Date.now() + MEMORY_TTL_MS };
 	if (kv) {
-		await kv.put(KV_KEY, JSON.stringify(table), { expirationTtl: KV_TTL_SECONDS }).catch(() => {});
+		await kv
+			.put(priceCacheKey(), JSON.stringify(table), { expirationTtl: KV_TTL_SECONDS })
+			.catch(() => {});
 	}
 	return table;
 }
@@ -131,7 +156,17 @@ export async function localisedPlanPrices(
 		// deployment without it configured), not a reason to drop to USD.
 		if (!productId) continue;
 		const amount = table[productId]?.[currency];
-		if (amount === undefined) return null;
+		if (amount === undefined) {
+			// Rule 2 firing. Logged because it is otherwise invisible: the page
+			// renders correctly in USD and nothing looks broken, so the only
+			// symptom is "localisation stopped working" with no way to tell which
+			// plan caused it. Naming both makes it a one-line fix in Polar.
+			console.warn(
+				`[prices] no ${currency.toUpperCase()} price for ${plan} (${productId}) — ` +
+					`falling back to USD for every plan`
+			);
+			return null;
+		}
 		prices[plan] = amount;
 	}
 
