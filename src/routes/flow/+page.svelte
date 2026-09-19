@@ -69,7 +69,7 @@
             <p class="text-base md:text-lg text-[#875F42] max-w-2xl mx-auto leading-relaxed text-pretty">Convert, resize, crop, remove backgrounds, rasterize PDF pages or pull the audio out of a video. Just describe it. No format pickers, no quality sliders.</p>
         </header>
 
-        <PromptFormApp bind:this={form} />
+        <PromptFormApp bind:this={form} rememberPrompts />
 
         <!-- Capability / trust strip -->
         <div class="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2.5 text-sm text-[#6C3F31]">

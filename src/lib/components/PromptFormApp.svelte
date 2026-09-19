@@ -39,6 +39,16 @@
 	} from '$lib/uploadError';
 	import UploadHelpLink from '$lib/components/UploadHelpLink.svelte';
 	import { portal } from '$lib/portal';
+	import {
+		loadPromptHistory,
+		rememberPrompt,
+		clearPromptHistory,
+		promptsForMode,
+		isRepeatPhrase,
+		lastPromptForMode,
+		type PromptHistoryEntry,
+		type PromptMode
+	} from '$lib/promptHistory';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://id.mochify.app';
@@ -47,11 +57,29 @@
 	// differently: /flow gives it the full column, while the homepage sits it in a
 	// two-column grid beside the headline and wants the narrower cap it had when
 	// this was a separate component. Everything else is identical between them.
-	let { onSuccess, maxWidth = 'max-w-4xl' }: { onSuccess?: () => void; maxWidth?: string } =
-		$props();
+	// `rememberPrompts` is off by default so the homepage demo keeps nothing: it
+	// is the surface a stranger tries once, often on a shared machine. /flow is
+	// the installed app somebody returns to, and opts in.
+	let {
+		onSuccess,
+		maxWidth = 'max-w-4xl',
+		rememberPrompts = false
+	}: { onSuccess?: () => void; maxWidth?: string; rememberPrompts?: boolean } = $props();
 
 	let prompt: string = $state('');
 	let files: File[] = $state([]);
+
+	// Recent prompts (localStorage, /flow only). `historyIndex` is -1 when not
+	// cycling; `draftBeforePreview` holds whatever was being typed when cycling
+	// started, so Escape or arrowing back past the newest entry restores it.
+	let promptHistory: PromptHistoryEntry[] = $state([]);
+	let historyIndex: number = $state(-1);
+	let draftBeforeHistory: string = '';
+	// What was submitted in THIS session, kept in memory rather than storage so
+	// "same again" works on the homepage too, where nothing is persisted. It is
+	// consulted before the stored history, since it is by definition the most
+	// recent thing this person asked for.
+	let lastSubmitted: PromptHistoryEntry | null = null;
 	let isDragging: boolean = $state(false);
 
 	let isProcessing: boolean = $state(false);
@@ -164,6 +192,11 @@
 	const MAX_PDF_BYTES = 100 * 1024 * 1024;
 	const MAX_VIDEO_BYTES = 2 * 1024 * 1024 * 1024;
 	let uploadMode: 'image' | 'pdf' | 'video' | null = $state(null);
+
+	// Only the entries that fit the current tray: a "split into pages" prompt is
+	// noise when the tray holds images. An empty tray has ruled nothing out, so
+	// it gets the most recent few whatever they were for.
+	let recentPrompts = $derived(rememberPrompts ? promptsForMode(promptHistory, uploadMode) : []);
 
 	// Only offered when a *verified* connection exists. That is a stricter test
 	// than the plan — a paid user who has not connected anything has nothing to
@@ -320,6 +353,7 @@
 			if (saved === 'bucket' && bucketConnected) destination = 'bucket';
 			else if (saved === 'drive' && driveConnected) destination = 'drive';
 		});
+		if (rememberPrompts) promptHistory = loadPromptHistory();
 		getPlan().then((plan) => {
 			userPlan = plan;
 			MAX_FILE_SIZE =
@@ -746,11 +780,68 @@
 		textareaEl.style.height = Math.max(48, Math.min(textareaEl.scrollHeight, 200)) + 'px';
 	}
 
+	/**
+	 * Step through recent prompts. `delta` of 1 goes further back, -1 forward;
+	 * arriving back at -1 restores whatever was being typed before cycling
+	 * started, so the feature can never eat a draft.
+	 */
+	function cycleHistory(delta: number) {
+		if (recentPrompts.length === 0) return;
+		if (historyIndex === -1) draftBeforeHistory = prompt;
+		const next = Math.min(Math.max(historyIndex + delta, -1), recentPrompts.length - 1);
+		if (next === historyIndex) return;
+		historyIndex = next;
+		if (next !== -1) {
+			posthog.capture('prompt_history_used', { source: 'arrow', mode: uploadMode });
+		}
+		fillPrompt(next === -1 ? draftBeforeHistory : recentPrompts[next].text, true);
+	}
+
+	// The textarea's own input handler. Typing means this is a draft again, not a
+	// recalled entry, so the next ArrowUp starts from the top rather than
+	// continuing a stale cycle. It cannot live in autoGrow(), which fillPrompt
+	// also calls - that reset the index the instant an entry was recalled.
+	function handlePromptInput() {
+		historyIndex = -1;
+		autoGrow();
+	}
+
 	function handleKeydown(e: KeyboardEvent) {
 		if (e.key === 'Enter' && !e.shiftKey) {
 			e.preventDefault();
 			submit();
+			return;
 		}
+		if (!rememberPrompts || recentPrompts.length === 0) return;
+
+		// The textarea is multi-line (Shift+Enter, and autoGrow up to 200px), so an
+		// arrow key has a real job here. It is borrowed only when moving the caret
+		// would do nothing anyway: Up while already on the first line, Down while
+		// on the last. A one-line prompt is both, which is what makes this feel
+		// like a shell. Once cycling has started every press means "keep going",
+		// since the caret sits at the end of whatever was just recalled.
+		const el = e.currentTarget as HTMLTextAreaElement;
+		const onFirstLine = !el.value.slice(0, el.selectionStart ?? 0).includes('\n');
+		const onLastLine = !el.value.slice(el.selectionEnd ?? 0).includes('\n');
+		const cycling = historyIndex !== -1;
+
+		if (e.key === 'ArrowUp' && (cycling || onFirstLine)) {
+			e.preventDefault();
+			cycleHistory(1);
+		} else if (e.key === 'ArrowDown' && (cycling || onLastLine)) {
+			e.preventDefault();
+			cycleHistory(-1);
+		} else if (e.key === 'Escape' && cycling) {
+			e.preventDefault();
+			historyIndex = -1;
+			fillPrompt(draftBeforeHistory, true);
+		}
+	}
+
+	function forgetPrompts() {
+		clearPromptHistory();
+		promptHistory = [];
+		historyIndex = -1;
 	}
 
 	function handleDragOver(e: DragEvent) {
@@ -1009,6 +1100,50 @@
 		// A prompt with no files attached can only mean one thing — generate a new
 		// image from scratch. Route it to the text-to-image "create" flow.
 		const isCreate = files.length === 0;
+		const submitMode: PromptMode = isCreate ? 'create' : uploadMode!;
+
+		// "same again" and friends, resolved here rather than by the model. The
+		// substitution is written back into the box before anything else runs, so
+		// the user sees exactly which instruction is about to be carried out
+		// instead of trusting that we guessed right.
+		if (isRepeatPhrase(prompt)) {
+			const previous =
+				lastSubmitted?.mode === submitMode
+					? { entry: lastSubmitted, source: 'session' }
+					: (() => {
+							const stored = lastPromptForMode(promptHistory, submitMode);
+							return stored ? { entry: stored, source: 'history' } : null;
+						})();
+
+			if (!previous) {
+				posthog.capture('prompt_repeat_missed', { mode: submitMode, has_files: !isCreate });
+				showStatus(
+					'error',
+					isCreate
+						? "Attach some files first and I'll repeat your last instruction."
+						: "Nothing to repeat yet. Tell me what you'd like done with these."
+				);
+				return;
+			}
+
+			posthog.capture('prompt_repeat_resolved', { mode: submitMode, source: previous.source });
+			prompt = previous.entry.text;
+			await tick();
+			// The recalled instruction is usually longer than "same again", so the
+			// box has to grow to it. No focus() here: pulling the keyboard up on a
+			// phone as processing starts would cover the progress it is about to show.
+			autoGrow();
+		}
+
+		lastSubmitted = { text: prompt.trim(), mode: submitMode };
+
+		// Recorded here, before the plan and quota gates below, because a prompt
+		// that hit a paywall is exactly the one the user wants back after they
+		// upgrade. Exiting history mode too: the text has been used.
+		if (rememberPrompts) {
+			promptHistory = rememberPrompt(promptHistory, prompt, submitMode);
+		}
+		historyIndex = -1;
 
 		// Image generation is Pro-only — free, anonymous, day-pass, seller and growth
 		// users are all gated. Doing it here, before the thinking animation and NLP
@@ -2950,7 +3085,7 @@
 					<textarea
 						bind:this={textareaEl}
 						bind:value={prompt}
-						oninput={autoGrow}
+						oninput={handlePromptInput}
 						onkeydown={handleKeydown}
 						onfocus={() => {
 							isFocused = true;
@@ -3002,6 +3137,57 @@
 						</button>
 					{/each}
 				{:else}
+					<!-- Recent prompts (/flow only). Ahead of the static suggestions
+					     because "what I did last time" beats "what we suggest", and
+					     styled plainly so ours and theirs stay distinguishable. The
+					     arrow-key recall does the same job for keyboard users, but
+					     this is the half of the audience on a phone. -->
+					{#each recentPrompts as r}
+						<button
+							onclick={() => {
+								posthog.capture('prompt_history_used', { source: 'chip', mode: uploadMode });
+								fillPrompt(r.text);
+							}}
+							title={r.text}
+							class="inline-flex max-w-[14rem] flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-[#875F42]/15 bg-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42]/90 shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"
+						>
+							<svg
+								class="h-3 w-3 flex-shrink-0 opacity-50"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								stroke-width="2"
+								><path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+								/></svg
+							>
+							<span class="truncate">{r.text}</span>
+						</button>
+					{/each}
+					{#if recentPrompts.length > 0}
+						<button
+							onclick={forgetPrompts}
+							aria-label="Clear recent prompts"
+							title="Clear recent prompts"
+							class="inline-flex flex-shrink-0 cursor-pointer items-center justify-center rounded-full border border-transparent px-2 py-1.5 text-[#875F42]/40 transition-all duration-200 hover:border-[#875F42]/15 hover:bg-white/60 hover:text-[#F06292]"
+						>
+							<svg
+								class="h-3.5 w-3.5"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								stroke-width="2.5"
+								><path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M6 18L18 6M6 6l12 12"
+								/></svg
+							>
+						</button>
+						<span class="mx-1 h-5 w-px flex-shrink-0 self-center bg-[#875F42]/10"></span>
+					{/if}
 					<!-- Main suggestions -->
 					{#each suggestions as s}
 						<button
