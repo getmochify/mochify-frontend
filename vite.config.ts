@@ -26,6 +26,11 @@ export default defineConfig({
 				globIgnores: [
 					'og/**',
 					'favicon.svg',
+					// pdf.js's wasm decoders and their no-wasm .js fallbacks, copied
+					// in by scripts/copy-pdfjs-assets.mjs. Fetched only when someone
+					// attaches a PDF that needs one (JBIG2 scans, JPEG 2000), so they
+					// have no business in the offline shell.
+					'pdfjs/**',
 					// Non-latin @fontsource subsets: unicode-range means the
 					// browser only pulls these if matching glyphs render.
 					'**/*cyrillic*',

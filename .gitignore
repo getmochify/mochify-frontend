@@ -21,3 +21,6 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Copied from pdfjs-dist at install/build time (scripts/copy-pdfjs-assets.mjs)
+/static/pdfjs

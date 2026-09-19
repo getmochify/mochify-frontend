@@ -3,6 +3,13 @@
 	import { unzipSync } from 'fflate';
 	import { zipBlobs } from '$lib/zipWorker';
 	import { getImagePreview, releaseImagePreview } from '$lib/imagePreview';
+	import {
+		getPdfPreview,
+		releasePdfPreview,
+		pdfPageCap,
+		PDF_MAX_PAGES,
+		PDF_PAGE_CAP_STANDARD
+	} from '$lib/pdfPreview';
 	import { env } from '$env/dynamic/public';
 	import {
 		getSessionToken,
@@ -324,6 +331,11 @@
 	});
 
 	let filePreviews = $state<string[]>([]);
+	// Page count per tray slot, index-aligned with `files` the same way
+	// filePreviews is (both are rebuilt wholesale by the effect below, so a
+	// removal cannot leave them misaligned). null = not a PDF, not readable, or
+	// not rendered yet.
+	let filePageCounts = $state<(number | null)[]>([]);
 	// Files this tray currently has a preview slot for (whether resolved yet or
 	// not) — a plain array, not $state, purely so the effect below can diff
 	// against it without becoming its own dependency. Thumbnails come from the
@@ -335,20 +347,32 @@
 		const currentFiles = files;
 		const currentSet = new Set(currentFiles);
 		for (const f of previewedFiles) {
-			if (!currentSet.has(f)) releaseImagePreview(f);
+			if (currentSet.has(f)) continue;
+			if (isPdf(f)) releasePdfPreview(f);
+			else releaseImagePreview(f);
 		}
 		previewedFiles = currentFiles;
 
 		let cancelled = false;
 		(async () => {
-			const urls = await Promise.all(
+			const previews = await Promise.all(
 				currentFiles.map(async (f) => {
-					if (isPdf(f) || isVideoOrAudio(f)) return '';
+					// PDFs render page one through pdf.js, which is downloaded on
+					// first use — the page count rides along with that render, and
+					// is what the plan gate at submit reads.
+					if (isPdf(f)) {
+						const pdf = await getPdfPreview(f);
+						return { url: pdf.thumbUrl ?? '', pages: pdf.pages };
+					}
+					if (isVideoOrAudio(f)) return { url: '', pages: null };
 					const preview = await getImagePreview(f);
-					return preview.thumbUrl ?? '';
+					return { url: preview.thumbUrl ?? '', pages: null };
 				})
 			);
-			if (!cancelled) filePreviews = urls;
+			if (cancelled) return;
+			filePreviews = previews.map((p) => p.url);
+			filePageCounts = previews.map((p) => p.pages);
+			warnOnLongPdfs(currentFiles, filePageCounts);
 		})();
 		return () => {
 			cancelled = true;
@@ -357,8 +381,42 @@
 	// Component teardown isn't a `files` change, so the effect above never runs
 	// again to diff it away — release whatever's still cached on unmount.
 	onDestroy(() => {
-		for (const f of previewedFiles) releaseImagePreview(f);
+		for (const f of previewedFiles) {
+			if (isPdf(f)) releasePdfPreview(f);
+			else releaseImagePreview(f);
+		}
 	});
+
+	// Says it once, at attach time, while the user is still deciding what to
+	// type — not after a 90MB upload comes back 400. Warn rather than block:
+	// core is the authority on the caps, and a client that refuses a file on a
+	// stale constant is worse than one that lets core answer. The submit path
+	// does stop the upload (see the PDF branch), by which point the op is known.
+	const warnedLongPdfs = new WeakSet<File>();
+	function warnOnLongPdfs(current: File[], counts: (number | null)[]) {
+		const cap = pdfPageCap(userPlan);
+		const over: string[] = [];
+		let maxPages = 0;
+		for (const [i, f] of current.entries()) {
+			const pages = counts[i];
+			if (pages === null || pages === undefined) continue;
+			// Free has no page cap to quote — the PDF-in ops are paid-only, so
+			// the honest message there is the paywall, which core already sends.
+			const limit = cap ?? PDF_MAX_PAGES;
+			if (pages <= limit) continue;
+			if (warnedLongPdfs.has(f)) continue;
+			warnedLongPdfs.add(f);
+			over.push(f.name);
+			maxPages = Math.max(maxPages, pages);
+		}
+		if (over.length === 0) return;
+		showStatus(
+			'error',
+			maxPages > PDF_MAX_PAGES
+				? `${over.length === 1 ? over[0] : `${over.length} PDFs`} exceeds ${PDF_MAX_PAGES} pages, which is the most any plan can process.`
+				: `${over.length === 1 ? over[0] : `${over.length} PDFs`} is longer than the ${PDF_PAGE_CAP_STANDARD} pages your plan processes per PDF. Growth handles up to ${PDF_MAX_PAGES}.`
+		);
+	}
 
 	// Status state
 	let statusMessage: {
@@ -1406,10 +1464,52 @@
 			if (uploadMode === 'pdf') {
 				const pdfConfig = parsedData.pdf!;
 
+				// Page gate, applied before a single byte goes up. Every op that
+				// reaches here takes a PDF in, and core caps all of them the same
+				// way: 200 pages absolutely, 10 on the paid plans below Growth. The
+				// count came free with the tray thumbnail (pdf.js reports numPages),
+				// so a document core is certain to refuse is failed locally instead
+				// of after a 90MB upload. A document whose count could not be read
+				// is passed through untouched — core decides, as it did before.
+				const pageCap = Math.min(pdfPageCap(userPlan) ?? PDF_MAX_PAGES, PDF_MAX_PAGES);
+				const pdfFiles: File[] = [];
+				let blockedByPlanCap = false;
+				for (const file of files) {
+					const { pages } = await getPdfPreview(file);
+					if (pages !== null && pages > pageCap) {
+						if (pages <= PDF_MAX_PAGES) blockedByPlanCap = true;
+						failedFiles = [
+							...failedFiles,
+							{
+								name: file.name,
+								reason:
+									pages > PDF_MAX_PAGES
+										? `${pages} pages — over the ${PDF_MAX_PAGES}-page limit.`
+										: `${pages} pages — your plan processes ${pageCap} pages per PDF.`
+							}
+						];
+						continue;
+					}
+					pdfFiles.push(file);
+				}
+				if (pdfFiles.length === 0) {
+					// The files stay in the tray: upgrading is the obvious next move
+					// for a plan cap, and making someone re-attach after it would be
+					// gratuitous.
+					posthog.capture('pdf_flow_page_gated', {
+						files: files.length,
+						plan: userPlan ?? undefined,
+						op: pdfConfig.op
+					});
+					if (blockedByPlanCap) showUpgradeCta = true;
+					showStatus('error', failedFiles[0]?.reason ?? 'This PDF is too long to process.');
+					return;
+				}
+
 				processPhase = 'uploading';
-				totalFiles = files.length;
+				totalFiles = pdfFiles.length;
 				const totalPdfFiles = files.length;
-				const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
+				const totalBytes = pdfFiles.reduce((sum, f) => sum + f.size, 0);
 				let uploadedBytes = 0;
 				let processedPdfs = 0;
 				let lastSavedPct: number | null = null;
@@ -1511,7 +1611,7 @@
 						(retrying) => (isRetrying = retrying)
 					);
 
-				for (const file of files) {
+				for (const file of pdfFiles) {
 					if (hitRateLimit) break;
 
 					const params = new URLSearchParams({ op: pdfConfig.op });
@@ -2681,7 +2781,33 @@
 				{#each files as file, i}
 					<div class="group animate-fade-in relative flex-shrink-0">
 						<div class="liquid-bubble h-16 w-16 overflow-hidden rounded-2xl p-1">
-							{#if isPdf(file)}
+							{#if isPdf(file) && filePreviews[i]}
+								<!-- Page one, rendered locally by pdf.js. object-top because a
+								     square crop of a portrait page should keep the letterhead,
+								     which is the part that tells two documents apart. -->
+								<div class="relative h-full w-full">
+									<img
+										src={filePreviews[i]}
+										alt="First page of {file.name}"
+										width="64"
+										height="64"
+										draggable="false"
+										class="h-full w-full rounded-xl bg-white object-cover object-top"
+										onerror={() => {
+											releasePdfPreview(file);
+											filePreviews[i] = '';
+										}}
+									/>
+									{#if filePageCounts[i]}
+										<span
+											class="absolute inset-x-0 bottom-0 rounded-b-xl bg-[#6C3F31]/75 py-px text-center text-[8px] font-bold tracking-wide text-white"
+										>
+											{filePageCounts[i]}
+											{filePageCounts[i] === 1 ? 'page' : 'pages'}
+										</span>
+									{/if}
+								</div>
+							{:else if isPdf(file)}
 								<div class="flex h-full w-full items-center justify-center rounded-xl bg-red-50/80">
 									<svg
 										class="h-7 w-7 text-red-400"
