@@ -25,10 +25,10 @@
   "private": false,
   "scripts": {
     "dev": "vite dev",
-    "build": "git fetch --unshallow --quiet 2>/dev/null || true; node scripts/copy-pdfjs-assets.mjs && vite build",
+    "build": "git fetch --unshallow --quiet 2>/dev/null || true; node scripts/copy-pdfjs-assets.mjs || true; vite build",
     "preview": "vite preview",
     "og": "bun scripts/generate-og.js",
-    "prepare": "svelte-kit sync || echo ''; node scripts/copy-pdfjs-assets.mjs",
+    "prepare": "svelte-kit sync || echo ''; node scripts/copy-pdfjs-assets.mjs || true",
     "postinstall": "patch-package",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:dates": "node scripts/check-guide-dates.mjs",
