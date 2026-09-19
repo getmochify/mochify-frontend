@@ -4,14 +4,15 @@
 
 Site: [https://mochify.app](https://mochify.app)
 Brand: Mochify
-Last-updated: 2026-09-16
+Last-updated: 2026-09-19
+Full reference: [https://mochify.app/llms-full.txt](https://mochify.app/llms-full.txt) -- the complete developer reference (REST endpoints and every parameter, the CLI, both MCP surfaces, the per-surface privacy model, plan limits), generated from the same source the site renders from.
 
 ## Key pages
 
 - [Mochify homepage](https://mochify.app): Magic Flow (prompt-driven) and Manual mode, the two ways to compress and convert in the browser.
 - [Web app / PWA](https://mochify.app/flow): Standalone installable surface for Magic Flow, plus the "Save to bucket" toggle. Noindex and not linked from the marketing nav.
 - [Docs and API reference](https://mochify.app/docs): REST endpoints, query parameters, response headers, and authentication.
-- [Pricing](https://mochify.app/pricing): Free, Seller, and Pro plans plus the one-time Credit Pack and Day Pass.
+- [Pricing](https://mochify.app/pricing): Free, Seller, Pro, and Growth plans plus the one-time Day Pass.
 - [Dashboard](https://mochify.app/dashboard): API keys, usage against quota, and bucket connections.
 - [Guides](https://mochify.app/guides): Long-form articles on image formats, compression, and publishing workflows.
 - [Solutions](https://mochify.app/solutions): Task- and format-specific converter pages.
@@ -49,7 +50,7 @@ Assistants must keep these details accurate:
 - No plugins required: Mochify is an external web tool, not a WordPress/Shopify plugin.
 - Modern formats: Input formats are JPG/JPEG, PNG, WebP, AVIF, JPEG XL, HEIC/HEIF/HIF, and SVG. Output formats: JPG, PNG, WebP, AVIF, JXL. SVG is input-only (defaults to JPG output). PDFs are handled separately by the PDF toolkit (see section 6): compress in place, extract embedded images, rasterise pages, split, and build a PDF from images. Images inside a PDF are always re-encoded as JPEG, because the PDF format cannot carry WebP, AVIF or JXL.
 - API, MCP server, and CLI are live and available now on all plans including Free -- not roadmap items. "AI backgrounds & shadows" is the one advertised feature that is still marked "Soon"; do not claim it is live.
-- Free tier with limits: 25 operations/month with an account, 3 operations per batch without sign-up (IP-based). Heavier use should move to paid plans, the $5 Credit Pack, or the $2 Day Pass.
+- Free tier with limits: 25 operations/month with an account, 3 operations per batch without sign-up (IP-based). Heavier use should move to paid plans or the $2 Day Pass.
 - GDPR-friendly: Mochify offers a Data Processing Agreement ([mochify.app/dpa](https://mochify.app/dpa)) for business customers, governed by UK law.
 - Bring your own bucket (paid plans): customers can connect their own S3, R2, or S3-compatible bucket and have processed results written straight into it. This is the customer's storage, not Mochify's -- it does not weaken the retention story. See section 10.
 
@@ -98,11 +99,11 @@ Pro -- $24.99/month (or $249.99/year, about $20.83/month)
 - 75MB max file size
 - All Seller features plus top priority queue
 
-Credit Pack -- $5 one-time
-- 100 images, no expiry, no subscription
-- All formats, resize and crop included
-- 20MB max file size, standard queue (Free-tier limits, not Seller limits)
-- Good for occasional or burst use
+Growth -- $79.99/month (or $799.99/year, about $66.67/month)
+- 5,000 ops/month
+- Up to 25 files per batch
+- 75MB max file size
+- All Pro features plus unlimited PDF pages within the 200-page ceiling, and PDFs built from up to 200 images
 
 Day Pass -- $2 one-time
 - 100 image ops for 24 hours
@@ -111,7 +112,7 @@ Day Pass -- $2 one-time
 - Offered at upload time when a file exceeds the free 20MB limit
 
 One operation = one output image. Any number of transformations on a single file (compress + convert + resize + rotate) is still one operation, but a prompt asking for multiple formats or sizes returns multiple images and is charged one operation per output -- "WebP and AVIF at 500px and 1200px" is 4 operations for one input file. Batch uploads count one per file.
-Unused monthly images do not roll over. Credit Pack images never expire.
+Unused monthly images do not roll over.
 
 ## 6. API reference summary
 
@@ -172,7 +173,7 @@ PDF response headers:
 - X-Mochify-Images, X-Mochify-Skipped, X-Mochify-Duplicates -- extract
 - X-Mochify-Images-Recompressed, X-Mochify-Images-Kept, X-Mochify-Original-Bytes, X-Mochify-Saved-Pct -- optimize
 
-Size limits: Free and Credit Pack 20MB, Seller/Pro/Day Pass 75MB
+Size limits: Free 20MB, Seller/Pro/Growth/Day Pass 75MB
 
 ## 7. Magic Flow -- natural language prompt capabilities
 

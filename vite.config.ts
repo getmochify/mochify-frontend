@@ -4,6 +4,12 @@ import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+	// Stamped into /llms-full.txt, which states the date its facts were built
+	// from. Resolved at build so it is a real deploy date rather than whenever a
+	// worker isolate happened to start.
+	define: {
+		__BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10))
+	},
 	// The video worker code-splits (lazy mediabunny import), which iife
 	// workers cannot do. Module workers match the WebCodecs support baseline.
 	worker: {
