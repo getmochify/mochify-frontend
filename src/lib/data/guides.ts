@@ -17,6 +17,25 @@ export type Guide = {
 
 export const guides: Guide[] = [
 	{
+		title: 'Does JPEG Support HDR?',
+		description:
+			'Yes: a JPEG can carry HDR as a gain map (Ultra HDR, Adaptive HDR, ISO 21496-1) and opens everywhere. Why most "JPG to HDR" converters give you the wrong file.',
+		url: '/guides/does-jpeg-support-hdr',
+		category: 'Quick Guides',
+		readTime: '3 min read',
+		date: 'September 20, 2026'
+	},
+	{
+		title:
+			'How to Make Any Photo Ultra HDR (Google Photos, Samsung, iPhone, Lightroom, or Online)',
+		description:
+			'Convert any photo to Ultra HDR on Google Photos, Samsung, iPhone, Lightroom or online: what conversion really does, exact steps, and where the result displays.',
+		url: '/guides/how-to-make-any-photo-ultra-hdr',
+		category: 'Image Formats',
+		readTime: '23 min read',
+		date: 'September 20, 2026'
+	},
+	{
 		title: 'Why Did My Upload Fail? Every Mochify Error, Explained',
 		description:
 			'Every upload and conversion error Mochify shows, what caused it, what we already did about it, and the one thing to try next. From the engineers who built it.',

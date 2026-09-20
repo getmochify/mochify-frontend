@@ -339,6 +339,16 @@ export const cards = [
 		title: 'What Image Format Should I Use for Product Photos?'
 	},
 	{
+		path: '/guides/does-jpeg-support-hdr',
+		eyebrow: 'GUIDE',
+		title: 'Does JPEG Support HDR?'
+	},
+	{
+		path: '/guides/how-to-make-any-photo-ultra-hdr',
+		eyebrow: 'GUIDE',
+		title: 'How to Make Any Photo Ultra HDR'
+	},
+	{
 		path: '/guides/why-hdr-photos-look-flat-when-shared',
 		eyebrow: 'GUIDE',
 		title: 'Why HDR Photos Look Flat When You Share Them'
