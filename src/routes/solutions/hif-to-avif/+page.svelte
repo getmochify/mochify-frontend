@@ -78,7 +78,7 @@
             <div class="space-y-4">                
                 {#each [
                     { q: "Do you see my photos?", a: "Never. Your images are processed in RAM and deleted the instant you download them." },
-                    { q: "Why convert to AVIF?", a: "Unlike JPG, AVIF supports the same 10-bit HDR quality as your original HIF files but is widely viewable in web browsers. It offers smaller file sizes with significantly higher fidelity." },
+                    { q: "Why convert to AVIF?", a: "Unlike JPG, AVIF supports the same 10-bit HDR quality as your original HIF files but is widely viewable in web browsers. If you need an HDR file that also opens as a normal photo everywhere, an Ultra HDR JPEG is the other route; <a href=\"/guides/how-to-make-any-photo-ultra-hdr\" class=\"font-black text-[#F06292] hover:text-[#D81B60] transition-colors\">our guide to making a photo Ultra HDR</a> explains when to choose which. It offers smaller file sizes with significantly higher fidelity." },
                     { q: "Does this keep Fuji film sims?", a: "Yes, Mochify preserves Fuji film simulations (Velvia, Classic Chrome, etc.) so your intended look stays intact." },
                     { q: "What about EXIF metadata?", a: "By default, we preserve all camera metadata (ISO, Shutter, GPS). If you want to remove it for privacy, add your files and then switch on the 'Strip EXIF' toggle before converting."}
                 ] as faq}
@@ -90,7 +90,8 @@
                             </span>
                         </summary>
                         <div class="px-6 pb-6 text-base text-[#6C3F31] leading-relaxed">
-                            {faq.a}
+                            <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+                            {@html faq.a}
                         </div>
                     </details>
                 {/each}

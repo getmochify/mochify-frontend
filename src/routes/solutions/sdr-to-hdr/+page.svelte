@@ -26,7 +26,7 @@
     ];
 
     const formatSupport = [
-        { fmt: 'JPG', verdict: 'yes', note: 'Ultra HDR: an ordinary JPEG with a gain map attached. The only output here that can carry one.' },
+        { fmt: 'JPG', verdict: 'yes', note: 'Ultra HDR: an ordinary JPEG with a gain map attached. The only output here that can carry one. Not sure JPEG can do HDR at all? See <a href="/guides/does-jpeg-support-hdr" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">does JPEG support HDR</a>.' },
         { fmt: 'JXL', verdict: 'partial', note: 'No gain map concept. HDR lives in the pixels as linear float, so it works from a real HDR source but there is nothing to synthesize into.' },
         { fmt: 'AVIF', verdict: 'no', note: 'Our encoder path flattens to 8-bit sRGB before AVIF is written, which clips every highlight above white. Claiming HDR here would be a lie.' },
         { fmt: 'WebP', verdict: 'no', note: 'The format cannot represent HDR in any form.' },
@@ -257,7 +257,7 @@
                 <strong class="text-[#4A2C2C]">If the right-hand image looks brighter in the highlights, your screen and browser are showing HDR.</strong> A phone from the last few years, a recent Mac or iPad, or an HDR monitor in Safari 26 or a Chromium browser (Chrome, Edge, Brave, Opera) will show it.
             </p>
             <p class="text-[#6C3F31] leading-relaxed">
-                <strong class="text-[#4A2C2C]">If the two images look identical, you are looking at the standard-range version of both.</strong> That is not a fault in the file. Either the display has no headroom above white, or the browser does not read gain maps yet (Firefox does not, as of this writing, and neither do most desktop image viewers). Open this page on a recent phone and the difference appears. For the full list of where HDR photos display and why they go flat elsewhere, read <a href="/guides/why-hdr-photos-look-flat-when-shared" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">why HDR photos look flat when you share them</a>.
+                <strong class="text-[#4A2C2C]">If the two images look identical, you are looking at the standard-range version of both.</strong> That is not a fault in the file. Either the display has no headroom above white, or the browser does not read gain maps yet (Firefox does not, as of this writing, and neither do most desktop image viewers). Open this page on a recent phone and the difference appears. For the full list of where HDR photos display and why they go flat elsewhere, read <a href="/guides/why-hdr-photos-look-flat-when-shared" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">why HDR photos look flat when you share them</a>. For the steps on your own phone or in Lightroom before you get here, see <a href="/guides/how-to-make-any-photo-ultra-hdr" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">how to make any photo Ultra HDR on Google Photos, Samsung, iPhone or Lightroom</a>.
             </p>
             <p class="text-[#6C3F31] leading-relaxed">
                 This is also why the effect matters for anyone selling online: a product photo with a gain map looks like an ordinary photo to every customer, and noticeably more vivid to the growing share viewing on a phone that renders HDR. Nobody sees a worse image.
@@ -366,7 +366,8 @@
                                  : 'bg-[#F5F5F5] text-[#78909C] border border-[#E0E0E0]'}">
                                 {f.fmt}
                             </span>
-                            <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">{f.note}</p>
+                            <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+                            <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">{@html f.note}</p>
                         </div>
                     {/each}
                 </div>
