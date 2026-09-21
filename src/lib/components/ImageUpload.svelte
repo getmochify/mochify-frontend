@@ -35,7 +35,7 @@
 	import { formatPrice } from '$lib/currency';
 	import { getImagePreview, releaseImagePreview } from '$lib/imagePreview';
 	import DayPassButton from '$lib/components/DayPassButton.svelte';
-	import { DAY_PASS_ACTION, dayPassEnabled, dayPassNext } from '$lib/dayPass';
+	import { DAY_PASS_ACTION, dayPassEnabled, dayPassNext, startDayPassCheckout } from '$lib/dayPass';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://id.mochify.app';
@@ -732,9 +732,14 @@
 		if (blockedByFileSize) {
 			if (!isAuthed && dayPassOffered) {
 				posthog.capture('day_pass_cta_clicked', { trigger: 'button_click_file_size' });
-				// Submitting inside the click keeps the user-gesture chain, so the
-				// new tab isn't treated as a popup.
-				dayPassDirectForm?.requestSubmit();
+				// Called inside the click so the checkout tab opens on the user
+				// gesture rather than as a popup. The hidden form below is only the
+				// fallback now — see `startDayPassCheckout`.
+				void startDayPassCheckout({
+					next: dayPassReturnTo,
+					trigger: 'button_click_file_size',
+					fallbackForm: dayPassDirectForm
+				});
 			} else if (!isAuthed) {
 				showSignupCta = true;
 				posthog.capture('signup_cta_shown', { trigger: 'button_click_file_size' });
@@ -1280,9 +1285,11 @@
 	role="region"
 	aria-label="Upload images"
 >
-	<!-- The Day Pass offer made by the main action button (see handleButtonClick).
-	     A form rather than a link because the checkout is POST-only: the hosted
-	     Polar URL this replaced minted a real checkout session on every crawl. -->
+	<!-- Fallback target for the Day Pass offer made by the main action button
+	     (see handleButtonClick). A form rather than a link because the checkout
+	     is POST-only: the hosted Polar URL this replaced minted a real checkout
+	     session on every crawl. Submitted natively only if the JSON fetch in
+	     `startDayPassCheckout` fails. -->
 	{#if dayPassOffered}
 		<form
 			bind:this={dayPassDirectForm}

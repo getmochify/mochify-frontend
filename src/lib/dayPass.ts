@@ -41,3 +41,62 @@ export function dayPassNext(url: URL): string {
 	clean.searchParams.delete('day_pass_success');
 	return clean.pathname + clean.search;
 }
+
+/**
+ * Start the Day Pass checkout from the browser.
+ *
+ * The native form POST is the fallback here, not the primary path. SvelteKit's
+ * CSRF guard rejects any form-encoded POST whose `Origin` header does not match
+ * the page origin, and it treats a *missing* Origin the same way — see
+ * `csrf_check_origin` in kit's `respond.js`. A slice of real traffic arrives
+ * with that header stripped (in-app webviews, privacy extensions, filtering
+ * proxies), and those buyers got a bare "Cross-site POST form submissions are
+ * forbidden" page instead of a checkout. The guard fires before `handle`, so
+ * nothing server-side can rescue it.
+ *
+ * A JSON body is not a form content type, so the guard skips the request
+ * entirely and it is judged by the same-origin policy the browser already
+ * enforces: a cross-site caller would need a CORS preflight this app never
+ * answers. The form stays in the markup for the no-JS case (and as the
+ * fallback below), which is still the reason the CTA is a form and not a link.
+ *
+ * Call this synchronously from the click/submit handler: the checkout tab is
+ * opened inside the user gesture, before the await, or the popup blocker eats it.
+ */
+export async function startDayPassCheckout(opts: {
+	next: string;
+	trigger: string;
+	/** Native POST form to fall back to when the fetch itself fails. */
+	fallbackForm?: HTMLFormElement | null;
+}): Promise<void> {
+	const tab = window.open('', '_blank');
+	try {
+		tab?.document.write(
+			'<title>Redirecting to checkout</title><p style="font:16px system-ui;padding:2rem">Taking you to checkout…</p>'
+		);
+	} catch {
+		/* cosmetic only */
+	}
+
+	try {
+		const res = await fetch(DAY_PASS_ACTION, {
+			method: 'POST',
+			headers: { 'content-type': 'application/json', accept: 'application/json' },
+			body: JSON.stringify({ next: opts.next, trigger: opts.trigger })
+		});
+		const target = res.ok ? ((await res.json()) as { url?: string }).url : undefined;
+		if (!target) throw new Error(`day pass checkout failed: ${res.status}`);
+		if (tab) {
+			tab.opener = null;
+			tab.location.replace(target);
+		} else {
+			// Popup blocked despite the gesture — don't lose the buyer, use this tab.
+			window.location.assign(target);
+		}
+	} catch {
+		tab?.close();
+		// `submit()` rather than `requestSubmit()`: it skips the submit handler
+		// that called us, so the fallback cannot loop back into this function.
+		opts.fallbackForm?.submit();
+	}
+}

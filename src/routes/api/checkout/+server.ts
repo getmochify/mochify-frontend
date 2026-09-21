@@ -1,7 +1,7 @@
 import { Polar } from '@polar-sh/sdk';
 import { env } from '$env/dynamic/private';
 import { PUBLIC_POSTHOG_PROJECT_TOKEN } from '$env/static/public';
-import { redirect, type Cookies } from '@sveltejs/kit';
+import { json, redirect, type Cookies } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getPostHogClient } from '$lib/server/posthog';
 import { discountIdForCode } from '$lib/server/abandonedCart';
@@ -209,6 +209,14 @@ export const GET: RequestHandler = async ({ locals, url, platform, request }) =>
  * the pass is bought anonymously and activated by the magic link that
  * `order.created` sends (see api/webhooks/polar). A session is used when one
  * happens to exist, purely to link the Polar customer to the account.
+ *
+ * Two body shapes, same work. A form-encoded body is the no-JS submit and gets
+ * a 303 to Polar. A JSON body is what the CTA sends when JS is available, and
+ * gets `{ url }` back to navigate to: SvelteKit's CSRF guard rejects a
+ * form-encoded POST that arrives without an `Origin` header (webviews, privacy
+ * extensions and filtering proxies all strip it) before this handler ever runs,
+ * and JSON is not a form content type, so it is never subject to that check.
+ * See `startDayPassCheckout` in `$lib/dayPass`.
  */
 export const POST: RequestHandler = async ({ locals, url, platform, request, cookies }) => {
 	const plan = url.searchParams.get('plan') ?? 'day';
@@ -222,8 +230,26 @@ export const POST: RequestHandler = async ({ locals, url, platform, request, coo
 		return new Response('Day Pass is not configured', { status: 400 });
 	}
 
-	const form = await request.formData().catch(() => null);
-	const successUrl = dayPassSuccessUrl(url.origin, form?.get('next'));
+	const wantsJson = request.headers.get('content-type')?.includes('application/json') ?? false;
+
+	let next: string | null = null;
+	let trigger: string | null = null;
+	if (wantsJson) {
+		const body = (await request.json().catch(() => null)) as {
+			next?: unknown;
+			trigger?: unknown;
+		} | null;
+		next = typeof body?.next === 'string' ? body.next : null;
+		trigger = typeof body?.trigger === 'string' ? body.trigger : null;
+	} else {
+		const form = await request.formData().catch(() => null);
+		const rawNext = form?.get('next');
+		const rawTrigger = form?.get('trigger');
+		next = typeof rawNext === 'string' ? rawNext : null;
+		trigger = typeof rawTrigger === 'string' ? rawTrigger : null;
+	}
+
+	const successUrl = dayPassSuccessUrl(url.origin, next);
 
 	const { user } = locals;
 	const polar = polarClient();
@@ -246,7 +272,11 @@ export const POST: RequestHandler = async ({ locals, url, platform, request, coo
 		});
 	} catch (err) {
 		console.error('Polar day pass checkout error:', err);
-		throw redirect(303, '/pricing?checkout_error=1');
+		// Absolute, because the caller may be navigating a freshly opened tab
+		// whose document has no base URL to resolve a path against.
+		const errorUrl = new URL('/pricing?checkout_error=1', url.origin).toString();
+		if (wantsJson) return json({ url: errorUrl });
+		throw redirect(303, errorUrl);
 	}
 
 	const posthog = getPostHogClient();
@@ -258,12 +288,13 @@ export const POST: RequestHandler = async ({ locals, url, platform, request, coo
 			billing: 'one_time',
 			currency: currency ?? 'default',
 			authed: !!user,
-			trigger: typeof form?.get('trigger') === 'string' ? form.get('trigger') : null,
+			trigger,
 			...(user?.email ? { $set: { email: user.email } } : {})
 		}
 	});
 	const flushPromise = posthog.flush().catch(() => {});
 	platform?.context?.waitUntil?.(flushPromise);
 
+	if (wantsJson) return json({ url: checkoutUrl });
 	throw redirect(303, checkoutUrl);
 };
