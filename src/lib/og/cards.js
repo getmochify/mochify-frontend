@@ -339,6 +339,11 @@ export const cards = [
 		title: 'What Image Format Should I Use for Product Photos?'
 	},
 	{
+		path: '/guides/webp-avif-transparency',
+		eyebrow: 'GUIDE',
+		title: 'Do WebP and AVIF Support Transparency?'
+	},
+	{
 		path: '/guides/does-jpeg-support-hdr',
 		eyebrow: 'GUIDE',
 		title: 'Does JPEG Support HDR?'

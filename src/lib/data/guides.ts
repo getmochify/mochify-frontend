@@ -17,6 +17,15 @@ export type Guide = {
 
 export const guides: Guide[] = [
 	{
+		title: 'Do WebP and AVIF Support Transparency?',
+		description:
+			'Yes, both carry a full alpha channel. Why a transparent cut-out comes back black or white, the five causes, and how to check a file before blaming the format.',
+		url: '/guides/webp-avif-transparency',
+		category: 'Image Formats',
+		readTime: '14 min read',
+		date: 'September 21, 2026'
+	},
+	{
 		title: 'Does JPEG Support HDR?',
 		description:
 			'Yes: a JPEG can carry HDR as a gain map (Ultra HDR, Adaptive HDR, ISO 21496-1) and opens everywhere. Why most "JPG to HDR" converters give you the wrong file.',
