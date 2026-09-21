@@ -161,6 +161,11 @@
 						>hello@mochify.app</a
 					>
 				</p>
+				<p class="mt-2 text-sm text-[#875F42]/70">
+					Using the CLI, API or MCP server? Ask in
+					<a href="/community" class="font-bold text-[#F06292] hover:underline">GitHub Discussions</a
+					> so the answer stays searchable for the next person.
+				</p>
 			</div>
 
 			<!-- No backdrop-blur here: this card contains the Turnstile iframe, and an

@@ -6,3 +6,7 @@
 #
 # 2026-09-02: QA retired into the guide it duplicated (Mode 11 treatment).
 /guides/vinted-photo-size /guides/vinted-photos-that-sell#technical-facts 301
+#
+# 2026-09-21: stable entry point for community support. Kept as a redirect so the
+# destination can move without editing copies already frozen on crates.io.
+/community https://github.com/getmochify/mochify-cli/discussions 302
