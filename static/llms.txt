@@ -406,7 +406,7 @@ Hosted HTTP (no install)
 - Discovery / OAuth metadata: [OAuth authorization server metadata](https://mcp.mochify.app/.well-known/oauth-authorization-server)
 - No install required. Works in Claude.ai (Settings -> Integrations), Claude Desktop (type: "http"), Gemini, Cursor, Windsurf, and any client that supports remote MCP servers.
 - Auth: OAuth 2.0 with PKCE. The user authorizes their Mochify account once; the client receives a short-lived access token (1-hour TTL, auto-refreshed). No API key management needed.
-- Image input: public HTTPS URLs (`url` parameter) or base64 bytes (`data` + `mediaType`).
+- File input: public HTTPS URLs (`url` parameter) or base64 bytes (`data` + `mediaType`), for both images and PDFs.
 - Result delivery: a short-lived download URL on files.mochify.app with a ~5-minute expiry, stated explicitly in the tool response. The compressed result sits in an in-memory pickup store until fetched or the TTL lapses -- see section 2. URL input is token-cheap in both directions (URL in, URL out); base64 upload is expensive on the way in only.
 
 Local binary (CLI + local MCP server, for local files)
@@ -414,12 +414,12 @@ Local binary (CLI + local MCP server, for local files)
 - Direct CLI: `mochify *.jpg -p "..."` -- pipe-friendly, fits build scripts, CI, and agentic pipelines (including Claude Code's shell).
 - Local MCP server: run `mochify serve`; Claude Desktop config: { "command": "mochify", "args": ["serve"] }. Works with any stdio MCP client (Cursor, Continue, Cline, etc.).
 - Works with local file paths and public URLs. Compressed bytes come back from api.mochify.app straight to disk -- no pickup store, zero image bytes in the agent's context, end-to-end zero retention.
-- Handles images, video, and PDFs.
+- Handles images and PDFs.
 - Optional API key via MOCHIFY_API_KEY env var for authenticated quota.
 
 Both modes can run simultaneously in the same client with independent tokens.
 
-Tools exposed:
+Tools exposed (hosted). The local server covers the same ground, but takes `file_path` (or `file_paths`) instead of `url`/`data` and writes the result straight to disk:
 
 squish -- compress, convert, resize, or transform an image
   Parameters (all optional):
@@ -432,14 +432,37 @@ squish -- compress, convert, resize, or transform an image
   - crop (boolean): smart-crop to exact dimensions centred on subject
   - rotate (integer): 0 | 90 | 180 | 270 (clockwise)
   - removeBackground (boolean): AI background removal; available on all plans
+  - background (string): composite colour when removing background; omit for transparent
   - stripExif (boolean): strip metadata (default: true)
   - smartCompress (boolean): saliency-guided quality selection
   - optimizeForWeb (boolean): progressive encoding + 4:2:0 chroma subsampling
   - brightness (integer -100 to +100): exposure adjustment
   - clarity (boolean): midtone contrast enhancement
-  - hdr (boolean): preserve Ultra HDR gain map (ignored if source is not HDR)
+  - lossless (boolean): pixel-exact output; jxl, webp and png only, and the result is usually larger than the input
+  - hdr (string): "preserve" keeps an Ultra HDR gain map the source already has; "generate" also synthesises one for an SDR source. Only jpg output can carry a gain map.
   Returns (hosted): text confirmation + short-lived download URL (~5-minute expiry).
   Returns (local): the file is written straight to disk; the agent gets back a path and a size, never the bytes.
+
+pdf -- optimize, extract, rasterize, or split a PDF
+  Parameters:
+  - url (string) or data + mediaType: the PDF
+  - op (string): optimize | extract | rasterize | split (default: rasterize)
+  - type (string): output image format for rasterize (png default) and extract ("original" default, no re-encode)
+  - dpi (integer): render resolution for rasterize (default 150); target resolution for the images kept inside the PDF for optimize
+  - quality (integer 1-100): output quality (optimize default 75); ignored for PNG and for split
+  - maxWidth (integer): cap image width; 0 leaves sizes alone
+  - minSize (integer): skip images smaller than this on either axis (default 64; 0 takes everything)
+  Returns: a PDF for optimize, a zip for extract, rasterize and split. All four require a paid plan.
+
+pdf_create -- build a PDF from images, one page per image
+  Parameters:
+  - images (array, required): up to 200 entries of { url | data, mediaType, name }, in page order
+  - page (string): fit (default) | a4 | letter
+  - quality (integer 1-100): JPEG quality for each page (default 82)
+  - dpi (integer 36-600): pixels per inch used to size a "fit" page (default 96)
+  - maxWidth (integer): downscale images wider than this before embedding
+  - combine (boolean): false returns one single-page PDF per image, as a zip (default true)
+  Returns: one PDF, or a zip. Available on every plan including Free.
 
 check_usage -- check remaining operations in the current billing period
   No parameters. Returns remaining and total quota.

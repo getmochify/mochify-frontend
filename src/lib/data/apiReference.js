@@ -782,7 +782,7 @@ export const mcp = {
 		endpoint: 'https://mcp.mochify.app/mcp',
 		discovery: 'https://mcp.mochify.app/.well-known/oauth-authorization-server',
 		auth: 'OAuth 2.0 with PKCE. The user authorizes their Mochify account once and the client receives a short-lived access token (1-hour TTL, auto-refreshed). No API key management.',
-		input: 'Public HTTPS URLs (url parameter) or base64 bytes (data plus mediaType).',
+		input: 'Public HTTPS URLs (url parameter) or base64 bytes (data plus mediaType), for both images and PDFs.',
 		output:
 			'A short-lived download URL on files.mochify.app with a 5-minute expiry, stated in the tool response.',
 		clients:
@@ -798,7 +798,17 @@ export const mcp = {
 		{
 			name: 'squish',
 			description:
-				'Compress, convert, resize or transform an image. Parameters (all optional): url, data, mediaType, type (jpg | png | webp | avif | jxl), width, height, quality (1–100), crop, rotate (0 | 90 | 180 | 270), removeBackground, stripExif (default true), smartCompress, optimizeForWeb, brightness (-100 to +100), clarity, hdr.'
+				'Compress, convert, resize or transform an image. Parameters (all optional): url, data, mediaType, type (jpg | png | webp | avif | jxl), width, height, quality (1–100), crop, rotate (0 | 90 | 180 | 270), removeBackground, background, stripExif (default true), smartCompress, optimizeForWeb, brightness (-100 to +100), clarity, lossless (jxl, webp and png only), hdr ("preserve" keeps a gain map the source has, "generate" also synthesises one for an SDR source).'
+		},
+		{
+			name: 'pdf',
+			description:
+				'Work on a PDF. Parameters: url or data (plus mediaType), op (optimize | extract | rasterize | split, default rasterize), type, dpi, quality, maxWidth, minSize. optimize returns a smaller PDF whose text and layout are untouched; extract, rasterize and split return a zip. All four require a paid plan.'
+		},
+		{
+			name: 'pdf_create',
+			description:
+				'Build a PDF from images, one page per image, in the order given. Parameters: images (array of { url | data, mediaType, name }, up to 200), page (fit | a4 | letter), quality, dpi, maxWidth, combine (false returns a zip of single-page PDFs). Available on every plan including Free.'
 		},
 		{
 			name: 'check_usage',
