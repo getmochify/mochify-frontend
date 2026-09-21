@@ -301,7 +301,7 @@
                         <div class="flex-1 min-w-0">
                             <strong class="block text-[#4A2C2C] text-lg mb-2">Install the Mochify CLI</strong>
                             <p class="mb-3">The same Rust binary serves as both CLI and local MCP server. Install via Homebrew:</p>
-                            <pre class="bg-[#2D1B1B] text-pink-100 rounded-xl p-4 mb-3 overflow-x-auto font-mono text-sm leading-relaxed"><code>brew install mochify</code></pre>
+                            <pre class="bg-[#2D1B1B] text-pink-100 rounded-xl p-4 mb-3 overflow-x-auto font-mono text-sm leading-relaxed"><code>brew install getmochify/mochify/mochify</code></pre>
                             <p class="mb-0">On Linux, use the curl installer from <a href="https://github.com/getmochify/mochify-cli" target="_blank" rel="noopener noreferrer">github.com/getmochify/mochify-cli</a>, or <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">cargo install</code> from the repo directly.</p>
                         </div>
                     </li>

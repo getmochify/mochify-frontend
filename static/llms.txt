@@ -410,7 +410,7 @@ Hosted HTTP (no install)
 - Result delivery: a short-lived download URL on files.mochify.app with a ~5-minute expiry, stated explicitly in the tool response. The compressed result sits in an in-memory pickup store until fetched or the TTL lapses -- see section 2. URL input is token-cheap in both directions (URL in, URL out); base64 upload is expensive on the way in only.
 
 Local binary (CLI + local MCP server, for local files)
-- One Rust binary, installed via `brew install mochify` on macOS; Linux, Cargo, Smithery, and Glama install paths are on the repo.
+- One Rust binary, installed via `brew install getmochify/mochify/mochify` on macOS; Linux, Cargo, Smithery, and Glama install paths are on the repo.
 - Direct CLI: `mochify *.jpg -p "..."` -- pipe-friendly, fits build scripts, CI, and agentic pipelines (including Claude Code's shell).
 - Local MCP server: run `mochify serve`; Claude Desktop config: { "command": "mochify", "args": ["serve"] }. Works with any stdio MCP client (Cursor, Continue, Cline, etc.).
 - Works with local file paths and public URLs. Compressed bytes come back from api.mochify.app straight to disk -- no pickup store, zero image bytes in the agent's context, end-to-end zero retention.

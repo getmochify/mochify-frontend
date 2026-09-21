@@ -413,7 +413,7 @@ Download URL (expires in ~5 minutes): https://files.mochify.app/629b...d46.avif<
                         </li>
                     {/each}
                 </ol>
-                <p class="mt-5 pt-4 border-t border-pink-100 text-sm text-[#875F42]">Token cost: the agent never holds image bytes - paths and metadata only. No pickup store on Mochify's side either: the compressed bytes flow straight from the API back to disk via the local binary. Setup was a one-time <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">brew install mochify</code>, <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">mochify auth login</code>, and three lines of JSON in the config file.</p>
+                <p class="mt-5 pt-4 border-t border-pink-100 text-sm text-[#875F42]">Token cost: the agent never holds image bytes - paths and metadata only. No pickup store on Mochify's side either: the compressed bytes flow straight from the API back to disk via the local binary. Setup was a one-time <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">brew install getmochify/mochify/mochify</code>, <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">mochify auth login</code>, and three lines of JSON in the config file.</p>
             </div>
         </section>
 

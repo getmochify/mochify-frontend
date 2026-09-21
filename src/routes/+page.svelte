@@ -12,7 +12,7 @@
 	let copied = $state(false);
 	async function copyInstall() {
 		try {
-			await navigator.clipboard.writeText('brew install mochify');
+			await navigator.clipboard.writeText('brew install getmochify/mochify/mochify');
 			copied = true;
 			setTimeout(() => (copied = false), 2000);
 		} catch {
@@ -397,7 +397,7 @@
 							"name": "Can I use Mochify from the command line or inside Claude?",
 							"acceptedAnswer": {
 								"@type": "Answer",
-								"text": "Yes, on every plan. Install the Rust binary with brew install mochify (Linux and Cargo paths are on the repo). The same binary runs as a direct CLI and, with mochify serve, as a local MCP server for Claude Desktop, Claude Code, Cursor and any stdio MCP client. Because the binary opens files on your own disk, only file paths and result metadata cross the agent context, never image bytes. If you would rather not install anything, the hosted MCP at mcp.mochify.app connects with OAuth."
+								"text": "Yes, on every plan. Install the Rust binary with brew install getmochify/mochify/mochify (Linux and Cargo paths are on the repo). The same binary runs as a direct CLI and, with mochify serve, as a local MCP server for Claude Desktop, Claude Code, Cursor and any stdio MCP client. Because the binary opens files on your own disk, only file paths and result metadata cross the agent context, never image bytes. If you would rather not install anything, the hosted MCP at mcp.mochify.app connects with OAuth."
 							}
 						},
 						{
@@ -499,10 +499,10 @@
 					<div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center">
 						<button
 							onclick={copyInstall}
-							class="group flex w-full cursor-pointer items-center justify-between gap-6 rounded-2xl bg-[#2D1B1B] py-4 pr-4 pl-6 font-mono text-base text-pink-100 shadow-lg transition-all hover:shadow-pink-300/20 sm:w-auto"
+							class="group flex w-full cursor-pointer items-center justify-between gap-6 rounded-2xl bg-[#2D1B1B] py-4 pr-4 pl-6 font-mono text-sm text-pink-100 shadow-lg transition-all hover:shadow-pink-300/20 sm:w-auto sm:text-base"
 						>
-							<span class="whitespace-nowrap"
-								><span class="mr-2 text-[#F06292]">$</span>brew install mochify</span
+							<span class="text-left break-all sm:break-normal sm:whitespace-nowrap"
+								><span class="mr-2 text-[#F06292]">$</span>brew install getmochify/mochify/mochify</span
 							>
 							<span
 								class="inline-block min-w-[3.5rem] rounded-lg bg-white/10 px-2.5 py-1 text-center font-sans text-xs font-bold tracking-wider text-pink-100/80 uppercase transition-colors group-hover:bg-white/20"
@@ -756,7 +756,9 @@
 							<span class="ml-2 truncate font-mono text-xs text-white/40">terminal</span>
 						</div>
 						<div class="flex-1 space-y-1.5 p-4 font-mono text-xs leading-relaxed text-white/85">
-							<p><span class="text-[#F06292] select-none">$</span> brew install mochify</p>
+							<p>
+								<span class="text-[#F06292] select-none">$</span> brew install getmochify/mochify/mochify
+							</p>
 							<p><span class="text-[#F06292] select-none">$</span> mochify auth login</p>
 							<p class="text-[#28C941]">✓ signed in, CLI and MCP ready</p>
 						</div>
@@ -1326,7 +1328,7 @@
 					</summary>
 					<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-[#6C3F31]">
 						Yes, on every plan. Install the Rust binary with <code
-							class="font-mono text-xs text-[#F06292]">brew install mochify</code
+							class="font-mono text-xs text-[#F06292]">brew install getmochify/mochify/mochify</code
 						>
 						(Linux and Cargo paths are on the repo). The same binary runs as a direct CLI and, with
 						<code class="font-mono text-xs text-[#F06292]">mochify serve</code>, as a local MCP
@@ -1411,10 +1413,10 @@
 				<div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<button
 						onclick={copyInstall}
-						class="group flex cursor-pointer items-center gap-4 rounded-2xl bg-[#2D1B1B] px-6 py-4 font-mono text-base text-pink-100 shadow-lg transition-all"
+						class="group flex cursor-pointer items-center gap-4 rounded-2xl bg-[#2D1B1B] px-6 py-4 font-mono text-sm text-pink-100 shadow-lg transition-all sm:text-base"
 					>
-						<span class="whitespace-nowrap"
-							><span class="mr-2 text-[#F06292]">$</span>brew install mochify</span
+						<span class="text-left break-all sm:break-normal sm:whitespace-nowrap"
+							><span class="mr-2 text-[#F06292]">$</span>brew install getmochify/mochify/mochify</span
 						>
 						<span
 							class="inline-block min-w-[3.5rem] rounded-lg bg-white/10 px-2.5 py-1 text-center font-sans text-xs font-bold tracking-wider uppercase transition-colors group-hover:bg-white/20"
