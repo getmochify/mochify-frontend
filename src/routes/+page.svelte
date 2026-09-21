@@ -12,7 +12,7 @@
 	let copied = $state(false);
 	async function copyInstall() {
 		try {
-			await navigator.clipboard.writeText('brew install getmochify/mochify/mochify');
+			await navigator.clipboard.writeText('brew tap getmochify/mochify\nbrew install mochify');
 			copied = true;
 			setTimeout(() => (copied = false), 2000);
 		} catch {
@@ -499,11 +499,12 @@
 					<div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center">
 						<button
 							onclick={copyInstall}
-							class="group flex w-full cursor-pointer items-center justify-between gap-6 rounded-2xl bg-[#2D1B1B] py-4 pr-4 pl-6 font-mono text-sm text-pink-100 shadow-lg transition-all hover:shadow-pink-300/20 sm:w-auto sm:text-base"
+							class="group flex w-full cursor-pointer items-center justify-between gap-6 rounded-2xl bg-[#2D1B1B] py-3.5 pr-4 pl-6 font-mono text-xs text-pink-100 shadow-lg transition-all hover:shadow-pink-300/20 sm:w-auto sm:text-base"
 						>
-							<span class="text-left break-all sm:break-normal sm:whitespace-nowrap"
-								><span class="mr-2 text-[#F06292]">$</span>brew install getmochify/mochify/mochify</span
-							>
+							<span class="flex flex-col gap-1 text-left whitespace-nowrap">
+								<span><span class="mr-2 text-[#F06292]">$</span>brew tap getmochify/mochify</span>
+								<span><span class="mr-2 text-[#F06292]">$</span>brew install mochify</span>
+							</span>
 							<span
 								class="inline-block min-w-[3.5rem] rounded-lg bg-white/10 px-2.5 py-1 text-center font-sans text-xs font-bold tracking-wider text-pink-100/80 uppercase transition-colors group-hover:bg-white/20"
 							>
@@ -756,9 +757,8 @@
 							<span class="ml-2 truncate font-mono text-xs text-white/40">terminal</span>
 						</div>
 						<div class="flex-1 space-y-1.5 p-4 font-mono text-xs leading-relaxed text-white/85">
-							<p>
-								<span class="text-[#F06292] select-none">$</span> brew install getmochify/mochify/mochify
-							</p>
+							<p><span class="text-[#F06292] select-none">$</span> brew tap getmochify/mochify</p>
+							<p><span class="text-[#F06292] select-none">$</span> brew install mochify</p>
 							<p><span class="text-[#F06292] select-none">$</span> mochify auth login</p>
 							<p class="text-[#28C941]">✓ signed in, CLI and MCP ready</p>
 						</div>
@@ -1413,11 +1413,12 @@
 				<div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<button
 						onclick={copyInstall}
-						class="group flex cursor-pointer items-center gap-4 rounded-2xl bg-[#2D1B1B] px-6 py-4 font-mono text-sm text-pink-100 shadow-lg transition-all sm:text-base"
+						class="group flex cursor-pointer items-center gap-4 rounded-2xl bg-[#2D1B1B] px-6 py-3.5 font-mono text-xs text-pink-100 shadow-lg transition-all sm:text-base"
 					>
-						<span class="text-left break-all sm:break-normal sm:whitespace-nowrap"
-							><span class="mr-2 text-[#F06292]">$</span>brew install getmochify/mochify/mochify</span
-						>
+						<span class="flex flex-col gap-1 text-left whitespace-nowrap">
+							<span><span class="mr-2 text-[#F06292]">$</span>brew tap getmochify/mochify</span>
+							<span><span class="mr-2 text-[#F06292]">$</span>brew install mochify</span>
+						</span>
 						<span
 							class="inline-block min-w-[3.5rem] rounded-lg bg-white/10 px-2.5 py-1 text-center font-sans text-xs font-bold tracking-wider uppercase transition-colors group-hover:bg-white/20"
 							>{copied ? 'Copied' : 'Copy'}</span
