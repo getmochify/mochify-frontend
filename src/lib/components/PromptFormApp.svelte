@@ -20,6 +20,7 @@
 		type UsageResponse
 	} from '$lib/user';
 	import { posthog } from '$lib/analytics';
+	import { wasStored, deliveryNote } from '$lib/delivery';
 	import { isChunkLoadError, isNetworkError, recoverFromStaleChunk } from '$lib/chunkRecovery';
 	import { withRetry } from '$lib/uploadRetry';
 	import {
@@ -115,6 +116,8 @@
 	let destination = $state<Destination>('download');
 	// Count of files written in the current run, for the status line.
 	let bucketStored: number = $state(0);
+	// Results core could not file, which downloaded instead; see $lib/delivery.
+	let bucketFallbacks: number = $state(0);
 	// Was `mochify:saveToBucket` holding '1'/'0'. Migrated below rather than
 	// abandoned: someone who turned bucket output on should not silently find it
 	// off after a deploy.
@@ -1189,6 +1192,7 @@
 		uploadPercent = 0;
 		completedFiles = 0;
 		bucketStored = 0;
+		bucketFallbacks = 0;
 		hitRateLimit = false;
 		upgradeCtaMode = 'quota';
 		agentMessage = '';
@@ -1452,12 +1456,16 @@
 				// can be sent to a destination.
 				const imgPdfDest =
 					canSaveRemote && destination !== 'download' && combine ? destination : null;
-				const imgPdfRemoteIgnored =
-					canSaveRemote && destination !== 'download' && !combine;
+				const imgPdfRemoteIgnored = canSaveRemote && destination !== 'download' && !combine;
 				if (imgPdfDest) {
 					params.set('dest', imgPdfDest);
 					params.set('name', 'mochified.pdf');
 				}
+
+				// Set when core could not file the result and handed the PDF back
+				// instead; see $lib/delivery.
+				let imgPdfDeliveryError: string | null = null;
+				let imgPdfFellBack = false;
 
 				try {
 					const blob = await withRetry(
@@ -1480,6 +1488,7 @@
 								xhr.onload = () => {
 									uploadPercent = 100;
 									if (xhr.status >= 200 && xhr.status < 300) {
+										imgPdfDeliveryError = xhr.getResponseHeader('X-Mochify-Bucket-Error');
 										resolve(xhr.response as Blob);
 										return;
 									}
@@ -1513,17 +1522,11 @@
 
 					processPhase = 'downloading';
 
-					if (imgPdfDest) {
-						// Success is a receipt, not a document. Verify the shape rather
-						// than reporting a write that may not have happened.
-						const receipt = JSON.parse(await blob.text());
-						if (!receipt?.stored) {
-							throw new Error(
-								`Could not confirm the PDF was saved to ${
-									imgPdfDest === 'drive' ? 'Google Drive' : 'your bucket'
-								}.`
-							);
-						}
+					// A receipt means it was filed. Anything else IS the PDF — core
+					// hands the work back rather than losing it when a destination
+					// write fails — so fall through to the download below.
+					imgPdfFellBack = !!imgPdfDest && !(await wasStored(blob));
+					if (imgPdfDest && !imgPdfFellBack) {
 						completedFiles = totalImages;
 						prompt = '';
 						files = [];
@@ -1565,16 +1568,28 @@
 					uploadMode = null;
 					if (fileInputEl) fileInputEl.value = '';
 
-					posthog.capture('imgpdf_flow_completed', { images: totalImages, page, combine });
+					posthog.capture('imgpdf_flow_completed', {
+						images: totalImages,
+						page,
+						combine,
+						delivery_fell_back: imgPdfFellBack || undefined
+					});
+					// Still 'success': the PDF exists and the user has it — only its
+					// destination changed, which the note explains.
 					showStatus(
 						'success',
-						imgPdfRemoteIgnored
-							? `${totalImages} PDFs created and zipped — a zip can't be filed into ${
-									destination === 'drive' ? 'Google Drive' : destinationName
-								}, so it downloaded instead.`
-							: isZip
-								? `${totalImages} PDFs created and zipped! ✨`
-								: `PDF created from ${totalImages} image${totalImages > 1 ? 's' : ''}! ✨`
+						imgPdfFellBack
+							? `PDF created. ${deliveryNote(
+									imgPdfDeliveryError,
+									imgPdfDest === 'drive' ? 'Google Drive' : destinationName
+								)}`
+							: imgPdfRemoteIgnored
+								? `${totalImages} PDFs created and zipped — a zip can't be filed into ${
+										destination === 'drive' ? 'Google Drive' : destinationName
+									}, so it downloaded instead.`
+								: isZip
+									? `${totalImages} PDFs created and zipped! ✨`
+									: `PDF created from ${totalImages} image${totalImages > 1 ? 's' : ''}! ✨`
 					);
 					onSuccess?.();
 				} catch (e: any) {
@@ -1649,6 +1664,9 @@
 				let processedPdfs = 0;
 				let lastSavedPct: number | null = null;
 				let pdfStored = 0;
+				// Files core could not file, which downloaded instead; see $lib/delivery.
+				let pdfDeliveryFallbacks = 0;
+				let pdfDeliveryError: string | null = null;
 
 				// Latched once for the whole run, same as the image path: toggling
 				// the switch mid-flight must not split a batch across destinations.
@@ -1672,7 +1690,7 @@
 					file: File,
 					params: URLSearchParams,
 					onUploadEnd?: () => void
-				): Promise<{ blob: Blob; savedPct: number | null }> =>
+				): Promise<{ blob: Blob; savedPct: number | null; deliveryError: string | null }> =>
 					withRetry(
 						() =>
 							new Promise((resolve, reject) => {
@@ -1710,7 +1728,10 @@
 										const saved = xhr.getResponseHeader('X-Mochify-Saved-Pct');
 										resolve({
 											blob: xhr.response as Blob,
-											savedPct: saved === null ? null : Number(saved)
+											savedPct: saved === null ? null : Number(saved),
+											// Present only when a destination write failed and
+											// core handed the file back instead.
+											deliveryError: xhr.getResponseHeader('X-Mochify-Bucket-Error')
 										});
 										return;
 									}
@@ -1778,28 +1799,24 @@
 
 					try {
 						processPhase = 'uploading';
-						const { blob, savedPct } = await pdfXhr(file, params, () => {
+						const { blob, savedPct, deliveryError } = await pdfXhr(file, params, () => {
 							processPhase = 'processing';
 						});
 						processPhase = 'downloading';
 						lastSavedPct = savedPct;
 
+						// A receipt means it was filed. Anything else IS the PDF: core
+						// returns the work rather than losing it when a destination
+						// write fails, so fall through to the download below.
 						if (pdfRemoteDest) {
-							// Success is a receipt, not a file. Trust but verify: if the
-							// body is not the shape core promises, report a failure
-							// rather than a write that may not have happened.
-							const receipt = JSON.parse(await blob.text());
-							if (!receipt?.stored) {
-								throw new Error(
-									`Could not confirm ${file.name} was saved to ${
-										pdfRemoteDest === 'drive' ? 'Google Drive' : 'your bucket'
-									}.`
-								);
+							if (await wasStored(blob)) {
+								pdfStored += 1;
+								processedPdfs++;
+								completedFiles = processedPdfs;
+								continue;
 							}
-							pdfStored += 1;
-							processedPdfs++;
-							completedFiles = processedPdfs;
-							continue;
+							pdfDeliveryFallbacks += 1;
+							pdfDeliveryError = pdfDeliveryError ?? deliveryError;
 						}
 
 						// optimize hands back a PDF; every other op hands back a ZIP.
@@ -1875,17 +1892,24 @@
 					const msg =
 						failedFiles.length > 0
 							? `${processedPdfs} of ${totalPdfFiles} PDFs processed. ✨`
-							: pdfStored > 0
-								? lastSavedPct !== null && lastSavedPct > 0
-									? `Compressed ${lastSavedPct}% and saved to ${savedTo}! ✨`
-									: `Saved ${pdfStored} PDF${pdfStored > 1 ? 's' : ''} to ${savedTo}! ✨`
-								: compressed && lastSavedPct! > 0
-									? `PDF compressed — ${lastSavedPct}% smaller! ✨`
-									: compressed
-										? 'This PDF is already well optimized, so it was left as-is.'
-										: remoteIgnored
-											? `PDF${totalPdfFiles > 1 ? 's' : ''} downloaded — this one returns a zip, which can't be filed into ${savedTo}.`
-											: `PDF${totalPdfFiles > 1 ? 's' : ''} processed successfully! ✨`;
+							: // Filed for some, downloaded for the rest: name the split
+								// rather than reporting a clean save that didn't happen.
+								pdfDeliveryFallbacks > 0
+								? `${processedPdfs} PDF${processedPdfs > 1 ? 's' : ''} processed. ${deliveryNote(
+										pdfDeliveryError,
+										savedTo
+									)}`
+								: pdfStored > 0
+									? lastSavedPct !== null && lastSavedPct > 0
+										? `Compressed ${lastSavedPct}% and saved to ${savedTo}! ✨`
+										: `Saved ${pdfStored} PDF${pdfStored > 1 ? 's' : ''} to ${savedTo}! ✨`
+									: compressed && lastSavedPct! > 0
+										? `PDF compressed — ${lastSavedPct}% smaller! ✨`
+										: compressed
+											? 'This PDF is already well optimized, so it was left as-is.'
+											: remoteIgnored
+												? `PDF${totalPdfFiles > 1 ? 's' : ''} downloaded — this one returns a zip, which can't be filed into ${savedTo}.`
+												: `PDF${totalPdfFiles > 1 ? 's' : ''} processed successfully! ✨`;
 					showStatus('success', msg);
 					onSuccess?.();
 				}
@@ -2653,20 +2677,16 @@
 
 								processPhase = 'downloading';
 
-								if (bucketDest) {
-									// Success is a receipt, not an image: nothing to download
-									// or zip. Trust but verify — if the body is not the shape
-									// core promises, treat it as a failure rather than
-									// reporting a write that may not have happened.
-									const receipt = JSON.parse(await blob.text());
-									if (!receipt?.stored) {
-										throw new Error(
-											`Could not confirm ${finalName} was saved to ${
-												remoteDest === 'drive' ? 'Google Drive' : 'your bucket'
-											}.`
-										);
-									}
-									bucketStored += 1;
+								// A receipt means it was filed, and there is nothing to
+								// download. Anything else IS the image — core returns the
+								// work rather than losing it when a destination write
+								// fails — so it takes the normal download path below.
+								const filed = bucketDest && (await wasStored(blob));
+								if (filed) bucketStored += 1;
+								else if (bucketDest) bucketFallbacks += 1;
+
+								if (filed) {
+									// Nothing further: the bytes are in the user's storage.
 								} else if (downloadAsZip) {
 									const arrayBuffer = await blob.arrayBuffer();
 									zipContents[finalName] = new Uint8Array(arrayBuffer as ArrayBuffer);
@@ -2769,11 +2789,22 @@
 					failedFiles[0]?.key ?? 'processing_failed'
 				);
 			} else {
-				posthog.capture('magic_flow_completed', { files: totalFiles, failed: failedFiles.length });
+				posthog.capture('magic_flow_completed', {
+					files: totalFiles,
+					failed: failedFiles.length,
+					delivery_fell_back: bucketFallbacks || undefined
+				});
 				const msg =
 					failedFiles.length > 0
 						? `${successCount} of ${totalFiles} images processed. ✨`
-						: 'Images processed successfully! ✨';
+						: // The work is done and the user has it — only the destination
+							// changed, which the note explains.
+							bucketFallbacks > 0
+							? `${successCount} image${successCount > 1 ? 's' : ''} processed. ${deliveryNote(
+									null,
+									remoteDest === 'drive' ? 'Google Drive' : destinationName
+								)}`
+							: 'Images processed successfully! ✨';
 				showStatus('success', msg);
 				onSuccess?.();
 			}
@@ -3194,7 +3225,8 @@
 							onclick={() => fillPrompt(s.prompt)}
 							class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"
 						>
-							<span class="h-1.5 w-1.5 flex-shrink-0 rounded-full opacity-80 {s.dot}"></span>{s.label}
+							<span class="h-1.5 w-1.5 flex-shrink-0 rounded-full opacity-80 {s.dot}"
+							></span>{s.label}
 						</button>
 					{/each}
 					{#if uploadMode !== 'pdf' && uploadMode !== 'video'}
@@ -3340,11 +3372,7 @@
 										// Off flips back to downloading. On picks the connected
 										// destination — or the one already remembered, when
 										// someone has both.
-										destination = savingRemote
-											? 'download'
-											: bucketConnected
-												? 'bucket'
-												: 'drive';
+										destination = savingRemote ? 'download' : bucketConnected ? 'bucket' : 'drive';
 										localStorage.setItem(DEST_PREF_KEY, destination);
 										posthog.capture('remote_output_toggled', {
 											destination
@@ -3385,11 +3413,7 @@
 									class="text-[10px] font-extrabold tracking-widest uppercase transition-colors duration-300 {savingRemote
 										? 'text-[#AD1457]'
 										: 'text-[#875F42]/50'}"
-									>{savingRemote
-										? destinationLabel
-										: bucketConnected
-											? 'Bucket'
-											: 'Drive'}</span
+									>{savingRemote ? destinationLabel : bucketConnected ? 'Bucket' : 'Drive'}</span
 								>
 							{/if}
 						</label>
@@ -3741,7 +3765,6 @@
 			</div>
 		</div>
 	{/if}
-
 </div>
 
 {#if showUpgradeCta}
