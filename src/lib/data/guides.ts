@@ -17,6 +17,15 @@ export type Guide = {
 
 export const guides: Guide[] = [
 	{
+		title: 'How to Save a WebP as JPG in Chrome',
+		description:
+			'Chrome did not convert your image and renaming the file does nothing. The four routes that actually re-encode a WebP as JPG, one of them built into Chrome.',
+		url: '/guides/save-webp-as-jpg-chrome',
+		category: 'Image Formats',
+		readTime: '19 min read',
+		date: 'September 22, 2026'
+	},
+	{
 		title: 'Do WebP and AVIF Support Transparency?',
 		description:
 			'Yes, both carry a full alpha channel. Why a transparent cut-out comes back black or white, the five causes, and how to check a file before blaming the format.',
@@ -644,7 +653,7 @@ export const guides: Guide[] = [
 		category: 'Workflows',
 		readTime: '4 min read',
 		date: 'May 23, 2026',
-		lastUpdated: 'August 25, 2026'
+		lastUpdated: 'September 22, 2026'
 	},
 	{
 		title: 'Why We Relaxed Our Zero-Retention Policy for MCP Server Compressions',

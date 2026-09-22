@@ -1,32 +1,162 @@
 <script lang="ts">
     import ImageUpload from '$lib/components/ImageUpload.svelte';
+    import FaqAccordion from '$lib/components/FaqAccordion.svelte';
+    import { faqSchema, type FaqItem } from '$lib/faq';
 
     const SIZES = [500, 800, 1000, 1200, 1500, 2000] as const;
     type Size = typeof SIZES[number];
 
     let squareSize: Size = $state(1000);
     const queryParams = $derived(`width=${squareSize}&height=${squareSize}&smartCrop=1`);
+
+    // Mode 11 rewrite (2026-09-22). The page ranks as Google's preferred URL for
+    // square-crop queries on this site, so the title and H1 are written in the
+    // words the SERP uses ("crop images to square", "bulk") rather than as a
+    // product name. "AI" moved into the first sentence: the "ai image cropper"
+    // SERP is ad-heavy and split across unrelated intents.
+    const metaDescription =
+        'Crop a batch of photos to a perfect square online. AI finds the subject in every image and centers the crop on it, at 500 to 2000 px. Free, no signup, processed in memory and never saved to disk.';
+
+    const steps = [
+        {
+            n: '1',
+            t: 'Pick the square size',
+            d: 'Above the uploader: 500, 800, 1000, 1200, 1500 or 2000 px. Every image in the batch comes out at that size, so set it before you upload.'
+        },
+        {
+            n: '2',
+            t: 'Drop your images',
+            d: 'Or click browse. Up to 3 with no signup or a free account, 25 per batch on Seller and Pro. JPG, PNG, WebP, AVIF, HEIC, HEIF, HIF and JPEG XL files can all go in the same batch. Once they are in, a format row appears under the thumbnails: JPEG is selected, or switch the batch to PNG, WebP, AVIF or JPEG XL.'
+        },
+        {
+            n: '3',
+            t: 'Download the squares',
+            d: 'Each image is analyzed on its own, so a portrait, a landscape product shot and a phone snapshot in the same batch each get their own crop.'
+        }
+    ];
+
+    const sizeGuide = [
+        {
+            px: '1000 px',
+            note: 'covers most e-commerce listings; Amazon\'s zoom activates at 1,000 px on the longest side, so this is the safe floor for product images.'
+        },
+        {
+            px: '1200 px',
+            note: 'for Shopify and other high-DPI product grids, and for Instagram, which displays square posts at 1080 px.'
+        },
+        { px: '500 or 800 px', note: 'for thumbnails, avatars, previews and general web use.' },
+        {
+            px: '1500 or 2000 px',
+            note: 'when the square is your master copy: Etsy crops the same first photo three ways, and a 2000 × 2000 square is the most crop-resistant upload it can have. Upscaling is not applied, so pick a size the originals can support.'
+        }
+    ];
+
+    // Nine FAQs, answers verbatim from the handoff copy. FaqAccordion renders the
+    // question as an <h3> inside the <summary> and keeps answers in the served
+    // HTML; faqSchema builds the FAQPage block from this same array so the two
+    // cannot drift.
+    const faqs: FaqItem[] = [
+        {
+            q: 'Is the bulk square cropper free?',
+            a: 'Yes. Crop up to 3 images with no signup, or 25 a month with a free account, at up to 20MB per file and 3 per batch. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours with no account, and Seller and Pro plans batch 25 files at a time at up to 75MB each.'
+        },
+        {
+            q: 'How does it know where to crop?',
+            a: 'A saliency model scores each image for the region a viewer looks at first, usually the face, product or focal subject, and the square is centered on that region rather than on the middle of the frame. Each image in a batch is analyzed on its own. It works best when the subject is obvious; a frame with no clear subject gets a best estimate.'
+        },
+        {
+            q: 'Can I crop multiple images to a square at once?',
+            a: 'Yes. Drop them in together and every one comes back at the size you picked. Free and no-signup batches are 3 files; Seller, Pro and the Day Pass take 25 per batch, and the CLI takes a whole folder in one command.'
+        },
+        {
+            q: 'Which square size should I choose?',
+            a: '1000 px suits most product listings and clears Amazon\'s zoom threshold; 1200 px for Shopify grids and Instagram; 500 or 800 px for thumbnails and previews; 2000 px when the square is your master copy for Etsy. The size is applied to the whole batch, so set it before uploading.'
+        },
+        {
+            q: 'Can I make an image square without cropping it?',
+            a: 'Not on this page. This tool crops to the subject; keeping the whole picture and filling the sides with a blur or a color is padding, which is a different tool. If the subject should fill the frame, cropping is what you want.'
+        },
+        {
+            q: 'What formats can I upload, and what do I get back?',
+            a: 'JPG, JPEG, PNG, WebP, AVIF, HEIC, HEIF, HIF and JPEG XL, mixed in one batch, so iPhone photos and camera files can go straight in. Squares come back as JPEG by default, encoded with Google\'s jpegli for better quality per byte; after upload you can switch the whole batch to PNG, WebP, AVIF or JPEG XL. Nothing is upscaled, so choose a size the originals can support.'
+        },
+        {
+            q: 'Do you keep my photos?',
+            a: 'No. They travel to our encoder over HTTPS, are streamed into memory, cropped, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included; if you need it kept, use the web app\'s Strip EXIF switch or stripExif=false on the API.'
+        },
+        {
+            q: 'What happens if the subject is near an edge?',
+            a: 'The crop window moves as close to the subject as it can without leaving the image, so a subject at the edge stays in the square rather than being cut in half.'
+        },
+        {
+            q: 'How do I crop hundreds of images to square automatically?',
+            a: 'Use the CLI, which takes a folder and one plain-English instruction, or call POST /v1/squish with smartCrop=true and equal width and height from a script. Both run the same saliency crop as this page and neither needs the browser open. The Day Pass covers 100 uploads in 24 hours for $2 without an account.'
+        }
+    ];
+
+    const faqLd = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqSchema(faqs)
+    });
+
+    const guideLinks = [
+        {
+            href: '/guides/do-marketplace-product-images-need-to-be-square',
+            title: 'Do marketplace product images need to be square?',
+            desc: 'The platform-by-platform answer'
+        },
+        {
+            href: '/guides/product-image-requirements-marketplace-guide',
+            title: 'Product image requirements for every marketplace',
+            desc: 'Sizes, ratios and formats per platform'
+        },
+        {
+            href: '/guides/etsy-listing-photo-size-guide',
+            title: 'Etsy listing photo size',
+            desc: 'What Etsy does to your first photo'
+        }
+    ];
 </script>
 
 <svelte:head>
-    <title>Bulk AI Square Cropper — Smart-Crop Images to a Square | Mochify</title>
-    <meta name="description" content="Batch crop images to a perfect square using AI saliency — the subject stays centered automatically. Pick your size, upload, download. Free, no sign-up required.">
-    <meta property="og:title" content="Bulk AI Square Cropper — Smart-Crop Images to a Square | Mochify" />
-    <meta property="og:description" content="Batch crop images to a perfect square using AI saliency — the subject stays centered automatically. Pick your size, upload, download. Free, no sign-up required." />
+    <title>Bulk Square Crop - Crop Images to Square Automatically | Mochify</title>
+    <meta name="description" content={metaDescription}>
+    <meta property="og:title" content="Bulk Square Crop - Mochify" />
+    <meta property="og:description" content={metaDescription} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Bulk Square Crop - Mochify" />
+    <meta name="twitter:description" content={metaDescription} />
 
     <script type="application/ld+json">
         {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        "name": "Bulk AI Square Cropper",
-        "description": "Batch crop images to a perfect square using AI saliency detection. Subject stays centered automatically. Processed in memory, never stored.",
+        "name": "Mochify Bulk Square Cropper",
+        "description": "Crop a batch of photos to a perfect square online. AI finds the subject in every image and centers the crop on it, at 500 to 2000 px. Free, no signup, processed in memory and never saved to disk.",
         "url": "https://mochify.app/solutions/bulk-ai-square-cropper",
         "applicationCategory": "MultimediaApplication",
+        "applicationSubCategory": "Image Editor",
         "operatingSystem": "Web",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "availability": "https://schema.org/InStock" },
+        "featureList": [
+            "Crop a batch of images to a 1:1 square in the browser",
+            "Saliency detection centers each crop on the subject, per image",
+            "Output sizes of 500, 800, 1000, 1200, 1500 or 2000 px",
+            "Accepts JPG, PNG, WebP, AVIF, HEIC, HEIF, HIF and JPEG XL",
+            "Output as JPEG, PNG, WebP, AVIF or JPEG XL",
+            "Up to 3 files with no signup; 25 per batch on paid plans",
+            "CLI, MCP server and REST API for automated cropping",
+            "Files processed in memory and never saved to disk; metadata including GPS stripped by default"
+        ],
+        "softwareRequirements": "Modern Web Browser",
         "provider": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" }
         }
     </script>
+
+    <!-- FAQPage built from the same `faqs` array the accordion renders, so the
+         schema can never drift from the visible answers. -->
+    {@html `<script type="application/ld+json">${faqLd}<\/script>`}
 </svelte:head>
 
 <div class="relative max-w-5xl mx-auto px-4 pt-7 pb-12 sm:px-6 lg:px-8 w-full flex-grow">
@@ -48,15 +178,15 @@
             </div>
 
             <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
-                Bulk
+                Crop Images to
                 <span class="bg-gradient-to-r from-[#F06292] to-violet-500 bg-clip-text text-transparent">
-                    AI Square
+                    Square
                 </span>
-                Cropper
+                in Bulk
             </h1>
 
             <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-                Crop any image to a perfect square in bulk. AI saliency keeps the subject centered automatically — no manual adjustments needed.
+                Drop in a batch of photos and get every one back as a perfect square with the subject in the middle. Mochify looks at each image separately, finds the face, product or focal point, and centers the 1:1 crop on it, so product shots, portraits and snapshots in the same batch all come out framed correctly without you touching one. Pick a size from 500 to 2000 px, upload, download. Three images with no signup, 25 a month with a free account, processed in memory and never saved to disk.
             </p>
         </div>
 
@@ -87,109 +217,11 @@
             <ImageUpload {queryParams} />
         </div>
 
+        <!-- How to -->
         <section class="mt-20 max-w-4xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-12 items-start">
-
-                <div class="space-y-8">
-                    <div class="space-y-4">
-                        <h2 class="text-2xl font-bold text-[#4A2C2C]">What is AI square cropping?</h2>
-                        <p class="leading-relaxed text-[#6C3F31]">
-                            A standard center crop blindly cuts from the middle of the frame. AI saliency cropping first analyzes the image to find the most important region — a face, a product, the focal subject — then centers the square crop around that point instead.
-                        </p>
-                        <p class="leading-relaxed text-[#6C3F31]">
-                            The result is that product shots, portraits, and real-world photos all crop correctly in bulk without any manual adjustment per image.
-                        </p>
-                    </div>
-
-                    <div class="bg-violet-50 border border-violet-100 rounded-2xl p-6 space-y-3">
-                        <p class="text-xs font-black text-violet-700 uppercase tracking-widest">Common square sizes</p>
-                        <ul class="space-y-2.5">
-                            {#each [
-                                '1000 px — standard for most e-commerce platforms',
-                                '1200 px — Shopify and high-DPI product grids',
-                                '800 px — Instagram feed and general social media',
-                                '500 px — thumbnails, avatars, and preview cards',
-                                '2000 px — print-ready or high-res archive',
-                            ] as point}
-                                <li class="flex items-start gap-2.5 text-sm text-violet-900">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-violet-400 shrink-0 mt-1.5"></span>
-                                    {point}
-                                </li>
-                            {/each}
-                        </ul>
-                    </div>
-
-                    <div class="bg-white p-8 rounded-2xl border border-pink-50 shadow-sm">
-                        <h3 class="font-bold text-[#4A2C2C] mb-5 text-sm uppercase tracking-widest opacity-70">Common Use Cases</h3>
-                        <ul class="space-y-3">
-                            {#each [
-                                'Preparing product images for an e-commerce catalog',
-                                'Normalising a batch of photos to a uniform grid layout',
-                                'Squaring up listing photos before uploading to marketplaces',
-                                'Creating consistent thumbnails from varied source images',
-                                'Cropping portraits for profile or team-page cards',
-                                'Batch-prepping images for social media posting',
-                            ] as item}
-                                <li class="flex items-center gap-3 text-sm font-semibold text-[#6C3F31]">
-                                    <span class="w-2 h-2 rounded-full bg-pink-300 shrink-0"></span> {item}
-                                </li>
-                            {/each}
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="space-y-4">
-                    {#each [
-                        {
-                            q: "How does the AI know where to crop?",
-                            a: "Mochify runs a saliency model that identifies the most visually important region of each image — typically the main subject, face, or product. The square crop is then centered on that region rather than the geometric center of the frame."
-                        },
-                        {
-                            q: "What happens if the subject is near an edge?",
-                            a: "The saliency model clamps the crop window to the image boundaries, so it will get as close as possible to centring on the subject without cropping outside the image."
-                        },
-                        {
-                            q: "Can I pick my own square size?",
-                            a: "Yes — choose from 500, 800, 1000, 1200, 1500, or 2000 px using the size picker above the uploader. Set the size before uploading your batch."
-                        },
-                        {
-                            q: "What output format should I use?",
-                            a: "WebP is the best default: smallest file size, supported by all modern browsers. Use JPG for maximum compatibility with older apps, marketplaces, or clients who need a standard format."
-                        },
-                        {
-                            q: "How many images can I process at once?",
-                            a: "Free accounts can process up to 3 images per batch. Paid plans unlock up to 25 files at once with 2 concurrent uploads."
-                        },
-                        {
-                            q: "Are my images stored anywhere?",
-                            a: "Never. Each image is processed in memory on the server and returned immediately. No copy is retained after your download completes."
-                        },
-                    ] as faq}
-                        <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md transition-all">
-                            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-[#4A2C2C] list-none select-none">
-                                <span>{faq.q}</span>
-                                <span class="text-[#7E685E] transition-transform duration-300 group-open:rotate-180">
-                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7" /></svg>
-                                </span>
-                            </summary>
-                            <div class="px-6 pb-6 text-base text-[#6C3F31] leading-relaxed">
-                                {faq.a}
-                            </div>
-                        </details>
-                    {/each}
-                </div>
-            </div>
-        </section>
-
-        <!-- How it works -->
-        <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">How it works</h2>
+            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">How to crop images to a square in bulk</h2>
             <div class="grid sm:grid-cols-3 gap-4">
-                {#each [
-                    { n: '1', t: 'Pick your size', d: 'Choose the square output size that matches your platform — 1000 px for most e-commerce, 800 px for social.' },
-                    { n: '2', t: 'Upload your images', d: 'Add up to 25 images at once. The AI saliency model analyzes each one independently.' },
-                    { n: '3', t: 'Download the results', d: 'Each image comes back as a perfectly square crop centered on its main subject. Nothing is stored.' },
-                ] as step}
+                {#each steps as step}
                     <div class="bg-white p-6 rounded-2xl border border-pink-50 shadow-sm">
                         <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-violet-50 text-violet-600 font-black text-sm mb-4">{step.n}</span>
                         <h3 class="font-black text-[#4A2C2C] text-sm mb-1.5">{step.t}</h3>
@@ -197,6 +229,84 @@
                     </div>
                 {/each}
             </div>
+        </section>
+
+        <!-- How the crop decides -->
+        <section class="mt-20 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How the crop decides where to cut</h2>
+            <div class="space-y-4 max-w-3xl">
+                <p class="text-[#6C3F31] leading-relaxed">
+                    A plain center crop takes the middle of the frame and hopes the subject is there. Often it is not: a product shot with headroom, a person standing to one side, an item low in the frame all lose the thing that mattered, and bulk tools that apply one rectangle to every image repeat the mistake across the batch.
+                </p>
+                <p class="text-[#6C3F31] leading-relaxed">
+                    Mochify runs a saliency model on each image to find the region a viewer's eye goes to first, typically a face, a product or the focal subject, and centers the square on that region instead of the geometric center. If the subject sits near an edge, the crop window slides as far toward it as the image allows without leaving the frame. It is a best guess, not a promise: when the subject is obvious, a product on a plain background or a person in the frame, it lands where you would have cropped by hand; a busy scene with no clear subject gets the model's best estimate, so check those. Every square in the batch is framed on its own subject, which is what a marketplace grid or a profile-card layout needs.
+                </p>
+            </div>
+        </section>
+
+        <!-- Which size -->
+        <section class="mt-20 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">Which square size to pick</h2>
+            <div class="bg-violet-50 border border-violet-100 rounded-2xl p-6 space-y-3 max-w-3xl">
+                <ul class="space-y-3">
+                    {#each sizeGuide as row}
+                        <li class="flex items-start gap-2.5 text-sm text-violet-900 leading-relaxed">
+                            <span class="w-1.5 h-1.5 rounded-full bg-violet-400 shrink-0 mt-2"></span>
+                            <span><strong class="font-black">{row.px}</strong> {row.note}</span>
+                        </li>
+                    {/each}
+                </ul>
+            </div>
+            <p class="text-[#6C3F31] leading-relaxed mt-5 max-w-3xl">
+                The <a href="/guides/product-image-requirements-marketplace-guide" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">marketplace image requirements guide</a> has the per-platform numbers.
+            </p>
+        </section>
+
+        <!-- Square without cropping -->
+        <section class="mt-20 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Square without cropping?</h2>
+            <p class="text-[#6C3F31] leading-relaxed max-w-3xl">
+                This page crops. If you need the whole picture kept and the sides filled with a blurred or solid background, that is a padded square, a different job and not one this tool does. Cropping is the right choice when the subject should fill the frame: product listings, portraits, profile pictures and any grid that displays 1:1 thumbnails. Padding is the right choice for a landscape you cannot afford to cut.
+            </p>
+        </section>
+
+        <!-- Desktop / phone routes -->
+        <section class="mt-20 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Cropping to square on Windows, Mac or iPhone without a tool</h2>
+            <p class="text-[#6C3F31] leading-relaxed max-w-3xl">
+                You can, one image at a time. Windows Photos and the Mac's Preview both crop a single image to 1:1; the iPhone's Photos app does the same from Edit, Crop, then the Square preset. None of them handles a folder. The batch routes that exist, IrfanView's batch conversion on Windows, an Automator Crop Images action on a Mac, a Shortcuts Crop Image action on iPhone, Photoshop's Actions with Batch, all apply one fixed rectangle to every file, which is the center-crop problem again. This page is for the batch where each crop has to be decided per image.
+            </p>
+        </section>
+
+        <!-- Bulk / automation -->
+        <section class="mt-20 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Bulk, batch and automated square cropping</h2>
+            <p class="text-[#6C3F31] leading-relaxed mb-6 max-w-3xl">
+                A catalog, a client shoot or a whole marketplace inventory is the usual case. Seller and Pro accounts crop up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. The same saliency crop runs from the terminal with the Mochify CLI (<span class="font-mono font-bold text-[#4A2C2C]">mochify</span>, one plain-English prompt for a whole folder, sign in once with <span class="font-mono font-bold text-[#4A2C2C]">mochify auth login</span>), from an AI agent through the hosted or local MCP server, and from the REST API, where <span class="font-mono font-bold text-[#4A2C2C]">smartCrop</span> with equal width and height is the square crop:
+            </p>
+            <div class="bg-[#2D2320] rounded-2xl px-6 py-5 overflow-x-auto shadow-sm">
+                <pre class="text-sm font-mono text-[#F5E9E2] leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?smartCrop=true&width=1000&height=1000&type=jpg" \
+  -H "Authorization: Bearer $MOCHIFY_KEY" \
+  --data-binary @product-01.heic \
+  -o product-01.jpg</code></pre>
+            </div>
+            <p class="text-sm text-[#875F42] leading-relaxed mt-4 max-w-3xl">
+                The CLI, MCP and API are clients over the same engine as this page: files travel over HTTPS to api.mochify.app, are cropped in memory and discarded. Full parameter reference in the <a href="/docs" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>. Need a transparent cutout as well as a square? The <a href="/solutions/remove-background-webp" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">background remover</a> pairs with this crop.
+            </p>
+        </section>
+
+        <!-- Marketplaces -->
+        <section class="mt-20 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Square crops for marketplaces and grids</h2>
+            <p class="text-[#6C3F31] leading-relaxed max-w-3xl">
+                Most marketplaces do not require a square upload, and most crop your thumbnail to one anyway: eBay and Depop render listing thumbnails at or close to 1:1, Etsy asks for a landscape or square first photo and then crops it three ways, and Amazon standardizes search cards on 1:1 without mandating the ratio. A pre-cropped square survives all of that with the product where you framed it; <a href="/guides/do-marketplace-product-images-need-to-be-square" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">do marketplace product images need to be square?</a> has the platform-by-platform answer. Vinted and Poshmark are the exceptions, displaying 3:4 portrait; the <a href="/guides/vinted-photos-that-sell" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Vinted photo guide</a> covers that crop. For one photo set that has to work everywhere, the <a href="/guides/cross-listing-marketplace-photo-requirements" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">cross-listing photo guide</a> has the batch workflow, and <a href="/guides/ecommerce-product-photo-workflow-resize-convert" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">resize and convert product photos in one pass</a> takes it from phone to listing.
+            </p>
+        </section>
+
+        <!-- FAQ -->
+        <section class="mt-20 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">FAQ</h2>
+            <FaqAccordion {faqs} />
         </section>
 
         <!-- Also available -->
@@ -218,11 +328,20 @@
                     </span>
                     <div>
                         <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">Background Remover →</p>
-                        <p class="text-xs text-[#875F42]">AI cutout with transparent WebP output — great alongside square crops</p>
+                        <p class="text-xs text-[#875F42]">AI cutout with transparent WebP output, great alongside square crops</p>
                     </div>
                 </a>
+            </div>
+
+            <p class="text-xs font-black text-[#875F42] uppercase tracking-widest mt-10 mb-4">Want the long version?</p>
+            <div class="grid sm:grid-cols-3 gap-4">
+                {#each guideLinks as guide}
+                    <a href={guide.href} class="block bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
+                        <p class="font-black text-[#4A2C2C] text-sm mb-1 group-hover:text-[#F06292] transition-colors">{guide.title} →</p>
+                        <p class="text-xs text-[#875F42]">{guide.desc}</p>
+                    </a>
+                {/each}
             </div>
         </section>
 
     </div>
-

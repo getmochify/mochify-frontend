@@ -12,7 +12,7 @@
         category: "Workflows",
         readTime: "4 min read",
         date: "May 23, 2026",
-        lastUpdated: "August 25, 2026"
+        lastUpdated: "September 22, 2026"
     };
 
     const faqItems = [
@@ -74,7 +74,7 @@
         "description": "How to batch-convert product photos to JPG at 1200px and 800px with a single natural-language prompt. The fastest workflow for Shopify, Etsy, eBay, and Amazon sellers.",
         "url": "https://mochify.app/guides/ecommerce-product-photo-workflow-resize-convert",
         "datePublished": "2026-05-23",
-        "dateModified": "2026-08-25",
+        "dateModified": "2026-09-22",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
         "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
@@ -343,7 +343,7 @@
                     },
                     {
                         prompt: '"convert to jpg, crop to 1:1, resize to 1080px"',
-                        note: 'Square crop centered on the subject - the correct format for Instagram product posts.'
+                        note: 'Square crop centered on the subject, the correct format for Instagram product posts; for a whole catalog without a prompt, the <a href="https://mochify.app/solutions/bulk-ai-square-cropper" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">bulk square cropper</a> applies the same saliency crop to every file at a fixed size.'
                     },
                     {
                         prompt: '"convert to jpg, resize to 2000px, smart compress"',
@@ -356,7 +356,7 @@
                 ] as v}
                     <div class="rounded-2xl border border-pink-100 bg-white p-5">
                         <p class="font-black text-[#4A2C2C] font-mono text-sm mb-2 m-0">{v.prompt}</p>
-                        <p class="text-sm text-[#875F42] m-0">{v.note}</p>
+                        <p class="text-sm text-[#875F42] m-0">{@html v.note}</p>
                     </div>
                 {/each}
             </div>

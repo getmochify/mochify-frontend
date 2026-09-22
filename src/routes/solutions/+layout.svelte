@@ -21,7 +21,7 @@
         'svg-to-jxl': 'SVG to JXL',
         'mp4-to-webm': 'MP4 to WebM',
         'ebay-image-converter': 'eBay Image Converter',
-        'bulk-ai-square-cropper': 'Bulk AI Square Cropper',
+        'bulk-ai-square-cropper': 'Bulk Square Cropper',
         'sdr-to-hdr': 'SDR to HDR',
     };
 

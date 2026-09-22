@@ -339,6 +339,11 @@ export const cards = [
 		title: 'What Image Format Should I Use for Product Photos?'
 	},
 	{
+		path: '/guides/save-webp-as-jpg-chrome',
+		eyebrow: 'GUIDE',
+		title: 'How to Save a WebP as JPG in Chrome'
+	},
+	{
 		path: '/guides/webp-avif-transparency',
 		eyebrow: 'GUIDE',
 		title: 'Do WebP and AVIF Support Transparency?'
@@ -405,7 +410,8 @@ export const cards = [
 	{
 		path: '/solutions/bulk-ai-square-cropper',
 		eyebrow: 'TOOL',
-		title: 'Bulk AI Square Cropper - Smart-Crop Images to a Square'
+		title: 'Bulk Square Crop - Crop Images to Square',
+		alt: 'Mochify bulk square image cropper'
 	},
 	{
 		path: '/solutions/ebay-image-converter',
