@@ -560,16 +560,35 @@
 				right-click it, ask for a JPG, get the file.
 			</p>
 
-			<!-- Screen recording placeholder, shipped verbatim from the handoff
-			     (article-originals/save-webp-as-jpg-chrome.html). Replace this
-			     figure with the capture plus its alt text and the text
-			     description that belongs beneath it, and fill the measurement
-			     row below from the same run. -->
-			<figure class="video-placeholder my-6">
-				<p class="m-0">
-					Screen recording placeholder: the devs embed the capture here. The handoff specifies what
-					it shows, its alt text, and the text description that must sit beneath it.
-				</p>
+			<!-- Silent screen recording, so the text description below the figure
+			     carries the content for anyone who cannot watch it. Guides ship
+			     csr = false, so this is plain HTML: controls (no autoplay), a
+			     poster so nothing loads until the reader asks, and an explicit
+			     aspect-ratio box so the page does not shift when it does. -->
+			<figure class="my-6">
+				<div class="video-frame">
+					<video
+						class="h-full w-full"
+						src="/videos/chrome-extension-webp-to-jpg.mp4"
+						poster="/videos/chrome-extension-webp-to-jpg-poster.jpg"
+						controls
+						muted
+						playsinline
+						preload="none"
+						width="1108"
+						height="720"
+						aria-label="Screen recording: converting a WebP to JPG from Chrome's right-click menu with the Mochify extension"
+					></video>
+				</div>
+				<figcaption class="mt-3 text-base leading-relaxed text-[#875F42]">
+					<strong class="text-[#4A2C2C]">What the recording shows.</strong> A BBC News article with
+					a photograph served as WebP. Right-clicking the image opens Chrome's usual menu, with
+					<em>Save Image As...</em> near the top and a Mochify entry added below it. Choosing the
+					Mochify entry opens a small panel over the page showing the source domain and a prompt
+					field. The prompt typed is <em>to jpg maintain high quality</em>. The panel reports
+					packing the prompt, then processing, Chrome asks where to save the file, and the panel
+					confirms the download. The converted JPG then opens in Preview as an ordinary image.
+				</figcaption>
 			</figure>
 
 			<p class="mb-4">Measured on that same run:</p>
@@ -587,11 +606,11 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td>n/a</td>
-							<td>n/a</td>
-							<td>n/a</td>
-							<td>n/a</td>
-							<td>n/a</td>
+							<td>News photograph, 976 × 549</td>
+							<td>64.6 KB</td>
+							<td>102.1 KB</td>
+							<td>58% larger</td>
+							<td>About 10 seconds</td>
 						</tr>
 					</tbody>
 				</table>
@@ -600,8 +619,12 @@
 			<p class="mb-4">
 				Two honest notes on that table. Size change between WebP and JPEG depends heavily on what
 				the picture is, so a photograph and a flat graphic will not behave the same way, and the row
-				above names which one was measured. And the time is the round trip you actually experience,
-				from right-click to file in hand, not encoder time.
+				above names which one was measured; it also depends on what you ask for, and this run asked
+				for high quality, which is most of why the JPEG came back larger than the WebP it replaced.
+				That is the normal direction of travel and the reason the next section argues for keeping
+				the WebP when you can. And the time is the round trip you actually experience, from
+				right-click to file in hand, including typing the prompt and confirming Chrome's save
+				dialog, not encoder time.
 			</p>
 		</section>
 
@@ -756,16 +779,21 @@
 		}
 	}
 
-	/* Placeholder frame for the screen recording. Dashed so it reads as a slot
-	   waiting on an asset rather than a finished figure. */
-	.video-placeholder {
-		border: 2px dashed rgba(240, 98, 146, 0.4);
+	/* Reserves the recording's 1108x720 box before the poster paints, so the
+	   figure does not shift the page as it loads. */
+	.video-frame {
+		aspect-ratio: 1108 / 720;
+		overflow: hidden;
 		border-radius: 1.25rem;
-		background: rgba(255, 240, 243, 0.5);
-		padding: 2rem 1.5rem;
-		text-align: center;
-		font-size: 0.95rem;
-		color: #875f42;
+		border: 1px solid rgba(240, 98, 146, 0.18);
+		background: #f3ece9;
+		box-shadow: 0 1px 2px rgba(108, 63, 49, 0.06);
+	}
+
+	.video-frame video {
+		display: block;
+		object-fit: contain;
+		background: #f3ece9;
 	}
 
 	.hero-wash {
