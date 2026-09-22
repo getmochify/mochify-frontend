@@ -13,7 +13,7 @@
         category: "Image Optimization",
         readTime: "13 min read",
         date: "August 25, 2026",
-        lastUpdated: "September 12, 2026"
+        lastUpdated: "September 22, 2026"
     };
 
     const toc = [
@@ -95,7 +95,7 @@
             "@id": "https://mochify.app/guides/what-automatic-image-optimization-actually-does"
         },
         "datePublished": "2026-08-25",
-        "dateModified": "2026-09-12",
+        "dateModified": "2026-09-22",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -324,7 +324,7 @@
                         <span class="w-10 h-10 rounded-full bg-[#F06292] flex items-center justify-center text-white font-black text-base flex-shrink-0">3</span>
                         <div>
                             <p class="font-black text-[#4A2C2C] mb-2">Let the operations you would never do by hand run in the same pass</p>
-                            <p class="m-0">Background removal is available on every tier, including Free, and smart cropping picks the subject with AI saliency: the <a href="/solutions/bulk-ai-square-cropper">Bulk AI Square Cropper</a> is the batch version for marketplace grids, and <a href="/solutions/remove-background-webp">background removal to transparent WebP</a> covers the clean-background look on product shots.</p>
+                            <p class="m-0">Background removal is available on every tier, including Free, and smart cropping picks the subject with AI saliency: the <a href="/solutions/bulk-ai-square-cropper">Bulk Square Cropper</a> is the batch version for marketplace grids, and <a href="/solutions/remove-background-webp">background removal to transparent WebP</a> covers the clean-background look on product shots.</p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">

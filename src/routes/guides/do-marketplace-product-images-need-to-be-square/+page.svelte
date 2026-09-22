@@ -11,7 +11,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         datePublished: "June 29, 2026",
-        lastUpdated: "September 2, 2026"
+        lastUpdated: "September 22, 2026"
     };
 
     const related = [
@@ -84,7 +84,7 @@
             "@id": "https://mochify.app/guides/do-marketplace-product-images-need-to-be-square"
         },
         "datePublished": "2026-06-29",
-        "dateModified": "2026-09-02",
+        "dateModified": "2026-09-22",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -183,7 +183,7 @@
             <SectionHeading>Preparing a catalog for upload</SectionHeading>
 
             <p class="mb-4">
-                If you're working through a large product catalog, Mochify's <a href="/solutions/bulk-ai-square-cropper">Bulk AI Square Cropper</a> uses saliency detection to identify the main subject in each image and crop to it, rather than defaulting to the geometric center. Output sizes are 500, 800, 1000, 1200, 1500, and 2000 px - sized to clear most platforms' minimum resolution requirements while staying inside typical upload limits.
+                If you're working through a large product catalog, Mochify's <a href="/solutions/bulk-ai-square-cropper">Bulk Square Cropper</a> uses saliency detection to identify the main subject in each image and crop to it, rather than defaulting to the geometric center. Output sizes are 500, 800, 1000, 1200, 1500, and 2000 px - sized to clear most platforms' minimum resolution requirements while staying inside typical upload limits. For the free alternatives, and why almost all of them crop from the center whatever your subject is doing, see <a href="/guides/batch-crop-photos-to-square">how batch cropping actually works on each platform</a>.
             </p>
 
             <p class="mb-4">
@@ -199,7 +199,7 @@
         <GuideCTA
             heading="Crop your product catalog to square automatically"
             href="/solutions/bulk-ai-square-cropper"
-            label="Try the Bulk AI Square Cropper →"
+            label="Try the Bulk Square Cropper →"
         >
             Preparing a product catalog for multiple marketplaces? Mochify's saliency engine identifies the focal point in each photo and crops to square automatically - no manual adjustments per image.
 

@@ -17,6 +17,15 @@ export type Guide = {
 
 export const guides: Guide[] = [
 	{
+		title: 'How to Batch Crop Photos to Square',
+		description:
+			'Every batch crop tool applies one rectangle to every photo. How batch cropping to square actually works on Windows, Mac, iPhone and the command line.',
+		url: '/guides/batch-crop-photos-to-square',
+		category: 'Workflows',
+		readTime: '24 min read',
+		date: 'September 22, 2026'
+	},
+	{
 		title: 'How to Save a WebP as JPG in Chrome',
 		description:
 			'Chrome did not convert your image and renaming the file does nothing. The four routes that actually re-encode a WebP as JPG, one of them built into Chrome.',

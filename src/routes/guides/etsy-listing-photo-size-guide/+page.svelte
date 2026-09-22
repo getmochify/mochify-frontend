@@ -11,7 +11,8 @@
         description: "Etsy listing photos should be at least 2000px and under 1MB. Every current spec from Etsy's docs, why photos blur after upload, and a one-prompt batch fix.",
         category: "Image Optimization",
         readTime: "9 min read",
-        date: "August 3, 2026"
+        date: "August 3, 2026",
+        lastUpdated: "September 22, 2026"
     };
 
     const faqItems = [
@@ -82,7 +83,7 @@
             "@id": "https://mochify.app/guides/etsy-listing-photo-size-guide"
         },
         "datePublished": "2026-08-03",
-        "dateModified": "2026-08-05",
+        "dateModified": "2026-09-22",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -179,7 +180,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -346,7 +347,7 @@
                     {
                         n: '3',
                         h: 'Or use the dedicated tool',
-                        body: 'For a pure cropping pass, the <a href="https://mochify.app/solutions/bulk-ai-square-cropper">Bulk AI Square Cropper</a> smart-crops batches to square at up to 2000px output.'
+                        body: 'For a pure cropping pass, the <a href="https://mochify.app/solutions/bulk-ai-square-cropper">Bulk Square Cropper</a> smart-crops batches to square at up to 2000px output.'
                     },
                     {
                         n: '4',

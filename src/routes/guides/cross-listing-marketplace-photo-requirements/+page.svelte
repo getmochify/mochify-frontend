@@ -13,7 +13,7 @@
         category: "Workflows",
         readTime: "11 min read",
         date: "August 5, 2026",
-        lastUpdated: "August 7, 2026"
+        lastUpdated: "September 22, 2026"
     };
 
     const toc = [
@@ -39,7 +39,7 @@
         {
             n: '3',
             h: 'Export for your square platforms',
-            body: `Upload the batch at <a href="https://mochify.app">mochify.app</a> and prompt: "Smart-crop these to square, 1080px, JPEG, strip all metadata." Saliency-guided smart crop keeps the item centered instead of blind-center-cropping, which is exactly the failure mode of letterboxing tools. For big batches the <a href="https://mochify.app/solutions/bulk-ai-square-cropper">Bulk AI Square Cropper</a> does the same job as a dedicated tool. That output covers Depop, Mercari, and Facebook Marketplace.`
+            body: `Upload the batch at <a href="https://mochify.app">mochify.app</a> and prompt: "Smart-crop these to square, 1080px, JPEG, strip all metadata." Saliency-guided smart crop keeps the item centered instead of blind-center-cropping, which is exactly the failure mode of letterboxing tools. For big batches the <a href="https://mochify.app/solutions/bulk-ai-square-cropper">Bulk Square Cropper</a> does the same job as a dedicated tool. That output covers Depop, Mercari, and Facebook Marketplace.`
         },
         {
             n: '4',
@@ -131,7 +131,7 @@
             "@id": "https://mochify.app/guides/cross-listing-marketplace-photo-requirements"
         },
         "datePublished": "2026-08-05",
-        "dateModified": "2026-08-07",
+        "dateModified": "2026-09-22",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",

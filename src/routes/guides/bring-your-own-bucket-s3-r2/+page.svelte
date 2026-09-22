@@ -21,7 +21,8 @@
         description: "Send every processed image straight into your own S3, R2, or S3-compatible bucket. Seller and Pro, write-only, one-object pre-signed URLs, zero retention.",
         category: "Data Privacy",
         readTime: "18 min read",
-        date: "September 3, 2026"
+        date: "September 3, 2026",
+        lastUpdated: "September 22, 2026"
     };
 
     const toc = [
@@ -40,7 +41,7 @@
     const workflowSteps = [
         { title: "Connect the bucket.", html: "<p>On a Seller or Pro account, open <strong>Dashboard → Connections</strong> and choose Bring your own bucket. It accepts Amazon S3, Cloudflare R2, or an S3-compatible endpoint. Use a dedicated bucket or prefix and a narrowly scoped key (see the section above). This is done once.</p>" },
         { title: "Upload as usual.", html: "<p>Drop up to 25 files per batch, up to 75 MB each, into the web app. Inputs still travel from your browser to <code>api.mochify.app</code>; the bucket is for outputs.</p>" },
-        { title: "Describe the job.", html: "<p>A few prompts that reflect how stores and agencies actually phrase the work: \"make these web-ready, WebP, longest edge 1600 px\"; \"convert to AVIF and strip EXIF\"; \"compress for Shopify product listings, keep under 300 KB\"; \"square-crop to the product and remove the background\". Background removal and saliency-guided smart cropping are standard operations, available on every tier, and can be invoked in the same prompt. For a bulk square crop you can also use the <a href=\"https://mochify.app/solutions/bulk-ai-square-cropper\">Bulk AI Square Cropper</a>, and for transparent cutouts the <a href=\"https://mochify.app/solutions/remove-background-webp\">background remover with WebP output</a>.</p>" },
+        { title: "Describe the job.", html: "<p>A few prompts that reflect how stores and agencies actually phrase the work: \"make these web-ready, WebP, longest edge 1600 px\"; \"convert to AVIF and strip EXIF\"; \"compress for Shopify product listings, keep under 300 KB\"; \"square-crop to the product and remove the background\". Background removal and saliency-guided smart cropping are standard operations, available on every tier, and can be invoked in the same prompt. For a bulk square crop you can also use the <a href=\"https://mochify.app/solutions/bulk-ai-square-cropper\">Bulk Square Cropper</a>, and for transparent cutouts the <a href=\"https://mochify.app/solutions/remove-background-webp\">background remover with WebP output</a>.</p>" },
         { title: "Let the results land.", html: "<p>Each processed file is written from the processing container straight into your bucket over a one-object pre-signed URL. Your CDN serves it from there.</p>" },
         { title: "Do the rest where you always did.", html: "<p>Marketplace listings, CMS uploads, and client handovers pull from the bucket, which is now the single optimized master library rather than one of several downloads folders.</p>" }
     ];
@@ -93,6 +94,7 @@
             "@id": "https://mochify.app/guides/bring-your-own-bucket-s3-r2"
         },
         "datePublished": "2026-09-03",
+        "dateModified": "2026-09-22",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -160,7 +162,7 @@
         </h1>
         <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
         <p class="mt-5 text-sm font-bold text-[#875F42] mb-0">
-            {metadata.readTime} · {metadata.date} · Mochify Engineering Team
+            {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
         </p>
 
         <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed mt-8 mb-0">

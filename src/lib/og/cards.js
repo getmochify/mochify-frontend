@@ -339,6 +339,11 @@ export const cards = [
 		title: 'What Image Format Should I Use for Product Photos?'
 	},
 	{
+		path: '/guides/batch-crop-photos-to-square',
+		eyebrow: 'GUIDE',
+		title: 'How to Batch Crop Images to Square'
+	},
+	{
 		path: '/guides/save-webp-as-jpg-chrome',
 		eyebrow: 'GUIDE',
 		title: 'How to Save a WebP as JPG in Chrome'

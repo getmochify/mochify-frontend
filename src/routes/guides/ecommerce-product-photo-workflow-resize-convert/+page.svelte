@@ -343,7 +343,7 @@
                     },
                     {
                         prompt: '"convert to jpg, crop to 1:1, resize to 1080px"',
-                        note: 'Square crop centered on the subject, the correct format for Instagram product posts; for a whole catalog without a prompt, the <a href="https://mochify.app/solutions/bulk-ai-square-cropper" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">bulk square cropper</a> applies the same saliency crop to every file at a fixed size.'
+                        note: 'Square crop centered on the subject, the correct format for Instagram product posts; for a whole catalog without a prompt, the <a href="https://mochify.app/solutions/bulk-ai-square-cropper" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">bulk square cropper</a> applies the same saliency crop to every file at a fixed size. If you are weighing that against the free routes built into Windows, macOS and iOS, <a href="/guides/batch-crop-photos-to-square" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">we compared all of them</a>.'
                     },
                     {
                         prompt: '"convert to jpg, resize to 2000px, smart compress"',

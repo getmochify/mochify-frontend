@@ -290,7 +290,7 @@
             <p><strong>Third-party specs</strong> (sourcing from a Depop Seller Photography Guide PDF referenced by multiple independent sellers): The widely cited figures are 1,080 x 1,080 px recommended, 640 x 640 px minimum, JPEG or PNG formats, 15 MB maximum per image. These numbers are consistent across Depop-specific tools but do not appear in Depop's public help center, so treat the precise figures as plausible rather than verified.</p>
             <p><strong>How many images:</strong> Up to 4 photos plus a short video per listing (per the current Depop app UI and community references).</p>
             <p><strong>Cropping behavior:</strong> Third-party tools report that non-square images are auto-cropped to square for cover thumbnails, consistent with Depop's square-first feed design. This isn't documented in a public spec, but it aligns with the seller education telling you to shoot 1:1 from the start.</p>
-            <p>For listings across platforms where thumbnail cropping behavior is unclear, the <a href="https://mochify.app/solutions/bulk-ai-square-cropper">Bulk AI Square Cropper</a> at Mochify uses saliency-guided cropping to center on the main subject, with output sizes from 500 to 2,000 px.</p>
+            <p>For listings across platforms where thumbnail cropping behavior is unclear, the <a href="https://mochify.app/solutions/bulk-ai-square-cropper">Bulk Square Cropper</a> at Mochify uses saliency-guided cropping to center on the main subject, with output sizes from 500 to 2,000 px.</p>
         </section>
 
         <section id="cheat-sheet" class="scroll-mt-24">

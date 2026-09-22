@@ -274,7 +274,7 @@
         <section class="mt-20 max-w-4xl mx-auto">
             <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Cropping to square on Windows, Mac or iPhone without a tool</h2>
             <p class="text-[#6C3F31] leading-relaxed max-w-3xl">
-                You can, one image at a time. Windows Photos and the Mac's Preview both crop a single image to 1:1; the iPhone's Photos app does the same from Edit, Crop, then the Square preset. None of them handles a folder. The batch routes that exist, IrfanView's batch conversion on Windows, an Automator Crop Images action on a Mac, a Shortcuts Crop Image action on iPhone, Photoshop's Actions with Batch, all apply one fixed rectangle to every file, which is the center-crop problem again. This page is for the batch where each crop has to be decided per image.
+                You can, one image at a time. Windows Photos and the Mac's Preview both crop a single image to 1:1; the iPhone's Photos app does the same from Edit, Crop, then the Square preset. None of them handles a folder. The batch routes that exist, IrfanView's batch conversion on Windows, an Automator Crop Images action on a Mac, a Shortcuts Crop Image action on iPhone, Photoshop's Actions with Batch, all apply one fixed rectangle to every file, which is the center-crop problem again. This page is for the batch where each crop has to be decided per image. If you want the full walkthrough of those native routes, and what each one does to your framing, see our <a href="/guides/batch-crop-photos-to-square">guide to batch cropping photos to square</a>.
             </p>
         </section>
 

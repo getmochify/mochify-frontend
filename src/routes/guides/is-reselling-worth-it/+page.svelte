@@ -12,7 +12,7 @@
         category: "Workflows",
         readTime: "14 min read",
         date: "July 23, 2026",
-        lastUpdated: "September 12, 2026"
+        lastUpdated: "September 22, 2026"
     };
 
     const toc = [
@@ -98,7 +98,7 @@
             "@id": "https://mochify.app/guides/is-reselling-worth-it"
         },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-09-12",
+        "dateModified": "2026-09-22",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -158,7 +158,7 @@
         "description": "Is reselling worth it in 2026? The honest math: market data, time per listing, tool costs, and when a free photo workflow beats a paid one.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-09-12"
+        "dateModified": "2026-09-22"
         }
     </script>
 
@@ -271,7 +271,7 @@
                 <li>Done one image at a time in a phone editor at even 30 seconds per photo, 400-450 images is <strong class="text-[#4A2C2C]">well over 3 hours a month of pure image fiddling</strong>. Batch processing collapses that to minutes.</li>
             </ul>
             <p>This is why batch size is the quietly decisive spec in any image tool a reseller uses. Processing 100 photos in batches of 3 means 34 rounds of upload-wait-download. In batches of 25, it is 4 rounds. Same photos, same tool, an order of magnitude difference in babysitting.</p>
-            <p>Square thumbnails deserve a special mention because they are the one transformation almost every marketplace rewards. Most marketplaces crop search thumbnails to 1:1 whether you like it or not - our quick answer on <a href="/guides/do-marketplace-product-images-need-to-be-square">whether marketplace product images need to be square</a> covers which platforms do what. Pre-cropping to square with the subject centered is the safe play, and it is exactly the kind of repetitive job that should never be done by hand: the <a href="/solutions/bulk-ai-square-cropper">Bulk AI Square Cropper</a> smart-crops in bulk using AI saliency detection, keeping the garment centered automatically, with output sizes from 500 to 2000px.</p>
+            <p>Square thumbnails deserve a special mention because they are the one transformation almost every marketplace rewards. Most marketplaces crop search thumbnails to 1:1 whether you like it or not - our quick answer on <a href="/guides/do-marketplace-product-images-need-to-be-square">whether marketplace product images need to be square</a> covers which platforms do what. Pre-cropping to square with the subject centered is the safe play, and it is exactly the kind of repetitive job that should never be done by hand: the <a href="/solutions/bulk-ai-square-cropper">Bulk Square Cropper</a> smart-crops in bulk using AI saliency detection, keeping the garment centered automatically, with output sizes from 500 to 2000px.</p>
             <p>There is also an old piece of eBay research, from an internal study of 6.8 million listings, that found listings with better photo quality were about 4.5% more likely to sell. eBay no longer publishes that study, so treat the exact figure as vintage - but the direction of the claim has only strengthened as buying has moved into image-led social feeds.</p>
         </section>
 
