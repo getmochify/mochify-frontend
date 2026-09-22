@@ -243,7 +243,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '12 min read',
 		date: 'June 29, 2026',
-		lastUpdated: 'August 6, 2026'
+		lastUpdated: 'September 22, 2026'
 	},
 	{
 		title: 'Convert MP4 to WebM for the Web: Smaller Files, Faster Pages, No Upload Required',

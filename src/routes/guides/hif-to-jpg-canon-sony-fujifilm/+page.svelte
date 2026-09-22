@@ -11,7 +11,7 @@
         category: "Image Formats",
         readTime: "19 min read",
         date: "June 4, 2026",
-        lastUpdated: "September 12, 2026"
+        lastUpdated: "September 22, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -99,7 +99,7 @@
         "description": "Convert HIF to JPG from Canon, Sony and Fujifilm cameras. Every method on every platform, plus what you trade away going 10-bit to 8-bit.",
         "url": "https://mochify.app/guides/hif-to-jpg-canon-sony-fujifilm",
         "datePublished": "2026-06-04",
-        "dateModified": "2026-09-12",
+        "dateModified": "2026-09-22",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
@@ -203,7 +203,7 @@
             <p>No mainstream browser has native HEIF/HEIC support except Safari, which gained it from version 17 onwards. <a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">Can I Use's HEIF/HEIC table</a> shows Chrome, Edge, Firefox, and most Android browsers as unsupported as of 2026. Upload a <code class={inlineCode}>.HIF</code> directly to a web platform and it either has to convert the file server-side or reject it.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Apps, platforms, and print services often reject HIF</h3>
-            <p>Many desktop applications still do not recognise <code class={inlineCode}>.HIF</code> even if they handle <code class={inlineCode}>.HEIC</code>. Fujifilm and Canon users regularly hit "unknown format" errors in older Photoshop versions, various DAM tools, and print kiosk software. Marketplace and print services typically list JPEG and PNG as accepted formats with HEIF absent entirely.</p>
+            <p>Many desktop applications still do not recognize <code class={inlineCode}>.HIF</code> even if they handle <code class={inlineCode}>.HEIC</code>. Fujifilm and Canon users regularly hit "unknown format" errors in older Photoshop versions, various DAM tools, and print kiosk software. Marketplace and print services typically list JPEG and PNG as accepted formats with HEIF absent entirely.</p>
             <p>Social platforms vary. Large networks often auto-convert HEIF uploads to JPEG internally. Some CMSs and media libraries simply refuse the file.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Why it opens on your Mac but fails on upload</h3>
@@ -237,7 +237,7 @@
             </InfoBox>
 
             <InfoBox type="tip" title="Fujifilm on older macOS">
-                Some apps do not recognise the <code class={inlineCode}>.HIF</code> extension even if they handle <code class={inlineCode}>.HEIC</code>. Renaming <code class={inlineCode}>.HIF</code> to <code class={inlineCode}>.HEIC</code> is a widely reported workaround that lets Photos and other HEIF-aware apps open the file, though it is not officially documented by Apple or Fujifilm.
+                Some apps do not recognize the <code class={inlineCode}>.HIF</code> extension even if they handle <code class={inlineCode}>.HEIC</code>. Renaming <code class={inlineCode}>.HIF</code> to <code class={inlineCode}>.HEIC</code> is a widely reported workaround that lets Photos and other HEIF-aware apps open the file, though it is not officially documented by Apple or Fujifilm.
             </InfoBox>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">In-camera conversion (Canon)</h3>
@@ -417,7 +417,7 @@
                 {#each related as guide}
                     <li>
                         <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
+                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">: {guide.desc}</span></span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7" /></svg>
                         </a>
                     </li>

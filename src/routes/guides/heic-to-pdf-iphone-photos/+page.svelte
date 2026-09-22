@@ -12,7 +12,7 @@
         category: "Image Formats",
         readTime: "12 min read",
         datePublished: "June 29, 2026",
-        lastUpdated: "August 6, 2026"
+        lastUpdated: "September 22, 2026"
     };
 
     const related = [
@@ -114,7 +114,7 @@
             "@id": "https://mochify.app/guides/heic-to-pdf-iphone-photos"
         },
         "datePublished": "2026-06-29",
-        "dateModified": "2026-08-06",
+        "dateModified": "2026-09-22",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -454,7 +454,7 @@
                     <li class="flex items-start gap-4">
                         <span class="flex-shrink-0 w-8 h-8 bg-[#F06292] text-white rounded-full flex items-center justify-center font-black text-sm">2</span>
                         <div class="pt-1 text-[#6C3F31] text-base">
-                            <strong class="text-[#4A2C2C]">Drag in your .heic files or use the file picker.</strong> Up to 20 files per conversion. Seller and Pro plans raise the file size limit to 75 MB and the batch size to 25 files.
+                            <strong class="text-[#4A2C2C]">Drag in your .heic files or use the file picker.</strong> Up to 20 files per conversion. Seller and Pro plans raise the file size limit to 75 MB and the batch size to 25 files. The free tier builds a PDF of up to 3 pages; Seller and Pro go up to 10 pages.
                         </div>
                     </li>
                     <li class="flex items-start gap-4">

@@ -10,7 +10,7 @@
         category: "Quick Guide",
         readTime: "3 min read",
         date: "April 26, 2026",
-        lastUpdated: "August 6, 2026"
+        lastUpdated: "September 22, 2026"
     };
 </script>
 
@@ -30,7 +30,7 @@
         "description": "HEIF and HEIC files don't work reliably with most client gallery platforms. Here's what actually happens on upload, and how to keep control of your output.",
         "url": "https://mochify.app/guides/does-heif-heic-work-with-client-galleries",
         "datePublished": "2026-04-26",
-        "dateModified": "2026-08-06",
+        "dateModified": "2026-09-22",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -81,7 +81,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
             </span>
         </div>
 
@@ -106,7 +106,7 @@
             <SectionHeading>What Actually Happens When You Upload HEIF to a Gallery</SectionHeading>
             <p>SmugMug accepts HEIC/HEIF as an upload format but converts it to JPEG during ingest and retains only the JPEG. The conversion is silent - there is no warning that your original file has been replaced, and you have no control over the JPEG quality setting or output dimensions the platform applies.</p>
             <p>Pixieset and similar platforms expect JPEG as the primary upload format, and their previewing, downloading, and print-ordering pipelines are built around JPEG delivery.</p>
-            <p>Platforms running older open-source gallery software - such as Piwigo or some self-hosted WordPress gallery themes - often lack HEIF codec support entirely. Uploads are treated as unrecognised file types or generic attachments rather than images, which breaks thumbnail generation and gallery display.</p>
+            <p>Platforms running older open-source gallery software - such as Piwigo or some self-hosted WordPress gallery themes - often lack HEIF codec support entirely. Uploads are treated as unrecognized file types or generic attachments rather than images, which breaks thumbnail generation and gallery display.</p>
             <p>When no preview is generated, the browser side of the question matters too, because the raw file is what your client ends up looking at: <a href="https://mochify.app/guides/can-safari-open-heic-images">which browsers can display HEIC</a> comes down to Safari 17 and later, and nothing else.</p>
         </section>
 
@@ -159,7 +159,7 @@
                 ] as guide}
                     <li>
                         <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">— {guide.desc}</span></span>
+                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">: {guide.desc}</span></span>
                             <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </li>
