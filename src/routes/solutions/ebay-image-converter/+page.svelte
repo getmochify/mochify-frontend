@@ -149,7 +149,7 @@
                     ] as faq}
                         <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md transition-all">
                             <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-[#4A2C2C] list-none select-none">
-                                <span>{faq.q}</span>
+                                <h3 class="m-0 text-base font-bold text-[#4A2C2C]">{faq.q}</h3>
                                 <span class="text-[#7E685E] transition-transform duration-300 group-open:rotate-180">
                                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
                                 </span>
