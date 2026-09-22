@@ -10,7 +10,7 @@
         category: "Image Formats",
         readTime: "20 min read",
         datePublished: "February 10, 2026",
-        lastUpdated: "September 10, 2026"
+        lastUpdated: "September 22, 2026"
     };
 
     const related = [
@@ -106,7 +106,7 @@
             }
         ],
         "datePublished": "2026-02-10",
-        "dateModified": "2026-09-10"
+        "dateModified": "2026-09-22"
         }
     </script>
 </svelte:head>
@@ -521,7 +521,7 @@
         <li><strong>Photograph winner:</strong> JPEG XL at 472KB (52% reduction), but AVIF at 507KB is negligibly different to the human eye.</li>
         <li><strong>Logo winner:</strong> AVIF crushes this test at 2KB - an 88% reduction. WebP manages 4KB. JPEG XL oddly performs worse at 6KB, likely due to default encoder settings optimized for photographic content.</li>
         <li><strong>Animation winner:</strong> JPEG XL destroys the GIF at 14KB (99% reduction). This is the most dramatic result - animated GIFs are preposterously inefficient by 2026 standards. AVIF's 56KB is still excellent.</li>
-        <li><strong>Transparency winner:</strong> AVIF again at 18KB (92% reduction). PNG was never designed for compression; it's a lossless archival format that web developers hijacked for transparency support.</li>
+        <li><strong>Transparency winner:</strong> AVIF again at 18KB (92% reduction). PNG was never designed for compression; it's a lossless archival format that web developers hijacked for transparency support. Both WebP and AVIF carry a full alpha channel of their own, so a cut-out rarely needs to stay a PNG: here is <a href="/guides/webp-avif-transparency">how each format stores transparency, and why cut-outs sometimes come back black</a>.</li>
             </ul>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">Quality Comparison: SSIM Scores</h3>

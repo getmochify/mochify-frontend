@@ -10,7 +10,7 @@
         category: "Image Formats",
         readTime: "17 min read",
         datePublished: "August 6, 2026",
-        lastUpdated: "September 12, 2026"
+        lastUpdated: "September 22, 2026"
     };
 
     const toc = [
@@ -64,7 +64,7 @@
             "@id": "https://mochify.app/guides/product-image-requirements-marketplace-guide"
         },
         "datePublished": "2026-08-06",
-        "dateModified": "2026-09-12",
+        "dateModified": "2026-09-22",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -122,7 +122,7 @@
         "description": "The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted, and Depop - dimensions, formats, file size limits, and what each platform enforces.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-08-06",
-        "dateModified": "2026-09-12"
+        "dateModified": "2026-09-22"
         }
     </script>
 
@@ -235,7 +235,7 @@
         <section id="etsy-resolution-affects-your-search-ranking" class="scroll-mt-24">
             <SectionHeading>Etsy: Resolution Affects Your Search Ranking</SectionHeading>
             <p>Etsy is unusual because it has made the link between image resolution and search placement explicit in its own documentation. This is documented on the "How to Use the Etsy Search Visibility Page" help article (checked June 2026): active listings need, among other requirements, a primary photo containing "high-resolution images (we recommend a width and height of 2000 pixels or more)" to have "a chance to receive priority placement in relevant search results."</p>
-            <p><strong>Accepted formats:</strong> JPEG (.jpg), GIF, and PNG only. WebP is not in the accepted list. Animated GIFs and transparent PNGs are not supported - transparent areas render as black.</p>
+            <p><strong>Accepted formats:</strong> JPEG (.jpg), GIF, and PNG only. WebP is not in the accepted list. Animated GIFs and transparent PNGs are not supported - transparent areas render as black. That is the destination flattening the file rather than the format failing: here is <a href="/guides/webp-avif-transparency">why transparent images come back black or white, and the fix for each cause</a>.</p>
             <p><strong>Dimensions:</strong> Etsy recommends primary photos with a width and height of at least 2,000 pixels. The minimum for your first listing photo - the one that appears in search results - is 635 x 635 pixels; below that, Etsy's documentation warns your listing "may show up lower in searches." The practical upshot: 2,000 x 2,000 is the target for competitive search placement.</p>
             <p><strong>File size:</strong> No hard cap is documented in Etsy's official help, but Etsy warns that images larger than 1 MB "may not finish uploading, especially on a slower internet connection." Third-party sources cite a ~20 MB practical limit. Keeping files in the 1-5 MB range after optimization is safe for both upload reliability and loading speed.</p>
             <p><strong>How many images:</strong> Up to 10 images per listing.</p>
