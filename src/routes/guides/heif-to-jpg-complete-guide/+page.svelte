@@ -12,7 +12,7 @@
         category: "Image Formats",
         readTime: "14 min read",
         date: "July 15, 2026",
-        lastUpdated: "September 12, 2026"
+        lastUpdated: "September 21, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -100,7 +100,7 @@
             "@id": "https://mochify.app/guides/heif-to-jpg-complete-guide"
         },
         "datePublished": "2026-07-15",
-        "dateModified": "2026-09-12",
+        "dateModified": "2026-09-21",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -157,7 +157,7 @@
         "description": "Convert HEIF (.HIF) files from Canon, Sony, and Fujifilm cameras to universally compatible JPG. Every method, the quality trade-offs, and batch workflows.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-15",
-        "dateModified": "2026-09-12"
+        "dateModified": "2026-09-21"
         }
     </script>
 

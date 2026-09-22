@@ -21,7 +21,8 @@
         description: "HDR photos look flat when shared because the extra brightness lives in a gain map that many viewers, platforms, and export paths silently strip or ignore.",
         category: "Image Formats",
         readTime: "17 min read",
-        date: "August 26, 2026"
+        date: "August 26, 2026",
+        lastUpdated: "September 20, 2026"
     };
 
     const toc = [
@@ -141,7 +142,7 @@ grep X-Mochify-HDR headers.txt
             "@id": "https://mochify.app/guides/why-hdr-photos-look-flat-when-shared"
         },
         "datePublished": "2026-08-26",
-        "dateModified": "2026-08-26",
+        "dateModified": "2026-09-20",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -260,7 +261,7 @@ grep X-Mochify-HDR headers.txt
         </h1>
         <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
         <p class="mt-5 text-sm font-bold text-[#875F42] mb-0">
-            {metadata.readTime} · {metadata.date} · Mochify Engineering Team
+            {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
         </p>
 
         <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed mt-8 mb-0">
