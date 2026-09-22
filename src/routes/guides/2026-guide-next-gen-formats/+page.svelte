@@ -383,7 +383,7 @@
                 <strong>Why it matters in 2026:</strong> WebP hit 96% browser support and became the safe default for production environments. Safari finally implemented full support in 2020, and even IE's death in 2022 eliminated the last major compatibility concern.
             </p>
             <p class="mb-4">
-                If you're still serving JPEG-only images, you're leaving 25-35% file size savings on the table.
+                If you're still serving JPEG-only images, you're leaving 25-35% file size savings on the table. The flip side lands on your visitors: when they right-click and save one of those images, they get a WebP, which is why so many of them go looking for <a href="/guides/save-webp-as-jpg-chrome">how to save a WebP as JPG in Chrome</a>.
             </p>
             
             <InfoBox type="technical">

@@ -11,7 +11,7 @@
         category: "Image Formats",
         readTime: "13 min read",
         datePublished: "July 13, 2026",
-        lastUpdated: "September 12, 2026"
+        lastUpdated: "September 22, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -101,7 +101,7 @@
             "@id": "https://mochify.app/guides/avif-to-jpg"
         },
         "datePublished": "2026-07-13",
-        "dateModified": "2026-09-12",
+        "dateModified": "2026-09-22",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -158,7 +158,7 @@
         "description": "AVIF is a modern format browsers love but desktop apps often reject. Convert AVIF to JPG free online in seconds, or use native tools on Windows and Mac.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-13",
-        "dateModified": "2026-09-12"
+        "dateModified": "2026-09-22"
         }
     </script>
 
@@ -233,7 +233,7 @@
         <section id="why-everything-is-suddenly-an-avif-file" class="scroll-mt-24">
             <SectionHeading>Why Everything Is Suddenly an AVIF File</SectionHeading>
             <p>Websites serve AVIF because it makes pages faster, and the tooling that produces it switched on largely without asking anyone. AVIF (AV1 Image File Format) stores still images using the open-source AV1 video codec, developed by the Alliance for Open Media, and it typically produces far smaller files than JPEG at the same visual quality (<a href="https://web.dev/learn/images/avif" target="_blank" rel="noopener noreferrer">web.dev</a>).</p>
-            <p>The numbers explain the adoption. <a href="https://make.wordpress.org/core/2024/02/23/wordpress-6-5-adds-avif-support/" target="_blank" rel="noopener noreferrer">WordPress 6.5 added native AVIF support</a> and cited files "up to 50% smaller than JPEGs while maintaining the same image quality" - and WordPress sites can now auto-convert every uploaded JPEG to AVIF. Image CDNs do the same negotiation silently: if your browser says it accepts AVIF, that is what gets delivered. So when you right-click and save a product photo, a recipe image, or a wallpaper, you increasingly get an <code class={inlineCode}>.avif</code> file whether or not anything on your computer can open it.</p>
+            <p>The numbers explain the adoption. <a href="https://make.wordpress.org/core/2024/02/23/wordpress-6-5-adds-avif-support/" target="_blank" rel="noopener noreferrer">WordPress 6.5 added native AVIF support</a> and cited files "up to 50% smaller than JPEGs while maintaining the same image quality" - and WordPress sites can now auto-convert every uploaded JPEG to AVIF. Image CDNs do the same negotiation silently: if your browser says it accepts AVIF, that is what gets delivered. So when you right-click and save a product photo, a recipe image, or a wallpaper, you increasingly get an <code class={inlineCode}>.avif</code> file (or, far more often still, <a href="https://mochify.app/guides/save-webp-as-jpg-chrome">a <code class={inlineCode}>.webp</code> file</a>, which behaves the same way and has the same routes out) whether or not anything on your computer can open it.</p>
             <p>Browser support is no longer the problem. As of the May 2026 usage data on <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">caniuse.com</a>, 93.42% of global browser traffic supports AVIF: Chrome since version 85, Firefox since 93, Safari fully since 16.4, and Edge since 121. The gap is on the desktop: image viewers, older editors, upload forms, and company systems that expect a JPEG and reject anything else. That gap is exactly why "avif to jpg" is one of the most-asked conversion questions on the web right now, with the same thread recurring across r/techsupport and photography forums.</p>
         </section>
 
