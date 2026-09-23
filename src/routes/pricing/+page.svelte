@@ -1,819 +1,203 @@
 <script lang="ts">
-    import Navigation from '$lib/components/Navigation.svelte';
-    import Footer from '$lib/components/Footer.svelte';
-    import DayPassButton from '$lib/components/DayPassButton.svelte';
-    import { dayPassEnabled } from '$lib/dayPass';
-    import {
-        formatMonthlyEquivalent,
-        formatPrice,
-        savingsPercent,
-        USD_PRICES
-    } from '$lib/currency';
-    import type { PageData } from './$types';
+	import PricingPage from '$lib/components/PricingPage.svelte';
+	import { EN_PRICING } from '$lib/i18n/pricing';
+	import LocaleBanner from '$lib/components/LocaleBanner.svelte';
+	import type { PageData } from './$types';
 
-    let { data }: { data: PageData } = $props();
-
-    let billing = $state<'monthly' | 'yearly'>('monthly');
-
-    // USD_PRICES is the shared fallback every price surface renders from (see
-    // $lib/currency); `data.pricing` overrides it when Polar holds prices in
-    // the visitor's own currency (see +page.server.ts).
-    const currency = $derived(data.pricing?.currency ?? 'usd');
-    const amounts = $derived({ ...USD_PRICES, ...(data.pricing?.prices ?? {}) });
-
-    // Reads the derived state above, so it stays reactive to the billing toggle.
-    const price = (plan: string) => formatPrice(amounts[plan], currency);
-    // Derived rather than a hardcoded "17%", so a local price that rounds to a
-    // different discount can't leave a false claim next to it.
-    const yearlySaving = $derived(savingsPercent(amounts.sellerMonthly, amounts.sellerYearly));
-    const proYearlySaving = $derived(savingsPercent(amounts.proMonthly, amounts.proYearly));
-
-    const growthYearlySaving = $derived(savingsPercent(amounts.growthMonthly, amounts.growthYearly));
-
-    // The Monthly/Yearly toggle used to carry Seller's figure as a blanket claim
-    // for every tier. That is only true while the three agree, and they do not in
-    // every currency: a UK visitor is offered 17% on the toggle and given 12.8%
-    // on Pro (ledger v45). Each card already shows its own exact figure, so the
-    // toggle says "up to" whenever they differ and the plain number when they do
-    // not. Derived, so a Polar price change cannot strand a false claim here.
-    const savings = $derived([yearlySaving, proYearlySaving, growthYearlySaving]);
-    const savingsAgree = $derived(new Set(savings).size === 1);
-    const topSaving = $derived(Math.max(...savings));
-
-    // Kill switch for the Growth tier, kept now that it is live: flipping this to
-    // false pulls the card out of the grid without touching anything else. The
-    // layout holds either way because Free lives in its own full-width card
-    // below rather than in this grid.
-    //
-    // It does NOT gate the checkout route or the Polar webhook, so an in-flight
-    // subscription keeps working if the card is ever hidden.
-    const showGrowth = true;
+	// The page body is shared with /fr/pricing; only the head and the string set
+	// differ per locale. See $lib/components/PricingPage.svelte.
+	let { data }: { data: PageData } = $props();
 </script>
 
 <svelte:head>
-    <title>Pricing — Mochify</title>
-    <meta name="description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://mochify.app/pricing" />
-    <meta property="og:title" content="Pricing — Mochify" />
-    <meta property="og:description" content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription." />
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "WebPage",
-                "@id": "https://mochify.app/pricing",
-                "url": "https://mochify.app/pricing",
-                "name": "Pricing — Mochify",
-                "description": "Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month.",
-                "isPartOf": { "@id": "https://mochify.app" }
-            },
-            {
-                "@type": "SoftwareApplication",
-                "name": "Mochify",
-                "url": "https://mochify.app",
-                "applicationCategory": "MultimediaApplication",
-                "operatingSystem": "Any",
-                "offers": [
-                    {
-                        "@type": "Offer",
-                        "name": "Free",
-                        "price": "0",
-                        "priceCurrency": "USD",
-                        "description": "3 images free without an account. Create a free account for 25 images per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Standard processing queue."
-                    },
-                    {
-                        "@type": "Offer",
-                        "name": "Seller — Monthly",
-                        "price": "7.99",
-                        "priceCurrency": "USD",
-                        "priceSpecification": {
-                            "@type": "UnitPriceSpecification",
-                            "price": "7.99",
-                            "priceCurrency": "USD",
-                            "unitCode": "MON"
-                        },
-                        "description": "300 images per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file. Priority processing queue."
-                    },
-                    {
-                        "@type": "Offer",
-                        "name": "Pro — Monthly",
-                        "price": "24.99",
-                        "priceCurrency": "USD",
-                        "priceSpecification": {
-                            "@type": "UnitPriceSpecification",
-                            "price": "24.99",
-                            "priceCurrency": "USD",
-                            "unitCode": "MON"
-                        },
-                        "description": "1,200 images per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file. Top priority processing queue."
-                    },
-                    {
-                        "@type": "Offer",
-                        "name": "Growth — Monthly",
-                        "price": "79.99",
-                        "priceCurrency": "USD",
-                        "priceSpecification": {
-                            "@type": "UnitPriceSpecification",
-                            "price": "79.99",
-                            "priceCurrency": "USD",
-                            "unitCode": "MON"
-                        },
-                        "description": "5,000 images per month. Everything in Pro plus unlimited PDF pages and PDFs built from up to 200 images. Save results to your own bucket or Google Drive. Top priority processing queue."
-                    },
-                    {
-                        "@type": "Offer",
-                        "name": "Seller — Annual",
-                        "price": "79.99",
-                        "priceCurrency": "USD",
-                        "priceSpecification": {
-                            "@type": "UnitPriceSpecification",
-                            "price": "79.99",
-                            "priceCurrency": "USD",
-                            "unitCode": "ANN"
-                        },
-                        "description": "300 images per month, billed annually at $79.99/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Priority processing queue."
-                    },
-                    {
-                        "@type": "Offer",
-                        "name": "Pro — Annual",
-                        "price": "249.99",
-                        "priceCurrency": "USD",
-                        "priceSpecification": {
-                            "@type": "UnitPriceSpecification",
-                            "price": "249.99",
-                            "priceCurrency": "USD",
-                            "unitCode": "ANN"
-                        },
-                        "description": "1,200 images per month, billed annually at $249.99/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Top priority processing queue."
-                    },
-                    {
-                        "@type": "Offer",
-                        "name": "Growth — Annual",
-                        "price": "799.99",
-                        "priceCurrency": "USD",
-                        "priceSpecification": {
-                            "@type": "UnitPriceSpecification",
-                            "price": "799.99",
-                            "priceCurrency": "USD",
-                            "unitCode": "ANN"
-                        },
-                        "description": "5,000 images per month, billed annually at $799.99/year. Save 17% versus monthly. Unlimited PDF pages. Top priority processing queue."
-                    },
-                    {
-                        "@type": "Offer",
-                        "name": "Day Pass",
-                        "price": "2.00",
-                        "priceCurrency": "USD",
-                        "description": "24-hour pass, one-time purchase. Upload up to 100 images, files up to 75MB, larger batches. No subscription or account required — activated instantly by magic link."
-                    }
-                ]
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "What counts as one image?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Each image we hand back uses one from your monthly allowance. Compressing, converting, resizing, or any combination of those on a single file is one image. Asking for several formats or sizes of the same file returns several images, so each one counts: WebP and AVIF at two widths is four. Batch uploads count one per file."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Do unused images roll over?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "No. Free resets on a rolling 30-day cycle from when you start using it; Seller and Pro reset on your billing date. Unused images do not roll over."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Can I use the API on the free tier?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Yes — all tiers have full MCP and API access. The same monthly limit applies."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How does the Day Pass work?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Pay $2 and we email you a magic link. Click it to unlock 100 image uploads within 24 hours, 75MB files and larger batches for 24 hours. No account or subscription needed."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Can I cancel anytime?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Yes. Cancel any time and you keep access until the end of your billing period."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Is Pro worth it over Seller?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "It depends on volume. Pro gives you four times the images for a little over three times the price, so each image works out around 22% cheaper: about 2.1 cents on Pro versus 2.7 cents on Seller, or 1.7 cents versus 2.2 cents on annual billing. Pro also puts you at the front of the processing queue and gets priority email support. If you are comfortably inside 300 images a month, Seller is the better buy."
-                        }
-                    }
-                ]
-            }
-        ]
-    }
-    </script>
+	<title>Pricing — Mochify</title>
+	<meta
+		name="description"
+		content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription."
+	/>
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://mochify.app/pricing" />
+	<meta property="og:title" content="Pricing — Mochify" />
+	<meta
+		property="og:description"
+		content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription."
+	/>
+	<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@graph": [
+				{
+					"@type": "WebPage",
+					"@id": "https://mochify.app/pricing",
+					"url": "https://mochify.app/pricing",
+					"name": "Pricing — Mochify",
+					"description": "Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month.",
+					"isPartOf": { "@id": "https://mochify.app" }
+				},
+				{
+					"@type": "SoftwareApplication",
+					"name": "Mochify",
+					"url": "https://mochify.app",
+					"applicationCategory": "MultimediaApplication",
+					"operatingSystem": "Any",
+					"offers": [
+						{
+							"@type": "Offer",
+							"name": "Free",
+							"price": "0",
+							"priceCurrency": "USD",
+							"description": "3 images free without an account. Create a free account for 25 images per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Standard processing queue."
+						},
+						{
+							"@type": "Offer",
+							"name": "Seller — Monthly",
+							"price": "7.99",
+							"priceCurrency": "USD",
+							"priceSpecification": {
+								"@type": "UnitPriceSpecification",
+								"price": "7.99",
+								"priceCurrency": "USD",
+								"unitCode": "MON"
+							},
+							"description": "300 images per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file. Priority processing queue."
+						},
+						{
+							"@type": "Offer",
+							"name": "Pro — Monthly",
+							"price": "24.99",
+							"priceCurrency": "USD",
+							"priceSpecification": {
+								"@type": "UnitPriceSpecification",
+								"price": "24.99",
+								"priceCurrency": "USD",
+								"unitCode": "MON"
+							},
+							"description": "1,200 images per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file. Top priority processing queue."
+						},
+						{
+							"@type": "Offer",
+							"name": "Growth — Monthly",
+							"price": "79.99",
+							"priceCurrency": "USD",
+							"priceSpecification": {
+								"@type": "UnitPriceSpecification",
+								"price": "79.99",
+								"priceCurrency": "USD",
+								"unitCode": "MON"
+							},
+							"description": "5,000 images per month. Everything in Pro plus unlimited PDF pages and PDFs built from up to 200 images. Save results to your own bucket or Google Drive. Top priority processing queue."
+						},
+						{
+							"@type": "Offer",
+							"name": "Seller — Annual",
+							"price": "79.99",
+							"priceCurrency": "USD",
+							"priceSpecification": {
+								"@type": "UnitPriceSpecification",
+								"price": "79.99",
+								"priceCurrency": "USD",
+								"unitCode": "ANN"
+							},
+							"description": "300 images per month, billed annually at $79.99/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Priority processing queue."
+						},
+						{
+							"@type": "Offer",
+							"name": "Pro — Annual",
+							"price": "249.99",
+							"priceCurrency": "USD",
+							"priceSpecification": {
+								"@type": "UnitPriceSpecification",
+								"price": "249.99",
+								"priceCurrency": "USD",
+								"unitCode": "ANN"
+							},
+							"description": "1,200 images per month, billed annually at $249.99/year. Save 17% versus monthly. Includes background removal. Up to 75MB per file. Top priority processing queue."
+						},
+						{
+							"@type": "Offer",
+							"name": "Growth — Annual",
+							"price": "799.99",
+							"priceCurrency": "USD",
+							"priceSpecification": {
+								"@type": "UnitPriceSpecification",
+								"price": "799.99",
+								"priceCurrency": "USD",
+								"unitCode": "ANN"
+							},
+							"description": "5,000 images per month, billed annually at $799.99/year. Save 17% versus monthly. Unlimited PDF pages. Top priority processing queue."
+						},
+						{
+							"@type": "Offer",
+							"name": "Day Pass",
+							"price": "2.00",
+							"priceCurrency": "USD",
+							"description": "24-hour pass, one-time purchase. Upload up to 100 images, files up to 75MB, larger batches. No subscription or account required — activated instantly by magic link."
+						}
+					]
+				},
+				{
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "What counts as one image?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Each image we hand back uses one from your monthly allowance. Compressing, converting, resizing, or any combination of those on a single file is one image. Asking for several formats or sizes of the same file returns several images, so each one counts: WebP and AVIF at two widths is four. Batch uploads count one per file."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Do unused images roll over?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No. Free resets on a rolling 30-day cycle from when you start using it; Seller and Pro reset on your billing date. Unused images do not roll over."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I use the API on the free tier?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes — all tiers have full MCP and API access. The same monthly limit applies."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How does the Day Pass work?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Pay $2 and we email you a magic link. Click it to unlock 100 image uploads within 24 hours, 75MB files and larger batches for 24 hours. No account or subscription needed."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I cancel anytime?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Cancel any time and you keep access until the end of your billing period."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Is Pro worth it over Seller?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "It depends on volume. Pro gives you four times the images for a little over three times the price, so each image works out around 22% cheaper: about 2.1 cents on Pro versus 2.7 cents on Seller, or 1.7 cents versus 2.2 cents on annual billing. Pro also puts you at the front of the processing queue and gets priority email support. If you are comfortably inside 300 images a month, Seller is the better buy."
+							}
+						}
+					]
+				}
+			]
+		}
+	</script>
 </svelte:head>
 
-<div class="min-h-screen flex flex-col relative">
-    <Navigation />
+<LocaleBanner
+	href="/fr/pricing"
+	label="Voir cette page en français"
+	dismissKey="mochify-locale-banner-fr"
+	when="fr"
+/>
 
-    <main class="relative z-10 flex-grow w-full max-w-5xl mx-auto px-4 py-12 md:py-20">
-
-        <!-- Header -->
-        <div class="text-center mb-14">
-            <!-- Eyebrow, not a heading. Visually this sits above the h1, but marking
-                 it up as an h2 would put an h2 before the h1 in document order: screen
-                 readers announce it first and the page's real heading reads as
-                 subordinate to it. Same styling as ProseDocument's eyebrow. -->
-            <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#F06292] mb-3">
-                The image toolkit that works where you work
-            </p>
-            <h1 class="text-4xl md:text-5xl font-black text-[#4A2C2C] tracking-tight mb-4">
-                Simple,
-                <span class="bg-gradient-to-r from-[#F06292] to-[#FF9EBB] bg-clip-text text-transparent">
-                    honest
-                </span>
-                pricing
-            </h1>
-            <p class="text-[#6C3F31] text-lg max-w-xl mx-auto">
-                No subscriptions required to get started. Jump in free, upgrade when you need more.
-            </p>
-            <!-- Surface list: this is the proof of the eyebrow's claim, so it reads
-                 as a badge rather than fine print. Still deliberately one text node
-                 rather than spans joined by separator elements: a styled separator
-                 strands at the end of a line when the row wraps, which is the bug
-                 just fixed in the footer. Plain text wraps like prose instead. -->
-            <div class="mt-6 flex justify-center">
-                <p class="inline-block rounded-2xl border border-pink-100 bg-[#FFF0F3]/70 shadow-sm px-5 py-2.5 text-sm md:text-base font-black tracking-tight text-[#6C3F31]">
-                    Web · CLI · Chrome extension · MCP · API
-                </p>
-            </div>
-        </div>
-
-        <!-- Billing toggle -->
-        <div class="flex items-center justify-center mb-10">
-            <div class="inline-flex items-center bg-[#FFF0F5] rounded-full p-1 gap-1">
-                <button
-                    type="button"
-                    onclick={() => billing = 'monthly'}
-                    class="cursor-pointer px-5 py-2 rounded-full text-sm font-black transition-all {billing === 'monthly' ? 'bg-white text-mochi-pink shadow-sm' : 'text-cocoa-deep/50 hover:text-cocoa-deep'}"
-                >
-                    Monthly
-                </button>
-                <button
-                    type="button"
-                    onclick={() => billing = 'yearly'}
-                    class="cursor-pointer px-5 py-2 rounded-full text-sm font-black transition-all flex items-center gap-2 {billing === 'yearly' ? 'bg-white text-mochi-pink shadow-sm' : 'text-cocoa-deep/50 hover:text-cocoa-deep'}"
-                >
-                    Yearly
-                    <span class="inline-block px-2 py-0.5 rounded-full bg-matcha-green/40 text-[#3A6B3C] text-xs font-bold">Save {savingsAgree ? '' : 'up to '}{topSaving}%</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Pricing cards
-             Deliberately thin: a full feature comparison table sits directly
-             below, so each card carries only the differentiators someone scans
-             for when choosing a tier (volume, file size, batch, queue, and the
-             one or two headline capabilities). Everything ubiquitous across
-             plans — formats, resize/crop/rotate, video, MCP/API — lives in the
-             table instead of being repeated three times up here. -->
-        <!-- Three SUBSCRIPTION tiers. Free is deliberately not among them: it is a
-             top-of-funnel entry rather than a purchase decision, and giving it a
-             column made the buyer compare four things when only three are for
-             sale. It moves to a full-width card directly below, where it still
-             reads first on mobile. max-w-5xl because three cards at max-w-4xl
-             were already tight before Growth existed. -->
-        <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
-
-            <!-- Seller tier — flagged as the popular pick. Keeps the white card
-                 so Pro's gradient still reads as the top tier; the badge and a
-                 stronger border do the highlighting instead.
-                 `order-first` on mobile only: stacked in one column, the middle
-                 card is the one nobody scrolls to, so the recommended plan leads
-                 and Free follows immediately after. DOM order stays Free, Seller,
-                 Pro, which is the reading order at every width from md up. -->
-            <div class="relative order-first md:order-none bg-white rounded-3xl border-2 border-[#F06292]/30 shadow-md p-8 flex flex-col">
-                <span class="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-1 rounded-full bg-[#F06292] text-white text-[10px] font-black uppercase tracking-wider shadow-sm">
-                    Most popular
-                </span>
-                <div class="mb-6">
-                    <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-4">Seller</span>
-                    <div class="flex items-end gap-1">
-                        <span class="text-4xl font-black text-[#4A2C2C]">{billing === 'monthly' ? price('sellerMonthly') : price('sellerYearly')}</span>
-                        <span class="text-[#6C3F31]/50 mb-2 text-sm">{billing === 'monthly' ? '/ month' : '/ year'}</span>
-                    </div>
-                    <p class="text-[#7A4A38] text-sm mt-1">
-                        {#if billing === 'monthly'}
-                            Or <strong class="text-cocoa-deep">{price('sellerYearly')} / year</strong>
-                            <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-matcha-green/30 text-[#3A6B3C] text-xs font-bold">Save {yearlySaving}%</span>
-                        {:else}
-                            <span class="text-cocoa-deep/50">{formatMonthlyEquivalent(amounts.sellerYearly, currency)} / mo, billed annually</span>
-                        {/if}
-                    </p>
-                </div>
-
-                <ul class="space-y-3 flex-grow mb-8">
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>300 images</strong> per month</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>75MB</strong> max file size</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>25 files</strong> per batch</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Full <strong>PDF tools</strong></span>
-                    </li>
-                    <!-- The clearest paid-only line on the card: Free cannot do
-                         this at all (worker gates both destinations on
-                         BUCKET_PLANS = seller/pro/growth, so Day Pass is out
-                         too). It was previously visible only in the comparison
-                         table, well below the fold. Named on Seller alone
-                         because Pro's list opens with "Everything in Seller,
-                         plus:" and repeating it there would spend one of Pro's
-                         four lines restating a Seller feature. -->
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Save to <strong>Google Drive</strong> or your own bucket</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>Priority</strong> processing</span>
-                    </li>
-                </ul>
-
-                <a
-                    href="/api/checkout?plan=seller&billing={billing}"
-                    data-sveltekit-reload
-                    class="block text-center px-6 py-3 rounded-2xl bg-[#FBD5E2] text-sm font-black text-[#AD1457] hover:bg-[#F8BBD0] transition-all shadow-sm hover:shadow-md active:scale-95"
-                >
-                    Get Seller
-                </a>
-            </div>
-
-            <!-- Pro tier -->
-            <div class="bg-gradient-to-br from-[#FFF0F5] to-white rounded-3xl border border-[#F06292]/20 shadow-md p-8 flex flex-col relative overflow-hidden">
-                <!-- Decorative blob -->
-                <div class="absolute -top-6 -right-6 w-32 h-32 bg-[#F06292]/10 rounded-full blur-2xl pointer-events-none"></div>
-
-                <div class="mb-6 relative">
-                    <span class="inline-block px-3 py-1 rounded-full bg-[#F06292] text-white text-xs font-black uppercase tracking-wider mb-4">Pro</span>
-                    <div class="flex items-end gap-1">
-                        <span class="text-4xl font-black text-[#4A2C2C]">{billing === 'monthly' ? price('proMonthly') : price('proYearly')}</span>
-                        <span class="text-[#6C3F31]/50 mb-2 text-sm">{billing === 'monthly' ? '/ month' : '/ year'}</span>
-                    </div>
-                    <p class="text-[#7A4A38] text-sm mt-1">
-                        {#if billing === 'monthly'}
-                            Or <strong class="text-cocoa-deep">{price('proYearly')} / year</strong>
-                            <span class="ml-1 inline-block px-2 py-0.5 rounded-full bg-matcha-green/30 text-[#3A6B3C] text-xs font-bold">Save {proYearlySaving}%</span>
-                        {:else}
-                            <span class="text-cocoa-deep/50">{formatMonthlyEquivalent(amounts.proYearly, currency)} / mo, billed annually</span>
-                        {/if}
-                    </p>
-                </div>
-
-                <p class="relative text-xs font-black uppercase tracking-wider text-[#6C3F31]/50 mb-3">Everything in Seller, plus:</p>
-
-                <ul class="space-y-3 flex-grow mb-8 relative">
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span><strong>1,200 images</strong> per month</span>
-                    </li>
-                    <!-- The volume jump is Pro's strongest argument and the card
-                         previously left the reader to divide 1,200 by 300 to find
-                         it. 4x volume for ~3.1x price is a genuine Pro-only claim,
-                         so it differentiates without repeating a Seller feature. -->
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span><strong>4x the images</strong> for 3x the price</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span><strong>Top priority</strong> queue</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span>Priority email support</span>
-                    </li>
-                </ul>
-
-                <a
-                    href="/api/checkout?plan=pro&billing={billing}"
-                    data-sveltekit-reload
-                    class="block text-center px-6 py-3 rounded-2xl bg-[#F06292] text-white text-sm font-black hover:bg-[#E0527F] transition-all shadow-sm hover:shadow-md active:scale-95"
-                >
-                    Get Pro
-                </a>
-            </div>
-
-            <!-- Growth — priced but not yet purchasable. Everything it claims is
-                 already enforced in core/worker: PLAN_LIMITS.growth = 5000, and
-                 the PDF page cap that stops every other paid plan at 10 pages
-                 does not apply to it. Deliberately NOT claiming bucket/Drive,
-                 gen-AI or priority queue: Pro has all three, so "Everything in
-                 Pro, plus:" already covers them and repeating them would pad the
-                 card with non-differentiators. -->
-            {#if showGrowth}
-            <div class="bg-white rounded-3xl border border-[#F06292]/20 shadow-md p-8 flex flex-col relative overflow-hidden">
-                <div class="mb-6">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider">Growth</span>
-                    </div>
-                    <div class="flex items-end gap-1">
-                        <span class="text-4xl font-black text-[#4A2C2C]">{billing === 'monthly' ? price('growthMonthly') : price('growthYearly')}</span>
-                        <span class="text-[#6C3F31]/50 mb-2 text-sm">{billing === 'monthly' ? '/ month' : '/ year'}</span>
-                    </div>
-                    <p class="text-[#7A4A38] text-sm mt-1">
-                        {#if billing === 'monthly'}
-                            Or <strong class="text-cocoa-deep">{price('growthYearly')} / year</strong>
-                            <span class="text-[#6C3F31]/50">(save {growthYearlySaving}%)</span>
-                        {:else}
-                            <strong class="text-cocoa-deep">{growthYearlySaving}% off</strong> vs monthly
-                        {/if}
-                    </p>
-                </div>
-
-                <p class="text-xs font-black uppercase tracking-wider text-[#6C3F31]/50 mb-3">Everything in Pro, plus:</p>
-
-                <ul class="space-y-3 flex-grow mb-8">
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span><strong>5,000 images</strong> per month</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span><strong>Unlimited PDF pages</strong> <span class="text-[#6C3F31]/50">(others cap at 10)</span></span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#F06292] font-black">✓</span>
-                        <span>Build PDFs from <strong>200 images</strong></span>
-                    </li>
-                </ul>
-
-                <a
-                    href="/api/checkout?plan=growth&billing={billing}"
-                    data-sveltekit-reload
-                    class="block text-center px-6 py-3 rounded-2xl border border-[#F06292]/40 text-sm font-black text-[#F06292] hover:bg-[#FFF5F7] transition-all shadow-sm hover:shadow-md active:scale-95"
-                >
-                    Get Growth
-                </a>
-            </div>
-            {/if}
-        </div>
-
-        <!-- Free — full width beneath the paid tiers. It keeps every feature it
-             listed as a column, just laid out horizontally: the point of the
-             move is to stop it competing for attention in the buying decision,
-             not to hide what it includes. `md:` guards the row layout so it
-             stacks normally on mobile, where it still appears directly after the
-             three cards. -->
-        <div class="mt-6 max-w-5xl mx-auto">
-            <div class="rounded-3xl border border-[#875F42]/15 bg-white shadow-sm p-6 sm:p-8 flex flex-col md:flex-row md:items-center gap-6">
-                <div class="md:w-1/4 flex-shrink-0">
-                    <span class="inline-block px-3 py-1 rounded-full bg-[#F5F0E8] text-[#6C3F31] text-xs font-black uppercase tracking-wider mb-3">Free</span>
-                    <div class="flex items-end gap-1">
-                        <span class="text-3xl font-black text-[#4A2C2C]">{formatPrice(0, currency)}</span>
-                        <span class="text-[#6C3F31]/50 mb-1 text-sm">/ forever</span>
-                    </div>
-                </div>
-
-                <ul class="flex-grow grid sm:grid-cols-2 gap-x-6 gap-y-3">
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>25 images</strong> per month</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span><strong>20MB</strong> max file size</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Up to <strong>3 files</strong> per batch</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Background removal</span>
-                    </li>
-                    <li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-                        <span class="mt-0.5 text-[#A5D6A7] font-black">✓</span>
-                        <span>Standard queue</span>
-                    </li>
-                </ul>
-
-                <div class="md:w-1/5 flex-shrink-0">
-                    <a
-                        href="/auth/register"
-                        class="block text-center px-6 py-3 rounded-2xl border border-[#875F42]/25 text-sm font-black text-[#6C3F31] hover:border-[#F06292]/40 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all"
-                    >
-                        Start for free
-                    </a>
-                    <!-- Describes the no-account path, not the Free plan, so it
-                         stays outside the feature list exactly as it did before. -->
-                    <p class="text-center text-xs text-[#6C3F31]/50 mt-3">
-                        Or <a href="/flow" class="text-[#F06292] font-semibold hover:underline">3 images, no sign-up</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Privacy trust strip — applies to every plan, so it spans all tiers
-             rather than repeating per card. Wording matches /privacy: uploads
-             are processed in RAM and discarded; deliberately says nothing about
-             the MCP processed-output exception documented there. -->
-        <div class="mt-8 max-w-4xl mx-auto">
-            <div class="flex items-center gap-4 rounded-3xl border border-pink-100 bg-[#FFF9FB] px-6 py-5 shadow-sm">
-                <span class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-[#FFF0F5] text-[#F06292]">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                    </svg>
-                </span>
-                <p class="text-sm text-[#6C3F31] leading-relaxed">
-                    <strong class="text-[#4A2C2C]">Private by design.</strong>
-                    Your images are processed in memory and never stored, or used to train AI.
-                    <a href="/privacy" class="text-[#F06292] font-semibold hover:underline whitespace-nowrap">Learn more →</a>
-                </p>
-            </div>
-        </div>
-
-        <!-- Day Pass · `day-pass` is the anchor the homepage ecommerce block links
-             to; scroll-mt keeps the heading clear of the sticky nav on landing. -->
-        {#if dayPassEnabled()}
-        <div id="day-pass" class="mt-8 max-w-4xl mx-auto scroll-mt-24">
-            <div class="flex items-center gap-4 mb-6">
-                <div class="flex-grow h-px bg-gradient-to-r from-transparent via-pink-100 to-transparent"></div>
-                <span class="text-xs font-bold text-[#6C3F31]/40 uppercase tracking-widest whitespace-nowrap">Or, no subscription</span>
-                <div class="flex-grow h-px bg-gradient-to-r from-transparent via-pink-100 to-transparent"></div>
-            </div>
-
-            <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-6 flex flex-col sm:flex-row sm:items-center gap-6">
-                <div class="flex-shrink-0">
-                    <span class="inline-block px-3 py-1 rounded-full bg-[#FFF5F7] text-[#F06292] text-xs font-black uppercase tracking-wider mb-3">Day Pass</span>
-                    <div class="flex items-end gap-1">
-                        <span class="text-3xl font-black text-[#4A2C2C]">{price('dayPass')}</span>
-                        <span class="text-[#6C3F31]/50 mb-1.5 text-sm">one-time</span>
-                    </div>
-                </div>
-
-                <div class="flex-grow">
-                    <ul class="flex flex-wrap gap-x-6 gap-y-2">
-                        <li class="flex items-center gap-2 text-sm text-[#6C3F31]">
-                            <span class="text-[#A5D6A7] font-black">✓</span>
-                            <span><strong>100 uploads</strong> within 24 hours</span>
-                        </li>
-                        <li class="flex items-center gap-2 text-sm text-[#6C3F31]">
-                            <span class="text-[#A5D6A7] font-black">✓</span>
-                            <span><strong>75MB</strong> per file &amp; larger batches</span>
-                        </li>
-                        <li class="flex items-center gap-2 text-sm text-[#6C3F31]">
-                            <span class="text-[#A5D6A7] font-black">✓</span>
-                            <span>No subscription, no account needed</span>
-                        </li>
-                        <li class="flex items-center gap-2 text-sm text-[#6C3F31]">
-                            <span class="text-[#A5D6A7] font-black">✓</span>
-                            <span>Activated instantly by magic link</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="flex-shrink-0 flex flex-col items-start sm:items-end gap-1.5">
-                    <!-- Buyers land back on the homepage so ImageUpload's
-                         day_pass_success toast (magic-link instructions) is shown. -->
-                    <DayPassButton
-                        trigger="pricing_page"
-                        next="/"
-                        class="block text-center px-6 py-3 rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
-                    >
-                        Get Day Pass — {price('dayPass')}
-                    </DayPassButton>
-                </div>
-            </div>
-        </div>
-        {/if}
-
-        <!-- Feature comparison table -->
-        <div class="mt-16 max-w-4xl mx-auto">
-            <h2 class="text-xl font-black text-[#4A2C2C] text-center mb-8">Full comparison</h2>
-
-            <div class="bg-white rounded-3xl border border-pink-100 shadow-sm overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b border-pink-50">
-                            <th class="text-left px-6 py-4 text-[#6C3F31]/50 font-medium w-2/5">Feature</th>
-                            <th class="px-6 py-4 text-center font-black text-[#6C3F31]">Free</th>
-                            <th class="px-6 py-4 text-center font-black text-[#6C3F31]">Seller</th>
-                            <th class="px-6 py-4 text-center font-black text-[#F06292]">Pro</th>
-                            <th class="px-6 py-4 text-center font-black text-[#F06292]">Growth</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-pink-50">
-                        <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">Monthly images</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]">25 / month</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]">300 / month</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]">1,200 / month</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">5,000 / month</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">Max file size</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]">20MB</td>
-                            <td class="px-6 py-4 text-center font-bold text-[#6C3F31]">75MB</td>
-                            <td class="px-6 py-4 text-center font-bold text-[#6C3F31]">75MB</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">75MB</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">JPG, WEBP, AVIF, PNG, JXL</td>
-                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">HEIC upload</td>
-                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">Resize, rotate &amp; crop</td>
-                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">Background removal</td>
-                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">AI backgrounds &amp; shadows</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/30 font-black">—</td>
-                            <td class="px-6 py-4 text-center text-[#F06292]/70 font-bold text-[11px] uppercase tracking-wide">Soon</td>
-                            <td class="px-6 py-4 text-center text-[#F06292]/70 font-bold text-[11px] uppercase tracking-wide">Soon</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">Soon</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">MCP &amp; API access</td>
-                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">Batch upload</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">3 files</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31] font-semibold text-xs">25 files</td>
-                            <td class="px-6 py-4 text-center text-[#F06292] font-bold text-xs">25 files</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">25 files</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">PDF tools <span class="text-[#6C3F31]/50 text-xs">(rasterize, split, images→PDF)</span></td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">images→PDF, 3 pages</td>
-                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">✓ unlimited pages</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">Save to your own storage <span class="text-[#6C3F31]/50 text-xs">(Google Drive, or S3 / R2 / S3-compatible)</span></td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/30 font-black">—</td>
-                            <td class="px-6 py-4 text-center text-[#A5D6A7] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
-                            <td class="px-6 py-4 text-center text-[#F06292] font-black">✓</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 text-[#6C3F31]">Processing queue</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">Standard</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31] font-semibold text-xs">Priority</td>
-                            <td class="px-6 py-4 text-center text-[#F06292] font-bold text-xs">Top priority</td>
-                            <td class="px-6 py-4 text-center text-[#6C3F31]/50 text-xs">Top priority</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            </div>
-        </div>
-
-        <!-- FAQ · same one-card, hairline-divided treatment as the homepage FAQ.
-             Six separate shadowed pills read as a stack of buttons rather than a
-             reference list. -->
-        <div class="mt-16 max-w-3xl mx-auto">
-            <h2 class="text-center font-heading font-black text-3xl md:text-[2.5rem] leading-[1.1] text-[#4A2C2C] mb-3">Common questions</h2>
-            <p class="text-center text-[#875F42] mb-8">Limits, billing, and what changes when you upgrade.</p>
-            <div class="rounded-3xl border border-pink-100 bg-white shadow-sm overflow-hidden divide-y divide-pink-100">
-
-                <details class="group open:bg-[#FFFAFB] transition-colors">
-                    <summary class="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] hover:text-[#D81B60] transition-colors select-none">
-                        What counts as one image?
-                        <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                    </summary>
-                    <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        Each image we hand back uses one from your monthly allowance. Compressing, converting, resizing, or any combination of those on a single file is one image. Asking for several formats or sizes of the same file returns several images, so each one counts: WebP and AVIF at two widths is four. Batch uploads count one per file.
-                    </p>
-                </details>
-
-                <details class="group open:bg-[#FFFAFB] transition-colors">
-                    <summary class="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] hover:text-[#D81B60] transition-colors select-none">
-                        Do unused images roll over?
-                        <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                    </summary>
-                    <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        No. Free resets on a rolling 30-day cycle from when you start using it; Seller and Pro reset on your billing date. Unused images do not roll over.
-                    </p>
-                </details>
-
-                <details class="group open:bg-[#FFFAFB] transition-colors">
-                    <summary class="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] hover:text-[#D81B60] transition-colors select-none">
-                        Is Pro worth it over Seller?
-                        <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                    </summary>
-                    <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        It depends on volume. Pro gives you four times the images for a little over three times the price, so each image works out around 22% cheaper: about 2.1¢ on Pro versus 2.7¢ on Seller, or 1.7¢ versus 2.2¢ on annual billing. Pro also puts you at the front of the processing queue and gets priority email support. If you are comfortably inside 300 images a month, Seller is the better buy.
-                    </p>
-                </details>
-
-                <details class="group open:bg-[#FFFAFB] transition-colors">
-                    <summary class="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] hover:text-[#D81B60] transition-colors select-none">
-                        Can I use the API on the free tier?
-                        <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                    </summary>
-                    <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        Yes — all tiers have full MCP and API access. The same monthly limit applies.
-                    </p>
-                </details>
-
-                <details class="group open:bg-[#FFFAFB] transition-colors">
-                    <summary class="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] hover:text-[#D81B60] transition-colors select-none">
-                        How does the Day Pass work?
-                        <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                    </summary>
-                    <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        Pay {price('dayPass')} and we email you a magic link — click it to unlock 100 image uploads within 24 hours, 75MB files and larger batches for 24 hours. No account or subscription needed.
-                    </p>
-                </details>
-
-                <details class="group open:bg-[#FFFAFB] transition-colors">
-                    <summary class="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none font-bold text-[#4A2C2C] hover:text-[#D81B60] transition-colors select-none">
-                        Can I cancel anytime?
-                        <svg class="w-5 h-5 shrink-0 text-[#F06292] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                    </summary>
-                    <p class="px-6 pb-5 -mt-1 text-sm text-[#6C3F31] leading-relaxed">
-                        Yes. Cancel any time and you keep access until the end of your billing period.
-                    </p>
-                </details>
-
-            </div>
-        </div>
-
-        <!-- Closing CTA · blush card, mirrors the homepage's final CTA so the two
-             pages end on the same note. -->
-        <div class="mt-14 md:mt-16 max-w-3xl mx-auto">
-            <div class="rounded-3xl border border-pink-100 bg-gradient-to-b from-[#FFF0F3]/70 to-white shadow-sm px-6 py-10 md:px-12 md:py-12 text-center">
-                <h2 class="font-heading font-black text-2xl md:text-3xl leading-[1.15] text-[#4A2C2C] mb-3">Start free, upgrade when you outgrow it</h2>
-                <p class="text-[#6C3F31] leading-relaxed mb-8 max-w-md mx-auto">
-                    25 images a month on the free plan, no card needed. MCP, CLI and API access on every tier, free included.
-                </p>
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-                    <a href="/auth/register" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
-                        Create a free account →
-                    </a>
-                    <a href="/flow" class="w-full sm:w-auto inline-flex items-center justify-center px-7 py-4 rounded-2xl border border-[#875F42]/25 font-black text-[#6C3F31] hover:border-[#F06292]/40 hover:text-[#F06292] hover:bg-[#FFF5F7] transition-all no-underline">
-                        Try 3 images, no sign-up
-                    </a>
-                </div>
-                <p class="text-xs text-[#6C3F31]/60 mt-6">
-                    Still not sure which plan fits? Email <a href="mailto:hello@mochify.app" class="text-[#F06292] font-semibold hover:underline">hello@mochify.app</a>.
-                </p>
-            </div>
-        </div>
-
-    </main>
-
-    <div class="mt-16 md:mt-24">
-        <Footer />
-    </div>
-</div>
+<PricingPage {data} strings={EN_PRICING} locale="en" />

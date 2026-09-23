@@ -26,6 +26,11 @@ const ZERO_DECIMAL = new Set([
 // page language: an Indian buyer expects lakh grouping (1,99,999), not
 // 199,999. Everything else reads fine with English grouping, and the page copy
 // around the price is English regardless.
+// Per-currency grouping overrides, used when the caller does not name a locale.
+// A page that knows its own locale passes it instead: EUR formatted as `en` is
+// "€7.99", and a French visitor should be reading "7,99 €". The currency alone
+// cannot decide that, because the euro is spelled differently in every euro
+// market, which is why this stays a fallback rather than gaining a `eur` row.
 const GROUPING_LOCALE: Record<string, string> = {
 	inr: 'en-IN'
 };
@@ -62,11 +67,11 @@ export function toMajorUnits(amount: number, currency: string): number {
  * always has rather than "$2.00". Falls back to a plain code-prefixed number
  * if the runtime can't format the currency.
  */
-export function formatPrice(amount: number, currency: string): string {
+export function formatPrice(amount: number, currency: string, locale?: string): string {
 	const value = toMajorUnits(amount, currency);
 	const fractionDigits = Number.isInteger(value) ? 0 : 2;
 	try {
-		return new Intl.NumberFormat(GROUPING_LOCALE[currency.toLowerCase()] ?? 'en', {
+		return new Intl.NumberFormat(locale ?? GROUPING_LOCALE[currency.toLowerCase()] ?? 'en', {
 			style: 'currency',
 			currency: currency.toUpperCase(),
 			currencyDisplay: 'narrowSymbol',
@@ -79,8 +84,12 @@ export function formatPrice(amount: number, currency: string): string {
 }
 
 /** The "$6.67 / mo, billed annually" line under an annual plan. */
-export function formatMonthlyEquivalent(yearlyAmount: number, currency: string): string {
-	return formatPrice(Math.round(yearlyAmount / 12), currency);
+export function formatMonthlyEquivalent(
+	yearlyAmount: number,
+	currency: string,
+	locale?: string
+): string {
+	return formatPrice(Math.round(yearlyAmount / 12), currency, locale);
 }
 
 /** "Save 17%" — derived so a repriced plan can't leave a stale claim on the page. */

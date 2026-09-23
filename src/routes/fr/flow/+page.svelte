@@ -169,7 +169,7 @@
 		</section>
 
 		<p class="mt-12 text-center text-sm text-[#6C3F31]/75">
-			<a href="/pricing" class="font-semibold text-[#F06292] hover:underline">Tarifs</a>
+			<a href="/fr/pricing" class="font-semibold text-[#F06292] hover:underline">Tarifs</a>
 		</p>
 	</main>
 
