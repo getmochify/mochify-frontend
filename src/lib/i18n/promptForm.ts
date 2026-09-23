@@ -22,6 +22,13 @@ export type PromptFormStrings = {
 	errorParse: string;
 	errorServer: string;
 	errorConnection: (fileName: string) => string;
+	/**
+	 * The prompt chips: a label and the prompt it writes into the box. Both are
+	 * copy, and the prompt is copy that gets parsed, so a locale supplies its own
+	 * rather than having the English one translated at the last moment. The dot
+	 * colour is presentational and shared.
+	 */
+	imageSuggestions: { label: string; prompt: string; dot: string }[];
 };
 
 export const EN_PROMPT_FORM_STRINGS: PromptFormStrings = {
@@ -38,5 +45,37 @@ export const EN_PROMPT_FORM_STRINGS: PromptFormStrings = {
 	errorParse: "Couldn't quite understand that — try again, or rephrase and resubmit.",
 	errorServer: 'Something went wrong on our end — please try again in a moment.',
 	errorConnection: (fileName: string) =>
-		`Lost connection while processing ${fileName} — check your internet and try again.`
+		`Lost connection while processing ${fileName} — check your internet and try again.`,
+	imageSuggestions: [
+		{
+			label: 'Remove BG',
+			prompt: 'Remove the background and convert to PNG',
+			dot: 'bg-purple-400'
+		},
+		{
+			label: 'eBay',
+			prompt: 'Optimize for eBay listings — square crop, convert to JPEG',
+			dot: 'bg-[#3665F3]'
+		},
+		{
+			label: 'Vinted',
+			prompt: 'Optimize for Vinted listings — square crop, compress',
+			dot: 'bg-[#007782]'
+		},
+		{
+			label: 'Square crop',
+			prompt: 'Smart-crop to square, centering the main subject',
+			dot: 'bg-[#66BB6A]'
+		},
+		{
+			label: 'PageSpeed',
+			prompt: 'Fix my PageSpeed — convert to WebP and compress for fast load times',
+			dot: 'bg-[#4285F4]'
+		},
+		{
+			label: 'To PDF',
+			prompt: 'Combine into a single PDF',
+			dot: 'bg-rose-400'
+		}
+	]
 };

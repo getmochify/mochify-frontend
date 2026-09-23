@@ -17,9 +17,10 @@
 	// tool component. Every visible string comes from the content-ops copy sheet
 	// via $lib/i18n/fr-flow.ts and is never edited here.
 	//
-	// The prompt chips are off. The sheet lists their labels but not the French
-	// prompts behind them, and the handoff forbids writing French, so the seven
-	// examples below carry that job until the prompts arrive.
+	// The chips carry French labels from the sheet and French prompts drafted
+	// dev-side (frFlowChipPrompts) because the sheet supplies labels only. Those
+	// six prompts are the one thing on this page content-ops has not written, and
+	// they are flagged as such at their definition.
 	let form: ReturnType<typeof PromptFormApp> | undefined = $state();
 
 	const faqs: FaqItem[] = frFlowFaqs.map((f) => ({ q: f.q, a: f.a }));
@@ -109,7 +110,6 @@
 			rememberPrompts
 			strings={FR_PROMPT_FORM_STRINGS}
 			initialPrompt={frFlowTool.defaultPrompt}
-			showSuggestionChips={false}
 			locale="fr-FR"
 		/>
 

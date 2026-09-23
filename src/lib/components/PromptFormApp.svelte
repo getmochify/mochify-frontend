@@ -75,7 +75,6 @@
 		rememberPrompts = false,
 		strings = {},
 		initialPrompt = '',
-		showSuggestionChips = true,
 		locale
 	}: {
 		onSuccess?: () => void;
@@ -83,14 +82,6 @@
 		rememberPrompts?: boolean;
 		strings?: Partial<PromptFormStrings>;
 		initialPrompt?: string;
-		/**
-		 * The six prompt chips (Remove BG, eBay, Vinted, …) each load a written
-		 * prompt, and those prompts are copy. /fr/flow turns them off because the
-		 * French copy sheet supplies chip *labels* only, and inventing the French
-		 * prompts behind them is exactly what the handoff forbids. The two
-		 * expanders next to them stay: they open a menu rather than filling the box.
-		 */
-		showSuggestionChips?: boolean;
 		/**
 		 * BCP-47 tag sent to the parser as a hint, so numbers are read the way the
 		 * visitor typed them: "1 200 px" is 1200 to a French reader and 1 to an
@@ -703,38 +694,7 @@
 		if (toAdd.length > 0) warmAuth();
 	}
 
-	const imageSuggestions = [
-		{
-			label: 'Remove BG',
-			prompt: 'Remove the background and convert to PNG',
-			dot: 'bg-purple-400'
-		},
-		{
-			label: 'eBay',
-			prompt: 'Optimize for eBay listings — square crop, convert to JPEG',
-			dot: 'bg-[#3665F3]'
-		},
-		{
-			label: 'Vinted',
-			prompt: 'Optimize for Vinted listings — square crop, compress',
-			dot: 'bg-[#007782]'
-		},
-		{
-			label: 'Square crop',
-			prompt: 'Smart-crop to square, centering the main subject',
-			dot: 'bg-[#66BB6A]'
-		},
-		{
-			label: 'PageSpeed',
-			prompt: 'Fix my PageSpeed — convert to WebP and compress for fast load times',
-			dot: 'bg-[#4285F4]'
-		},
-		{
-			label: 'To PDF',
-			prompt: 'Combine into a single PDF',
-			dot: 'bg-rose-400'
-		}
-	];
+	const imageSuggestions = $derived(t.imageSuggestions);
 	const pdfSuggestions = [
 		{ label: 'Compress PDF', prompt: 'Compress this PDF', dot: 'bg-emerald-400' },
 		{ label: 'Extract images', prompt: 'Extract the embedded images', dot: 'bg-purple-400' },
@@ -3276,7 +3236,7 @@
 						<span class="mx-1 h-5 w-px flex-shrink-0 self-center bg-[#875F42]/10"></span>
 					{/if}
 					<!-- Main suggestions -->
-					{#each showSuggestionChips ? suggestions : [] as s}
+					{#each suggestions as s}
 						<button
 							onclick={() => fillPrompt(s.prompt)}
 							class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"

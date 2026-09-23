@@ -11,7 +11,7 @@
 // (handoff Part B) has not run, so the page shows French examples and never
 // says the parser understands French.
 
-import type { PromptFormStrings } from '$lib/i18n/promptForm';
+import { EN_PROMPT_FORM_STRINGS, type PromptFormStrings } from '$lib/i18n/promptForm';
 
 export type FrSectionBlock = { type: 'p' | 'prompt'; text: string };
 export type FrSection = { id: string; heading: string; blocks: FrSectionBlock[] };
@@ -62,6 +62,30 @@ export const frFlowChips = [
 	'PageSpeed',
 	'En PDF'
 ] as const;
+
+// The prompts the six chips write into the box.
+//
+// PROVENANCE, because this is the one place on the page the copy sheet does not
+// cover: the sheet lists the six chip LABELS and not the prompts behind them, so
+// these were drafted dev-side on the operator's instruction (2026-09-23) to keep
+// the French chips working like the English ones, rather than leaving them off.
+// They are NOT native-reviewed and they are not in the sheet. Content-ops should
+// take or replace them, after which they move up into frFlowChips with the rest.
+//
+// Two rules were followed rather than writing freely. The vocabulary is the
+// sheet's own ("detourer", "recadrer en carre", "compresser", "convertir en"),
+// and each prompt keeps the shape of a prompt the parse test already scores
+// (fr-06, fr-07), so a chip cannot ask for something the test has not measured.
+// Each one reuses its own chip label as the verb, so the chip and the prompt it
+// writes cannot drift apart.
+export const frFlowChipPrompts: readonly string[] = [
+	'Enlever le fond et convertir en PNG',
+	'Optimiser pour eBay : recadrer en carré et convertir en JPG',
+	'Optimiser pour Vinted : recadrer en carré et compresser',
+	'Recadrer en carré en centrant le sujet',
+	'Convertir en WebP et compresser pour accélérer le chargement',
+	'Regrouper en un seul PDF'
+];
 
 export const frFlowExpanders = {
 	convertTo: 'Convertir en…',
@@ -224,5 +248,13 @@ export const FR_PROMPT_FORM_STRINGS: Partial<PromptFormStrings> = {
 	// The sheet writes the file name as `[nom du fichier]`; the component has the
 	// real one, so the placeholder is substituted rather than shown literally.
 	errorConnection: (fileName: string) =>
-		frFlowTool.errors.connection.replace('[nom du fichier]', fileName)
+		frFlowTool.errors.connection.replace('[nom du fichier]', fileName),
+	// Labels from the sheet, prompts drafted dev-side (see frFlowChipPrompts),
+	// dot colours shared with the English set so a chip means the same thing on
+	// both pages.
+	imageSuggestions: frFlowChips.map((label, i) => ({
+		label,
+		prompt: frFlowChipPrompts[i],
+		dot: EN_PROMPT_FORM_STRINGS.imageSuggestions[i].dot
+	}))
 };
