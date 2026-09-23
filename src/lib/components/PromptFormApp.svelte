@@ -75,7 +75,8 @@
 		rememberPrompts = false,
 		strings = {},
 		initialPrompt = '',
-		showSuggestionChips = true
+		showSuggestionChips = true,
+		locale
 	}: {
 		onSuccess?: () => void;
 		maxWidth?: string;
@@ -90,6 +91,12 @@
 		 * expanders next to them stay: they open a menu rather than filling the box.
 		 */
 		showSuggestionChips?: boolean;
+		/**
+		 * BCP-47 tag sent to the parser as a hint, so numbers are read the way the
+		 * visitor typed them: "1 200 px" is 1200 to a French reader and 1 to an
+		 * English one. Omitted on the English surfaces, where it is the default.
+		 */
+		locale?: string;
 	} = $props();
 
 	// English is the default set; a locale supplies only what it overrides.
@@ -1285,7 +1292,12 @@
 						'Content-Type': 'application/json',
 						...(jwt ? { Authorization: `Bearer ${jwt}` } : {})
 					},
-					body: JSON.stringify({ prompt: prompt.trim(), fileData: [], mode: 'create' })
+					body: JSON.stringify({
+						prompt: prompt.trim(),
+						fileData: [],
+						mode: 'create',
+						...(locale ? { locale } : {})
+					})
 				});
 				if (!nlpResponse.ok) {
 					if (nlpResponse.status === 429) {
@@ -1431,6 +1443,7 @@
 			const imagesToPdf = uploadMode === 'image' && /\bpdfs?\b/i.test(prompt);
 
 			const nlpBody: Record<string, unknown> = { prompt: prompt.trim(), fileData: fileDetails };
+			if (locale) nlpBody.locale = locale;
 			if (uploadMode === 'pdf') nlpBody.mode = 'pdf';
 			else if (uploadMode === 'video') nlpBody.mode = 'video';
 			else if (imagesToPdf) nlpBody.mode = 'imgpdf';

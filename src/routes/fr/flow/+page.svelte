@@ -110,6 +110,7 @@
 			strings={FR_PROMPT_FORM_STRINGS}
 			initialPrompt={frFlowTool.defaultPrompt}
 			showSuggestionChips={false}
+			locale="fr-FR"
 		/>
 
 		<!-- Badge line, from the sheet. Rendered as one string rather than split
