@@ -38,6 +38,7 @@
 		trackUpload413,
 		type UploadErrorKey
 	} from '$lib/uploadError';
+	import { EN_PROMPT_FORM_STRINGS, type PromptFormStrings } from '$lib/i18n/promptForm';
 	import UploadHelpLink from '$lib/components/UploadHelpLink.svelte';
 	import { portal } from '$lib/portal';
 	import {
@@ -61,13 +62,44 @@
 	// `rememberPrompts` is off by default so the homepage demo keeps nothing: it
 	// is the surface a stranger tries once, often on a shared machine. /flow is
 	// the installed app somebody returns to, and opts in.
+	//
+	// `strings` is the localisation seam. /fr/flow renders this same component
+	// with the French copy sheet's strings rather than a forked component: the
+	// fork is exactly what CLAUDE.md warns against, and a second language would
+	// double every future change again. Only the strings a visitor reads are
+	// overridable; prompts sent to the parser stay in the caller's language,
+	// which is the point of the page.
 	let {
 		onSuccess,
 		maxWidth = 'max-w-4xl',
-		rememberPrompts = false
-	}: { onSuccess?: () => void; maxWidth?: string; rememberPrompts?: boolean } = $props();
+		rememberPrompts = false,
+		strings = {},
+		initialPrompt = '',
+		showSuggestionChips = true
+	}: {
+		onSuccess?: () => void;
+		maxWidth?: string;
+		rememberPrompts?: boolean;
+		strings?: Partial<PromptFormStrings>;
+		initialPrompt?: string;
+		/**
+		 * The six prompt chips (Remove BG, eBay, Vinted, …) each load a written
+		 * prompt, and those prompts are copy. /fr/flow turns them off because the
+		 * French copy sheet supplies chip *labels* only, and inventing the French
+		 * prompts behind them is exactly what the handoff forbids. The two
+		 * expanders next to them stay: they open a menu rather than filling the box.
+		 */
+		showSuggestionChips?: boolean;
+	} = $props();
 
-	let prompt: string = $state('');
+	// English is the default set; a locale supplies only what it overrides.
+	const t: PromptFormStrings = $derived({ ...EN_PROMPT_FORM_STRINGS, ...strings });
+
+	// Seeding the box from the prop once is the whole intent: /fr/flow opens with
+	// a pre-written prompt the visitor can edit or send, and a later prop change
+	// must not overwrite what they have typed.
+	// svelte-ignore state_referenced_locally
+	let prompt: string = $state(initialPrompt);
 	let files: File[] = $state([]);
 
 	// Recent prompts (localStorage, /flow only). `historyIndex` is -1 when not
@@ -276,13 +308,15 @@
 					: '.jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.gif,.svg,.pdf,.mp4,.webm,.mkv,.mov,.mp3,.wav,.aac,.flac,.ogg,.m4a,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/gif,image/svg+xml,application/pdf,video/*,audio/*'
 	);
 
-	const imagePlaceholders = [
-		'remove bg, avif and webp, 1200px, 800px…',
-		'Remove background, square crop, shopify…',
-		'avif and webp, 1200px, 800px, 500px…',
-		'Convert to webp, resize width 800px and 600px…',
-		'vinted, compress, 1080x1080 and 500px…'
-	];
+	const imagePlaceholders = $derived(
+		t.imagePlaceholders ?? [
+			'remove bg, avif and webp, 1200px, 800px…',
+			'Remove background, square crop, shopify…',
+			'avif and webp, 1200px, 800px, 500px…',
+			'Convert to webp, resize width 800px and 600px…',
+			'vinted, compress, 1080x1080 and 500px…'
+		]
+	);
 	const pdfPlaceholders = [
 		'Compress this PDF…',
 		'Extract the embedded images…',
@@ -1086,7 +1120,7 @@
 	async function nlpError(res: Response): Promise<Error> {
 		const body = (await res.json().catch(() => null)) as { error?: string } | null;
 		if (res.status >= 500 && body?.error !== 'AI returned invalid format') {
-			const e: any = new Error('Something went wrong on our end — please try again in a moment.');
+			const e: any = new Error(t.errorServer);
 			// The prompt service answered with an error: the files are untouched, so
 			// this is the nlp-unreachable case, not an upload failure.
 			e.errorKey = 'nlp_unreachable';
@@ -1094,7 +1128,7 @@
 		}
 		// Deliberately unkeyed: the model asking for a clearer instruction is not a
 		// failure the guide can help with, and pointing at it would be noise.
-		return new Error("Couldn't quite understand that — try again, or rephrase and resubmit.");
+		return new Error(t.errorParse);
 	}
 
 	async function submit() {
@@ -1139,6 +1173,17 @@
 		}
 
 		lastSubmitted = { text: prompt.trim(), mode: submitMode };
+
+		// Only fires where the box was pre-filled (today: /fr/flow). The pilot's
+		// 12-week question is whether a pre-written prompt is a starting point or
+		// just the thing people press go on, so record which of the two happened
+		// and nothing else — the prompt text is not sent.
+		if (initialPrompt) {
+			posthog.capture('flow_prompt_edited', {
+				edited: prompt.trim() !== initialPrompt.trim(),
+				mode: submitMode
+			});
+		}
 
 		// Recorded here, before the plan and quota gates below, because a prompt
 		// that hit a paywall is exactly the one the user wants back after they
@@ -2401,9 +2446,7 @@
 
 							xhr.onerror = () => {
 								rollback();
-								const e: any = new Error(
-									`Lost connection while processing ${file.name} — check your internet and try again.`
-								);
+								const e: any = new Error(t.errorConnection(file.name));
 								e.retryable = true;
 								e.errorKey = 'network_error';
 								reject(e);
@@ -3077,7 +3120,7 @@
 				</label>
 
 				{#if files.length === 0}
-					<span class="text-sm font-medium text-[#875F42]/70">Add images, PDFs, or video</span>
+					<span class="text-sm font-medium text-[#875F42]/70">{t.uploadButton}</span>
 				{/if}
 
 				<div class="absolute right-8 bottom-0 left-8">
@@ -3220,7 +3263,7 @@
 						<span class="mx-1 h-5 w-px flex-shrink-0 self-center bg-[#875F42]/10"></span>
 					{/if}
 					<!-- Main suggestions -->
-					{#each suggestions as s}
+					{#each showSuggestionChips ? suggestions : [] as s}
 						<button
 							onclick={() => fillPrompt(s.prompt)}
 							class="inline-flex flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-white/60 bg-gradient-to-r from-[#FF6B9D]/8 to-white/60 px-4 py-1.5 text-xs font-semibold text-[#875F42] shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F06292] hover:bg-white/80 hover:text-[#F06292] hover:shadow-md"
@@ -3250,7 +3293,7 @@
 									d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"
 								/></svg
 							>
-							Convert to…
+							{t.convertToLabel}
 						</button>
 						<!-- Rotate… expander -->
 						<button
@@ -3272,7 +3315,7 @@
 									d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
 								/></svg
 							>
-							Rotate…
+							{t.rotateLabel}
 						</button>
 					{/if}
 				{/if}

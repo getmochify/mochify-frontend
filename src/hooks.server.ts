@@ -40,7 +40,26 @@ function getAuth(db: D1Database, resendKey: string | undefined): Auth {
 	return _auth;
 }
 
-export const handle: Handle = async ({ event, resolve }) => {
+/**
+ * `<html lang>` is baked into app.html, so a localised route has to rewrite it
+ * on the way out. Everything under `/fr/` is French; everything else is English.
+ *
+ * This wraps `resolve` once rather than repeating the option at each call site,
+ * so both the no-database early return (which is also the prerender path, since
+ * `handle` does run at build time) and the svelteKitHandler return get it.
+ */
+function langFor(pathname: string): string {
+	return pathname === '/fr' || pathname.startsWith('/fr/') ? 'fr' : 'en';
+}
+
+export const handle: Handle = async ({ event, resolve: baseResolve }) => {
+	const lang = langFor(event.url.pathname);
+	const resolve: typeof baseResolve = (ev, opts) =>
+		baseResolve(ev, {
+			...opts,
+			transformPageChunk: ({ html }) => html.replace('%lang%', lang)
+		});
+
 	let db: D1Database | undefined;
 	try {
 		db = event.platform?.env?.DB;

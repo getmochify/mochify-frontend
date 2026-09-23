@@ -3,6 +3,7 @@
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
     import Breadcrumb from '$lib/components/Breadcrumb.svelte';
+    import LocaleBanner from '$lib/components/LocaleBanner.svelte';
 
     const { children } = $props();
 
@@ -69,6 +70,12 @@
 
 <div class="flex-1 bg-[#FDFBF7] min-h-screen flex flex-col">
     <Navigation />
+    <LocaleBanner
+        href="/fr/flow"
+        label="Voir cette page en français"
+        dismissKey="mochify-locale-banner-fr"
+        when="fr"
+    />
     {#if isChildPage}
         <div class="max-w-5xl mx-auto w-full pt-6">
             <Breadcrumb items={breadcrumbItems} />

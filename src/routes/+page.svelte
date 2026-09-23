@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import Navigation from '$lib/components/Navigation.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import LocaleBanner from '$lib/components/LocaleBanner.svelte';
 	import PromptFormApp from '$lib/components/PromptFormApp.svelte';
 	import { getPlan } from '$lib/user';
 
@@ -273,10 +274,7 @@
 
 	<!-- Twitter / X -->
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta
-		name="twitter:title"
-		content="Mochify: Image & PDF Compression for Web, CLI, MCP and API"
-	/>
+	<meta name="twitter:title" content="Mochify: Image & PDF Compression for Web, CLI, MCP and API" />
 	<meta
 		name="twitter:description"
 		content="One engine for images and PDFs wherever you work: the web app, CLI, an MCP server for Claude, the REST API and a Chrome extension. Just say what you want."
@@ -416,6 +414,13 @@
 </svelte:head>
 
 <Navigation />
+
+<LocaleBanner
+	href="/fr/flow"
+	label="Voir cette page en français"
+	dismissKey="mochify-locale-banner-fr"
+	when="fr"
+/>
 
 <main class="relative z-10">
 	<!-- ═══ 1. HERO · copy + install on the left, the live tool on the right ═══ -->
@@ -1147,8 +1152,8 @@
 				Need a bigger batch just for today? A <strong class="font-bold text-[#6C3F31]"
 					>Day Pass</strong
 				>
-				unlocks 100 uploads and 25-file batches for 24 hours, no account or subscription, or see how
-				Seller compares on the
+				unlocks 100 uploads and 25-file batches for 24 hours, no account or subscription, or see how Seller
+				compares on the
 				<a href="/pricing#day-pass" class="font-semibold text-[#F06292] hover:underline"
 					>pricing page</a
 				>.
@@ -1302,8 +1307,8 @@
 						<code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code>
 						with a <code class="font-mono text-xs">type</code> parameter, or use
 						<code class="font-mono text-xs text-[#F06292]">POST /v1/pdf</code>
-						for PDF tools. A free account gives you a bearer token and 25 images a month; Seller and
-						Pro raise that to 300 and 1,200. The
+						for PDF tools. A free account gives you a bearer token and 25 images a month; Seller and Pro
+						raise that to 300 and 1,200. The
 						<a href="/docs" class="font-semibold text-[#F06292] hover:underline"
 							>API documentation</a
 						> has examples in cURL, JavaScript and Python.

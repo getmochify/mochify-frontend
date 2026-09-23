@@ -27,7 +27,7 @@ export async function GET() {
 	const site = 'https://mochify.app';
 	const pages = [
 		'',
-		'/flow',
+		'/flow', '/fr/flow',
 		'/heic-to-jpeg',
 		'/avif-to-jpg',
 		'/jpg-to-jpegxl',

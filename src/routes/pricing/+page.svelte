@@ -30,6 +30,16 @@
 
     const growthYearlySaving = $derived(savingsPercent(amounts.growthMonthly, amounts.growthYearly));
 
+    // The Monthly/Yearly toggle used to carry Seller's figure as a blanket claim
+    // for every tier. That is only true while the three agree, and they do not in
+    // every currency: a UK visitor is offered 17% on the toggle and given 12.8%
+    // on Pro (ledger v45). Each card already shows its own exact figure, so the
+    // toggle says "up to" whenever they differ and the plain number when they do
+    // not. Derived, so a Polar price change cannot strand a false claim here.
+    const savings = $derived([yearlySaving, proYearlySaving, growthYearlySaving]);
+    const savingsAgree = $derived(new Set(savings).size === 1);
+    const topSaving = $derived(Math.max(...savings));
+
     // Kill switch for the Growth tier, kept now that it is live: flipping this to
     // false pulls the card out of the grid without touching anything else. The
     // layout holds either way because Free lives in its own full-width card
@@ -270,7 +280,7 @@
                     class="cursor-pointer px-5 py-2 rounded-full text-sm font-black transition-all flex items-center gap-2 {billing === 'yearly' ? 'bg-white text-mochi-pink shadow-sm' : 'text-cocoa-deep/50 hover:text-cocoa-deep'}"
                 >
                     Yearly
-                    <span class="inline-block px-2 py-0.5 rounded-full bg-matcha-green/40 text-[#3A6B3C] text-xs font-bold">Save {yearlySaving}%</span>
+                    <span class="inline-block px-2 py-0.5 rounded-full bg-matcha-green/40 text-[#3A6B3C] text-xs font-bold">Save {savingsAgree ? '' : 'up to '}{topSaving}%</span>
                 </button>
             </div>
         </div>

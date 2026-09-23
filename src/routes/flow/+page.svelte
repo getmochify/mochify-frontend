@@ -2,6 +2,7 @@
     import PromptFormApp from '$lib/components/PromptFormApp.svelte';
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
+    import LocaleBanner from '$lib/components/LocaleBanner.svelte';
 
     // Bound so the example rows below can load themselves into the compose bar
     // instead of just sitting there looking like buttons that do nothing.
@@ -55,11 +56,25 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Convert, Resize and Compress Images Online, Free | Mochify" />
     <meta name="twitter:description" content="Say what you need in plain English and Mochify does it: convert, resize, smart crop, remove backgrounds, rasterize PDF pages. No format pickers, no sliders." />
+
+    <!-- hreflang: the French pilot page and this one point at each other, and
+         English is x-default. Pages are served by URL; there is no redirect by
+         IP or Accept-Language, which would hide /fr/flow from a US crawler. -->
+    <link rel="alternate" hreflang="en" href="https://mochify.app/flow" />
+    <link rel="alternate" hreflang="fr" href="https://mochify.app/fr/flow" />
+    <link rel="alternate" hreflang="x-default" href="https://mochify.app/flow" />
 </svelte:head>
 
 <div class="min-h-screen flex flex-col relative">
 
     <Navigation />
+
+    <LocaleBanner
+        href="/fr/flow"
+        label="Voir cette page en français"
+        dismissKey="mochify-locale-banner-fr"
+        when="fr"
+    />
 
     <main class="relative z-10 flex-grow w-full max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
 
