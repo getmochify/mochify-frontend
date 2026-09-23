@@ -12,7 +12,7 @@
         category: "Image Optimization",
         readTime: "12 min read",
         date: "July 23, 2026",
-        lastUpdated: "September 17, 2026"
+        lastUpdated: "September 23, 2026"
     };
 
     const toc = [
@@ -95,7 +95,7 @@
             "@id": "https://mochify.app/guides/photo-file-too-large-to-upload"
         },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-09-17",
+        "dateModified": "2026-09-23",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -156,7 +156,7 @@
         "description": "Why free tools reject modern camera files: real sizes from 45-61MP bodies, the 5-20MB caps that refuse them, and the fastest path to files that upload anywhere.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-09-17"
+        "dateModified": "2026-09-23"
         }
     </script>
 
@@ -283,7 +283,7 @@
                 <li><strong class="text-[#4A2C2C]">Mochify (Free tier): 20MB.</strong> Covers a Canon R5 Fine Large JPEG or <code>.HIF</code> (about 13.5MB), most HEIFs, and effectively all phone photos - but not a 61MP Extra Fine JPEG.</li>
                 <li><strong class="text-[#4A2C2C]">Mochify (Seller and Pro): 75MB.</strong> Covers everything in the stills table above except uncompressed RAW.</li>
             </ul>
-            <p>Stated plainly, because this is the article's honest core: our free cap is 4x TinyPNG's, and there is still a class of file it rejects. A Sony A7R V or similar 61MP body producing 35-52MB Extra Fine JPEGs needs the 75MB ceiling of a paid tier - ours ($7.99/month Seller) or someone else's. And <strong class="text-[#4A2C2C]">no tier of any web compressor is the right home for a 125MB uncompressed RAW</strong> - more on that below.</p>
+            <p>Stated plainly, because this is the article's honest core: our free cap is 4x TinyPNG's, and there is still a class of file it rejects. A Sony A7R V or similar 61MP body producing 35-52MB Extra Fine JPEGs needs the 75MB ceiling of a paid tier - ours ($7.99/month Seller) or someone else's. And <strong class="text-[#4A2C2C]">no tier of any web compressor is the right home for a 125MB uncompressed RAW</strong> - more on that below. Prices are USD; the <a href="/pricing">pricing page</a> shows your local currency.</p>
             <p>Competitor numbers are dated for a reason: caps change. These were verified in July 2026; check the tool's own pricing page if you are reading this much later.</p>
         </section>
 

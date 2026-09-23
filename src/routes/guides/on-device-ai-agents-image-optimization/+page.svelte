@@ -11,7 +11,7 @@
         category: "AI & Automation",
         readTime: "15 min read",
         date: "June 2, 2026",
-        lastUpdated: "July 17, 2026",
+        lastUpdated: "September 23, 2026",
     };
 
     const toc = [
@@ -102,7 +102,7 @@
       "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
       "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app", "logo": { "@type": "ImageObject", "url": "https://mochify.app/logo.png" } },
       "datePublished": "2026-06-02",
-      "dateModified": "2026-07-17",
+      "dateModified": "2026-09-23",
       "inLanguage": "en",
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://mochify.app/guides/on-device-ai-agents-image-optimization" }
     }
@@ -358,7 +358,7 @@
             </InfoBox>
 
             <p class="mb-4"><strong class="text-[#4A2C2C]">On video:</strong> if your workflow involves video, that's handled separately. Mochify's video engine runs entirely client-side in the browser - the bytes never leave your device. That's a stronger local privacy guarantee than even the MCP path, but it means video is web-app-only. The CLI, local MCP server, and REST API handle images and PDFs. Route video compression through the web app.</p>
-            <p>MCP access is available on all Mochify tiers including Free (25 images/month). For heavier batch workloads, Seller ($7.99/month) gives you 300 images/month and 25-file batches. Details at <a href="/pricing">mochify.app/pricing</a>.</p>
+            <p>MCP access is available on all Mochify tiers including Free (25 images/month). For heavier batch workloads, Seller ($7.99/month) gives you 300 images/month and 25-file batches. Prices are USD; details and your local currency are at <a href="/pricing">mochify.app/pricing</a>.</p>
         </section>
 
         <!-- 7. Cheat sheet -->

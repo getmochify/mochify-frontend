@@ -9,11 +9,11 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is this JXL to PDF converter free?',
-            a: 'Yes for your first PDF: no signup, up to 20 files, with the free allowance building a PDF of up to 3 pages. Full PDF tools are included in the Seller and Pro plans; see the pricing page for the current limits.'
+            a: 'Yes for your first PDF: no signup, up to 20 files, with the free tier creating a PDF of up to 3 pages. Paid plans go up to 10 pages, and Growth is unlimited (up to a 200-page safety ceiling); see the pricing page for the current limits.'
         },
         {
             q: 'Do I need an account?',
-            a: 'No. The page works without signing up, within the same free limits as any other Mochify conversion. Create a free account or upgrade to Seller or Pro for full PDF tools.'
+            a: 'No. The page works without signing up, within the same free limits as any other Mochify conversion. Create a free account or upgrade to a paid plan for more pages per PDF.'
         },
         {
             q: 'Does converting to PDF reduce the quality of my JXL images?',
@@ -29,7 +29,7 @@
         },
         {
             q: 'How many images can I combine?',
-            a: 'Up to 20 files per PDF on this page. The free allowance builds a PDF of up to 3 pages; full PDF tools are part of Seller and Pro.'
+            a: 'Up to 20 files per PDF on this page. The free tier creates a PDF of up to 3 pages. Paid plans go up to 10 pages, and Growth is unlimited (up to a 200-page safety ceiling). Each image becomes one page.'
         },
         {
             q: 'How do I open a JXL file without converting it?',
@@ -171,7 +171,7 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl font-bold text-[#4A2C2C]">Limits, bulk and automation</h2>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            Your first PDF needs no account; with or without a free account the free allowance builds a PDF of up to 3 pages, and full PDF tools are part of Seller and Pro. This page takes up to 20 files per PDF. The same in-memory model applies to the CLI (<code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify auth login</code>), the hosted and local MCP servers and the REST API, which also handle PDF work through <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">POST /v1/pdf</code>; full reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>. Every route converts at api.mochify.app in memory, keeps nothing on disk and writes no logs containing your data.
+                            Your first PDF needs no account; with or without a free account the free tier creates a PDF of up to 3 pages, paid plans go up to 10 pages and Growth is unlimited (up to a 200-page safety ceiling). This page takes up to 20 files per PDF. The same in-memory model applies to the CLI (<code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify auth login</code>), the hosted and local MCP servers and the REST API, which also handle PDF work through <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">POST /v1/pdf</code>; full reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>. Every route converts at api.mochify.app in memory, keeps nothing on disk and writes no logs containing your data.
                         </p>
                     </div>
                 </div>

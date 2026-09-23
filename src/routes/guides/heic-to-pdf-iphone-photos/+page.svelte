@@ -12,7 +12,7 @@
         category: "Image Formats",
         readTime: "12 min read",
         datePublished: "June 29, 2026",
-        lastUpdated: "September 22, 2026"
+        lastUpdated: "September 23, 2026"
     };
 
     const related = [
@@ -114,7 +114,7 @@
             "@id": "https://mochify.app/guides/heic-to-pdf-iphone-photos"
         },
         "datePublished": "2026-06-29",
-        "dateModified": "2026-09-22",
+        "dateModified": "2026-09-23",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -423,7 +423,7 @@
                         <tr class="hover:bg-pink-50/30 transition-colors">
                             <td class="px-5 py-3 text-[#6C3F31]">Mochify</td>
                             <td class="px-5 py-3 text-[#6C3F31]"><a href="/solutions/heif-to-pdf">mochify.app/solutions/heif-to-pdf</a></td>
-                            <td class="px-5 py-3 text-[#6C3F31]">Up to 20 files per conversion</td>
+                            <td class="px-5 py-3 text-[#6C3F31]">Up to 20 files per conversion; 3 pages on Free, 10 on Seller and Pro, unlimited on Growth</td>
                         </tr>
                     </tbody>
                 </table>

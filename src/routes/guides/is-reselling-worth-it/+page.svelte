@@ -12,7 +12,7 @@
         category: "Workflows",
         readTime: "14 min read",
         date: "July 23, 2026",
-        lastUpdated: "September 22, 2026"
+        lastUpdated: "September 23, 2026"
     };
 
     const toc = [
@@ -98,7 +98,7 @@
             "@id": "https://mochify.app/guides/is-reselling-worth-it"
         },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-09-22",
+        "dateModified": "2026-09-23",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -158,7 +158,7 @@
         "description": "Is reselling worth it in 2026? The honest math: market data, time per listing, tool costs, and when a free photo workflow beats a paid one.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-09-22"
+        "dateModified": "2026-09-23"
         }
     </script>
 
@@ -312,7 +312,7 @@
                 </table>
             </ScrollableTable>
             <p>Cross-listers are genuinely useful at volume - copying a listing to a second marketplace beats retyping it. But note what none of them do: per-platform photo <em>optimization</em>. They move your images around; they do not re-crop portrait for Poshmark, convert HEIC for eBay, or compress an oversized photo under a platform cap. The photo work still happens upstream, which is why it belongs in your math as its own line.</p>
-            <p>For the photo line, the relevant comparison set is image tools, and the range is $0 to about $25/month. Mochify's Seller tier is $7.99/month; you can see the full breakdown on the <a href="/pricing">pricing page</a>. Whether that line should be $0 or $7.99 is the next section, and the answer is not always $7.99.</p>
+            <p>For the photo line, the relevant comparison set is image tools, and the range is $0 to about $25/month. Mochify's Seller tier is $7.99/month; you can see the full breakdown, in your local currency, on the <a href="/pricing">pricing page</a>. Whether that line should be $0 or $7.99 is the next section, and the answer is not always $7.99.</p>
         </section>
 
         <section id="when-free-is-enough" class="scroll-mt-24">

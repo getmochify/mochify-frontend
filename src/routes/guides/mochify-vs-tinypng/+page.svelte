@@ -12,7 +12,7 @@
         category: "Image Optimization",
         readTime: "13 min read",
         date: "July 21, 2026",
-        lastUpdated: "September 12, 2026"
+        lastUpdated: "September 23, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -97,7 +97,7 @@
             "@id": "https://mochify.app/guides/mochify-vs-tinypng"
         },
         "datePublished": "2026-07-21",
-        "dateModified": "2026-09-12",
+        "dateModified": "2026-09-23",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -156,7 +156,7 @@
         "description": "TinyPNG stores files 48 hours; Mochify wipes them instantly. An honest head-to-head on pricing, formats, AI features, and where TinyPNG genuinely wins.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-21",
-        "dateModified": "2026-09-12"
+        "dateModified": "2026-09-23"
         }
     </script>
 
@@ -315,6 +315,7 @@
                     </tbody>
                 </table>
             </ScrollableTable>
+            <p class="text-sm text-[#875F42]">Prices are USD; the <a href="/pricing">pricing page</a> shows your local currency.</p>
             <p>Read that table both ways. If you compress hundreds of sub-5MB images a month in a browser and need nothing else, TinyPNG Web Pro is the better deal, full stop. Mochify's tiers price in the capabilities rather than raw compression volume: every tier, including Free, carries Magic Flow, background removal, MCP and API access, and the full format set. TinyPNG meters its API per compression ($0.009 each after the free 500, with resize and convert each counting as an extra compression); Mochify's API and MCP draw from the same monthly quota as everything else, with no per-operation billing.</p>
             <p>TinyPNG's published prices were checked against Tinify's own pages in July 2026 but are theirs to change; verify current figures on their site before deciding on price alone.</p>
         </section>

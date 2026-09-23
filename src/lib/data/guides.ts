@@ -96,7 +96,8 @@ export const guides: Guide[] = [
 		url: '/guides/bring-your-own-bucket-s3-r2',
 		category: 'Data Privacy',
 		readTime: '18 min read',
-		date: 'September 3, 2026'
+		date: 'September 3, 2026',
+		lastUpdated: 'September 23, 2026'
 	},
 	{
 		title: 'Why HDR Photos Look Flat When You Share Them (and How Gain Maps Fix It)',
@@ -250,7 +251,7 @@ export const guides: Guide[] = [
 		category: 'AI & Automation',
 		readTime: '15 min read',
 		date: 'July 2, 2026',
-		lastUpdated: 'September 12, 2026'
+		lastUpdated: 'September 23, 2026'
 	},
 	{
 		title: 'How to Convert iPhone Photos (HEIC) to PDF',
@@ -260,7 +261,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '12 min read',
 		date: 'June 29, 2026',
-		lastUpdated: 'September 22, 2026'
+		lastUpdated: 'September 23, 2026'
 	},
 	{
 		title: 'Convert MP4 to WebM for the Web: Smaller Files, Faster Pages, No Upload Required',
@@ -386,7 +387,7 @@ export const guides: Guide[] = [
 		category: 'AI & Automation',
 		readTime: '15 min read',
 		date: 'June 2, 2026',
-		lastUpdated: 'July 17, 2026',
+		lastUpdated: 'September 23, 2026',
 		featured: true
 	},
 	{
@@ -699,7 +700,7 @@ export const guides: Guide[] = [
 		category: 'Image Optimization',
 		readTime: '13 min read',
 		date: 'July 21, 2026',
-		lastUpdated: 'September 12, 2026'
+		lastUpdated: 'September 23, 2026'
 	},
 	{
 		title: 'Is Reselling Worth It in 2026? The Honest Math',
@@ -709,7 +710,7 @@ export const guides: Guide[] = [
 		category: 'Workflows',
 		readTime: '14 min read',
 		date: 'July 23, 2026',
-		lastUpdated: 'September 12, 2026'
+		lastUpdated: 'September 23, 2026'
 	},
 	{
 		title: 'Photo File Too Large to Upload? Why Free Tools Reject Camera Files',
@@ -719,7 +720,7 @@ export const guides: Guide[] = [
 		category: 'Image Optimization',
 		readTime: '12 min read',
 		date: 'July 23, 2026',
-		lastUpdated: 'September 17, 2026'
+		lastUpdated: 'September 23, 2026'
 	}
 ];
 

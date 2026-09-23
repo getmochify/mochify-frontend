@@ -22,7 +22,7 @@
         category: "Data Privacy",
         readTime: "18 min read",
         date: "September 3, 2026",
-        lastUpdated: "September 22, 2026"
+        lastUpdated: "September 23, 2026"
     };
 
     const toc = [
@@ -54,7 +54,7 @@
         { q: "Is Bring your own bucket available on the Free plan or with a Day Pass?", a: "No. It is a Seller and Pro feature. Free accounts and Day Pass users get results back in the browser as usual. A Day Pass is a $2, 24-hour unlock that needs no account, and a bucket connection needs an account to belong to." },
         { q: "Can the API, CLI, or MCP server write to my bucket?", a: "Not at launch. Bucket output is a web app feature; the REST API, the CLI, and both MCP servers return results to the caller, and you write them wherever you like from there. If you need this from a developer surface, let us know; it helps us prioritize." },
         { q: "Does using my own bucket change my GDPR or DPA position?", a: "It simplifies it. Processing is still covered by the Data Processing Agreement, which describes in-memory processing with no retention (and the MCP pickup exception). The result is then stored by you, in your bucket, under your access and lifecycle controls, so there is no additional storage on a sub-processor to account for." },
-        { q: "What about Google Drive?", a: "Google Drive shows on the Connections screen as \"Coming soon\". It is not available yet, so plan on an S3, R2, or S3-compatible bucket for now." }
+        { q: "What about Google Drive?", a: "Google Drive sits next to buckets on the Connections screen as a second destination, available on Seller, Pro and Growth. This guide is about buckets, which is the option that keeps the storage entirely yours." }
     ];
 
     const related = [
@@ -94,7 +94,7 @@
             "@id": "https://mochify.app/guides/bring-your-own-bucket-s3-r2"
         },
         "datePublished": "2026-09-03",
-        "dateModified": "2026-09-22",
+        "dateModified": "2026-09-23",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -206,10 +206,10 @@
             <p class="mb-4">What it does not do, at launch:</p>
             <ul class="list-disc pl-6 space-y-3 marker:text-[#F06292] my-6">
                 <li><strong>It is a web app feature.</strong> The REST API, the CLI, and both MCP servers return results to the caller the way they always have. Do not build a script on the assumption that an API call will land a file in your bucket; that is not how the feature ships today.</li>
-                <li><strong>It is not a Free or Day Pass feature.</strong> Bucket output is on Seller ($7.99/month) and Pro ($24.99/month). A Day Pass is a $2, 24-hour, no-account unlock, and there is no account for a bucket to belong to.</li>
+                <li><strong>It is not a Free or Day Pass feature.</strong> Bucket output is on Seller ($7.99/month) and Pro ($24.99/month). A Day Pass is a $2, 24-hour, no-account unlock, and there is no account for a bucket to belong to. Prices are USD; the pricing page shows your local currency.</li>
                 <li><strong>It is not a file manager.</strong> Mochify does not browse, organize, or clean up your bucket. Your storage stays your business.</li>
             </ul>
-            <p class="mb-4">Google Drive appears next to it on the Connections screen marked "Coming soon". That is all it is for now, so plan around buckets.</p>
+            <p class="mb-4">Google Drive sits next to it on the Connections screen as a second destination, available on Seller, Pro and Growth. The rest of this guide is about buckets, which is the option that keeps the storage entirely yours.</p>
         </section>
 
         <section id="who-holds-the-key" class="scroll-mt-24">
