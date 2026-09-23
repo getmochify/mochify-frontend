@@ -43,18 +43,18 @@
 </script>
 
 <svelte:head>
-    <title>Convert, Resize and Compress Images, Video and PDFs | Mochify</title>
-    <meta name="description" content="Drop images, PDFs or video and say what you need in plain English: convert, resize, smart crop, remove backgrounds, extract audio, compress. 3 files free, no sign-up.">
+    <title>Convert, Resize and Compress Images Online, Free | Mochify</title>
+    <meta name="description" content="Drop images or PDFs and say what you need in plain English: convert, resize, crop, remove the background or compress. Free to try, no sign-up.">
 
     <!-- canonical, og:image and twitter:image are injected by the root layout. -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mochify.app/flow" />
-    <meta property="og:title" content="Convert, Resize and Compress Images, Video and PDFs | Mochify" />
-    <meta property="og:description" content="Say what you need in plain English and Mochify does it. Convert, resize, smart crop, remove backgrounds, rasterize PDF pages, pull audio out of video. No format pickers." />
+    <meta property="og:title" content="Convert, Resize and Compress Images Online, Free | Mochify" />
+    <meta property="og:description" content="Say what you need in plain English and Mochify does it: convert, resize, smart crop, remove backgrounds, rasterize PDF pages. No format pickers, no sliders." />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Convert, Resize and Compress Images, Video and PDFs | Mochify" />
-    <meta name="twitter:description" content="Say what you need in plain English and Mochify does it. Convert, resize, smart crop, remove backgrounds, rasterize PDF pages, pull audio out of video. No format pickers." />
+    <meta name="twitter:title" content="Convert, Resize and Compress Images Online, Free | Mochify" />
+    <meta name="twitter:description" content="Say what you need in plain English and Mochify does it: convert, resize, smart crop, remove backgrounds, rasterize PDF pages. No format pickers, no sliders." />
 </svelte:head>
 
 <div class="min-h-screen flex flex-col relative">

@@ -254,10 +254,10 @@
 </script>
 
 <svelte:head>
-	<title>Compress images, video & PDFs with plain language | Mochify</title>
+	<title>Mochify: Image & PDF Compression for Web, CLI, MCP and API</title>
 	<meta
 		name="description"
-		content="Drop a file and say what you want. AVIF, WebP, JPEG XL and PDF compression in your browser, from the CLI, or inside Claude via a local MCP server. Zero retention."
+		content="One engine for images and PDFs wherever you work: the web app, CLI, an MCP server for Claude, the REST API and a Chrome extension. Just say what you want."
 	/>
 
 	<!-- canonical, og:image and twitter:image are injected by the root layout. -->
@@ -265,7 +265,7 @@
 	<!-- Open Graph -->
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://mochify.app/" />
-	<meta property="og:title" content="Compress images, video & PDFs with plain language | Mochify" />
+	<meta property="og:title" content="Mochify: Image & PDF Compression for Web, CLI, MCP and API" />
 	<meta
 		property="og:description"
 		content="One engine, six surfaces: web app, CLI, local and hosted MCP, REST API, Chrome extension. Zero retention on images and PDFs; video never leaves your browser."
@@ -275,11 +275,11 @@
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta
 		name="twitter:title"
-		content="Compress images, video & PDFs with plain language | Mochify"
+		content="Mochify: Image & PDF Compression for Web, CLI, MCP and API"
 	/>
 	<meta
 		name="twitter:description"
-		content="Web app, CLI, local and hosted MCP, REST API, Chrome extension. Zero retention on images and PDFs; video never leaves your browser."
+		content="One engine for images and PDFs wherever you work: the web app, CLI, an MCP server for Claude, the REST API and a Chrome extension. Just say what you want."
 	/>
 
 	<!-- Single graph for the page. The Organization node it references by
