@@ -92,7 +92,7 @@ export const guides: Guide[] = [
 	{
 		title: 'Bring Your Own Bucket: Send Processed Images Straight to Your Own S3 or R2',
 		description:
-			'Send every processed image straight into your own S3, R2, or S3-compatible bucket. Seller and Pro, write-only, one-object pre-signed URLs, zero retention.',
+			'Send every processed image straight into your own S3, R2, or S3-compatible bucket. Paid plans, write-only, one-object pre-signed URLs, zero retention.',
 		url: '/guides/bring-your-own-bucket-s3-r2',
 		category: 'Data Privacy',
 		readTime: '18 min read',

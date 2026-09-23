@@ -18,7 +18,7 @@
     const metadata = {
         title: "Bring Your Own Bucket: Send Processed Images Straight to Your Own S3 or R2",
         seoTitle: "Bring Your Own Bucket - Processed Images to Your S3 or R2",
-        description: "Send every processed image straight into your own S3, R2, or S3-compatible bucket. Seller and Pro, write-only, one-object pre-signed URLs, zero retention.",
+        description: "Send every processed image straight into your own S3, R2, or S3-compatible bucket. Paid plans, write-only, one-object pre-signed URLs, zero retention.",
         category: "Data Privacy",
         readTime: "18 min read",
         date: "September 3, 2026",
@@ -39,7 +39,7 @@
     ];
 
     const workflowSteps = [
-        { title: "Connect the bucket.", html: "<p>On a Seller or Pro account, open <strong>Dashboard → Connections</strong> and choose Bring your own bucket. It accepts Amazon S3, Cloudflare R2, or an S3-compatible endpoint. Use a dedicated bucket or prefix and a narrowly scoped key (see the section above). This is done once.</p>" },
+        { title: "Connect the bucket.", html: "<p>On any paid account, open <strong>Dashboard → Connections</strong> and choose Bring your own bucket. It accepts Amazon S3, Cloudflare R2, or an S3-compatible endpoint. Use a dedicated bucket or prefix and a narrowly scoped key (see the section above). This is done once.</p>" },
         { title: "Upload as usual.", html: "<p>Drop up to 25 files per batch, up to 75 MB each, into the web app. Inputs still travel from your browser to <code>api.mochify.app</code>; the bucket is for outputs.</p>" },
         { title: "Describe the job.", html: "<p>A few prompts that reflect how stores and agencies actually phrase the work: \"make these web-ready, WebP, longest edge 1600 px\"; \"convert to AVIF and strip EXIF\"; \"compress for Shopify product listings, keep under 300 KB\"; \"square-crop to the product and remove the background\". Background removal and saliency-guided smart cropping are standard operations, available on every tier, and can be invoked in the same prompt. For a bulk square crop you can also use the <a href=\"https://mochify.app/solutions/bulk-ai-square-cropper\">Bulk Square Cropper</a>, and for transparent cutouts the <a href=\"https://mochify.app/solutions/remove-background-webp\">background remover with WebP output</a>.</p>" },
         { title: "Let the results land.", html: "<p>Each processed file is written from the processing container straight into your bucket over a one-object pre-signed URL. Your CDN serves it from there.</p>" },
@@ -51,7 +51,7 @@
         { q: "Does Mochify need read access to my bucket?", a: "The feature is write-only: it exists to put processed objects into your bucket, and the pipeline's pre-signed URL cannot list or read anything. The Connections screen tells you what the setup asks for, and a dedicated bucket or prefix with a narrowly scoped key is the recommended posture whatever service you connect." },
         { q: "What is a pre-signed URL, and why should I care?", a: "A pre-signed URL is a link that grants one specific operation on one specific object until it expires, without exposing the underlying credential; both AWS and Cloudflare R2 document it as a standard S3 mechanism. You should care because it bounds the damage a compromised component could do: with a one-object, minutes-long URL, the worst case is a single write, not a readable catalog." },
         { q: "Can I use Backblaze B2, Wasabi, DigitalOcean Spaces, or MinIO?", a: "The feature supports Amazon S3, Cloudflare R2, and S3-compatible buckets, and those providers all document S3-compatible APIs. Point the connection at the provider's S3 endpoint; if a particular provider misbehaves, tell us through the contact page so we can look at it." },
-        { q: "Is Bring your own bucket available on the Free plan or with a Day Pass?", a: "No. It is a Seller and Pro feature. Free accounts and Day Pass users get results back in the browser as usual. A Day Pass is a $2, 24-hour unlock that needs no account, and a bucket connection needs an account to belong to." },
+        { q: "Is Bring your own bucket available on the Free plan or with a Day Pass?", a: "No. It is a paid-plan feature, on Seller, Pro and Growth alike. Free accounts and Day Pass users get results back in the browser as usual. A Day Pass is a $2, 24-hour unlock that needs no account, and a bucket connection needs an account to belong to." },
         { q: "Can the API, CLI, or MCP server write to my bucket?", a: "Not at launch. Bucket output is a web app feature; the REST API, the CLI, and both MCP servers return results to the caller, and you write them wherever you like from there. If you need this from a developer surface, let us know; it helps us prioritize." },
         { q: "Does using my own bucket change my GDPR or DPA position?", a: "It simplifies it. Processing is still covered by the Data Processing Agreement, which describes in-memory processing with no retention (and the MCP pickup exception). The result is then stored by you, in your bucket, under your access and lifecycle controls, so there is no additional storage on a sub-processor to account for." },
         { q: "What about Google Drive?", a: "Google Drive sits next to buckets on the Connections screen as a second destination, available on Seller, Pro and Growth. This guide is about buckets, which is the option that keeps the storage entirely yours." }
@@ -87,7 +87,7 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "Bring Your Own Bucket: Send Processed Images Straight to Your Own S3 or R2",
-        "description": "Send every processed image straight into your own S3, R2, or S3-compatible bucket. Seller and Pro, write-only, one-object pre-signed URLs, zero retention.",
+        "description": "Send every processed image straight into your own S3, R2, or S3-compatible bucket. Paid plans, write-only, one-object pre-signed URLs, zero retention.",
         "url": "https://mochify.app/guides/bring-your-own-bucket-s3-r2",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -166,7 +166,7 @@
         </p>
 
         <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed mt-8 mb-0">
-            Bring your own bucket lets Seller and Pro accounts have every processed image written straight into an Amazon S3, Cloudflare R2, or S3-compatible bucket they already own, so the optimized file lands in the storage it was always headed for instead of coming back to your device as a download to file away. Nothing changes on Mochify's side, because Mochify never stores image data in either case: the file is processed in memory and discarded. The pipeline never holds your credential either: for each result it is handed a pre-signed URL that is good for one object and a few minutes, and nothing else. This guide explains what that means in plain terms, who holds which key, why it sits inside our zero-retention model rather than beside it, how the output fits a bucket that already has a CDN in front of it, what it costs on your side, and where the edges are.
+            Bring your own bucket lets accounts on any paid plan have every processed image written straight into an Amazon S3, Cloudflare R2, or S3-compatible bucket they already own, so the optimized file lands in the storage it was always headed for instead of coming back to your device as a download to file away. Nothing changes on Mochify's side, because Mochify never stores image data in either case: the file is processed in memory and discarded. The pipeline never holds your credential either: for each result it is handed a pre-signed URL that is good for one object and a few minutes, and nothing else. This guide explains what that means in plain terms, who holds which key, why it sits inside our zero-retention model rather than beside it, how the output fits a bucket that already has a CDN in front of it, what it costs on your side, and where the edges are.
         </p>
 
         <GlassPanel>
@@ -190,7 +190,7 @@
             <GlassPanel label="Key takeaway">
                 <p>With Bring your own bucket connected, you upload as normal, describe the job in plain English, and the finished files are written from our processing container directly into your bucket. The original is streamed into memory, processed, and discarded, exactly as it is for every image job. Without a bucket, the result comes back to your browser and Mochify keeps nothing. With a bucket, the result goes to your bucket and Mochify keeps nothing. The only thing that changes is the delivery address.</p>
             </GlassPanel>
-            <p class="mb-4">Three facts do most of the work in this guide. First, it is write-only: Mochify writes results into the bucket and does not read from it, list it, or touch anything already there. Second, the pipeline is handed a capability, not a credential: a pre-signed URL that can put one named object and expires in minutes. Third, it is available on Seller and Pro, in the web app, and not on Free or on a Day Pass, because a pass has no account to attach a bucket to.</p>
+            <p class="mb-4">Three facts do most of the work in this guide. First, it is write-only: Mochify writes results into the bucket and does not read from it, list it, or touch anything already there. Second, the pipeline is handed a capability, not a credential: a pre-signed URL that can put one named object and expires in minutes. Third, it is available on every paid plan, in the web app, and not on Free or on a Day Pass, because a pass has no account to attach a bucket to.</p>
             <p class="mb-4">If you run a store, an agency, or a build pipeline that already keeps its image library in object storage, this removes the step everyone dislikes: downloading a zip of optimized files and re-uploading it to the place they were always going to end up.</p>
         </section>
 
@@ -206,7 +206,7 @@
             <p class="mb-4">What it does not do, at launch:</p>
             <ul class="list-disc pl-6 space-y-3 marker:text-[#F06292] my-6">
                 <li><strong>It is a web app feature.</strong> The REST API, the CLI, and both MCP servers return results to the caller the way they always have. Do not build a script on the assumption that an API call will land a file in your bucket; that is not how the feature ships today.</li>
-                <li><strong>It is not a Free or Day Pass feature.</strong> Bucket output is on Seller ($7.99/month) and Pro ($24.99/month). A Day Pass is a $2, 24-hour, no-account unlock, and there is no account for a bucket to belong to. Prices are USD; the pricing page shows your local currency.</li>
+                <li><strong>It is not a Free or Day Pass feature.</strong> Bucket output is on every paid plan, from Seller ($7.99/month) up. A Day Pass is a $2, 24-hour, no-account unlock, and there is no account for a bucket to belong to. Prices are USD; the pricing page shows your local currency.</li>
                 <li><strong>It is not a file manager.</strong> Mochify does not browse, organize, or clean up your bucket. Your storage stays your business.</li>
             </ul>
             <p class="mb-4">Google Drive sits next to it on the Connections screen as a second destination, available on Seller, Pro and Growth. The rest of this guide is about buckets, which is the option that keeps the storage entirely yours.</p>
@@ -247,7 +247,7 @@
 
         <section id="costs" class="scroll-mt-24">
             <SectionHeading>What it costs on your side</SectionHeading>
-            <p class="mb-4">Bring your own bucket is included in Seller and Pro; the only new line item is your own bucket's storage and requests, which for most stores and agencies is small change next to the plan. The numbers depend on the provider:</p>
+            <p class="mb-4">Bring your own bucket is included in every paid plan; the only new line item is your own bucket's storage and requests, which for most stores and agencies is small change next to the plan. The numbers depend on the provider:</p>
             <ul class="list-disc pl-6 space-y-3 marker:text-[#F06292] my-6">
                 <li><strong>Cloudflare R2</strong> publishes $0.015 per GB-month for Standard storage, $4.50 per million Class A operations (writes), $0.36 per million Class B operations (reads), and no egress charge: "egressing directly from R2 ... does not incur data transfer (egress) charges and is free" (<a href="https://developers.cloudflare.com/r2/pricing/" target="_blank" rel="noopener noreferrer">R2 pricing</a>). Each processed image is one write, so a 10,000-image catalog refresh costs a few cents in operations.</li>
                 <li><strong>Amazon S3</strong> publishes per-region storage and request rates on its pricing page, with the first 100 GB per month of data transfer out to the internet free across AWS services. Beyond that allowance, egress is the number to watch on AWS; it is the reason many image-heavy sites put CloudFront or a third-party CDN in front of S3 rather than serving from the bucket.</li>
@@ -292,7 +292,7 @@
                     </thead> 
                     <tbody> 
                         <tr><td>Web app, no bucket connected</td><td><code>api.mochify.app</code>, in memory</td><td>Back to your browser</td><td>None: processed in RAM, discarded</td></tr> 
-                        <tr><td>Web app, <strong>Bring your own bucket</strong> (Seller/Pro)</td><td><code>api.mochify.app</code>, in memory</td><td>Straight into your S3 / R2 / S3-compatible bucket via a one-object, minutes-long pre-signed URL</td><td>None: not staged; the copy is yours</td></tr> 
+                        <tr><td>Web app, <strong>Bring your own bucket</strong> (paid plans)</td><td><code>api.mochify.app</code>, in memory</td><td>Straight into your S3 / R2 / S3-compatible bucket via a one-object, minutes-long pre-signed URL</td><td>None: not staged; the copy is yours</td></tr> 
                         <tr><td>REST API (<code>/v1/squish</code>, <code>/v1/pdf</code>)</td><td><code>api.mochify.app</code>, in memory</td><td>Back to the caller in the response</td><td>None</td></tr> 
                         <tr><td>CLI (<code>mochify</code>) and local MCP server (<code>mochify serve</code>)</td><td><code>api.mochify.app</code>, in memory</td><td>Written to your local disk by the binary</td><td>None, end to end</td></tr> 
                         <tr><td>Hosted MCP server (<code>mcp.mochify.app</code>)</td><td><code>api.mochify.app</code>, in memory</td><td>A short-lived download URL on <code>files.mochify.app</code></td><td>Original discarded; compressed output held about 5 minutes, then evicted</td></tr> 
@@ -301,7 +301,7 @@
                 </table>
             </GuideTable>
 
-            <p class="mb-4">Bring your own bucket: Seller and Pro only, web app only at launch, write-only, S3 / R2 / S3-compatible. Not on Free, not on a Day Pass.</p>
+            <p class="mb-4">Bring your own bucket: paid plans only, web app only at launch, write-only, S3 / R2 / S3-compatible. Not on Free, not on a Day Pass.</p>
         </section>
 
         <!-- FAQ -->
@@ -311,9 +311,9 @@
         <GlassCTA
             heading="Connect a bucket"
             href="/pricing"
-            label="See Seller and Pro plans →"
+            label="See the paid plans →"
         >
-            Connect a bucket on a Seller or Pro plan, drop in a batch, and tell Magic Flow what you need: <em>make these web-ready, WebP, longest edge 1600 px</em>. The results land straight in your own S3, R2, or S3-compatible storage, with nothing kept on Mochify's side.
+            Connect a bucket on any paid plan, drop in a batch, and tell Magic Flow what you need: <em>make these web-ready, WebP, longest edge 1600 px</em>. The results land straight in your own S3, R2, or S3-compatible storage, with nothing kept on Mochify's side.
         </GlassCTA>
 
         <RelatedGuidesGrid guides={related} />
