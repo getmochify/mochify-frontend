@@ -445,6 +445,18 @@
 				>
 					<PromptFormApp onSuccess={handleSuccess} maxWidth="max-w-3xl" />
 
+					<p class="mt-2 pr-1 text-right text-xs text-[#875F42]/70">
+						Want more room?
+						<a
+							href="/flow"
+							data-sveltekit-preload-data="hover"
+							class="group ml-0.5 inline-flex items-center gap-1 font-bold text-[#F06292] no-underline transition-colors hover:text-[#D81B60]"
+						>
+							Open Mochify Flow
+							<span class="transition-transform group-hover:translate-x-0.5">→</span>
+						</a>
+					</p>
+
 					{#if showUpgradeCTA}
 						<div class="animate-slide-up mt-4">
 							<div class="glass-card-pink relative overflow-hidden rounded-2xl shadow-sm">
@@ -501,7 +513,7 @@
 						uploads. Zero retention throughout, and zero image bytes in your agent's context.
 					</p>
 
-					<div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center">
+					<div class="mb-4 flex flex-col items-start gap-3">
 						<button
 							onclick={copyInstall}
 							class="group flex w-full cursor-pointer items-center justify-between gap-6 rounded-2xl bg-[#2D1B1B] py-3.5 pr-4 pl-6 font-mono text-xs text-pink-100 shadow-lg transition-all hover:shadow-pink-300/20 sm:w-auto sm:text-base"
@@ -518,9 +530,10 @@
 						</button>
 						<a
 							href="#surfaces"
-							class="text-base font-bold whitespace-nowrap text-[#F06292] underline decoration-2 underline-offset-4 transition-colors hover:text-[#D81B60]"
+							class="group inline-flex items-center justify-center gap-2 self-start rounded-2xl border border-[#F06292]/30 bg-white/80 px-6 py-3 text-sm font-bold whitespace-nowrap text-[#F06292] no-underline shadow-lg shadow-pink-200/30 transition-all hover:border-[#F06292]/50 hover:bg-white hover:text-[#D81B60] hover:shadow-pink-300/40 sm:text-base"
 						>
-							CLI, MCP, and API →
+							CLI, MCP, and API
+							<span class="transition-transform group-hover:translate-x-0.5">→</span>
 						</a>
 					</div>
 					<p class="text-sm text-[#875F42] opacity-80">
