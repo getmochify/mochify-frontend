@@ -1,6 +1,44 @@
 <script lang="ts">
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
+    import { faqSchema, type FaqItem } from '$lib/faq';
+
+    // The visible accordion and the FAQPage schema are built from this one
+    // array, so the two cannot drift. The page previously hand-wrote a
+    // three-question schema against six visible questions, one of which was
+    // never on the page at all (handoff 2026-09-23).
+    const faqs = [
+        {
+            q: 'What is the best photo size for Vinted?',
+            a: "Vinted does not publish a recommended photo size, so there is no official answer. What its layout rewards is portrait: 3:4 at 1080×1440px fills the frame without letterboxing or unwanted cropping. Mochify automatically resizes and smart-crops your photos to 1080×1440px so your item fills the frame perfectly."
+        },
+        {
+            q: 'What are Vinted\'s image requirements in 2026?',
+            a: "Vinted's catalog rules require that photos show the actual item: no stock images, no watermarks, and no added text or borders. Its help pages also advise a clean, neutral background and natural light so buyers can judge the item clearly. Vinted publishes no file size, format or minimum resolution for listing photos, so treat any specific figure you read elsewhere as someone's observation rather than a rule."
+        },
+        {
+            q: 'How do I take better photos for Vinted?',
+            a: "Natural light, a plain background, and a portrait crop are the three biggest improvements most sellers can make. Lay flat on a white surface for small items, or hang clothing against a plain wall. Then let Mochify handle the 3:4 crop, background clean-up, and resizing so every photo looks consistent and professional."
+        },
+        {
+            q: 'Does removing the background help sell on Vinted?',
+            a: "Yes, especially for clothing and accessories. A clean white background removes distractions, makes colors appear truer to life, and gives your listing the same polished look as brand product pages. Buyers associate a clean photo with a trustworthy seller."
+        },
+        {
+            q: 'Can I optimize multiple Vinted photos at once?',
+            a: "Yes. Upload up to 25 photos at once and Mochify processes them all in parallel. You get a ZIP file ready to upload to your listing, useful when you're photographing a whole wardrobe clear-out in one session."
+        },
+        {
+            q: 'Are my photos private?',
+            a: "Completely. Photos are processed in memory and discarded the moment your download is ready. They are never stored, logged, or seen by anyone."
+        }
+    ] satisfies FaqItem[];
+
+    const faqLd = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqSchema(faqs)
+    });
 </script>
 
 <svelte:head>
@@ -10,38 +48,7 @@
     <meta property="og:title" content="Better Vinted Photos. More Likes. Faster Sales.">
     <meta property="og:description" content="Mochify gets your Vinted photos to the perfect size with clean backgrounds, so buyers stop scrolling and start buying.">
 
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "What is the best photo size for Vinted?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Vinted does not publish a recommended photo size, so there is no official answer. What its layout rewards is portrait: 3:4 at 1080×1440px fills the frame without letterboxing or unwanted cropping. Mochify automatically resizes and smart-crops your photos to 1080×1440px so your item fills the frame perfectly."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What are Vinted's image requirements in 2026?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Vinted's catalog rules require that photos show the actual item: no stock images, no watermarks, and no added text or borders. Its help pages also advise a clean, neutral background and natural light so buyers can judge the item clearly. Vinted publishes no file size, format or minimum resolution for listing photos, so treat any specific figure you read elsewhere as someone's observation rather than a rule."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Do better photos help you sell faster on Vinted?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes. Vinted's feed is highly visual, buyers scroll quickly and click the photos that stand out. Clean backgrounds, square crops, and bright well-lit photos consistently get more favorites and messages than cluttered or poorly-framed shots, and items sell faster and at better prices."
-                }
-            }
-        ]
-    }
-    </script>
+    {@html `<script type="application/ld+json">${faqLd}<\/script>`}
 </svelte:head>
 
 <div class="flex-1 bg-[#FDFBF7] min-h-screen flex flex-col">
@@ -133,7 +140,7 @@
                 {#each [
                     { stat: '1080×1440', label: 'Recommended portrait size for sharp Vinted photos' },
                     { stat: '20 photos', label: 'Per listing, show every angle, perfectly optimized' },
-                    { stat: '< 10MB', label: "Small enough for any upload, without visible quality loss" }
+                    { stat: 'Optimized', label: "Small enough for any upload, without visible quality loss" }
                 ] as item}
                     <div class="bg-white rounded-2xl border border-pink-100 p-6 space-y-2">
                         <div class="text-3xl font-black text-[#F06292]">{item.stat}</div>
@@ -151,7 +158,7 @@
             <div class="grid sm:grid-cols-3 gap-8 relative">
                 {#each [
                     { n: 1, title: 'Upload', body: 'Drop in your photos straight from your camera roll, 3 at a time on Free and up to 25 at once on Seller and Pro. JPEG, HEIC from iPhone, PNG, all supported.' },
-                    { n: 2, title: 'Optimize', body: 'We smart-crop to the recommended 3:4 portrait, center your item, remove the background, and compress to under 10MB while keeping quality sharp.' },
+                    { n: 2, title: 'Optimize', body: 'We smart-crop to a 3:4 portrait, center your item, remove the background, and compress it hard while keeping quality sharp.' },
                     { n: 3, title: 'List', body: 'Download your optimized photos and upload to your Vinted listing. The whole batch takes seconds.' }
                 ] as step}
                     <div class="text-center relative z-10">
@@ -171,32 +178,7 @@
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
         <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 text-center">Vinted Photo Questions, Answered</h2>
         <div class="space-y-3 max-w-3xl mx-auto">
-            {#each [
-                {
-                    q: 'What is the best photo size for Vinted?',
-                    a: "Vinted does not publish a recommended photo size, so there is no official answer. What its layout rewards is portrait: 3:4 at 1080×1440px fills the frame without letterboxing or unwanted cropping. Mochify automatically resizes and smart-crops your photos to 1080×1440px so your item fills the frame perfectly."
-                },
-                {
-                    q: 'What are Vinted\'s image requirements in 2026?',
-                    a: "Vinted's catalog rules require that photos show the actual item: no stock images, no watermarks, and no added text or borders. Its help pages also advise a clean, neutral background and natural light so buyers can judge the item clearly. Vinted publishes no file size, format or minimum resolution for listing photos, so treat any specific figure you read elsewhere as someone's observation rather than a rule."
-                },
-                {
-                    q: 'How do I take better photos for Vinted?',
-                    a: "Natural light, a plain background, and a portrait crop are the three biggest improvements most sellers can make. Lay flat on a white surface for small items, or hang clothing against a plain wall. Then let Mochify handle the 3:4 crop, background clean-up, and resizing so every photo looks consistent and professional."
-                },
-                {
-                    q: 'Does removing the background help sell on Vinted?',
-                    a: "Yes, especially for clothing and accessories. A clean white background removes distractions, makes colors appear truer to life, and gives your listing the same polished look as brand product pages. Buyers associate a clean photo with a trustworthy seller."
-                },
-                {
-                    q: 'Can I optimize multiple Vinted photos at once?',
-                    a: "Yes. Upload up to 25 photos at once and Mochify processes them all in parallel. You get a ZIP file ready to upload to your listing, useful when you're photographing a whole wardrobe clear-out in one session."
-                },
-                {
-                    q: 'Are my photos private?',
-                    a: "Completely. Photos are processed in memory and discarded the moment your download is ready. They are never stored, logged, or seen by anyone."
-                }
-            ] as faq}
+            {#each faqs as faq}
                 <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md transition-all">
                     <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-[#4A2C2C] list-none select-none">
                         <h3 class="m-0 text-base font-bold text-[#4A2C2C]">{faq.q}</h3>
