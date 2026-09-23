@@ -17,6 +17,15 @@ export type Guide = {
 
 export const guides: Guide[] = [
 	{
+		title: 'Save Image as Type Is Gone: How to Replace It Safely',
+		description:
+			'Save Image as Type was removed as malware. How to check your browser, vet a replacement, and save any image as JPG, PNG, AVIF, JPEG XL or PDF.',
+		url: '/guides/save-image-as-type-alternative',
+		category: 'Image Formats',
+		readTime: '18 min read',
+		date: 'September 23, 2026'
+	},
+	{
 		title: 'How to Batch Crop Photos to Square',
 		description:
 			'Every batch crop tool applies one rectangle to every photo. How batch cropping to square actually works on Windows, Mac, iPhone and the command line.',
@@ -53,8 +62,7 @@ export const guides: Guide[] = [
 		date: 'September 20, 2026'
 	},
 	{
-		title:
-			'How to Make Any Photo Ultra HDR (Google Photos, Samsung, iPhone, Lightroom, or Online)',
+		title: 'How to Make Any Photo Ultra HDR (Google Photos, Samsung, iPhone, Lightroom, or Online)',
 		description:
 			'Convert any photo to Ultra HDR on Google Photos, Samsung, iPhone, Lightroom or online: what conversion really does, exact steps, and where the result displays.',
 		url: '/guides/how-to-make-any-photo-ultra-hdr',
@@ -81,8 +89,7 @@ export const guides: Guide[] = [
 		date: 'September 12, 2026'
 	},
 	{
-		title:
-			'Bring Your Own Bucket: Send Processed Images Straight to Your Own S3 or R2',
+		title: 'Bring Your Own Bucket: Send Processed Images Straight to Your Own S3 or R2',
 		description:
 			'Send every processed image straight into your own S3, R2, or S3-compatible bucket. Seller and Pro, write-only, one-object pre-signed URLs, zero retention.',
 		url: '/guides/bring-your-own-bucket-s3-r2',

@@ -87,7 +87,11 @@ export const cards = [
 		eyebrow: 'GUIDE',
 		title: 'Bring Your Own Bucket: Processed Images Straight to Your S3 or R2'
 	},
-	{ path: '/guides/can-safari-open-heic-images', eyebrow: 'GUIDE', title: 'Can Safari Open HEIC Images on the Web?' },
+	{
+		path: '/guides/can-safari-open-heic-images',
+		eyebrow: 'GUIDE',
+		title: 'Can Safari Open HEIC Images on the Web?'
+	},
 	{
 		path: '/guides/can-wordpress-7-1-optimize-images-without-a-plugin',
 		eyebrow: 'GUIDE',
@@ -342,6 +346,11 @@ export const cards = [
 		path: '/guides/batch-crop-photos-to-square',
 		eyebrow: 'GUIDE',
 		title: 'How to Batch Crop Images to Square'
+	},
+	{
+		path: '/guides/save-image-as-type-alternative',
+		eyebrow: 'GUIDE',
+		title: 'Save Image as Type Is Gone: How to Replace It Safely'
 	},
 	{
 		path: '/guides/save-webp-as-jpg-chrome',
