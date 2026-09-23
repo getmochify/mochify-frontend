@@ -16,7 +16,8 @@
 			'Chrome did not convert your image and renaming the file does nothing. The four routes that actually re-encode a WebP as JPG, one of them built into Chrome.',
 		category: 'Image Formats',
 		readTime: '19 min read',
-		date: 'September 22, 2026'
+		date: 'September 22, 2026',
+		lastUpdated: 'September 23, 2026'
 	};
 
 	const toc = [
@@ -157,7 +158,7 @@
 				"@id": "https://mochify.app/guides/save-webp-as-jpg-chrome"
 			},
 			"datePublished": "2026-09-22",
-			"dateModified": "2026-09-22",
+			"dateModified": "2026-09-23",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -205,7 +206,7 @@
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
-			{metadata.readTime} · {metadata.date} · Mochify Engineering Team
+			{metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
@@ -508,9 +509,13 @@
 				1.8 and untouched for fourteen months.
 			</p>
 			<p class="mb-4">
-				We will be straight with you about our own: the Mochify extension is new. Version 1.3.1
-				shipped on September 20, 2026, and its install base is small enough that it has no ratings
-				yet. Judge it on the criteria above like anything else.
+				We will be straight with you about our own: the Mochify extension is new, its install base
+				is small enough that it has no ratings yet, and its source code is public so you can read
+				what it does. Judge it on the criteria above like anything else. If you used Save Image as
+				Type, which Google removed as malware in March 2026, our
+				<a href="/guides/save-image-as-type-alternative"
+					>guide to replacing Save Image as Type safely</a
+				> adds the check that would have mattered there.
 			</p>
 		</section>
 
@@ -520,7 +525,9 @@
 			<p class="mb-4">
 				The Mochify Chrome extension is a Magic Flow surface. You right-click an image on any page
 				and describe the result you want in plain language, rather than hunting for the setting that
-				produces it.
+				produces it. For a straight format change you don't need the prompt at all: the same menu
+				has a Convert to list (JPG, WebP, AVIF, JPEG XL, PNG or PDF) that saves the file straight to
+				your Downloads folder.
 			</p>
 
 			<GlassPanel>

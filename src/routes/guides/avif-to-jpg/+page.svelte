@@ -11,7 +11,7 @@
         category: "Image Formats",
         readTime: "13 min read",
         datePublished: "July 13, 2026",
-        lastUpdated: "September 22, 2026"
+        lastUpdated: "September 23, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -101,7 +101,7 @@
             "@id": "https://mochify.app/guides/avif-to-jpg"
         },
         "datePublished": "2026-07-13",
-        "dateModified": "2026-09-22",
+        "dateModified": "2026-09-23",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -158,7 +158,7 @@
         "description": "AVIF is a modern format browsers love but desktop apps often reject. Convert AVIF to JPG free online in seconds, or use native tools on Windows and Mac.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-13",
-        "dateModified": "2026-09-22"
+        "dateModified": "2026-09-23"
         }
     </script>
 
@@ -239,7 +239,7 @@
 
         <section id="the-fastest-way-to-convert-avif-to-jpg" class="scroll-mt-24">
             <SectionHeading>The Fastest Way to Convert AVIF to JPG</SectionHeading>
-            <p>The fastest route is a purpose-built converter in your browser: open <a href="https://mochify.app/avif-to-jpg">mochify.app/avif-to-jpg</a>, drop the file in, download the JPG. No account is required for up to 3 images a month, and a free account raises that to 25 images per month with a 20MB per-file limit.</p>
+            <p>The fastest route is a purpose-built converter in your browser: open <a href="https://mochify.app/avif-to-jpg">mochify.app/avif-to-jpg</a>, drop the file in, download the JPG. No account is required for up to 3 images a month, and a free account raises that to 25 images per month with a 20MB per-file limit. If the AVIF is still on a web page, you can skip the download: right-click it and save it straight as JPG, as covered in our <a href="/guides/save-image-as-type-alternative">guide to replacing Save Image as Type</a>.</p>
             <p>Two things make this route worth choosing over a random converter site. First, the encoder: Mochify re-encodes to JPEG with Google's jpegli, which produces noticeably better quality per byte than the legacy encoders most converters use (more on the data in the <a href="#will-converting-avif-to-jpg-lose-quality">quality section</a> below). Second, the privacy model: your image is streamed into server RAM at api.mochify.app, encoded, returned, and wiped immediately - no disk writes, no logs containing file data, nothing retained after the request completes.</p>
             <p>You can also skip the format decision entirely. Mochify's Magic Flow interface takes plain English, so a prompt like "convert these to JPG for email and strip all metadata" handles the format, the quality, and the EXIF cleanup in one pass. There are no settings panels to learn; you describe the result you want.</p>
             <p><strong>Got a folder of them?</strong> Paid tiers batch up to 25 files at a time, which turns a scraped product catalog or a client's mixed-format handoff into one job instead of twenty-five tabs. <a href="https://mochify.app/avif-to-jpg">Try it now</a>.</p>

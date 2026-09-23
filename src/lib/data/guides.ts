@@ -41,7 +41,8 @@ export const guides: Guide[] = [
 		url: '/guides/save-webp-as-jpg-chrome',
 		category: 'Image Formats',
 		readTime: '19 min read',
-		date: 'September 22, 2026'
+		date: 'September 22, 2026',
+		lastUpdated: 'September 23, 2026'
 	},
 	{
 		title: 'Do WebP and AVIF Support Transparency?',
@@ -229,7 +230,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '13 min read',
 		date: 'July 13, 2026',
-		lastUpdated: 'September 12, 2026'
+		lastUpdated: 'September 23, 2026'
 	},
 	{
 		title: 'AI Image Compression and Conversion: Describe the Result, Skip the Settings',
@@ -591,7 +592,7 @@ export const guides: Guide[] = [
 		category: 'Quick Guides',
 		readTime: '2 min read',
 		date: 'April 13, 2026',
-		lastUpdated: 'September 10, 2026'
+		lastUpdated: 'September 23, 2026'
 	},
 	{
 		title: 'Should I Optimize My Images Before I Upload Them?',
