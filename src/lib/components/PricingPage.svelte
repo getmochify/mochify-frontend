@@ -374,7 +374,10 @@
 							{#if billing === 'monthly'}
 								{t.or}
 								<strong class="text-cocoa-deep">{t.perYearInline(price('growthYearly'))}</strong>
-								<span class="text-[#6C3F31]/50">{t.saveParenthetical(growthYearlySaving)}</span>
+								<span
+									class="ml-1 inline-block rounded-full bg-matcha-green/30 px-2 py-0.5 text-xs font-bold text-[#3A6B3C]"
+									>{t.saveExact(growthYearlySaving)}</span
+								>
 							{:else}
 								<strong class="text-cocoa-deep">{t.percentOff(growthYearlySaving)}</strong>
 								{t.vsMonthly}

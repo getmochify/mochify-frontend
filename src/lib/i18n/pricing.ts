@@ -30,7 +30,6 @@ export type PricingStrings = {
 	or: string;
 	perYearInline: (price: string) => string;
 	billedAnnually: (monthly: string) => string;
-	saveParenthetical: (pct: number) => string;
 	percentOff: (pct: number) => string;
 	vsMonthly: string;
 	everythingInSeller: string;
@@ -138,7 +137,6 @@ export const EN_PRICING: PricingStrings = {
 	or: 'Or',
 	perYearInline: (price) => `${price} / year`,
 	billedAnnually: (monthly) => `${monthly} / mo, billed annually`,
-	saveParenthetical: (pct) => `(save ${pct}%)`,
 	percentOff: (pct) => `${pct}% off`,
 	vsMonthly: 'vs monthly',
 	everythingInSeller: 'Everything in Seller, plus:',

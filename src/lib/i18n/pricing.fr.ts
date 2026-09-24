@@ -46,7 +46,6 @@ export const FR_PRICING: PricingStrings = {
 	or: 'Ou',
 	perYearInline: (price) => `${price} / an`,
 	billedAnnually: (monthly) => `${monthly} / mois, facturé annuellement`,
-	saveParenthetical: (pct) => `(économie de ${pct} %)`,
 	percentOff: (pct) => `${pct} % de remise`,
 	vsMonthly: 'par rapport au mensuel',
 	everythingInSeller: 'Tout Seller, plus :',
