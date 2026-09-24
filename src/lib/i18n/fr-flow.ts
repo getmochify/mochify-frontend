@@ -240,6 +240,21 @@ export const frFlowFaqs: FrFaq[] = [
 // the prompt chips off (see `showSuggestionChips`), not by inventing French.
 export const FR_PROMPT_FORM_STRINGS: Partial<PromptFormStrings> = {
 	uploadButton: frFlowTool.uploadButton,
+	// The attachment line and the help tooltip. Not in the copy sheet, like the
+	// chip prompts above, and drafted dev-side on the same footing: the sheet's own
+	// vocabulary, no new claim, and no language named. "in plain English" becomes
+	// "en une phrase" rather than "en français", because the page may not say the
+	// parser understands French until the parse test has run.
+	noFilesYet: 'Aucun fichier',
+	infoHowLabel: 'Comment ça marche',
+	infoHowBody:
+		"Décrivez le résultat voulu en une phrase, joignez vos images, puis envoyez. L'IA lit votre demande et traite chaque fichier automatiquement.",
+	infoFormatsLabel: 'Formats acceptés',
+	infoPdfLabel: 'Outils PDF',
+	infoPdfBody:
+		"Rastériser les pages en images (PNG, JPG, WebP…) ou diviser un PDF en fichiers d'une page.",
+	infoAvLabel: 'Vidéo et audio',
+	infoAvBody: " : conversion entièrement dans votre navigateur, rien n'est envoyé.",
 	imagePlaceholders: [frFlowTool.placeholder],
 	convertToLabel: frFlowExpanders.convertTo,
 	rotateLabel: frFlowExpanders.rotate,

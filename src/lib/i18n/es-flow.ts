@@ -235,6 +235,22 @@ export const esFlowFaqs: EsFaq[] = [
 // nobody has verified.
 export const ES_PROMPT_FORM_STRINGS: Partial<PromptFormStrings> = {
 	uploadButton: esFlowTool.uploadButton,
+	// The attachment line and the help tooltip. Not in the copy sheet, drafted
+	// dev-side like the chip prompts, with no language named: "in plain English"
+	// becomes "en una frase", never "en español".
+	//
+	// "Video", not "video" with an accent: the sheet took the Latin American form
+	// for the upload button because Mexico is the larger audience, and this matches.
+	noFilesYet: 'Ningún archivo todavía',
+	infoHowLabel: 'Cómo funciona',
+	infoHowBody:
+		'Describe en una frase el resultado que quieres, adjunta tus imágenes y envía. La IA lee tu instrucción y procesa cada archivo automáticamente.',
+	infoFormatsLabel: 'Formatos aceptados',
+	infoPdfLabel: 'Herramientas PDF',
+	infoPdfBody:
+		'Rasterizar las páginas a imágenes (PNG, JPG, WebP…) o dividir un PDF en archivos de una sola página.',
+	infoAvLabel: 'Video y audio',
+	infoAvBody: ': la conversión ocurre por completo en tu navegador, no se sube nada.',
 	imagePlaceholders: [esFlowTool.placeholder],
 	convertToLabel: esFlowExpanders.convertTo,
 	rotateLabel: esFlowExpanders.rotate,

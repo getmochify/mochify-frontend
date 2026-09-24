@@ -249,6 +249,19 @@ export const jaFlowFaqs: FaqItem[] = [
 
 export const JA_PROMPT_FORM_STRINGS: Partial<PromptFormStrings> = {
 	uploadButton: jaFlowTool.uploadButton,
+	// The attachment line and the help tooltip. Not in the copy sheet, drafted
+	// dev-side using the sheet's own vocabulary and naming no language: the page
+	// may not say the parser understands Japanese until the parse test has run.
+	noFilesYet: 'ファイルはまだありません',
+	infoHowLabel: '使い方',
+	infoHowBody:
+		'欲しい結果を一文で書いて、画像を添付して送信するだけです。AIが指示を読み取り、それぞれのファイルを自動的に処理します。',
+	infoFormatsLabel: '対応形式',
+	infoPdfLabel: 'PDFツール',
+	infoPdfBody:
+		'ページを画像に変換（PNG、JPG、WebPなど）、またはPDFを1ページずつのファイルに分割できます。',
+	infoAvLabel: '動画と音声',
+	infoAvBody: '：変換はすべてブラウザ内で行われ、アップロードされません。',
 	imagePlaceholders: [jaFlowTool.placeholder],
 	convertToLabel: jaFlowExpanders.convertTo,
 	rotateLabel: jaFlowExpanders.rotate,

@@ -29,6 +29,30 @@ export type PromptFormStrings = {
 	 * colour is presentational and shared.
 	 */
 	imageSuggestions: { label: string; prompt: string; dot: string }[];
+	/** The attachment line before anything is attached. */
+	noFilesYet: string;
+	/**
+	 * The help tooltip behind the `?` beside the send button.
+	 *
+	 * The format lists are NOT in here. JPG, WebP, MP4 and the rest are product
+	 * nouns that read the same in every language, like the tier names in the
+	 * pricing set; only the sentences around them are copy.
+	 *
+	 * The "how it works" body deliberately never names a language. The English
+	 * original says "in plain English", and the obvious translation would be
+	 * "en français" or "日本語で", which is exactly the claim the localised pages
+	 * are not allowed to make until the parse test has run (manual §6). Each one
+	 * says "in one sentence" instead, which is what the copy sheets themselves
+	 * say and is true today.
+	 */
+	infoHowLabel: string;
+	infoHowBody: string;
+	infoFormatsLabel: string;
+	infoPdfLabel: string;
+	infoPdfBody: string;
+	infoAvLabel: string;
+	/** Follows the codec list, so it opens mid-sentence. */
+	infoAvBody: string;
 };
 
 export const EN_PROMPT_FORM_STRINGS: PromptFormStrings = {
@@ -46,6 +70,16 @@ export const EN_PROMPT_FORM_STRINGS: PromptFormStrings = {
 	errorServer: 'Something went wrong on our end — please try again in a moment.',
 	errorConnection: (fileName: string) =>
 		`Lost connection while processing ${fileName} — check your internet and try again.`,
+	noFilesYet: 'No files yet',
+	infoHowLabel: 'How it works',
+	infoHowBody:
+		'Describe what you want in plain English, attach your images, then hit send. The AI reads your prompt and processes each file automatically.',
+	infoFormatsLabel: 'Accepted formats',
+	infoPdfLabel: 'PDF tools',
+	infoPdfBody:
+		'Rasterize pages to images (PNG, JPG, WebP…) or split a PDF into individual page files.',
+	infoAvLabel: 'Video & audio',
+	infoAvBody: '— converted entirely in your browser, nothing uploaded.',
 	imageSuggestions: [
 		{
 			label: 'Remove BG',

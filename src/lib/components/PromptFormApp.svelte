@@ -3464,7 +3464,7 @@
 							Saved {bucketStored}
 							{bucketStored === 1 ? 'image' : 'images'} to {destinationName}
 						{:else if files.length === 0}
-							No files yet
+							{t.noFilesYet}
 						{:else if uploadMode === 'pdf'}
 							{files.length} {files.length === 1 ? 'PDF' : 'PDFs'} attached
 						{:else if uploadMode === 'video'}
@@ -3477,7 +3477,7 @@
 					<button
 						onclick={() => (showInfoTooltip = !showInfoTooltip)}
 						class="flex h-6 w-6 flex-shrink-0 cursor-pointer items-center justify-center rounded-full text-[#875F42]/40 transition-all hover:bg-white/60 hover:text-[#875F42]/70"
-						aria-label="How it works"
+						aria-label={t.infoHowLabel}
 					>
 						<svg
 							class="h-3.5 w-3.5"
@@ -3545,30 +3545,29 @@
 					class="absolute right-[48px] -bottom-1.5 h-3 w-3 rotate-45 border-r border-b border-white/60 bg-white/95 sm:right-[52px]"
 				></div>
 				<p class="mb-1 text-[10px] font-black tracking-widest text-[#F06292] uppercase">
-					How it works
+					{t.infoHowLabel}
 				</p>
 				<p class="mb-3 text-xs leading-relaxed text-[#4A2C2C]/75">
-					Describe what you want in plain English, attach your images, then hit send. The AI reads
-					your prompt and processes each file automatically.
+					{t.infoHowBody}
 				</p>
 				<p class="mb-1 text-[10px] font-black tracking-widest text-[#F06292] uppercase">
-					Accepted formats
+					{t.infoFormatsLabel}
 				</p>
+				<!-- Format names are product nouns, the same in every language. -->
 				<p class="mb-3 text-xs leading-relaxed text-[#4A2C2C]/75">
 					JPG · PNG · WebP · AVIF · JPEG XL · HEIC · HEIF · HIF · SVG
 				</p>
 				<p class="mb-1 text-[10px] font-black tracking-widest text-[#F06292] uppercase">
-					PDF tools
+					{t.infoPdfLabel}
 				</p>
 				<p class="mb-3 text-xs leading-relaxed text-[#4A2C2C]/75">
-					Rasterize pages to images (PNG, JPG, WebP…) or split a PDF into individual page files.
+					{t.infoPdfBody}
 				</p>
 				<p class="mb-1 text-[10px] font-black tracking-widest text-mochi-pink uppercase">
-					Video &amp; audio
+					{t.infoAvLabel}
 				</p>
 				<p class="text-xs leading-relaxed text-[#4A2C2C]/75">
-					MP4 · WebM · MKV · MOV · MP3 · WAV · AAC · FLAC · OGG — converted entirely in your
-					browser, nothing uploaded.
+					MP4 · WebM · MKV · MOV · MP3 · WAV · AAC · FLAC · OGG {t.infoAvBody}
 				</p>
 			</div>
 			<button

@@ -245,6 +245,19 @@ export const ptBrFlowFaqs: FaqItem[] = [
 
 export const PT_BR_PROMPT_FORM_STRINGS: Partial<PromptFormStrings> = {
 	uploadButton: ptBrFlowTool.uploadButton,
+	// The attachment line and the help tooltip. Not in the copy sheet, drafted
+	// dev-side like the chip prompts, naming no language: "in plain English"
+	// becomes "numa frase", never "em português". Brazilian vocabulary throughout.
+	noFilesYet: 'Nenhum arquivo ainda',
+	infoHowLabel: 'Como funciona',
+	infoHowBody:
+		'Descreva numa frase o resultado que você quer, anexe suas imagens e envie. A IA lê sua instrução e processa cada arquivo automaticamente.',
+	infoFormatsLabel: 'Formatos aceitos',
+	infoPdfLabel: 'Ferramentas de PDF',
+	infoPdfBody:
+		'Rasterizar as páginas em imagens (PNG, JPG, WebP…) ou dividir um PDF em arquivos de uma página.',
+	infoAvLabel: 'Vídeo e áudio',
+	infoAvBody: ': a conversão acontece inteiramente no seu navegador, nada é enviado.',
 	imagePlaceholders: [ptBrFlowTool.placeholder],
 	convertToLabel: ptBrFlowExpanders.convertTo,
 	rotateLabel: ptBrFlowExpanders.rotate,
