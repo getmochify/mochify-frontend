@@ -33,7 +33,6 @@ export const JA_PRICING: PricingStrings = {
 	billingMonthly: '月払い',
 	billingYearly: '年払い',
 	saveExact: (pct) => `${pct}%お得`,
-	saveUpTo: (pct) => `最大${pct}%お得`,
 	mostPopular: '人気',
 	perMonth: '/ 月',
 	perYear: '/ 年',

@@ -65,15 +65,16 @@
 
 	const growthYearlySaving = $derived(savingsPercent(amounts.growthMonthly, amounts.growthYearly));
 
-	// The Monthly/Yearly toggle used to carry Seller's figure as a blanket claim
-	// for every tier. That is only true while the three agree, and they do not in
-	// every currency: a UK visitor is offered 17% on the toggle and given 12.8%
-	// on Pro (ledger v45). Each card already shows its own exact figure, so the
-	// toggle says "up to" whenever they differ and the plain number when they do
-	// not. Derived, so a Polar price change cannot strand a false claim here.
-	const savings = $derived([yearlySaving, proYearlySaving, growthYearlySaving]);
-	const savingsAgree = $derived(new Set(savings).size === 1);
-	const topSaving = $derived(Math.max(...savings));
+	// The Monthly/Yearly toggle carries NO figure, on any of the five pricing
+	// pages (handoff 2026-09-24 E2).
+	//
+	// It began as Seller's number presented as every tier's, which is false the
+	// moment they diverge, and they do: Pro is 20% in EUR and 13% in GBP against
+	// Seller's 17%. That was replaced by a derived "up to the best of the three",
+	// accurate in every currency. Content-ops asked for the figure gone anyway,
+	// across two handoffs, and it is their call: a toggle is a control, the
+	// per-card badges are the claim, and each of those still shows its own exact
+	// figure for the visitor's own currency.
 
 	// Kill switch for the Growth tier, kept now that it is live: flipping this to
 	// false pulls the card out of the grid without touching anything else. The
@@ -203,16 +204,12 @@
 				<button
 					type="button"
 					onclick={() => (billing = 'yearly')}
-					class="flex cursor-pointer items-center gap-2 rounded-full px-5 py-2 text-sm font-black transition-all {billing ===
+					class="cursor-pointer rounded-full px-5 py-2 text-sm font-black transition-all {billing ===
 					'yearly'
 						? 'bg-white text-mochi-pink shadow-sm'
 						: 'text-cocoa-deep/50 hover:text-cocoa-deep'}"
 				>
 					{t.billingYearly}
-					<span
-						class="inline-block rounded-full bg-matcha-green/40 px-2 py-0.5 text-xs font-bold text-[#3A6B3C]"
-						>{savingsAgree ? t.saveExact(topSaving) : t.saveUpTo(topSaving)}</span
-					>
 				</button>
 			</div>
 		</div>

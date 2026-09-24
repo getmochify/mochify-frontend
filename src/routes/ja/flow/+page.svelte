@@ -5,6 +5,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import FaqAccordion from '$lib/components/FaqAccordion.svelte';
 	import LocaleBanner from '$lib/components/LocaleBanner.svelte';
+	import Hreflang from '$lib/components/Hreflang.svelte';
 	import { faqSchema } from '$lib/faq';
 	import { visitorLocale } from '$lib/localeHint';
 	import {
@@ -80,14 +81,7 @@
 	<meta name="twitter:title" content={jaFlowMeta.ogTitle} />
 	<meta name="twitter:description" content={jaFlowMeta.ogDescription} />
 
-	<!-- hreflang: every live language plus x-default, the same set on each Flow
-	     page. Serving is by URL; nothing redirects on IP or Accept-Language,
-	     which would hide this page from a US crawler. -->
-	<link rel="alternate" hreflang="en" href="https://mochify.app/flow" />
-	<link rel="alternate" hreflang="fr" href="https://mochify.app/fr/flow" />
-	<link rel="alternate" hreflang="es" href="https://mochify.app/es/flow" />
-	<link rel="alternate" hreflang="ja" href="https://mochify.app/ja/flow" />
-	<link rel="alternate" hreflang="x-default" href="https://mochify.app/flow" />
+	<Hreflang base="/flow" />
 
 	{@html `<script type="application/ld+json">${breadcrumbLd}<\/script>`}
 	{@html `<script type="application/ld+json">${appLd}<\/script>`}

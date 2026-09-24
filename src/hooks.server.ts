@@ -1,4 +1,5 @@
 import type { Handle, HandleServerError } from '@sveltejs/kit';
+import { localeForPath } from '$lib/i18n/locales';
 import { building } from '$app/environment';
 import { svelteKitHandler } from 'better-auth/svelte-kit';
 import { createAuth } from '$lib/auth';
@@ -42,9 +43,11 @@ function getAuth(db: D1Database, resendKey: string | undefined): Auth {
 
 /**
  * `<html lang>` is baked into app.html, so a localised route has to rewrite it
- * on the way out: `/fr/` is French, `/es/` Spanish, `/ja/` Japanese, and
- * everything else English. `lang` is also what the Japanese font stack keys off
- * in layout.css, so a route added here gets its typography for free.
+ * on the way out. The prefix-to-tag mapping lives in $lib/i18n/locales with the
+ * rest of the language table, so `/pt-br/` correctly declares `pt-BR` rather
+ * than the lower-case prefix, and adding a language does not mean remembering
+ * this file. `lang` is also what the Japanese font stack keys off in layout.css,
+ * so a route gets its typography from the same place.
  *
  * Spanish is declared without a region: one page serves Spain and Latin America
  * (Spanish handoff A1), so `es-ES` would claim more than the copy does. The
@@ -55,12 +58,8 @@ function getAuth(db: D1Database, resendKey: string | undefined): Auth {
  * so both the no-database early return (which is also the prerender path, since
  * `handle` does run at build time) and the svelteKitHandler return get it.
  */
-const LOCALE_PREFIXES = ['fr', 'es', 'ja'];
-
 function langFor(pathname: string): string {
-	return (
-		LOCALE_PREFIXES.find((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`)) ?? 'en'
-	);
+	return localeForPath(pathname).code;
 }
 
 export const handle: Handle = async ({ event, resolve: baseResolve }) => {

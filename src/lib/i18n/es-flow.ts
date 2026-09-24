@@ -83,11 +83,18 @@ export const esFlowExpanders = {
 // The prompts the seven chips write into the box.
 //
 // PROVENANCE, because this is the one place the copy sheet does not fully cover:
-// it lists the chip LABELS, not the prompts behind them. Two of the seven ARE
-// specified and are used verbatim: the sheet requires the Mercado Libre and
-// Wallapop chips to load `Recortar en cuadrado y poner el fondo blanco` and
-// nothing platform-specific, because neither platform publishes an image
-// specification the ledger records. The other five were drafted dev-side on the
+// it lists the chip LABELS, not the prompts behind them. Two of the seven are
+// specified rather than drafted.
+//
+// Mercado Libre loads a 1200 x 1200 square and NO white background. The sheet
+// originally gave it the white-background prompt; handoff 2026-09-24 E1
+// corrected that against ledger v49, because Mercado Libre's own seller guidance
+// recommends 1200 x 1200 and now asks sellers to AVOID white backgrounds, which
+// stay mandatory only in Tecnología, Belleza, Salud y Supermercado. Same rule as
+// the Mercado Livre chip on /pt-br/flow.
+//
+// Wallapop keeps the white-background prompt, which is what its sheet entry says
+// and what E1 explicitly leaves alone. The other five were drafted dev-side on the
 // same footing as the French ones, using only vocabulary the sheet itself uses
 // ("quitar el fondo", "recortar en cuadrado", "convertir a", "comprimir"), so a
 // chip cannot ask for something the copy has not already said Mochify does.
@@ -95,7 +102,7 @@ export const esFlowExpanders = {
 export const esFlowChipPrompts: readonly string[] = [
 	'Quitar el fondo y dejarlo transparente',
 	'Optimizar para eBay: recortar en cuadrado y convertir a JPG',
-	'Recortar en cuadrado y poner el fondo blanco',
+	'Recortar en cuadrado de 1200 x 1200 px',
 	'Recortar en cuadrado y poner el fondo blanco',
 	'Recortar en cuadrado de 1200 px',
 	'Convertir a WebP y comprimir',

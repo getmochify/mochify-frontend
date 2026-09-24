@@ -20,8 +20,6 @@ export type PricingStrings = {
 	billingYearly: string;
 	/** Savings badge when every tier's annual discount agrees. */
 	saveExact: (pct: number) => string;
-	/** Savings badge when they differ, so only the best one can be claimed. */
-	saveUpTo: (pct: number) => string;
 	mostPopular: string;
 	perMonth: string;
 	perYear: string;
@@ -128,7 +126,6 @@ export const EN_PRICING: PricingStrings = {
 	billingMonthly: 'Monthly',
 	billingYearly: 'Yearly',
 	saveExact: (pct) => `Save ${pct}%`,
-	saveUpTo: (pct) => `Save up to ${pct}%`,
 	mostPopular: 'Most popular',
 	perMonth: '/ month',
 	perYear: '/ year',
@@ -177,7 +174,7 @@ export const EN_PRICING: PricingStrings = {
 	ctaPro: 'Get Pro',
 	ctaGrowth: 'Get Growth',
 	ctaFree: 'Start for free',
-	ctaDayPass: (price) => `Get Day Pass — ${price}`,
+	ctaDayPass: (price) => `Get Day Pass: ${price}`,
 	noSignupLink: '3 images, no sign-up',
 	flowHref: '/flow',
 	privacyLead: 'Private by design.',
@@ -208,12 +205,11 @@ export const EN_PRICING: PricingStrings = {
 	tblQueuePriority: 'Priority',
 	tblQueueTop: 'Top priority',
 	tblSoon: 'Soon',
-	// An em dash, which is what this page has always rendered here. content-ops
-	// proposed swapping it for 'n/a' (handoff spec Appendix B-4) so a whole-page
-	// em-dash scan means something, and nobody objected, but it was never
-	// applied. Left as it is rather than changed unasked; the French set carries
-	// a word instead, so the new page ships clean either way.
-	tblNotIncluded: '—',
+	// Was an em dash. content-ops proposed 'n/a' in handoff spec Appendix B-4 so
+	// that a whole-page em-dash scan would mean something, nobody objected, and it
+	// sat unapplied until handoff 2026-09-24 E3 asked for zero em dashes in this
+	// page's rendered HTML. Applied now, which is what makes that scan pass.
+	tblNotIncluded: 'n/a',
 	tblPdfFree: 'images→PDF, 3 pages',
 	tblPdfUnlimited: '✓ unlimited pages',
 	faqHeading: 'Common questions',
@@ -233,11 +229,11 @@ export const EN_PRICING: PricingStrings = {
 		},
 		{
 			q: 'Can I use the API on the free tier?',
-			a: 'Yes — all tiers have full MCP and API access. The same monthly limit applies.'
+			a: 'Yes, all tiers have full MCP and API access. The same monthly limit applies.'
 		},
 		{
 			q: 'How does the Day Pass work?',
-			a: `Pay ${dayPassPrice} and we email you a magic link — click it to unlock 100 image uploads within 24 hours, 75MB files and larger batches for 24 hours. No account or subscription needed.`
+			a: `Pay ${dayPassPrice} and we email you a magic link. Click it to unlock 100 image uploads within 24 hours, 75MB files and larger batches for 24 hours. No account or subscription needed.`
 		},
 		{
 			q: 'Can I cancel anytime?',
@@ -251,9 +247,9 @@ export const EN_PRICING: PricingStrings = {
 	ctaTryFree: 'Try 3 images, no sign-up',
 	ctaContactBefore: 'Still not sure which plan fits? Email',
 	ctaContactAfter: '.',
-	metaTitle: 'Pricing — Mochify',
+	metaTitle: 'Pricing | Mochify',
 	metaDescription:
-		'Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription.',
+		'Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass for up to 100 images in 24 hours, no subscription.',
 	schemaUrl: 'https://mochify.app/pricing',
 	schemaDescription:
 		'Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month.',
@@ -266,42 +262,42 @@ export const EN_PRICING: PricingStrings = {
 		},
 		{
 			plan: 'sellerMonthly',
-			name: 'Seller — Monthly',
+			name: 'Seller Monthly',
 			unitCode: 'MON',
 			description: () =>
 				'300 images per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file. Priority processing queue.'
 		},
 		{
 			plan: 'proMonthly',
-			name: 'Pro — Monthly',
+			name: 'Pro Monthly',
 			unitCode: 'MON',
 			description: () =>
 				'1,200 images per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file. Top priority processing queue.'
 		},
 		{
 			plan: 'growthMonthly',
-			name: 'Growth — Monthly',
+			name: 'Growth Monthly',
 			unitCode: 'MON',
 			description: () =>
 				'5,000 images per month. Everything in Pro plus unlimited PDF pages and PDFs built from up to 200 images. Save results to your own bucket or Google Drive. Top priority processing queue.'
 		},
 		{
 			plan: 'sellerYearly',
-			name: 'Seller — Annual',
+			name: 'Seller Annual',
 			unitCode: 'ANN',
 			description: (price) =>
 				`300 images per month, billed annually at ${price('sellerYearly')}/year. Includes background removal. Up to 75MB per file. Priority processing queue.`
 		},
 		{
 			plan: 'proYearly',
-			name: 'Pro — Annual',
+			name: 'Pro Annual',
 			unitCode: 'ANN',
 			description: (price) =>
 				`1,200 images per month, billed annually at ${price('proYearly')}/year. Includes background removal. Up to 75MB per file. Top priority processing queue.`
 		},
 		{
 			plan: 'growthYearly',
-			name: 'Growth — Annual',
+			name: 'Growth Annual',
 			unitCode: 'ANN',
 			description: (price) =>
 				`5,000 images per month, billed annually at ${price('growthYearly')}/year. Unlimited PDF pages. Top priority processing queue.`
@@ -310,7 +306,7 @@ export const EN_PRICING: PricingStrings = {
 			plan: 'dayPass',
 			name: 'Day Pass',
 			description: () =>
-				'24-hour pass, one-time purchase. Upload up to 100 images, files up to 75MB, larger batches. No subscription or account required — activated instantly by magic link.'
+				'24-hour pass, one-time purchase. Upload up to 100 images, files up to 75MB, larger batches. No subscription or account required, activated instantly by magic link.'
 		}
 	]
 };

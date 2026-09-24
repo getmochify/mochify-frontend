@@ -34,7 +34,6 @@ export const ES_PRICING: PricingStrings = {
 	billingMonthly: 'Mensual',
 	billingYearly: 'Anual',
 	saveExact: (pct) => `Ahorra un ${pct} %`,
-	saveUpTo: (pct) => `Ahorra hasta un ${pct} %`,
 	mostPopular: 'El más elegido',
 	perMonth: '/ mes',
 	perYear: '/ año',

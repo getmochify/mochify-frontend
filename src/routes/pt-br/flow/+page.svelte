@@ -1,48 +1,58 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import PromptFormApp from '$lib/components/PromptFormApp.svelte';
 	import Navigation from '$lib/components/Navigation.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import FaqAccordion from '$lib/components/FaqAccordion.svelte';
 	import LocaleBanner from '$lib/components/LocaleBanner.svelte';
 	import Hreflang from '$lib/components/Hreflang.svelte';
-	import { faqSchema, type FaqItem } from '$lib/faq';
+	import { faqSchema } from '$lib/faq';
+	import { visitorLocale } from '$lib/localeHint';
 	import {
-		frFlowMeta,
-		frFlowTool,
-		frFlowSections,
-		frFlowFaqs,
-		FR_PROMPT_FORM_STRINGS
-	} from '$lib/i18n/fr-flow';
+		ptBrFlowMeta,
+		ptBrFlowTool,
+		ptBrFlowSections,
+		ptBrFlowFaqs,
+		PT_BR_PROMPT_FORM_STRINGS
+	} from '$lib/i18n/pt-br-flow';
 
-	// Not a translation of /flow: a French page for French searches, sharing the
-	// tool component. Every visible string comes from the content-ops copy sheet
-	// via $lib/i18n/fr-flow.ts and is never edited here.
+	// Not a translation of /flow: a Portuguese page for Portuguese searches,
+	// sharing the tool component. Every visible string comes from the content-ops
+	// copy sheet via $lib/i18n/pt-br-flow.ts and is never edited here.
 	//
-	// The chips carry French labels from the sheet and French prompts drafted
-	// dev-side (frFlowChipPrompts) because the sheet supplies labels only. Those
-	// six prompts are the one thing on this page content-ops has not written, and
-	// they are flagged as such at their definition.
+	// The copy is Brazilian and the page declares `pt-BR`, but it claims bare
+	// `pt` in hreflang too: it is the only Portuguese page we have, so leaving
+	// Portugal and Angola to the English x-default would serve them worse than
+	// Brazilian Portuguese would (handoff A2).
 	let form: ReturnType<typeof PromptFormApp> | undefined = $state();
 
-	const faqs: FaqItem[] = frFlowFaqs.map((f) => ({ q: f.q, a: f.a }));
+	// The locale hint the parser gets is the VISITOR's own tag (handoff A7), so a
+	// pt-PT reader gets their own rather than Brazil's. Brazil writes 1.200 for
+	// one thousand two hundred and 1,5 for one and a half, the reverse of
+	// English, and Mercado Livre itself publishes "1.200 x 1.200", so sellers
+	// will type it. The worker derives that convention from the tag.
+	let parseLocale = $state('pt-BR');
+	onMount(() => {
+		parseLocale = visitorLocale('pt');
+	});
 
 	const faqLd = JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'FAQPage',
-		inLanguage: 'fr',
-		mainEntity: faqSchema(faqs)
+		inLanguage: 'pt-BR',
+		mainEntity: faqSchema(ptBrFlowFaqs)
 	});
 
 	const appLd = JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'SoftwareApplication',
 		name: 'Mochify',
-		url: 'https://mochify.app/fr/flow',
-		inLanguage: 'fr',
+		url: 'https://mochify.app/pt-br/flow',
+		inLanguage: 'pt-BR',
 		applicationCategory: 'MultimediaApplication',
 		operatingSystem: 'Web',
-		description: frFlowMeta.metaDescription,
-		offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' }
+		description: ptBrFlowMeta.metaDescription,
+		offers: { '@type': 'Offer', price: '0', priceCurrency: 'BRL' }
 	});
 
 	const breadcrumbLd = JSON.stringify({
@@ -53,27 +63,27 @@
 			{
 				'@type': 'ListItem',
 				position: 2,
-				name: frFlowMeta.ogTitle,
-				item: 'https://mochify.app/fr/flow'
+				name: ptBrFlowMeta.ogTitle,
+				item: 'https://mochify.app/pt-br/flow'
 			}
 		]
 	});
 </script>
 
 <svelte:head>
-	<title>{frFlowMeta.title}</title>
-	<meta name="description" content={frFlowMeta.metaDescription} />
+	<title>{ptBrFlowMeta.title}</title>
+	<meta name="description" content={ptBrFlowMeta.metaDescription} />
 
 	<!-- canonical, og:image and twitter:image are injected by the root layout. -->
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://mochify.app/fr/flow" />
-	<meta property="og:locale" content="fr_FR" />
-	<meta property="og:title" content={frFlowMeta.ogTitle} />
-	<meta property="og:description" content={frFlowMeta.ogDescription} />
+	<meta property="og:url" content="https://mochify.app/pt-br/flow" />
+	<meta property="og:locale" content="pt_BR" />
+	<meta property="og:title" content={ptBrFlowMeta.ogTitle} />
+	<meta property="og:description" content={ptBrFlowMeta.ogDescription} />
 
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content={frFlowMeta.ogTitle} />
-	<meta name="twitter:description" content={frFlowMeta.ogDescription} />
+	<meta name="twitter:title" content={ptBrFlowMeta.ogTitle} />
+	<meta name="twitter:description" content={ptBrFlowMeta.ogDescription} />
 
 	<Hreflang base="/flow" />
 
@@ -94,31 +104,31 @@
 			<h1
 				class="mx-auto mb-3 max-w-3xl font-heading text-3xl leading-tight font-black tracking-tight text-balance text-[#4A2C2C] md:text-5xl"
 			>
-				{frFlowTool.h1}
+				{ptBrFlowTool.h1}
 			</h1>
 			<p class="mx-auto max-w-2xl text-base leading-relaxed text-pretty text-[#875F42] md:text-lg">
-				{frFlowTool.subtitle}
+				{ptBrFlowTool.subtitle}
 			</p>
 		</header>
 
 		<PromptFormApp
 			bind:this={form}
 			rememberPrompts
-			strings={FR_PROMPT_FORM_STRINGS}
-			initialPrompt={frFlowTool.defaultPrompt}
-			locale="fr-FR"
+			strings={PT_BR_PROMPT_FORM_STRINGS}
+			initialPrompt={ptBrFlowTool.defaultPrompt}
+			locale={parseLocale}
 		/>
 
 		<!-- Badge line, from the sheet. Rendered as one string rather than split
 		     into the English page's icon row: the separators are part of the copy. -->
-		<p class="mt-10 text-center text-sm font-bold text-[#6C3F31]">{frFlowTool.badgeLine}</p>
+		<p class="mt-10 text-center text-sm font-bold text-[#6C3F31]">{ptBrFlowTool.badgeLine}</p>
 
 		<!-- The seven examples. Tap to load, exactly like the English page's
 		     example cards, which is the only way a prompt-driven page shows a
 		     first-time visitor (or a crawler) what it can be asked for. -->
 		<section class="mt-14 w-full max-w-3xl">
 			<ul class="grid list-none gap-2 p-0 sm:grid-cols-2">
-				{#each frFlowTool.examples as example (example)}
+				{#each ptBrFlowTool.examples as example (example)}
 					<li class="flex">
 						<button
 							type="button"
@@ -132,9 +142,11 @@
 		</section>
 
 		<!-- Body. Seven sections, each ending in the prompt it describes; the
-		     prompts load into the compose bar like the examples above. -->
+		     prompts load into the compose bar like the examples above. One
+		     paragraph carries an outbound link, so paragraphs render from parts
+		     when the sheet gives them. -->
 		<article class="mt-16 w-full max-w-3xl space-y-12 text-lg leading-relaxed text-[#6C3F31]">
-			{#each frFlowSections as section (section.id)}
+			{#each ptBrFlowSections as section (section.id)}
 				<section id={section.id} class="scroll-mt-24">
 					<h2
 						class="mb-4 border-b-2 border-[#F06292]/30 pb-2 font-heading text-2xl font-black text-[#4A2C2C] md:text-3xl"
@@ -142,15 +154,23 @@
 						{section.heading}
 					</h2>
 					{#each section.blocks as block, i (i)}
-						{#if block.type === 'p'}
-							<p class="mb-4">{block.text}</p>
-						{:else}
+						{#if block.type === 'prompt'}
 							<button
 								type="button"
 								onclick={() => form?.useExample(block.text)}
 								class="mochi-row mb-4 block w-full cursor-pointer rounded-2xl px-4 py-3 text-left font-mono text-sm text-[#6C3F31]"
 								>{block.text}</button
 							>
+						{:else if 'parts' in block}
+							<p class="mb-4">
+								{#each block.parts as part}{#if typeof part === 'string'}{part}{:else}<a
+											href={part.href}
+											class="font-bold text-[#F06292] transition-colors hover:text-[#D81B60]"
+											>{part.label}</a
+										>{/if}{/each}
+							</p>
+						{:else}
+							<p class="mb-4">{block.text}</p>
 						{/if}
 					{/each}
 				</section>
@@ -161,11 +181,11 @@
 			<h2 class="mb-6 text-center font-heading text-2xl font-black text-[#4A2C2C] md:text-3xl">
 				FAQ
 			</h2>
-			<FaqAccordion {faqs} class="space-y-3" />
+			<FaqAccordion faqs={ptBrFlowFaqs} class="space-y-3" />
 		</section>
 
 		<p class="mt-12 text-center text-sm text-[#6C3F31]/75">
-			<a href="/fr/pricing" class="font-semibold text-[#F06292] hover:underline">Tarifs</a>
+			<a href="/pt-br/pricing" class="font-semibold text-[#F06292] hover:underline">Preços</a>
 		</p>
 	</main>
 
@@ -176,7 +196,7 @@
 
 <style>
 	/* Same treatment as the English /flow example rows, so a tap-to-load prompt
-	   reads the same on both pages. */
+	   reads the same on every locale's page. */
 	.mochi-row {
 		background: linear-gradient(160deg, #fff5f8 0%, #ffe7ee 100%);
 		border: 1px solid rgba(240, 98, 146, 0.12);

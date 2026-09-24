@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { localeForPath } from '$lib/i18n/locales';
 	import { beforeNavigate } from '$app/navigation';
 	import { authClient } from '$lib/auth-client';
 	import { posthog } from '$lib/analytics';
@@ -8,6 +9,23 @@
 	// "Get started" CTA: it links to the page you're already on and competes with
 	// the primary form. "Sign in" stays, since it's a real escape hatch for existing users.
 	let { showGetStarted = true }: { showGetStarted?: boolean } = $props();
+
+	// The header's Pricing link follows the page's language (handoff 2026-09-24
+	// E4). On /fr/flow it used to read "Pricing" and go to the English page, which
+	// dropped a French reader out of French at the one moment they are deciding
+	// whether to pay. The label is the only word in this nav that has a localised
+	// page behind it; everything else (Docs, About, the auth pages) is English
+	// only, so it stays English rather than being half-translated.
+	const PRICING_LABEL: Record<string, string> = {
+		en: 'Pricing',
+		fr: 'Tarifs',
+		es: 'Precios',
+		ja: '料金',
+		'pt-BR': 'Preços'
+	};
+	const navLocale = $derived(localeForPath(page.url.pathname));
+	const pricingHref = $derived(`${navLocale.prefix}/pricing`);
+	const pricingLabel = $derived(PRICING_LABEL[navLocale.code] ?? PRICING_LABEL.en);
 
 	let mobileMenuOpen = $state(false);
 	let userMenuOpen = $state(false);
@@ -111,9 +129,10 @@
 			class="text-sm font-medium text-cocoa-deep transition-colors hover:text-mochi-pink">Docs</a
 		>
 		<a
-			href="/pricing"
+			href={pricingHref}
 			data-sveltekit-preload-data="hover"
-			class="text-sm font-medium text-cocoa-deep transition-colors hover:text-mochi-pink">Pricing</a
+			class="text-sm font-medium text-cocoa-deep transition-colors hover:text-mochi-pink"
+			>{pricingLabel}</a
 		>
 
 		{#if session}
@@ -260,10 +279,10 @@
 			Docs
 		</a>
 		<a
-			href="/pricing"
+			href={pricingHref}
 			class="rounded-2xl px-6 py-4 font-medium text-cocoa-deep transition-all hover:bg-[#FFF5F7] active:scale-95"
 		>
-			Pricing
+			{pricingLabel}
 		</a>
 		{#if session}
 			{#if !hideLaunch}

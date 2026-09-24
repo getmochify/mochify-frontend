@@ -419,7 +419,8 @@
 	offers={[
 		{ href: '/fr/flow', label: 'Voir cette page en français', lang: 'fr', when: 'fr' },
 		{ href: '/es/flow', label: 'Ver esta página en español', lang: 'es', when: 'es' },
-		{ href: '/ja/flow', label: 'このページを日本語で見る', lang: 'ja', when: 'ja' }
+		{ href: '/ja/flow', label: 'このページを日本語で見る', lang: 'ja', when: 'ja' },
+		{ href: '/pt-br/flow', label: 'Ver esta página em português', lang: 'pt-BR', when: 'pt' }
 	]}
 />
 

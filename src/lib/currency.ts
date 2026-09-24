@@ -76,7 +76,12 @@ export const USD_PRICES: Record<string, number> = {
  */
 export function formatLocaleFor(language: string, country: string | null): string {
 	if (!country || !/^[A-Za-z]{2}$/.test(country)) return language;
-	return `${language}-${country.toUpperCase()}`;
+	// The page language may already carry a region: /pt-br/pricing is `pt-BR`, and
+	// appending the visitor's country to that produced `pt-BR-BR`. Only the
+	// primary subtag is the language; the region is the reader's, not the page's,
+	// so a Portuguese visitor to the Brazilian page gets pt-PT formatting.
+	const primary = language.split('-')[0];
+	return `${primary}-${country.toUpperCase()}`;
 }
 
 /** Minor units (or whole units for zero-decimal currencies) to a real number. */

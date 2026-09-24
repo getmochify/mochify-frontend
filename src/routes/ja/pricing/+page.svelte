@@ -1,6 +1,7 @@
 <script lang="ts">
 	import PricingPage from '$lib/components/PricingPage.svelte';
 	import LocaleBanner from '$lib/components/LocaleBanner.svelte';
+	import Hreflang from '$lib/components/Hreflang.svelte';
 	import { JA_PRICING } from '$lib/i18n/pricing.ja';
 	import type { PageData } from './$types';
 
@@ -25,13 +26,7 @@
 	<meta property="og:title" content={JA_PRICING.metaTitle} />
 	<meta property="og:description" content={JA_PRICING.metaDescription} />
 
-	<!-- hreflang: every live language plus x-default, the same set on each pricing
-	     page. -->
-	<link rel="alternate" hreflang="en" href="https://mochify.app/pricing" />
-	<link rel="alternate" hreflang="fr" href="https://mochify.app/fr/pricing" />
-	<link rel="alternate" hreflang="es" href="https://mochify.app/es/pricing" />
-	<link rel="alternate" hreflang="ja" href="https://mochify.app/ja/pricing" />
-	<link rel="alternate" hreflang="x-default" href="https://mochify.app/pricing" />
+	<Hreflang base="/pricing" />
 </svelte:head>
 
 <LocaleBanner offers={[{ href: '/pricing', label: 'View in English', lang: 'en' }]} />

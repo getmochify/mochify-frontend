@@ -2,6 +2,7 @@
 	import PricingPage from '$lib/components/PricingPage.svelte';
 	import { EN_PRICING } from '$lib/i18n/pricing';
 	import LocaleBanner from '$lib/components/LocaleBanner.svelte';
+	import Hreflang from '$lib/components/Hreflang.svelte';
 	import type { PageData } from './$types';
 
 	// The page body is shared with /fr/pricing; only the head and the string set
@@ -14,34 +15,27 @@
 </script>
 
 <svelte:head>
-	<title>Pricing — Mochify</title>
+	<title>Pricing | Mochify</title>
 	<meta
 		name="description"
-		content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription."
+		content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass for up to 100 images in 24 hours, no subscription."
 	/>
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://mochify.app/pricing" />
-	<meta property="og:title" content="Pricing — Mochify" />
+	<meta property="og:title" content="Pricing | Mochify" />
 	<meta
 		property="og:description"
-		content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription."
+		content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass for up to 100 images in 24 hours, no subscription."
 	/>
-	<!-- hreflang: one set across all three languages, the same four lines on each
-	     pricing page, with English as x-default. Serving is by URL only, as on
-	     /flow: no redirect by IP or Accept-Language, which would hide the
-	     localised pages from a US crawler. -->
-	<link rel="alternate" hreflang="en" href="https://mochify.app/pricing" />
-	<link rel="alternate" hreflang="fr" href="https://mochify.app/fr/pricing" />
-	<link rel="alternate" hreflang="es" href="https://mochify.app/es/pricing" />
-	<link rel="alternate" hreflang="ja" href="https://mochify.app/ja/pricing" />
-	<link rel="alternate" hreflang="x-default" href="https://mochify.app/pricing" />
+	<Hreflang base="/pricing" />
 </svelte:head>
 
 <LocaleBanner
 	offers={[
 		{ href: '/fr/pricing', label: 'Voir cette page en français', lang: 'fr', when: 'fr' },
 		{ href: '/es/pricing', label: 'Ver esta página en español', lang: 'es', when: 'es' },
-		{ href: '/ja/pricing', label: 'このページを日本語で見る', lang: 'ja', when: 'ja' }
+		{ href: '/ja/pricing', label: 'このページを日本語で見る', lang: 'ja', when: 'ja' },
+		{ href: '/pt-br/pricing', label: 'Ver esta página em português', lang: 'pt-BR', when: 'pt' }
 	]}
 />
 

@@ -1,6 +1,7 @@
 <script lang="ts">
     import { posthog } from '$lib/analytics';
     import { page } from '$app/state';
+    import { LOCALES, localeForPath, localisedPath } from '$lib/i18n/locales';
 
     // `minimal` drops the marketing block (Popular Tools + Solutions/Guides CTAs)
     // for surfaces like /flow where the focus is the tool, not routing to content.
@@ -66,35 +67,13 @@
     // excludes Mexico, which is the larger half of that audience and the reason
     // /es/* declares `es` with no region at all. Français has the same problem
     // with Canada and Belgium.
-    const LOCALES = [
-        { code: 'en', label: 'English', prefix: '' },
-        { code: 'fr', label: 'Français', prefix: '/fr' },
-        { code: 'es', label: 'Español', prefix: '/es' },
-        { code: 'ja', label: '日本語', prefix: '/ja' }
-    ];
-
-    // Pages that exist in every language, named by their English path. Anything
-    // else (guides, /about, the solution pages) exists only in English, so the
-    // other languages point at their own main surface instead of a 404.
-    const TRANSLATED = ['/flow', '/pricing'];
-
-    const currentLocale = $derived(
-        LOCALES.find(
-            (l) => l.prefix && (page.url.pathname === l.prefix || page.url.pathname.startsWith(`${l.prefix}/`))
-        ) ?? LOCALES[0]
-    );
-
-    const localeLinks = $derived.by(() => {
-        const base = currentLocale.prefix
-            ? page.url.pathname.slice(currentLocale.prefix.length)
-            : page.url.pathname;
-        const paired = TRANSLATED.includes(base);
-        return LOCALES.map((l) => ({
+    const localeLinks = $derived(
+        LOCALES.map((l) => ({
             ...l,
-            href: paired ? `${l.prefix}${base}` : `${l.prefix}/flow`,
-            isCurrent: l.code === currentLocale.code
-        }));
-    });
+            href: localisedPath(l, page.url.pathname),
+            isCurrent: l.code === localeForPath(page.url.pathname).code
+        }))
+    );
 </script>
 
 <footer class="relative z-10 w-full max-w-5xl mx-auto px-4 pb-12 sm:px-6 lg:px-8 text-center">

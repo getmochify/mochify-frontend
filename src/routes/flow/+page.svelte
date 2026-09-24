@@ -3,6 +3,7 @@
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
     import LocaleBanner from '$lib/components/LocaleBanner.svelte';
+    import Hreflang from '$lib/components/Hreflang.svelte';
 
     // Bound so the example rows below can load themselves into the compose bar
     // instead of just sitting there looking like buttons that do nothing.
@@ -57,17 +58,7 @@
     <meta name="twitter:title" content="Convert, Resize and Compress Images Online, Free | Mochify" />
     <meta name="twitter:description" content="Say what you need in plain English and Mochify does it: convert, resize, smart crop, remove backgrounds, rasterize PDF pages. No format pickers, no sliders." />
 
-    <!-- hreflang: one set across all three languages, the same four lines on
-         each Flow page, with English as x-default. `es` carries no region: the
-         Spanish page serves Spain and Latin America, and es-ES would signal
-         Spain only. Pages are served by URL; there is no redirect by IP or
-         Accept-Language, which would hide the localised pages from a US
-         crawler. -->
-    <link rel="alternate" hreflang="en" href="https://mochify.app/flow" />
-    <link rel="alternate" hreflang="fr" href="https://mochify.app/fr/flow" />
-    <link rel="alternate" hreflang="es" href="https://mochify.app/es/flow" />
-    <link rel="alternate" hreflang="ja" href="https://mochify.app/ja/flow" />
-    <link rel="alternate" hreflang="x-default" href="https://mochify.app/flow" />
+    <Hreflang base="/flow" />
 </svelte:head>
 
 <div class="min-h-screen flex flex-col relative">
@@ -78,7 +69,8 @@
         offers={[
             { href: '/fr/flow', label: 'Voir cette page en français', lang: 'fr', when: 'fr' },
             { href: '/es/flow', label: 'Ver esta página en español', lang: 'es', when: 'es' },
-            { href: '/ja/flow', label: 'このページを日本語で見る', lang: 'ja', when: 'ja' }
+            { href: '/ja/flow', label: 'このページを日本語で見る', lang: 'ja', when: 'ja' },
+            { href: '/pt-br/flow', label: 'Ver esta página em português', lang: 'pt-BR', when: 'pt' }
         ]}
     />
 
@@ -98,6 +90,7 @@
                 <a href="/fr/flow" hreflang="fr" lang="fr" class="text-sm font-bold text-[#F06292] hover:underline">&laquo;&nbsp;En français&nbsp;&raquo;</a>
                 <a href="/es/flow" hreflang="es" lang="es" class="text-sm font-bold text-[#F06292] hover:underline">&laquo;&nbsp;En español&nbsp;&raquo;</a>
                 <a href="/ja/flow" hreflang="ja" lang="ja" class="text-sm font-bold text-[#F06292] hover:underline">「日本語で見る」</a>
+                <a href="/pt-br/flow" hreflang="pt-BR" lang="pt-BR" class="text-sm font-bold text-[#F06292] hover:underline">“Em português”</a>
             </p>
         </header>
 
