@@ -46,49 +46,55 @@
         posthog.capture('ask_ai_click', { assistant });
     }
 
-    // The language switch. A plain <a> in the HTML for every visitor, on every
-    // page, with no JS gate and no nofollow, which is the whole point of it.
+    // The language switcher.
     //
-    // The French pilot pages had no crawlable inbound link at all: the only ways
-    // to /fr/flow were the hreflang tag on /flow and the sitemap entry, because
-    // the "Voir cette page en francais" banner renders on the browser's language
-    // preference, which Googlebot does not send. So /fr/flow carried zero internal
-    // link equity (handoff 2026-09-24, Change 1). The banner stays as it is; this
-    // is the link a crawler can follow.
+    // Plain <a> tags in the HTML for every visitor, with no JS gate and no
+    // nofollow. That is not a style preference: /fr/flow shipped with no
+    // crawlable inbound link at all, because the "Voir cette page" banner renders
+    // on the browser's language preference and Googlebot does not send one, so
+    // its internal link equity was zero (handoff 2026-09-24, Change 1). These
+    // links are the fix. A dropdown that builds its options in JS would quietly
+    // undo it.
     //
-    // Paired per page rather than always pointing at /flow: sending someone
-    // reading /fr/pricing to the English tool instead of the English pricing page
-    // loses their place. A localised path with no English twin falls back to
-    // /flow, which is the handoff's default.
+    // Every language is offered on every page, with the current one marked and
+    // not a link. It used to be one-way: English pages offered the three
+    // translations, and a translated page offered only English, so a reader on
+    // /fr/pricing could not reach /ja/pricing without going via English for no
+    // reason a reader would recognise.
     //
-    // An English page offers both languages; a localised page offers only the way
-    // back to English, because a French reader is not the audience for the
-    // Spanish page and the two are not translations of each other.
-    const EN_TWIN: Record<string, string> = {
-        '/fr/flow': '/flow',
-        '/fr/pricing': '/pricing',
-        '/es/flow': '/flow',
-        '/es/pricing': '/pricing',
-        '/ja/flow': '/flow',
-        '/ja/pricing': '/pricing'
-    };
-    const LOCALISED = [
-        { prefix: '/fr', label: 'Français', home: '/fr/flow', lang: 'fr' },
-        { prefix: '/es', label: 'Español', home: '/es/flow', lang: 'es' },
-        { prefix: '/ja', label: '日本語', home: '/ja/flow', lang: 'ja' }
+    // No flags. A flag is a country, not a language: Español under a Spanish flag
+    // excludes Mexico, which is the larger half of that audience and the reason
+    // /es/* declares `es` with no region at all. Français has the same problem
+    // with Canada and Belgium.
+    const LOCALES = [
+        { code: 'en', label: 'English', prefix: '' },
+        { code: 'fr', label: 'Français', prefix: '/fr' },
+        { code: 'es', label: 'Español', prefix: '/es' },
+        { code: 'ja', label: '日本語', prefix: '/ja' }
     ];
-    const current = $derived(
-        LOCALISED.find(
-            (l) => page.url.pathname === l.prefix || page.url.pathname.startsWith(`${l.prefix}/`)
-        )
+
+    // Pages that exist in every language, named by their English path. Anything
+    // else (guides, /about, the solution pages) exists only in English, so the
+    // other languages point at their own main surface instead of a 404.
+    const TRANSLATED = ['/flow', '/pricing'];
+
+    const currentLocale = $derived(
+        LOCALES.find(
+            (l) => l.prefix && (page.url.pathname === l.prefix || page.url.pathname.startsWith(`${l.prefix}/`))
+        ) ?? LOCALES[0]
     );
-    // On a localised page: one link back to English. On an English page: one per
-    // other language.
-    const localeLinks = $derived(
-        current
-            ? [{ href: EN_TWIN[page.url.pathname] ?? '/flow', label: 'English', lang: 'en' }]
-            : LOCALISED.map((l) => ({ href: l.home, label: l.label, lang: l.lang }))
-    );
+
+    const localeLinks = $derived.by(() => {
+        const base = currentLocale.prefix
+            ? page.url.pathname.slice(currentLocale.prefix.length)
+            : page.url.pathname;
+        const paired = TRANSLATED.includes(base);
+        return LOCALES.map((l) => ({
+            ...l,
+            href: paired ? `${l.prefix}${base}` : `${l.prefix}/flow`,
+            isCurrent: l.code === currentLocale.code
+        }));
+    });
 </script>
 
 <footer class="relative z-10 w-full max-w-5xl mx-auto px-4 pb-12 sm:px-6 lg:px-8 text-center">
@@ -164,15 +170,28 @@
             <a href="/dpa" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 Data Processing Agreement
             </a>
-            <!-- The language switch, in this row rather than a slot of its own so
-                 it is present on every page the footer renders on, /fr/* and /es/*
-                 included. -->
-            {#each localeLinks as link (link.lang)}
-                <a href={link.href} hreflang={link.lang} lang={link.lang} class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
-                    {link.label}
-                </a>
-            {/each}
         </div>
+
+        <!-- Its own row. These are navigation between versions of the site, not
+             policy documents, and mixing them into the legal links left Español
+             and 日本語 orphaned on a wrapped second line.
+
+             Gaps rather than separator elements, deliberately: a styled separator
+             strands at the end of a line when the row wraps, which is the bug
+             this footer already had once. -->
+        <nav aria-label="Language" class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs">
+            {#each localeLinks as link (link.code)}
+                {#if link.isCurrent}
+                    <span aria-current="true" lang={link.code} class="text-cocoa-milk font-bold">
+                        {link.label}
+                    </span>
+                {:else}
+                    <a href={link.href} hreflang={link.code} lang={link.code} class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
+                        {link.label}
+                    </a>
+                {/if}
+            {/each}
+        </nav>
 
         <p class="text-cocoa-milk text-xs">
             Suite RA01, 195-197 Wood Street, London, E17 3NU
