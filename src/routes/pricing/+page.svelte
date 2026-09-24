@@ -27,8 +27,9 @@
 		property="og:description"
 		content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass for up to 100 images in 24 hours, no subscription."
 	/>
-	<Hreflang base="/pricing" />
 </svelte:head>
+
+<Hreflang base="/pricing" />
 
 <LocaleBanner
 	offers={[

@@ -25,8 +25,9 @@
 	<meta property="og:title" content={PT_BR_PRICING.metaTitle} />
 	<meta property="og:description" content={PT_BR_PRICING.metaDescription} />
 
-	<Hreflang base="/pricing" />
 </svelte:head>
+
+<Hreflang base="/pricing" />
 
 <LocaleBanner offers={[{ href: '/pricing', label: 'View in English', lang: 'en' }]} />
 

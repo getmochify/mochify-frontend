@@ -75,12 +75,13 @@
 	<meta name="twitter:title" content={frFlowMeta.ogTitle} />
 	<meta name="twitter:description" content={frFlowMeta.ogDescription} />
 
-	<Hreflang base="/flow" />
 
 	{@html `<script type="application/ld+json">${breadcrumbLd}<\/script>`}
 	{@html `<script type="application/ld+json">${appLd}<\/script>`}
 	{@html `<script type="application/ld+json">${faqLd}<\/script>`}
 </svelte:head>
+
+<Hreflang base="/flow" />
 
 <div class="relative flex min-h-screen flex-col">
 	<Navigation />

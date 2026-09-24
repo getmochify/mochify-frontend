@@ -58,8 +58,9 @@
     <meta name="twitter:title" content="Convert, Resize and Compress Images Online, Free | Mochify" />
     <meta name="twitter:description" content="Say what you need in plain English and Mochify does it: convert, resize, smart crop, remove backgrounds, rasterize PDF pages. No format pickers, no sliders." />
 
-    <Hreflang base="/flow" />
 </svelte:head>
+
+<Hreflang base="/flow" />
 
 <div class="min-h-screen flex flex-col relative">
 
