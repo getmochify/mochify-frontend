@@ -416,10 +416,10 @@
 <Navigation />
 
 <LocaleBanner
-	href="/fr/flow"
-	label="Voir cette page en français"
-	dismissKey="mochify-locale-banner-fr"
-	when="fr"
+	offers={[
+		{ href: '/fr/flow', label: 'Voir cette page en français', lang: 'fr', when: 'fr' },
+		{ href: '/es/flow', label: 'Ver esta página en español', lang: 'es', when: 'es' }
+	]}
 />
 
 <main class="relative z-10">

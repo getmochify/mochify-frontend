@@ -27,14 +27,16 @@
 	<meta property="og:title" content={FR_PRICING.metaTitle} />
 	<meta property="og:description" content={FR_PRICING.metaDescription} />
 
-	<!-- hreflang: this pair points both ways, and English is x-default, matching
-	     the /flow pair. Serving is by URL only; nothing redirects on IP or
-	     Accept-Language, which would hide this page from a US crawler. -->
-	<link rel="alternate" hreflang="fr" href="https://mochify.app/fr/pricing" />
+	<!-- hreflang: one set across all three languages, the same four lines on each
+	     pricing page, matching the Flow set. Serving is by URL only; nothing
+	     redirects on IP or Accept-Language, which would hide this page from a US
+	     crawler. -->
 	<link rel="alternate" hreflang="en" href="https://mochify.app/pricing" />
+	<link rel="alternate" hreflang="fr" href="https://mochify.app/fr/pricing" />
+	<link rel="alternate" hreflang="es" href="https://mochify.app/es/pricing" />
 	<link rel="alternate" hreflang="x-default" href="https://mochify.app/pricing" />
 </svelte:head>
 
-<LocaleBanner href="/pricing" label="View in English" dismissKey="mochify-locale-banner-en" />
+<LocaleBanner offers={[{ href: '/pricing', label: 'View in English', lang: 'en' }]} />
 
 <PricingPage {data} strings={FR_PRICING} locale="fr" />

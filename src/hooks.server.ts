@@ -42,14 +42,24 @@ function getAuth(db: D1Database, resendKey: string | undefined): Auth {
 
 /**
  * `<html lang>` is baked into app.html, so a localised route has to rewrite it
- * on the way out. Everything under `/fr/` is French; everything else is English.
+ * on the way out. Everything under `/fr/` is French, everything under `/es/` is
+ * Spanish, and everything else is English.
+ *
+ * Spanish is declared without a region: one page serves Spain and Latin America
+ * (Spanish handoff A1), so `es-ES` would claim more than the copy does. The
+ * parser's number hint is a separate question and comes from the visitor rather
+ * than the URL; see $lib/localeHint.
  *
  * This wraps `resolve` once rather than repeating the option at each call site,
  * so both the no-database early return (which is also the prerender path, since
  * `handle` does run at build time) and the svelteKitHandler return get it.
  */
+const LOCALE_PREFIXES = ['fr', 'es'];
+
 function langFor(pathname: string): string {
-	return pathname === '/fr' || pathname.startsWith('/fr/') ? 'fr' : 'en';
+	return (
+		LOCALE_PREFIXES.find((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`)) ?? 'en'
+	);
 }
 
 export const handle: Handle = async ({ event, resolve: baseResolve }) => {

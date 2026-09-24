@@ -26,19 +26,21 @@
 		property="og:description"
 		content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription."
 	/>
-	<!-- hreflang: the French pricing page and this one point at each other, and
-	     English is x-default. Serving is by URL only, as on /flow: no redirect by
-	     IP or Accept-Language, which would hide /fr/pricing from a US crawler. -->
+	<!-- hreflang: one set across all three languages, the same four lines on each
+	     pricing page, with English as x-default. Serving is by URL only, as on
+	     /flow: no redirect by IP or Accept-Language, which would hide the
+	     localised pages from a US crawler. -->
 	<link rel="alternate" hreflang="en" href="https://mochify.app/pricing" />
 	<link rel="alternate" hreflang="fr" href="https://mochify.app/fr/pricing" />
+	<link rel="alternate" hreflang="es" href="https://mochify.app/es/pricing" />
 	<link rel="alternate" hreflang="x-default" href="https://mochify.app/pricing" />
 </svelte:head>
 
 <LocaleBanner
-	href="/fr/pricing"
-	label="Voir cette page en français"
-	dismissKey="mochify-locale-banner-fr"
-	when="fr"
+	offers={[
+		{ href: '/fr/pricing', label: 'Voir cette page en français', lang: 'fr', when: 'fr' },
+		{ href: '/es/pricing', label: 'Ver esta página en español', lang: 'es', when: 'es' }
+	]}
 />
 
 <PricingPage {data} strings={EN_PRICING} locale="en" />

@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	// A dismissible offer of the other language. Never a redirect: Googlebot
+	// A dismissible offer of another language. Never a redirect: Googlebot
 	// crawls from the US, so redirecting by IP or Accept-Language would hide
-	// /fr/flow from the crawler that has to index it (handoff A4). Pages are
-	// served by URL and the visitor chooses.
+	// /fr/flow and /es/flow from the crawler that has to index them (handoff A4,
+	// and the Spanish handoff's A5). Pages are served by URL and the visitor
+	// chooses.
 	//
 	// Detection is client-side on `navigator.languages` rather than server-side
 	// on the Accept-Language header, deliberately: these pages sit behind
@@ -13,52 +14,79 @@
 	// the next visitor. The banner is an enhancement, so it can cost a frame
 	// after hydration; correctness at the cache cannot.
 	//
+	// `offers` is a list because an English page now has two to make. A visitor
+	// gets ONE banner: the first offer whose `when` they prefer, in the order
+	// given. An offer with no `when` always shows, which is how /fr/* and /es/*
+	// offer English back to every visitor rather than only to English speakers.
+	//
 	// The dismissal is sessionStorage, per the handoff's "remember for the
-	// session" — it is a per-visitor convenience, not state anything else reads.
-	let {
-		href,
-		label,
-		dismissKey,
-		/** Show only when the visitor's browser prefers this language. Omit to always offer. */
-		when
-	}: { href: string; label: string; dismissKey: string; when?: string } = $props();
+	// session" — a per-visitor convenience, not state anything else reads. It is
+	// keyed per language offered, so dismissing the Spanish banner does not also
+	// silence the French one on a page that could show either.
+	type Offer = {
+		href: string;
+		label: string;
+		/** Language of the page being offered, for the link's own lang/hreflang. */
+		lang: string;
+		/** Show only to a visitor who prefers this language. Omit to always show. */
+		when?: string;
+	};
 
-	let show = $state(false);
+	let {
+		offers,
+		dismissKeyPrefix = 'mochify-locale-banner'
+	}: { offers: Offer[]; dismissKeyPrefix?: string } = $props();
+
+	let shown = $state<Offer | null>(null);
 
 	function prefers(tag: string): boolean {
 		const langs = navigator.languages?.length ? navigator.languages : [navigator.language];
-		return langs.some((l) => l?.toLowerCase().startsWith(tag));
+		return langs.some((l) => l?.toLowerCase().split('-')[0] === tag);
 	}
 
+	const keyFor = (offer: Offer) => `${dismissKeyPrefix}-${offer.lang}`;
+
 	onMount(() => {
-		try {
-			if (sessionStorage.getItem(dismissKey)) return;
-		} catch {
-			// Private mode or blocked storage: offer the banner rather than fail.
+		for (const offer of offers) {
+			try {
+				if (sessionStorage.getItem(keyFor(offer))) continue;
+			} catch {
+				// Private mode or blocked storage: offer the banner rather than fail.
+			}
+			if (!offer.when || prefers(offer.when)) {
+				shown = offer;
+				return;
+			}
 		}
-		show = when ? prefers(when) : true;
 	});
 
 	function dismiss() {
-		show = false;
+		const offer = shown;
+		shown = null;
+		if (!offer) return;
 		try {
-			sessionStorage.setItem(dismissKey, '1');
+			sessionStorage.setItem(keyFor(offer), '1');
 		} catch {
 			/* nothing to remember is better than a thrown error */
 		}
 	}
 </script>
 
-{#if show}
+{#if shown}
 	<div class="flex justify-center px-4 pt-3">
 		<div
 			class="flex w-full max-w-5xl items-center justify-between gap-3 rounded-2xl border border-pink-100 bg-[#FFF5F7] px-4 py-2.5 text-sm text-[#6C3F31]"
 		>
-			<a {href} class="font-bold text-[#F06292] hover:underline">{label}</a>
+			<a
+				href={shown.href}
+				hreflang={shown.lang}
+				lang={shown.lang}
+				class="font-bold text-[#F06292] hover:underline">{shown.label}</a
+			>
 			<button
 				type="button"
 				onclick={dismiss}
-				aria-label={label}
+				aria-label={shown.label}
 				class="shrink-0 cursor-pointer rounded-full p-1 text-[#875F42]/60 transition-colors hover:text-[#F06292]"
 			>
 				<svg

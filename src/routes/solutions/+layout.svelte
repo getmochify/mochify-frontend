@@ -71,10 +71,10 @@
 <div class="flex-1 bg-[#FDFBF7] min-h-screen flex flex-col">
     <Navigation />
     <LocaleBanner
-        href="/fr/flow"
-        label="Voir cette page en français"
-        dismissKey="mochify-locale-banner-fr"
-        when="fr"
+        offers={[
+            { href: '/fr/flow', label: 'Voir cette page en français', lang: 'fr', when: 'fr' },
+            { href: '/es/flow', label: 'Ver esta página en español', lang: 'es', when: 'es' }
+        ]}
     />
     {#if isChildPage}
         <div class="max-w-5xl mx-auto w-full pt-6">

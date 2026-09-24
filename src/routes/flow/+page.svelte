@@ -57,11 +57,15 @@
     <meta name="twitter:title" content="Convert, Resize and Compress Images Online, Free | Mochify" />
     <meta name="twitter:description" content="Say what you need in plain English and Mochify does it: convert, resize, smart crop, remove backgrounds, rasterize PDF pages. No format pickers, no sliders." />
 
-    <!-- hreflang: the French pilot page and this one point at each other, and
-         English is x-default. Pages are served by URL; there is no redirect by
-         IP or Accept-Language, which would hide /fr/flow from a US crawler. -->
+    <!-- hreflang: one set across all three languages, the same four lines on
+         each Flow page, with English as x-default. `es` carries no region: the
+         Spanish page serves Spain and Latin America, and es-ES would signal
+         Spain only. Pages are served by URL; there is no redirect by IP or
+         Accept-Language, which would hide the localised pages from a US
+         crawler. -->
     <link rel="alternate" hreflang="en" href="https://mochify.app/flow" />
     <link rel="alternate" hreflang="fr" href="https://mochify.app/fr/flow" />
+    <link rel="alternate" hreflang="es" href="https://mochify.app/es/flow" />
     <link rel="alternate" hreflang="x-default" href="https://mochify.app/flow" />
 </svelte:head>
 
@@ -70,10 +74,10 @@
     <Navigation />
 
     <LocaleBanner
-        href="/fr/flow"
-        label="Voir cette page en français"
-        dismissKey="mochify-locale-banner-fr"
-        when="fr"
+        offers={[
+            { href: '/fr/flow', label: 'Voir cette page en français', lang: 'fr', when: 'fr' },
+            { href: '/es/flow', label: 'Ver esta página en español', lang: 'es', when: 'es' }
+        ]}
     />
 
     <main class="relative z-10 flex-grow w-full max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
@@ -88,7 +92,10 @@
                  no crawlable inbound link on the English site at all (handoff
                  2026-09-24, Change 1). The footer carries the same switch
                  sitewide; this one is for the person already looking at the tool. -->
-            <p class="mt-4"><a href="/fr/flow" hreflang="fr" lang="fr" class="text-sm font-bold text-[#F06292] hover:underline">&laquo;&nbsp;En français&nbsp;&raquo;</a></p>
+            <p class="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+                <a href="/fr/flow" hreflang="fr" lang="fr" class="text-sm font-bold text-[#F06292] hover:underline">&laquo;&nbsp;En français&nbsp;&raquo;</a>
+                <a href="/es/flow" hreflang="es" lang="es" class="text-sm font-bold text-[#F06292] hover:underline">&laquo;&nbsp;En español&nbsp;&raquo;</a>
+            </p>
         </header>
 
         <PromptFormApp bind:this={form} rememberPrompts />

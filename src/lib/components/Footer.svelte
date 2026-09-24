@@ -58,15 +58,34 @@
     //
     // Paired per page rather than always pointing at /flow: sending someone
     // reading /fr/pricing to the English tool instead of the English pricing page
-    // loses their place. A /fr/* path with no English twin falls back to /flow,
-    // which is the handoff's default.
-    const FR_TWIN: Record<string, string> = {
+    // loses their place. A localised path with no English twin falls back to
+    // /flow, which is the handoff's default.
+    //
+    // An English page offers both languages; a localised page offers only the way
+    // back to English, because a French reader is not the audience for the
+    // Spanish page and the two are not translations of each other.
+    const EN_TWIN: Record<string, string> = {
         '/fr/flow': '/flow',
-        '/fr/pricing': '/pricing'
+        '/fr/pricing': '/pricing',
+        '/es/flow': '/flow',
+        '/es/pricing': '/pricing'
     };
-    const isFrench = $derived(page.url.pathname.startsWith('/fr'));
-    const localeHref = $derived(isFrench ? (FR_TWIN[page.url.pathname] ?? '/flow') : '/fr/flow');
-    const localeLabel = $derived(isFrench ? 'English' : 'Français');
+    const LOCALISED = [
+        { prefix: '/fr', label: 'Français', home: '/fr/flow', lang: 'fr' },
+        { prefix: '/es', label: 'Español', home: '/es/flow', lang: 'es' }
+    ];
+    const current = $derived(
+        LOCALISED.find(
+            (l) => page.url.pathname === l.prefix || page.url.pathname.startsWith(`${l.prefix}/`)
+        )
+    );
+    // On a localised page: one link back to English. On an English page: one per
+    // other language.
+    const localeLinks = $derived(
+        current
+            ? [{ href: EN_TWIN[page.url.pathname] ?? '/flow', label: 'English', lang: 'en' }]
+            : LOCALISED.map((l) => ({ href: l.home, label: l.label, lang: l.lang }))
+    );
 </script>
 
 <footer class="relative z-10 w-full max-w-5xl mx-auto px-4 pb-12 sm:px-6 lg:px-8 text-center">
@@ -143,10 +162,13 @@
                 Data Processing Agreement
             </a>
             <!-- The language switch, in this row rather than a slot of its own so
-                 it is present on every page the footer renders on, /fr/* included. -->
-            <a href={localeHref} hreflang={isFrench ? 'en' : 'fr'} lang={isFrench ? 'en' : 'fr'} class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
-                {localeLabel}
-            </a>
+                 it is present on every page the footer renders on, /fr/* and /es/*
+                 included. -->
+            {#each localeLinks as link (link.lang)}
+                <a href={link.href} hreflang={link.lang} lang={link.lang} class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
+                    {link.label}
+                </a>
+            {/each}
         </div>
 
         <p class="text-cocoa-milk text-xs">
