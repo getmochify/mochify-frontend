@@ -8,10 +8,52 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import { posthog } from '$lib/analytics';
 	import { formatPrice, USD_PRICES } from '$lib/currency';
+	import { USE_CASES } from '$lib/useCases';
 
 	let { data } = $props();
 
 	let justUpgraded = $state(false);
+
+	// "What will you mainly use Mochify for?", for everyone who never saw the
+	// register form's select: Google and magic-link signups, and every account
+	// that predates the question.
+	//
+	// Shown only while the answer is genuinely unknown, so answering or dismissing
+	// makes it go away for good. `null` from the load means unanswered.
+	//
+	// The dismissal is localStorage, not a column. It is a soft prompt, so it does
+	// not deserve a migration, and per-browser is the right grain: someone who
+	// waves it away on their laptop and later signs in on a phone gets one more
+	// chance to answer, which is the outcome we want from a question nobody is
+	// obliged to answer. Wrapped in try/catch because private mode throws, and a
+	// prompt that renders is a better failure than a dashboard that does not.
+	const USE_CASE_DISMISSED = 'mochify-use-case-dismissed';
+	// Seeded from the load and then owned locally, the same way hasKey is: the
+	// action result flips it, and a later `data` change must not resurrect a
+	// prompt the visitor has just answered.
+	// svelte-ignore state_referenced_locally
+	let useCaseAnswered = $state(Boolean(data.profile?.use_case));
+	let useCaseDismissed = $state(true);
+	let useCaseSaving = $state(false);
+	let useCaseChoice = $state('');
+
+	onMount(() => {
+		try {
+			useCaseDismissed = localStorage.getItem(USE_CASE_DISMISSED) === '1';
+		} catch {
+			useCaseDismissed = false;
+		}
+	});
+
+	function dismissUseCase() {
+		useCaseDismissed = true;
+		posthog.capture('use_case_prompt_dismissed');
+		try {
+			localStorage.setItem(USE_CASE_DISMISSED, '1');
+		} catch {
+			/* nothing to remember is better than a thrown error */
+		}
+	}
 
 	// API key state — seeded from the server load so the card renders immediately.
 	// Mutations (generate/regenerate) run as server form actions and update these
@@ -237,6 +279,66 @@
 	<Navigation />
 
 	<main class="relative z-10 mx-auto w-full max-w-4xl grow px-4 py-12 sm:px-6">
+		{#if !useCaseAnswered && !useCaseDismissed}
+			<!-- One question, answerable in one click, dismissible, and gone for good
+			     either way. Deliberately above the fold and deliberately small: it is
+			     research, so it must never look like something blocking the account. -->
+			<div
+				class="mb-8 flex flex-col gap-3 rounded-2xl border border-pink-100 bg-[#FFF5F7] px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between"
+			>
+				<div class="min-w-0">
+					<p class="text-sm font-bold text-[#4A2C2C]">What will you mainly use Mochify for?</p>
+					<p class="mt-0.5 text-xs text-[#875F42]/70">
+						One question, and it helps us decide what to build next.
+					</p>
+				</div>
+				<form
+					method="POST"
+					action="?/setUseCase"
+					class="flex shrink-0 items-center gap-2"
+					use:enhance={() => {
+						const chosen = useCaseChoice;
+						useCaseSaving = true;
+						return async ({ result }) => {
+							useCaseSaving = false;
+							if (result.type === 'success') {
+								useCaseAnswered = true;
+								posthog.capture('use_case_answered', { use_case: chosen });
+							}
+						};
+					}}
+				>
+					<select
+						name="useCase"
+						bind:value={useCaseChoice}
+						required
+						aria-label="What will you mainly use Mochify for?"
+						class="cursor-pointer rounded-xl border border-[#875F42]/15 bg-white px-3 py-2 text-sm font-medium text-[#4A2C2C] focus:border-[#F06292]/40 focus:ring-2 focus:ring-[#F06292]/30 focus:outline-none"
+					>
+						<option value="" disabled>Choose one…</option>
+						{#each USE_CASES as option (option.slug)}
+							<option value={option.slug}>{option.label}</option>
+						{/each}
+					</select>
+					<button
+						type="submit"
+						disabled={useCaseSaving || !useCaseChoice}
+						class="rounded-xl bg-mochi-pink px-3.5 py-2 text-sm font-bold text-white transition-all hover:bg-[#E0527F] disabled:opacity-40"
+					>
+						Save
+					</button>
+					<button
+						type="button"
+						onclick={dismissUseCase}
+						aria-label="Dismiss"
+						class="rounded-xl px-2 py-2 text-sm text-[#875F42]/50 transition-colors hover:text-[#F06292]"
+					>
+						✕
+					</button>
+				</form>
+			</div>
+		{/if}
+
 		<div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 			<div class="min-w-0">
 				<h1 class="text-3xl font-black tracking-tight text-[#4A2C2C]">Dashboard</h1>

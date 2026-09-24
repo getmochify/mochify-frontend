@@ -1,4 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
+import { syncContactFromProfile } from '$lib/server/resendContacts';
+import { isUseCase } from '$lib/useCases';
 import { Polar } from '@polar-sh/sdk';
 import { env } from '$env/dynamic/private';
 import { Kysely } from 'kysely';
@@ -274,6 +276,59 @@ export const actions = {
 		}
 
 		return { success: true, optin };
+	},
+
+	// "What will you mainly use Mochify for?", asked on the dashboard for everyone
+	// who never saw the register form's select: Google and magic-link signups, and
+	// every account that existed before the question did.
+	//
+	// Same upsert reasoning as the two actions around it. A free user may have no
+	// profile row, and an existing row must have only this one column touched, so a
+	// paid user's plan and limits are never disturbed.
+	setUseCase: async ({ request, locals, platform }) => {
+		if (!locals.user) return fail(401, { error: 'Not authenticated' });
+
+		const db = platform?.env?.DB;
+		if (!db) return fail(500, { error: 'Database unavailable' });
+
+		const form = await request.formData();
+		const value = form.get('useCase');
+		// The column carries no CHECK constraint on purpose (see the migration), so
+		// this is the boundary that keeps junk out of it.
+		if (!isUseCase(value)) return fail(400, { error: 'Unknown option' });
+
+		const now = Date.now();
+		try {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const kysely = new Kysely<any>({ dialect: new D1Dialect({ database: db }) });
+			await kysely
+				.insertInto('profile')
+				.values({
+					user_id: locals.user.id,
+					plan: 'free',
+					polar_subscription_id: null,
+					polar_customer_id: null,
+					quota_period_end: null,
+					ops_limit: 25,
+					use_case: value,
+					created_at: now,
+					updated_at: now
+				})
+				.onConflict((oc) =>
+					oc.column('user_id').doUpdateSet({ use_case: value, updated_at: now })
+				)
+				.execute();
+		} catch (e) {
+			console.error('[dashboard] setUseCase failed:', e);
+			return fail(500, { error: 'Could not save your answer' });
+		}
+
+		// D1 is the record, Resend the mirror, and the write above owns the truth:
+		// this runs after it and never fails the action, so a Resend outage costs a
+		// stale property rather than the answer itself.
+		await syncContactFromProfile(db, platform?.env?.RESEND_API_KEY, locals.user.id);
+
+		return { success: true, useCase: value };
 	},
 
 	// Marketing email preference. Note the inverted polarity against setAiOptin:

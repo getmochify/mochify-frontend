@@ -14,11 +14,13 @@ export const load = async ({ locals, platform }) => {
         quota_period_end: string | null
         ai_thirdparty_optin: number
         marketing_opt_out: number
+        use_case: string | null
     } = {
         plan: 'free',
         ops_limit: PLAN_LIMITS.free,
         quota_period_end: null,
         ai_thirdparty_optin: 0,
+        use_case: null,
         // Opposite polarity to ai_thirdparty_optin on purpose. Sending images to a
         // third party needs affirmative consent, so that one defaults off. Marketing
         // to someone who abandoned a checkout runs on PECR reg 22 soft opt-in, which
@@ -40,6 +42,7 @@ export const load = async ({ locals, platform }) => {
                     'quota_period_end',
                     'ai_thirdparty_optin',
                     'marketing_opt_out',
+                    'use_case',
                 ])
                 .where('user_id', '=', locals.user.id)
                 .executeTakeFirst()
@@ -58,6 +61,11 @@ export const load = async ({ locals, platform }) => {
                     quota_period_end: expired ? null : (row.quota_period_end ?? null),
                     ai_thirdparty_optin: row.ai_thirdparty_optin ?? 0,
                     marketing_opt_out: row.marketing_opt_out ?? 0,
+                    // null means unanswered, which is what the dashboard prompt
+                    // keys off. Google and magic-link signups never see the
+                    // register form's select, so for them this is the only way
+                    // the question ever gets asked.
+                    use_case: row.use_case ?? null,
                 }
             }
         } catch (e) {
