@@ -7,25 +7,32 @@
 	// The same body as /pricing, with the French string set and the French
 	// locale, which is what turns "€7.99" into "7,99 €".
 	//
-	// NOINDEX, deliberately. The French copy here was drafted dev-side because
-	// this page has no copy sheet: the localisation plan puts French copy and its
-	// claim check with content-ops, and neither has run over this page yet. A
-	// French visitor who clicks "Tarifs" gets a French page today; nothing
-	// unverified accumulates search equity meanwhile. There is no hreflang pair
-	// and no sitemap entry for the same reason: both would tell Google to index
-	// it. Lift all three together once content-ops has verified the claims.
+	// Indexable as of handoff 2026-09-24 Change 2. It shipped noindex, unpaired and
+	// out of the sitemap because the French copy was drafted dev-side rather than by
+	// content-ops, and nothing unverified should accumulate search equity. The live
+	// check found the effect of that: the page could not be found in French at all.
+	// The operator took the call to index it before the section 4.1 claim check, so
+	// all three lifted together: robots, the hreflang pair here and on /pricing,
+	// and the sitemap entry. The copy's provenance is unchanged; see
+	// $lib/i18n/pricing.fr.ts.
 	let { data }: { data: PageData } = $props();
 </script>
 
 <svelte:head>
 	<title>{FR_PRICING.metaTitle}</title>
 	<meta name="description" content={FR_PRICING.metaDescription} />
-	<meta name="robots" content="noindex" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://mochify.app/fr/pricing" />
 	<meta property="og:locale" content="fr_FR" />
 	<meta property="og:title" content={FR_PRICING.metaTitle} />
 	<meta property="og:description" content={FR_PRICING.metaDescription} />
+
+	<!-- hreflang: this pair points both ways, and English is x-default, matching
+	     the /flow pair. Serving is by URL only; nothing redirects on IP or
+	     Accept-Language, which would hide this page from a US crawler. -->
+	<link rel="alternate" hreflang="fr" href="https://mochify.app/fr/pricing" />
+	<link rel="alternate" hreflang="en" href="https://mochify.app/pricing" />
+	<link rel="alternate" hreflang="x-default" href="https://mochify.app/pricing" />
 </svelte:head>
 
 <LocaleBanner href="/pricing" label="View in English" dismissKey="mochify-locale-banner-en" />

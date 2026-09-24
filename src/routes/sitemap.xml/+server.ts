@@ -27,7 +27,8 @@ export async function GET() {
 	const site = 'https://mochify.app';
 	const pages = [
 		'',
-		'/flow', '/fr/flow',
+		'/flow',
+		'/fr/flow',
 		'/heic-to-jpeg',
 		'/avif-to-jpg',
 		'/jpg-to-jpegxl',
@@ -124,6 +125,7 @@ export async function GET() {
 		'/guides/cross-listing-marketplace-photo-requirements',
 		'/guides/product-image-requirements-marketplace-guide',
 		'/pricing',
+		'/fr/pricing',
 		'/terms',
 		'/privacy',
 		'/service-terms',

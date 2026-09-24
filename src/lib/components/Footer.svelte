@@ -1,5 +1,6 @@
 <script lang="ts">
     import { posthog } from '$lib/analytics';
+    import { page } from '$app/state';
 
     // `minimal` drops the marketing block (Popular Tools + Solutions/Guides CTAs)
     // for surfaces like /flow where the focus is the tool, not routing to content.
@@ -44,6 +45,28 @@
     function trackAskAi(assistant: string) {
         posthog.capture('ask_ai_click', { assistant });
     }
+
+    // The language switch. A plain <a> in the HTML for every visitor, on every
+    // page, with no JS gate and no nofollow, which is the whole point of it.
+    //
+    // The French pilot pages had no crawlable inbound link at all: the only ways
+    // to /fr/flow were the hreflang tag on /flow and the sitemap entry, because
+    // the "Voir cette page en francais" banner renders on the browser's language
+    // preference, which Googlebot does not send. So /fr/flow carried zero internal
+    // link equity (handoff 2026-09-24, Change 1). The banner stays as it is; this
+    // is the link a crawler can follow.
+    //
+    // Paired per page rather than always pointing at /flow: sending someone
+    // reading /fr/pricing to the English tool instead of the English pricing page
+    // loses their place. A /fr/* path with no English twin falls back to /flow,
+    // which is the handoff's default.
+    const FR_TWIN: Record<string, string> = {
+        '/fr/flow': '/flow',
+        '/fr/pricing': '/pricing'
+    };
+    const isFrench = $derived(page.url.pathname.startsWith('/fr'));
+    const localeHref = $derived(isFrench ? (FR_TWIN[page.url.pathname] ?? '/flow') : '/fr/flow');
+    const localeLabel = $derived(isFrench ? 'English' : 'Français');
 </script>
 
 <footer class="relative z-10 w-full max-w-5xl mx-auto px-4 pb-12 sm:px-6 lg:px-8 text-center">
@@ -118,6 +141,11 @@
             </a>
             <a href="/dpa" class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
                 Data Processing Agreement
+            </a>
+            <!-- The language switch, in this row rather than a slot of its own so
+                 it is present on every page the footer renders on, /fr/* included. -->
+            <a href={localeHref} hreflang={isFrench ? 'en' : 'fr'} lang={isFrench ? 'en' : 'fr'} class="text-cocoa-deep hover:text-mochi-pink hover:underline transition-colors">
+                {localeLabel}
             </a>
         </div>
 

@@ -5,13 +5,19 @@
 // and nothing for /pricing. This file was drafted dev-side on the operator's
 // instruction (2026-09-23) so a French visitor clicking "Tarifs" does not land on
 // an English page. It is NOT native-reviewed and NOT through the section 4.1
-// claim check. `/fr/pricing` is noindex until content-ops verifies it.
+// claim check. It is nonetheless indexed as of the 2026-09-24 post-launch handoff:
+// the operator took the call that a French page findable in French is worth more
+// than the review it has not had yet.
 //
 // Every figure here is the same nominal number as the English page, which is
 // correct and not a coincidence: EUR prices sit at nominal parity with USD
-// (operator, 2026-09-23), so the per-image arithmetic in the Pro-vs-Seller answer
-// carries over unchanged. It would NOT carry over to GBP, where Pro's annual
-// discount is 18% against the 22% quoted. Re-derive before adding a third currency.
+// (operator, 2026-09-23).
+//
+// The Pro-vs-Seller answer used to quote centimes per image, derived from the EUR
+// prices. Those were wrong on a GBP render (21,99 £ / 1 200 = 1,8 p, not 2,1
+// centimes), so handoff 2026-09-24 Change 5 dropped them. What is left is the
+// ratio, which holds in every currency. Do not put per-image figures back unless
+// they are computed from the rendered price.
 //
 // House rules from the pilot plan section 4, applied throughout: no-break space
 // before : ; ? !, narrow no-break space as the thousands separator, comma
@@ -30,8 +36,8 @@ export const FR_PRICING: PricingStrings = {
 	surfaces: 'Web · CLI · Extension Chrome · MCP · API',
 	billingMonthly: 'Mensuel',
 	billingYearly: 'Annuel',
-	save: 'Économisez',
-	upTo: "jusqu'à ",
+	saveExact: (pct) => `Économisez ${pct} %`,
+	saveUpTo: (pct) => `Économisez jusqu'à ${pct} %`,
 	mostPopular: 'Le plus choisi',
 	perMonth: '/ mois',
 	perYear: '/ an',
@@ -47,7 +53,7 @@ export const FR_PRICING: PricingStrings = {
 	everythingInPro: 'Tout Pro, plus :',
 	sellerFeatures: [
 		'<strong>300 images</strong> par mois',
-		'<strong>75 Mo</strong> par fichier',
+		'<strong>75 Mo</strong> par fichier',
 		'<strong>25 fichiers</strong> par lot',
 		'Outils <strong>PDF</strong> complets',
 		'Enregistrement sur <strong>Google Drive</strong> ou votre propre bucket',
@@ -66,14 +72,14 @@ export const FR_PRICING: PricingStrings = {
 	],
 	freeFeatures: [
 		'<strong>25 images</strong> par mois',
-		'<strong>20 Mo</strong> par fichier',
+		'<strong>20 Mo</strong> par fichier',
 		"Jusqu'à <strong>3 fichiers</strong> par lot",
 		'Détourage du fond',
 		"File d'attente standard"
 	],
 	dayPassFeatures: [
 		'<strong>100 envois</strong> en 24 heures',
-		'<strong>75 Mo</strong> par fichier et des lots plus grands',
+		'<strong>75 Mo</strong> par fichier et des lots plus grands',
 		'Sans abonnement, sans compte',
 		'Activation immédiate par lien magique'
 	],
@@ -94,6 +100,8 @@ export const FR_PRICING: PricingStrings = {
 	tblFeature: 'Fonctionnalité',
 	tblMonthlyImages: 'Images par mois',
 	tblMaxFileSize: 'Taille maximale par fichier',
+	tblSizeFree: '20 Mo',
+	tblSizePaid: '75 Mo',
 	tblHeicUpload: 'Envoi de fichiers HEIC',
 	tblResizeRotateCrop: 'Redimensionner, pivoter et recadrer',
 	tblBackgroundRemoval: 'Détourage du fond',
@@ -123,11 +131,11 @@ export const FR_PRICING: PricingStrings = {
 		},
 		{
 			q: 'Les images non utilisées sont-elles reportées ?',
-			a: 'Non. Le forfait gratuit se réinitialise sur un cycle glissant de 30 jours à partir de votre première utilisation ; Seller et Pro se réinitialisent à votre date de facturation. Les images non utilisées ne sont pas reportées.'
+			a: 'Non. Le forfait gratuit se réinitialise sur un cycle glissant de 30 jours à partir de votre première utilisation ; Seller, Pro et Growth se réinitialisent à votre date de facturation. Les images non utilisées ne sont pas reportées.'
 		},
 		{
 			q: 'Pro vaut-il le coup par rapport à Seller ?',
-			a: "Cela dépend du volume. Pro donne quatre fois plus d'images pour un peu plus de trois fois le prix, soit environ 22 % de moins par image : environ 2,1 centimes sur Pro contre 2,7 centimes sur Seller, ou 1,7 contre 2,2 centimes en facturation annuelle. Pro place aussi vos fichiers en tête de la file d'attente et donne droit à une assistance par e-mail prioritaire. Si vous restez confortablement sous 300 images par mois, Seller est le meilleur choix."
+			a: "Cela dépend du volume. Pro donne quatre fois plus d'images pour un peu plus de trois fois le prix, soit environ 22 % de moins par image, en mensuel comme en annuel. Pro place aussi vos fichiers en tête de la file d'attente et donne droit à une assistance par e-mail prioritaire. Si vous restez confortablement sous 300 images par mois, Seller est le meilleur choix."
 		},
 		{
 			q: "Puis-je utiliser l'API avec le forfait gratuit ?",
@@ -135,7 +143,7 @@ export const FR_PRICING: PricingStrings = {
 		},
 		{
 			q: 'Comment fonctionne le Day Pass ?',
-			a: `Payez ${dayPassPrice} et nous vous envoyons un lien magique par e-mail : cliquez dessus pour débloquer 100 envois d'images en 24 heures, des fichiers de 75 Mo et des lots plus grands pendant 24 heures. Aucun compte ni abonnement nécessaire.`
+			a: `Payez ${dayPassPrice} et nous vous envoyons un lien magique par e-mail : cliquez dessus pour débloquer 100 envois d'images en 24 heures, des fichiers de 75 Mo et des lots plus grands pendant 24 heures. Aucun compte ni abonnement nécessaire.`
 		},
 		{
 			q: 'Puis-je annuler à tout moment ?',
@@ -151,5 +159,64 @@ export const FR_PRICING: PricingStrings = {
 	ctaContactAfter: '.',
 	metaTitle: 'Tarifs | Mochify',
 	metaDescription:
-		'Des tarifs simples. 3 images gratuites sans inscription, ou 25 par mois avec un compte gratuit. Seller pour 300 images, Pro pour 1 200, Growth pour 5 000. Ou un Day Pass à 2 € pour 100 envois en 24 heures, sans abonnement.'
+		'Des tarifs simples. 3 images gratuites sans inscription, ou 25 par mois avec un compte gratuit. Seller pour 300 images, Pro pour 1 200, Growth pour 5 000. Ou un Day Pass à 2 € pour 100 envois en 24 heures, sans abonnement.',
+	schemaUrl: 'https://mochify.app/fr/pricing',
+	schemaDescription:
+		'Des tarifs simples. 3 images gratuites sans inscription, ou 25 par mois avec un compte gratuit. Seller pour 300 images, Pro pour 1 200, Growth pour 5 000 images par mois.',
+	schemaOffers: [
+		{
+			plan: null,
+			name: 'Free',
+			description: () =>
+				"3 images gratuites sans compte. Créez un compte gratuit pour 25 images par mois. Tous les formats, redimensionnement, rotation, recadrage, détourage du fond, accès MCP et API inclus. File d'attente standard."
+		},
+		{
+			plan: 'sellerMonthly',
+			name: 'Seller mensuel',
+			unitCode: 'MON',
+			description: () =>
+				"300 images par mois. Tous les formats, redimensionnement, rotation, recadrage, détourage du fond, accès MCP et API inclus. Jusqu'à 75 Mo par fichier. File d'attente prioritaire."
+		},
+		{
+			plan: 'proMonthly',
+			name: 'Pro mensuel',
+			unitCode: 'MON',
+			description: () =>
+				"1 200 images par mois. Tous les formats, redimensionnement, rotation, recadrage, détourage du fond, accès MCP et API inclus. Jusqu'à 75 Mo par fichier. File d'attente prioritaire absolue."
+		},
+		{
+			plan: 'growthMonthly',
+			name: 'Growth mensuel',
+			unitCode: 'MON',
+			description: () =>
+				"5 000 images par mois. Tout Pro, plus les pages PDF illimitées et les PDF construits à partir de 200 images. Enregistrement des résultats sur votre propre bucket ou sur Google Drive. File d'attente prioritaire absolue."
+		},
+		{
+			plan: 'sellerYearly',
+			name: 'Seller annuel',
+			unitCode: 'ANN',
+			description: (price) =>
+				`300 images par mois, facturées ${price('sellerYearly')} par an. Détourage du fond inclus. Jusqu'à 75 Mo par fichier. File d'attente prioritaire.`
+		},
+		{
+			plan: 'proYearly',
+			name: 'Pro annuel',
+			unitCode: 'ANN',
+			description: (price) =>
+				`1 200 images par mois, facturées ${price('proYearly')} par an. Détourage du fond inclus. Jusqu'à 75 Mo par fichier. File d'attente prioritaire absolue.`
+		},
+		{
+			plan: 'growthYearly',
+			name: 'Growth annuel',
+			unitCode: 'ANN',
+			description: (price) =>
+				`5 000 images par mois, facturées ${price('growthYearly')} par an. Pages PDF illimitées. File d'attente prioritaire absolue.`
+		},
+		{
+			plan: 'dayPass',
+			name: 'Day Pass',
+			description: () =>
+				"Pass de 24 heures, paiement unique. Jusqu'à 100 envois d'images, des fichiers jusqu'à 75 Mo, des lots plus grands. Sans abonnement ni compte, activé immédiatement par lien magique."
+		}
+	]
 };

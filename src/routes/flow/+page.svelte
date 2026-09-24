@@ -82,6 +82,13 @@
             <p class="text-xs font-bold tracking-[0.18em] uppercase text-[#F06292]/80 mb-4">Images · Video · PDFs</p>
             <h1 class="font-heading text-4xl md:text-6xl font-black text-[#4A2C2C] leading-tight tracking-tight text-balance max-w-3xl mx-auto mb-3">Drop your files<span class="text-[#F06292]">.</span> <span class="text-[#F06292]">Tell us what you need<span class="text-[#6C3F31]">.</span></span></h1>
             <p class="text-base md:text-lg text-[#875F42] max-w-2xl mx-auto leading-relaxed text-pretty">Convert, resize, crop, remove backgrounds, rasterize PDF pages or pull the audio out of a video. Just describe it. No format pickers, no quality sliders.</p>
+            <!-- Next to the tool, and in the HTML for every visitor. The locale
+                 banner above renders only for a French browser preference, which
+                 Googlebot does not send, so until this link existed /fr/flow had
+                 no crawlable inbound link on the English site at all (handoff
+                 2026-09-24, Change 1). The footer carries the same switch
+                 sitewide; this one is for the person already looking at the tool. -->
+            <p class="mt-4"><a href="/fr/flow" hreflang="fr" lang="fr" class="text-sm font-bold text-[#F06292] hover:underline">&laquo;&nbsp;En français&nbsp;&raquo;</a></p>
         </header>
 
         <PromptFormApp bind:this={form} rememberPrompts />

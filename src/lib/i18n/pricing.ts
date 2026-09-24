@@ -18,8 +18,10 @@ export type PricingStrings = {
 	surfaces: string;
 	billingMonthly: string;
 	billingYearly: string;
-	save: string;
-	upTo: string;
+	/** Savings badge when every tier's annual discount agrees. */
+	saveExact: (pct: number) => string;
+	/** Savings badge when they differ, so only the best one can be claimed. */
+	saveUpTo: (pct: number) => string;
 	mostPopular: string;
 	perMonth: string;
 	perYear: string;
@@ -54,6 +56,9 @@ export type PricingStrings = {
 	tblFeature: string;
 	tblMonthlyImages: string;
 	tblMaxFileSize: string;
+	/** Max-file-size cells. A unit, so it is copy: MB in English, Mo in French. */
+	tblSizeFree: string;
+	tblSizePaid: string;
 	tblHeicUpload: string;
 	tblResizeRotateCrop: string;
 	tblBackgroundRemoval: string;
@@ -85,6 +90,33 @@ export type PricingStrings = {
 	/** Head of the route that renders this page. */
 	metaTitle: string;
 	metaDescription: string;
+	/** Canonical URL of this locale's pricing page, for the WebPage node's @id. */
+	schemaUrl: string;
+	/** WebPage `description`. Shorter than metaDescription, which lists the Day Pass. */
+	schemaDescription: string;
+	schemaOffers: SchemaOffer[];
+};
+
+/**
+ * One `Offer` in the page's SoftwareApplication schema.
+ *
+ * `plan` keys into the same price map the cards render from, so the schema quotes
+ * the price the visitor is actually shown. The old English block hardcoded USD,
+ * which told Google $24.99 on a page displaying 21,99 £ — the same class of
+ * defect as the per-image figures the 2026-09-24 handoff removed from the FAQ.
+ *
+ * `description` therefore takes the formatted price rather than embedding one.
+ * The annual descriptions used to end "Save 17% versus monthly"; that figure is
+ * per currency too (13% on Pro in GBP), so it is gone rather than derived: the
+ * cards and the toggle already carry it, exactly.
+ */
+export type SchemaOffer = {
+	/** Key into $lib/currency's price map, or null for the free tier. */
+	plan: string | null;
+	name: string;
+	description: (price: (plan: string) => string) => string;
+	/** MON or ANN. Omitted for the free tier and the one-off Day Pass. */
+	unitCode?: 'MON' | 'ANN';
 };
 
 export const EN_PRICING: PricingStrings = {
@@ -96,8 +128,8 @@ export const EN_PRICING: PricingStrings = {
 	surfaces: 'Web · CLI · Chrome extension · MCP · API',
 	billingMonthly: 'Monthly',
 	billingYearly: 'Yearly',
-	save: 'Save',
-	upTo: 'up to ',
+	saveExact: (pct) => `Save ${pct}%`,
+	saveUpTo: (pct) => `Save up to ${pct}%`,
 	mostPopular: 'Most popular',
 	perMonth: '/ month',
 	perYear: '/ year',
@@ -159,6 +191,8 @@ export const EN_PRICING: PricingStrings = {
 	tblFeature: 'Feature',
 	tblMonthlyImages: 'Monthly images',
 	tblMaxFileSize: 'Max file size',
+	tblSizeFree: '20MB',
+	tblSizePaid: '75MB',
 	tblHeicUpload: 'HEIC upload',
 	tblResizeRotateCrop: 'Resize, rotate & crop',
 	tblBackgroundRemoval: 'Background removal',
@@ -193,11 +227,11 @@ export const EN_PRICING: PricingStrings = {
 		},
 		{
 			q: 'Do unused images roll over?',
-			a: 'No. Free resets on a rolling 30-day cycle from when you start using it; Seller and Pro reset on your billing date. Unused images do not roll over.'
+			a: 'No. Free resets on a rolling 30-day cycle from when you start using it; Seller, Pro and Growth reset on your billing date. Unused images do not roll over.'
 		},
 		{
 			q: 'Is Pro worth it over Seller?',
-			a: 'It depends on volume. Pro gives you four times the images for a little over three times the price, so each image works out around 22% cheaper: about 2.1¢ on Pro versus 2.7¢ on Seller, or 1.7¢ versus 2.2¢ on annual billing. Pro also puts you at the front of the processing queue and gets priority email support. If you are comfortably inside 300 images a month, Seller is the better buy.'
+			a: 'It depends on volume. Pro gives you four times the images for a little over three times the price, so each image works out around 22% cheaper, on monthly and annual billing alike. Pro also puts you at the front of the processing queue and gets priority email support. If you are comfortably inside 300 images a month, Seller is the better buy.'
 		},
 		{
 			q: 'Can I use the API on the free tier?',
@@ -221,5 +255,64 @@ export const EN_PRICING: PricingStrings = {
 	ctaContactAfter: '.',
 	metaTitle: 'Pricing — Mochify',
 	metaDescription:
-		'Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription.'
+		'Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass — upload up to 100 images in 24 hours, no subscription.',
+	schemaUrl: 'https://mochify.app/pricing',
+	schemaDescription:
+		'Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month.',
+	schemaOffers: [
+		{
+			plan: null,
+			name: 'Free',
+			description: () =>
+				'3 images free without an account. Create a free account for 25 images per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Standard processing queue.'
+		},
+		{
+			plan: 'sellerMonthly',
+			name: 'Seller — Monthly',
+			unitCode: 'MON',
+			description: () =>
+				'300 images per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file. Priority processing queue.'
+		},
+		{
+			plan: 'proMonthly',
+			name: 'Pro — Monthly',
+			unitCode: 'MON',
+			description: () =>
+				'1,200 images per month. Includes all formats, resize, rotate, crop, background removal, MCP and API access. Up to 75MB per file. Top priority processing queue.'
+		},
+		{
+			plan: 'growthMonthly',
+			name: 'Growth — Monthly',
+			unitCode: 'MON',
+			description: () =>
+				'5,000 images per month. Everything in Pro plus unlimited PDF pages and PDFs built from up to 200 images. Save results to your own bucket or Google Drive. Top priority processing queue.'
+		},
+		{
+			plan: 'sellerYearly',
+			name: 'Seller — Annual',
+			unitCode: 'ANN',
+			description: (price) =>
+				`300 images per month, billed annually at ${price('sellerYearly')}/year. Includes background removal. Up to 75MB per file. Priority processing queue.`
+		},
+		{
+			plan: 'proYearly',
+			name: 'Pro — Annual',
+			unitCode: 'ANN',
+			description: (price) =>
+				`1,200 images per month, billed annually at ${price('proYearly')}/year. Includes background removal. Up to 75MB per file. Top priority processing queue.`
+		},
+		{
+			plan: 'growthYearly',
+			name: 'Growth — Annual',
+			unitCode: 'ANN',
+			description: (price) =>
+				`5,000 images per month, billed annually at ${price('growthYearly')}/year. Unlimited PDF pages. Top priority processing queue.`
+		},
+		{
+			plan: 'dayPass',
+			name: 'Day Pass',
+			description: () =>
+				'24-hour pass, one-time purchase. Upload up to 100 images, files up to 75MB, larger batches. No subscription or account required — activated instantly by magic link.'
+		}
+	]
 };

@@ -3,8 +3,15 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import DayPassButton from '$lib/components/DayPassButton.svelte';
 	import { dayPassEnabled } from '$lib/dayPass';
-	import { formatMonthlyEquivalent, formatPrice, savingsPercent, USD_PRICES } from '$lib/currency';
+	import {
+		formatMonthlyEquivalent,
+		formatPrice,
+		savingsPercent,
+		toMajorUnits,
+		USD_PRICES
+	} from '$lib/currency';
 	import { EN_PRICING, type PricingStrings } from '$lib/i18n/pricing';
+	import { faqSchema } from '$lib/faq';
 
 	// One pricing page, two locales. The page copy lives in $lib/i18n/pricing,
 	// so /pricing and /fr/pricing render this same markup rather than a fork —
@@ -64,7 +71,72 @@
 	// It does NOT gate the checkout route or the Polar webhook, so an in-flight
 	// subscription keeps working if the card is ever hidden.
 	const showGrowth = true;
+
+	// Structured data. Built here, from `t`, rather than written out per route:
+	// the FAQPage entries come from the same array the accordion renders, so a copy
+	// edit cannot leave the crawler holding the previous answer. The English
+	// block this replaces had already drifted that way in two answers.
+	//
+	// Offer prices come from the rendered `amounts`, so the schema quotes what the
+	// visitor is shown. The old block was USD literals on a page that may render
+	// GBP or EUR.
+	const schemaCurrency = $derived(currency.toUpperCase());
+	const bareAmount = (plan: string) => String(toMajorUnits(amounts[plan], currency));
+
+	const offersLd = $derived(
+		t.schemaOffers.map((offer) => ({
+			'@type': 'Offer',
+			name: offer.name,
+			price: offer.plan ? bareAmount(offer.plan) : '0',
+			priceCurrency: schemaCurrency,
+			...(offer.unitCode && offer.plan
+				? {
+						priceSpecification: {
+							'@type': 'UnitPriceSpecification',
+							price: bareAmount(offer.plan),
+							priceCurrency: schemaCurrency,
+							unitCode: offer.unitCode
+						}
+					}
+				: {}),
+			description: offer.description(price)
+		}))
+	);
+
+	const pageLd = $derived(
+		JSON.stringify({
+			'@context': 'https://schema.org',
+			'@graph': [
+				{
+					'@type': 'WebPage',
+					'@id': t.schemaUrl,
+					url: t.schemaUrl,
+					name: t.metaTitle,
+					description: t.schemaDescription,
+					inLanguage: locale,
+					isPartOf: { '@id': 'https://mochify.app' }
+				},
+				{
+					'@type': 'SoftwareApplication',
+					name: 'Mochify',
+					url: 'https://mochify.app',
+					applicationCategory: 'MultimediaApplication',
+					operatingSystem: 'Any',
+					offers: offersLd
+				},
+				{
+					'@type': 'FAQPage',
+					inLanguage: locale,
+					mainEntity: faqSchema(faqs)
+				}
+			]
+		})
+	);
 </script>
+
+<svelte:head>
+	{@html `<script type="application/ld+json">${pageLd}<\/script>`}
+</svelte:head>
 
 <div class="relative flex min-h-screen flex-col">
 	<Navigation />
@@ -127,7 +199,7 @@
 					{t.billingYearly}
 					<span
 						class="inline-block rounded-full bg-matcha-green/40 px-2 py-0.5 text-xs font-bold text-[#3A6B3C]"
-						>{t.save} {savingsAgree ? '' : t.upTo}{topSaving}%</span
+						>{savingsAgree ? t.saveExact(topSaving) : t.saveUpTo(topSaving)}</span
 					>
 				</button>
 			</div>
@@ -181,7 +253,7 @@
 							<strong class="text-cocoa-deep">{t.perYearInline(price('sellerYearly'))}</strong>
 							<span
 								class="ml-1 inline-block rounded-full bg-matcha-green/30 px-2 py-0.5 text-xs font-bold text-[#3A6B3C]"
-								>{t.save} {yearlySaving}%</span
+								>{t.saveExact(yearlySaving)}</span
 							>
 						{:else}
 							<span class="text-cocoa-deep/50"
@@ -238,7 +310,7 @@
 							{t.or} <strong class="text-cocoa-deep">{t.perYearInline(price('proYearly'))}</strong>
 							<span
 								class="ml-1 inline-block rounded-full bg-matcha-green/30 px-2 py-0.5 text-xs font-bold text-[#3A6B3C]"
-								>{t.save} {proYearlySaving}%</span
+								>{t.saveExact(proYearlySaving)}</span
 							>
 						{:else}
 							<span class="text-cocoa-deep/50"
@@ -509,10 +581,10 @@
 							</tr>
 							<tr>
 								<td class="px-6 py-4 text-[#6C3F31]">{t.tblMaxFileSize}</td>
-								<td class="px-6 py-4 text-center text-[#6C3F31]">20MB</td>
-								<td class="px-6 py-4 text-center font-bold text-[#6C3F31]">75MB</td>
-								<td class="px-6 py-4 text-center font-bold text-[#6C3F31]">75MB</td>
-								<td class="px-6 py-4 text-center text-xs text-[#6C3F31]/50">75MB</td>
+								<td class="px-6 py-4 text-center text-[#6C3F31]">{t.tblSizeFree}</td>
+								<td class="px-6 py-4 text-center font-bold text-[#6C3F31]">{t.tblSizePaid}</td>
+								<td class="px-6 py-4 text-center font-bold text-[#6C3F31]">{t.tblSizePaid}</td>
+								<td class="px-6 py-4 text-center text-xs text-[#6C3F31]/50">{t.tblSizePaid}</td>
 							</tr>
 							<tr>
 								<td class="px-6 py-4 text-[#6C3F31]">JPG, WEBP, AVIF, PNG, JXL</td>
