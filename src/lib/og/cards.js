@@ -41,6 +41,54 @@ export const cards = [
 		eyebrow: 'WEB APP',
 		title: 'Convert, Resize and Compress Images, Video and PDFs'
 	},
+
+	// Localised surfaces. Each takes its own page's og:title, trimmed of the
+	// "| Mochify" suffix the way the English cards are, and its own strap: a card
+	// shared into a French or Japanese feed should not carry an English tagline.
+	// The Japanese titles need CJK glyphs, which generate-og.js loads per card
+	// from Noto Sans JP rather than from the latin subsets the others use.
+	{
+		path: '/fr/flow',
+		eyebrow: 'APPLICATION WEB',
+		title: 'Compresser une image en ligne, gratuit',
+		strap: 'Rapide · Confidentiel · Zéro rétention',
+		alt: 'Mochify, compression et conversion d\u2019images en ligne'
+	},
+	{
+		path: '/fr/pricing',
+		eyebrow: 'MOCHIFY',
+		title: 'Des tarifs simples et honnêtes',
+		strap: 'Rapide · Confidentiel · Zéro rétention',
+		alt: 'Tarifs de Mochify'
+	},
+	{
+		path: '/es/flow',
+		eyebrow: 'APLICACIÓN WEB',
+		title: 'Convierte HEIC, WebP y PNG a JPG, comprime y recorta',
+		strap: 'Rápido · Privado · Sin retención de datos',
+		alt: 'Mochify, conversión y compresión de imágenes online'
+	},
+	{
+		path: '/es/pricing',
+		eyebrow: 'MOCHIFY',
+		title: 'Precios claros y honestos',
+		strap: 'Rápido · Privado · Sin retención de datos',
+		alt: 'Precios de Mochify'
+	},
+	{
+		path: '/ja/flow',
+		eyebrow: 'MOCHIFY',
+		title: 'HEIC・WebP・PNGをJPGに変換、圧縮、背景透過もまとめて',
+		strap: '高速・プライバシー重視・データ保持なし',
+		alt: 'Mochify（画像の変換・圧縮）'
+	},
+	{
+		path: '/ja/pricing',
+		eyebrow: 'MOCHIFY',
+		title: 'わかりやすい料金プラン',
+		strap: '高速・プライバシー重視・データ保持なし',
+		alt: 'Mochifyの料金プラン'
+	},
 	{
 		path: '/ebay-seller',
 		eyebrow: 'FOR SELLERS',
