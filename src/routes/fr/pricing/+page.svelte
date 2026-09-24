@@ -34,6 +34,7 @@
 	<link rel="alternate" hreflang="en" href="https://mochify.app/pricing" />
 	<link rel="alternate" hreflang="fr" href="https://mochify.app/fr/pricing" />
 	<link rel="alternate" hreflang="es" href="https://mochify.app/es/pricing" />
+	<link rel="alternate" hreflang="ja" href="https://mochify.app/ja/pricing" />
 	<link rel="alternate" hreflang="x-default" href="https://mochify.app/pricing" />
 </svelte:head>
 

@@ -5,53 +5,49 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import FaqAccordion from '$lib/components/FaqAccordion.svelte';
 	import LocaleBanner from '$lib/components/LocaleBanner.svelte';
-	import { faqSchema, type FaqItem } from '$lib/faq';
+	import { faqSchema } from '$lib/faq';
 	import { visitorLocale } from '$lib/localeHint';
 	import {
-		esFlowMeta,
-		esFlowTool,
-		esFlowSections,
-		esFlowFaqs,
-		ES_PROMPT_FORM_STRINGS
-	} from '$lib/i18n/es-flow';
+		jaFlowMeta,
+		jaFlowTool,
+		jaFlowSections,
+		jaFlowFaqs,
+		JA_PROMPT_FORM_STRINGS
+	} from '$lib/i18n/ja-flow';
 
-	// Not a translation of /flow: a Spanish page for Spanish searches, sharing the
-	// tool component. Every visible string comes from the content-ops copy sheet
-	// via $lib/i18n/es-flow.ts and is never edited here.
-	//
-	// One page for Spain and Latin America, so the language is declared with no
-	// region: `lang="es"`, `hreflang="es"`, `inLanguage` `es`. og:locale has to
-	// name a territory, so it names the two halves of the audience.
+	// Not a translation of /flow: a Japanese page for Japanese searches, sharing
+	// the tool component. Every visible string comes from the content-ops copy
+	// sheet via $lib/i18n/ja-flow.ts and is never edited here.
 	let form: ReturnType<typeof PromptFormApp> | undefined = $state();
 
-	const faqs: FaqItem[] = esFlowFaqs.map((f) => ({ q: f.q, a: f.a }));
-
-	// The locale hint the parser gets is the VISITOR's, not the page's: Spain and
-	// Mexico write numbers oppositely and `es` alone cannot tell them apart
-	// (handoff A7). Resolved after hydration, which is before any prompt can be
-	// submitted. See $lib/localeHint.
-	let parseLocale = $state('es');
+	// The locale hint the parser gets is the VISITOR's own tag (handoff A7), as on
+	// /es/flow. Japan has one number convention, so this matters far less here
+	// than it does for Spanish, but ja-JP is more specific than ja and costs
+	// nothing. The input problem that IS particular to Japanese is full-width
+	// digits, and that is solved in the worker by normalising the prompt on the
+	// way into the parse, so the visitor's own text stays as they typed it.
+	let parseLocale = $state('ja');
 	onMount(() => {
-		parseLocale = visitorLocale('es');
+		parseLocale = visitorLocale('ja');
 	});
 
 	const faqLd = JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'FAQPage',
-		inLanguage: 'es',
-		mainEntity: faqSchema(faqs)
+		inLanguage: 'ja',
+		mainEntity: faqSchema(jaFlowFaqs)
 	});
 
 	const appLd = JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'SoftwareApplication',
 		name: 'Mochify',
-		url: 'https://mochify.app/es/flow',
-		inLanguage: 'es',
+		url: 'https://mochify.app/ja/flow',
+		inLanguage: 'ja',
 		applicationCategory: 'MultimediaApplication',
 		operatingSystem: 'Web',
-		description: esFlowMeta.metaDescription,
-		offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' }
+		description: jaFlowMeta.metaDescription,
+		offers: { '@type': 'Offer', price: '0', priceCurrency: 'JPY' }
 	});
 
 	const breadcrumbLd = JSON.stringify({
@@ -62,33 +58,30 @@
 			{
 				'@type': 'ListItem',
 				position: 2,
-				name: esFlowMeta.ogTitle,
-				item: 'https://mochify.app/es/flow'
+				name: jaFlowMeta.ogTitle,
+				item: 'https://mochify.app/ja/flow'
 			}
 		]
 	});
 </script>
 
 <svelte:head>
-	<title>{esFlowMeta.title}</title>
-	<meta name="description" content={esFlowMeta.metaDescription} />
+	<title>{jaFlowMeta.title}</title>
+	<meta name="description" content={jaFlowMeta.metaDescription} />
 
 	<!-- canonical, og:image and twitter:image are injected by the root layout. -->
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://mochify.app/es/flow" />
-	<meta property="og:locale" content="es_ES" />
-	<meta property="og:locale:alternate" content="es_MX" />
-	<meta property="og:title" content={esFlowMeta.ogTitle} />
-	<meta property="og:description" content={esFlowMeta.ogDescription} />
+	<meta property="og:url" content="https://mochify.app/ja/flow" />
+	<meta property="og:locale" content="ja_JP" />
+	<meta property="og:title" content={jaFlowMeta.ogTitle} />
+	<meta property="og:description" content={jaFlowMeta.ogDescription} />
 
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content={esFlowMeta.ogTitle} />
-	<meta name="twitter:description" content={esFlowMeta.ogDescription} />
+	<meta name="twitter:title" content={jaFlowMeta.ogTitle} />
+	<meta name="twitter:description" content={jaFlowMeta.ogDescription} />
 
-	<!-- hreflang: one set across all three languages, the same four lines on each
-	     Flow page, with English as x-default. `es` carries no region on purpose:
-	     `es-ES` would signal Spain only, and Mexico is the larger half of the
-	     demand. Serving is by URL; nothing redirects on IP or Accept-Language,
+	<!-- hreflang: every live language plus x-default, the same set on each Flow
+	     page. Serving is by URL; nothing redirects on IP or Accept-Language,
 	     which would hide this page from a US crawler. -->
 	<link rel="alternate" hreflang="en" href="https://mochify.app/flow" />
 	<link rel="alternate" hreflang="fr" href="https://mochify.app/fr/flow" />
@@ -113,31 +106,31 @@
 			<h1
 				class="mx-auto mb-3 max-w-3xl font-heading text-3xl leading-tight font-black tracking-tight text-balance text-[#4A2C2C] md:text-5xl"
 			>
-				{esFlowTool.h1}
+				{jaFlowTool.h1}
 			</h1>
 			<p class="mx-auto max-w-2xl text-base leading-relaxed text-pretty text-[#875F42] md:text-lg">
-				{esFlowTool.subtitle}
+				{jaFlowTool.subtitle}
 			</p>
 		</header>
 
 		<PromptFormApp
 			bind:this={form}
 			rememberPrompts
-			strings={ES_PROMPT_FORM_STRINGS}
-			initialPrompt={esFlowTool.defaultPrompt}
+			strings={JA_PROMPT_FORM_STRINGS}
+			initialPrompt={jaFlowTool.defaultPrompt}
 			locale={parseLocale}
 		/>
 
 		<!-- Badge line, from the sheet. Rendered as one string rather than split
 		     into the English page's icon row: the separators are part of the copy. -->
-		<p class="mt-10 text-center text-sm font-bold text-[#6C3F31]">{esFlowTool.badgeLine}</p>
+		<p class="mt-10 text-center text-sm font-bold text-[#6C3F31]">{jaFlowTool.badgeLine}</p>
 
 		<!-- The seven examples. Tap to load, exactly like the English page's
 		     example cards, which is the only way a prompt-driven page shows a
 		     first-time visitor (or a crawler) what it can be asked for. -->
 		<section class="mt-14 w-full max-w-3xl">
 			<ul class="grid list-none gap-2 p-0 sm:grid-cols-2">
-				{#each esFlowTool.examples as example (example)}
+				{#each jaFlowTool.examples as example (example)}
 					<li class="flex">
 						<button
 							type="button"
@@ -150,12 +143,12 @@
 			</ul>
 		</section>
 
-		<!-- Body. Seven sections, each ending in the prompt it describes; the
-		     prompts load into the compose bar like the examples above. One
-		     paragraph carries an outbound link, so paragraphs render from parts
-		     when the sheet gives them. -->
+		<!-- Body. Seven sections, each ending in the prompt or prompts it
+		     describes; they load into the compose bar like the examples above.
+		     One paragraph carries an outbound link, so paragraphs render from
+		     parts when the sheet gives them. -->
 		<article class="mt-16 w-full max-w-3xl space-y-12 text-lg leading-relaxed text-[#6C3F31]">
-			{#each esFlowSections as section (section.id)}
+			{#each jaFlowSections as section (section.id)}
 				<section id={section.id} class="scroll-mt-24">
 					<h2
 						class="mb-4 border-b-2 border-[#F06292]/30 pb-2 font-heading text-2xl font-black text-[#4A2C2C] md:text-3xl"
@@ -188,15 +181,13 @@
 
 		<section class="mt-16 w-full max-w-3xl">
 			<h2 class="mb-6 text-center font-heading text-2xl font-black text-[#4A2C2C] md:text-3xl">
-				FAQ
+				よくある質問
 			</h2>
-			<FaqAccordion {faqs} class="space-y-3" />
+			<FaqAccordion faqs={jaFlowFaqs} class="space-y-3" />
 		</section>
 
 		<p class="mt-12 text-center text-sm text-[#6C3F31]/75">
-			<a href="/es/pricing" class="font-semibold text-[#F06292] hover:underline"
-				>la página de precios</a
-			>
+			<a href="/ja/pricing" class="font-semibold text-[#F06292] hover:underline">料金ページ</a>
 		</p>
 	</main>
 

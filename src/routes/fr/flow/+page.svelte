@@ -81,6 +81,7 @@
 	<link rel="alternate" hreflang="en" href="https://mochify.app/flow" />
 	<link rel="alternate" hreflang="fr" href="https://mochify.app/fr/flow" />
 	<link rel="alternate" hreflang="es" href="https://mochify.app/es/flow" />
+	<link rel="alternate" hreflang="ja" href="https://mochify.app/ja/flow" />
 	<link rel="alternate" hreflang="x-default" href="https://mochify.app/flow" />
 
 	{@html `<script type="application/ld+json">${breadcrumbLd}<\/script>`}

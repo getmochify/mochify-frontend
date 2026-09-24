@@ -73,7 +73,8 @@
     <LocaleBanner
         offers={[
             { href: '/fr/flow', label: 'Voir cette page en français', lang: 'fr', when: 'fr' },
-            { href: '/es/flow', label: 'Ver esta página en español', lang: 'es', when: 'es' }
+            { href: '/es/flow', label: 'Ver esta página en español', lang: 'es', when: 'es' },
+            { href: '/ja/flow', label: 'このページを日本語で見る', lang: 'ja', when: 'ja' }
         ]}
     />
     {#if isChildPage}

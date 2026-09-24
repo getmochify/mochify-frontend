@@ -68,11 +68,14 @@
         '/fr/flow': '/flow',
         '/fr/pricing': '/pricing',
         '/es/flow': '/flow',
-        '/es/pricing': '/pricing'
+        '/es/pricing': '/pricing',
+        '/ja/flow': '/flow',
+        '/ja/pricing': '/pricing'
     };
     const LOCALISED = [
         { prefix: '/fr', label: 'Français', home: '/fr/flow', lang: 'fr' },
-        { prefix: '/es', label: 'Español', home: '/es/flow', lang: 'es' }
+        { prefix: '/es', label: 'Español', home: '/es/flow', lang: 'es' },
+        { prefix: '/ja', label: '日本語', home: '/ja/flow', lang: 'ja' }
     ];
     const current = $derived(
         LOCALISED.find(

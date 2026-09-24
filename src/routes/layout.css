@@ -53,6 +53,33 @@ html {
 }
 
 /* --- 3. BASE STYLES --- */
+/* Japanese pages (handoff 2026-09-24 A8).
+ *
+ * Nunito and Outfit have no CJK glyphs, so every Japanese character on /ja/*
+ * would fall back to whatever the browser picked, heading and body alike.
+ *
+ * Done by REDEFINING the two theme variables rather than by writing
+ * `font-family` rules. Tailwind v4 emits `font-heading` as
+ * `font-family: var(--font-heading)`, so a rule in @layer base would lose to
+ * every element carrying that utility (CLAUDE.md records this cascade trap).
+ * Overriding the variable reaches the base-layer defaults AND every utility at
+ * once, and `html[lang='ja']` outranks the `:root` the theme emits.
+ *
+ * The Latin faces stay FIRST in each stack. Font fallback is per glyph, so
+ * "HEIC" and "1200px" keep the brand face while the Japanese around them falls
+ * through to the CJK fonts.
+ *
+ * `lang` is set by langFor() in hooks.server.ts, so a new /ja/* route gets this
+ * without touching anything here.
+ *
+ * Deliberately NO word-break: break-all. Japanese wraps between characters
+ * without it, and with it `1200px`, `HEIC` and `JPEG XL` would split mid-token.
+ */
+html[lang='ja'] {
+  --font-sans: "Nunito", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Outfit", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, ui-sans-serif, system-ui, sans-serif;
+}
+
 @layer base {
   body {
     font-family: var(--font-sans); /* Uses Quicksand */

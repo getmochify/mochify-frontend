@@ -42,8 +42,9 @@ function getAuth(db: D1Database, resendKey: string | undefined): Auth {
 
 /**
  * `<html lang>` is baked into app.html, so a localised route has to rewrite it
- * on the way out. Everything under `/fr/` is French, everything under `/es/` is
- * Spanish, and everything else is English.
+ * on the way out: `/fr/` is French, `/es/` Spanish, `/ja/` Japanese, and
+ * everything else English. `lang` is also what the Japanese font stack keys off
+ * in layout.css, so a route added here gets its typography for free.
  *
  * Spanish is declared without a region: one page serves Spain and Latin America
  * (Spanish handoff A1), so `es-ES` would claim more than the copy does. The
@@ -54,7 +55,7 @@ function getAuth(db: D1Database, resendKey: string | undefined): Auth {
  * so both the no-database early return (which is also the prerender path, since
  * `handle` does run at build time) and the svelteKitHandler return get it.
  */
-const LOCALE_PREFIXES = ['fr', 'es'];
+const LOCALE_PREFIXES = ['fr', 'es', 'ja'];
 
 function langFor(pathname: string): string {
 	return (

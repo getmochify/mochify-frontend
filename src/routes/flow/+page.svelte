@@ -66,6 +66,7 @@
     <link rel="alternate" hreflang="en" href="https://mochify.app/flow" />
     <link rel="alternate" hreflang="fr" href="https://mochify.app/fr/flow" />
     <link rel="alternate" hreflang="es" href="https://mochify.app/es/flow" />
+    <link rel="alternate" hreflang="ja" href="https://mochify.app/ja/flow" />
     <link rel="alternate" hreflang="x-default" href="https://mochify.app/flow" />
 </svelte:head>
 
@@ -76,7 +77,8 @@
     <LocaleBanner
         offers={[
             { href: '/fr/flow', label: 'Voir cette page en français', lang: 'fr', when: 'fr' },
-            { href: '/es/flow', label: 'Ver esta página en español', lang: 'es', when: 'es' }
+            { href: '/es/flow', label: 'Ver esta página en español', lang: 'es', when: 'es' },
+            { href: '/ja/flow', label: 'このページを日本語で見る', lang: 'ja', when: 'ja' }
         ]}
     />
 
@@ -95,6 +97,7 @@
             <p class="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
                 <a href="/fr/flow" hreflang="fr" lang="fr" class="text-sm font-bold text-[#F06292] hover:underline">&laquo;&nbsp;En français&nbsp;&raquo;</a>
                 <a href="/es/flow" hreflang="es" lang="es" class="text-sm font-bold text-[#F06292] hover:underline">&laquo;&nbsp;En español&nbsp;&raquo;</a>
+                <a href="/ja/flow" hreflang="ja" lang="ja" class="text-sm font-bold text-[#F06292] hover:underline">「日本語で見る」</a>
             </p>
         </header>
 
