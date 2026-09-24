@@ -51,6 +51,7 @@ type ContactRow = {
 	deleted_at: number | null;
 	opt_out: number | null;
 	plan: string | null;
+	use_case: string | null;
 };
 
 const CONTACT_ROW_SQL = `
@@ -60,7 +61,8 @@ const CONTACT_ROW_SQL = `
 	       u.emailVerified AS email_verified,
 	       u.deleted_at AS deleted_at,
 	       p.marketing_opt_out AS opt_out,
-	       p.plan AS plan
+	       p.plan AS plan,
+	       p.use_case AS use_case
 	FROM user u LEFT JOIN profile p ON p.user_id = u.id
 	WHERE u.id = ? LIMIT 1
 `;
@@ -98,7 +100,11 @@ function contactStateFrom(row: ContactRow, optOut?: boolean): ContactState {
 			// No profile row means a free account that has never had one written —
 			// the same assumption the missing marketing_opt_out makes just above.
 			tier: row.plan ?? 'free',
-			...(signedUp ? { signup_date: signedUp } : {})
+			...(signedUp ? { signup_date: signedUp } : {}),
+			// Left off entirely when unanswered, rather than sent as ''. A segment
+			// built on it then means "told us", and everyone else is simply absent
+			// instead of sitting in an empty-string bucket that looks like a value.
+			...(row.use_case ? { use_case: row.use_case } : {})
 		}
 	};
 }

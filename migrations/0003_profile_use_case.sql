@@ -1,0 +1,29 @@
+-- What the account is for, asked once as an optional select on the register
+-- form. Drives Resend segmentation and PostHog cohorts; nothing gates on it.
+--
+-- Apply with:
+--   wrangler d1 execute mochify-auth --local  --file=migrations/0003_profile_use_case.sql
+--   wrangler d1 execute mochify-auth --remote --file=migrations/0003_profile_use_case.sql
+--
+-- MUST be applied before the code that writes it deploys: the user-create hook
+-- upserts this column, and a missing column would fail the insert. That write is
+-- wrapped in its own try/catch so a signup would still succeed, but every
+-- answer until the migration ran would be lost silently.
+--
+-- On `profile`, not on `user`: Better Auth owns `user` and runs its own
+-- migrations against it, and this is ours. Same reasoning as marketing_opt_out
+-- in 0001.
+--
+-- TEXT holding a slug from USE_CASES in src/lib/useCases.ts, never a display
+-- label: the labels are copy and will be reworded, the slugs are data.
+--
+-- Deliberately NO CHECK constraint. SQLite cannot alter one without the
+-- twelve-step table rebuild, and this list is expected to grow; a CHECK would
+-- turn "add an option" into a rebuild of a live table. The slug is validated at
+-- the one place it is written instead (isUseCase, called in the signup hook).
+--
+-- Nullable, and stays null for everyone who signed up before this and everyone
+-- who skips the question, which is most of the point of it being optional.
+--
+-- D1 has no `ADD COLUMN IF NOT EXISTS`, so this errors harmlessly if applied twice.
+ALTER TABLE profile ADD COLUMN use_case TEXT;

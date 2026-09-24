@@ -8,6 +8,8 @@ import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET } from "$env
 import { PUBLIC_APP_URL } from "$env/static/public";
 import { getPostHogClient } from "$lib/server/posthog";
 import { syncContactFromProfile } from "$lib/server/resendContacts";
+import { setUseCase } from "$lib/server/useCase";
+import { isUseCase } from "$lib/useCases";
 import { startOnboarding } from "$lib/server/emails/onboarding";
 import { setMarketingPreference } from "$lib/server/unsubscribe";
 
@@ -61,7 +63,18 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                                 event: "user_signed_up",
                                 properties: {
                                     method: signupMethod(ctx?.path),
-                                    $set: { email: user.email, name: user.name },
+                                    // $set, not a plain property: the answer is a
+                                    // fact about the person, so cohorts can filter
+                                    // on it long after this event. Left off entirely
+                                    // when skipped, so "unanswered" stays visible
+                                    // rather than becoming an empty-string cohort.
+                                    $set: {
+                                        email: user.email,
+                                        name: user.name,
+                                        ...(isUseCase(ctx?.body?.useCase)
+                                            ? { use_case: ctx.body.useCase }
+                                            : {}),
+                                    },
                                 },
                             });
                             await posthog.flush();
@@ -94,6 +107,26 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                                 // dashboard toggle and the in-email unsubscribe are
                                 // both still there if this one drops.
                                 console.error("[auth] signup marketing opt-out failed:", e);
+                            }
+                        }
+
+                        // "What will you mainly use Mochify for?", the optional
+                        // select on the register form. Rides along on the signup
+                        // body for the same reason marketingOptOut does, and lands
+                        // on `profile` rather than `user` for the same reason too.
+                        //
+                        // Only written when they actually chose something. Skipping
+                        // is the default and must not create a profile row, which
+                        // the rest of the code reads as "ordinary free user".
+                        //
+                        // setUseCase validates the slug: the column carries no CHECK
+                        // constraint, so this is where a junk value is refused.
+                        if (ctx?.body?.useCase) {
+                            try {
+                                await setUseCase(db, user.id, ctx.body.useCase);
+                            } catch (e) {
+                                // Research data, never worth failing a signup over.
+                                console.error("[auth] signup use case failed:", e);
                             }
                         }
 

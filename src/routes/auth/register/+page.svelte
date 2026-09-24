@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { authClient } from '$lib/auth-client';
+	import { USE_CASES } from '$lib/useCases';
 	import Navigation from '$lib/components/Navigation.svelte';
 	import { posthog } from '$lib/analytics';
 
@@ -152,6 +153,8 @@
 	const panel = $derived(
 		intent === 'seller' ? PLAN_PANELS.seller : intent === 'pro' ? PLAN_PANELS.pro : PLAN_PANELS.free
 	);
+	let useCase = $state('');
+
 	const planName = $derived(intent === 'seller' ? 'Seller' : intent === 'pro' ? 'Pro' : null);
 
 	async function handleRegister(e: Event) {
@@ -174,7 +177,10 @@
 			// `profile`, not on `user`. The client merges fetchOptions.body into the
 			// request body (client/proxy.mjs), and the user-create hook in
 			// src/lib/auth.ts reads it back off ctx.body.
-			fetchOptions: { body: { marketingOptOut } }
+			// `useCase` only when they picked something: an empty string would be
+			// refused by setUseCase anyway, but not sending it keeps the skip case
+			// from creating a profile row or a PostHog property at all.
+			fetchOptions: { body: { marketingOptOut, ...(useCase ? { useCase } : {}) } }
 		});
 
 		if (err) {
@@ -371,6 +377,30 @@
 									placeholder="Min. 8 characters"
 									class="w-full rounded-2xl border border-[#875F42]/15 bg-white/80 px-4 py-3 text-sm font-medium text-[#4A2C2C] placeholder-[#875F42]/30 transition-all focus:border-[#F06292]/40 focus:ring-2 focus:ring-[#F06292]/30 focus:outline-none"
 								/>
+							</div>
+
+							<!-- Optional, and explicitly labelled so. It sits on the page that
+							     converts, so it must never read as another thing to fill in before
+							     an account exists: no `required`, and an empty value is simply not
+							     sent. One answer rather than several, because the options are
+							     exclusive by design and Resend properties are scalar (see
+							     $lib/useCases). -->
+							<div class="flex flex-col gap-1.5">
+								<label
+									for="use-case"
+									class="text-xs font-bold tracking-wide text-[#6C3F31] uppercase"
+									>What will you mainly use Mochify for? <span class="font-medium normal-case opacity-60">(optional)</span></label
+								>
+								<select
+									id="use-case"
+									bind:value={useCase}
+									class="w-full cursor-pointer rounded-2xl border border-[#875F42]/15 bg-white/80 px-4 py-3 text-sm font-medium text-[#4A2C2C] transition-all focus:border-[#F06292]/40 focus:ring-2 focus:ring-[#F06292]/30 focus:outline-none"
+								>
+									<option value="">Prefer not to say</option>
+									{#each USE_CASES as option (option.slug)}
+										<option value={option.slug}>{option.label}</option>
+									{/each}
+								</select>
 							</div>
 
 							<!-- Custom box rather than `accent-*`: the native control keeps its square
