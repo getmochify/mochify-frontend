@@ -55,6 +55,30 @@ export const USD_PRICES: Record<string, number> = {
 	dayPass: 200
 };
 
+/**
+ * The locale to FORMAT a price in: the page's language, in the visitor's region.
+ *
+ * The two are different questions and were being answered with one value. A page
+ * is written in one language for everyone who reads it, but "$1,234.50" against
+ * "1234,50 $" is a property of where the reader is, not of what they read: a
+ * Mexican visitor on /es/pricing writes the symbol first and groups with commas,
+ * and Spain does neither. Rendering all of Latin America with Spain's
+ * conventions is what this fixes.
+ *
+ * It matters most in the case that looks least localised. Polar holds no Latin
+ * American currency today, so those visitors are on the USD fallback, and a
+ * fallback currency still has to be written the way the reader writes it.
+ *
+ * An unknown or malformed country (Cloudflare sends `XX` when it cannot place an
+ * IP and `T1` for Tor exits) resolves to the bare language, which is what the
+ * pages rendered before this existed. Intl is tolerant of a region it does not
+ * know, falling back to the language's own defaults, so `es-XX` is safe.
+ */
+export function formatLocaleFor(language: string, country: string | null): string {
+	if (!country || !/^[A-Za-z]{2}$/.test(country)) return language;
+	return `${language}-${country.toUpperCase()}`;
+}
+
 /** Minor units (or whole units for zero-decimal currencies) to a real number. */
 export function toMajorUnits(amount: number, currency: string): number {
 	return ZERO_DECIMAL.has(currency.toLowerCase()) ? amount : amount / 100;

@@ -26,10 +26,22 @@
 		strings = {},
 		locale = 'en'
 	}: {
-		data: { pricing?: { currency?: string; prices?: Record<string, number> } | null };
+		data: {
+			pricing?: { currency?: string; prices?: Record<string, number> } | null;
+			/** The page's language in the visitor's region, from the server load. */
+			formatLocale?: string;
+		};
 		strings?: Partial<PricingStrings>;
 		locale?: string;
 	} = $props();
+
+	// `locale` is the page's language and decides the copy, the schema's
+	// inLanguage and the lang attribute. `formatLocale` is that language in the
+	// visitor's own region and decides only how a price is written, because those
+	// are different questions: every reader of /es/pricing gets the same Spanish,
+	// but a Mexican reader writes $1,234.50 where Spain writes 1234,50 $. Falls
+	// back to the page language, which is what this rendered before.
+	const priceLocale = $derived(data.formatLocale ?? locale);
 
 	const t: PricingStrings = $derived({ ...EN_PRICING, ...strings });
 
@@ -42,7 +54,7 @@
 	const amounts = $derived({ ...USD_PRICES, ...(data.pricing?.prices ?? {}) });
 
 	// Reads the derived state above, so it stays reactive to the billing toggle.
-	const price = (plan: string) => formatPrice(amounts[plan], currency, locale);
+	const price = (plan: string) => formatPrice(amounts[plan], currency, priceLocale);
 	// One FAQ answer quotes the Day Pass price, so the set is built from it
 	// rather than hardcoding a figure that a repricing would strand.
 	const faqs = $derived(t.faqs(price('dayPass')));
@@ -258,7 +270,7 @@
 						{:else}
 							<span class="text-cocoa-deep/50"
 								>{t.billedAnnually(
-									formatMonthlyEquivalent(amounts.sellerYearly, currency, locale)
+									formatMonthlyEquivalent(amounts.sellerYearly, currency, priceLocale)
 								)}</span
 							>
 						{/if}
@@ -315,7 +327,7 @@
 						{:else}
 							<span class="text-cocoa-deep/50"
 								>{t.billedAnnually(
-									formatMonthlyEquivalent(amounts.proYearly, currency, locale)
+									formatMonthlyEquivalent(amounts.proYearly, currency, priceLocale)
 								)}</span
 							>
 						{/if}
@@ -426,7 +438,7 @@
 					>
 					<div class="flex items-end gap-1">
 						<span class="text-3xl font-black text-[#4A2C2C]"
-							>{formatPrice(0, currency, locale)}</span
+							>{formatPrice(0, currency, priceLocale)}</span
 						>
 						<span class="mb-1 text-sm text-[#6C3F31]/50">{t.perForever}</span>
 					</div>
