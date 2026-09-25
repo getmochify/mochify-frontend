@@ -134,6 +134,8 @@ Query parameters:
 - brightness (-100 to +100, default: 0) -- adjust exposure; 0 = no change
 - clarity (default: false) -- midtone contrast enhancement; makes images look crisper and more detailed without affecting overall exposure
 - lossless (default: false) -- pixel-exact output; overrides quality and smartCompress. Only jxl, webp and png can honour it; jpg and avif are rejected with a 400 rather than silently encoded lossy. A source that is ALREADY lossy (JPEG, AVIF, HEIC) is re-encoded at the highest lossy setting instead, because nothing can restore what that file already discarded. Expect the output to be LARGER than the input -- lossless preserves pixels, not file size. See X-Mochify-Lossless for what was actually emitted
+- targetBytes -- ceiling on the OUTPUT file size, in bytes. An upper bound, never a size to pad up to: if the requested (or smartCompress-picked) quality already fits, that encode is returned and the quality is left alone. No encoder can predict a compressed size without encoding, and no quality value maps to one -- bytes at a fixed quality are a property of the PIXELS, spanning roughly 3x (JPEG) to 10x (AVIF) between a flat graphic and a detailed photo at the same dimensions -- so the backend measures instead, typically 1-3 encodes. Minimum 1024. Cannot be combined with lossless (400). Applies PER OUTPUT: a multi-variant request means each variant fits, not that they sum to it. See X-Mochify-Target for whether the ceiling was reached
+- targetLever (default: both) -- which knob targetBytes may turn: `quality` (re-encode lower, never resize), `dimensions` (downscale, never change quality), `both`. Requires targetBytes. `quality` is a 400 for png output, which has no quality control at all. The `dimensions` lever is withheld when an HDR gain map is being carried, since resizing the base would invalidate the map
 - hdr (default: false) -- Ultra HDR / ISO 21496-1 gain map handling. Three values, and they are not interchangeable: `true` or `1` preserves a gain map the source already has and will never invent one; `generate` does that AND synthesises a gain map when the source is plain SDR. Requires JPEG output for synthesis; see section 11
 - dest (default: unset) -- set to `bucket` to write the result into the caller's connected bucket instead of returning image bytes; requires a verified connection on a paid plan (see section 10)
 - name -- object key to write when dest=bucket; required, because writes overwrite and the backend will not guess a filename
@@ -148,6 +150,9 @@ Response headers:
 - X-Mochify-Quality -- effective quality used (smartCompress only)
 - X-Mochify-BgRemoved -- true when background was removed
 - X-Mochify-HDR -- only present when hdr was requested. Three values: `true` (the emitted file carries headroom the source captured), `generated` (headroom Mochify synthesised), `false` (the output carries none). Report these apart -- see section 11
+- X-Mochify-Target -- only present when targetBytes was set. `hit` (the returned bytes are at or under the ceiling) or `floor` (the levers ran out first; this is the smallest output that could honestly be produced). A `floor` response is a 200 carrying a real, usable image -- it is otherwise indistinguishable from success, so check it. For a multi-variant ZIP, `hit` means every entry fits
+- X-Mochify-Target-Encodes -- how many encodes the size search spent, including the first one the pipeline would have run anyway
+- X-Mochify-Target-Scale -- extra downscale the dimensions lever applied, relative to the requested geometry (e.g. 0.710). Omitted when the lever did not move
 - X-Mochify-Lossless -- only present when lossless was requested. `true` (the returned bytes reproduce the submitted pixels exactly), `downgraded` (they are the best lossy encode instead, because the source was already lossy or because HDR reconstruction replaced the submitted pixels)
 
 GET /v1/checkTokens -- returns { remaining, available }; works anonymously (IP-based) or with API key
@@ -235,6 +240,29 @@ Examples:
   "high quality" -> 85
   "small file" -> 45
   "maximum compression" -> 25
+
+### File size targets
+A named file size ("under 1MB", "make it 500kb", "resize to 1mb", "no bigger
+than 2 MB") sets a byte CEILING, not a quality. Units are decimal, the way
+upload limits are written: 1mb is 1,000,000 bytes.
+
+Examples:
+  "make it under 1mb"
+  "webp under 500kb at high quality"
+  "resize to 1200px and keep it under 300kb"
+
+Three things an assistant should get right about it:
+
+- Do NOT try to reach a size by choosing a quality. Nothing can: the bytes an
+  image encodes to at a given quality depend on the picture, and vary by up to
+  10x between a flat graphic and a detailed photo at identical dimensions. Name
+  the size and let the backend measure it.
+- It is always a ceiling. "make it 1mb" means at most 1mb -- no padding up to it.
+  If the file already fits, it is returned at the quality that was asked for.
+- Which lever is allowed is part of the request, and users say it explicitly:
+  "under 1mb but do not resize" is targetLever=quality, "1mb, resize, don't
+  change the quality" is targetLever=dimensions. Anything else may use both.
+  A ceiling applies per file, never divided across a batch.
 
 ### Lossless
 Separate from quality, and deliberately so. Every phrasing above -- including

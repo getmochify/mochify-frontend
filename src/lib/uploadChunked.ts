@@ -9,6 +9,7 @@
 // existing single-POST /v1/squish path unchanged — this is only for the
 // minority of large uploads where a flaky connection actually hurts.
 import { withRetry, isRetryable } from '$lib/uploadRetry';
+import { readTargetOutcome, type TargetOutcome } from '$lib/targetOutcome';
 import { posthog } from '$lib/analytics';
 import {
 	uploadErrorMessage,
@@ -71,6 +72,14 @@ export interface ChunkedUploadParams {
 	// the backend 400s the whole request for jpg/avif — so senders must gate
 	// it on the resolved output format, not just on a user preference.
 	lossless?: string;
+	// Ceiling on the OUTPUT size in bytes, as a decimal string. Core cannot
+	// predict an encoded size, so it measures: 1-3 encodes, searching down from
+	// whatever quality was asked for. It is an upper bound, never a size to pad
+	// to. `targetLever` restricts which knob it may turn ("quality" = never
+	// resize, "dimensions" = never change quality); omitted means either.
+	// Combining targetBytes with lossless is a 400 — senders must drop one.
+	targetBytes?: string;
+	targetLever?: string;
 	// "Bring your own bucket": dest="bucket" diverts the result into the user's
 	// own storage, and name is the object to write. Both are read at init and
 	// stored on the UploadSession, because /v1/upload/complete carries only the
@@ -105,6 +114,12 @@ export interface ChunkedUploadCallbacks {
 	// recovers or gives up. Lets the UI surface a transient "unstable
 	// connection" hint without tearing down the in-progress upload.
 	onRetryStateChange?: (isRetrying: boolean) => void;
+	// Fires once, after the finalize response, when the request carried a
+	// `targetBytes` ceiling: 'hit' if the output is under it, 'floor' if core
+	// ran out of levers first and returned the smallest file it could. A 'floor'
+	// is a SUCCESS carrying real bytes, so nothing else in this module would
+	// ever mention it — see targetOutcome.ts.
+	onTargetOutcome?: (outcome: TargetOutcome) => void;
 }
 
 interface RetryableXhrError extends Error {
@@ -275,7 +290,12 @@ export function completeUpload(
 	// time. Omitted for chunked uploads, whose session already carries them.
 	params?: ChunkedUploadParams,
 	// Distinguishes the two callers in reject telemetry.
-	source: 'chunked_complete' | 'staged_complete' = 'chunked_complete'
+	source: 'chunked_complete' | 'staged_complete' = 'chunked_complete',
+	// Only meaningful when `params` (or the session) carried a targetBytes
+	// ceiling. Reported here rather than returned alongside the Blob because
+	// both callers already destructure a bare Blob, and a 'floor' outcome is a
+	// success — it must not change this function's shape for everyone else.
+	onTargetOutcome?: (outcome: TargetOutcome) => void
 ): Promise<Blob> {
 	return new Promise<Blob>((resolve, reject) => {
 		const xhr = new XMLHttpRequest();
@@ -285,6 +305,8 @@ export function completeUpload(
 		});
 		xhr.addEventListener('load', () => {
 			if (xhr.status >= 200 && xhr.status < 300) {
+				const target = readTargetOutcome(xhr);
+				if (target) onTargetOutcome?.(target);
 				resolve(xhr.response);
 				return;
 			}
@@ -447,8 +469,14 @@ async function runChunkedUpload(
 	params: ChunkedUploadParams,
 	callbacks: ChunkedUploadCallbacks
 ): Promise<Blob> {
-	const { jwt, onUploadProgress, onPhaseChange, onDownloadProgress, onRetryStateChange } =
-		callbacks;
+	const {
+		jwt,
+		onUploadProgress,
+		onPhaseChange,
+		onDownloadProgress,
+		onRetryStateChange,
+		onTargetOutcome
+	} = callbacks;
 
 	onPhaseChange?.('uploading');
 	// init is retried like every other step: a transient 503 (the backend now
@@ -535,10 +563,20 @@ async function runChunkedUpload(
 	try {
 		const blob = await withReconnect(
 			() =>
-				completeUpload(apiUrl, sessionId, jwt, (loaded, total) => {
-					onPhaseChange?.('downloading');
-					onDownloadProgress?.(loaded, total);
-				}),
+				completeUpload(
+					apiUrl,
+					sessionId,
+					jwt,
+					(loaded, total) => {
+						onPhaseChange?.('downloading');
+						onDownloadProgress?.(loaded, total);
+					},
+					// The chunked session already carries its params from init, so
+					// there is nothing to send here — only the outcome to read back.
+					undefined,
+					'chunked_complete',
+					onTargetOutcome
+				),
 			'chunk_complete',
 			onRetryStateChange
 		);

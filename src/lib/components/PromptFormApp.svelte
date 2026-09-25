@@ -21,6 +21,7 @@
 	} from '$lib/user';
 	import { posthog } from '$lib/analytics';
 	import { wasStored, deliveryNote } from '$lib/delivery';
+	import { readTargetOutcome, targetNote, type MissedTarget } from '$lib/targetOutcome';
 	import { isChunkLoadError, isNetworkError, recoverFromStaleChunk } from '$lib/chunkRecovery';
 	import { withRetry } from '$lib/uploadRetry';
 	import {
@@ -148,6 +149,11 @@
 	let bucketStored: number = $state(0);
 	// Results core could not file, which downloaded instead; see $lib/delivery.
 	let bucketFallbacks: number = $state(0);
+	// Outputs that came back OVER the byte ceiling they were given. A 'floor'
+	// outcome is a 200 carrying real image bytes, so nothing else in the run
+	// treats it as notable — without this the user is told the run succeeded and
+	// finds out about the miss wherever the size limit came from.
+	let missedTargets: MissedTarget[] = $state([]);
 	// Was `mochify:saveToBucket` holding '1'/'0'. Migrated below rather than
 	// abandoned: someone who turned bucket output on should not silently find it
 	// off after a deploy.
@@ -1205,6 +1211,7 @@
 		completedFiles = 0;
 		bucketStored = 0;
 		bucketFallbacks = 0;
+		missedTargets = [];
 		hitRateLimit = false;
 		upgradeCtaMode = 'quota';
 		agentMessage = '';
@@ -2254,11 +2261,31 @@
 			const zipContents: Record<string, Uint8Array> = {};
 			const usedOutputNames: Record<string, number> = {};
 
+			// `ceiling` is the targetBytes this variant was sent, or 0. Passed in
+			// rather than read off `params` so the three upload routes below share
+			// one miss-recording path: each learns the outcome differently (a header
+			// on its own XHR, or a callback from uploadChunked) but they all record
+			// it the same way, against the same blob.
 			const squishFile = async (
 				file: File,
 				params: URLSearchParams,
-				onUploadEnd?: () => void
+				onUploadEnd?: () => void,
+				ceiling = 0,
+				variantName?: string
 			): Promise<Blob> => {
+				// 'floor' is core's word for "the levers ran out before the ceiling
+				// did". Keyed off the header rather than the response length because
+				// the body is the image only on the plain single-output path: a
+				// multi-variant run answers with a ZIP and a bucket write with a JSON
+				// receipt, and comparing either against the ceiling would invent a
+				// miss on every one of them.
+				const recordMiss = (outcome?: string) => {
+					if (!ceiling || outcome !== 'floor') return;
+					missedTargets = [
+						...missedTargets,
+						{ name: variantName ?? file.name, targetBytes: ceiling }
+					];
+				};
 				// Speculative hit: the bytes are already in core's RAM, so all that
 				// is left is to hand over the params the parse just produced. This
 				// is where the 1.5-2s of parse time gets given back.
@@ -2269,15 +2296,21 @@
 					try {
 						processPhase = 'processing';
 						onUploadEnd?.();
+						let staged: 'hit' | 'floor' | undefined;
 						const blob = await completeUpload(
 							API_URL,
 							stagedId,
 							jwt,
 							undefined,
 							stagedParams,
-							'staged_complete'
+							'staged_complete',
+							(o) => (staged = o)
 						);
 						posthog.capture('speculative_hit', { size: file.size });
+						// Trust the header when it arrives; fall back to comparing the
+						// bytes we were handed, which is true regardless of whether the
+						// header survived the CORS expose list.
+						recordMiss(staged);
 						return blob;
 					} catch (e) {
 						const status = (e as { status?: number })?.status;
@@ -2306,6 +2339,7 @@
 					let lastLoaded = 0;
 					return uploadChunked(uploadBodyOf(file), API_URL, chunkedParams, {
 						jwt,
+						onTargetOutcome: recordMiss,
 						onRetryStateChange: (retrying) => (isRetrying = retrying),
 						onUploadProgress: (loaded) => {
 							const delta = loaded - lastLoaded;
@@ -2368,6 +2402,7 @@
 									xhr.status >= 200 &&
 									xhr.status < 300
 								) {
+									recordMiss(readTargetOutcome(xhr));
 									resolve(xhr.response as Blob);
 									return;
 								}
@@ -2393,6 +2428,7 @@
 									return;
 								}
 								if (xhr.status >= 200 && xhr.status < 300) {
+									recordMiss(readTargetOutcome(xhr));
 									resolve(xhr.response as Blob);
 								} else {
 									rollback();
@@ -2515,6 +2551,23 @@
 					// source was already lossy the backend downgrades to its best lossy
 					// encode and says so in X-Mochify-Lossless.
 					if (fileConfig.lossless === true) sharedParams.append('lossless', '1');
+					// Byte ceiling. Forwarded verbatim: the worker has already floored
+					// it to a whole number, dropped anything under core's minimum, and
+					// cleared `lossless` if both arrived (core 400s that pair). The
+					// value is a CEILING, not a size to hit — core leaves the quality
+					// alone entirely when the first encode already fits.
+					//
+					// Deliberately in sharedParams rather than per-variant: the ceiling
+					// applies to each output on its own, so a "webp and avif under 1MB"
+					// request means BOTH files fit, not that they sum to 1MB.
+					if (typeof fileConfig.targetBytes === 'number' && fileConfig.targetBytes > 0) {
+						sharedParams.append('targetBytes', String(fileConfig.targetBytes));
+						// Omitted means core's default of 'both'. Only sent when the user
+						// restricted it, so a dropped/unknown lever degrades to the
+						// permissive behaviour rather than a 400.
+						if (fileConfig.targetLever === 'quality' || fileConfig.targetLever === 'dimensions')
+							sharedParams.append('targetLever', String(fileConfig.targetLever));
+					}
 
 					// Output filename for one variant — shared by the single-variant
 					// loop and the multi-variant ZIP-entry mapping below.
@@ -2547,6 +2600,14 @@
 						}
 						return finalName;
 					};
+
+					// Echoed back to squishFile so a 'floor' outcome can be reported
+					// with the number the user actually asked for. Mirrors the guard
+					// used when the param was appended, so the two cannot disagree.
+					const ceilingBytes =
+						typeof fileConfig.targetBytes === 'number' && fileConfig.targetBytes > 0
+							? fileConfig.targetBytes
+							: 0;
 
 					const totalVariants = formats.length * sizes.length;
 					if (totalVariants > 1 && !bucketDest) {
@@ -2600,9 +2661,18 @@
 						};
 
 						try {
-							const blob = await squishFile(file, params, () => {
-								processPhase = 'processing';
-							});
+							const blob = await squishFile(
+								file,
+								params,
+								() => {
+									processPhase = 'processing';
+								},
+								ceilingBytes,
+								// One response covers every variant, so the header is
+								// per-request: core reports 'hit' only when EVERY entry in
+								// the ZIP fits. Named for the file rather than a variant.
+								file.name
+							);
 							processPhase = 'downloading';
 
 							if (blob.type.includes('zip')) {
@@ -2687,9 +2757,15 @@
 							}
 
 							try {
-								const blob = await squishFile(file, params, () => {
-									processPhase = 'processing';
-								});
+								const blob = await squishFile(
+									file,
+									params,
+									() => {
+										processPhase = 'processing';
+									},
+									ceilingBytes,
+									finalName
+								);
 
 								processPhase = 'downloading';
 
@@ -2808,8 +2884,18 @@
 				posthog.capture('magic_flow_completed', {
 					files: totalFiles,
 					failed: failedFiles.length,
-					delivery_fell_back: bucketFallbacks || undefined
+					delivery_fell_back: bucketFallbacks || undefined,
+					// How often a ceiling is unreachable is the number that says
+					// whether the quality floor is set right — it is the only
+					// feedback on that constant we can get from real traffic.
+					target_missed: missedTargets.length || undefined
 				});
+				// A missed ceiling is not a failure — the user has a working image —
+				// but it IS the one thing about this run they must be told, because
+				// the file will be rejected by whatever the limit came from. Appended
+				// to the success message for the same reason deliveryNote is: the work
+				// succeeded, just not in the way that was asked for.
+				const sizeNote = targetNote(missedTargets);
 				const msg =
 					failedFiles.length > 0
 						? `${successCount} of ${totalFiles} images processed. ✨`
@@ -2821,7 +2907,7 @@
 									remoteDest === 'drive' ? 'Google Drive' : destinationName
 								)}`
 							: 'Images processed successfully! ✨';
-				showStatus('success', msg);
+				showStatus('success', sizeNote ? `${msg} ${sizeNote}` : msg);
 				onSuccess?.();
 			}
 		} catch (err) {

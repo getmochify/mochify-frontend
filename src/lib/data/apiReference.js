@@ -196,6 +196,19 @@ export const squishParams = [
 		description:
 			'Pixel-exact output. Accepts <code>1</code> or <code>true</code>, and overrides <code>quality</code> and <code>smartCompress</code>.',
 		more: 'Only <code>jxl</code>, <code>webp</code> and <code>png</code> can honor it: <code>jpg</code> and <code>avif</code> are rejected with a <code>400</code> rather than silently encoded lossy. A source that is <em>already</em> lossy (JPEG, AVIF, HEIC) is re-encoded at the highest lossy setting instead, since nothing can restore what that file already discarded. Expect the output to be <strong>larger</strong> than the input: lossless preserves pixels, not file size. Check <code>X-Mochify-Lossless</code> for what was actually emitted.'
+	},
+	{
+		name: 'targetBytes',
+		description:
+			'Ceiling on the output file size, in bytes. An <strong>upper bound</strong>, never a size to pad up to \u2014 if the requested quality already fits, that encode is returned untouched.',
+		more: 'No encoder can predict a compressed size without encoding, and no quality value maps to one: bytes at a fixed quality are a property of the <em>pixels</em>, spanning roughly 3\u00d7 (JPEG) to 10\u00d7 (AVIF) between a flat graphic and a detailed photo at identical dimensions. So this measures instead \u2014 typically 1\u20133 encodes, at most 5, extrapolating from each real measurement rather than bisecting. Minimum <code>1024</code>. Cannot be combined with <code>lossless</code> (a <code>400</code>): a pixel-exact file is whatever size it is. Applies <strong>per output</strong>, so a multi-variant request means every variant fits, not that they sum to it. Check <code>X-Mochify-Target</code> for whether the ceiling was actually reached.'
+	},
+	{
+		name: 'targetLever',
+		default: 'both',
+		description:
+			'Which knob <code>targetBytes</code> may turn: <code>quality</code> (re-encode lower, never resize), <code>dimensions</code> (downscale, never change quality), or <code>both</code> (quality first, then downscale).',
+		more: 'Requires <code>targetBytes</code>. <code>quality</code> is a <code>400</code> for <code>png</code> output, which has no quality control at all \u2014 use <code>dimensions</code> or <code>both</code>, where scaling is the only lever anyway. The <code>dimensions</code> lever is also withheld when an HDR gain map is being carried (<code>hdr=1</code> on an Ultra HDR source), because resizing the base would invalidate the map: quality alone is used, and the target may report <code>floor</code>. When the lever moves, <code>X-Mochify-Target-Scale</code> reports how far.'
 	}
 ];
 
@@ -229,6 +242,21 @@ export const squishResponse = [
 	{
 		name: 'X-Mochify-Saliency',
 		description: 'Saliency score (0.000–1.000). Only present when <code>smartCompress=true</code>.'
+	},
+	{
+		name: 'X-Mochify-Target',
+		description:
+			'Present only when <code>targetBytes</code> was set. <code>hit</code> = the returned bytes are at or under the ceiling. <code>floor</code> = the levers ran out first, and this is the smallest output that could honestly be produced \u2014 still a real, usable image, not an error. For a multi-variant ZIP, <code>hit</code> means every entry fits. <strong>Worth checking:</strong> a <code>floor</code> response is a <code>200</code>, so it is otherwise indistinguishable from success.'
+	},
+	{
+		name: 'X-Mochify-Target-Encodes',
+		description:
+			'How many encodes the size search spent, including the first one the pipeline would have performed anyway. Summed across variants for a ZIP.'
+	},
+	{
+		name: 'X-Mochify-Target-Scale',
+		description:
+			'Extra downscale the <code>dimensions</code> lever applied, relative to the geometry that was requested (for example <code>0.710</code>). Omitted when the lever did not move, i.e. the output is exactly the size asked for.'
 	},
 	{
 		name: 'X-Mochify-Quality',
