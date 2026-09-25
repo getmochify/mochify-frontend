@@ -2906,7 +2906,7 @@
 									null,
 									remoteDest === 'drive' ? 'Google Drive' : destinationName
 								)}`
-							: 'Images processed successfully! ✨';
+							: 'Image(s) processed successfully! ✨';
 				showStatus('success', sizeNote ? `${msg} ${sizeNote}` : msg);
 				onSuccess?.();
 			}

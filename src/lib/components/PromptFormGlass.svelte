@@ -5,14 +5,14 @@
     let prompt: string = $state('');
     let files: File[] = $state([]);
     let isDragging: boolean = $state(false);
-    
+
     let isProcessing: boolean = $state(false);
     let processPhase: 'idle' | 'thinking' | 'uploading' = $state('idle');
-    let thinkingText: string = $state("Initializing..."); 
-    
+    let thinkingText: string = $state("Initializing...");
+
     let uploadProgress: number = $state(0);
-    let downloadAsZip: boolean = $state(false); 
-    
+    let downloadAsZip: boolean = $state(false);
+
     let textareaEl: HTMLTextAreaElement;
     let fileInputEl: HTMLInputElement;
 
@@ -27,13 +27,13 @@
         if (statusTimeout) clearTimeout(statusTimeout);
         statusTimeout = setTimeout(() => {
             statusMessage = { type: null, text: '' };
-        }, 5000); 
+        }, 5000);
     }
 
     function validateAndAddFiles(newFiles: File[]) {
         const validFiles = [];
         let rejectedCount = 0;
-        
+
         for (const f of newFiles) {
             if (f.size > MAX_FILE_SIZE) {
                 rejectedCount++;
@@ -45,7 +45,7 @@
         if (rejectedCount > 0) {
             showStatus('error', `${rejectedCount} file(s) ignored (exceeds 20MB limit)`);
         }
-        
+
         files = [...files, ...validFiles];
     }
 
@@ -103,7 +103,7 @@
             };
             img.onerror = () => {
                 window.URL.revokeObjectURL(img.src);
-                resolve({ w: 0, h: 0 }); 
+                resolve({ w: 0, h: 0 });
             };
             img.src = window.URL.createObjectURL(file);
         });
@@ -111,22 +111,22 @@
 
     async function submit() {
         if (!prompt.trim() || files.length === 0 || isProcessing) return;
-        
+
         isProcessing = true;
         processPhase = 'thinking';
         uploadProgress = 0;
 
         const messages = [
-            "Reading image dimensions...",    
-            "Consulting the AI Brain...",     
-            "Calculating resize ratios...",   
-            "Optimizing output format...",    
-            "Preparing to squish..."          
+            "Reading image dimensions...",
+            "Consulting the AI Brain...",
+            "Calculating resize ratios...",
+            "Optimizing output format...",
+            "Preparing to squish..."
         ];
-        
+
         thinkingText = messages[0];
         let msgIdx = 1;
-        
+
         const msgInterval = setInterval(() => {
             if (processPhase === 'thinking') {
                 thinkingText = messages[msgIdx % messages.length];
@@ -167,13 +167,13 @@
             const processNextFile = async () => {
                 while (currentFileIndex < files.length) {
                     const file = files[currentFileIndex++];
-                    const fileConfig = fileMap[file.name] || {}; 
-                    
+                    const fileConfig = fileMap[file.name] || {};
+
                     const params = new URLSearchParams();
                     if (fileConfig.type) params.append('type', fileConfig.type);
                     if (fileConfig.smartCompress) params.append('smartCompress', '1');
                     if (fileConfig.removeBackground) params.append('removeBackground', '1');
-                    
+
                     for (const [key, value] of Object.entries(fileConfig)) {
                         if (key !== 'smartCompress' && key !== 'type' && key !== 'removeBackground') {
                             if (value !== false && value !== 0) params.append(key, String(value));
@@ -211,7 +211,7 @@
                             a.download = finalName;
                             document.body.appendChild(a);
                             a.click();
-                            
+
                             setTimeout(() => {
                                 window.URL.revokeObjectURL(downloadUrl);
                                 document.body.removeChild(a);
@@ -234,13 +234,13 @@
             await Promise.all(workers);
 
             if (downloadAsZip && Object.keys(zipContents).length > 0) {
-                processPhase = 'thinking'; 
+                processPhase = 'thinking';
                 thinkingText = "Packing your zip file...";
-                
+
                 await new Promise<void>((resolve, reject) => {
                     zip(zipContents, { level: 0 }, (err, zippedData) => {
                         if (err) return reject(err);
-                        
+
                         const zipBlob = new Blob([zippedData as BlobPart], { type: 'application/zip' });
                         const url = URL.createObjectURL(zipBlob);
                         const a = document.createElement('a');
@@ -248,7 +248,7 @@
                         a.download = 'mochified_batch.zip';
                         document.body.appendChild(a);
                         a.click();
-                        
+
                         setTimeout(() => {
                             URL.revokeObjectURL(url);
                             document.body.removeChild(a);
@@ -260,8 +260,8 @@
 
             prompt = '';
             files = [];
-            showStatus('success', 'Images processed successfully! ✨');
-            
+            showStatus('success', 'Image(s) processed successfully! ✨');
+
         } catch (err) {
             console.error(err);
             showStatus('error', err instanceof Error ? err.message : "An unexpected error occurred.");
@@ -276,10 +276,10 @@
 {#if statusMessage.type}
     <div class="fixed top-4 right-4 sm:top-24 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 z-50 animate-fade-in pointer-events-none">
         <div class="px-5 py-3 rounded-2xl backdrop-blur-md border shadow-xl flex items-center gap-3 transition-all duration-300
-            {statusMessage.type === 'error' 
-                ? 'bg-red-50/90 border-red-200 text-red-800 shadow-red-500/10' 
+            {statusMessage.type === 'error'
+                ? 'bg-red-50/90 border-red-200 text-red-800 shadow-red-500/10'
                 : 'bg-[#F4FBF2]/90 border-[#A5D6A7]/50 text-[#2E5C31] shadow-green-500/10'}">
-            
+
             {#if statusMessage.type === 'error'}
                 <svg class="w-5 h-5 flex-shrink-0 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
@@ -289,7 +289,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
             {/if}
-            
+
             <span class="font-bold text-sm sm:text-base tracking-tight">{statusMessage.text}</span>
         </div>
     </div>
@@ -297,8 +297,8 @@
 
 <div class="w-full max-w-2xl">
     <div class="relative rounded-[2rem] transition-all duration-300 {isDragging ? 'scale-[1.02] liquid-glow' : ''}">
-        
-        <div 
+
+        <div
             class="liquid-glass relative rounded-[2rem] overflow-hidden transition-all duration-300"
             ondragover={handleDragOver}
             ondragleave={handleDragLeave}
@@ -350,7 +350,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                         </svg>
                     </button>
-                    
+
                     <div class="absolute bottom-0 left-8 right-8">
                         <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-[#875F42]/15 to-transparent"></div>
                         <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
@@ -359,17 +359,17 @@
             {/if}
 
             <div class="flex flex-wrap sm:flex-nowrap items-end gap-x-3 gap-y-4 px-4 sm:px-6 py-4 sm:py-5">
-                
+
                 <div class="order-2 sm:order-1 flex items-center gap-2 sm:gap-3 flex-shrink-0 bg-white/20 p-1.5 rounded-2xl backdrop-blur-sm shadow-inner border border-white/30">
-                    
+
                     <button onclick={() => fileInputEl?.click()} class="p-2 rounded-xl text-[#875F42]/80 hover:text-[#F06292] hover:bg-white/60 transition-all cursor-pointer" aria-label="Attach images">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"/>
                         </svg>
                     </button>
-                    
+
                     <div class="w-[1px] h-6 bg-white/40"></div>
-                    
+
                     <label class="flex items-center gap-2 cursor-pointer group pr-2" title="Download as ZIP">
                         <div class="relative">
                             <input type="checkbox" bind:checked={downloadAsZip} class="sr-only">
@@ -381,23 +381,23 @@
                 </div>
 
                 <input bind:this={fileInputEl} type="file" multiple accept="image/*" onchange={handleFileSelect} class="hidden"/>
-                
-                <textarea 
-                    bind:this={textareaEl} 
-                    bind:value={prompt} 
-                    oninput={autoGrow} 
-                    onkeydown={handleKeydown} 
-                    placeholder="Describe what you want…" 
-                    rows="1" 
+
+                <textarea
+                    bind:this={textareaEl}
+                    bind:value={prompt}
+                    oninput={autoGrow}
+                    onkeydown={handleKeydown}
+                    placeholder="Describe what you want…"
+                    rows="1"
                     class="order-1 sm:order-2 w-full sm:flex-1 resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[48px] max-h-[200px] overflow-y-auto py-2.5 [appearance:none]"
                 ></textarea>
-                
-                <button 
-                    onclick={submit} 
-                    disabled={!prompt.trim() || files.length === 0 || isProcessing} 
-                    class="order-3 ml-auto sm:ml-0 flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-bold transition-all duration-300 
-                    {prompt.trim() && files.length > 0 && !isProcessing 
-                        ? 'bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_4px_16px_rgba(240,98,146,0.4)] hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),_0_8px_24px_rgba(240,98,146,0.6)] hover:-translate-y-0.5 cursor-pointer' 
+
+                <button
+                    onclick={submit}
+                    disabled={!prompt.trim() || files.length === 0 || isProcessing}
+                    class="order-3 ml-auto sm:ml-0 flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-bold transition-all duration-300
+                    {prompt.trim() && files.length > 0 && !isProcessing
+                        ? 'bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_4px_16px_rgba(240,98,146,0.4)] hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),_0_8px_24px_rgba(240,98,146,0.6)] hover:-translate-y-0.5 cursor-pointer'
                         : 'bg-white/50 text-[#F06292]/30 border border-white/60 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] cursor-not-allowed'}"
                 >
                     {#if isProcessing}
@@ -410,7 +410,7 @@
                         </svg>
                     {/if}
                 </button>
-            </div> 
+            </div>
 
             <div class="border-t border-white/30 bg-[#FFF9F4]/80 backdrop-blur-md">
                 {#if isProcessing}
@@ -422,12 +422,12 @@
                         {/if}
                     </div>
                 {/if}
-                
+
                 <div class="flex items-center justify-between px-4 sm:px-6 py-3">
                     <span class="text-sm text-[#875F42]/70 font-medium tracking-wide flex items-center gap-2">
                         {#if isProcessing}
                             {#if processPhase === 'thinking'}
-                                <span class="animate-pulse">✨</span> 
+                                <span class="animate-pulse">✨</span>
                                 {#key thinkingText}
                                     <span class="animate-fade-in">{thinkingText}</span>
                                 {/key}
@@ -455,7 +455,7 @@
         backdrop-filter: blur(24px);
         -webkit-backdrop-filter: blur(24px);
         border: 1px solid rgba(255, 255, 255, 0.4);
-        box-shadow: 
+        box-shadow:
             0 8px 32px 0 rgba(240, 98, 146, 0.15),
             inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
             inset 0 -1px 0 0 rgba(255, 255, 255, 0.1);
@@ -465,7 +465,7 @@
         background: rgba(255, 255, 255, 0.25);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
-        box-shadow: 
+        box-shadow:
             inset 0 2px 4px rgba(255, 255, 255, 0.6),
             inset 0 -2px 4px rgba(0, 0, 0, 0.05),
             0 4px 12px rgba(240, 98, 146, 0.1);
@@ -473,8 +473,8 @@
     }
 
     .liquid-glow {
-        box-shadow: 
-            0 0 0 2px rgba(240, 98, 146, 0.4), 
+        box-shadow:
+            0 0 0 2px rgba(240, 98, 146, 0.4),
             0 0 40px rgba(240, 98, 146, 0.2),
             inset 0 0 20px rgba(255, 255, 255, 0.5);
     }
