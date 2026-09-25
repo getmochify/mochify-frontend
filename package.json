@@ -80,10 +80,10 @@
     "fflate": "^0.8.3",
     "kysely": "^0.28.17",
     "kysely-d1": "^0.4.0",
-    "mediabunny": "^1.59.1",
+    "mediabunny": "^1.60.0",
     "pdfjs-dist": "^6.3.289",
-    "posthog-js": "^1.434.12",
+    "posthog-js": "^1.434.13",
     "posthog-node": "^5.53.0",
-    "resend": "^6.28.1"
+    "resend": "^6.29.0"
   }
 }
