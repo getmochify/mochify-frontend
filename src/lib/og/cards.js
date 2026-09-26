@@ -401,6 +401,11 @@ export const cards = [
 		title: 'Save Image as Type Is Gone: How to Replace It Safely'
 	},
 	{
+		path: '/guides/reduce-photo-file-size-iphone',
+		eyebrow: 'GUIDE',
+		title: 'How to Reduce Photo File Size on iPhone'
+	},
+	{
 		path: '/guides/save-webp-as-jpg-chrome',
 		eyebrow: 'GUIDE',
 		title: 'How to Save a WebP as JPG in Chrome'

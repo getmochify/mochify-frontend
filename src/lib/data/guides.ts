@@ -17,6 +17,15 @@ export type Guide = {
 
 export const guides: Guide[] = [
 	{
+		title: 'How to Reduce Photo File Size on iPhone: The Fast Way and the Built-In Way',
+		description:
+			"Compress an iPhone photo to 1MB in seconds in Safari, or use Preview's hidden Export slider on iOS 26+. Tested steps, real file sizes, what to avoid.",
+		url: '/guides/reduce-photo-file-size-iphone',
+		category: 'Image Formats',
+		readTime: '21 min read',
+		date: 'September 25, 2026'
+	},
+	{
 		title: 'Save Image as Type Is Gone: How to Replace It Safely',
 		description:
 			'Save Image as Type was removed as malware. How to check your browser, vet a replacement, and save any image as JPG, PNG, AVIF, JPEG XL or PDF.',
