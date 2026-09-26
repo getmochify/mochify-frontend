@@ -12,7 +12,7 @@
         category: "Image Formats",
         readTime: "12 min read",
         datePublished: "June 29, 2026",
-        lastUpdated: "September 23, 2026"
+        lastUpdated: "September 26, 2026"
     };
 
     const related = [
@@ -114,7 +114,7 @@
             "@id": "https://mochify.app/guides/heic-to-pdf-iphone-photos"
         },
         "datePublished": "2026-06-29",
-        "dateModified": "2026-09-23",
+        "dateModified": "2026-09-26",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -233,7 +233,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            iPhone photos save as HEIC by default, and HEIC causes compatibility headaches the moment you need to share a document: Windows machines often can't open it, browsers don't render it, and submission portals almost universally want a single PDF. This guide covers every practical conversion path - native iPhone methods with no apps required, Mac and Windows workflows, online tools, and how to convert a batch of HEIC photos into one clean, multi-page PDF.
+            iPhone photos save as HEIC by default, and HEIC causes compatibility headaches the moment you need to share a document: Windows machines often can't open it, browsers don't render it, and submission portals almost universally want a single PDF. This guide covers every practical conversion path - native iPhone methods with no apps required, Mac and Windows workflows, online tools, and how to convert a batch of HEIC photos into one clean, multi-page PDF. If the portal wants individual photos under a size limit rather than one PDF, see <a href="/guides/reduce-photo-file-size-iphone">how to reduce photo file size on iPhone</a>.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">

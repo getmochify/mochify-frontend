@@ -12,7 +12,7 @@
         category: "Image Optimization",
         readTime: "12 min read",
         date: "July 23, 2026",
-        lastUpdated: "September 23, 2026"
+        lastUpdated: "September 26, 2026"
     };
 
     const toc = [
@@ -95,7 +95,7 @@
             "@id": "https://mochify.app/guides/photo-file-too-large-to-upload"
         },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-09-23",
+        "dateModified": "2026-09-26",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -156,7 +156,7 @@
         "description": "Why free tools reject modern camera files: real sizes from 45-61MP bodies, the 5-20MB caps that refuse them, and the fastest path to files that upload anywhere.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-09-23"
+        "dateModified": "2026-09-26"
         }
     </script>
 
@@ -271,7 +271,7 @@
                 </table>
             </ScrollableTable>
             <p>Read that JPEG row again: a maximum-quality JPEG from a current 61MP body is 35-52MB. Not RAW - JPEG. Every one of those files sails past a 5MB cap, most pass 20MB, and the detailed-scene ones pass anything short of 75MB.</p>
-            <p>Two format notes. First, HEIF is doing real work in that table - the same scenes that produce 35-52MB JPEGs produce 12-27MB HEIFs, which is why pro bodies push the format; our guide on <a href="/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera">shooting HEIF vs JPEG on mirrorless cameras</a> covers that trade-off. Second, a demarcation we insist on: <code>.HIF</code> files come from professional cameras (Canon, Sony, Fujifilm); <code>.HEIC</code> files come from iPhones. Same format family underneath, completely different workflows. This guide is in the pro-camera lane; if your too-large file is a <code>.HEIC</code> from an iPhone, the <a href="/heic-to-jpeg">HEIC to JPEG converter</a> is your faster path.</p>
+            <p>Two format notes. First, HEIF is doing real work in that table - the same scenes that produce 35-52MB JPEGs produce 12-27MB HEIFs, which is why pro bodies push the format; our guide on <a href="/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera">shooting HEIF vs JPEG on mirrorless cameras</a> covers that trade-off. Second, a demarcation we insist on: <code>.HIF</code> files come from professional cameras (Canon, Sony, Fujifilm); <code>.HEIC</code> files come from iPhones. Same format family underneath, completely different workflows. This guide is in the pro-camera lane; if your too-large file is a <code>.HEIC</code> from an iPhone, the <a href="/heic-to-jpeg">HEIC to JPEG converter</a> is your faster path. If it also has to get under a size limit, our <a href="/guides/reduce-photo-file-size-iphone">guide to reducing photo file size on iPhone</a> covers the quick route and the built-in one.</p>
         </section>
 
         <section id="the-free-tool-wall" class="scroll-mt-24">

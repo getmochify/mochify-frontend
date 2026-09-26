@@ -210,7 +210,8 @@ export const guides: Guide[] = [
 		url: '/guides/can-safari-open-heic-images',
 		category: 'Quick Guides',
 		readTime: '2 min read',
-		date: 'July 29, 2026'
+		date: 'July 29, 2026',
+		lastUpdated: 'September 26, 2026'
 	},
 	{
 		title: 'What Is an AVIF File? (And How to Open One)',
@@ -270,7 +271,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '12 min read',
 		date: 'June 29, 2026',
-		lastUpdated: 'September 23, 2026'
+		lastUpdated: 'September 26, 2026'
 	},
 	{
 		title: 'Convert MP4 to WebM for the Web: Smaller Files, Faster Pages, No Upload Required',
@@ -729,7 +730,7 @@ export const guides: Guide[] = [
 		category: 'Image Optimization',
 		readTime: '12 min read',
 		date: 'July 23, 2026',
-		lastUpdated: 'September 23, 2026'
+		lastUpdated: 'September 26, 2026'
 	}
 ];
 

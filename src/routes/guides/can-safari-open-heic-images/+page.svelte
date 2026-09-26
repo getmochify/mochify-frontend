@@ -9,7 +9,8 @@
         description: "Yes, Safari 17+ renders HEIC natively on the web. Chrome, Firefox, and Edge do not. Convert to JPEG or WebP before publishing for full compatibility.",
         category: "Quick Guide",
         readTime: "2 min read",
-        date: "July 29, 2026"
+        date: "July 29, 2026",
+        lastUpdated: "September 26, 2026"
     };
 </script>
 
@@ -29,7 +30,7 @@
         "description": "Yes, Safari 17+ renders HEIC natively on the web. Chrome, Firefox, and Edge do not. Convert to JPEG or WebP before publishing for full compatibility.",
         "url": "https://mochify.app/guides/can-safari-open-heic-images",
         "datePublished": "2026-07-29",
-        "dateModified": "2026-07-29",
+        "dateModified": "2026-09-26",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -77,7 +78,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date} · Mochify Engineering Team
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
             </span>
         </div>
 
@@ -107,7 +108,7 @@
         <section id="what-this-means-for-creators-and-marketplace-sellers">
             <SectionHeading>What this means for creators and marketplace sellers</SectionHeading>
             <p>iPhones shoot HEIC by default, so friction shows up the moment those photos leave the Apple ecosystem. Upload forms on marketplaces, CMSs, and client portals often reject the file outright or fail to generate a preview. And even when an upload succeeds, any buyer or visitor on Chrome, Android, or Windows sees a broken image unless the platform converts it server-side, which you cannot rely on.</p>
-            <p>The dependable rule: treat HEIC as a capture format, not a delivery format, and convert before you upload. JPEG remains the universal fallback; WebP gives you smaller files with support in every modern browser. For help choosing, see our guide on <a href="/guides/should-i-optimize-images-before-upload">optimizing images before you upload</a>.</p>
+            <p>The dependable rule: treat HEIC as a capture format, not a delivery format, and convert before you upload. JPEG remains the universal fallback; WebP gives you smaller files with support in every modern browser. For help choosing, see our guide on <a href="/guides/should-i-optimize-images-before-upload">optimizing images before you upload</a>. If the upload form also sets a file size limit, here is <a href="/guides/reduce-photo-file-size-iphone">how to get an iPhone photo under it</a>.</p>
         </section>
 
         <section id="how-to-convert-heic-for-the-web">
