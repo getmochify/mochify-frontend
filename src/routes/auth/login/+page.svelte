@@ -4,6 +4,7 @@
 	import { authClient } from '$lib/auth-client';
 	import Navigation from '$lib/components/Navigation.svelte';
 	import { posthog } from '$lib/analytics';
+	import { resetUserCaches } from '$lib/user';
 
 	let { data } = $props();
 
@@ -53,6 +54,12 @@
 				window.location.href = next;
 				return;
 			}
+			// The plan/bucket/drive caches in $lib/user are module-scoped, so
+			// they survive this SPA transition and invalidateAll() does not
+			// touch them. Anything seeded while signed out (plan 'free') would
+			// otherwise stick for its 5-minute TTL and hold the new session on
+			// free-tier limits.
+			resetUserCaches();
 			await invalidateAll();
 			goto(next);
 		}

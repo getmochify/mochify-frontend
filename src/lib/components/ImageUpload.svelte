@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import {
 		getPlan,
+		getPlanSnapshot,
 		getSessionToken,
 		resolveRemaining,
 		GUEST_QUOTA,
@@ -192,7 +193,9 @@
 
 	let plan: 'free' | 'seller' | 'pro' | 'day' | 'growth' = $state('free');
 	let isAuthed: boolean = $state(false);
-	let planQuota = $state(25); // monthly ops for an authenticated plan; guests get GUEST_QUOTA
+	// Monthly ops for an authenticated plan, as reported by /api/usage — not a
+	// local copy of the pricing table. Guests get GUEST_QUOTA instead.
+	let planQuota = $state(25);
 
 	// The single tier value every limit and every string keys off.
 	//
@@ -218,18 +221,9 @@
 	let tierResolved: boolean = $state(false);
 
 	$effect(() => {
-		Promise.all([getPlan(), getSessionToken()]).then(([p, jwt]) => {
-			plan = p;
-			planQuota =
-				p === 'pro'
-					? 1200
-					: p === 'seller'
-						? 300
-						: p === 'day'
-							? DAY_PASS_OPS
-							: p === 'growth'
-								? 5000
-								: 25;
+		Promise.all([getPlanSnapshot(), getSessionToken()]).then(([snapshot, jwt]) => {
+			plan = snapshot.plan;
+			planQuota = snapshot.quota;
 			isAuthed = !!jwt;
 			tierResolved = true;
 			// Signed-in only, deliberately. For someone with an account the
@@ -414,8 +408,9 @@
 		// 75MB) are in force immediately rather than after files have already
 		// been sliced to standard-tier defaults. userTier/batchLimit/maxFileSize
 		// are derived, so they re-read correctly the moment these land.
-		const [resolvedPlan, resolvedJwt] = await Promise.all([getPlan(), getSessionToken()]);
-		plan = resolvedPlan;
+		const [snapshot, resolvedJwt] = await Promise.all([getPlanSnapshot(), getSessionToken()]);
+		plan = snapshot.plan;
+		planQuota = snapshot.quota;
 		isAuthed = !!resolvedJwt;
 
 		// A fresh ingest supersedes the previous one's trim notice.

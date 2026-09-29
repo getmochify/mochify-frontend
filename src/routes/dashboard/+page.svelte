@@ -9,6 +9,10 @@
 	import { posthog } from '$lib/analytics';
 	import { formatPrice, USD_PRICES } from '$lib/currency';
 	import { USE_CASES } from '$lib/useCases';
+	// The compose bar and converters read these connections through a 5-minute
+	// module cache in $lib/user. Connecting or removing storage here has to drop
+	// it, or /flow keeps offering the old destination until the cache expires.
+	import { invalidateBucketCache, invalidateDriveCache } from '$lib/user';
 
 	let { data } = $props();
 
@@ -893,6 +897,7 @@
 									if (result.type === 'success') {
 										drive = { connected: false };
 										showDriveDisconnect = false;
+										invalidateDriveCache();
 										posthog.capture('drive_disconnected');
 									} else if (result.type === 'failure') {
 										driveError = (result.data?.error as string) ?? 'Could not disconnect.';
@@ -1091,6 +1096,7 @@
 										bucket = { connected: false };
 										showBucketDisconnect = false;
 										showBucketForm = false;
+										invalidateBucketCache();
 										posthog.capture('bucket_disconnected');
 									} else if (result.type === 'failure') {
 										bucketError = (result.data?.error as string) ?? 'Could not disconnect.';
@@ -1125,6 +1131,7 @@
 									bucketVerifying = false;
 									if (result.type === 'success' && result.data?.bucket) {
 										bucket = result.data.bucket as BucketConnection;
+										invalidateBucketCache();
 										if (bucket.status !== 'ok') {
 											posthog.capture('bucket_verify_failed', {
 												provider: bucket.provider,
@@ -1183,6 +1190,7 @@
 							if (result.type === 'success' && result.data?.bucket) {
 								bucket = result.data.bucket as BucketConnection;
 								showBucketForm = false;
+								invalidateBucketCache();
 								posthog.capture('bucket_connect_saved', {
 									provider: bucket.provider,
 									status: bucket.status

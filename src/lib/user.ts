@@ -41,28 +41,57 @@ export function getSessionToken(): Promise<string | null> {
     return _sessionRequest
 }
 
+export type Plan = 'free' | 'seller' | 'pro' | 'day' | 'growth'
+
+/**
+ * The plan and the monthly operation allowance that goes with it.
+ *
+ * `quota` is the server's number, not a copy of the pricing table. /api/usage
+ * already returns it beside `plan` (see lib/server/usage.ts), sourced from the
+ * tokens worker, which reads `profile.ops_limit` before falling back to its own
+ * PLAN_LIMITS. Mirroring that ladder on the client meant two things: it drifted
+ * from pricing whenever a tier changed, and it could not see a per-account
+ * override at all — an account on a custom limit was shown the stock number for
+ * its plan. Read it from the response instead.
+ */
+export type PlanSnapshot = { plan: Plan; quota: number }
+
+/** Only for a response that arrives without a usable quota; the server owns this number. */
+const FALLBACK_QUOTA = 25
+
 // Deduplicate concurrent calls and cache for 5 minutes — /api/usage doesn't
 // change mid-session and components call getPlan() on every mount.
-let _planRequest: Promise<'free' | 'seller' | 'pro' | 'day' | 'growth'> | null = null
-let _planCache: { value: 'free' | 'seller' | 'pro' | 'day' | 'growth'; expires: number } | null = null
+let _planRequest: Promise<PlanSnapshot> | null = null
+let _planCache: { value: PlanSnapshot; expires: number } | null = null
 const PLAN_TTL = 5 * 60 * 1000
 
-export function getPlan(): Promise<'free' | 'seller' | 'pro' | 'day' | 'growth'> {
+export function getPlanSnapshot(): Promise<PlanSnapshot> {
     if (_planCache && Date.now() < _planCache.expires) return Promise.resolve(_planCache.value)
     if (!_planRequest) {
         _planRequest = fetch('/api/usage')
-            .then(res => res.ok ? res.json() as Promise<{ plan?: string }> : {})
+            .then(res => res.ok ? res.json() as Promise<{ plan?: string; quota?: number }> : {})
             .then(data => {
-                const plan = (data as { plan?: string }).plan
-                const value: 'free' | 'seller' | 'pro' | 'day' | 'growth' =
-                    plan === 'pro' ? 'pro' : plan === 'seller' ? 'seller' : plan === 'day' ? 'day' : plan === 'growth' ? 'growth' : 'free'
+                const raw = (data as { plan?: string; quota?: number })
+                const plan: Plan =
+                    raw.plan === 'pro' ? 'pro' : raw.plan === 'seller' ? 'seller' : raw.plan === 'day' ? 'day' : raw.plan === 'growth' ? 'growth' : 'free'
+                const quota =
+                    typeof raw.quota === 'number' && Number.isFinite(raw.quota) && raw.quota > 0
+                        ? raw.quota
+                        : FALLBACK_QUOTA
+                const value: PlanSnapshot = { plan, quota }
                 _planCache = { value, expires: Date.now() + PLAN_TTL }
                 return value
             })
-            .catch(() => 'free' as const)
+            // Deliberately not cached: a failed lookup should be retried by the
+            // next caller rather than pinning everyone to free for the TTL.
+            .catch(() => ({ plan: 'free', quota: FALLBACK_QUOTA }) as PlanSnapshot)
             .finally(() => { _planRequest = null })
     }
     return _planRequest
+}
+
+export function getPlan(): Promise<Plan> {
+    return getPlanSnapshot().then(snapshot => snapshot.plan)
 }
 
 export function invalidatePlanCache() {
@@ -154,5 +183,26 @@ export function getDriveConnection(): Promise<DriveState> {
 
 export function invalidateDriveCache() {
     _driveCache = null
+}
+
+/**
+ * Drop every per-user cache above. Call this whenever the signed-in identity
+ * changes WITHOUT a full page load.
+ *
+ * These caches live in module scope, so a real navigation re-evaluates the
+ * module and clears them for free — which is why sign-out (window.location),
+ * Google sign-in and registration (both callbackURL) never needed this. Email
+ * sign-in is the one transition that stays in the SPA: it calls invalidateAll()
+ * and goto(), and invalidateAll only re-runs SvelteKit `load` functions, which
+ * these caches are not. Without this call, a visitor who browsed signed-out
+ * seeded _planCache with 'free' and then kept free-tier limits for the rest of
+ * the 5-minute TTL: ImageUpload showed "batches up to 3" and a usage badge
+ * reading the real paid remaining over the free quota ("300 / 25"), until a
+ * manual refresh.
+ */
+export function resetUserCaches() {
+    invalidatePlanCache()
+    invalidateBucketCache()
+    invalidateDriveCache()
 }
 
