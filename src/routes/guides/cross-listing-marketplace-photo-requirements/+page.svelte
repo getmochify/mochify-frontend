@@ -13,7 +13,7 @@
         category: "Workflows",
         readTime: "11 min read",
         date: "August 5, 2026",
-        lastUpdated: "September 22, 2026"
+        lastUpdated: "September 29, 2026"
     };
 
     const toc = [
@@ -54,7 +54,7 @@
         {
             n: '6',
             h: 'Optional: clean backgrounds for covers',
-            body: `A clean or transparent background lifts cover photos on cluttered search grids. Background removal is included on every Mochify tier, so prompting "remove the background" on your cover shots costs nothing extra.`
+            body: `A clean or transparent background lifts cover photos on cluttered search grids. Background removal is included on every Mochify tier, so prompting "remove the background" on your cover shots costs nothing extra; for a plain cut-out with no prompt, the <a href="https://mochify.app/solutions/remove-background-webp">WebP background remover</a> returns a transparent WebP in one step.`
         },
         {
             n: '7',
@@ -131,7 +131,7 @@
             "@id": "https://mochify.app/guides/cross-listing-marketplace-photo-requirements"
         },
         "datePublished": "2026-08-05",
-        "dateModified": "2026-09-22",
+        "dateModified": "2026-09-29",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",

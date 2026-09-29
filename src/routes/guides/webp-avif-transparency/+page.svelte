@@ -753,7 +753,7 @@
 		<GlassCTA
 			heading="Need a cut-out that keeps its transparency?"
 			href="/solutions/remove-background-webp"
-			label="Remove Background to WebP →"
+			label="WebP Background Remover →"
 			secondaryHref="/solutions/remove-background-avif"
 			secondaryLabel="Or to AVIF"
 		>

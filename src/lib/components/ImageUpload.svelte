@@ -76,11 +76,23 @@
 		// photographic PNG can drop back to lossy, which is much smaller for
 		// photo content even though it is the wrong default for graphics.
 		losslessDefault = false,
-		showLosslessOption = false
+		showLosslessOption = false,
+		// A long-edge resize the page opts into, shown as a switch beside Strip
+		// EXIF once files are in. Equal width and height WITHOUT smartCrop fits
+		// the photo inside that box, keeps its proportions and never upscales, so
+		// a photo already under the target comes back untouched — the same rule
+		// the square cropper relies on. A page that sets width/height in its own
+		// queryParams should not also turn this on.
+		showResizeOption = false,
+		resizeLongEdge = 1600,
+		resizeLabel = 'Resize',
+		resizeDefault = true
 	} = props;
 	const hasOutputOverride = $derived('output' in props);
 
 	let stripExif: boolean = $state(stripExifDefault);
+	let resizeLongEdgeOn: boolean = $state(resizeDefault);
+	const resizeApplies = $derived(showResizeOption && resizeLongEdgeOn && resizeLongEdge > 0);
 	let smartCompress: boolean = $state(false);
 	let lossless: boolean = $state(losslessDefault);
 	let isDragging: boolean = $state(false);
@@ -888,6 +900,10 @@
 						};
 						if (smartCompress) chunkedParams.smartCompress = '1';
 						if (lossless && LOSSLESS_FORMATS.includes(safeType)) chunkedParams.lossless = '1';
+						if (resizeApplies) {
+							chunkedParams.width = String(resizeLongEdge);
+							chunkedParams.height = String(resizeLongEdge);
+						}
 						if (queryParams)
 							new URLSearchParams(queryParams).forEach((v, k) => (chunkedParams[k] = v));
 
@@ -1024,6 +1040,10 @@
 									if (smartCompress) squishParams.append('smartCompress', '1');
 									if (lossless && LOSSLESS_FORMATS.includes(safeType))
 										squishParams.append('lossless', '1');
+									if (resizeApplies) {
+										squishParams.set('width', String(resizeLongEdge));
+										squishParams.set('height', String(resizeLongEdge));
+									}
 									if (queryParams)
 										new URLSearchParams(queryParams).forEach((v, k) => squishParams.append(k, v));
 									xhr.open('POST', `${API_URL}/v1/squish?${squishParams}`);
@@ -1691,8 +1711,28 @@
 	{/if}
 
 	<!-- Toggles -->
-	{#if (showExifOption || showSmartMode || (showLosslessOption && losslessApplies)) && selectedFiles.length > 0}
+	{#if (showExifOption || showSmartMode || showResizeOption || (showLosslessOption && losslessApplies)) && selectedFiles.length > 0}
 		<div class="flex flex-wrap gap-x-6 gap-y-3 px-4 pt-3 pb-3 sm:px-6">
+			{#if showResizeOption}
+				<label class="group flex cursor-pointer items-center gap-2.5 select-none">
+					<input type="checkbox" bind:checked={resizeLongEdgeOn} class="sr-only" />
+					<div
+						class="relative h-5 w-10 rounded-full transition-all duration-300 {resizeLongEdgeOn
+							? 'bg-[#F06292] shadow-[0_0_0_1px_#F06292]'
+							: 'bg-[#875F42]/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.15),0_0_0_1px_rgba(135,95,66,0.25)]'}"
+					>
+						<div
+							class="absolute top-[3px] left-[3px] h-3.5 w-3.5 rounded-full bg-white shadow-md transition-transform duration-300 {resizeLongEdgeOn
+								? 'translate-x-5'
+								: ''}"
+						></div>
+					</div>
+					<span
+						class="text-xs font-semibold text-[#6C3F31] transition-colors group-hover:text-[#4A2C2C]"
+						>{resizeLabel}</span
+					>
+				</label>
+			{/if}
 			{#if showExifOption}
 				<label class="group flex cursor-pointer items-center gap-2.5 select-none">
 					<input type="checkbox" bind:checked={stripExif} class="sr-only" />

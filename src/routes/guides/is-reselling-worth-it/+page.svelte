@@ -12,7 +12,7 @@
         category: "Workflows",
         readTime: "14 min read",
         date: "July 23, 2026",
-        lastUpdated: "September 23, 2026"
+        lastUpdated: "September 29, 2026"
     };
 
     const toc = [
@@ -98,7 +98,7 @@
             "@id": "https://mochify.app/guides/is-reselling-worth-it"
         },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-09-23",
+        "dateModified": "2026-09-29",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -158,7 +158,7 @@
         "description": "Is reselling worth it in 2026? The honest math: market data, time per listing, tool costs, and when a free photo workflow beats a paid one.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-23",
-        "dateModified": "2026-09-23"
+        "dateModified": "2026-09-29"
         }
     </script>
 
@@ -372,7 +372,7 @@
                     <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">6</span>
                     <div class="min-w-0 flex-1">
                         <strong class="block text-[#4A2C2C] text-lg mb-1.5">Vinted sellers: use the dedicated tools</strong>
-                        <p class="text-base m-0">The <a href="/vinted-seller">Vinted seller tool</a> bakes the 3:4 smart crop to 1080x1440 and the under-10MB compression into one page, and the <a href="/solutions/ebay-image-converter">eBay Image Converter</a> does the same for eBay's format and size rules.</p>
+                        <p class="text-base m-0">The <a href="/vinted-seller">Vinted seller tool</a> bakes the 3:4 smart crop to 1080x1440 and the under-10MB compression into one page, and the <a href="/solutions/ebay-image-converter">eBay Image Resizer and Converter</a> resizes photos to eBay's recommended 1600 pixels and converts them to JPEG.</p>
                     </div>
                 </li>
             </ol>

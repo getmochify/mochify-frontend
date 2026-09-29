@@ -151,7 +151,7 @@ export const squishParams = [
 		name: 'removeBackground',
 		default: 'false',
 		description:
-			'AI background removal. Output is PNG or WebP with an alpha channel; JPEG outputs flatten to white. Available on every plan, including Free. Accepts <code>1</code> or <code>true</code>.'
+			'AI background removal. Output is PNG, WebP or AVIF with an alpha channel; JPEG outputs flatten to white. Available on every plan, including Free. Accepts <code>1</code> or <code>true</code>.'
 	},
 	{
 		name: 'rotate',

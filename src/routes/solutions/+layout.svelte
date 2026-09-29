@@ -8,8 +8,8 @@
     const { children } = $props();
 
     const slugNames: Record<string, string> = {
-        'remove-background-avif': 'Remove Background to AVIF',
-        'remove-background-webp': 'Remove Background to WebP',
+        'remove-background-avif': 'AVIF Background Remover',
+        'remove-background-webp': 'WebP Background Remover',
         'hif-to-avif': 'HIF to AVIF',
         'hif-to-jpg': 'HIF to JPG',
         'heif-to-jpg': 'HEIF to JPG',
@@ -21,7 +21,7 @@
         'svg-to-webp': 'SVG to WebP',
         'svg-to-jxl': 'SVG to JXL',
         'mp4-to-webm': 'MP4 to WebM',
-        'ebay-image-converter': 'eBay Image Converter',
+        'ebay-image-converter': 'eBay Image Resizer and Converter',
         'bulk-ai-square-cropper': 'Bulk Square Cropper',
         'sdr-to-hdr': 'SDR to HDR',
     };

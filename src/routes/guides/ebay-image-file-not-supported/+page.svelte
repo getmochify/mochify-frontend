@@ -10,7 +10,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         datePublished: "June 24, 2026",
-        lastUpdated: "September 17, 2026"
+        lastUpdated: "September 29, 2026"
     };
 
     const related = [
@@ -59,7 +59,7 @@
             "@id": "https://mochify.app/guides/ebay-image-file-not-supported"
         },
         "datePublished": "2026-06-24",
-        "dateModified": "2026-09-17",
+        "dateModified": "2026-09-29",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -103,7 +103,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            eBay rejects images in formats its upload tool does not accept, most commonly HEIC files from iPhones, HIF or RAW files from mirrorless cameras, and WebP or AVIF exports from editing software. Converting to JPEG before uploading fixes the error in almost every case.
+            eBay rejects images its upload tool cannot read, most commonly RAW files and the .HIF files professional cameras write, files over its 12MB limit, and, for some sellers, iPhone HEIC photos, even though eBay now lists HEIC as accepted. Converting to JPEG before uploading fixes the error in almost every case.
         </p>
 
         <p class="text-sm text-[#875F42]">Published {metadata.datePublished} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong></p>
@@ -113,11 +113,11 @@
 
         <section id="what-formats-does-ebay-accept" class="scroll-mt-24">
             <SectionHeading>What formats does eBay actually accept?</SectionHeading>
-            <p class="mb-4">eBay's seller upload tool reliably accepts JPEG, PNG, GIF, BMP, and TIFF. Although eBay's developer documentation lists WebP, HEIC, and AVIF as supported at the server level, many sellers report that the web uploader rejects these formats with a "file not supported" message. JPEG is the safest choice for main product photos and is what seller guides consistently recommend.</p>
+            <p class="mb-4">eBay's help page lists JPEG, PNG, GIF, TIFF, BMP, WebP, HEIC and AVIF as accepted formats, at up to 12MB per photo (<a href="https://www.ebay.com/help/selling/listings/adding-pictures-listings?id=4148" target="_blank" rel="noopener noreferrer">eBay: Adding pictures to your listings</a>). In practice, sellers still report HEIC uploads failing on eBay's community forums, so JPEG remains the safest choice for main product photos.</p>
             <p class="mb-4">RAW files from cameras (CR3, ARW, NEF, and similar) and HIF files from professional mirrorless cameras are never accepted. Renaming a HEIC or RAW file with a <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">.jpg</code> extension does not work. eBay checks the actual file data, not just the extension. Mochify's uploader does the same, and when it refuses a file the cause is often not the format at all: <a href="/guides/why-did-my-upload-fail">the upload error guide</a> covers the sidecar and placeholder files behind many of those rejections.</p>
 
             <InfoBox type="tip" title="Good to know">
-                The mismatch between eBay's developer docs (which list WebP and HEIC as supported) and the web uploader (which rejects them in practice) catches a lot of sellers out. When in doubt, export as JPEG.
+                eBay's list of accepted formats has grown to include WebP, HEIC and AVIF, but the list is not the whole story: a camera's .HIF file is still not on it, and HEIC uploads still fail for some sellers. When in doubt, export as JPEG.
             </InfoBox>
         </section>
 
@@ -129,13 +129,13 @@
 
         <section id="fix-it-in-one-step-with-mochify" class="scroll-mt-24">
             <SectionHeading>Fix it in one step with Mochify</SectionHeading>
-            <p class="mb-4">Mochify's <a href="/solutions/ebay-image-converter">eBay Image Converter</a> handles both problems at once. Upload your HEIC, HIF, WebP, or oversized JPEG and describe what you need in plain English. You could type something like:</p>
+            <p class="mb-4">Mochify's <a href="/solutions/ebay-image-converter">eBay image resizer and converter</a> does both in one step: it resizes each photo to eBay's recommended 1600 pixels on the long edge and converts HEIC, HIF, WebP, AVIF and PNG files to high-quality JPEG, with GPS location stripped by default and nothing to type. For anything more specific, ask Magic Flow in the <a href="/flow">web app</a> in plain English, for example:</p>
 
             <div class="bg-[#FFF8F9] border border-pink-100 rounded-2xl px-6 py-5 my-6">
                 <p class="font-mono text-sm text-[#4A2C2C] leading-relaxed">Convert to JPEG, resize to 1600px on the longest side, and keep quality around 85</p>
             </div>
 
-            <p class="mb-4">Mochify interprets that and applies the right settings automatically. Your image is processed in-memory and deleted immediately: nothing is stored. The free plan covers 25 images per month, or 3 a month without signing up, which is enough for occasional listings.</p>
+            <p class="mb-4">Your image is processed in-memory and deleted immediately: nothing is stored. The free plan covers 25 images per month, or 3 a month without signing up, which is enough for occasional listings.</p>
 
             <p class="mb-4">If you also sell on Vinted, photo prep is different there (portrait, not square, and no official spec) - covered in <a href="/guides/vinted-photos-that-sell">our Vinted photo guide</a>.</p>
 

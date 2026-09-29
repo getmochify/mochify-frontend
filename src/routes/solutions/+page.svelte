@@ -88,7 +88,7 @@
                 },
                 {
                     text: 'eBay says "file not supported" or the file is too big: {0}.',
-                    links: [{ href: '/solutions/ebay-image-converter', label: 'eBay Image Converter' }]
+                    links: [{ href: '/solutions/ebay-image-converter', label: 'eBay Image Resizer and Converter' }]
                 }
             ]
         },
@@ -192,7 +192,7 @@
             {
             "@type": "ListItem",
             "position": 1,
-            "name": "eBay Image Converter",
+            "name": "eBay Image Resizer and Converter",
             "url": "https://mochify.app/solutions/ebay-image-converter"
             },
             {

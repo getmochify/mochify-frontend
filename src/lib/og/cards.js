@@ -488,7 +488,8 @@ export const cards = [
 	{
 		path: '/solutions/ebay-image-converter',
 		eyebrow: 'TOOL',
-		title: 'eBay Image Compressor - Optimize Photos for Listings'
+		title: 'eBay Image Resizer and Converter - 1600px JPEG',
+		alt: 'Mochify eBay image resizer and converter'
 	},
 	{
 		path: '/solutions/heif-to-pdf',
@@ -523,12 +524,14 @@ export const cards = [
 	{
 		path: '/solutions/remove-background-avif',
 		eyebrow: 'TOOL',
-		title: 'Remove Background to AVIF - Free & Private'
+		title: 'AVIF Background Remover - Transparent AVIF in One Step',
+		alt: 'Mochify AVIF background remover'
 	},
 	{
 		path: '/solutions/remove-background-webp',
 		eyebrow: 'TOOL',
-		title: 'Remove Background to WebP - Free & Private'
+		title: 'WebP Background Remover - Transparent WebP in One Step',
+		alt: 'Mochify WebP background remover'
 	},
 	{
 		path: '/solutions/sdr-to-hdr',

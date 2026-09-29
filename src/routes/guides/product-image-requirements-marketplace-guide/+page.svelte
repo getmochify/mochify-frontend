@@ -10,7 +10,7 @@
         category: "Image Formats",
         readTime: "17 min read",
         datePublished: "August 6, 2026",
-        lastUpdated: "September 22, 2026"
+        lastUpdated: "September 29, 2026"
     };
 
     const toc = [
@@ -64,7 +64,7 @@
             "@id": "https://mochify.app/guides/product-image-requirements-marketplace-guide"
         },
         "datePublished": "2026-08-06",
-        "dateModified": "2026-09-22",
+        "dateModified": "2026-09-29",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -122,7 +122,7 @@
         "description": "The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted, and Depop - dimensions, formats, file size limits, and what each platform enforces.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-08-06",
-        "dateModified": "2026-09-22"
+        "dateModified": "2026-09-29"
         }
     </script>
 
@@ -248,7 +248,7 @@
             <p>eBay is more lenient than Amazon on content rules - no white background requirement, no precise fill percentage - but it has a clear minimum dimension and a detailed set of upload errors worth knowing.</p>
             <p><strong>Accepted formats:</strong> eBay's developer API (EPS) accepts JPEG, PNG, GIF, BMP, TIFF, AVIF, HEIC, and WebP. The catch: GIF, PNG, and JPEG keep their format on the server; AVIF, HEIC, WebP and other non-JPEG formats are converted to JPEG on upload. So even if you upload HEIC or AVIF, buyers receive a JPEG.</p>
             <p><strong>Dimensions:</strong> The documented minimum is 500 pixels on the longest side. Community guidance from eBay's help resources suggests 1,600 x 1,600 pixels for best zoom quality - this is framed as a recommendation rather than a hard rule, but it's worth treating as the practical target for competitive listings. The hard maximum via the developer API is a combined height + width of 15,000 pixels; images exceeding this are rejected (error code 190202).</p>
-            <p><strong>File size:</strong> The safe cap for manual web-tool uploads is 7 MB per image. The API/EPS limit is 12 MB. If you're managing listings programmatically, use 12 MB as the absolute ceiling; if you're uploading through the standard listing UI, aim to stay under 7 MB.</p>
+            <p><strong>File size:</strong> eBay's listing uploader takes photos up to 12 MB each (<a href="https://www.ebay.com/help/selling/listings/adding-pictures-listings?id=4148" target="_blank" rel="noopener noreferrer">eBay: Adding pictures to your listings</a>), and 12 MB is also the API/EPS limit. A JPEG at around 1,600 px on the long edge sits far below it.</p>
             <p><strong>Picture policy:</strong> eBay prohibits borders, text overlays, marketing graphics, and watermarks on listing photos. Backgrounds don't need to be white, but the guidance emphasizes clean, neutral backgrounds and well-lit images.</p>
             <p><strong>How many images:</strong> Up to 24 images per listing in most categories at no extra cost. Multi-variation listings support up to 12 images per variation. At least one image is required.</p>
             <p><strong>Common errors and their codes</strong> (from eBay's developer documentation):</p>
@@ -258,7 +258,7 @@
                 <li>190203: Unsupported file format (e.g., PSD) - convert to JPEG or PNG first</li>
                 <li>190204: Image URL not HTTPS or not accessible - direct file uploads avoid this</li>
             </ul>
-            <p>If you're running into eBay's format and size requirements at scale, the <a href="https://mochify.app/solutions/ebay-image-converter">eBay Image Converter</a> at Mochify handles conversion to JPEG and compression to under the 12 MB API limit in one step.</p>
+            <p>If you're prepping eBay photos at scale, the <a href="https://mochify.app/solutions/ebay-image-converter">eBay Image Resizer and Converter</a> at Mochify resizes each one to eBay's recommended 1,600 px and converts HEIC, HIF, WebP, AVIF and PNG files to high-quality JPEG in one step.</p>
         </section>
 
         <section id="woocommerce-your-theme-your-rules" class="scroll-mt-24">
@@ -340,7 +340,7 @@
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">eBay</td>
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">500 px (long side)</td>
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">1,600 x 1,600 px</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">7 MB (web UI) / 12 MB (API)</td>
+                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">12 MB</td>
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">JPEG, PNG, GIF, BMP, TIFF, AVIF, HEIC, WebP (non-JPEG converted to JPEG server-side)</td>
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No</td>
                             <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No</td>

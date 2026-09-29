@@ -42,7 +42,7 @@ export const imageTools: SolutionTool[] = [
 		category: 'HDR'
 	},
 	{
-		name: 'Background Remover (WebP)',
+		name: 'WebP Background Remover',
 		slug: 'solutions/remove-background-webp',
 		desc: 'Cut out the subject and download a transparent WebP: AI removal, full alpha, smaller than PNG.',
 		iconPaths: [
@@ -52,7 +52,7 @@ export const imageTools: SolutionTool[] = [
 		category: 'Product and marketplace'
 	},
 	{
-		name: 'Background Remover (AVIF)',
+		name: 'AVIF Background Remover',
 		slug: 'solutions/remove-background-avif',
 		desc: 'Cut out the subject and download a transparent AVIF, with full alpha in a smaller file than PNG.',
 		iconPaths: [
@@ -102,7 +102,7 @@ export const imageTools: SolutionTool[] = [
 		category: 'Product and marketplace'
 	},
 	{
-		name: 'eBay Image Converter',
+		name: 'eBay Image Resizer and Converter',
 		slug: 'solutions/ebay-image-converter',
 		desc: "Fix 'file not supported' errors and stay under the 12MB limit.",
 		iconPaths: [
