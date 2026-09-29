@@ -173,6 +173,18 @@
                         <p class="leading-relaxed text-[#6C3F31]">
                             Your first PDF needs no account; with or without a free account the free tier creates a PDF of up to 3 pages, paid plans go up to 10 pages and Growth is unlimited (up to a 200-page safety ceiling). This page takes up to 20 files per PDF. The same in-memory model applies to the CLI (<code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify auth login</code>), the hosted and local MCP servers and the REST API, which also handle PDF work through <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">POST /v1/pdf</code>; full reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>. Every route converts at api.mochify.app in memory, keeps nothing on disk and writes no logs containing your data.
                         </p>
+                        <p class="leading-relaxed text-[#6C3F31]">
+                            To build the same PDF from a script, send the images to the PDF endpoint with <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">op=create</code>; each image becomes one page, in the order you send them:
+                        </p>
+                        <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/pdf?op=create&amp;page=a4" \
+  -H "Authorization: Bearer $MOCHIFY_KEY" \
+  -F "images=@photo1.jxl" \
+  -F "images=@photo2.jxl" \
+  -F "images=@photo3.jxl" \
+  --output photos.pdf</code></pre>
+                        <p class="leading-relaxed text-[#6C3F31]">
+                            Leave out <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">page=a4</code> to fit each page to its image, or use <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">page=letter</code>. Building a PDF from images works on every plan, including Free.
+                        </p>
                     </div>
                 </div>
 

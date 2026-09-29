@@ -473,7 +473,12 @@ export const cards = [
 		alt: 'Mochify JPG to JXL converter'
 	},
 	{ path: '/pricing', eyebrow: 'MOCHIFY', title: 'Simple, Honest Pricing' },
-	{ path: '/solutions', eyebrow: 'TOOLS', title: 'Compare & Choose the Best Image Optimizer' },
+	{
+		path: '/solutions',
+		eyebrow: 'TOOLS',
+		title: 'Free Image Converters and Tools',
+		alt: 'Mochify image converters and tools'
+	},
 	{
 		path: '/solutions/bulk-ai-square-cropper',
 		eyebrow: 'TOOL',
@@ -493,7 +498,8 @@ export const cards = [
 	{
 		path: '/solutions/heif-to-jpg',
 		eyebrow: 'TOOL',
-		title: 'HEIF to JPG - Convert .heif, .heic and .hif Files'
+		title: 'HEIF to JPG - Convert .heif, .heic and .hif Files',
+		alt: 'Mochify HEIF to JPG converter'
 	},
 	{ path: '/solutions/hif-to-avif', eyebrow: 'TOOL', title: 'Convert HIF to AVIF (Fuji/Canon)' },
 	{ path: '/solutions/hif-to-jpg', eyebrow: 'TOOL', title: 'Convert HIF to JPG (Fuji/Canon)' },

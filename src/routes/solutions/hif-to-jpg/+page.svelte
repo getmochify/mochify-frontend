@@ -1,5 +1,78 @@
 <script lang="ts">
     import ImageUpload from '$lib/components/ImageUpload.svelte';
+    import FaqAccordion from '$lib/components/FaqAccordion.svelte';
+    import { faqSchema, type FaqItem } from '$lib/faq';
+
+    // Moved out of the markup into the shared FaqAccordion so the answers can
+    // carry links and so the FAQPage block below is built from the same array
+    // the page renders. Nothing else on this page changed: it carries most of
+    // the site's search clicks and is the guard in the /heic-to-jpeg experiment.
+    const faqs: FaqItem[] = [
+        {
+            q: 'Do you see my photos?',
+            a: 'No. Your photos travel over HTTPS to our encoder, are converted in memory and discarded as soon as the conversion finishes. Nothing is written to disk and nothing containing your files is logged.'
+        },
+        {
+            q: 'What is the difference?',
+            a: 'HIF stores 10-bit color data in a tiny file. JPG is the 8-bit global standard. Shoots in HIF, share in JPG.'
+        },
+        {
+            q: 'Does this keep Fuji film sims?',
+            a: 'Yes, Mochify preserves Fuji film simulations (Velvia, Classic Chrome, etc.) so your intended look stays intact.'
+        },
+        {
+            q: 'What about EXIF metadata?',
+            a: "By default, we preserve all camera metadata (ISO, Shutter, GPS). If you want to remove it for privacy, add your files and then switch on the 'Strip EXIF' toggle before converting."
+        },
+        {
+            q: 'How do I convert a HIF file to JPG?',
+            a: [
+                'Drop the .HIF files into the box above and download the JPGs; there is nothing to install. Up to 3 files per batch with no signup or on a free account, and 25 per batch on Seller and Pro. Without a converter, Canon bodies convert HEIF to JPEG in the camera\'s Playback menu, Canon\'s Digital Photo Professional and Sony\'s Imaging Edge Desktop convert on a computer, and a Mac exports JPEG from Preview with File, Export. The ',
+                {
+                    href: '/guides/hif-to-jpg-canon-sony-fujifilm',
+                    label: 'HIF to JPG guide for Canon, Sony and Fujifilm'
+                },
+                ' walks through each route.'
+            ]
+        },
+        {
+            q: 'What is a HIF file?',
+            a: [
+                'A still photo that a Canon, Sony or Fujifilm mirrorless camera has saved in the HEIF container, compressed with HEVC and usually 10 bits per channel. It is the same family of format Apple uses for .HEIC iPhone photos, under the camera makers\' extension. More in ',
+                { href: '/guides/what-is-a-hif-file', label: 'What is a HIF file?' }
+            ]
+        },
+        {
+            q: 'Is HIF better than JPEG?',
+            a: [
+                "For capture, often yes: a 10-bit HIF records 1,024 tonal steps per channel against JPEG's 256, in a smaller file, which shows in skies and gradients and leaves more room when editing. For sharing, no: a JPG opens everywhere and a HIF does not, which is why many photographers shoot HIF and deliver JPG. To keep the 10 bits for the web, ",
+                { href: '/solutions/hif-to-avif', label: 'HIF to AVIF' },
+                ' does that. The trade-off is covered in ',
+                {
+                    href: '/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera',
+                    label: 'Should I shoot HEIF or JPEG on my mirrorless camera?'
+                }
+            ]
+        },
+        {
+            q: 'How do I open a .HIF file without converting it?',
+            a: [
+                "On a Mac it opens in Preview and Photos with no setup. On Windows 11 or 10, install the HEIF Image Extension and the HEVC Video Extensions ($0.99) from the Microsoft Store and Photos will open it; without the second one you get an error. Canon's Digital Photo Professional and Sony's Imaging Edge Desktop open their own cameras' files. Opening is not sharing, though: a marketplace, CMS or print service that wants JPEG still needs a converted file. Every Windows fix is in ",
+                { href: '/guides/open-heif-files-on-windows', label: 'how to open HEIF files on Windows' },
+                '.'
+            ]
+        },
+        {
+            q: 'Do I need to download software to convert HIF to JPG?',
+            a: "No. This converter runs in your browser on Windows, Mac, Linux, iPhone or Android, and the conversion happens on our encoder, so there is nothing to install. If you convert whole cards regularly, the Mochify CLI converts a folder from the terminal with one plain-English prompt, and Canon's and Sony's desktop apps are the offline route."
+        }
+    ];
+
+    const faqLd = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqSchema(faqs)
+    };
 </script>
 
 <svelte:head>
@@ -32,6 +105,8 @@
             "softwareRequirements": "Modern Web Browser"
         }
     </script>
+
+    {@html `<script type="application/ld+json">${JSON.stringify(faqLd)}<\/script>`}
 </svelte:head>
 
 <div class="relative max-w-5xl mx-auto px-4 pt-7 pb-12 sm:px-6 lg:px-8 w-full flex-grow">
@@ -119,26 +194,7 @@
                 </div>
             </div>
 
-            <div class="space-y-4">                
-                {#each [
-                    { q: "Do you see my photos?", a: "Never. Your images are processed in RAM and deleted the instant you download them." },
-                    { q: "What is the difference?", a: "HIF stores 10-bit color data in a tiny file. JPG is the 8-bit global standard. Shoots in HIF, share in JPG." },
-                    { q: "Does this keep Fuji film sims?", a: "Yes, Mochify preserves Fuji film simulations (Velvia, Classic Chrome, etc.) so your intended look stays intact." },
-                    { q: "What about EXIF metadata?", a: "By default, we preserve all camera metadata (ISO, Shutter, GPS). If you want to remove it for privacy, add your files and then switch on the 'Strip EXIF' toggle before converting."}
-                ] as faq}
-                    <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md transition-all">
-                        <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-[#4A2C2C] list-none select-none">
-                            <h3 class="m-0 text-base font-bold text-[#4A2C2C]">{faq.q}</h3>
-                            <span class="text-[#7E685E] transition-transform duration-300 group-open:rotate-180">
-                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7" /></svg>
-                            </span>
-                        </summary>
-                        <div class="px-6 pb-6 text-base text-[#6C3F31] leading-relaxed">
-                            {faq.a}
-                        </div>
-                    </details>
-                {/each}
-            </div>
+            <FaqAccordion {faqs} />
         </div>
         </section>
 

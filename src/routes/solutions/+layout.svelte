@@ -47,25 +47,25 @@
             : []
     );
 
+    // The hub gets a two-item trail of its own; only the visible Breadcrumb
+    // below is child-page-only.
     const breadcrumbLd = $derived(
-        isChildPage
-            ? JSON.stringify({
-                  '@context': 'https://schema.org',
-                  '@type': 'BreadcrumbList',
-                  itemListElement: [
-                      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mochify.app' },
-                      { '@type': 'ListItem', position: 2, name: 'Solutions', item: 'https://mochify.app/solutions' },
-                      { '@type': 'ListItem', position: 3, name: pageName, item: `https://mochify.app${page.url.pathname}` },
-                  ],
-              })
-            : ''
+        JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mochify.app' },
+                { '@type': 'ListItem', position: 2, name: 'Solutions', item: 'https://mochify.app/solutions' },
+                ...(isChildPage
+                    ? [{ '@type': 'ListItem', position: 3, name: pageName, item: `https://mochify.app${page.url.pathname}` }]
+                    : []),
+            ],
+        })
     );
 </script>
 
 <svelte:head>
-    {#if isChildPage}
-        {@html `<script type="application/ld+json">${breadcrumbLd}<\/script>`}
-    {/if}
+    {@html `<script type="application/ld+json">${breadcrumbLd}<\/script>`}
 </svelte:head>
 
 <div class="flex-1 bg-[#FDFBF7] min-h-screen flex flex-col">

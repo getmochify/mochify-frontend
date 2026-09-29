@@ -1,7 +1,10 @@
 <script lang="ts">
     import ImageUpload from '$lib/components/ImageUpload.svelte';
     import FaqAccordion from '$lib/components/FaqAccordion.svelte';
-    import type { FaqItem } from '$lib/faq';
+    import { faqSchema, type FaqItem } from '$lib/faq';
+
+    const metaDescription =
+        'Convert HEIF photos to JPG online, with .heif, .heic and .hif files in one batch. Free, no signup, processed in memory and never saved to disk.';
 
     // Extension triage. This is the reason this page exists separately from
     // /solutions/hif-to-jpg (pro cameras) and /heic-to-jpeg (Apple): people who
@@ -83,59 +86,60 @@
         {
             q: 'What happens to my files after conversion?',
             a: 'They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, so turn the Strip EXIF toggle off before converting if you need the camera data kept.'
+        },
+        {
+            q: 'What does HEIF stand for?',
+            a: "High Efficiency Image File Format. It is a container standard (ISO/IEC 23008-12) developed by MPEG, and Apple's .heic, the camera makers' .hif and the generic .heif are all HEIF files underneath."
+        },
+        {
+            q: 'Is HEIF better quality than JPEG?',
+            a: 'At the same file size, usually yes: the HEVC compression inside most HEIF files keeps more detail than JPEG and can store 10 bits per channel where JPEG stores 8, which is why a HEIF is often around half the size of a JPEG that looks the same. The catch is compatibility, not quality: a JPG opens everywhere and a HEIF does not. In normal viewing a converted photo looks the same; the tonal precision beyond 8 bits is what goes.'
         }
     ];
+
+    const softwareLd = {
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: 'Mochify HEIF to JPG Converter',
+        operatingSystem: 'Any',
+        applicationCategory: 'MultimediaApplication',
+        applicationSubCategory: 'Image Converter',
+        url: 'https://mochify.app/solutions/heif-to-jpg',
+        description: metaDescription,
+        offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+            availability: 'https://schema.org/InStock'
+        },
+        featureList: [
+            'Fast browser-based .heif to .jpg conversion',
+            'Batch convert multiple .heif files at once',
+            'No Microsoft Store HEVC codec purchase required',
+            'Optional EXIF and GPS stripping',
+            'Processed in memory and discarded, never written to disk'
+        ],
+        softwareRequirements: 'Modern Web Browser'
+    };
+
+    // Built from the same `faqs` array the accordion renders, so the schema
+    // cannot drift from the visible answers the way the hand-written block did.
+    const faqLd = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqSchema(faqs)
+    };
 </script>
 
 <svelte:head>
-    <title>HEIF to JPG Converter - Fast, Free &amp; Private | Mochify</title>
-    <meta name="description" content="Convert standard .heif images to universally compatible JPEGs in seconds. Free, in-memory processing with optional EXIF stripping.">
+    <title>HEIF to JPG Converter - Free, Online, No Signup | Mochify</title>
+    <meta name="description" content={metaDescription}>
     <meta property="og:title" content="HEIF to JPG Converter - Mochify">
-    <meta property="og:description" content="Convert HEIF images to JPG in seconds. Free, processed in memory, never stored.">
+    <meta property="og:description" content={metaDescription} />
     <link rel="canonical" href="https://mochify.app/solutions/heif-to-jpg">
 
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": "Mochify HEIF to JPG Converter",
-            "operatingSystem": "Any",
-            "applicationCategory": "MultimediaApplication",
-            "applicationSubCategory": "Image Converter",
-            "url": "https://mochify.app/solutions/heif-to-jpg",
-            "description": "Convert HEIF container images to JPEG without installing platform codecs.",
-            "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD",
-                "availability": "https://schema.org/InStock"
-            },
-            "featureList": [
-                "Fast browser-based .heif to .jpg conversion",
-                "Batch convert multiple .heif files at once",
-                "No Microsoft Store HEVC codec purchase required",
-                "Optional EXIF and GPS stripping",
-                "Processed in memory and discarded, never written to disk"
-            ],
-            "softwareRequirements": "Modern Web Browser"
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-                { "@type": "Question", "name": "Is HEIF the same thing as HEIC?", "acceptedAnswer": { "@type": "Answer", "text": "HEIF is the container standard, ISO/IEC 23008-12. HEIC is what Apple calls a HEIF file whose image data is HEVC-encoded. Camera makers call the same thing HIF. The wrapper is identical in all three cases, which is why one converter handles the lot." } },
-                { "@type": "Question", "name": "Why does my HEIF open on my phone but not my laptop?", "acceptedAnswer": { "@type": "Answer", "text": "Phones ship a hardware HEVC decoder and the operating system wires it into the photo viewer. Desktops often have the hardware but not the licensed software decoder, so the file is readable as a container and unreadable as an image. Converting to JPG sidesteps the codec question entirely." } },
-                { "@type": "Question", "name": "My iPhone photos say HEIF. Is this the right converter?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, they convert here. An iPhone saves HEIF files as .heic, and some exports and downloads label them .heif; either way the file is the same container and this page reads it. The HEIC to JPG page has the iPhone-specific notes, including how to stop the phone saving HEIC in the first place." } },
-                { "@type": "Question", "name": "HEIF is a container, so what is actually inside it?", "acceptedAnswer": { "@type": "Answer", "text": "Usually HEVC, which is what makes licensing awkward. The same container can also hold AV1 data, in which case the file is what everyone calls AVIF, or even plain JPEG data. That is why a HEIF that will not open has a different answer on different machines." } },
-                { "@type": "Question", "name": "Will converting change how the photo looks?", "acceptedAnswer": { "@type": "Answer", "text": "JPEG is 8-bit, so a 10-bit HEIF loses tonal precision in principle. At sensible quality settings the difference is invisible in normal viewing. The exception is HDR source material, where mapping down to standard range is a genuine change in appearance rather than a rounding error." } },
-                { "@type": "Question", "name": "Can I convert a folder of multiple HEIF files in one go?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Drop in multiple .heif files and every one comes back as a JPEG. Batch size depends on your plan." } },
-                { "@type": "Question", "name": "What happens to my files after conversion?", "acceptedAnswer": { "@type": "Answer", "text": "They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, so turn the Strip EXIF toggle off before converting if you need the camera data kept." } }
-            ]
-        }
-    </script>
+    {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}
+    {@html `<script type="application/ld+json">${JSON.stringify(faqLd)}<\/script>`}
 </svelte:head>
 
 <div class="relative max-w-5xl mx-auto px-4 pt-7 pb-12 sm:px-6 lg:px-8 w-full flex-grow">
@@ -164,7 +168,7 @@
         </h1>
 
         <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-            Universal converter for the HEIF standard. Convert desktop and Android <strong class="text-[#4A2C2C]">.heif</strong> images to JPEGs instantly. No codec purchase, no software install.
+            Universal converter for the HEIF standard. Convert <strong class="text-[#4A2C2C]">.heif</strong> images from desktop editors, phones and image pipelines to JPG, with .heic and .hif files welcome in the same batch. No codec purchase, no software install.
         </p>
     </div>
 
@@ -175,9 +179,33 @@
         <ImageUpload types=".HEIF, .HEIC, .HIF" output="jpg" showTypes={false} queryParams="photography=1&quality=85" showExifOption={true} showDayPass={true} />
     </div>
 
+    <section class="mt-10 max-w-4xl mx-auto">
+        <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">How to convert HEIF to JPG</h2>
+        <ol class="space-y-4">
+            <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
+                <span class="shrink-0 w-8 h-8 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4338CA] font-black text-sm flex items-center justify-center">1</span>
+                <p class="leading-relaxed text-[#6C3F31]">
+                    <strong class="text-[#4A2C2C]">Drop your files</strong> in the box above, or click browse. .heif, .heic and .hif files can go in the same batch: up to 3 files per batch with no signup or on a free account, 25 per batch on Seller and Pro.
+                </p>
+            </li>
+            <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
+                <span class="shrink-0 w-8 h-8 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4338CA] font-black text-sm flex items-center justify-center">2</span>
+                <p class="leading-relaxed text-[#6C3F31]">
+                    <strong class="text-[#4A2C2C]">Choose whether to keep the metadata.</strong> Once your files are in, a Strip EXIF switch appears; that is the only choice on this page. Each file is then decoded and re-encoded as a JPG with Google's jpegli encoder.
+                </p>
+            </li>
+            <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
+                <span class="shrink-0 w-8 h-8 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4338CA] font-black text-sm flex items-center justify-center">3</span>
+                <p class="leading-relaxed text-[#6C3F31]">
+                    <strong class="text-[#4A2C2C]">Download your JPGs.</strong> They open in Windows Photos, Preview, every browser and every upload form, none of which need to know what HEIF is.
+                </p>
+            </li>
+        </ol>
+    </section>
+
     <!-- Extension triage: the anti-duplication centrepiece. Routes visitors to the
          Apple and pro-camera pages rather than competing with them. -->
-    <section class="mt-10 max-w-4xl mx-auto">
+    <section class="mt-20 max-w-4xl mx-auto">
         <h2 class="text-2xl font-black text-[#4A2C2C] mb-2">Which HEIF have you actually got?</h2>
         <p class="text-[#6C3F31] leading-relaxed mb-7 max-w-2xl">
             All three extensions below are the same container with different branding on the outside, and all three convert here. If your file came from one of the two specialist sources, those pages carry notes this one does not.
@@ -210,42 +238,83 @@
     </section>
 
     <section class="mt-20 max-w-4xl mx-auto">
-        <div class="grid md:grid-cols-2 gap-12 items-start">
-            <div class="space-y-8">
-                <div class="space-y-4">
-                    <h2 class="text-2xl font-black text-[#4A2C2C]">Why HEIF files refuse to open</h2>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        HEIF is only the wrapper. What sits inside is almost always <strong class="text-[#7E685E]">HEVC</strong>, a patent-encumbered codec, and that is the whole problem: your machine can read the container perfectly well and still have no legal right to decode the picture.
-                    </p>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        This is why the same file opens instantly on a phone and shows a grey placeholder on a laptop. Converting to JPG removes the dependency rather than working around it, which is why it stays the fastest fix.
-                    </p>
-                </div>
-
-                <div class="space-y-3">
-                    {#each openIssues as issue (issue.platform)}
-                        <div class="bg-white p-5 rounded-2xl border border-pink-50 shadow-sm">
-                            <h3 class="font-black text-[#4A2C2C] text-sm mb-1.5">{issue.platform}</h3>
-                            <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">
-                                {issue.detail}{#if issue.moreHref}
-                                    {' '}{issue.moreLabel}
-                                    <a href={issue.moreHref} class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">{issue.moreText}</a>.
-                                {/if}
-                            </p>
-                        </div>
-                    {/each}
-                </div>
-
-                <div class="bg-white p-7 rounded-2xl border border-pink-50 shadow-sm">
-                    <h3 class="font-bold text-[#4A2C2C] mb-4 text-sm uppercase tracking-widest opacity-70">Where stray .heif files come from</h3>
-                    <p class="text-sm text-[#6C3F31] leading-relaxed">
-                        Not every HEIF arrives from a camera roll. Desktop editors such as Affinity Photo and Adobe Lightroom write the format on supported platforms, Android handsets increasingly default to it to save storage, and cloud services sometimes hand back a plain <span class="font-mono font-bold text-[#4A2C2C]">.heif</span> when you download an original. Files also get renamed in transit, so an extension is a hint rather than a guarantee. Drop it in and the converter reads the actual container.
-                    </p>
-                </div>
+        <div class="space-y-8">
+            <div class="space-y-4">
+                <h2 class="text-2xl font-black text-[#4A2C2C]">Why HEIF files refuse to open</h2>
+                <p class="leading-relaxed text-[#6C3F31]">
+                    HEIF is only the wrapper. What sits inside is almost always <strong class="text-[#7E685E]">HEVC</strong>, a patent-encumbered codec, and that is the whole problem: your machine can read the container perfectly well and still have no legal right to decode the picture.
+                </p>
+                <p class="leading-relaxed text-[#6C3F31]">
+                    This is why the same file opens instantly on a phone and shows a gray placeholder on a laptop. Converting to JPG removes the dependency rather than working around it, which is why it stays the fastest fix.
+                </p>
             </div>
 
-            <FaqAccordion {faqs} />
+            <div class="grid sm:grid-cols-2 gap-3 items-start">
+                {#each openIssues as issue (issue.platform)}
+                    <div class="bg-white p-5 rounded-2xl border border-pink-50 shadow-sm">
+                        <h3 class="font-black text-[#4A2C2C] text-sm mb-1.5">{issue.platform}</h3>
+                        <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">
+                            {issue.detail}{#if issue.moreHref}
+                                {' '}{issue.moreLabel}
+                                <a href={issue.moreHref} class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">{issue.moreText}</a>.
+                            {/if}
+                        </p>
+                    </div>
+                {/each}
+            </div>
+
+            <div class="bg-white p-7 rounded-2xl border border-pink-50 shadow-sm">
+                <h3 class="font-bold text-[#4A2C2C] mb-4 text-sm uppercase tracking-widest opacity-70">Where stray .heif files come from</h3>
+                <p class="text-sm text-[#6C3F31] leading-relaxed">
+                    Not every HEIF arrives from a camera roll. Desktop editors such as Affinity Photo and Adobe Lightroom write the format on supported platforms, some Android phones save it when a high-efficiency photo setting is switched on (Samsung Galaxy phones write .heic), and cloud services sometimes hand back a plain <span class="font-mono font-bold text-[#4A2C2C]">.heif</span> when you download an original. Files also get renamed in transit, so an extension is a hint rather than a guarantee. Drop it in and the converter reads the actual container.
+                </p>
+            </div>
         </div>
+    </section>
+
+    <section class="mt-20 max-w-4xl mx-auto space-y-4">
+        <h2 class="text-2xl font-black text-[#4A2C2C]">Convert HEIF to JPG without a converter</h2>
+        <p class="leading-relaxed text-[#6C3F31]">
+            You can, one file at a time, once your system can decode the file.
+        </p>
+        <p class="leading-relaxed text-[#6C3F31]">
+            <strong class="text-[#4A2C2C]">Windows 11 or 10.</strong> Install the HEIF Image Extension and the HEVC Video Extensions ($0.99) from the Microsoft Store, open the file in Photos, then use the three-dots menu, Save as, and choose JPG. Without the paid extension, Photos opens the container and shows nothing. Every fix is in <a href="/guides/open-heif-files-on-windows" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">how to open HEIF files on Windows</a>.
+        </p>
+        <p class="leading-relaxed text-[#6C3F31]">
+            <strong class="text-[#4A2C2C]">Mac.</strong> Right-click the files in Finder, choose Quick Actions, then Convert Image, and pick JPEG (macOS Monterey or later). Or open one in Preview and use File, Export. Both use the system encoder with no quality control.
+        </p>
+        <p class="leading-relaxed text-[#6C3F31]">
+            <strong class="text-[#4A2C2C]">iPhone.</strong> For a photo you already have, save it to the Files app, touch and hold it, choose Quick Actions, then Convert Image, and pick JPEG. To stop new photos being HEIF at all, go to Settings, Camera, Formats and choose Most Compatible. The <a href="/heic-to-jpeg" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">HEIC to JPG converter</a> has the rest of the iPhone routes.
+        </p>
+        <p class="leading-relaxed text-[#6C3F31]">
+            <strong class="text-[#4A2C2C]">Android.</strong> On Samsung Galaxy phones, open the Camera, then Settings, Advanced picture options, and switch off High efficiency pictures; new photos save as JPEG. Photos you already took stay HEIF and still need converting.
+        </p>
+        <p class="leading-relaxed text-[#6C3F31]">
+            <strong class="text-[#4A2C2C]">Canon, Sony and Fujifilm cameras.</strong> Canon bodies convert in the Playback menu, and Canon's Digital Photo Professional and Sony's Imaging Edge Desktop convert on a computer. The <a href="/guides/heif-to-jpg-complete-guide" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">HEIF to JPG guide</a> covers each maker, and the <a href="/solutions/hif-to-jpg" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">HIF to JPG converter</a> has the notes for 10-bit camera files.
+        </p>
+        <p class="leading-relaxed text-[#6C3F31]">
+            None of these handles a mixed folder in one pass, which is where a batch converter earns its keep.
+        </p>
+    </section>
+
+    <section class="mt-20 max-w-4xl mx-auto space-y-4">
+        <h2 class="text-2xl font-black text-[#4A2C2C]">Bulk, batch and automated HEIF to JPG</h2>
+        <p class="leading-relaxed text-[#6C3F31]">
+            A folder of mixed .heif, .heic and .hif files is the usual case. Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. The same conversion runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify auth login</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
+        </p>
+        <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=jpg" \
+  -H "Content-Type: image/heif" \
+  -H "Authorization: Bearer $MOCHIFY_KEY" \
+  --data-binary @photo.heif \
+  -o photo.jpg</code></pre>
+        <p class="leading-relaxed text-[#6C3F31]">
+            Files travel over HTTPS to api.mochify.app, are converted in memory and discarded. Full parameter reference in the <a href="/docs" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>. Need the photos in one document instead? <a href="/solutions/heif-to-pdf" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">HEIC/HEIF to PDF</a> bundles up to 20 of them.
+        </p>
+    </section>
+
+    <section class="mt-20 max-w-4xl mx-auto">
+        <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">Frequently asked questions</h2>
+        <FaqAccordion {faqs} class="grid md:grid-cols-2 gap-4 items-start" />
     </section>
 
     <section class="mt-20 mb-8 max-w-2xl mx-auto">
