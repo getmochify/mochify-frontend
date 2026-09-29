@@ -12,7 +12,7 @@
         category: "Image Formats",
         readTime: "12 min read",
         datePublished: "June 29, 2026",
-        lastUpdated: "September 26, 2026"
+        lastUpdated: "September 29, 2026"
     };
 
     const related = [
@@ -114,7 +114,7 @@
             "@id": "https://mochify.app/guides/heic-to-pdf-iphone-photos"
         },
         "datePublished": "2026-06-29",
-        "dateModified": "2026-09-26",
+        "dateModified": "2026-09-29",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -423,7 +423,7 @@
                         <tr class="hover:bg-pink-50/30 transition-colors">
                             <td class="px-5 py-3 text-[#6C3F31]">Mochify</td>
                             <td class="px-5 py-3 text-[#6C3F31]"><a href="/solutions/heif-to-pdf">mochify.app/solutions/heif-to-pdf</a></td>
-                            <td class="px-5 py-3 text-[#6C3F31]">Up to 20 files per conversion; 3 pages on Free, 10 on Seller and Pro, unlimited on Growth</td>
+                            <td class="px-5 py-3 text-[#6C3F31]">3 photos per PDF on the free plan; 20 on any paid plan or a Day Pass</td>
                         </tr>
                     </tbody>
                 </table>
@@ -441,7 +441,7 @@
                     <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
                 </h2>
                 <p class="text-[#6C3F31] text-base mb-8 leading-relaxed">
-                    The Mochify HEIC-to-PDF tool at <a href="/solutions/heif-to-pdf" class="text-[#D81B60] hover:text-[#F06292] font-semibold transition-colors">mochify.app/solutions/heif-to-pdf</a> bundles iPhone and iPad <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded text-sm border border-pink-100">.heic</code> files into a single, shareable multi-page PDF in seconds. Useful when you want a clean result without touching a print dialog, or when native methods produce PDFs with awkward margins or page sizes. For WebP source images, use the same tool to <a href="https://mochify.app/solutions/webp-to-pdf" class="text-[#D81B60] hover:text-[#F06292] font-semibold transition-colors">combine WebP images into a PDF</a>.
+                    Mochify's <a href="/solutions/heif-to-pdf" class="text-[#D81B60] hover:text-[#F06292] font-semibold transition-colors">HEIC to PDF converter</a> bundles iPhone and iPad <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded text-sm border border-pink-100">.heic</code> files into a single, shareable multi-page PDF in seconds. Useful when you want a clean result without touching a print dialog, or when native methods produce PDFs with awkward margins or page sizes. For WebP source images, use the same tool to <a href="https://mochify.app/solutions/webp-to-pdf" class="text-[#D81B60] hover:text-[#F06292] font-semibold transition-colors">combine WebP images into a PDF</a>.
                 </p>
 
                 <ol class="space-y-5 list-none p-0 m-0 mb-8">
@@ -454,7 +454,7 @@
                     <li class="flex items-start gap-4">
                         <span class="flex-shrink-0 w-8 h-8 bg-[#F06292] text-white rounded-full flex items-center justify-center font-black text-sm">2</span>
                         <div class="pt-1 text-[#6C3F31] text-base">
-                            <strong class="text-[#4A2C2C]">Drag in your .heic files or use the file picker.</strong> Up to 20 files per conversion. Seller and Pro plans raise the file size limit to 75 MB and the batch size to 25 files. The free tier builds a PDF of up to 3 pages; Seller and Pro go up to 10 pages.
+                            <strong class="text-[#4A2C2C]">Drag in your .heic files or use the file picker.</strong> Without an account or on a free account, a PDF can hold up to 3 photos; a paid plan or a Day Pass takes up to 20 per PDF, and each photo becomes one page in the order you add it.
                         </div>
                     </li>
                     <li class="flex items-start gap-4">

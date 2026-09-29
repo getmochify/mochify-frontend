@@ -9,11 +9,15 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is this JXL to PDF converter free?',
-            a: 'Yes for your first PDF: no signup, up to 20 files, with the free tier creating a PDF of up to 3 pages. Paid plans go up to 10 pages, and Growth is unlimited (up to a 200-page safety ceiling); see the pricing page for the current limits.'
+            a: [
+                'Yes. Without an account or on a free account, you can build a PDF from up to 3 images. A paid plan, or a $2 Day Pass with no account, takes up to 20 images per PDF; the ',
+                { href: '/pricing', label: 'pricing page' },
+                ' has the plans.'
+            ]
         },
         {
             q: 'Do I need an account?',
-            a: 'No. The page works without signing up, within the same free limits as any other Mochify conversion. Create a free account or upgrade to a paid plan for more pages per PDF.'
+            a: 'No. The page works without signing up, within the same free limits as any other Mochify conversion, and a PDF can hold up to 3 images. A free account gives you more conversions each month, not more pages per PDF; a paid plan or a Day Pass takes up to 20 images per PDF.'
         },
         {
             q: 'Does converting to PDF reduce the quality of my JXL images?',
@@ -29,7 +33,7 @@
         },
         {
             q: 'How many images can I combine?',
-            a: 'Up to 20 files per PDF on this page. The free tier creates a PDF of up to 3 pages. Paid plans go up to 10 pages, and Growth is unlimited (up to a 200-page safety ceiling). Each image becomes one page.'
+            a: 'Up to 20 per PDF on any paid plan, Growth included, and on a Day Pass. The free plan takes 3, with or without a free account. Each image becomes one page, in the order you add them.'
         },
         {
             q: 'How do I open a JXL file without converting it?',
@@ -120,7 +124,7 @@
             </h1>
 
             <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-                Drop JPEG XL images here and get one PDF back, a page per image in the order you added them, up to 20 files at a time. Each image is stored in the PDF as a standard JPEG, so the document opens in any PDF reader, mail client or print shop, including the many that cannot open a .jxl file at all. The PDF is built in memory at api.mochify.app and wiped as soon as your download is ready.
+                Drop JPEG XL images here and get one PDF back, a page per image in the order you added them, up to 20 files at a time on a paid plan or Day Pass (3 on the free plan). Each image is stored in the PDF as a standard JPEG, so the document opens in any PDF reader, mail client or print shop, including the many that cannot open a .jxl file at all. The PDF is built in memory at api.mochify.app and wiped as soon as your download is ready.
             </p>
         </div>
 
@@ -171,7 +175,7 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl font-bold text-[#4A2C2C]">Limits, bulk and automation</h2>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            Your first PDF needs no account; with or without a free account the free tier creates a PDF of up to 3 pages, paid plans go up to 10 pages and Growth is unlimited (up to a 200-page safety ceiling). This page takes up to 20 files per PDF. The same in-memory model applies to the CLI (<code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify auth login</code>), the hosted and local MCP servers and the REST API, which also handle PDF work through <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">POST /v1/pdf</code>; full reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>. Every route converts at api.mochify.app in memory, keeps nothing on disk and writes no logs containing your data.
+                            Your first PDF needs no account. Without an account or on a free account, a PDF can hold up to 3 images; every paid plan, Growth included, and the Day Pass take up to 20 images per PDF on this page. The same in-memory model applies to the CLI (<code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify auth login</code>), the hosted and local MCP servers and the REST API, which also handle PDF work through <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">POST /v1/pdf</code>; full reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>. Every route converts at api.mochify.app in memory, keeps nothing on disk and writes no logs containing your data.
                         </p>
                         <p class="leading-relaxed text-[#6C3F31]">
                             To build the same PDF from a script, send the images to the PDF endpoint with <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">op=create</code>; each image becomes one page, in the order you send them:

@@ -1,0 +1,22 @@
+-- Backstop for the Resend contact mirror.
+--
+-- Apply with:
+--   wrangler d1 execute mochify-auth --local  --file=migrations/0004_contact_sync_backstop.sql
+--   wrangler d1 execute mochify-auth --remote --file=migrations/0004_contact_sync_backstop.sql
+--
+-- Email/password signups only reach Resend through better-auth's
+-- afterEmailVerification hook, and syncContactFromProfile swallows its errors on
+-- purpose so a Resend outage can never fail a signup. Together that made the
+-- sync a single un-retried attempt: one transient failure and the contact was
+-- missing permanently, with nothing but a console.error to show for it.
+--
+-- This column records the last time a sync for this user actually succeeded.
+-- The session-create hook reads it on sign-in and re-runs the sync when it is
+-- NULL, so anyone who slipped through is repaired the next time they log in.
+-- NULL therefore means "never confirmed", which is the correct starting value
+-- for every existing row: the first login after this ships costs one Resend
+-- read per user, finds the contact already correct, and stamps the column.
+--
+-- D1 has no `ADD COLUMN IF NOT EXISTS`, so this statement errors harmlessly if
+-- the migration is applied twice.
+ALTER TABLE profile ADD COLUMN contact_synced_at INTEGER;

@@ -17,7 +17,7 @@
 		category: 'Image Formats',
 		readTime: '19 min read',
 		date: 'September 22, 2026',
-		lastUpdated: 'September 23, 2026'
+		lastUpdated: 'September 29, 2026'
 	};
 
 	const toc = [
@@ -158,7 +158,7 @@
 				"@id": "https://mochify.app/guides/save-webp-as-jpg-chrome"
 			},
 			"datePublished": "2026-09-22",
-			"dateModified": "2026-09-23",
+			"dateModified": "2026-09-29",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -527,7 +527,8 @@
 				and describe the result you want in plain language, rather than hunting for the setting that
 				produces it. For a straight format change you don't need the prompt at all: the same menu
 				has a Convert to list (JPG, WebP, AVIF, JPEG XL, PNG or PDF) that saves the file straight to
-				your Downloads folder.
+				your Downloads folder. To put several saved WebP images into one PDF instead, use the
+				<a href="/solutions/webp-to-pdf" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">WebP to PDF converter</a>.
 			</p>
 
 			<GlassPanel>

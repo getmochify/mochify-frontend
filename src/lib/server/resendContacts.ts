@@ -223,10 +223,62 @@ export async function syncContactFromProfile(
 	try {
 		const row = await loadContactRow(db, userId);
 		if (!row?.email) return;
-		await syncContact(resendKey, contactStateFrom(row));
+		const synced = await syncContact(resendKey, contactStateFrom(row));
+		if (synced) await markContactSynced(db, userId);
+		else console.error('[contacts] profile sync did not complete for user', userId);
 	} catch (e) {
-		console.error('[contacts] profile sync failed:', e);
+		console.error('[contacts] profile sync failed for user', userId, e);
 	}
+}
+
+/**
+ * Stamp `profile.contact_synced_at` after a sync that actually succeeded.
+ *
+ * This is what the sign-in backstop in auth.ts reads: NULL means "we have never
+ * confirmed this person reached Resend", which is the state a swallowed failure
+ * leaves behind. Written only on success, so a failed sync stays retryable.
+ *
+ * Upserts because a brand new free account has no profile row yet — the same
+ * assumption setUseCase and setMarketingPreference make, with the same defaults.
+ * Never throws: this is bookkeeping for a mirror, and failing it must not fail
+ * the sign-in that triggered it. The cost of losing the stamp is one redundant
+ * Resend read on the next login.
+ */
+async function markContactSynced(db: D1Database, userId: string): Promise<void> {
+	const now = Date.now();
+	try {
+		await db
+			.prepare(
+				`INSERT INTO profile (user_id, plan, ops_limit, contact_synced_at, created_at, updated_at)
+				 VALUES (?, 'free', 25, ?, ?, ?)
+				 ON CONFLICT(user_id) DO UPDATE SET contact_synced_at = ?, updated_at = ?`
+			)
+			.bind(userId, now, now, now, now, now)
+			.run();
+	} catch (e) {
+		console.error('[contacts] could not stamp contact_synced_at for user', userId, e);
+	}
+}
+
+/**
+ * Has this user's contact ever been confirmed in Resend?
+ *
+ * Answers from one read that also carries `emailVerified`, because the backstop
+ * needs both and the sign-in path should not pay for two queries. An unverified
+ * address is deliberately NOT eligible: that is the same gate the create hook
+ * applies, and syncing one here would put typo'd and disposable addresses on the
+ * list that the create hook exists to keep off it.
+ */
+export async function needsContactBackstop(db: D1Database, userId: string): Promise<boolean> {
+	const row = await db
+		.prepare(
+			`SELECT u.emailVerified AS email_verified, p.contact_synced_at AS synced_at
+			 FROM user u LEFT JOIN profile p ON p.user_id = u.id
+			 WHERE u.id = ? LIMIT 1`
+		)
+		.bind(userId)
+		.first<{ email_verified: number | null; synced_at: number | null }>();
+	return !!row && !!row.email_verified && row.synced_at === null;
 }
 
 /**

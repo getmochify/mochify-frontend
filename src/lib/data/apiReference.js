@@ -521,7 +521,7 @@ export const pdfLimits = [
 	},
 	{
 		name: 'Images per <code>create</code>',
-		description: 'Free 3, Seller / Pro / Day Pass 10, Growth 200.'
+		description: 'Free 3, Seller / Pro / Day Pass 20, Growth 200.'
 	},
 	{ name: 'Cost', description: 'One operation per request, whatever the page or image count.' }
 ];

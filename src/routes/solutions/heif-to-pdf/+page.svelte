@@ -1,26 +1,88 @@
 <script lang="ts">
     import ImagesToPdf from '$lib/components/ImagesToPdf.svelte';
+    import FaqAccordion from '$lib/components/FaqAccordion.svelte';
+    import { faqSchema, type FaqItem } from '$lib/faq';
+
+    const metaDescription =
+        'Turn HEIC photos from an iPhone or iPad, or HEIF files from any source, into one PDF with a page per photo. Free, no signup, processed in memory and never saved to disk.';
+
+    const faqs: FaqItem[] = [
+        {
+            q: 'Is this HEIC to PDF converter free?',
+            a: [
+                'Yes. Without an account or on a free account, you can build a PDF from up to 3 photos. A paid plan, or a $2 Day Pass with no account, takes up to 20 photos per PDF; the ',
+                { href: '/pricing', label: 'pricing page' },
+                ' has the plans.'
+            ]
+        },
+        {
+            q: 'Do I need an account?',
+            a: 'No. HEIC/HEIF to PDF works without signing up, within the same free limits as any other conversion, and a PDF can hold up to 3 photos. A free account gives you more conversions each month, not more pages per PDF; a paid plan or a Day Pass takes up to 20 photos per PDF.'
+        },
+        {
+            q: 'How many photos can I combine?',
+            a: 'Up to 20 per PDF on any paid plan, Growth included, and on a Day Pass. The free plan takes 3, with or without a free account. Each photo becomes one page, in the order you add them.'
+        },
+        {
+            q: 'Does converting HEIC to PDF reduce quality?',
+            a: 'Slightly. A PDF cannot hold HEIC data, so each photo is re-encoded as a high-quality JPEG before it goes on the page. The pages look the same on screen and print cleanly, but they carry 8 bits per channel rather than 10, and an HDR photo becomes a standard-range page.'
+        },
+        {
+            q: 'Is HEIF better quality than JPEG?',
+            a: 'At the same file size, usually yes: HEIF compresses more efficiently than JPEG and can hold 10-bit color and HDR. That is why iPhones save HEIC by default. The catch is compatibility, which is the reason to put the photos in a PDF, where every page is a JPEG that any reader can open.'
+        },
+        {
+            q: 'How do I turn HEIC photos into a PDF on my iPhone?',
+            a: [
+                'In Photos, select the photos, tap Share, then Print, pinch outward on the preview and save the result to Files. For photos already in Files, select them, tap More and choose Create PDF. Our ',
+                { href: '/guides/heic-to-pdf-iphone-photos', label: 'HEIC to PDF guide' },
+                ' has the full steps for iPhone, Mac and Windows.'
+            ]
+        },
+        {
+            q: 'Can I use HIF files from a Canon, Sony or Fujifilm camera?',
+            a: [
+                'Yes, this page accepts .hif files. For camera work you usually want a JPG per frame rather than a PDF, though: ',
+                { href: '/solutions/hif-to-jpg', label: 'HIF to JPG' },
+                ' converts them and is built for camera files.'
+            ]
+        },
+        {
+            q: 'What happens to my photos?',
+            a: 'They are sent to api.mochify.app, the PDF is built in memory, and the photos are discarded once the PDF is returned. Nothing is written to disk, no logs contain your data, and your photos are never used to train AI. Location and camera metadata are not copied into the PDF.'
+        }
+    ];
+
+    const softwareLd = {
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: 'HEIC and HEIF to PDF Converter',
+        description:
+            'Turn HEIC and HEIF photos into one multi-page PDF, one JPEG page per photo, with fit, A4 or Letter pages. Free, no signup, processed in memory.',
+        url: 'https://mochify.app/solutions/heif-to-pdf',
+        applicationCategory: 'MultimediaApplication',
+        operatingSystem: 'Web',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        provider: { '@type': 'Organization', name: 'Mochify', url: 'https://mochify.app' }
+    };
+
+    const faqLd = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqSchema(faqs)
+    };
 </script>
 
 <svelte:head>
-    <title>HEIC/HEIF to PDF — Convert iPhone Photos to a PDF | Mochify</title>
-    <meta name="description" content="Convert HEIC and HEIF photos from your iPhone or iPad into a single PDF. One page per image, multi-page support, your choice of page size. Processed in memory, never stored. Free, no sign-up required.">
-    <meta property="og:title" content="HEIC/HEIF to PDF — Convert iPhone Photos to a PDF | Mochify" />
-    <meta property="og:description" content="Convert HEIC and HEIF photos from your iPhone or iPad into a single PDF. One page per image, multi-page support, your choice of page size. Processed in memory, never stored. Free, no sign-up required." />
+    <title>HEIC and HEIF to PDF Converter - Free, Online, No Signup | Mochify</title>
+    <meta name="description" content={metaDescription}>
+    <meta property="og:title" content="HEIC and HEIF to PDF Converter - Mochify" />
+    <meta property="og:description" content={metaDescription} />
+    <meta name="twitter:title" content="HEIC and HEIF to PDF Converter - Mochify" />
+    <meta name="twitter:description" content={metaDescription} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "HEIC/HEIF to PDF Converter",
-        "description": "Convert HEIC and HEIF photos from iPhone or iPad into a single multi-page PDF. One page per image, page-size options, processed entirely in memory.",
-        "url": "https://mochify.app/solutions/heif-to-pdf",
-        "applicationCategory": "MultimediaApplication",
-        "operatingSystem": "Web",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "provider": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" }
-        }
-    </script>
+    {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}
+    {@html `<script type="application/ld+json">${JSON.stringify(faqLd)}<\/script>`}
 </svelte:head>
 
 <div class="relative max-w-5xl mx-auto px-4 pt-7 pb-12 sm:px-6 lg:px-8 w-full flex-grow">
@@ -42,8 +104,9 @@
             </div>
 
             <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
+                Convert
                 <span class="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent">
-                    HEIC/HEIF
+                    HEIC and HEIF
                 </span>
                 to
                 <span class="bg-gradient-to-r from-[#C4B5FD] to-[#7C3AED] bg-clip-text text-transparent">
@@ -52,7 +115,7 @@
             </h1>
 
             <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-                Turn iPhone and iPad photos into a shareable PDF in one step. One page per photo, in upload order. Pick a page size, hit create, and it downloads instantly. Nothing is ever stored.
+                Drop HEIC or HEIF photos here and get one PDF back, a page per photo in the order you added them, up to 20 files at a time on a paid plan or Day Pass (3 on the free plan). Each photo is stored in the PDF as a standard JPEG, so the document opens on Windows, Android, in any mail client and at any print shop, including the ones that reject a .heic file. The PDF is built in memory at api.mochify.app and wiped as soon as your download is ready.
             </p>
         </div>
 
@@ -65,106 +128,12 @@
         </div>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-12 items-start">
-
-                <div class="space-y-8">
-                    <div class="space-y-4">
-                        <h2 class="text-2xl font-bold text-[#4A2C2C]">Why convert HEIC/HEIF to PDF?</h2>
-                        <p class="leading-relaxed text-[#6C3F31]">
-                            iPhones and iPads shoot in HEIF by default. The format is excellent — smaller files than JPEG, 10-bit color, HDR — but <strong class="text-[#7E685E]">most non-Apple devices can't open .heic files reliably</strong>. Windows, Android, print shops, and many web services still choke on them.
-                        </p>
-                        <p class="leading-relaxed text-[#6C3F31]">
-                            Wrapping your photos in a PDF gives them <strong class="text-[#7E685E]">universal reach</strong>: one file that opens everywhere, prints predictably, and keeps every photo as its own page in the order you add them. Mochify decodes and embeds each HEIC at high quality so nothing is lost in the process.
-                        </p>
-                    </div>
-
-                    <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-6 space-y-3">
-                        <p class="text-xs font-black text-emerald-700 uppercase tracking-widest">What happens to HEIF quality in PDF</p>
-                        <ul class="space-y-2.5">
-                            {#each [
-                                'HEIF is decoded at full resolution before embedding — no double-compression',
-                                '10-bit color data is preserved through the PDF container',
-                                'Portrait mode and HDR shots embed without clipping highlights',
-                                'Fit-to-image page size keeps the exact aspect ratio of each photo',
-                            ] as point}
-                                <li class="flex items-start gap-2.5 text-sm text-emerald-900">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 mt-1.5"></span>
-                                    {point}
-                                </li>
-                            {/each}
-                        </ul>
-                    </div>
-
-                    <div class="bg-white p-8 rounded-2xl border border-pink-50 shadow-sm">
-                        <h3 class="font-bold text-[#4A2C2C] mb-5 text-sm uppercase tracking-widest opacity-70">Common Use Cases</h3>
-                        <ul class="space-y-3">
-                            {#each [
-                                'Sending a set of iPhone photos to someone on Windows or Android',
-                                'Submitting photos to a form or platform that rejects HEIC',
-                                'Creating a photo PDF for a print shop order',
-                                'Sharing event photos as a single document by email',
-                                'Archiving a shoot as a portable, self-contained file',
-                                'Bundling real-estate walkthrough photos into one PDF',
-                            ] as item}
-                                <li class="flex items-center gap-3 text-sm font-semibold text-[#6C3F31]">
-                                    <span class="w-2 h-2 rounded-full bg-emerald-300 shrink-0"></span> {item}
-                                </li>
-                            {/each}
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="space-y-4">
-                    {#each [
-                        {
-                            q: "How many photos can I combine?",
-                            a: "The free tier creates a PDF of up to 3 pages. Paid plans go up to 10 pages, and Growth is unlimited (up to a 200-page safety ceiling). Each photo becomes one page."
-                        },
-                        {
-                            q: "Do I need an account?",
-                            a: "No. HEIC/HEIF to PDF works without signing up, within the same free usage limits as any other conversion. Create a free account or upgrade for more pages per PDF."
-                        },
-                        {
-                            q: "Can I mix HEIC with other formats?",
-                            a: "Yes. You can mix .heic and .heif with JPG, PNG, WebP, AVIF, and JXL in a single PDF. Each one becomes a page in the order you add it."
-                        },
-                        {
-                            q: "What about HEIF files from Fuji or Canon cameras (HIF)?",
-                            a: "HIF is the same HEIF container used by Fujifilm and Canon mirrorless cameras. Mochify handles .hif files just like .heic — add them alongside your iPhone photos."
-                        },
-                        {
-                            q: "What page size do I get?",
-                            a: "By default each page fits the photo exactly (no borders). You can also choose A4 or Letter if the PDF is headed for a printer."
-                        },
-                        {
-                            q: "Are my photos stored anywhere?",
-                            a: "Never. Mochify decodes and assembles the PDF entirely in memory, then wipes the data immediately after your download completes. No copies are kept on our servers."
-                        },
-                    ] as faq}
-                        <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md transition-all">
-                            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-[#4A2C2C] list-none select-none">
-                                <h3 class="m-0 text-base font-bold text-[#4A2C2C]">{faq.q}</h3>
-                                <span class="text-[#7E685E] transition-transform duration-300 group-open:rotate-180">
-                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7" /></svg>
-                                </span>
-                            </summary>
-                            <div class="px-6 pb-6 text-base text-[#6C3F31] leading-relaxed">
-                                {faq.a}
-                            </div>
-                        </details>
-                    {/each}
-                </div>
-            </div>
-        </section>
-
-        <!-- How it works -->
-        <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">How it works</h2>
+            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">How to convert HEIC to PDF</h2>
             <div class="grid sm:grid-cols-3 gap-4">
                 {#each [
-                    { n: '1', t: 'Add your photos', d: 'Drop in HEIC or HEIF files (or JPG, PNG, WebP, AVIF). They become pages in the order you add them.' },
-                    { n: '2', t: 'Pick a page size', d: 'Fit-to-image by default, or A4 / Letter if the PDF is headed for a printer.' },
-                    { n: '3', t: 'Download the PDF', d: 'One click builds a single multi-page PDF in memory and downloads it. Nothing is stored.' },
+                    { n: '1', t: 'Add your photos', d: 'Drop in .heic or .heif files, or mix in JPG, PNG, WebP, AVIF or JXL; each becomes one page, in the order you add them.' },
+                    { n: '2', t: 'Pick a page size', d: 'Pages fit each photo exactly by default, with no white border. Choose A4 or Letter if the PDF is headed for a printer. There is nothing else to set: this page does one job.' },
+                    { n: '3', t: 'Download the PDF', d: 'One file, ready to send.' },
                 ] as step}
                     <div class="bg-white p-6 rounded-2xl border border-pink-50 shadow-sm">
                         <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 font-black text-sm mb-4">{step.n}</span>
@@ -173,6 +142,106 @@
                     </div>
                 {/each}
             </div>
+        </section>
+
+        <section class="mt-20 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">Which file have you got?</h2>
+            <p class="leading-relaxed text-[#6C3F31]">
+                HEIC and HEIF are the same format family (the HEIF container, ISO/IEC 23008-12), and this page takes both. Where the file came from decides what else is worth knowing:
+            </p>
+            <ul class="space-y-3">
+                <li class="flex gap-3 text-[#6C3F31] leading-relaxed">
+                    <span class="mt-2.5 w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+                    <span><strong class="text-[#4A2C2C]">.HEIC</strong> is what an iPhone or iPad saves by default. If you are here with phone photos, this is the right tool, and there is a built-in route on the phone too (below).</span>
+                </li>
+                <li class="flex gap-3 text-[#6C3F31] leading-relaxed">
+                    <span class="mt-2.5 w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+                    <span><strong class="text-[#4A2C2C]">.heif</strong> with nothing else to go on can come from an Android phone's high-efficiency photo setting or from another app. It converts the same way.</span>
+                </li>
+                <li class="flex gap-3 text-[#6C3F31] leading-relaxed">
+                    <span class="mt-2.5 w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+                    <span><strong class="text-[#4A2C2C]">.HIF</strong> is what Canon, Sony and Fujifilm cameras write in HEIF mode. This page accepts it, but camera files usually need a JPG per frame for editing or delivery rather than a PDF: <a href="/solutions/hif-to-jpg" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">HIF to JPG</a> is built for that.</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="mt-20 max-w-4xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <div class="space-y-4">
+                    <h2 class="text-2xl font-bold text-[#4A2C2C]">What is in the PDF</h2>
+                    <p class="leading-relaxed text-[#6C3F31]">
+                        A PDF cannot hold HEIC data, so each photo is decoded and re-encoded as a high-quality JPEG with jpegli, then placed on its own page. The pages look the same on screen and print cleanly, but two things a HEIC can hold do not make the trip:
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex gap-3 text-[#6C3F31] leading-relaxed">
+                            <span class="mt-2.5 w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+                            <span><strong class="text-[#4A2C2C]">10-bit color.</strong> JPEG inside a PDF has 8 bits per channel, 256 steps instead of the 1,024 a 10-bit photo can store. On screen and on paper this rarely shows.</span>
+                        </li>
+                        <li class="flex gap-3 text-[#6C3F31] leading-relaxed">
+                            <span class="mt-2.5 w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+                            <span><strong class="text-[#4A2C2C]">HDR.</strong> An HDR photo becomes a standard-range page.</span>
+                        </li>
+                    </ul>
+                    <p class="leading-relaxed text-[#6C3F31]">
+                        Portrait photos stay upright, every pixel is kept, and the PDF carries the pictures only: location and camera metadata are not copied into it. Send the original HEIC files alongside if you need them.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <h2 class="text-2xl font-bold text-[#4A2C2C]">When a PDF is the right move</h2>
+                    <p class="leading-relaxed text-[#6C3F31]">
+                        A .heic file opens reliably on Apple devices and not much else: Windows needs extra extensions, and many upload forms and print shops refuse it. A PDF opens everywhere and holds a set of photos as one file in a fixed order: photos for someone on Windows or Android, a portal that only takes PDF, a print order, receipts shot on the phone. If you need separate images instead, <a href="/heic-to-jpeg" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">HEIC to JPG</a> converts each photo to a JPG.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mt-20 max-w-3xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">Converting HEIC to PDF on iPhone, Mac or Windows</h2>
+            <ul class="space-y-3">
+                <li class="flex gap-3 text-[#6C3F31] leading-relaxed">
+                    <span class="mt-2.5 w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+                    <span><strong class="text-[#4A2C2C]">iPhone or iPad:</strong> in Photos, select the photos, tap Share, then Print, pinch outward on the preview and save the result to Files. For photos already in Files, select them, tap More and choose Create PDF.</span>
+                </li>
+                <li class="flex gap-3 text-[#6C3F31] leading-relaxed">
+                    <span class="mt-2.5 w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+                    <span><strong class="text-[#4A2C2C]">Mac:</strong> select the photos in Finder, right-click, then Quick Actions and Create PDF.</span>
+                </li>
+                <li class="flex gap-3 text-[#6C3F31] leading-relaxed">
+                    <span class="mt-2.5 w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+                    <span><strong class="text-[#4A2C2C]">Windows:</strong> Windows needs Microsoft's HEIF Image Extensions and HEVC Video Extensions ($0.99) to open a HEIC at all. With both installed, select the photos in File Explorer, choose Print and pick Microsoft Print to PDF.</span>
+                </li>
+            </ul>
+            <p class="leading-relaxed text-[#6C3F31]">
+                <a href="/guides/heic-to-pdf-iphone-photos" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">How to convert iPhone photos (HEIC) to PDF</a> walks through each route, including batches of 50 photos. This page is the shortcut on a computer without the extensions, for a mix of formats, or for one PDF from any browser.
+            </p>
+        </section>
+
+        <section class="mt-20 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">Limits, bulk and automation</h2>
+            <p class="leading-relaxed text-[#6C3F31]">
+                Your first PDF needs no account. Without an account or on a free account, a PDF can hold up to 3 photos; every paid plan, Growth included, and the Day Pass take up to 20 photos per PDF on this page.
+            </p>
+            <p class="leading-relaxed text-[#6C3F31]">
+                Building a PDF from images is also available on the hosted MCP server and the REST API, through <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">POST /v1/pdf</code>; full reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>. Through the API, Growth builds PDFs from up to 200 images. Every route builds the PDF at api.mochify.app in memory, keeps nothing on disk and writes no logs containing your data.
+            </p>
+            <p class="leading-relaxed text-[#6C3F31]">
+                To build the same PDF from a script, send the photos with <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">op=create</code>; each becomes one page, in the order you send them:
+            </p>
+            <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/pdf?op=create" \
+  -H "Authorization: Bearer $MOCHIFY_KEY" \
+  -F "images=@IMG_0001.heic" \
+  -F "images=@IMG_0002.heic" \
+  -F "images=@IMG_0003.heic" \
+  --output photos.pdf</code></pre>
+            <p class="leading-relaxed text-[#6C3F31]">
+                Add <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">page=a4</code> or <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">page=letter</code> for a standard sheet. Building a PDF from images works on every plan, including Free.
+            </p>
+        </section>
+
+        <section class="mt-20 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">Frequently asked questions</h2>
+            <FaqAccordion {faqs} class="grid md:grid-cols-2 gap-4 items-start" />
         </section>
 
         <!-- Also available -->
@@ -201,4 +270,3 @@
         </section>
 
     </div>
-

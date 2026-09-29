@@ -390,7 +390,7 @@
                         <ul class="list-disc pl-6 space-y-2 my-4 text-base">
                             <li><strong>"Resize to 2000x2000 JPEG, keep quality high"</strong> (Etsy primary images)</li>
                             <li><strong>"Convert to JPEG, max 1600px on longest side, compress for web"</strong> (Amazon MAIN images)</li>
-                            <li><strong>"Compress to under 7MB as JPEG"</strong> (eBay web-tool uploads)</li>
+                            <li><strong>"Resize to 1600px on the longest side, JPEG"</strong> (eBay listings)</li>
                             <li><strong>"Square crop to 1080px, center the subject"</strong> (Depop)</li>
                         </ul>
                         <p class="text-base m-0">Magic Flow runs a two-step pipeline: a language model parses your prompt, then the C++ compression engine executes the output. The result is a JPEG, WebP, AVIF, or PNG - whichever you asked for - ready to upload.</p>

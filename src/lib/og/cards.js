@@ -494,7 +494,8 @@ export const cards = [
 	{
 		path: '/solutions/heif-to-pdf',
 		eyebrow: 'TOOL',
-		title: 'HEIC/HEIF to PDF - Convert iPhone Photos to a PDF'
+		title: 'HEIC and HEIF to PDF Converter',
+		alt: 'Mochify HEIC and HEIF to PDF converter'
 	},
 	{
 		path: '/solutions/heif-to-jpg',
@@ -557,7 +558,8 @@ export const cards = [
 	{
 		path: '/solutions/webp-to-pdf',
 		eyebrow: 'TOOL',
-		title: 'WebP to PDF - Combine Images into One PDF'
+		title: 'WebP to PDF Converter - Combine WebP Images Into One PDF',
+		alt: 'Mochify WebP to PDF converter'
 	},
 	{ path: '/sustainability', eyebrow: 'MOCHIFY', title: 'Sustainability' },
 	{

@@ -27,7 +27,7 @@
                     text: 'A photo from an iPhone or iPad (.HEIC): {0}. Want them in one document: {1}.',
                     links: [
                         { href: '/heic-to-jpeg', label: 'HEIC to JPG' },
-                        { href: '/solutions/heif-to-pdf', label: 'HEIC/HEIF to PDF' }
+                        { href: '/solutions/heif-to-pdf', label: 'HEIC and HEIF to PDF' }
                     ]
                 },
                 {
@@ -105,11 +105,11 @@
             heading: 'PDFs',
             items: [
                 {
-                    text: 'Turn images into one PDF: {0}, {1} or {2}. The free plan builds PDFs of up to 3 pages, Seller and Pro up to 10, and Growth up to 200.',
+                    text: 'Turn images into one PDF: {0}, {1} or {2}. The free plan builds a PDF from up to 3 images, and every paid plan and the Day Pass take up to 20.',
                     links: [
                         { href: '/solutions/webp-to-pdf', label: 'WebP to PDF' },
                         { href: '/solutions/jxl-to-pdf', label: 'JXL to PDF' },
-                        { href: '/solutions/heif-to-pdf', label: 'HEIC/HEIF to PDF' }
+                        { href: '/solutions/heif-to-pdf', label: 'HEIC and HEIF to PDF' }
                     ]
                 }
             ]

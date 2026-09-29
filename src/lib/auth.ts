@@ -7,7 +7,7 @@ import { Resend } from "resend";
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET } from "$env/static/private";
 import { PUBLIC_APP_URL } from "$env/static/public";
 import { getPostHogClient } from "$lib/server/posthog";
-import { syncContactFromProfile } from "$lib/server/resendContacts";
+import { syncContactFromProfile, needsContactBackstop } from "$lib/server/resendContacts";
 import { setUseCase } from "$lib/server/useCase";
 import { isUseCase } from "$lib/useCases";
 import { startOnboarding } from "$lib/server/emails/onboarding";
@@ -179,6 +179,30 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                             if (reactivated) await syncContactFromProfile(db, resendKey, session.userId);
                         } catch (e) {
                             console.error("[auth] clearing deleted_at failed:", e);
+                        }
+
+                        // Backstop for the Resend contact mirror.
+                        //
+                        // afterEmailVerification is the ONLY path that puts an
+                        // email/password signup on the list, and every function
+                        // in resendContacts swallows its errors so a Resend
+                        // outage cannot fail a signup. That made the sync a
+                        // single un-retried attempt: one blip and the contact
+                        // was missing for good, silently.
+                        //
+                        // Signing in is the natural retry, because it is the one
+                        // thing a user who slipped through will do again. The
+                        // check is one D1 read and answers `false` for everyone
+                        // already stamped, so the common login costs no Resend
+                        // call at all; only an unconfirmed user makes one. In
+                        // its own try/catch because a mirror must never be able
+                        // to break a sign-in.
+                        try {
+                            if (resendKey && (await needsContactBackstop(db, session.userId))) {
+                                await syncContactFromProfile(db, resendKey, session.userId);
+                            }
+                        } catch (e) {
+                            console.error("[auth] contact backstop failed:", e);
                         }
                     },
                 },

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { env } from '$env/dynamic/public';
-    import { getSessionToken } from '$lib/user';
+    import { getSessionToken, getPlan } from '$lib/user';
     import { posthog } from '$lib/analytics';
     import { withRetry } from '$lib/uploadRetry';
 
@@ -16,9 +16,30 @@
     }: {
         accept?: string;
         formatLabel?: string;
+        /** Ceiling for a paid plan. The free cap is fixed by the server, below. */
         maxFiles?: number;
         downloadName?: string;
     } = $props();
+
+    // Images per PDF, enforced by mochify-core's PdfController op=create gate:
+    // free (and anonymous) 3, Seller / Pro / Day Pass 20, Growth 200. The page
+    // stages up to `maxFiles` for a paid plan and holds Growth there too, since
+    // a 200-image PDF belongs on the API rather than in a browser tray.
+    //
+    // Staging more than the plan allows is what produced the old failure: the
+    // tray accepted 20 files from a free visitor and the server answered 422
+    // after the upload. Resolving the plan here means the cap is applied before
+    // anything leaves the browser.
+    const FREE_MAX_FILES = 3;
+    // Starts at the free cap so the hint never over-promises before the lookup
+    // lands; it only ever widens. addFiles re-resolves before it trims, so the
+    // cap actually applied is never the stale one.
+    let planLimit = $state(FREE_MAX_FILES);
+    $effect(() => {
+        getPlan().then((plan) => {
+            planLimit = plan === 'free' ? FREE_MAX_FILES : maxFiles;
+        });
+    });
 
     let files: File[] = $state([]);
     let pageSize: PageSize = $state('fit');
@@ -42,7 +63,7 @@
         { value: 'letter', label: 'Letter' }
     ];
 
-    function addFiles(list: FileList | File[]) {
+    async function addFiles(list: FileList | File[]) {
         errorMessage = '';
         successMessage = '';
         const incoming = Array.from(list).filter(isImage);
@@ -50,24 +71,32 @@
             errorMessage = 'Please add image files.';
             return;
         }
+        // Resolve the plan before applying the cap, so a paid visitor who drops
+        // files in the moment before the effect above settles is not trimmed to
+        // the free limit. getPlan() is cached after the first call, so this is
+        // free on every drop but the first.
+        planLimit = (await getPlan()) === 'free' ? FREE_MAX_FILES : maxFiles;
         const next = [...files, ...incoming];
-        if (next.length > maxFiles) {
-            errorMessage = `You can add up to ${maxFiles} images at once.`;
+        if (next.length > planLimit) {
+            errorMessage =
+                planLimit === FREE_MAX_FILES
+                    ? `You can add up to ${planLimit} images per PDF on the free plan. A paid plan or a Day Pass takes ${maxFiles}.`
+                    : `You can add up to ${planLimit} images at once.`;
         }
-        files = next.slice(0, maxFiles);
+        files = next.slice(0, planLimit);
     }
 
     function onDrop(e: DragEvent) {
         e.preventDefault();
         isDragging = false;
-        if (e.dataTransfer?.files?.length) addFiles(e.dataTransfer.files);
+        if (e.dataTransfer?.files?.length) void addFiles(e.dataTransfer.files);
     }
 
     function onInputChange() {
         if (!fileInputEl?.files?.length) return;
         const selected = Array.from(fileInputEl.files);
         fileInputEl.value = '';
-        addFiles(selected);
+        void addFiles(selected);
     }
 
     function removeFile(i: number) {
@@ -191,7 +220,7 @@
             </svg>
         </span>
         <span class="font-black text-[#4A2C2C]">Drop images here, or click to choose</span>
-        <span class="text-xs text-[#875F42]">One page per image · up to {maxFiles} files · processed in memory, never stored</span>
+        <span class="text-xs text-[#875F42]">One page per image · up to {planLimit} files · processed in memory, never stored</span>
         <input
             bind:this={fileInputEl}
             type="file"
