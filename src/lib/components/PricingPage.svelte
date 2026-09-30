@@ -227,7 +227,7 @@
              sale. It moves to a full-width card directly below, where it still
              reads first on mobile. max-w-5xl because three cards at max-w-4xl
              were already tight before Growth existed. -->
-		<div class="mx-auto grid max-w-5xl items-start gap-6 md:grid-cols-3">
+		<div class="mx-auto grid max-w-5xl items-stretch gap-6 md:grid-cols-3">
 			<!-- Seller tier — flagged as the popular pick. Keeps the white card
                  so Pro's gradient still reads as the top tier; the badge and a
                  stronger border do the highlighting instead.
