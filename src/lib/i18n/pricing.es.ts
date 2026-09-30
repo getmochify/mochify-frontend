@@ -62,8 +62,7 @@ export const ES_PRICING: PricingStrings = {
 	],
 	growthFeatures: [
 		'<strong>5000 imágenes</strong> al mes',
-		'<strong>Páginas PDF ilimitadas</strong> <span class="text-[#6C3F31]/50">(10 como máximo en el resto de planes)</span>',
-		'PDF a partir de <strong>200 imágenes</strong>'
+		'<strong>PDF de hasta 200 páginas</strong> <span class="text-[#6C3F31]/50">(10 como máximo en el resto de planes)</span>'
 	],
 	freeFeatures: [
 		'<strong>25 imágenes</strong> al mes',
@@ -105,7 +104,7 @@ export const ES_PRICING: PricingStrings = {
 	tblBatchUpload: 'Subida por lotes',
 	tblQueue: 'Cola de procesamiento',
 	tblPdfTools:
-		'Herramientas PDF <span class="text-[#6C3F31]/50 text-xs">(rasterizar, dividir, imágenes→PDF)</span>',
+		'Herramientas PDF <span class="text-[#6C3F31]/50 text-xs">(comprimir, extraer, rasterizar, dividir, imágenes→PDF)</span>',
 	tblOwnStorage:
 		'Guardar en tu propio almacenamiento <span class="text-[#6C3F31]/50 text-xs">(Google Drive, o S3 / R2 / compatible con S3)</span>',
 	tblPerMonth: (n) => `${n.toLocaleString('es')} / mes`,
@@ -116,7 +115,7 @@ export const ES_PRICING: PricingStrings = {
 	tblSoon: 'Próximamente',
 	tblNotIncluded: 'no',
 	tblPdfFree: 'imágenes→PDF, 3 páginas',
-	tblPdfUnlimited: '✓ páginas ilimitadas',
+	tblPdfUnlimited: '✓ hasta 200 páginas',
 	faqHeading: 'Preguntas frecuentes',
 	faqSub: 'Límites, facturación y qué cambia cuando cambias de plan.',
 	faqs: (dayPassPrice) => [
@@ -184,7 +183,7 @@ export const ES_PRICING: PricingStrings = {
 			name: 'Growth mensual',
 			unitCode: 'MON',
 			description: () =>
-				'5000 imágenes al mes. Todo lo de Pro, más páginas PDF ilimitadas y PDF creados a partir de 200 imágenes. Guarda los resultados en tu propio bucket o en Google Drive. Cola de máxima prioridad.'
+				'5000 imágenes al mes. Todo lo de Pro, más PDF de hasta 200 páginas. Guarda los resultados en tu propio bucket o en Google Drive. Cola de máxima prioridad.'
 		},
 		{
 			plan: 'sellerYearly',
@@ -205,7 +204,7 @@ export const ES_PRICING: PricingStrings = {
 			name: 'Growth anual',
 			unitCode: 'ANN',
 			description: (price) =>
-				`5000 imágenes al mes, facturadas a ${price('growthYearly')} al año. Páginas PDF ilimitadas. Cola de máxima prioridad.`
+				`5000 imágenes al mes, facturadas a ${price('growthYearly')} al año. PDF de hasta 200 páginas. Cola de máxima prioridad.`
 		},
 		{
 			plan: 'dayPass',

@@ -355,8 +355,12 @@
 
 			<!-- Growth — priced but not yet purchasable. Everything it claims is
                  already enforced in core/worker: PLAN_LIMITS.growth = 5000, and
-                 the PDF page cap that stops every other paid plan at 10 pages
-                 does not apply to it. Deliberately NOT claiming bucket/Drive,
+                 the PDF-in tools take up to 200 pages (MAX_PAGES in core's
+                 PdfController) where every other paid plan stops at 10. That is
+                 a ceiling, not "unlimited". Core also lets Growth build a PDF
+                 from 200 images, but only over the API: /flow stages 25 files
+                 and the images-to-PDF pages 20, so the card doesn't claim it.
+                 Deliberately NOT claiming bucket/Drive,
                  gen-AI or priority queue: Pro has all three, so "Everything in
                  Pro, plus:" already covers them and repeating them would pad the
                  card with non-differentiators. -->

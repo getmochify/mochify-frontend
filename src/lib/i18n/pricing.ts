@@ -154,8 +154,7 @@ export const EN_PRICING: PricingStrings = {
 	],
 	growthFeatures: [
 		'<strong>5,000 images</strong> per month',
-		'<strong>Unlimited PDF pages</strong> <span class="text-[#6C3F31]/50">(others cap at 10)</span>',
-		'Build PDFs from <strong>200 images</strong>'
+		'<strong>PDFs up to 200 pages</strong> <span class="text-[#6C3F31]/50">(others cap at 10)</span>'
 	],
 	freeFeatures: [
 		'<strong>25 images</strong> per month',
@@ -196,7 +195,7 @@ export const EN_PRICING: PricingStrings = {
 	tblBatchUpload: 'Batch upload',
 	tblQueue: 'Processing queue',
 	tblPdfTools:
-		'PDF tools <span class="text-[#6C3F31]/50 text-xs">(rasterize, split, images→PDF)</span>',
+		'PDF tools <span class="text-[#6C3F31]/50 text-xs">(compress, extract, rasterize, split, images→PDF)</span>',
 	tblOwnStorage:
 		'Save to your own storage <span class="text-[#6C3F31]/50 text-xs">(Google Drive, or S3 / R2 / S3-compatible)</span>',
 	tblPerMonth: (n) => `${n.toLocaleString('en-US')} / month`,
@@ -211,7 +210,7 @@ export const EN_PRICING: PricingStrings = {
 	// page's rendered HTML. Applied now, which is what makes that scan pass.
 	tblNotIncluded: 'n/a',
 	tblPdfFree: 'images→PDF, 3 pages',
-	tblPdfUnlimited: '✓ unlimited pages',
+	tblPdfUnlimited: '✓ up to 200 pages',
 	faqHeading: 'Common questions',
 	faqSub: 'Limits, billing, and what changes when you upgrade.',
 	faqs: (dayPassPrice) => [
@@ -279,7 +278,7 @@ export const EN_PRICING: PricingStrings = {
 			name: 'Growth Monthly',
 			unitCode: 'MON',
 			description: () =>
-				'5,000 images per month. Everything in Pro plus unlimited PDF pages and PDFs built from up to 200 images. Save results to your own bucket or Google Drive. Top priority processing queue.'
+				'5,000 images per month. Everything in Pro plus PDFs up to 200 pages. Save results to your own bucket or Google Drive. Top priority processing queue.'
 		},
 		{
 			plan: 'sellerYearly',
@@ -300,7 +299,7 @@ export const EN_PRICING: PricingStrings = {
 			name: 'Growth Annual',
 			unitCode: 'ANN',
 			description: (price) =>
-				`5,000 images per month, billed annually at ${price('growthYearly')}/year. Unlimited PDF pages. Top priority processing queue.`
+				`5,000 images per month, billed annually at ${price('growthYearly')}/year. PDFs up to 200 pages. Top priority processing queue.`
 		},
 		{
 			plan: 'dayPass',

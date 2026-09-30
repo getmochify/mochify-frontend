@@ -61,8 +61,7 @@ export const JA_PRICING: PricingStrings = {
 	],
 	growthFeatures: [
 		'1か月<strong>5,000枚</strong>',
-		'<strong>PDFのページ数無制限</strong> <span class="text-[#6C3F31]/50">（他のプランは10ページまで）</span>',
-		'<strong>200枚</strong>の画像からPDFを作成'
+		'<strong>最大200ページ</strong>のPDFに対応 <span class="text-[#6C3F31]/50">（他のプランは10ページまで）</span>'
 	],
 	freeFeatures: [
 		'1か月<strong>25枚</strong>',
@@ -104,7 +103,7 @@ export const JA_PRICING: PricingStrings = {
 	tblBatchUpload: 'まとめてアップロード',
 	tblQueue: '処理キュー',
 	tblPdfTools:
-		'PDFツール <span class="text-[#6C3F31]/50 text-xs">（ラスタライズ、分割、画像→PDF）</span>',
+		'PDFツール <span class="text-[#6C3F31]/50 text-xs">（圧縮、画像抽出、ラスタライズ、分割、画像→PDF）</span>',
 	tblOwnStorage:
 		'自分のストレージに保存 <span class="text-[#6C3F31]/50 text-xs">（Google Drive、S3 / R2 / S3互換）</span>',
 	tblPerMonth: (n) => `${n.toLocaleString('ja')} / 月`,
@@ -115,7 +114,7 @@ export const JA_PRICING: PricingStrings = {
 	tblSoon: '近日対応',
 	tblNotIncluded: 'なし',
 	tblPdfFree: '画像→PDF、3ページ',
-	tblPdfUnlimited: '✓ ページ数無制限',
+	tblPdfUnlimited: '✓ 最大200ページ',
 	faqHeading: 'よくある質問',
 	faqSub: '上限、お支払い、プラン変更で変わることについて。',
 	faqs: (dayPassPrice) => [
@@ -183,7 +182,7 @@ export const JA_PRICING: PricingStrings = {
 			name: 'Growth 月払い',
 			unitCode: 'MON',
 			description: () =>
-				'1か月5,000枚。Proのすべてに加えて、PDFのページ数無制限と、200枚の画像からのPDF作成。結果を自分のバケットやGoogle Driveに保存できます。最優先の処理キュー。'
+				'1か月5,000枚。Proのすべてに加えて、最大200ページのPDFに対応。結果を自分のバケットやGoogle Driveに保存できます。最優先の処理キュー。'
 		},
 		{
 			plan: 'sellerYearly',
@@ -204,7 +203,7 @@ export const JA_PRICING: PricingStrings = {
 			name: 'Growth 年払い',
 			unitCode: 'ANN',
 			description: (price) =>
-				`1か月5,000枚、年額${price}のお支払い。PDFのページ数無制限。最優先の処理キュー。`
+				`1か月5,000枚、年額${price}のお支払い。最大200ページのPDFに対応。最優先の処理キュー。`
 		},
 		{
 			plan: 'dayPass',
