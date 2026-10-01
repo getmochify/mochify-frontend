@@ -21,6 +21,7 @@
         'svg-to-webp': 'SVG to WebP',
         'svg-to-jxl': 'SVG to JXL',
         'mp4-to-webm': 'MP4 to WebM',
+        'webm-to-mp4': 'WebM to MP4',
         'ebay-image-converter': 'eBay Image Resizer and Converter',
         'bulk-ai-square-cropper': 'Bulk Square Cropper',
         'sdr-to-hdr': 'SDR to HDR',

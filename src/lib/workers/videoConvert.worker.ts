@@ -2,10 +2,16 @@
 // imported once a convert request arrives, so this worker chunk stays
 // unfetched until a conversion actually starts.
 
+import type { AudioCodec, VideoCodec } from 'mediabunny';
+
 type ConvertRequest = {
 	file: File;
 	output: string;
 	audioOnly: boolean;
+	// Pin the output codecs. Without these, any codec the container accepts is
+	// copied as-is, e.g. VP9/Opus WebM remuxes into an MP4 few players open.
+	videoCodec?: VideoCodec;
+	audioCodec?: AudioCodec;
 };
 
 type WorkerResponse =
@@ -31,7 +37,7 @@ function post(message: WorkerResponse, transfer?: Transferable[]) {
 }
 
 self.onmessage = async (event: MessageEvent) => {
-	const { file, output, audioOnly } = event.data as ConvertRequest;
+	const { file, output, audioOnly, videoCodec, audioCodec } = event.data as ConvertRequest;
 
 	let mediabunny: typeof import('mediabunny');
 	try {
@@ -50,6 +56,7 @@ self.onmessage = async (event: MessageEvent) => {
 		Output,
 		Conversion,
 		Quality,
+		canEncodeAudio,
 		BlobSource,
 		BufferTarget,
 		ALL_FORMATS,
@@ -99,16 +106,40 @@ self.onmessage = async (event: MessageEvent) => {
 			video: async (track) => {
 				// A copyable track is remuxed untouched; setting a quality would force a re-encode.
 				const codec = await track.getCodec();
-				if (codec && copyableVideoCodecs.includes(codec)) return undefined;
+				const copyable = videoCodec
+					? codec === videoCodec
+					: !!codec && copyableVideoCodecs.includes(codec);
+				if (copyable) return undefined;
 				// Measured from packet sizes (metadata only, no decoding); the
 				// container's declared bitrate is often missing or wrong.
 				const { averageBitrate } = await track.computePacketStats();
-				if (!averageBitrate) return undefined;
-				return { quality: new Quality({ bitrate: Math.round(averageBitrate) }) };
+				return {
+					codec: videoCodec,
+					quality: averageBitrate ? new Quality({ bitrate: Math.round(averageBitrate) }) : undefined
+				};
+			},
+			audio: async (track) => {
+				if (!audioCodec || (await track.getCodec()) === audioCodec) return undefined;
+				// WebCodecs AAC encoding isn't available in every browser, so
+				// fall back to copying the source audio rather than dropping it.
+				const encodable = await canEncodeAudio(audioCodec, {
+					numberOfChannels: await track.getNumberOfChannels(),
+					sampleRate: await track.getSampleRate()
+				});
+				return encodable ? { codec: audioCodec } : undefined;
 			}
 		});
 		if (!conversion.isValid) {
 			post({ type: 'error', message: 'unsupported conversion' });
+			return;
+		}
+		// A video track that can't be decoded or encoded is otherwise dropped
+		// silently, leaving an audio-only file with a video extension.
+		const droppedVideo = conversion.discardedTracks.some(
+			(d) => d.track.isVideoTrack() && d.reason !== 'discarded_by_user'
+		);
+		if (!audioOnly && droppedVideo) {
+			post({ type: 'error', message: "your browser can't convert this video's codec" });
 			return;
 		}
 		conversion.onProgress = (p: number) => {

@@ -118,8 +118,11 @@
             heading: 'Video',
             items: [
                 {
-                    text: '{0} runs in your browser; the video never leaves your device.',
-                    links: [{ href: '/solutions/mp4-to-webm', label: 'MP4 to WebM' }]
+                    text: '{0} and {1} run in your browser; the video never leaves your device.',
+                    links: [
+                        { href: '/solutions/mp4-to-webm', label: 'MP4 to WebM' },
+                        { href: '/solutions/webm-to-mp4', label: 'WebM to MP4' }
+                    ]
                 }
             ]
         }

@@ -2,17 +2,24 @@
 	import { onDestroy } from 'svelte';
 	import { posthog } from '$lib/analytics';
 	import { isChunkLoadError, recoverFromStaleChunk } from '$lib/chunkRecovery';
+	import type { AudioCodec, VideoCodec } from 'mediabunny';
 
 	let {
 		output = 'mp4',
 		accept = '.mp4,.webm,.mkv,.mov,.avi,.m4v,video/*',
 		maxFiles = 10,
-		formatLabel = ''
+		formatLabel = '',
+		videoCodec,
+		audioCodec
 	}: {
 		output?: string;
 		accept?: string;
 		maxFiles?: number;
 		formatLabel?: string;
+		/** Force this video codec; otherwise any codec the container accepts is copied as-is. */
+		videoCodec?: VideoCodec;
+		/** Preferred audio codec; the source audio is kept if the browser can't encode it. */
+		audioCodec?: AudioCodec;
 	} = $props();
 
 	const FORMAT_MIME: Record<string, string> = {
@@ -69,7 +76,7 @@
 				}
 			};
 			worker.addEventListener('message', onMessage);
-			worker.postMessage({ file, output: fmt, audioOnly });
+			worker.postMessage({ file, output: fmt, audioOnly, videoCodec, audioCodec });
 		});
 	}
 

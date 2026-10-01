@@ -52,6 +52,7 @@ export async function GET() {
 		'/solutions/heif-to-pdf',
 		'/solutions/bulk-ai-square-cropper',
 		'/solutions/mp4-to-webm',
+		'/solutions/webm-to-mp4',
 		'/solutions/sdr-to-hdr',
 		'/guides',
 		'/guides/reduce-photo-file-size-iphone',
