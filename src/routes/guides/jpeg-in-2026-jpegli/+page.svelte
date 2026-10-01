@@ -44,10 +44,10 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>JPEG Compression in 2026: Why Jpegli Changes the Quality-Per-Byte Game</title>
-    <meta name="description" content="Deliver better JPEG quality at smaller file sizes with Google's jpegli encoder. Get up to 35% compression improvement for eBay, Etsy, and platform-locked workflows without losing compatibility.">
-    <meta property="og:title" content="JPEG Compression in 2026: Why Jpegli Changes the Quality-Per-Byte Game" />
-    <meta property="og:description" content="Deliver better JPEG quality at smaller file sizes with Google's jpegli encoder. Get up to 35% compression improvement for eBay, Etsy, and platform-locked workflows without losing compatibility." />
+    <title>JPEG Compression in 2026: Why Jpegli Changes the Game</title>
+    <meta name="description" content="Better JPEG quality at smaller sizes with Google's jpegli encoder: up to 35% better compression for eBay, Etsy and platform-locked workflows, same JPEG.">
+    <meta property="og:title" content="JPEG Compression in 2026: Why Jpegli Changes the Game" />
+    <meta property="og:description" content="Better JPEG quality at smaller sizes with Google's jpegli encoder: up to 35% better compression for eBay, Etsy and platform-locked workflows, same JPEG." />
 
     <script type="application/ld+json">
         {

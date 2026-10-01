@@ -22,7 +22,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title} | Mochify</title>
+    <title>{metadata.title}</title>
     <meta name="description" content={metadata.description}>
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />

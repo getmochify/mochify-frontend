@@ -138,7 +138,7 @@
 <ReadProgress />
 
 <svelte:head>
-	<title>Reduce Photo File Size on iPhone - Fast Way vs Built-In | Mochify</title>
+	<title>Reduce Photo File Size on iPhone - Fast Way vs Built-In</title>
 	<meta name="description" content={metadata.description} />
 	<meta
 		name="keywords"

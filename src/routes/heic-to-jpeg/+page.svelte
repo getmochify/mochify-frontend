@@ -59,9 +59,9 @@
 
 <svelte:head>
     <title>HEIC to JPG Converter - Free, Online, No Signup | Mochify</title>
-    <meta name="description" content="Convert iPhone HEIC photos to JPG online in seconds: up to 3 files with no signup, jpegli-encoded JPEGs that open everywhere. Nothing to install, no codec to buy, processed in memory and never saved to disk.">
+    <meta name="description" content="Convert iPhone HEIC photos to JPG online in seconds: 3 files free, no signup, jpegli JPEGs that open everywhere. Processed in memory, never saved to disk.">
     <meta property="og:title" content="HEIC to JPG Converter - Mochify">
-    <meta property="og:description" content="Convert iPhone HEIC photos to JPG online in seconds: up to 3 files with no signup, jpegli-encoded JPEGs that open everywhere. Nothing to install, no codec to buy, processed in memory and never saved to disk.">
+    <meta property="og:description" content="Convert iPhone HEIC photos to JPG online in seconds: 3 files free, no signup, jpegli JPEGs that open everywhere. Processed in memory, never saved to disk.">
 
     <script type="application/ld+json">
         {
@@ -72,7 +72,7 @@
             "applicationCategory": "MultimediaApplication",
             "applicationSubCategory": "Image Converter",
             "url": "https://mochify.app/heic-to-jpeg",
-            "description": "Convert iPhone HEIC photos to JPG online in seconds: up to 3 files with no signup, jpegli-encoded JPEGs that open everywhere. Nothing to install, no codec to buy, processed in memory and never saved to disk.",
+            "description": "Convert iPhone HEIC photos to JPG online in seconds: 3 files free, no signup, jpegli JPEGs that open everywhere. Processed in memory, never saved to disk.",
             "offers": {
                 "@type": "Offer",
                 "price": "0",

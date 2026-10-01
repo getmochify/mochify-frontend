@@ -11,8 +11,8 @@
         // Title tag deliberately differs from the H1 and from og:title: this page
         // is served for size / ratio / rules queries, so the SERP line leads with
         // those. og:title, twitter:title and JSON-LD headline stay on the H1.
-        seoTitle: "Vinted Photo Size, Aspect Ratio and Rules (and Photos That Sell) | Mochify",
-        description: "Vinted photo size and aspect ratio (portrait, about 3:4, 1080px or wider), the photo rules including stock photos, why Vinted crops your photos, and how to shoot photos that sell.",
+        seoTitle: "Vinted Photo Size, Aspect Ratio and Rules (Photos That Sell)",
+        description: "Vinted photo size and aspect ratio (portrait, about 3:4, 1080px or wider), the photo rules including stock photos, why Vinted crops, and photos that sell.",
         category: "Workflows",
         readTime: "13 min read",
         date: "July 19, 2026",
@@ -97,7 +97,7 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "How to Take Vinted Photos That Sell",
-        "description": "Vinted photo size and aspect ratio (portrait, about 3:4, 1080px or wider), the photo rules including stock photos, why Vinted crops your photos, and how to shoot photos that sell.",
+        "description": "Vinted photo size and aspect ratio (portrait, about 3:4, 1080px or wider), the photo rules including stock photos, why Vinted crops, and photos that sell.",
         "url": "https://mochify.app/guides/vinted-photos-that-sell",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -158,7 +158,7 @@
         "@type": "WebPage",
         "name": "How to Take Vinted Photos That Sell",
         "url": "https://mochify.app/guides/vinted-photos-that-sell",
-        "description": "Vinted photo size and aspect ratio (portrait, about 3:4, 1080px or wider), the photo rules including stock photos, why Vinted crops your photos, and how to shoot photos that sell.",
+        "description": "Vinted photo size and aspect ratio (portrait, about 3:4, 1080px or wider), the photo rules including stock photos, why Vinted crops, and photos that sell.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-19",
         "dateModified": "2026-09-12"

@@ -4,7 +4,7 @@
 
 <svelte:head>
     <title>Architecture &amp; Data Handling — Mochify</title>
-    <meta name="description" content="How Mochify processes images: an in-memory pipeline on a read-only container, with no image data ever written to disk. The configuration behind the zero-retention claim.">
+    <meta name="description" content="How Mochify processes images: an in-memory pipeline on a read-only container, no image data written to disk. The setup behind the zero-retention claim.">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mochify.app/architecture">

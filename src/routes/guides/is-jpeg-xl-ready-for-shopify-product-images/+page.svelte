@@ -7,7 +7,7 @@
 
     const metadata = {
         title: "Is JPEG XL Ready for Shopify Product Images in 2026?",
-        description: "JPEG XL is not ready for live Shopify stores in 2026. Browser support sits at 12–17% globally and Shopify doesn't accept JXL uploads. Use AVIF with a WebP fallback.",
+        description: "JPEG XL is not ready for live Shopify stores in 2026: browser support is 12–17% and Shopify doesn't accept JXL uploads. Use AVIF with a WebP fallback.",
         category: "Quick Guides",
         readTime: "3 min read",
         date: "April 14, 2026"
@@ -40,7 +40,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title} | Mochify</title>
+    <title>{metadata.title}</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
@@ -51,7 +51,7 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "Is JPEG XL Ready for Shopify Product Images in 2026?",
-        "description": "JPEG XL is not ready for live Shopify stores in 2026. Browser support sits at 12–17% globally and Shopify doesn't accept JXL uploads. Use AVIF with a WebP fallback.",
+        "description": "JPEG XL is not ready for live Shopify stores in 2026: browser support is 12–17% and Shopify doesn't accept JXL uploads. Use AVIF with a WebP fallback.",
         "url": "https://mochify.app/guides/is-jpeg-xl-ready-for-shopify-product-images",
         "datePublished": "2026-04-14",
         "dateModified": "2026-04-14",

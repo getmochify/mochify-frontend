@@ -138,7 +138,7 @@
 <ReadProgress />
 
 <svelte:head>
-	<title>Save Image as Type Alternative - Safe Right-Click Converter | Mochify</title>
+	<title>Save Image as Type Alternative - Safe Right-Click Converter</title>
 	<meta name="description" content={metadata.description} />
 	<meta
 		name="keywords"

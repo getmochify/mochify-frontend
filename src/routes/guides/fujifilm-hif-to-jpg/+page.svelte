@@ -4,6 +4,7 @@
 
     const metadata = {
         title: "Fuji HIF Files Explained: How to Convert X‑T5 / X‑H2 / X100VI / X‑T50 HIF to JPEG",
+        seoTitle: "Fuji HIF to JPEG: Convert X-T5, X-H2 and X100VI HIF Files",
         description: "What HIF/HEIF is, why Fuji shooters use it, and how to convert HIF to standard JPEG while keeping your film simulations.",
         category: "Image Formats",
         readTime: "5 min read",
@@ -15,9 +16,9 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title}</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
-    <meta property="og:title" content={metadata.title} />
+    <meta property="og:title" content={metadata.seoTitle} />
     <meta property="og:description" content={metadata.description} />
 
     <script type="application/ld+json">

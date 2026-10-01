@@ -8,7 +8,8 @@
 
     const metadata = {
         title: "Convert MP4 to WebM for the Web: Smaller Files, Faster Pages, No Upload Required",
-        description: "Convert MP4 to WebM using VP9 for 30–50% smaller files. Covers browser support, Core Web Vitals impact, the video fallback pattern, and in-browser conversion with no upload.",
+        seoTitle: "Convert MP4 to WebM - Smaller Files, No Upload Required",
+        description: "Convert MP4 to WebM with VP9 for 30–50% smaller files. Browser support, Core Web Vitals, the video fallback pattern and in-browser conversion, no upload.",
         category: "Web Performance",
         readTime: "17 min read",
         date: "June 26, 2026"
@@ -53,7 +54,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title} | Mochify</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:type" content="article" />
     <meta property="og:title" content={metadata.title} />
@@ -66,10 +67,10 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "Convert MP4 to WebM for the Web: Smaller Files, Faster Pages, No Upload Required",
-        "description": "Convert MP4 to WebM using VP9 for 30–50% smaller files. Covers browser support, Core Web Vitals impact, the video fallback pattern, and in-browser conversion with no upload.",
+        "description": "Convert MP4 to WebM with VP9 for 30–50% smaller files. Browser support, Core Web Vitals, the video fallback pattern and in-browser conversion, no upload.",
         "url": "https://mochify.app/guides/mp4-to-webm-web-video-guide",
         "datePublished": "2026-06-26",
-        "dateModified": "2026-06-26",
+        "dateModified": "2026-10-01",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -307,7 +308,7 @@
                 </table>
             </ScrollableTable>
 
-            <p class="mb-4">These are representative benchmarks corroborated by <a href="https://www.mux.com/articles/how-to-create-webm-videos-with-ffmpeg" target="_blank" rel="noopener noreferrer">Mux's encoding guidance</a>, which recommends 2–3 Mbps for 1080p VP9 versus 4–6 Mbps for H.264 at comparable quality - implying roughly 40–50% bitrate savings. A codec comparison tool from <a href="https://ittybit.com/guides/compare-video-codecs/" target="_blank" rel="noopener noreferrer">ittybit.com</a> shows similar results: for a 1080p test clip, H.264 output was ~25 MB, VP9 ~17 MB, and AV1 ~15 MB.</p>
+            <p class="mb-4">These are representative benchmarks corroborated by <a href="https://www.mux.com/articles/how-to-create-webm-videos-with-ffmpeg" target="_blank" rel="noopener noreferrer">Mux's encoding guidance</a>, which recommends 2–3 Mbps for 1080p VP9 versus 4–6 Mbps for H.264 at comparable quality - implying roughly 40–50% bitrate savings.</p>
             <p class="mb-4">The rule of thumb for planning: expect WebM/VP9 to deliver 30–50% smaller files than MP4/H.264 at equivalent visual quality. AV1 can push that to 40–58%, at the cost of significantly longer encode times.</p>
 
             <InfoBox type="tip" title="AV1 encode time trade-off">

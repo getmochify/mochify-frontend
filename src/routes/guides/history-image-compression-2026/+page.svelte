@@ -8,7 +8,8 @@
 
     const metadata = {
         title: "The History of Image Compression: From BMP to AVIF & Jpegli (2026 Guide)",
-        description: "A 2026 guide tracing the history of image compression from early bitmap formats and GIF through JPEG, PNG, WebP, HEIF/AVIF, and modern codecs like JPEG XL and jpegli, with a focus on web performance and privacy-first optimization.",
+        seoTitle: "History of Image Compression: From BMP to AVIF and Jpegli",
+        description: "The history of image compression, from early bitmaps and GIF through JPEG, PNG, WebP and HEIF/AVIF to JPEG XL and jpegli, for web performance and privacy.",
         category: "Image Formats",
         readTime: "15 min read",
         date: "February 15, 2026"
@@ -40,9 +41,9 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title}</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
-    <meta property="og:title" content={metadata.title} />
+    <meta property="og:title" content={metadata.seoTitle} />
     <meta property="og:description" content={metadata.description} />
 
     <script type="application/ld+json">
@@ -50,7 +51,7 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "The History of Image Compression (Up to 2026)",
-        "description": "A 2026 guide tracing the history of image compression from early bitmap formats and GIF through JPEG, PNG, WebP, HEIF/AVIF, and modern codecs like JPEG XL and jpegli, with a focus on web performance and privacy-first optimization.",
+        "description": "The history of image compression, from early bitmaps and GIF through JPEG, PNG, WebP and HEIF/AVIF to JPEG XL and jpegli, for web performance and privacy.",
         "url": "https://mochify.app/guides/history-image-compression-2026",
         "inLanguage": "en",
         "isPartOf": {

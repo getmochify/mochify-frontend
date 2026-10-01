@@ -14,10 +14,10 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression | Mochify</title>
-    <meta name="description" content="Looking for a GDPR-compliant image compressor hosted in the EU? Mochify processes images in memory only, never stores your files, and re-encodes images so EXIF metadata does not survive.">
-    <meta property="og:title" content="A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression | Mochify" />
-    <meta property="og:description" content="Looking for a GDPR-compliant image compressor hosted in the EU? Mochify processes images in memory only, never stores your files, and re-encodes images so EXIF metadata does not survive." />
+    <title>European Alternative to TinyPNG - Privacy-First Compression</title>
+    <meta name="description" content="GDPR-compliant image compression hosted in the EU: Mochify processes images in memory only, never stores your files, and strips EXIF metadata on re-encode.">
+    <meta property="og:title" content="European Alternative to TinyPNG - Privacy-First Compression" />
+    <meta property="og:description" content="GDPR-compliant image compression hosted in the EU: Mochify processes images in memory only, never stores your files, and strips EXIF metadata on re-encode." />
 
     <script type="application/ld+json">
         {

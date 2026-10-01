@@ -4,9 +4,9 @@
 
 <svelte:head>
     <title>MP4 to WebM — Free In-Browser Video Converter | Mochify</title>
-    <meta name="description" content="Convert MP4 to WebM free, right in your browser. Smaller files for web video, nothing uploaded, no account, no limits — your video never leaves your device.">
+    <meta name="description" content="Convert MP4 to WebM free, right in your browser. Smaller files for web video, nothing uploaded, no account needed: your video never leaves your device.">
     <meta property="og:title" content="MP4 to WebM — Free & Private In-Browser Converter | Mochify" />
-    <meta property="og:description" content="Convert MP4 to WebM free, right in your browser. Smaller files for web video, nothing uploaded, no account, no limits — your video never leaves your device." />
+    <meta property="og:description" content="Convert MP4 to WebM free, right in your browser. Smaller files for web video, nothing uploaded, no account needed: your video never leaves your device." />
 
     <script type="application/ld+json">
         {

@@ -248,7 +248,7 @@ export const EN_PRICING: PricingStrings = {
 	ctaContactAfter: '.',
 	metaTitle: 'Pricing | Mochify',
 	metaDescription:
-		'Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass for up to 100 images in 24 hours, no subscription.',
+		'Simple pricing: 3 images free with no signup, 25 a month on a free account, Seller, Pro and Growth from 300 to 5,000 images a month, or a one-off Day Pass.',
 	schemaUrl: 'https://mochify.app/pricing',
 	schemaDescription:
 		'Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month.',

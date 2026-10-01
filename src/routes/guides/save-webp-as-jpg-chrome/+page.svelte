@@ -17,7 +17,7 @@
 		category: 'Image Formats',
 		readTime: '19 min read',
 		date: 'September 22, 2026',
-		lastUpdated: 'September 29, 2026'
+		lastUpdated: 'October 1, 2026'
 	};
 
 	const toc = [
@@ -130,7 +130,7 @@
 <ReadProgress />
 
 <svelte:head>
-	<title>How to Save WebP as JPG in Chrome - Every Route That Works | Mochify</title>
+	<title>How to Save WebP as JPG in Chrome - Every Route That Works</title>
 	<meta name="description" content={metadata.description} />
 	<meta
 		name="robots"
@@ -158,7 +158,7 @@
 				"@id": "https://mochify.app/guides/save-webp-as-jpg-chrome"
 			},
 			"datePublished": "2026-09-22",
-			"dateModified": "2026-09-29",
+			"dateModified": "2026-10-01",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -378,10 +378,10 @@
 				<strong>decoded picture</strong>
 				on your clipboard, which is to say the actual pixels rather than the WebP container.
 				<a
-					href="https://web.dev/patterns/clipboard/copy-images/"
+					href="https://web.dev/articles/async-clipboard"
 					target="_blank"
 					rel="noopener noreferrer">web.dev's clipboard guidance</a
-				> notes that modern browsers support copying images to the clipboard as PNG and SVG, so what lands
+				> notes that modern browsers support copying images to the clipboard as PNG, so what lands
 				in your editor is a normal raster image with no WebP anywhere in it. Paste into Paint, Preview,
 				Photoshop, GIMP, Figma, Google Docs or Word, then save or export as JPEG.
 			</p>

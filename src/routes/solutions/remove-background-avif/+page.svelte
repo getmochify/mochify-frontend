@@ -4,7 +4,7 @@
     import { faqSchema, type FaqItem } from '$lib/faq';
 
     const metaDescription =
-        'Remove the background from an AVIF, JPG, PNG, WebP or HEIC image and download a transparent AVIF, usually the smallest transparent format. Free, no signup, processed in memory and never saved to disk.';
+        'Remove the background from an AVIF, JPG, PNG, WebP or HEIC image and download a transparent AVIF, usually the smallest transparent format. Free, no signup.';
 
     const useCases = [
         'Ecommerce product shots on a clean background',
@@ -93,7 +93,7 @@
 </script>
 
 <svelte:head>
-    <title>AVIF Background Remover - Transparent AVIF in One Step | Mochify</title>
+    <title>AVIF Background Remover - Transparent AVIF, Free | Mochify</title>
     <meta name="description" content={metaDescription}>
     <meta property="og:title" content="AVIF Background Remover - Mochify" />
     <meta property="og:description" content={metaDescription} />

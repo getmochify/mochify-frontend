@@ -4,7 +4,7 @@
     import { faqSchema, type FaqItem } from '$lib/faq';
 
     const metaDescription =
-        'Turn HEIC photos from an iPhone or iPad, or HEIF files from any source, into one PDF with a page per photo. Free, no signup, processed in memory and never saved to disk.';
+        'Turn HEIC photos from an iPhone or iPad, or HEIF files from any source, into one PDF with a page per photo. Free, no signup, never saved to disk.';
 
     const faqs: FaqItem[] = [
         {
@@ -74,7 +74,7 @@
 </script>
 
 <svelte:head>
-    <title>HEIC and HEIF to PDF Converter - Free, Online, No Signup | Mochify</title>
+    <title>HEIC and HEIF to PDF Converter - Free, No Signup | Mochify</title>
     <meta name="description" content={metaDescription}>
     <meta property="og:title" content="HEIC and HEIF to PDF Converter - Mochify" />
     <meta property="og:description" content={metaDescription} />

@@ -13,7 +13,7 @@
     ];
 
     const metaDescription =
-        'Convert JPG to JXL online in seconds: up to 3 files with no signup, one high-quality JPEG XL re-encode per photo, processed in memory and never saved to disk. Nothing to install and nothing to set.';
+        'Convert JPG to JXL online in seconds: 3 files free with no signup, one high-quality JPEG XL re-encode per photo. Processed in memory, never saved to disk.';
 
     const faqs: FaqItem[] = [
         {
@@ -98,7 +98,7 @@
 </script>
 
 <svelte:head>
-    <title>JPG to JXL Converter (JPEG XL) - Free, Online, No Signup | Mochify</title>
+    <title>JPG to JXL Converter - Free, Online, No Signup | Mochify</title>
     <meta name="description" content={metaDescription}>
     <meta property="og:title" content="JPG to JXL Converter - Mochify">
     <meta property="og:description" content={metaDescription}>

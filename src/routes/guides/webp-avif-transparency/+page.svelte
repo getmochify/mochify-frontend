@@ -18,7 +18,7 @@
 	const metadata = {
 		title: 'Do WebP and AVIF Support Transparency?',
 		description:
-			'Yes, both carry a full alpha channel. Why a transparent cut-out comes back black or white, the five causes, and how to check a file before blaming the format.',
+			'Yes, both carry a full alpha channel. Why a transparent cut-out comes back black or white, five causes, and how to check a file before blaming the format.',
 		category: 'Image Formats',
 		readTime: '14 min read',
 		date: 'September 21, 2026'
@@ -145,7 +145,7 @@
 			"@context": "https://schema.org",
 			"@type": "Article",
 			"headline": "Do WebP and AVIF Support Transparency? Why Cut-Outs Come Back Black or White (and How to Fix It)",
-			"description": "Yes, both carry a full alpha channel. Why a transparent cut-out comes back black or white, the five causes, and how to check a file before blaming the format.",
+			"description": "Yes, both carry a full alpha channel. Why a transparent cut-out comes back black or white, five causes, and how to check a file before blaming the format.",
 			"url": "https://mochify.app/guides/webp-avif-transparency",
 			"mainEntityOfPage": {
 				"@type": "WebPage",

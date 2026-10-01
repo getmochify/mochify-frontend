@@ -69,7 +69,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>Bring Your Own Bucket - Processed Images to Your S3 or R2 | Mochify</title>
+    <title>Bring Your Own Bucket - Processed Images to Your S3 or R2</title>
     <meta name="description" content={metadata.description}>
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />

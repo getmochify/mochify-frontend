@@ -31,7 +31,7 @@ export type EsFaq = { q: string; a: string };
 export const esFlowMeta = {
 	title: 'Convertir y comprimir imágenes online gratis | Mochify',
 	metaDescription:
-		'Convierte HEIC, WebP o PNG a JPG, comprime, redimensiona o quita el fondo de tus imágenes: dilo con tus palabras. Gratis, y puedes probarlo sin registrarte.',
+		'Convierte HEIC, WebP o PNG a JPG, comprime, redimensiona o quita el fondo de tus imágenes: dilo con tus palabras. Gratis. Puedes probarlo sin registrarte.',
 	ogTitle: 'Convierte HEIC, WebP y PNG a JPG, comprime y recorta',
 	ogDescription:
 		'Dilo con tus palabras: convierte, comprime, redimensiona o quita el fondo de tus imágenes. Gratis y sin instalar nada. Pruébalo sin registrarte.'

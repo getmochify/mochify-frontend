@@ -4,7 +4,7 @@
     import { faqSchema, type FaqItem } from '$lib/faq';
 
     const metaDescription =
-        'Combine WebP images into one PDF, a page per image in the order you add them. Mix in PNG, JPG, AVIF or HEIC. Free, no signup, processed in memory and never saved to disk.';
+        'Combine WebP images into one PDF, a page per image in the order you add them. Mix in PNG, JPG, AVIF or HEIC. Free, no signup, never saved to disk.';
 
     const faqs: FaqItem[] = [
         {
@@ -66,7 +66,7 @@
 </script>
 
 <svelte:head>
-    <title>WebP to PDF Converter - Combine WebP Images Into One PDF | Mochify</title>
+    <title>WebP to PDF Converter - Combine WebP Into One PDF | Mochify</title>
     <meta name="description" content={metaDescription}>
     <meta property="og:title" content="WebP to PDF Converter - Mochify" />
     <meta property="og:description" content={metaDescription} />

@@ -6,7 +6,7 @@
 
     const metadata = {
         title: "Product Image Requirements for Every Major Marketplace",
-        description: "The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted, and Depop - dimensions, formats, file size limits, and what each platform enforces.",
+        description: "The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted and Depop: dimensions, formats, file size limits and what each platform enforces.",
         category: "Image Formats",
         readTime: "17 min read",
         datePublished: "August 6, 2026",
@@ -39,7 +39,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>Product Image Requirements for Every Major Marketplace - Prep Once, Sell Everywhere</title>
+    <title>Product Image Requirements for Every Major Marketplace</title>
     <meta name="description" content={metadata.description}>
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
@@ -49,7 +49,7 @@
     <meta property="og:site_name" content="Mochify" />
     <meta property="og:locale" content="en" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Product Image Requirements for Every Major Marketplace - Prep Once, Sell Everywhere" />
+    <meta name="twitter:title" content="Product Image Requirements for Every Major Marketplace" />
     <meta name="twitter:description" content={metadata.description} />
 
     <script type="application/ld+json">
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "Product Image Requirements for Every Major Marketplace",
-        "description": "The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted, and Depop - dimensions, formats, file size limits, and what each platform enforces.",
+        "description": "The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted and Depop: dimensions, formats, file size limits and what each platform enforces.",
         "url": "https://mochify.app/guides/product-image-requirements-marketplace-guide",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -119,7 +119,7 @@
         "@type": "WebPage",
         "name": "Product Image Requirements for Every Major Marketplace",
         "url": "https://mochify.app/guides/product-image-requirements-marketplace-guide",
-        "description": "The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted, and Depop - dimensions, formats, file size limits, and what each platform enforces.",
+        "description": "The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted and Depop: dimensions, formats, file size limits and what each platform enforces.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-08-06",
         "dateModified": "2026-09-29"

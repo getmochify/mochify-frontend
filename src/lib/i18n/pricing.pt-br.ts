@@ -153,7 +153,7 @@ export const PT_BR_PRICING: PricingStrings = {
 	ctaContactAfter: '.',
 	metaTitle: 'Preços | Mochify',
 	metaDescription:
-		'Preços claros. 3 imagens grátis sem cadastro, ou 25 por mês com uma conta gratuita. Seller com 300 imagens, Pro com 1200 e Growth com 5000. Ou um Day Pass para 100 envios em 24 horas, sem assinatura.',
+		'Preços claros: 3 imagens grátis sem cadastro, 25 por mês com uma conta gratuita, Seller, Pro e Growth de 300 a 5000 imagens por mês, ou um Day Pass.',
 	schemaUrl: 'https://mochify.app/pt-br/pricing',
 	schemaDescription:
 		'Preços claros. 3 imagens grátis sem cadastro, ou 25 por mês com uma conta gratuita. Seller com 300 imagens, Pro com 1200 e Growth com 5000 imagens por mês.',

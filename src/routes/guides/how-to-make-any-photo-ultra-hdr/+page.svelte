@@ -18,7 +18,7 @@
 
     const metadata = {
         title: "How to Make Any Photo Ultra HDR (Google Photos, Samsung, iPhone, Lightroom, or Online)",
-        description: "Convert any photo to Ultra HDR on Google Photos, Samsung, iPhone, Lightroom or online: what conversion really does, exact steps, and where the result displays.",
+        description: "Convert any photo to Ultra HDR on Google Photos, Samsung, iPhone, Lightroom or online: what conversion does, the steps, and where the result displays.",
         category: "Image Formats",
         readTime: "23 min read",
         date: "September 20, 2026"
@@ -116,7 +116,7 @@ grep X-Mochify-HDR headers.txt
 <ReadProgress />
 
 <svelte:head>
-    <title>How to Convert a Photo to Ultra HDR - Every Platform | Mochify</title>
+    <title>How to Convert a Photo to Ultra HDR - Every Platform</title>
     <meta name="description" content={metadata.description}>
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
@@ -134,7 +134,7 @@ grep X-Mochify-HDR headers.txt
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "How to Make Any Photo Ultra HDR (Google Photos, Samsung, iPhone, Lightroom, or Online)",
-        "description": "Convert any photo to Ultra HDR on Google Photos, Samsung, iPhone, Lightroom or online: what conversion really does, exact steps, and where the result displays.",
+        "description": "Convert any photo to Ultra HDR on Google Photos, Samsung, iPhone, Lightroom or online: what conversion does, the steps, and where the result displays.",
         "url": "https://mochify.app/guides/how-to-make-any-photo-ultra-hdr",
         "mainEntityOfPage": {
             "@type": "WebPage",

@@ -4,7 +4,7 @@
     import { faqSchema, type FaqItem } from '$lib/faq';
 
     const metaDescription =
-        'Remove the background from any photo and download a transparent WebP, not a PNG you have to convert again. JPG, PNG, WebP, AVIF and HEIC in. Free, no signup, processed in memory and never saved to disk.';
+        'Remove the background from any photo and download a transparent WebP, not a PNG to convert again. JPG, PNG, WebP, AVIF and HEIC in. Free, no signup.';
 
     const useCases = [
         'Ecommerce product shots on a clean background',
@@ -93,7 +93,7 @@
 </script>
 
 <svelte:head>
-    <title>WebP Background Remover - Transparent WebP in One Step | Mochify</title>
+    <title>WebP Background Remover - Transparent WebP, Free | Mochify</title>
     <meta name="description" content={metaDescription}>
     <meta property="og:title" content="WebP Background Remover - Mochify" />
     <meta property="og:description" content={metaDescription} />

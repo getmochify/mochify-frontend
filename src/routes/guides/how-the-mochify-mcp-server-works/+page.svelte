@@ -7,6 +7,7 @@
 
     const metadata = {
         title: "How the Mochify MCP Server Works: Hosted vs Local, with Worked Examples",
+        seoTitle: "How the Mochify MCP Server Works: Hosted vs Local",
         description: "How Mochify's MCP server handles image compression for AI agents, hosted vs local workflows, token costs, and four worked examples.",
         category: "AI & Automation",
         readTime: "9 min read",
@@ -29,9 +30,9 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title}</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
-    <meta property="og:title" content={metadata.title} />
+    <meta property="og:title" content={metadata.seoTitle} />
     <meta property="og:description" content={metadata.description} />
 
     <script type="application/ld+json">

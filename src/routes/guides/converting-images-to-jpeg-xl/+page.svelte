@@ -8,11 +8,11 @@
 
     const metadata = {
         title: "Converting Images to JPEG XL: The Practical Guide for 2026",
-        description: "JPEG XL compression benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), honest 2026 browser support, and how to serve JXL safely with picture fallbacks.",
+        description: "JPEG XL compression benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), honest 2026 browser support, and how to serve JXL with picture fallbacks.",
         category: "Image Formats",
         readTime: "11 min read",
         datePublished: "June 26, 2026",
-        lastUpdated: "September 14, 2026"
+        lastUpdated: "October 1, 2026"
     };
 
     const related = [
@@ -54,7 +54,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title} | Mochify</title>
+    <title>{metadata.title}</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
@@ -66,14 +66,14 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "Converting Images to JPEG XL: The Practical Guide for 2026",
-        "description": "JPEG XL compression benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), honest 2026 browser support, and how to serve JXL safely with picture fallbacks.",
+        "description": "JPEG XL compression benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), honest 2026 browser support, and how to serve JXL with picture fallbacks.",
         "url": "https://mochify.app/guides/converting-images-to-jpeg-xl",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/converting-images-to-jpeg-xl"
         },
         "datePublished": "2026-06-26",
-        "dateModified": "2026-09-14",
+        "dateModified": "2026-10-01",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -239,7 +239,7 @@
             <p class="mb-4">PNG has been the default lossless format for web graphics for decades. JPEG XL lossless is a meaningful upgrade. Community benchmarking across hundreds of images found that JPEG XL lossless at effort=1 (very fast) produced files roughly <strong class="text-[#4A2C2C]">19–25% smaller than PNG</strong> at PNG's own maximum compression, while encoding around 150 times faster. At higher effort settings, JPEG XL lossless can be 40–50% smaller than PNG - at the cost of much slower encoding. For archival use where you run the encoder once and store the result, high-effort settings are often worth it. JPEG XL also supports full transparency in both lossy and lossless modes, making it a viable PNG replacement for logos, sprites, and UI assets. For a measured example on one real macOS screenshot, 46% smaller with every pixel checked, see <a href="/guides/jxl-vs-png-for-screenshots">JPEG XL vs PNG for screenshots</a>.</p>
 
             <h3 class="font-bold text-[#4A2C2C] text-xl mt-8 mb-3">Lossless JPEG archiving</h3>
-            <p class="mb-4">This is JPEG XL's most distinctive feature. Existing JPEG files can be transcoded into a JXL container that allows exact byte-for-byte reconstruction of the original JPEG. The <a href="https://infoscience.epfl.ch/nanna/record/277420/files/Submitted%20manuscript.pdf" target="_blank" rel="noopener noreferrer">EPFL/Google benchmarking paper</a> puts the average storage reduction for this reversible transcoding at <strong class="text-[#4A2C2C]">22%</strong> across broad test sets, with Apple's WWDC documentation noting up to 60% reduction on some photographic datasets at higher settings.</p>
+            <p class="mb-4">This is JPEG XL's most distinctive feature. Existing JPEG files can be transcoded into a JXL container that allows exact byte-for-byte reconstruction of the original JPEG. The <a href="https://doi.org/10.1117/12.2556264" target="_blank" rel="noopener noreferrer">EPFL/Google benchmarking paper</a> puts the average storage reduction for this reversible transcoding at <strong class="text-[#4A2C2C]">22%</strong> across broad test sets, with Apple's WWDC documentation noting up to 60% reduction on some photographic datasets at higher settings.</p>
             <p>For large JPEG archives - e-commerce product catalogs, photo libraries, stock collections - converting JPEG to JXL in lossless-transcode mode gives you 20–40% storage savings while preserving the ability to reconstruct the original JPEG exactly. That is a hard-to-argue-with value proposition for archival pipelines, independent of browser support.</p>
         </section>
 

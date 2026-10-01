@@ -4,7 +4,7 @@
     import { faqSchema, type FaqItem } from '$lib/faq';
 
     const metaDescription =
-        'Combine JXL images into one PDF online: one page per image in upload order, up to 20 files, no signup for your first PDF. Each image is stored in the PDF as a standard JPEG so it opens anywhere. Built in memory, never saved to disk.';
+        'Combine JXL images into one PDF online, a page per image in upload order. Each image is stored as a standard JPEG so it opens anywhere. Free, no signup.';
 
     const faqs: FaqItem[] = [
         {

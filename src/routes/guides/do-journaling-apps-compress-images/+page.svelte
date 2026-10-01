@@ -5,6 +5,7 @@
 
     const metadata = {
         title: "Do Journaling Apps Compress Images? Avoid Storage Bloat.",
+        seoTitle: "Do Journaling Apps Compress Images? Avoid Storage Bloat",
         description: "Most journaling apps skip real compression or make it worse. Day One converts HEIC to larger JPEGs. Here's how to fix storage bloat before it hits.",
         category: "Quick Guides",
         readTime: "4 min read",
@@ -15,7 +16,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title} | Mochify</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />

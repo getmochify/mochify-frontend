@@ -43,7 +43,7 @@
 
 <svelte:head>
     <title>Vinted Photo Optimization for Sellers | Mochify</title>
-    <meta name="description" content="Better Vinted photos get more likes, more messages, and faster sales. Mochify resizes to the perfect 3:4 portrait, removes backgrounds, and makes your listings stand out.">
+    <meta name="description" content="Better Vinted photos get more likes, messages and faster sales. Mochify resizes to a 3:4 portrait, removes backgrounds and makes your listings stand out.">
     <meta name="keywords" content="Vinted photo size, optimize images for Vinted, Vinted image requirements, best photos for Vinted, Vinted listing photos">
     <meta property="og:title" content="Better Vinted Photos. More Likes. Faster Sales.">
     <meta property="og:description" content="Mochify gets your Vinted photos to the perfect size with clean backgrounds, so buyers stop scrolling and start buying.">

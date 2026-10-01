@@ -4,7 +4,7 @@
     import { faqSchema, type FaqItem } from '$lib/faq';
 
     const metaDescription =
-        'Convert PNG to JXL online in seconds: a high-quality JPEG XL encode by default, or switch Lossless on for a pixel-exact copy that is usually still smaller than the PNG. Up to 3 files with no signup, processed in memory and never saved to disk.';
+        'Convert PNG to JXL online: high-quality JPEG XL by default, or switch Lossless on for a pixel-exact copy, usually smaller than the PNG. Free, no signup.';
 
     const faqs: FaqItem[] = [
         {
@@ -125,7 +125,7 @@
 </script>
 
 <svelte:head>
-    <title>PNG to JXL Converter (JPEG XL) - Lossless Option, Free, No Signup | Mochify</title>
+    <title>PNG to JXL Converter - Lossless Option, No Signup | Mochify</title>
     <meta name="description" content={metaDescription}>
     <meta property="og:title" content="PNG to JXL Converter - Mochify" />
     <meta property="og:description" content={metaDescription} />

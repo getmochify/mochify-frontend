@@ -12,7 +12,7 @@
 
     const metadata = {
         title: "Does JPEG Support HDR?",
-        description: "Yes: a JPEG can carry HDR as a gain map (Ultra HDR, Adaptive HDR, ISO 21496-1) and opens everywhere. Why most \"JPG to HDR\" converters give you the wrong file.",
+        description: "Yes: a JPEG can carry HDR as a gain map (Ultra HDR, Adaptive HDR, ISO 21496-1) and opens everywhere. Why most \"JPG to HDR\" converters give the wrong file.",
         category: "Quick Guides",
         readTime: "3 min read",
         date: "September 20, 2026"
@@ -46,7 +46,7 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "Does JPEG Support HDR?",
-        "description": "Yes: a JPEG can carry HDR as a gain map (Ultra HDR, Adaptive HDR, ISO 21496-1) and opens everywhere. Why most \"JPG to HDR\" converters give you the wrong file.",
+        "description": "Yes: a JPEG can carry HDR as a gain map (Ultra HDR, Adaptive HDR, ISO 21496-1) and opens everywhere. Why most \"JPG to HDR\" converters give the wrong file.",
         "url": "https://mochify.app/guides/does-jpeg-support-hdr",
         "mainEntityOfPage": {
             "@type": "WebPage",

@@ -4,7 +4,7 @@
     import { faqSchema, type FaqItem } from '$lib/faq';
 
     const metaDescription =
-        'Free one-job image tools: HEIC, HIF and AVIF to JPG, JPEG XL, background removal, square crop, images to PDF and MP4 to WebM. Your first 3 images a month need no signup.';
+        'Free one-job image tools: HEIC, HIF and AVIF to JPG, JPEG XL, background removal, square crop, images to PDF, MP4 to WebM. 3 images a month with no signup.';
 
     // Cards grouped under a heading each, rather than 20 flat H2s. The order and
     // the group names match the "Which tool do I need?" section below, so a tool
@@ -178,7 +178,7 @@
 </script>
 
 <svelte:head>
-    <title>Free Image Converters and Tools: HEIC, HIF, AVIF, JXL, PDF | Mochify</title>
+    <title>Free Image Converters: HEIC, HIF, AVIF, JXL, PDF | Mochify</title>
     <meta name="description" content={metaDescription}>
     <meta property="og:title" content="Free Image Converters and Tools - Mochify" />
     <meta property="og:description" content={metaDescription} />

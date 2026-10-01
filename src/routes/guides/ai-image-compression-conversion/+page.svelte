@@ -8,6 +8,7 @@
 
     const metadata = {
         title: 'AI Image Compression and Conversion: Describe the Result, Skip the Settings',
+        seoTitle: "AI Image Compression and Conversion: Describe the Result",
         description: 'AI image compression and conversion: describe the result in plain English and let Mochify pick the format, quality and size, across web, CLI, API and MCP.',
         category: 'AI & Automation',
         readTime: '12 min read',
@@ -90,9 +91,9 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title}</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description} />
-    <meta property="og:title" content={metadata.title} />
+    <meta property="og:title" content={metadata.seoTitle} />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://mochify.app/guides/ai-image-compression-conversion" />

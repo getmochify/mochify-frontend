@@ -27,7 +27,7 @@ export type PtSection = { id: string; heading: string; blocks: PtSectionBlock[] 
 export const ptBrFlowMeta = {
 	title: 'Comprimir e redimensionar imagem online grátis | Mochify',
 	metaDescription:
-		'Comprima, redimensione, corte ou converta HEIC para JPG: é só dizer o que você quer, numa frase. Grátis, sem instalar nada, e você pode testar sem cadastro.',
+		'Comprima, redimensione, corte ou converta HEIC para JPG: é só dizer o que você quer, numa frase. Grátis, sem instalar nada, teste sem cadastro.',
 	ogTitle: 'Comprima, redimensione e converta HEIC para JPG: é só pedir',
 	ogDescription:
 		'É só dizer o que você quer: comprimir, redimensionar, converter HEIC para JPG ou remover o fundo. Grátis, e você pode testar sem cadastro.'

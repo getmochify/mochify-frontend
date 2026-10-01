@@ -19,7 +19,7 @@
     const metadata = {
         title: "Why Did My Upload Fail? Every Mochify Error, Explained",
         seoTitle: "Why Did My Upload Fail - Every Mochify Error Explained",
-        description: "Every upload and conversion error Mochify shows, what caused it, what we already did about it, and the one thing to try next. From the engineers who built it.",
+        description: "Every upload and conversion error Mochify shows, what caused it, what we did about it, and the one thing to try next. From the engineers who built it.",
         category: "Image Optimization",
         readTime: "17 min read",
         date: "September 17, 2026"
@@ -121,7 +121,7 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "Why Did My Upload Fail? Every Mochify Error, Explained",
-        "description": "Every upload and conversion error Mochify shows, what caused it, what we already did about it, and the one thing to try next. From the engineers who built it.",
+        "description": "Every upload and conversion error Mochify shows, what caused it, what we did about it, and the one thing to try next. From the engineers who built it.",
         "url": "https://mochify.app/guides/why-did-my-upload-fail",
         "mainEntityOfPage": {
             "@type": "WebPage",

@@ -8,7 +8,8 @@
 
     const metadata = {
         title: "Ecommerce Product Photo Workflow: Resize & Convert in One Prompt",
-        description: "How to batch-convert product photos to JPG at 1200px and 800px with a single natural-language prompt. The fastest workflow for Shopify, Etsy, eBay, and Amazon sellers.",
+        seoTitle: "Ecommerce Product Photo Workflow: Resize & Convert at Once",
+        description: "Batch-convert product photos to JPG at 1200px and 800px with one natural-language prompt. The fastest workflow for Shopify, Etsy, eBay and Amazon sellers.",
         category: "Workflows",
         readTime: "4 min read",
         date: "May 23, 2026",
@@ -56,7 +57,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title} | Mochify</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
@@ -71,7 +72,7 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "Ecommerce Product Photo Workflow: Resize & Convert in One Prompt",
-        "description": "How to batch-convert product photos to JPG at 1200px and 800px with a single natural-language prompt. The fastest workflow for Shopify, Etsy, eBay, and Amazon sellers.",
+        "description": "Batch-convert product photos to JPG at 1200px and 800px with one natural-language prompt. The fastest workflow for Shopify, Etsy, eBay and Amazon sellers.",
         "url": "https://mochify.app/guides/ecommerce-product-photo-workflow-resize-convert",
         "datePublished": "2026-05-23",
         "dateModified": "2026-09-22",

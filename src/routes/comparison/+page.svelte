@@ -223,7 +223,7 @@
 
 <svelte:head>
     <title>Image Quality Comparison Tool | Mochify</title>
-    <meta name="description" content="Compare your original image against Mochify's compressed output with a Squoosh‑style slider. Supports WebP, AVIF, JXL and JPG with optional smart compression.">
+    <meta name="description" content="Compare your original image against Mochify's compressed output with a Squoosh-style slider. Supports WebP, AVIF, JXL and JPG.">
     <meta property="og:title" content="Image Comparison Tool – See the savings in real time">
     <meta property="og:description" content="Upload once, drag to compare. Choose WebP, AVIF, JXL or JPG and see exactly how much space Mochify saves without touching quality.">
     

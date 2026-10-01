@@ -6,7 +6,7 @@
 
     const metadata = {
         title: "AI Image Compression with Natural Language - Mochify 2026",
-        description: "Describe your image goal in plain English and Mochify's AI picks the right format, size, and settings automatically. Powered by Mistral Small 4. No tech knowledge needed.",
+        description: "Describe your image goal in plain English and Mochify's AI picks the format, size and encoding. Powered by Mistral Small 4. No technical knowledge needed.",
         category: "AI & Automation",
         readTime: "8 min read",
         date: "March 8, 2026"
@@ -26,7 +26,7 @@
         "@context": "https://schema.org",
         "@type": ["TechArticle", "HowTo"],
         "headline": "AI-Powered Image Compression: How Mochify's Natural Language Feature Works (2026)",
-        "description": "Describe your image goal in plain English and Mochify's AI picks the right format, size, and settings automatically. Powered by Mistral Small 4. No tech knowledge needed.",
+        "description": "Describe your image goal in plain English and Mochify's AI picks the format, size and encoding. Powered by Mistral Small 4. No technical knowledge needed.",
         "url": "https://mochify.app/guides/ai-image-compression-natural-language-2026",
         "inLanguage": "en",
         "isPartOf": {

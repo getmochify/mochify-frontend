@@ -8,7 +8,7 @@
     const metadata = {
         title: "Photo File Too Large to Upload? Why Free Tools Reject Camera Files",
         seoTitle: "File Too Large to Upload? The Fix for Big Camera Photos",
-        description: "Why free tools reject modern camera files: real sizes from 45-61MP bodies, the 5-20MB caps that refuse them, and the fastest path to files that upload anywhere.",
+        description: "Why free tools reject modern camera files: real sizes from 45-61MP bodies, the 5-20MB caps that refuse them, and the fastest route to a file that uploads.",
         category: "Image Optimization",
         readTime: "12 min read",
         date: "July 23, 2026",
@@ -70,7 +70,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.seoTitle} | Mochify</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
@@ -88,7 +88,7 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "Photo File Too Large to Upload? Why Free Tools Reject Camera Files",
-        "description": "Why free tools reject modern camera files: real sizes from 45-61MP bodies, the 5-20MB caps that refuse them, and the fastest path to files that upload anywhere.",
+        "description": "Why free tools reject modern camera files: real sizes from 45-61MP bodies, the 5-20MB caps that refuse them, and the fastest route to a file that uploads.",
         "url": "https://mochify.app/guides/photo-file-too-large-to-upload",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -153,7 +153,7 @@
         "@type": "WebPage",
         "name": "Photo File Too Large to Upload? Why Free Tools Reject Camera Files",
         "url": "https://mochify.app/guides/photo-file-too-large-to-upload",
-        "description": "Why free tools reject modern camera files: real sizes from 45-61MP bodies, the 5-20MB caps that refuse them, and the fastest path to files that upload anywhere.",
+        "description": "Why free tools reject modern camera files: real sizes from 45-61MP bodies, the 5-20MB caps that refuse them, and the fastest route to a file that uploads.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-23",
         "dateModified": "2026-09-26"

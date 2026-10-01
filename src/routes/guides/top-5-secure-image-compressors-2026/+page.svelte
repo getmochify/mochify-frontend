@@ -44,10 +44,10 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>Top 5 Secure Image Compressors - Privacy & Performance Comparison (2026)</title>
-    <meta name="description" content="Compare the best secure image compressors of 2026. Find out which tools offer true zero-retention privacy, support HEIC/AVIF/JPEG XL, and deliver the smallest files.">
-    <meta property="og:title" content="Top 5 Secure Image Compressors - Privacy & Performance Comparison (2026)" />
-    <meta property="og:description" content="Compare the best secure image compressors of 2026. Find out which tools offer true zero-retention privacy, support HEIC/AVIF/JPEG XL, and deliver the smallest files." />
+    <title>Top 5 Secure Image Compressors (2026) - Privacy Compared</title>
+    <meta name="description" content="Compare the best secure image compressors of 2026: which offer true zero-retention privacy, support HEIC, AVIF and JPEG XL, and deliver the smallest files.">
+    <meta property="og:title" content="Top 5 Secure Image Compressors (2026) - Privacy Compared" />
+    <meta property="og:description" content="Compare the best secure image compressors of 2026: which offer true zero-retention privacy, support HEIC, AVIF and JPEG XL, and deliver the smallest files." />
 
     <script type="application/ld+json">
        {

@@ -18,14 +18,14 @@
 	<title>Pricing | Mochify</title>
 	<meta
 		name="description"
-		content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass for up to 100 images in 24 hours, no subscription."
+		content="Simple pricing: 3 images free with no signup, 25 a month on a free account, Seller, Pro and Growth from 300 to 5,000 images a month, or a one-off Day Pass."
 	/>
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://mochify.app/pricing" />
 	<meta property="og:title" content="Pricing | Mochify" />
 	<meta
 		property="og:description"
-		content="Simple, transparent pricing. Try 3 images free without signing up, or create a free account for 25 images/month. Upgrade to Seller for 300, Pro for 1,200 or Growth for 5,000 images a month. Or grab a $2 Day Pass for up to 100 images in 24 hours, no subscription."
+		content="Simple pricing: 3 images free with no signup, 25 a month on a free account, Seller, Pro and Growth from 300 to 5,000 images a month, or a one-off Day Pass."
 	/>
 </svelte:head>
 

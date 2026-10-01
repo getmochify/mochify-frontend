@@ -7,6 +7,7 @@
 
     const metadata = {
         title: "HIF to JPG: Convert Canon, Sony & Fujifilm Photos to Shareable JPEGs",
+        seoTitle: "HIF to JPG: Convert Canon, Sony & Fujifilm Photos to JPEG",
         description: "Convert HIF to JPG from Canon, Sony and Fujifilm cameras. Every method on every platform, plus what you trade away going 10-bit to 8-bit.",
         category: "Image Formats",
         readTime: "19 min read",
@@ -83,10 +84,10 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title}</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description} />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content={metadata.title} />
+    <meta property="og:title" content={metadata.seoTitle} />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/hif-to-jpg-canon-sony-fujifilm" />
     <meta name="twitter:card" content="summary_large_image" />

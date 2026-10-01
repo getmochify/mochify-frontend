@@ -6,6 +6,7 @@
 
     const metadata = {
         title: "Should I Use fetchpriority or rel=\"preload\" for My LCP Image?",
+        seoTitle: "Should I Use fetchpriority or preload for My LCP Image?",
         description: "Use fetchpriority=\"high\" on an <img> tag found in HTML. Use rel=\"preload\" when the browser discovers the image late, via CSS or JavaScript.",
         category: "Quick Guides",
         readTime: "2 min read",
@@ -34,7 +35,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title} | Mochify</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />

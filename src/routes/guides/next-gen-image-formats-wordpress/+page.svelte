@@ -50,9 +50,9 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>Fix “Serve Images in Next-Gen Formats” in WordPress (No Plugins)</title>
+    <title>Fix “Serve Images in Next-Gen Formats” in WordPress</title>
     <meta name="description" content="A manual, repeatable workflow to improve LCP and reduce transfer size in WordPress without installing more image optimization plugins." />
-    <meta property="og:title" content="Fix “Serve Images in Next-Gen Formats” in WordPress (No Plugins)" />
+    <meta property="og:title" content="Fix “Serve Images in Next-Gen Formats” in WordPress" />
     <meta property="og:description" content="Convert to WebP/AVIF, shrink hero images, and boost LCP with a sleek Mochify workflow." />
     <script type="application/ld+json">
         {

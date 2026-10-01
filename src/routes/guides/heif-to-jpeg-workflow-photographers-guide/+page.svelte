@@ -7,7 +7,8 @@
 
     const metadata = {
         title: "HIF/HEIF to JPEG for Professional Photographers: A Privacy-First Workflow Guide",
-        description: "Convert Canon HIF and HEIF to JPEG with confidence. Wedding, commercial, and editorial workflow blueprints with EXIF stripping, batch sizing, and zero-retention processing.",
+        seoTitle: "HIF/HEIF to JPEG for Photographers: Privacy-First Workflow",
+        description: "Convert Canon HIF and HEIF to JPEG with confidence: wedding, commercial and editorial workflows with EXIF stripping, batch sizing and zero retention.",
         category: "Workflow Guide",
         readTime: "12 min read",
         date: "April 23, 2026"
@@ -28,9 +29,9 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title}</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
-    <meta property="og:title" content={metadata.title} />
+    <meta property="og:title" content={metadata.seoTitle} />
     <meta property="og:description" content={metadata.description} />
 
     <script type="application/ld+json">

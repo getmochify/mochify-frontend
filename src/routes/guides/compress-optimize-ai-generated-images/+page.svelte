@@ -7,7 +7,7 @@
 
     const metadata = {
         title: "How to Compress and Optimize AI-Generated Images (in Automated and Agent Workflows)",
-        description: "AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize-after-generation step in an agent pipeline.",
+        description: "AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize step in an agent pipeline.",
         category: "AI & Automation",
         readTime: "15 min read",
         date: "July 2, 2026",
@@ -85,7 +85,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>AI Image Compression - Optimize Generated Assets in Agent Workflows</title>
+    <title>Compress AI-Generated Images - Optimize in Agent Workflows</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:type" content="article" />
     <meta property="og:title" content="How to Compress and Optimize AI-Generated Images (in Automated and Agent Workflows)" />
@@ -100,7 +100,7 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "How to Compress and Optimize AI-Generated Images (in Automated and Agent Workflows)",
-        "description": "AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize-after-generation step in an agent pipeline.",
+        "description": "AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize step in an agent pipeline.",
         "url": "https://mochify.app/guides/compress-optimize-ai-generated-images",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -162,7 +162,7 @@
         "@type": "WebPage",
         "name": "How to Compress and Optimize AI-Generated Images (in Automated and Agent Workflows)",
         "url": "https://mochify.app/guides/compress-optimize-ai-generated-images",
-        "description": "AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize-after-generation step in an agent pipeline.",
+        "description": "AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize step in an agent pipeline.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-02",
         "dateModified": "2026-09-23"

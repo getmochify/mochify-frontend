@@ -6,6 +6,7 @@
 
     const metadata = {
         title: "SVG Conversion Guide: When to Keep Vector and When to Rasterize",
+        seoTitle: "SVG Conversion Guide: When to Keep Vector or Rasterize",
         description: "Know exactly when to keep SVG and when to convert it. Decision framework, format comparison, and WordPress workflows from the Mochify Engineering Team.",
         category: "Image Formats",
         readTime: "8 min read",
@@ -28,9 +29,9 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title}</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
-    <meta property="og:title" content={metadata.title} />
+    <meta property="og:title" content={metadata.seoTitle} />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://mochify.app/guides/svg-conversion-guide-vector-vs-raster" />

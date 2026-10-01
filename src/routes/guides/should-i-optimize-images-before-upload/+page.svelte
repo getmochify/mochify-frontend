@@ -8,7 +8,7 @@
 
     const metadata = {
         title: "Should I Optimize My Images Before I Upload Them?",
-        description: "Should you optimize images before upload? Almost always yes. A practical guide covering LCP, EXIF privacy, formats, and the right workflow for Shopify, WordPress, and marketplaces.",
+        description: "Should you optimize images before upload? Almost always yes. A practical guide to LCP, EXIF privacy, formats and the workflow for Shopify and WordPress.",
         category: "Image Optimization",
         readTime: "15 min read",
         date: "April 13, 2026",

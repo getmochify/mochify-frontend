@@ -7,7 +7,7 @@
 
     const metadata = {
         title: "How to Use Jpegli for Shopify Product Images",
-        description: "Pre-compress Shopify product images with Jpegli before upload. Stop Shopify's recompression from degrading quality - get ~35% smaller files, faster LCP, and better search rankings.",
+        description: "Pre-compress Shopify product images with Jpegli before upload so Shopify's recompression can't degrade them: ~35% smaller files, faster LCP, better SEO.",
         category: "Quick Guides",
         readTime: "6 min read",
         date: "April 6, 2026",
@@ -47,7 +47,7 @@
         "@context": "https://schema.org",
         "@type": ["TechArticle", "HowTo"],
         "headline": "How to Use Jpegli for Shopify Product Images",
-        "description": "Pre-compress Shopify product images with Jpegli before upload. Stop Shopify's recompression from degrading quality - get ~35% smaller files, faster LCP, and better search rankings.",
+        "description": "Pre-compress Shopify product images with Jpegli before upload so Shopify's recompression can't degrade them: ~35% smaller files, faster LCP, better SEO.",
         "url": "https://mochify.app/guides/jpegli-shopify-product-images",
         "inLanguage": "en",
         "datePublished": "2026-04-06",

@@ -6,6 +6,7 @@
 
     const metadata = {
         title: "Does HEIF/HEIC Work With Client Gallery Platforms Like Pixieset and SmugMug?",
+        seoTitle: "Does HEIF/HEIC Work With Pixieset and SmugMug Galleries?",
         description: "HEIF and HEIC files don't work reliably with most client gallery platforms. Here's what actually happens on upload, and how to keep control of your output.",
         category: "Quick Guide",
         readTime: "3 min read",
@@ -17,7 +18,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title} | Mochify</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />

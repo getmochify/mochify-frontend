@@ -8,6 +8,7 @@
 
     const metadata = {
         title: "AI Agent Workflow Automation for Photographers: Save Hours with Claude and Mochify",
+        seoTitle: "AI Agent Workflow Automation for Photographers - Save Hours",
         description: "Build a hands-off post-shoot pipeline with Claude, Dispatch, and Mochify MCP. Files land in upload-ready folders while you're still in the field.",
         category: "Workflow Automation",
         readTime: "10 min read",
@@ -58,7 +59,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title} | Mochify</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />

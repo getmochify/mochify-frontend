@@ -76,7 +76,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>How to Convert AVIF to JPG on Windows 11, Mac or Online (2026 Guide) | Mochify</title>
+    <title>How to Convert AVIF to JPG on Windows 11, Mac or Online</title>
     <meta name="description" content={metadata.description}>
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
@@ -86,7 +86,7 @@
     <meta property="og:site_name" content="Mochify" />
     <meta property="og:locale" content="en" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="How to Convert AVIF to JPG on Windows 11, Mac or Online (2026 Guide) | Mochify" />
+    <meta name="twitter:title" content="How to Convert AVIF to JPG on Windows 11, Mac or Online" />
     <meta name="twitter:description" content={metadata.description} />
 
     <script type="application/ld+json">

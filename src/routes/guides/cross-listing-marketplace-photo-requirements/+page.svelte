@@ -106,7 +106,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.seoTitle} | Mochify</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />

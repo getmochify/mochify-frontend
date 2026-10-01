@@ -14,8 +14,8 @@
 <ReadProgress />
 
 <svelte:head>
-<title>Self-Hosting Image Optimization with Mochify-Lite on Docker (2026 Guide)</title>
-<meta name="description" content="Learn how to self-host your own image compression engine with Mochify-Lite on Docker. Complete setup guide with API usage examples, security best practices, and comparison to the full Mochify engine.">
+<title>Self-Host Image Optimization: Mochify-Lite on Docker</title>
+<meta name="description" content="Self-host your own image compression engine with Mochify-Lite on Docker: setup, API examples, security practices and how it compares to the full engine.">
 <meta property="og:title" content="Self-Host Your Own Image Optimizer: Mochify-Lite on Docker" />
 <meta property="og:description" content="Stop relying on third-party services. Set up Mochify-Lite on Docker for private, local image compression with libjpeg-turbo. Perfect for developers who want full control." />
 <meta property="og:type" content="article" />
@@ -26,7 +26,7 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Self-Hosting Image Optimization with Mochify-Lite on Docker (2026 Guide)",
-    "description": "Learn how to self-host your own image compression engine with Mochify-Lite on Docker. Complete setup guide with API usage examples, security best practices, and comparison to the full Mochify engine.",
+    "description": "Self-host your own image compression engine with Mochify-Lite on Docker: setup, API examples, security practices and how it compares to the full engine.",
     "author": {
         "@type": "Organization",
         "name": "Mochify Engineering Team"
@@ -37,7 +37,7 @@
         "url": "https://mochify.app"
     },
     "datePublished": "2026-02-18",
-    "dateModified": "2026-02-18",
+    "dateModified": "2026-10-01",
     "url": "https://mochify.app/guides/self-hosting-image-optimization-docker",
     "isPartOf": {
         "@type": "CollectionPage",
@@ -125,7 +125,7 @@
                 <li><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">--tmpfs:</code> Since the filesystem is read-only, this creates a small, fast 64MB buffer in RAM for the engine to process images temporarily.</li>
                 <li><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">--security-opt=no-new-privileges:</code> Prevents the container processes from gaining additional privileges, adding an extra layer of security.</li>
             </ul>
-            <p>Once the command finishes, your local image compression engine is live and ready to receive requests at <a href="http://localhost:5555" class="text-[#F06292] font-bold underline decoration-2 decoration-[#FFB3C6] underline-offset-4 hover:text-[#ec407a] hover:decoration-[#F06292] hover:bg-[#FFF0F3] hover:rounded transition-colors">http://localhost:5555</a>. Further example configuration can be found on <a href="https://github.com/tliesnham/mochify-docker" class="text-[#F06292] font-bold underline decoration-2 decoration-[#FFB3C6] underline-offset-4 hover:text-[#ec407a] hover:decoration-[#F06292] hover:bg-[#FFF0F3] hover:rounded transition-colors">GitHub</a>.</p>
+            <p>Once the command finishes, your local image compression engine is live and ready to receive requests at <code>http://localhost:5555</code>. Further example configuration can be found on <a href="https://github.com/tliesnham/mochify-docker" class="text-[#F06292] font-bold underline decoration-2 decoration-[#FFB3C6] underline-offset-4 hover:text-[#ec407a] hover:decoration-[#F06292] hover:bg-[#FFF0F3] hover:rounded transition-colors">GitHub</a>.</p>
         </section>
 
         <section id="using-the-api">

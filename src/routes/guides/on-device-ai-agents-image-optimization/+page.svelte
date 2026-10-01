@@ -7,6 +7,7 @@
 
     const metadata = {
         title: "On-Device AI Agents - Image and PDF Optimization for Local Workflows",
+        seoTitle: "On-Device AI Agents - Local Image and PDF Optimization",
         description: "From NVIDIA DGX Spark to Apple Silicon, local AI agents are real in 2026. What that means for handling images and PDFs inside MCP agent pipelines.",
         category: "AI & Automation",
         readTime: "15 min read",
@@ -87,9 +88,9 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title}</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
-    <meta property="og:title" content={metadata.title} />
+    <meta property="og:title" content={metadata.seoTitle} />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:type" content="article" />
 

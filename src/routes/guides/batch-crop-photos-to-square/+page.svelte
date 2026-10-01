@@ -131,7 +131,7 @@
 <ReadProgress />
 
 <svelte:head>
-	<title>How to Batch Crop Images - Windows, Mac, iPhone, CLI | Mochify</title>
+	<title>How to Batch Crop Images - Windows, Mac, iPhone, CLI</title>
 	<meta name="description" content={metadata.description} />
 	<meta
 		name="keywords"

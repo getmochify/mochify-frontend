@@ -24,7 +24,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>What Is a JXL File? How to Open, Convert, and Share JPEG XL | Mochify</title>
+    <title>What Is a JXL File? How to Open, Convert and Share JPEG XL</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:type" content="article" />
     <meta property="og:title" content={metadata.title} />

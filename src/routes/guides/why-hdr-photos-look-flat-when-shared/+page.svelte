@@ -117,7 +117,7 @@ grep X-Mochify-HDR headers.txt
 <ReadProgress />
 
 <svelte:head>
-    <title>Why HDR Photos Look Flat When Shared - Gain Maps Explained | Mochify</title>
+    <title>Why HDR Photos Look Flat When Shared - Gain Maps Explained</title>
     <meta name="description" content={metadata.description}>
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />

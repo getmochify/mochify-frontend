@@ -7,7 +7,8 @@
 
     const metadata = {
         title: "Extract Images from PDF in AI Agent Workflows: Split and Convert Pages",
-        description: "How to extract images from PDF, split multi-page files, and convert pages to WebP inside an AI agent pipeline. Mechanics, pitfalls, and a privacy-first workflow.",
+        seoTitle: "Extract Images from PDF in AI Agent Workflows - Split Pages",
+        description: "How to extract images from PDF, split multi-page files and convert pages to WebP in an AI agent pipeline. Mechanics, pitfalls and a privacy-first workflow.",
         category: "AI & Automation",
         readTime: "12 min read",
         date: "June 16, 2026",
@@ -63,7 +64,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title} | Mochify</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Extract Images from PDF in AI Agent Workflows - Split & Convert" />
@@ -76,7 +77,7 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "Extract Images from PDF in AI Agent Workflows: Split and Convert Pages",
-        "description": "How to extract images from PDF, split multi-page files, and convert pages to WebP inside an AI agent pipeline. Mechanics, pitfalls, and a privacy-first workflow.",
+        "description": "How to extract images from PDF, split multi-page files and convert pages to WebP in an AI agent pipeline. Mechanics, pitfalls and a privacy-first workflow.",
         "url": "https://mochify.app/guides/extract-images-from-pdf-agent-workflows",
         "datePublished": "2026-06-16",
         "dateModified": "2026-09-12",

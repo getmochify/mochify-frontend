@@ -4,7 +4,7 @@
     import { faqSchema, type FaqItem } from '$lib/faq';
 
     const metaDescription =
-        "Resize photos to eBay's recommended 1600px and convert iPhone HEIC, camera HIF, WebP, AVIF and PNG to high-quality JPEG. Free, no signup, processed in memory and never saved, GPS stripped by default.";
+        "Resize photos to eBay's recommended 1600px and convert HEIC, HIF, WebP, AVIF and PNG to high-quality JPEG. Free, no signup, GPS stripped by default.";
 
     // The resize switch label is quoted in the copy and in the FAQ below, so the
     // two must stay in step: change it here and nowhere else.

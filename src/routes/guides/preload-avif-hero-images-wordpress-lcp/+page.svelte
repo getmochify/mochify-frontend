@@ -6,7 +6,8 @@
 
     const metadata = {
         title: "How Do I Preload AVIF Hero Images in WordPress to Pass the LCP Threshold?",
-        description: "Serving AVIF isn't enough - browsers still discover it late. Add a preload hint to your WordPress theme so the hero image starts downloading before the render tree is built, and hit Google's 2.5s LCP target.",
+        seoTitle: "How Do I Preload AVIF Hero Images in WordPress for LCP?",
+        description: "Serving AVIF isn't enough: browsers discover it late. Add a preload hint to your WordPress theme so the hero image loads early and hits the 2.5s LCP goal.",
         category: "Quick Guides",
         readTime: "3 min read",
         date: "April 9, 2026"
@@ -49,7 +50,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title} | Mochify</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />

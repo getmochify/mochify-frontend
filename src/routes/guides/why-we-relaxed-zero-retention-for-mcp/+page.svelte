@@ -6,7 +6,8 @@
 
     const metadata = {
         title: "Why We Relaxed Our Zero-Retention Policy for MCP Server Compressions",
-        description: "Why we softened Mochify's 'wiped immediately' claim on hosted MCP compressions to a five-minute pickup window, what we kept end-to-end, and what it means for your workflow.",
+        seoTitle: "Why We Relaxed Zero Retention for MCP Server Compressions",
+        description: "Why we softened Mochify's 'wiped immediately' claim on hosted MCP compressions to a five-minute pickup window, what we kept, and what it means for you.",
         category: "Privacy & Engineering",
         readTime: "5 min read",
         date: "May 29, 2026",
@@ -39,7 +40,7 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>{metadata.title} | Mochify</title>
+    <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
@@ -51,7 +52,7 @@
       "@context": "https://schema.org",
       "@type": "Article",
       "headline": "Why We Relaxed Our Zero-Retention Policy for MCP Server Compressions",
-      "description": "Why we softened Mochify's 'wiped immediately' claim on hosted MCP compressions to a five-minute pickup window, what we kept end-to-end, and what it means for your workflow.",
+      "description": "Why we softened Mochify's 'wiped immediately' claim on hosted MCP compressions to a five-minute pickup window, what we kept, and what it means for you.",
       "url": "https://mochify.app/guides/why-we-relaxed-zero-retention-for-mcp",
       "datePublished": "2026-05-29",
       "dateModified": "2026-05-29",

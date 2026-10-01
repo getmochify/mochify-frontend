@@ -15,7 +15,7 @@
     // product name. "AI" moved into the first sentence: the "ai image cropper"
     // SERP is ad-heavy and split across unrelated intents.
     const metaDescription =
-        'Crop a batch of photos to a perfect square online. AI finds the subject in every image and centers the crop on it, at 500 to 2000 px. Free, no signup, processed in memory and never saved to disk.';
+        'Crop a batch of photos to a perfect square online. AI finds the subject in each image and centers the crop on it, 500 to 2000 px. Free, no signup.';
 
     const steps = [
         {
@@ -120,7 +120,7 @@
 </script>
 
 <svelte:head>
-    <title>Bulk Square Crop - Crop Images to Square Automatically | Mochify</title>
+    <title>Bulk Square Crop - Auto-Crop Images to Square | Mochify</title>
     <meta name="description" content={metaDescription}>
     <meta property="og:title" content="Bulk Square Crop - Mochify" />
     <meta property="og:description" content={metaDescription} />
@@ -133,7 +133,7 @@
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "Mochify Bulk Square Cropper",
-        "description": "Crop a batch of photos to a perfect square online. AI finds the subject in every image and centers the crop on it, at 500 to 2000 px. Free, no signup, processed in memory and never saved to disk.",
+        "description": "Crop a batch of photos to a perfect square online. AI finds the subject in each image and centers the crop on it, 500 to 2000 px. Free, no signup.",
         "url": "https://mochify.app/solutions/bulk-ai-square-cropper",
         "applicationCategory": "MultimediaApplication",
         "applicationSubCategory": "Image Editor",
