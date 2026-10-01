@@ -25,7 +25,13 @@
         },
         {
             q: "Is the AVIF lossless?",
-            a: "No. This page makes a high-quality lossy AVIF. For pixel-exact output, use the SVG to WebP or SVG to JPEG XL converter with Lossless switched on."
+            a: [
+                "No. This page makes a high-quality lossy AVIF. For pixel-exact output, use the ",
+                { href: "/solutions/svg-to-webp", label: "SVG to WebP" },
+                " or ",
+                { href: "/solutions/svg-to-jxl", label: "SVG to JPEG XL" },
+                " converter with Lossless switched on."
+            ]
         },
         {
             q: "Why does the text look different?",
@@ -84,7 +90,7 @@
                 </span>
                 <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-[#F0FDF4] border border-green-100 shadow-sm text-green-700 text-xs font-bold tracking-wide uppercase">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
-                    Smallest File Size
+                    Smaller Files
                 </span>
             </div>
 
@@ -105,7 +111,7 @@
         </div>
 
         <div class="mb-12">
-            <ImageUpload output="avif" types=".SVG" showTypes={true} showExifOption={false} resizeOptions={[512, 1024, 1200, 2048, 4096]} compact />
+            <ImageUpload output="avif" types=".SVG" showTypes={true} showExifOption={false} resizeOptions={[512, 1024, 1200, 2048, 4096]} resizeOptionsLabel="Long edge" compact />
         </div>
 
         <section class="mt-4 max-w-4xl mx-auto space-y-4">

@@ -117,7 +117,7 @@
         </div>
 
         <div class="mb-12">
-            <ImageUpload output="jxl" types=".SVG" showTypes={true} showExifOption={false} resizeOptions={[512, 1024, 1200, 2048, 4096]} showLosslessOption={true} losslessDefault={false} compact />
+            <ImageUpload output="jxl" types=".SVG" showTypes={true} showExifOption={false} resizeOptions={[512, 1024, 1200, 2048, 4096]} resizeOptionsLabel="Long edge" showLosslessOption={true} losslessDefault={false} compact />
         </div>
 
         <section class="mt-4 max-w-4xl mx-auto space-y-4">
