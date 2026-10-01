@@ -49,6 +49,7 @@ self.onmessage = async (event: MessageEvent) => {
 		Input,
 		Output,
 		Conversion,
+		Quality,
 		BlobSource,
 		BufferTarget,
 		ALL_FORMATS,
@@ -89,7 +90,23 @@ self.onmessage = async (event: MessageEvent) => {
 
 		const target = new BufferTarget();
 		const out = new Output({ format: new FormatClass(), target });
-		const conversion = await Conversion.init({ input, output: out });
+		const copyableVideoCodecs = out.format.getSupportedVideoCodecs();
+		const conversion = await Conversion.init({
+			input,
+			output: out,
+			// Match the source bitrate instead of mediabunny's resolution-derived
+			// 'high' preset, which ignores how the source was actually encoded.
+			video: async (track) => {
+				// A copyable track is remuxed untouched; setting a quality would force a re-encode.
+				const codec = await track.getCodec();
+				if (codec && copyableVideoCodecs.includes(codec)) return undefined;
+				// Measured from packet sizes (metadata only, no decoding); the
+				// container's declared bitrate is often missing or wrong.
+				const { averageBitrate } = await track.computePacketStats();
+				if (!averageBitrate) return undefined;
+				return { quality: new Quality({ bitrate: Math.round(averageBitrate) }) };
+			}
+		});
 		if (!conversion.isValid) {
 			post({ type: 'error', message: 'unsupported conversion' });
 			return;
