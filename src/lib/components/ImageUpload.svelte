@@ -87,13 +87,30 @@
 		showResizeOption = false,
 		resizeLongEdge = 1600,
 		resizeLabel = 'Resize',
-		resizeDefault = true
+		resizeDefault = true,
+		// A choice of long edges instead of the single switch above, for inputs
+		// with no fixed pixel size: an SVG is drawn at whichever size is picked,
+		// so the page offers several and "Original" (the size the file declares)
+		// as the default. Shown above the dropzone rather than with the toggles,
+		// because the SVG pages' how-to has the visitor pick a size first. Uses
+		// the same equal width/height box as the switch; set one or the other.
+		resizeOptions = [] as number[],
+		resizeOptionsLabel = 'Size'
 	} = props;
+	const uid = $props.id();
+	const resizeGroupName = `resize-${uid}`;
 	const hasOutputOverride = $derived('output' in props);
 
 	let stripExif: boolean = $state(stripExifDefault);
 	let resizeLongEdgeOn: boolean = $state(resizeDefault);
-	const resizeApplies = $derived(showResizeOption && resizeLongEdgeOn && resizeLongEdge > 0);
+	// 0 = Original: no width/height sent, so the file keeps its own size.
+	let resizeChoice: number = $state(0);
+	const resizeTarget = $derived(resizeOptions.length > 0 ? resizeChoice : resizeLongEdge);
+	const resizeApplies = $derived(
+		resizeOptions.length > 0
+			? resizeChoice > 0
+			: showResizeOption && resizeLongEdgeOn && resizeLongEdge > 0
+	);
 	let smartCompress: boolean = $state(false);
 	let lossless: boolean = $state(losslessDefault);
 	let isDragging: boolean = $state(false);
@@ -896,8 +913,8 @@
 						if (smartCompress) chunkedParams.smartCompress = '1';
 						if (lossless && LOSSLESS_FORMATS.includes(safeType)) chunkedParams.lossless = '1';
 						if (resizeApplies) {
-							chunkedParams.width = String(resizeLongEdge);
-							chunkedParams.height = String(resizeLongEdge);
+							chunkedParams.width = String(resizeTarget);
+							chunkedParams.height = String(resizeTarget);
 						}
 						if (queryParams)
 							new URLSearchParams(queryParams).forEach((v, k) => (chunkedParams[k] = v));
@@ -1036,8 +1053,8 @@
 									if (lossless && LOSSLESS_FORMATS.includes(safeType))
 										squishParams.append('lossless', '1');
 									if (resizeApplies) {
-										squishParams.set('width', String(resizeLongEdge));
-										squishParams.set('height', String(resizeLongEdge));
+										squishParams.set('width', String(resizeTarget));
+										squishParams.set('height', String(resizeTarget));
 									}
 									if (queryParams)
 										new URLSearchParams(queryParams).forEach((v, k) => squishParams.append(k, v));
@@ -1444,6 +1461,32 @@
 					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
 				</svg>
 			</button>
+		</div>
+	{/if}
+
+	{#if resizeOptions.length > 0}
+		<div
+			class="flex flex-wrap items-center gap-2 border-b border-pink-50 px-4 py-3 sm:px-6"
+			role="radiogroup"
+			aria-label={resizeOptionsLabel}
+		>
+			<span class="mr-1 text-xs font-semibold text-[#6C3F31]">{resizeOptionsLabel}</span>
+			{#each [0, ...resizeOptions] as opt (opt)}
+				<label class="cursor-pointer">
+					<input
+						type="radio"
+						name={resizeGroupName}
+						value={opt}
+						bind:group={resizeChoice}
+						disabled={isLoading}
+						class="peer sr-only"
+					/>
+					<span
+						class="inline-block rounded-full border border-pink-100 px-3 py-1 text-xs font-bold text-[#6C3F31] transition-colors peer-checked:border-[#F06292] peer-checked:bg-[#F06292] peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-[#F06292]/40 peer-disabled:opacity-60 hover:border-[#F06292]/50"
+						>{opt === 0 ? 'Original' : opt}</span
+					>
+				</label>
+			{/each}
 		</div>
 	{/if}
 

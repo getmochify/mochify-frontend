@@ -122,7 +122,7 @@ export const squishParams = [
 	{
 		name: 'width',
 		description:
-			'Target width in pixels. Aspect ratio is preserved unless <code>smartCrop</code> is also set. Omit or set to <code>0</code> for unconstrained.'
+			'Target width in pixels. Aspect ratio is preserved unless <code>smartCrop</code> is also set. Omit or set to <code>0</code> for unconstrained. For SVG input, the vector is drawn at the requested width.'
 	},
 	{
 		name: 'height',
@@ -226,7 +226,7 @@ export const squishResponse = [
 	{
 		name: 'Body',
 		description:
-			'Raw compressed image bytes. Supported input formats: JPEG, PNG, WebP, AVIF, HEIF, JXL.'
+			'Raw compressed image bytes. Supported input formats: JPEG, PNG, WebP, AVIF, HEIF, JXL and SVG. Formats are detected from the file\'s content.'
 	},
 	{ name: 'X-Latency-Ms', description: 'Processing time in milliseconds.' },
 	{

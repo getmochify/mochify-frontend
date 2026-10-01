@@ -1,26 +1,77 @@
 <script lang="ts">
     import ImageUpload from '$lib/components/ImageUpload.svelte';
+    import FaqAccordion from '$lib/components/FaqAccordion.svelte';
+    import { faqSchema, type FaqItem } from '$lib/faq';
+
+    const metaDescription =
+        "Convert SVG to JPEG XL (JXL), lossy or lossless, at the size you need, with transparency kept. Free, no signup, processed in memory.";
+
+    const faqs: FaqItem[] = [
+        {
+            q: "Is this SVG to JPEG XL converter free?",
+            a: "Yes. Without an account you can convert 3 images a month, and a free account gives you 25 a month, up to 3 at a time. A paid plan or a $2 Day Pass takes batches of 25; the pricing page has the details."
+        },
+        {
+            q: "Is the JXL lossless?",
+            a: "Only if you switch on Lossless. The default is a high-quality lossy JPEG XL, the smallest file; Lossless gives a pixel-exact JXL of the rendered SVG."
+        },
+        {
+            q: "Does JPEG XL keep my SVG's transparency?",
+            a: "Yes. JPEG XL has a full alpha channel, so transparent areas stay transparent."
+        },
+        {
+            q: "Can I use JXL files on my website?",
+            a: "With a fallback. Browser support is still uneven, so serve JXL inside a <picture> element with an AVIF or WebP alternative, or use AVIF or WebP on their own."
+        },
+        {
+            q: "What size will my JXL be?",
+            a: "With Original, the size your SVG declares: a 300 x 150 SVG becomes a 300 x 150 JXL. Pick 512, 1024, 1200, 2048 or 4096 and that becomes the long edge, with the other side in proportion."
+        },
+        {
+            q: "Will a large size look blurry?",
+            a: "No. The vector is drawn at the size you pick, so a 4096-pixel JXL has edges as clean as a small one. Nothing is stretched from a smaller image."
+        },
+        {
+            q: "Why does the text look different?",
+            a: "Web fonts that the SVG loads by URL are not fetched, so text falls back to a default font. Convert the text to outlines before exporting (Inkscape: Path > Object to Path; Illustrator: Type > Create Outlines)."
+        },
+        {
+            q: "What happens to linked images and animation?",
+            a: "Images linked by URL are left out, so embed them in the SVG first. Animation is ignored: the JXL is a still image of the SVG before anything moves."
+        },
+        {
+            q: "What happens to my files?",
+            a: "Your SVG is sent to api.mochify.app, rendered and encoded in memory, and discarded once the JXL is returned. Nothing is written to disk, no logs contain your file data, and your files are never used to train AI."
+        }
+    ];
+
+    const softwareLd = {
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: "SVG to JPEG XL Converter",
+        description: "Convert SVG to JPEG XL (JXL), lossy or lossless, at the size you need, with transparency kept. Free, no signup, processed in memory.",
+        url: "https://mochify.app/solutions/svg-to-jxl",
+        applicationCategory: 'MultimediaApplication',
+        operatingSystem: 'Web',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        provider: { '@type': 'Organization', name: 'Mochify', url: 'https://mochify.app' }
+    };
+
+    const faqLd = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqSchema(faqs)
+    };
 </script>
 
 <svelte:head>
-    <title>Convert SVG to JPEG XL Online - Free & Fast | Mochify</title>
-    <meta name="description" content="Convert SVG files to JPEG XL (JXL) — the next-generation format with outstanding compression, full transparency, and lossless mode. Great for archiving and future-proofing.">
-    <meta property="og:title" content="Convert SVG to JPEG XL (JXL) - Free, Private & Instant | Mochify" />
-    <meta property="og:description" content="Convert SVG files to JPEG XL — outstanding compression, full transparency, and lossless mode. Future-proof your SVG assets." />
+    <title>SVG to JPEG XL (JXL) Converter - Free, Online | Mochify</title>
+    <meta name="description" content={metaDescription}>
+    <meta property="og:title" content="SVG to JPEG XL Converter - Mochify" />
+    <meta property="og:description" content={metaDescription} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "SVG to JPEG XL Converter",
-        "description": "Convert SVG vector files to JPEG XL format with transparency support. Free, private, and processed entirely in memory.",
-        "url": "https://mochify.app/solutions/svg-to-jxl",
-        "applicationCategory": "MultimediaApplication",
-        "operatingSystem": "Web",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "provider": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" }
-        }
-    </script>
+    {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}
+    {@html `<script type="application/ld+json">${JSON.stringify(faqLd)}<\/script>`}
 </svelte:head>
 
 <div class="relative max-w-5xl mx-auto px-4 pt-7 pb-12 sm:px-6 lg:px-8 w-full flex-grow">
@@ -53,125 +104,74 @@
             </h1>
 
             <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-                Rasterise SVG files to JPEG XL — outstanding compression, full transparency, and a lossless mode that outperforms PNG.
+                Rasterize SVG files to JPEG XL, lossy or lossless, with transparency intact.
             </p>
 
             <!-- Browser support notice -->
             <div class="inline-flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-2xl px-5 py-3.5 text-left max-w-xl mx-auto">
                 <svg class="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
                 <p class="text-amber-800 text-sm font-medium m-0">
-                    <strong>Browser support note:</strong> JPEG XL requires a browser flag in Chrome 145 and is not yet enabled by default. Best suited for archiving, internal tooling, and future-proofing workflows. Use AVIF or WebP for live web delivery today.
+                    Browser support for JPEG XL is still uneven, so a JXL on a public page needs an AVIF or WebP fallback. Our <a href="/guides/chrome-145-jpeg-xl-default" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Chrome 145 explainer</a> has the current state.
                 </p>
             </div>
         </div>
 
-        <div class="mb-16">
-            <ImageUpload output="jxl" types=".SVG" showTypes={true} showExifOption={false} compact />
+        <div class="mb-12">
+            <ImageUpload output="jxl" types=".SVG" showTypes={true} showExifOption={false} resizeOptions={[512, 1024, 1200, 2048, 4096]} showLosslessOption={true} losslessDefault={false} compact />
         </div>
 
-        <section class="mt-20 max-w-4xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-12 items-start">
-
-                <div class="space-y-8">
-                    <div class="space-y-4">
-                        <h2 class="text-2xl font-bold text-[#4A2C2C]">Why convert SVG to JPEG XL?</h2>
-                        <p class="leading-relaxed text-[#6C3F31]">
-                            JPEG XL is the most capable image format available today — it supports <strong class="text-[#7E685E]">full alpha transparency</strong>, a true lossless mode that beats PNG on file size, HDR, and wide color gamut. For SVG assets you want to archive, hand off at maximum quality, or future-proof for a stack that will adopt JXL when browser support matures, it's the right format to rasterise to now.
-                        </p>
-                        <p class="leading-relaxed text-[#6C3F31]">
-                            JXL's lossless mode is particularly well-suited to SVG rasterisation: because SVG paths produce clean, hard edges and flat color regions, the lossless encoder can represent the output very efficiently — often <strong class="text-[#7E685E]">smaller than an equivalent lossless PNG</strong>.
-                        </p>
-                    </div>
-
-                    <div class="bg-white p-8 rounded-2xl border border-pink-50 shadow-sm">
-                        <h3 class="font-bold text-[#4A2C2C] mb-5 text-sm uppercase tracking-widest opacity-70">Best Use Cases in 2026</h3>
-                        <ul class="space-y-3">
-                            {#each [
-                                'Asset archiving at maximum quality',
-                                'Internal design system asset delivery',
-                                'Figma / Illustrator export pipelines',
-                                'Apps and tools with JXL codec support',
-                                'Future-proofing for browser adoption',
-                                'Lossless icon sprite rasterisation',
-                            ] as item}
-                                <li class="flex items-center gap-3 text-sm font-semibold text-[#6C3F31]">
-                                    <span class="w-2 h-2 rounded-full bg-[#FDE68A] flex-shrink-0"></span> {item}
-                                </li>
-                            {/each}
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="space-y-4">
-                    {#each [
-                        {
-                            q: "Does JPEG XL preserve my SVG's transparency?",
-                            a: "Yes. JPEG XL supports a full alpha channel. Transparent areas in your SVG stay transparent in the output."
-                        },
-                        {
-                            q: "Can I use JXL files on my website today?",
-                            a: "With caveats. Chrome 145 added JXL decoding but it requires enabling a browser flag — it's not on by default. Firefox and Safari support is still limited. For live web delivery, use AVIF or WebP with JXL as an optional progressive enhancement via a <picture> element. For archiving or internal tooling, JXL works well right now."
-                        },
-                        {
-                            q: "What size does my SVG rasterise to?",
-                            a: "By default, Mochify uses the dimensions from the SVG's viewBox or width/height attributes. To specify a different output size, use Magic Flow — for example, 'convert to JPEG XL at 2400px wide, lossless'."
-                        },
-                        {
-                            q: "Are my files stored anywhere?",
-                            a: "Never. Mochify processes everything in memory and wipes the data immediately after your download completes. No copies are kept on our servers."
-                        },
-                    ] as faq}
-                        <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md transition-all">
-                            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-[#4A2C2C] list-none select-none">
-                                <h3 class="m-0 text-base font-bold text-[#4A2C2C]">{faq.q}</h3>
-                                <span class="text-[#7E685E] transition-transform duration-300 group-open:rotate-180">
-                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7" /></svg>
-                                </span>
-                            </summary>
-                            <div class="px-6 pb-6 text-base text-[#6C3F31] leading-relaxed">
-                                {faq.a}
-                            </div>
-                        </details>
-                    {/each}
-                </div>
-            </div>
+        <section class="mt-4 max-w-4xl mx-auto space-y-4">
+            <p class="leading-relaxed text-[#6C3F31]">Drop SVG files here and get JPEG XL files back, with transparent areas still transparent. Keep the size your SVG declares or pick a long edge up to 4096 pixels; the vector is drawn at that size, so edges stay sharp. The conversion runs in memory at api.mochify.app and nothing is saved to disk.</p>
         </section>
 
-        <!-- Format comparison -->
-        <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">SVG → raster: choosing the right format</h2>
-            <div class="overflow-x-auto rounded-2xl border border-pink-50 shadow-sm">
-                <table class="w-full border-collapse text-sm">
-                    <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Format</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Transparency</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Browser support</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Best for</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {#each [
-                            { fmt: 'JPEG XL', highlight: true, alpha: '✓', support: 'Partial (flag required)', best: 'Archiving, internal tooling, future-proofing' },
-                            { fmt: 'AVIF', highlight: false, alpha: '✓', support: '~95% global', best: 'Modern web — best compression for live delivery' },
-                            { fmt: 'WebP', highlight: false, alpha: '✓', support: '~97% global', best: 'Broad compatibility — CMSes, email, social' },
-                            { fmt: 'PNG', highlight: false, alpha: '✓', support: '100%', best: 'Legacy tools, print, lossless archiving' },
-                        ] as row, i}
-                            <tr class={row.highlight ? 'bg-amber-50' : i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
-                                <td class="px-5 py-3.5 font-black text-[#4A2C2C] border-b border-pink-50">
-                                    {row.fmt}
-                                    {#if row.highlight}
-                                        <span class="ml-2 text-[10px] font-black text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full uppercase tracking-wider">This page</span>
-                                    {/if}
-                                </td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.alpha}</td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.support}</td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.best}</td>
-                            </tr>
-                        {/each}
-                    </tbody>
-                </table>
-            </div>
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">How to convert SVG to JPEG XL</h2>
+            <ol class="list-decimal space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+                <li><strong class="text-[#4A2C2C]">Pick a size.</strong> Original keeps the width and height your SVG declares (or its viewBox when those are missing). Or choose a long edge of 512, 1024, 1200, 2048 or 4096 pixels.</li>
+                <li><strong class="text-[#4A2C2C]">Drop your SVGs.</strong> Up to 3 at a time on the free plan, 25 on a paid plan.</li>
+                <li><strong class="text-[#4A2C2C]">Switch on Lossless for a pixel-exact file,</strong> then download your JXL files.</li>
+            </ol>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">Lossy or lossless</h2>
+            <p class="leading-relaxed text-[#6C3F31]">By default this page makes a high-quality lossy JPEG XL, the smallest file, which is not pixel-exact. Switch on Lossless for a pixel-exact JXL of the rendered SVG; for flat-color graphics a lossless JXL is usually still smaller than the same image as a PNG (see <a href="/guides/jxl-vs-png-for-screenshots" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">JPEG XL vs PNG for screenshots</a>).</p>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">What the converter keeps and drops</h2>
+            <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+                <li><strong class="text-[#4A2C2C]">Kept:</strong> transparency; shapes, paths and text; images embedded in the file. Edges stay sharp at every size, because the vector is drawn at the size you pick.</li>
+                <li><strong class="text-[#4A2C2C]">Dropped:</strong> web fonts loaded by URL (outline lettering first), images linked from a URL (left out without warning) and animation (the un-animated state is what you get).</li>
+                <li><strong class="text-[#4A2C2C]">Size:</strong> the long edge you pick, or with Original the SVG's width and height, else its viewBox; a file with none of them has no size to work from, so add one first.</li>
+            </ul>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">When JPEG XL makes sense for SVG artwork</h2>
+            <p class="leading-relaxed text-[#6C3F31]">JPEG XL suits a raster master you keep alongside the SVG: an archive copy at 4096 pixels, a handoff to a team whose tools read JXL, or an asset pipeline that already supports it. For a live web page, AVIF or WebP is the safer first choice today. <a href="/guides/converting-images-to-jpeg-xl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Converting images to JPEG XL</a> covers where JXL opens and how to serve it with a fallback; <a href="/guides/what-is-a-jxl-file" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">What is a JXL file?</a> covers opening one.</p>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">Converting SVG to JPEG XL without a converter</h2>
+            <p class="leading-relaxed text-[#6C3F31]">Neither Inkscape's Export dialog nor Figma's export panel offers JPEG XL. Export a PNG at the size you need, then encode it with libjxl's command-line tool: <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">cjxl logo.png logo.jxl -d 0</code> for lossless, or <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">-d 1</code> for a high-quality lossy file.</p>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">Limits, bulk and automation</h2>
+            <p class="leading-relaxed text-[#6C3F31]">Without an account you can convert 3 images a month; a free account gives you 25 a month, up to 3 at a time, 20MB each. Paid plans (Seller, Pro and Growth) take batches of 25 and files up to 75MB, and a $2 Day Pass gives 100 uploads over 24 hours with no account. The <a href="/pricing" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">pricing page</a> has the plans.</p>
+            <p class="leading-relaxed text-[#6C3F31]">Through the REST API, on every plan, Free included; full reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>:</p>
+            <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=jxl&amp;width=4096&amp;lossless=1" \
+  -H "Content-Type: image/svg+xml" \
+  -H "Authorization: Bearer $MOCHIFY_API_KEY" \
+  --data-binary @logo.svg \
+  --output logo.jxl</code></pre>
+            <p class="leading-relaxed text-[#6C3F31]"><code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">width</code> sets the output width in pixels and the vector is drawn at that width; <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">lossless=1</code> makes the file pixel-exact. Leave either out for the defaults.</p>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-4">Frequently asked questions</h2>
+            <FaqAccordion {faqs} />
         </section>
 
         <!-- Also available -->
@@ -184,7 +184,7 @@
                     </span>
                     <div>
                         <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">SVG to WebP →</p>
-                        <p class="text-xs text-[#875F42]">Broadest compatibility — CMSes, email, social</p>
+                        <p class="text-xs text-[#875F42]">The most widely supported of the three</p>
                     </div>
                 </a>
                 <a href="/solutions/svg-to-avif" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -193,7 +193,7 @@
                     </span>
                     <div>
                         <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">SVG to AVIF →</p>
-                        <p class="text-xs text-[#875F42]">~50% smaller than PNG, best for modern web</p>
+                        <p class="text-xs text-[#875F42]">Usually smaller than WebP, for modern websites</p>
                     </div>
                 </a>
             </div>

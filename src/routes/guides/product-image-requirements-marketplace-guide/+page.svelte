@@ -10,7 +10,7 @@
         category: "Image Formats",
         readTime: "17 min read",
         datePublished: "August 6, 2026",
-        lastUpdated: "September 29, 2026"
+        lastUpdated: "October 1, 2026"
     };
 
     const toc = [
@@ -64,7 +64,7 @@
             "@id": "https://mochify.app/guides/product-image-requirements-marketplace-guide"
         },
         "datePublished": "2026-08-06",
-        "dateModified": "2026-09-29",
+        "dateModified": "2026-10-01",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -122,7 +122,7 @@
         "description": "The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted and Depop: dimensions, formats, file size limits and what each platform enforces.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-08-06",
-        "dateModified": "2026-09-29"
+        "dateModified": "2026-10-01"
         }
     </script>
 
@@ -258,7 +258,7 @@
                 <li>190203: Unsupported file format (e.g., PSD) - convert to JPEG or PNG first</li>
                 <li>190204: Image URL not HTTPS or not accessible - direct file uploads avoid this</li>
             </ul>
-            <p>If you're prepping eBay photos at scale, the <a href="https://mochify.app/solutions/ebay-image-converter">eBay Image Resizer and Converter</a> at Mochify resizes each one to eBay's recommended 1,600 px and converts HEIC, HIF, WebP, AVIF and PNG files to high-quality JPEG in one step.</p>
+            <p>If you're prepping eBay photos at scale, the <a href="https://mochify.app/solutions/ebay-image-converter">eBay Image Resizer and Converter</a> at Mochify resizes each one to eBay's recommended 1,600 px and converts HEIC, HIF, WebP, AVIF and PNG files to high-quality JPEG in one step. For the size, background and crop together, the <a href="https://mochify.app/ebay-seller">eBay photo page</a> shows the single Magic Flow prompt that does all three.</p>
         </section>
 
         <section id="woocommerce-your-theme-your-rules" class="scroll-mt-24">

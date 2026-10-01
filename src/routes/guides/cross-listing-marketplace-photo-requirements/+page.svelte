@@ -13,7 +13,7 @@
         category: "Workflows",
         readTime: "11 min read",
         date: "August 5, 2026",
-        lastUpdated: "September 29, 2026"
+        lastUpdated: "October 1, 2026"
     };
 
     const toc = [
@@ -49,7 +49,7 @@
         {
             n: '5',
             h: 'Export for eBay',
-            body: `Third prompt: "Resize to 1600px on the long edge, JPEG, keep under 12MB each." If eBay ever rejects a file outright, the <a href="https://mochify.app/solutions/ebay-image-converter">eBay Image Converter</a> exists precisely for those "file not supported" moments; the companion quick answer on <a href="https://mochify.app/guides/ebay-image-file-not-supported">why eBay rejects image files</a> explains what triggers them.`
+            body: `Third prompt: "Resize to 1600px on the long edge, JPEG, keep under 12MB each." If eBay ever rejects a file outright, the <a href="https://mochify.app/solutions/ebay-image-converter">eBay Image Converter</a> exists precisely for those "file not supported" moments; the companion quick answer on <a href="https://mochify.app/guides/ebay-image-file-not-supported">why eBay rejects image files</a> explains what triggers them. eBay's current photo rules, and the one-prompt version of this export, are on the <a href="https://mochify.app/ebay-seller">eBay photo size and rules page</a>.`
         },
         {
             n: '6',
@@ -131,7 +131,7 @@
             "@id": "https://mochify.app/guides/cross-listing-marketplace-photo-requirements"
         },
         "datePublished": "2026-08-05",
-        "dateModified": "2026-09-29",
+        "dateModified": "2026-10-01",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",

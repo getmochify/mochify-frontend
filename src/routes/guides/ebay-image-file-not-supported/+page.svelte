@@ -10,7 +10,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         datePublished: "June 24, 2026",
-        lastUpdated: "September 29, 2026"
+        lastUpdated: "October 1, 2026"
     };
 
     const related = [
@@ -59,7 +59,7 @@
             "@id": "https://mochify.app/guides/ebay-image-file-not-supported"
         },
         "datePublished": "2026-06-24",
-        "dateModified": "2026-09-29",
+        "dateModified": "2026-10-01",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -134,6 +134,8 @@
             <div class="bg-[#FFF8F9] border border-pink-100 rounded-2xl px-6 py-5 my-6">
                 <p class="font-mono text-sm text-[#4A2C2C] leading-relaxed">Convert to JPEG, resize to 1600px on the longest side, and keep quality around 85</p>
             </div>
+
+            <p class="mb-4">The <a href="/ebay-seller">eBay photo size and rules page</a> puts eBay's current limits and the one-prompt workflow on a single page.</p>
 
             <p class="mb-4">Your image is processed in-memory and deleted immediately: nothing is stored. The free plan covers 25 images per month, or 3 a month without signing up, which is enough for occasional listings.</p>
 

@@ -152,7 +152,7 @@
 				"@id": "https://mochify.app/guides/webp-avif-transparency"
 			},
 			"datePublished": "2026-09-21",
-			"dateModified": "2026-09-21",
+			"dateModified": "2026-10-01",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -476,6 +476,7 @@
 				WebP uploads but, as of a May 2026 audit of its export menu, offers no WebP or AVIF download
 				at all, so a "transparent WebP" from Canva is a PNG that was renamed or re-encoded somewhere
 				else. Figma's built-in export panel is PNG, JPG, SVG and PDF; WebP and AVIF need a plugin.
+				Or export the SVG and convert it with Mochify's <a href="/solutions/svg-to-webp">SVG to WebP converter</a>, which keeps the transparency.
 				GIMP exports both formats with alpha, but animated WebP made from layers can composite
 				frames over each other unless you run Filters, Animation, Unoptimize first (GNOME Discourse,
 				October 2023).

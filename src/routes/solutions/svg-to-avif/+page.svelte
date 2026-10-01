@@ -1,26 +1,73 @@
 <script lang="ts">
     import ImageUpload from '$lib/components/ImageUpload.svelte';
+    import FaqAccordion from '$lib/components/FaqAccordion.svelte';
+    import { faqSchema, type FaqItem } from '$lib/faq';
+
+    const metaDescription =
+        "Convert SVG graphics to AVIF at the size you need, with transparency kept. Free, no signup, processed in memory and never saved to disk.";
+
+    const faqs: FaqItem[] = [
+        {
+            q: "Is this SVG to AVIF converter free?",
+            a: "Yes. Without an account you can convert 3 images a month, and a free account gives you 25 a month, up to 3 at a time. A paid plan or a $2 Day Pass takes batches of 25; the pricing page has the details."
+        },
+        {
+            q: "Does AVIF keep my SVG's transparency?",
+            a: "Yes. AVIF has a full alpha channel, so transparent areas stay transparent and no white background is added."
+        },
+        {
+            q: "Should I use AVIF or WebP for SVG graphics?",
+            a: "AVIF if you control the site and can serve a fallback: it usually makes the smaller file. WebP if the image is going somewhere you do not control, such as a CMS or someone else's site, because more tools accept it."
+        },
+        {
+            q: "What size will my AVIF be?",
+            a: "With Original, the size your SVG declares: a 300 x 150 SVG becomes a 300 x 150 AVIF. Pick 512, 1024, 1200, 2048 or 4096 and that becomes the long edge, with the other side in proportion. The vector is drawn at that size, so large sizes stay sharp."
+        },
+        {
+            q: "Is the AVIF lossless?",
+            a: "No. This page makes a high-quality lossy AVIF. For pixel-exact output, use the SVG to WebP or SVG to JPEG XL converter with Lossless switched on."
+        },
+        {
+            q: "Why does the text look different?",
+            a: "Web fonts that the SVG loads by URL are not fetched, so text falls back to a default font. Convert the text to outlines before exporting (Inkscape: Path > Object to Path; Illustrator: Type > Create Outlines)."
+        },
+        {
+            q: "What happens to linked images and animation?",
+            a: "Images linked by URL are left out, so embed them in the SVG first. Animation is ignored: the AVIF is a still image of the SVG before anything moves."
+        },
+        {
+            q: "What happens to my files?",
+            a: "Your SVG is sent to api.mochify.app, rendered and encoded in memory, and discarded once the AVIF is returned. Nothing is written to disk, no logs contain your file data, and your files are never used to train AI."
+        }
+    ];
+
+    const softwareLd = {
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: "SVG to AVIF Converter",
+        description: "Convert SVG graphics to AVIF at the size you need, with transparency kept. Free, no signup, processed in memory.",
+        url: "https://mochify.app/solutions/svg-to-avif",
+        applicationCategory: 'MultimediaApplication',
+        operatingSystem: 'Web',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        provider: { '@type': 'Organization', name: 'Mochify', url: 'https://mochify.app' }
+    };
+
+    const faqLd = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqSchema(faqs)
+    };
 </script>
 
 <svelte:head>
-    <title>Convert SVG to AVIF Online - Free & Fast | Mochify</title>
-    <meta name="description" content="Convert SVG files to AVIF instantly. Get the smallest file sizes with full transparency support — the best raster format for SVG assets on modern web.">
-    <meta property="og:title" content="Convert SVG to AVIF - Free, Private & Instant | Mochify" />
-    <meta property="og:description" content="Convert SVG files to AVIF instantly. Get the smallest file sizes with full transparency support — the best raster format for SVG assets on modern web." />
+    <title>SVG to AVIF Converter - Free, Keeps Transparency | Mochify</title>
+    <meta name="description" content={metaDescription}>
+    <meta property="og:title" content="SVG to AVIF Converter - Mochify" />
+    <meta property="og:description" content={metaDescription} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "SVG to AVIF Converter",
-        "description": "Convert SVG vector files to AVIF format with transparency support. Free, private, and processed entirely in memory.",
-        "url": "https://mochify.app/solutions/svg-to-avif",
-        "applicationCategory": "MultimediaApplication",
-        "operatingSystem": "Web",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "provider": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" }
-        }
-    </script>
+    {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}
+    {@html `<script type="application/ld+json">${JSON.stringify(faqLd)}<\/script>`}
 </svelte:head>
 
 <div class="relative max-w-5xl mx-auto px-4 pt-7 pb-12 sm:px-6 lg:px-8 w-full flex-grow">
@@ -53,117 +100,61 @@
             </h1>
 
             <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-                Rasterise SVG files to AVIF — the most efficient format for transparent web assets, with up to 50% smaller files than PNG.
+                Rasterize SVG files to AVIF at the size you need, with transparency intact, for sites that serve modern formats.
             </p>
         </div>
 
-        <div class="mb-16">
-            <ImageUpload output="avif" types=".SVG" showTypes={true} showExifOption={false} compact />
+        <div class="mb-12">
+            <ImageUpload output="avif" types=".SVG" showTypes={true} showExifOption={false} resizeOptions={[512, 1024, 1200, 2048, 4096]} compact />
         </div>
 
-        <section class="mt-20 max-w-4xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-12 items-start">
-
-                <div class="space-y-8">
-                    <div class="space-y-4">
-                        <h2 class="text-2xl font-bold text-[#4A2C2C]">Why convert SVG to AVIF?</h2>
-                        <p class="leading-relaxed text-[#6C3F31]">
-                            AVIF is the best-performing raster format available in 2026 for web-delivered assets. When you rasterise an SVG to AVIF, you get <strong class="text-[#7E685E]">full alpha transparency</strong>, support in all major browsers, and file sizes <strong class="text-[#7E685E]">roughly 50% smaller than equivalent PNG</strong> — significantly better than WebP.
-                        </p>
-                        <p class="leading-relaxed text-[#6C3F31]">
-                            This makes AVIF the strongest choice for SVG assets delivered in modern web stacks: hero images, icon sprites, logo variants on dark and light backgrounds, and any asset where you control the serving environment and want the best possible LCP score.
-                        </p>
-                    </div>
-
-                    <div class="bg-white p-8 rounded-2xl border border-pink-50 shadow-sm">
-                        <h3 class="font-bold text-[#4A2C2C] mb-5 text-sm uppercase tracking-widest opacity-70">Common Use Cases</h3>
-                        <ul class="space-y-3">
-                            {#each [
-                                'Hero images and above-the-fold graphics',
-                                'Logo variants for dark/light mode',
-                                'Icon sets for modern web apps',
-                                'Next.js / Nuxt / SvelteKit image pipelines',
-                                'Cloudflare Images and CDN delivery',
-                                'Open Graph images for modern platforms',
-                            ] as item}
-                                <li class="flex items-center gap-3 text-sm font-semibold text-[#6C3F31]">
-                                    <span class="w-2 h-2 rounded-full bg-[#6EE7B7] flex-shrink-0"></span> {item}
-                                </li>
-                            {/each}
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="space-y-4">
-                    {#each [
-                        {
-                            q: "Does AVIF preserve my SVG's transparency?",
-                            a: "Yes. AVIF supports a full alpha channel, so transparent areas in your SVG stay transparent in the output. No white background is added."
-                        },
-                        {
-                            q: "What size does my SVG rasterise to?",
-                            a: "By default, Mochify uses the dimensions from the SVG's viewBox or width/height attributes. To specify a different size, use Magic Flow — for example, 'convert to AVIF at 1200px wide, strip metadata'."
-                        },
-                        {
-                            q: "AVIF vs WebP — which should I choose for SVG assets?",
-                            a: "AVIF if you control the serving environment and want the smallest files — it's ~50% smaller than PNG vs WebP's ~30%. WebP if you need maximum compatibility, including older email clients, some CMSes, and tools that don't yet support AVIF."
-                        },
-                        {
-                            q: "Are my files stored anywhere?",
-                            a: "Never. Mochify processes everything in memory and wipes the data immediately after your download completes. No copies are kept on our servers."
-                        },
-                    ] as faq}
-                        <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md transition-all">
-                            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-[#4A2C2C] list-none select-none">
-                                <h3 class="m-0 text-base font-bold text-[#4A2C2C]">{faq.q}</h3>
-                                <span class="text-[#7E685E] transition-transform duration-300 group-open:rotate-180">
-                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7" /></svg>
-                                </span>
-                            </summary>
-                            <div class="px-6 pb-6 text-base text-[#6C3F31] leading-relaxed">
-                                {faq.a}
-                            </div>
-                        </details>
-                    {/each}
-                </div>
-            </div>
+        <section class="mt-4 max-w-4xl mx-auto space-y-4">
+            <p class="leading-relaxed text-[#6C3F31]">Drop SVG files here and get AVIF images back, with transparent areas still transparent. AVIF usually makes a smaller file than WebP at the same visual quality, which suits hero graphics and logo variants on a site you control. Keep the size your SVG declares or pick a long edge up to 4096 pixels; the vector is drawn at that size, and the conversion runs in memory at api.mochify.app with nothing saved to disk.</p>
         </section>
 
-        <!-- Format comparison -->
-        <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">SVG → raster: choosing the right format</h2>
-            <div class="overflow-x-auto rounded-2xl border border-pink-50 shadow-sm">
-                <table class="w-full border-collapse text-sm">
-                    <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Format</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Transparency</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">File size vs PNG</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Best for</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {#each [
-                            { fmt: 'AVIF', highlight: true, alpha: '✓', size: '~50% smaller', best: 'Modern web stacks — best compression, full alpha' },
-                            { fmt: 'WebP', highlight: false, alpha: '✓', size: '~30% smaller', best: 'Broad compatibility — CMSes, email, social' },
-                            { fmt: 'PNG', highlight: false, alpha: '✓', size: 'Baseline', best: 'Print, lossless archiving, legacy tools' },
-                            { fmt: 'JPEG', highlight: false, alpha: '✗', size: '~30% smaller', best: 'Solid-background images only' },
-                        ] as row, i}
-                            <tr class={row.highlight ? 'bg-[#F0FDF4]' : i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
-                                <td class="px-5 py-3.5 font-black text-[#4A2C2C] border-b border-pink-50">
-                                    {row.fmt}
-                                    {#if row.highlight}
-                                        <span class="ml-2 text-[10px] font-black text-green-700 bg-green-100 px-2 py-0.5 rounded-full uppercase tracking-wider">Recommended</span>
-                                    {/if}
-                                </td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.alpha}</td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.size}</td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.best}</td>
-                            </tr>
-                        {/each}
-                    </tbody>
-                </table>
-            </div>
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">How to convert SVG to AVIF</h2>
+            <ol class="list-decimal space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+                <li><strong class="text-[#4A2C2C]">Pick a size.</strong> Original keeps the width and height your SVG declares (or its viewBox when those are missing). Or choose a long edge of 512, 1024, 1200, 2048 or 4096 pixels; the other side stays in proportion.</li>
+                <li><strong class="text-[#4A2C2C]">Drop your SVGs.</strong> Up to 3 at a time on the free plan, 25 on a paid plan.</li>
+                <li><strong class="text-[#4A2C2C]">Download the AVIF files</strong> and serve them with a fallback (see below).</li>
+            </ol>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">What the converter keeps and drops</h2>
+            <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+                <li><strong class="text-[#4A2C2C]">Kept:</strong> transparency; shapes and paths; text; images embedded in the file. Edges stay sharp at every size, because the vector is drawn at the size you pick rather than stretched.</li>
+                <li><strong class="text-[#4A2C2C]">Dropped:</strong> web fonts loaded by URL (text falls back to a default font, so outline your lettering first), images linked from a URL (left out silently) and animation (you get the un-animated state).</li>
+                <li><strong class="text-[#4A2C2C]">Size:</strong> the long edge you pick, or with Original the SVG's width and height, else its viewBox. A file with none of them has no size to work from, so add one first.</li>
+            </ul>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">Where AVIF fits, and where it does not</h2>
+            <p class="leading-relaxed text-[#6C3F31]">Current versions of Chrome, Edge, Firefox and Safari decode AVIF, so on your own site it is a strong choice for flat graphics with transparency. Serve it inside a <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">&lt;picture&gt;</code> element with a WebP or PNG fallback for older browsers. Keep a WebP or PNG copy for email, CMS media libraries and marketplaces that do not accept AVIF yet. <a href="/guides/what-is-an-avif-file" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">What is an AVIF file?</a> covers support and opening AVIF files; <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">WebP, AVIF or JPEG XL in 2026</a> compares the three. If the SVG is headed somewhere that accepts SVG, keep it as SVG: our <a href="/guides/svg-conversion-guide-vector-vs-raster" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">SVG conversion guide</a> explains when.</p>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">Converting SVG to AVIF without a converter</h2>
+            <p class="leading-relaxed text-[#6C3F31]">Few design tools export AVIF directly: Inkscape's Export dialog (version 1.2 and later) offers PNG, JPEG, WebP and TIFF, and Figma's offers PNG, JPG, SVG and PDF. The usual route is to export a PNG at the size you need, then encode it, for example with libavif's command-line tool (<code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">avifenc logo.png logo.avif</code>).</p>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">Limits, bulk and automation</h2>
+            <p class="leading-relaxed text-[#6C3F31]">Without an account you can convert 3 images a month; a free account gives you 25 a month, up to 3 at a time, 20MB each. Paid plans (Seller, Pro and Growth) take batches of 25 and files up to 75MB, and a $2 Day Pass gives 100 uploads over 24 hours with no account. The <a href="/pricing" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">pricing page</a> has the plans.</p>
+            <p class="leading-relaxed text-[#6C3F31]">The REST API does the same on every plan, Free included; full reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>:</p>
+            <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=avif&amp;width=2048" \
+  -H "Content-Type: image/svg+xml" \
+  -H "Authorization: Bearer $MOCHIFY_API_KEY" \
+  --data-binary @logo.svg \
+  --output logo.avif</code></pre>
+            <p class="leading-relaxed text-[#6C3F31]"><code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">width</code> sets the output width in pixels and the vector is drawn at that width; leave it out to keep the SVG's own size.</p>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-4">Frequently asked questions</h2>
+            <FaqAccordion {faqs} />
         </section>
 
         <!-- Also available -->
@@ -176,7 +167,7 @@
                     </span>
                     <div>
                         <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">SVG to WebP →</p>
-                        <p class="text-xs text-[#875F42]">Broadest compatibility — CMSes, email, social</p>
+                        <p class="text-xs text-[#875F42]">The most widely supported of the three</p>
                     </div>
                 </a>
                 <a href="/solutions/svg-to-jxl" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -185,7 +176,7 @@
                     </span>
                     <div>
                         <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">SVG to JPEG XL →</p>
-                        <p class="text-xs text-[#875F42]">Next-gen format, lossless mode, future-proofing</p>
+                        <p class="text-xs text-[#875F42]">Lossy or lossless, for archives and apps that read JXL</p>
                     </div>
                 </a>
             </div>
