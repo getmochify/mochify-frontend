@@ -107,7 +107,6 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-title" content="Mochify" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="default" />
-	<link rel="manifest" href="/site.webmanifest" />
 
 	<link rel="dns-prefetch" href="https://api.mochify.app">
 	<link rel="preconnect" href="https://api.mochify.app" crossorigin="anonymous">

@@ -136,7 +136,6 @@
     <meta name="description" content={metaDescription}>
     <meta property="og:title" content="HEIF to JPG Converter - Mochify">
     <meta property="og:description" content={metaDescription} />
-    <link rel="canonical" href="https://mochify.app/solutions/heif-to-jpg">
 
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}
     {@html `<script type="application/ld+json">${JSON.stringify(faqLd)}<\/script>`}

@@ -81,7 +81,6 @@
     <meta name="description" content="Convert SDR photos to Ultra HDR JPEG. Mochify keeps a camera's own gain map or generates one, and the file still opens everywhere. Free, no signup.">
     <meta property="og:title" content="SDR to HDR Photo Converter - Mochify">
     <meta property="og:description" content="Add an HDR gain map to any photo. Preserved when your camera captured it, generated when it did not. Still opens everywhere, and the comparison tells you whether your screen shows HDR.">
-    <link rel="canonical" href="https://mochify.app/solutions/sdr-to-hdr">
 
     <script type="application/ld+json">
         {
