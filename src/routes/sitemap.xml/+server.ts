@@ -44,6 +44,8 @@ export async function GET() {
 		'/solutions/svg-to-webp',
 		'/solutions/svg-to-avif',
 		'/solutions/svg-to-jxl',
+		'/solutions/svg-to-png',
+		'/solutions/svg-to-jpg',
 		'/solutions/png-to-jxl',
 		'/solutions/remove-background-webp',
 		'/solutions/remove-background-avif',

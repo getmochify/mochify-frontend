@@ -567,6 +567,16 @@ export const cards = [
 		title: 'Convert SVG to JPEG XL (JXL) - Free, Private & Instant'
 	},
 	{
+		path: '/solutions/svg-to-png',
+		eyebrow: 'TOOL',
+		title: 'SVG to PNG Converter - Free, Keeps Transparency'
+	},
+	{
+		path: '/solutions/svg-to-jpg',
+		eyebrow: 'TOOL',
+		title: 'SVG to JPG Converter - Free, Any Size'
+	},
+	{
 		path: '/solutions/svg-to-webp',
 		eyebrow: 'TOOL',
 		title: 'Convert SVG to WebP - Free, Private & Instant'

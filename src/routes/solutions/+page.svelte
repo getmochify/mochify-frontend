@@ -63,11 +63,13 @@
                     ]
                 },
                 {
-                    text: 'Logos, icons and illustrations: {0}, {1} or {2}.',
+                    text: 'Logos, icons and illustrations: {0}, {1}, {2}, {3} or {4}.',
                     links: [
                         { href: '/solutions/svg-to-webp', label: 'SVG to WebP' },
                         { href: '/solutions/svg-to-avif', label: 'SVG to AVIF' },
-                        { href: '/solutions/svg-to-jxl', label: 'SVG to JPEG XL' }
+                        { href: '/solutions/svg-to-jxl', label: 'SVG to JPEG XL' },
+                        { href: '/solutions/svg-to-png', label: 'SVG to PNG' },
+                        { href: '/solutions/svg-to-jpg', label: 'SVG to JPG' }
                     ]
                 }
             ]

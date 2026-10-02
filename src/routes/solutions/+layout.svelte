@@ -20,6 +20,8 @@
         'svg-to-avif': 'SVG to AVIF',
         'svg-to-webp': 'SVG to WebP',
         'svg-to-jxl': 'SVG to JXL',
+        'svg-to-png': 'SVG to PNG',
+        'svg-to-jpg': 'SVG to JPG',
         'mp4-to-webm': 'MP4 to WebM',
         'webm-to-mp4': 'WebM to MP4',
         'ebay-image-converter': 'eBay Image Resizer and Converter',
