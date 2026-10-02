@@ -307,6 +307,11 @@ export const cards = [
 		title: 'Mochify vs TinyPNG - An Honest 2026 Comparison'
 	},
 	{
+		path: '/guides/lossless-image-formats',
+		eyebrow: 'GUIDE',
+		title: 'Lossless Image Formats: Which to Use, and When Not To'
+	},
+	{
 		path: '/guides/mp4-to-webm-web-video-guide',
 		eyebrow: 'GUIDE',
 		title: 'Convert MP4 to WebM for the Web: Smaller Files, Faster Pages, No Upload Required'

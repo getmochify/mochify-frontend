@@ -10,7 +10,7 @@
         category: "Image Formats",
         readTime: "20 min read",
         datePublished: "February 10, 2026",
-        lastUpdated: "September 22, 2026"
+        lastUpdated: "October 2, 2026"
     };
 
     const related = [
@@ -106,7 +106,7 @@
             }
         ],
         "datePublished": "2026-02-10",
-        "dateModified": "2026-09-22"
+        "dateModified": "2026-10-02"
         }
     </script>
 </svelte:head>
@@ -377,7 +377,7 @@
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">WebP: The Established Standard</h3>
             <p class="mb-4">
-                Google released WebP in 2010, built on the VP8 video codec. It supports both lossy and lossless compression, alpha transparency, and animation (though animated WebP never caught on like we thought it would).
+                Google released WebP in 2010, built on the VP8 video codec. It supports both lossy and lossless compression, alpha transparency, and animation (though animated WebP never caught on like we thought it would). The lossless mode is the one most people overlook: on screenshots, diagrams and logos it produced the smallest file of any lossless format in our tests, and <a href="/guides/lossless-image-formats">our lossless image formats guide</a> shows when to reach for it.
             </p>
             <p class="mb-4">
                 <strong>Why it matters in 2026:</strong> WebP hit 96% browser support and became the safe default for production environments. Safari finally implemented full support in 2020, and even IE's death in 2022 eliminated the last major compatibility concern.

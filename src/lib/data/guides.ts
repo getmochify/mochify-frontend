@@ -97,7 +97,8 @@ export const guides: Guide[] = [
 		url: '/guides/jxl-vs-png-for-screenshots',
 		category: 'Image Formats',
 		readTime: '8 min read',
-		date: 'September 12, 2026'
+		date: 'September 12, 2026',
+		lastUpdated: 'October 2, 2026'
 	},
 	{
 		title: 'Bring Your Own Bucket: Send Processed Images Straight to Your Own S3 or R2',
@@ -291,7 +292,8 @@ export const guides: Guide[] = [
 		url: '/guides/converting-images-to-jpeg-xl',
 		category: 'Image Formats',
 		readTime: '11 min read',
-		date: 'June 26, 2026'
+		date: 'June 26, 2026',
+		lastUpdated: 'October 2, 2026'
 	},
 	{
 		title: 'Should I convert HEIC to JPEG or WebP for WordPress uploads?',
@@ -459,7 +461,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '20 min read',
 		date: 'February 10, 2026',
-		lastUpdated: 'September 10, 2026'
+		lastUpdated: 'October 2, 2026'
 	},
 	{
 		title: 'Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game',
@@ -634,6 +636,15 @@ export const guides: Guide[] = [
 		category: 'Workflows',
 		readTime: '12 min read',
 		date: 'April 23, 2026'
+	},
+	{
+		title: 'Lossless Image Formats: Which One to Use, and When Lossless Is the Wrong Choice',
+		description:
+			'PNG, WebP, JPEG XL and AVIF tested lossless on six image types: which wins for screenshots, logos and photos, and when lossless is the wrong call.',
+		url: '/guides/lossless-image-formats',
+		category: 'Image Formats',
+		readTime: '26 min read',
+		date: 'October 2, 2026'
 	},
 	{
 		title: 'Should I Shoot HEIF or JPEG on My Mirrorless Camera?',

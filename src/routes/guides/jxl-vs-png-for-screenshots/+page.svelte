@@ -27,7 +27,7 @@
         category: "Image Formats",
         readTime: "10 min read",
         date: "September 12, 2026",
-        lastUpdated: "September 14, 2026"
+        lastUpdated: "October 2, 2026"
     };
 
     const toc = [
@@ -82,7 +82,7 @@
         },
         {
             q: "Is JXL better than WebP lossless for screenshots?",
-            a: "Usually yes on size, and JXL supports higher bit depths and wider gamuts. WebP lossless has the practical advantage of working in every current browser, which for a screenshot you intend to share is often the deciding factor."
+            a: 'It depends on the screenshot. On this Retina capture of a real web page, JXL won, and JXL supports higher bit depths and wider gamuts. On flat UI with a small palette, lossless WebP was three to five times smaller than lossless JXL in our six-image test (see <a href="/guides/lossless-image-formats">which lossless image format to use</a>). WebP lossless also has the practical advantage of working in every current browser, which for a screenshot you intend to share is often the deciding factor.'
         }
     ];
 
@@ -138,7 +138,7 @@
             "@id": "https://mochify.app/guides/jxl-vs-png-for-screenshots"
         },
         "datePublished": "2026-09-12",
-        "dateModified": "2026-09-14",
+        "dateModified": "2026-10-02",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",

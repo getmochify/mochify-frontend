@@ -60,6 +60,7 @@ export async function GET() {
 		'/guides',
 		'/guides/reduce-photo-file-size-iphone',
 		'/guides/save-image-as-type-alternative',
+		'/guides/lossless-image-formats',
 		'/guides/batch-crop-photos-to-square',
 		'/guides/save-webp-as-jpg-chrome',
 		'/guides/webp-avif-transparency',

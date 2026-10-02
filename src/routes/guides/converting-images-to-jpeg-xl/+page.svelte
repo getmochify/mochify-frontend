@@ -12,7 +12,7 @@
         category: "Image Formats",
         readTime: "11 min read",
         datePublished: "June 26, 2026",
-        lastUpdated: "October 1, 2026"
+        lastUpdated: "October 2, 2026"
     };
 
     const related = [
@@ -73,7 +73,7 @@
             "@id": "https://mochify.app/guides/converting-images-to-jpeg-xl"
         },
         "datePublished": "2026-06-26",
-        "dateModified": "2026-10-01",
+        "dateModified": "2026-10-02",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -236,7 +236,7 @@
             <p class="mb-4">JPEG XL vs AVIF is tighter. Cloudinary image researcher Jon Sneyers, analyzing the same benchmarks with practical encode presets (JXL s6 vs AVIF s7), found that 9 out of 13 quality metrics favoured JPEG XL on photographic datasets - a useful read on a competitive comparison.</p>
 
             <h3 class="font-bold text-[#4A2C2C] text-xl mt-8 mb-3">Lossless: JPEG XL vs PNG</h3>
-            <p class="mb-4">PNG has been the default lossless format for web graphics for decades. JPEG XL lossless is a meaningful upgrade. Community benchmarking across hundreds of images found that JPEG XL lossless at effort=1 (very fast) produced files roughly <strong class="text-[#4A2C2C]">19–25% smaller than PNG</strong> at PNG's own maximum compression, while encoding around 150 times faster. At higher effort settings, JPEG XL lossless can be 40–50% smaller than PNG - at the cost of much slower encoding. For archival use where you run the encoder once and store the result, high-effort settings are often worth it. JPEG XL also supports full transparency in both lossy and lossless modes, making it a viable PNG replacement for logos, sprites, and UI assets. For a measured example on one real macOS screenshot, 46% smaller with every pixel checked, see <a href="/guides/jxl-vs-png-for-screenshots">JPEG XL vs PNG for screenshots</a>.</p>
+            <p class="mb-4">PNG has been the default lossless format for web graphics for decades. JPEG XL lossless is a meaningful upgrade. Community benchmarking across hundreds of images found that JPEG XL lossless at effort=1 (very fast) produced files roughly <strong class="text-[#4A2C2C]">19–25% smaller than PNG</strong> at PNG's own maximum compression, while encoding around 150 times faster. At higher effort settings, JPEG XL lossless can be 40–50% smaller than PNG - at the cost of much slower encoding. For archival use where you run the encoder once and store the result, high-effort settings are often worth it. JPEG XL also supports full transparency in both lossy and lossless modes, making it a viable PNG replacement for logos, sprites, and UI assets. For a measured example on one real macOS screenshot, 46% smaller with every pixel checked, see <a href="/guides/jxl-vs-png-for-screenshots">JPEG XL vs PNG for screenshots</a>. For how lossless JPEG XL compares with lossless WebP, PNG and AVIF across six image types, and when lossless is the wrong choice altogether, see <a href="/guides/lossless-image-formats">which lossless image format to use</a>.</p>
 
             <h3 class="font-bold text-[#4A2C2C] text-xl mt-8 mb-3">Lossless JPEG archiving</h3>
             <p class="mb-4">This is JPEG XL's most distinctive feature. Existing JPEG files can be transcoded into a JXL container that allows exact byte-for-byte reconstruction of the original JPEG. The <a href="https://doi.org/10.1117/12.2556264" target="_blank" rel="noopener noreferrer">EPFL/Google benchmarking paper</a> puts the average storage reduction for this reversible transcoding at <strong class="text-[#4A2C2C]">22%</strong> across broad test sets, with Apple's WWDC documentation noting up to 60% reduction on some photographic datasets at higher settings.</p>
@@ -354,9 +354,9 @@
                             ['PNG graphics / UI / logos', 'Lossless JXL', '19–50% smaller than PNG', 'Transparency supported'],
                             ['Photographic PNGs', 'Lossy JXL', '60–80% smaller than PNG', 'Only if quality loss is acceptable'],
                             ['AVIF archives (HDR)', 'Lossless JXL', 'Comparable size', 'Use for long-term masters; serve AVIF for web'],
-                            ['WordPress / Shopify delivery', 'Avoid JXL as primary', '—', 'Platform stacks optimized for WebP/AVIF'],
+                            ['WordPress / Shopify delivery', 'Avoid JXL as primary', 'n/a', 'Platform stacks optimized for WebP/AVIF'],
                             ['Safari-primary audience', 'JXL as first source', 'Best quality per byte', 'Always include AVIF/WebP/JPEG fallback'],
-                            ['Chrome/Firefox general delivery', 'JXL behind picture, not primary', '—', 'Not default-on in Chrome or Firefox mid-2026'],
+                            ['Chrome/Firefox general delivery', 'JXL behind picture, not primary', 'n/a', 'Not default-on in Chrome or Firefox mid-2026'],
                         ] as row}
                             <tr class="even:bg-[#FFFAFC]">
                                 {#each row as cell}

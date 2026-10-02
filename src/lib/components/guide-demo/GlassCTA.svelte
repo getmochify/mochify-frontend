@@ -15,7 +15,7 @@
 		children,
 		note
 	}: {
-		heading: string;
+		heading?: string;
 		href: string;
 		label: string;
 		secondaryHref?: string;
@@ -29,7 +29,11 @@
 <div class="cta-zone {className}">
 	<div class="cta-glow" aria-hidden="true"></div>
 	<div class="cta-card">
-		<h3 class="cta-heading">{heading}</h3>
+		<!-- Optional: a spec-v1 handoff authors only the CTA paragraph, and an
+		     invented heading would fail its copy-parity check. -->
+		{#if heading}
+			<h3 class="cta-heading">{heading}</h3>
+		{/if}
 		<p class="cta-body">{@render children()}</p>
 		<div class="cta-actions">
 			<a {href} class="cta-primary">{label}</a>
