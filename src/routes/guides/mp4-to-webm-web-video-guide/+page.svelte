@@ -12,7 +12,8 @@
         description: "Convert MP4 to WebM with VP9 for 30–50% smaller files. Browser support, Core Web Vitals, the video fallback pattern and in-browser conversion, no upload.",
         category: "Web Performance",
         readTime: "17 min read",
-        date: "June 26, 2026"
+        date: "June 26, 2026",
+        lastUpdated: "October 2, 2026"
     };
 
     const videoFallbackCode = `<video
@@ -70,7 +71,7 @@
         "description": "Convert MP4 to WebM with VP9 for 30–50% smaller files. Browser support, Core Web Vitals, the video fallback pattern and in-browser conversion, no upload.",
         "url": "https://mochify.app/guides/mp4-to-webm-web-video-guide",
         "datePublished": "2026-06-26",
-        "dateModified": "2026-10-01",
+        "dateModified": "2026-10-02",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -167,7 +168,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -394,7 +395,7 @@
                 { n: '2', title: 'Drop in your MP4.', body: 'Drag your file onto the tool or click to select it from your file system.' },
                 { n: '3', title: 'Wait for the conversion.', body: 'Processing runs in your browser tab. Larger files take longer since everything runs locally on your machine - you will see progress as it works.' },
                 { n: '4', title: 'Download the WebM output.', body: 'Save the converted file alongside your original MP4.' },
-                { n: '5', title: 'Add both to your <video> element.', body: 'Use the fallback pattern from Section 4 - WebM first, MP4 second. Keep both files; you need both for full browser coverage.' },
+                { n: '5', title: 'Add both to your <video> element.', body: 'Use the fallback pattern from Section 4 - WebM first, MP4 second. Keep both files; you need both for full browser coverage. Only have the WebM? The <a href="/solutions/webm-to-mp4">WebM to MP4 converter</a> makes the MP4 fallback in your browser.' },
             ] as step}
                 <li class="flex gap-4 items-start">
                     <span class="w-8 h-8 shrink-0 rounded-full bg-[#F06292] text-white flex items-center justify-center font-black text-sm mt-0.5">{step.n}</span>

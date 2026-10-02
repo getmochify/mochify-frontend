@@ -280,7 +280,8 @@ export const guides: Guide[] = [
 		url: '/guides/mp4-to-webm-web-video-guide',
 		category: 'Web Performance',
 		readTime: '17 min read',
-		date: 'June 26, 2026'
+		date: 'June 26, 2026',
+		lastUpdated: 'October 2, 2026'
 	},
 	{
 		title: 'Converting Images to JPEG XL: The Practical Guide for 2026',

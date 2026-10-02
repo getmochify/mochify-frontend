@@ -151,7 +151,7 @@
             <h2 class="text-2xl font-bold text-[#4A2C2C]">Using your WebM on a website</h2>
             <p class="leading-relaxed text-[#6C3F31]">Serve the WebM first and keep the MP4 as a fallback, so every browser gets a file it can play:</p>
             <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>{videoSnippet}</code></pre>
-            <p class="leading-relaxed text-[#6C3F31]">The browser plays the first source it supports. Our <a href="/guides/mp4-to-webm-web-video-guide" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">MP4 to WebM guide</a> covers VP9 against AV1, browser support and how video choices affect Core Web Vitals.</p>
+            <p class="leading-relaxed text-[#6C3F31]">The browser plays the first source it supports. Only have a WebM? The <a href="/solutions/webm-to-mp4" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">WebM to MP4 converter</a> makes the MP4 fallback. Our <a href="/guides/mp4-to-webm-web-video-guide" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">MP4 to WebM guide</a> covers VP9 against AV1, browser support and how video choices affect Core Web Vitals.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
