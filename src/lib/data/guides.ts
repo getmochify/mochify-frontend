@@ -641,7 +641,7 @@ export const guides: Guide[] = [
 		category: 'Quick Guides',
 		readTime: '3 min read',
 		date: 'April 25, 2026',
-		lastUpdated: 'July 24, 2026'
+		lastUpdated: 'October 2, 2026'
 	},
 	{
 		title: 'Does HEIF/HEIC Work With Client Gallery Platforms Like Pixieset and SmugMug?',

@@ -11,7 +11,7 @@
         category: "Quick Guide",
         readTime: "3 min read",
         date: "April 25, 2026",
-        lastUpdated: "July 24, 2026"
+        lastUpdated: "October 2, 2026"
     };
 </script>
 
@@ -31,7 +31,7 @@
         "description": "Shoot HEIF for capture quality, deliver JPEG to clients. Here's the practical 2026 workflow for Canon EOS R, Nikon Z, and Sony Alpha shooters.",
         "url": "https://mochify.app/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera",
         "datePublished": "2026-04-25",
-        "dateModified": "2026-07-24",
+        "dateModified": "2026-10-02",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -128,13 +128,13 @@
                             { situation: 'In-camera capture (RAW backup available)', format: 'HEIF/HIF' },
                             { situation: 'In-camera capture (only format, no RAW)', format: 'JPEG or HEIF depending on editing plans' },
                             { situation: 'Client gallery delivery', format: 'JPEG (sRGB, jpegli-encoded for smaller files)' },
-                            { situation: 'Your own website or portfolio', format: 'AVIF or WebP' },
+                            { situation: 'Your own website or portfolio', format: 'AVIF or WebP', link: { href: '/solutions/hif-to-avif', label: 'convert HIF straight to AVIF' } },
                             { situation: 'Print order delivery', format: 'JPEG at full resolution, or TIFF' },
                             { situation: 'Wire/press filing', format: 'JPEG (sRGB, size-capped per wire service spec)' },
                         ] as row, i}
                             <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
                                 <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.situation}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-semibold">{row.format}</td>
+                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-semibold">{row.format}{#if row.link}{' '}(<a href={row.link.href}>{row.link.label}</a>){/if}</td>
                             </tr>
                         {/each}
                     </tbody>

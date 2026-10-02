@@ -147,6 +147,9 @@
 
 		const failures: string[] = [];
 		let done = 0;
+		// Successful files only, so the ratio shows real size savings.
+		let inputBytes = 0;
+		let outputBytes = 0;
 		const total = files.length;
 
 		for (let i = 0; i < total; i++) {
@@ -163,6 +166,8 @@
 				const base = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
 				downloadBlob(blob, `${base}.${output}`);
 				done++;
+				inputBytes += file.size;
+				outputBytes += buffer.byteLength;
 			} catch (e) {
 				const fatal = e instanceof Error && (e as Error & { fatal?: boolean }).fatal;
 				const message = e instanceof Error ? e.message : 'conversion failed';
@@ -185,7 +190,13 @@
 
 		isProcessing = false;
 		current = 0;
-		posthog.capture('video_solution_completed', { files: total, output, failed: failures.length });
+		posthog.capture('video_solution_completed', {
+			files: total,
+			output,
+			failed: failures.length,
+			input_bytes: inputBytes,
+			output_bytes: outputBytes
+		});
 
 		if (done === 0) {
 			errorMessage = failures[0] ?? 'Conversion failed — please try again.';

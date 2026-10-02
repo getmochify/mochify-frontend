@@ -1,11 +1,83 @@
 <script lang="ts">
     import ImageUpload from '$lib/components/ImageUpload.svelte';
+    import FaqAccordion from '$lib/components/FaqAccordion.svelte';
+    import { faqSchema, type FaqItem } from '$lib/faq';
+
+    const ogDescription =
+        "Convert Fuji, Canon and Sony HIF photos to 10-bit AVIF for your website. Free, camera metadata kept by default, processed in memory.";
+
+    const faqs: FaqItem[] = [
+        {
+            q: "Is this HIF to AVIF converter free?",
+            a: "Yes. Without an account you can convert 3 photos a month, and a free account gives you 25 a month, up to 3 at a time. A paid plan or a $2 Day Pass takes batches of 25; the pricing page has the details."
+        },
+        {
+            q: "Do you see my photos?",
+            a: "No. Your HIF is sent to api.mochify.app, converted in memory and discarded once the AVIF is returned. Nothing is written to disk, no logs contain your file data, and your photos are never used to train AI."
+        },
+        {
+            q: "Does the AVIF keep 10-bit color?",
+            a: "Yes. The AVIF is encoded with 10 bits per channel, like your HIF, so smooth gradients keep their fine tonal steps."
+        },
+        {
+            q: "Will my HDR photos stay HDR?",
+            a: [
+                "No. The AVIF is a standard-range sRGB image, so an HIF recorded in an HDR mode (HLG or PQ) does not display as HDR after converting. If you want a photo that shows extra brightness on HDR screens and still opens as a normal photo everywhere, an Ultra HDR JPEG is the other route; ",
+                { href: '/guides/how-to-make-any-photo-ultra-hdr', label: 'our guide to making a photo Ultra HDR' },
+                " explains when to choose which."
+            ]
+        },
+        {
+            q: "Does this keep Fuji film simulations?",
+            a: "Yes. The film simulation (Velvia, Classic Chrome and the rest) is part of the picture the camera saved, so it carries into the AVIF like the rest of the image. Mochify does not add or remove a look."
+        },
+        {
+            q: "What about EXIF metadata?",
+            a: "By default, we preserve all camera metadata (ISO, shutter speed, GPS). If you want to remove it for privacy, add your files and then switch on the \"Strip EXIF\" toggle before converting."
+        },
+        {
+            q: "Should I use AVIF or JPG?",
+            a: "AVIF for photos on your own website: smaller files at the same quality, in every current browser. JPG for anything you send to someone else, print or upload elsewhere. The HIF to JPG converter on this site does that conversion."
+        },
+        {
+            q: "Which browsers open AVIF?",
+            a: "Current versions of Chrome, Edge, Firefox and Safari all display AVIF. For older browsers, serve a JPEG fallback with the HTML <picture> element."
+        },
+        {
+            q: "Can I convert iPhone HEIC photos here?",
+            a: "This page is built for the HIF files that Canon, Sony and Fujifilm cameras write. iPhone photos are HEIC; for those, use the HEIC to JPG converter."
+        }
+    ];
+
+    const softwareLd = {
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: 'HIF to AVIF Converter',
+        description: ogDescription,
+        url: 'https://mochify.app/solutions/hif-to-avif',
+        applicationCategory: 'MultimediaApplication',
+        operatingSystem: 'Web',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        provider: { '@type': 'Organization', name: 'Mochify', url: 'https://mochify.app' }
+    };
+
+    const faqLd = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqSchema(faqs)
+    };
 </script>
 
 <svelte:head>
     <title>Convert HIF to AVIF Online (Fuji/Canon) - Free | Mochify</title>
     <meta name="description" content="Convert Fuji, Canon & Sony HIF photos to AVIF instantly. Perfect for photographers using X-T5, R5, or Sony Alpha. Free, secure, and runs in-memory.">
     <meta property="og:title" content="HIF to AVIF Converter - Mochify">
+    <meta property="og:description" content={ogDescription} />
+    <meta name="twitter:title" content="HIF to AVIF Converter - Mochify" />
+    <meta name="twitter:description" content={ogDescription} />
+
+    {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}
+    {@html `<script type="application/ld+json">${JSON.stringify(faqLd)}<\/script>`}
 </svelte:head>
 
 <div class="relative max-w-5xl mx-auto px-4 pt-7 pb-12 sm:px-6 lg:px-8 w-full flex-grow">
@@ -34,7 +106,7 @@
             </h1>
             
             <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-                Turn 10-bit Fuji, Canon & Sony HIF photos into universally compatible AVIFs instantly.
+                Turn 10-bit Fuji, Canon and Sony HIF photos into 10-bit AVIFs that open in every current browser.
             </p>
         </div>
 
@@ -51,15 +123,13 @@
 
         <section class="mt-20 max-w-4xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-start">
-            
-            <div class="space-y-8">
                 <div class="space-y-4">
                     <h2 class="text-2xl font-bold text-[#4A2C2C]">Why convert HIF to AVIF?</h2>
                     <p class="leading-relaxed text-[#6C3F31]">
-                        HIF is a modern container used by professional cameras to store <strong class="text-[#7E685E]">10-bit HDR photos</strong>. While they offer better color depth, they often fail to open on web browsers or older editing software.
+                        HIF is the HEIF file that Canon, Sony and Fujifilm cameras write, with 10 bits per color channel. The files are small and detailed, but most web browsers and a lot of editing software will not open them.
                     </p>
                     <p class="leading-relaxed text-[#6C3F31]">
-                        Mochify converts these into <strong class="text-[#7E685E]">modern AVIF files</strong>, which maintain the incredible compression efficiency of HEIF while being supported by all major browsers. Crucially, AVIF supports <strong class="text-[#7E685E]">native 10-bit color</strong>, allowing you to preserve the full dynamic range of your original shots without the banding often seen in 8-bit JPEGs.
+                        AVIF compresses about as well as HEIF and opens in every current major browser, so it is a natural format for photos on your own website. Mochify keeps the 10 bits per channel, which gives finer tonal steps in skies and other smooth gradients than an 8-bit JPEG. The AVIF is a standard-range image: if your camera saved the HIF in an HDR mode (HLG or PQ), that HDR signal is not carried over.
                     </p>
                 </div>
 
@@ -74,29 +144,53 @@
                     </ul>
                 </div>
             </div>
+        </section>
 
-            <div class="space-y-4">                
-                {#each [
-                    { q: "Do you see my photos?", a: "Never. Your images are processed in RAM and deleted the instant you download them." },
-                    { q: "Why convert to AVIF?", a: "Unlike JPG, AVIF supports the same 10-bit HDR quality as your original HIF files but is widely viewable in web browsers. If you need an HDR file that also opens as a normal photo everywhere, an Ultra HDR JPEG is the other route; <a href=\"/guides/how-to-make-any-photo-ultra-hdr\" class=\"font-black text-[#F06292] hover:text-[#D81B60] transition-colors\">our guide to making a photo Ultra HDR</a> explains when to choose which. It offers smaller file sizes with significantly higher fidelity." },
-                    { q: "Does this keep Fuji film sims?", a: "Yes, Mochify preserves Fuji film simulations (Velvia, Classic Chrome, etc.) so your intended look stays intact." },
-                    { q: "What about EXIF metadata?", a: "By default, we preserve all camera metadata (ISO, Shutter, GPS). If you want to remove it for privacy, add your files and then switch on the 'Strip EXIF' toggle before converting."}
-                ] as faq}
-                    <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md transition-all">
-                        <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-[#4A2C2C] list-none select-none">
-                            <h3 class="m-0 text-base font-bold text-[#4A2C2C]">{faq.q}</h3>
-                            <span class="text-[#7E685E] transition-transform duration-300 group-open:rotate-180">
-                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7" /></svg>
-                            </span>
-                        </summary>
-                        <div class="px-6 pb-6 text-base text-[#6C3F31] leading-relaxed">
-                            <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-                            {@html faq.a}
-                        </div>
-                    </details>
-                {/each}
-            </div>
-        </div>
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">How to convert HIF to AVIF</h2>
+            <ol class="list-decimal space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+                <li>Drop your .HIF or .HEIF files on the box above, or click to choose them.</li>
+                <li>Leave Strip EXIF off to keep your camera settings in the file, or switch it on to remove them (location included).</li>
+                <li>Convert, then download your AVIFs.</li>
+            </ol>
+            <p class="leading-relaxed text-[#6C3F31]">The free plan converts up to 3 photos at a time, 20MB each.</p>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">What you get</h2>
+            <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+                <li><strong class="text-[#4A2C2C]">10-bit AVIF</strong> at the same pixel dimensions as your HIF. Nothing is cropped or resized.</li>
+                <li><strong class="text-[#4A2C2C]">Your camera metadata</strong> (ISO, shutter speed, lens, GPS) is kept by default. Switch on Strip EXIF before converting to remove it.</li>
+                <li><strong class="text-[#4A2C2C]">Standard dynamic range.</strong> The AVIF is tagged as a standard sRGB image. HIF files recorded in an HDR mode (for example Canon's HDR PQ setting, or HLG stills on Sony cameras) do not come out as HDR AVIFs, and they may not look exactly as they did on the camera's screen.</li>
+                <li><strong class="text-[#4A2C2C]">Your film look.</strong> A Fujifilm film simulation is part of the picture the camera saved, so it carries over like the rest of the image. Mochify does not add or remove a look.</li>
+            </ul>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">AVIF or JPG?</h2>
+            <p class="leading-relaxed text-[#6C3F31]">Choose AVIF for photos on your own website or portfolio: smaller files than JPEG at the same visual quality, in every current major browser. Choose JPG when the photo is leaving your hands: clients, email, print labs, social uploads and older software all take JPEG without question. For those, use the <a href="/solutions/hif-to-jpg" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">HIF to JPG converter</a>.</p>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">Converting HIF to AVIF without a converter</h2>
+            <p class="leading-relaxed text-[#6C3F31]">Neither Windows Photos nor Preview on a Mac exports AVIF. GIMP (version 2.10.22 or later) opens HEIF files and exports AVIF. In bulk, libheif's <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">heif-dec</code> turns HIF into 16-bit PNGs and libavif's <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">avifenc</code> encodes those as AVIF.</p>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">Limits, bulk and automation</h2>
+            <p class="leading-relaxed text-[#6C3F31]">Without an account you can convert 3 photos a month; a free account gives you 25 a month, up to 3 at a time, 20MB each. Paid plans (Seller, Pro and Growth) take batches of 25 and files up to 75MB, and a $2 Day Pass gives 100 uploads over 24 hours with no account. The <a href="/pricing" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">pricing page</a> has the plans.</p>
+            <p class="leading-relaxed text-[#6C3F31]">The same conversion works through the REST API on every plan, Free included. Send the raw HIF to <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">POST /v1/squish</code>; full reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>:</p>
+            <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=avif&amp;stripExif=false" \
+  -H "Content-Type: image/heif" \
+  -H "Authorization: Bearer $MOCHIFY_API_KEY" \
+  --data-binary @DSCF0001.HIF \
+  --output DSCF0001.avif</code></pre>
+            <p class="leading-relaxed text-[#6C3F31]"><code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">stripExif=false</code> keeps the camera metadata, as the page does by default. Add <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">&amp;width=2400</code> to resize for the web in the same call.</p>
+        </section>
+
+        <section class="mt-16 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-4">Frequently asked questions</h2>
+            <FaqAccordion {faqs} />
         </section>
 
         <!-- Also available -->
