@@ -213,7 +213,8 @@ async function render(entry, slug) {
 mkdirSync(OUT_DIR, { recursive: true });
 
 const jobs = [
-	...cards.map((c) => render(c, slugFor(c.path))),
+	// Entries with their own `image` use that file, not a generated card.
+	...cards.filter((c) => !c.image).map((c) => render(c, slugFor(c.path))),
 	render(
 		{
 			eyebrow: 'MOCHIFY',

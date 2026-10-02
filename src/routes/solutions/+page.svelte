@@ -142,7 +142,7 @@
         },
         {
             q: 'Do I need to install anything or sign up?',
-            a: 'No. Every tool here runs in your browser on Windows, Mac, Linux, iPhone or Android, and your first 3 images a month need no account. The CLI and MCP server are optional, for people who want to convert from a terminal or an AI agent.'
+            a: 'No. Every tool here runs in your browser on Windows, Mac, Linux, iPhone or Android, and your first 3 images a month need no account. The CLI and MCP server are optional, for people who want to convert from a terminal or an AI agent, and so is the Chrome extension, for images you find on web pages.'
         },
         {
             q: 'Are my files uploaded?',
@@ -331,7 +331,7 @@
         <section class="mt-20 max-w-3xl space-y-4">
             <h2 class="text-2xl font-black text-[#4A2C2C]">Tool pages, Magic Flow or the API?</h2>
             <p class="leading-relaxed text-[#6C3F31]">
-                A tool page is the quickest route when the job matches it: one fixed conversion, nothing to learn. For anything else, <a href="/flow" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Magic Flow</a> takes a plain-English instruction such as "Remove the background, transparent PNG" or "Square crop and optimize for eBay" and does the job in one pass. In Chrome, the Mochify extension adds a right-click "Convert to" menu for any image on a web page. For folders and automation, the Mochify CLI, the hosted and local MCP servers and the REST API run the same encoder; the <a href="/docs" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a> has every parameter.
+                A tool page is the quickest route when the job matches it: one fixed conversion, nothing to learn. For anything else, <a href="/flow" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Magic Flow</a> takes a plain-English instruction such as "Remove the background, transparent PNG" or "Square crop and optimize for eBay" and does the job in one pass. In Chrome, the <a href="/chrome-extension" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Mochify extension</a> adds a right-click "Convert to" menu for any image on a web page. For folders and automation, the Mochify CLI, the hosted and local MCP servers and the REST API run the same encoder; the <a href="/docs" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a> has every parameter.
             </p>
         </section>
 

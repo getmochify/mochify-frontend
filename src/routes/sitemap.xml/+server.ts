@@ -53,6 +53,7 @@ export async function GET() {
 		'/solutions/bulk-ai-square-cropper',
 		'/solutions/mp4-to-webm',
 		'/solutions/webm-to-mp4',
+		'/chrome-extension',
 		'/solutions/sdr-to-hdr',
 		'/guides',
 		'/guides/reduce-photo-file-size-iphone',

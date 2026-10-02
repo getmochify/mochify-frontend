@@ -113,6 +113,26 @@
         </a>
     </div>
 
+    <!-- The ways to run Mochify outside the web app. A row, not a column: the
+         footer is a centred stack, and a lone column would break it. -->
+    <p class="text-sm font-bold text-cocoa-milk uppercase tracking-widest mb-4">
+        Install
+    </p>
+
+    <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-3 mb-8">
+        <a href="/chrome-extension" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">
+            Chrome extension
+        </a>
+        <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5] font-bold">•</span>
+        <a href="/guides/how-the-mochify-mcp-server-works" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">
+            CLI and MCP server
+        </a>
+        <span aria-hidden="true" class="hidden sm:inline text-[#D4A0B5] font-bold">•</span>
+        <a href="/docs" class="text-cocoa-deep hover:text-mochi-pink hover:scale-105 transition-all font-semibold text-sm">
+            API docs
+        </a>
+    </div>
+
     <div class="flex flex-wrap justify-center items-center gap-4 mb-12">
         <a href="/solutions" class="px-5 py-2 rounded-2xl bg-white border border-pink-100 text-[#C2185B] font-bold text-xs shadow-sm hover:shadow-md hover:bg-pink-50 hover:-translate-y-0.5 transition-all">
             View All Solutions

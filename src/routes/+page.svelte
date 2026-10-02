@@ -99,7 +99,14 @@
 
 	// href is set only where a real destination exists. The two without one render
 	// as plain cards, so a card that looks clickable always is.
-	const surfaces = [
+	const surfaces: {
+		tag: string;
+		title: string;
+		body: string;
+		mono: string;
+		href?: string;
+		external?: boolean;
+	}[] = [
 		{
 			tag: 'Recommended',
 			title: 'Local MCP server',
@@ -116,10 +123,9 @@
 		{
 			tag: 'Extension',
 			title: 'Chrome extension',
-			body: 'One-click compression from any page you are browsing.',
-			mono: 'chrome web store',
-			href: 'https://chromewebstore.google.com/detail/pgegchhkcjdcnnppeahkdcalclpaamcj',
-			external: true
+			body: 'Right-click any image: Convert to for a one-click format change, or describe the edit you want.',
+			mono: 'mochify.app/chrome-extension',
+			href: '/chrome-extension'
 		},
 		{
 			tag: 'Browser',

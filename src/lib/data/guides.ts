@@ -32,7 +32,8 @@ export const guides: Guide[] = [
 		url: '/guides/save-image-as-type-alternative',
 		category: 'Image Formats',
 		readTime: '18 min read',
-		date: 'September 23, 2026'
+		date: 'September 23, 2026',
+		lastUpdated: 'October 2, 2026'
 	},
 	{
 		title: 'How to Batch Crop Photos to Square',
@@ -51,7 +52,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '19 min read',
 		date: 'September 22, 2026',
-		lastUpdated: 'September 23, 2026'
+		lastUpdated: 'October 2, 2026'
 	},
 	{
 		title: 'Do WebP and AVIF Support Transparency?',

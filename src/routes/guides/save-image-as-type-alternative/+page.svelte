@@ -16,7 +16,8 @@
 			'Save Image as Type was removed as malware. How to check your browser, vet a replacement, and save any image as JPG, PNG, AVIF, JPEG XL or PDF.',
 		category: 'Image Formats',
 		readTime: '18 min read',
-		date: 'September 23, 2026'
+		date: 'September 23, 2026',
+		lastUpdated: 'October 2, 2026'
 	};
 
 	const toc = [
@@ -166,7 +167,7 @@
 				"@id": "https://mochify.app/guides/save-image-as-type-alternative"
 			},
 			"datePublished": "2026-09-23",
-			"dateModified": "2026-09-23",
+			"dateModified": "2026-10-02",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -216,7 +217,7 @@
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
-			{metadata.readTime} · {metadata.date} · Mochify Engineering Team
+			{metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
@@ -431,7 +432,7 @@
 		<section id="mochify-workflow" class="scroll-mt-24">
 			<SectionHeading>The Mochify workflow: Convert to, or describe it</SectionHeading>
 			<p class="mb-4">
-				The Mochify extension puts two things in the right-click menu on every image:
+				The <a href="/chrome-extension">Mochify extension</a> puts two things in the right-click menu on every image:
 				<strong>Convert to</strong>, for a one-click format change, and
 				<strong>Send to Mochify...</strong>, for anything you'd rather describe than click through.
 				Both run through the same engine as our web app, CLI, API and MCP server.

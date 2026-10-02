@@ -3,7 +3,7 @@
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import { posthog } from '$lib/analytics';
-	import { ogImageFor, ogAltFor } from '$lib/og/cards.js';
+	import { ogImageFor, ogAltFor, ogSizeFor } from '$lib/og/cards.js';
 	import BlobBackground from '$lib/components/BlobBackground.svelte';
 	let { children, data } = $props();
 
@@ -42,6 +42,7 @@
 		'/auth/forgot-password',
 		'/auth/reset-password',
 		'/contact',
+		'/chrome-extension',
 	]);
 
 	// Guides on the new style paint their own top-only wash, which scrolls away
@@ -65,6 +66,7 @@
 	// so we don't have to repeat it across ~90 routes. See src/lib/og/cards.js.
 	const ogImage = $derived(ogImageFor(page.url.pathname));
 	const ogAlt = $derived(ogAltFor(page.url.pathname));
+	const ogSize = $derived(ogSizeFor(page.url.pathname));
 
 	// Import Outfit (Weights: 600, 700, 800, 900)
 	import '@fontsource/outfit/600.css';
@@ -95,8 +97,8 @@
 	<link rel="preload" as="font" type="font/woff2" href={of800} crossorigin="anonymous">
 	<link rel="canonical" href="https://mochify.app{page.url.pathname}" />
 	<meta property="og:image" content={ogImage} />
-	<meta property="og:image:width" content="1200" />
-	<meta property="og:image:height" content="630" />
+	<meta property="og:image:width" content={String(ogSize.width)} />
+	<meta property="og:image:height" content={String(ogSize.height)} />
 	<meta property="og:image:type" content="image/png" />
 	<meta property="og:image:alt" content={ogAlt} />
 	<meta name="twitter:image" content={ogImage} />

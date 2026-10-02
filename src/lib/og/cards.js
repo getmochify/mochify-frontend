@@ -9,6 +9,10 @@
 // Titles are display copy for the card, not the page <title>. They are seeded
 // from each page's og:title but may be trimmed for the card. House style: no
 // em dashes.
+//
+// An entry with `image` (a site path) uses that file instead of a generated
+// card, with its own `width` and `height`; the generator skips it. For pages
+// whose best share image already exists, e.g. a store screenshot.
 export const cards = [
 	{
 		path: '/',
@@ -28,6 +32,13 @@ export const cards = [
 		eyebrow: 'CONVERTER',
 		title: 'AVIF to JPG Converter',
 		alt: 'Mochify AVIF to JPG converter'
+	},
+	{
+		path: '/chrome-extension',
+		image: '/img/chrome-extension/store-01-convert-to-1280x800.png',
+		width: 1280,
+		height: 800,
+		alt: "Chrome's right-click menu on an image, with the Mochify entry expanded to show Send to Mochify and a Convert to submenu listing JPG, WebP, AVIF, JPEG XL, PNG and PDF."
 	},
 	{
 		path: '/comparison',
@@ -599,7 +610,20 @@ const byPath = new Map(cards.map((c) => [c.path, c]));
  */
 export function ogImageFor(pathname) {
 	const clean = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
-	return byPath.has(clean) ? `${ORIGIN}/og/${slugFor(clean)}.png` : `${ORIGIN}/og/default.png`;
+	const card = byPath.get(clean);
+	if (card?.image) return `${ORIGIN}${card.image}`;
+	return card ? `${ORIGIN}/og/${slugFor(clean)}.png` : `${ORIGIN}/og/default.png`;
+}
+
+/**
+ * Pixel size of a route's OG image: 1200x630 for generated cards, or the
+ * entry's own size when it supplies an `image`.
+ * @param {string} pathname
+ */
+export function ogSizeFor(pathname) {
+	const clean = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+	const card = byPath.get(clean);
+	return card?.image ? { width: card.width, height: card.height } : { width: 1200, height: 630 };
 }
 
 /**

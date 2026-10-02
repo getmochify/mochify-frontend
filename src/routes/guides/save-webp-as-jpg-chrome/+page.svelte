@@ -17,7 +17,7 @@
 		category: 'Image Formats',
 		readTime: '19 min read',
 		date: 'September 22, 2026',
-		lastUpdated: 'October 1, 2026'
+		lastUpdated: 'October 2, 2026'
 	};
 
 	const toc = [
@@ -158,7 +158,7 @@
 				"@id": "https://mochify.app/guides/save-webp-as-jpg-chrome"
 			},
 			"datePublished": "2026-09-22",
-			"dateModified": "2026-10-01",
+			"dateModified": "2026-10-02",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -523,7 +523,7 @@
 		<section id="mochify-workflow" class="scroll-mt-24">
 			<SectionHeading>The Mochify workflow: right-click any image</SectionHeading>
 			<p class="mb-4">
-				The Mochify Chrome extension is a Magic Flow surface. You right-click an image on any page
+				The <a href="/chrome-extension">Mochify Chrome extension</a> is a Magic Flow surface. You right-click an image on any page
 				and describe the result you want in plain language, rather than hunting for the setting that
 				produces it. For a straight format change you don't need the prompt at all: the same menu
 				has a Convert to list (JPG, WebP, AVIF, JPEG XL, PNG or PDF) that saves the file straight to
