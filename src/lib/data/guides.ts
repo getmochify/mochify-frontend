@@ -410,7 +410,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '8 min read',
 		date: 'May 16, 2026',
-		lastUpdated: 'September 12, 2026'
+		lastUpdated: 'October 2, 2026'
 	},
 	{
 		title: 'Do Journaling Apps Compress Images? Avoid Storage Bloat.',

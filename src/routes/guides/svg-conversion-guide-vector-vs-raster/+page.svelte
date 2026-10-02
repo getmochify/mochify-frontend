@@ -11,7 +11,7 @@
         category: "Image Formats",
         readTime: "8 min read",
         date: "May 16, 2026",
-        lastUpdated: "September 12, 2026"
+        lastUpdated: "October 2, 2026"
     };
 
     const faqItems = [
@@ -52,7 +52,7 @@
             "url": "https://mochify.app"
         },
         "datePublished": "2026-05-16",
-        "dateModified": "2026-09-12",
+        "dateModified": "2026-10-02",
         "url": "https://mochify.app/guides/svg-conversion-guide-vector-vs-raster",
         "isPartOf": {
             "@type": "CollectionPage",
@@ -340,7 +340,7 @@
             <p class="mb-4">WordPress will reject SVG uploads with a "Sorry, this file type is not permitted for security reasons" error. You can unlock this with plugins like Safe SVG or custom code, but for non-technical publishers or client sites, that's friction that usually isn't worth adding. Convert your SVG to WebP or PNG before uploading to WordPress - you get a safe, optimized file without any extra plugins or security overhead.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Etsy, Shopify, and other ecommerce marketplaces</h3>
-            <p class="mb-4">Etsy only accepts JPEG, PNG, and GIF for listing photos. SVG is not supported as a product image format, full stop. Shopify has partial SVG support in theme code but most merchants still rely on raster product images, and many marketplace listing tools reprocess everything to JPEG or WebP anyway. Practical rule: if the upload picker doesn't explicitly accept SVG, don't try to force it. Export a raster version upfront.</p>
+            <p class="mb-4">Etsy only accepts JPEG, PNG, and GIF for listing photos. SVG is not supported as a product image format, full stop. Shopify has partial SVG support in theme code but most merchants still rely on raster product images, and many marketplace listing tools reprocess everything to JPEG or WebP anyway. Practical rule: if the upload picker doesn't explicitly accept SVG, don't try to force it. Export a raster version upfront. The <a href="/solutions/svg-to-jpg">SVG to JPG converter</a> makes that copy at the size you pick, with transparent areas filled white.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Email templates and newsletters</h3>
             <p class="mb-4">This one catches a lot of people off guard. Gmail and Outlook do not reliably render external SVG images. They often show broken images or strip SVG entirely. For logos, icons, and social badges in email, PNG at 2x resolution is dramatically more reliable. Save SVG for the web; use PNG for everything going into an email template.</p>
@@ -535,11 +535,11 @@
                     },
                     {
                         title: 'Recipe 2 - Marketplace listing stickers: SVG to PNG',
-                        body: 'Convert vector badges and stickers to PNG at platform-recommended dimensions. Etsy recommends 2000px minimum on the longest side. Use Magic Flow: <strong>"convert SVG sticker to PNG at 2000px, keep transparent background."</strong> The result meets Etsy\'s file requirements and preserves the sharp edges and transparency of your original vector.',
+                        body: 'Convert vector badges and stickers to PNG at platform-recommended dimensions. Etsy recommends 2000px minimum on the longest side. Use Magic Flow: <strong>"convert SVG sticker to PNG at 2000px, keep transparent background."</strong> The result meets Etsy\'s file requirements and preserves the sharp edges and transparency of your original vector. The <a href="/solutions/svg-to-png">SVG to PNG converter</a> does the same without a prompt: pick 2048 as the long edge and drop the file.',
                     },
                     {
                         title: 'Recipe 3 - Email-safe logos and icons: SVG to PNG',
-                        body: 'Convert your logo and key icons to PNG at 2x resolution for email templates. In Mochify: <strong>"convert SVG logo to PNG at 400px wide."</strong> This avoids the Gmail/Outlook broken-image problem entirely. For a logo that renders at 200px in an email header, a 400px PNG at 2x gives you retina sharpness without SVG\'s email compatibility risk.',
+                        body: 'Convert your logo and key icons to PNG at 2x resolution for email templates. In Mochify: <strong>"convert SVG logo to PNG at 400px wide."</strong> This avoids the Gmail/Outlook broken-image problem entirely. For a logo that renders at 200px in an email header, a 400px PNG at 2x gives you retina sharpness without SVG\'s email compatibility risk. Or drop the logo on the <a href="/solutions/svg-to-png">SVG to PNG converter</a> and pick 512 as the long edge.',
                     },
                     {
                         title: 'Recipe 4 - Developer pipeline: SVG source, WebP/AVIF delivery',
@@ -633,7 +633,7 @@
             <a href="/solutions/svg-to-jxl" class="bg-[#FFF5F7] border border-pink-100 rounded-lg px-3.5 py-1.5 text-sm font-bold text-[#D81B60] hover:bg-pink-100 transition-colors no-underline">Convert SVG to JPEG XL</a>
         </div>
 
-        <p class="text-sm text-cocoa-milk mt-4">Published May 2026 by the Mochify Engineering Team. Last updated: May 2026.</p>
+        <p class="text-sm text-cocoa-milk mt-4">Published May 2026 by the Mochify Engineering Team. Last updated: October 2026.</p>
 
     </div>
 </article>

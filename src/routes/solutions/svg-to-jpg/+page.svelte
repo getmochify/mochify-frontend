@@ -151,7 +151,7 @@
             <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
                 <li><strong class="text-[#4A2C2C]">Size:</strong> the long edge you pick, or with Original the SVG's width and height (or its viewBox when those are missing). A file with none of the three has no size to work from, so add a viewBox or a width and height first.</li>
                 <li><strong class="text-[#4A2C2C]">Transparency:</strong> filled white. JPG cannot store transparency, so transparent areas become white and semi-transparent edges blend into white.</li>
-                <li><strong class="text-[#4A2C2C]">Quality:</strong> encoded at a high setting with jpegli. JPG is lossy, so on flat color and hard edges a close look can show faint artifacts; PNG keeps every pixel exact.</li>
+                <li><strong class="text-[#4A2C2C]">Quality:</strong> encoded with jpegli at quality 90, the same as <code class={codeClass}>quality=90</code> through the API. JPG is lossy, so on flat color and hard edges a close look can show faint artifacts; PNG keeps every pixel exact.</li>
                 <li><strong class="text-[#4A2C2C]">Text:</strong> rendered, but web fonts linked by URL are not fetched, so live text falls back to a default font. Convert text to outlines before you export if the typeface matters, which for a logo it always does.</li>
                 <li><strong class="text-[#4A2C2C]">Linked images:</strong> an image the SVG loads from a URL is dropped without warning. Images embedded in the file render.</li>
                 <li><strong class="text-[#4A2C2C]">Animation:</strong> ignored. You get the SVG as it looks before anything moves.</li>
@@ -165,7 +165,7 @@
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Converting SVG to PNG without a converter</h2>
+            <h2 class="text-2xl font-bold text-[#4A2C2C]">Converting SVG to JPG without a converter</h2>
             <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
                 <li><strong class="text-[#4A2C2C]">Inkscape</strong> (free, Windows, Mac and Linux, version 1.2 or later): File > Export, choose JPG in the Export dialog, set the DPI or pixel size and the background color, and export.</li>
                 <li><strong class="text-[#4A2C2C]">Figma:</strong> select the frame or layer, add a JPG export in the Export panel at the scale you need, and export. Give the frame a fill first, or transparent areas come out white.</li>

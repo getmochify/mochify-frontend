@@ -159,7 +159,7 @@
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
             <h2 class="text-2xl font-bold text-[#4A2C2C]">When a PNG copy of an SVG is the right call</h2>
             <p class="leading-relaxed text-[#6C3F31]">Keep the SVG wherever it is accepted: on your own site it stays sharp at every size and is usually the smaller file. Make a raster copy for the places that refuse or strip SVG, such as WordPress without a plugin, many marketplaces and social link previews. Our <a href="/guides/svg-conversion-guide-vector-vs-raster" class={linkClass}>SVG conversion guide</a> walks through the decision platform by platform.</p>
-            <p class="leading-relaxed text-[#6C3F31]">Pick PNG when the copy has to open anywhere: email signatures, slide decks, documents, marketplace uploads and older software all take PNG, and it keeps transparency where JPEG cannot. The trade-off is size. For a page on your own site, the <a href="/solutions/svg-to-webp" class={linkClass}>SVG to WebP</a> and <a href="/solutions/svg-to-avif" class={linkClass}>SVG to AVIF</a> converters keep transparency in a much smaller file.</p>
+            <p class="leading-relaxed text-[#6C3F31]">Pick PNG when the copy has to open anywhere: email signatures, slide decks, documents, marketplace uploads and older software all take PNG, and it keeps transparency where JPEG cannot. The trade-off is size. For a page on your own site, the <a href="/solutions/svg-to-webp" class={linkClass}>SVG to WebP</a> and <a href="/solutions/svg-to-avif" class={linkClass}>SVG to AVIF</a> converters keep transparency in a much smaller file; <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl" class={linkClass}>WebP, AVIF or JPEG XL in 2026</a> compares them. Where the upload form takes only JPEG, the <a href="/solutions/svg-to-jpg" class={linkClass}>SVG to JPG converter</a> makes the copy with the transparent areas filled white.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
@@ -201,13 +201,13 @@
                         <p class="text-xs text-[#875F42]">Transparency kept in a much smaller file, for websites</p>
                     </div>
                 </a>
-                <a href="/solutions/svg-to-avif" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
+                <a href="/solutions/svg-to-jpg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                     <span class="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0 border border-amber-100">
-                        <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
+                        <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">SVG to AVIF →</p>
-                        <p class="text-xs text-[#875F42]">Usually the smallest file, for modern websites</p>
+                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">SVG to JPG →</p>
+                        <p class="text-xs text-[#875F42]">Transparent areas filled white, for anywhere that takes only JPEG</p>
                     </div>
                 </a>
             </div>
