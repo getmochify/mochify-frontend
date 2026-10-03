@@ -76,9 +76,10 @@
 </script>
 
 <svelte:head>
-    <title>Convert HIF to JPG Online (Fuji/Canon) - Free | Mochify</title>
-    <meta name="description" content="Convert Fuji, Canon & Sony HIF photos to JPEG instantly. Perfect for photographers using X-T5, R5, or Sony Alpha. Free, secure, and runs in-memory.">
+    <title>HIF to JPG Converter (Canon, Sony, Fuji) - Free | Mochify</title>
+    <meta name="description" content="Free online HIF to JPG converter for Canon, Sony and Fujifilm cameras: R5, Sony Alpha, X-T5. Convert .HIF files to JPEG in seconds, no signup needed.">
     <meta property="og:title" content="HIF to JPG Converter - Mochify">
+    <meta property="og:description" content="Free online HIF to JPG converter for Canon, Sony and Fujifilm cameras: R5, Sony Alpha, X-T5. Convert .HIF files to JPEG in seconds, no signup needed.">
 
     <script type="application/ld+json">
         {
@@ -124,7 +125,6 @@
             </div>
 
             <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
-                Convert 
                 <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
                     HIF
                 </span> 
@@ -132,10 +132,11 @@
                 <span class="bg-gradient-to-r from-[#E0ACD5] to-[#BA68C8] bg-clip-text text-transparent">
                     JPG
                 </span>
+                Converter
             </h1>
             
             <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
-                Turn 10-bit Fuji, Canon & Sony HIF photos into universally compatible JPEGs instantly.
+                Convert 10-bit Fuji, Canon & Sony HIF photos into universally compatible JPEGs instantly.
             </p>
         </div>
 
