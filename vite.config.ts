@@ -22,6 +22,10 @@ export default defineConfig({
 			registerType: 'prompt',
 			injectRegister: null,
 			manifest: false,
+			// Warn, don't fail, when a file is over maximumFileSizeToCacheInBytes
+			// (set below): leaving those out of the precache is the point, and the
+			// build log then lists exactly what was excluded.
+			showMaximumFileSizeToCacheInBytesWarning: true,
 			workbox: {
 				navigateFallback: null,
 				// woff2-only: unicode-range keeps non-latin subsets inert, and no
@@ -43,6 +47,13 @@ export default defineConfig({
 					'**/*vietnamese*',
 					'**/*latin-ext*'
 				],
+				// Precache the app shell, not the heavy optional libraries. Every first
+				// visit downloads the whole precache in the background, and files
+				// this size are only for some users: the video converter's
+				// mediabunny (main and worker chunks, ~690 KB raw each) and the
+				// 1280x800 share image that only crawlers read. They are still
+				// served with a year-long immutable cache header when needed.
+				maximumFileSizeToCacheInBytes: 400 * 1024,
 				runtimeCaching: [
 					{
 						urlPattern: ({ url }) => url.origin === 'https://api.mochify.app',

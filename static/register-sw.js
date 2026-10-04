@@ -1,4 +1,9 @@
-if ('serviceWorker' in navigator) {
+// Not on individual guide pages: they are one-off reads from search that ship
+// no app code, and registering would start the whole precache download in the
+// background for a visitor who may never open the app. The /guides index (no
+// trailing segment) still registers. Returning visitors' existing worker keeps
+// controlling guide pages either way.
+if ('serviceWorker' in navigator && !/^\/guides\/[^/]+/.test(location.pathname)) {
     window.addEventListener('load', async () => {
         // The worker installs but waits (no skipWaiting/clientsClaim), so a deploy
         // mid-session never seizes an open page or evicts the precached chunks it

@@ -1,7 +1,8 @@
 <script lang="ts">
 	import './layout.css';
 	import { browser } from '$app/environment';
-	import { page } from '$app/state';
+	import { page, updated } from '$app/state';
+	import { beforeNavigate } from '$app/navigation';
 	import { posthog } from '$lib/analytics';
 	import { ogImageFor, ogAltFor, ogSizeFor } from '$lib/og/cards.js';
 	import BlobBackground from '$lib/components/BlobBackground.svelte';
@@ -15,6 +16,41 @@
 	// path becomes an identified person — so PostHog counts one human as several.
 	// Keyed by email to match the existing inline identify() calls (no split), and
 	// guarded so it fires once per user rather than on every navigation.
+	// Stale-build guard. After a deploy, an open tab still runs the old build,
+	// and that build's route chunks are gone from the CDN (and, once the new
+	// service worker activates, from its cache too), so its next client-side
+	// navigation fails with "Importing a module script failed". hooks.client.ts
+	// recovers from that with one reload, but Safari's back-forward cache
+	// restores the stale page from memory after it, and the repeat failure
+	// lands inside the reload cooldown and gets reported. Better not to fail
+	// at all: once SvelteKit knows a new version is live (polled, see
+	// version.pollInterval in svelte.config.js), turn the next navigation into
+	// a full page load, which always fetches current HTML and chunks.
+	beforeNavigate(({ willUnload, to }) => {
+		if (updated.current && !willUnload && to?.url) {
+			location.href = to.url.href;
+		}
+	});
+
+	// A page restored from the back-forward cache, or a tab coming back into
+	// view, may have sat out several deploys; check now rather than waiting
+	// for the next poll, so the very next click is already a full load.
+	$effect(() => {
+		const check = () => void updated.check();
+		const onPageShow = (event: PageTransitionEvent) => {
+			if (event.persisted) check();
+		};
+		const onVisibility = () => {
+			if (document.visibilityState === 'visible') check();
+		};
+		window.addEventListener('pageshow', onPageShow);
+		document.addEventListener('visibilitychange', onVisibility);
+		return () => {
+			window.removeEventListener('pageshow', onPageShow);
+			document.removeEventListener('visibilitychange', onVisibility);
+		};
+	});
+
 	let identifiedEmail: string | null = null;
 	$effect(() => {
 		if (!browser) return;
@@ -85,16 +121,18 @@
 	import qs400 from '@fontsource/nunito/files/nunito-latin-400-normal.woff2?url';
 	import qs600 from '@fontsource/nunito/files/nunito-latin-600-normal.woff2?url';
 	import qs700 from '@fontsource/nunito/files/nunito-latin-700-normal.woff2?url';
-	import of700 from '@fontsource/outfit/files/outfit-latin-700-normal.woff2?url';
-	import of800 from '@fontsource/outfit/files/outfit-latin-800-normal.woff2?url';
+	// Outfit 900 is the H1 (font-black) on every page, so it is the heading face
+	// the first screen needs; 700 and 800 were preloaded before but are not used
+	// above the fold (measured 2026-10-04 on /, /flow, a tool page, a guide and
+	// /pricing), so they load normally via the @fontsource CSS when needed.
+	import of900 from '@fontsource/outfit/files/outfit-latin-900-normal.woff2?url';
 </script>
 
 <svelte:head>
 	<link rel="preload" as="font" type="font/woff2" href={qs400} crossorigin="anonymous">
 	<link rel="preload" as="font" type="font/woff2" href={qs600} crossorigin="anonymous">
 	<link rel="preload" as="font" type="font/woff2" href={qs700} crossorigin="anonymous">
-	<link rel="preload" as="font" type="font/woff2" href={of700} crossorigin="anonymous">
-	<link rel="preload" as="font" type="font/woff2" href={of800} crossorigin="anonymous">
+	<link rel="preload" as="font" type="font/woff2" href={of900} crossorigin="anonymous">
 	<link rel="canonical" href="https://mochify.app{page.url.pathname}" />
 	<meta property="og:image" content={ogImage} />
 	<meta property="og:image:width" content={String(ogSize.width)} />

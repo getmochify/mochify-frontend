@@ -5,6 +5,8 @@
 	import BackToTop from '$lib/components/BackToTop.svelte';
 	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 	import { guideTitle } from '$lib/data/guides';
+	import { PUBLIC_POSTHOG_PROJECT_TOKEN, PUBLIC_POSTHOG_HOST } from '$env/static/public';
+	import { posthogOptions } from '$lib/posthogConfig';
 
 	const { children } = $props();
 
@@ -17,6 +19,18 @@
 		return words[0].charAt(0).toUpperCase() + words[0].slice(1) + ' ' + words.slice(1).join(' ');
 	}
 
+	// Guide pages ship csr = false (guides/+layout.ts), so hooks.client.ts never
+	// runs on them and, without this, PostHog would record nothing there. This is
+	// PostHog's standard loader stub plus an init deferred to browser idle: the
+	// stub is a few hundred bytes, and array.js (the library, via the
+	// t.mochify.app proxy) only downloads once the page is idle, so the guide
+	// still renders with no app JavaScript. Same project, proxy and settings as
+	// the app (shared via $lib/posthogConfig), and PostHog's persisted
+	// distinct_id carries a visitor's identity over from app pages.
+	// Not rendered on the /guides index, which hydrates and runs hooks.client.ts.
+	const posthogSnippet = `!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once unregister identify reset get_distinct_id captureException opt_in_capturing opt_out_capturing".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+(window.requestIdleCallback||function(c){setTimeout(c,1500)})(function(){posthog.init(${JSON.stringify(PUBLIC_POSTHOG_PROJECT_TOKEN)},${JSON.stringify({ api_host: PUBLIC_POSTHOG_HOST, ...posthogOptions }).replace(/</g, '\\u003c')})},{timeout:3000});`;
+
 	const segments = $derived(page.url.pathname.split('/').filter(Boolean));
 	const slug = $derived(segments[1]);
 	const breadcrumbItems = $derived([
@@ -25,6 +39,13 @@
 		...(slug ? [{ name: guideTitle(`/guides/${slug}`) ?? formatSlug(slug) }] : [])
 	]);
 </script>
+
+<svelte:head>
+	{#if slug}
+		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+		{@html `<script>${posthogSnippet}<\/script>`}
+	{/if}
+</svelte:head>
 
 <div id="top" class="relative flex min-h-screen flex-col">
 	<Navigation />
