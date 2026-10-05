@@ -180,7 +180,12 @@ export const handle: Handle = async ({ event, resolve: baseResolve }) => {
 	return setSecurityHeaders(await svelteKitHandler({ event, resolve, auth, building }));
 };
 
-export const handleError: HandleServerError = async ({ error, status, message }) => {
+export const handleError: HandleServerError = async ({ error, event, status, message }) => {
+	// SvelteKit routes unmatched paths (404) and wrong methods (405) through here too.
+	// On the live site those are almost entirely bot probes (/wp-login.php, /.env, ...),
+	// not failures, and they were flooding PostHog with context-free server_error events.
+	if (status === 404 || status === 405) return { message, status };
+
 	try {
 		const posthog = getPostHogClient();
 		posthog.capture({
@@ -188,8 +193,12 @@ export const handleError: HandleServerError = async ({ error, status, message })
 			event: 'server_error',
 			properties: {
 				error: error instanceof Error ? error.message : String(error),
+				stack: error instanceof Error ? error.stack : undefined,
 				status,
-				message
+				message,
+				$current_url: event.url.href,
+				method: event.request.method,
+				user_agent: event.request.headers.get('user-agent')
 			}
 		});
 		await posthog.flush();
