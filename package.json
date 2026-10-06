@@ -58,12 +58,12 @@
     "prettier-plugin-svelte": "^3.5.2",
     "prettier-plugin-tailwindcss": "^0.7.4",
     "satori": "^0.29.1",
-    "svelte": "^5.57.1",
+    "svelte": "^5.57.2",
     "svelte-check": "^4.7.6",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.71.0",
-    "vite": "^7.3.6",
+    "typescript-eslint": "^8.71.1",
+    "vite": "^7.3.7",
     "vite-plugin-pwa": "^1.3.0"
   },
   "optionalDependencies": {
@@ -82,7 +82,7 @@
     "kysely-d1": "^0.4.0",
     "mediabunny": "^1.61.3",
     "pdfjs-dist": "^6.4.299",
-    "posthog-js": "^1.436.0",
+    "posthog-js": "^1.438.1",
     "posthog-node": "^5.55.0",
     "resend": "^6.32.0"
   }
