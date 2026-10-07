@@ -348,7 +348,7 @@
                     },
                     {
                         prompt: '"convert to jpg, resize to 2000px, smart compress"',
-                        note: 'High-res for Amazon A+ content, saliency-guided quality for the smallest file at that resolution.'
+                        note: 'High-res for Amazon A+ content. Smart compress keeps the product untouched and softens the background slightly, for a smaller file at that resolution.'
                     },
                     {
                         prompt: '"convert to jpg, resize to 1200px and 800px, remove background"',

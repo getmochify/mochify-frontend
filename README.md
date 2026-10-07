@@ -16,7 +16,7 @@ Mochify is a high-performance media processing utility for **images, PDFs and vi
 
 ### Images
 
-Convert and compress between **JPG, PNG, WebP, AVIF and JPEG XL**, with **HEIC/HEIF/HIF** and **SVG** accepted as input. Resize, rotate, crop, strip EXIF, and remove backgrounds. Saliency-guided smart compression picks a quality per image rather than applying one number to everything, and smart crop centres on the detected subject instead of the geometric middle.
+Convert and compress between **JPG, PNG, WebP, AVIF and JPEG XL**, with **HEIC/HEIF/HIF** and **SVG** accepted as input. Resize, rotate, crop, strip EXIF, and remove backgrounds. Saliency-guided smart compression softens the background while leaving the subject untouched, and smart crop centres on the detected subject instead of the geometric middle.
 
 Describe what you want in plain English (*"convert to WebP and AVIF at 1200px, strip the metadata"*) and Magic Flow maps it to parameters, or use the classic form if you would rather set them yourself.
 

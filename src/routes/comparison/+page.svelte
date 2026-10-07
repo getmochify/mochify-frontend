@@ -235,7 +235,7 @@
             "applicationCategory": "MultimediaApplication",
             "operatingSystem": "Web",
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-            "description": "Upload an image and compare the original side-by-side with a compressed version using a drag slider. Supports WebP, AVIF, JPEG XL, and JPG output with optional smart compression.",
+            "description": "Upload an image and compare the original side-by-side with a compressed version using a drag slider. Supports WebP, AVIF, JPEG XL, and JPG output with optional smart compression, which softens the background and leaves the subject untouched.",
             "url": "https://mochify.app/comparison",
             "featureList": ["WebP compression", "AVIF compression", "JPEG XL compression", "JPG compression", "Side-by-side drag slider comparison", "Smart compression mode", "File size savings display"]
         },
@@ -261,7 +261,7 @@
                     "@type": "HowToStep",
                     "position": 3,
                     "name": "Compress the image",
-                    "text": "Click 'Compress & Compare' to send the image to Mochify's compression engine. Optionally enable Smart Compress for content-aware quality tuning."
+                    "text": "Click 'Compress & Compare' to send the image to Mochify's compression engine. Optionally enable Smart Compress to soften the background and keep the subject untouched, then drag the slider to see the difference."
                 },
                 {
                     "@type": "HowToStep",

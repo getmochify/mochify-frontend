@@ -132,13 +132,13 @@ export const squishParams = [
 		name: 'quality',
 		default: 'auto',
 		description:
-			'Output quality override (1–100). Overrides smart compression. JXL maps linearly, so 70 is about distance 3.0. <code>100</code> is the best <em>lossy</em> setting, not lossless: see <code>lossless</code>.'
+			'Output quality (1–100). With <code>smartCompress</code> this is the quality of the subject: smart compression never lowers it. JXL maps linearly, so 70 is about distance 3.0. <code>100</code> is the best <em>lossy</em> setting, not lossless: see <code>lossless</code>.'
 	},
 	{
 		name: 'smartCompress',
 		default: 'false',
 		description:
-			'Saliency-guided quality selection. High-detail subjects get higher quality, flat areas lower. Accepts <code>1</code> or <code>true</code>.'
+			'Saliency-guided background softening. The subject is left untouched and encoded at <code>quality</code>; the background is lightly low-passed so it costs fewer bytes (roughly 15–40% smaller, depending on format and how much of the frame is background). The background does come out slightly softer. Skipped when there is no clear subject, the subject fills the frame, the background was removed, HDR is being carried, or <code>lossless</code> is set: see <code>X-Mochify-SmartCompress</code>. Accepts <code>1</code> or <code>true</code>.'
 	},
 	{
 		name: 'smartCrop',
@@ -202,7 +202,7 @@ export const squishParams = [
 		name: 'lossless',
 		default: 'false',
 		description:
-			'Pixel-exact output. Accepts <code>1</code> or <code>true</code>, and overrides <code>quality</code> and <code>smartCompress</code>.',
+			'Pixel-exact output. Accepts <code>1</code> or <code>true</code>, overrides <code>quality</code>, and disables <code>smartCompress</code> softening.',
 		more: 'Only <code>jxl</code>, <code>webp</code> and <code>png</code> can honor it: <code>jpg</code> and <code>avif</code> are rejected with a <code>400</code> rather than silently encoded lossy. A source that is <em>already</em> lossy (JPEG, AVIF, HEIC) is re-encoded at the highest lossy setting instead, since nothing can restore what that file already discarded. Expect the output to be <strong>larger</strong> than the input: lossless preserves pixels, not file size. Check <code>X-Mochify-Lossless</code> for what was actually emitted.'
 	},
 	{
@@ -249,7 +249,12 @@ export const squishResponse = [
 	},
 	{
 		name: 'X-Mochify-Saliency',
-		description: 'Saliency score (0.000–1.000). Only present when <code>smartCompress=true</code>.'
+		description: 'Subject coverage (0.000–1.000): the mean of the saliency mask. Only present when <code>smartCompress=true</code>.'
+	},
+	{
+		name: 'X-Mochify-SmartCompress',
+		description:
+			'Only present when <code>smartCompress=true</code>, and describes the returned bytes. <code>background</code> = the background was softened. <code>skipped:no-subject</code>, <code>skipped:subject-fills-frame</code>, <code>skipped:background-removed</code>, <code>skipped:hdr</code> or <code>skipped:lossless</code> = the pixels were left alone, and why. One value for a multi-variant ZIP.'
 	},
 	{
 		name: 'X-Mochify-Target',
@@ -268,7 +273,7 @@ export const squishResponse = [
 	},
 	{
 		name: 'X-Mochify-Quality',
-		description: 'Effective quality value used. Only present when <code>smartCompress=true</code>.'
+		description: 'The quality the returned bytes were encoded at. Present when <code>smartCompress=true</code> or when a <code>targetBytes</code> search ran, in which case it is the value the search settled on.'
 	},
 	{
 		name: 'X-Mochify-BgRemoved',

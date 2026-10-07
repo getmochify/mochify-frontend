@@ -124,8 +124,8 @@ POST /v1/squish -- compress and/or convert a single image (raw bytes body)
 Query parameters:
 - type (default: jpg) -- jpg | png | webp | avif | jxl
 - width, height -- target dimensions in pixels; 0 or omitted = unconstrained; aspect ratio preserved unless smartCrop is set
-- quality (1-100, default: auto) -- overrides smart compression; JXL maps linearly (70 is roughly distance 3.0). quality=100 is the best LOSSY setting, not lossless -- use the lossless parameter for that
-- smartCompress (default: false) -- saliency-guided quality selection
+- quality (1-100, default: auto) -- with smartCompress it is the quality of the SUBJECT (smartCompress never lowers it); JXL maps linearly (70 is roughly distance 3.0). quality=100 is the best LOSSY setting, not lossless -- use the lossless parameter for that
+- smartCompress (default: false) -- saliency-guided background softening: the subject is left untouched and encoded at `quality`, while the background is lightly low-passed so it costs fewer bytes (roughly 15-40% smaller depending on format and how much of the frame is background). A visible trade: the background comes out slightly softer. Skipped when there is no clear subject, the subject fills the frame, the background was removed, HDR is being carried, or lossless is set -- see X-Mochify-SmartCompress
 - smartCrop / crop (default: false) -- saliency-guided crop centred on subject; requires width and height
 - removeBackground (default: false) -- AI background removal; available on all plans including Free; outputs PNG/WebP with alpha, JPEG flattens to white
 - rotate (default: 0) -- 90 | 180 | 270 (clockwise)
@@ -133,8 +133,8 @@ Query parameters:
 - optimizeForWeb (default: false) -- progressive encoding + 4:2:0 chroma subsampling for smallest web file size
 - brightness (-100 to +100, default: 0) -- adjust exposure; 0 = no change
 - clarity (default: false) -- midtone contrast enhancement; makes images look crisper and more detailed without affecting overall exposure
-- lossless (default: false) -- pixel-exact output; overrides quality and smartCompress. Only jxl, webp and png can honour it; jpg and avif are rejected with a 400 rather than silently encoded lossy. A source that is ALREADY lossy (JPEG, AVIF, HEIC) is re-encoded at the highest lossy setting instead, because nothing can restore what that file already discarded. Expect the output to be LARGER than the input -- lossless preserves pixels, not file size. See X-Mochify-Lossless for what was actually emitted
-- targetBytes -- ceiling on the OUTPUT file size, in bytes. An upper bound, never a size to pad up to: if the requested (or smartCompress-picked) quality already fits, that encode is returned and the quality is left alone. No encoder can predict a compressed size without encoding, and no quality value maps to one -- bytes at a fixed quality are a property of the PIXELS, spanning roughly 3x (JPEG) to 10x (AVIF) between a flat graphic and a detailed photo at the same dimensions -- so the backend measures instead, typically 1-3 encodes. Minimum 1024. Cannot be combined with lossless (400). Applies PER OUTPUT: a multi-variant request means each variant fits, not that they sum to it. See X-Mochify-Target for whether the ceiling was reached
+- lossless (default: false) -- pixel-exact output; overrides quality and disables smartCompress softening. Only jxl, webp and png can honour it; jpg and avif are rejected with a 400 rather than silently encoded lossy. A source that is ALREADY lossy (JPEG, AVIF, HEIC) is re-encoded at the highest lossy setting instead, because nothing can restore what that file already discarded. Expect the output to be LARGER than the input -- lossless preserves pixels, not file size. See X-Mochify-Lossless for what was actually emitted
+- targetBytes -- ceiling on the OUTPUT file size, in bytes. An upper bound, never a size to pad up to: if the requested (or default) quality already fits, that encode is returned and the quality is left alone. No encoder can predict a compressed size without encoding, and no quality value maps to one -- bytes at a fixed quality are a property of the PIXELS, spanning roughly 3x (JPEG) to 10x (AVIF) between a flat graphic and a detailed photo at the same dimensions -- so the backend measures instead, typically 1-3 encodes. Minimum 1024. Cannot be combined with lossless (400). Applies PER OUTPUT: a multi-variant request means each variant fits, not that they sum to it. See X-Mochify-Target for whether the ceiling was reached
 - targetLever (default: both) -- which knob targetBytes may turn: `quality` (re-encode lower, never resize), `dimensions` (downscale, never change quality), `both`. Requires targetBytes. `quality` is a 400 for png output, which has no quality control at all. The `dimensions` lever is withheld when an HDR gain map is being carried, since resizing the base would invalidate the map
 - hdr (default: false) -- Ultra HDR / ISO 21496-1 gain map handling. Three values, and they are not interchangeable: `true` or `1` preserves a gain map the source already has and will never invent one; `generate` does that AND synthesises a gain map when the source is plain SDR. Requires JPEG output for synthesis; see section 11
 - dest (default: unset) -- set to `bucket` to write the result into the caller's connected bucket instead of returning image bytes; requires a verified connection on a paid plan (see section 10)
@@ -146,8 +146,9 @@ Response headers:
 - X-Latency-Ms -- processing time in ms
 - X-Mochify-Optimized -- true/false
 - X-Mochify-Reason -- reason when Optimized is false (e.g. "Original was smaller")
-- X-Mochify-Saliency -- saliency score 0.000-1.000 (smartCompress only)
-- X-Mochify-Quality -- effective quality used (smartCompress only)
+- X-Mochify-Saliency -- subject coverage 0.000-1.000, the mean of the saliency mask (smartCompress only)
+- X-Mochify-SmartCompress -- smartCompress only. `background` = the background was softened; `skipped:no-subject`, `skipped:subject-fills-frame`, `skipped:background-removed`, `skipped:hdr` or `skipped:lossless` = the pixels were left alone, and why. One value for a multi-variant ZIP
+- X-Mochify-Quality -- the quality the returned bytes were encoded at (smartCompress or targetBytes)
 - X-Mochify-BgRemoved -- true when background was removed
 - X-Mochify-HDR -- only present when hdr was requested. Three values: `true` (the emitted file carries headroom the source captured), `generated` (headroom Mochify synthesised), `false` (the output carries none). Report these apart -- see section 11
 - X-Mochify-Target -- only present when targetBytes was set. `hit` (the returned bytes are at or under the ceiling) or `floor` (the levers ran out first; this is the smallest output that could honestly be produced). A `floor` response is a 200 carrying a real, usable image -- it is otherwise indistinguishable from success, so check it. For a multi-variant ZIP, `hit` means every entry fits
@@ -296,10 +297,10 @@ Three things an assistant should get right about it:
   do not claim it does.)
 
 ### Smart compress
-Saliency-guided quality selection -- the backend analyses subject prominence and sets quality per region.
+Keeps the subject exactly as sharp and shrinks the file by lightly softening the background. It never changes quality -- a quality phrase still applies, to the subject -- so "smart compress at high quality" is a real combination. Only set by asking for it; quality words, platform recipes and "product"/"listing" alone do not turn it on, because the softer background is visible.
 
 Examples:
-  "smart compress", "optimize for listing", "product image"
+  "smart compress", "smart compression at high quality", "compress the background more", "keep the subject sharp but make the file smaller"
 
 ### Background removal
 AI foreground isolation. Output retains alpha for PNG/WebP; JPEG flattens to white.
@@ -462,7 +463,7 @@ squish -- compress, convert, resize, or transform an image
   - removeBackground (boolean): AI background removal; available on all plans
   - background (string): composite colour when removing background; omit for transparent
   - stripExif (boolean): strip metadata (default: true)
-  - smartCompress (boolean): saliency-guided quality selection
+  - smartCompress (boolean): soften the background to save bytes; subject untouched, quality unchanged
   - optimizeForWeb (boolean): progressive encoding + 4:2:0 chroma subsampling
   - brightness (integer -100 to +100): exposure adjustment
   - clarity (boolean): midtone contrast enhancement

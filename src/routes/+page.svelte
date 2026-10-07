@@ -377,7 +377,7 @@
 							"name": "How much smaller will my images be?",
 							"acceptedAnswer": {
 								"@type": "Answer",
-								"text": "It depends on the format and the source. As a guide, Jpegli typically produces JPEGs around 35% smaller than a standard encoder at the same visual quality, WebP is around 26% smaller than JPEG, and AVIF is roughly 50% smaller than JPEG and 20% smaller than WebP. Smart Compress picks the best quality-to-size balance for each image automatically, so you never have to guess a quality setting."
+								"text": "It depends on the format and the source. As a guide, Jpegli typically produces JPEGs around 35% smaller than a standard encoder at the same visual quality, WebP is around 26% smaller than JPEG, and AVIF is roughly 50% smaller than JPEG and 20% smaller than WebP. Smart Compress goes further by softening the background while leaving the subject untouched, so the file shrinks without the part people look at losing any quality."
 							}
 						},
 						{
@@ -1275,8 +1275,8 @@
 						It depends on the format and the source. As a guide, Jpegli typically produces JPEGs
 						around 35% smaller than a standard encoder at the same visual quality, WebP is around
 						26% smaller than JPEG, and AVIF is roughly 50% smaller than JPEG and 20% smaller than
-						WebP. Smart Compress picks the best quality-to-size balance for each image
-						automatically, so you never have to guess a quality setting.
+						WebP. Smart Compress goes further by softening the background while leaving the subject
+						untouched, so the file shrinks without the part people look at losing any quality.
 					</p>
 				</details>
 
