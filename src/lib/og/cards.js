@@ -307,6 +307,11 @@ export const cards = [
 		title: 'Mochify vs TinyPNG - An Honest 2026 Comparison'
 	},
 	{
+		path: '/guides/jpeg-xl-chrome-support',
+		eyebrow: 'GUIDE',
+		title: 'JPEG XL Is in Chrome: What Changes for Your Images'
+	},
+	{
 		path: '/guides/lossless-image-formats',
 		eyebrow: 'GUIDE',
 		title: 'Lossless Image Formats: Which to Use, and When Not To'

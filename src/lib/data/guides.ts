@@ -639,6 +639,15 @@ export const guides: Guide[] = [
 		date: 'April 23, 2026'
 	},
 	{
+		title: 'JPEG XL Is in Chrome: What Changes for Your Images, and What Does Not Yet',
+		description:
+			'Chrome 155 decodes JPEG XL by default from October 6, 2026; Firefox 158 follows on October 13. Browser table, caveats, and what to do by stack.',
+		url: '/guides/jpeg-xl-chrome-support',
+		category: 'Image Formats',
+		readTime: '20 min read',
+		date: 'October 7, 2026'
+	},
+	{
 		title: 'Lossless Image Formats: Which One to Use, and When Lossless Is the Wrong Choice',
 		description:
 			'PNG, WebP, JPEG XL and AVIF tested lossless on six image types: which wins for screenshots, logos and photos, and when lossless is the wrong call.',

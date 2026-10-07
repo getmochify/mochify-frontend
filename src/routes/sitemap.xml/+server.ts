@@ -58,6 +58,7 @@ export async function GET() {
 		'/chrome-extension',
 		'/solutions/sdr-to-hdr',
 		'/guides',
+		'/guides/jpeg-xl-chrome-support',
 		'/guides/reduce-photo-file-size-iphone',
 		'/guides/save-image-as-type-alternative',
 		'/guides/lossless-image-formats',
