@@ -117,7 +117,8 @@ export const guides: Guide[] = [
 		url: '/guides/why-hdr-photos-look-flat-when-shared',
 		category: 'Image Formats',
 		readTime: '17 min read',
-		date: 'August 26, 2026'
+		date: 'August 26, 2026',
+		lastUpdated: 'October 7, 2026'
 	},
 	{
 		title: 'What Automatic Image Optimization Actually Does (and When to Take Control)',
@@ -649,12 +650,12 @@ export const guides: Guide[] = [
 	{
 		title: 'Should I Shoot HEIF or JPEG on My Mirrorless Camera?',
 		description:
-			"Shoot HEIF for capture quality, deliver JPEG to clients. Here's the practical 2026 workflow for Canon EOS R, Nikon Z, and Sony Alpha shooters.",
+			'HEIF means HDR capture on Canon and Nikon, 10-bit SDR on Sony and Fujifilm. What you gain per brand, which software refuses the file, and when JPEG wins.',
 		url: '/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera',
-		category: 'Quick Guides',
-		readTime: '3 min read',
+		category: 'Image Formats',
+		readTime: '31 min read',
 		date: 'April 25, 2026',
-		lastUpdated: 'October 2, 2026'
+		lastUpdated: 'October 7, 2026'
 	},
 	{
 		title: 'Does HEIF/HEIC Work With Client Gallery Platforms Like Pixieset and SmugMug?',

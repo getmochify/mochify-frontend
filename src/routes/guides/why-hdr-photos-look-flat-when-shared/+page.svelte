@@ -22,7 +22,7 @@
         category: "Image Formats",
         readTime: "17 min read",
         date: "August 26, 2026",
-        lastUpdated: "September 20, 2026"
+        lastUpdated: "October 7, 2026"
     };
 
     const toc = [
@@ -142,7 +142,7 @@ grep X-Mochify-HDR headers.txt
             "@id": "https://mochify.app/guides/why-hdr-photos-look-flat-when-shared"
         },
         "datePublished": "2026-08-26",
-        "dateModified": "2026-09-20",
+        "dateModified": "2026-10-07",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -343,7 +343,7 @@ grep X-Mochify-HDR headers.txt
             <p class="mb-4">Only two mainstream formats carry a gain map in a way that falls back cleanly: JPEG (as Ultra HDR) and HEIC, with AVIF and JPEG XL taking a different route by storing HDR in the pixels themselves, and WebP and PNG unable to represent HDR at all in common use. Which one you choose decides whether the photo survives the trip.</p>
             <ul class="list-disc pl-6 space-y-3 marker:text-[#F06292] my-6">
                 <li><strong>JPEG with a gain map (Ultra HDR).</strong> The safest choice for sharing, because the fallback is an ordinary JPEG. If you have been told JPEG cannot store HDR, <a href="/guides/does-jpeg-support-hdr">Does JPEG support HDR?</a> is the two-minute correction, including the ".hdr" file trap. Lightroom's own documentation describes a JPEG export from an HDR edit as saving "an SDR image with HDR details preserved with a Gain map" (<a href="https://helpx.adobe.com/lightroom-cc/using/hdr-output.html" target="_blank" rel="noopener noreferrer">Adobe, HDR output</a>). The map adds a few percent to file size because it is stored at reduced resolution and compressed hard.</li>
-                <li><strong>HEIC / HEIF.</strong> What iPhones and many cameras write natively, with the gain map inside the container. Excellent on Apple hardware; support elsewhere is patchier, which is why so many workflows convert to JPEG for delivery. If you are converting camera HEIF files, our <a href="/guides/heif-to-jpg-complete-guide">HEIF to JPG conversion guide</a> covers the general path.</li>
+                <li><strong>HEIC / HEIF.</strong> What iPhones write natively, with the gain map inside the container. Camera HEIF files that are HDR (Canon HDR PQ, Nikon and Sony HLG) carry their range as a transfer curve instead, not as a gain map. Excellent on Apple hardware; support elsewhere is patchier, which is why so many workflows convert to JPEG for delivery. If you are converting camera HEIF files, our <a href="/guides/heif-to-jpg-complete-guide">HEIF to JPG conversion guide</a> covers the general path. Whether your camera's HEIF is HDR at all depends on the brand (Canon and Nikon: always; Sony: only with HLG Still Image on; Fujifilm: never); the per-brand answer is in <a href="/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera">should you shoot HEIF or JPEG on a mirrorless camera</a>.</li>
                 <li><strong>AVIF.</strong> Can hold true 10-bit HDR in PQ or HLG, and Adobe recommends it for HDR export because of the higher bit depth and smaller files. But that is HDR in the pixels, not a gain map over an SDR base: a viewer that does not do HDR does not get a clean fallback. AVIF also carries an ISO gain map in newer encoders, but that path is still uncommon. Our explainer on <a href="/guides/what-is-an-avif-file">what an AVIF file is</a> covers the format's wider tradeoffs.</li>
                 <li><strong>JPEG XL.</strong> HDR-native, stored as floating-point pixel data; also listed by Adobe as an HDR-capable export. Like AVIF, there is nothing to synthesize a gain map into, so a JXL file is HDR only if the source was.</li>
                 <li><strong>WebP.</strong> Cannot represent HDR in any form.</li>
