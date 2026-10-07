@@ -12,7 +12,7 @@
         category: "Image Formats",
         readTime: "19 min read",
         date: "June 4, 2026",
-        lastUpdated: "September 22, 2026"
+        lastUpdated: "October 7, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -34,7 +34,7 @@
         { fmt: 'WebP', chrome: 'Full', firefox: 'Full', edge: 'Full', safari: 'Full', notes: '~25–34% smaller than JPEG' },
         { fmt: 'AVIF', chrome: 'Full', firefox: 'Full', edge: 'Full', safari: 'Full (16.4+)', notes: '~50% smaller than JPEG' },
         { fmt: 'HEIF/HIF', chrome: 'None', firefox: 'None', edge: 'None', safari: 'Yes (17+)', notes: 'Not web-safe' },
-        { fmt: 'JPEG XL', chrome: 'None', firefox: 'None', edge: 'None', safari: 'Partial (17+)', notes: 'Still limited' },
+        { fmt: 'JPEG XL', chrome: 'Full (155+)', firefox: 'Full (158+)', edge: 'None', safari: 'Partial (17+, stills)', notes: 'Default-on in Chrome and Firefox from October 2026' },
     ];
 
     const cheatSheet = [
@@ -100,7 +100,7 @@
         "description": "Convert HIF to JPG from Canon, Sony and Fujifilm cameras. Every method on every platform, plus what you trade away going 10-bit to 8-bit.",
         "url": "https://mochify.app/guides/hif-to-jpg-canon-sony-fujifilm",
         "datePublished": "2026-06-04",
-        "dateModified": "2026-09-22",
+        "dateModified": "2026-10-07",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
@@ -319,7 +319,7 @@
                     </tbody>
                 </table>
             </ScrollableTable>
-            <p class="text-sm text-[#875F42]">Sources: <a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">caniuse.com/heif</a>, <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">caniuse.com/avif</a>, <a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer">caniuse.com/jpegxl</a>, checked June 2026.</p>
+            <p class="text-sm text-[#875F42]">Sources: <a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">caniuse.com/heif</a>, <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">caniuse.com/avif</a>, <a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer">caniuse.com/jpegxl</a>, checked October 7, 2026.</p>
 
             <p>JPEG's durability is reinforced by jpegli. The ~35% compression improvement at high quality settings narrows the gap between traditional JPEG and modern formats like AVIF and WebP considerably. When compatibility cannot be compromised, a well-encoded jpegli JPEG is the practical answer: it opens everywhere and wastes fewer bytes doing it.</p>
             <p>For photographers deciding which format to capture in, our <a href="/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera">Should I Shoot HEIF or JPEG guide</a> weighs the trade-offs before the shutter fires.</p>

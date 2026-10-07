@@ -11,7 +11,7 @@
         category: "Quick Guides",
         readTime: "3 min read",
         datePublished: "June 25, 2026",
-        lastUpdated: "August 21, 2026"
+        lastUpdated: "October 7, 2026"
     };
 
     const related = [
@@ -55,7 +55,7 @@
             "@id": "https://mochify.app/guides/heic-to-jpeg-or-webp-wordpress"
         },
         "datePublished": "2026-06-25",
-        "dateModified": "2026-08-21",
+        "dateModified": "2026-10-07",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -112,7 +112,7 @@
         <section id="what-wordpress-does-with-heic" class="scroll-mt-24">
             <SectionHeading>What WordPress actually does with a HEIC file</SectionHeading>
             <p class="mb-4"><a href="https://make.wordpress.org/core/2024/08/15/automatic-conversion-of-heic-images-to-jpeg-in-wordpress-6-7/" target="_blank" rel="noopener noreferrer">WordPress 6.7 added automatic server-side conversion</a> of HEIC uploads to JPEG, but it only works if your host has Imagick installed with HEIC support. You can check under Tools &gt; Site Health &gt; Info &gt; Media Handling &gt; ImageMagick supported file formats. If HEIC isn't listed, WordPress displays a warning and leaves the file unconverted: it won't display in the block editor or on the front end. The original HEIC is preserved as a downloadable attachment, but it's not usable on the page.</p>
-            <p class="mb-4">WordPress 7.1 (released August 19, 2026) ships the <a href="https://make.wordpress.org/core/2026/06/04/call-for-testing-client-side-media-processing/" target="_blank" rel="noopener noreferrer">client-side media pipeline</a> that spent the summer in testing: HEIC files are decoded and converted directly in the browser using WebAssembly, with no dependency on the host's Imagick build, and with support for HEIC, WebP, AVIF, and JPEG XL. We break down <a href="/guides/can-wordpress-7-1-optimize-images-without-a-plugin">what 7.1 now handles natively</a> and what it still leaves to you. This is a progressive enhancement: it only activates in Chromium-based browsers on capable devices, so it doesn't eliminate the need for a reliable conversion path on older installs or non-Chromium visitors.</p>
+            <p class="mb-4">WordPress 7.1 (released August 19, 2026) ships the <a href="https://make.wordpress.org/core/2026/06/04/call-for-testing-client-side-media-processing/" target="_blank" rel="noopener noreferrer">client-side media pipeline</a> that spent the summer in testing: HEIC files are decoded and converted directly in the browser using WebAssembly, with no dependency on the host's Imagick build, alongside JPEG, PNG, GIF, WebP and AVIF. JPEG XL was in the June test build but is not in the release documentation's format lists, and WordPress still does not accept a .jxl upload. We break down <a href="/guides/can-wordpress-7-1-optimize-images-without-a-plugin">what 7.1 now handles natively</a> and what it still leaves to you. This is a progressive enhancement: it only activates in Chromium-based browsers on capable devices, so it doesn't eliminate the need for a reliable conversion path on older installs or non-Chromium visitors.</p>
             <p class="mb-4">Neither approach gives you meaningful control over output format or quality without extra configuration.</p>
             <p class="mb-4">Embedded metadata is the other thing that changes hands at upload, because WordPress generates its own resized derivatives from whatever you give it. If that matters for your workflow, <a href="/guides/does-stripping-exif-data-improve-wordpress-image-seo">what WordPress does to image metadata on resize</a> sets out the default behavior and what it means in practice.</p>
 

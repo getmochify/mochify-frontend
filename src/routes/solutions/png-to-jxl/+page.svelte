@@ -34,9 +34,9 @@
         {
             q: 'Can I use JXL files on my website?',
             a: [
-                'Only with a fallback. Browser support is still partial, so serve JXL inside a picture element with an AVIF or WebP alternative, or keep JXL for pipelines and archives you control. The ',
-                { href: '/guides/chrome-145-jpeg-xl-default', label: 'Chrome 145 and JPEG XL explainer' },
-                ' has the current state of support.'
+                'Yes, with a fallback: Chrome 155, Firefox 158 and Safari 17+ decode JXL, so serve it inside a picture element with an AVIF or WebP alternative for Edge and older installs. Our guide to ',
+                { href: 'https://mochify.app/guides/jpeg-xl-chrome-support', label: 'JPEG XL in Chrome and what changes now' },
+                ' has the dated state of support.'
             ]
         },
         {
@@ -94,8 +94,8 @@
             highlight: true,
             alpha: 'Yes',
             lossless: 'Yes, with the Lossless switch (compressed by default)',
-            support: 'Partial',
-            best: 'Archives and pipelines you control, smaller PNG replacements'
+            support: 'Chrome 155+, Firefox 158+, Safari (stills)',
+            best: 'Smaller PNG replacements, lossless masters, first source on the web with a fallback'
         },
         {
             fmt: 'AVIF',
@@ -220,7 +220,7 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl font-bold text-[#4A2C2C]">Can you use a JXL file on the web today?</h2>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            Not for every visitor yet. Browser support for JPEG XL is still uneven, so a JXL on a public page needs a fallback for browsers that cannot decode it. Our <a href="/guides/chrome-145-jpeg-xl-default" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Chrome 145 and JPEG XL explainer</a> has the current picture, and the <a href="/guides/converting-images-to-jpeg-xl#png-to-jxl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">practical JPEG XL guide</a> covers the PNG path and the fallback pattern. Where JXL is already useful: image pipelines and tools that read it, internal archives that are not served to browsers, and anywhere you control the viewer. For live web delivery to a general audience, <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">AVIF or WebP</a> is still the safer choice, and JPEG remains the format that opens everywhere.
+                            Most visitors, from October 2026. Chrome 155 and Firefox 158 decode JPEG XL by default and Safari has since version 17, so a JXL can be the first source on a public page; keep an <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">AVIF or WebP</a> fallback for Edge and for browsers that have not updated yet. Our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">JPEG XL in Chrome and what changes now</a> has the dated browser table, and the <a href="/guides/converting-images-to-jpeg-xl#png-to-jxl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">practical JPEG XL guide</a> covers the PNG path and the fallback pattern. JXL is also the right format for image pipelines and tools that read it, internal archives, and anywhere you control the viewer. JPEG remains the format that opens everywhere, including email and chat.
                         </p>
                     </div>
                 </div>

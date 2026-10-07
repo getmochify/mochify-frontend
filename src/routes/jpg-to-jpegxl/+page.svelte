@@ -35,7 +35,7 @@
         {
             q: 'How do I open a JXL file?',
             a: [
-                'Some browsers, image viewers and photo tools read JXL and many do not. ',
+                'Chrome 155, Firefox 158 and Safari read JXL; Edge, most email clients and many image viewers and photo tools do not yet. ',
                 { href: '/guides/what-is-a-jxl-file', label: 'What is a JXL file?' },
                 ' lists what opens one today and how to convert back to JPEG when you need to.'
             ]
@@ -179,7 +179,7 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl font-bold text-[#4A2C2C]">Is JXL better than JPG?</h2>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            As a format, JPEG XL compresses photographs more efficiently than JPEG at the same visual quality and supports things JPEG cannot, such as transparency, higher bit depth and progressive decoding. As a file on the web, JPEG still wins on one thing that matters most: it opens everywhere, and JXL does not yet. So the honest answer is "better format, worse compatibility". The <a href="/guides/chrome-145-jpeg-xl-default" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Chrome 145 and JPEG XL explainer</a> has the current state of browser support, <a href="/guides/what-is-a-jxl-file" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">What is a JXL file?</a> covers which apps open one, and the <a href="/guides/converting-images-to-jpeg-xl#jpeg-to-jxl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">practical JPEG XL guide</a> walks through the JPEG path and the fallback pattern. If what you actually need is a smaller JPEG rather than a new format, the <a href="/guides/jpeg-in-2026-jpegli" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">jpegli guide</a> explains how Mochify's JPEG encoder gets more quality per byte while staying a plain .jpg.
+                            As a format, JPEG XL compresses photographs more efficiently than JPEG at the same visual quality and supports things JPEG cannot, such as transparency, higher bit depth and progressive decoding. As a file on the web, JPEG still wins on one thing: it opens everywhere, including email clients, chat apps and browsers that have not updated since Chrome 155 and Firefox 158 began decoding JXL in October 2026. So the answer is "better format, narrower compatibility, closing fast". Our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">JPEG XL in Chrome and what changes now</a> has the dated state of browser support, <a href="/guides/what-is-a-jxl-file" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">What is a JXL file?</a> covers which apps open one, and the <a href="/guides/converting-images-to-jpeg-xl#jpeg-to-jxl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">practical JPEG XL guide</a> walks through the JPEG path and the fallback pattern. If what you actually need is a smaller JPEG rather than a new format, the <a href="/guides/jpeg-in-2026-jpegli" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">jpegli guide</a> explains how Mochify's JPEG encoder gets more quality per byte while staying a plain .jpg.
                         </p>
                     </div>
 

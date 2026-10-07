@@ -9,7 +9,7 @@
         category: "Image Optimization",
         readTime: "15 min read",
         datePublished: "February 17, 2026",
-        lastUpdated: "September 3, 2026"
+        lastUpdated: "October 7, 2026"
     };
 
     const related = [
@@ -110,7 +110,7 @@
             ]
             },
             "datePublished": "2026-02-17",
-            "dateModified": "2026-09-03"
+            "dateModified": "2026-10-07"
         }
     </script>
 </svelte:head>
@@ -531,7 +531,7 @@
                     <li><strong>All tools output standard, interoperable JPEG</strong> - no format lock-in.</li>
                     <li><strong>Only Squoosh and Mochify offer true zero-retention</strong>: Squoosh processes client-side (but lacks batch capability), Mochify processes in RAM server-side with 25-file batches.</li>
                     <li><strong>HEIC support is rare</strong>: Only ShortPixel, Cloudinary, and Mochify handle iPhone photos natively.</li>
-                    <li><strong>JPEG XL adoption is still fragmented</strong>: Safari 17+ supports it, but Chrome and Firefox require flags. Only Squoosh, Cloudinary, and Mochify offer it today.</li>
+                    <li><strong>JPEG XL adoption turned a corner in October 2026</strong>: Chrome 155 and Firefox 158 decode it by default, alongside Safari 17+. Of the tools compared here, Squoosh, Cloudinary and Mochify output it.</li>
                     <li><strong>jpegli is Mochify's differentiator</strong>: Google's encoder delivers up to 35% better compression at high quality vs. older stacks.</li>
                 </ul>
             </div>
@@ -641,7 +641,7 @@
 
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">JPEG XL: Future-Friendly Archives</h3>
-                    <p class="mb-4">JPEG XL is technically superior to both AVIF and WebP: better compression, lossless JPEG transcoding, and 10-bit HDR support. Our <a href="/guides/2026-guide-next-gen-formats">2026 guide to next-gen formats</a> covers where each format is actually usable today. Safari 17+ ships it by default, but Chrome and Firefox still require flags. For photographers and archivists, JPEG XL is the long-term bet. Only Squoosh, Cloudinary, and Mochify support it in 2026.</p>
+                    <p class="mb-4">JPEG XL is technically superior to both AVIF and WebP: better compression, lossless JPEG transcoding, and 10-bit HDR support. Our <a href="/guides/2026-guide-next-gen-formats">2026 guide to next-gen formats</a> covers where each format is actually usable today. Safari 17+ has decoded it since 2023, and Chrome 155 (October 6, 2026) and Firefox 158 (October 13) now do by default. For photographers and archivists, JPEG XL is the long-term bet, and for the web it is now a first source with a fallback. Squoosh, Cloudinary and Mochify support it.</p>
                 </div>
 
                 <div class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100">

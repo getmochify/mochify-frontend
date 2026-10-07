@@ -5,17 +5,17 @@
 
     const metadata = {
         title: "What Is a JXL File? How to Open, Convert, and Share JPEG XL",
-        description: "A .jxl file is a JPEG XL image. Browser and OS support is still uneven in 2026 - here is how to open one, convert it to JPEG, or share it as a PDF.",
+        description: "A .jxl file is a JPEG XL image. Chrome 155 and Firefox 158 open it; many apps still don't. How to open one, convert it to JPEG, or share it as a PDF.",
         category: "Quick Guides",
         readTime: "2 min read",
         date: "August 12, 2026",
-        lastUpdated: "September 14, 2026"
+        lastUpdated: "October 7, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
 
     const related = [
-        { href: '/guides/chrome-145-jpeg-xl-default', title: 'Does Chrome 145 Enable JPEG XL by Default in 2026?', desc: 'Whether Chrome renders JXL images natively in the stable channel.' },
+        { href: '/guides/chrome-145-jpeg-xl-default', title: 'Does Chrome 145 Enable JPEG XL by Default in 2026?', desc: 'What Chrome 145 shipped behind a flag, and the Chrome 155 release that turned it on.' },
         { href: '/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl', title: 'What Should I Use in 2026: WebP, AVIF, or JPEG XL?', desc: 'The quick format decision for web publishing in 2026.' },
         { href: '/guides/2026-guide-next-gen-formats', title: 'The 2026 Guide to Next-Gen Formats: WebP, AVIF, JPEG XL', desc: 'A complete overview of next-generation image formats and where browser support stands.' },
     ];
@@ -37,10 +37,10 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "What Is a JXL File? How to Open, Convert, and Share JPEG XL",
-        "description": "A .jxl file is a JPEG XL image. Browser and OS support is still uneven in 2026 - here is how to open one, convert it to JPEG, or share it as a PDF.",
+        "description": "A .jxl file is a JPEG XL image. Chrome 155 and Firefox 158 open it; many apps still don't. How to open one, convert it to JPEG, or share it as a PDF.",
         "url": "https://mochify.app/guides/what-is-a-jxl-file",
         "datePublished": "2026-08-12",
-        "dateModified": "2026-09-14",
+        "dateModified": "2026-10-07",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -84,7 +84,7 @@
         "@context": "https://schema.org",
         "@type": "WebPage",
         "name": "What Is a JXL File? How to Open, Convert, and Share JPEG XL",
-        "description": "A .jxl file is a JPEG XL image. Browser and OS support is still uneven in 2026 - here is how to open one, convert it to JPEG, or share it as a PDF.",
+        "description": "A .jxl file is a JPEG XL image. Chrome 155 and Firefox 158 open it; many apps still don't. How to open one, convert it to JPEG, or share it as a PDF.",
         "url": "https://mochify.app/guides/what-is-a-jxl-file",
         "inLanguage": "en",
         "isPartOf": {
@@ -113,7 +113,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            A <code class={inlineCode}>.jxl</code> file is a JPEG XL image, defined under the ISO/IEC 18181 standard. It supports both lossy and lossless compression, wide color gamut, HDR, and high bit depth - and it can losslessly recode an existing JPEG to JXL and restore it byte-for-byte, cutting file size by around 22% in the process. The catch in 2026 is that browser and OS support is still uneven, so if you have received a JXL file you cannot open, you will likely need to convert it first.
+            A <code class={inlineCode}>.jxl</code> file is a JPEG XL image, defined under the ISO/IEC 18181 standard. It supports both lossy and lossless compression, wide color gamut, HDR, and high bit depth - and it can losslessly recode an existing JPEG to JXL and restore it byte-for-byte, cutting file size by around 22% in the process. Browsers caught up in October 2026 (Chrome 155 and Firefox 158 decode it by default; Safari has since version 17), but email clients, chat apps and many desktop viewers still do not, so if you have received a JXL file you cannot open, you will likely need to convert it first.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
@@ -131,7 +131,7 @@
             <p><strong>On macOS:</strong> Safari 17+ has partial native JXL support, so macOS Sonoma and later can view JXL images in the browser. Finder and Preview support varies by macOS version.</p>
             <p><strong>On Windows:</strong> Windows 11 does not display JXL files by default. Install the <a href="https://apps.microsoft.com/detail/9mzprth5c0tb" target="_blank" rel="noopener noreferrer">JPEG XL Image Extension</a> from the Microsoft Store; after installation, File Explorer and the Photos app can preview <code class={inlineCode}>.jxl</code> files.</p>
             <p><strong>Editing software:</strong> Adobe Photoshop added JXL support in June 2025, so current Creative Cloud subscribers can open and save <code class={inlineCode}>.jxl</code> files directly. GIMP exports JPEG XL natively, and Affinity Photo includes JXL support in its feature set.</p>
-            <p>Chrome's history with JPEG XL is more involved - if you specifically need to know whether your browser can display JXL files inline, see <a href="/guides/chrome-145-jpeg-xl-default">Does Chrome 145 Enable JPEG XL by Default in 2026?</a> for the full picture on browser support.</p>
+            <p>In a browser: Chrome 155 and later (released October 6, 2026), Firefox 158 and later (October 13) and Safari 17 and later all display a <code class={inlineCode}>.jxl</code> inline; Edge had not shipped it as of October 7, 2026. If your Chrome is on 152, 153 or 154, restart it to pick up the update. For the dated per-browser table and the rollout caveats, see our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support">JPEG XL in Chrome and what changes now</a>.</p>
         </section>
 
         <section id="how-to-convert-or-share-a-jxl-file">

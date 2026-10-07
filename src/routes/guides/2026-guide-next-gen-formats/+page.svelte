@@ -10,7 +10,7 @@
         category: "Image Formats",
         readTime: "20 min read",
         datePublished: "February 10, 2026",
-        lastUpdated: "October 2, 2026"
+        lastUpdated: "October 7, 2026"
     };
 
     const related = [
@@ -22,7 +22,7 @@
         {
             title: "Is JPEG XL Ready for Shopify Product Images in 2026?",
             href: "/guides/is-jpeg-xl-ready-for-shopify-product-images",
-            desc: "Where JPEG XL still falls short for live sites."
+            desc: "Why Shopify stores still cannot use JPEG XL, even after Chrome 155."
         },
         {
             title: "Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game",
@@ -42,7 +42,7 @@
         {
             title: "Converting Images to JPEG XL: The Practical Guide for 2026",
             href: "/guides/converting-images-to-jpeg-xl",
-            desc: "Every conversion path to JXL, honest browser support, and how to serve it with picture fallbacks."
+            desc: "Every conversion path to JXL, the October 2026 browser picture, and how to serve it with picture fallbacks."
         }
     ];
 </script>
@@ -106,7 +106,7 @@
             }
         ],
         "datePublished": "2026-02-10",
-        "dateModified": "2026-10-02"
+        "dateModified": "2026-10-07"
         }
     </script>
 </svelte:head>
@@ -133,7 +133,7 @@
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
             <p class="text-lg text-[#6C3F31] leading-relaxed">
-                WebP has been around since 2010, AVIF promises 50% better compression, and JPEG XL keeps showing up in conversations despite near-zero browser support. This isn't another surface-level format comparison. We're diving into encoder efficiency, chroma subsampling trade-offs, and why Safari's "partial" JPEG XL support means absolutely nothing for production workflows in February 2026.
+                WebP has been around since 2010, AVIF promises 50% better compression, and JPEG XL, after three years outside Chrome, is back: Chrome 155 (October 6, 2026) and Firefox 158 (October 13) decode it by default. This isn't another surface-level format comparison. We're diving into encoder efficiency, chroma subsampling trade-offs, and what Safari's "partial" JPEG XL support, and the October 2026 Chrome and Firefox releases, mean for production workflows.
             </p>
         </div>
     </header>
@@ -414,7 +414,7 @@
                 Compatibility is the one place AVIF still trips people up - a handful of older tools and apps still can't open it. When a recipient can't open one, <a href="/avif-to-jpg">converting AVIF back to JPG</a> takes seconds, and the <a href="/guides/avif-to-jpg">full conversion guide</a> covers the native routes.
             </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">JPEG XL: The Future-Forward Format (That Isn't Ready Yet)</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">JPEG XL: The Future-Forward Format (Now in Chrome and Firefox)</h3>
             <p class="mb-4">
                 JPEG XL emerged from a 2018 standards competition, combining Google's PIK and Cloudinary's FUIF proposals. Finalized in 2022, it promised to replace JPEG, PNG, GIF, and even WebP with a single unified format.
             </p>
@@ -599,14 +599,14 @@
                             <tr class="hover:bg-pink-50/30 transition-colors">
                                 <td class="py-5 px-6 font-bold text-[#4A2C2C]">JPEG XL</td>
                                 <td class="py-5 px-6 text-[#6C3F31]">2.9 seconds</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">N/A (limited support)</td>
+                                <td class="py-5 px-6 text-[#6C3F31]">Not re-measured since Chrome 155 shipped</td>
                             </tr>
                         </tbody>
                     </table>
                 </ScrollableTable>
             
             <InfoBox type="tip">
-                WebP encodes fastest. AVIF's computational complexity shows here - nearly 4x slower than WebP. JPEG XL sits in the middle but lacks meaningful browser decode benchmarks due to poor support. Mochify's C engine handles AVIF encoding significantly faster than JavaScript-based tools like Squoosh, which rely on WebAssembly - compiled but still slower than native C.
+                WebP encodes fastest. AVIF's computational complexity shows here - nearly 4x slower than WebP. JPEG XL sits in the middle on encode time; its browser decode speed is only now measurable at scale, since Chrome 155 and Firefox 158 are the first mainstream releases to decode it by default. Mochify's C engine handles AVIF encoding significantly faster than JavaScript-based tools like Squoosh, which rely on WebAssembly - compiled but still slower than native C.
             </InfoBox>
         </section>
 
@@ -621,11 +621,11 @@
                         <thead>
                             <tr class="bg-[#FFF5F7] border-b border-pink-100">
                                 <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Format</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Chrome 144+</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Edge 144+</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Safari 26.2</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Firefox 147</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Opera 125</th>
+                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Chrome 155+</th>
+                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Edge 154</th>
+                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Safari 26</th>
+                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Firefox 158+</th>
+                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Opera 135</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-pink-50">
@@ -647,17 +647,17 @@
                             </tr>
                             <tr class="hover:bg-pink-50/30 transition-colors">
                                 <td class="py-4 px-5 text-sm font-bold text-[#4A2C2C]">JPEG XL</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">⚠️ Flagged</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">⚠️ Flagged</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">⚠️ Partial</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">❌ Disabled</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">❌ Not supported</td>
+                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full (155+; 145-154 flagged)</td>
+                                <td class="py-4 px-5 text-sm text-[#6C3F31]">❌ Not yet</td>
+                                <td class="py-4 px-5 text-sm text-[#6C3F31]">⚠️ Partial (stills only)</td>
+                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full (158+, from Oct 13)</td>
+                                <td class="py-4 px-5 text-sm text-[#6C3F31]">❌ Not yet</td>
                             </tr>
                         </tbody>
                     </table>
                 </ScrollableTable>
 
-            <p class="text-sm text-gray-500 mb-4">Data current as of February 6, 2026</p>
+            <p class="text-sm text-gray-500 mb-4">Data current as of October 7, 2026 (caniuse.com/jpegxl; Chrome 155 release notes; Mozilla Bugzilla 2065096)</p>
     <p class="mb-4">
         WebP is universally safe. You can ship it today without fallbacks if you're okay dropping IE11 (which you absolutely should be in 2026).
     </p>
@@ -665,7 +665,7 @@
         AVIF reached production-ready status. All major browsers support it fully, including animation and progressive rendering. Safari was the last holdout, adding full support in early 2024.
     </p>
     <p class="mb-6">
-        JPEG XL remains experimental. Chrome's January 2026 Chromium commit added decoding but hasn't shipped to stable. Safari's "partial support" is marketing - no animation, no progressive decoding, decode-only means you can view JXL images but can't rely on feature parity. Don't trust the 12% support figure from CanIUse; functional support is closer to 3-5%.
+        JPEG XL left the experimental column on October 6, 2026, when Chrome 155 shipped decoding by default; Firefox 158 followed on October 13. Safari's "partial support" still means still images only - no animation, no progressive decoding. The caniuse share, about 17% on October 7, is a snapshot of installed browsers taken the day after Chrome's release and before Firefox's; expect it to climb through the autumn and to stall below AVIF's until Edge and Samsung Internet ship the change.
     </p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Mobile Browser Considerations</h3>
@@ -674,10 +674,10 @@
                         <thead>
                             <tr class="bg-[#FFF5F7] border-b border-pink-100">
                                 <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Format</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Chrome Android 144</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Safari iOS 26.2</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Samsung Internet 29</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Firefox Android 147</th>
+                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Chrome Android 155+</th>
+                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Safari iOS 26</th>
+                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Samsung Internet 30</th>
+                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Firefox Android 158+</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-pink-50">
@@ -697,10 +697,10 @@
                             </tr>
                             <tr class="hover:bg-pink-50/30 transition-colors">
                                 <td class="py-4 px-5 text-sm font-bold text-[#4A2C2C]">JPEG XL</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">❌ Not supported</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">⚠️ Partial</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">❌ Not supported</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">❌ Not supported</td>
+                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full (155+, per Chrome's intent to ship)</td>
+                                <td class="py-4 px-5 text-sm text-[#6C3F31]">⚠️ Partial (stills only)</td>
+                                <td class="py-4 px-5 text-sm text-[#6C3F31]">❌ Not yet</td>
+                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full (158+)</td>
                             </tr>
                         </tbody>
                     </table>
@@ -771,7 +771,7 @@
                 <li>You have 6-12 months to wait for potential browser adoption (optimiztic timeline)</li>
             </ul>
             <p class="mb-4 italic text-base">
-                Real-world scenario: Photography portfolios with multi-source fallbacks. Serve JXL to Safari users (partial support), AVIF to everyone else, WebP as final fallback. Users with JXL support get 10-30% better compression; everyone else still gets excellent quality.
+                Real-world scenario: Photography portfolios with multi-source fallbacks. Serve JXL to Chrome 155+, Firefox 158+ and Safari 17+ users, AVIF to everyone else, WebP as final fallback. Users with JXL support get 10-30% better compression; everyone else still gets excellent quality.
             </p>
             
             <InfoBox type="warning">
@@ -951,13 +951,13 @@
 
             <ul class="list-disc pl-6 mb-8 space-y-4">
         <li>
-            <strong>For most production websites:</strong> Use AVIF for hero images and above-the-fold graphics (with WebP fallback). Use WebP for everything else. Skip JPEG XL unless you're running experiments.
+            <strong>For most production websites:</strong> Use AVIF for hero images and above-the-fold graphics (with WebP fallback). Use WebP for everything else. Add JPEG XL as the first source where it is smaller or where you need lossless or progressive loading; keep AVIF and WebP beneath it.
         </li>
         <li>
             <strong>For maximum compatibility:</strong> Use WebP everywhere. Accept the 20-40% file size penalty vs AVIF. You'll still beat JPEG by 25-35%.
         </li>
         <li>
-            <strong>For bleeding-edge performance:</strong> Implement AVIF with aggressive quality settings (q70-75). Add WebP fallback. Monitor Core Web Vitals weekly. Ignore JPEG XL until Chrome ships stable support - probably Q3-Q4 2026 at earliest.
+            <strong>For bleeding-edge performance:</strong> Implement AVIF with aggressive quality settings (q70-75). Add WebP fallback. Monitor Core Web Vitals weekly. Add JPEG XL at the top of the cascade now that Chrome 155 and Firefox 158 decode it, and re-check caniuse monthly before dropping the AVIF and WebP fallbacks.
         </li>
         <li>
             <strong>For marketplace sellers (eBay, Etsy, Amazon):</strong> Convert HEIC to JPEG before upload. Platforms don't support WebP/AVIF uploads yet (as of Feb 2026), so pre-optimize JPEGs to their exact dimension requirements. (Our marketplace-specific guides break down exact specs - eBay's 1600px limit, Etsy's 3000px main image requirement, etc.)
@@ -970,7 +970,7 @@
 
         <div class="my-12 border-t border-pink-100 pt-8">
             <p class="mb-4 text-lg">
-                The web is finally moving past JPEG and PNG. WebP is safe everywhere. AVIF is the performance king. JPEG XL is the promising future that isn't ready yet. Make your decisions accordingly.
+                The web is finally moving past JPEG and PNG. WebP is safe everywhere. AVIF is the performance king on installed base. JPEG XL arrived in Chrome and Firefox in October 2026 and is the strongest format for lossless, high-fidelity and progressive work; our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support">JPEG XL in Chrome and what changes now</a> has the dated support table and the by-stack decisions. Make your decisions accordingly.
             </p>
             <p class="mb-4 text-lg">
                 The same economics apply outside images: if you're shipping <a href="https://mochify.app/guides/mp4-to-webm-web-video-guide">next-gen video: convert MP4 to WebM (VP9/AV1)</a>, the payload savings and Core Web Vitals wins carry over directly.

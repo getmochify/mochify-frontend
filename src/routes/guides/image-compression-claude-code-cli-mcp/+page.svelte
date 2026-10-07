@@ -11,7 +11,8 @@
         description: "Can Claude Code use MCP? Yes. Here's how to compress images inside Claude Code with the Mochify CLI as a build step and a local MCP server.",
         category: "AI & Automation",
         readTime: "15 min read",
-        date: "July 17, 2026"
+        date: "July 17, 2026",
+        lastUpdated: "October 7, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -55,7 +56,7 @@
         },
         {
             q: "Which format should I output for the web?",
-            a: "AVIF for the best compression on photos and detailed graphics, with a WebP or JPEG fallback for older clients. AVIF support is near 94% globally per caniuse, while JPEG XL is still flag-gated in major browsers. If you need a universal JPEG, Mochify's jpegli encoding gets you more quality per byte."
+            a: "AVIF for the best compression on photos and detailed graphics, with a WebP or JPEG fallback for older clients. AVIF support is near 94% globally per caniuse, while JPEG XL, decoded by Chrome 155+, Firefox 158+ and Safari, is still building its installed base. If you need a universal JPEG, Mochify's jpegli encoding gets you more quality per byte."
         }
     ];
 
@@ -96,7 +97,7 @@
             "@id": "https://mochify.app/guides/image-compression-claude-code-cli-mcp"
         },
         "datePublished": "2026-07-17",
-        "dateModified": "2026-07-17",
+        "dateModified": "2026-10-07",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -152,7 +153,7 @@
         "description": "Can Claude Code use MCP? Yes. Here's how to compress images inside Claude Code with the Mochify CLI as a build step and a local MCP server.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-17",
-        "dateModified": "2026-07-17"
+        "dateModified": "2026-10-07"
         }
     </script>
 
@@ -167,7 +168,7 @@
             { "@type": "Question", "name": "Does Mochify run the compression on my machine?", "acceptedAnswer": { "@type": "Answer", "text": "No. The mochify binary is a client over the API. Images travel to api.mochify.app over HTTPS, are encoded in RAM, and are wiped immediately, then the compressed file is written back to your local disk. The encoding engine is native C++ on Mochify's servers, not a local encoder." } },
             { "@type": "Question", "name": "Is the local workflow really zero-retention?", "acceptedAnswer": { "@type": "Answer", "text": "On the CLI and mochify serve paths, yes, end-to-end. The original is wiped immediately after encoding with no disk writes or file-data logs, and there is no server-side pickup store, so compressed bytes return straight to your disk. The hosted MCP server differs slightly: it holds the compressed output behind a short-lived URL for up to five minutes so the link can resolve." } },
             { "@type": "Question", "name": "Can I compress video through the CLI or MCP?", "acceptedAnswer": { "@type": "Answer", "text": "No. Video is a web-app-only capability that runs client-side in your browser, so the bytes never leave your device. The CLI, MCP servers, and REST API handle images and PDFs only. Keep video out of your Claude Code and CI pipelines." } },
-            { "@type": "Question", "name": "Which format should I output for the web?", "acceptedAnswer": { "@type": "Answer", "text": "AVIF for the best compression on photos and detailed graphics, with a WebP or JPEG fallback for older clients. AVIF support is near 94% globally per caniuse, while JPEG XL is still flag-gated in major browsers. If you need a universal JPEG, Mochify's jpegli encoding gets you more quality per byte." } }
+            { "@type": "Question", "name": "Which format should I output for the web?", "acceptedAnswer": { "@type": "Answer", "text": "AVIF for the best compression on photos and detailed graphics, with a WebP or JPEG fallback for older clients. AVIF support is near 94% globally per caniuse, while JPEG XL, decoded by Chrome 155+, Firefox 158+ and Safari, is still building its installed base. If you need a universal JPEG, Mochify's jpegli encoding gets you more quality per byte." } }
         ]
         }
     </script>
@@ -181,7 +182,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -292,7 +293,7 @@ mochify -p "compress for web, convert PNGs to AVIF, strip EXIF" ./src/assets/*.p
         <section id="the-performance-payoff" class="scroll-mt-24">
             <SectionHeading>The performance payoff</SectionHeading>
             <p>Optimizing images is the single biggest lever on Largest Contentful Paint, and modern formats compress dramatically better than JPEG. Google's web.dev guidance is consistent that LCP is usually dominated by a hero image, so compressing, correctly sizing, and modernizing that image is the highest-impact change you can make (<a href="https://web.dev/articles/optimize-vitals-lighthouse" target="_blank" rel="noopener noreferrer">web.dev: optimize LCP</a>).</p>
-            <p>The format gains are large and measurable. WebP typically runs 25-35% smaller than JPEG at similar quality, and AVIF often lands around 50% smaller than JPEG and 20% smaller than WebP. Crucially, AVIF is now production-ready: caniuse reports support across Chrome (85+), Safari (16.4+), Firefox (93+), Edge (121+), and most mobile browsers, putting global coverage near 94% (<a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">caniuse: AVIF</a>). JPEG XL is the exception, still disabled by default in Chrome and Firefox as of early 2026, so ship it only with fallbacks and feature detection.</p>
+            <p>The format gains are large and measurable. WebP typically runs 25-35% smaller than JPEG at similar quality, and AVIF often lands around 50% smaller than JPEG and 20% smaller than WebP. Crucially, AVIF is now production-ready: caniuse reports support across Chrome (85+), Safari (16.4+), Firefox (93+), Edge (121+), and most mobile browsers, putting global coverage near 94% (<a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">caniuse: AVIF</a>). JPEG XL caught up in October 2026, when Chrome 155 and Firefox 158 enabled it by default; Edge and older installs still lack it, so ship it with fallbacks and feature detection.</p>
             <p>In concrete terms, a 2.4 MB JPEG hero re-encoded to AVIF at web quality typically lands around 410 KB, an 83% reduction, with no visible quality loss on a standard display. Do that across a batch and you are shipping a fraction of the bytes. When you would rather keep the familiar JPEG container, Mochify uses Google's jpegli encoder to squeeze more quality per byte out of standard JPEG; our <a href="https://mochify.app/guides/jpeg-in-2026-jpegli">jpegli guide</a> covers when that is the right call.</p>
             <InfoBox type="tip" title="Batch tip">
                 <p>Running larger batches across a whole repo? Paid tiers raise the per-batch limit to 25 files and lift the monthly allowance; see the current limits at <a href="https://mochify.app/pricing">mochify.app/pricing</a>.</p>

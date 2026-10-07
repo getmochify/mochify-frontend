@@ -27,7 +27,7 @@
         category: "Image Formats",
         readTime: "10 min read",
         date: "September 12, 2026",
-        lastUpdated: "October 2, 2026"
+        lastUpdated: "October 7, 2026"
     };
 
     const toc = [
@@ -70,7 +70,7 @@
         },
         {
             q: "Can I put a JXL screenshot on a website?",
-            a: "Not as your only format, no. Safari 17 and later support JXL natively, but Chrome 145 ships decoding off by default behind a flag, and Firefox is in the same position. If the image has to render for everyone, serve PNG or WebP, or use a picture element with a JXL source and a PNG fallback."
+            a: 'Yes, with a fallback. Chrome 155 (October 6, 2026), Firefox 158 (October 13) and Safari 17 and later decode JXL natively; Edge and any browser that has not yet updated do not. If the image has to render for everyone, use a picture element with a JXL source and a PNG or WebP fallback, or serve PNG or WebP on their own. Our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support">JPEG XL in Chrome and what changes now</a> has the dated support table.'
         },
         {
             q: "Does JXL keep the transparency in a macOS screenshot?",
@@ -95,7 +95,7 @@
         {
             href: "/guides/chrome-145-jpeg-xl-default",
             title: "Did Chrome 145 Enable JPEG XL by Default?",
-            desc: "What Chrome 145 actually shipped, why the flag still matters, and what it means for serving JXL on the open web."
+            desc: "What Chrome 145 shipped behind a flag, and the Chrome 155 release that turned it on."
         },
         {
             href: "/guides/converting-images-to-jpeg-xl",
@@ -138,7 +138,7 @@
             "@id": "https://mochify.app/guides/jxl-vs-png-for-screenshots"
         },
         "datePublished": "2026-09-12",
-        "dateModified": "2026-10-02",
+        "dateModified": "2026-10-07",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -218,7 +218,7 @@
                 One macOS screenshot, 3056x1982, saved by the system as PNG came to <strong class="text-[#4A2C2C]">1,924,519 bytes</strong>. Re-encoded to lossless JPEG XL it came to <strong class="text-[#4A2C2C]">1,034,300 bytes</strong>. That is 890,219 bytes saved, a 46% reduction, for a file that decodes back to the same image.
             </p>
             <p>
-                The catch is not quality, it is compatibility. JXL opens natively on current macOS and in Safari 17 and later, but Chrome and Firefox still keep <a href="/guides/chrome-145-jpeg-xl-default">JPEG XL decoding behind a flag</a>. So the honest recommendation is narrow: JXL is an excellent format for a screenshot you are <em>keeping</em>, and a bad format for one you are about to <em>send</em>.
+                The catch is not quality, it is compatibility. JXL opens natively on current macOS, in Safari 17 and later, and since October 2026 in Chrome 155 and Firefox 158 by default; it still does not open in most chat apps, bug trackers, email clients or Windows viewers. So the recommendation is unchanged: JXL is an excellent format for a screenshot you are <em>keeping</em>, and a poor format for one you are about to <em>paste or send</em>.
             </p>
         </section>
 
@@ -331,7 +331,7 @@
             <SectionHeading>When to use JXL for screenshots (and when not to)</SectionHeading>
 
             <p>
-                The size argument is settled. The only real question is whether the file will open where it needs to open, and for JPEG XL in 2026 the answer still depends heavily on where that is (<a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer">current browser support on caniuse.com</a>).
+                The size argument is settled. The only real question is whether the file will open where it needs to open, and for JPEG XL in late 2026 the answer depends on where that is: browsers, yes, since Chrome 155 and Firefox 158; chat tools, trackers and email, mostly not (<a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer">current browser support on caniuse.com</a>).
             </p>
 
             <GuideTable>
@@ -361,8 +361,8 @@
                         </tr>
                         <tr>
                             <td>On a public web page</td>
-                            <td><strong>PNG or WebP</strong></td>
-                            <td>Chrome and Firefox keep JXL decoding behind a flag, so most visitors would see nothing.</td>
+                            <td><strong>JXL in a picture element, PNG or WebP fallback</strong></td>
+                            <td>Chrome 155 and Firefox 158 decode it, but older installs, Edge and email clients do not; serve it inside a picture element with a PNG or WebP fallback.</td>
                         </tr>
                         <tr>
                             <td>Sent to someone on Windows</td>

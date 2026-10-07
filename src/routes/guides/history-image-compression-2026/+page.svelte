@@ -12,7 +12,8 @@
         description: "The history of image compression, from early bitmaps and GIF through JPEG, PNG, WebP and HEIF/AVIF to JPEG XL and jpegli, for web performance and privacy.",
         category: "Image Formats",
         readTime: "15 min read",
-        date: "February 15, 2026"
+        date: "February 15, 2026",
+        lastUpdated: "October 7, 2026"
     };
 
     const toc = [
@@ -72,7 +73,7 @@
             "jpegli and modern 2026 compression"
         ],
         "datePublished": "2026-02-15",
-        "dateModified": "2026-02-15"
+        "dateModified": "2026-10-07"
         }
     </script>
 </svelte:head>
@@ -85,7 +86,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date} · Mochify Engineering Team
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
             </span>
         </div>
 
@@ -215,7 +216,7 @@
 
              <h3 class="text-xl font-black text-[#4A2C2C] mt-7 mb-3">JPEG XL: The future (maybe)</h3>
              <p class="mb-4">JPEG XL is technically fascinating. It supports lossless recompression of existing JPEGs (you can convert a JPEG to JPEG XL and back to JPEG without any additional quality loss), progressive decoding, and better compression than AVIF in many cases.</p>
-             <p class="mb-4">The problem: browser support. As of early 2026, JPEG XL has roughly 12-17% support, primarily Safari on macOS and iOS. Chrome and Firefox require users to manually enable it via flags. That makes JPEG XL great for experiments, archival workflows, and future-proofing your image library, but not suitable as a universal delivery format for public-facing websites.</p>
+             <p class="mb-4">For three years the problem was browser support: Chrome removed its flag-gated decoder in early 2023, and until October 2026 JPEG XL's installed base was Safari, roughly 12-17% of global browsing. Chrome 155 (October 6, 2026) and Firefox 158 (October 13) reversed that, decoding JPEG XL by default with a new Rust decoder. It is now a first source in a picture element for public websites, with AVIF and WebP beneath it for Edge, older installs and email, and it remains the strongest format for archival workflows.</p>
              
              <h3 class="text-xl font-black text-[#4A2C2C] mt-7 mb-3">HEIC: The iOS problem</h3>
              <p class="mb-4">HEIC (High Efficiency Image Container) is the default capture format on iPhones and uses the HEVC (H.265) video codec for compression. It's efficient and delivers quality similar to AVIF, but browser support is essentially zero.</p>

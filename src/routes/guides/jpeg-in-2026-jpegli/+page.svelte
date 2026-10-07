@@ -9,7 +9,7 @@
         category: "Image Optimization",
         readTime: "20 min read",
         date: "February 09, 2026",
-        lastUpdated: "August 26, 2026"
+        lastUpdated: "October 7, 2026"
     };
 
     const related = [
@@ -75,7 +75,7 @@
             "zero-retention image optimization"
         ],
         "datePublished": "2026-02-09",
-        "dateModified": "2026-08-26"
+        "dateModified": "2026-10-07"
         }
     </script>
 </svelte:head>
@@ -396,7 +396,7 @@
                 <div>
                     <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Why This Is Different from "New Formats" Like AVIF or JPEG XL</h3>
                     
-                    <p class="mb-4">AVIF and JPEG XL are modern image formats with better compression than JPEG but require explicit browser/app support. As of 2026, AVIF has ~94% browser support, and JPEG XL support varies (Apple announced support in 2025, but adoption is still rolling out). That uneven support is why a <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.jxl</code> file so often arrives and refuses to open, so it is worth knowing <a href="/guides/what-is-a-jxl-file">what a .jxl file actually is</a> before you commit to it as a delivery format.</p>
+                    <p class="mb-4">AVIF and JPEG XL are modern image formats with better compression than JPEG but require explicit browser/app support. As of October 2026, AVIF has ~94% browser support, and JPEG XL decodes by default in Chrome 155, Firefox 158 and Safari 17+, with Edge and many apps still to follow. That uneven support is why a <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.jxl</code> file so often arrives and refuses to open, so it is worth knowing <a href="/guides/what-is-a-jxl-file">what a .jxl file actually is</a> before you commit to it as a delivery format.</p>
 
                     <p class="mb-4 font-bold text-[#D81B60]">Jpegli doesn't require any browser updates. A jpegli-encoded JPEG is just a JPEG. The improvement is invisible to the decoder-it simply receives a smaller file that looks better.</p>
                 </div>
@@ -825,7 +825,7 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
                 
                 <div class="bg-white p-6 rounded-2xl border border-pink-100">
                     <h4 class="font-bold text-[#4A2C2C] text-lg mb-2">Can I use jpegli for JPEG XL output?</h4>
-                    <p class="text-[#6C3F31]">No. Jpegli produces JPEG files, not JPEG XL files. JPEG XL is a separate next-generation format with better compression than JPEG but limited browser support as of 2026. If you want JPEG XL output, use <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">cjxl</code> from the libjxl toolkit.</p>
+                    <p class="text-[#6C3F31]">No. Jpegli produces JPEG files, not JPEG XL files. JPEG XL is a separate next-generation format with better compression than JPEG; Chrome 155, Firefox 158 and Safari decode it, but it still needs a fallback for older installs, Edge and email. If you want JPEG XL output, use <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">cjxl</code> from the libjxl toolkit.</p>
                 </div>
             </div>
         </section>

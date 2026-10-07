@@ -38,7 +38,7 @@
         {
             q: 'How do I open a JXL file without converting it?',
             a: [
-                'Support is still uneven: some browsers, image viewers and photo tools read JXL, many do not. ',
+                'Browsers now read JXL (Chrome 155, Firefox 158, Safari), but mail clients, document tools and many image viewers still do not, which is what this page is for. ',
                 { href: '/guides/what-is-a-jxl-file', label: 'What is a JXL file?' },
                 ' lists what opens one today, and the ',
                 { href: '/jpg-to-jpegxl', label: 'JPG to JXL converter' },
@@ -168,7 +168,7 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl font-bold text-[#4A2C2C]">When JXL to PDF is the right move</h2>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            Almost nothing outside a browser or a specialist viewer opens a .jxl file: mail clients, print shops, document tools and most operating-system viewers will not. Wrapping a set of JXL images in a PDF gives them universal reach in one file that keeps its page order. Typical uses: sending JXL exports from a photo tool to a client, a portable single-file version of an image set, proofs for a printer, screenshots or UI captures bundled into one document, and anything a recipient cannot open as JXL. Prefer a JPEG per image instead of a document? Convert back with the CLI or API, described below.
+                            Outside a current browser (Chrome 155, Firefox 158, Safari) almost nothing opens a .jxl file: mail clients, print shops, document tools and most operating-system viewers will not. Wrapping a set of JXL images in a PDF gives them universal reach in one file that keeps its page order. Typical uses: sending JXL exports from a photo tool to a client, a portable single-file version of an image set, proofs for a printer, screenshots or UI captures bundled into one document, and anything a recipient cannot open as JXL. Prefer a JPEG per image instead of a document? Convert back with the CLI or API, described below.
                         </p>
                     </div>
 

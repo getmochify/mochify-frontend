@@ -98,7 +98,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '8 min read',
 		date: 'September 12, 2026',
-		lastUpdated: 'October 2, 2026'
+		lastUpdated: 'October 7, 2026'
 	},
 	{
 		title: 'Bring Your Own Bucket: Send Processed Images Straight to Your Own S3 or R2',
@@ -162,11 +162,12 @@ export const guides: Guide[] = [
 	{
 		title: 'What Is a JXL File? How to Open, Convert, and Share JPEG XL',
 		description:
-			'A .jxl file is a JPEG XL image. Browser and OS support is still uneven in 2026 - here is how to open one, convert it to JPEG, or share it as a PDF.',
+			"A .jxl file is a JPEG XL image. Chrome 155 and Firefox 158 open it; many apps still don't. How to open one, convert it to JPEG, or share it as a PDF.",
 		url: '/guides/what-is-a-jxl-file',
 		category: 'Quick Guides',
 		readTime: '2 min read',
-		date: 'August 12, 2026'
+		date: 'August 12, 2026',
+		lastUpdated: 'October 7, 2026'
 	},
 	{
 		title: 'Does Stripping EXIF Data Improve WordPress Image SEO?',
@@ -254,6 +255,7 @@ export const guides: Guide[] = [
 		category: 'AI & Automation',
 		readTime: '12 min read',
 		date: 'June 30, 2026',
+		lastUpdated: 'October 7, 2026',
 		featured: true
 	},
 	{
@@ -289,12 +291,12 @@ export const guides: Guide[] = [
 	{
 		title: 'Converting Images to JPEG XL: The Practical Guide for 2026',
 		description:
-			'Compression benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), honest 2026 browser support, and how to serve JXL safely with picture fallbacks.',
+			'Compression benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), browser support after Chrome 155, and how to serve JXL safely with picture fallbacks.',
 		url: '/guides/converting-images-to-jpeg-xl',
 		category: 'Image Formats',
 		readTime: '11 min read',
 		date: 'June 26, 2026',
-		lastUpdated: 'October 2, 2026'
+		lastUpdated: 'October 7, 2026'
 	},
 	{
 		title: 'Should I convert HEIC to JPEG or WebP for WordPress uploads?',
@@ -304,7 +306,7 @@ export const guides: Guide[] = [
 		category: 'Quick Guides',
 		readTime: '3 min read',
 		date: 'June 25, 2026',
-		lastUpdated: 'August 7, 2026'
+		lastUpdated: 'October 7, 2026'
 	},
 	{
 		title: 'Do Marketplace Product Images Need to Be Square?',
@@ -392,7 +394,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '19 min read',
 		date: 'June 4, 2026',
-		lastUpdated: 'September 12, 2026'
+		lastUpdated: 'October 7, 2026'
 	},
 	{
 		title: 'On-Device AI Agents: Image and PDF Optimization for Local Workflows',
@@ -413,7 +415,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '8 min read',
 		date: 'May 16, 2026',
-		lastUpdated: 'October 2, 2026'
+		lastUpdated: 'October 7, 2026'
 	},
 	{
 		title: 'Do Journaling Apps Compress Images? Avoid Storage Bloat.',
@@ -457,12 +459,12 @@ export const guides: Guide[] = [
 	{
 		title: 'The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL',
 		description:
-			'Your 2MB JPEG homepage hero is killing your LCP score. Google\'s PageSpeed Insights keeps screaming "Serve images in next-gen formats," but which one should you actually use? WebP has been around since 2010, AVIF promises 50% better compression, and JPEG XL keeps showing up in conversations despite near-zero browser support.',
+			'Your 2MB JPEG homepage hero is killing your LCP score. Google\'s PageSpeed Insights keeps screaming "Serve images in next-gen formats," but which one should you actually use? WebP has been around since 2010, AVIF promises 50% better compression, and JPEG XL, after three years outside Chrome, is back: Chrome 155 (October 6, 2026) and Firefox 158 (October 13) decode it by default.',
 		url: '/guides/2026-guide-next-gen-formats',
 		category: 'Image Formats',
 		readTime: '20 min read',
 		date: 'February 10, 2026',
-		lastUpdated: 'October 2, 2026'
+		lastUpdated: 'October 7, 2026'
 	},
 	{
 		title: 'Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game',
@@ -559,7 +561,8 @@ export const guides: Guide[] = [
 		url: '/guides/image-compression-claude-code-cli-mcp',
 		category: 'AI & Automation',
 		readTime: '15 min read',
-		date: 'July 17, 2026'
+		date: 'July 17, 2026',
+		lastUpdated: 'October 7, 2026'
 	},
 	{
 		title: 'A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression',
@@ -593,22 +596,22 @@ export const guides: Guide[] = [
 	{
 		title: 'Does Chrome 145 Enable JPEG XL by Default in 2026?',
 		description:
-			'Chrome 145 adds JPEG XL decoding support, but the feature is off by default and requires a browser flag. Here is what that means for serving images in 2026.',
+			'Chrome 145 shipped JPEG XL behind a flag. Chrome 155, released October 6, 2026, turned it on by default. What that changes for serving JXL on the web.',
 		url: '/guides/chrome-145-jpeg-xl-default',
 		category: 'Quick Guides',
 		readTime: '3 min read',
 		date: 'April 10, 2026',
-		lastUpdated: 'August 14, 2026'
+		lastUpdated: 'October 7, 2026'
 	},
 	{
 		title: 'What Should I Use in 2026: WebP, AVIF, or JPEG XL?',
 		description:
-			'In 2026, use AVIF as your primary format with WebP as fallback. JPEG XL is not production-ready for web at ~15% browser support.',
+			'Use AVIF as your primary format with WebP as fallback. JPEG XL decodes in Chrome 155 and Firefox 158 from October 2026, so add it on top, with a fallback.',
 		url: '/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl',
 		category: 'Quick Guides',
 		readTime: '2 min read',
 		date: 'April 13, 2026',
-		lastUpdated: 'September 23, 2026'
+		lastUpdated: 'October 7, 2026'
 	},
 	{
 		title: 'Should I Optimize My Images Before I Upload Them?',
@@ -623,11 +626,12 @@ export const guides: Guide[] = [
 	{
 		title: 'Is JPEG XL Ready for Shopify Product Images in 2026?',
 		description:
-			"JPEG XL is not ready for live Shopify stores in 2026. Browser support sits at 12–17% globally and Shopify doesn't accept JXL uploads. Use AVIF with a WebP fallback.",
+			"JPEG XL still isn't usable on live Shopify stores: Chrome 155 decodes it, but Shopify doesn't accept JXL uploads. Upload JPEG or PNG; archive as JXL.",
 		url: '/guides/is-jpeg-xl-ready-for-shopify-product-images',
 		category: 'Quick Guides',
 		readTime: '3 min read',
-		date: 'April 14, 2026'
+		date: 'April 14, 2026',
+		lastUpdated: 'October 7, 2026'
 	},
 	{
 		title: 'HIF/HEIF to JPEG for Professional Photographers: A Privacy-First Workflow Guide',
@@ -654,7 +658,8 @@ export const guides: Guide[] = [
 		url: '/guides/lossless-image-formats',
 		category: 'Image Formats',
 		readTime: '26 min read',
-		date: 'October 2, 2026'
+		date: 'October 2, 2026',
+		lastUpdated: 'October 7, 2026'
 	},
 	{
 		title: 'Should I Shoot HEIF or JPEG on My Mirrorless Camera?',
@@ -694,7 +699,7 @@ export const guides: Guide[] = [
 		category: 'Quick Guides',
 		readTime: '2 min read',
 		date: 'May 19, 2026',
-		lastUpdated: 'August 7, 2026'
+		lastUpdated: 'October 7, 2026'
 	},
 	{
 		title: 'Ecommerce Product Photo Workflow: Resize & Convert in One Prompt',

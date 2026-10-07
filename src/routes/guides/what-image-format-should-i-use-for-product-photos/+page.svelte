@@ -10,7 +10,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         datePublished: "May 19, 2026",
-        lastUpdated: "August 7, 2026"
+        lastUpdated: "October 7, 2026"
     };
 
     const related = [
@@ -27,7 +27,7 @@
         {
             title: "What Should I Use in 2026: WebP, AVIF, or JPEG XL?",
             href: "/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl",
-            desc: "In 2026, use AVIF as your primary format with WebP as fallback. JPEG XL is not production-ready for web delivery."
+            desc: "Use AVIF as your primary format with WebP as fallback, and where JPEG XL now fits after Chrome 155 and Firefox 158."
         },
         {
             title: "Do Marketplace Product Images Need to Be Square?",
@@ -54,7 +54,7 @@
         "description": "Use AVIF for the smallest files, WebP as a fallback, and JPEG for the broadest compatibility. Here's the practical order for ecommerce product images.",
         "url": "https://mochify.app/guides/what-image-format-should-i-use-for-product-photos",
         "datePublished": "2026-05-19",
-        "dateModified": "2026-08-07",
+        "dateModified": "2026-10-07",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -134,33 +134,33 @@
 &lt;/picture&gt;</code></pre>
             </div>
 
-            <p>Browsers try AVIF first, then WebP, then fall back to JPEG. This means visitors always receive the smallest file their browser can handle — with no manual decision-making per image.</p>
+            <p>Browsers try AVIF first, then WebP, then fall back to JPEG. This means visitors always receive the smallest file their browser can handle - with no manual decision-making per image.</p>
         </section>
 
         <section id="why-avif-leads" class="scroll-mt-24">
             <SectionHeading>Why AVIF leads, not WebP</SectionHeading>
-            <p class="mb-4">AVIF typically produces files 20–50% smaller than equivalent WebP images at comparable visual quality, with gains most visible in smooth gradients and skin tones — common in product photography. If you're not sure <a href="/guides/what-is-an-avif-file">what an AVIF file actually is</a>, it's a newer codec built for exactly this kind of compression win. WebP is still the safer choice if you cannot serve format fallbacks, because its browser support is broader and more consistent across older versions. JPEG remains important for marketplace uploads, email templates, print workflows, and any system that doesn't parse modern format headers reliably.</p>
+            <p class="mb-4">AVIF typically produces files 20–50% smaller than equivalent WebP images at comparable visual quality, with gains most visible in smooth gradients and skin tones - common in product photography. If you're not sure <a href="/guides/what-is-an-avif-file">what an AVIF file actually is</a>, it's a newer codec built for exactly this kind of compression win. WebP is still the safer choice if you cannot serve format fallbacks, because its browser support is broader and more consistent across older versions. JPEG remains important for marketplace uploads, email templates, print workflows, and any system that doesn't parse modern format headers reliably.</p>
         </section>
 
         <section id="keep-jpeg" class="scroll-mt-24">
             <SectionHeading>When to keep JPEG as your only format</SectionHeading>
-            <p class="mb-4">If you're uploading directly to a marketplace (Amazon, eBay, Etsy) or a CMS that re-processes images on ingest, JPEG is often the right choice for your upload file. Those platforms apply their own compression pipeline, so delivering AVIF at upload doesn't give you control over what they serve, and picking the wrong one is a common way to <a href="https://mochify.app/guides/ebay-image-file-not-supported">fix "file not supported" errors on eBay</a> before they happen. For your own storefront — Shopify, WooCommerce, a custom build — serving AVIF via <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> gives you full control and the best results.</p>
+            <p class="mb-4">If you're uploading directly to a marketplace (Amazon, eBay, Etsy) or a CMS that re-processes images on ingest, JPEG is often the right choice for your upload file. Those platforms apply their own compression pipeline, so delivering AVIF at upload doesn't give you control over what they serve, and picking the wrong one is a common way to <a href="https://mochify.app/guides/ebay-image-file-not-supported">fix "file not supported" errors on eBay</a> before they happen. For your own storefront - Shopify, WooCommerce, a custom build - serving AVIF via <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> gives you full control and the best results.</p>
             <p class="mb-4">Format support also varies more between platforms than most sellers expect, and the differences are rarely documented in one place. Before you standardize on a single export preset, it is worth checking <a href="/guides/product-image-requirements-marketplace-guide">what each marketplace actually accepts</a> for format, dimensions, and file size.</p>
 
             <InfoBox type="tip" title="Marketplace tip">
-                Keep a separate set of high-quality JPEG exports specifically for marketplace uploads. Your own storefront and your marketplace listings have different requirements — don't try to use the same file for both.
+                Keep a separate set of high-quality JPEG exports specifically for marketplace uploads. Your own storefront and your marketplace listings have different requirements - don't try to use the same file for both.
             </InfoBox>
         </section>
 
         <section id="preparing-images" class="scroll-mt-24">
             <SectionHeading>Preparing your product images before upload</SectionHeading>
-            <p class="mb-4">Compress product photos to AVIF or WebP before uploading to your storefront, and keep JPEG fallback versions for marketplace listings and older integrations. At <a href="https://mochify.app">mochify.app</a> you can describe the task in plain English — for example, type <em>"convert to AVIF and compress for product pages"</em> — and Magic Flow handles the format conversion, compression, and EXIF stripping in one step. Files are processed without being stored, so nothing is retained after your session ends.</p>
+            <p class="mb-4">Compress product photos to AVIF or WebP before uploading to your storefront, and keep JPEG fallback versions for marketplace listings and older integrations. At <a href="https://mochify.app">mochify.app</a> you can describe the task in plain English - for example, type <em>"convert to AVIF and compress for product pages"</em> - and Magic Flow handles the format conversion, compression, and EXIF stripping in one step. Files are processed without being stored, so nothing is retained after your session ends.</p>
         </section>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
             <h3 class="text-lg font-black text-[#4A2C2C] mb-3">Compress product photos to AVIF or WebP in one step</h3>
             <p class="text-[#6C3F31] leading-relaxed mb-4">
-                Just type something like <em>"convert to AVIF and compress for product pages"</em> — Magic Flow handles format conversion, compression, and EXIF stripping. Files are processed in-memory and wiped after your session ends. No account required for up to 3 files.
+                Just type something like <em>"convert to AVIF and compress for product pages"</em> - Magic Flow handles format conversion, compression, and EXIF stripping. Files are processed in-memory and wiped after your session ends. No account required for up to 3 files.
             </p>
             <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
                 Try it free

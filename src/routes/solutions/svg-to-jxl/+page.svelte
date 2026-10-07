@@ -21,7 +21,7 @@
         },
         {
             q: "Can I use JXL files on my website?",
-            a: "With a fallback. Browser support is still uneven, so serve JXL inside a <picture> element with an AVIF or WebP alternative, or use AVIF or WebP on their own."
+            a: "With a fallback. Chrome 155, Firefox 158 and Safari decode JXL; serve it inside a <picture> element with an AVIF or WebP alternative for Edge and older installs, or use AVIF or WebP on their own."
         },
         {
             q: "What size will my JXL be?",
@@ -111,7 +111,7 @@
             <div class="inline-flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-2xl px-5 py-3.5 text-left max-w-xl mx-auto">
                 <svg class="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
                 <p class="text-amber-800 text-sm font-medium m-0">
-                    Browser support for JPEG XL is still uneven, so a JXL on a public page needs an AVIF or WebP fallback. Our <a href="/guides/chrome-145-jpeg-xl-default" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Chrome 145 explainer</a> has the current state.
+                    Chrome 155, Firefox 158 and Safari decode JPEG XL; keep an AVIF or WebP fallback for Edge and older installs. Our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">JPEG XL in Chrome and what changes now</a> has the dated state.
                 </p>
             </div>
         </div>
@@ -149,7 +149,7 @@
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
             <h2 class="text-2xl font-bold text-[#4A2C2C]">When JPEG XL makes sense for SVG artwork</h2>
-            <p class="leading-relaxed text-[#6C3F31]">JPEG XL suits a raster master you keep alongside the SVG: an archive copy at 4096 pixels, a handoff to a team whose tools read JXL, or an asset pipeline that already supports it. For a live web page, AVIF or WebP is the safer first choice today. <a href="/guides/converting-images-to-jpeg-xl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Converting images to JPEG XL</a> covers where JXL opens and how to serve it with a fallback; <a href="/guides/what-is-a-jxl-file" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">What is a JXL file?</a> covers opening one.</p>
+            <p class="leading-relaxed text-[#6C3F31]">JPEG XL suits a raster master you keep alongside the SVG: an archive copy at 4096 pixels, a handoff to a team whose tools read JXL, or an asset pipeline that already supports it. For a live web page, JXL can now be the first source, with AVIF or WebP as the fallback. <a href="/guides/converting-images-to-jpeg-xl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Converting images to JPEG XL</a> covers where JXL opens and how to serve it with a fallback; <a href="/guides/what-is-a-jxl-file" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">What is a JXL file?</a> covers opening one.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">

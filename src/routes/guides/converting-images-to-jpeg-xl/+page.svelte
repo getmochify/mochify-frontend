@@ -8,11 +8,11 @@
 
     const metadata = {
         title: "Converting Images to JPEG XL: The Practical Guide for 2026",
-        description: "JPEG XL compression benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), honest 2026 browser support, and how to serve JXL with picture fallbacks.",
+        description: "JPEG XL benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), browser support after Chrome 155, and how to serve JXL with picture fallbacks.",
         category: "Image Formats",
         readTime: "11 min read",
         datePublished: "June 26, 2026",
-        lastUpdated: "October 2, 2026"
+        lastUpdated: "October 7, 2026"
     };
 
     const related = [
@@ -29,7 +29,7 @@
         {
             title: "Does Chrome 145 Enable JPEG XL by Default?",
             href: "/guides/chrome-145-jpeg-xl-default",
-            desc: "Full timeline on Chrome's JPEG XL reversal and what it means for production sites in 2026."
+            desc: "What Chrome 145 shipped behind a flag, and the Chrome 155 release that turned it on."
         },
         {
             title: "Should I Optimize My Images Before I Upload Them?",
@@ -66,14 +66,14 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "Converting Images to JPEG XL: The Practical Guide for 2026",
-        "description": "JPEG XL compression benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), honest 2026 browser support, and how to serve JXL with picture fallbacks.",
+        "description": "JPEG XL benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), browser support after Chrome 155, and how to serve JXL with picture fallbacks.",
         "url": "https://mochify.app/guides/converting-images-to-jpeg-xl",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/converting-images-to-jpeg-xl"
         },
         "datePublished": "2026-06-26",
-        "dateModified": "2026-10-02",
+        "dateModified": "2026-10-07",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -108,12 +108,12 @@
             {
                 "@type": "Question",
                 "name": "Is JPEG XL better than AVIF?",
-                "acceptedAnswer": { "@type": "Answer", "text": "For photographic content at practical encode speeds, JPEG XL is competitive with or slightly ahead of AVIF on compression. The more important factor in 2026 is browser support: AVIF has roughly 95–97% global coverage; JPEG XL has around 14–15%. Use AVIF for web delivery and consider JPEG XL for archival masters or Safari-primary audiences." }
+                "acceptedAnswer": { "@type": "Answer", "text": "For photographic content at practical encode speeds, JPEG XL is competitive with or slightly ahead of AVIF on compression. The deciding factor used to be browser support: AVIF has roughly 95–97% global coverage, while JPEG XL sat near 15% until Chrome 155 and Firefox 158 shipped it by default in October 2026. Use AVIF as the broad-reach format, add JPEG XL as the first source where it is smaller or where you need lossless or progressive loading, and keep JPEG XL for archival masters." }
             },
             {
                 "@type": "Question",
                 "name": "Does Chrome support JPEG XL?",
-                "acceptedAnswer": { "@type": "Answer", "text": "Yes, but not by default. Chrome 145 and later Canary builds ship a Rust-based JXL decoder, but it remains gated behind chrome://flags/#enable-jxl-image-format. Stable Chrome does not display JXL images for general users as of mid-2026." }
+                "acceptedAnswer": { "@type": "Answer", "text": "Yes. Chrome 155, released on October 6, 2026, decodes JPEG XL by default on desktop and Android using the Rust jxl-rs decoder. Chrome 145 to 154 contain the decoder but keep it behind chrome://flags/#enable-jxl-image-format, so a visitor on an older install still needs a fallback. Our guide to JPEG XL in Chrome and what changes now has the dated per-browser table; the Chrome 145 explainer covers the earlier flag-only step." }
             },
             {
                 "@type": "Question",
@@ -167,7 +167,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            JPEG XL promises better compression than JPEG, WebP, and often AVIF, lossless JPEG archiving, HDR support, and progressive rendering. The catch: as of mid-2026 it is native in Safari and available behind a flag in Chrome, but absent from Firefox and Edge for general audiences. This guide covers the benchmarks, every meaningful conversion path, honest browser support, and how to set up a <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm border border-pink-100">&lt;picture&gt;</code> fallback that actually works.
+            JPEG XL promises better compression than JPEG, WebP, and often AVIF, lossless JPEG archiving, HDR support, and progressive rendering. As of October 2026 it decodes by default in Chrome 155 and later and in Firefox 158 and later, and in Safari 17 and later for still images; the catch is that installed browsers, Edge and everything outside a browser lag behind, so a fallback still matters. This guide covers the benchmarks, every meaningful conversion path, honest browser support, and how to set up a <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm border border-pink-100">&lt;picture&gt;</code> fallback that actually works.
         </p>
 
         <p class="text-sm text-[#875F42]">Published {metadata.datePublished} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong>. Covers JPEG, PNG, and AVIF-to-JXL workflows, with compression data from Google's image coding benchmarks and practical guidance on when JXL is and isn't production-ready.</p>
@@ -186,7 +186,7 @@
                     { n: '05', id: 'png-to-jxl', label: 'Converting PNG to JPEG XL' },
                     { n: '06', id: 'avif-to-jxl', label: 'Converting AVIF to JPEG XL' },
                     { n: '07', id: 'fallback-pattern', label: 'The fallback pattern: serving JXL safely on the web' },
-                    { n: '08', id: 'when-not-to-use', label: 'When not to use JPEG XL yet' },
+                    { n: '08', id: 'when-not-to-use', label: 'When not to use JPEG XL' },
                     { n: '09', id: 'mochify-workflow', label: 'Mochify Workflow: convert to JPEG XL in one prompt' },
                     { n: '10', id: 'cheat-sheet', label: 'JPEG XL Quick-Reference Cheat Sheet' },
                     { n: '11', id: 'faq', label: 'FAQ' },
@@ -216,15 +216,15 @@
 
         <section id="browser-support" class="scroll-mt-24">
             <SectionHeading>Browser and Ecosystem Support in 2026</SectionHeading>
-            <p class="mb-4">JPEG XL is natively supported in <strong class="text-[#4A2C2C]">Safari 17 and above</strong> (announced at WWDC 2023), covering all up-to-date macOS and iOS devices. That gives you roughly 14–15% global browser coverage as a baseline - meaningful for Apple-heavy audiences, but not enough to replace JPEG or AVIF as your primary format.</p>
-            <p class="mb-4">Chrome's history with JXL is worth knowing because it explains where things stand now. Chromium shipped early JPEG XL support behind a flag in versions 91–109, then <a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer">removed it entirely in Chrome 110</a> citing "lack of ecosystem momentum." In late 2025 and early 2026, Google reversed course: a Rust-based JXL decoder (<code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">jxl-rs</code>) was merged into Chromium's rendering pipeline. Chrome 145 and later Canary builds expose it via <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">chrome://flags/#enable-jxl-image-format</code>, but it remains disabled by default and Google has not announced a stable-channel rollout date as of mid-2026.</p>
-            <p class="mb-4">Firefox is in a similar position - JPEG XL support is available in Nightly and Firefox Labs builds but is not enabled in general releases.</p>
+            <p class="mb-4">JPEG XL has been natively supported in <strong class="text-[#4A2C2C]">Safari 17 and above</strong> (announced at WWDC 2023) for still images, covering all up-to-date macOS and iOS devices; Safari does not decode animated JXL or render progressively. Until October 2026 that Safari share, roughly 14–17% of global browsing, was the whole installed base, which is why this guide treated JXL as an Apple-audience format. That changed on October 6.</p>
+            <p class="mb-4">Chrome's history with JXL is worth knowing because it explains where things stand now. Chromium shipped early JPEG XL support behind a flag in versions 91–109, then <a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer">removed it entirely in Chrome 110</a> citing "lack of ecosystem momentum." In late 2025 and early 2026, Google reversed course: a Rust-based JXL decoder (<code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">jxl-rs</code>) was merged into Chromium's rendering pipeline. Chrome 145 to 154 exposed it via <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">chrome://flags/#enable-jxl-image-format</code>, disabled by default. Chrome 155, released on October 6, 2026, enables it by default on Windows, macOS, Linux, ChromeOS and Android, with no flag; Google's announcement, "Shipping JPEG XL in Chrome", explains the Rust decoder and the memory-safety reasoning. Installed browsers take weeks to update, so for the rest of 2026 a share of Chrome traffic is still on 152 to 154.</p>
+            <p class="mb-4">Firefox enables JPEG XL by default from Firefox 158, released on October 13, 2026, with animation and progressive display; Firefox 157 does not, despite Mozilla's August intent to ship naming it. Edge, Samsung Internet and the other Chromium-based browsers had not shipped the change as of October 7, 2026, and Microsoft has made no statement. Check caniuse.com/jpegxl for the live row before you drop a fallback.</p>
 
             <InfoBox type="tip" title="Practical takeaway">
                 Use JPEG XL as an enhancement layer served only to capable clients, with a robust fallback for everyone else. The <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;picture&gt;</code> element is your main tool - covered in the <a href="#fallback-pattern">fallback pattern section</a> below.
             </InfoBox>
 
-            <p class="mt-4"><strong class="text-[#4A2C2C]">CDN and platform support</strong> follows the same split. Fastly Image Optimizer supports JPEG XL as both input and output. Cloudflare Images and Netlify Image CDN do not yet support JXL as an output format. Imgix accepts JXL as input but only serves AVIF or WebP as output. Major CMSes - WordPress core and Shopify - do not expose JXL in their upload or delivery pipelines, and several WordPress performance guides explicitly categorise it as not production-ready for those stacks in 2026.</p>
+            <p class="mt-4"><strong class="text-[#4A2C2C]">CDN and platform support</strong> follows the same split. Fastly Image Optimizer supports JPEG XL as both input and output. Cloudflare Images and Netlify Image CDN do not yet support JXL as an output format. Imgix accepts JXL as input but only serves AVIF or WebP as output. Major CMSes - WordPress core and Shopify - do not expose JXL in their upload or delivery pipelines: WordPress 7.1's client-side media pipeline outputs JPEG, PNG, WebP, AVIF and GIF, and Shopify's accepted upload formats are JPEG, PNG, GIF, HEIC and WebP. Browser support arriving does not change either of those until the platforms add an encoder.</p>
         </section>
 
         <section id="compression-benchmarks" class="scroll-mt-24">
@@ -248,7 +248,7 @@
             <p class="mb-4">Converting JPEG to JPEG XL has two distinct modes, and which one is right depends on your goal.</p>
             <p class="mb-4"><strong class="text-[#4A2C2C]">Lossless transcode mode</strong> wraps the original JPEG data inside a JXL container with no re-encoding. You retain bit-for-bit reconstructability of the source file, and you typically see 20–30% file size reduction. This is the right choice for archival use and for any pipeline where you might need the original JPEG again downstream - legacy systems, social preview generation, ad networks.</p>
             <p class="mb-4"><strong class="text-[#4A2C2C]">Lossy re-encode mode</strong> fully decodes the JPEG and re-encodes to JXL at the target quality. You get larger savings - 40–60% vs the original JPEG at similar perceptual quality - but you are making a generation copy. If the source JPEG was already lossy, you are stacking artifacts. This is the right choice when you have access to the raw source (a TIFF, a RAW export, or a lossless master) and are producing a fresh JXL for serving.</p>
-            <p class="mb-4">For web delivery in mid-2026, JPEG-to-JXL primarily serves Safari users and Chrome users who have enabled the flag. The baseline JPEG remains the universal fallback.</p>
+            <p class="mb-4">For web delivery from October 2026, JPEG-to-JXL serves Safari, Chrome 155+ and Firefox 158+ users, a share that grows weekly as installed browsers update. The baseline JPEG remains the universal fallback.</p>
             <p>You can convert to JPEG XL directly with the <a href="/jpg-to-jpegxl">JPG to JXL converter</a>: drop the files and it re-encodes them with one high-quality setting, nothing to set. It is a re-encode, not the reversible JPEG transcode described above, so keep your JPEG masters. For batch workflows, the CLI and MCP routes are covered in the <a href="#mochify-workflow">Mochify Workflow section</a> below.</p>
         </section>
 
@@ -257,14 +257,14 @@
             <p class="mb-4">PNG is overused as a web format because it is the default export from many design tools, not because it is the right choice for most images. JPEG XL gives you two options to improve on it.</p>
             <p class="mb-4">For <strong class="text-[#4A2C2C]">photographic PNGs</strong> (PNG exports of photos, which are common from Figma and similar tools), lossy JPEG XL typically cuts file size by 60–80% at similar visual quality. The format's VarDCT mode handles photographic content the same way AVIF or WebP do - much better than PNG's lossless model.</p>
             <p class="mb-4">For <strong class="text-[#4A2C2C]">graphics, illustrations, UI elements, and transparent assets</strong>, JPEG XL lossless is the right mode. You keep the transparency, the sharp edges, and the exact pixel data. The compression win over PNG (19–50% depending on encoder effort) is a genuine improvement, not a trade-off.</p>
-            <p class="mb-4">In practice, the main reason to convert PNG to JXL today is archival compression and the Safari audience. For web delivery, you would pair the JXL source with a WebP or PNG fallback in a <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;picture&gt;</code> element. For pipelines using Fastly Image Optimizer or a JXL-aware CDN, the CDN can negotiate the format automatically based on the client <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">Accept</code> header.</p>
+            <p class="mb-4">In practice, the reasons to convert PNG to JXL today are archival compression, lossless masters, and web delivery to the Chrome 155, Firefox 158 and Safari 17 audience, which is most desktop traffic once the October releases have rolled out. For web delivery, you would pair the JXL source with a WebP or PNG fallback in a <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;picture&gt;</code> element. For pipelines using Fastly Image Optimizer or a JXL-aware CDN, the CDN can negotiate the format automatically based on the client <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">Accept</code> header.</p>
             <p>Convert PNG to JPEG XL with the <a href="/solutions/png-to-jxl">PNG to JXL converter</a>: a high-quality compressed encode by default, or switch Lossless on after uploading for a pixel-exact copy that is usually still smaller than the PNG.</p>
         </section>
 
         <section id="avif-to-jxl" class="scroll-mt-24">
             <SectionHeading>Converting AVIF to JPEG XL</SectionHeading>
-            <p class="mb-4">Converting AVIF to JPEG XL for current web delivery does not make much sense on compression grounds alone - both formats are competitive, and AVIF has far broader browser support across Chrome, Firefox, Safari, and Edge. You would be trading ecosystem compatibility for marginal compression gains.</p>
-            <p class="mb-4">The case for AVIF-to-JXL conversion is narrower and more specific. For <strong class="text-[#4A2C2C]">HDR and wide-gamut archival</strong>, AVIF supports HDR but tops out at 12-bit depth. JPEG XL goes to 32-bit. If you are building a long-term archive from AVIF masters, JPEG XL is the stronger archival target for high-bit-depth content. For <strong class="text-[#4A2C2C]">consolidating a mixed archive</strong>, if you have a mix of JPEGs, PNGs, and AVIFs and want a single high-quality master format for storage, JPEG XL can ingest all of them. The masters become JXL; AVIF, WebP, and JPEG derivatives are generated from those masters for web delivery. And for <strong class="text-[#4A2C2C]">pipeline readiness</strong>, building AVIF-to-JXL into your workflow now means you are ready to serve JXL when Chrome and Firefox ship it by default - you just flip the <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;source&gt;</code> priority.</p>
+            <p class="mb-4">Converting AVIF to JPEG XL for current web delivery does not make much sense on compression grounds alone - both formats are competitive, and AVIF still has the broader installed base, including Edge and Samsung Internet, which have not yet shipped JXL. You would be trading ecosystem compatibility for marginal compression gains.</p>
+            <p class="mb-4">The case for AVIF-to-JXL conversion is narrower and more specific. For <strong class="text-[#4A2C2C]">HDR and wide-gamut archival</strong>, AVIF supports HDR but tops out at 12-bit depth. JPEG XL goes to 32-bit. If you are building a long-term archive from AVIF masters, JPEG XL is the stronger archival target for high-bit-depth content. For <strong class="text-[#4A2C2C]">consolidating a mixed archive</strong>, if you have a mix of JPEGs, PNGs, and AVIFs and want a single high-quality master format for storage, JPEG XL can ingest all of them. The masters become JXL; AVIF, WebP, and JPEG derivatives are generated from those masters for web delivery. And for <strong class="text-[#4A2C2C]">pipeline readiness</strong>, building AVIF-to-JXL into your workflow means you can serve JXL to Chrome 155 and Firefox 158 now - you just put the JXL <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;source&gt;</code> first.</p>
             <p>Convert AVIF to JPEG XL with the <a href="/avif-to-jpegxl">AVIF to JXL converter</a>: a decode and high-quality re-encode, nothing to set.</p>
         </section>
 
@@ -274,17 +274,17 @@
 
             <CodeBlock filename="HTML" code={pictureCode} />
 
-            <p class="mb-4">This stack gives you JXL for Safari and Chrome-with-flag-enabled, AVIF for Chrome/Firefox/Edge, WebP for older clients, and JPEG for everything else.</p>
+            <p class="mb-4">This stack gives you JXL for Chrome 155+, Firefox 158+ and Safari 17+, AVIF for Edge and older Chrome and Firefox, WebP for older clients, and JPEG for everything else.</p>
             <p class="mb-4"><strong class="text-[#4A2C2C]">Always include <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">width</code> and <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">height</code> attributes</strong> on the <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;img&gt;</code> tag. Browsers need these to reserve layout space before the image loads. Omitting them causes cumulative layout shift (CLS), which affects your Core Web Vitals score. See our guide on <a href="/guides/optimizing-hero-images">optimizing hero images for web performance</a> for more on this.</p>
-            <p class="mb-4"><strong class="text-[#4A2C2C]">Do not serve JPEG XL as your only format.</strong> A standalone <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;img src="image.jxl"&gt;</code> will display a broken image in Chrome, Firefox, and Edge for the majority of users who have not enabled the flag. This is the current production reality.</p>
+            <p class="mb-4"><strong class="text-[#4A2C2C]">Do not serve JPEG XL as your only format.</strong> A standalone <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;img src="image.jxl"&gt;</code> will display a broken image in Edge, in any Chrome or Firefox that has not yet updated to the October 2026 releases, and in email clients and chat apps. That remains the production reality for months after a release.</p>
             <p><strong class="text-[#4A2C2C]">CDN-level negotiation</strong> is cleaner than HTML for high-traffic sites. If you are on Fastly Image Optimizer, you can configure it to auto-negotiate JXL based on the <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">Accept</code> header, so the right format is served without changing your image markup. Cloudflare and Netlify do not yet offer this for JXL.</p>
         </section>
 
         <section id="when-not-to-use" class="scroll-mt-24">
-            <SectionHeading>When Not to Use JPEG XL Yet</SectionHeading>
-            <p class="mb-4">JPEG XL is production-ready in specific contexts and experimental in others. Being clear about the difference saves headaches.</p>
-            <p class="mb-4"><strong class="text-[#4A2C2C]">Production-ready with fallbacks:</strong> photography portfolios and creative tools serving a predominantly macOS/iOS audience (Safari 17 and above handles JXL natively); internal archival and storage pipelines where browser support is irrelevant; sites running on Fastly Image Optimizer, which can serve JXL to capable clients automatically; HDR photography and retina-quality sites where the 32-bit depth is a real advantage.</p>
-            <p class="mb-4"><strong class="text-[#4A2C2C]">Wait or test carefully:</strong> WordPress and Shopify sites - neither platform exposes JXL in its standard delivery stack. Mass-market web apps where a broken image in Chrome is a business problem. Any pipeline that feeds third-party systems such as social previews, email clients, or ad networks, which mostly do not understand JXL and will display nothing.</p>
+            <SectionHeading>When Not to Use JPEG XL</SectionHeading>
+            <p class="mb-4">JPEG XL is production-ready with a fallback in most contexts since October 2026, and still the wrong choice in a few. Being clear about the difference saves headaches.</p>
+            <p class="mb-4"><strong class="text-[#4A2C2C]">Production-ready with fallbacks:</strong> any site whose audience is mostly on Chrome, Firefox or Safari (Chrome 155, Firefox 158 and Safari 17 decode JXL natively); internal archival and storage pipelines where browser support is irrelevant; sites running on Fastly Image Optimizer, which can serve JXL to capable clients automatically; HDR photography and retina-quality sites where the 32-bit depth is a real advantage.</p>
+            <p class="mb-4"><strong class="text-[#4A2C2C]">Wait or test carefully:</strong> WordPress and Shopify sites - neither platform exposes JXL in its standard delivery stack. Mass-market web apps where a broken image in Edge or in a not-yet-updated Chrome is a business problem. Any pipeline that feeds third-party systems such as social previews, email clients, or ad networks, which mostly do not understand JXL and will display nothing.</p>
 
             <InfoBox type="note" title="The right mental model for 2026">
                 JPEG XL is where WebP was around 2018. Strong format, real compression wins, but meaningful adoption gaps that require engineering around. The difference is that the archival and lossless-JPEG-transcode use cases are valuable today, independent of where browser support lands.
@@ -380,7 +380,7 @@
                     <tbody>
                         {#each [
                             ['Safari 17+', 'Native, no flag required'],
-                            ['Chrome 145+ / Canary', 'Behind chrome://flags/#enable-jxl-image-format'],
+                            ['Chrome 145+ / Canary', 'Chrome 155+, Firefox 158+, Safari 17+ (stills); Edge not yet'],
                             ['Firefox Nightly', 'Behind Firefox Labs toggle'],
                             ['Firefox stable, Edge, most Android', 'Not supported'],
                             ['Global coverage', '~14–15%'],
@@ -402,11 +402,11 @@
                 {#each [
                     {
                         q: "Is JPEG XL better than AVIF?",
-                        a: "For photographic content at practical encode speeds, JPEG XL is competitive with or slightly ahead of AVIF on compression. The more important factor in 2026 is browser support: AVIF has roughly 95–97% global coverage; JPEG XL has around 14–15%. Use AVIF for web delivery and consider JPEG XL for archival masters or Safari-primary audiences."
+                        a: "For photographic content at practical encode speeds, JPEG XL is competitive with or slightly ahead of AVIF on compression. The deciding factor used to be browser support: AVIF has roughly 95–97% global coverage, while JPEG XL sat near 15% until Chrome 155 and Firefox 158 shipped it by default in October 2026. Use AVIF as the broad-reach format, add JPEG XL as the first source where it is smaller or where you need lossless or progressive loading, and keep JPEG XL for archival masters."
                     },
                     {
                         q: "Does Chrome support JPEG XL?",
-                        a: "Yes, but not by default. Chrome 145 and later Canary builds ship a Rust-based JXL decoder, but it is gated behind chrome://flags/#enable-jxl-image-format. Stable Chrome does not display JXL images for general users as of mid-2026. Our full breakdown of the Chrome 145 situation covers the timeline in more detail."
+                        a: "Yes. Chrome 155, released on October 6, 2026, decodes JPEG XL by default on desktop and Android using the Rust jxl-rs decoder. Chrome 145 to 154 contain the decoder but keep it behind chrome://flags/#enable-jxl-image-format, so a visitor on an older install still needs a fallback. Our guide to <a href=\"https://mochify.app/guides/jpeg-xl-chrome-support\">JPEG XL in Chrome and what changes now</a> has the dated per-browser table; the <a href=\"https://mochify.app/guides/chrome-145-jpeg-xl-default\">Chrome 145 explainer</a> covers the earlier flag-only step."
                     },
                     {
                         q: "Can I convert a JPEG to JPEG XL without losing any quality?",
@@ -441,7 +441,8 @@
                             </span>
                         </summary>
                         <div class="px-6 pb-6 text-base text-[#6C3F31] leading-relaxed">
-                            {faq.a}
+                            <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+                            {@html faq.a}
                         </div>
                     </details>
                 {/each}

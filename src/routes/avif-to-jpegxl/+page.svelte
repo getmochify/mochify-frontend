@@ -31,14 +31,14 @@
         {
             q: 'How do I open a JXL file?',
             a: [
-                'Some browsers, image viewers and photo tools read JXL and many do not. ',
+                'Chrome 155, Firefox 158 and Safari read JXL; Edge, most email clients and many image viewers and photo tools do not yet. ',
                 { href: '/guides/what-is-a-jxl-file', label: 'What is a JXL file?' },
                 ' lists what opens one today and how to convert back to JPEG when you need to.'
             ]
         },
         {
             q: 'Should I use AVIF or JXL on my website?',
-            a: 'AVIF, for now: it is widely supported and compresses very well. JPEG XL needs a fallback for browsers that cannot decode it. Keep JXL for pipelines and archives you control.'
+            a: 'AVIF, for now: it is widely supported and compresses very well. JPEG XL still needs a fallback for Edge and for browsers that have not updated to Chrome 155 or Firefox 158. Keep JXL for pipelines and archives you control.'
         },
         {
             q: 'Does the JXL keep HDR from my AVIF?',
@@ -169,7 +169,7 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl font-bold text-[#4A2C2C]">What an AVIF to JXL conversion actually does</h2>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            Both formats are lossy, so this is a decode and a re-encode: the AVIF is decoded to pixels, then encoded as JPEG XL using one high-quality setting. The result looks the same on screen, but it is a second generation, not the AVIF's original data, and it is not a lossless copy. Do it when you need JXL specifically, for a pipeline, a viewer or an archive that reads it, or when you want the JXL family's traits such as progressive decoding. Do not do it to "upgrade" an image you will keep serving as AVIF: AVIF is the better-supported format on the web today, and re-encoding a lossy file never adds detail. HDR is not carried across: on Mochify only JPG output carries an HDR gain map, so a JXL from this page comes back standard-range.
+                            Both formats are lossy, so this is a decode and a re-encode: the AVIF is decoded to pixels, then encoded as JPEG XL using one high-quality setting. The result looks the same on screen, but it is a second generation, not the AVIF's original data, and it is not a lossless copy. Do it when you need JXL specifically, for a pipeline, a viewer or an archive that reads it, or when you want the JXL family's traits such as progressive decoding. Do not do it to "upgrade" an image you will keep serving as AVIF: AVIF still has the larger installed base on the web, and re-encoding a lossy file never adds detail. HDR is not carried across: on Mochify only JPG output carries an HDR gain map, so a JXL from this page comes back standard-range.
                         </p>
                         <p class="leading-relaxed text-[#6C3F31]">
                             Metadata is stripped by default, GPS included, with nothing to set on this page. If you need it kept, the Mochify web app has a Strip EXIF switch and the API takes stripExif=false.
@@ -179,7 +179,7 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl font-bold text-[#4A2C2C]">AVIF or JXL: which should you keep?</h2>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            For a public website, AVIF: browser support is broad and its compression is excellent, which is why the <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">format guide</a> recommends it for live delivery. JPEG XL support is still uneven in browsers, so a JXL on a public page needs a fallback; the <a href="/guides/chrome-145-jpeg-xl-default" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Chrome 145 and JPEG XL explainer</a> has the current picture. The <a href="/guides/converting-images-to-jpeg-xl#avif-to-jxl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">practical JPEG XL guide</a> covers the AVIF path and the fallback pattern. Need the universally compatible version instead? The <a href="/avif-to-jpg" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">AVIF to JPG converter</a> makes a jpegli-encoded JPEG that opens everywhere.
+                            For a public website, AVIF: browser support is broad and its compression is excellent, which is why the <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">format guide</a> recommends it for live delivery. Chrome 155, Firefox 158 and Safari decode JPEG XL, but Edge and older installs do not, so a JXL on a public page still needs a fallback; our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">JPEG XL in Chrome and what changes now</a> has the dated picture. The <a href="/guides/converting-images-to-jpeg-xl#avif-to-jxl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">practical JPEG XL guide</a> covers the AVIF path and the fallback pattern. Need the universally compatible version instead? The <a href="/avif-to-jpg" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">AVIF to JPG converter</a> makes a jpegli-encoded JPEG that opens everywhere.
                         </p>
                     </div>
                 </div>

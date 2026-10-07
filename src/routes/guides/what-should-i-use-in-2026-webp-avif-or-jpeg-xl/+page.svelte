@@ -7,11 +7,11 @@
 
     const metadata = {
         title: "What Should I Use in 2026: WebP, AVIF, or JPEG XL?",
-        description: "In 2026, use AVIF as your primary format with WebP as fallback. JPEG XL is not production-ready for web at ~15% browser support.",
+        description: "Use AVIF as your primary format with WebP as fallback. JPEG XL decodes in Chrome 155 and Firefox 158 from October 2026, so add it on top, with a fallback.",
         category: "Quick Guides",
         readTime: "2 min read",
         date: "April 13, 2026",
-        lastUpdated: "September 23, 2026"
+        lastUpdated: "October 7, 2026"
     };
 
     const related = [
@@ -47,10 +47,10 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "What Should I Use in 2026: WebP, AVIF, or JPEG XL?",
-        "description": "In 2026, use AVIF as your primary format with WebP as fallback. JPEG XL is not production-ready for web at ~15% browser support.",
+        "description": "Use AVIF as your primary format with WebP as fallback. JPEG XL decodes in Chrome 155 and Firefox 158 from October 2026, so add it on top, with a fallback.",
         "url": "https://mochify.app/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl",
         "datePublished": "2026-04-13",
-        "dateModified": "2026-09-23",
+        "dateModified": "2026-10-07",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -103,7 +103,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            For most web projects in 2026, use AVIF as your primary format and WebP as your fallback. AVIF now sits at 95%+ global browser support and delivers 20–50% smaller files than WebP at comparable quality. JPEG XL remains at roughly 15% browser support - limit it to archival and non-web pipelines for now.
+            For most web projects in 2026, use AVIF as your primary format and WebP as your fallback. AVIF now sits at 95%+ global browser support and delivers 20–50% smaller files than WebP at comparable quality. JPEG XL decodes by default in Chrome 155 (October 6, 2026) and Firefox 158 (October 13), and in Safari 17 and later for still images; add it as the first source where it is smaller or where you need lossless or progressive loading, and keep the AVIF and WebP fallbacks while installed browsers, Edge and email clients catch up.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
@@ -157,7 +157,7 @@
                         </tr>
                         <tr>
                             <td class="p-4 font-bold text-[#4A2C2C]">JPEG XL</td>
-                            <td class="p-4">~15%</td>
+                            <td class="p-4">~17% on Oct 7, 2026, rising: Chrome 155+, Firefox 158+, Safari 17+ (stills)</td>
                             <td class="p-4">35–60% potential</td>
                             <td class="p-4">Archival, print, native apps</td>
                         </tr>
@@ -165,16 +165,16 @@
                 </table>
             </ScrollableTable>
             <p class="text-sm text-[#875F42]">
-                Sources: <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">caniuse.com/avif</a>, <a href="https://caniuse.com/jpeg-xl" target="_blank" rel="noopener noreferrer">caniuse.com/jpeg-xl</a>
+                Sources: <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">caniuse.com/avif</a>, <a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer">caniuse.com/jpegxl</a> (read October 7, 2026)
             </p>
         </section>
 
         <section id="why-jpeg-xl-is-not-ready" class="scroll-mt-24">
-            <SectionHeading>Why JPEG XL is not ready yet</SectionHeading>
-            <p class="mb-4">Google rekindled browser support efforts for JPEG XL in early 2026, but it remains behind flags in Chrome and Firefox. Can I Use tracks updates actively, and the picture is improving, but no team shipping production web assets should depend on it today. AVIF and WebP cover 95%+ of real-world users without any conditional logic.</p>
+            <SectionHeading>Where JPEG XL stands after Chrome 155</SectionHeading>
+            <p class="mb-4">Google brought JPEG XL back to Chrome behind a flag in February 2026 and switched it on by default in Chrome 155 on October 6, 2026; Firefox 158 does the same on October 13, and Safari has decoded still JXL images since version 17. Edge and Samsung Internet had not shipped it as of October 7, installed browsers update over weeks, and email clients do not render it, so JPEG XL belongs at the top of a picture element rather than on its own. AVIF and WebP still cover 95%+ of real-world users without any conditional logic. Our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support">JPEG XL in Chrome and what changes now</a> has the dated per-browser table.</p>
 
             <InfoBox type="warning" title="Do not serve .jxl without a fallback">
-                A <code>.jxl</code> file served without a <code>&lt;picture&gt;</code> fallback will fail silently for the majority of Chrome and Firefox users. Until JPEG XL is enabled by default in a stable release, always pair it with AVIF and WebP fallbacks.
+                A <code>.jxl</code> file served without a <code>&lt;picture&gt;</code> fallback will fail silently for anyone on Edge, on a Chrome or Firefox that has not yet updated to the October 2026 releases, or in an email client. Until JPEG XL is enabled by default in a stable release, always pair it with AVIF and WebP fallbacks.
             </InfoBox>
         </section>
 

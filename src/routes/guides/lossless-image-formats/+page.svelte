@@ -19,7 +19,8 @@
 			'PNG, WebP, JPEG XL and AVIF tested lossless on six image types: which wins for screenshots, logos and photos, and when lossless is the wrong call.',
 		category: 'Image Formats',
 		readTime: '26 min read',
-		date: 'October 2, 2026'
+		date: 'October 2, 2026',
+		lastUpdated: 'October 7, 2026'
 	};
 
 	const pageUrl = 'https://mochify.app/guides/lossless-image-formats';
@@ -92,7 +93,7 @@
 		},
 		{
 			q: 'Which is better, lossless JPEG XL or PNG?',
-			a: `Lossless JPEG XL produces smaller files than PNG for almost every image (the JPEG XL project puts PNG at 46% larger on average; our photos came out 22 to 25% smaller as JXL) and supports higher bit depths, HDR and animation. PNG opens everywhere, while JPEG XL opens in Safari today and is arriving in Chrome and Firefox in late 2026. For a file you control the viewer for, JXL; for a file you will hand to strangers, PNG, or lossless WebP if it is a flat graphic.`
+			a: `Lossless JPEG XL produces smaller files than PNG for almost every image (the JPEG XL project puts PNG at 46% larger on average; our photos came out 22 to 25% smaller as JXL) and supports higher bit depths, HDR and animation. PNG opens everywhere, while JPEG XL opens in Safari, Chrome 155+ and Firefox 158+ but not yet in Edge or most non-browser software. For a file you control the viewer for, JXL; for a file you will hand to strangers, PNG, or lossless WebP if it is a flat graphic.`
 		},
 		{
 			q: 'Is quality 100 the same as lossless?',
@@ -146,7 +147,7 @@
 		url: pageUrl,
 		mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
 		datePublished: '2026-10-02',
-		dateModified: '2026-10-02',
+		dateModified: '2026-10-07',
 		inLanguage: 'en',
 		author: {
 			'@type': 'Organization',
@@ -185,7 +186,7 @@
 		description: metadata.description,
 		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
 		datePublished: '2026-10-02',
-		dateModified: '2026-10-02'
+		dateModified: '2026-10-07'
 	};
 </script>
 
@@ -236,7 +237,7 @@
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
-			{metadata.readTime} · {metadata.date} · Mochify Engineering Team
+			{metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
@@ -329,9 +330,10 @@
 			<SectionHeading>The lossless image formats in 2026, compared</SectionHeading>
 			<p class="mb-4">
 				Four formats can store a lossless image and display it in a current browser: PNG everywhere,
-				lossless WebP everywhere, lossless AVIF everywhere, and lossless JPEG XL in Safari today
-				with Chrome and Firefox at the point of switching it on. TIFF is lossless (usually) but is
-				not a web format; GIF and HEIF are technically capable and practically beside the point.
+				lossless WebP everywhere, lossless AVIF everywhere, and lossless JPEG XL in Safari, in
+				Chrome from version 155 (October 6, 2026) and in Firefox from 158 (October 13). TIFF is
+				lossless (usually) but is not a web format; GIF and HEIF are technically capable and
+				practically beside the point.
 			</p>
 			<GuideTable class="my-6">
 				<table>
@@ -363,7 +365,8 @@
 							><td><strong>JPEG XL</strong></td><td>Optional (modular mode)</td><td
 								>Up to 32 bits per channel</td
 							><td>Yes</td><td>Yes</td><td>Yes</td><td>2^30-1 per side</td><td
-								>Safari 17+; Chrome 155 scheduled Oct 2026; Firefox pending (see below)</td
+								>Safari 17+ (stills); Chrome 155+ (Oct 6, 2026); Firefox 158+ (Oct 13, 2026); Edge
+								not yet</td
 							></tr
 						>
 						<tr
@@ -416,7 +419,8 @@
 				and reconstructs it bit-exactly. We cover it in depth in
 				<a href="https://mochify.app/guides/converting-images-to-jpeg-xl"
 					>our guide to converting images to JPEG XL</a
-				>. The caveat is support, which has moved a long way in 2026 but is not universal yet.
+				>. The caveat is support outside the browser, which still lags: the three big engines decode
+				it from October 2026, most chat, mail and office software does not.
 			</p>
 			<p class="mb-4">
 				<strong>Lossless AVIF</strong> exists because AV1 has a lossless coding mode, but it was
@@ -633,7 +637,8 @@
 			</p>
 			<p class="mb-4">
 				<strong>Animation.</strong> Animated WebP for the web; APNG where you need lossless frames and
-				broad decoder support; animated JXL once the browsers you care about have caught up.
+				broad decoder support; animated JXL where the audience is on Chrome 155+ or Firefox 158+ (Safari
+				does not play animated JXL).
 			</p>
 		</section>
 		<section id="when-not-lossless" class="scroll-mt-24">
@@ -676,10 +681,9 @@
 			<SectionHeading>Browser and app support for lossless formats in 2026</SectionHeading>
 			<p class="mb-4">
 				PNG and lossless WebP open in every browser in use, lossless AVIF in all current ones, and
-				lossless JPEG XL in Safari today, with Chrome's default-on release scheduled for October
-				2026 and Firefox's announced but not yet shipped at the time of writing. This section
-				describes the state on October 2, 2026, the day this guide was published, and the JPEG XL
-				picture is changing week by week; <a
+				lossless JPEG XL in Safari, in Chrome 155 and later (released October 6, 2026) and in
+				Firefox 158 and later (October 13). This section describes the state on October 7, 2026;
+				installed browsers take weeks to update and Edge had not shipped the change, so <a
 					href="https://caniuse.com/jpegxl"
 					target="_blank"
 					rel="noopener noreferrer">caniuse.com/jpegxl</a
@@ -711,17 +715,17 @@
 					<p class="mb-0">
 						<strong>JPEG XL:</strong> Safari 17 and later decodes still images. Chrome 145 to 154
 						ship the decoder behind the <code>#enable-jxl-image-format</code> flag; Chrome 155,
-						whose stable release is scheduled for October 6, 2026, lists JPEG XL decoding in its
-						release notes. Firefox compiled JPEG XL into release builds from version 152 (June 2026)
-						behind a Firefox Labs toggle, and Mozilla's intent to ship names Firefox 158 as the
-						default-on target; version 157, released September 29, 2026, does not enable it. Check
+						released on October 6, 2026, decodes JPEG XL by default on desktop and Android. Firefox
+						compiled JPEG XL into release builds from version 152 behind a Firefox Labs toggle and
+						enables it by default from Firefox 158, released October 13, 2026; version 157 does not.
+						Check
 						<a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer"
 							>caniuse.com/jpegxl</a
 						>
-						for the live picture, and read
-						<a href="https://mochify.app/guides/chrome-145-jpeg-xl-default"
-							>our Chrome and JPEG XL guide</a
-						> for how to serve JXL with a fallback in the meantime.
+						for the live picture, and read our guide to
+						<a href="https://mochify.app/guides/jpeg-xl-chrome-support"
+							>JPEG XL in Chrome and what changes now</a
+						> for the rollout caveats and how to serve JXL with a fallback.
 					</p>
 				</li>
 				<li>

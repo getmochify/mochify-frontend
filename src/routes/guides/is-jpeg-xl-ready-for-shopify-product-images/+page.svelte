@@ -7,10 +7,11 @@
 
     const metadata = {
         title: "Is JPEG XL Ready for Shopify Product Images in 2026?",
-        description: "JPEG XL is not ready for live Shopify stores in 2026: browser support is 12–17% and Shopify doesn't accept JXL uploads. Use AVIF with a WebP fallback.",
+        description: "JPEG XL still isn't usable on live Shopify stores: Chrome 155 decodes it, but Shopify doesn't accept JXL uploads. Upload JPEG or PNG; archive as JXL.",
         category: "Quick Guides",
         readTime: "3 min read",
-        date: "April 14, 2026"
+        date: "April 14, 2026",
+        lastUpdated: "October 7, 2026"
     };
 
     const related = [
@@ -22,7 +23,7 @@
         {
             title: "Does Chrome 145 Enable JPEG XL by Default in 2026?",
             href: "/guides/chrome-145-jpeg-xl-default",
-            desc: "The flag situation explained - why Chrome 145 added JXL but most users still can't render it."
+            desc: "What Chrome 145 shipped behind a flag, and the Chrome 155 release that turned it on."
         },
         {
             title: "The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL",
@@ -51,10 +52,10 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "Is JPEG XL Ready for Shopify Product Images in 2026?",
-        "description": "JPEG XL is not ready for live Shopify stores in 2026: browser support is 12–17% and Shopify doesn't accept JXL uploads. Use AVIF with a WebP fallback.",
+        "description": "JPEG XL still isn't usable on live Shopify stores: Chrome 155 decodes it, but Shopify doesn't accept JXL uploads. Upload JPEG or PNG; archive as JXL.",
         "url": "https://mochify.app/guides/is-jpeg-xl-ready-for-shopify-product-images",
         "datePublished": "2026-04-14",
-        "dateModified": "2026-04-14",
+        "dateModified": "2026-10-07",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "isPartOf": { "@type": "CollectionPage", "name": "Image Optimization Guides", "url": "https://mochify.app/guides" },
@@ -86,7 +87,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -95,7 +96,7 @@
         </h1>
 
         <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            JPEG XL (JXL) is not ready for live Shopify stores right now. Browser support sits at roughly 12–17% globally, Shopify does not accept JXL uploads as a supported file format, and serving JXL to the majority of your customers would result in broken images and LCP failures. The format is worth watching closely - but for 2026, your Shopify delivery stack should be AVIF with a WebP or JPEG fallback.
+            JPEG XL (JXL) is still not usable on a live Shopify store, and the reason has changed. Browsers are no longer the blocker: Chrome 155 (October 6, 2026) and Firefox 158 (October 13) decode JPEG XL by default, and Safari has for still images since version 17. Shopify is the blocker: it does not accept JXL uploads, and its image CDN serves JPG, PNG and WebP. Keep uploading JPEG or PNG and let Shopify serve WebP where it can; keep your masters as lossless JXL if you want the archive benefit.
         </p>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
@@ -109,35 +110,35 @@
 
         <section id="where-jxl-support-actually-stands" class="scroll-mt-24">
             <SectionHeading>Where JXL support actually stands</SectionHeading>
-            <p class="mb-4">Chrome 145, released in February 2026, reintroduced JPEG XL decoding via a new Rust-based decoder called <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">jxl-rs</code> - but the feature is gated behind a browser flag (<code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">chrome://flags/#enable-jxl-image-format</code>) and is not enabled by default. Firefox keeps it behind a flag too, and Edge offers no support as of April 2026. Only Safari 17+ on macOS and iOS offers functional (partial) support natively.</p>
-            <p class="mb-4">That leaves roughly 80%+ of your Shopify visitors unable to render a JXL image without a fallback. In e-commerce, a broken product photo is a lost conversion, so this risk is not worth taking for primary delivery.</p>
+            <p class="mb-4">Chrome 145, released in February 2026, reintroduced JPEG XL decoding via a new Rust-based decoder called <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">jxl-rs</code> behind a browser flag, and Chrome 155, released on October 6, 2026, turned it on by default. Firefox 158 does the same on October 13. Safari 17+ on macOS and iOS decodes still images. Edge had not shipped it as of October 7, 2026, and installed Chrome and Firefox versions take weeks to update, so a fallback still matters on the open web.</p>
+            <p class="mb-4">For a Shopify store none of that matters yet, because the platform never serves a JXL in the first place. In e-commerce, a broken product photo is a lost conversion, so the only safe path is the one Shopify controls.</p>
 
             <ScrollableTable class="mb-4">
                 <table class="w-full text-left bg-white">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
                         <tr>
                             <th class="p-4 font-black">Browser</th>
-                            <th class="p-4 font-black">JXL status (April 2026)</th>
+                            <th class="p-4 font-black">JXL status (October 7, 2026)</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Chrome 145+</td><td class="p-4">Flag only - disabled by default</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Safari 17+ (macOS/iOS)</td><td class="p-4">Partial support, no flag needed</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Firefox</td><td class="p-4">Flag only - disabled by default</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Edge</td><td class="p-4">Not supported</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Global coverage</td><td class="p-4 font-bold text-[#4A2C2C]">~12–17%</td></tr>
+                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Chrome 155+</td><td class="p-4">Decodes by default (145 to 154: flag only)</td></tr>
+                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Safari 17+ (macOS/iOS)</td><td class="p-4">Still images only, no flag needed</td></tr>
+                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Firefox 158+</td><td class="p-4">Decodes by default from October 13, 2026</td></tr>
+                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Edge</td><td class="p-4">Not yet shipped</td></tr>
+                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Global coverage</td><td class="p-4 font-bold text-[#4A2C2C]">~17% on October 7, rising as Chrome 155 and Firefox 158 roll out</td></tr>
                     </tbody>
                 </table>
             </ScrollableTable>
 
             <InfoBox type="warning" title="A broken product photo is a lost conversion">
-                At ~15% global support, serving JXL without a fallback means the majority of your Shopify customers see a broken image. Don't use it as a primary delivery format until Chrome enables it by default.
+                Until the October releases reach installed browsers, serving JXL without a fallback still means many customers see a broken image; on Shopify the question does not arise, because the platform will not take the file. Don't use it as a primary delivery format until Chrome enables it by default.
             </InfoBox>
         </section>
 
         <section id="shopify-doesnt-accept-jxl-uploads" class="scroll-mt-24">
             <SectionHeading>Shopify doesn't accept JXL uploads</SectionHeading>
-            <p class="mb-4">Shopify accepts JPEG, PNG, GIF, WebP, AVIF, and HEIC as upload formats. JPEG XL is not on that list. If you try to upload a JXL file, Shopify will reject it - there is no native JXL serving pipeline, and no CDN-level fallback to WebP for unsupported browsers. Shopify automatically converts uploaded images and serves WebP where browsers support it, but that mechanism only applies to its accepted formats.</p>
+            <p class="mb-4">Shopify accepts JPEG, progressive JPEG, PNG, GIF, HEIC and WebP as upload formats, with a 20 megapixel and 20 MB limit. JPEG XL is not on that list. If you try to upload a JXL file, Shopify will reject it - there is no native JXL serving pipeline, and no CDN-level fallback to WebP for unsupported browsers. Shopify automatically converts uploaded images and serves WebP where browsers support it, but that mechanism only applies to its accepted formats.</p>
             <p class="mb-4">The safest test workflow: export a JXL file, attempt to upload it via your Shopify admin (<code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">Products &gt; Images</code>), then inspect the CDN response headers via browser devtools. You will almost certainly see an error or a recompressed JPEG substitute - neither of which preserves the compression benefit JXL was meant to deliver.</p>
         </section>
 
@@ -167,7 +168,7 @@
                             <td class="p-4 font-bold text-[#4A2C2C]">Global browser support</td>
                             <td class="p-4">~95%</td>
                             <td class="p-4">~98%</td>
-                            <td class="p-4">~12–17%</td>
+                            <td class="p-4">~17% on Oct 7, 2026, rising (Chrome 155+, Firefox 158+, Safari 17+)</td>
                         </tr>
                         <tr>
                             <td class="p-4 font-bold text-[#4A2C2C]">Shopify upload accepted</td>
@@ -188,7 +189,7 @@
 
         <section id="when-to-use-jxl" class="scroll-mt-24">
             <SectionHeading>When to use JXL (and how)</SectionHeading>
-            <p class="mb-4">Use JPEG XL now for two things: archiving original product photo masters before conversion, and experimenting in staging environments to prepare for when Chrome enables it by default. Once Chrome ships JXL as a default-on feature - contingent on the <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">jxl-rs</code> decoder meeting Google's launch criteria - global support will jump significantly.</p>
+            <p class="mb-4">Use JPEG XL now for one thing on Shopify: archiving original product photo masters before conversion. Chrome has shipped JXL as a default-on feature, so the browser side is settled; what you are waiting for is Shopify adding the format to its upload list. Our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support">JPEG XL in Chrome and what changes now</a> has the dated browser table and the by-stack advice.</p>
             <p class="mb-4">For pre-conversion archives, Mochify supports JXL as both an input and output format. You can type a plain-English prompt like <em>"convert to JPEG XL and strip EXIF data for archiving"</em> into Magic Flow at <a href="https://mochify.app">mochify.app</a>, and it will handle the batch without retaining your data. When you are ready to prepare those images for Shopify, convert the same archive to AVIF or WebP in one step.</p>
 
             <InfoBox type="tip" title="The right workflow for Shopify right now">

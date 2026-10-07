@@ -11,7 +11,7 @@
         category: "Image Formats",
         readTime: "8 min read",
         date: "May 16, 2026",
-        lastUpdated: "October 2, 2026"
+        lastUpdated: "October 7, 2026"
     };
 
     const faqItems = [
@@ -52,7 +52,7 @@
             "url": "https://mochify.app"
         },
         "datePublished": "2026-05-16",
-        "dateModified": "2026-10-02",
+        "dateModified": "2026-10-07",
         "url": "https://mochify.app/guides/svg-conversion-guide-vector-vs-raster",
         "isPartOf": {
             "@type": "CollectionPage",
@@ -297,7 +297,7 @@
                     <strong>WebP</strong> - safe default for WordPress and most modern web use.<br>
                     <strong>AVIF</strong> - best compression for modern-only sites and large illustrations.<br>
                     <strong>PNG</strong> - use when you need guaranteed transparency support in email or legacy platforms.<br>
-                    <strong>JPEG XL</strong> - powerful for controlled archives and developer pipelines; not ready as a public web default.
+                    <strong>JPEG XL</strong> - powerful for controlled archives and developer pipelines, and since Chrome 155 and Firefox 158 (October 2026) a valid first source on the web with an AVIF or WebP fallback.
                 </p>
             </div>
 
@@ -422,7 +422,7 @@
                         {#each [
                             ['WebP', '~96% (effectively universal)', '25–35% smaller', 'Full alpha', 'WordPress, WooCommerce, general web use'],
                             ['AVIF', '~95% (newer but solid)', 'Often better than WebP, esp. for detail', 'Full alpha', 'Modern-only sites, large hero illustrations'],
-                            ['JPEG XL', 'Limited/experimental', 'Excellent, esp. lossless', 'Full alpha', 'Controlled archives, developer pipelines'],
+                            ['JPEG XL', 'Chrome 155+, Firefox 158+, Safari (stills); Edge not yet', 'Excellent, esp. lossless', 'Full alpha', 'Controlled archives, developer pipelines'],
                             ['PNG', 'Universal', 'Larger files (lossless)', 'Full alpha', 'Email, legacy platforms, guaranteed compatibility'],
                         ] as [fmt, support, compression, transparency, bestFor], i}
                             <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
@@ -455,7 +455,7 @@
 
             <p class="mb-4"><strong>For aggressive compression on modern sites:</strong> AVIF is worth adding as a primary format with a WebP fallback. It delivers better compression than WebP at equivalent quality, particularly for complex illustrations. Encoding is slower, so it's better suited to a pre-processing workflow than on-demand conversion.</p>
 
-            <p class="mb-4"><strong>For JPEG XL:</strong> It's technically impressive - strong compression, lossless and near-lossless modes, full transparency - but browser support is still limited. Use it for internal asset archives and developer pipelines where you control the decoder, not as a primary web delivery format.</p>
+            <p class="mb-4"><strong>For JPEG XL:</strong> It's technically impressive - strong compression, lossless and near-lossless modes, full transparency - and Chrome 155, Firefox 158 and Safari now decode it. Use it for internal asset archives and developer pipelines, and on the web as the first source in a picture element with a WebP or AVIF fallback for Edge and older installs.</p>
 
             <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-5 my-6 text-base">
                 <strong>Convert your SVGs:</strong> <a href="https://mochify.app" class="text-[#D81B60] font-bold hover:underline">Mochify supports all three formats</a> - SVG to WebP, SVG to AVIF, and SVG to JPEG XL. Processed in memory, discarded after download. No account required on the free tier.

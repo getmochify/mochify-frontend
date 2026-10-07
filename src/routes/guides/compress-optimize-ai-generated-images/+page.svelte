@@ -11,7 +11,7 @@
         category: "AI & Automation",
         readTime: "15 min read",
         date: "July 2, 2026",
-        lastUpdated: "September 23, 2026"
+        lastUpdated: "October 7, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -69,7 +69,7 @@
         },
         {
             q: "Is AVIF or JPEG XL the better choice for archiving my source generations?",
-            a: "For an archive where browser support is irrelevant, JPEG XL can edge AVIF at high qualities. For anything you will deliver on the web, AVIF wins on support: JPEG XL has effectively no support outside Safari as of early 2026. Most teams keep a lossless PNG or original generation as the master and deliver AVIF."
+            a: "For an archive where browser support is irrelevant, JPEG XL can edge AVIF at high qualities. For anything you will deliver on the web, AVIF still wins on installed base: JPEG XL decodes in Chrome 155+, Firefox 158+ and Safari, but not yet in Edge, and not in browsers that have not updated since the October 2026 releases. Most teams keep a lossless PNG or original generation as the master and deliver AVIF."
         }
     ];
 
@@ -107,7 +107,7 @@
             "@id": "https://mochify.app/guides/compress-optimize-ai-generated-images"
         },
         "datePublished": "2026-07-02",
-        "dateModified": "2026-09-23",
+        "dateModified": "2026-10-07",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -165,7 +165,7 @@
         "description": "AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize step in an agent pipeline.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-02",
-        "dateModified": "2026-09-23"
+        "dateModified": "2026-10-07"
         }
     </script>
 
@@ -181,7 +181,7 @@
             { "@type": "Question", "name": "How do I automate image optimization in an AI pipeline?", "acceptedAnswer": { "@type": "Answer", "text": "Three established patterns: an agent tool call (generate, then call an optimization tool that returns a compressed path), a CI build step (a GitHub Action recompresses images on each pull request), or CDN/framework-level conversion at the edge. All three keep the compression deterministic and separate from generation. Pick the one that matches where your assets live." } },
             { "@type": "Question", "name": "Does Mochify's local MCP server keep my generated images private?", "acceptedAnswer": { "@type": "Answer", "text": "It is zero-retention, but be precise about what that means. Images travel to api.mochify.app over HTTPS, are processed in RAM, and are wiped immediately with no source disk writes and no logs containing file data. The local binary is a client over that API, not a local encoder, so the accurate claim is zero-retention rather than never leaves your machine. Because the local path uses no pickup store, compressed bytes return straight to your disk, end to end." } },
             { "@type": "Question", "name": "Can I optimize generated images and PDFs in the same agent workflow?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Mochify treats documents like web assets, so the CLI, both MCP surfaces, and the REST API handle PDFs alongside images via the POST /v1/pdf endpoint: extract pages as PNG/JPEG/WebP, or split a multi-page PDF into single pages, all Magic Flow-capable. Video is the exception: it is processed client-side in the web app only, so keep video out of CLI, MCP, and API workflows." } },
-            { "@type": "Question", "name": "Is AVIF or JPEG XL the better choice for archiving my source generations?", "acceptedAnswer": { "@type": "Answer", "text": "For an archive where browser support is irrelevant, JPEG XL can edge AVIF at high qualities. For anything you will deliver on the web, AVIF wins on support: JPEG XL has effectively no support outside Safari as of early 2026. Most teams keep a lossless PNG or original generation as the master and deliver AVIF." } }
+            { "@type": "Question", "name": "Is AVIF or JPEG XL the better choice for archiving my source generations?", "acceptedAnswer": { "@type": "Answer", "text": "For an archive where browser support is irrelevant, JPEG XL can edge AVIF at high qualities. For anything you will deliver on the web, AVIF still wins on installed base: JPEG XL decodes in Chrome 155+, Firefox 158+ and Safari, but not yet in Edge, and not in browsers that have not updated since the October 2026 releases. Most teams keep a lossless PNG or original generation as the master and deliver AVIF." } }
         ]
         }
     </script>
@@ -250,7 +250,7 @@
             <p>Three moves do almost all the work: pick a modern format, resize to the size you will actually display, and strip the metadata. Everything else is a refinement on top of these.</p>
             <h3 class="text-xl font-black text-[#4A2C2C] mt-7 mb-3">Format choice is the biggest lever</h3>
             <p>For generated imagery destined for the web, the priority order is AVIF, then WebP, with JPEG (via the jpegli encoder) and PNG as fallbacks. Google's WebP reference figures put <a href="https://developers.google.com/speed/webp" target="_blank" rel="noopener noreferrer">lossless WebP at 26% smaller than PNG and lossy WebP at 25-34% smaller than JPEG</a> at equivalent quality. AVIF, built on the AV1 codec, goes further: independent comparisons and <a href="https://web.dev/learn/images/avif" target="_blank" rel="noopener noreferrer">web.dev's AVIF documentation</a> describe roughly 50% reductions versus JPEG and 20-30% versus WebP at matched quality, with particular strength on the photographic detail and gradients common in diffusion output. A worked figure from a 2026 format comparison makes the magnitude tangible: a 2000x2000 image compressed from a 540 KB JPEG baseline to about 350 KB WebP (-35%) and 210 KB AVIF (-61%).</p>
-            <p>Browser support no longer holds you back. Per <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">Can I Use</a>, AVIF reached full support across Chrome, Edge, Firefox, Safari, and iOS Safari, covering well over 95% of global usage by 2025-2026, and WebP support is effectively universal. The safe delivery chain is AVIF with a WebP and then JPEG/PNG fallback, which <code class={inlineCode}>&lt;picture&gt;</code> elements and most image CDNs negotiate automatically. JPEG XL still has near-zero browser support outside Safari, so it stays an archival curiosity rather than a web delivery format for now.</p>
+            <p>Browser support no longer holds you back. Per <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">Can I Use</a>, AVIF reached full support across Chrome, Edge, Firefox, Safari, and iOS Safari, covering well over 95% of global usage by 2025-2026, and WebP support is effectively universal. The safe delivery chain is AVIF with a WebP and then JPEG/PNG fallback, which <code class={inlineCode}>&lt;picture&gt;</code> elements and most image CDNs negotiate automatically. JPEG XL joined the delivery set in October 2026, when Chrome 155 and Firefox 158 began decoding it by default; put it first in the picture element where it is smaller, and keep the AVIF and WebP fallbacks for Edge and older installs.</p>
             <h3 class="text-xl font-black text-[#4A2C2C] mt-7 mb-3">Resize to the display size</h3>
             <p>Generators hand you a high-resolution canvas so you have room to crop, but the final embed is usually much smaller: 1200x630 for a social card, 800x800 for a product shot, 1600px on the long edge for a retina-friendly hero. Serving the source dimensions everywhere is the most common avoidable waste in a generated-image pipeline. A single oversized hero can consume more bandwidth than every other resource on the page combined.</p>
             <h3 class="text-xl font-black text-[#4A2C2C] mt-7 mb-3">Strip the metadata</h3>

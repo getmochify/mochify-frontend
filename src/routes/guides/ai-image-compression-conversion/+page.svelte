@@ -13,6 +13,7 @@
         category: 'AI & Automation',
         readTime: '12 min read',
         date: 'June 30, 2026',
+        lastUpdated: 'October 7, 2026'
     };
 
     const toc = [
@@ -33,7 +34,7 @@
     const formatTable = [
         { goal: 'Default web photos', use: 'AVIF, WebP fallback, JPEG safety net', why: 'Smallest files with full browser coverage' },
         { goal: 'Logos, icons, UI, screenshots', use: 'SVG or lossless PNG/WebP', why: 'Pixel-perfect, no visible artifacts' },
-        { goal: 'Photography or Apple-only audience', use: 'JPEG XL (deliberately)', why: 'Excellent compression, but ~14% native browser support' },
+        { goal: 'Photography or Apple-only audience', use: 'JPEG XL (deliberately)', why: 'Excellent compression; Chrome 155+, Firefox 158+ and Safari decode it, Edge not yet' },
         { goal: 'Universal compatibility, minimal change', use: 'JPEG via jpegli', why: 'Familiar JPEG output, fewer wasted bytes' },
     ];
 
@@ -47,7 +48,7 @@
     const faqs = [
         {
             q: 'How should I choose between JPEG, WebP, AVIF, and JPEG XL for my website?',
-            a: 'For most sites in 2026, generate AVIF as the primary format, WebP as a widely supported fallback, and JPEG or PNG as a final safety net. AVIF usually gives the smallest files, WebP still beats JPEG and PNG comfortably, and JPEG XL, while technically strong, has limited browser support and is best kept for niche or photography use.',
+            a: 'For most sites in 2026, generate AVIF as the primary format, WebP as a widely supported fallback, and JPEG or PNG as a final safety net. AVIF usually gives the smallest files, WebP still beats JPEG and PNG comfortably, and JPEG XL, now decoded by Chrome 155, Firefox 158 and Safari, is worth adding as the first source for photography and lossless assets, with the AVIF and WebP fallbacks kept.',
         },
         {
             q: 'What quality setting should I use to compress images without losing quality?',
@@ -108,7 +109,7 @@
       "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
       "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app", "logo": { "@type": "ImageObject", "url": "https://mochify.app/logo.png" } },
       "datePublished": "2026-06-30",
-      "dateModified": "2026-06-30",
+      "dateModified": "2026-10-07",
       "inLanguage": "en",
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://mochify.app/guides/ai-image-compression-conversion" },
       "about": [
@@ -143,7 +144,7 @@
         {
           "@type": "Question",
           "name": "How should I choose between JPEG, WebP, AVIF, and JPEG XL for my website?",
-          "acceptedAnswer": {"@type": "Answer", "text": "For most sites in 2026, generate AVIF as the primary format, WebP as a widely supported fallback, and JPEG or PNG as a final safety net. AVIF usually gives the smallest files, WebP still beats JPEG and PNG comfortably, and JPEG XL, while technically strong, has limited browser support and is best kept for niche or photography use."}
+          "acceptedAnswer": {"@type": "Answer", "text": "For most sites in 2026, generate AVIF as the primary format, WebP as a widely supported fallback, and JPEG or PNG as a final safety net. AVIF usually gives the smallest files, WebP still beats JPEG and PNG comfortably, and JPEG XL, now decoded by Chrome 155, Firefox 158 and Safari, is worth adding as the first source for photography and lossless assets, with the AVIF and WebP fallbacks kept."}
         },
         {
           "@type": "Question",
@@ -193,7 +194,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 
@@ -252,7 +253,7 @@
             <SectionHeading>The 2026 format landscape, in plain terms</SectionHeading>
             <p class="mb-4">For most sites in 2026 the pragmatic answer is: serve AVIF first, fall back to WebP, and keep JPEG or PNG as a final safety net. That single rule captures almost all of the available savings while staying compatible with every browser in use.</p>
             <p class="mb-4">Here is why. WebP is effectively universal across evergreen browsers, and <a href="https://web.dev/articles/serve-images-webp" target="_blank" rel="noopener noreferrer">web.dev reports it typically cuts file size by 25–35% versus JPEG and PNG</a> at comparable quality. AVIF goes further again, usually shaving another meaningful chunk off WebP at the same visual quality, and <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">Can I Use shows AVIF now supported across current Chrome, Edge, Firefox, and Safari</a> and their mobile versions. That combination is why Google's own Lighthouse flags images that are not in a modern format: the savings are large and the support is there.</p>
-            <p class="mb-4">JPEG XL is the interesting outlier. It compresses superbly, but its browser support is split: <a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer">Can I Use shows it enabled by default in Safari 17 and later</a>, while Chrome and Edge keep it off by default and Firefox hides it behind a preference. Industry estimates put the share of browsers that can natively display JPEG XL at roughly 14 percent. That makes it excellent for archival, photography pipelines, and Apple-centric audiences, but not yet a safe default for general web delivery. The honest position is that JPEG XL is a "use it deliberately, not by default" format in 2026.</p>
+            <p class="mb-4">JPEG XL is the interesting outlier. It compresses superbly, and since October 2026 its browser support is no longer split: Chrome 155 (October 6) and Firefox 158 (October 13) decode it by default, Safari 17 and later decodes still images, and only Edge and not-yet-updated installs are left. <a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer">caniuse put the installed share at about 17% on October 7</a>, a figure that rises through the autumn. That makes it excellent for archival, photography pipelines and lossless work, and a sound first source in a picture element for general web delivery, with AVIF and WebP beneath it.</p>
             <p class="mb-0">The practical takeaway is that you do not need to memorise any of this. You need a tool that knows the current support picture and applies it for you, generating the modern format with the right fallback rather than making you choose. We keep a <a href="/comparison">live quality comparison tool</a> so you can see the formats side by side on your own images, and our <a href="/guides/2026-guide-next-gen-formats">next-gen formats guide</a> goes deeper on the trade-offs.</p>
         </section>
 

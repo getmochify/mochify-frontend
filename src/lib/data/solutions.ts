@@ -124,11 +124,11 @@ export const imageTools: SolutionTool[] = [
 	{
 		name: 'JPG to JXL',
 		slug: 'jpg-to-jpegxl',
-		desc: 'Re-encode JPEGs as JPEG XL, one high-quality path. Experimental because browser support for JXL is still uneven.',
+		desc: 'Re-encode JPEGs as JPEG XL, one high-quality path. Chrome 155, Firefox 158 and Safari decode JXL; serve it with a fallback.',
 		iconPaths: [
 			'M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z'
 		],
-		tag: 'Experimental',
+		tag: 'Needs fallback',
 		category: 'Web formats'
 	},
 	{
