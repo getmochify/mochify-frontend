@@ -379,11 +379,11 @@
                     </thead>
                     <tbody>
                         {#each [
-                            ['Safari 17+', 'Native, no flag required'],
-                            ['Chrome 145+ / Canary', 'Chrome 155+, Firefox 158+, Safari 17+ (stills); Edge not yet'],
-                            ['Firefox Nightly', 'Behind Firefox Labs toggle'],
-                            ['Firefox stable, Edge, most Android', 'Not supported'],
-                            ['Global coverage', '~14–15%'],
+                            ['Chrome 155+ (desktop and Android)', 'Yes, by default from October 6, 2026 (145 to 154: flag only)'],
+                            ['Firefox 158+', 'Yes, by default from October 13, 2026'],
+                            ['Safari 17+', 'Still images only; no animation, no progressive decode'],
+                            ['Edge, Samsung Internet, not-yet-updated installs', 'Not yet; keep an AVIF or WebP fallback'],
+                            ['Global coverage', '~17% on October 7, 2026, rising as Chrome 155 and Firefox 158 roll out'],
                         ] as row}
                             <tr class="even:bg-[#FFFAFC]">
                                 {#each row as cell}
