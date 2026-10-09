@@ -16,7 +16,7 @@
         category: "Workflows",
         readTime: "13 min read",
         date: "July 19, 2026",
-        lastUpdated: "September 12, 2026"
+        lastUpdated: "October 9, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -63,6 +63,10 @@
             a: "Because the search grid crops every first photo to a fixed portrait thumbnail (310x430 pixels when served). If your photo is landscape or the item sits off-center, the sides get cut. Shoot portrait with the item centered, or batch-crop to 3:4 portrait before uploading."
         },
         {
+            q: "Why are my Vinted photos blurry?",
+            a: "Because Vinted re-encodes uploads to WebP at about 800 pixels on the long side, so a photo that was already small, cropped hard, digitally zoomed or shot in low light loses what little detail it had. Upload a sharp original of 1,080 to 1,600 pixels on the long side, taken in daylight with the lens wiped and focus tapped; if your originals are oversized or mixed, batch-resize them to 1440 pixels tall first."
+        },
+        {
             q: "Do I need to remove metadata from Vinted photos?",
             a: "It is the safe habit. Phone photos can carry EXIF metadata including GPS coordinates of your home. Platforms usually strip metadata on re-encode, but the same photos often get shared in chats or reused elsewhere. Stripping EXIF yourself before upload, with an explicit instruction like \"strip all metadata\", removes the question entirely."
         }
@@ -104,7 +108,7 @@
             "@id": "https://mochify.app/guides/vinted-photos-that-sell"
         },
         "datePublished": "2026-07-19",
-        "dateModified": "2026-09-12",
+        "dateModified": "2026-10-09",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -161,7 +165,7 @@
         "description": "Vinted photo size and aspect ratio (portrait, about 3:4, 1080px or wider), the photo rules including stock photos, why Vinted crops, and photos that sell.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-19",
-        "dateModified": "2026-09-12"
+        "dateModified": "2026-10-09"
         }
     </script>
 
@@ -177,6 +181,7 @@
             { "@type": "Question", "name": "Should I show flaws in my Vinted photos?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, always. Vinted's rules state that if a defect is not shown in photos and mentioned in the description, the buyer can return the item as significantly not as described. An honest close-up of a flaw costs a little on price and saves you a cancelled sale, a return, and a negative review." } },
             { "@type": "Question", "name": "Do worn photos really sell items faster?", "acceptedAnswer": { "@type": "Answer", "text": "Worn photos help buyers judge fit, and many sellers report better results with them, but they are not required and there is no reliable public data proving a specific uplift. Vinted itself suggests flat lay, hangers, or a mannequin if you prefer not to appear in photos. A headless mirror shot is a solid middle ground." } },
             { "@type": "Question", "name": "Why is Vinted cropping my photos?", "acceptedAnswer": { "@type": "Answer", "text": "Because the search grid crops every first photo to a fixed portrait thumbnail (310x430 pixels when served). If your photo is landscape or the item sits off-center, the sides get cut. Shoot portrait with the item centered, or batch-crop to 3:4 portrait before uploading." } },
+            { "@type": "Question", "name": "Why are my Vinted photos blurry?", "acceptedAnswer": { "@type": "Answer", "text": "Because Vinted re-encodes uploads to WebP at about 800 pixels on the long side, so a photo that was already small, cropped hard, digitally zoomed or shot in low light loses what little detail it had. Upload a sharp original of 1,080 to 1,600 pixels on the long side, taken in daylight with the lens wiped and focus tapped; if your originals are oversized or mixed, batch-resize them to 1440 pixels tall first." } },
             { "@type": "Question", "name": "Do I need to remove metadata from Vinted photos?", "acceptedAnswer": { "@type": "Answer", "text": "It is the safe habit. Phone photos can carry EXIF metadata including GPS coordinates of your home. Platforms usually strip metadata on re-encode, but the same photos often get shared in chats or reused elsewhere. Stripping EXIF yourself before upload, with an explicit instruction like \"strip all metadata\", removes the question entirely." } }
         ]
         }
@@ -294,6 +299,11 @@
                 <li><strong class="text-[#4A2C2C]">Item pages preserve your ratio but downscale hard.</strong> Full listing photos are re-encoded to WebP and served at roughly 800 pixels on the long side. Uploading a 4000px export gains you nothing; a sharp 1080-1600px photo is already more than Vinted will ever show.</li>
             </ul>
             <p>The practical spec, based on how the pipeline behaves: <strong class="text-[#4A2C2C]">portrait, 3:4 ratio (the default on most phone cameras), around 1080x1440 pixels, item centered, saved as JPEG or PNG.</strong></p>
+
+            <h3>Why Vinted photos look blurry after upload</h3>
+            <p>Vinted re-encodes every photo you upload: listing images are served as WebP at roughly 800 pixels on the long side, and the search thumbnail at 310x430 (re-checked October 9, 2026). That pipeline cannot add detail, so anything soft going in comes out softer. The usual causes are a screenshot or a hard crop (a crop from a 12-megapixel frame can be well under 800 pixels wide), digital zoom, low light that pushed the phone into a slow shutter or heavy noise reduction, and a smudged lens.</p>
+            <p>Fix the source, not the upload: shoot in daylight, wipe the lens, tap to focus, step closer instead of zooming, and give Vinted an original of 1,080 to 1,600 pixels on the long side. If a batch is already shot at mixed sizes, resize the lot to 1440 pixels tall and export as JPEG before uploading; <a href="https://mochify.app/vinted-seller">the Vinted seller tool</a> does that in one prompt. Sellers also report listings being hidden for low-quality photos. Vinted publishes no such threshold, so a sharp, well-lit original is the safe side of whatever the filter is.</p>
+            <p><strong class="text-[#4A2C2C]">Profile picture.</strong> Vinted publishes no size for it either. The avatar is served as a 100x100 square and shown as a small circle (48 pixels wide in the web catalog, October 2026), so upload a square image with your face or logo centered. Anything from about 400 pixels up looks identical once shrunk, and the corners are lost to the circle.</p>
 
             <InfoBox type="note" title="iPhone sellers: convert HEIC first">
                 Your camera saves .HEIC files. The Vinted app handles them, but browsers and desktop editing tools often do not. If you organize or edit listing photos on a computer, convert them first with our <a href="/heic-to-jpeg">HEIC to JPEG converter</a> - and see <a href="/guides/heic-to-jpeg-or-webp-wordpress">Should I convert HEIC to JPEG or WebP for WordPress uploads?</a> if you also sell on your own site.

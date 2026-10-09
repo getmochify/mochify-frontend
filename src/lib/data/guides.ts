@@ -728,7 +728,7 @@ export const guides: Guide[] = [
 		category: 'Workflows',
 		readTime: '13 min read',
 		date: 'July 19, 2026',
-		lastUpdated: 'September 12, 2026'
+		lastUpdated: 'October 9, 2026'
 	},
 	{
 		title: 'Mochify vs TinyPNG: An Honest Comparison',
