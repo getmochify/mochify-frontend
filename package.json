@@ -51,7 +51,7 @@
     "@types/node": "^22.20.5",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-svelte": "^3.23.0",
+    "eslint-plugin-svelte": "^3.23.1",
     "globals": "^16.5.0",
     "patch-package": "^8.0.1",
     "prettier": "^3.9.9",
@@ -82,8 +82,8 @@
     "kysely-d1": "^0.4.0",
     "mediabunny": "^1.61.3",
     "pdfjs-dist": "^6.4.299",
-    "posthog-js": "^1.438.2",
-    "posthog-node": "^5.55.0",
+    "posthog-js": "^1.438.4",
+    "posthog-node": "^5.55.1",
     "resend": "^6.32.1"
   }
 }
