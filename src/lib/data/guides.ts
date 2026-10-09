@@ -360,12 +360,12 @@ export const guides: Guide[] = [
 	{
 		title: 'LLM Image Token Costs: How Many Tokens Does an Image Use?',
 		description:
-			'No single number: Claude uses width×height/750 (~1,334 tokens for 1 MP), OpenAI and Gemini use tiling. Pass file paths, not image bytes, to save context.',
+			'No single number: about 1,300 tokens per megapixel on Claude, 1,229 on GPT-5.5+, 1,032 on Gemini. Generating one costs 196 to 7,024 output tokens. Dated.',
 		url: '/guides/llm-image-token-costs',
 		category: 'AI & Automation',
 		readTime: '4 min read',
 		date: 'June 7, 2026',
-		lastUpdated: 'August 7, 2026'
+		lastUpdated: 'October 9, 2026'
 	},
 	{
 		title: 'What Is a HIF File? (And How to Open One)',
