@@ -12,7 +12,7 @@
         category: "AI & Automation",
         readTime: "12 min read",
         date: "June 16, 2026",
-        lastUpdated: "September 12, 2026"
+        lastUpdated: "October 12, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -80,7 +80,7 @@
         "description": "How to extract images from PDF, split multi-page files and convert pages to WebP in an AI agent pipeline. Mechanics, pitfalls and a privacy-first workflow.",
         "url": "https://mochify.app/guides/extract-images-from-pdf-agent-workflows",
         "datePublished": "2026-06-16",
-        "dateModified": "2026-09-12",
+        "dateModified": "2026-10-12",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -171,7 +171,7 @@
             <SectionHeading>The three core PDF operations</SectionHeading>
             <p>Most PDF work in an agent pipeline reduces to three operations: turning a page into an image, splitting a multi-page file into single pages, and converting those page images into a web-friendly format. Each is conceptually simple and each has a sharp edge that bites automated workflows specifically.</p>
             <p>The reason these three keep recurring is that a PDF is not an image and not a neat bag of text. It is a set of drawing instructions: text runs, vector paths, embedded bitmaps, fonts, and transparency, composited at render time. That single fact explains nearly every gotcha further down. "Get me page 3 as a PNG" is really "execute the page's drawing instructions at a chosen resolution and flatten the result to a raster," which is a different job from "pull the embedded photo out of page 3." Keep those two jobs distinct and most of the confusion disappears.</p>
-            <p>We'll take the operations in the order they usually appear in a pipeline: extract, split, convert.</p>
+            <p>We'll take the operations in the order they usually appear in a pipeline: extract, split, convert. The fourth operation, shrinking a PDF in place by recompressing only its images, has its own guide: <a href="/guides/compress-pdf-on-mac">how to compress a PDF without losing quality</a>, including the API call.</p>
         </section>
 
         <section id="how-to-extract-images-from-a-pdf">

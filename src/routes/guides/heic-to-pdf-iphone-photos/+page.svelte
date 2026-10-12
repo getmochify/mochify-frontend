@@ -12,7 +12,7 @@
         category: "Image Formats",
         readTime: "12 min read",
         datePublished: "June 29, 2026",
-        lastUpdated: "September 29, 2026"
+        lastUpdated: "October 12, 2026"
     };
 
     const related = [
@@ -63,7 +63,7 @@
         },
         {
             q: "Does converting HEIC to PDF reduce image quality?",
-            a: `The conversion itself doesn't add a compression artifact the way a JPEG re-encode would. PDF embeds the image data, and for most conversion paths the output quality matches what you'd see viewing the original HEIC. The exception is if you choose a very low-resolution layout option in a print dialog - the "4 images per page" layout on Windows, for example, will scale photos down to fit the page.`
+            a: `The conversion itself doesn't add a compression artifact the way a JPEG re-encode would. PDF embeds the image data, and for most conversion paths the output quality matches what you'd see viewing the original HEIC. The exception is if you choose a very low-resolution layout option in a print dialog - the "4 images per page" layout on Windows, for example, will scale photos down to fit the page. If the finished PDF is too large to send, see <a href="/guides/compress-pdf-on-mac">how to compress a PDF on Mac without losing quality</a>, which recompresses only the images and leaves the pages intact.`
         },
         {
             q: "Can I convert HEIC to PDF on Android?",
@@ -114,7 +114,7 @@
             "@id": "https://mochify.app/guides/heic-to-pdf-iphone-photos"
         },
         "datePublished": "2026-06-29",
-        "dateModified": "2026-09-29",
+        "dateModified": "2026-10-12",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -159,7 +159,7 @@
                 "name": "Does converting HEIC to PDF reduce image quality?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "The conversion itself does not add a compression artifact the way a JPEG re-encode would. PDF embeds the image data, and for most conversion paths the output quality matches what you would see viewing the original HEIC. The exception is if you choose a very low-resolution layout option in a print dialog - the '4 images per page' layout on Windows, for example, will scale photos down to fit the page."
+                    "text": "The conversion itself does not add a compression artifact the way a JPEG re-encode would. PDF embeds the image data, and for most conversion paths the output quality matches what you would see viewing the original HEIC. The exception is if you choose a very low-resolution layout option in a print dialog - the '4 images per page' layout on Windows, for example, will scale photos down to fit the page. If the finished PDF is too large to send, see how to compress a PDF on Mac without losing quality, which recompresses only the images and leaves the pages intact."
                 }
             },
             {
@@ -576,7 +576,7 @@
         </section>
 
         <!-- FAQ -->
-        <GuideFAQs items={faqs} />
+        <GuideFAQs items={faqs} html />
 
         <!-- CTA -->
         <GuideCTA

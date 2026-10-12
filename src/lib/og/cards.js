@@ -307,6 +307,11 @@ export const cards = [
 		title: 'Mochify vs TinyPNG - An Honest 2026 Comparison'
 	},
 	{
+		path: '/guides/compress-pdf-on-mac',
+		eyebrow: 'GUIDE',
+		title: 'How to Compress a PDF on Mac Without Losing Quality'
+	},
+	{
 		path: '/guides/jpeg-xl-chrome-support',
 		eyebrow: 'GUIDE',
 		title: 'JPEG XL Is in Chrome: What Changes for Your Images'

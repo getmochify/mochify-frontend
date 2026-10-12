@@ -16,7 +16,8 @@
 			"Compress an iPhone photo to 1MB in seconds in Safari, or use Preview's hidden Export slider on iOS 26+. Tested steps, real file sizes, what to avoid.",
 		category: 'Image Formats',
 		readTime: '21 min read',
-		date: 'September 25, 2026'
+		date: 'September 25, 2026',
+		lastUpdated: 'October 12, 2026'
 	};
 
 	const toc = [
@@ -166,7 +167,7 @@
 				"@id": "https://mochify.app/guides/reduce-photo-file-size-iphone"
 			},
 			"datePublished": "2026-09-25",
-			"dateModified": "2026-09-25",
+			"dateModified": "2026-10-12",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -216,7 +217,7 @@
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
-			{metadata.readTime} · {metadata.date} · Mochify Engineering Team
+			{metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
@@ -487,7 +488,10 @@
 				both: <strong>Export</strong> re-saves an image as HEIC or JPEG with a Size slider and a
 				live file-size estimate, and <strong>Adjust Size</strong> changes the pixel dimensions. Most of
 				the pages ranking for this question were written before it existed, and the few that mention it
-				leave out the estimate, which is the part that makes it useful.
+				leave out the estimate, which is the part that makes it useful. On iOS 27 the same export sheet
+				can also shrink a PDF; the steps are in
+				<a href="/guides/compress-pdf-on-mac">how to compress a PDF on Mac</a>, which covers the iPhone
+				route as well.
 			</p>
 			<p class="mb-4">
 				We tested every step below on an iPhone running iOS 26.7, then again after updating to iOS

@@ -23,7 +23,8 @@ export const guides: Guide[] = [
 		url: '/guides/reduce-photo-file-size-iphone',
 		category: 'Image Formats',
 		readTime: '21 min read',
-		date: 'September 25, 2026'
+		date: 'September 25, 2026',
+		lastUpdated: 'October 12, 2026'
 	},
 	{
 		title: 'Save Image as Type Is Gone: How to Replace It Safely',
@@ -276,7 +277,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '12 min read',
 		date: 'June 29, 2026',
-		lastUpdated: 'September 26, 2026'
+		lastUpdated: 'October 12, 2026'
 	},
 	{
 		title: 'Convert MP4 to WebM for the Web: Smaller Files, Faster Pages, No Upload Required',
@@ -355,7 +356,7 @@ export const guides: Guide[] = [
 		category: 'AI & Automation',
 		readTime: '12 min read',
 		date: 'June 16, 2026',
-		lastUpdated: 'September 12, 2026'
+		lastUpdated: 'October 12, 2026'
 	},
 	{
 		title: 'LLM Image Token Costs: How Many Tokens Does an Image Use?',
@@ -641,6 +642,15 @@ export const guides: Guide[] = [
 		category: 'Workflows',
 		readTime: '12 min read',
 		date: 'April 23, 2026'
+	},
+	{
+		title: 'How to Compress a PDF on Mac Without Losing Quality',
+		description:
+			"What Preview's Reduce File Size really does (JPEG 0.7, 144 dpi on macOS 27), a custom filter for print, the iOS 27 route, and a one-prompt alternative.",
+		url: '/guides/compress-pdf-on-mac',
+		category: 'Workflows',
+		readTime: '20 min read',
+		date: 'October 12, 2026'
 	},
 	{
 		title: 'JPEG XL Is in Chrome: What Changes for Your Images, and What Does Not Yet',
