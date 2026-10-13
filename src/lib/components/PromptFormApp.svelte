@@ -205,6 +205,17 @@
 	let typedMessage: string = $state('');
 	let agentOutcome: 'success' | 'error' | null = $state(null);
 	let agentOutcomeText: string = $state('');
+	// The parts of the prompt the service cannot do, as the worker reported them
+	// (`unsupported`). The rest of the prompt still runs; these are shown so the
+	// user knows what was skipped instead of silently getting less.
+	let skippedRequests: string[] = $state([]);
+	// The worker flagged the plan as a noop: nothing in it differs from a plain
+	// re-encode, which the prompt did not ask for. The run stops before any file
+	// is completed (so nothing is charged) and offers that re-encode instead.
+	let noopOffered = $state(false);
+	// One-shot: the next submit runs the plan even if the worker flags a noop.
+	// Set only by runDefaultPlan, consumed at the top of submit().
+	let acceptDefaultPlan = false;
 	$effect(() => {
 		const msg = agentMessage;
 		typedMessage = '';
@@ -1104,8 +1115,21 @@
 		return new Error(t.errorParse);
 	}
 
+	// "Compress anyway" on a noop: re-submit the same prompt and take the plan
+	// as given. The parse is answered from the AI Gateway cache and a noop costs
+	// no NLP quota, so the only extra work is re-staging the files.
+	function runDefaultPlan() {
+		if (isProcessing) return;
+		acceptDefaultPlan = true;
+		noopOffered = false;
+		posthog.capture('magic_flow_noop_accepted', { files: files.length });
+		submit();
+	}
+
 	async function submit() {
 		if (!prompt.trim() || isProcessing) return;
+		const runDefault = acceptDefaultPlan;
+		acceptDefaultPlan = false;
 
 		// A prompt with no files attached can only mean one thing — generate a new
 		// image from scratch. Route it to the text-to-image "create" flow.
@@ -1217,6 +1241,8 @@
 		agentMessage = '';
 		agentOutcome = null;
 		agentOutcomeText = '';
+		skippedRequests = [];
+		noopOffered = false;
 		failedFiles = [];
 		clearGenerated();
 
@@ -1435,6 +1461,8 @@
 
 			const parsedData = (await nlpResponse.json()) as {
 				agent_message?: string;
+				unsupported?: string[];
+				noop?: boolean;
 				files?: {
 					name: string;
 					outputFormat?: string;
@@ -1452,6 +1480,34 @@
 				};
 			};
 			agentMessage = parsedData.agent_message || '';
+
+			// Read here, ahead of the mode branches, so image, PDF and video all
+			// get it: the PDF branch returns before the image path's shared setup.
+			skippedRequests = Array.isArray(parsedData.unsupported)
+				? parsedData.unsupported.filter((s) => typeof s === 'string')
+				: [];
+			if (skippedRequests.length) {
+				posthog.capture('magic_flow_unsupported', {
+					mode: nlpBody.mode ?? 'image',
+					count: skippedRequests.length
+				});
+			}
+
+			// Nothing to do. Stop before any upload is completed: the speculative
+			// stage is abandoned in `finally`, and tokens are only charged at
+			// complete, so the user pays nothing for a prompt we did not understand.
+			if (parsedData.noop && !runDefault) {
+				if (!agentMessage) agentMessage = "I couldn't find anything to change in that.";
+				agentOutcome = 'error';
+				agentOutcomeText =
+					'Nothing was processed and nothing was charged. Try something like "webp at 1200px", or just compress the files as they are.';
+				noopOffered = true;
+				posthog.capture('magic_flow_noop', {
+					files: files.length,
+					unsupported: skippedRequests.length
+				});
+				return;
+			}
 
 			// ── Images → PDF mode (multipart create) ──────────────────────────────
 			if (imagesToPdf) {
@@ -3734,6 +3790,20 @@
 						>
 							{agentOutcomeText}
 						</p>
+					{/if}
+					{#if skippedRequests.length > 0}
+						<p class="animate-fade-in mt-1 text-xs font-bold text-amber-700">
+							Skipped, not supported yet: {skippedRequests.join(', ')}
+						</p>
+					{/if}
+					{#if noopOffered && !isProcessing}
+						<button
+							type="button"
+							onclick={runDefaultPlan}
+							class="animate-fade-in mt-2 inline-flex items-center gap-1.5 rounded-xl border border-pink-100 bg-white px-3 py-1.5 text-xs font-bold text-[#F06292] transition-all hover:bg-pink-50"
+						>
+							Compress anyway
+						</button>
 					{/if}
 				</div>
 			</div>
