@@ -202,9 +202,12 @@
 		font-weight: 500;
 	}
 
+	/* inline-block keeps short snippets on one line; anything wider than the
+	   column wraps inside itself instead of pushing the page sideways */
 	:global(article :not(pre) > code) {
 		display: inline-block;
-		white-space: nowrap;
+		max-width: 100%;
+		overflow-wrap: anywhere;
 	}
 
 	:global(article pre) {

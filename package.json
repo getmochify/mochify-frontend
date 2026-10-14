@@ -83,7 +83,7 @@
     "mediabunny": "^1.61.4",
     "pdfjs-dist": "^6.4.299",
     "posthog-js": "^1.438.9",
-    "posthog-node": "^5.55.3",
-    "resend": "^6.32.1"
+    "posthog-node": "^5.56.1",
+    "resend": "^6.33.0"
   }
 }
