@@ -72,6 +72,11 @@ export interface ChunkedUploadParams {
 	// the backend 400s the whole request for jpg/avif — so senders must gate
 	// it on the resolved output format, not just on a user preference.
 	lossless?: string;
+	// "1" asks for a LOSSY png: a dithered palette of up to 256 colours (fewer
+	// with an explicit quality). Applies to png outputs only — the backend 400s
+	// a request with no png output, and one combined with lossless — so senders
+	// must gate it on the resolved formats, exactly like lossless.
+	quantize?: string;
 	// Ceiling on the OUTPUT size in bytes, as a decimal string. Core cannot
 	// predict an encoded size, so it measures: 1-3 encodes, searching down from
 	// whatever quality was asked for. It is an upper bound, never a size to pad

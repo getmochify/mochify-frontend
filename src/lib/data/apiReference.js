@@ -206,6 +206,13 @@ export const squishParams = [
 		more: 'Only <code>jxl</code>, <code>webp</code> and <code>png</code> can honor it: <code>jpg</code> and <code>avif</code> are rejected with a <code>400</code> rather than silently encoded lossy. A source that is <em>already</em> lossy (JPEG, AVIF, HEIC) is re-encoded at the highest lossy setting instead, since nothing can restore what that file already discarded. Expect the output to be <strong>larger</strong> than the input: lossless preserves pixels, not file size. Check <code>X-Mochify-Lossless</code> for what was actually emitted.'
 	},
 	{
+		name: 'quantize',
+		default: 'false',
+		description:
+			'Lossy PNG. Accepts <code>1</code> or <code>true</code>. Reduces the image to a dithered palette of up to 256 colours and emits an indexed PNG, typically 4–5× smaller than the lossless encode.',
+		more: 'Without it a <code>png</code> is always pixel-exact, and <code>quality</code> alone never makes it lossy. With it, <code>quality</code> picks the palette size: omitted means the full 256 colours; <code>80</code> ≈ 108, <code>65</code> ≈ 56, <code>20</code> = 8. Applies to <code>png</code> outputs only: a request with no <code>png</code> output is a <code>400</code>, and in a multi-variant request only the <code>png</code> entries are quantized. Cannot be combined with <code>lossless</code> (a <code>400</code>). Alpha is preserved. Check <code>X-Mochify-Quantize</code> for what was actually emitted.'
+	},
+	{
 		name: 'targetBytes',
 		description:
 			'Ceiling on the output file size, in bytes. An <strong>upper bound</strong>, never a size to pad up to: if the requested quality already fits, that encode is returned untouched.',
@@ -216,7 +223,7 @@ export const squishParams = [
 		default: 'both',
 		description:
 			'Which knob <code>targetBytes</code> may turn: <code>quality</code> (re-encode lower, never resize), <code>dimensions</code> (downscale, never change quality), or <code>both</code> (quality first, then downscale).',
-		more: 'Requires <code>targetBytes</code>. <code>quality</code> is a <code>400</code> for <code>png</code> output, which has no quality control at all; use <code>dimensions</code> or <code>both</code>, where scaling is the only lever anyway. The <code>dimensions</code> lever is also withheld when an HDR gain map is being carried (<code>hdr=1</code> on an Ultra HDR source), because resizing the base would invalidate the map: quality alone is used, and the target may report <code>floor</code>. When the lever moves, <code>X-Mochify-Target-Scale</code> reports how far.'
+		more: 'Requires <code>targetBytes</code>. For <code>png</code> the quality lever is palette quantization: the pixel-exact encode is tried first, and the file is quantized only if that misses the ceiling (see <code>quantize</code>); <code>dimensions</code> keeps a <code>png</code> pixel-exact. The <code>dimensions</code> lever is also withheld when an HDR gain map is being carried (<code>hdr=1</code> on an Ultra HDR source), because resizing the base would invalidate the map: quality alone is used, and the target may report <code>floor</code>. When the lever moves, <code>X-Mochify-Target-Scale</code> reports how far.'
 	}
 ];
 
@@ -288,6 +295,11 @@ export const squishResponse = [
 		name: 'X-Mochify-Lossless',
 		description:
 			'Only present when <code>lossless</code> was requested. <code>true</code> means the returned bytes reproduce the submitted pixels exactly; <code>downgraded</code> means they are the best lossy encode instead, because the source was already lossy or because HDR reconstruction replaced the submitted pixels.'
+	},
+	{
+		name: 'X-Mochify-Quantize',
+		description:
+			'Present for a <code>png</code> output when <code>quantize</code> or <code>targetBytes</code> was requested. <code>true</code> means the returned PNG is a reduced palette (lossy); <code>false</code> means it is pixel-exact. With only <code>targetBytes</code>, <code>false</code> means the lossless encode already fit. For a multi-variant ZIP, <code>true</code> if any <code>png</code> entry was quantized.'
 	}
 ];
 

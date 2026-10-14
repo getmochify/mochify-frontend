@@ -2625,6 +2625,14 @@
 							sharedParams.append('targetLever', String(fileConfig.targetLever));
 					}
 
+					// Lossy png (palette quantization). NOT in sharedParams: core 400s
+					// quantize on a request with no png output — after charging — and
+					// the per-variant loop below sends one format per request, so it
+					// is added per request, only where png is among that request's
+					// formats. The worker has already cleared it unless png was asked
+					// for and lossless was not.
+					const wantsQuantize = fileConfig.quantize === true;
+
 					// Output filename for one variant — shared by the single-variant
 					// loop and the multi-variant ZIP-entry mapping below.
 					const variantFinalName = (fmt: string, size: SizeEntry): string => {
@@ -2684,6 +2692,8 @@
 						};
 						const params = new URLSearchParams(sharedParams.toString());
 						params.append('types', formats.join(','));
+						// Core applies it to the png entries of the ZIP only.
+						if (wantsQuantize && formats.includes('png')) params.append('quantize', '1');
 						// Requested sizes go verbatim (no origDims echo-skip): core never
 						// upscales, so an echoed original size is a harmless no-op, and
 						// verbatim keys keep the ZIP-entry mapping deterministic.
@@ -2795,6 +2805,7 @@
 
 							const params = new URLSearchParams(sharedParams.toString());
 							params.append('type', fmt);
+							if (wantsQuantize && fmt === 'png') params.append('quantize', '1');
 							// Forward dimensions, skipping if unchanged from original (unless smartCrop active)
 							if (size.width && (size.width !== origDims[fileIdx]?.w || fileConfig.smartCrop))
 								params.append('width', String(size.width));

@@ -134,8 +134,9 @@ Query parameters:
 - brightness (-100 to +100, default: 0) -- adjust exposure; 0 = no change
 - clarity (default: false) -- midtone contrast enhancement; makes images look crisper and more detailed without affecting overall exposure
 - lossless (default: false) -- pixel-exact output; overrides quality and disables smartCompress softening. Only jxl, webp and png can honour it; jpg and avif are rejected with a 400 rather than silently encoded lossy. A source that is ALREADY lossy (JPEG, AVIF, HEIC) is re-encoded at the highest lossy setting instead, because nothing can restore what that file already discarded. Expect the output to be LARGER than the input -- lossless preserves pixels, not file size. See X-Mochify-Lossless for what was actually emitted
+- quantize (default: false) -- lossy PNG: reduces the image to a dithered palette of up to 256 colours and emits an indexed PNG, typically 4-5x smaller than the lossless encode. Without it a png is always pixel-exact, and quality alone never makes it lossy. With it, quality picks the palette size (omitted = 256 colours; 80 is about 108, 65 about 56, 20 = 8). png outputs only: a request with no png output is a 400, and in a multi-variant request only the png entries are quantized. Cannot be combined with lossless (400). Alpha is preserved. See X-Mochify-Quantize for what was actually emitted
 - targetBytes -- ceiling on the OUTPUT file size, in bytes. An upper bound, never a size to pad up to: if the requested (or default) quality already fits, that encode is returned and the quality is left alone. No encoder can predict a compressed size without encoding, and no quality value maps to one -- bytes at a fixed quality are a property of the PIXELS, spanning roughly 3x (JPEG) to 10x (AVIF) between a flat graphic and a detailed photo at the same dimensions -- so the backend measures instead, typically 1-3 encodes. Minimum 1024. Cannot be combined with lossless (400). Applies PER OUTPUT: a multi-variant request means each variant fits, not that they sum to it. See X-Mochify-Target for whether the ceiling was reached
-- targetLever (default: both) -- which knob targetBytes may turn: `quality` (re-encode lower, never resize), `dimensions` (downscale, never change quality), `both`. Requires targetBytes. `quality` is a 400 for png output, which has no quality control at all. The `dimensions` lever is withheld when an HDR gain map is being carried, since resizing the base would invalidate the map
+- targetLever (default: both) -- which knob targetBytes may turn: `quality` (re-encode lower, never resize), `dimensions` (downscale, never change quality), `both`. Requires targetBytes. For png the quality lever is palette quantization: the pixel-exact encode is tried first and the file is quantized only if that misses the ceiling; `dimensions` keeps a png pixel-exact. The `dimensions` lever is withheld when an HDR gain map is being carried, since resizing the base would invalidate the map
 - hdr (default: false) -- Ultra HDR / ISO 21496-1 gain map handling. Three values, and they are not interchangeable: `true` or `1` preserves a gain map the source already has and will never invent one; `generate` does that AND synthesises a gain map when the source is plain SDR. Requires JPEG output for synthesis; see section 11
 - dest (default: unset) -- set to `bucket` to write the result into the caller's connected bucket instead of returning image bytes; requires a verified connection on a paid plan (see section 10)
 - name -- object key to write when dest=bucket; required, because writes overwrite and the backend will not guess a filename
@@ -154,6 +155,7 @@ Response headers:
 - X-Mochify-Target -- only present when targetBytes was set. `hit` (the returned bytes are at or under the ceiling) or `floor` (the levers ran out first; this is the smallest output that could honestly be produced). A `floor` response is a 200 carrying a real, usable image -- it is otherwise indistinguishable from success, so check it. For a multi-variant ZIP, `hit` means every entry fits
 - X-Mochify-Target-Encodes -- how many encodes the size search spent, including the first one the pipeline would have run anyway
 - X-Mochify-Target-Scale -- extra downscale the dimensions lever applied, relative to the requested geometry (e.g. 0.710). Omitted when the lever did not move
+- X-Mochify-Quantize -- present for a png output when quantize or targetBytes was requested. `true` (the returned PNG is a reduced palette, i.e. lossy), `false` (pixel-exact; with only targetBytes, the lossless encode already fit). For a multi-variant ZIP, `true` if any png entry was quantized
 - X-Mochify-Lossless -- only present when lossless was requested. `true` (the returned bytes reproduce the submitted pixels exactly), `downgraded` (they are the best lossy encode instead, because the source was already lossy or because HDR reconstruction replaced the submitted pixels)
 
 GET /v1/checkTokens -- returns { remaining, available }; works anonymously (IP-based) or with API key
@@ -295,6 +297,30 @@ Three things an assistant should get right about it:
   means anything. (The compression that would genuinely help there -- a
   reversible JPEG-to-JXL transcode -- is not something Mochify offers today;
   do not claim it does.)
+
+### Compressing a PNG
+A PNG is lossless, so a plain re-encode can only shave a little off it (Mochify
+re-optimises every PNG it writes, losslessly). Asking to COMPRESS a png turns on
+palette quantization: up to 256 colours, dithered, typically 4-5x smaller. That
+is lossy, so it only happens when the request asks for a smaller file.
+
+Examples:
+  "compress this png"
+  "reduce the file size of this png"
+  "resize to 800px and compress"
+
+Three things an assistant should get right about it:
+
+- Resizing a png, converting to png, or "optimise" alone keeps it pixel-exact.
+  Only compression language ("compress", "smaller file", "reduce the file size",
+  "lossy png") makes it lossy.
+- A named size ("get this png under 500kb") is a file size target, not a
+  compression request. The backend tries the pixel-exact png first and only
+  reduces the palette if that does not fit.
+- Quantization flattens smooth gradients into visible steps on some photos. For
+  photographic content, converting to WebP, AVIF or JPEG XL is usually smaller
+  AND better looking than a quantized PNG -- suggest it when the user has not
+  said they need a PNG.
 
 ### Smart compress
 Keeps the subject exactly as sharp and shrinks the file by lightly softening the background. It never changes quality -- a quality phrase still applies, to the subject -- so "smart compress at high quality" is a real combination. Only set by asking for it; quality words, platform recipes and "product"/"listing" alone do not turn it on, because the softer background is visible.
