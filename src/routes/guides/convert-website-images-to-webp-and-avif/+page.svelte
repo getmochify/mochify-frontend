@@ -108,6 +108,48 @@
 		}
 	];
 
+	// Figures from the quality section's own October 14, 2026 run; the chart
+	// restates them, it does not add any.
+	const sizeRuns = [
+		{
+			name: 'Photograph',
+			detail: '512 × 512',
+			sourceType: 'JPEG q85',
+			source: 53962,
+			webp: 22398,
+			avif: 22267
+		},
+		{
+			name: 'Photograph',
+			detail: '600 × 400',
+			sourceType: 'JPEG',
+			source: 56809,
+			webp: 25988,
+			avif: 26915
+		},
+		{
+			name: 'UI screenshot',
+			detail: '1440 × 900',
+			sourceType: 'PNG',
+			source: 70348,
+			webp: 45430,
+			avif: 29956
+		}
+	];
+
+	// Validated with the dataviz palette checks (CVD, chroma, contrast on white).
+	/** @type {{ key: 'source' | 'webp' | 'avif', label: string, color: string }[]} */
+	const sizeSeries = [
+		{ key: 'source', label: 'Original (JPEG or PNG)', color: '#C08A2E' },
+		{ key: 'webp', label: 'WebP', color: '#3F7FD6' },
+		{ key: 'avif', label: 'AVIF', color: '#D81B60' }
+	];
+
+	const sizeMax = Math.max(...sizeRuns.map((r) => r.source));
+
+	/** @param {number} n */
+	const fmt = (n) => n.toLocaleString('en-US');
+
 	const related = [
 		{
 			title:
@@ -430,6 +472,27 @@
 				has one way of failing, and if your framework or CDN already does it for you, you can skip
 				this guide's scripts and only check that the output is right.
 			</p>
+			<figure class="mb-6">
+				<picture>
+					<source
+						srcset="/guides/convert-website-images-to-webp-and-avif/three-places.avif"
+						type="image/avif"
+					/>
+					<source
+						srcset="/guides/convert-website-images-to-webp-and-avif/three-places.webp"
+						type="image/webp"
+					/>
+					<img
+						src="/guides/convert-website-images-to-webp-and-avif/three-places.jpg"
+						alt="Diagram of the path from a JPEG source file to the browser, with three places conversion can happen. A build step converts when the site is built, and fails when the install on the build machine breaks and the step gets commented out. An upload hook converts at upload time, and belongs to the platform, so it travels badly between hosts. A CDN converts on every request at the edge, and costs money, while the markup still says .jpg, so leaving the CDN loses the formats. Next.js, Astro and Eleventy already do it for the files they handle."
+						width="1600"
+						height="800"
+						loading="lazy"
+						decoding="async"
+						class="h-auto w-full rounded-2xl border border-pink-100"
+					/>
+				</picture>
+			</figure>
 			<p class="mb-4">
 				<strong>A build step.</strong> Images are converted when the site is built or deployed. This is
 				the right place for a static site and for most hand-authored HTML, because the converted files
@@ -645,8 +708,8 @@
 							resizes on the way; <code>-q 70</code> fixes the quality instead of leaving it on
 							automatic; <code>--lossless</code> is for WebP, PNG and JPEG XL output only; and
 							<code>-p "convert to avif, 1200px wide"</code>
-							is the Magic Flow form if you would rather describe it. The CLI works four files at a
-							time by default (<code>-j</code> changes that). The complete list is in the
+							is the Magic Flow form if you would rather describe it. The CLI works four files at a time
+							by default (<code>-j</code> changes that). The complete list is in the
 							<a
 								href="https://github.com/getmochify/mochify-cli"
 								target="_blank"
@@ -697,14 +760,14 @@
 			</GlassPanel>
 			<p class="mt-6 mb-4 text-base leading-relaxed text-[#875F42]">
 				<strong>Privacy, for this workflow.</strong> Images travel to <code>api.mochify.app</code>
-				over HTTPS, are streamed into the encoder in memory, and are wiped the moment the encode
-				finishes: no disk writes, no logs containing file data, never used to train AI. That is the
-				same on the web app, the CLI, the extension and the API; the CLI writes the result to your
-				disk and nothing stays on the server. (The hosted MCP server, used by AI agents, is the one
-				surface that keeps the compressed output for up to five minutes behind a short-lived URL so
-				the agent can fetch it, and the <a href="#keep-converted">agent section below</a> says when that
-				matters. Video is Mochify's one format that is processed in your browser and never leaves your
-				device; images are not, and we do not claim otherwise.)
+				over HTTPS, are streamed into the encoder in memory, and are wiped the moment the encode finishes:
+				no disk writes, no logs containing file data, never used to train AI. That is the same on the
+				web app, the CLI, the extension and the API; the CLI writes the result to your disk and nothing
+				stays on the server. (The hosted MCP server, used by AI agents, is the one surface that keeps
+				the compressed output for up to five minutes behind a short-lived URL so the agent can fetch it,
+				and the <a href="#keep-converted">agent section below</a> says when that matters. Video is Mochify's
+				one format that is processed in your browser and never leaves your device; images are not, and
+				we do not claim otherwise.)
 			</p>
 		</section>
 		<section id="keep-converted" class="scroll-mt-24">
@@ -756,6 +819,27 @@
 				the source", so an edited JPEG is reconverted automatically. The second form is the one to
 				use in a build.
 			</p>
+			<figure class="mb-6">
+				<picture>
+					<source
+						srcset="/guides/convert-website-images-to-webp-and-avif/convert-new.avif"
+						type="image/avif"
+					/>
+					<source
+						srcset="/guides/convert-website-images-to-webp-and-avif/convert-new.webp"
+						type="image/webp"
+					/>
+					<img
+						src="/guides/convert-website-images-to-webp-and-avif/convert-new.jpg"
+						alt="Diagram of convert-new.sh on Monday: in a folder tree, the 400 existing sources already have their .avif and .webp twins and are skipped, while atrium.jpg, Reception.JPG and floor-plan.png in images/2026 have no .avif and are sent, so 6 files are sent and charged across both passes. On Wednesday atrium.jpg is re-edited with the same name: the -f test sees the old atrium.avif and skips it, while the -nt test sees the twin is older than the source and reconverts it. On Tuesday, with nothing new, nothing is sent."
+						width="1600"
+						height="800"
+						loading="lazy"
+						decoding="async"
+						class="h-auto w-full rounded-2xl border border-pink-100"
+					/>
+				</picture>
+			</figure>
 			<p class="mb-4">
 				<strong>Where to run it.</strong> On your own machine, run it before you deploy, or put it
 				in the script that deploys. In a build or on a server, it runs the same way; the one
@@ -784,8 +868,8 @@
 				<a href="https://mochify.app/guides/image-compression-claude-code-cli-mcp"
 					>Claude Code guide</a
 				>
-				covers setting the local server up inside Claude Code specifically. If the images are
-				themselves generated by an AI tool, the
+				covers setting the local server up inside Claude Code specifically. If the images are themselves
+				generated by an AI tool, the
 				<a href="https://mochify.app/guides/compress-optimize-ai-generated-images"
 					>AI-generated images guide</a
 				> covers what those inputs need before this script sees them.
@@ -848,10 +932,11 @@
 				<code>.jpg</code>, a CDN that negotiates formats converts each request to the best format
 				the browser lists in its <code>Accept</code> header, as the
 				<a href="#three-places">three places section</a>
-				describes. Polish on Cloudflare covers WebP only and is not on the free plan; Cloudflare
-				Images <code>format=auto</code> and Fastly's <code>auto=avif</code> cover AVIF. It works, it
-				costs money, and nothing changes in your repository, which is also its weakness: leave the
-				CDN and the modern formats leave with you. Sites that have the files in the folder and the
+				describes. Polish on Cloudflare covers WebP only and is not on the free plan; Cloudflare Images
+				<code>format=auto</code>
+				and Fastly's <code>auto=avif</code> cover AVIF. It works, it costs money, and nothing
+				changes in your repository, which is also its weakness: leave the CDN and the modern formats
+				leave with you. Sites that have the files in the folder and the
 				<code>&lt;picture&gt;</code> in the page are portable.
 			</p>
 			<p class="mb-4">
@@ -883,10 +968,10 @@
 				2.7.1, tested up to 7.1, 100,000+ installs), generates AVIF "if supported on the hosting
 				server, otherwise WebP", keeps the original, and converts "only for new uploads"; existing
 				images are converted only if you regenerate them, and its <code>&lt;picture&gt;</code>
-				output is a setting in the plugin, not something core emits. Third-party converter plugins
-				add bulk conversion of the existing library, and some serve the converted files through
-				web-server rewrite rules; that rewrite layer is the part that moves separately from the
-				site, so check it after any host change. Our guide to
+				output is a setting in the plugin, not something core emits. Third-party converter plugins add
+				bulk conversion of the existing library, and some serve the converted files through web-server
+				rewrite rules; that rewrite layer is the part that moves separately from the site, so check it
+				after any host change. Our guide to
 				<a href="https://mochify.app/guides/next-gen-image-formats-wordpress"
 					>fixing the modern-formats warning in WordPress without plugins</a
 				>
@@ -912,6 +997,76 @@
 				actually shows saves more than either format change, which is why "convert to avif, 1600px
 				wide" is the prompt we would type first.
 			</p>
+			<figure class="size-chart mb-6" aria-labelledby="size-chart-title">
+				<figcaption id="size-chart-title" class="size-chart-title">
+					File size after conversion, in bytes
+				</figcaption>
+				<ul class="size-legend" aria-hidden="true">
+					{#each sizeSeries as series (series.key)}
+						<li><span class="swatch" style:background={series.color}></span>{series.label}</li>
+					{/each}
+				</ul>
+				<div class="size-groups">
+					{#each sizeRuns as run (run.detail)}
+						<div class="size-group">
+							<p class="size-name">{run.name} <span>{run.detail}</span></p>
+							{#each sizeSeries as series (series.key)}
+								{@const bytes = run[series.key]}
+								{@const pct = Math.round((1 - bytes / run.source) * 100)}
+								<div class="size-row">
+									<span class="size-label"
+										>{series.key === 'source' ? run.sourceType : series.label}</span
+									>
+									<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+									<div
+										class="size-track"
+										tabindex="0"
+										role="img"
+										aria-label="{run.name} {run.detail}, {series.key === 'source'
+											? run.sourceType
+											: series.label}: {fmt(bytes)} bytes{series.key === 'source'
+											? ''
+											: `, ${pct}% smaller`}"
+									>
+										<span
+											class="size-bar"
+											style:width="calc((100% - 4.5rem) * {bytes / sizeMax})"
+											style:background={series.color}
+										></span>
+										<span class="size-value"
+											>{fmt(bytes)}{#if series.key !== 'source'}<em>{pct}% smaller</em>{/if}</span
+										>
+										<span class="size-tip" aria-hidden="true"
+											>{fmt(bytes)} bytes{series.key === 'source'
+												? ` (${run.sourceType})`
+												: `, ${pct}% smaller than the ${run.sourceType}`}</span
+										>
+									</div>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
+				<p class="size-note">
+					Our run, October 14, 2026: through the API, quality on automatic, nothing resized.
+				</p>
+				<details class="size-table">
+					<summary>Show as a table</summary>
+					<GuideTable class="my-4">
+						<table>
+							<thead><tr><th>Image</th><th>Source</th><th>WebP</th><th>AVIF</th></tr></thead>
+							<tbody>
+								{#each sizeRuns as run (run.detail)}
+									<tr
+										><td>{run.name}, {run.detail}</td><td>{fmt(run.source)} ({run.sourceType})</td
+										><td>{fmt(run.webp)}</td><td>{fmt(run.avif)}</td></tr
+									>
+								{/each}
+							</tbody>
+						</table>
+					</GuideTable>
+				</details>
+			</figure>
 			<p class="mb-4">
 				A few defaults are worth knowing before you convert a whole site, because they are the ones
 				people search for afterwards:
@@ -971,10 +1126,10 @@
 						<strong><code>--optimize-for-web</code></strong> on the CLI (<code
 							>optimizeForWeb=1</code
 						>
-						on the API) asks for progressive encoding and 4:2:0 chroma subsampling, which the README
-						describes as the "smallest file to serve". For photographs on a web page it is a
-						reasonable default to add to the script's two <code>mochify</code> lines; for a screenshot
-						with colored text, leave it off and compare.
+						on the API) asks for progressive encoding and 4:2:0 chroma subsampling, which the README describes
+						as the "smallest file to serve". For photographs on a web page it is a reasonable default
+						to add to the script's two <code>mochify</code> lines; for a screenshot with colored text,
+						leave it off and compare.
 					</p>
 				</li>
 				<li>
@@ -1188,6 +1343,175 @@
 				radial-gradient(ellipse 60% 45% at 12% 8%, rgba(255, 179, 198, 0.22) 0%, transparent 70%),
 				radial-gradient(ellipse 50% 40% at 90% 18%, rgba(224, 172, 213, 0.16) 0%, transparent 70%),
 				radial-gradient(ellipse 45% 35% at 55% 55%, rgba(255, 214, 224, 0.12) 0%, transparent 70%);
+		}
+	}
+
+	/* Size chart: one shared byte scale, thin rounded bars, values in text ink
+	   beside each bar. Hover and keyboard focus show a tooltip via CSS only,
+	   since guides ship without client-side JS. */
+	.size-chart {
+		margin-top: 1.5rem;
+		padding: 1.5rem 1.5rem 1.25rem;
+		border-radius: 1.25rem;
+		background: rgba(255, 255, 255, 0.75);
+		border: 1px solid #f3dde1;
+		box-shadow: 0 8px 24px rgba(240, 98, 146, 0.06);
+	}
+
+	.size-chart-title {
+		margin: 0;
+		font-weight: 700;
+		font-size: 1.05rem;
+		color: #4a2c2c;
+	}
+
+	.size-legend {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1.25rem;
+		margin: 0.6rem 0 1.25rem;
+		padding: 0;
+		list-style: none;
+		font-size: 0.875rem;
+		color: #6c3f31;
+	}
+
+	.size-legend li {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		margin: 0;
+	}
+
+	.swatch {
+		width: 0.75rem;
+		height: 0.75rem;
+		border-radius: 3px;
+	}
+
+	.size-groups {
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	.size-name {
+		margin: 0 0 0.4rem;
+		font-size: 0.95rem;
+		font-weight: 700;
+		color: #4a2c2c;
+	}
+
+	.size-name span {
+		font-weight: 500;
+		color: #875f42;
+	}
+
+	.size-row {
+		display: grid;
+		grid-template-columns: 6.5rem 1fr;
+		align-items: center;
+		gap: 0.75rem;
+		margin-bottom: 2px;
+	}
+
+	.size-label {
+		font-size: 0.8rem;
+		color: #875f42;
+		text-align: right;
+	}
+
+	.size-track {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		min-height: 1.5rem;
+		border-radius: 4px;
+		outline: none;
+		cursor: default;
+	}
+
+	.size-track:focus-visible {
+		box-shadow: 0 0 0 2px #f06292;
+	}
+
+	.size-bar {
+		display: block;
+		height: 0.875rem;
+		flex-shrink: 0;
+		border-radius: 0 4px 4px 0;
+		transition: filter 0.15s ease;
+	}
+
+	.size-track:hover .size-bar,
+	.size-track:focus-visible .size-bar {
+		filter: brightness(0.9);
+	}
+
+	.size-value {
+		font-size: 0.8rem;
+		font-variant-numeric: tabular-nums;
+		color: #4a2c2c;
+		white-space: nowrap;
+	}
+
+	.size-value em {
+		margin-left: 0.4rem;
+		font-style: normal;
+		color: #875f42;
+	}
+
+	.size-tip {
+		position: absolute;
+		left: 0;
+		bottom: calc(100% + 6px);
+		z-index: 2;
+		padding: 0.35rem 0.6rem;
+		border-radius: 0.5rem;
+		background: #4a2c2c;
+		color: #fff;
+		font-size: 0.8rem;
+		white-space: nowrap;
+		pointer-events: none;
+		opacity: 0;
+		transform: translateY(2px);
+		transition:
+			opacity 0.12s ease,
+			transform 0.12s ease;
+	}
+
+	.size-track:hover .size-tip,
+	.size-track:focus-visible .size-tip {
+		opacity: 1;
+		transform: none;
+	}
+
+	.size-note {
+		margin: 1rem 0 0;
+		font-size: 0.8rem;
+		color: #9b7a72;
+	}
+
+	.size-table summary {
+		margin-top: 0.75rem;
+		font-size: 0.875rem;
+		font-weight: 700;
+		color: #d81b60;
+		cursor: pointer;
+	}
+
+	@media (max-width: 640px) {
+		.size-chart {
+			padding: 1.25rem 1rem 1rem;
+		}
+
+		.size-row {
+			grid-template-columns: 4.75rem 1fr;
+			gap: 0.5rem;
+		}
+
+		.size-value em {
+			display: none;
 		}
 	}
 </style>
