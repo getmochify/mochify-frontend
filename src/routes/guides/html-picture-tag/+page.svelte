@@ -777,6 +777,21 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 				browsers use, so the condition is false, the browser skips the <code>&lt;source&gt;</code>,
 				and the phone gets <code>kitchen-tall.jpg</code>. One file is downloaded either way.
 			</p>
+			<figure class="mb-6">
+				<picture>
+					<source srcset="/guides/html-picture-tag/art-direction.avif" type="image/avif" />
+					<source srcset="/guides/html-picture-tag/art-direction.webp" type="image/webp" />
+					<img
+						src="/guides/html-picture-tag/art-direction.jpg"
+						alt="Diagram of art direction: a source with media min-width 1024px serves kitchen-wide.jpg, the whole kitchen scene, to a 1440px laptop, while a 390px phone falls through to kitchen-tall.jpg, a tall crop where the coffee grinder fills the frame."
+						width="1600"
+						height="800"
+						loading="lazy"
+						decoding="async"
+						class="h-auto w-full rounded-2xl border border-pink-100"
+					/>
+				</picture>
+			</figure>
 			<p class="mb-4">
 				Now add the format fallback from earlier, and the same two crops become six <code
 					>&lt;source&gt;</code
@@ -872,6 +887,21 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 				sunset sees the logo change on their next page load, with no code on your side beyond those
 				four lines.
 			</p>
+			<figure class="mb-6">
+				<picture>
+					<source srcset="/guides/html-picture-tag/dark-mode.avif" type="image/avif" />
+					<source srcset="/guides/html-picture-tag/dark-mode.webp" type="image/webp" />
+					<img
+						src="/guides/html-picture-tag/dark-mode.jpg"
+						alt="Diagram of a logo swapped by prefers-color-scheme: in light mode the browser falls through to logo-dark-text.png, in dark mode the source matches and serves logo-light-text.png. It follows the device setting, not a theme toggle on your own site."
+						width="1600"
+						height="800"
+						loading="lazy"
+						decoding="async"
+						class="h-auto w-full rounded-2xl border border-pink-100"
+					/>
+				</picture>
+			</figure>
 			<p class="mb-4">
 				The limit is the one that surprises people: <code>prefers-color-scheme</code> reports the
 				operating system or browser setting, not a theme switch on your own site. If your site has a
@@ -952,6 +982,21 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 					</tbody>
 				</table>
 			</GuideTable>
+			<figure class="mb-6">
+				<picture>
+					<source srcset="/guides/html-picture-tag/source-order.avif" type="image/avif" />
+					<source srcset="/guides/html-picture-tag/source-order.webp" type="image/webp" />
+					<img
+						src="/guides/html-picture-tag/source-order.jpg"
+						alt="Table of the 2026 source order read top to bottom: an optional JPEG XL source (16.95% support, mostly partial), then AVIF (96.35%), then WebP (97.18%), then the JPEG fallback that every browser and crawler can open. Figures from caniuse, September 2026 data."
+						width="1600"
+						height="800"
+						loading="lazy"
+						decoding="async"
+						class="h-auto w-full rounded-2xl border border-pink-100"
+					/>
+				</picture>
+			</figure>
 			<p class="mb-4">
 				Read the JPEG XL row carefully. Almost all of its 16.95% is Safari's partial support, and
 				the September data predates Chrome 155 and Firefox 158, which shipped in the first two weeks
