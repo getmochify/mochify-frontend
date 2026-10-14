@@ -21,6 +21,7 @@
 		category: 'Image Formats',
 		readTime: '20 min read',
 		date: 'October 7, 2026',
+		lastUpdated: 'October 14, 2026',
 		bylineNote:
 			'Written the day after Chrome 155 shipped, with a dated support table and the caveats the release notes leave out.'
 	};
@@ -98,7 +99,7 @@
 		},
 		{
 			q: 'Do I still need an AVIF or WebP fallback for JPEG XL?',
-			a: `Yes, for at least the rest of 2026. Installed Chrome versions lag the release by weeks, Edge and Samsung Internet have not moved, and email clients and chat apps do not decode the format. Serve JXL as the first <code>&lt;source&gt;</code> in a <code>&lt;picture&gt;</code> element with AVIF and WebP below it and a JPEG <code>&lt;img&gt;</code> fallback.`
+			a: `Yes, for at least the rest of 2026. Installed Chrome versions lag the release by weeks, Edge and Samsung Internet have not moved, and email clients and chat apps do not decode the format. Serve JXL as the first <code>&lt;source&gt;</code> in a <code>&lt;picture&gt;</code> element with AVIF and WebP below it and a JPEG <code>&lt;img&gt;</code> fallback; the <a href="/guides/html-picture-tag">HTML picture tag guide</a> has the full markup and the order rules.`
 		},
 		{
 			q: 'Should I switch from AVIF to JPEG XL?',
@@ -148,7 +149,7 @@
 		url: pageUrl,
 		mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
 		datePublished: '2026-10-07',
-		dateModified: '2026-10-07',
+		dateModified: '2026-10-14',
 		inLanguage: 'en',
 		author: {
 			'@type': 'Organization',
@@ -193,7 +194,7 @@
 		description: metadata.description,
 		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
 		datePublished: '2026-10-07',
-		dateModified: '2026-10-07'
+		dateModified: '2026-10-14'
 	};
 </script>
 
@@ -241,7 +242,7 @@
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
-			{metadata.readTime} · {metadata.date} · Mochify Engineering Team
+			{metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">

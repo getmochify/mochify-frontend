@@ -12,7 +12,7 @@
         category: "Image Formats",
         readTime: "11 min read",
         datePublished: "June 26, 2026",
-        lastUpdated: "October 7, 2026"
+        lastUpdated: "October 14, 2026"
     };
 
     const related = [
@@ -73,7 +73,7 @@
             "@id": "https://mochify.app/guides/converting-images-to-jpeg-xl"
         },
         "datePublished": "2026-06-26",
-        "dateModified": "2026-10-07",
+        "dateModified": "2026-10-14",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -138,7 +138,7 @@
             {
                 "@type": "Question",
                 "name": "How do I serve JPEG XL with a fallback for unsupported browsers?",
-                "acceptedAnswer": { "@type": "Answer", "text": "Use the HTML picture element with a source element typed image/jxl as the first source, followed by AVIF, WebP, and a JPEG img baseline. Browsers evaluate sources top to bottom and pick the first they support." }
+                "acceptedAnswer": { "@type": "Answer", "text": "Use the HTML picture element with a source typed image/jxl as the first source, followed by AVIF, WebP, and a JPEG img baseline. Browsers evaluate sources top to bottom and pick the first they support. See the fallback pattern section above for the full markup example, and our picture element guide for the source-order rules and the dated support figures." }
             },
             {
                 "@type": "Question",
@@ -426,7 +426,7 @@
                     },
                     {
                         q: "How do I serve JPEG XL with a fallback for unsupported browsers?",
-                        a: "Use the HTML picture element with a source typed image/jxl as the first source, followed by AVIF, WebP, and a JPEG img baseline. Browsers evaluate sources top to bottom and pick the first they support. See the fallback pattern section above for the full markup example."
+                        a: "Use the HTML picture element with a source typed image/jxl as the first source, followed by AVIF, WebP, and a JPEG img baseline. Browsers evaluate sources top to bottom and pick the first they support. See the fallback pattern section above for the full markup example, and our <a href=\"/guides/html-picture-tag\">picture element guide</a> for the source-order rules and the dated support figures."
                     },
                     {
                         q: "Is JPEG XL good for archiving photos?",

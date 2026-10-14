@@ -11,7 +11,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         date: "April 13, 2026",
-        lastUpdated: "October 7, 2026"
+        lastUpdated: "October 14, 2026"
     };
 
     const related = [
@@ -50,7 +50,7 @@
         "description": "Use AVIF as your primary format with WebP as fallback. JPEG XL decodes in Chrome 155 and Firefox 158 from October 2026, so add it on top, with a fallback.",
         "url": "https://mochify.app/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl",
         "datePublished": "2026-04-13",
-        "dateModified": "2026-10-07",
+        "dateModified": "2026-10-14",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -174,7 +174,7 @@
             <p class="mb-4">Google brought JPEG XL back to Chrome behind a flag in February 2026 and switched it on by default in Chrome 155 on October 6, 2026; Firefox 158 does the same on October 13, and Safari has decoded still JXL images since version 17. Edge and Samsung Internet had not shipped it as of October 7, installed browsers update over weeks, and email clients do not render it, so JPEG XL belongs at the top of a picture element rather than on its own. AVIF and WebP still cover 95%+ of real-world users without any conditional logic. Our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support">JPEG XL in Chrome and what changes now</a> has the dated per-browser table.</p>
 
             <InfoBox type="warning" title="Do not serve .jxl without a fallback">
-                A <code>.jxl</code> file served without a <code>&lt;picture&gt;</code> fallback will fail silently for anyone on Edge, on a Chrome or Firefox that has not yet updated to the October 2026 releases, or in an email client. Until JPEG XL is enabled by default in a stable release, always pair it with AVIF and WebP fallbacks.
+                A <code>.jxl</code> file served without a <code>&lt;picture&gt;</code> fallback will fail silently for anyone on Edge, on a Chrome or Firefox that has not yet updated to the October 2026 releases, or in an email client. Until the installed base has caught up with the October 2026 releases, always pair it with AVIF and WebP fallbacks; our <a href="/guides/html-picture-tag">HTML picture tag guide</a> has the markup and the source order.
             </InfoBox>
         </section>
 

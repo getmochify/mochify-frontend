@@ -297,7 +297,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '11 min read',
 		date: 'June 26, 2026',
-		lastUpdated: 'October 7, 2026'
+		lastUpdated: 'October 14, 2026'
 	},
 	{
 		title: 'Should I convert HEIC to JPEG or WebP for WordPress uploads?',
@@ -465,7 +465,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '20 min read',
 		date: 'February 10, 2026',
-		lastUpdated: 'October 7, 2026'
+		lastUpdated: 'October 14, 2026'
 	},
 	{
 		title: 'Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game',
@@ -523,7 +523,8 @@ export const guides: Guide[] = [
 		url: '/guides/optimizing-hero-images',
 		category: 'Image Optimization',
 		readTime: '14 min read',
-		date: 'February 20, 2026'
+		date: 'February 20, 2026',
+		lastUpdated: 'October 14, 2026'
 	},
 	{
 		title: "AI-Powered Image Compression: How Mochify's Natural Language Feature Works (2026)",
@@ -612,7 +613,7 @@ export const guides: Guide[] = [
 		category: 'Quick Guides',
 		readTime: '2 min read',
 		date: 'April 13, 2026',
-		lastUpdated: 'October 7, 2026'
+		lastUpdated: 'October 14, 2026'
 	},
 	{
 		title: 'Should I Optimize My Images Before I Upload Them?',
@@ -644,6 +645,15 @@ export const guides: Guide[] = [
 		date: 'April 23, 2026'
 	},
 	{
+		title: 'The HTML <picture> Tag (Picture Element): Format Fallbacks, Art Direction and the 2026 Source Order',
+		description:
+			'The HTML picture tag, explained: AVIF, WebP and JPEG fallbacks in the right order, art direction, dark mode, and the four rules that make it render.',
+		url: '/guides/html-picture-tag',
+		category: 'Web Performance',
+		readTime: '37 min read',
+		date: 'October 14, 2026'
+	},
+	{
 		title: 'How to Compress a PDF on Mac Without Losing Quality',
 		description:
 			"What Preview's Reduce File Size really does (JPEG 0.7, 144 dpi on macOS 27), a custom filter for print, the iOS 27 route, and a one-prompt alternative.",
@@ -659,7 +669,8 @@ export const guides: Guide[] = [
 		url: '/guides/jpeg-xl-chrome-support',
 		category: 'Image Formats',
 		readTime: '20 min read',
-		date: 'October 7, 2026'
+		date: 'October 7, 2026',
+		lastUpdated: 'October 14, 2026'
 	},
 	{
 		title: 'Lossless Image Formats: Which One to Use, and When Lossless Is the Wrong Choice',

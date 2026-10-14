@@ -10,7 +10,7 @@
         category: "Image Formats",
         readTime: "20 min read",
         datePublished: "February 10, 2026",
-        lastUpdated: "October 7, 2026"
+        lastUpdated: "October 14, 2026"
     };
 
     const related = [
@@ -106,7 +106,7 @@
             }
         ],
         "datePublished": "2026-02-10",
-        "dateModified": "2026-10-07"
+        "dateModified": "2026-10-14"
         }
     </script>
 </svelte:head>
@@ -717,7 +717,7 @@
 </picture>`} />
 
             <p class="mb-4">
-                Browsers download the first format they support, falling back to JPEG for legacy environments. Don't skip the fallback. Enterprise users on locked-down systems and certain government networks still run outdated browsers.
+                Browsers download the first format they support, falling back to JPEG for legacy environments. Don't skip the fallback. Enterprise users on locked-down systems and certain government networks still run outdated browsers. The rules that make this markup work (source order, the type attribute, and why the img is the only element that renders) are in our <a href="/guides/html-picture-tag">guide to the HTML picture tag</a>.
             </p>
 
             <p class="mb-4">For JPEG XL, add it at the top of the cascade if you're experimenting:</p>

@@ -307,6 +307,11 @@ export const cards = [
 		title: 'Mochify vs TinyPNG - An Honest 2026 Comparison'
 	},
 	{
+		path: '/guides/html-picture-tag',
+		eyebrow: 'GUIDE',
+		title: 'The HTML Picture Tag: Format Fallbacks and Art Direction'
+	},
+	{
 		path: '/guides/compress-pdf-on-mac',
 		eyebrow: 'GUIDE',
 		title: 'How to Compress a PDF on Mac Without Losing Quality'

@@ -9,7 +9,8 @@
     const metadata = {
         category: "Image Optimization",
         readTime: "14 min read",
-        date: "February 20, 2026"
+        date: "February 20, 2026",
+        lastUpdated: "October 14, 2026"
     };
 </script>
 
@@ -47,7 +48,7 @@
             "WordPress Shopify image optimization"
         ],
         "datePublished": "2026-02-20",
-        "dateModified": "2026-02-20"
+        "dateModified": "2026-10-14"
         }
     </script>
 </svelte:head>
@@ -60,7 +61,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date} · Mochify Engineering Team
+                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
             </span>
         </div>
 
@@ -214,7 +215,7 @@
                             <p class="text-sm text-[#6C3F31]">Google's modern JPEG encoder. Standard JPEG output - compatible everywhere - but 35% better compression at high quality. No format headaches.</p>
                         </div>
                     </div>
-                    <p class="mb-4">Use a <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">&lt;picture&gt;</code> element with AVIF first, WebP second, and JPEG fallback:</p>
+                    <p class="mb-4">Use a <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">&lt;picture&gt;</code> element with AVIF first, WebP second, and JPEG fallback (the order and attribute rules are in our <a href="/guides/html-picture-tag">guide to the HTML picture tag</a>):</p>
                     <CodeBlock filename="hero.html" code={`<picture>
   <source srcset="hero.avif" type="image/avif">
   <source srcset="hero.webp" type="image/webp">
