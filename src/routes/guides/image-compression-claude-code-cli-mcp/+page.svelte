@@ -12,7 +12,7 @@
         category: "AI & Automation",
         readTime: "15 min read",
         date: "July 17, 2026",
-        lastUpdated: "October 7, 2026"
+        lastUpdated: "October 14, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -66,6 +66,7 @@
         { href: '/guides/self-hosting-image-optimization-docker', title: 'How to Self-Host an Image Optimization API with Docker', desc: 'For teams that need encoding behind their own firewall.' },
         { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli Guide 2026: Quality-Per-Byte', desc: 'When standard JPEG with jpegli beats jumping to AVIF.' },
         { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'Why stripping metadata belongs in your build step.' },
+        { href: '/guides/convert-website-images-to-webp-and-avif', title: "Convert a Website's Images to WebP and AVIF, and Keep Them That Way", desc: 'The same CLI outside Claude Code: one command for a whole site, and the script that only converts new images.' },
     ];
 </script>
 
@@ -97,7 +98,7 @@
             "@id": "https://mochify.app/guides/image-compression-claude-code-cli-mcp"
         },
         "datePublished": "2026-07-17",
-        "dateModified": "2026-10-07",
+        "dateModified": "2026-10-14",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -153,7 +154,7 @@
         "description": "Can Claude Code use MCP? Yes. Here's how to compress images inside Claude Code with the Mochify CLI as a build step and a local MCP server.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-17",
-        "dateModified": "2026-10-07"
+        "dateModified": "2026-10-14"
         }
     </script>
 

@@ -13,7 +13,7 @@
         category: "Image Optimization",
         readTime: "13 min read",
         date: "August 25, 2026",
-        lastUpdated: "September 22, 2026"
+        lastUpdated: "October 14, 2026"
     };
 
     const toc = [
@@ -95,7 +95,7 @@
             "@id": "https://mochify.app/guides/what-automatic-image-optimization-actually-does"
         },
         "datePublished": "2026-08-25",
-        "dateModified": "2026-09-22",
+        "dateModified": "2026-10-14",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -293,7 +293,7 @@
                 <li><strong>Keep masters, ship copies.</strong> Archive the full-resolution original; generate per-destination copies at each platform's display size. Resolution nobody displays is bytes nobody needs: <a href="/guides/photo-file-too-large-to-upload">we measured a 40MB camera JPEG landing at 1-2MB</a> once resized to display resolution and re-encoded, with nothing visible lost.</li>
                 <li><strong>Use better encoders than the defaults.</strong> The encoder is where quality-per-byte lives. Google's jpegli, the encoder Mochify uses for JPEG output, delivers a <a href="https://opensource.googleblog.com/2024/04/introducing-jpegli-new-jpeg-coding-library.html" target="_blank" rel="noopener noreferrer">35% compression improvement at high quality settings</a> over legacy JPEG encoding, in a file every browser and marketplace already accepts. Platform pipelines meet a compatibility budget; your pipeline can simply be better.</li>
                 <li><strong>Make the invisible visible.</strong> Decide metadata explicitly, per destination. Check results yourself instead of trusting the pipe: our <a href="/comparison">before/after comparison tool</a> exists because "looks fine at a glance" is how gray whites ship.</li>
-                <li><strong>Automate it or you will stop doing it.</strong> A standard you apply by hand on busy days is not a standard. The pipeline has to be one action, or zero.</li>
+                <li><strong>Automate it or you will stop doing it.</strong> A standard you apply by hand on busy days is not a standard. The pipeline has to be one action, or zero. Our guide to <a href="/guides/convert-website-images-to-webp-and-avif">converting a website's images to WebP and AVIF and keeping them converted</a> is that pipeline written down: one command for the library you have, and a twelve-line script for everything that arrives after.</li>
             </ol>
             <p class="mb-4">That last principle is where AI earns its place in an image workflow, and it is the difference between 2026 tooling and the settings-panel era: you describe the outcome once, in plain language, and the same instruction runs on every batch, every day, identically.</p>
             <p class="mb-4"><strong>See what your current images could look like: <a href="/">run a free comparison at mochify.app</a>.</strong></p>

@@ -1259,7 +1259,10 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 				half. Every image uploaded after today arrives as a JPEG or PNG and quietly undoes the fix,
 				unless conversion is part of how images reach the site: a build step, a CLI run on a
 				schedule, or a converter the CMS calls. The CLI commands above are the seed of that
-				pipeline; Magic Flow at
+				pipeline; our guide to
+				<a href="/guides/convert-website-images-to-webp-and-avif"
+					>converting a website's images to WebP and AVIF and keeping them that way</a
+				> builds the whole of it, including the script that converts only new images, and Magic Flow at
 				<a href="https://mochify.app/flow">mochify.app/flow</a> is the version with nothing to install.
 			</p>
 		</section>

@@ -943,7 +943,7 @@
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Batch Processing Considerations</h3>
             <p class="mb-6">
-                Single-image conversion works for one-off projects. Bulk workflows need automation. For 50-100 images, manual batch tools suffice. For 500+, you want API-driven automation. Mochify Pro is built exactly for this - process entire folders via the API with zero-retention guarantees intact, available now for high-volume merchants.
+                Single-image conversion works for one-off projects. Bulk workflows need automation. For 50-100 images, manual batch tools suffice. For 500+, you want API-driven automation. Mochify Pro is built exactly for this - process entire folders via the API with zero-retention guarantees intact, available now for high-volume merchants. The command-line and script version, including how to convert only the images that are new since the last run, is in our guide to <a href="/guides/convert-website-images-to-webp-and-avif">converting a website's images to WebP and AVIF</a>.
             </p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Format Selection Strategy</h3>

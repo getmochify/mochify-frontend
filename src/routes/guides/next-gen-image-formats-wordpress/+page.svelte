@@ -10,7 +10,7 @@
         category: "WordPress Optimization",
         readTime: "15 min read",
         datePublished: "February 09, 2026",
-        lastUpdated: "August 21, 2026"
+        lastUpdated: "October 14, 2026"
     };
 
     const related = [
@@ -111,7 +111,7 @@
             }
         ],
         "datePublished": "2026-02-09",
-        "dateModified": "2026-08-21"
+        "dateModified": "2026-10-14"
         }
     </script>
 </svelte:head>
@@ -526,7 +526,7 @@
     </ul>
 
     <p class="mb-4">
-        But if you're processing thousands of product images, running multiple client sites, or building a CI-style media pipeline, you eventually want automation.
+        But if you're processing thousands of product images, running multiple client sites, or building a CI-style media pipeline, you eventually want automation. For theme and template images outside the media library, our guide to <a href="/guides/convert-website-images-to-webp-and-avif">converting a site's images to WebP and AVIF in one command, and keeping new ones converted</a> is the plugin-free route.
     </p>
 
     <p class="mb-4">

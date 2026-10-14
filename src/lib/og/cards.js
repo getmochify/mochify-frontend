@@ -307,6 +307,11 @@ export const cards = [
 		title: 'Mochify vs TinyPNG - An Honest 2026 Comparison'
 	},
 	{
+		path: '/guides/convert-website-images-to-webp-and-avif',
+		eyebrow: 'GUIDE',
+		title: 'Convert Website Images to WebP and AVIF, and Keep Them That Way'
+	},
+	{
 		path: '/guides/html-picture-tag',
 		eyebrow: 'GUIDE',
 		title: 'The HTML Picture Tag: Format Fallbacks and Art Direction'

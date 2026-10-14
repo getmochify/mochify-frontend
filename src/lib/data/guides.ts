@@ -129,7 +129,7 @@ export const guides: Guide[] = [
 		category: 'Image Optimization',
 		readTime: '13 min read',
 		date: 'August 25, 2026',
-		lastUpdated: 'September 12, 2026'
+		lastUpdated: 'October 14, 2026'
 	},
 	{
 		title: 'Can WordPress 7.1 Optimize Images Without a Plugin?',
@@ -455,7 +455,7 @@ export const guides: Guide[] = [
 		category: 'WordPress Performance',
 		readTime: '15 min read',
 		date: 'February 9, 2026',
-		lastUpdated: 'August 7, 2026'
+		lastUpdated: 'October 14, 2026'
 	},
 	{
 		title: 'The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL',
@@ -564,7 +564,7 @@ export const guides: Guide[] = [
 		category: 'AI & Automation',
 		readTime: '15 min read',
 		date: 'July 17, 2026',
-		lastUpdated: 'October 7, 2026'
+		lastUpdated: 'October 14, 2026'
 	},
 	{
 		title: 'A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression',
@@ -643,6 +643,15 @@ export const guides: Guide[] = [
 		category: 'Workflows',
 		readTime: '12 min read',
 		date: 'April 23, 2026'
+	},
+	{
+		title: "Convert a Website's Images to WebP and AVIF, and Keep Them That Way",
+		description:
+			'Convert every image on your site to WebP and AVIF, then keep new ones converted: one command for the batch, a script for new files, serving, and WordPress.',
+		url: '/guides/convert-website-images-to-webp-and-avif',
+		category: 'Web Performance',
+		readTime: '34 min read',
+		date: 'October 14, 2026'
 	},
 	{
 		title: 'The HTML <picture> Tag (Picture Element): Format Fallbacks, Art Direction and the 2026 Source Order',
