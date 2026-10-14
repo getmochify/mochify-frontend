@@ -419,6 +419,21 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 					</p>
 				</li>
 			</ol>
+			<figure class="mb-6">
+				<picture>
+					<source srcset="/guides/html-picture-tag/picture-source-order.avif" type="image/avif" />
+					<source srcset="/guides/html-picture-tag/picture-source-order.webp" type="image/webp" />
+					<img
+						src="/guides/html-picture-tag/picture-source-order.jpg"
+						alt="Diagram of the snippet read top to bottom: the AVIF source is the first one the browser can use, so it wins and hero.avif is the one shown. One download, not three."
+						width="1600"
+						height="800"
+						loading="lazy"
+						decoding="async"
+						class="h-auto w-full rounded-2xl border border-pink-100"
+					/>
+				</picture>
+			</figure>
 			<p class="mb-4">Here is what that means for three real visitors to the same page:</p>
 			<ul class="mb-6 list-disc space-y-3 pl-6">
 				<li>
