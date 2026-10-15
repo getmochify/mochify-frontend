@@ -553,7 +553,7 @@ export const guides: Guide[] = [
 		category: 'AI & Automation',
 		readTime: '9 min read',
 		date: 'May 28, 2026',
-		lastUpdated: 'August 14, 2026',
+		lastUpdated: 'October 15, 2026',
 		featured: true
 	},
 	{
@@ -759,7 +759,8 @@ export const guides: Guide[] = [
 		url: '/guides/why-we-relaxed-zero-retention-for-mcp',
 		category: 'Data Privacy',
 		readTime: '5 min read',
-		date: 'May 29, 2026'
+		date: 'May 29, 2026',
+		lastUpdated: 'October 15, 2026'
 	},
 	{
 		title: 'How to Take Vinted Photos That Sell',

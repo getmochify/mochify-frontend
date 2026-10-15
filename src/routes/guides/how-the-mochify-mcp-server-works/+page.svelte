@@ -12,17 +12,17 @@
         category: "AI & Automation",
         readTime: "9 min read",
         date: "May 28, 2026",
-        lastUpdated: "August 14, 2026",
+        lastUpdated: "October 15, 2026",
     };
 
     const faqItems = [
-        { q: "Does using the Mochify MCP server cost more tokens than the web app?", a: "The web app costs no agent tokens at all - it's just you and a browser. Among agent-driven workflows: hosted MCP URL input is now nearly free in both directions. Hosted MCP upload input is expensive on the way in (base64-encoded image bytes in the tool-call payload) but cheap on the way back (a URL string). The local install remains the cheapest of all because no image bytes ever enter the agent's context in either direction." },
+        { q: "Does using the Mochify MCP server cost more tokens than the web app?", a: "The web app costs no agent tokens at all - it's just you and a browser. Among agent-driven workflows: hosted MCP URL input is now nearly free in both directions. An image attached to the chat now reaches Mochify through a one-time upload link, so its bytes stay out of the tool call too. The local install remains the cheapest of all because no image bytes ever enter the agent's context in either direction." },
         { q: "Can I use the MCP server on the Free tier?", a: "Yes. MCP and API access are included on all tiers: Free (25 images/month), Seller, and Pro. The monthly image limit applies equally across the web app, the MCP server, and the API." },
-        { q: "Does the hosted MCP server store my images?", a: "The original you send is processed in RAM and discarded immediately after encoding - no disk writes, no logs containing image data. The hosted MCP does briefly hold the compressed result in a pickup store with a five-minute TTL so it can return a download URL. After five minutes the result is evicted. The local install workflows skip the pickup store entirely." },
+        { q: "Does the hosted MCP server store my images?", a: "An original sent by URL is processed in RAM and discarded immediately after encoding - no disk writes, no logs containing image data. The hosted MCP does briefly hold the compressed result in a pickup store with a five-minute TTL so it can return a download URL. After five minutes the result is evicted. The one case where an original is stored: an image you drop on a one-time upload link, which is how a photo attached to a chat reaches Mochify. It is kept in private storage until processing starts and deleted at that moment, or after 15 minutes if it is never used. The local install workflows store nothing at all." },
         { q: "What's the difference between Magic Flow and the squish tool?", a: "squish is the low-level tool the MCP server exposes - it takes explicit parameters: format, quality, dimensions, options. Magic Flow is the natural-language layer that lets you describe the goal in plain English and have the agent resolve the parameters automatically. Most users only ever interact with Magic Flow." },
         { q: "Can I run mochify without an agent?", a: "Yes. mochify is a standalone Rust binary. It works from the shell, in scripts, in CI, in Docker - anywhere you can run a single static binary. Many users run the CLI directly as a build step with no agent involved at all." },
         { q: "Which formats does squish actually output?", a: "JPEG (encoded with jpegli for ~35% smaller files at matched quality), AVIF, JPEG XL, WebP, and PNG. AVIF is our default recommendation for web delivery; jpegli-encoded JPEG is the broad-compatibility fallback." },
-        { q: "Does the MCP server support background removal and smart crop?", a: "Yes. squish exposes removeBackground, crop (smart crop to the subject), smartCompress (softens the background, leaves the subject untouched), brightness, clarity, stripExif, rotate, and HDR gain-map preservation. All of these are available on every plan, including Free." },
+        { q: "Does the MCP server support background removal and smart crop?", a: "Yes. squish exposes removeBackground, crop (smart crop to the subject), smartCompress (softens the background, leaves the subject untouched), brightness, clarity, stripExif, rotate, and HDR gain-map preservation. It can also crop to or hide an area the assistant picks by looking at the image (region, redactBoxes), and hide faces automatically (redactFaces). All of these are available on every plan, including Free." },
         { q: "Can I use the MCP server through Cursor or other MCP clients?", a: "Yes. For the hosted server, any client that supports remote MCP connectors over HTTP with OAuth can register https://mcp.mochify.app. For the local server, any client that supports the standard stdio MCP pattern - Cursor, Continue, Cline, Claude Code with custom config, and others - can spawn mochify serve as a subprocess. Mochify is also listed on Smithery and Glama MCP marketplaces." },
     ];
 </script>
@@ -44,7 +44,7 @@
       "author": { "@type": "Organization", "name": "Mochify Engineering Team" },
       "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
       "datePublished": "2026-05-28",
-      "dateModified": "2026-08-14",
+      "dateModified": "2026-10-15",
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://mochify.app/guides/how-the-mochify-mcp-server-works" }
     }
     </script>
@@ -57,12 +57,12 @@
         {
           "@type": "Question",
           "name": "Does using the Mochify MCP server cost more tokens than the web app?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The web app costs no agent tokens at all. Among agent-driven workflows: hosted MCP URL input is now nearly free in both directions because compressed results return as a download URL rather than inline bytes. Hosted MCP upload input is expensive on the way in but cheap on the way back (a URL string). The local install remains the cheapest of all because no image bytes ever enter the agent's context in either direction." }
+          "acceptedAnswer": { "@type": "Answer", "text": "The web app costs no agent tokens at all. Among agent-driven workflows: hosted MCP URL input is now nearly free in both directions because compressed results return as a download URL rather than inline bytes. An image attached to the chat now reaches Mochify through a one-time upload link, so its bytes stay out of the tool call too. The local install remains the cheapest of all because no image bytes ever enter the agent's context in either direction." }
         },
         {
           "@type": "Question",
           "name": "Does the hosted MCP server store my images?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The original you send is processed in RAM and discarded immediately after encoding. The hosted MCP briefly holds the compressed result in a pickup store with a five-minute TTL so it can return a download URL. After five minutes the result is evicted. The local install workflows skip the pickup store entirely." }
+          "acceptedAnswer": { "@type": "Answer", "text": "An original sent by URL is processed in RAM and discarded immediately after encoding. The hosted MCP briefly holds the compressed result in a pickup store with a five-minute TTL so it can return a download URL. After five minutes the result is evicted. The one case where an original is stored: an image you drop on a one-time upload link, which is how a photo attached to a chat reaches Mochify. It is kept in private storage until processing starts and deleted at that moment, or after 15 minutes if it is never used. The local install workflows store nothing at all." }
         },
         {
           "@type": "Question",
@@ -161,8 +161,8 @@
                         <tr>
                             <td class="p-4 font-bold">Hosted MCP, uploaded image</td>
                             <td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">api.mochify.app</code></td>
-                            <td class="p-4">Input only (output returns as URL)</td>
-                            <td class="p-4">Small images already in a conversation</td>
+                            <td class="p-4">Neither (upload link in, URL out)</td>
+                            <td class="p-4">Photos attached to a conversation, at full resolution</td>
                         </tr>
                         <tr>
                             <td class="p-4 font-bold">Local MCP (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">mochify serve</code>)</td>
@@ -202,15 +202,15 @@
         <!-- Hosted MCP -->
         <section id="hosted-mcp" class="scroll-mt-24">
             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">How the Hosted MCP Server Works</h2>
-            <p class="mb-6">The hosted server is a connector that any MCP-compatible AI assistant can register and call. Once OAuth is complete, the agent has two tools available: <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish</code> for image processing, and <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">check_usage</code> for quota checks.</p>
+            <p class="mb-6">The hosted server is a connector that any MCP-compatible AI assistant can register and call. Once OAuth is complete, the agent has five tools available: <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish</code> for image processing, <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">create_upload</code> for getting an image attached to the chat to Mochify, <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">pdf</code> and <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">pdf_create</code> for documents, and <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">check_usage</code> for quota checks.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Setup, in one paragraph</h3>
             <p class="mb-6">In Claude Desktop, go to Settings → Connectors, add <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code>, then complete an OAuth flow that authorises Mochify to process images on your behalf. Cursor and other clients follow the same shape. The full step-by-step is in our <a href="/guides/mochify-mcp-image-compression-agent-2026">MCP setup guide</a>. Authentication is OAuth-based, the connector talks to our servers over HTTPS, and the agent doesn't need to manage an API key directly.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">The <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-base">squish</code> tool</h3>
-            <p class="mb-4">The <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish</code> tool accepts either a public HTTPS URL to fetch the image from, or raw base64 image bytes plus a media type. It returns a <strong class="text-[#4A2C2C]">short-lived download URL</strong> for the processed image - a five-minute TTL on <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">files.mochify.app</code>, with an explicit "expires in ~5 minutes" note in the response so the agent and any downstream tool know exactly when the link goes dead.</p>
+            <p class="mb-4">The <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish</code> tool accepts a public HTTPS URL to fetch the image from, an <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">uploadId</code> from <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">create_upload</code>, or - for a small file whose bytes the agent can actually read - base64 bytes plus a media type. It returns a <strong class="text-[#4A2C2C]">short-lived download URL</strong> for the processed image - a five-minute TTL on <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">files.mochify.app</code>, with an explicit "expires in ~5 minutes" note in the response so the agent and any downstream tool know exactly when the link goes dead.</p>
 
-            <p class="mb-6">JPEG is the default output (encoded with Google's jpegli encoder, which delivers roughly 35% better compression than <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">libjpeg-turbo</code> at matched quality). AVIF, JPEG XL, WebP, and PNG are also supported. Options include resize, smart-crop to a subject, EXIF stripping, brightness, clarity, <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">smartCompress</code>, HDR gain-map preservation, and AI background removal.</p>
+            <p class="mb-6">JPEG is the default output (encoded with Google's jpegli encoder, which delivers roughly 35% better compression than <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">libjpeg-turbo</code> at matched quality). AVIF, JPEG XL, WebP, and PNG are also supported. Options include resize, smart-crop to a subject, EXIF stripping, brightness, clarity, <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">smartCompress</code>, HDR gain-map preservation, and AI background removal. The assistant can also crop to (<code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">region</code>) or hide (<code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">redactBoxes</code>) an area it picks by looking at the image - "hide the number plate", "crop to the logo" - and Mochify receives only the coordinates. <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">redactFaces</code> hides faces with Mochify's own detector.</p>
 
             <InfoBox type="note" title="URL passback is a recent change">
                 Earlier versions of the hosted MCP returned the processed image inline as binary content, which produced reliable hangs and unsaveable results across most chat clients. URL passback fixes that, at the cost of a brief pickup window on Mochify's side - covered in the retention section below.
@@ -221,12 +221,14 @@
 
             <p class="mb-4">What URL passback adds is a brief <strong class="text-[#4A2C2C]">pickup window</strong> for the compressed result. After encoding, Mochify holds the processed bytes in a pickup store keyed by an unguessable hash, with a five-minute TTL. After five minutes the result is evicted regardless of whether anything fetched it.</p>
 
+            <p class="mb-4">There is one more, narrower exception, added in October 2026: <strong class="text-[#4A2C2C]">upload links</strong>. An assistant sees an image attached to a chat as pixels, not as a file, so it often has no way to send Mochify the bytes. <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">create_upload</code> gives a one-time link instead: you drop the original there (or an assistant with file access uploads it directly). That original is kept in private storage that is never publicly served, and deleted the moment processing starts - or after 15 minutes if it is never used. A link works once, and only for the account that created it. Images sent by URL never touch it.</p>
+
             <div class="bg-[#FFF9F5] rounded-2xl p-6 border border-[#FFE4D6] my-6">
-                <p class="text-[#6C3F31] mb-0">This is a softening of the original "wiped immediately" claim on the compressed-output side. We'd rather describe it accurately than carry a phrase that no longer matches what the server does. The two local install workflows don't use the pickup store at all - the local binary receives the compressed bytes from the API and writes them straight to your disk. If you need the strongest possible end-to-end retention story, use a local mode or self-host via our <a href="/guides/self-hosting-image-optimization-docker">Docker guide</a>.</p>
+                <p class="text-[#6C3F31] mb-0">This is a softening of the original "wiped immediately" claim - on the compressed-output side, and for originals only when you choose to use an upload link. We'd rather describe it accurately than carry a phrase that no longer matches what the server does. The two local install workflows don't use the pickup store at all - the local binary receives the compressed bytes from the API and writes them straight to your disk. If you need the strongest possible end-to-end retention story, use a local mode or self-host via our <a href="/guides/self-hosting-image-optimization-docker">Docker guide</a>.</p>
             </div>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Where the agent's tokens go</h3>
-            <p class="mb-4">Now that the hosted MCP returns a download URL instead of an inline image, the token-cost story has shifted. URL input is genuinely cheap on both sides: a URL in, a URL out. Upload input is still expensive on the way in because the image is base64-encoded into the tool-call payload, but the return is a short text URL rather than a binary blob - a one-way cost rather than two-way.</p>
+            <p class="mb-4">Now that the hosted MCP returns a download URL instead of an inline image, the token-cost story has shifted. URL input is genuinely cheap on both sides: a URL in, a URL out. An image attached to the chat no longer has to be base64-encoded into the tool call either: it travels through an upload link, so the agent handles a short ID rather than the image on the way in, and a URL on the way back.</p>
 
             <p>When you use the hosted MCP through Claude, what passes through the agent provider's systems is now just the download URL string, unless the agent itself fetches the file and brings the bytes into the conversation. The image bytes only enter the chat provider's infrastructure if the agent decides they need to.</p>
         </section>
@@ -312,7 +314,7 @@ ls *.heic | mochify -t jpg</code></pre>
                     </thead>
                     <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
                         <tr><td class="p-4">Someone shared an image URL and you want it as AVIF or WebP</td><td class="p-4 font-semibold">Hosted MCP (URL input)</td></tr>
-                        <tr><td class="p-4">You want to drag a small image into a chat and have it compressed</td><td class="p-4 font-semibold">Hosted MCP (upload) - see <a href="#example-2">Worked Example 2</a></td></tr>
+                        <tr><td class="p-4">You want to drag an image into a chat and have it compressed, cropped or redacted</td><td class="p-4 font-semibold">Hosted MCP (upload) - see <a href="#example-2">Worked Example 2</a></td></tr>
                         <tr><td class="p-4">You're in Claude Desktop and images live on your laptop</td><td class="p-4 font-semibold">Local MCP server (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">mochify serve</code>)</td></tr>
                         <tr><td class="p-4">You're in Claude Code working in a project repo full of images</td><td class="p-4 font-semibold">Direct CLI</td></tr>
                         <tr><td class="p-4">You're building a static site and want compression as a build step</td><td class="p-4 font-semibold">Direct CLI (no agent needed)</td></tr>
@@ -363,16 +365,16 @@ ls *.heic | mochify -t jpg</code></pre>
         <!-- Example 2 -->
         <section id="example-2" class="scroll-mt-24">
             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Worked Example 2: Hosted MCP with an Uploaded Image</h2>
-            <p class="mb-6">This was historically the workflow most people tried first, and it disappointed in three independent ways. One of those three is now fixed. We're going to be just as direct about what's solid as we were about what wasn't.</p>
+            <p class="mb-6">This was historically the workflow most people tried first, and it disappointed in three independent ways. As of October 2026 all three are fixed. We're going to be just as direct about what's solid as we were about what wasn't - including a correction to how we used to describe the first one.</p>
 
             <div class="bg-[#FFF9F5] rounded-2xl p-6 border border-[#FFE4D6] mb-4">
-                <h3 class="text-base font-black text-[#4A2C2C] mb-2">Failure 1 (still applies): the image you uploaded isn't the image Mochify receives.</h3>
-                <p class="text-[#6C3F31] text-base mb-0">When you attach a file to a chat, the client's vision pipeline resizes it - typically to around 1568 pixels on the long edge - and frequently re-encodes it before the model can see anything. The bytes the model packages into the tool call are that vision-processed copy, not your original. For a screenshot you're sending around at thumbnail size this is fine. For a hero image where pixel-level quality matters, it isn't.</p>
+                <h3 class="text-base font-black text-[#4A2C2C] mb-2">Failure 1 (fixed): the image you attached never reached Mochify intact.</h3>
+                <p class="text-[#6C3F31] text-base mb-0">We used to say the model sends a vision-processed copy of your attachment. Testing showed the real problem is starker: a model sees an attached image as pixels, not as a file, so in a plain chat it has no bytes to send at all. Only when the client also gives it file access (code execution, a shell) can it read the actual file. Upload links fix this: <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">create_upload</code> returns a one-time link, the original goes to Mochify through it at full resolution, and the model only ever handles an ID.</p>
             </div>
 
             <div class="bg-[#FFF9F5] rounded-2xl p-6 border border-[#FFE4D6] mb-4">
-                <h3 class="text-base font-black text-[#4A2C2C] mb-2">Failure 2 (still applies): the base64 round-trip is size-capped.</h3>
-                <p class="text-[#6C3F31] text-base mb-0">The full image, base64-encoded into JSON, has to fit inside the MCP tool-call payload, and base64 inflates bytes by roughly a third. Anything much larger than a small screenshot is at risk of being truncated or rejected outright.</p>
+                <h3 class="text-base font-black text-[#4A2C2C] mb-2">Failure 2 (fixed): the base64 round-trip was size-capped.</h3>
+                <p class="text-[#6C3F31] text-base mb-0">A base64-encoded image has to fit inside the MCP tool-call payload, and base64 inflates bytes by roughly a third, so anything much larger than a small screenshot was at risk of being truncated or rejected. With an upload link nothing image-sized goes through the tool call: the file is uploaded directly, up to the normal 75 MB limit.</p>
             </div>
 
             <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100 mb-6">
@@ -380,12 +382,15 @@ ls *.heic | mochify -t jpg</code></pre>
                 <p class="text-[#6C3F31] text-base mb-0">Mochify's hosted MCP previously returned the processed image inline as binary content, which forced the chat client to render or save a binary blob from a tool response. Support varied wildly, and in practice the tool call frequently hung or produced a result the user couldn't save. We've now switched to URL passback: the response is a text URL on <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">files.mochify.app</code>, valid for five minutes. Chat clients handle a URL string without difficulty.</p>
             </div>
 
-            <p class="mb-4">Where this leaves us: the drag-into-chat workflow is now genuinely usable for small images where the quality hit from chat-client upload pre-processing doesn't matter - a screenshot you're prepping for a Notion page, a thumbnail you want as AVIF, a quick conversion of a small graphic. It is <em>not</em> the right workflow for a hero image, a product photo, or anything where you'd want pixel-accurate output. For those, use <a href="#example-1">Worked Example 1</a> (URL input) or <a href="#example-3">Worked Example 3</a> (local MCP server).</p>
+            <p class="mb-4">Where this leaves us: the drag-into-chat workflow now works for full-resolution photos, not just small screenshots. The cost is one honest trade. In a chat client without file access, you open the link and drop the photo there - one extra step - and the original then sits in private storage until it is processed (deleted as processing starts, or after 15 minutes). If you'd rather nothing were stored at all, <a href="#example-1">Worked Example 1</a> (URL input) and <a href="#example-3">Worked Example 3</a> (local MCP server) store no originals.</p>
 
-            <p class="mb-4">A worked run: drag a small PNG screenshot into Claude with <em>"Make this web-ready."</em> Claude calls <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish({'{'} data: "&lt;base64...&gt;", mediaType: "image/png", optimizeForWeb: true {'}'})</code>. Magic Flow infers AVIF output with sensible web-ready defaults and EXIF stripping. Mochify processes the vision-processed copy of your screenshot and returns:</p>
+            <p class="mb-4">A worked run: drag a car photo into Claude with <em>"Hide the number plate and convert it to AVIF."</em> Claude calls <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">create_upload</code>, then either uploads the attachment itself (when it has file access) or hands you the link to drop the photo on. It finds the plate by looking at the image and calls <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish({'{'} uploadId: "9de3...e190", redactBoxes: [[0.503, 0.642, 0.183, 0.063]], type: "avif" {'}'})</code>. Mochify deletes the uploaded original as it reads it, hides the plate, and returns:</p>
 
-            <pre class="bg-[#1e1e2e] text-[#cdd6f4] rounded-2xl p-5 mb-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>Image processed successfully (image/avif, 12.7 KB).
-Download URL (expires in ~5 minutes): https://files.mochify.app/629b...d46.avif</code></pre>
+            <pre class="bg-[#1e1e2e] text-[#cdd6f4] rounded-2xl p-5 mb-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>Image processed successfully (image/avif, 32.6 KB).
+Download URL (expires in ~5 minutes): https://files.mochify.app/629b...d46.avif
+Redacted 1 area(s).</code></pre>
+
+            <p class="mb-4">Mochify never sees a description of the image and no Mochify model looks at it: the assistant you already use did the looking, and Mochify received four numbers.</p>
 
             <p>Claude either fetches that URL and shows you the result, or hands you the link directly. The compressed file lives on <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">files.mochify.app</code> for the rest of the five-minute window and then disappears.</p>
         </section>
@@ -471,9 +476,9 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">The Honest Answer on Token Cost</h2>
             <p class="mb-4">The hosted MCP server used to be a workflow saver but not a token saver, because compressed results returned inline as binary. With URL passback, that's no longer true on the return side. The local install remains the cheapest workflow per image, because no image bytes ever enter the agent's context in either direction. For the underlying numbers behind these tradeoffs, see our breakdown of <a href="https://mochify.app/guides/llm-image-token-costs">how many tokens does an image use?</a></p>
 
-            <p class="mb-4">The <strong class="text-[#4A2C2C]">hosted MCP server with URL input</strong> is now genuinely cheap both ways - a URL string in, a URL string out. Upload input is still expensive on the way in because the image is base64-encoded into the tool-call payload, but the return is a short text URL rather than a binary blob; it's a one-way cost rather than a two-way one.</p>
+            <p class="mb-4">The <strong class="text-[#4A2C2C]">hosted MCP server with URL input</strong> is now genuinely cheap both ways - a URL string in, a URL string out. An image attached to the chat is now cheap too: it travels through an upload link rather than as base64 in the tool call, so the agent handles a short ID on the way in and a URL on the way back.</p>
 
-            <p class="mb-6">The <strong class="text-[#4A2C2C]">local install (CLI or <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">mochify serve</code>)</strong> is still the cheapest workflow per image. Nothing about the image ever enters the agent's context - not on the way in, not on the way back. For batch workflows the difference is dramatic: compressing 100 images via the hosted-MCP upload path would push 100 base64 payloads through your agent's context; compressing them via the local install puts a handful of summary lines in.</p>
+            <p class="mb-6">The <strong class="text-[#4A2C2C]">local install (CLI or <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">mochify serve</code>)</strong> is still the cheapest workflow per image. Nothing about the image ever enters the agent's context - not on the way in, not on the way back. For batch workflows it is still the clear winner: 100 images through the hosted upload path means 100 separate upload links, while the local install takes a folder path and puts a handful of summary lines in.</p>
 
             <p class="mb-6">The same paths-not-bytes principle carries over to documents: you can <a href="https://mochify.app/guides/extract-images-from-pdf-agent-workflows">extract, split, and convert PDF pages in an agent pipeline</a> without ever putting page bytes in the agent's context either.</p>
 
