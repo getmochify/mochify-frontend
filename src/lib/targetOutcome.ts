@@ -33,6 +33,44 @@ export function readTargetOutcome(xhr: XMLHttpRequest): TargetOutcome | undefine
 	}
 }
 
+/**
+ * `X-Mochify-Target-Scale`: how far the dimensions lever shrank the output,
+ * relative to the geometry that was asked for (0.710 = 71% of each side).
+ * Absent when the lever did not move. Without a targetLever, core lowers quality
+ * first and then scales, so a large photo with a small ceiling routinely comes
+ * back smaller than the plan said, and the user must be told.
+ */
+export function readTargetScale(xhr: XMLHttpRequest): number | undefined {
+	try {
+		const n = Number(xhr.getResponseHeader('X-Mochify-Target-Scale'));
+		return n > 0 && n < 1 ? n : undefined;
+	} catch {
+		return undefined;
+	}
+}
+
+/** One output the dimensions lever shrank to fit under its ceiling. */
+export interface ScaledTarget {
+	name: string;
+	targetBytes: number;
+	scale: number;
+}
+
+/**
+ * The sentence appended when an output met its ceiling only by being scaled
+ * down. The plan's message is written before core has measured anything, so it
+ * cannot know this; this note is the part that is true after the fact.
+ */
+export function scaleNote(scaled: ScaledTarget[]): string {
+	if (!scaled.length) return '';
+	if (scaled.length === 1) {
+		const s = scaled[0];
+		const pct = Math.round(s.scale * 100);
+		return `To fit under ${formatTargetBytes(s.targetBytes)}, “${s.name}” was also scaled down to ${pct}% of its width and height.`;
+	}
+	return `${scaled.length} files were also scaled down to fit under their size limit.`;
+}
+
 /** One output that came back over the ceiling it was given. */
 export interface MissedTarget {
 	name: string;

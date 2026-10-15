@@ -21,7 +21,14 @@
 	} from '$lib/user';
 	import { posthog } from '$lib/analytics';
 	import { wasStored, deliveryNote } from '$lib/delivery';
-	import { readTargetOutcome, targetNote, type MissedTarget } from '$lib/targetOutcome';
+	import {
+		readTargetOutcome,
+		readTargetScale,
+		scaleNote,
+		targetNote,
+		type MissedTarget,
+		type ScaledTarget
+	} from '$lib/targetOutcome';
 	import { isChunkLoadError, isNetworkError, recoverFromStaleChunk } from '$lib/chunkRecovery';
 	import { withRetry } from '$lib/uploadRetry';
 	import {
@@ -154,6 +161,10 @@
 	// treats it as notable — without this the user is told the run succeeded and
 	// finds out about the miss wherever the size limit came from.
 	let missedTargets: MissedTarget[] = $state([]);
+	// Outputs that met their ceiling only because core also scaled them down.
+	// The plan's message is written before anything is measured, so it cannot
+	// say this; without it a "compress to 1 MB" run silently shrinks a 10 MB photo.
+	let scaledTargets: ScaledTarget[] = $state([]);
 	// Was `mochify:saveToBucket` holding '1'/'0'. Migrated below rather than
 	// abandoned: someone who turned bucket output on should not silently find it
 	// off after a deploy.
@@ -1236,6 +1247,7 @@
 		bucketStored = 0;
 		bucketFallbacks = 0;
 		missedTargets = [];
+		scaledTargets = [];
 		hitRateLimit = false;
 		upgradeCtaMode = 'quota';
 		agentMessage = '';
@@ -2335,7 +2347,13 @@
 				// multi-variant run answers with a ZIP and a bucket write with a JSON
 				// receipt, and comparing either against the ceiling would invent a
 				// miss on every one of them.
-				const recordMiss = (outcome?: string) => {
+				// A floor already gets its own note, which covers any scaling.
+				const recordMiss = (outcome?: string, scale?: number) => {
+					if (ceiling && outcome === 'hit' && scale)
+						scaledTargets = [
+							...scaledTargets,
+							{ name: variantName ?? file.name, targetBytes: ceiling, scale }
+						];
 					if (!ceiling || outcome !== 'floor') return;
 					missedTargets = [
 						...missedTargets,
@@ -2353,6 +2371,7 @@
 						processPhase = 'processing';
 						onUploadEnd?.();
 						let staged: 'hit' | 'floor' | undefined;
+						let stagedScale: number | undefined;
 						const blob = await completeUpload(
 							API_URL,
 							stagedId,
@@ -2360,13 +2379,16 @@
 							undefined,
 							stagedParams,
 							'staged_complete',
-							(o) => (staged = o)
+							(o, scale) => {
+								staged = o;
+								stagedScale = scale;
+							}
 						);
 						posthog.capture('speculative_hit', { size: file.size });
 						// Trust the header when it arrives; fall back to comparing the
 						// bytes we were handed, which is true regardless of whether the
 						// header survived the CORS expose list.
-						recordMiss(staged);
+						recordMiss(staged, stagedScale);
 						return blob;
 					} catch (e) {
 						const status = (e as { status?: number })?.status;
@@ -2458,7 +2480,7 @@
 									xhr.status >= 200 &&
 									xhr.status < 300
 								) {
-									recordMiss(readTargetOutcome(xhr));
+									recordMiss(readTargetOutcome(xhr), readTargetScale(xhr));
 									resolve(xhr.response as Blob);
 									return;
 								}
@@ -2484,7 +2506,7 @@
 									return;
 								}
 								if (xhr.status >= 200 && xhr.status < 300) {
-									recordMiss(readTargetOutcome(xhr));
+									recordMiss(readTargetOutcome(xhr), readTargetScale(xhr));
 									resolve(xhr.response as Blob);
 								} else {
 									rollback();
@@ -2955,14 +2977,17 @@
 					// How often a ceiling is unreachable is the number that says
 					// whether the quality floor is set right — it is the only
 					// feedback on that constant we can get from real traffic.
-					target_missed: missedTargets.length || undefined
+					target_missed: missedTargets.length || undefined,
+					target_scaled: scaledTargets.length || undefined
 				});
 				// A missed ceiling is not a failure — the user has a working image —
 				// but it IS the one thing about this run they must be told, because
 				// the file will be rejected by whatever the limit came from. Appended
 				// to the success message for the same reason deliveryNote is: the work
 				// succeeded, just not in the way that was asked for.
-				const sizeNote = targetNote(missedTargets);
+				const sizeNote = [targetNote(missedTargets), scaleNote(scaledTargets)]
+					.filter(Boolean)
+					.join(' ');
 				const msg =
 					failedFiles.length > 0
 						? `${successCount} of ${totalFiles} images processed. ✨`

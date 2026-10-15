@@ -9,7 +9,7 @@
 // existing single-POST /v1/squish path unchanged — this is only for the
 // minority of large uploads where a flaky connection actually hurts.
 import { withRetry, isRetryable } from '$lib/uploadRetry';
-import { readTargetOutcome, type TargetOutcome } from '$lib/targetOutcome';
+import { readTargetOutcome, readTargetScale, type TargetOutcome } from '$lib/targetOutcome';
 import { posthog } from '$lib/analytics';
 import {
 	uploadErrorMessage,
@@ -123,8 +123,9 @@ export interface ChunkedUploadCallbacks {
 	// `targetBytes` ceiling: 'hit' if the output is under it, 'floor' if core
 	// ran out of levers first and returned the smallest file it could. A 'floor'
 	// is a SUCCESS carrying real bytes, so nothing else in this module would
-	// ever mention it — see targetOutcome.ts.
-	onTargetOutcome?: (outcome: TargetOutcome) => void;
+	// ever mention it — see targetOutcome.ts. `scale` is set when core also
+	// shrank the output to fit (X-Mochify-Target-Scale).
+	onTargetOutcome?: (outcome: TargetOutcome, scale?: number) => void;
 }
 
 interface RetryableXhrError extends Error {
@@ -300,7 +301,7 @@ export function completeUpload(
 	// ceiling. Reported here rather than returned alongside the Blob because
 	// both callers already destructure a bare Blob, and a 'floor' outcome is a
 	// success — it must not change this function's shape for everyone else.
-	onTargetOutcome?: (outcome: TargetOutcome) => void
+	onTargetOutcome?: (outcome: TargetOutcome, scale?: number) => void
 ): Promise<Blob> {
 	return new Promise<Blob>((resolve, reject) => {
 		const xhr = new XMLHttpRequest();
@@ -311,7 +312,7 @@ export function completeUpload(
 		xhr.addEventListener('load', () => {
 			if (xhr.status >= 200 && xhr.status < 300) {
 				const target = readTargetOutcome(xhr);
-				if (target) onTargetOutcome?.(target);
+				if (target) onTargetOutcome?.(target, readTargetScale(xhr));
 				resolve(xhr.response);
 				return;
 			}
