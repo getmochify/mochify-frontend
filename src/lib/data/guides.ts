@@ -651,7 +651,8 @@ export const guides: Guide[] = [
 		url: '/guides/convert-website-images-to-webp-and-avif',
 		category: 'Web Performance',
 		readTime: '34 min read',
-		date: 'October 14, 2026'
+		date: 'October 14, 2026',
+		lastUpdated: 'October 15, 2026'
 	},
 	{
 		title: 'The HTML <picture> Tag (Picture Element): Format Fallbacks, Art Direction and the 2026 Source Order',

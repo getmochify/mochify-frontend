@@ -20,6 +20,7 @@
 		category: 'Web Performance',
 		readTime: '34 min read',
 		date: 'October 14, 2026',
+		lastUpdated: 'October 15, 2026',
 		bylineNote:
 			'Written for the site whose image step rotted: the one-off conversion, the twelve-line script that keeps it converted, and the markup that serves it, with tool status dated October 2026.'
 	};
@@ -38,13 +39,17 @@
 		},
 		{
 			id: 'convert-once',
-			label: 'Convert the images you have, once: the native toolkit and its five traps'
+			label: 'Convert images to AVIF and WebP in bulk, once: the native toolkit and its five traps'
 		},
 		{
 			id: 'mochify-workflow',
-			label: 'Mochify Workflow: convert a whole site in one command, on any machine'
+			label:
+				'Mochify Workflow: convert a whole site to WebP and AVIF in one command, on any machine'
 		},
-		{ id: 'keep-converted', label: 'Keep them converted: a script that only converts new images' },
+		{
+			id: 'keep-converted',
+			label: 'Keep them converted: automate it with a script that only converts new images'
+		},
 		{ id: 'serve', label: 'Serve them: the picture tag, or a CDN that negotiates for you' },
 		{ id: 'wordpress', label: 'WordPress, in one honest paragraph' },
 		{ id: 'quality', label: 'Quality, size and metadata: what the defaults do' },
@@ -189,7 +194,7 @@
 		url: pageUrl,
 		mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
 		datePublished: '2026-10-14',
-		dateModified: '2026-10-14',
+		dateModified: '2026-10-15',
 		inLanguage: 'en',
 		author: {
 			'@type': 'Organization',
@@ -234,7 +239,7 @@
 		description: metadata.description,
 		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
 		datePublished: '2026-10-14',
-		dateModified: '2026-10-14'
+		dateModified: '2026-10-15'
 	};
 
 	/** @param {object} data */
@@ -285,7 +290,7 @@
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
-			{metadata.readTime} · {metadata.date} · Mochify Engineering Team
+			{metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
@@ -550,7 +555,7 @@
 		</section>
 		<section id="convert-once" class="scroll-mt-24">
 			<SectionHeading
-				>Convert the images you have, once: the native toolkit and its five traps</SectionHeading
+				>Convert images to AVIF and WebP in bulk, once: the native toolkit and its five traps</SectionHeading
 			>
 			<p class="mb-4">
 				You can convert a folder of images to WebP and AVIF with free command-line encoders in one
@@ -657,7 +662,7 @@
 		</section>
 		<section id="mochify-workflow" class="scroll-mt-24">
 			<SectionHeading
-				>Mochify Workflow: convert a whole site in one command, on any machine</SectionHeading
+				>Mochify Workflow: convert a whole site to WebP and AVIF in one command, on any machine</SectionHeading
 			>
 			<p class="mb-4">
 				The fastest way to convert a site's images to WebP and AVIF is to describe the result rather
@@ -771,7 +776,9 @@
 			</p>
 		</section>
 		<section id="keep-converted" class="scroll-mt-24">
-			<SectionHeading>Keep them converted: a script that only converts new images</SectionHeading>
+			<SectionHeading
+				>Keep them converted: automate it with a script that only converts new images</SectionHeading
+			>
 			<p class="mb-4">
 				The script that keeps a site converted is the fixed loop from the toolkit section with <code
 					>mochify</code
