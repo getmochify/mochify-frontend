@@ -2,6 +2,7 @@ import { posthog } from '$lib/analytics';
 import { posthogOptions } from '$lib/posthogConfig';
 import { PUBLIC_POSTHOG_PROJECT_TOKEN, PUBLIC_POSTHOG_HOST } from '$env/static/public';
 import { isChunkLoadError, isDynamicImportError, recoverFromStaleChunk } from '$lib/chunkRecovery';
+import { navigating, updated } from '$app/state';
 import type { HandleClientError } from '@sveltejs/kit';
 import type { CaptureResult } from 'posthog-js';
 
@@ -46,11 +47,27 @@ export const handleError: HandleClientError = async ({ error, event, status, mes
 	// the UI to show for it. chunkRecovery documents this limit on isChunkLoadError;
 	// honour it and require a genuine dynamic-import error during hydration.
 	//
-	// SvelteKit only commits the history entry after a load resolves, so on a failed
-	// navigation location.href is still the previous page while event.url is the
-	// target; during hydration the two are equal. That difference is the discriminator.
+	// A HOVER PRELOAD is the third case, and it must never navigate. The site
+	// preloads on hover (data-sveltekit-preload-data in app.html), and a failed
+	// preload reaches this hook with event.url = the hovered link (client.js
+	// load_route, the `preload` branches). It used to be told apart from a real
+	// navigation only by href !== location.href, which a hovered link also passes,
+	// so after a deploy, moving the mouse across the nav sent the user to whatever
+	// link it crossed: "a random page loads". navigating.to is set before a real
+	// navigation's load starts and never for a preload, so that is the test. A
+	// stale preload instead primes `updated`, which makes the beforeNavigate guard
+	// in +layout.svelte turn the eventual click into a full load. Nothing is
+	// reported: a real error recurs on the click, because SvelteKit does not cache
+	// a failed preload.
+	//
+	// During hydration event.url equals location.href, and a real navigation's
+	// target is navigating.to; those two discriminate the remaining cases.
 	const href = event?.url?.href;
-	const isNavigation = !!href && href !== location.href;
+	const isNavigation = !!href && href === navigating.to?.url.href;
+	if (href && href !== location.href && !isNavigation) {
+		if (isChunkLoadError(error)) void updated.check();
+		return { message, status };
+	}
 	const matches = isNavigation ? isChunkLoadError(error) : isDynamicImportError(error);
 
 	// The 30s cooldown in recoverFromStaleChunk bounds a false positive to one hop.
