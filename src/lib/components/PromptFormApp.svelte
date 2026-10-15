@@ -1112,6 +1112,27 @@
 	// the copy offers both "try again" and "rephrase". The worker reports unusable
 	// output as a 422; older deployments used a 502, hence the body sniff alongside
 	// the status check.
+	// A 429 from the prompt service is a PROMPT limit, not the image allowance.
+	// Showing the upgrade prompt for it told signed-in users with images left
+	// that they had run out, so a limit the worker names (`reason`) shows the
+	// worker's own sentence instead; it says the images are untouched and when
+	// prompts reset. An anonymous caller at the monthly cap still gets the
+	// sign-up prompt, because signing in is what raises it.
+	async function handleNlpLimit(res: Response, signedIn: boolean): Promise<void> {
+		const body = (await res.json().catch(() => null)) as {
+			error?: string;
+			reason?: string;
+		} | null;
+		const named = body?.reason === 'nlp_month' || body?.reason === 'nlp_rate';
+		if (named && body?.error && (signedIn || body.reason === 'nlp_rate')) {
+			showStatus('error', body.error);
+			posthog.capture('nlp_limit_hit', { reason: body.reason, signed_in: signedIn });
+			return;
+		}
+		if (signedIn) showUpgradeCta = true;
+		else showSignupCta = true;
+	}
+
 	async function nlpError(res: Response): Promise<Error> {
 		const body = (await res.json().catch(() => null)) as { error?: string } | null;
 		if (res.status >= 500 && body?.error !== 'AI returned invalid format') {
@@ -1306,8 +1327,7 @@
 				});
 				if (!nlpResponse.ok) {
 					if (nlpResponse.status === 429) {
-						if (jwt) showUpgradeCta = true;
-						else showSignupCta = true;
+						await handleNlpLimit(nlpResponse, !!jwt);
 						return;
 					}
 					throw await nlpError(nlpResponse);
@@ -1464,8 +1484,7 @@
 
 			if (!nlpResponse.ok) {
 				if (nlpResponse.status === 429) {
-					if (jwt) showUpgradeCta = true;
-					else showSignupCta = true;
+					await handleNlpLimit(nlpResponse, !!jwt);
 					return;
 				}
 				throw await nlpError(nlpResponse);
