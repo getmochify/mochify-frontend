@@ -21,6 +21,7 @@
 		category: 'Web Performance',
 		readTime: '37 min read',
 		date: 'October 14, 2026',
+		lastUpdated: 'October 15, 2026',
 		bylineNote:
 			'Written from the questions people actually bring to the picture element, with the source order and support figures dated October 2026.'
 	};
@@ -45,7 +46,10 @@
 			label: 'The 2026 source order: AVIF, WebP, JPEG, and where JPEG XL fits'
 		},
 		{ id: 'limits', label: 'Two things the picture tag cannot do: HDR and CSS backgrounds' },
-		{ id: 'picture-vs-srcset', label: 'The HTML picture tag vs srcset vs a plain <img>' },
+		{
+			id: 'picture-vs-srcset',
+			label: 'Responsive images: the HTML picture tag vs srcset vs a plain <img>'
+		},
 		{ id: 'mochify-workflow', label: 'Mochify Workflow: making the AVIF, WebP and JPEG files' },
 		{ id: 'cheat-sheet', label: 'Cheat Sheet' },
 		{ id: 'faq', label: 'FAQ' }
@@ -276,7 +280,7 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
-			{metadata.readTime} · {metadata.date} · Mochify Engineering Team
+			{metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
@@ -393,7 +397,8 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 				This is the markup that satisfies the audit and still works in every browser: an AVIF
 				source, a WebP source, and a JPEG <code>&lt;img&gt;</code> that carries everything else. You
 				replace an existing <code>&lt;img&gt;</code> with it, and put the two extra files next to the
-				JPEG.
+				JPEG. If you searched for a WebP fallback to JPG, this is it, with AVIF added in front because it
+				is smaller still.
 			</p>
 			<CodeCard filename="picture.html" code={snippetCode} />
 			<p class="mb-4">Read it as a set of instructions to the browser, top to bottom:</p>
@@ -1089,7 +1094,7 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 
 		<section id="picture-vs-srcset" class="scroll-mt-24">
 			<SectionHeading
-				>The HTML picture tag vs <code>srcset</code> vs a plain
+				>Responsive images: the HTML picture tag vs <code>srcset</code> vs a plain
 				<code>&lt;img&gt;</code></SectionHeading
 			>
 			<p class="mb-4">
@@ -1097,6 +1102,7 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 				<code>srcset</code> and <code>sizes</code> when the only thing that varies is how big the
 				image needs to be; use <code>&lt;picture&gt;</code> when the format or the crop varies. The three
 				are not competitors so much as three sizes of the same decision, and most pages use all of them.
+				Together they are what the phrase "responsive images" refers to.
 			</p>
 			<p class="mb-4">
 				<code>srcset</code> is the part that confuses people, so in plain terms: <code>srcset</code>

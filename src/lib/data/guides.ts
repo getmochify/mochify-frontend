@@ -661,7 +661,8 @@ export const guides: Guide[] = [
 		url: '/guides/html-picture-tag',
 		category: 'Web Performance',
 		readTime: '37 min read',
-		date: 'October 14, 2026'
+		date: 'October 14, 2026',
+		lastUpdated: 'October 15, 2026'
 	},
 	{
 		title: 'How Do I Give a CSS Background Image a WebP or AVIF Fallback?',
