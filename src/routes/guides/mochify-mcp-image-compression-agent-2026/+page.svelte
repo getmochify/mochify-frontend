@@ -167,7 +167,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date} · Updated {metadata.lastEdited}
+                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastEdited}
             </span>
         </div>
 

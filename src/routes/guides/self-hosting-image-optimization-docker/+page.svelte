@@ -7,7 +7,8 @@
     const metadata = {
         category: "Image Optimization",
         readTime: "5 min read",
-        date: "February 18, 2026"
+        date: "February 18, 2026",
+        lastUpdated: "October 1, 2026"
     };
 </script>
 
@@ -56,7 +57,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date} · Mochify Engineering Team
+                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
             </span>
         </div>
 

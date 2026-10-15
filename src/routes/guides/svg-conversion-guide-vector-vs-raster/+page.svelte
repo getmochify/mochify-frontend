@@ -117,7 +117,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-cocoa-milk">
-                {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated}
+                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 

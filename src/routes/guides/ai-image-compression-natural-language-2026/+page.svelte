@@ -9,7 +9,8 @@
         description: "Describe your image goal in plain English and Mochify's AI picks the format, size and encoding. Powered by Mistral Small 4. No technical knowledge needed.",
         category: "AI & Automation",
         readTime: "8 min read",
-        date: "March 8, 2026"
+        date: "March 8, 2026",
+        lastUpdated: "May 18, 2026"
     };
 </script>
 
@@ -87,7 +88,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
+                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
             </span>
         </div>
 

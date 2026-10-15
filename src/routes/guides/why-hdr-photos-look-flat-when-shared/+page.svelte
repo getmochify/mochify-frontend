@@ -261,7 +261,7 @@ grep X-Mochify-HDR headers.txt
         </h1>
         <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
         <p class="mt-5 text-sm font-bold text-[#875F42] mb-0">
-            {metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
+            {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
         </p>
 
         <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed mt-8 mb-0">

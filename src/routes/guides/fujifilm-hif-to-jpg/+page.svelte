@@ -81,7 +81,7 @@
             {metadata.category}
         </span>
         <span class="text-sm font-bold text-[#875F42]">
-            {metadata.readTime} · {metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''} · Mochify Engineering Team
+            {metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''} · Mochify Engineering Team
         </span>
     </div>
 

@@ -21,7 +21,8 @@
 			'Yes, both carry a full alpha channel. Why a transparent cut-out comes back black or white, five causes, and how to check a file before blaming the format.',
 		category: 'Image Formats',
 		readTime: '14 min read',
-		date: 'September 21, 2026'
+		date: 'September 21, 2026',
+		lastUpdated: 'October 15, 2026'
 	};
 
 	const toc = [
@@ -265,7 +266,7 @@
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
-			{metadata.readTime} · {metadata.date} · Mochify Engineering Team
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">

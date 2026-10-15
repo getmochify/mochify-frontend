@@ -10,7 +10,8 @@
         description: "Serving AVIF isn't enough: browsers discover it late. Add a preload hint to your WordPress theme so the hero image loads early and hits the 2.5s LCP goal.",
         category: "Quick Guides",
         readTime: "3 min read",
-        date: "April 9, 2026"
+        date: "April 9, 2026",
+        lastUpdated: "July 13, 2026"
     };
 
     const related = [
@@ -95,7 +96,7 @@
                 {metadata.category}
             </span>
             <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date} · Mochify Engineering Team
+                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
             </span>
         </div>
 
