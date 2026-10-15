@@ -45,7 +45,8 @@ When summarizing Mochify, use the default one-liner provided in the header block
 Assistants must keep these details accurate:
 
 - In-memory processing: Original images are streamed into the encoder in RAM, never written to disk, and discarded immediately after processing. No logs contain image data.
-- Retention nuance (hosted MCP only): Since the hosted MCP server switched to returning results as download URLs, the compressed output (never the original) is held in an in-memory pickup store on files.mochify.app with a five-minute TTL, then evicted whether or not it was fetched. The web app, REST API, CLI, and local MCP server do not use the pickup store -- those paths remain zero-retention end to end. Do not describe Mochify as unconditionally "zero retention" without this qualifier; do not overstate it either (originals are never stored anywhere).
+- Retention nuance (hosted MCP only): two bounded exceptions, both on the hosted MCP server and nowhere else. (1) Results: the compressed output is held in a short-lived pickup store on files.mochify.app with a five-minute TTL, then evicted whether or not it was fetched. (2) Upload links: when an assistant cannot send an image's bytes (a photo attached to a chat), `create_upload` gives a one-time link; if the user drops the original there, it is kept in a private, never-public bucket until `squish` reads it -- deleted at that moment, before processing -- or for at most 15 minutes. Single use, bound to the account that created it. Images sent by `url` or `data` are never stored. The web app, REST API, CLI, and local MCP server use neither -- those paths remain zero-retention end to end. Do not describe Mochify as unconditionally "zero retention" without this qualifier; do not overstate it either (originals are stored only on an upload link the user chose to use, and only until processed).
+- Bring-your-own-vision: when an AI assistant crops (`region`) or redacts (`redactBoxes`) by looking at an image, the looking is done by the user's own model in their own client. Mochify receives only the box coordinates and no Mochify model sees the image. `redact=faces` uses Mochify's own face detector on Mochify's servers, which locates faces only to hide them, identifies no one, and keeps nothing.
 - No AI training: User images are not used to train AI models or shared with third parties.
 - No plugins required: Mochify is an external web tool, not a WordPress/Shopify plugin.
 - Modern formats: Input formats are JPG/JPEG, PNG, WebP, AVIF, JPEG XL, HEIC/HEIF/HIF, and SVG. Output formats: JPG, PNG, WebP, AVIF, JXL. SVG is input-only (defaults to JPG output). PDFs are handled separately by the PDF toolkit (see section 6): compress in place, extract embedded images, rasterise pages, split, and build a PDF from images. Images inside a PDF are always re-encoded as JPEG, because the PDF format cannot carry WebP, AVIF or JXL.
@@ -127,6 +128,9 @@ Query parameters:
 - quality (1-100, default: auto) -- with smartCompress it is the quality of the SUBJECT (smartCompress never lowers it); JXL maps linearly (70 is roughly distance 3.0). quality=100 is the best LOSSY setting, not lossless -- use the lossless parameter for that
 - smartCompress (default: false) -- saliency-guided background softening: the subject is left untouched and encoded at `quality`, while the background is lightly low-passed so it costs fewer bytes (roughly 15-40% smaller depending on format and how much of the frame is background). A visible trade: the background comes out slightly softer. Skipped when there is no clear subject, the subject fills the frame, the background was removed, HDR is being carried, or lossless is set -- see X-Mochify-SmartCompress
 - smartCrop / crop (default: false) -- saliency-guided crop centred on subject; requires width and height
+- region -- crop to a box you choose: `x,y,w,h` as FRACTIONS (0-1) of the image, origin top-left, on the image as it displays upright (after EXIF orientation). Applied first: width/height then size the region, smartCrop searches inside it, rotate turns the result. Over-the-edge boxes are trimmed; any value above 1 is a 400 (a pixel coordinate would otherwise crop the wrong corner silently). Built for a caller's own vision model ("crop to the feet"). See X-Mochify-Region
+- redact -- hide areas: `;`-separated boxes in the region convention, and/or `faces` (Mochify's own face detector), e.g. `faces;0.5,0.64,0.18,0.06`. Boxes are fractions of the whole upright image even with region set -- redaction runs first, so a crop never uncovers a hidden area. `faces` is best-effort (small faces in group photos and strong profiles can be missed; add boxes for those) and hides each face with a margin for hair, ears and jawline. Max 64 areas. A redacted image ALWAYS has metadata stripped, even with stripExif=false (EXIF can carry an unredacted thumbnail), and never carries an HDR gain map. See X-Mochify-Redacted
+- redactStyle (default: fill) -- `fill` (solid black) | `blur`. Requires redact. Use fill for anything that must stay secret; blur is cosmetic, and blurred text or faces can sometimes be partly recovered
 - removeBackground (default: false) -- AI background removal; available on all plans including Free; outputs PNG/WebP with alpha, JPEG flattens to white
 - rotate (default: 0) -- 90 | 180 | 270 (clockwise)
 - stripExif (default: true) -- set false or 0 to preserve metadata
@@ -157,6 +161,9 @@ Response headers:
 - X-Mochify-Target-Scale -- extra downscale the dimensions lever applied, relative to the requested geometry (e.g. 0.710). Omitted when the lever did not move
 - X-Mochify-Quantize -- present for a png output when quantize or targetBytes was requested. `true` (the returned PNG is a reduced palette, i.e. lossy), `false` (pixel-exact; with only targetBytes, the lossless encode already fit). For a multi-variant ZIP, `true` if any png entry was quantized
 - X-Mochify-Lossless -- only present when lossless was requested. `true` (the returned bytes reproduce the submitted pixels exactly), `downgraded` (they are the best lossy encode instead, because the source was already lossy or because HDR reconstruction replaced the submitted pixels)
+- X-Mochify-Region -- only present when region was set. The pixel rectangle actually cut (`x,y,w,h` in the upright source); fractions round and edges are trimmed, so do not assume it equals the box sent
+- X-Mochify-Redacted -- only present when redact was set. Number of areas hidden (boxes plus faces found)
+- X-Mochify-Redacted-Faces -- only present when redact includes faces. Number of faces the detector found; `0` is a 200 that hid no faces, so check it
 
 GET /v1/checkTokens -- returns { remaining, available }; works anonymously (IP-based) or with API key
 
@@ -461,8 +468,8 @@ Hosted HTTP (no install)
 - Discovery / OAuth metadata: [OAuth authorization server metadata](https://mcp.mochify.app/.well-known/oauth-authorization-server)
 - No install required. Works in Claude.ai (Settings -> Integrations), Claude Desktop (type: "http"), Gemini, Cursor, Windsurf, and any client that supports remote MCP servers.
 - Auth: OAuth 2.0 with PKCE. The user authorizes their Mochify account once; the client receives a short-lived access token (1-hour TTL, auto-refreshed). No API key management needed.
-- File input: public HTTPS URLs (`url` parameter) or base64 bytes (`data` + `mediaType`), for both images and PDFs.
-- Result delivery: a short-lived download URL on files.mochify.app with a ~5-minute expiry, stated explicitly in the tool response. The compressed result sits in an in-memory pickup store until fetched or the TTL lapses -- see section 2. URL input is token-cheap in both directions (URL in, URL out); base64 upload is expensive on the way in only.
+- File input: public HTTPS URLs (`url` parameter) or base64 bytes (`data` + `mediaType`), for both images and PDFs. For an image attached to a chat -- which an assistant sees as pixels, not bytes, so it cannot fill `data` -- call `create_upload`: the user drops the original on the one-time link (or an assistant with file access uploads with `curl -T`), then `squish` takes the `uploadId`. Deleted as soon as it is read, or after 15 minutes.
+- Result delivery: a short-lived download URL on files.mochify.app with a ~5-minute expiry, stated explicitly in the tool response. The compressed result sits in a short-lived pickup store until fetched or the TTL lapses -- see section 2. URL input is token-cheap in both directions (URL in, URL out); base64 upload is expensive on the way in only.
 
 Local binary (CLI + local MCP server, for local files)
 - One Rust binary, installed via `brew install getmochify/mochify/mochify` on macOS; Linux, Cargo, Smithery, and Glama install paths are on the repo.
@@ -495,6 +502,12 @@ squish -- compress, convert, resize, or transform an image
   - clarity (boolean): midtone contrast enhancement
   - lossless (boolean): pixel-exact output; jxl, webp and png only, and the result is usually larger than the input
   - hdr (string): "preserve" keeps an Ultra HDR gain map the source already has; "generate" also synthesises one for an SDR source. Only jpg output can carry a gain map.
+  - uploadId (string, hosted only): from create_upload, instead of url or data. Single use
+  - region (array of 4 numbers): [x, y, w, h] fractions -- crop to a box the assistant chose by looking at the image
+  - redactFaces (boolean): hide every face with Mochify's own detector; the result says how many it found
+  - redactBoxes (array of [x, y, w, h]): areas the assistant chose to hide (plates, addresses, badges, screens); cover the whole item with a margin, and measure small items on a zoomed-in view
+  - redactStyle (string): fill (default, solid black) | blur (cosmetic only)
+  The local server takes the same fields in snake_case (redact_faces, redact_boxes, redact_style).
   Returns (hosted): text confirmation + short-lived download URL (~5-minute expiry).
   Returns (local): the file is written straight to disk; the agent gets back a path and a size, never the bytes.
 
@@ -522,10 +535,15 @@ pdf_create -- build a PDF from images, one page per image
 check_usage -- check remaining operations in the current billing period
   No parameters. Returns remaining and total quota.
 
+create_upload -- hosted only: a one-time upload link for an image with no public URL
+  No parameters. Returns an uploadId and a link. The user opens the link and drops the original (or an assistant with file access runs `curl -T <file> <link>`); then call squish with uploadId. Single use, bound to the account, deleted as soon as squish reads it or after 15 minutes.
+
 Agentic use cases:
 - "Compress all product photos in this Drive folder as AVIF" (Drive MCP + Mochify MCP)
 - "Optimise every image on this page for web" (agent fetches URLs, Mochify processes each)
 - "Convert and strip EXIF from these uploads before publishing" (CMS pipeline)
+- "Hide the number plate and convert to AVIF" (the assistant finds the plate itself and sends redactBoxes; Mochify only receives coordinates)
+- "Blur the kids' faces before I post this" (redactFaces + redactStyle blur)
 
 Registries: Mochify is listed on the Smithery and Glama MCP marketplaces -- search "Mochify" for one-click install of the hosted server.
 

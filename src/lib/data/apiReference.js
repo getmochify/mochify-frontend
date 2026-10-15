@@ -148,6 +148,25 @@ export const squishParams = [
 			'Saliency-guided crop, centered on the detected subject. Requires both <code>width</code> and <code>height</code>. Accepts <code>1</code> or <code>true</code>.'
 	},
 	{
+		name: 'region',
+		description:
+			'Crop to a rectangle you choose, as four comma-separated <strong>fractions</strong> of the image: <code>x,y,w,h</code> from the top-left corner (<code>0.25,0.5,0.5,0.5</code> is the middle of the bottom half). Built for a caller whose own vision model picks the box, as in "crop to the feet": Mochify receives four numbers, never the image description.',
+		more: 'Measured on the image as it displays <em>upright</em>, after EXIF orientation, and applied before everything else: <code>width</code> and <code>height</code> then size the region, <code>smartCrop</code> searches inside it, and <code>rotate</code> turns the result. A box running past an edge is trimmed to the image. Any value above <code>1</code> is a <code>400</code>, because that is a pixel coordinate and would otherwise crop the wrong corner without complaint. Check <code>X-Mochify-Region</code> for the pixel rectangle actually cut.'
+	},
+	{
+		name: 'redact',
+		description:
+			'Hide areas of the image. A <code>;</code>-separated list of boxes in the same <code>x,y,w,h</code> fraction convention as <code>region</code> (a number plate, an address label, a screen), and/or <code>faces</code> to find and hide faces automatically. For example <code>faces;0.5,0.64,0.18,0.06</code>.',
+		more: 'Boxes are fractions of the whole upright image even when <code>region</code> is also set: redaction runs first, so a crop can never uncover a hidden area. <code>faces</code> uses Mochify\'s own face detector on our servers, never a third-party service, and is best-effort: it can miss small faces in group photos and strong side profiles, so add boxes for any it misses. Detected faces are hidden with a margin for hair, ears and jawline. Up to 64 areas. Because hidden content can survive outside the pixels, a redacted image <strong>always</strong> has its metadata stripped, even with <code>stripExif=false</code> (EXIF can hold an unredacted thumbnail), and never carries an HDR gain map. Check <code>X-Mochify-Redacted</code> and <code>X-Mochify-Redacted-Faces</code> for what was hidden.'
+	},
+	{
+		name: 'redactStyle',
+		default: 'fill',
+		description:
+			'How hidden areas look: <code>fill</code> (solid black) or <code>blur</code>. Requires <code>redact</code>.',
+		more: 'Use <code>fill</code> for anything that must stay secret. <code>blur</code> is a cosmetic look: blurred text and faces can sometimes be partly recovered.'
+	},
+	{
 		name: 'removeBackground',
 		default: 'false',
 		description:
@@ -300,6 +319,21 @@ export const squishResponse = [
 		name: 'X-Mochify-Quantize',
 		description:
 			'Present for a <code>png</code> output when <code>quantize</code> or <code>targetBytes</code> was requested. <code>true</code> means the returned PNG is a reduced palette (lossy); <code>false</code> means it is pixel-exact. With only <code>targetBytes</code>, <code>false</code> means the lossless encode already fit. For a multi-variant ZIP, <code>true</code> if any <code>png</code> entry was quantized.'
+	},
+	{
+		name: 'X-Mochify-Region',
+		description:
+			'Only present when <code>region</code> was set. The pixel rectangle actually cut, as <code>x,y,w,h</code> in the upright source. Fractions round and an over-the-edge box is trimmed, so do not assume it equals the box you sent.'
+	},
+	{
+		name: 'X-Mochify-Redacted',
+		description:
+			'Only present when <code>redact</code> was set. How many areas were hidden: your boxes plus any faces found.'
+	},
+	{
+		name: 'X-Mochify-Redacted-Faces',
+		description:
+			'Only present when <code>redact</code> includes <code>faces</code>. How many faces the detector found. <code>0</code> is a successful response that hid no faces, so check it rather than assuming.'
 	}
 ];
 
@@ -804,7 +838,7 @@ export const surfaces = [
 		name: 'Hosted MCP server',
 		url: 'https://mcp.mochify.app',
 		description:
-			'OAuth, no install. Returns a short-lived download URL on files.mochify.app rather than inline binary.'
+			'OAuth, no install. Returns a short-lived download URL on files.mochify.app rather than inline binary. For an image attached to a chat, which an assistant sees as pixels rather than bytes, create_upload gives a one-time upload link.'
 	}
 ];
 
@@ -821,6 +855,8 @@ export const cli = {
 	usage: [
 		'mochify photo.jpg --type webp: compress and convert.',
 		'mochify *.jpg -p "resize to 1200px and convert to webp": Magic Flow, the same natural-language path the web app uses.',
+		'mochify photo.jpg --redact faces: hide every face. --redact also takes boxes (x,y,w,h fractions, separated by ;) and --redact-style blur.',
+		'mochify photo.jpg --region 0.44,0.86,0.2,0.14: crop to a box given as fractions of the upright image.',
 		'mochify serve: run the local MCP server over stdio.'
 	],
 	repo: 'https://github.com/getmochify/mochify-cli',
@@ -835,7 +871,7 @@ export const mcp = {
 		endpoint: 'https://mcp.mochify.app/mcp',
 		discovery: 'https://mcp.mochify.app/.well-known/oauth-authorization-server',
 		auth: 'OAuth 2.0 with PKCE. The user authorizes their Mochify account once and the client receives a short-lived access token (1-hour TTL, auto-refreshed). No API key management.',
-		input: 'Public HTTPS URLs (url parameter) or base64 bytes (data plus mediaType), for both images and PDFs.',
+		input: 'Public HTTPS URLs (url parameter) or base64 bytes (data plus mediaType), for both images and PDFs. For an image attached to a chat, call create_upload: it returns a one-time link that the user drops the original on (or that an assistant with file access uploads to directly), and squish then takes the uploadId. The upload is deleted as soon as squish reads it, or after 15 minutes.',
 		output:
 			'A short-lived download URL on files.mochify.app with a 5-minute expiry, stated in the tool response.',
 		clients:
@@ -851,7 +887,12 @@ export const mcp = {
 		{
 			name: 'squish',
 			description:
-				'Compress, convert, resize or transform an image. Parameters (all optional): url, data, mediaType, type (jpg | png | webp | avif | jxl), width, height, quality (1–100), crop, rotate (0 | 90 | 180 | 270), removeBackground, background, stripExif (default true), smartCompress, optimizeForWeb, brightness (-100 to +100), clarity, lossless (jxl, webp and png only), hdr ("preserve" keeps a gain map the source has, "generate" also synthesises one for an SDR source).'
+				'Compress, convert, resize or transform an image. Parameters (all optional): url, data, mediaType, type (jpg | png | webp | avif | jxl), width, height, quality (1–100), crop, rotate (0 | 90 | 180 | 270), removeBackground, background, stripExif (default true), smartCompress, optimizeForWeb, brightness (-100 to +100), clarity, lossless (jxl, webp and png only), hdr ("preserve" keeps a gain map the source has, "generate" also synthesises one for an SDR source), uploadId (from create_upload, instead of url or data), region ([x, y, w, h] fractions: crop to a box the assistant chose by looking at the image), redactFaces (hide every face with Mochify\'s detector), redactBoxes (array of [x, y, w, h] fraction boxes to hide), redactStyle (fill | blur, default fill). The local server takes the same fields in snake_case (redact_faces, redact_boxes, redact_style).'
+		},
+		{
+			name: 'create_upload',
+			description:
+				'Hosted only. Returns a one-time upload link and an uploadId, for an image that has no public URL and whose bytes the assistant cannot send, such as a photo attached to a chat. The user opens the link and drops the original, or an assistant with file access uploads with curl -T; squish then takes the uploadId. Single use, bound to the account that created it, deleted as soon as squish reads it or after 15 minutes.'
 		},
 		{
 			name: 'pdf',
@@ -882,6 +923,16 @@ export const privacyModel = [
 		path: 'Hosted MCP output',
 		claim:
 			'The original is wiped immediately. The compressed output is held in a pickup store under an unguessable hash with a 5-minute TTL so the files.mochify.app URL resolves, then evicted whether or not it was fetched.'
+	},
+	{
+		path: 'Hosted MCP upload link (create_upload)',
+		claim:
+			'The one case where an original is stored, and only when the user chooses it: an image dropped on a one-time upload link, for chat clients that cannot send its bytes. It is kept in a private bucket that is never publicly served, deleted as soon as squish reads it (before processing starts), and deleted after 15 minutes if it is never used. Single use, and only the account that created the link can process it. Images sent by url or data are never stored.'
+	},
+	{
+		path: 'Crops and redactions chosen by an AI assistant',
+		claim:
+			'When an assistant crops (region) or redacts (redactBoxes) by looking at an image, the looking is done by the user\'s own model in their own client. Mochify receives four numbers per box, and no Mochify model sees the image. redact=faces uses Mochify\'s own face detector, which only locates faces in order to hide them: it does not identify anyone and keeps nothing.'
 	},
 	{
 		path: 'CLI and local MCP (mochify serve)',
