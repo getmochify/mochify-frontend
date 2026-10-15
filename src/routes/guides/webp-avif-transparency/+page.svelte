@@ -152,7 +152,7 @@
 				"@id": "https://mochify.app/guides/webp-avif-transparency"
 			},
 			"datePublished": "2026-09-21",
-			"dateModified": "2026-10-01",
+			"dateModified": "2026-10-15",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -644,7 +644,11 @@
 			<p class="mb-4">
 				A practical rule: keep a PNG master, publish WebP by default, add AVIF where your stack (a
 				modern CMS, an image CDN, or your own build pipeline) serves it with a fallback, and flatten
-				to JPEG only for the platforms that will do it for you anyway. Our <a
+				to JPEG only for the platforms that will do it for you anyway. If the cut-out is a CSS
+				background rather than an img, our answer on <a
+					href="/guides/css-background-image-webp-fallback"
+					>giving a CSS background image a WebP or AVIF fallback</a
+				> has the two-line version. Our <a
 					href="/guides/should-my-product-images-be-avif-or-webp-in-2026"
 					>AVIF or WebP for product images</a
 				>

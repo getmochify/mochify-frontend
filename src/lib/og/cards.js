@@ -317,6 +317,11 @@ export const cards = [
 		title: 'The HTML Picture Tag: Format Fallbacks and Art Direction'
 	},
 	{
+		path: '/guides/css-background-image-webp-fallback',
+		eyebrow: 'GUIDE',
+		title: 'How to Give a CSS Background Image a WebP or AVIF Fallback'
+	},
+	{
 		path: '/guides/compress-pdf-on-mac',
 		eyebrow: 'GUIDE',
 		title: 'How to Compress a PDF on Mac Without Losing Quality'

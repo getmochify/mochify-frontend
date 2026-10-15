@@ -176,7 +176,7 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 		url: pageUrl,
 		mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
 		datePublished: '2026-10-14',
-		dateModified: '2026-10-14',
+		dateModified: '2026-10-15',
 		inLanguage: 'en',
 		author: {
 			'@type': 'Organization',
@@ -222,7 +222,7 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 		description: metadata.description,
 		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
 		datePublished: '2026-10-14',
-		dateModified: '2026-10-14'
+		dateModified: '2026-10-15'
 	};
 
 	// The headline carries a literal <picture>, so every `<` is escaped before
@@ -1081,7 +1081,9 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 				index CSS images at all, so a photo you want to appear in image search belongs in an
 				<code>&lt;img&gt;</code>
 				inside a <code>&lt;picture&gt;</code>, not in a background. The CSS version has its own
-				short article in this series: how to give a CSS background image a WebP or AVIF fallback.
+				short article in this series: <a href="/guides/css-background-image-webp-fallback"
+					>how to give a CSS background image a WebP or AVIF fallback</a
+				>.
 			</p>
 		</section>
 

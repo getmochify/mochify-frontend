@@ -663,6 +663,15 @@ export const guides: Guide[] = [
 		date: 'October 14, 2026'
 	},
 	{
+		title: 'How Do I Give a CSS Background Image a WebP or AVIF Fallback?',
+		description:
+			'Use image-set() with type() for the AVIF and WebP, with a plain url() JPEG line before it. Baseline since September 2023; what older Safari gets.',
+		url: '/guides/css-background-image-webp-fallback',
+		category: 'Web Performance',
+		readTime: '10 min read',
+		date: 'October 15, 2026'
+	},
+	{
 		title: 'How to Compress a PDF on Mac Without Losing Quality',
 		description:
 			"What Preview's Reduce File Size really does (JPEG 0.7, 144 dpi on macOS 27), a custom filter for print, the iOS 27 route, and a one-prompt alternative.",
