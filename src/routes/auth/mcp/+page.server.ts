@@ -57,6 +57,11 @@ export const actions: Actions = {
             return fail(502, { error: 'Redirect URI must use HTTPS.' })
         }
 
-        redirect(302, `${redirectUri}?code=${encodeURIComponent(code)}&state=${encodeURIComponent(state)}`)
+        // Added to whatever query the client registered rather than appended as
+        // `?code=…`, which turned `/cb?client=x` into `/cb?client=x?code=…`.
+        // set() also replaces a code or state the registered URI already carried.
+        parsedUri.searchParams.set('code', code)
+        parsedUri.searchParams.set('state', state)
+        redirect(302, parsedUri.toString())
     },
 }
