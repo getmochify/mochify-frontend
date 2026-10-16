@@ -349,7 +349,7 @@ export const cards = [
 	{
 		path: '/guides/next-gen-image-formats-wordpress',
 		eyebrow: 'GUIDE',
-		title: 'Fix “Serve Images in Next-Gen Formats” in WordPress (No Plugins)'
+		title: 'Fix “Improve Image Delivery” in WordPress Without a Plugin'
 	},
 	{
 		path: '/guides/on-device-ai-agents-image-optimization',

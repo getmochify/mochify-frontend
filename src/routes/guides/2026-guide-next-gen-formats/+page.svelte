@@ -10,7 +10,7 @@
         category: "Image Formats",
         readTime: "20 min read",
         datePublished: "February 10, 2026",
-        lastUpdated: "October 14, 2026"
+        lastUpdated: "October 16, 2026"
     };
 
     const related = [
@@ -106,7 +106,7 @@
             }
         ],
         "datePublished": "2026-02-10",
-        "dateModified": "2026-10-14"
+        "dateModified": "2026-10-16"
         }
     </script>
 </svelte:head>
@@ -851,7 +851,7 @@
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Google's Next-Gen Format Recommendation</h3>
             <p class="mb-6">
-                PageSpeed Insights flags images with "Serve images in next-gen formats" when it detects JPEG or PNG. The recommendation explicitly calls out WebP and AVIF as preferred formats. Translation: Google wants you using modern compression. They're not subtle about it. Sites serving legacy formats get dinged in performance audits, which influences rankings.
+                PageSpeed Insights used to flag images with "Serve images in next-gen formats" when it detected JPEG or PNG; since Lighthouse 13 (October 2025) the same check lives inside the "Improve image delivery" insight (<a href="/guides/next-gen-image-formats-wordpress">how to clear it in WordPress without a plugin</a>). The recommendation explicitly calls out WebP and AVIF as preferred formats. Translation: Google wants you using modern compression. They're not subtle about it. Sites serving legacy formats get dinged in performance audits, which influences rankings.
             </p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Real LCP Score Examples</h3>
@@ -963,7 +963,7 @@
             <strong>For marketplace sellers (eBay, Etsy, Amazon):</strong> Convert HEIC to JPEG before upload. Platforms don't support WebP/AVIF uploads yet (as of Feb 2026), so pre-optimize JPEGs to their exact dimension requirements. (Our marketplace-specific guides break down exact specs - eBay's 1600px limit, Etsy's 3000px main image requirement, etc.)
         </li>
         <li>
-                    <strong>For WordPress users:</strong> Avoid image optimization plugins. Seriously. They bloat your database with 5-8 size variants per image, hammer your server with on-demand processing, and often use outdated compression libraries. Optimize externally, upload once, done. (Our guide on fixing LCP without plugins covers the clean workflow.)
+                    <strong>For WordPress users:</strong> Avoid image optimization plugins. Seriously. They bloat your database with 5-8 size variants per image, hammer your server with on-demand processing, and often use outdated compression libraries. Optimize externally, upload once, done. (Our guide to <a href="/guides/next-gen-image-formats-wordpress">fixing PageSpeed's image warning in WordPress without a plugin</a> covers the clean workflow.)
                 </li>
             </ul>
         </section>

@@ -177,7 +177,8 @@ export const guides: Guide[] = [
 		url: '/guides/does-stripping-exif-data-improve-wordpress-image-seo',
 		category: 'Quick Guides',
 		readTime: '2 min read',
-		date: 'August 7, 2026'
+		date: 'August 7, 2026',
+		lastUpdated: 'October 16, 2026'
 	},
 	{
 		title: 'Product Image Requirements for Every Major Marketplace',
@@ -448,14 +449,14 @@ export const guides: Guide[] = [
 		lastUpdated: 'June 24, 2026'
 	},
 	{
-		title: 'Fix "Next-Gen Formats" in WordPress (No Plugins) & Boost LCP',
+		title: 'How to Fix "Improve Image Delivery" in WordPress Without a Plugin',
 		description:
-			'Boost LCP on your WordPress site by fixing "Serve images in next-gen formats" without plugins. A simple, plugin-free workflow for pre-optimizing images with Mochify before uploading to WordPress.',
+			'PageSpeed\'s "Improve image delivery" is the old next-gen formats warning. What it scores, what WordPress does by itself, and the plugin-free WebP/AVIF fix.',
 		url: '/guides/next-gen-image-formats-wordpress',
 		category: 'WordPress Performance',
-		readTime: '15 min read',
+		readTime: '37 min read',
 		date: 'February 9, 2026',
-		lastUpdated: 'October 14, 2026'
+		lastUpdated: 'October 16, 2026'
 	},
 	{
 		title: 'The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL',
@@ -465,7 +466,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '20 min read',
 		date: 'February 10, 2026',
-		lastUpdated: 'October 14, 2026'
+		lastUpdated: 'October 16, 2026'
 	},
 	{
 		title: 'Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game',

@@ -9,7 +9,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         date: "August 7, 2026",
-        lastUpdated: "August 21, 2026"
+        lastUpdated: "October 16, 2026"
     };
 
     const related = [
@@ -47,7 +47,7 @@
             "@id": "https://mochify.app/guides/does-stripping-exif-data-improve-wordpress-image-seo"
         },
         "datePublished": "2026-08-07",
-        "dateModified": "2026-08-21",
+        "dateModified": "2026-10-16",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -103,7 +103,7 @@
         "description": "Stripping EXIF data doesn't improve WordPress image SEO rankings, but it trims file size and removes private location data.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-08-07",
-        "dateModified": "2026-08-21"
+        "dateModified": "2026-10-16"
         }
     </script>
 </svelte:head>
@@ -151,7 +151,7 @@
 
         <section id="when-to-keep-it">
             <SectionHeading>When to keep it</SectionHeading>
-            <p>Skip stripping if you rely on embedded rights data for licensing or stock-photo attribution, since Google's Licensable badge depends on it. Everyone else, meaning most WordPress sites, can safely default to stripping: it trims a little weight and removes GPS and location data that shouldn't be public, even though it won't move rankings. Image weight adds up: the median homepage carried roughly 1,058 KB of images on desktop in 2025, per the <a href="https://almanac.httparchive.org/en/2025/page-weight" target="_blank" rel="noopener noreferrer">HTTP Archive Web Almanac</a>. EXIF is a small slice of that, but it's free to remove.</p>
+            <p>Skip stripping if you rely on embedded rights data for licensing or stock-photo attribution, since Google's Licensable badge depends on it. Everyone else, meaning most WordPress sites, can safely default to stripping: it trims a little weight and removes GPS and location data that shouldn't be public, even though it won't move rankings. Image weight adds up: the median homepage carried roughly 1,058 KB of images on desktop in 2025, per the <a href="https://almanac.httparchive.org/en/2025/page-weight" target="_blank" rel="noopener noreferrer">HTTP Archive Web Almanac</a>. EXIF is a small slice of that, but it's free to remove. The larger slice is the format and pixel size of the images themselves, which is what PageSpeed's "Improve image delivery" row measures; <a href="/guides/next-gen-image-formats-wordpress">fixing that warning in WordPress without a plugin</a> is its own guide.</p>
             <p>For more on the risks of leaving EXIF data intact, including GPS leakage and device fingerprinting, see our full guide on <a href="/guides/exif-data-risks-image-compression-2026">EXIF data risks in image compression</a>.</p>
         </section>
 
