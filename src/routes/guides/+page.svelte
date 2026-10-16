@@ -57,11 +57,18 @@
 
 <div class="px-4 pt-2 pb-12 sm:px-6 lg:px-8">
 
-<header class="text-center mb-12">
-    <h1 class="text-5xl md:text-6xl font-black bg-gradient-to-r from-[#FFB3C6] via-[#E0ACD5] to-[#9B7EC8] bg-clip-text text-transparent leading-tight pb-2 mb-6">
-        Image Optimization Guides
+<!-- Mirrors the guide-page header (eyebrow, cocoa H1, gradient bar) so the
+     index and the articles read as one product, and lines up with the
+     left-aligned sections below. -->
+<header class="mb-14">
+    <p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+        Guides · {guides.length} articles
+    </p>
+    <h1 class="mb-0 text-4xl md:text-[3.25rem] font-black tracking-tight leading-[1.1] text-[#4A2C2C]">
+        Image Optimization <span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">Guides</span>
     </h1>
-    <p class="text-xl text-[#875F42] font-medium max-w-2xl mx-auto">
+    <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+    <p class="mt-5 mb-0 text-lg md:text-xl leading-relaxed text-[#6C3F31] max-w-2xl">
         In-depth articles about modern image formats, compression techniques, and best practices for web performance.
     </p>
 </header>
@@ -201,6 +208,23 @@
 </div>
 
 <style>
+    /* The breadcrumb renders in the shared guides layout with no gutter from
+       md up; give it this page's wrapper padding (sm:px-6 lg:px-8) so it lines
+       up with the header and cards. */
+    @media (min-width: 640px) {
+        :global(nav[aria-label='Breadcrumb']) {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        :global(nav[aria-label='Breadcrumb']) {
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+    }
+
     .featured-heading-bar {
         height: 5px;
         width: 60px;
