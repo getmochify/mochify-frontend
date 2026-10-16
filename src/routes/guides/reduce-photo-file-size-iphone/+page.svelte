@@ -701,7 +701,7 @@
 			<SectionHeading>What does not work (or not the way you think)</SectionHeading>
 			<p class="mb-4">
 				Several popular tips either do not reduce the file you send, or do it by damaging the photo.
-				Four to skip:
+				Five to skip:
 			</p>
 			<ul class="mb-4 ml-6 list-disc space-y-3">
 				<li>
@@ -726,6 +726,14 @@
 				<li>
 					<strong>Cropping as a compression method.</strong> Cropping reduces the file because it discards
 					part of the picture. If you want the whole picture, resize instead.
+				</li>
+				<li>
+					<strong>Asking an AI chatbot to compress it.</strong> ChatGPT, Claude and Perplexity will hand
+					back a smaller JPEG, but the photo is resized before the model sees it (to 2048 x 1536 in ChatGPT's
+					case, from our 5712 x 4284 original), so you get a fraction of the pixels and no say in the quality
+					setting. Our test of
+					<a href="/guides/can-chatgpt-compress-images">what happens when you ask a chatbot to compress a photo</a>
+					has the figures.
 				</li>
 			</ul>
 		</section>

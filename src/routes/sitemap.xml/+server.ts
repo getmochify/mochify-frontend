@@ -61,6 +61,7 @@ export async function GET() {
 		'/guides/convert-website-images-to-webp-and-avif',
 		'/guides/html-picture-tag',
 		'/guides/css-background-image-webp-fallback',
+		'/guides/can-chatgpt-compress-images',
 		'/guides/compress-pdf-on-mac',
 		'/guides/jpeg-xl-chrome-support',
 		'/guides/reduce-photo-file-size-iphone',

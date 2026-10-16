@@ -366,7 +366,7 @@ export const guides: Guide[] = [
 		category: 'AI & Automation',
 		readTime: '4 min read',
 		date: 'June 7, 2026',
-		lastUpdated: 'October 9, 2026'
+		lastUpdated: 'October 16, 2026'
 	},
 	{
 		title: 'What Is a HIF File? (And How to Open One)',
@@ -564,7 +564,7 @@ export const guides: Guide[] = [
 		category: 'AI & Automation',
 		readTime: '15 min read',
 		date: 'July 17, 2026',
-		lastUpdated: 'October 14, 2026'
+		lastUpdated: 'October 16, 2026'
 	},
 	{
 		title: 'A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression',
@@ -643,6 +643,15 @@ export const guides: Guide[] = [
 		category: 'Workflows',
 		readTime: '12 min read',
 		date: 'April 23, 2026'
+	},
+	{
+		title: 'Can ChatGPT Compress a Photo? We Measured What Comes Back',
+		description:
+			'One 24 MP iPhone photo, five AI chatbots, every returned file measured. The compression happened at upload, before any model saw it. What comes back.',
+		url: '/guides/can-chatgpt-compress-images',
+		category: 'AI & Automation',
+		readTime: '29 min read',
+		date: 'October 16, 2026'
 	},
 	{
 		title: "Convert a Website's Images to WebP and AVIF, and Keep Them That Way",

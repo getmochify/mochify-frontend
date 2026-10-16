@@ -11,7 +11,7 @@
         category: "AI & Automation",
         readTime: "4 min read",
         date: "June 7, 2026",
-        lastUpdated: "October 9, 2026"
+        lastUpdated: "October 16, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -43,7 +43,7 @@
         "description": "No single number: about 1,300 tokens per megapixel on Claude, 1,229 on GPT-5.5+, 1,032 on Gemini. Generating one costs 196 to 7,024 output tokens. Dated.",
         "url": "https://mochify.app/guides/llm-image-token-costs",
         "datePublished": "2026-06-07",
-        "dateModified": "2026-10-09",
+        "dateModified": "2026-10-16",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -232,7 +232,7 @@
         <section id="why-this-matters">
             <SectionHeading>Why this matters for local and agent workflows</SectionHeading>
             <p>The cost is small for one image and dangerous at scale. Claude allows up to 100 images per API request on its 200k-context models, and OpenAI allows 500 image inputs per request, but the context window fills long before those hard limits bite.</p>
-            <p>It is worse on local and open-weight models. Consumer hardware typically runs models at an 8k–32k token context window. At Claude's rate of 1,296 tokens per 1 MP image, just 6 to 24 full-resolution images inline would exhaust the entire context before the model does any work. The bottleneck on memory-constrained hardware is rarely compute; it is context saturation.</p>
+            <p>It is worse on local and open-weight models. Consumer hardware typically runs models at an 8k–32k token context window. At Claude's rate of 1,296 tokens per 1 MP image, just 6 to 24 full-resolution images inline would exhaust the entire context before the model does any work. The bottleneck on memory-constrained hardware is rarely compute; it is context saturation. The same ceilings decide what a chat window does to a photo you attach: we measured <a href="/guides/can-chatgpt-compress-images">what happens when you ask a chatbot to compress a photo</a>, and the resize came first.</p>
 
             <InfoBox type="tip" title="The context-saturation math">
                 At ~1,300 tokens per 1 MP image, 6 to 24 full-resolution images can fill an entire 8k–32k context window before an agent starts work. (A rule of thumb derived from the published formulas above, not a single quoted source.)

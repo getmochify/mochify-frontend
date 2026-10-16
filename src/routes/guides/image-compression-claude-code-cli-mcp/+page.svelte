@@ -12,7 +12,7 @@
         category: "AI & Automation",
         readTime: "15 min read",
         date: "July 17, 2026",
-        lastUpdated: "October 14, 2026"
+        lastUpdated: "October 16, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -98,7 +98,7 @@
             "@id": "https://mochify.app/guides/image-compression-claude-code-cli-mcp"
         },
         "datePublished": "2026-07-17",
-        "dateModified": "2026-10-14",
+        "dateModified": "2026-10-16",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -154,7 +154,7 @@
         "description": "Can Claude Code use MCP? Yes. Here's how to compress images inside Claude Code with the Mochify CLI as a build step and a local MCP server.",
         "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
         "datePublished": "2026-07-17",
-        "dateModified": "2026-10-14"
+        "dateModified": "2026-10-16"
         }
     </script>
 
@@ -267,7 +267,7 @@ claude mcp get mochify # details for one server
             <SectionHeading>Why image bytes are expensive</SectionHeading>
             <p>Returning raw image bytes into an agent's context is slow and costly; returning a file path or URL is cheap, and the protocol is built for it. The MCP tools spec defines <code class={inlineCode}>resource_link</code> and <code class={inlineCode}>resource</code> content types precisely so servers can hand back a handle instead of inlining a base64 blob (<a href="https://modelcontextprotocol.io/specification/2025-06-18/server/tools" target="_blank" rel="noopener noreferrer">Model Context Protocol: Tools</a>). Claude Code reinforces this with hard limits: it warns when any MCP tool output exceeds 10,000 tokens and enforces a default cap of 25,000 tokens, which you can raise with <code class={inlineCode}>MAX_MCP_OUTPUT_TOKENS</code> (<a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener noreferrer">Claude Code MCP docs</a>).</p>
             <p>The cost side is real. Images are tokenized alongside text and billed from the same pool; Anthropic's token-counting endpoint counts images and PDFs just like prompt text (<a href="https://platform.claude.com/docs/en/build-with-claude/token-counting" target="_blank" rel="noopener noreferrer">Anthropic token counting</a>). With 2026 flagship pricing in the region of $5 per million input tokens and $25 per million output tokens on a 1M-token context window, a batch job that inlines hundreds of images can quietly burn tens of thousands of tokens per run before the model has done any useful reasoning.</p>
-            <p>This is the core reason the local MCP path matters for developers. Mochify's local MCP server (<code class={inlineCode}>mochify serve</code>) returns file paths and metadata, not image bytes, so the image data never enters the agent's context at all. The agent sees "compressed <code class={inlineCode}>/assets/hero.avif</code>, 2.4 MB to 410 KB" as a short string and keeps going. The direct CLI behaves the same way: bytes flow from your disk to the encoder and back to disk, with only a one-line summary surfacing to the session.</p>
+            <p>This is the core reason the local MCP path matters for developers. Mochify's local MCP server (<code class={inlineCode}>mochify serve</code>) returns file paths and metadata, not image bytes, so the image data never enters the agent's context at all. The agent sees "compressed <code class={inlineCode}>/assets/hero.avif</code>, 2.4 MB to 410 KB" as a short string and keeps going. The direct CLI behaves the same way: bytes flow from your disk to the encoder and back to disk, with only a one-line summary surfacing to the session. Attaching the image to a chat has the opposite problem: the upload pipeline shrinks it before the model sees it, which is what our test of <a href="/guides/can-chatgpt-compress-images">asking a chatbot to compress a photo</a> measured.</p>
         </section>
 
         <section id="three-real-workflows" class="scroll-mt-24">

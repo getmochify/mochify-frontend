@@ -322,6 +322,11 @@ export const cards = [
 		title: 'How to Give a CSS Background Image a WebP or AVIF Fallback'
 	},
 	{
+		path: '/guides/can-chatgpt-compress-images',
+		eyebrow: 'GUIDE',
+		title: 'Can ChatGPT Compress a Photo? We Measured What Comes Back'
+	},
+	{
 		path: '/guides/compress-pdf-on-mac',
 		eyebrow: 'GUIDE',
 		title: 'How to Compress a PDF on Mac Without Losing Quality'
