@@ -348,6 +348,25 @@ export const squishExamples = [
   --output photo.webp`
 	},
 	{
+		label: 'cURL - redact and crop',
+		language: 'bash',
+		code: `# Hide every face the detector finds, plus one box you chose
+# (a number plate, as fractions x,y,w,h of the upright image),
+# then crop to a region. Redaction runs first, so the crop
+# cannot uncover anything. Output: WebP, 1600 wide.
+curl -X POST "https://api.mochify.app/v1/squish?type=webp&width=1600&redact=faces;0.155,0.54,0.205,0.075&redactStyle=fill&region=0.02,0.35,0.74,0.46" \\
+  -H "Content-Type: image/jpeg" \\
+  -H "Authorization: Bearer mchy_your_api_key" \\
+  --data-binary @listing.jpg \\
+  --output listing-redacted.webp \\
+  --dump-header headers.txt
+
+# headers.txt will include, for this call:
+#   X-Mochify-Redacted: 3          (2 faces found + 1 box, for example)
+#   X-Mochify-Redacted-Faces: 2    (0 is a success that hid no faces - check it)
+#   X-Mochify-Region: 11,224,423,294`
+	},
+	{
 		label: 'JavaScript',
 		language: 'javascript',
 		code: `const file = document.querySelector('input[type="file"]').files[0];
@@ -394,6 +413,31 @@ with open('output.webp', 'wb') as out:
     out.write(response.content)
 
 print(f"Done in {response.headers.get('X-Latency-Ms')}ms")`
+	},
+	{
+		label: 'Python - redact and crop',
+		language: 'python',
+		code: `import requests
+
+# Faces found automatically, one box chosen by your own vision model,
+# as fractions x,y,w,h of the upright image. Fill is the default style.
+with open('listing.jpg', 'rb') as f:
+    response = requests.post(
+        'https://api.mochify.app/v1/squish',
+        params={'type': 'webp', 'width': 1600,
+                'redact': 'faces;0.155,0.54,0.205,0.075',
+                'region': '0.02,0.35,0.74,0.46'},
+        headers={'Content-Type': 'image/jpeg',
+                 'Authorization': 'Bearer mchy_your_api_key'},
+        data=f,
+    )
+
+faces = int(response.headers.get('X-Mochify-Redacted-Faces', '0'))
+if faces == 0:
+    print('No faces found: check this one by hand')   # 0 is a success, not an error
+
+with open('listing-redacted.webp', 'wb') as out:
+    out.write(response.content)`
 	}
 ];
 
