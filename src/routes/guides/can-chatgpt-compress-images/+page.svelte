@@ -944,7 +944,7 @@
 			<SectionHeading>Three routes that give an assistant the real file</SectionHeading>
 			<p class="mb-4">
 				The lesson of this test is not "do not use AI"; it is that an attachment in a chat window is
-				lossy by construction, so give the assistant a route to the original bytes instead. Three
+				lossy by construction, so give the assistant a route to the original bytes instead. (The same split is what lets an assistant <a href="/guides/blur-faces-license-plate-ai-assistant">hide a license plate or every face in a photo</a> without shrinking it: the assistant picks the box on its preview, Mochify redacts the original.) Three
 				exist today, and none of them puts the photo through an upload pipeline:
 			</p>
 			<ul class="mb-6 list-disc space-y-3 pl-6">

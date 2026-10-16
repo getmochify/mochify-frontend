@@ -12,7 +12,7 @@
         category: "AI & Automation",
         readTime: "9 min read",
         date: "May 28, 2026",
-        lastUpdated: "October 15, 2026",
+        lastUpdated: "October 16, 2026",
     };
 
     const faqItems = [
@@ -44,7 +44,7 @@
       "author": { "@type": "Organization", "name": "Mochify Engineering Team" },
       "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
       "datePublished": "2026-05-28",
-      "dateModified": "2026-10-15",
+      "dateModified": "2026-10-16",
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://mochify.app/guides/how-the-mochify-mcp-server-works" }
     }
     </script>
@@ -202,7 +202,7 @@
         <!-- Hosted MCP -->
         <section id="hosted-mcp" class="scroll-mt-24">
             <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">How the Hosted MCP Server Works</h2>
-            <p class="mb-6">The hosted server is a connector that any MCP-compatible AI assistant can register and call. Once OAuth is complete, the agent has five tools available: <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish</code> for image processing, <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">create_upload</code> for getting an image attached to the chat to Mochify, <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">pdf</code> and <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">pdf_create</code> for documents, and <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">check_usage</code> for quota checks.</p>
+            <p class="mb-6">The hosted server is a connector that any MCP-compatible AI assistant can register and call. Once OAuth is complete, the agent has five tools available: <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish</code> for image processing, <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">create_upload</code> for getting an image attached to the chat to Mochify, <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">pdf</code> and <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">pdf_create</code> for documents, and <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">check_usage</code> for quota checks. The squish tool can also hide things the assistant points at: our guide to <a href="/guides/blur-faces-license-plate-ai-assistant">blurring faces or a license plate from your assistant</a> shows the redaction parameters on two real photos.</p>
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Setup, in one paragraph</h3>
             <p class="mb-6">In Claude Desktop, go to Settings → Connectors, add <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code>, then complete an OAuth flow that authorises Mochify to process images on your behalf. Cursor and other clients follow the same shape. The full step-by-step is in our <a href="/guides/mochify-mcp-image-compression-agent-2026">MCP setup guide</a>. Authentication is OAuth-based, the connector talks to our servers over HTTPS, and the agent doesn't need to manage an API key directly.</p>
@@ -505,7 +505,7 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4 font-semibold text-[#4A2C2C]">PNG (source)</td><td class="p-4">—</td><td class="p-4">3.1 MB</td><td class="p-4">—</td></tr>
+                        <tr><td class="p-4 font-semibold text-[#4A2C2C]">PNG (source)</td><td class="p-4">-</td><td class="p-4">3.1 MB</td><td class="p-4">-</td></tr>
                         <tr><td class="p-4">JPEG (jpegli)</td><td class="p-4">80</td><td class="p-4 font-semibold text-[#4A2C2C]">193 KB</td><td class="p-4 text-[#15803d] font-bold">−94%</td></tr>
                         <tr><td class="p-4">WebP</td><td class="p-4">80</td><td class="p-4 font-semibold text-[#4A2C2C]">122 KB</td><td class="p-4 text-[#15803d] font-bold">−96%</td></tr>
                         <tr><td class="p-4">AVIF</td><td class="p-4">60</td><td class="p-4 font-semibold text-[#4A2C2C]">80 KB</td><td class="p-4 text-[#15803d] font-bold">−97%</td></tr>

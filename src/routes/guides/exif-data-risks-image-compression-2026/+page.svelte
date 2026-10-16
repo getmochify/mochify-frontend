@@ -11,7 +11,7 @@
         category: "Data Privacy",
         readTime: "15 min read",
         date: "February 13, 2026",
-        lastUpdated: "August 7, 2026"
+        lastUpdated: "October 16, 2026"
     };
 
     const related = [
@@ -104,7 +104,7 @@
             }
         ],
         "datePublished": "2026-02-13",
-        "dateModified": "2026-08-07"
+        "dateModified": "2026-10-16"
         }
     </script>
 </svelte:head>
@@ -222,7 +222,7 @@
                 <li><strong>Thumbnail previews:</strong> Low-res copies of your original image embedded in the file structure.</li>
              </ul>
              <p class="mb-4">A study found that up to 80% of smartphone photos uploaded through certain platforms retain GPS coordinates. That vacation selfie? It's broadcasting your hotel address to anyone who downloads the file.</p>
-             <p class="mb-4">EXIF often includes a low-resolution thumbnail of your original, unedited image. Crop out a sensitive detail in your photo editor? The thumbnail still shows the full frame. Compression algorithms reduce your visible file size but leave this embedded preview untouched unless you explicitly strip metadata.</p>
+             <p class="mb-4">EXIF often includes a low-resolution thumbnail of your original, unedited image. Crop out a sensitive detail in your photo editor? The thumbnail still shows the full frame. Compression algorithms reduce your visible file size but leave this embedded preview untouched unless you explicitly strip metadata. It is also why Mochify's redaction always strips metadata, whatever you asked for: a blacked-out plate with the thumbnail intact is not hidden (see <a href="/guides/blur-faces-license-plate-ai-assistant">how to redact a photo from your AI assistant</a>).</p>
         </section>
 
         <section id="why-compression-fails" class="scroll-mt-24">
@@ -285,8 +285,8 @@
 
         <section id="how-mochify-handles" class="scroll-mt-24">
              <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">How Mochify Handles EXIF During Compression</h2>
-             <p class="mb-4">We strip EXIF metadata by default during compression. This isn't a premium feature—it's core to our privacy-first architecture.</p>
-             <p class="mb-4">When you upload images to Mochify - whether HEIF, HEIC, JPEG, PNG, WebP, or AVIF—our C++ engine processes them in RAM and outputs clean files with:</p>
+             <p class="mb-4">We strip EXIF metadata by default during compression. This isn't a premium feature - it's core to our privacy-first architecture.</p>
+             <p class="mb-4">When you upload images to Mochify - whether HEIF, HEIC, JPEG, PNG, WebP, or AVIF - our C++ engine processes them in RAM and outputs clean files with:</p>
              <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
                 <li>All GPS coordinates removed.</li>
                 <li>Device identifiers purged.</li>

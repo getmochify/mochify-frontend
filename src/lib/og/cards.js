@@ -322,6 +322,11 @@ export const cards = [
 		title: 'How to Give a CSS Background Image a WebP or AVIF Fallback'
 	},
 	{
+		path: '/guides/blur-faces-license-plate-ai-assistant',
+		eyebrow: 'GUIDE',
+		title: 'How to Blur Faces or a License Plate in a Photo, with Your AI Assistant'
+	},
+	{
 		path: '/guides/can-chatgpt-compress-images',
 		eyebrow: 'GUIDE',
 		title: 'Can ChatGPT Compress a Photo? We Measured What Comes Back'
