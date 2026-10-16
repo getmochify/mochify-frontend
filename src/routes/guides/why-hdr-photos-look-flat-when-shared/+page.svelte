@@ -257,7 +257,7 @@ grep X-Mochify-HDR headers.txt
             {metadata.category} · Guide
         </p>
         <h1 class="text-3xl md:text-[2.75rem] font-black text-[#4A2C2C] tracking-tight leading-[1.1] mb-0">
-            Why HDR Photos Look Flat When You Share Them (and How Gain Maps Fix It)
+            Why <span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">HDR Photos Look Flat</span> When You Share Them (and How Gain Maps Fix It)
         </h1>
         <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
         <p class="mt-5 text-sm font-bold text-[#875F42] mb-0">

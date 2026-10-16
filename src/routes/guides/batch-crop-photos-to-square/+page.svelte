@@ -207,7 +207,7 @@
 		<h1
 			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
 		>
-			How to Batch Crop Photos to Square on Windows, Mac, iPhone and the Command Line
+			How to <span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">Batch Crop Photos to Square</span> on Windows, Mac, iPhone and the Command Line
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">

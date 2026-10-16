@@ -261,7 +261,7 @@
 		<h1
 			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
 		>
-			Do WebP and AVIF Support Transparency? Why Cut-Outs Come Back Black or White (and How to Fix
+			Do WebP and AVIF Support <span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">Transparency</span>? Why Cut-Outs Come Back Black or White (and How to Fix
 			It)
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>

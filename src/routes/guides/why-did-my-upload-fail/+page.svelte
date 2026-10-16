@@ -171,7 +171,7 @@
             {metadata.category} · Guide
         </p>
         <h1 class="text-3xl md:text-[2.75rem] font-black text-[#4A2C2C] tracking-tight leading-[1.1] mb-0">
-            Why Did My Upload Fail? Every Mochify Error, Explained
+            Why Did My <span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">Upload Fail</span>? Every Mochify Error, Explained
         </h1>
         <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
         <p class="mt-5 text-sm font-bold text-[#875F42] mb-0">

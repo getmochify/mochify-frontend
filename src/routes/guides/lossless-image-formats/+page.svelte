@@ -233,7 +233,7 @@
 		<h1
 			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
 		>
-			Lossless Image Formats: Which One to Use, and When Lossless Is the Wrong Choice
+			<span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">Lossless Image Formats</span>: Which One to Use, and When Lossless Is the Wrong Choice
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">

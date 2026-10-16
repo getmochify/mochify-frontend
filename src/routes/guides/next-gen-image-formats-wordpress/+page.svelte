@@ -8,6 +8,7 @@
 	import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
 	import CodeCard from '$lib/components/guide-demo/CodeCard.svelte';
 	import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
+	import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
 
 	// Built from content-ops `article-originals/next-gen-image-formats-wordpress.html` (handoff spec v1).
 	// Body copy is verbatim from the handoff; head and schema are generated
@@ -225,7 +226,7 @@
 		<h1
 			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
 		>
-			{metadata.title}
+			<AccentTitle title={metadata.title} accent="Improve Image Delivery" />
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
