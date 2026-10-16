@@ -1,25 +1,41 @@
 import { redirect, fail } from '@sveltejs/kit'
 import { CF_WORKER_TOKEN } from '$env/static/private'
+import { env } from '$env/dynamic/private'
 import { tokensFetch } from '$lib/server/tokensWorker'
 import type { Actions, PageServerLoad } from './$types'
 
-const EXT_ID_RE = /^[a-z]{32}$/
+// The page hands a fresh API key to whichever extension `?ext=` names, via
+// chrome.runtime.sendMessage. Any extension declaring externally_connectable
+// for mochify.app can receive it, so a link carrying another extension's ID
+// gave that extension the user's key. Only ours may be named.
+//
+// The Web Store ID is fixed and public. Unpacked builds get an ID per machine;
+// list those in EXTRA_EXTENSION_IDS (comma-separated) for local development,
+// never in production.
+const STORE_EXTENSION_ID = 'pgegchhkcjdcnnppeahkdcalclpaamcj'
+
+function isOurExtension(extId: string): boolean {
+    if (extId === STORE_EXTENSION_ID) return true
+    const extra = (env.EXTRA_EXTENSION_IDS ?? '').split(',').map((s) => s.trim()).filter(Boolean)
+    return /^[a-p]{32}$/.test(extId) && extra.includes(extId)
+}
 
 export const load: PageServerLoad = async ({ locals, url, platform }) => {
     const extId = url.searchParams.get('ext') ?? ''
 
-    if (!EXT_ID_RE.test(extId)) redirect(302, '/')
+    if (!isOurExtension(extId)) redirect(302, '/')
 
     if (!locals.user || !locals.session) {
         redirect(302, `/auth/login?next=${encodeURIComponent('/auth/extension?ext=' + extId)}`)
     }
 
+    // The worker answers 200 either way; has_key is the answer.
     let hasKey = false
     try {
         const res = await tokensFetch(platform, `/user/${locals.user.id}/apikey`, {
             headers: { 'X-Worker-Token': CF_WORKER_TOKEN },
         })
-        if (res.ok) hasKey = true
+        if (res.ok) hasKey = ((await res.json()) as { has_key?: boolean }).has_key === true
     } catch { /* proceed */ }
 
     return { extId, hasKey, user: locals.user }
@@ -32,7 +48,7 @@ export const actions: Actions = {
         const data = await request.formData()
         const extId = data.get('extId') as string
 
-        if (!EXT_ID_RE.test(extId)) return fail(400, { error: 'Invalid extension ID' })
+        if (!isOurExtension(extId)) return fail(400, { error: 'Invalid extension ID' })
 
         const userId = locals.user.id
 
