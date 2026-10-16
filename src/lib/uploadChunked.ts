@@ -67,6 +67,10 @@ export interface ChunkedUploadParams {
 	dpi?: string;
 	brightness?: string;
 	clarity?: string;
+	// "faces" (and/or ';'-separated x,y,w,h boxes) and "fill" | "blur". Magic
+	// Flow only ever sends redact=faces; see PromptFormApp.
+	redact?: string;
+	redactStyle?: string;
 	quality?: string;
 	// "1" asks for a pixel-exact encode. Only jxl/webp/png can honour it —
 	// the backend 400s the whole request for jpg/avif — so senders must gate

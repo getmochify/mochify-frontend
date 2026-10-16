@@ -2632,6 +2632,15 @@
 					if (fileConfig.brightness != null && fileConfig.brightness !== 0)
 						sharedParams.append('brightness', String(fileConfig.brightness));
 					if (fileConfig.clarity) sharedParams.append('clarity', '1');
+					// "blur the faces": core's own face detector finds them (no boxes
+					// needed, which is why this is the one redaction the parser can ask
+					// for). Fill is core's default; blur only when the prompt said so.
+					// Redaction always strips metadata and drops HDR on the core side.
+					if (fileConfig.redactFaces === true) {
+						sharedParams.append('redact', 'faces');
+						if (fileConfig.redactStyle === 'blur' || fileConfig.redactStyle === 'fill')
+							sharedParams.append('redactStyle', fileConfig.redactStyle);
+					}
 					if (fileConfig.optimizeForWeb) sharedParams.append('optimizeForWeb', '1');
 					// 'generate' rather than '1': the server preserves an existing gain
 					// map either way, and additionally synthesises one when the source
