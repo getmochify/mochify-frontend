@@ -51,10 +51,23 @@
 					</div>
 				</div>
 
-				<p class="mb-5 text-sm text-[#875F42]/80">
-					This will allow your AI assistant to process images on your behalf using your Mochify
-					account and quota.
+				<p class="{data.returnsTo ? 'mb-3' : 'mb-5'} text-sm text-[#875F42]/80">
+					{#if data.clientName}
+						An app that calls itself
+						<span class="font-semibold text-[#4A2C2C]">“{data.clientName}”</span>
+						wants to process images on your behalf using your Mochify account and quota.
+					{:else}
+						This will allow your AI assistant to process images on your behalf using your Mochify
+						account and quota.
+					{/if}
 				</p>
+				{#if data.returnsTo}
+					<p class="mb-5 text-sm text-[#875F42]/80">
+						After you approve, you'll be sent back to
+						<span class="font-semibold text-[#4A2C2C]">{data.returnsTo}</span>. If that isn't
+						where you started, don't authorize.
+					</p>
+				{/if}
 
 				<form
 					method="POST"

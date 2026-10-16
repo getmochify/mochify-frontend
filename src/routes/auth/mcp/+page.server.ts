@@ -20,7 +20,36 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 
     if (!check?.ok) redirect(302, '/')
 
-    return { state, user: locals.user }
+    // Who is asking, so the user can see where the code goes before approving.
+    // An older worker answers a bare "OK", which leaves both fields null.
+    const info = (await check.json().catch(() => null)) as {
+        clientName?: unknown
+        redirectScheme?: unknown
+        redirectHost?: unknown
+    } | null
+
+    return {
+        state,
+        user: locals.user,
+        clientName: cleanClientName(info?.clientName),
+        returnsTo: describeReturn(info?.redirectScheme, info?.redirectHost),
+    }
+}
+
+// Self-registered by the client, so shown as a claim; kept to printable text.
+function cleanClientName(value: unknown): string | null {
+    if (typeof value !== 'string') return null
+    const name = value.replace(/[\p{C}]/gu, '').trim().slice(0, 60)
+    return name || null
+}
+
+// The redirect host is the trustworthy part: the worker only accepts redirect
+// URIs on its allowlist.
+function describeReturn(scheme: unknown, host: unknown): string | null {
+    if (typeof scheme !== 'string') return null
+    if (scheme === 'https' && typeof host === 'string' && host) return host
+    if (scheme === 'http') return 'an app on this computer'
+    return `the ${scheme} app on this computer`
 }
 
 export const actions: Actions = {
