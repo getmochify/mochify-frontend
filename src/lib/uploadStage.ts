@@ -190,7 +190,8 @@ function stageOne(
 						status: xhr.status,
 						source: 'stage',
 						detected: readDetectedHeader(xhr),
-						decoder: readDecoderHeader(xhr)
+						decoder: readDecoderHeader(xhr),
+						file
 					});
 					giveUp(
 						'rejected',

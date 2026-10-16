@@ -6,6 +6,7 @@
 // Prefer that when present; fall back to a friendly default so the user never
 // sees a bare "Server error: 413".
 import { posthog } from '$lib/analytics';
+import { truncationVerdictOf } from '$lib/truncationCheck';
 
 // Stable machine keys for every user-facing upload failure. These exist so the
 // failure surfaces can link to the right section of the upload-error guide and
@@ -239,8 +240,20 @@ export function trackReject(opts: {
 	decoder?: string;
 	/** undefined when the file was never pre-flighted (non-image, or another path). */
 	preflightTruncated?: boolean;
+	/**
+	 * The rejected file. Optional so a path without one still reports, but pass
+	 * it: it is where the pre-flight verdict, the HEIF item list, the size and
+	 * the extension come from. The chunked path once reported `unchecked` for
+	 * every file because it had no way to look the verdict up, and that is the
+	 * path large camera .HIF files take.
+	 */
+	file?: File;
 }): void {
 	try {
+		const verdict = opts.file ? truncationVerdictOf(opts.file) : undefined;
+		const preflight = opts.preflightTruncated ?? verdict?.truncated;
+		const name = opts.file?.name ?? '';
+		const dot = name.lastIndexOf('.');
 		posthog.capture('upload_reject', {
 			reject_label: opts.label ?? 'unknown',
 			status: opts.status,
@@ -248,8 +261,14 @@ export function trackReject(opts: {
 			plan: opts.plan ?? 'unknown',
 			detected: opts.detected ?? 'unknown',
 			decoder: opts.decoder ?? 'unknown',
-			preflight_truncated:
-				opts.preflightTruncated === undefined ? 'unchecked' : opts.preflightTruncated,
+			preflight_truncated: preflight === undefined ? 'unchecked' : preflight,
+			...(verdict?.items ? { heif_items: verdict.items } : {}),
+			...(opts.file
+				? {
+						file_size: opts.file.size,
+						file_ext: dot >= 0 ? name.slice(dot + 1).toLowerCase() : 'none'
+					}
+				: {}),
 			ua: typeof navigator !== 'undefined' ? navigator.userAgent : ''
 		});
 	} catch {

@@ -305,7 +305,9 @@ export function completeUpload(
 	// ceiling. Reported here rather than returned alongside the Blob because
 	// both callers already destructure a bare Blob, and a 'floor' outcome is a
 	// success — it must not change this function's shape for everyone else.
-	onTargetOutcome?: (outcome: TargetOutcome, scale?: number) => void
+	onTargetOutcome?: (outcome: TargetOutcome, scale?: number) => void,
+	// The file being completed, for reject telemetry only (see trackReject).
+	file?: File
 ): Promise<Blob> {
 	return new Promise<Blob>((resolve, reject) => {
 		const xhr = new XMLHttpRequest();
@@ -337,7 +339,8 @@ export function completeUpload(
 					status: xhr.status,
 					source,
 					detected: readDetectedHeader(xhr),
-					decoder: readDecoderHeader(xhr)
+					decoder: readDecoderHeader(xhr),
+					file
 				});
 				const { message, key } = uploadErrorMessage(xhr.status, serverText, rejectLabel);
 				const error: RetryableXhrError = new Error(message);
@@ -585,7 +588,8 @@ async function runChunkedUpload(
 					// there is nothing to send here — only the outcome to read back.
 					undefined,
 					'chunked_complete',
-					onTargetOutcome
+					onTargetOutcome,
+					file instanceof File ? file : undefined
 				),
 			'chunk_complete',
 			onRetryStateChange

@@ -51,6 +51,7 @@
 		errorKey?: UploadErrorKey;
 		/** X-Mochify-Decoder, kept only to disambiguate the corrupt-image anchor. */
 		errorDecoder?: string;
+		errorRejectLabel?: string;
 		thumbnailUrl?: string;
 	};
 
@@ -1013,7 +1014,8 @@
 														// of the corrupt-image rejections, how many did the
 														// container already declare short, and how many short
 														// files never got rejected at all.
-														preflightTruncated: truncationVerdictOf(file)?.truncated
+														preflightTruncated: truncationVerdictOf(file)?.truncated,
+														file
 													});
 												}
 												const { message, key } = uploadErrorMessage(
@@ -1028,6 +1030,7 @@
 												// truly truncated file vs a decode gap on our side; it
 												// rides along on the help-link event for that anchor only.
 												error.decoder = readDecoderHeader(xhr);
+												error.rejectLabel = rejectLabel;
 												reject(error);
 											})();
 										}
@@ -1089,6 +1092,7 @@
 						fileProgress[index].error = error instanceof Error ? error.message : 'Unknown error';
 						fileProgress[index].errorKey = error?.errorKey;
 						fileProgress[index].errorDecoder = error?.decoder;
+						fileProgress[index].errorRejectLabel = error?.rejectLabel;
 					}
 				}
 			};
@@ -1130,6 +1134,7 @@
 				// "Processing Failed" section rather than to a bare scroll.
 				allFailed.errorKey = firstFailure?.errorKey ?? 'processing_failed';
 				allFailed.decoder = firstFailure?.errorDecoder;
+				allFailed.rejectLabel = firstFailure?.errorRejectLabel;
 				throw allFailed;
 			}
 
@@ -1236,9 +1241,14 @@
 		} catch (error) {
 			const failureKey: UploadErrorKey | undefined =
 				(error as any)?.errorKey ?? (isNetworkError(error) ? 'network_error' : undefined);
+			// The diagnosis rides on the failure itself, so one event says which
+			// case it was without joining upload_reject by session. The fuller
+			// record (pre-flight, HEIF items, file) is on that upload_reject.
 			posthog.capture('manual_compress_failed', {
 				error_key: failureKey ?? 'unknown',
-				error: error instanceof Error ? error.message : String(error)
+				error: error instanceof Error ? error.message : String(error),
+				reject_label: (error as any)?.rejectLabel ?? 'unknown',
+				decoder: (error as any)?.decoder ?? 'unknown'
 			});
 			// An interrupted/offline fetch (Safari's "Load failed") is an expected
 			// network condition, not a code bug — the breadcrumb above and the

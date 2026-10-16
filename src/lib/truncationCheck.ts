@@ -40,6 +40,14 @@ export interface TruncationResult {
 	reason?: string;
 	/** Bytes the container declares beyond the end of the file, when known. */
 	shortBy?: number;
+	/**
+	 * HEIF/AVIF only: the item types inside the file, runs collapsed, e.g.
+	 * "hvc1x48,grid,jpeg,Exif". Metadata, never pixels. Carried on reject
+	 * telemetry because a complete file core cannot decode is told apart by
+	 * what it contains (a JPEG-coded preview, a gain map), and the brands alone
+	 * only hint at that.
+	 */
+	items?: string;
 }
 
 const NOT_TRUNCATED: TruncationResult = { truncated: false };
@@ -107,6 +115,89 @@ function ascii(bytes: Uint8Array, offset: number, length: number): string {
  *               never short.
  */
 async function checkIsoBmff(file: File): Promise<TruncationResult> {
+	const verdict = await walkIsoBmff(file);
+	const items = await heifItemTypes(file);
+	return items ? { ...verdict, container: 'isobmff', items } : verdict;
+}
+
+// The `meta` box holds the item list; a real one is a few kilobytes even for a
+// 48-tile grid. Anything bigger is not read: this is telemetry, not a parser.
+const MAX_META_BYTES = 256 * 1024;
+
+/**
+ * Item types from `meta` > `iinf` > `infe`, in file order with runs collapsed
+ * ("hvc1x48"). Returns undefined on anything unexpected, per the bias note at
+ * the top: this only ever adds a telemetry field.
+ */
+async function heifItemTypes(file: File): Promise<string | undefined> {
+	try {
+		// Find the top-level meta box (normally right after ftyp).
+		let offset = 0;
+		for (let i = 0; i < MAX_BOXES; i++) {
+			const head = await readSlice(file, offset, offset + 8);
+			if (!head || head.length < 8) return undefined;
+			const size = new DataView(head.buffer, head.byteOffset, 8).getUint32(0);
+			const type = ascii(head, 4, 4);
+			if (type === 'meta') {
+				if (size < 12 || size > MAX_META_BYTES) return undefined;
+				const meta = await readSlice(file, offset, offset + size);
+				return meta ? itemTypesFromMeta(meta) : undefined;
+			}
+			if (size < 8) return undefined; // 0 (to EOF) or malformed: no meta ahead
+			offset += size;
+		}
+		return undefined;
+	} catch {
+		return undefined;
+	}
+}
+
+function itemTypesFromMeta(meta: Uint8Array): string | undefined {
+	const view = new DataView(meta.buffer, meta.byteOffset, meta.byteLength);
+	// meta is a FullBox: 8 header + 4 version/flags, then child boxes.
+	let at = 12;
+	while (at + 8 <= meta.length) {
+		const size = view.getUint32(at);
+		const type = ascii(meta, at + 4, 4);
+		if (size < 8 || at + size > meta.length) return undefined;
+		if (type === 'iinf') {
+			const version = meta[at + 8];
+			let p = at + 12;
+			const count = version === 0 ? view.getUint16(p) : view.getUint32(p);
+			p += version === 0 ? 2 : 4;
+			const types: string[] = [];
+			for (let i = 0; i < count && p + 8 <= at + size; i++) {
+				const infeSize = view.getUint32(p);
+				if (infeSize < 8 || ascii(meta, p + 4, 4) !== 'infe') return undefined;
+				const infeVersion = meta[p + 8];
+				// Versions 2 and 3 carry item_type; 0 and 1 predate it.
+				if (infeVersion >= 2) {
+					const idBytes = infeVersion === 2 ? 2 : 4;
+					const typeAt = p + 12 + idBytes + 2; // + item_ID + protection index
+					if (typeAt + 4 <= p + infeSize) types.push(ascii(meta, typeAt, 4).trim());
+				}
+				p += infeSize;
+			}
+			return collapseRuns(types);
+		}
+		at += size;
+	}
+	return undefined;
+}
+
+// "hvc1,hvc1,hvc1,grid" -> "hvc1x3,grid". Same shape core logs (HeifProbe.h).
+function collapseRuns(types: string[]): string | undefined {
+	const out: string[] = [];
+	for (let i = 0; i < types.length;) {
+		let j = i;
+		while (j < types.length && types[j] === types[i]) j++;
+		out.push(j - i > 1 ? `${types[i]}x${j - i}` : types[i]);
+		i = j;
+	}
+	return out.length > 0 ? out.join(',') : undefined;
+}
+
+async function walkIsoBmff(file: File): Promise<TruncationResult> {
 	let offset = 0;
 
 	for (let i = 0; i < MAX_BOXES; i++) {
