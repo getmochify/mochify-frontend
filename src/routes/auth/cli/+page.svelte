@@ -1,10 +1,13 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { enhance, applyAction } from '$app/forms';
 	import Navigation from '$lib/components/Navigation.svelte';
 
 	let { data, form } = $props();
 
 	let loading = $state(false);
+
+	const button =
+		'w-full rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] py-3 text-sm font-black tracking-wide text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60';
 </script>
 
 <svelte:head>
@@ -51,38 +54,95 @@
 						</div>
 					{/if}
 
-					<p class="mb-5 text-sm text-[#875F42]/80">
-						This will generate an API key and grant the Mochify CLI access to your account.
-					</p>
+					{#if data.mode === 'legacy'}
+						<p class="mb-4 text-sm text-[#875F42]/80">
+							This login link comes from an older version of the Mochify CLI, which signs in a way
+							that is no longer supported.
+						</p>
+						<p class="mb-2 text-sm text-[#875F42]/80">
+							Update the CLI, then run <code>mochify auth login</code> again:
+						</p>
+						<pre
+							class="mb-5 overflow-x-auto rounded-2xl bg-[#4A2C2C]/5 px-4 py-3 text-xs text-[#4A2C2C]">brew upgrade mochify
+scoop update mochify
+cargo install mochify</pre>
+						<p class="text-xs text-[#875F42]/60">
+							If you didn't just run <code>mochify auth login</code> yourself, close this page.
+						</p>
+					{:else}
+						<p class="mb-5 text-sm text-[#875F42]/80">
+							{#if data.mode === 'loopback'}
+								This signs in the Mochify CLI that is running on this computer, and gives it an API
+								key for your account.
+							{:else}
+								Enter the code shown in your terminal to sign in the Mochify CLI and give it an API
+								key for your account. Only enter a code from a terminal you are using yourself.
+							{/if}
+						</p>
 
-					{#if data.hasKey}
-						<div
-							class="mb-5 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-medium text-amber-700"
-						>
-							Your existing API key will be replaced. Update any other integrations that use it.
-						</div>
+						{#if data.hasKey}
+							<div
+								class="mb-5 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-medium text-amber-700"
+							>
+								Your existing API key will be replaced. Update any other integrations that use it.
+							</div>
+						{/if}
+
+						{#if data.mode === 'loopback' && data.loopback}
+							<form
+								method="POST"
+								action="?/approve"
+								use:enhance={() => {
+									loading = true;
+									return async ({ result }) => {
+										// The redirect goes to the CLI on 127.0.0.1, outside this site, so it
+										// is a full navigation rather than a client-side one.
+										if (result.type === 'redirect') {
+											window.location.href = result.location;
+										} else {
+											loading = false;
+											await applyAction(result);
+										}
+									};
+								}}
+							>
+								<input type="hidden" name="port" value={data.loopback.port} />
+								<input type="hidden" name="challenge" value={data.loopback.challenge} />
+								<input type="hidden" name="state" value={data.loopback.state} />
+								<button type="submit" disabled={loading} class={button}>
+									{loading ? 'Authorizing…' : 'Authorize Mochify CLI'}
+								</button>
+							</form>
+						{:else}
+							<form
+								method="POST"
+								action="?/device"
+								use:enhance={() => {
+									loading = true;
+									return async ({ update }) => {
+										await update({ reset: false });
+										loading = false;
+									};
+								}}
+							>
+								<label for="code" class="mb-2 block text-xs font-bold text-[#4A2C2C]">Code</label>
+								<input
+									id="code"
+									name="code"
+									required
+									autocomplete="off"
+									autocapitalize="characters"
+									spellcheck="false"
+									placeholder="XXXX-XXXX"
+									value={form && 'code' in form ? form.code : data.prefill}
+									class="mb-4 w-full rounded-2xl border border-[#875F42]/20 bg-white px-4 py-3 text-center font-mono text-lg tracking-[0.3em] text-[#4A2C2C] uppercase"
+								/>
+								<button type="submit" disabled={loading} class={button}>
+									{loading ? 'Authorizing…' : 'Authorize Mochify CLI'}
+								</button>
+							</form>
+						{/if}
 					{/if}
-
-					<form
-						method="POST"
-						action="?/authorize"
-						use:enhance={() => {
-							loading = true;
-							return async ({ update }) => {
-								await update();
-								loading = false;
-							};
-						}}
-					>
-						<input type="hidden" name="state" value={data.state} />
-						<button
-							type="submit"
-							disabled={loading}
-							class="w-full rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] py-3 text-sm font-black tracking-wide text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
-						>
-							{loading ? 'Authorizing…' : 'Authorize Mochify CLI'}
-						</button>
-					</form>
 
 					<p class="mt-5 text-center text-xs text-[#875F42]/50">
 						Not you?

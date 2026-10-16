@@ -16,8 +16,8 @@ const WORKER_URL = env.CF_WORKER_URL || 'https://id.mochify.app'
  * unreachable in production, where TOKENS is bound in wrangler.jsonc.
  *
  * Deliberately does not inject X-Worker-Token — callers pass their own headers,
- * because not every route on the worker is behind that gate (the CLI session
- * deposit is public, guarded by its own 256-bit state token instead).
+ * because not every route on the worker is behind that gate (/v1/prompt and
+ * /v1/usage authenticate the user themselves).
  */
 export function tokensFetch(
 	platform: App.Platform | undefined,
