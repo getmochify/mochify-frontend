@@ -13,7 +13,7 @@
         category: "Image Optimization",
         readTime: "13 min read",
         date: "August 25, 2026",
-        lastUpdated: "October 14, 2026"
+        lastUpdated: "October 16, 2026"
     };
 
     const toc = [
@@ -95,7 +95,7 @@
             "@id": "https://mochify.app/guides/what-automatic-image-optimization-actually-does"
         },
         "datePublished": "2026-08-25",
-        "dateModified": "2026-10-14",
+        "dateModified": "2026-10-16",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -263,7 +263,7 @@
         <section id="where-the-defaults-stop" class="scroll-mt-24">
             <SectionHeading>Where the defaults stop: the ceiling built into automatic optimization</SectionHeading>
             <p class="mb-4">Automatic optimization has a hard ceiling, and it is built in on purpose: platforms optimize for their average upload with one fixed configuration, because at their scale nothing else is operable. Four consequences follow.</p>
-            <p class="mb-4"><strong>One setting for everyone.</strong> WordPress 7.1 encodes JPEGs at quality 82, the same default the platform has used since 2016, for every image on every site. There is no admin control for it, no per-image choice of quality or format; changing it means a developer writing code-level filters. Your hero product shot and a throwaway blog thumbnail get identical treatment, and so does every other site on the platform.</p>
+            <p class="mb-4"><strong>One setting for everyone.</strong> WordPress 7.1 encodes JPEGs at quality 82, the same default the platform has used since 2016, for every image on every site. There is no admin control for it, no per-image choice of quality or format; changing it means a developer writing code-level filters. Your hero product shot and a throwaway blog thumbnail get identical treatment, and so does every other site on the platform. What the hero needs instead (its own dimensions, a phone crop, and a file weight chosen by eye rather than by a global quality setting) is the subject of our guide to <a href="/guides/optimizing-hero-images">hero image size, file size and LCP</a>.</p>
             <p class="mb-4"><strong>Delivery only, originals untouched.</strong> The automatic layer works on copies it serves, not the files you gave it. WordPress keeps your full-size original as uploaded, which also means the EXIF metadata in it, including GPS coordinates if your camera wrote them, stays on the server. Shopify serves optimized renditions from the CDN while your upload sits in the library as-is. Automatic optimization never cleans, never re-masters, and never fixes the source.</p>
             <p class="mb-4"><strong>Invisible and inconsistent.</strong> You do not get a report of what was done. WordPress 7.1's browser pipeline runs in Chrome and Edge 137+ only and silently falls back to the old server path everywhere else, so two colleagues uploading the same photo can get different results and never know. Shopify's format switching depends on each visitor's browser. When something does go wrong, you end up where the seller forums are: "my images keep losing quality after I upload," with no way to see which step did it.</p>
             <p class="mb-4"><strong>No judgment.</strong> The pipeline does not know that the gray tinge on your white background is costing you clicks, that your product should be cropped tighter, that this batch is going to three platforms with three different requirements, or that a JPEG is the wrong master format for your line art. It optimizes bytes. It has no opinion about your images, and opinions are what make images stand out.</p>

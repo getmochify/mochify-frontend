@@ -359,7 +359,7 @@ export const cards = [
 	{
 		path: '/guides/optimizing-hero-images',
 		eyebrow: 'GUIDE',
-		title: 'Optimizing Hero Images: Fix LCP & Boost SEO with No Plugins'
+		title: 'Hero Image Size: Dimensions, File Size and a Fast LCP'
 	},
 	{
 		path: '/guides/photo-file-too-large-to-upload',

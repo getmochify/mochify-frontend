@@ -1,552 +1,1227 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
-    import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import CodeBlock from '$lib/components/CodeBlock.svelte';
-    import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+	import ReadProgress from '$lib/components/ReadProgress.svelte';
+	import SectionHeading from '$lib/components/SectionHeading.svelte';
+	import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+	import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+	import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+	import GlassPanel from '$lib/components/guide-demo/GlassPanel.svelte';
+	import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+	import CodeCard from '$lib/components/guide-demo/CodeCard.svelte';
+	import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
 
-    const metadata = {
-        category: "Image Optimization",
-        readTime: "14 min read",
-        date: "February 20, 2026",
-        lastUpdated: "October 14, 2026"
-    };
+	// Built from content-ops `article-originals/optimizing-hero-images.html` (handoff spec v1).
+	// Body copy is verbatim from the handoff; head and schema are generated
+	// from its metadata block per the spec's section 2.2 contract. Same-slug
+	// replacement of the February 2026 guide: datePublished is kept.
+	const metadata = {
+		title: 'Hero Image Size for Websites: Dimensions, File Size, and Why Your Banner Crops',
+		seoTitle: 'Hero Image Size: Dimensions, File Size and a Fast LCP',
+		description:
+			'Hero image size, settled: the pixels for desktop and phone, the KB a banner should weigh in AVIF, WebP or JPEG, why it crops, and how to load it fast.',
+		category: 'Web Performance',
+		readTime: '39 min read',
+		date: 'February 20, 2026',
+		lastUpdated: 'October 16, 2026',
+		bylineNote:
+			'Rewritten and expanded on October 15, 2026 with a measured size table from our own run; the first version of this guide dates from February.'
+	};
+
+	const keywords =
+		'hero image size, website hero image size, hero image dimensions, mobile hero image size, hero image size for website, header image size for website, banner image size for website, best image size for website, hero image aspect ratio, hero image size shopify, hero image size wordpress, hero image size squarespace, lcp image, improve lcp';
+
+	const pageUrl = 'https://mochify.app/guides/optimizing-hero-images';
+
+	const toc = [
+		{ id: 'five-words', label: 'Five words this guide uses' },
+		{ id: 'three-sizes', label: 'Size is three different things' },
+		{ id: 'why-it-crops', label: 'Why your hero image crops and zooms' },
+		{
+			id: 'dimensions',
+			label: 'Hero image size by layout: desktop, banner and mobile dimensions'
+		},
+		{
+			id: 'file-size',
+			label: 'File size: what a 1920-pixel hero weighs in JPEG, WebP and AVIF'
+		},
+		{ id: 'lcp', label: 'The slow page: the hero is your LCP image' },
+		{
+			id: 'serving',
+			label: 'Serving it right: <img>, fetchpriority, srcset and <picture>'
+		},
+		{ id: 'platforms', label: 'Platform workflows: WordPress, Shopify, Squarespace, Wix, Webflow' },
+		{ id: 'video', label: 'When your hero is a video' },
+		{
+			id: 'mochify-workflow',
+			label: 'Mochify Workflow: resize, convert and compress a hero in one prompt'
+		},
+		{ id: 'cheat-sheet', label: 'Cheat Sheet' },
+		{ id: 'faq', label: 'FAQ' }
+	];
+
+	const heroCode =
+		'<img src="hero-1920.jpg" alt="The workshop at opening time"\n     width="1920" height="800" fetchpriority="high">';
+
+	const headCode =
+		'<link rel="preload" as="image" href="hero-1920.avif" type="image/avif" fetchpriority="high">';
+
+	const srcsetCode =
+		'<img src="hero-1920.jpg"\n     srcset="hero-800.jpg 800w, hero-1280.jpg 1280w, hero-1920.jpg 1920w"\n     sizes="100vw"\n     alt="The workshop at opening time" width="1920" height="800" fetchpriority="high">';
+
+	const pictureCode =
+		'<picture>\n  <source media="(max-width: 767px)" srcset="hero-phone-1080.avif" type="image/avif">\n  <source media="(max-width: 767px)" srcset="hero-phone-1080.jpg">\n  <source srcset="hero-1920.avif" type="image/avif">\n  <img src="hero-1920.jpg" alt="The workshop at opening time"\n       width="1920" height="800" fetchpriority="high">\n</picture>';
+
+	const resizeCode =
+		'brew install mochify\nmochify auth login                                   # one-time browser sign-in\nmochify hero.jpg -t avif -w 1920 -o ./hero\nmochify hero.jpg -t webp -w 1920 -o ./hero\nmochify hero.jpg -t avif -w 1280 -o ./hero-1280\nmochify hero.jpg -p "resize to 800px wide, convert to avif"   # the Magic Flow form';
+
+	const faqItems = [
+		{
+			q: 'What is the best hero image size for a website?',
+			a: "Upload it 1920 pixels wide for a full-width desktop hero, at the height your theme's section uses (1920 by 1080 for a full-screen 16:9 hero, 1920 by 800 for a banner), and aim for a file under about 200 KB by saving it as AVIF or WebP at a quality setting you have checked by eye (section 5 shows what that takes on a detail-heavy photo). Add a separate portrait crop around 1080 pixels wide for phones. Larger uploads are only worth it for product shots or typography on high-density screens, and 2560 wide is the practical ceiling because WordPress and Squarespace will not serve anything bigger."
+		},
+		{
+			q: 'What is the best hero image size for mobile?',
+			a: 'A separate portrait image about 1080 pixels wide, at 4:5 (1080 by 1350) or 3:4 (1080 by 1440), with the subject in the center. Phones are 360 to 414 layout pixels wide drawn at 2x to 3x, so 1080 is sharp on all of them. Showing the desktop landscape on a phone is what produces the "cropped" and "zoomed" complaints: the phone\'s tall box can only show the middle third of a wide picture.'
+		},
+		{
+			q: 'Is 1920 x 1080 the right size for a hero image?',
+			a: "For a full-screen 16:9 hero, yes: 1920 by 1080 is full sharpness on the most common desktop screens and scales down cleanly to the rest. For a banner that is wider than it is tall, 1920 by 1080 is the wrong shape and will be cropped top and bottom; use 1920 at the banner's own ratio instead, such as 1920 by 800. The width is the constant; the height follows the section."
+		},
+		{
+			q: 'How many KB should a hero image be?',
+			a: 'Aim for under about 200 KB at 1920 wide, and expect to get there by choosing the quality setting rather than the format alone. In our October 2026 run on a detail-heavy garden photograph at 1920 by 1080, a quality-85 JPEG was 822 KB, the automatic AVIF 438 KB, the jpegli JPEG 463 KB and the WebP 517 KB; an AVIF at quality 45 was 246 KB and we could not tell it from the original at 1:1. A calmer picture (sky, a wall, a product on white) lands far lower at the same settings. For context, half of mobile sites served an LCP image of 100 KB or less in the 2024 Web Almanac. The number only means something at a stated pixel size: 200 KB at 1920 wide is a well-made file, 200 KB at 800 wide is a badly made one.'
+		},
+		{
+			q: 'Why does my hero image look cropped or zoomed in?',
+			a: "Because the section's shape is fixed by your theme and your image is a different shape, so the theme scales the image to cover the box and clips the overflow: a wide image loses its left and right on phones, a tall one loses its top and bottom on monitors. No pixel size fixes it. Match the image's ratio to the section (or set the section height to adapt to the image), keep the subject in the middle, set the platform's focal point, and use a separate portrait image for phones."
+		},
+		{
+			q: 'Should a hero be an img tag or a CSS background image?',
+			a: 'An <code>&lt;img&gt;</code> tag. The browser finds an <code>&lt;img&gt;</code> in the HTML as the page arrives and starts fetching it immediately; a CSS background is only discovered after the stylesheet has been downloaded and read, which is why web.dev calls it "not discoverable" and 35% of mobile sites have exactly this delay. If your theme forces a background, add a <code>&lt;link rel="preload" as="image"&gt;</code> for the hero file in the page head as the patch.'
+		},
+		{
+			q: 'What is the recommended hero image size for Squarespace, Shopify or WordPress?',
+			a: "Squarespace Support asks for 2500 pixels wide and 500 KB or less, and warns that under 1500 wide may blur. Shopify publishes no hero pixel size for its themes; it crops banners to the section's shape, so upload 1920 wide at that ratio, under 20 megapixels and 20 MB, and set a focal point. WordPress serves up to 2560 wide (it scales larger uploads down) and generates the responsive sizes itself, so 1920 to 2560 wide in AVIF or WebP is the upload. In all three, the file's weight is yours to fix before upload; the platform resizes for display but does not make a heavy file light."
+		},
+		{
+			q: 'Is a hero image the same as a banner or a header image?',
+			a: 'In practice, yes. "Hero" is the designer\'s word for the large image at the top of a page; builders and most site owners call it a banner, a header image, a cover or a strip, so if you searched for website banner size or header image size for a website, this is the same question. The sizing, cropping and file-weight rules in this guide are the same whatever your platform calls it. (An email hero or a social cover image is a different thing with its own fixed sizes, and is not covered here.)'
+		}
+	];
+
+	const related = [
+		{
+			title: 'The HTML <picture> Tag: Format Fallbacks, Art Direction and the 2026 Source Order',
+			href: '/guides/html-picture-tag',
+			desc: 'the rules behind the phone-crop and AVIF/WebP/JPEG snippet above.'
+		},
+		{
+			title: 'Should I Use fetchpriority or rel="preload" for My LCP Image?',
+			href: '/guides/fetchpriority-vs-preload-lcp-image',
+			desc: 'when the attribute alone is enough and when a hero also needs the preload hint.'
+		},
+		{
+			title: "Convert a Website's Images to WebP and AVIF, and Keep Them That Way",
+			href: '/guides/convert-website-images-to-webp-and-avif',
+			desc: 'the whole library, not just the hero, with the measured sizes.'
+		},
+		{
+			title: 'What Automatic Image Optimization Actually Does (and When to Take Control)',
+			href: '/guides/what-automatic-image-optimization-actually-does',
+			desc: 'what your platform fixes for you and what it leaves.'
+		},
+		{
+			title: 'Convert MP4 to WebM for the Web',
+			href: '/guides/mp4-to-webm-web-video-guide',
+			desc: 'for the video-hero case.'
+		}
+	];
+
+	const organization = { '@type': 'Organization', name: 'Mochify', url: 'https://mochify.app' };
+
+	const articleLd = {
+		'@context': 'https://schema.org',
+		'@type': 'Article',
+		headline: metadata.title,
+		description: metadata.description,
+		url: pageUrl,
+		mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+		datePublished: '2026-02-20',
+		dateModified: '2026-10-16',
+		inLanguage: 'en',
+		author: {
+			'@type': 'Organization',
+			name: 'Mochify Engineering Team',
+			url: 'https://mochify.app'
+		},
+		publisher: {
+			...organization,
+			logo: { '@type': 'ImageObject', url: 'https://mochify.app/logo.png' },
+			sameAs: ['https://github.com/getmochify']
+		},
+		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
+		about: [
+			'hero image',
+			'image size',
+			'Largest Contentful Paint',
+			'AVIF',
+			'WebP',
+			'srcset',
+			'responsive images'
+		].map((name) => ({ '@type': 'Thing', name })),
+		keywords,
+		speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.article-intro', 'h1'] }
+	};
+
+	const breadcrumbLd = {
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{ '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mochify.app/' },
+			{ '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://mochify.app/guides' },
+			{ '@type': 'ListItem', position: 3, name: metadata.title, item: pageUrl }
+		]
+	};
+
+	const webPageLd = {
+		'@context': 'https://schema.org',
+		'@type': 'WebPage',
+		name: metadata.title,
+		url: pageUrl,
+		description: metadata.description,
+		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
+		datePublished: '2026-02-20',
+		dateModified: '2026-10-16'
+	};
+
+	/** @param {object} data */
+	const ld = (data) => JSON.stringify(data).replace(/</g, '\\u003c');
 </script>
 
 <ReadProgress />
 
 <svelte:head>
-    <title>Optimizing Hero Images: Fix LCP & Boost SEO with No Plugins</title>
-    <meta name="description" content="Your 4 sec hero loads kill rankings. Learn to compress heroes to <150KB AVIF, fix LCP to 1.3s, and boost SEO 10-20% without plugins.">
-    <meta property="og:title" content="Optimizing Hero Images: Fix LCP & Boost SEO with No Plugins" />
-    <meta property="og:description" content="Your hero image loads in 4 seconds? Google notices. Learn how to compress hero images, fix LCP errors, and stop visitors from bouncing - no plugins required." />
+	<title>{metadata.seoTitle}</title>
+	<meta name="description" content={metadata.description} />
+	<meta name="keywords" content={keywords} />
+	<meta
+		name="robots"
+		content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
+	/>
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content={metadata.seoTitle} />
+	<meta property="og:description" content={metadata.description} />
+	<meta property="og:url" content={pageUrl} />
+	<meta property="og:site_name" content="Mochify" />
+	<meta property="og:locale" content="en" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content={metadata.seoTitle} />
+	<meta name="twitter:description" content={metadata.description} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "TechArticle",
-        "headline": "Optimizing Hero Images: Fix LCP & Boost SEO Without Plugins",
-        "description": "Fix slow LCP scores from bloated hero images. Step-by-step guide for WordPress, Shopify, Squarespace, and Wix - no plugins needed.",
-        "url": "https://mochify.app/guides/optimizing-hero-images",
-        "inLanguage": "en",
-        "isPartOf": {
-            "@type": "CollectionPage",
-            "name": "Image Optimization Guides",
-            "url": "https://mochify.app/guides"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Mochify",
-            "url": "https://mochify.app"
-        },
-        "about": [
-            "LCP optimization",
-            "hero image compression",
-            "Core Web Vitals",
-            "AVIF WebP hero images",
-            "WordPress Shopify image optimization"
-        ],
-        "datePublished": "2026-02-20",
-        "dateModified": "2026-10-14"
-        }
-    </script>
+	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
+	{@html `<script type="application/ld+json">${ld(articleLd)}<\/script>`}
+	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
+	{@html `<script type="application/ld+json">${ld(breadcrumbLd)}<\/script>`}
+	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
+	{@html `<script type="application/ld+json">${ld(webPageLd)}<\/script>`}
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-[#E8F5E9] text-[#15803d] text-xs font-bold uppercase tracking-wider border border-green-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
-            </span>
-        </div>
+	<header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category} · Guide
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			{metadata.title}
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering
+			Team
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Optimizing Hero Images: Fix LCP &amp; Boost SEO Without Plugins
-        </h1>
+		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+			The right hero image size for a website is <strong>1920 pixels wide</strong>: the hero image,
+			the big picture at the top of the page (your platform may call it a banner, a header image or
+			a cover), should be uploaded at that width for a full-width desktop layout, at the aspect
+			ratio your page's section actually uses (1920 by 1080 for a full-screen 16:9 hero, 1920 by 800
+			for a wide banner), with a
+			<strong>separate portrait crop of about 1080 pixels wide for phones</strong>, and it should
+			weigh <strong>a few hundred kilobytes at most</strong> once it is saved as AVIF or WebP, with 200
+			KB as the budget to aim for (a detail-heavy photograph needs a lower quality setting to get there;
+			a calmer one gets there on its own). Keep the subject and any text in the middle of the frame, because
+			the section will crop the edges on some screens whatever you do. Go bigger only for a specific reason:
+			2560 wide is the sensible ceiling, and nothing above it is ever shown.
+		</p>
+		<p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+			That is the short answer, and it is the one most guides and the AI summary at the top of the
+			search results give you. It is also where the trouble starts, because "size" means three
+			different things, and the figure that matters for a slow page is not the one in pixels. If you
+			are here because your website is loading slowly, you have been wondering why your site is so
+			slow, or a speed test told you the biggest thing on the page took too long to appear, the hero
+			image is almost certainly the reason: it is the largest element on most pages, and in the HTTP
+			Archive's 2024 census an image was the largest element on 73% of mobile pages. Fix the file
+			and you fix the metric Google scores the page on.
+		</p>
+		<p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+			This guide is written for two readers at once. If you run a site on WordPress, Shopify,
+			Squarespace, Wix or Webflow and have never opened a code editor, the first three sections give
+			you the numbers, the reason the platform keeps cropping your banner, and the file size that
+			makes the page fast, with nothing to install. If you build sites, the later sections cover the
+			serving rules that make the file count (<code>&lt;img&gt;</code> over a CSS background,
+			<code>fetchpriority</code>, <code>srcset</code>, <code>&lt;picture&gt;</code>), how to read
+			the result in PageSpeed Insights, and what each platform does on your behalf. Both of you will
+			want the cheat sheet near the end.
+		</p>
 
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
-            Your hero image loads in 4 seconds? <strong>Google notices.</strong> Every millisecond counts when your LCP score directly impacts rankings. We've seen sites drop 10–20 positions because of a bloated hero, while competitors with sub-1.5s LCP times cruise past them in search results.
-        </p>
+		<div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+			<p class="m-0 text-base leading-relaxed text-[#6C3F31]">
+				<strong class="text-[#4A2C2C]"
+					>Published {metadata.date} by the Mochify Engineering Team.</strong
+				>
+				{metadata.bylineNote}
+			</p>
+		</div>
+	</header>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
-                This guide walks you through the exact steps to compress hero images, fix LCP errors, and keep visitors from bouncing before your page even loads - broken down by platform with a handy cheat sheet at the end.
-            </p>
-        </div>
-    </header>
+	<div class="space-y-12">
+		<section>
+			<GuideTOC items={toc} />
+		</section>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+		<section id="five-words" class="scroll-mt-24">
+			<SectionHeading>Five words this guide uses</SectionHeading>
+			<ul class="mb-6 list-disc space-y-3 pl-6">
+				<li>
+					<p class="mb-0">
+						<strong>Hero image.</strong> The large image across the top of a page, usually with a headline
+						over it. Designers say hero; Shopify says image banner or slideshow; Squarespace says banner
+						or section background; Wix says strip; most people say "the big picture at the top". Same
+						thing.
+					</p>
+				</li>
+				<li>
+					<p class="mb-0">
+						<strong>Pixels vs kilobytes.</strong> Pixels (px) are the picture's grid of dots: 1920 by
+						1080 means 1,920 across and 1,080 down. Kilobytes (KB) are how much the file weighs, which
+						is what the visitor has to download. Two files can have identical pixels and very different
+						weights, and the weight is what makes a page slow.
+					</p>
+				</li>
+				<li>
+					<p class="mb-0">
+						<strong>Aspect ratio.</strong> The shape: width to height. 16:9 is a widescreen TV; 2.4:1
+						is a letterbox strip; 4:5 is a portrait phone photo. When the image's shape and the box's
+						shape differ, something has to give, and that something is cropping.
+					</p>
+				</li>
+				<li>
+					<p class="mb-0">
+						<strong>Device pixel ratio (DPR).</strong> A phone that is 390 "pixels" wide in your page
+						layout is drawing those 390 layout pixels with 1,170 physical dots (3x). A 2x laptop draws
+						a 960-wide box from 1,920 dots. So a 1920-pixel file is "full size" on a 1x monitor and "half
+						size" on a 2x screen, which is why every sizing guide quietly disagrees with every other one.
+					</p>
+				</li>
+				<li>
+					<p class="mb-0">
+						<strong>LCP (Largest Contentful Paint).</strong> Google's measure of how long the largest
+						visible thing on the page takes to appear, one of the three Core Web Vitals it scores pages
+						on. Google wants it at or under 2.5 seconds for most visits, and on a page with a hero image,
+						the hero is usually that largest thing. If you remember one technical term from this guide,
+						this is the one.
+					</p>
+				</li>
+			</ul>
+		</section>
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    {#each [
-                        { id: 'core-web-vitals', num: '01', label: 'Understanding Core Web Vitals in 60 Seconds' },
-                        { id: 'why-hero-images', num: '02', label: 'Why Hero Images Kill SEO' },
-                        { id: 'best-practices', num: '03', label: 'Core Best Practices for Hero Optimization' },
-                        { id: 'platforms', num: '04', label: 'Platform-Specific Workflows: WordPress, Shopify, Squarespace, Wix' },
-                        { id: 'cheat-sheet', num: '05', label: 'Hero Image Optimization Cheat Sheet 2026' },
-                        { id: 'mochify-workflow', num: '06', label: 'Mochify Workflow: Batch Process Heroes Fast' },
-                    ] as item}
-                        <li>
-                            <a href="#{item.id}" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.num}</span>
-                                    <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
-        </section>
+		<section id="three-sizes" class="scroll-mt-24">
+			<SectionHeading>Size is three different things</SectionHeading>
+			<p class="mb-4">
+				When someone asks what size a hero image should be, the honest answer is "which size?" There
+				are three, and most of the conflicting advice online comes from guides that quote a number
+				without saying which one they mean.
+			</p>
+			<p class="mb-4">
+				<strong>1. The box on the page (CSS pixels).</strong> Your page lays out a hero section that is,
+				say, the full width of the window and 600 layout pixels tall. On a 1920 by 1080 monitor at 100%
+				scaling that is a 1920 by 600 box. On the same laptop set to 125% scaling (the second most common
+				desktop setup in StatCounter's September 2026 data, which reports it as 1536 by 864) the box is
+				1536 by 480 layout pixels, drawn with 1920 by 600 physical dots. On a phone it is 390 by maybe
+				500, portrait. You do not control the box's size; the visitor's screen does. You only control
+				its shape, through the theme setting that fixes the section height.
+			</p>
+			<p class="mb-4">
+				<strong>2. The pixels in the file.</strong> This is the number every guide gives, and what most
+				people mean by hero image resolution: 1920 by 1080, 2500 wide, 800 by 1200. The browser scales
+				the file to fit the box, so a 1920-wide file fills a 1920 box at 1x exactly, fills a 960-wide
+				2x box at full sharpness, and gets scaled down to fit a 390-wide phone (a 4000-pixel camera JPEG
+				would be scaled down just the same, having sent ten times the bytes for no visible gain).
+			</p>
+			<p class="mb-4">
+				<strong>3. The weight of the file (kilobytes).</strong> This is the one that decides whether the
+				page feels fast, and it depends on the pixels and on the format and quality you saved it in. The
+				same photograph weighed 1.79 MB as it came off a phone, 822 KB saved as a JPEG at 1920 by 1080,
+				438 KB as an AVIF at the same pixels, and 246 KB as an AVIF at a lower quality setting that we
+				could not tell apart from the original at 1:1 (our run, section 5). Nobody has ever noticed the
+				difference between a 1920 and a 2500-pixel hero on a laptop; everybody notices a page that takes
+				four seconds to show its picture.
+			</p>
+			<p class="mb-4">
+				Hold those three apart and the rest of this guide is simple: choose the shape to match the
+				section (so it does not crop badly), choose the pixels to cover the box on the screens you
+				care about (so it does not blur), and choose the format and quality to make the weight small
+				(so it loads fast).
+			</p>
+		</section>
 
-        <!-- Core Web Vitals -->
-        <section id="core-web-vitals" class="my-12">
-            <SectionHeading>Understanding Core Web Vitals in 60 Seconds</SectionHeading>
-            <p class="mb-6">Google evaluates your site speed using three Core Web Vitals metrics. Think of them as performance scorecards that directly influence your rankings.</p>
+		<section id="why-it-crops" class="scroll-mt-24">
+			<SectionHeading>Why your hero image crops and zooms</SectionHeading>
+			<p class="mb-4">
+				Your hero crops because the section's shape is fixed by your theme and the hero image aspect
+				ratio is fixed by you, and when they differ the theme shows as much of the image as fits and
+				cuts off the rest. No pixel size fixes that; only the shape does, plus where you put the
+				subject.
+			</p>
+			<p class="mb-4">
+				This is the complaint behind most of the forum threads that rank for hero image size: "on
+				desktop my image is cut and too much zoomed", "I tried the recommended dimensions and it
+				zooms in", "it looks great on mobile but on PC it is in your face", "I made several sizes
+				and all of them get cropped". Shopify's own help page describes the mechanism plainly for
+				any hero section background image: slideshows, image banners and full-width sections
+				"display images in an image area whose shape is set by the section, not by the image that
+				you upload", and "if your image's aspect ratio is different from the aspect ratio of that
+				area, then the section crops the image to fit" (<a
+					href="https://help.shopify.com/en/manual/online-store/images/theme-images"
+					target="_blank"
+					rel="noopener noreferrer">Shopify Help Center, Uploading images</a
+				>). Every builder works the same way; in CSS terms the image is set to cover the box (<code
+					>object-fit: cover</code
+				>
+				or <code>background-size: cover</code>), which keeps its shape and clips whatever hangs over
+				the edge.
+			</p>
+			<p class="mb-4">
+				Follow one photo through it. You upload a 1920 by 1080 landscape of a workshop, with the
+				product on the left and the owner on the right. On a wide monitor the banner section is 1920
+				by 600 (3.2:1): the browser scales the image to fill the width, which makes it 1,080 tall,
+				and clips 240 pixels off the top and 240 off the bottom. The owner's head is gone. On a
+				phone the box is 390 by 520, portrait: the browser scales the image to fill the height,
+				which makes it 924 wide, and shows the middle 390 of those 924 pixels. Both the product and
+				the owner are gone; the visitor sees the wall between them. That is "zoomed in". Nothing was
+				enlarged; the box simply cannot show the whole picture, so it shows the middle.
+			</p>
+			<p class="mb-4">
+				Three rules follow, and they are the ones the platforms' own documentation gives:
+			</p>
+			<ol class="mb-6 list-decimal space-y-3 pl-6">
+				<li>
+					<p class="mb-0">
+						<strong
+							>Match the image's shape to the section, or set the section to match the image.</strong
+						>
+						Most themes let you pick a banner height (small, medium, large, or one that adapts to the
+						image's own ratio). The adaptive option never crops on desktop; the fixed heights always can.
+						If a theme section is 16:9, upload 16:9.
+					</p>
+				</li>
+				<li>
+					<p class="mb-0">
+						<strong>Keep the subject in the middle, and keep the edges expendable.</strong> A wide image
+						loses its left and right on phones; a tall one loses its top and bottom on monitors (Shopify's
+						page says exactly this). Our working rule: put the subject, and anything you cannot lose,
+						inside the middle half of the width and the middle two-thirds of the height. Shopify and Wix
+						let you set a focal point on the image so the crop centers on it; set it.
+					</p>
+				</li>
+				<li>
+					<p class="mb-0">
+						<strong>Never put text in the image.</strong> Shopify's guidance: "images that you use for
+						slideshows or backgrounds shouldn't have text in them", because the theme crops, moves and
+						resizes the image under the text. A Squarespace owner on the support forum whose banner had
+						the headline "burned in" found it illegible on phones for exactly this reason. Put the headline
+						in the section's own text field, where it reflows.
+					</p>
+				</li>
+			</ol>
+			<p class="mb-4">
+				For phones, the better answer is a second image. A portrait crop of the same photo, with the
+				subject filling the frame, looks like a choice rather than an accident. Most themes and
+				every custom site can show a different image below a certain width; section 7 shows the
+				<code>&lt;picture&gt;</code> version for sites you build yourself, and the platform section says
+				where each builder keeps the mobile setting.
+			</p>
+			<p class="mb-4">
+				<strong>When this is not your problem:</strong> if your hero is a plain color, a gradient or an
+				illustration with nothing important near the edges, cropping is harmless and you can skip the
+				mobile crop. Just keep the weight down.
+			</p>
+		</section>
 
-            <div class="grid md:grid-cols-3 gap-5 my-8">
-                <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-                    <div class="w-10 h-10 rounded-xl bg-pink-100 flex items-center justify-center mb-4">
-                        <span class="text-lg font-black text-[#D81B60]">LCP</span>
-                    </div>
-                    <h3 class="text-base font-black text-[#4A2C2C] mb-2">Largest Contentful Paint</h3>
-                    <p class="text-sm text-[#6C3F31] leading-relaxed">How long it takes for the biggest visible element to load - usually your hero image. Google wants this <strong>under 2.5s</strong>. Above 4s? You're in the red zone.</p>
-                </div>
-                <div class="bg-[#FFF9F5] rounded-2xl border border-[#FFE4D6] p-6">
-                    <div class="w-10 h-10 rounded-xl bg-[#FFF0E6] flex items-center justify-center mb-4">
-                        <span class="text-lg font-black text-[#875F42]">CLS</span>
-                    </div>
-                    <h3 class="text-base font-black text-[#4A2C2C] mb-2">Cumulative Layout Shift</h3>
-                    <p class="text-sm text-[#6C3F31] leading-relaxed">Tracks page jumps caused by images loading without defined dimensions. <strong>Below 0.1 is good.</strong> Always define <code class="bg-pink-50 px-1 rounded text-sm font-mono text-[#D81B60]">width</code> and <code class="bg-pink-50 px-1 rounded text-sm font-mono text-[#D81B60]">height</code>.</p>
-                </div>
-                <div class="bg-[#F5F9FF] rounded-2xl border border-blue-100 p-6">
-                    <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
-                        <span class="text-lg font-black text-blue-600">INP</span>
-                    </div>
-                    <h3 class="text-base font-black text-[#4A2C2C] mb-2">Interaction to Next Paint</h3>
-                    <p class="text-sm text-[#6C3F31] leading-relaxed">Replaced FID in 2024 - measures how quickly your page responds to clicks and taps. Indirectly affected by heavy image payloads hogging main thread.</p>
-                </div>
-            </div>
+		<section id="dimensions" class="scroll-mt-24">
+			<SectionHeading
+				>Hero image size by layout: desktop, banner and mobile dimensions</SectionHeading
+			>
+			<p class="mb-4">
+				The right website hero image size is 1920 pixels wide for any full-width desktop hero, at
+				the height your section's ratio needs; upload a separate portrait image around 1080 pixels
+				wide for phones; and go to 2560 wide only when you have measured that the sharper file is
+				worth its extra weight. Those three hero image dimensions cover almost every site, and here
+				is where they come from.
+			</p>
+			<p class="mb-4">
+				<strong>Why 1920.</strong> StatCounter's worldwide screen data for September 2026 puts 1920
+				by 1080 at 28% of desktop screens, with 1536 by 864 (a 1920 laptop at 125% scaling) at 10%,
+				1366 by 768 at 8%, and 2560 by 1440 at 4% (<a
+					href="https://gs.statcounter.com/screen-resolution-stats/desktop/worldwide"
+					target="_blank"
+					rel="noopener noreferrer">StatCounter, desktop resolutions</a
+				>). A 1920-wide file is full sharpness on the first three, which between them are most
+				desktop visits, and it is scaled down, never up, on everything smaller. On the 2560 monitor
+				it is stretched by a third; on a 2x laptop (a 1440-wide layout drawn with 2880 dots) it is
+				stretched by a half. Both look fine for a photograph. The eye forgives a scaled-up
+				photograph far more readily than a scaled-up screenshot or logo.
+			</p>
+			<p class="mb-4">
+				<strong>Heights follow the section, not a rule.</strong> The full screen hero image size on a
+				16:9 monitor is 1920 by 1080. A banner that sits above the content wants something wider and shorter:
+				1920 by 800 (2.4:1) and 1920 by 640 (3:1) are the common shapes, and they are what the "1600 by
+				500" and "1200 by 400" figures in older guides are approximating. Measure your own section: open
+				the page, right-click the hero, choose Inspect, and read the box's width and height at the top
+				of the panel. Upload at that ratio.
+			</p>
+			<p class="mb-4">
+				<strong>When to go to 2x.</strong> A 2x file (3840 wide for a 1920 box, 2560 wide for a 1280
+				box) is sharper on retina screens, and twice to four times the weight. Go there only if the
+				hero is a product shot, typography or line art where softness shows, your audience is
+				heavily on high-density screens, and the AVIF still comes in under budget. For a photograph
+				of people, a landscape or a workshop, 1920 is enough and the saved bytes are worth more than
+				the sharpness nobody noticed. Two platform facts put a ceiling on it anyway: WordPress
+				scales any upload with a side longer than 2560 pixels down to 2560 before it is ever served
+				(<a
+					href="https://make.wordpress.org/core/2019/10/09/introducing-handling-of-big-images-in-wordpress-5-3/"
+					target="_blank"
+					rel="noopener noreferrer">the "big image" threshold, WordPress 5.3</a
+				>), and Squarespace's largest generated variant is 2500 wide (<a
+					href="https://support.squarespace.com/hc/en-us/articles/206542517"
+					target="_blank"
+					rel="noopener noreferrer">Squarespace Support, Formatting images</a
+				>). Uploading 4000 pixels to either gets you a 2500-pixel file and a slower upload.
+			</p>
+			<p class="mb-4">
+				<strong
+					>Mobile hero image size: a separate crop, about 1080 wide, portrait or square.</strong
+				>
+				Phones in StatCounter's top five are 360 to 414 layout pixels wide, drawn at 2x to 3x, so a file
+				800 to 1,170 pixels wide is full sharpness on all of them. The usual recommendation is 1080 by
+				1350 (4:5) or 1080 by 1440 (3:4); both fill a phone's hero area with no side cropping. Keep the
+				subject central here too, because phones vary in height and the box will still trim top and bottom.
+			</p>
+			<p class="mb-4">
+				<strong>What about 2500, 3000, 1600?</strong> Squarespace recommends uploading 2500 wide because
+				it makes its own seven sizes from your upload (100 to 2500 wide) and warns that images under 1500
+				may look blurry; Wix asks for at least 3000 by 3000 for section backgrounds; theme vendors print
+				1600 by 500 or 3000 by 1500 from their own measurements. None of them conflict with the numbers
+				above once you know which of the three sizes they are talking about: the big uploads are the platform
+				asking for a master it can resize from, and the serving sizes are what the visitor gets. Where
+				you control the file the visitor receives, 1920 is the number.
+			</p>
+		</section>
 
-            <p>Your hero image impacts all three metrics, but <strong>LCP is where you'll see the biggest gains</strong> from optimization.</p>
-        </section>
+		<section id="file-size" class="scroll-mt-24">
+			<SectionHeading
+				>File size: what a 1920-pixel hero weighs in JPEG, WebP and AVIF</SectionHeading
+			>
+			<p class="mb-4">
+				A 1920 by 1080 hero photograph lands between about 250 KB and 500 KB as an AVIF or a modern
+				JPEG depending on how much fine detail is in it, and "under 200 KB", the figure every sizing
+				guide repeats, is a budget you reach by choosing the quality setting, not a number the
+				format hands you for free. What the guides leave out is that a kilobyte target only means
+				something at a stated pixel size and format, and that the picture itself decides most of it:
+				a sky, a wall or a product on white compresses to a fraction of what a tree does.
+			</p>
+			<p class="mb-4">
+				We measured it on October 15, 2026, with a deliberately hard subject: a 2576 by 1932 iPhone
+				photograph of a garden under a cherry tree, 1.79 MB as it came off the phone, almost
+				entirely leaves, grass and twigs, with no flat areas for an encoder to save on. Every step
+				below went through Mochify's API with the quality left on automatic unless stated; the
+				baselines are the same pixels saved as an ordinary JPEG at quality 85, which is the file a
+				careful person would upload.
+			</p>
+			<ul class="mb-6 list-disc space-y-3 pl-6">
+				<li>
+					<p class="mb-0">
+						<strong>Pixels first.</strong> Resizing the full frame from 2576 to 1920 wide took the JPEG
+						from 1.79 MB to 1.05 MB. Cropping it to the 16:9 shape a full-screen hero section actually
+						shows (1920 by 1080) took it to 822 KB. That is 54% gone before any format question arises,
+						and it is the step people skip because the platform "resizes it anyway". It does, for display;
+						it does not always re-encode the file it serves, and it never fixes a file that was heavy
+						at 1920 to begin with.
+					</p>
+				</li>
+				<li>
+					<p class="mb-0">
+						<strong>Format second.</strong> At 1920 by 1080 and automatic quality, the 822 KB JPEG
+						came back as a 438 KB AVIF (47% smaller), a 463 KB JPEG re-encoded with jpegli (44%
+						smaller) and a 517 KB WebP (37% smaller). Two things worth noticing: AVIF won, as it
+						usually does on photographs, and a modern JPEG encoder beat WebP, which means "convert
+						to WebP" is not automatically a saving over a well-made JPEG. Support is no longer the
+						question: caniuse's September 2026 data has AVIF at 96.35% of global users and WebP at
+						97.18% (<a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer"
+							>caniuse, AVIF</a
+						>). Keep a JPEG as the fallback for the last few percent, and if JPEG is all your
+						platform will take, make it with a modern encoder: Google's jpegli produces standard
+						JPEG files that open everywhere and are, in Google's words, "35% more" compressed than
+						traditional JPEG at high quality (<a
+							href="https://opensource.googleblog.com/2024/04/introducing-jpegli-new-jpeg-coding-library.html"
+							target="_blank"
+							rel="noopener noreferrer">Google Open Source Blog, April 2024</a
+						>).
+					</p>
+				</li>
+				<li>
+					<p class="mb-0">
+						<strong>Quality last, and this is where the 200 KB comes from.</strong> The automatic setting
+						is tuned for "nothing visible lost", and on this picture that is 438 KB. Asking for AVIF at
+						quality 45 instead gave 246 KB, 70% below the JPEG baseline. We then put a 1:1 crop of the
+						busiest patch of foliage from the baseline, the automatic AVIF and the quality-45 AVIF side
+						by side and could not find a difference. That is one region of one image checked by one pair
+						of eyes, so do your own check at the size the hero is shown, but it is the general shape of
+						the result: on a hero, the gap between "automatic" and "half the bytes" is usually invisible,
+						and the gap between quality 85 and 95 is always invisible and often doubles the file.
+					</p>
+				</li>
+			</ul>
+			<p class="mb-4">
+				The same photo at the sizes a <code>srcset</code> would serve (section 7): at 800 by 600 the baseline
+				JPEG was 198 KB and the AVIF 110 KB, so the phone file is where a 200 KB budget is met without
+				touching the quality at all.
+			</p>
+			<p class="mb-4">
+				For scale: the HTTP Archive's 2024 Web Almanac found that 48% of mobile sites served an LCP
+				image of 100 KB or less, which means the top half of the web is already under budget and the
+				bottom half is where the four-second heroes live (<a
+					href="https://almanac.httparchive.org/en/2024/performance"
+					target="_blank"
+					rel="noopener noreferrer">Web Almanac 2024, Performance</a
+				>). The three levers, in the order they pay:
+			</p>
+			<ol class="mb-6 list-decimal space-y-3 pl-6">
+				<li>
+					<p class="mb-0">
+						<strong>Pixels first.</strong> Resizing a 4000-pixel camera file to the 1920 the page shows
+						removes three quarters of the pixels before any format question arises. This is the biggest
+						single saving on most sites and the one people skip, because the platform "resizes it anyway".
+						It does, for display; it does not always re-encode the file it serves, and it never fixes
+						a file that was 2 MB at 1920 to begin with.
+					</p>
+				</li>
+				<li>
+					<p class="mb-0">
+						<strong>Format second.</strong> At the same pixels and the same visible quality, WebP
+						and AVIF are roughly half the weight of a JPEG, and AVIF is usually the smaller of the
+						two on photographs. Support is no longer the question: caniuse's September 2026 data has
+						AVIF at 96.35% of global users and WebP at 97.18% (<a
+							href="https://caniuse.com/avif"
+							target="_blank"
+							rel="noopener noreferrer">caniuse, AVIF</a
+						>). Keep a JPEG as the fallback for the last few percent, and if JPEG is all your
+						platform will take, encode it with a modern encoder: Google's jpegli produces standard
+						JPEG files that open everywhere and are, in Google's words, "35% more" compressed than
+						traditional JPEG at high quality (<a
+							href="https://opensource.googleblog.com/2024/04/introducing-jpegli-new-jpeg-coding-library.html"
+							target="_blank"
+							rel="noopener noreferrer">Google Open Source Blog, April 2024</a
+						>).
+					</p>
+				</li>
+				<li>
+					<p class="mb-0">
+						<strong>Quality last.</strong> The difference between "quality 85" and "quality 95" is invisible
+						on a hero and often doubles the file. Let the encoder choose, check the result at the size
+						it is shown, and only then adjust.
+					</p>
+				</li>
+			</ol>
+			<p class="mb-4">
+				Two things that do not help: PPI or DPI (print settings that have no effect on screen
+				rendering or on file weight, as Squarespace's support page states plainly), and "lossless"
+				(pixel-exact encoding is for screenshots and diagrams; on a photograph it makes a larger
+				file than the JPEG you started with).
+			</p>
+		</section>
 
-        <!-- Why Hero Images Kill SEO -->
-        <section id="why-hero-images" class="my-12">
-            <SectionHeading>Why Hero Images Kill SEO</SectionHeading>
-            <p class="mb-6">Every e-commerce site and agency portfolio we've audited in 2026 has the same problem: gorgeous 5MB hero images that tank LCP scores. Here's what that costs you.</p>
+		<section id="lcp" class="scroll-mt-24">
+			<SectionHeading>The slow page: the hero is your LCP image</SectionHeading>
+			<p class="mb-4">
+				If your page feels slow to show its top picture, that is Largest Contentful Paint, and the
+				hero is the element being measured. Google scores LCP as good at 2.5 seconds or less and
+				poor above 4 seconds, measured at the 75th percentile of real visits on mobile and desktop
+				separately (<a href="https://web.dev/articles/lcp" target="_blank" rel="noopener noreferrer"
+					>web.dev, Largest Contentful Paint</a
+				>). Images, including an element with a CSS background image, count; so does a block of
+				text, which is why a hero with a big headline and a slow photo sometimes scores on the
+				headline instead. In 2024, 59% of mobile pages and 74% of desktop pages passed, so a failing
+				hero puts you with the 41% of mobile pages that did not, and the fix is usually the file in
+				the previous section plus one of the serving rules in the next.
+			</p>
+			<p class="mb-4">
+				<strong>See it yourself, click by click.</strong> Open
+				<a href="https://pagespeed.web.dev/" target="_blank" rel="noopener noreferrer"
+					>pagespeed.web.dev</a
+				>, paste your page's address, and run the analysis. Stay on the Mobile tab (that is where
+				sites fail). Scroll to the diagnostics and find the one titled
+				<strong>Largest Contentful Paint element</strong>: it names the element (with a snippet of
+				its HTML, so you can see whether it is your hero's <code>&lt;img&gt;</code>) and breaks its
+				time into four parts. If the element is your hero image and the number is red or orange,
+				this guide is the fix. If the element is a block of text, the hero loaded after the text
+				painted, which is its own kind of slow (see "not discoverable" below).
+			</p>
+			<p class="mb-4">
+				<strong>The four parts, in plain English.</strong> Google splits an image's LCP time into:
+				the time until the server sends the page at all (TTFB); the delay before the browser even
+				starts fetching the image (resource load delay); the download itself (load duration); and
+				the wait between the download finishing and the picture being drawn (render delay).
+				web.dev's guidance is that the download should be about 40% of the total and the delay
+				before it starts under 10%, and its own research found that "websites spend more time on
+				resource load delay than on load duration" (<a
+					href="https://web.dev/articles/optimize-lcp"
+					target="_blank"
+					rel="noopener noreferrer">web.dev, Optimize LCP</a
+				>). In other words: a heavy file is the usual problem, but a file the browser did not know
+				to fetch early is nearly as common, and the 2024 Almanac counts 35% of mobile sites whose
+				LCP element is not discoverable in the HTML at all. That is the CSS-background problem, and
+				section 7 is about it.
+			</p>
+			<p class="mb-4">
+				<strong>What a good result looks like.</strong> To improve LCP on a page whose largest
+				element is the hero, this is the target: hero as an <code>&lt;img&gt;</code> in the HTML, 1920
+				wide, AVIF or WebP at a few hundred kilobytes with a JPEG fallback, marked high priority, not
+				lazy-loaded, with its width and height declared so the page does not jump when it arrives (that
+				jump is a second Core Web Vital, CLS, which Google wants at 0.1 or less and which "images or videos
+				with unknown dimensions" cause). Do that and the hero's share of LCP is the download of one small
+				file that starts the moment the page arrives.
+			</p>
+		</section>
 
-            <div class="space-y-6">
-                <div>
-                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">The Ranking Tax</h3>
-                    <p class="mb-4">Slow LCP drops organic rankings by 10–20% on average. Google's algorithm treats Core Web Vitals as a tiebreaker between similar content, and in competitive niches that tiebreaker decides who lands on page one. We've tracked Shopify stores that fixed their hero LCP and climbed from position 12 to position 4 within three weeks - same content, same backlinks, just faster paint times.</p>
-                </div>
+		<section id="serving" class="scroll-mt-24">
+			<SectionHeading
+				>Serving it right: <code>&lt;img&gt;</code>, <code>fetchpriority</code>,
+				<code>srcset</code> and <code>&lt;picture&gt;</code></SectionHeading
+			>
+			<p class="mb-4">
+				Put the hero in the HTML as an <code>&lt;img&gt;</code> with
+				<code>fetchpriority="high"</code>, never lazy-load it, declare its width and height, and
+				give the browser a smaller file for phones with <code>srcset</code> or a different crop with
+				<code>&lt;picture&gt;</code>. That is the whole list; here is each one with the simplest
+				form first.
+			</p>
+			<p class="mb-4">
+				<strong>Use <code>&lt;img&gt;</code>, not a CSS background.</strong> A background image
+				lives in a stylesheet, so the browser only discovers it after it has downloaded and read the
+				CSS, then started the image. An <code>&lt;img&gt;</code> is in the HTML itself, so the fetch
+				starts while the page is still arriving. web.dev's rule is that an LCP image that is a CSS
+				background is "not discoverable" unless you add a preload for it, and that "preload is still
+				required for early discovery of LCP images included as CSS backgrounds" (<a
+					href="https://web.dev/articles/fetch-priority"
+					target="_blank"
+					rel="noopener noreferrer">web.dev, Fetch Priority</a
+				>). If your theme forces a background (many page-builder "section background" settings do),
+				the preload line below is the patch; moving the hero to an image block is the fix.
+			</p>
+			<CodeCard filename="hero.html" code={heroCode} />
+			<p class="mb-4">
+				Three attributes do the work. <code>width</code> and <code>height</code> let the browser
+				reserve the right space before the file arrives (<a
+					href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img"
+					target="_blank"
+					rel="noopener noreferrer">MDN says</a
+				>
+				this "reduces or even prevents a layout shift"); they are the file's pixels, and CSS can still
+				scale the box. <code>fetchpriority="high"</code> tells the browser to fetch this image ahead
+				of the others; web.dev's test on Google Flights moved LCP from 2.6 s to 1.9 s with that one
+				attribute, and it is supported in Chrome and Edge since 102, Safari since 17.2 and Firefox
+				since 132. Set it on one image, the hero; on three it stops meaning anything. And note what
+				is
+				<strong>not</strong> there: no <code>loading="lazy"</code>. web.dev's wording is "never
+				lazy-load your LCP image", yet 16% of mobile sites still did in 2024. Many themes add lazy
+				loading to every image including the first; if yours does, remove it from the hero.
+			</p>
+			<p class="mb-4">
+				<strong>The broken case, and its fix.</strong> The hero is set as the background of a
+				<code>&lt;section&gt;</code> in the theme's CSS, the page scores a 3.8 s LCP, and PageSpeed
+				names the section. You cannot change the markup. The patch is a preload in the
+				<code>&lt;head&gt;</code>, which tells the browser about the file before it has read the
+				CSS:
+			</p>
+			<CodeCard filename="head.html" code={headCode} />
+			<p class="mb-4">
+				That brings discovery forward and usually takes a second off. It is still worse than an
+				<code>&lt;img&gt;</code>, because a preload names one file for every screen; our Quick
+				Answer on
+				<a href="https://mochify.app/guides/fetchpriority-vs-preload-lcp-image"
+					>fetchpriority versus preload for the LCP image</a
+				>
+				covers when you need both and when the attribute alone is enough, and WordPress users have a
+				<a href="https://mochify.app/guides/preload-avif-hero-images-wordpress-lcp"
+					>preload walkthrough for AVIF heroes</a
+				>.
+			</p>
+			<p class="mb-4">
+				<strong
+					>Smaller files for smaller screens: <code>srcset</code> and <code>sizes</code>.</strong
+				>
+				A phone does not need the 1920-pixel file. With <code>srcset</code> you list several widths
+				of the same image and tell the browser how wide the box will be; it picks the smallest file
+				that is sharp on that screen (MDN: with width descriptors "the browser uses those
+				descriptors together with the
+				<code>sizes</code> attribute to pick a resource").
+			</p>
+			<CodeCard filename="hero-srcset.html" code={srcsetCode} />
+			<p class="mb-4">
+				Follow a visitor through it. On a 390-wide 3x phone the box is 390 layout pixels, so the
+				browser wants about 1,170 image pixels and takes <code>hero-1280.jpg</code>. On a 1x 1920
+				monitor it takes <code>hero-1920.jpg</code>. On a 2x 1440 laptop it wants 2,880 and takes
+				the largest you offered, 1920, scaled up a little. The same photograph is served at three
+				weights and nobody sees a difference. <code>sizes="100vw"</code> means "the box is the full
+				window width", which is true for a full-bleed hero; a hero inside a 1200-pixel container
+				would say
+				<code>sizes="(min-width: 1200px) 1200px, 100vw"</code>.
+			</p>
+			<p class="mb-4">
+				<strong>A different crop for phones: <code>&lt;picture&gt;</code>.</strong>
+				<code>srcset</code> changes the size; it cannot change the shape. For the portrait phone
+				crop from section 3 you wrap the <code>&lt;img&gt;</code> in a <code>&lt;picture&gt;</code>
+				with a
+				<code>media</code> condition, and the same wrapper is how you offer AVIF and WebP with a JPEG
+				fallback:
+			</p>
+			<CodeCard filename="hero-picture.html" code={pictureCode} />
+			<p class="mb-4">
+				The browser reads top to bottom and takes the first source it can use, so phones get the
+				portrait AVIF, everything else the landscape AVIF, and anything that cannot open AVIF falls
+				to the JPEG. The attributes stay on the <code>&lt;img&gt;</code>; the
+				<code>&lt;picture&gt;</code>
+				is only a wrapper. The rules that make this render, the source order for 2026, and the WebP
+				line we left out here for brevity are in our guide to
+				<a href="https://mochify.app/guides/html-picture-tag">the HTML picture tag</a>.
+			</p>
+			<p class="mb-4">
+				<strong>Verify it, click by click.</strong> Open the page in Chrome, right-click, choose Inspect,
+				open the Network tab, click the Img filter and reload. The first image in the list should be your
+				hero, its Priority column should read High (right-click a column header to show Priority if it
+				is hidden), and its Size column should be the figure you budgeted. Shrink the window to phone
+				width and reload: the phone file should appear instead. If the hero is not near the top of the
+				list, the browser found it late (a CSS background, or lazy loading); if the size is large, the
+				file section is where to go back to.
+			</p>
+			<p class="mb-4">
+				<strong>When none of this is needed.</strong> A hosted builder adds most of it for you:
+				WordPress has set <code>fetchpriority</code> on the likely LCP image since 2023 (the Almanac
+				credits that for adoption jumping from 0.03% to 15% of mobile sites) and has generated
+				<code>srcset</code>
+				since version 4.4; Squarespace and Webflow generate the size variants and the
+				<code>srcset</code> on upload. On those platforms your job is the file and the crop, and the markup
+				is theirs; check it in the Network tab once, then leave it.
+			</p>
+		</section>
 
-                <div>
-                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">The Bounce Rate Spike</h3>
-                    <p class="mb-4">Research consistently shows that even a <strong>1-second delay increases bounce rates by 7%</strong>. Your hero loads slowly, visitors see a blank screen or placeholder, and they're gone before your value proposition even renders. Mobile users on spotty 4G connections are even less forgiving.</p>
-                </div>
+		<section id="platforms" class="scroll-mt-24">
+			<SectionHeading
+				>Platform workflows: WordPress, Shopify, Squarespace, Wix, Webflow</SectionHeading
+			>
+			<p class="mb-4">
+				Every builder resizes your upload for display; none of them will fix a file that was too
+				heavy at the pixels it needs, and each crops by its own rules. Here is what each one does,
+				from its own documentation, and what you still have to do.
+			</p>
+			<h3>WordPress hero image size</h3>
+			<p class="mb-4">
+				WordPress makes several sizes of every upload (150, 300, 768 and 1024 wide by default, plus
+				your theme's own), serves them with <code>srcset</code> and <code>sizes</code> since version
+				4.4, and scales any image with a side over 2560 pixels down to 2560 on upload. Since 2023
+				core also sets
+				<code>fetchpriority="high"</code> on the image it judges likely to be the LCP element. So
+				the markup is largely done for you, and the work is the file: resize the hero to 1920 (or
+				2560 if you want a 2x master; anything larger is wasted), convert it to AVIF or WebP, and
+				upload that. Core does not convert formats itself; our guides on
+				<a href="https://mochify.app/guides/next-gen-image-formats-wordpress"
+					>fixing the "next-gen formats" warning in WordPress</a
+				>
+				and on
+				<a href="https://mochify.app/guides/can-wordpress-7-1-optimize-images-without-a-plugin"
+					>what WordPress 7.1 optimizes without a plugin</a
+				>
+				cover the routes. Two checks: if a theme or plugin lazy-loads every image, make sure the hero
+				is excluded; and if the hero is a block or page-builder <em>background</em>, it is a CSS
+				background with the discovery problem above, so prefer an image block or add the preload.
+			</p>
+			<h3>Shopify hero image size</h3>
+			<p class="mb-4">
+				Shopify accepts uploads up to 20 MB and about 20 megapixels (its help pages give both 20 MP
+				and 25 MP / 5000 by 5000 as the ceiling; stay under 20), recommends 2048 by 2048 for square
+				product images, and crops banner and slideshow images to the section's shape, as quoted in
+				section 3. There is no official pixel size for the Dawn or Horizon hero sections, whatever
+				third-party guides print; the honest answer is "the ratio your banner height setting
+				produces", which you find by inspecting the rendered section. Upload 1920 wide at that
+				ratio, set a focal point on the image so the crop centers on the subject, and keep text out
+				of the image and in the section's text fields. Shopify's CDN can serve resized variants to
+				the theme, so phones need not get the full file; what it serves is derived from your upload,
+				so upload a file that is already under budget at 1920 rather than a 6 MB original. Some
+				themes offer a separate mobile image for banners; where yours does, use it for the portrait
+				crop.
+			</p>
+			<h3>Squarespace hero image size</h3>
+			<p class="mb-4">
+				Squarespace Support asks for 2500 pixels wide, warns that images under 1500 wide may look
+				blurry on computers, recommends 500 KB or less for speed, accepts .jpg, .png, .gif and .webp
+				up to 20 MB and 120 megapixels, and makes seven widths from your upload (100 to 2500) to
+				serve by screen size. It also says, correctly, that DPI and PPI "only affect an image's
+				print quality, not its web display". So: upload a 2500-wide master in WebP (AVIF is not on
+				the accepted list) at a weight well under 500 KB, match the image's shape to the section's,
+				and set the focal point so the mobile crop keeps the subject. Squarespace's own blog quotes
+				hero files of 10 to 20 MB, which is the upload limit, not a target; its support page's 500
+				KB is the number to work to.
+			</p>
+			<h3>Wix hero image size</h3>
+			<p class="mb-4">
+				Wix converts images to AVIF on the live site automatically, accepts uploads up to 50 MB, and
+				asks for at least 3000 by 3000 for section backgrounds (<a
+					href="https://support.wix.com/en/article/wix-media-supported-media-file-types-and-file-sizes"
+					target="_blank"
+					rel="noopener noreferrer">Wix, supported media file types</a
+				>). A strip's image setting of "Scale to Fill" crops to the strip's shape, with a grid for
+				choosing the focal point. Because Wix handles the format and the resizing, your lever is the
+				shape and the focal point: match the image to the strip, pick the focal point, and check the
+				strip in the mobile editor view before publishing. Do not upload a 50 MB file because you
+				can; a clean 2500-wide master under a megabyte is plenty for Wix to derive from.
+			</p>
+			<h3>Webflow hero image size</h3>
+			<p class="mb-4">
+				Webflow limits image uploads to 4 MB and generates up to seven variants (3200, 2600, 2000,
+				1600, 1080, 800 and 500 wide) with <code>srcset</code> and <code>sizes</code> for images
+				added through the designer, but not for background images and not for images added by CSV or
+				API (<a
+					href="https://help.webflow.com/hc/en-us/articles/33961378697107-Responsive-images"
+					target="_blank"
+					rel="noopener noreferrer">Webflow Help, Responsive images</a
+				>). The 4 MB limit means you are resizing and compressing before upload anyway; do it to
+				1920 or 2560 and AVIF or WebP. And because the variants do not apply to backgrounds, put the
+				hero in an Image element rather than a section background, or you get one file for every
+				screen and the discovery delay on top.
+			</p>
+		</section>
 
-                <div>
-                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">The Slider Problem</h3>
-                    <p class="mb-4">Image sliders and carousels make this worse. Loading 3–5 hero images for a rotating banner multiplies your payload by 3–5×. Most users never click past slide one, so you're sacrificing LCP for features nobody uses. We recommend <strong>static heroes with a single CTA</strong> for maximum conversion and speed.</p>
-                </div>
+		<section id="video" class="scroll-mt-24">
+			<SectionHeading>When your hero is a video</SectionHeading>
+			<p class="mb-4">
+				An autoplaying video hero has the same problem as an oversized image, usually worse: a heavy
+				MP4 has to start downloading and decoding before the browser can paint anything, and the
+				poster image, if there is one, is what LCP measures. Treat the poster as the hero
+				(everything above applies to it), keep the clip short and muted, and convert it to WebM,
+				which is smaller at the same quality in every browser that matters. Our guide to
+				<a href="https://mochify.app/guides/mp4-to-webm-web-video-guide"
+					>converting MP4 to WebM for the web</a
+				>
+				covers the settings, and the
+				<a href="https://mochify.app/solutions/mp4-to-webm">MP4 to WebM converter</a> runs in your browser,
+				so the video never leaves your device. Video is the one Mochify format that is processed on-device;
+				images are not, and the next section says so.
+			</p>
+		</section>
 
-                <!-- Before/After callout -->
-                <div class="my-8 bg-gradient-to-br from-[#FFF5F7] to-white rounded-3xl border border-pink-100 p-6 md:p-8">
-                    <h3 class="text-lg font-black text-[#4A2C2C] mb-5">Before / After: What Optimization Actually Delivers</h3>
-                    <div class="grid md:grid-cols-2 gap-5">
-                        <div class="bg-red-50 rounded-2xl border border-red-100 p-5">
-                            <p class="text-xs font-black text-red-400 uppercase tracking-wider mb-3">Before</p>
-                            <ul class="space-y-2 text-sm text-[#6C3F31]">
-                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-400 flex-shrink-0"></span>2.8 MB JPEG hero</li>
-                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-400 flex-shrink-0"></span>LCP 4.2s</li>
-                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-400 flex-shrink-0"></span>Bounce rate 68%</li>
-                            </ul>
-                        </div>
-                        <div class="bg-[#E8F5E9] rounded-2xl border border-green-100 p-5">
-                            <p class="text-xs font-black text-[#15803d] uppercase tracking-wider mb-3">After</p>
-                            <ul class="space-y-2 text-sm text-[#6C3F31]">
-                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></span>145 KB AVIF hero - <strong>93% smaller</strong></li>
-                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></span>LCP 1.3s - <strong>69% faster</strong></li>
-                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></span>Bounce rate 51% - <strong>25% lower</strong></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <p class="text-sm text-[#875F42] mt-4">Real metrics from client projects. Compression isn't just about speed - it's about keeping visitors long enough to convert them.</p>
-                </div>
-            </div>
-        </section>
+		<section id="mochify-workflow" class="scroll-mt-24">
+			<SectionHeading
+				>Mochify Workflow: resize, convert and compress a hero in one prompt</SectionHeading
+			>
+			<p class="mb-4">
+				The fastest way to get a hero to the right pixels, format and weight is to describe the
+				result rather than configure it. Mochify's Magic Flow takes a plain-English instruction and
+				applies the resize, the format and the quality in one pass; the same engine is behind the
+				CLI for a folder of images and the Chrome extension for a single image on a page.
+			</p>
+			<GlassPanel>
+				<ol class="workflow-steps">
+					<li>
+						<h3>In the browser</h3>
+						<p class="mb-4">
+							Open <a href="https://mochify.app/flow">Magic Flow</a>, drop the original photograph
+							(3 files per batch and up to 20 MB each with a free account, 25 per batch and 75 MB on
+							Seller, Pro, Growth or a Day Pass), and type
+							<code>resize to 1920px wide, convert to avif</code>. The file comes back resized and
+							encoded, usually at a fraction of the original's weight. If it is still over your
+							budget, drop the result in again and name the number:
+							<code>compress to 250KB</code>. Drop the original again with
+							<code>resize to 1920px wide, convert to webp</code> and
+							<code>resize to 1920px wide, compress</code> (the last one returns a JPEG re-encoded
+							with jpegli, your fallback), and you have the three files the
+							<code>&lt;picture&gt;</code>
+							snippet needs. For the <code>srcset</code> set, repeat with <code>1280px wide</code>
+							and
+							<code>800px wide</code>. For the phone crop, drop the portrait version you made in
+							your photo editor, or ask for it: <code>crop to 1080 by 1350, convert to avif</code> (the
+							crop centers on the subject it detects, which works well when the subject is obvious; check
+							the result).
+						</p>
+					</li>
+					<li>
+						<h3>From the terminal, for a folder</h3>
+						<p class="mb-4">
+							The <code>mochify</code> CLI is a client over the same API, so it takes the same instructions
+							and adds patterns and output folders:
+						</p>
+						<CodeCard filename="resize.sh" code={resizeCode} />
+						<p class="mb-4">
+							The <a href="https://mochify.app/docs">API docs</a> have the same call as
+							<code>POST /v1/squish</code> with <code>type=avif</code>, <code>width=1920</code> and
+							an
+							<code>Authorization: Bearer</code> header, for a build step that resizes every hero on the
+							way in.
+						</p>
+					</li>
+					<li>
+						<h3>In Chrome, for one image</h3>
+						<p class="mb-4">
+							Right-click any image on a page, choose Mochify, then "Convert to" and the format. It
+							is a direct conversion with no prompt and no settings, one image at a time, and the
+							file lands in Downloads; "Send to Mochify..." opens the prompt panel for a resize. The
+							<a href="https://mochify.app/chrome-extension">Mochify for Chrome page</a> has the install
+							link.
+						</p>
+					</li>
+				</ol>
+			</GlassPanel>
+			<p class="mt-6 mb-4">
+				<strong>Metadata.</strong> Camera files carry EXIF (camera model, GPS position, timestamps),
+				which adds weight and leaks where the photo was taken. Mochify strips it by default on every
+				path above (the API unless you send <code>stripExif=false</code>, the CLI unless you pass
+				<code>--keep-metadata</code>); for a hero on a public page that is what you want. Our guide
+				to
+				<a href="https://mochify.app/guides/exif-data-risks-image-compression-2026"
+					>EXIF data and the risks of leaving it in</a
+				> has the detail.
+			</p>
+			<p class="mt-6 mb-4 text-base leading-relaxed text-[#875F42]">
+				<strong>Privacy, for this workflow.</strong> Images travel to <code>api.mochify.app</code> over
+				HTTPS, are streamed into the encoder in memory, and are wiped the moment the encode finishes:
+				no disk writes, no logs containing file data, and never used to train AI. That holds for the web
+				app, the CLI and the extension alike; the CLI writes the result to your disk and nothing is kept
+				on the server. Video, as above, is processed in the browser and never leaves your device.
+			</p>
+		</section>
 
-        <!-- Core Best Practices -->
-        <section id="best-practices" class="my-12">
-            <SectionHeading>Core Best Practices for Hero Optimization</SectionHeading>
-            <p class="mb-8">Let's break down the technical steps that actually move the needle. These apply whether you're on WordPress, Shopify, or a custom stack.</p>
+		<section id="cheat-sheet" class="scroll-mt-24">
+			<SectionHeading>Cheat Sheet</SectionHeading>
+			<GuideTable class="my-6">
+				<table>
+					<thead><tr><th>Question</th><th>Answer</th></tr></thead>
+					<tbody>
+						<tr>
+							<td>Desktop hero, full width</td>
+							<td
+								>Upload 1920 wide, height at the section's ratio: 1920 x 1080 (16:9 full screen),
+								1920 x 800 (2.4:1 banner), 1920 x 640 (3:1 strip)</td
+							>
+						</tr>
+						<tr>
+							<td>2x / retina file</td>
+							<td
+								>2560 wide at most (WordPress scales above 2560 down; Squarespace tops out at 2500);
+								only for product shots, type or line art, and only if the AVIF is still under budget</td
+							>
+						</tr>
+						<tr>
+							<td>Phone hero</td>
+							<td
+								>A separate portrait crop, 1080 x 1350 (4:5) or 1080 x 1440 (3:4); subject centered</td
+							>
+						</tr>
+						<tr>
+							<td>Weight target</td>
+							<td
+								>Aim under about 200 KB at 1920 wide; our run at 1920 x 1080 (detail-heavy photo):
+								JPEG q85 822 KB, AVIF auto 438 KB, jpegli JPEG 463 KB, WebP 517 KB, AVIF q45 246 KB
+								with no visible loss at 1:1; half of mobile sites' LCP images are already under 100
+								KB (Web Almanac 2024)</td
+							>
+						</tr>
+						<tr>
+							<td>Format order</td>
+							<td>AVIF (96.35% support), WebP (97.18%), JPEG fallback (caniuse, Sep 2026 data)</td>
+						</tr>
+						<tr>
+							<td>Why it crops</td>
+							<td
+								>The section fixes the shape; the image is scaled to cover it and the overflow is
+								clipped; wide images lose their sides on phones, tall ones lose top and bottom on
+								monitors</td
+							>
+						</tr>
+						<tr>
+							<td>Safe zone</td>
+							<td
+								>Subject and anything you cannot lose inside the middle half of the width and middle
+								two-thirds of the height; set the platform's focal point; never bake text into the
+								image</td
+							>
+						</tr>
+						<tr>
+							<td>Markup</td>
+							<td
+								><code>&lt;img&gt;</code> in the HTML, not a CSS background; <code>width</code> and
+								<code>height</code> declared; <code>fetchpriority="high"</code> on the hero only; no
+								<code>loading="lazy"</code>; <code>srcset</code> for sizes,
+								<code>&lt;picture&gt;</code> for the phone crop and the AVIF/WebP/JPEG order</td
+							>
+						</tr>
+						<tr>
+							<td>Forced CSS background</td>
+							<td
+								><code
+									>&lt;link rel="preload" as="image" href="hero.avif" type="image/avif"
+									fetchpriority="high"&gt;</code
+								>
+								in the <code>&lt;head&gt;</code></td
+							>
+						</tr>
+						<tr>
+							<td>LCP line</td>
+							<td
+								>2.5 s good, over 4 s poor, at the 75th percentile (web.dev); check the "Largest
+								Contentful Paint element" diagnostic in PageSpeed Insights, Mobile tab</td
+							>
+						</tr>
+						<tr>
+							<td>Platform masters</td>
+							<td
+								>WordPress 1920-2560 (auto <code>srcset</code> and <code>fetchpriority</code>);
+								Shopify 1920 at the section ratio, focal point set, under 20 MP; Squarespace 2500
+								wide, under 500 KB, WebP; Wix converts to AVIF, set focal point; Webflow under 4 MB,
+								Image element not background</td
+							>
+						</tr>
+						<tr>
+							<td>Making the files</td>
+							<td
+								>Magic Flow: <code>resize to 1920px wide, convert to avif</code>; CLI:
+								<code>mochify hero.jpg -t avif -w 1920</code></td
+							>
+						</tr>
+					</tbody>
+				</table>
+			</GuideTable>
+		</section>
 
-            <div class="space-y-10">
+		<GlassFAQs items={faqItems} />
 
-                <!-- Format choice -->
-                <div>
-                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Pick the Right Format: AVIF, WebP, or Jpegli JPEG</h3>
-                    <div class="grid md:grid-cols-3 gap-4 my-6">
-                        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-5">
-                            <p class="text-xs font-black text-[#D81B60] uppercase tracking-wider mb-2">Best Choice</p>
-                            <h4 class="font-black text-[#4A2C2C] mb-2">AVIF</h4>
-                            <p class="text-sm text-[#6C3F31]">50% smaller than JPEG at equivalent quality. Supports HDR + alpha transparency. <strong>94% browser support</strong> as of 2025. Use AVIF for your primary hero.</p>
-                        </div>
-                        <div class="bg-[#FFF9F5] rounded-2xl border border-[#FFE4D6] p-5">
-                            <p class="text-xs font-black text-[#875F42] uppercase tracking-wider mb-2">Fallback</p>
-                            <h4 class="font-black text-[#4A2C2C] mb-2">WebP</h4>
-                            <p class="text-sm text-[#6C3F31]">30% smaller than JPEG. Near-universal support (97%). Older Safari and legacy browsers still need WebP as a safety net.</p>
-                        </div>
-                        <div class="bg-[#F5F9FF] rounded-2xl border border-blue-100 p-5">
-                            <p class="text-xs font-black text-blue-600 uppercase tracking-wider mb-2">Marketplace Lock-in</p>
-                            <h4 class="font-black text-[#4A2C2C] mb-2">Jpegli JPEG</h4>
-                            <p class="text-sm text-[#6C3F31]">Google's modern JPEG encoder. Standard JPEG output - compatible everywhere - but 35% better compression at high quality. No format headaches.</p>
-                        </div>
-                    </div>
-                    <p class="mb-4">Use a <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">&lt;picture&gt;</code> element with AVIF first, WebP second, and JPEG fallback (the order and attribute rules are in our <a href="/guides/html-picture-tag">guide to the HTML picture tag</a>):</p>
-                    <CodeBlock filename="hero.html" code={`<picture>
-  <source srcset="hero.avif" type="image/avif">
-  <source srcset="hero.webp" type="image/webp">
-  <img src="hero.jpg" alt="Product showcase" width="1920" height="800">
-</picture>`} />
-                </div>
+		<GlassCTA href="/flow" label="Try Magic Flow">
+			Resize your hero now at <a href="https://mochify.app/flow">mochify.app/flow</a>. Twenty-five
+			images a month are free with an account, three a month without one. Try it with the prompt
+			<em>"resize to 1920px wide, convert to avif"</em>.
+		</GlassCTA>
 
-                <!-- Size -->
-                <div>
-                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Size It Right: 1920×800 for Desktop, Mobile Variants via Srcset</h3>
-                    <p class="mb-4">Most themes display heroes at 1920px width on desktop. Going larger wastes bandwidth without improving visual quality. Height depends on your aspect ratio - 800px works well for 2.4:1 banners, while 1080px suits 16:9 full-screen heroes.</p>
-                    <InfoBox type="tip" title="Mobile-first sizing">
-                        Mobile visitors (70%+ of traffic for e-commerce sites) need smaller variants. Use <code>srcset</code> to serve 800×600 images to phones and 1200×900 to tablets. Always define <code>width</code> and <code>height</code> attributes to prevent CLS - without dimensions the page jumps as content shifts down.
-                    </InfoBox>
-                </div>
-
-                <!-- Background images -->
-                <div>
-                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Background Images vs <code class="text-[#D81B60] font-mono text-lg">&lt;img&gt;</code> Tags</h3>
-                    <p class="mb-4">CSS background images are invisible to preload scanners, which means browsers discover them late and start fetching them after parsing CSS. <strong>This delays LCP by 200–500ms</strong> compared to <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">&lt;img&gt;</code> tags.</p>
-                    <p>Switch from <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">background-image</code> in CSS to proper <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">&lt;img&gt;</code> elements. If your theme forces backgrounds (looking at you, Elementor sliders), move the hero to an Image widget and preload it manually. The LCP improvement is worth the template refactor.</p>
-                </div>
-
-                <!-- Video heroes -->
-                <div>
-                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">When Your Hero Is a Video, Not an Image</h3>
-                    <p class="mb-4">Autoplay hero videos have the same LCP problem as oversized images, and often worse, since a heavy MP4 has to start downloading and decoding before the browser can paint anything. If that is your setup, see how to <a href="https://mochify.app/guides/mp4-to-webm-web-video-guide">convert an MP4 hero video to WebM for a faster LCP</a>.</p>
-                </div>
-
-                <!-- fetchpriority -->
-                <div>
-                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Preload Your Hero with <code class="text-[#D81B60] font-mono text-lg">fetchpriority="high"</code></h3>
-                    <p class="mb-4">Browsers prioritize resources in a specific order: CSS first, then scripts, then images. Your hero image often loads with default priority - meaning it waits behind other assets.</p>
-                    <p class="mb-4">Fix this by preloading the hero and setting <code class="bg-pink-50 px-1.5 py-px rounded text-sm font-mono text-[#D81B60]">fetchpriority="high"</code>:</p>
-                    <CodeBlock filename="<head>" code={`<link rel="preload" as="image" href="hero.avif" fetchpriority="high">`} />
-                    <p class="mb-4 mt-4">Not every hero needs both hints. For a decision guide on when the attribute alone is enough, see <a href="https://mochify.app/guides/fetchpriority-vs-preload-lcp-image">fetchpriority vs rel="preload" for your LCP image</a>.</p>
-                    <InfoBox type="technical" title="Why this matters">
-                        Etsy deployed this technique site-wide and improved LCP by 4%, with some pages seeing 20–30% gains. Add this <code>&lt;link&gt;</code> tag in your <code>&lt;head&gt;</code> before other stylesheets and scripts. Without <code>fetchpriority="high"</code>, some browsers treat image preloads as low priority and negate the benefit entirely.
-                    </InfoBox>
-                </div>
-
-                <!-- srcset -->
-                <div>
-                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Responsive Heroes: Srcset for Different Viewports</h3>
-                    <p class="mb-4">Desktop users don't need 1920px images if their screen is 1366px wide. Mobile users on 375px phones certainly don't. Serve appropriately sized variants:</p>
-                    <CodeBlock filename="responsive-hero.html" code={`<img
-  srcset="hero-800.avif 800w, hero-1200.avif 1200w, hero-1920.avif 1920w"
-  sizes="100vw"
-  src="hero-1920.avif"
-  alt="Hero image"
-  width="1920"
-  height="800"
-  fetchpriority="high"
->`} />
-                    <p>The browser picks the smallest image that fills the viewport. A phone gets 800w (~60 KB), a tablet gets 1200w (~110 KB), and a desktop gets 1920w (~150 KB). You're saving bandwidth and speeding up LCP for most visitors.</p>
-                </div>
-
-                <!-- Metadata strip -->
-                <div>
-                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Strip Metadata for Privacy and Smaller Files</h3>
-                    <p class="mb-4">EXIF data (camera model, GPS coordinates, timestamps) bloats images by 10–50 KB without adding any visual value. Worse, it <strong>leaks privacy information</strong> like location and device details.</p>
-                    <p>Quality compression tools strip metadata automatically. When you run images through Mochify, we discard EXIF, color profiles, and thumbnail previews embedded by cameras - keeping only the pixel data needed to display the image.</p>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Platform Workflows -->
-        <section id="platforms" class="my-12">
-            <SectionHeading>Platform-Specific Workflows</SectionHeading>
-            <p class="mb-8">Different platforms need different approaches. Here's how to pre-optimize heroes for each without adding plugins or overhead.</p>
-
-            <div class="space-y-10">
-
-                <!-- WordPress -->
-                <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-8">
-                    <div class="flex items-center gap-3 mb-5">
-                        <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-sm border border-pink-100">
-                            <svg class="w-5 h-5 text-[#21759B]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zM3.01 12c0-1.3.28-2.54.78-3.66L8.3 21.27C5.2 19.81 3.01 16.16 3.01 12zm8.99 8.99c-.88 0-1.73-.13-2.54-.36l2.7-7.84 2.76 7.57c.02.04.04.07.05.1-.93.34-1.92.53-2.97.53zm1.24-13.26c.54-.03 1.03-.08 1.03-.08.48-.06.43-.77-.06-.74 0 0-1.46.11-2.4.11-.88 0-2.37-.11-2.37-.11-.48-.03-.54.71-.06.74 0 0 .46.05.95.08l1.4 3.84-1.97 5.9L7.1 7.73c.54-.03 1.03-.08 1.03-.08.48-.06.43-.77-.06-.74 0 0-1.46.11-2.4.11-.17 0-.36 0-.57-.01C6.54 4.67 9.12 3.01 12 3.01c2.14 0 4.09.82 5.55 2.16-.04 0-.07-.01-.11-.01-.88 0-1.5.77-1.5 1.59 0 .74.43 1.37.88 2.11.34.6.74 1.37.74 2.48 0 .77-.29 1.66-.68 2.9l-.89 2.97-3.23-9.58zm4.74 11.65l2.74-7.92c.51-1.28.68-2.31.68-3.22 0-.33-.02-.64-.06-.93A8.98 8.98 0 0120.99 12c0 3.61-1.95 6.77-4.99 8.47l-.02-.09z"/></svg>
-                        </div>
-                        <h3 class="text-xl font-black text-[#4A2C2C]">WordPress</h3>
-                    </div>
-                    <p class="mb-5 text-[#6C3F31]">WordPress generates multiple thumbnail sizes on upload - optimization plugins add database bloat and CPU overhead. Skip them entirely with this plugin-free workflow:</p>
-                    <ol class="space-y-3 list-none pl-0">
-                        {#each [
-                            'Resize your hero to 1920×800 (or your theme\'s recommended size) before uploading',
-                            'Convert to AVIF and WebP using Mochify (batch process up to 25 images at once)',
-                            'Compress to target <150 KB per hero image for fast LCP',
-                            'Upload the optimized files directly to WordPress media library',
-                            'Add fetchpriority="high" to your hero via theme settings or a custom HTML block',
-                        ] as step, i}
-                            <li class="flex items-start gap-4">
-                                <span class="flex-shrink-0 w-7 h-7 rounded-full bg-white border border-pink-200 flex items-center justify-center text-[10px] font-black text-[#F06292] mt-0.5">{i + 1}</span>
-                                <span class="text-[#6C3F31]">{step}</span>
-                            </li>
-                        {/each}
-                    </ol>
-                    <InfoBox type="tip" title="Pro-tip">
-                        Check your theme's actual display size by inspecting the rendered hero in DevTools. Many themes claim to need 2400px width but actually display at 1920px - meaning you're serving wasted pixels.
-                    </InfoBox>
-                </div>
-
-                <!-- Shopify -->
-                <div class="bg-[#FFF9F5] rounded-3xl border border-[#FFE4D6] p-6 md:p-8">
-                    <div class="flex items-center gap-3 mb-5">
-                        <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-sm border border-[#FFE4D6]">
-                            <svg class="w-5 h-5 text-[#96BF48]" viewBox="0 0 24 24" fill="currentColor"><path d="M15.337 23.979l7.216-1.561s-2.597-17.56-2.617-17.679c-.019-.118-.121-.196-.233-.196s-2.186-.154-2.186-.154-.972-.972-1.078-1.063v-.009c-.019-.009-.028-.009-.047 0l-1.063 20.662h-.007l.015-.001zm-3.792-11.051l-.766-2.336s-.943.497-2.092.497c-1.681 0-1.764-.766-1.764-1.345 0-1.766 3.52-2.429 3.52-6.539 0-3.239-2.053-5.303-4.8-5.303-3.31 0-4.993 2.663-4.993 2.663l.91 2.831s1.681-2.053 3.241-2.053c1.156 0 1.653.876 1.653 1.681 0 1.988-2.995 2.598-2.995 6.391 0 3.271 2.287 5.377 5.469 5.377 1.175 0 2.617-.497 2.617-.497v-.168zm4.545-9.248c-1.143-.059-2.326.278-2.326.278l-.682 9.889.186.048 2.822-10.215z"/></svg>
-                        </div>
-                        <h3 class="text-xl font-black text-[#4A2C2C]">Shopify</h3>
-                    </div>
-                    <p class="mb-4 text-[#6C3F31]">Shopify themes have preset hero dimensions that vary by template. Dawn wants 1920×800, while Prestige prefers 2400×1200. Using the wrong size forces Shopify to resize server-side, degrading quality.</p>
-                    <ol class="space-y-3 list-none pl-0 mb-6">
-                        {#each [
-                            'Check your theme\'s documentation for recommended hero dimensions (or inspect the rendered size in DevTools)',
-                            'Export source images at the exact dimensions',
-                            'Convert to WebP (Shopify supports WebP natively; AVIF support rolling out theme-by-theme)',
-                            'Compress to under 300 KB for desktop heroes, under 150 KB for mobile variants',
-                            'Upload via the theme customizer - Shopify CDN serves optimized versions automatically',
-                        ] as step, i}
-                            <li class="flex items-start gap-4">
-                                <span class="flex-shrink-0 w-7 h-7 rounded-full bg-white border border-[#FFD4B8] flex items-center justify-center text-xs font-black text-[#875F42] mt-0.5">{i + 1}</span>
-                                <span class="text-[#6C3F31]">{step}</span>
-                            </li>
-                        {/each}
-                    </ol>
-                    <InfoBox type="warning" title="Mobile Consideration">
-                        Over 70% of Shopify traffic is mobile. Test your hero on actual devices or Chrome DevTools mobile emulation to confirm it loads in under 2 seconds on 4G connections.
-                    </InfoBox>
-                </div>
-
-                <!-- Squarespace -->
-                <div class="bg-[#F5F9FF] rounded-3xl border border-blue-100 p-6 md:p-8">
-                    <div class="flex items-center gap-3 mb-5">
-                        <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-sm border border-blue-100">
-                            <svg class="w-4 h-4 text-[#222]" viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 8.6L12 .3 3.7 8.6l2.1 2.1 4.7-4.7v13.9h3V6l4.7 4.7 2.1-2.1zm-1.1 6.1l-2.1-2.1-4.7 4.7V3.4h-3V17.3L4.7 12.6l-2.1 2.1L12 23.7l9.3-9.3-2.1 2.3z"/></svg>
-                        </div>
-                        <h3 class="text-xl font-black text-[#4A2C2C]">Squarespace</h3>
-                    </div>
-                    <p class="mb-4 text-[#6C3F31]">Squarespace recommends 2500×1500 for full-width hero banners. But 2500px at high quality easily hits 1–2 MB, which kills LCP - compress before you upload.</p>
-                    <ol class="space-y-3 list-none pl-0 mb-6">
-                        {#each [
-                            'Resize to 2500×1500 (or 1920×1080 for 16:9 banners)',
-                            'Convert to WebP (Squarespace supports WebP; AVIF varies by template version)',
-                            'Compress to target <500 KB - any larger and LCP creeps above 2.5s',
-                            'Upload via the Design panel and set your hero as the background or featured image',
-                            'Enable Squarespace\'s built-in image loading optimizations in site settings',
-                        ] as step, i}
-                            <li class="flex items-start gap-4">
-                                <span class="flex-shrink-0 w-7 h-7 rounded-full bg-white border border-blue-200 flex items-center justify-center text-xs font-black text-blue-500 mt-0.5">{i + 1}</span>
-                                <span class="text-[#6C3F31]">{step}</span>
-                            </li>
-                        {/each}
-                    </ol>
-                    <InfoBox type="note" title="Lazy loading">
-                        Squarespace handles lazy loading automatically for below-the-fold images, but your hero should always load eagerly. Check that the hero has <code>loading="eager"</code> or no lazy loading attribute in your template's advanced settings.
-                    </InfoBox>
-                </div>
-
-                <!-- Wix -->
-                <div class="bg-[#FDFBF7] rounded-3xl border border-pink-50 p-6 md:p-8">
-                    <div class="flex items-center gap-3 mb-5">
-                        <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-sm border border-pink-50">
-                            <span class="text-sm font-black text-[#FAAD2B]">Wix</span>
-                        </div>
-                        <h3 class="text-xl font-black text-[#4A2C2C]">Wix</h3>
-                    </div>
-                    <p class="mb-4 text-[#6C3F31]">Wix automatically converts uploaded images to WebP and applies some compression. This is convenient but gives you less control over quality and file size. Pre-optimizing before upload ensures you hit your LCP targets.</p>
-                    <ol class="space-y-3 list-none pl-0">
-                        {#each [
-                            'Resize to 1920×1080 (Wix\'s standard hero size for most templates)',
-                            'Compress to <200 KB as JPEG or WebP',
-                            'Upload via the media manager',
-                            'Wix\'s CDN serves optimized versions automatically, but starting with a smaller file ensures the fastest possible delivery',
-                        ] as step, i}
-                            <li class="flex items-start gap-4">
-                                <span class="flex-shrink-0 w-7 h-7 rounded-full bg-[#FFF5F7] border border-pink-200 flex items-center justify-center text-[10px] font-black text-[#F06292] mt-0.5">{i + 1}</span>
-                                <span class="text-[#6C3F31]">{step}</span>
-                            </li>
-                        {/each}
-                    </ol>
-                    <p class="mt-5 text-sm text-[#875F42]">Wix's editor doesn't expose <code class="bg-white px-1 rounded font-mono">fetchpriority</code> or manual preload options, so focus on <strong>file size as your primary lever</strong>. Smaller heroes load faster regardless of priority hints.</p>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Cheat Sheet -->
-        <section id="cheat-sheet" class="my-12">
-            <SectionHeading>Hero Image Optimization Cheat Sheet 2026</SectionHeading>
-
-            <ScrollableTable class="mb-10">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-[#FFF5F7] border-b border-pink-100">
-                            <th class="py-4 px-5 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Platform</th>
-                            <th class="py-4 px-5 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Recommended Size</th>
-                            <th class="py-4 px-5 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Target File Size</th>
-                            <th class="py-4 px-5 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Format Priority</th>
-                            <th class="py-4 px-5 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Key LCP Step</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-pink-50">
-                        {#each [
-                            { platform: 'WordPress', size: '1920×800', target: '<150 KB', formats: 'AVIF › WebP › JPEG', key: 'Pre-compress, add fetchpriority' },
-                            { platform: 'Shopify', size: '1920×800', target: '<300 KB', formats: 'WebP › JPEG', key: 'Check theme specs, mobile test' },
-                            { platform: 'Squarespace', size: '2500×1500', target: '<500 KB', formats: 'WebP › JPEG', key: 'Compress before upload' },
-                            { platform: 'Wix', size: '1920×1080', target: '<200 KB', formats: 'WebP › JPEG', key: 'Pre-compress, let Wix CDN serve' },
-                            { platform: 'Custom / Static', size: '1920×800', target: '<150 KB', formats: 'AVIF › WebP › JPEG', key: 'Preload, srcset, fetchpriority' },
-                        ] as row}
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-4 px-5 font-bold text-[#4A2C2C]">{row.platform}</td>
-                                <td class="py-4 px-5 text-[#6C3F31] font-mono text-sm">{row.size}</td>
-                                <td class="py-4 px-5 text-[#6C3F31] font-semibold">{row.target}</td>
-                                <td class="py-4 px-5 text-[#6C3F31] text-sm">{row.formats}</td>
-                                <td class="py-4 px-5 text-[#875F42] text-sm">{row.key}</td>
-                            </tr>
-                        {/each}
-                    </tbody>
-                </table>
-            </ScrollableTable>
-
-            <h3 class="text-lg font-black text-[#4A2C2C] mb-4">Format Comparison Quick Reference</h3>
-            <ScrollableTable class="my-6">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-[#FFF5F7] border-b border-pink-100">
-                            <th class="py-4 px-5 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Format</th>
-                            <th class="py-4 px-5 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Compression vs JPEG</th>
-                            <th class="py-4 px-5 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Browser Support 2026</th>
-                            <th class="py-4 px-5 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Use Case</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-pink-50">
-                        <tr class="hover:bg-pink-50/30 transition-colors bg-pink-50/20">
-                            <td class="py-4 px-5 font-bold text-[#D81B60]">AVIF</td>
-                            <td class="py-4 px-5 text-[#D81B60] font-semibold">50% smaller</td>
-                            <td class="py-4 px-5 text-[#6C3F31]">94%</td>
-                            <td class="py-4 px-5 text-[#6C3F31] text-sm">Modern sites, best compression</td>
-                        </tr>
-                        <tr class="hover:bg-pink-50/30 transition-colors">
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">WebP</td>
-                            <td class="py-4 px-5 text-[#6C3F31] font-semibold">30% smaller</td>
-                            <td class="py-4 px-5 text-[#6C3F31]">97%</td>
-                            <td class="py-4 px-5 text-[#6C3F31] text-sm">Fallback, wide compatibility</td>
-                        </tr>
-                        <tr class="hover:bg-pink-50/30 transition-colors">
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">Jpegli JPEG</td>
-                            <td class="py-4 px-5 text-[#6C3F31] font-semibold">35% better at HQ</td>
-                            <td class="py-4 px-5 text-[#6C3F31]">100%</td>
-                            <td class="py-4 px-5 text-[#6C3F31] text-sm">Marketplaces, legacy systems</td>
-                        </tr>
-                        <tr class="hover:bg-pink-50/30 transition-colors">
-                            <td class="py-4 px-5 font-bold text-[#875F42]">JPEG</td>
-                            <td class="py-4 px-5 text-[#875F42]">Baseline</td>
-                            <td class="py-4 px-5 text-[#6C3F31]">100%</td>
-                            <td class="py-4 px-5 text-[#6C3F31] text-sm">Universal fallback only</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </ScrollableTable>
-        </section>
-
-        <!-- Mochify Workflow -->
-        <section id="mochify-workflow" class="my-12">
-            <SectionHeading>Mochify Workflow: Batch Process Heroes Fast</SectionHeading>
-            <p class="mb-6">Mochify handles up to 25 hero images per batch with zero-retention in-memory processing. Your images are compressed in RAM and discarded immediately - no disk storage, no tracking, no risk of leaks.</p>
-
-            <div class="my-8 bg-gradient-to-br from-[#FFF5F7] to-white rounded-3xl border border-pink-100 p-6 md:p-8">
-                <h3 class="text-lg font-black text-[#4A2C2C] mb-6">Step-by-step</h3>
-                <ol class="space-y-4 list-none pl-0">
-                    {#each [
-                        { step: 'Drag your hero images (JPEG, PNG, HEIC, or existing WebP) into the Mochify web tool', icon: '1' },
-                        { step: 'Select output format: AVIF for maximum compression, WebP for broader compatibility, or Jpegli JPEG for universal support', icon: '2' },
-                        { step: "Select 'Smart Mode' for intelligent optimization and best quality-to-size ratio", icon: '3' },
-                        { step: 'Batch compress all 25 images in one pass - our C++ engine processes them in parallel', icon: '4' },
-                        { step: 'Download as a single ZIP (for batch processing) or individual files, ready to upload to your site', icon: '5' },
-                    ] as item}
-                        <li class="flex items-start gap-4">
-                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-[#F06292] flex items-center justify-center text-sm font-black text-white shadow-md shadow-pink-200 mt-0.5">{item.icon}</span>
-                            <span class="text-[#6C3F31] pt-1">{item.step}</span>
-                        </li>
-                    {/each}
-                </ol>
-                <p class="text-sm text-[#875F42] mt-6 pt-6 border-t border-pink-100">The entire workflow takes under 2 minutes for a full batch. No accounts, no plugins installed on your server, no database overhead.</p>
-            </div>
-
-            <InfoBox type="note" title="High-volume workflows">
-                For thousands of images monthly, Mochify Pro (coming later in 2026) adds custom presets, higher file limits, and API integration - all with identical zero-retention privacy. Perfect for agencies managing multiple client sites or e-commerce stores with large product catalogs.
-            </InfoBox>
-
-            <div class="mt-8 text-center">
-                <a
-                    href="/"
-                    class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-br from-[#F06292] to-[#e040a0] text-white font-bold text-lg shadow-lg shadow-pink-200 hover:shadow-pink-300 hover:scale-105 transition-all duration-200 no-underline"
-                >
-                    Compress your hero images now
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
-                    </svg>
-                </a>
-            </div>
-        </section>
-
-        <!-- Related Guides -->
-        <RelatedGuides guides={[
-            {
-                href: '/guides/privacy-image-optimization',
-                title: 'Privacy & Image Optimization',
-                desc: 'Why zero-retention beats plugins - in-memory processing protects your images from disk storage and AI training.',
-            },
-            {
-                href: '/guides/next-gen-image-formats-wordpress',
-                title: 'Fix "Serve Images in Next-Gen Formats" in WordPress',
-                desc: 'Convert your entire WordPress media library to AVIF and WebP without plugin bloat.',
-            },
-            {
-                href: '/guides/2026-guide-next-gen-formats',
-                title: 'The 2026 Guide to Next-Gen Formats',
-                desc: 'Deep dive into WebP, AVIF, and JPEG XL compression ratios, browser support, and when to use each format.',
-            },
-            {
-                href: '/guides/jpeg-in-2026-jpegli',
-                title: 'Jpegli Guide 2026',
-                desc: "Master Google's modern JPEG encoder for marketplaces and legacy platforms - better quality per byte.",
-            },
-            {
-                href: '/guides/fetchpriority-vs-preload-lcp-image',
-                title: 'Should I Use fetchpriority or rel="preload" for My LCP Image?',
-                desc: 'When the fetchpriority attribute is enough on its own and when your hero also needs a preload hint.',
-            },
-        ]} />
-
-    </div>
+		<RelatedGuidesGrid guides={related} />
+	</div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+
+	/* Workflow steps: the handoff authors each step title as an <h3> and step
+	   2 carries a code figure, so this is a plain list rather than StepList
+	   (whose titles are <p> and whose bodies are an {@html} string). */
+	.workflow-steps {
+		list-style: none;
+		counter-reset: step;
+		margin: 0;
+		padding: 0;
+	}
+
+	.workflow-steps > li {
+		counter-increment: step;
+		position: relative;
+		padding-left: 3.25rem;
+		padding-bottom: 2rem;
+	}
+
+	.workflow-steps > li:last-child {
+		padding-bottom: 0;
+	}
+
+	.workflow-steps > li::before {
+		content: counter(step);
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 2.25rem;
+		height: 2.25rem;
+		border-radius: 9999px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 800;
+		font-size: 0.95rem;
+		color: #fff;
+		background: linear-gradient(135deg, #f06292 0%, #ffb3c6 100%);
+		box-shadow: 0 4px 12px rgba(240, 98, 146, 0.25);
+	}
+
+	.workflow-steps h3 {
+		margin: 0.2rem 0 0.75rem;
+	}
+
+	.workflow-steps p {
+		margin: 0 0 0.75rem;
+	}
+
+	.workflow-steps p:last-child {
+		margin-bottom: 0;
+	}
+
+	.hero-wash {
+		position: absolute;
+		top: -20rem;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 100vw;
+		height: 1450px;
+		z-index: -1;
+		pointer-events: none;
+		background:
+			radial-gradient(ellipse 60% 45% at 12% 8%, rgba(255, 179, 198, 0.4) 0%, transparent 70%),
+			radial-gradient(ellipse 50% 40% at 90% 18%, rgba(224, 172, 213, 0.32) 0%, transparent 70%),
+			radial-gradient(ellipse 45% 35% at 55% 55%, rgba(255, 214, 224, 0.25) 0%, transparent 70%);
+		mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+		-webkit-mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+	}
+
+	@media (max-width: 768px) {
+		.hero-wash {
+			height: 1000px;
+			background:
+				radial-gradient(ellipse 60% 45% at 12% 8%, rgba(255, 179, 198, 0.22) 0%, transparent 70%),
+				radial-gradient(ellipse 50% 40% at 90% 18%, rgba(224, 172, 213, 0.16) 0%, transparent 70%),
+				radial-gradient(ellipse 45% 35% at 55% 55%, rgba(255, 214, 224, 0.12) 0%, transparent 70%);
+		}
+	}
+</style>

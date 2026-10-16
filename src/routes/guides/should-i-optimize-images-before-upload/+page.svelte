@@ -12,7 +12,7 @@
         category: "Image Optimization",
         readTime: "15 min read",
         date: "April 13, 2026",
-        lastUpdated: "September 12, 2026"
+        lastUpdated: "October 16, 2026"
     };
 
     const related = [
@@ -86,7 +86,7 @@
         "description": "A practical guide to pre-upload image optimization: when it is mandatory, when it is optional, and the right workflow for Shopify, WordPress, and marketplaces.",
         "url": "https://mochify.app/guides/should-i-optimize-images-before-upload",
         "datePublished": "2026-04-13",
-        "dateModified": "2026-09-12",
+        "dateModified": "2026-10-16",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team" },
         "isPartOf": { "@type": "CollectionPage", "name": "Image Optimization Guides", "url": "https://mochify.app/guides" },
@@ -271,7 +271,7 @@
 
             <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">WordPress heroes, galleries, and WooCommerce stores</h3>
             <p class="mb-4">Yes - this is the scenario where pre-upload optimization makes the biggest measurable difference. WordPress stores the original file plus multiple auto-generated sizes. Every heavy original you upload stays in your database and backups forever, and on shared hosting, the CPU cost of generating derivatives slows down initial processing.</p>
-            <p class="mb-4">Hero images are the most frequent cause of poor LCP scores in Lighthouse and PageSpeed Insights audits. A 2400px-wide WebP or AVIF hero compressed to under 200KB will consistently outperform a 3MB JPEG on mobile, regardless of what your caching or CDN layer does on top.</p>
+            <p class="mb-4">Hero images are the most frequent cause of poor LCP scores in Lighthouse and PageSpeed Insights audits. A 2400px-wide WebP or AVIF hero compressed to under 200KB will consistently outperform a 3MB JPEG on mobile, regardless of what your caching or CDN layer does on top. The dimensions to upload, the crop rules that stop a banner zooming on phones, and what a 1920-pixel hero actually weighs in each format are in our guide to <a href="/guides/optimizing-hero-images">hero image size for websites</a>.</p>
 
             <InfoBox type="tip" title="Skip the plugins">
                 Many WordPress performance guides push users toward image optimization plugins. These add database overhead, API dependencies on third-party services, and often require paid subscriptions. Optimizing before upload with an external tool means your WordPress install stays lean and the media library receives already-correct files.

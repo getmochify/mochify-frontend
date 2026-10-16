@@ -24,7 +24,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '21 min read',
 		date: 'September 25, 2026',
-		lastUpdated: 'October 12, 2026'
+		lastUpdated: 'October 16, 2026'
 	},
 	{
 		title: 'Save Image as Type Is Gone: How to Replace It Safely',
@@ -129,7 +129,7 @@ export const guides: Guide[] = [
 		category: 'Image Optimization',
 		readTime: '13 min read',
 		date: 'August 25, 2026',
-		lastUpdated: 'October 14, 2026'
+		lastUpdated: 'October 16, 2026'
 	},
 	{
 		title: 'Can WordPress 7.1 Optimize Images Without a Plugin?',
@@ -517,14 +517,14 @@ export const guides: Guide[] = [
 		date: 'February 18, 2026'
 	},
 	{
-		title: 'Optimizing Hero Images for Web Performance: A 2026 Guide',
+		title: 'Hero Image Size for Websites: Dimensions, File Size, and Why Your Banner Crops',
 		description:
-			"Learn how to optimize your website's hero images for faster load times and better Core Web Vitals in 2026. A step-by-step guide to choosing the right format, compression settings, and responsive techniques.",
+			'Hero image size, settled: the pixels for desktop and phone, the KB a banner should weigh in AVIF, WebP or JPEG, why it crops, and how to load it fast.',
 		url: '/guides/optimizing-hero-images',
-		category: 'Image Optimization',
-		readTime: '14 min read',
+		category: 'Web Performance',
+		readTime: '39 min read',
 		date: 'February 20, 2026',
-		lastUpdated: 'October 14, 2026'
+		lastUpdated: 'October 16, 2026'
 	},
 	{
 		title: "AI-Powered Image Compression: How Mochify's Natural Language Feature Works (2026)",
@@ -623,7 +623,7 @@ export const guides: Guide[] = [
 		category: 'Image Optimization',
 		readTime: '15 min read',
 		date: 'April 13, 2026',
-		lastUpdated: 'September 12, 2026'
+		lastUpdated: 'October 16, 2026'
 	},
 	{
 		title: 'Is JPEG XL Ready for Shopify Product Images in 2026?',

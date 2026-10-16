@@ -17,7 +17,7 @@
 		category: 'Image Formats',
 		readTime: '21 min read',
 		date: 'September 25, 2026',
-		lastUpdated: 'October 12, 2026'
+		lastUpdated: 'October 16, 2026'
 	};
 
 	const toc = [
@@ -167,7 +167,7 @@
 				"@id": "https://mochify.app/guides/reduce-photo-file-size-iphone"
 			},
 			"datePublished": "2026-09-25",
-			"dateModified": "2026-10-12",
+			"dateModified": "2026-10-16",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -406,7 +406,10 @@
 				A 24 MP frame is 5712 x 4284 pixels, just over 24.4 million of them. That is twice the pixel
 				count of the 12 MP photos iPhones took for years. The HEIC format keeps those files
 				reasonably small on the phone, but the moment a website, a form or a Windows PC wants
-				something else, you are dealing with a lot of image.
+				something else, you are dealing with a lot of image. If the photo is going to be the banner at
+				the top of a web page, our guide to
+				<a href="/guides/optimizing-hero-images">hero image size</a> says what to resize it to and how
+				heavy the file should end up.
 			</p>
 			<p class="mb-4">
 				RAW is the extreme case.
