@@ -291,7 +291,7 @@
 							></tr
 						>
 						<tr
-							><td>Gemini (3.6 Flash)</td><td>No</td><td>not reported</td><td
+							><td>Gemini (3.6 Flash; 3.8 Flash on Oct 16)</td><td>No</td><td>not reported</td><td
 								>nothing; recommended Preview, Paint, TinyJPG, Squoosh</td
 							><td>n/a</td></tr
 						>
@@ -303,6 +303,12 @@
 					</tbody>
 				</table>
 			</GuideTable>
+			<p class="mb-4">
+				We re-checked Gemini on 3.8 Flash, the current Flash model, on October 16, 2026, with a
+				different image (a PNG graphic rather than the iPhone photo): the same result, no file
+				returned, and a list of other tools instead (Squoosh, TinyJPG, TinyPNG, Paint, Preview and a
+				Python script using Pillow).
+			</p>
 			<p class="mb-4">
 				The returned files are 90% to 95% smaller than the photo on disk, which sounds like a
 				triumph until you notice how: by discarding resolution you did not ask to lose, before the
@@ -989,7 +995,7 @@
 						><tr
 							><th>n/a</th><th>ChatGPT (Free)</th><th>Claude (Sonnet 5.5)</th><th
 								>Perplexity (Pro)</th
-							><th>Gemini (3.6 Flash)</th><th>DeepSeek (free)</th><th>Mochify</th></tr
+							><th>Gemini (3.6 and 3.8 Flash)</th><th>DeepSeek (free)</th><th>Mochify</th></tr
 						></thead
 					>
 					<tbody>
