@@ -37,6 +37,8 @@ export type PricingStrings = {
 	growthFeatures: string[];
 	freeFeatures: string[];
 	dayPassFeatures: string[];
+	/** One line under the cards: what an "image" is, lifted from the first FAQ. */
+	opsNote: string;
 	ctaSeller: string;
 	ctaPro: string;
 	ctaGrowth: string;
@@ -59,6 +61,8 @@ export type PricingStrings = {
 	tblHeicUpload: string;
 	tblResizeRotateCrop: string;
 	tblBackgroundRemoval: string;
+	tblMagicFlow: string;
+	tblEraseRecolor: string;
 	tblAiBackgrounds: string;
 	tblMcpApi: string;
 	tblBatchUpload: string;
@@ -140,10 +144,10 @@ export const EN_PRICING: PricingStrings = {
 	everythingInPro: 'Everything in Pro, plus:',
 	sellerFeatures: [
 		'<strong>300 images</strong> per month',
-		'<strong>75MB</strong> max file size',
-		'<strong>25 files</strong> per batch',
-		'Full <strong>PDF tools</strong>',
-		'Save to <strong>Google Drive</strong> or your own bucket',
+		'<strong>Erase &amp; recolor</strong> objects <span class="text-[#6C3F31]/50">(beta)</span>',
+		'<strong>Full PDF toolkit:</strong> compress, extract, split',
+		'Save straight to <strong>Google Drive</strong> or your own bucket',
+		'<strong>75MB</strong> files, <strong>25</strong> per batch',
 		'<strong>Priority</strong> processing'
 	],
 	proFeatures: [
@@ -154,21 +158,24 @@ export const EN_PRICING: PricingStrings = {
 	],
 	growthFeatures: [
 		'<strong>5,000 images</strong> per month',
-		'<strong>PDFs up to 200 pages</strong> <span class="text-[#6C3F31]/50">(others cap at 10)</span>'
+		'<strong>PDFs up to 200 pages</strong> <span class="text-[#6C3F31]/50">(others cap at 10)</span>',
+		'<strong>Build PDFs from 200 images</strong> <span class="text-[#6C3F31]/50">(others cap at 10)</span>'
 	],
 	freeFeatures: [
 		'<strong>25 images</strong> per month',
-		'<strong>20MB</strong> max file size',
-		'Up to <strong>3 files</strong> per batch',
+		'<strong>Magic Flow:</strong> say what you want in plain English',
+		'<strong>Every format:</strong> AVIF, WebP, JPEG XL and more',
 		'Background removal',
-		'Standard queue'
+		'<strong>API, MCP &amp; CLI</strong> included',
+		'<strong>20MB</strong> files, up to <strong>3</strong> per batch'
 	],
 	dayPassFeatures: [
-		'<strong>100 uploads</strong> within 24 hours',
+		'<strong>100 images</strong> within 24 hours',
+		'<strong>Erase, recolor &amp; PDF tools</strong> included',
 		'<strong>75MB</strong> per file &amp; larger batches',
-		'No subscription, no account needed',
-		'Activated instantly by magic link'
+		'No subscription, no account needed'
 	],
+	opsNote: 'One image out = one image used, however many edits you make to it.',
 	ctaSeller: 'Get Seller',
 	ctaPro: 'Get Pro',
 	ctaGrowth: 'Get Growth',
@@ -190,6 +197,8 @@ export const EN_PRICING: PricingStrings = {
 	tblHeicUpload: 'HEIC upload',
 	tblResizeRotateCrop: 'Resize, rotate & crop',
 	tblBackgroundRemoval: 'Background removal',
+	tblMagicFlow: 'Magic Flow (plain-English prompts)',
+	tblEraseRecolor: 'Erase & recolor objects (beta)',
 	tblAiBackgrounds: 'AI backgrounds & shadows',
 	tblMcpApi: 'MCP & API access',
 	tblBatchUpload: 'Batch upload',

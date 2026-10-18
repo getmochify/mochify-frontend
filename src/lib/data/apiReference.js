@@ -71,7 +71,7 @@ export const plans = [
 		maxFileSize: '75MB',
 		batch: 25,
 		notable:
-			'Priority queue, full PDF tools, and results written straight to your own S3, R2 or S3-compatible bucket.'
+			'Priority queue, erase and recolor objects (beta), full PDF tools, and results written straight to Google Drive or your own S3, R2 or S3-compatible bucket.'
 	},
 	{
 		name: 'Pro',
@@ -99,7 +99,7 @@ export const plans = [
 		maxFileSize: '75MB',
 		batch: 25,
 		notable:
-			'One-time, no subscription and no account needed (activated by magic link). The allowance is separate from a tier allowance rather than replacing it. Bring your own bucket is not included, because a pass has no account to attach a bucket to.'
+			'One-time, no subscription and no account needed (activated by magic link). Includes erase, recolor and the full PDF tools. The allowance is separate from a tier allowance rather than replacing it. Saving to Google Drive or your own bucket is not included, because a pass has no account to attach a destination to.'
 	}
 ];
 

@@ -473,6 +473,10 @@
 			</div>
 		</div>
 
+		<!-- What an "image" is. The first FAQ says it at length; this is the
+             one-line version where people are comparing allowances. -->
+		<p class="mx-auto mt-8 max-w-4xl text-center text-sm text-[#6C3F31]/70">{t.opsNote}</p>
+
 		<!-- Privacy trust strip — applies to every plan, so it spans all tiers
              rather than repeating per card. Wording matches /privacy: uploads
              are processed in RAM and discarded; deliberately says nothing about
@@ -626,6 +630,22 @@
 							<tr>
 								<td class="px-6 py-4 text-[#6C3F31]">{t.tblBackgroundRemoval}</td>
 								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
+								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
+								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
+								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
+							</tr>
+							<tr>
+								<td class="px-6 py-4 text-[#6C3F31]">{t.tblMagicFlow}</td>
+								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
+								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
+								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
+								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
+							</tr>
+							<tr>
+								<td class="px-6 py-4 text-[#6C3F31]">{t.tblEraseRecolor}</td>
+								<td class="px-6 py-4 text-center font-black text-[#6C3F31]/30"
+									>{t.tblNotIncluded}</td
+								>
 								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
 								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
 								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>

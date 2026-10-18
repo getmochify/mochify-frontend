@@ -85,20 +85,21 @@ Free -- $0/month
 - 25 ops/month (with account); 3 ops per batch without sign-up
 - Up to 3 files per batch
 - 20MB max file size
-- All formats, resize, rotate, crop, background removal, MCP and API access
-- Bring your own bucket not available
+- All formats, resize, rotate, crop, background removal, Magic Flow, MCP, CLI and API access
+- Images to PDF only (up to 3 images); erase, recolor and the PDF-in tools are not available
+- Bring your own bucket / Google Drive not available
 
 Seller -- $7.99/month (or $79.99/year, about $6.67/month)
 - 300 ops/month
 - Up to 25 files per batch
 - 75MB max file size
-- All Free features plus bring your own bucket (S3 / R2 / S3-compatible), priority queue
+- All Free features plus erase and recolor (beta), the full PDF toolkit, saving to Google Drive or your own bucket (S3 / R2 / S3-compatible), priority queue
 
 Pro -- $24.99/month (or $249.99/year, about $20.83/month)
 - 1,200 ops/month
 - Up to 25 files per batch
 - 75MB max file size
-- All Seller features plus top priority queue
+- All Seller features plus top priority queue and priority email support
 
 Growth -- $79.99/month (or $799.99/year, about $66.67/month)
 - 5,000 ops/month
@@ -110,6 +111,7 @@ Day Pass -- $2 one-time
 - 100 image ops for 24 hours
 - 75MB max file size
 - Activated by magic link, no subscription
+- Includes erase, recolor and the full PDF toolkit; saving to Google Drive or a bucket is not included (a pass has no account to attach one to)
 - Offered at upload time when a file exceeds the free 20MB limit
 
 One operation = one output image. Any number of transformations on a single file (compress + convert + resize + rotate) is still one operation, but a prompt asking for multiple formats or sizes returns multiple images and is charged one operation per output -- "WebP and AVIF at 500px and 1200px" is 4 operations for one input file. Batch uploads count one per file.
@@ -561,7 +563,7 @@ Registries: Mochify is listed on the Smithery and Glama MCP marketplaces -- sear
 Paid customers can point Mochify at storage they already own, so processed images land in their bucket instead of coming back as downloads. Mochify writes on the customer's behalf and keeps no copy -- this is an output destination, not a Mochify image library, and it does not change anything in section 2.
 
 Availability
-- Paid plans only (Seller and Pro). Not available on Free; Free users see an upgrade prompt.
+- Paid subscriptions only (Seller, Pro and Growth). Not available on Free or the Day Pass (a pass has no account to attach a bucket to); Free users see an upgrade prompt.
 - Connected from the [dashboard](https://mochify.app/dashboard).
 
 Supported providers

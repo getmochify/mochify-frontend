@@ -48,10 +48,10 @@ export const ES_PRICING: PricingStrings = {
 	everythingInPro: 'Todo lo de Pro, y además:',
 	sellerFeatures: [
 		'<strong>300 imágenes</strong> al mes',
-		'<strong>75 MB</strong> por archivo',
-		'<strong>25 archivos</strong> por lote',
-		'Herramientas <strong>PDF</strong> completas',
-		'Guardar en <strong>Google Drive</strong> o en tu propio bucket',
+		'<strong>Borrar y recolorear</strong> objetos <span class="text-[#6C3F31]/50">(beta)</span>',
+		'<strong>Herramientas PDF completas:</strong> comprimir, extraer, dividir',
+		'Guarda directamente en <strong>Google Drive</strong> o en tu propio bucket',
+		'Archivos de <strong>75 MB</strong>, <strong>25</strong> por lote',
 		'Procesamiento <strong>prioritario</strong>'
 	],
 	proFeatures: [
@@ -62,21 +62,24 @@ export const ES_PRICING: PricingStrings = {
 	],
 	growthFeatures: [
 		'<strong>5000 imágenes</strong> al mes',
-		'<strong>PDF de hasta 200 páginas</strong> <span class="text-[#6C3F31]/50">(10 como máximo en el resto de planes)</span>'
+		'<strong>PDF de hasta 200 páginas</strong> <span class="text-[#6C3F31]/50">(10 como máximo en el resto de planes)</span>',
+		'<strong>PDF creados con 200 imágenes</strong> <span class="text-[#6C3F31]/50">(10 como máximo en el resto de planes)</span>'
 	],
 	freeFeatures: [
 		'<strong>25 imágenes</strong> al mes',
-		'<strong>20 MB</strong> por archivo',
-		'Hasta <strong>3 archivos</strong> por lote',
+		'<strong>Magic Flow:</strong> pide lo que quieras con tus propias palabras',
+		'<strong>Todos los formatos:</strong> AVIF, WebP, JPEG XL y más',
 		'Quitar el fondo',
-		'Cola estándar'
+		'<strong>API, MCP y CLI</strong> incluidos',
+		'Archivos de <strong>20 MB</strong>, hasta <strong>3</strong> por lote'
 	],
 	dayPassFeatures: [
-		'<strong>100 subidas</strong> en 24 horas',
+		'<strong>100 imágenes</strong> en 24 horas',
+		'<strong>Borrado, recoloreado y herramientas PDF</strong> incluidos',
 		'<strong>75 MB</strong> por archivo y lotes más grandes',
-		'Sin suscripción y sin cuenta',
-		'Activación inmediata con un enlace mágico'
+		'Sin suscripción y sin cuenta'
 	],
+	opsNote: 'Una imagen entregada = una imagen de tu cuota, sin importar cuántos cambios le hagas.',
 	ctaSeller: 'Elegir Seller',
 	ctaPro: 'Elegir Pro',
 	ctaGrowth: 'Elegir Growth',
@@ -99,6 +102,8 @@ export const ES_PRICING: PricingStrings = {
 	tblHeicUpload: 'Subida de archivos HEIC',
 	tblResizeRotateCrop: 'Redimensionar, girar y recortar',
 	tblBackgroundRemoval: 'Quitar el fondo',
+	tblMagicFlow: 'Magic Flow (instrucciones con tus propias palabras)',
+	tblEraseRecolor: 'Borrar y recolorear objetos (beta)',
 	tblAiBackgrounds: 'Fondos y sombras con IA',
 	tblMcpApi: 'Acceso a MCP y API',
 	tblBatchUpload: 'Subida por lotes',

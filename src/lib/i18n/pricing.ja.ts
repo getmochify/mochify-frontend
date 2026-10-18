@@ -47,10 +47,10 @@ export const JA_PRICING: PricingStrings = {
 	everythingInPro: 'Proのすべてに加えて：',
 	sellerFeatures: [
 		'1か月<strong>300枚</strong>',
-		'1ファイル<strong>75MB</strong>まで',
-		'1回に<strong>25ファイル</strong>',
-		'<strong>PDFツール</strong>をすべて利用可能',
-		'<strong>Google Drive</strong>や自分のバケットに保存',
+		'<strong>オブジェクトの消去・色変更</strong> <span class="text-[#6C3F31]/50">（ベータ）</span>',
+		'<strong>PDFツール一式:</strong> 圧縮・画像抽出・分割',
+		'<strong>Google Drive</strong>や自分のバケットに直接保存',
+		'1ファイル<strong>75MB</strong>、1回に<strong>25ファイル</strong>',
 		'<strong>優先</strong>処理'
 	],
 	proFeatures: [
@@ -61,21 +61,24 @@ export const JA_PRICING: PricingStrings = {
 	],
 	growthFeatures: [
 		'1か月<strong>5,000枚</strong>',
-		'<strong>最大200ページ</strong>のPDFに対応 <span class="text-[#6C3F31]/50">（他のプランは10ページまで）</span>'
+		'<strong>最大200ページ</strong>のPDFに対応 <span class="text-[#6C3F31]/50">（他のプランは10ページまで）</span>',
+		'<strong>最大200枚の画像</strong>からPDFを作成 <span class="text-[#6C3F31]/50">（他のプランは10枚まで）</span>'
 	],
 	freeFeatures: [
 		'1か月<strong>25枚</strong>',
-		'1ファイル<strong>20MB</strong>まで',
-		'1回に<strong>3ファイル</strong>まで',
+		'<strong>Magic Flow:</strong> やりたいことを普段の言葉で指示',
+		'<strong>すべての形式:</strong> AVIF、WebP、JPEG XLなど',
 		'背景の削除',
-		'標準の処理キュー'
+		'<strong>API・MCP・CLI</strong>付き',
+		'1ファイル<strong>20MB</strong>、1回に<strong>3ファイル</strong>まで'
 	],
 	dayPassFeatures: [
-		'24時間で<strong>100枚</strong>アップロード',
+		'24時間で<strong>100枚</strong>',
+		'<strong>消去・色変更・PDFツール</strong>も利用可能',
 		'1ファイル<strong>75MB</strong>、まとめて処理も可能',
-		'契約もアカウントも不要',
-		'マジックリンクですぐに利用開始'
+		'契約もアカウントも不要'
 	],
+	opsNote: '出力した画像1枚 = 1枚分。1枚にどれだけ編集を加えても変わりません。',
 	ctaSeller: 'Sellerを選ぶ',
 	ctaPro: 'Proを選ぶ',
 	ctaGrowth: 'Growthを選ぶ',
@@ -98,6 +101,8 @@ export const JA_PRICING: PricingStrings = {
 	tblHeicUpload: 'HEICのアップロード',
 	tblResizeRotateCrop: 'リサイズ・回転・トリミング',
 	tblBackgroundRemoval: '背景の削除',
+	tblMagicFlow: 'Magic Flow（普段の言葉で指示）',
+	tblEraseRecolor: 'オブジェクトの消去・色変更（ベータ）',
 	tblAiBackgrounds: 'AIによる背景と影',
 	tblMcpApi: 'MCP・APIの利用',
 	tblBatchUpload: 'まとめてアップロード',
