@@ -84,7 +84,7 @@ cargo install mochify</pre>
 							<div
 								class="mb-5 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-medium text-amber-700"
 							>
-								Your existing API key will be replaced. Update any other integrations that use it.
+								This replaces the CLI's previous sign-in. Your API key and the Chrome extension keep working.
 							</div>
 						{/if}
 

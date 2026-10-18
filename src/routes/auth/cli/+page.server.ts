@@ -46,7 +46,7 @@ export const load: PageServerLoad = async ({ locals, url, platform }) => {
     // res.ok told every user their key would be replaced, key or not.
     let hasKey = false
     try {
-        const res = await tokensFetch(platform, `/user/${locals.user.id}/apikey`, {
+        const res = await tokensFetch(platform, `/user/${locals.user.id}/apikey?client=cli`, {
             headers: { 'X-Worker-Token': CF_WORKER_TOKEN },
         })
         if (res.ok) hasKey = ((await res.json()) as { has_key?: boolean }).has_key === true

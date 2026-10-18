@@ -32,7 +32,7 @@ export const load: PageServerLoad = async ({ locals, url, platform }) => {
     // The worker answers 200 either way; has_key is the answer.
     let hasKey = false
     try {
-        const res = await tokensFetch(platform, `/user/${locals.user.id}/apikey`, {
+        const res = await tokensFetch(platform, `/user/${locals.user.id}/apikey?client=extension`, {
             headers: { 'X-Worker-Token': CF_WORKER_TOKEN },
         })
         if (res.ok) hasKey = ((await res.json()) as { has_key?: boolean }).has_key === true
@@ -52,12 +52,9 @@ export const actions: Actions = {
 
         const userId = locals.user.id
 
-        // Revoke existing key then issue a fresh one.
-        await tokensFetch(platform, `/user/${userId}/apikey`, {
-            method: 'DELETE',
-            headers: { 'X-Worker-Token': CF_WORKER_TOKEN },
-        }).catch(() => {})
-
+        // A fresh key for the extension. The worker replaces (and evicts) only
+        // the extension's previous key; the CLI's and the dashboard's keep
+        // working, where revoking every key used to sign the CLI out.
         const rawBytes = crypto.getRandomValues(new Uint8Array(32))
         const key = Array.from(rawBytes).map(b => b.toString(16).padStart(2, '0')).join('')
         const hashBuf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key))
@@ -66,7 +63,7 @@ export const actions: Actions = {
         const storeRes = await tokensFetch(platform, `/apikey/${keyHash}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', 'X-Worker-Token': CF_WORKER_TOKEN },
-            body: JSON.stringify({ userId }),
+            body: JSON.stringify({ userId, client: 'extension' }),
         })
 
         if (!storeRes.ok) return fail(502, { error: 'Failed to generate API key. Try again.' })

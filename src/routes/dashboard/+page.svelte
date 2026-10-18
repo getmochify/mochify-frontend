@@ -66,6 +66,11 @@
 	let hasKey = $state(data.hasKey ?? false);
 	// svelte-ignore state_referenced_locally
 	let keyCreatedAt = $state<string | null>(data.keyCreatedAt ?? null);
+	// The CLI and the Chrome extension each sign in with a key of their own.
+	// svelte-ignore state_referenced_locally
+	let signedInApps = $state<{ client: string; created_at: string }[]>(data.signedInApps ?? []);
+	let signingOut = $state<string | null>(null);
+	const APP_NAMES: Record<string, string> = { cli: 'Mochify CLI', extension: 'Chrome extension' };
 	let newKeyPlaintext = $state<string | null>(null);
 	let copied = $state(false);
 	let keyLoading = $state(false);
@@ -629,6 +634,47 @@
 					curl -H "Authorization: Bearer &lt;key&gt;" -X POST https://api.mochify.app/v1/squish ...
 				</p>
 			</div>
+
+			{#if signedInApps.length > 0}
+				<div class="mt-4 border-t border-[#875F42]/8 pt-4">
+					<p class="mb-2 text-xs font-bold text-[#875F42]/60">
+						Signed in apps (separate from this key)
+					</p>
+					{#each signedInApps as app (app.client)}
+						<div class="flex items-center justify-between gap-3 py-1.5">
+							<span class="text-sm text-[#4A2C2C]">
+								{APP_NAMES[app.client] ?? app.client}
+								<span class="ml-1 text-xs text-[#875F42]/40"
+									>since {new Date(app.created_at + 'Z').toLocaleDateString()}</span
+								>
+							</span>
+							<form
+								method="POST"
+								action="?/signOutApp"
+								use:enhance={() => {
+									signingOut = app.client;
+									return async ({ result }) => {
+										signingOut = null;
+										if (result.type === 'success') {
+											signedInApps = signedInApps.filter((a) => a.client !== app.client);
+											posthog.capture('api_key_app_signed_out', { client: app.client });
+										}
+									};
+								}}
+							>
+								<input type="hidden" name="client" value={app.client} />
+								<button
+									type="submit"
+									disabled={signingOut === app.client}
+									class="text-xs font-bold text-[#875F42]/60 transition-colors hover:text-[#F06292] disabled:opacity-40"
+								>
+									{signingOut === app.client ? 'Signing out…' : 'Sign out'}
+								</button>
+							</form>
+						</div>
+					{/each}
+				</div>
+			{/if}
 		</div>
 
 		<!-- Third-party AI consent -->

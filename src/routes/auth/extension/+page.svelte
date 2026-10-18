@@ -97,7 +97,7 @@
 
 					{#if data.hasKey}
 						<div class="mb-5 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-medium text-amber-700">
-							Your existing API key will be replaced. If you use the Mochify CLI, re-run <code class="font-mono">mochify auth</code> afterwards.
+							This replaces the extension's previous sign-in. Your API key and the Mochify CLI keep working.
 						</div>
 					{/if}
 

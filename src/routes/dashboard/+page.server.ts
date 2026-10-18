@@ -53,10 +53,15 @@ async function issueKey(
 	const res = await callWorker(platform, `/apikey/${keyHash}`, {
 		method: 'PUT',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ userId })
+		// The dashboard's own key: CLI and extension sign-ins hold their own.
+		body: JSON.stringify({ userId, client: 'dashboard' })
 	});
 	return res.ok ? key : null;
 }
+
+// Clients that sign in with a key of their own, shown on the dashboard so
+// they can be signed out. The dashboard's key is the API key card itself.
+const SIGNED_IN_APPS = ['cli', 'extension'];
 
 // Shape the worker returns for a bucket connection. The secret is never part
 // of this — only a masked hint of the access key id.
@@ -168,15 +173,25 @@ export const load: PageServerLoad = async ({ locals, request, platform }) => {
 	const [keyResult, bucket, drive, usage, pricing] = await Promise.all([
 		(async () => {
 			try {
-				const res = await callWorker(platform, `/user/${userId}/apikey`);
+				const res = await callWorker(platform, `/user/${userId}/apikey?client=dashboard`);
 				if (res.ok) {
-					const body = (await res.json()) as { has_key?: boolean; created_at?: string | null };
-					return { hasKey: body.has_key ?? false, keyCreatedAt: body.created_at ?? null };
+					const body = (await res.json()) as {
+						has_key?: boolean;
+						created_at?: string | null;
+						keys?: { client: string; created_at: string }[];
+					};
+					return {
+						hasKey: body.has_key ?? false,
+						keyCreatedAt: body.created_at ?? null,
+						// The CLI and the extension sign in with keys of their own,
+						// listed so a lost laptop can still be signed out.
+						signedInApps: (body.keys ?? []).filter((k) => SIGNED_IN_APPS.includes(k.client))
+					};
 				}
 			} catch (e) {
 				console.error('[dashboard] apikey status load failed:', e);
 			}
-			return { hasKey: false, keyCreatedAt: null };
+			return { hasKey: false, keyCreatedAt: null, signedInApps: [] };
 		})(),
 		loadBucket(platform, userId),
 		loadDrive(platform, userId),
@@ -202,7 +217,7 @@ export const actions = {
 	generateKey: async ({ locals, platform }) => {
 		if (!locals.user) return fail(401, { error: 'Not authenticated' });
 
-		const statusRes = await callWorker(platform, `/user/${locals.user.id}/apikey`);
+		const statusRes = await callWorker(platform, `/user/${locals.user.id}/apikey?client=dashboard`);
 		if (statusRes.ok) {
 			const s = (await statusRes.json()) as { has_key?: boolean; created_at?: string | null };
 			if (s.has_key) {
@@ -215,19 +230,27 @@ export const actions = {
 		return { apiKey: key, createdAt: new Date().toISOString() };
 	},
 
-	// Revoke-then-issue. The DELETE evicts the old key's KV entry (a bare re-PUT
-	// would leave it valid for up to the worker's 24h cache TTL); then a fresh key
-	// is minted. D1's INSERT OR REPLACE keeps it one-key-per-user.
+	// Replaces the dashboard's key only. The worker evicts the old one from its
+	// KV cache as part of the PUT; the CLI's and the extension's keys keep
+	// working (they used to be revoked here too).
 	regenerateKey: async ({ locals, platform }) => {
 		if (!locals.user) return fail(401, { error: 'Not authenticated' });
-
-		await callWorker(platform, `/user/${locals.user.id}/apikey`, { method: 'DELETE' }).catch(
-			() => {}
-		);
 
 		const key = await issueKey(platform, locals.user.id);
 		if (!key) return fail(502, { error: 'Could not regenerate the key. Try again.' });
 		return { apiKey: key, createdAt: new Date().toISOString() };
+	},
+
+	// Sign one app (the CLI or the extension) out by revoking its key.
+	signOutApp: async ({ request, locals, platform }) => {
+		if (!locals.user) return fail(401, { error: 'Not authenticated' });
+		const client = String((await request.formData()).get('client') ?? '');
+		if (!SIGNED_IN_APPS.includes(client)) return fail(400, { error: 'Unknown app' });
+		const res = await callWorker(platform, `/user/${locals.user.id}/apikey?client=${client}`, {
+			method: 'DELETE'
+		}).catch(() => null);
+		if (!res?.ok) return fail(502, { error: 'Could not sign it out. Try again.' });
+		return { signedOut: client };
 	},
 
 	// Third-party AI consent toggle. Privacy-first: stored explicitly per user,
