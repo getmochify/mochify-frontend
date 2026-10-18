@@ -79,7 +79,7 @@
     "@polar-sh/sveltekit": "^0.7.6",
     "better-auth": "1.6.25",
     "fflate": "^0.8.3",
-    "kysely": "^0.28.17",
+    "kysely": "^0.28.18",
     "kysely-d1": "^0.4.0",
     "mediabunny": "^1.61.6",
     "pdfjs-dist": "^6.4.299",

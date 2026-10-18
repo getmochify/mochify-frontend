@@ -8,6 +8,7 @@
 // bad input) and processing 500s are deterministic — re-running them would
 // re-charge tokens for the same failure.
 import { posthog } from '$lib/analytics';
+import { transferProps } from '$lib/xhrTransfer';
 
 // 408 request timeout, 502/503/504 gateways, and Cloudflare's 52x
 // origin-unreachable family.
@@ -63,7 +64,8 @@ export async function withRetry<T>(
 			posthog.capture('upload_retry', {
 				label,
 				attempt: attemptNo + 1,
-				status: (err as RetryableError)?.status ?? 0
+				status: (err as RetryableError)?.status ?? 0,
+				...transferProps(err)
 			});
 			await new Promise((r) => setTimeout(r, baseDelayMs * 2 ** attemptNo + Math.random() * 400));
 		}

@@ -31,6 +31,12 @@
 		trackReject
 	} from '$lib/uploadError';
 	import { isNetworkError } from '$lib/chunkRecovery';
+	import {
+		trackTransfer,
+		probeReadable,
+		transferProps,
+		type TransferState
+	} from '$lib/xhrTransfer';
 	import UploadHelpLink from '$lib/components/UploadHelpLink.svelte';
 	import { portal } from '$lib/portal';
 	import { formatPrice } from '$lib/currency';
@@ -52,6 +58,8 @@
 		/** X-Mochify-Decoder, kept only to disambiguate the corrupt-image anchor. */
 		errorDecoder?: string;
 		errorRejectLabel?: string;
+		/** Network failures only: what the upload had done (see xhrTransfer.ts). */
+		errorTransfer?: TransferState;
 		thumbnailUrl?: string;
 	};
 
@@ -944,6 +952,7 @@
 							() =>
 								new Promise<Blob>((resolve, reject) => {
 									const xhr = new XMLHttpRequest();
+									const transfer = trackTransfer(xhr, effectiveSize(file));
 									let lastLoaded = 0;
 									// Undo this attempt's contribution to the shared batch counter so
 									// a retried upload doesn't double-count.
@@ -1041,6 +1050,7 @@
 										const error: any = new Error('Network error');
 										error.retryable = true;
 										error.errorKey = 'network_error';
+										error.transfer = transfer();
 										reject(error);
 									});
 									xhr.addEventListener('abort', () => {
@@ -1093,6 +1103,14 @@
 						fileProgress[index].errorKey = error?.errorKey;
 						fileProgress[index].errorDecoder = error?.decoder;
 						fileProgress[index].errorRejectLabel = error?.rejectLabel;
+						// After the last retry: can the browser still read the file at
+						// all? A file it cannot read fails every attempt identically,
+						// which is the Android picker case xhrTransfer.ts describes.
+						if (error?.transfer)
+							fileProgress[index].errorTransfer = {
+								...error.transfer,
+								file_readable: await probeReadable(uploadBodyOf(file))
+							};
 					}
 				}
 			};
@@ -1135,6 +1153,7 @@
 				allFailed.errorKey = firstFailure?.errorKey ?? 'processing_failed';
 				allFailed.decoder = firstFailure?.errorDecoder;
 				allFailed.rejectLabel = firstFailure?.errorRejectLabel;
+				allFailed.transfer = firstFailure?.errorTransfer;
 				throw allFailed;
 			}
 
@@ -1248,7 +1267,8 @@
 				error_key: failureKey ?? 'unknown',
 				error: error instanceof Error ? error.message : String(error),
 				reject_label: (error as any)?.rejectLabel ?? 'unknown',
-				decoder: (error as any)?.decoder ?? 'unknown'
+				decoder: (error as any)?.decoder ?? 'unknown',
+				...transferProps(error)
 			});
 			// An interrupted/offline fetch (Safari's "Load failed") is an expected
 			// network condition, not a code bug — the breadcrumb above and the

@@ -9,6 +9,7 @@
 // existing single-POST /v1/squish path unchanged — this is only for the
 // minority of large uploads where a flaky connection actually hurts.
 import { withRetry, isRetryable } from '$lib/uploadRetry';
+import { trackTransfer, transferProps, type TransferState } from '$lib/xhrTransfer';
 import { readTargetOutcome, readTargetScale, type TargetOutcome } from '$lib/targetOutcome';
 import { posthog } from '$lib/analytics';
 import {
@@ -143,6 +144,8 @@ interface RetryableXhrError extends Error {
 	// NOT set for a 404 from the complete phase — that can be an already-charged
 	// completion whose response was lost, which must not be re-run.
 	sessionExpired?: boolean;
+	// What the XHR had done when it failed with a network error (xhrTransfer.ts).
+	transfer?: TransferState;
 	// Server's rejection taxonomy label (X-Mochify-Reject), set on a
 	// pipeline-classified finalize failure (e.g. corrupt-image) so the caller
 	// can drive telemetry/messaging off a stable slug.
@@ -256,9 +259,12 @@ function uploadOneChunkAtOffset(
 			if (serverOffset !== undefined) err.serverOffset = serverOffset;
 			reject(err);
 		});
-		xhr.addEventListener('error', () =>
-			reject(xhrError('Network error', { retryable: true, errorKey: 'network_error' }))
-		);
+		const transfer = trackTransfer(xhr, slice.size);
+		xhr.addEventListener('error', () => {
+			const err = xhrError('Network error', { retryable: true, errorKey: 'network_error' });
+			err.transfer = transfer();
+			reject(err);
+		});
 		xhr.addEventListener('abort', () => reject(new Error('Upload cancelled')));
 		xhr.open(
 			'POST',
@@ -350,9 +356,13 @@ export function completeUpload(
 				reject(error);
 			})();
 		});
-		xhr.addEventListener('error', () =>
-			reject(xhrError('Network error', { retryable: true, errorKey: 'network_error' }))
-		);
+		// No body worth measuring, and upload listeners would add a preflight.
+		const transfer = trackTransfer(xhr, 0, false);
+		xhr.addEventListener('error', () => {
+			const err = xhrError('Network error', { retryable: true, errorKey: 'network_error' });
+			err.transfer = transfer();
+			reject(err);
+		});
 		xhr.open('POST', `${apiUrl}/v1/upload/complete?session=${encodeURIComponent(sessionId)}`);
 		if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
 		if (params) {
@@ -604,7 +614,8 @@ async function runChunkedUpload(
 			status,
 			// Present only on a pipeline-classified finalize failure — lets the
 			// corrupt-image (truncated HEIC) rate be measured on the chunked path too.
-			...(rejectLabel ? { reject_label: rejectLabel } : {})
+			...(rejectLabel ? { reject_label: rejectLabel } : {}),
+			...transferProps(err)
 		});
 		throw err;
 	}
