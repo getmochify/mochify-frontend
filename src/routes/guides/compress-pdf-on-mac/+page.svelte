@@ -782,30 +782,4 @@
 		}
 	}
 
-	.hero-wash {
-		position: absolute;
-		top: -20rem;
-		left: 50%;
-		transform: translateX(-50%);
-		width: 100vw;
-		height: 1450px;
-		z-index: -1;
-		pointer-events: none;
-		background:
-			radial-gradient(ellipse 60% 45% at 12% 8%, rgba(255, 179, 198, 0.4) 0%, transparent 70%),
-			radial-gradient(ellipse 50% 40% at 90% 18%, rgba(224, 172, 213, 0.32) 0%, transparent 70%),
-			radial-gradient(ellipse 45% 35% at 55% 55%, rgba(255, 214, 224, 0.25) 0%, transparent 70%);
-		mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
-		-webkit-mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
-	}
-
-	@media (max-width: 768px) {
-		.hero-wash {
-			height: 1000px;
-			background:
-				radial-gradient(ellipse 60% 45% at 12% 8%, rgba(255, 179, 198, 0.22) 0%, transparent 70%),
-				radial-gradient(ellipse 50% 40% at 90% 18%, rgba(224, 172, 213, 0.16) 0%, transparent 70%),
-				radial-gradient(ellipse 45% 35% at 55% 55%, rgba(255, 214, 224, 0.12) 0%, transparent 70%);
-		}
-	}
 </style>

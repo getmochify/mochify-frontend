@@ -107,6 +107,7 @@ Each guide is a standalone `.svelte` file. The shared layout (`src/routes/guides
 - `RelatedGuides` — takes an array of `{ title, href, desc }` objects.
 - `GuideCTA` — closing call-to-action card; mirrors the pricing page's final CTA. Props: `heading`, `href`, `label`, optional `secondaryHref`/`secondaryLabel`, `note` snippet, and `class` for spacing. Body copy goes in the default slot, so inline links and `<em>` still work. Use it instead of hand-rolling a CTA panel.
 - `ReadProgress` — reading progress bar; import at the top of each guide.
+- `.hero-wash` — the soft pink header background. Defined once in the guides layout; a guide just adds `<div class="hero-wash" aria-hidden="true"></div>` as the first child of its `relative` `<article>`. Do not copy the CSS into the guide; tune it in the layout.
 - `Breadcrumb` — rendered by the layout automatically; no action needed.
 
 The guide's card metadata lives in `src/lib/data/guides.ts` — add an entry there when publishing. It drives the `/guides` index, and the breadcrumb label on the guide itself (without it the breadcrumb falls back to a slug-derived label).

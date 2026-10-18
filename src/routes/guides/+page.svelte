@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { tick } from 'svelte';
     import { guides as allGuides } from '$lib/data/guides';
 
     const metadata = {
@@ -15,6 +16,20 @@
     const filteredGuides = $derived(
         selectedCategory === 'All' ? guides : guides.filter(g => g.category === selectedCategory)
     );
+
+    // "All" shows the newest INITIAL_VISIBLE and a button for the rest. Every
+    // card is still rendered (just `hidden`), so the prerendered HTML keeps a
+    // link to every guide. A single category is small enough to show in full.
+    const INITIAL_VISIBLE = 18;
+    let showAll = $state(false);
+    const collapsed = $derived(selectedCategory === 'All' && !showAll && filteredGuides.length > INITIAL_VISIBLE);
+
+    async function revealAll() {
+        showAll = true;
+        await tick();
+        // Keep keyboard users where they were: focus the first newly shown card.
+        document.getElementById(`guide-card-${INITIAL_VISIBLE}`)?.focus();
+    }
 
     const toIsoDate = (d: string) => new Date(d).toISOString().split('T')[0];
 
@@ -150,37 +165,52 @@
     {/each}
 </div>
 
-<div class="grid gap-8 mb-24">
-    {#each filteredGuides as guide}
-        <a href={guide.url} class="group block bg-white rounded-3xl p-8 border border-pink-50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 no-underline">
-            <div class="flex flex-wrap items-center gap-2 mb-4">
-                <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider">
+<div class="grid md:grid-cols-2 gap-5 {collapsed ? 'mb-10' : 'mb-24'}">
+    {#each filteredGuides as guide, i (guide.url)}
+        <a
+            href={guide.url}
+            id="guide-card-{i}"
+            class="group flex flex-col bg-white rounded-3xl p-6 border border-pink-50 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F06292]"
+            class:hidden={collapsed && i >= INITIAL_VISIBLE}
+        >
+            <div class="flex flex-wrap items-center gap-2 mb-3">
+                <span class="inline-block px-2.5 py-0.5 rounded-full bg-pink-50 text-pink-500 text-[10px] font-bold uppercase tracking-wider">
                     {guide.category}
                 </span>
                 {#if guide.featured}
-                <span class="inline-block px-2.5 py-1 rounded-full bg-[#F06292]/10 text-[#F06292] text-xs font-black uppercase tracking-wider border border-[#F06292]/20">
+                <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#F06292]/10 text-[#F06292] text-[10px] font-black uppercase tracking-wider border border-[#F06292]/20">
                     Featured
                 </span>
                 {/if}
             </div>
 
-            <h2 class="text-2xl md:text-3xl font-black text-[#4A2C2C] group-hover:text-[#F06292] transition-colors mb-3">
+            <h2 class="text-lg md:text-xl font-black leading-snug text-[#4A2C2C] group-hover:text-[#F06292] transition-colors mb-2">
                 {guide.title}
             </h2>
 
-            <p class="text-[#875F42] leading-relaxed mb-6 opacity-80">
+            <p class="text-sm text-[#875F42] leading-relaxed mb-5 opacity-80 line-clamp-2">
                 {guide.description}
             </p>
 
-            <div class="flex items-center justify-between text-xs font-bold text-[#875F42]/60 pt-6 border-t border-pink-50">
-                <span>{guide.date}{guide.lastUpdated ? ` · Updated ${guide.lastUpdated}` : ''} · {guide.readTime}</span>
-                <span class="text-[#F06292] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                    Read Guide →
-                </span>
+            <div class="mt-auto flex items-center justify-between gap-3 text-xs font-bold text-[#875F42]/60 pt-4 border-t border-pink-50">
+                <span>{guide.lastUpdated ? `Updated ${guide.lastUpdated}` : guide.date} · {guide.readTime}</span>
+                <span class="text-[#F06292] group-hover:translate-x-1 transition-transform" aria-hidden="true">→</span>
             </div>
         </a>
     {/each}
 </div>
+
+{#if collapsed}
+<div class="flex justify-center mb-24">
+    <button
+        type="button"
+        onclick={revealAll}
+        class="cursor-pointer px-6 py-3 rounded-2xl bg-white border border-pink-100 text-sm font-black text-[#F06292] shadow-sm hover:shadow-md hover:bg-[#FFF5F7] transition-all duration-200"
+    >
+        Show {filteredGuides.length - INITIAL_VISIBLE} more guides
+    </button>
+</div>
+{/if}
 
 <div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
     <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
