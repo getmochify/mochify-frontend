@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
     import FaqAccordion from '$lib/components/FaqAccordion.svelte';
@@ -49,6 +50,29 @@
             a: 'Yes, under the MIT license, at github.com/getmochify/mochify-chrome. It is a standard Manifest V3 extension with no build step, so what you read in the repository is what runs.'
         }
     ];
+
+    let demoVideo: HTMLVideoElement;
+    let reduceMotion = $state(false);
+
+    onMount(() => {
+        reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Attach src only when the demo is near the viewport, and pause it once
+        // it leaves, so a visitor who never scrolls this far downloads nothing.
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    if (!demoVideo.src && demoVideo.dataset.src) demoVideo.src = demoVideo.dataset.src;
+                    if (!reduceMotion) demoVideo.play().catch(() => {});
+                } else if (!demoVideo.paused) {
+                    demoVideo.pause();
+                }
+            },
+            { rootMargin: '300px 0px', threshold: 0 }
+        );
+        observer.observe(demoVideo);
+        return () => observer.disconnect();
+    });
 
     const organization = { '@type': 'Organization', name: 'Mochify', url: 'https://mochify.app' };
 
@@ -168,6 +192,26 @@
             class="w-full h-auto rounded-3xl shadow-sm border border-pink-50"
         />
     </div>
+
+    <section class="mt-16 max-w-4xl mx-auto space-y-4">
+        <h2 class="text-2xl font-bold text-[#4A2C2C]">See it in action</h2>
+        <p class="leading-relaxed text-[#6C3F31]">One right-click and one sentence: crop a web image to 1:1 and 4:5 at two sizes each, and get four ready-to-use JPGs back.</p>
+        <video
+            bind:this={demoVideo}
+            data-src="/videos/chrome-extension-demo.mp4"
+            poster="/videos/chrome-extension-demo-poster.jpg"
+            width="1044"
+            height="720"
+            muted
+            loop
+            playsinline
+            preload="none"
+            controls={reduceMotion}
+            disablepictureinpicture
+            aria-label="Demo: right-clicking a web image, choosing Send to Mochify, typing a crop prompt, and four cropped JPGs appearing in the Downloads folder."
+            class="w-full h-auto rounded-2xl shadow-sm border border-pink-50 bg-[#FFF5F7]"
+        ></video>
+    </section>
 
     <section class="mt-16 max-w-4xl mx-auto space-y-6">
         <h2 class="text-2xl font-bold text-[#4A2C2C]">Two ways to use it</h2>
