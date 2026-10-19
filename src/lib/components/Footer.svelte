@@ -65,7 +65,7 @@
             heading: 'Install',
             links: [
                 { href: '/chrome-extension', label: 'Chrome extension' },
-                { href: '/guides/how-the-mochify-mcp-server-works', label: 'CLI and MCP server' },
+                { href: '/mcp', label: 'CLI and MCP server' },
                 { href: '/docs', label: 'API docs' }
             ]
         }

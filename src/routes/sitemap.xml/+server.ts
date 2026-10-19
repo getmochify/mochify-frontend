@@ -56,6 +56,7 @@ export async function GET() {
 		'/solutions/mp4-to-webm',
 		'/solutions/webm-to-mp4',
 		'/chrome-extension',
+		'/mcp',
 		'/solutions/sdr-to-hdr',
 		'/guides',
 		'/guides/convert-website-images-to-webp-and-avif',

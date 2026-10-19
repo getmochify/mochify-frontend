@@ -46,6 +46,9 @@ export const cards = [
 		title: 'Image Comparison Tool – See the savings in real time'
 	},
 	{ path: '/contact', eyebrow: 'MOCHIFY', title: 'Contact Mochify' },
+	// Text card until the erase pair (handoff 2026-10-19-mcp-page A5, pair 4) is
+	// shot; then switch to its "after" image like /chrome-extension.
+	{ path: '/mcp', eyebrow: 'MCP SERVER', title: 'Edit Images From Your AI Assistant' },
 	{ path: '/docs', eyebrow: 'MOCHIFY', title: 'API Documentation' },
 	{
 		path: '/flow',

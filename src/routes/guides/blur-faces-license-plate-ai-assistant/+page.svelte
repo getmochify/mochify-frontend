@@ -370,7 +370,8 @@
 				want hidden in plain words. The assistant finds the thing; Mochify hides it. The split
 				matters: the assistant is the only party that ever understands the picture, and all Mochify
 				receives is coordinates. It works on every plan, including Free, because the MCP server is
-				on every plan.
+				on every plan; the <a href="https://mochify.app/mcp#redact">Mochify MCP server page</a> has
+				the redaction prompt and the rest of what the server can do.
 			</p>
 			<p class="mb-4">
 				The same split is why redaction by box lives on the two MCP surfaces and the REST API, and not

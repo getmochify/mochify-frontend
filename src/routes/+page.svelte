@@ -112,7 +112,7 @@
 			title: 'Local MCP server',
 			body: 'Claude Desktop, Cursor, any stdio MCP client. Folder-on-disk friendly, and bytes never enter the agent context.',
 			mono: 'mochify serve',
-			href: '/guides/how-the-mochify-mcp-server-works'
+			href: '/mcp#setup'
 		},
 		{
 			tag: 'Shell',
@@ -137,8 +137,9 @@
 		{
 			tag: 'No install',
 			title: 'Hosted MCP',
-			body: 'OAuth connector that lives inside chat. Nothing to install.',
-			mono: 'mcp.mochify.app'
+			body: 'OAuth connector that lives inside chat. Nothing to install, and it can crop, hide, erase and recolor what your assistant points at.',
+			mono: 'mochify.app/mcp',
+			href: '/mcp#setup'
 		},
 		{
 			tag: 'Server-side',
