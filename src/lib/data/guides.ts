@@ -554,7 +554,7 @@ export const guides: Guide[] = [
 		category: 'AI & Automation',
 		readTime: '9 min read',
 		date: 'May 28, 2026',
-		lastUpdated: 'October 16, 2026',
+		lastUpdated: 'October 19, 2026',
 		featured: true
 	},
 	{
@@ -652,7 +652,8 @@ export const guides: Guide[] = [
 		url: '/guides/blur-faces-license-plate-ai-assistant',
 		category: 'AI & Automation',
 		readTime: '22 min read',
-		date: 'October 16, 2026'
+		date: 'October 16, 2026',
+		lastUpdated: 'October 19, 2026'
 	},
 	{
 		title: 'Can ChatGPT Compress a Photo? We Measured What Comes Back',

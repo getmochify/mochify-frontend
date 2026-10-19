@@ -174,8 +174,8 @@ export const squishParams = [
 	{
 		name: 'recolor',
 		description:
-			'Change an object\'s colour and keep its shading: a <code>;</code>-separated list of up to 8 <code>x,y,w,h:#rrggbb</code> entries (box in the <code>region</code> convention, target colour as hex), e.g. <code>0.4,0.5,0.3,0.2:#2563eb</code>. Paid plans.',
-		more: 'Mochify finds the object\'s outline inside each box and changes only the object, never the rectangle: its hue becomes the target\'s, and its lightness and saturation shift to the target\'s while every fold, highlight and texture keeps its place. Not generative. Box exactly the part to recolour (the jacket, not the whole person): everything inside the outline takes the colour. A box with no clear object is skipped, not recoloured. Applied after <code>erase</code>, before <code>redact</code> and <code>region</code>. Metadata is always stripped and HDR dropped. Check <code>X-Mochify-Recolored</code> and <code>X-Mochify-Recolor-Skipped</code>.'
+			'Change an object\'s color and keep its shading: a <code>;</code>-separated list of up to 8 <code>x,y,w,h:#rrggbb</code> entries (box in the <code>region</code> convention, target color as hex), e.g. <code>0.4,0.5,0.3,0.2:#2563eb</code>. Paid plans.',
+		more: 'Mochify finds the object\'s outline inside each box and changes only the object, never the rectangle: its hue becomes the target\'s, and its lightness and saturation shift to the target\'s while every fold, highlight and texture keeps its place. Not generative. Box exactly the part to recolor (the jacket, not the whole person): everything inside the outline takes the color. A box with no clear object is skipped, not recolored. Applied after <code>erase</code>, before <code>redact</code> and <code>region</code>. Metadata is always stripped and HDR dropped. Check <code>X-Mochify-Recolored</code> and <code>X-Mochify-Recolor-Skipped</code>.'
 	},
 
 	{
@@ -240,8 +240,8 @@ export const squishParams = [
 		name: 'quantize',
 		default: 'false',
 		description:
-			'Lossy PNG. Accepts <code>1</code> or <code>true</code>. Reduces the image to a dithered palette of up to 256 colours and emits an indexed PNG, typically 4–5× smaller than the lossless encode.',
-		more: 'Without it a <code>png</code> is always pixel-exact, and <code>quality</code> alone never makes it lossy. With it, <code>quality</code> picks the palette size: omitted means the full 256 colours; <code>80</code> ≈ 108, <code>65</code> ≈ 56, <code>20</code> = 8. Applies to <code>png</code> outputs only: a request with no <code>png</code> output is a <code>400</code>, and in a multi-variant request only the <code>png</code> entries are quantized. Cannot be combined with <code>lossless</code> (a <code>400</code>). Alpha is preserved. Check <code>X-Mochify-Quantize</code> for what was actually emitted.'
+			'Lossy PNG. Accepts <code>1</code> or <code>true</code>. Reduces the image to a dithered palette of up to 256 colors and emits an indexed PNG, typically 4–5× smaller than the lossless encode.',
+		more: 'Without it a <code>png</code> is always pixel-exact, and <code>quality</code> alone never makes it lossy. With it, <code>quality</code> picks the palette size: omitted means the full 256 colors; <code>80</code> ≈ 108, <code>65</code> ≈ 56, <code>20</code> = 8. Applies to <code>png</code> outputs only: a request with no <code>png</code> output is a <code>400</code>, and in a multi-variant request only the <code>png</code> entries are quantized. Cannot be combined with <code>lossless</code> (a <code>400</code>). Alpha is preserved. Check <code>X-Mochify-Quantize</code> for what was actually emitted.'
 	},
 	{
 		name: 'targetBytes',
@@ -363,7 +363,7 @@ export const squishResponse = [
 	},
 	{
 		name: 'X-Mochify-Recolored',
-		description: 'Only present when <code>recolor</code> was set. How many boxes had their object recoloured.'
+		description: 'Only present when <code>recolor</code> was set. How many boxes had their object recolored.'
 	},
 	{
 		name: 'X-Mochify-Recolor-Skipped',
@@ -985,7 +985,7 @@ export const mcp = {
 		{
 			name: 'squish',
 			description:
-				'Compress, convert, resize or transform an image. Parameters (all optional): url, data, mediaType, type (jpg | png | webp | avif | jxl), width, height, quality (1–100), crop, rotate (0 | 90 | 180 | 270), removeBackground, background, stripExif (default true), smartCompress, optimizeForWeb, brightness (-100 to +100), clarity, lossless (jxl, webp and png only), hdr ("preserve" keeps a gain map the source has, "generate" also synthesises one for an SDR source), uploadId (from create_upload, instead of url or data), region ([x, y, w, h] fractions: crop to a box the assistant chose by looking at the image), redactFaces (hide every face with Mochify\'s detector), redactBoxes (array of [x, y, w, h] fraction boxes to hide), redactStyle (fill | blur, default fill), eraseBoxes (up to 8 [x, y, w, h] fraction boxes: remove the object in each and fill in the background; paid plans), recolorBoxes (up to 8 { box: [x, y, w, h], color: "#rrggbb" }: change the object\'s colour, keep its shading; paid plans). The local server takes the redaction fields in snake_case (redact_faces, redact_boxes, redact_style); eraseBoxes and recolorBoxes are on the hosted server only for now.'
+				'Compress, convert, resize or transform an image. Parameters (all optional): url, data, mediaType, type (jpg | png | webp | avif | jxl), width, height, quality (1–100), crop, rotate (0 | 90 | 180 | 270), removeBackground, background, stripExif (default true), smartCompress, optimizeForWeb, brightness (-100 to +100), clarity, lossless (jxl, webp and png only), hdr ("preserve" keeps a gain map the source has, "generate" also synthesises one for an SDR source), uploadId (from create_upload, instead of url or data), region ([x, y, w, h] fractions: crop to a box the assistant chose by looking at the image), redactFaces (hide every face with Mochify\'s detector), redactBoxes (array of [x, y, w, h] fraction boxes to hide), redactStyle (fill | blur, default fill), eraseBoxes (up to 8 [x, y, w, h] fraction boxes: remove the object in each and fill in the background; paid plans), recolorBoxes (up to 8 { box: [x, y, w, h], color: "#rrggbb" }: change the object\'s color, keep its shading; paid plans). The local server takes the redaction fields in snake_case (redact_faces, redact_boxes, redact_style); eraseBoxes and recolorBoxes are on the hosted server only for now.'
 		},
 		{
 			name: 'create_upload',
@@ -1030,7 +1030,7 @@ export const privacyModel = [
 	{
 		path: 'Crops and redactions chosen by an AI assistant',
 		claim:
-			'When an assistant crops (region), redacts (redactBoxes), erases (eraseBoxes) or recolours (recolorBoxes) by looking at an image, the deciding is done by the user\'s own model in their own client: Mochify receives four numbers per box (and a colour), never a description of what is in it. Some operations then run Mochify\'s own models on the image, on Mochify\'s servers and in memory: redact=faces uses a face detector, which only locates faces in order to hide them and identifies no one; erase and recolor use a segmentation model to outline the object in the box, and erase an inpainting model to fill it. None of them sends the image to a third-party service, and nothing is kept.'
+			'When an assistant crops (region), redacts (redactBoxes), erases (eraseBoxes) or recolors (recolorBoxes) by looking at an image, the deciding is done by the user\'s own model in their own client: Mochify receives four numbers per box (and a color), never a description of what is in it. Some operations then run Mochify\'s own models on the image, on Mochify\'s servers and in memory: redact=faces uses a face detector, which only locates faces in order to hide them and identifies no one; erase and recolor use a segmentation model to outline the object in the box, and erase an inpainting model to fill it. None of them sends the image to a third-party service, and nothing is kept.'
 	},
 	{
 		path: 'CLI and local MCP (mochify serve)',

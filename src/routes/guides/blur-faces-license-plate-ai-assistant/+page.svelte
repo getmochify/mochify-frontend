@@ -22,6 +22,7 @@
 		category: 'AI & Automation',
 		readTime: '22 min read',
 		date: 'October 16, 2026',
+		lastUpdated: 'October 19, 2026',
 		bylineNote:
 			'Written from two real redaction runs on October 16, 2026: a parked car with two plates, and a fifteen-person group photo where the detector found twelve.'
 	};
@@ -141,7 +142,7 @@
 		url: pageUrl,
 		mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
 		datePublished: '2026-10-16',
-		dateModified: '2026-10-16',
+		dateModified: '2026-10-19',
 		inLanguage: 'en',
 		author: {
 			'@type': 'Organization',
@@ -184,7 +185,7 @@
 		description: metadata.description,
 		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
 		datePublished: '2026-10-16',
-		dateModified: '2026-10-16'
+		dateModified: '2026-10-19'
 	};
 
 	/** @param {object} data */
@@ -235,7 +236,7 @@
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
-			{metadata.readTime} · {metadata.date} · Mochify Engineering Team
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
@@ -372,10 +373,14 @@
 				on every plan.
 			</p>
 			<p class="mb-4">
-				The same split is why redaction lives on the two MCP surfaces and the REST API, and not in
-				the <code>mochify</code> command-line tool or on the web app: something has to look at the
-				picture and choose the box, and a command line or a text prompt cannot. If you run the local
-				MCP server (<code>mochify serve</code>) instead of the hosted one, the same instructions
+				The same split is why redaction by box lives on the two MCP surfaces and the REST API, and not
+				in the <code>mochify</code> command-line tool or on the web app: something has to look at the
+				picture and choose the box, and a command line or a text prompt cannot. Faces are the one
+				exception. Mochify's own detector finds them without a box, so you can also ask for them in
+				plain words on any Magic Flow surface, the web app included: "blur every face" or "black out
+				every face". That route shows you no count, so look at the result and count the people
+				yourself; for anyone it missed, or for anything that is not a face, you need the assistant
+				route in this section. If you run the local MCP server (<code>mochify serve</code>) instead of the hosted one, the same instructions
 				apply, with one difference in what comes back: the local server writes the finished file to
 				disk and returns its path, with no download link and no pickup store.
 			</p>
@@ -510,6 +515,14 @@
 				than assume. Second, boxes and the detector combine in one call, so there is no need for a separate
 				pass; the detector's faces and your boxes are all hidden together, with the detector's boxes padded
 				for hair, ears and jawline.
+			</p>
+			<p class="mb-4">
+				If faces are all you need hidden, you do not need an assistant at all. Drop the photo on the
+				<a href="https://mochify.app/flow">Magic Flow page</a>, or use the prompt on any other Magic
+				Flow surface, and ask for every face to be blurred or blacked out. The same detector runs, with
+				the same misses, and that route reports no count, so the check is the picture itself. The
+				assistant route earns its place the moment the detector misses someone: it can see the photo,
+				draw the missing box, and send both in one call.
 			</p>
 		</section>
 
