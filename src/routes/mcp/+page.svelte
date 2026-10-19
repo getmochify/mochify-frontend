@@ -2,6 +2,7 @@
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
     import FaqAccordion from '$lib/components/FaqAccordion.svelte';
+    import CodeCard from '$lib/components/guide-demo/CodeCard.svelte';
     import { faqSchema, type FaqItem } from '$lib/faq';
 
     const HOSTED_URL = 'https://mcp.mochify.app';
@@ -137,8 +138,6 @@ mochify auth login`;
         'inline-flex items-center px-3 py-1 rounded-xl bg-[#F0FDF4] border border-green-100 text-green-700 text-xs font-bold tracking-wide';
     const paidPlan =
         'inline-flex items-center px-3 py-1 rounded-xl bg-[#F3F0FF] border border-[#DDD6FE] text-[#6D28D9] text-xs font-bold tracking-wide';
-    const codeBlock =
-        'bg-[#2D2320] rounded-2xl px-6 py-5 overflow-x-auto shadow-sm text-sm font-mono text-[#F5E9E2] leading-relaxed';
 </script>
 
 <svelte:head>
@@ -207,9 +206,9 @@ mochify auth login`;
 
         <div class="space-y-4 pt-4">
             <h3 class="text-xl font-bold text-[#4A2C2C]">Local: one binary, your disk</h3>
-            <pre class={codeBlock}><code>{brewInstall}</code></pre>
+            <CodeCard filename="terminal" code={brewInstall} />
             <p class={pClass}>Then three lines in your client's MCP config:</p>
-            <pre class={codeBlock}><code>{localConfig}</code></pre>
+            <CodeCard filename="mcp config" code={localConfig} />
             <p class={pClass}>The same binary is the Mochify command-line tool. As a local server it returns file paths, so results are written to your disk and no image bytes enter the chat. Linux binaries and cargo install are on <a href={REPO_URL} target="_blank" rel="noopener noreferrer" class={linkClass}>GitHub</a>. Either way the pixels are processed at api.mochify.app, not on your machine; the local server has no pickup store, which is the difference.</p>
         </div>
 
