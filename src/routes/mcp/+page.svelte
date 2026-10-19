@@ -90,9 +90,11 @@ brew install mochify
 mochify auth login`;
 
     const localConfig = `{
-  "mochify": {
-    "command": "mochify",
-    "args": ["serve"]
+  "mcpServers": {
+    "mochify": {
+      "command": "mochify",
+      "args": ["serve"]
+    }
   }
 }`;
 
@@ -207,7 +209,7 @@ mochify auth login`;
         <div class="space-y-4 pt-4">
             <h3 class="text-xl font-bold text-[#4A2C2C]">Local: one binary, your disk</h3>
             <CodeCard filename="terminal" code={brewInstall} />
-            <p class={pClass}>Then three lines in your client's MCP config:</p>
+            <p class={pClass}>Then add it under mcpServers in your client's MCP config (claude_desktop_config.json in Claude Desktop):</p>
             <CodeCard filename="mcp config" code={localConfig} />
             <p class={pClass}>The same binary is the Mochify command-line tool. As a local server it returns file paths, so results are written to your disk and no image bytes enter the chat. Linux binaries and cargo install are on <a href={REPO_URL} target="_blank" rel="noopener noreferrer" class={linkClass}>GitHub</a>. Either way the pixels are processed at api.mochify.app, not on your machine; the local server has no pickup store, which is the difference.</p>
         </div>
