@@ -79,6 +79,7 @@
 		'/auth/reset-password',
 		'/contact',
 		'/chrome-extension',
+		'/mcp',
 	]);
 
 	// Guides on the new style paint their own top-only wash, which scrolls away
