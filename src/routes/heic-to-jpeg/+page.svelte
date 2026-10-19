@@ -223,7 +223,7 @@
                 <div class="space-y-3">
                     <h2 class="text-xl font-black text-[#4A2C2C]">Convert HEIC to JPG on the iPhone itself</h2>
                     <p class="leading-relaxed text-[#6C3F31] text-sm">
-                        Three routes, none of which need an app. To stop new photos being HEIC at all, go to Settings, Camera, Formats and choose Most Compatible; the camera then saves JPEG. To convert when you copy to a computer, go to Settings, Photos (Settings, Apps, Photos on iOS 18) and set Transfer to Mac or PC to Automatic. For a photo you already have, save it to the Files app, touch and hold it, choose Quick Actions, then Convert Image, and pick JPEG. AirDrop to a Mac keeps the file as HEIC.
+                        Three routes, none of which need an app. To stop new photos being HEIC at all, go to Settings, Camera, Formats and choose Most Compatible; the camera then saves JPEG. To convert when you copy to a computer, go to Settings, Photos (Settings, Apps, Photos on iOS 18) and set Transfer to Mac or PC to Automatic. For a photo you already have, save it to the Files app, touch and hold it, choose Quick Actions, then Convert Image, and pick JPEG. AirDrop to a Mac keeps the file as HEIC. If the JPG is then too big for an upload form, see <a href="https://mochify.app/guides/reduce-photo-file-size-iphone" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">how to reduce photo file size on iPhone</a> for the built-in route and the quick one.
                     </p>
                 </div>
             </div>

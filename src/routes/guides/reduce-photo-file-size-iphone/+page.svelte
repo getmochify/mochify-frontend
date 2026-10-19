@@ -11,34 +11,34 @@
 	import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
 
 	const metadata = {
-		title: 'How to Reduce Photo File Size on iPhone: The Fast Way and the Built-In Way',
+		title: 'How to Reduce Photo File Size on iPhone: The Fast Way and the Free Built-In Way',
 		description:
-			"Compress an iPhone photo to 1MB in seconds in Safari, or use Preview's hidden Export slider on iOS 26+. Tested steps, real file sizes, what to avoid.",
+			"Reduce photo file size on iPhone, free: compress a photo to 1MB in seconds in Safari, or use Preview's Export slider on iOS 26 and later. No app needed.",
 		category: 'Image Formats',
 		readTime: '21 min read',
 		date: 'September 25, 2026',
-		lastUpdated: 'October 16, 2026'
+		lastUpdated: 'October 19, 2026'
 	};
 
 	const toc = [
 		{
 			id: 'the-fast-way-tell-mochify-the-size-you-need',
-			label: 'The fast way: tell Mochify the size you need'
+			label: 'The fast way: compress the photo to the size you need with Mochify'
 		},
 		{ id: 'mochify-workflow', label: 'Mochify workflow: compress to a set size' },
 		{ id: 'mochify-or-preview-side-by-side', label: 'Mochify or Preview: side by side' },
 		{ id: 'why-iphone-photos-are-so-big-now', label: 'Why iPhone photos are so big now' },
 		{
 			id: 'file-size-or-dimensions-which-one-is-your-problem',
-			label: 'File size or dimensions: which is your problem?'
+			label: 'Reduce the file size or resize the photo: which is your problem?'
 		},
 		{
 			id: 'the-built-in-way-preview-on-ios-26-and-later',
-			label: 'The built-in way: Preview on iOS 26 and later'
+			label: 'The free built-in way: reduce photo file size in Preview on iOS 26 and later'
 		},
 		{
 			id: 'other-built-in-routes-files-shortcuts-and-mail',
-			label: 'Other built-in routes: Files, Shortcuts and Mail'
+			label: 'Other ways to make a photo smaller on iPhone: Files, Shortcuts and Mail'
 		},
 		{
 			id: 'what-does-not-work-or-not-the-way-you-think',
@@ -47,7 +47,7 @@
 		{ id: 'stop-the-problem-at-capture-camera-settings', label: 'Stop the problem at capture' },
 		{
 			id: 'getting-under-an-upload-limit-what-to-aim-for',
-			label: 'Getting under an upload limit: what to aim for'
+			label: 'Getting a photo under 2MB (or any upload limit): what to aim for'
 		},
 		{ id: 'cheat-sheet', label: 'Cheat sheet: which route to use' },
 		{ id: 'faq', label: 'FAQ' }
@@ -86,7 +86,7 @@
 			a: 'Recent iPhones save 24 MP photos by default on supported models, twice the pixels of the 12 MP photos older models took, and 48 MP or RAW modes go much further. Apple puts a 48 MP ProRAW file at about 75MB. Converting HEIC to JPEG for a website can also make a file bigger, because HEIF compresses better at the same quality.'
 		},
 		{
-			q: 'Does reducing photo file size lose quality?',
+			q: 'Does reducing photo file size on iPhone lose quality?',
 			a: 'It depends which lever you pull. Reducing dimensions removes detail you will only miss if you zoom in or print large. Lowering JPEG quality keeps the dimensions but adds blockiness and banding once you go too far. For most uploads, resizing to around 2048 pixels and exporting at high quality keeps the photo looking the same on screen.'
 		},
 		{
@@ -139,7 +139,7 @@
 <ReadProgress />
 
 <svelte:head>
-	<title>Reduce Photo File Size on iPhone - Fast Way vs Built-In</title>
+	<title>How to Reduce Photo File Size on iPhone (Compress or Resize)</title>
 	<meta name="description" content={metadata.description} />
 	<meta
 		name="keywords"
@@ -159,15 +159,15 @@
 		{
 			"@context": "https://schema.org",
 			"@type": "Article",
-			"headline": "How to Reduce Photo File Size on iPhone: The Fast Way and the Built-In Way",
-			"description": "Compress an iPhone photo to 1MB in seconds in Safari, or use Preview's hidden Export slider on iOS 26+. Tested steps, real file sizes, what to avoid.",
+			"headline": "How to Reduce Photo File Size on iPhone: The Fast Way and the Free Built-In Way",
+			"description": "Reduce photo file size on iPhone, free: compress a photo to 1MB in seconds in Safari, or use Preview's Export slider on iOS 26 and later. No app needed.",
 			"url": "https://mochify.app/guides/reduce-photo-file-size-iphone",
 			"mainEntityOfPage": {
 				"@type": "WebPage",
 				"@id": "https://mochify.app/guides/reduce-photo-file-size-iphone"
 			},
 			"datePublished": "2026-09-25",
-			"dateModified": "2026-10-16",
+			"dateModified": "2026-10-19",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -213,7 +213,7 @@
 		<h1
 			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
 		>
-			How to <span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">Reduce Photo File Size</span> on iPhone: The Fast Way and the Built-In Way
+			How to <span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">Reduce Photo File Size</span> on iPhone: The Fast Way and the Free Built-In Way
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
@@ -222,7 +222,10 @@
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
 			There are two ways to reduce photo file size on iPhone, and one is a lot quicker than the
-			other. <strong>The fast way:</strong> open
+			other. Whether you want to compress a photo, reduce the photo size, shrink it or make a picture or
+			image smaller (or get it under a set number of MB), the steps are the same on every iPhone from the
+			11 to the 17, and this guide separates cutting the megabytes (file size) from resizing the photo
+			(pixels). <strong>The fast way:</strong> open
 			<a href="https://mochify.app/flow">mochify.app/flow</a>
 			in Safari, pick the photo, type the size you need ("compress to 1MB") and download the result. Our
 			4.3MB, 24 MP test photo came back at
@@ -248,7 +251,7 @@
 
 		<!-- 01 -->
 		<section id="the-fast-way-tell-mochify-the-size-you-need" class="scroll-mt-24">
-			<SectionHeading>The fast way: tell Mochify the size you need</SectionHeading>
+			<SectionHeading>The fast way: compress the photo to the size you need with Mochify</SectionHeading>
 			<p class="mb-4">
 				The quickest way to get an iPhone photo under a size limit is to say the limit out loud, so
 				to speak. Mochify's Magic Flow takes a plain-English instruction such as "compress to 1MB",
@@ -444,7 +447,7 @@
 
 		<!-- 05 -->
 		<section id="file-size-or-dimensions-which-one-is-your-problem" class="scroll-mt-24">
-			<SectionHeading>File size or dimensions: which one is your problem?</SectionHeading>
+			<SectionHeading>Reduce the file size or resize the photo: which one is your problem?</SectionHeading>
 			<p class="mb-4">
 				Check what the upload form is actually asking for before you shrink anything, because "too
 				large" means two different things. <strong>File size</strong> is the megabytes on disk
@@ -484,7 +487,7 @@
 
 		<!-- 06 -->
 		<section id="the-built-in-way-preview-on-ios-26-and-later" class="scroll-mt-24">
-			<SectionHeading>The built-in way: Preview on iOS 26 and later</SectionHeading>
+			<SectionHeading>The free built-in way: reduce photo file size in Preview on iOS 26 and later</SectionHeading>
 			<p class="mb-4">
 				Preview is the built-in answer to the old complaint that the iPhone has no native way to
 				resize or compress a photo. Apple brought its Preview app to iPhone with iOS 26, and it does
@@ -645,7 +648,7 @@
 
 		<!-- 07 -->
 		<section id="other-built-in-routes-files-shortcuts-and-mail" class="scroll-mt-24">
-			<SectionHeading>Other built-in routes: Files, Shortcuts and Mail</SectionHeading>
+			<SectionHeading>Other ways to make a photo smaller on iPhone: Files, Shortcuts and Mail</SectionHeading>
 			<p class="mb-4">
 				Preview gives you the most control, but the Files app and Shortcuts can shrink a photo too,
 				each with a catch. Mail, which older articles recommend, did not offer a smaller size in our
@@ -679,7 +682,7 @@
 				twenty photos as easily as one, which none of the other built-in routes do.
 			</p>
 
-			<h3>Mail: do not count on it</h3>
+			<h3>Mail: reducing photo size for email (do not count on it)</h3>
 			<p class="mb-4">
 				The most-upvoted answer on the top-ranking Apple Community thread, from 2018, says to email
 				the photo to yourself and pick a smaller size when Mail asks.
@@ -740,7 +743,7 @@
 
 		<!-- 09 -->
 		<section id="stop-the-problem-at-capture-camera-settings" class="scroll-mt-24">
-			<SectionHeading>Stop the problem at capture: camera settings</SectionHeading>
+			<SectionHeading>Stop the problem at capture: iPhone camera settings for smaller files</SectionHeading>
 			<p class="mb-4">
 				If you regularly send photos to forms or listings, change how the camera saves them rather
 				than shrinking every file afterwards. Three settings matter, all under
@@ -773,7 +776,7 @@
 
 		<!-- 10 -->
 		<section id="getting-under-an-upload-limit-what-to-aim-for" class="scroll-mt-24">
-			<SectionHeading>Getting under an upload limit: what to aim for</SectionHeading>
+			<SectionHeading>Getting a photo under 2MB (or any upload limit): what to aim for</SectionHeading>
 			<p class="mb-4">
 				Aim for the destination's stated limit with some headroom, and compress before you resize,
 				because compression keeps every pixel. Upload forms, job portals and government sites
