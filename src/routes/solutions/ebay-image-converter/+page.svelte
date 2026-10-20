@@ -122,7 +122,7 @@
                 and Converter
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Get every photo ready for an eBay listing in one step: resized to the 1600 pixels eBay recommends, converted to a high-quality JPEG, and stripped of location data. Drop in iPhone HEIC, camera HIF, WebP, AVIF, PNG or JPG files. Three images with no signup, 25 a month with a free account, processed in memory and never saved to disk.
             </p>
         </div>

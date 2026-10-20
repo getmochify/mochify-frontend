@@ -135,7 +135,7 @@
                 Converter
             </h1>
             
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Convert 10-bit Fuji, Canon & Sony HIF photos into universally compatible JPEGs instantly.
             </p>
         </div>

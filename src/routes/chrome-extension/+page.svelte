@@ -164,7 +164,7 @@
             <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">one right-click</span>
         </h1>
 
-        <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+        <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
             The Mochify Chrome extension adds two options to the right-click menu on every image you see on the web. Convert to gives you a one-click format change. Send to Mochify... lets you describe the edit you want in plain English. Either way, the result lands in your Downloads folder, or in Google Drive on a paid plan.
         </p>
 

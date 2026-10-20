@@ -108,7 +108,7 @@
                 </span>
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Rasterize SVG files to pixel-exact PNG at the size you need, with transparency intact.
             </p>
         </div>

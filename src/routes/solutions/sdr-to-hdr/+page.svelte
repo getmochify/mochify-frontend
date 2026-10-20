@@ -192,7 +192,7 @@
             </span>
         </h1>
 
-        <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+        <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
             Give any photo a <strong class="text-[#4A2C2C]">gain map</strong> so highlights can go brighter than white on an HDR display. If your camera already captured one, we carry it through untouched. If it did not, we build a plausible one. The result is still an ordinary JPEG that opens everywhere.
         </p>
     </div>

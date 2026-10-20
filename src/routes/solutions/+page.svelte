@@ -257,7 +257,7 @@
             <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-[#4A2C2C] tracking-tight">
                 Image Converters and <span class="text-[#F06292]">Tools</span>
             </h1>
-            <p class="text-base sm:text-lg text-[#6C3F31] font-medium max-w-3xl mx-auto leading-relaxed">
+            <p class="text-base sm:text-lg text-[#6C3F31] font-medium max-w-3xl mx-auto leading-relaxed text-balance">
                 Each tool here does one job. Drop your files in and download the result: HEIC, HIF or AVIF to JPG, a JPEG XL encode, a transparent cutout, a square crop, a PDF. There is no prompt to write, and most pages have nothing to set. Three images a month need no signup, a free account gives you 25, and images and PDFs are processed in memory, never saved to disk. Need something that is not listed? Describe it in <a href="/flow" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Magic Flow</a>.
             </p>
         </div>

@@ -114,7 +114,7 @@
                 </span>
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Drop HEIC or HEIF photos here and get one PDF back, a page per photo in the order you added them, up to 20 files at a time on a paid plan or Day Pass (3 on the free plan). Each photo is stored in the PDF as a standard JPEG, so the document opens on Windows, Android, in any mail client and at any print shop, including the ones that reject a .heic file. The PDF is built in memory at api.mochify.app and wiped as soon as your download is ready.
             </p>
         </div>

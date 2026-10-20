@@ -75,7 +75,7 @@
             </span>
         </h1>
 
-        <p class="text-xl text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed mb-10">
+        <p class="text-xl text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed mb-10 text-balance">
             Vinted is a scroll. Buyers decide in a glance. Mochify turns your casual phone shots into clean, portrait-cropped listing photos at the size Vinted's layout actually rewards, so your items get clicked, not skipped.
         </p>
 

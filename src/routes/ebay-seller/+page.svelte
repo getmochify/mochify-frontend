@@ -78,7 +78,7 @@
             </span>
         </h1>
 
-        <p class="text-xl text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed mb-10">
+        <p class="text-xl text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed mb-10 text-balance">
             eBay recommends about 1600 by 1600 pixels, a white background, no watermarks, and JPEG, PNG, WebP, HEIC or AVIF under 12MB. Drop your phone photos into <a href="/flow" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Mochify</a>, type "resize to 1600px, white background, JPEG", and every photo comes back listing-ready.
         </p>
 

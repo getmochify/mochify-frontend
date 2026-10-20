@@ -132,7 +132,7 @@
                 Remover
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Remove the background from a photo and download the cut-out as a transparent AVIF in one step. It takes AVIF files as they are, along with JPG, PNG, WebP, HEIC, HEIF and HIF, and writes the subject on a full alpha channel in the format that usually produces the smallest transparent file. Three images with no signup, 25 a month with a free account, processed in memory and never saved to disk.
             </p>
         </div>

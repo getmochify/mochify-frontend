@@ -132,7 +132,7 @@
                 Remover
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Remove the background from a photo and download the cut-out as a transparent WebP in one step. Drop in a JPG, PNG, WebP, AVIF, HEIC, HEIF or HIF file. The subject comes back on a full alpha channel, in a format that is smaller than PNG and opens in every current browser. Three images with no signup, 25 a month with a free account, processed in memory and never saved to disk.
             </p>
         </div>

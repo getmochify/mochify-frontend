@@ -149,7 +149,7 @@
                 </span>
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Drop in the .heic photos from your iPhone and get JPGs that open in every app, on every device, with nothing to install. Up to 3 files with no signup (3 a month without an account, 25 a month with a free one), encoded with Google's jpegli for better quality per byte, processed in memory and never saved to disk.
             </p>
         </div>

@@ -163,7 +163,7 @@
                 </span>
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Drop PNG files here and get JPEG XL (JXL) files back. By default each file gets one high-quality encode tuned for PNG content, which makes the smallest file; switch <strong class="text-[#7E685E]">Lossless</strong> on after uploading and the JXL reproduces your PNG pixel for pixel, usually still smaller than the original. Up to 3 files a month with no signup and 20MB per file, or 25 a month with a free account. Files are processed in memory at api.mochify.app and wiped the moment your download is ready.
             </p>
         </div>

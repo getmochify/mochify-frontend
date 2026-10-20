@@ -307,7 +307,7 @@
                 <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">difference</span>
                 for yourself
             </h1>
-            <p class="text-[#6C3F31] text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+            <p class="text-[#6C3F31] text-base md:text-lg max-w-2xl mx-auto leading-relaxed text-balance">
                 Upload an image, pick your format, then drag the slider to compare original vs. compressed side‑by‑side.
             </p>
         </header>

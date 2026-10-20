@@ -166,7 +166,7 @@
             </span>
         </h1>
 
-        <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+        <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
             Universal converter for the HEIF standard. Convert <strong class="text-[#4A2C2C]">.heif</strong> images from desktop editors, phones and image pipelines to JPG, with .heic and .hif files welcome in the same batch. No codec purchase, no software install.
         </p>
     </div>

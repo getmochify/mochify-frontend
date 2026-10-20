@@ -185,7 +185,7 @@
                 in Bulk
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Drop in a batch of photos and get every one back as a perfect square with the subject in the middle. Mochify looks at each image separately, finds the face, product or focal point, and centers the 1:1 crop on it, so product shots, portraits and snapshots in the same batch all come out framed correctly without you touching one. Pick a size from 500 to 2000 px, upload, download. Three images with no signup, 25 a month with a free account, processed in memory and never saved to disk.
             </p>
         </div>

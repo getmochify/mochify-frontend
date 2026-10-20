@@ -105,7 +105,7 @@
                 </span>
             </h1>
             
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Turn 10-bit Fuji, Canon and Sony HIF photos into 10-bit AVIFs that open in every current browser.
             </p>
         </div>

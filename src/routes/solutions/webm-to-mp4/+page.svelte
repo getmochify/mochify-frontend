@@ -105,7 +105,7 @@
                 </span>
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Convert WebM to an MP4 that plays on iPhone, Mac and Windows and opens in mainstream video editors. It is free and needs no account, and the conversion runs entirely in your browser, so your video never leaves your device.
             </p>
         </div>

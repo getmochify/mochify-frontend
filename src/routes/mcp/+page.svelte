@@ -229,7 +229,7 @@ mochify auth login`;
             <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">AI assistant</span>
         </h1>
 
-        <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+        <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
             Connect Mochify once and your assistant can compress, convert, crop, hide, erase and recolor the images you give it, and work on your PDFs, by asking in plain English. You describe the result. Where a box is needed, the assistant looks at the picture and chooses it. Mochify does the pixel work and hands back the file.
         </p>
 

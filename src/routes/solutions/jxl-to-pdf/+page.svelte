@@ -123,7 +123,7 @@
                 </span>
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed">
+            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Drop JPEG XL images here and get one PDF back, a page per image in the order you added them, up to 20 files at a time on a paid plan or Day Pass (3 on the free plan). Each image is stored in the PDF as a standard JPEG, so the document opens in any PDF reader, mail client or print shop, including the many that cannot open a .jxl file at all. The PDF is built in memory at api.mochify.app and wiped as soon as your download is ready.
             </p>
         </div>
