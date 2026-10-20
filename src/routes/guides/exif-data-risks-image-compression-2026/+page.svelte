@@ -1,9 +1,11 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         title: "EXIF Data Risks: Strip Image Metadata for Global Privacy",
@@ -40,6 +42,16 @@
             href: "/guides/heif-to-jpeg-workflow-photographers-guide",
             desc: "EXIF stripping inside a real photographer workflow."
         }
+    ];
+
+    const toc = [
+        { id: 'understanding-exif', label: 'Understanding EXIF Metadata' },
+        { id: 'why-compression-fails', label: 'Why Compression Doesn’t Remove Privacy Risks' },
+        { id: 'privacy-impacts', label: 'EXIF Privacy Impacts & Global Compliance' },
+        { id: 'cheat-sheet', label: 'EXIF Stripping Cheat Sheet' },
+        { id: 'how-mochify-handles', label: 'How Mochify Handles EXIF' },
+        { id: 'use-cases', label: 'When to Retain vs. Strip' },
+        { id: 'metrics', label: 'Technical Proof: Metrics' }
     ];
 </script>
 
@@ -109,105 +121,40 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
     
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="EXIF Data Risks" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            {metadata.title}
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             A photographer's geotag led to a significant <a href="https://www.dsgvo-portal.de/gdpr-fines/gdpr-fine-against-digital-photo-image-2024-12-05-ES-4031.php">GDPR fine in Germany</a>. The culprit? EXIF metadata leaking GPS coordinates in a routine property photo. This isn't an edge case anymore.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 We've built Mochify's compression engine to strip EXIF data by default during every batch process, protecting you from privacy leaks that persist even after aggressive file-size reduction.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
         
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    <li>
-                        <a href="#understanding-exif" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">01</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Understanding EXIF Metadata</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#why-compression-fails" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">02</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Why Compression Doesn’t Remove Privacy Risks</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#privacy-impacts" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">03</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">EXIF Privacy Impacts & Global Compliance</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#cheat-sheet" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">04</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">EXIF Stripping Cheat Sheet</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                     <li>
-                        <a href="#how-mochify-handles" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">05</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">How Mochify Handles EXIF</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                     <li>
-                        <a href="#use-cases" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">06</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">When to Retain vs. Strip</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                      <li>
-                        <a href="#metrics" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">07</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Technical Proof: Metrics</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc} heading="What's in This Guide" />
         </section>
 
         <section id="understanding-exif" class="scroll-mt-24">
@@ -255,32 +202,32 @@
 
         <section id="cheat-sheet" class="scroll-mt-24">
              <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">EXIF Stripping Cheat Sheet</h2>
-             <ScrollableTable class="mb-8">
-                <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+             <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Scenario</th>
-                            <th class="p-4 font-black">Strip EXIF?</th>
-                            <th class="p-4 font-black">Why</th>
+                            <th>Scenario</th>
+                            <th>Strip EXIF?</th>
+                            <th>Why</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4 font-bold">Marketplace listings (eBay, Etsy, Amazon)</td><td class="p-4 text-[#F06292] font-bold">Yes</td><td class="p-4">Prevents home address leaks; reduces file size by 5-15%</td></tr>
-                        <tr><td class="p-4 font-bold">Social media posts</td><td class="p-4 text-[#F06292] font-bold">Yes</td><td class="p-4">GPS data reveals patterns (home, work, school routes)</td></tr>
-                        <tr><td class="p-4 font-bold">Client deliverables (agencies)</td><td class="p-4 text-[#F06292] font-bold">Yes</td><td class="p-4">GDPR liability; protects pre-release products</td></tr>
-                        <tr><td class="p-4 font-bold">Portfolio websites</td><td class="p-4 text-[#F06292] font-bold">Yes</td><td class="p-4">Equipment serial numbers can link all your work to theft-targeted devices</td></tr>
-                        <tr><td class="p-4 font-bold">Print-ready files for publishers</td><td class="p-4 text-[#81C784] font-bold">Retain</td><td class="p-4">Editors need timestamps/color profiles for layout workflows</td></tr>
-                        <tr><td class="p-4 font-bold">Photography contests/licensing</td><td class="p-4 text-[#81C784] font-bold">Retain</td><td class="p-4">Judges verify authenticity via camera settings; licensing platforms need copyright tags</td></tr>
-                         <tr><td class="p-4 font-bold">Personal archiving</td><td class="p-4 text-[#81C784] font-bold">Retain</td><td class="p-4">Future-you will want to know where/when you shot that sunset</td></tr>
+                    <tbody>
+                        <tr><td>Marketplace listings (eBay, Etsy, Amazon)</td><td>Yes</td><td>Prevents home address leaks; reduces file size by 5-15%</td></tr>
+                        <tr><td>Social media posts</td><td>Yes</td><td>GPS data reveals patterns (home, work, school routes)</td></tr>
+                        <tr><td>Client deliverables (agencies)</td><td>Yes</td><td>GDPR liability; protects pre-release products</td></tr>
+                        <tr><td>Portfolio websites</td><td>Yes</td><td>Equipment serial numbers can link all your work to theft-targeted devices</td></tr>
+                        <tr><td>Print-ready files for publishers</td><td>Retain</td><td>Editors need timestamps/color profiles for layout workflows</td></tr>
+                        <tr><td>Photography contests/licensing</td><td>Retain</td><td>Judges verify authenticity via camera settings; licensing platforms need copyright tags</td></tr>
+                         <tr><td>Personal archiving</td><td>Retain</td><td>Future-you will want to know where/when you shot that sunset</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <p class="mb-4">One reason that does not belong on that list is search ranking. It comes up often enough with site owners that it is worth being clear about: metadata removal is a privacy and file-size decision, not a ranking lever. For the WordPress-specific version of that question, see <a href="/guides/does-stripping-exif-data-improve-wordpress-image-seo">whether stripping EXIF helps WordPress SEO</a>.</p>
 
-            <InfoBox type="tip" title="Pro Tip">
+            <GlassInfoBox type="tip" title="Pro Tip">
                 If you're unsure, strip first. You can't reverse metadata removal, but you can always re-export with EXIF from your original RAW files.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="how-mochify-handles" class="scroll-mt-24">
@@ -344,25 +291,25 @@
 
               <p class="mb-4">The same stripping question applies if you bundle those iPhone photos into a document instead of sharing them as individual files. See <a href="https://mochify.app/guides/heic-to-pdf-iphone-photos">what happens to EXIF and location data when converting HEIC to PDF</a> for the specifics of that workflow.</p>
 
-              <ScrollableTable class="mb-8">
-                <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+              <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Metric</th>
-                            <th class="p-4 font-black">EXIF Retained</th>
-                            <th class="p-4 font-black">EXIF Stripped</th>
-                            <th class="p-4 font-black">Savings</th>
+                            <th>Metric</th>
+                            <th>EXIF Retained</th>
+                            <th>EXIF Stripped</th>
+                            <th>Savings</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4 font-bold">Average file size</td><td class="p-4">420 KB</td><td class="p-4">385 KB</td><td class="p-4 font-bold text-[#F06292]">8.3%</td></tr>
-                        <tr><td class="p-4 font-bold">GPS coordinates</td><td class="p-4">Present (precise lat/long)</td><td class="p-4">Removed</td><td class="p-4">-</td></tr>
-                        <tr><td class="p-4 font-bold">Device identifiers</td><td class="p-4">Present (serial, lens model)</td><td class="p-4">Removed</td><td class="p-4">-</td></tr>
-                        <tr><td class="p-4 font-bold">Embedded thumbnail</td><td class="p-4">Present (80KB preview)</td><td class="p-4">Removed</td><td class="p-4">-</td></tr>
-                        <tr><td class="p-4 font-bold">Visual quality</td><td class="p-4">Identical</td><td class="p-4">Identical</td><td class="p-4">-</td></tr>
+                    <tbody>
+                        <tr><td>Average file size</td><td>420 KB</td><td>385 KB</td><td>8.3%</td></tr>
+                        <tr><td>GPS coordinates</td><td>Present (precise lat/long)</td><td>Removed</td><td>-</td></tr>
+                        <tr><td>Device identifiers</td><td>Present (serial, lens model)</td><td>Removed</td><td>-</td></tr>
+                        <tr><td>Embedded thumbnail</td><td>Present (80KB preview)</td><td>Removed</td><td>-</td></tr>
+                        <tr><td>Visual quality</td><td>Identical</td><td>Identical</td><td>-</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
             
             <p class="mb-4"><strong>Takeaway:</strong> Stripping EXIF saved 35KB per image on average - enough to matter when you're processing 500 product photos for a catalog. And that's before accounting for the privacy benefit.</p>
             <p class="mb-4">The same batch compressed via jpegli (EXIF stripped) delivered:</p>
@@ -373,9 +320,9 @@
              </ul>
              <p class="mb-4">Your image looks identical. The metadata bloat is gone. Universal compatibility remains intact.</p>
              
-             <InfoBox type="tip" title="Pro Tip">
+             <GlassInfoBox type="tip" title="Pro Tip">
                 Larger images see bigger absolute savings. A 5MB DSLR RAW converted to jpegli JPEG with EXIF stripped often lands around 450KB (91% reduction).
-             </InfoBox>
+             </GlassInfoBox>
         </section>
 
         
@@ -402,7 +349,26 @@
     </a>
 </div>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

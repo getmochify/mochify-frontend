@@ -1,11 +1,13 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "What Automatic Image Optimization Actually Does (and When to Take Control)",
@@ -188,54 +190,41 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Automatic Image Optimization" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            What Automatic Image Optimization Actually Does (and When to Take Control)
-        </h1>
-
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Automatic image optimization is now built into almost everything you publish through. WordPress 7.1 compresses and resizes uploads in your browser, Shopify's CDN re-formats product photos per visitor, Instagram re-encodes whatever you post, and marketplaces run your listing photos through pipelines you never see. That layer is real progress, and you should let it work. But here is the part the release notes skip: automatic optimization applies the platform's defaults, not your decisions, and the defaults are identical for everyone. The same quality setting, the same size caps, the same crop-nothing, judge-nothing processing that every one of your competitors gets. This guide walks through what the automatic layer actually does on each major platform, where its ceiling sits, and how taking control of your images before upload is what makes them faster, cleaner, and visibly better than the baseline everyone else settles for.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published August 25, 2026 by the Mochify Engineering Team.</strong>
                 Written for the moment automatic optimization feels like it's already handled: what each platform's default actually does, where it stops, and the pre-upload pipeline that closes the gap.
             </p>
         </div>
     </header>
 
-    <div class="space-y-12 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
         <section>
-            <SectionHeading>What's in this guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                    <li>
-                        <a href="#{item.id}" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform flex-shrink-0">{item.num}</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors text-sm md:text-base">{item.label}</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    {/each}
-                </ul>
-            </nav>
+            <GuideTOC items={toc} heading="What's in this guide" />
         </section>
 
         <!-- 01 -->
@@ -337,9 +326,9 @@
                 </ol>
             </div>
 
-            <InfoBox type="note" title="Keep the privacy you started with">
+            <GlassInfoBox type="note" title="Keep the privacy you started with">
                 Your images travel to <code>api.mochify.app</code> over HTTPS, are processed in RAM, and are wiped immediately after encoding: no disk writes, no logs containing file data, zero retention. Taking control of your pipeline should not mean handing your originals to a service that keeps them.
-            </InfoBox>
+            </GlassInfoBox>
 
             <p class="mb-4"><strong>Build your pipeline once and stop re-doing it: <a href="/">start free at mochify.app</a> - no signup for your first files.</strong></p>
         </section>
@@ -348,65 +337,84 @@
         <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>Cheat Sheet: platform defaults at a glance</SectionHeading>
 
-            <ScrollableTable class="my-6">
-                <table class="w-full text-left bg-white text-base">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Platform</th>
-                            <th class="p-4 font-black">What it does automatically</th>
-                            <th class="p-4 font-black">What it never touches</th>
-                            <th class="p-4 font-black">Do this before upload</th>
+                            <th>Platform</th>
+                            <th>What it does automatically</th>
+                            <th>What it never touches</th>
+                            <th>Do this before upload</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
+                    <tbody>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">WordPress 7.1</td>
-                            <td class="p-4">Browser-side compress + resize (quality 82, ~15% smaller JPEGs), HEIC to JPEG, AVIF decode, thumbnails; Chrome/Edge 137+ only, silent server fallback</td>
-                            <td class="p-4">Your original file and its metadata; per-image quality/format; existing library</td>
-                            <td class="p-4">Size to your theme's real display width; choose format; strip metadata deliberately</td>
+                            <td>WordPress 7.1</td>
+                            <td>Browser-side compress + resize (quality 82, ~15% smaller JPEGs), HEIC to JPEG, AVIF decode, thumbnails; Chrome/Edge 137+ only, silent server fallback</td>
+                            <td>Your original file and its metadata; per-image quality/format; existing library</td>
+                            <td>Size to your theme's real display width; choose format; strip metadata deliberately</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Shopify</td>
-                            <td class="p-4">CDN re-encoding, WebP/AVIF per browser, auto display sizes, GIF to animated WebP</td>
-                            <td class="p-4">Your uploaded master; framing, backgrounds, consistency</td>
-                            <td class="p-4">Upload a clean, cropped, color-true master at 2048px+; let the CDN handle delivery</td>
+                            <td>Shopify</td>
+                            <td>CDN re-encoding, WebP/AVIF per browser, auto display sizes, GIF to animated WebP</td>
+                            <td>Your uploaded master; framing, backgrounds, consistency</td>
+                            <td>Upload a clean, cropped, color-true master at 2048px+; let the CDN handle delivery</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Instagram</td>
-                            <td class="p-4">Resize to 1080px ceiling, re-encode to its own target</td>
-                            <td class="p-4">Anything above 1080px is discarded, not preserved</td>
-                            <td class="p-4">Export at exact target size (e.g. 1080x1350) so its re-encode has nothing to butcher</td>
+                            <td>Instagram</td>
+                            <td>Resize to 1080px ceiling, re-encode to its own target</td>
+                            <td>Anything above 1080px is discarded, not preserved</td>
+                            <td>Export at exact target size (e.g. 1080x1350) so its re-encode has nothing to butcher</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Marketplaces (eBay, Vinted, Etsy)</td>
-                            <td class="p-4">Resize/re-encode to unpublished internal targets; enforce caps (e.g. 12MB eBay, 10MB Vinted)</td>
-                            <td class="p-4">Framing, background, white balance; sellers report visible shifts</td>
-                            <td class="p-4">Ship pre-sized, background-cleaned, sub-cap files so the pipeline has minimal work to do</td>
+                            <td>Marketplaces (eBay, Vinted, Etsy)</td>
+                            <td>Resize/re-encode to unpublished internal targets; enforce caps (e.g. 12MB eBay, 10MB Vinted)</td>
+                            <td>Framing, background, white balance; sellers report visible shifts</td>
+                            <td>Ship pre-sized, background-cleaned, sub-cap files so the pipeline has minimal work to do</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Everywhere</td>
-                            <td class="p-4">Delivery-side byte reduction with fixed defaults</td>
-                            <td class="p-4">Judgment: crop, background, format strategy, metadata, cross-channel consistency</td>
-                            <td class="p-4">Run your own pre-upload pipeline, automated with one repeatable instruction</td>
+                            <td>Everywhere</td>
+                            <td>Delivery-side byte reduction with fixed defaults</td>
+                            <td>Judgment: crop, background, format strategy, metadata, cross-channel consistency</td>
+                            <td>Run your own pre-upload pipeline, automated with one repeatable instruction</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <!-- 08 FAQ -->
-        <GuideFAQs items={faqItems} />
+        <GlassFAQs items={faqItems} jsonLd={false} />
 
         <!-- Final CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Close the gap instead of leaving it open"
             href="/"
             label="Open mochify.app →"
         >
             See what your own images look like with the gap closed instead of left open: drop a batch into Mochify and prompt <em>"resize to 2000px on the long edge, convert to WebP, and strip location data"</em>, then compare it to what the platform default would have shipped.
-        </GuideCTA>
+        </GlassCTA>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

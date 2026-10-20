@@ -1,7 +1,9 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
@@ -12,6 +14,17 @@
         date: "March 8, 2026",
         lastUpdated: "May 18, 2026"
     };
+
+    const toc = [
+        { id: 'what-is', label: "What is Mochify's natural language compression feature?" },
+        { id: 'how-it-works', label: 'How the AI picks your compression settings' },
+        { id: 'formats', label: 'Format selection: WebP, AVIF, JXL, or JPEG' },
+        { id: 'resizing', label: 'Smart resizing and cropping from plain English' },
+        { id: 'exif', label: 'EXIF stripping on request' },
+        { id: 'how-to-use', label: 'How to use it right now' },
+        { id: 'cheat-sheet', label: 'Cheat sheet: prompt examples and what they produce' },
+        { id: 'faq', label: 'FAQ' }
+    ];
 </script>
 
 <ReadProgress />
@@ -80,114 +93,40 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title="AI-Powered Image Compression: How Mochify's Natural Language Feature Works (2026)" accent="AI-Powered Image Compression" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            AI-Powered Image Compression: How Mochify's Natural Language Feature Works (2026)
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Type "Instagram-ready WebP, strip location data" and Mochify handles the rest. <a href="https://docs.mistral.ai/models/model-cards/mistral-small-4-0-26-03">Mistral Small 4</a> parses your intent and passes the right flags to our compression engine - no dropdowns, no format knowledge required.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 <strong>Published March 2026 by the Mochify Engineering Team.</strong> We've connected an LLM directly into our compression pipeline. Describe your goal in plain English - the AI does the settings layer for you.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    <li>
-                        <a href="#what-is" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">01</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">What is Mochify's natural language compression feature?</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#how-it-works" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">02</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">How the AI picks your compression settings</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#formats" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">03</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Format selection: WebP, AVIF, JXL, or JPEG</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#resizing" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">04</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Smart resizing and cropping from plain English</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#exif" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">05</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">EXIF stripping on request</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#how-to-use" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">06</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">How to use it right now</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#cheat-sheet" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">07</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Cheat sheet: prompt examples and what they produce</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#faq" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">08</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">FAQ</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc} heading="What's in This Guide" />
         </section>
 
         <section class="my-8 bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
@@ -206,32 +145,32 @@
             <p class="mb-4">The core idea is simple: your plain-English description becomes a set of compression flags. Mistral Small 4 parses the prompt, identifies what you need - format, dimensions, metadata handling - and calls our squish engine with those exact parameters.</p>
             <p class="mb-4">Here's what that looks like in practice. "Best for the web" might produce <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">--format webp --quality 82</code>. "Tiny for mobile" could produce <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">--format avif --quality 65 --resize 800</code>. "Blog-post-ready, clean upload" might add <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">--strip-exif</code> on top of a balanced WebP output. The LLM doesn't guess randomly - it maps your language to a defined set of flags the squish engine understands.</p>
 
-            <InfoBox type="tip" title="Pro tip">
+            <GlassInfoBox type="tip" title="Pro tip">
                 You don't need to be precise. "Make it small for email" works just as well as "compress to AVIF at quality 60." The model handles the ambiguity.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="formats" class="scroll-mt-24">
             <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">Format selection: WebP, AVIF, JXL, or JPEG</h2>
             <p class="mb-4">The AI can choose from four output formats depending on how you describe your goal. AVIF delivers roughly 45% smaller files than JPEG at equivalent visual quality - making it the right pick when file size is the priority. WebP hits the sweet spot between compression and compatibility, supported by all major browsers since 2023 (<a href="https://caniuse.com/webp">caniuse.com</a>). JPEG XL (JXL) is the choice for lossless or near-lossless archival. Standard JPEG via our jpegli encoder remains the best option when universal compatibility is non-negotiable.</p>
 
-            <ScrollableTable class="mb-8">
-                <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Prompt hint</th>
-                            <th class="p-4 font-black">Likely format output</th>
+                            <th>Prompt hint</th>
+                            <th>Likely format output</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4 font-bold">"Best for the web" / "web-ready"</td><td class="p-4">WebP</td></tr>
-                        <tr><td class="p-4 font-bold">"Tiny," "mobile," "smallest possible"</td><td class="p-4">AVIF</td></tr>
-                        <tr><td class="p-4 font-bold">"Lossless," "archive quality"</td><td class="p-4">JPEG XL</td></tr>
-                        <tr><td class="p-4 font-bold">"Compatible everywhere," "email"</td><td class="p-4">JPEG (jpegli)</td></tr>
-                        <tr><td class="p-4 font-bold">"Instagram," "social"</td><td class="p-4">WebP or AVIF</td></tr>
+                    <tbody>
+                        <tr><td>"Best for the web" / "web-ready"</td><td>WebP</td></tr>
+                        <tr><td>"Tiny," "mobile," "smallest possible"</td><td>AVIF</td></tr>
+                        <tr><td>"Lossless," "archive quality"</td><td>JPEG XL</td></tr>
+                        <tr><td>"Compatible everywhere," "email"</td><td>JPEG (jpegli)</td></tr>
+                        <tr><td>"Instagram," "social"</td><td>WebP or AVIF</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <p class="mb-4">The AI cross-references your described use case against format strengths. You don't need to know what AVIF is - just describe what the image is for.</p>
         </section>
@@ -263,26 +202,26 @@
         <section id="cheat-sheet" class="scroll-mt-24">
             <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">Cheat sheet: prompt examples and what they produce</h2>
 
-            <ScrollableTable class="mb-8">
-                <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Your description</th>
-                            <th class="p-4 font-black">Format</th>
-                            <th class="p-4 font-black">Resize</th>
-                            <th class="p-4 font-black">EXIF strip</th>
+                            <th>Your description</th>
+                            <th>Format</th>
+                            <th>Resize</th>
+                            <th>EXIF strip</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4 font-bold">"Instagram square, web-ready"</td><td class="p-4">WebP</td><td class="p-4">1080×1080</td><td class="p-4">No</td></tr>
-                        <tr><td class="p-4 font-bold">"Tiny for mobile, strip location"</td><td class="p-4">AVIF</td><td class="p-4">~800px wide</td><td class="p-4 text-[#F06292] font-bold">Yes</td></tr>
-                        <tr><td class="p-4 font-bold">"Blog post hero, fast load"</td><td class="p-4">WebP</td><td class="p-4">~1200px wide</td><td class="p-4">No</td></tr>
-                        <tr><td class="p-4 font-bold">"Email thumbnail, clean"</td><td class="p-4">JPEG (jpegli)</td><td class="p-4">~600px wide</td><td class="p-4 text-[#F06292] font-bold">Yes</td></tr>
-                        <tr><td class="p-4 font-bold">"Archive quality, no compression"</td><td class="p-4">JPEG XL</td><td class="p-4">Original</td><td class="p-4">No</td></tr>
-                        <tr><td class="p-4 font-bold">"Social banner"</td><td class="p-4">WebP</td><td class="p-4">~1200×630</td><td class="p-4">No</td></tr>
+                    <tbody>
+                        <tr><td>"Instagram square, web-ready"</td><td>WebP</td><td>1080×1080</td><td>No</td></tr>
+                        <tr><td>"Tiny for mobile, strip location"</td><td>AVIF</td><td>~800px wide</td><td>Yes</td></tr>
+                        <tr><td>"Blog post hero, fast load"</td><td>WebP</td><td>~1200px wide</td><td>No</td></tr>
+                        <tr><td>"Email thumbnail, clean"</td><td>JPEG (jpegli)</td><td>~600px wide</td><td>Yes</td></tr>
+                        <tr><td>"Archive quality, no compression"</td><td>JPEG XL</td><td>Original</td><td>No</td></tr>
+                        <tr><td>"Social banner"</td><td>WebP</td><td>~1200×630</td><td>No</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <section id="faq" class="scroll-mt-24">
@@ -389,3 +328,22 @@
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

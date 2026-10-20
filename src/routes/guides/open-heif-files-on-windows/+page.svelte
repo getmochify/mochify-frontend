@@ -1,8 +1,11 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "How to Open HEIF Files on Windows (or Convert Them to JPG)",
@@ -140,58 +143,45 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="HEIF Files on Windows" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            How to Open HEIF Files on Windows (or Convert Them to JPG)
-        </h1>
-
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-6">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Windows cannot open HEIF files out of the box, and the fix Microsoft offers is stranger than most people expect: two separate Store extensions, one of which costs $0.99, and even that combination fails on the 10-bit HEIF files that modern cameras write. If you have just double-clicked a <code>.heif</code> or <code>.hif</code> file and hit "You need an extension to use this file," this guide covers every route that actually works: what to install, which viewers decode HEIF on their own, why pro-camera files are a special case, and when converting to JPG is simply the faster answer.
         </p>
 
-        <p class="text-lg text-[#6C3F31] leading-relaxed max-w-2xl mb-8">
+        <p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
             We have a <a href="https://mochify.app/solutions/heif-to-jpg">HEIF to JPG converter</a>, so we have an obvious interest in the conversion route. We will still walk you through the native fixes first, including the ones that cost nothing, and be precise about where each one stops working.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published August 19, 2026 by the Mochify Engineering Team.</strong>
                 Written for the moment Windows says it needs an extension: the free and paid fixes first, then why 10-bit camera files break anyway.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc.map((t) => ({ id: t.href.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
         <section id="the-short-answer" class="scroll-mt-24">
@@ -274,49 +264,49 @@
 
         <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>Cheat Sheet: symptom to fix</SectionHeading>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[720px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Symptom</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Likely cause</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Fix</th>
+                        <tr>
+                            <th>Symptom</th>
+                            <th>Likely cause</th>
+                            <th>Fix</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">"You need an extension to use this file"</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No HEIF/HEVC codecs installed</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Store extensions (free + $0.99), or convert to JPG</td>
+                        <tr>
+                            <td>"You need an extension to use this file"</td>
+                            <td>No HEIF/HEVC codecs installed</td>
+                            <td>Store extensions (free + $0.99), or convert to JPG</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Installed both extensions, still fails</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Buggy extension version, or 10-bit file</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Repair/reinstall extensions; if <code>.HIF</code> from a camera, see 10-bit row</td>
+                        <tr>
+                            <td>Installed both extensions, still fails</td>
+                            <td>Buggy extension version, or 10-bit file</td>
+                            <td>Repair/reinstall extensions; if <code>.HIF</code> from a camera, see 10-bit row</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold"><code>.HIF</code> from Canon/Sony/Fuji won't open anywhere</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">10-bit HEIF beyond Windows' 8-bit support</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Vendor software (DPP / Imaging Edge), or <a href="https://mochify.app/solutions/heif-to-jpg">convert to JPG</a></td>
+                        <tr>
+                            <td><code>.HIF</code> from Canon/Sony/Fuji won't open anywhere</td>
+                            <td>10-bit HEIF beyond Windows' 8-bit support</td>
+                            <td>Vendor software (DPP / Imaging Edge), or <a href="https://mochify.app/solutions/heif-to-jpg">convert to JPG</a></td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Renamed <code>.HIF</code> to <code>.heic</code>, still broken</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Decoder gap is in the data, not the extension</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Don't rename; convert instead</td>
+                        <tr>
+                            <td>Renamed <code>.HIF</code> to <code>.heic</code>, still broken</td>
+                            <td>Decoder gap is in the data, not the extension</td>
+                            <td>Don't rename; convert instead</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Opens on your PC, recipient can't open it</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Their machine lacks codecs too</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Send JPG, keep HEIF originals</td>
+                        <tr>
+                            <td>Opens on your PC, recipient can't open it</td>
+                            <td>Their machine lacks codecs too</td>
+                            <td>Send JPG, keep HEIF originals</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Need it in Chrome/Edge/Firefox</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No browser supports HEIF except Safari 17+</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Convert to JPG (or AVIF for 10-bit)</td>
+                        <tr>
+                            <td>Need it in Chrome/Edge/Firefox</td>
+                            <td>No browser supports HEIF except Safari 17+</td>
+                            <td>Convert to JPG (or AVIF for 10-bit)</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <!-- FAQ -->
@@ -351,28 +341,34 @@
         </section>
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Got a HEIF file Windows still won't open?"
             href="/solutions/heif-to-jpg"
             label="Convert HEIF to JPG free →"
         >
             Drop it into Mochify and prompt <em>"convert this HEIF to JPG and strip the metadata"</em> - you'll get a file that opens everywhere in seconds, no codecs required.
-        </GuideCTA>
+        </GlassCTA>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

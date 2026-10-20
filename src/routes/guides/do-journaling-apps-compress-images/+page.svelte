@@ -1,6 +1,9 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
@@ -11,6 +14,19 @@
         readTime: "4 min read",
         date: "May 18, 2026"
     };
+
+    const related = [
+                    { href: '/guides/exif-data-risks-image-compression-2026', title: 'EXIF Data Risks', desc: 'Why stripping metadata matters, especially for personal photo archives and journals.' },
+                    { href: '/guides/history-image-compression-2026', title: 'History of Image Compression', desc: 'How we got from JPEG to AVIF and why modern formats matter for long-term storage.' },
+                    { href: '/guides/heif-to-jpeg-workflow-photographers-guide', title: 'HEIF to JPEG Workflow', desc: 'A practical workflow for converting HEIC photos without the size penalty Day One introduces.' },
+                    { href: '/guides/privacy-image-optimization', title: 'Privacy & Image Optimization', desc: 'Zero-retention compression explained - why it matters for personal photo archives.' },
+                ];
+
+    const toc = [
+        { id: 'how-each-app-handles-images', label: 'How each app handles images' },
+        { id: 'pain-points', label: 'Pain points: months 1–6 and beyond' },
+        { id: 'fix-before-attach', label: 'Fix it before you attach' }
+    ];
 </script>
 
 <ReadProgress />
@@ -72,69 +88,40 @@
     </script>
 </svelte:head>
 
-<article class="bg-white md:rounded-3xl border border-pink-50 shadow-sm px-6 py-8 md:px-12 md:py-14">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-mochi-pink text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-cocoa-milk">
-                {metadata.readTime} · {metadata.date}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Journaling Apps" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · {metadata.date}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            {metadata.title}
-        </h1>
-
-        <p class="text-xl text-cocoa-deep opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Most journaling apps do little to nothing useful with your images. Some resize slightly, some convert formats in ways that actually increase file size, and none give you real control over compression. Your journal grows - and your storage shrinks.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-cocoa-deep leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 <strong>Published May 2026 by the Mochify Engineering Team.</strong> This guide covers how Day One, Apple Journal, GoodNotes, and others handle photo storage - and how to compress before you attach.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-cocoa-deep leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    <li>
-                        <a href="#how-each-app-handles-images" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">01</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">How each app handles images</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#pain-points" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">02</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Pain points: months 1–6 and beyond</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#fix-before-attach" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">03</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Fix it before you attach</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc} heading="What's in This Guide" />
         </section>
 
         <!-- Section 01 -->
@@ -143,50 +130,50 @@
 
             <p class="mb-6">The table below summarises what each major journaling app actually does to your photos once you attach them.</p>
 
-            <ScrollableTable class="mb-6">
-                <table class="w-full text-sm text-cocoa-deep border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-xs font-bold uppercase tracking-wider text-cocoa-milk border-b border-pink-100">App</th>
-                            <th class="text-left px-4 py-3 text-xs font-bold uppercase tracking-wider text-cocoa-milk border-b border-pink-100">Compression?</th>
-                            <th class="text-left px-4 py-3 text-xs font-bold uppercase tracking-wider text-cocoa-milk border-b border-pink-100">Typical Bloat Example</th>
-                            <th class="text-left px-4 py-3 text-xs font-bold uppercase tracking-wider text-cocoa-milk border-b border-pink-100">User Fixes</th>
+                        <tr>
+                            <th>App</th>
+                            <th>Compression?</th>
+                            <th>Typical Bloat Example</th>
+                            <th>User Fixes</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-b border-pink-50 hover:bg-[#FFF5F7] transition-colors">
-                            <td class="px-4 py-3 font-bold text-[#4A2C2C]">Day One</td>
-                            <td class="px-4 py-3">Resizes to 2100px (Premium: 3200px), converts to JPEG</td>
-                            <td class="px-4 py-3">Converts 2.4 MB HEIC to 4.8 MB JPG; GB growth despite iCloud</td>
-                            <td class="px-4 py-3">Offload to cloud manually; no upstream compression</td>
+                        <tr>
+                            <td>Day One</td>
+                            <td>Resizes to 2100px (Premium: 3200px), converts to JPEG</td>
+                            <td>Converts 2.4 MB HEIC to 4.8 MB JPG; GB growth despite iCloud</td>
+                            <td>Offload to cloud manually; no upstream compression</td>
                         </tr>
-                        <tr class="border-b border-pink-50 hover:bg-[#FFF5F7] transition-colors">
-                            <td class="px-4 py-3 font-bold text-[#4A2C2C]">Apple Journal</td>
-                            <td class="px-4 py-3">No clear compression; duplicates photos</td>
-                            <td class="px-4 py-3">180 MB for 4 photos; climbs past 700 MB for 20–30 MB originals; 1.3 GB local + 1.2 GB iCloud</td>
-                            <td class="px-4 py-3">None; users switch apps due to rapid accumulation</td>
+                        <tr>
+                            <td>Apple Journal</td>
+                            <td>No clear compression; duplicates photos</td>
+                            <td>180 MB for 4 photos; climbs past 700 MB for 20–30 MB originals; 1.3 GB local + 1.2 GB iCloud</td>
+                            <td>None; users switch apps due to rapid accumulation</td>
                         </tr>
-                        <tr class="border-b border-pink-50 hover:bg-[#FFF5F7] transition-colors">
-                            <td class="px-4 py-3 font-bold text-[#4A2C2C]">GoodNotes</td>
-                            <td class="px-4 py-3">Minimal; handwriting and images bloat files</td>
-                            <td class="px-4 py-3">20 GB+ for some users; 3 GB+ vs 1.3 GB in competitors</td>
-                            <td class="px-4 py-3">Export and re-import at lower res; compress PDFs externally</td>
+                        <tr>
+                            <td>GoodNotes</td>
+                            <td>Minimal; handwriting and images bloat files</td>
+                            <td>20 GB+ for some users; 3 GB+ vs 1.3 GB in competitors</td>
+                            <td>Export and re-import at lower res; compress PDFs externally</td>
                         </tr>
-                        <tr class="border-b border-pink-50 hover:bg-[#FFF5F7] transition-colors">
-                            <td class="px-4 py-3 font-bold text-[#4A2C2C]">Reflect</td>
-                            <td class="px-4 py-3">Limited data; likely no proactive compression</td>
-                            <td class="px-4 py-3">No specific examples in 2024–2026 forums</td>
-                            <td class="px-4 py-3">N/A</td>
+                        <tr>
+                            <td>Reflect</td>
+                            <td>Limited data; likely no proactive compression</td>
+                            <td>No specific examples in 2024–2026 forums</td>
+                            <td>N/A</td>
                         </tr>
-                        <tr class="hover:bg-[#FFF5F7] transition-colors">
-                            <td class="px-4 py-3 font-bold text-[#4A2C2C]">Journey</td>
-                            <td class="px-4 py-3">Supports attachments; no compression details</td>
-                            <td class="px-4 py-3">Media suggestions fail or unsupported, implying full sizes</td>
-                            <td class="px-4 py-3">None specified</td>
+                        <tr>
+                            <td>Journey</td>
+                            <td>Supports attachments; no compression details</td>
+                            <td>Media suggestions fail or unsupported, implying full sizes</td>
+                            <td>None specified</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <p class="mb-4">The pattern is consistent: apps either skip compression or apply it in ways that backfire. Day One's HEIC-to-JPEG conversion is a textbook example of a format "fix" that doubles your file sizes instead of shrinking them.</p>
 
@@ -257,24 +244,26 @@
         </section>
 
         <!-- Related Guides -->
-        <section id="related-guides" class="scroll-mt-24">
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each [
-                    { href: '/guides/exif-data-risks-image-compression-2026', title: 'EXIF Data Risks', desc: 'Why stripping metadata matters, especially for personal photo archives and journals.' },
-                    { href: '/guides/history-image-compression-2026', title: 'History of Image Compression', desc: 'How we got from JPEG to AVIF and why modern formats matter for long-term storage.' },
-                    { href: '/guides/heif-to-jpeg-workflow-photographers-guide', title: 'HEIF to JPEG Workflow', desc: 'A practical workflow for converting HEIC photos without the size penalty Day One introduces.' },
-                    { href: '/guides/privacy-image-optimization', title: 'Privacy & Image Optimization', desc: 'Zero-retention compression explained - why it matters for personal photo archives.' },
-                ] as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">: {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

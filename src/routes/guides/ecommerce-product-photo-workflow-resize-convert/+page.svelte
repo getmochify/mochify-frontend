@@ -1,10 +1,13 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Ecommerce Product Photo Workflow: Resize & Convert in One Prompt",
@@ -52,6 +55,15 @@
         { href: '/guides/do-marketplace-product-images-need-to-be-square', title: 'Do Marketplace Product Images Need to Be Square?', desc: 'What the major marketplaces actually require for product image dimensions and cropping.' },
         { href: '/guides/vinted-photos-that-sell', title: 'How to Take Vinted Photos That Sell', desc: 'Light, backgrounds, the real size facts, and a one-prompt batch workflow.' },
     ];
+
+    const toc = [
+                        { n: '01', href: '#the-prompt', label: 'The prompt' },
+                        { n: '02', href: '#why-two-sizes', label: 'Why these two dimensions' },
+                        { n: '03', href: '#format-choice', label: 'Format choice for marketplace listings' },
+                        { n: '04', href: '#cli', label: 'Running it from the CLI for full catalogs' },
+                        { n: '05', href: '#variations', label: 'Prompt variations worth knowing' },
+                        { n: '06', href: '#faq', label: 'FAQ' },
+                    ];
 </script>
 
 <ReadProgress />
@@ -142,34 +154,37 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-bold uppercase tracking-wider border border-green-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''} · Mochify Engineering Team
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title="Ecommerce Product Photo Workflow: Resize &amp; Convert in One Prompt" accent="Product Photo Workflow" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''} · Mochify Engineering Team
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Ecommerce Product Photo Workflow: Resize &amp; Convert in One Prompt
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Product photos from a camera are never the right size or format for a marketplace listing. Here's the fastest way to fix that - one prompt, two sizes, done.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 This guide walks through the workflow shown in the video above: drop your product shots into Magic Flow, type a single natural-language prompt, and download a ZIP with both sizes ready for your listing - no format pickers, no quality sliders, no repeat uploads.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
         <!-- YouTube Short -->
         <section>
@@ -193,35 +208,12 @@
             </div>
         </section>
 
-        <!-- Table of Contents -->
         <section>
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    {#each [
-                        { n: '01', href: '#the-prompt', label: 'The prompt' },
-                        { n: '02', href: '#why-two-sizes', label: 'Why these two dimensions' },
-                        { n: '03', href: '#format-choice', label: 'Format choice for marketplace listings' },
-                        { n: '04', href: '#cli', label: 'Running it from the CLI for full catalogs' },
-                        { n: '05', href: '#variations', label: 'Prompt variations worth knowing' },
-                        { n: '06', href: '#faq', label: 'FAQ' },
-                    ] as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-[#4A2C2C] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+            <GuideTOC items={toc.map((t) => ({ id: t.href.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
         <!-- 01 The Prompt -->
-        <section id="the-prompt">
+        <section id="the-prompt" class="scroll-mt-24">
             <SectionHeading>The Prompt</SectionHeading>
             <p>The workflow in the video comes down to a single line typed into Magic Flow:</p>
 
@@ -234,46 +226,46 @@
 
             <p>The convert step above assumes JPG, which is the safe default across marketplaces. If you are publishing to a hosted storefront that negotiates formats for you, it is worth checking <a href="/guides/should-my-product-images-be-avif-or-webp-in-2026">which format your product images should actually be in</a> before you standardise on one.</p>
 
-            <InfoBox type="tip" title="EXIF is stripped by default">
+            <GlassInfoBox type="tip" title="EXIF is stripped by default">
                 Product photos often carry GPS coordinates from your home studio, device serial numbers, and shoot timestamps. Mochify strips all EXIF metadata automatically on every job. Add <strong>"keep metadata"</strong> to the prompt only if you need to preserve copyright fields for editorial licensing.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- 02 Why Two Sizes -->
-        <section id="why-two-sizes">
+        <section id="why-two-sizes" class="scroll-mt-24">
             <SectionHeading>Why These Two Dimensions</SectionHeading>
             <p>Most ecommerce platforms expect two sizes from the same product shot:</p>
 
-            <ScrollableTable class="my-6">
-                <table class="w-full border-collapse text-sm">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-100">Size</th>
-                            <th class="text-left px-4 py-3 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-100">Use</th>
-                            <th class="text-left px-4 py-3 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-100">Platforms</th>
+                        <tr>
+                            <th>Size</th>
+                            <th>Use</th>
+                            <th>Platforms</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white">
-                            <td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">1200px</td>
-                            <td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">Product detail page, zoom</td>
-                            <td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">Shopify, Etsy, eBay, Amazon, your own site</td>
+                        <tr>
+                            <td>1200px</td>
+                            <td>Product detail page, zoom</td>
+                            <td>Shopify, Etsy, eBay, Amazon, your own site</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7]">
-                            <td class="px-4 py-3 text-[#6C3F31] font-black">800px</td>
-                            <td class="px-4 py-3 text-[#6C3F31]">Category grid, search results, thumbnails</td>
-                            <td class="px-4 py-3 text-[#6C3F31]">Shopify collections, Etsy search, eBay gallery</td>
+                        <tr>
+                            <td>800px</td>
+                            <td>Category grid, search results, thumbnails</td>
+                            <td>Shopify collections, Etsy search, eBay gallery</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <p>Running both from a single upload means your original file is processed once, not twice. No quality loss from re-processing a previously compressed image.</p>
             <p>These two sizes are the safe general-purpose pair, but individual platforms do diverge on minimums, aspect ratios, and file-size ceilings. If you need the exact numbers for a specific marketplace rather than a default that works nearly everywhere, <a href="/guides/product-image-requirements-marketplace-guide">the full per-marketplace image spec</a> lists them side by side.</p>
         </section>
 
         <!-- 03 Format Choice -->
-        <section id="format-choice">
+        <section id="format-choice" class="scroll-mt-24">
             <SectionHeading>Format Choice for Marketplace Listings</SectionHeading>
             <p>AVIF and WebP compress better and improve Core Web Vitals on your own Shopify storefront. But JPG is the safe default for marketplace workflows because:</p>
 
@@ -297,9 +289,9 @@
 
             <p>If you're uploading directly to Shopify and nowhere else, swap <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">jpg</code> for <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">webp</code> or <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">avif</code> in the prompt and you'll get 25–50% smaller files with no compatibility trade-off.</p>
 
-            <InfoBox type="note" title="Mochify uses jpegli for JPEG output">
+            <GlassInfoBox type="note" title="Mochify uses jpegli for JPEG output">
                 All JPEG output uses Google's jpegli encoder, which produces files roughly 25–35% smaller than standard libjpeg at equivalent visual quality. The output is a fully standard JPEG - compatible with every platform, CMS, and image tool.
-            </InfoBox>
+            </GlassInfoBox>
 
             <p>Selling second-hand on Vinted? The same one-prompt approach works there, with a portrait twist - see <a href="/guides/vinted-photos-that-sell">our guide to taking Vinted photos that sell</a>.</p>
 
@@ -307,7 +299,7 @@
         </section>
 
         <!-- 04 CLI -->
-        <section id="cli">
+        <section id="cli" class="scroll-mt-24">
             <SectionHeading>Running It from the CLI for Full Catalogs</SectionHeading>
             <p>For a full product catalog, the CLI processes an entire folder in one command:</p>
 
@@ -319,16 +311,16 @@
         </section>
 
         <!-- Inline CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Try it now - drop your product photos"
             href="/"
             label="Open Magic Flow →"
         >
             3 images free, no account needed. Type the prompt, upload your shots, download both sizes.
-        </GuideCTA>
+        </GlassCTA>
 
         <!-- 05 Variations -->
-        <section id="variations">
+        <section id="variations" class="scroll-mt-24">
             <SectionHeading>Prompt Variations Worth Knowing</SectionHeading>
             <p>The same pattern extends to other common ecommerce scenarios. Here are the most useful variants:</p>
 
@@ -366,31 +358,37 @@
         </section>
 
         <!-- FAQ -->
-        <GuideFAQs items={faqItems} />
+        <GlassFAQs items={faqItems} jsonLd={false} />
 
         <!-- Final CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Ready to process your catalog?"
             href="/pricing"
             label="See plans &amp; pricing →"
         >
             Background removal is included on every plan. Upgrade for batches up to 25 files and priority processing.
-        </GuideCTA>
+        </GlassCTA>
 
-        <!-- Related Guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each relatedGuides as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={relatedGuides} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

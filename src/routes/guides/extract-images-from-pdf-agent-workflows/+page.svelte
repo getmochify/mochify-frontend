@@ -1,9 +1,11 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Extract Images from PDF in AI Agent Workflows: Split and Convert Pages",
@@ -137,44 +139,47 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Extract Images from PDF" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Extract Images from PDF in AI Agent Workflows: Split and Convert Pages
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             If you build agents or automation, sooner or later a PDF lands in the pipeline and the agent needs a page as an image, the document broken into single pages, or a thumbnail for a preview card. This guide covers the three operations that recur when you extract images from PDF files, split multi-page documents, and convert pages to web formats inside an automated workflow - plus the correctness traps, the agent-tool-call pattern that keeps token costs sane, and the privacy model that matters when those PDFs hold regulated data.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published June 16, 2026 by the Mochify Engineering Team.</strong>
                 This guide is for developers and AI builders wiring PDF operations into pipelines: the mechanics of rendering versus extraction, splitting without breaking documents, converting pages to WebP and AVIF, the paths-not-bytes pattern, and a privacy-first workflow for regulated documents.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <section id="the-three-core-pdf-operations">
+        <section id="the-three-core-pdf-operations" class="scroll-mt-24">
             <SectionHeading>The three core PDF operations</SectionHeading>
             <p>Most PDF work in an agent pipeline reduces to three operations: turning a page into an image, splitting a multi-page file into single pages, and converting those page images into a web-friendly format. Each is conceptually simple and each has a sharp edge that bites automated workflows specifically.</p>
             <p>The reason these three keep recurring is that a PDF is not an image and not a neat bag of text. It is a set of drawing instructions: text runs, vector paths, embedded bitmaps, fonts, and transparency, composited at render time. That single fact explains nearly every gotcha further down. "Get me page 3 as a PNG" is really "execute the page's drawing instructions at a chosen resolution and flatten the result to a raster," which is a different job from "pull the embedded photo out of page 3." Keep those two jobs distinct and most of the confusion disappears.</p>
             <p>We'll take the operations in the order they usually appear in a pipeline: extract, split, convert. The fourth operation, shrinking a PDF in place by recompressing only its images, has its own guide: <a href="/guides/compress-pdf-on-mac">how to compress a PDF without losing quality</a>, including the API call.</p>
         </section>
 
-        <section id="how-to-extract-images-from-a-pdf">
+        <section id="how-to-extract-images-from-a-pdf" class="scroll-mt-24">
             <SectionHeading>How to extract images from a PDF</SectionHeading>
             <p>When you <strong class="text-[#4A2C2C]">extract images from PDF</strong> pages there are two genuinely different operations hiding under one phrase, and picking the wrong one is the most common mistake we see. You either pull <em>embedded</em> image objects straight out of the file, or you <em>render</em> the whole page to a new raster image. They produce different results and fail in different ways.</p>
             <p><strong class="text-[#4A2C2C]">Embedded image extraction</strong> reads the PDF's internal object table and exports the original image streams, preserving the source format and resolution. This is the right call when a document contains a photo or a figure you want to reuse at its native quality, and tools like Poppler's <code class={inlineCode}>pdfimages</code> or PyMuPDF's <code class={inlineCode}>get_images</code>/<code class={inlineCode}>extract_image</code> are built for exactly this. The catch: it only sees objects that exist as discrete images. A text-only page, a vector chart, or a page that is itself one giant scanned bitmap will not give you the clean "logo.png" you were hoping for.</p>
@@ -183,7 +188,7 @@
             <p>So the decision is: do you need the <em>asset that was placed on the page</em> (extract embedded) or <em>what the page looks like</em> (render)? Agent pipelines almost always want the second, because they are producing previews and model inputs rather than harvesting original artwork.</p>
         </section>
 
-        <section id="splitting-multi-page-pdfs">
+        <section id="splitting-multi-page-pdfs" class="scroll-mt-24">
             <SectionHeading>Splitting multi-page PDFs without breaking them</SectionHeading>
             <p>Splitting a multi-page PDF into single-page files is the simplest operation to describe and the easiest to get subtly wrong. Copying page ranges into new documents is trivial; preserving everything attached to those pages is not.</p>
             <p>The two failure modes to plan around:</p>
@@ -192,7 +197,7 @@
             <p>The practical guidance: split by page span for batch routing, split by bookmark when you genuinely need chapter-level sections and your tool supports the bookmark depth you need, and always test what survives before you trust it in production.</p>
         </section>
 
-        <section id="converting-pages-to-web-formats">
+        <section id="converting-pages-to-web-formats" class="scroll-mt-24">
             <SectionHeading>Converting pages to web formats: WebP, AVIF, and documents as web assets</SectionHeading>
             <p>Converting rendered page images into WebP or AVIF is what turns "a PDF" into "web assets." Once a page is a raster image, the same format economics that govern product photos apply: modern formats are smaller than JPEG at the same perceived quality, which is the whole point of generating them.</p>
             <p>WebP is the safe default. It is broadly supported and, per MDN's <a href="https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types" target="_blank" rel="noopener noreferrer">image format guide</a>, delivers meaningfully smaller files than JPEG at comparable quality; independent measurements commonly put lossy WebP around 25–34% smaller than JPEG. AVIF can compress smaller still and supports wider color and HDR, at the cost of slower encoding and patchier tooling. The conclusion many teams reach in practice: default to WebP, offer AVIF where the tooling is solid, and keep a JPEG fallback for legacy clients via a <code class={inlineCode}>&lt;picture&gt;</code> element.</p>
@@ -200,7 +205,7 @@
             <p>The reverse direction comes up just as often in these pipelines: bundling a set of WebP images (screenshots, scanned pages, generated assets) back into a single document. Mochify's <a href="https://mochify.app/solutions/webp-to-pdf">WebP to PDF tool</a> handles that side of the workflow.</p>
         </section>
 
-        <section id="why-pdf-operations-belong-in-agent-workflows">
+        <section id="why-pdf-operations-belong-in-agent-workflows" class="scroll-mt-24">
             <SectionHeading>Why PDF operations belong in agent workflows</SectionHeading>
             <p>PDF extract/split/convert operations show up in agent pipelines because documents are rarely the final destination; they are an input to be triaged, summarised, routed, or indexed. The operations are the pre-processing that makes the rest of the pipeline possible.</p>
             <p>Realistic examples we see:</p>
@@ -214,7 +219,7 @@
             <p>In all of these, the agent is orchestrating tools, not doing the pixel work itself. Which leads to the pattern that actually matters for cost and reliability.</p>
         </section>
 
-        <section id="the-paths-not-bytes-pattern">
+        <section id="the-paths-not-bytes-pattern" class="scroll-mt-24">
             <SectionHeading>The paths-not-bytes pattern (and why it saves tokens)</SectionHeading>
             <p>The established pattern for a PDF tool in an agent workflow is to do the heavy work, write the results to disk or object storage, and return file paths and lightweight metadata into the model context - not the raw image or document bytes. There are two solid reasons, one architectural and one financial.</p>
             <p>Architecturally, this is exactly how the Model Context Protocol models data. The MCP <a href="https://modelcontextprotocol.io/specification/2025-06-18/server/resources" target="_blank" rel="noopener noreferrer">resources specification</a> exposes data via URIs with MIME types, leaving the client to decide <em>when</em> to actually read the bytes. A tool that hands back <code class={inlineCode}>file:///out/contract-p3.webp</code> plus its format, dimensions, and page index fits this model cleanly; a tool that dumps a base64 blob into every response does not.</p>
@@ -258,14 +263,14 @@
             </ol>
 
             <div class="mt-7">
-                <InfoBox type="tip" title="Privacy note">
+                <GlassInfoBox type="tip" title="Privacy note">
                     PDFs are <strong>not</strong> processed on your machine. They travel to <code class={inlineCode}>api.mochify.app</code> over HTTPS exactly like images do, are processed in RAM, and are wiped immediately with no disk writes of the source and no logs containing file data. That is zero-retention, not "never leaves your laptop." The local CLI and local MCP server stay zero-retention end-to-end (no pickup store on the return), while the hosted MCP server holds only the <em>output</em> behind a short-lived download URL on <code class={inlineCode}>files.mochify.app</code> (a five-minute TTL) so the agent can fetch it; the original is still discarded immediately either way. For the full mechanics, see <a href="/guides/how-the-mochify-mcp-server-works">How the Mochify MCP Server Works</a> and <a href="/guides/why-we-relaxed-zero-retention-for-mcp">why we adjusted zero-retention for MCP</a>.
-                </InfoBox>
+                </GlassInfoBox>
             </div>
             <p class="text-base text-[#875F42] mt-5 mb-0">Because MCP and API access are included on every tier, including Free, you can wire this into an agent without a paid plan to start. Point your agent at <a href="/">Mochify</a> and you are running.</p>
         </section>
 
-        <section id="privacy-and-compliance">
+        <section id="privacy-and-compliance" class="scroll-mt-24">
             <SectionHeading>Privacy and compliance for document pipelines</SectionHeading>
             <p>Where PDF processing happens is a compliance question, not just an engineering one, because the documents agents handle (contracts, reports, anything under NDA or regulation) frequently contain personal data. The governing principle is data minimization.</p>
             <p>Under GDPR, <a href="https://gdpr-info.eu/art-5-gdpr/" target="_blank" rel="noopener noreferrer">Article 5(1)(c)</a> requires that personal data be "adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed." The UK ICO's <a href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-protection-principles/a-guide-to-the-data-protection-principles/data-minimisation/" target="_blank" rel="noopener noreferrer">guidance on data minimization</a> puts it plainly: identify "the minimum amount of personal data you need to fulfill your purpose," hold that much "but no more," and review and delete what you no longer need. Holding more than necessary is likely to be unlawful.</p>
@@ -273,7 +278,7 @@
             <p>A clarification, because it is easy to overstate: zero-retention is not the same as on-device processing. For images and PDFs, the bytes do travel to the API for encoding; what makes it defensible is that they are not kept. Be precise about that distinction in your own compliance documentation. If you want the deeper treatment, our <a href="/guides/privacy-image-optimization">privacy and image optimization guide</a> and our <a href="/guides/european-alternative-tinypng-gdpr-compliant-image-compression">GDPR-focused TinyPNG alternative comparison</a> both go further.</p>
         </section>
 
-        <section id="quality-and-correctness-gotchas">
+        <section id="quality-and-correctness-gotchas" class="scroll-mt-24">
             <SectionHeading>Quality and correctness gotchas</SectionHeading>
             <p>Most PDF pipeline bugs come from a short list of predictable mistakes. Here they are, so you can check for them before they ship.</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
@@ -286,63 +291,63 @@
             </ul>
         </section>
 
-        <section id="pdf-operations-cheat-sheet">
+        <section id="pdf-operations-cheat-sheet" class="scroll-mt-24">
             <SectionHeading>PDF operations cheat sheet</SectionHeading>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[720px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Operation</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">What it does</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Sensible default</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Watch out for</th>
+                        <tr>
+                            <th>Operation</th>
+                            <th>What it does</th>
+                            <th>Sensible default</th>
+                            <th>Watch out for</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Extract embedded image</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Pulls an original image object out of the file at native quality</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Use when you want the placed photo/figure as-is</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Misses text-only pages, vector charts, full-page scans</td>
+                        <tr>
+                            <td>Extract embedded image</td>
+                            <td>Pulls an original image object out of the file at native quality</td>
+                            <td>Use when you want the placed photo/figure as-is</td>
+                            <td>Misses text-only pages, vector charts, full-page scans</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Render page to image</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Rasterises the whole page (text, vectors, images)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">150 DPI on-screen, 300 DPI for print</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">~72 DPI default is blurry; no recovery by upscaling</td>
+                        <tr>
+                            <td>Render page to image</td>
+                            <td>Rasterises the whole page (text, vectors, images)</td>
+                            <td>150 DPI on-screen, 300 DPI for print</td>
+                            <td>~72 DPI default is blurry; no recovery by upscaling</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Split by page span</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Breaks a multi-page PDF into single pages</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">1 page per file for routing</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Off-by-one (1-based vs 0-based); structure loss</td>
+                        <tr>
+                            <td>Split by page span</td>
+                            <td>Breaks a multi-page PDF into single pages</td>
+                            <td>1 page per file for routing</td>
+                            <td>Off-by-one (1-based vs 0-based); structure loss</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Split by bookmark</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Cuts into logical sections (chapters)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">When you need section-level files</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Tool may only support shallow bookmark depth</td>
+                        <tr>
+                            <td>Split by bookmark</td>
+                            <td>Cuts into logical sections (chapters)</td>
+                            <td>When you need section-level files</td>
+                            <td>Tool may only support shallow bookmark depth</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Convert page to WebP/AVIF</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Compresses a rendered page for web delivery</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">WebP default; AVIF where tooling is solid</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Keep a JPEG fallback via <code class={inlineCode}>&lt;picture&gt;</code></td>
+                        <tr>
+                            <td>Convert page to WebP/AVIF</td>
+                            <td>Compresses a rendered page for web delivery</td>
+                            <td>WebP default; AVIF where tooling is solid</td>
+                            <td>Keep a JPEG fallback via <code class={inlineCode}>&lt;picture&gt;</code></td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] font-bold">Return to an agent</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">Hand results back as paths + metadata</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">Paths-not-bytes; fetch on demand</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">Inline base64 bloats context and token cost</td>
+                        <tr>
+                            <td>Return to an agent</td>
+                            <td>Hand results back as paths + metadata</td>
+                            <td>Paths-not-bytes; fetch on demand</td>
+                            <td>Inline base64 bloats context and token cost</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
             <p>Mochify's PDF utility covers the extract and split operations here (PDF pages out as PNG, JPEG, or WebP; multi-page files split into single-page PDFs), driven by Magic Flow prompts like <em>"extract page 3 as WebP"</em> or <em>"split this into pages."</em> Try it at <a href="/">mochify.app</a>.</p>
         </section>
 
         <!-- FAQ -->
-        <section id="faq">
+        <section id="faq" class="scroll-mt-24">
             <SectionHeading>Frequently asked questions</SectionHeading>
             <div class="space-y-4 mt-4">
                 {#each faqs as faq}
@@ -362,28 +367,34 @@
         </section>
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Wiring PDFs into an agent?"
             href="/"
             label="Try it free at mochify.app →"
         >
             Point it at Mochify's PDF utility, describe the job in plain English, and get back file paths and metadata - the page images and split PDFs never touch your model context.
-        </GuideCTA>
+        </GlassCTA>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">: {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

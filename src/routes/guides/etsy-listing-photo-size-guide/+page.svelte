@@ -1,10 +1,13 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Etsy Listing Photo Size: The Complete Guide",
@@ -53,6 +56,16 @@
         { href: '/guides/ecommerce-product-photo-workflow-resize-convert', title: 'Ecommerce Product Photo Workflow: Resize & Convert in One Prompt', desc: 'The batch pattern for sellers on multiple platforms.' },
         { href: '/guides/what-image-format-should-i-use-for-product-photos', title: 'What Image Format Should I Use for Product Photos?', desc: 'AVIF, WebP, or JPEG for product listings.' },
     ];
+
+    const toc = [
+                        { n: '01', href: '#what-size-should-etsy-listing-photos-be', label: 'What size should Etsy listing photos be?' },
+                        { n: '02', href: '#why-etsy-photos-look-blurry-after-upload', label: 'Why Etsy photos look blurry after upload' },
+                        { n: '03', href: '#thumbnails-how-etsy-crops-your-first-photo', label: 'Thumbnails: how Etsy crops your first photo' },
+                        { n: '04', href: '#every-other-etsy-image-size', label: 'Every other Etsy image size' },
+                        { n: '05', href: '#cheat-sheet', label: 'Etsy image size cheat sheet' },
+                        { n: '06', href: '#mochify-workflow', label: "Mochify Workflow: batch-prep a shop's photos" },
+                        { n: '07', href: '#faq', label: 'FAQ' },
+                    ];
 </script>
 
 <ReadProgress />
@@ -172,62 +185,41 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Etsy Listing Photo Size" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Etsy Listing Photo Size: The Complete Guide
-        </h1>
-
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             The right Etsy listing photo size is at least 2000 pixels in both width and height, with a file size under 1MB. That single sentence resolves most of the confusion, but it hides the details that actually cost sellers sales: why photos turn blurry after upload, how Etsy crops your first photo three different ways, and which of the numbers floating around the internet are years out of date. This guide covers every current Etsy image spec, sourced from Etsy's own documentation, plus a batch workflow that gets an entire shop's photos to spec in one prompt.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published August 3, 2026 by the Mochify Engineering Team.</strong>
                 Every number in this guide comes from Etsy's live documentation, not the recycled specs most size guides still publish.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- Table of Contents -->
         <section>
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    {#each [
-                        { n: '01', href: '#what-size-should-etsy-listing-photos-be', label: 'What size should Etsy listing photos be?' },
-                        { n: '02', href: '#why-etsy-photos-look-blurry-after-upload', label: 'Why Etsy photos look blurry after upload' },
-                        { n: '03', href: '#thumbnails-how-etsy-crops-your-first-photo', label: 'Thumbnails: how Etsy crops your first photo' },
-                        { n: '04', href: '#every-other-etsy-image-size', label: 'Every other Etsy image size' },
-                        { n: '05', href: '#cheat-sheet', label: 'Etsy image size cheat sheet' },
-                        { n: '06', href: '#mochify-workflow', label: "Mochify Workflow: batch-prep a shop's photos" },
-                        { n: '07', href: '#faq', label: 'FAQ' },
-                    ] as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-[#4A2C2C] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+            <GuideTOC items={toc.map((t) => ({ id: t.href.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
         <!-- 01 What size -->
@@ -240,9 +232,9 @@
                 <li><strong class="text-[#4A2C2C]">Color: sRGB.</strong> Etsy converts everything to sRGB anyway; converting before upload avoids surprise color shifts. CMYK is for print, not listings.</li>
                 <li><strong class="text-[#4A2C2C]">Per listing: up to 20 photos and 2 videos</strong>, per <a href="https://help.etsy.com/hc/en-us/articles/115015628707-How-to-Create-a-Listing" target="_blank" rel="noopener noreferrer">Etsy's listing documentation</a>.</li>
             </ul>
-            <InfoBox type="note" title="Retired specs still circulating">
+            <GlassInfoBox type="note" title="Retired specs still circulating">
                 Worth flagging what's not in Etsy's current documentation, because outdated numbers dominate the search results: there is no 72 PPI requirement (PPI is irrelevant for screen display), no 570x456 "thumbnail size" (a legacy figure that appears on no live Etsy page), and no rule that photos must be 4:3. If a guide quotes those, it's recycling specs from years ago.
-            </InfoBox>
+            </GlassInfoBox>
             <p>Does any of this matter commercially? Etsy's own buyer surveys say yes, emphatically: <a href="https://www.etsy.com/seller-handbook/article/147451496051" target="_blank" rel="noopener noreferrer">90% of shoppers rated photo quality "extremely important" or "very important"</a> to their purchase decision, and Etsy reports photos are the single biggest factor, ahead of shipping cost, reviews, and even price.</p>
         </section>
 
@@ -276,26 +268,26 @@
             <SectionHeading>Every other Etsy image size: banners, logos, and video</SectionHeading>
             <p>Listing photos carry the sales weight, but a shop has a full set of image slots. Current specs from Etsy's requirements page:</p>
 
-            <ScrollableTable class="my-6">
-                <table class="w-full border-collapse text-sm">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-100">Shop asset</th>
-                            <th class="text-left px-4 py-3 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-100">Recommended size</th>
-                            <th class="text-left px-4 py-3 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-100">Minimum</th>
+                        <tr>
+                            <th>Shop asset</th>
+                            <th>Recommended size</th>
+                            <th>Minimum</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white"><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">Shop logo (icon)</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">500 x 500px</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">n/a</td></tr>
-                        <tr class="bg-[#FDFBF7]"><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">Profile photo</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">400 x 400px</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">n/a</td></tr>
-                        <tr class="bg-white"><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">Mini shop banner</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">1600 x 213px</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">1200 x 160px</td></tr>
-                        <tr class="bg-[#FDFBF7]"><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">Big shop banner</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">1600 x 400px</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">1200 x 300px</td></tr>
-                        <tr class="bg-white"><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">Carousel banner (Etsy Plus)</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">1200 x 300px</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">n/a</td></tr>
-                        <tr class="bg-[#FDFBF7]"><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">Order receipt banner</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">n/a</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">760 x 100px</td></tr>
-                        <tr class="bg-white"><td class="px-4 py-3 text-[#6C3F31] font-black">Team logo</td><td class="px-4 py-3 text-[#6C3F31]">170 x 100px</td><td class="px-4 py-3 text-[#6C3F31]">n/a</td></tr>
+                        <tr><td>Shop logo (icon)</td><td>500 x 500px</td><td>n/a</td></tr>
+                        <tr><td>Profile photo</td><td>400 x 400px</td><td>n/a</td></tr>
+                        <tr><td>Mini shop banner</td><td>1600 x 213px</td><td>1200 x 160px</td></tr>
+                        <tr><td>Big shop banner</td><td>1600 x 400px</td><td>1200 x 300px</td></tr>
+                        <tr><td>Carousel banner (Etsy Plus)</td><td>1200 x 300px</td><td>n/a</td></tr>
+                        <tr><td>Order receipt banner</td><td>n/a</td><td>760 x 100px</td></tr>
+                        <tr><td>Team logo</td><td>170 x 100px</td><td>n/a</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <p><strong class="text-[#4A2C2C]">Listing videos</strong>, per <a href="https://help.etsy.com/hc/en-us/articles/360053206073-How-to-Add-Listing-Videos" target="_blank" rel="noopener noreferrer">Etsy's video documentation</a>: 3-15 seconds, up to 100MB, minimum 500px resolution with at least 1080px recommended, up to 2 per listing. Etsy strips the audio on upload, so shoot for silent playback.</p>
         </section>
@@ -303,28 +295,28 @@
         <!-- 05 Cheat sheet -->
         <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>Etsy image size cheat sheet</SectionHeading>
-            <ScrollableTable class="my-6">
-                <table class="w-full border-collapse text-sm">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-100">Spec</th>
-                            <th class="text-left px-4 py-3 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-100">Value</th>
+                        <tr>
+                            <th>Spec</th>
+                            <th>Value</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white"><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">Listing photo size</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">2000px+ width and height (2000x2000 square is most crop-resistant)</td></tr>
-                        <tr class="bg-[#FDFBF7]"><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">First photo minimum</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">635 x 635px</td></tr>
-                        <tr class="bg-white"><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">File size</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">Under 1MB</td></tr>
-                        <tr class="bg-[#FDFBF7]"><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">Formats</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">JPG, PNG, GIF, SVG, HEIC</td></tr>
-                        <tr class="bg-white"><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">Color profile</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">sRGB</td></tr>
-                        <tr class="bg-[#FDFBF7]"><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">Photos per listing</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">Up to 20</td></tr>
-                        <tr class="bg-white"><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">Videos per listing</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">Up to 2 (3-15s, max 100MB, 1080px+ ideal)</td></tr>
-                        <tr class="bg-[#FDFBF7]"><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">Aspect ratio</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">No fixed rule; first photo landscape or square; expect square, portrait, AND landscape crops</td></tr>
-                        <tr class="bg-white"><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-black">Transparency</td><td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">Renders black; flatten first</td></tr>
-                        <tr class="bg-[#FDFBF7]"><td class="px-4 py-3 text-[#6C3F31] font-black">Retired specs you can ignore</td><td class="px-4 py-3 text-[#6C3F31]">72 PPI, 570x456 thumbnails, mandatory 4:3, 10-photo limit</td></tr>
+                        <tr><td>Listing photo size</td><td>2000px+ width and height (2000x2000 square is most crop-resistant)</td></tr>
+                        <tr><td>First photo minimum</td><td>635 x 635px</td></tr>
+                        <tr><td>File size</td><td>Under 1MB</td></tr>
+                        <tr><td>Formats</td><td>JPG, PNG, GIF, SVG, HEIC</td></tr>
+                        <tr><td>Color profile</td><td>sRGB</td></tr>
+                        <tr><td>Photos per listing</td><td>Up to 20</td></tr>
+                        <tr><td>Videos per listing</td><td>Up to 2 (3-15s, max 100MB, 1080px+ ideal)</td></tr>
+                        <tr><td>Aspect ratio</td><td>No fixed rule; first photo landscape or square; expect square, portrait, AND landscape crops</td></tr>
+                        <tr><td>Transparency</td><td>Renders black; flatten first</td></tr>
+                        <tr><td>Retired specs you can ignore</td><td>72 PPI, 570x456 thumbnails, mandatory 4:3, 10-photo limit</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <!-- 06 Mochify Workflow -->
@@ -365,40 +357,46 @@
                 {/each}
             </div>
 
-            <InfoBox type="tip" title="Say the metadata part out loud">
+            <GlassInfoBox type="tip" title="Say the metadata part out loud">
                 The metadata line in that prompt is deliberate: camera EXIF can include GPS coordinates, and for anyone photographing products at home, stripping location data before a public listing is basic hygiene. Stating it in the prompt makes the behavior explicit rather than assumed.
-            </InfoBox>
+            </GlassInfoBox>
 
             <p class="text-sm text-[#875F42]">Privacy note: your photos travel over HTTPS to api.mochify.app, are processed in RAM, and are wiped immediately after encoding - no disk writes, no logs containing file data. Batches run up to 25 files on the Seller and Pro tiers (3 per batch on Free), so a 20-photo listing preps in a single pass.</p>
             <p>Prepping a whole shop's worth of listings is as much a time question as a formatting one. If Etsy is one of several places you sell, <a href="/guides/is-reselling-worth-it">the reseller volume math</a> covers when a paid photo workflow starts paying for itself.</p>
         </section>
 
         <!-- Inline CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="A shop's worth of photos, one prompt"
             href="/"
             label="Open Magic Flow →"
         >
             Upload your originals and try <em>"smart-crop these to 2000x2000 square, JPEG, under 1MB each, strip all metadata"</em> - every listing lands sharp, on-spec, and ready for all three of Etsy's crops.
-        </GuideCTA>
+        </GlassCTA>
 
         <!-- FAQ -->
-        <GuideFAQs items={faqItems} />
+        <GlassFAQs items={faqItems} jsonLd={false} />
 
-        <!-- Related Guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each relatedGuides as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={relatedGuides} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

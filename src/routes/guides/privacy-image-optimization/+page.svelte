@@ -1,8 +1,10 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         category: "Data Privacy",
@@ -37,6 +39,14 @@
             href: "/guides/why-we-relaxed-zero-retention-for-mcp",
             desc: "Honest detail on the one place retention softened."
         }
+    ];
+
+    const toc = [
+        { id: 'hidden-risks', label: 'The Hidden Risks of "Free" Tools' },
+        { id: 'zero-retention', label: 'Zero-Retention Architecture' },
+        { id: 'comparison', label: 'Professional Scaling' },
+        { id: 'privacy-first-checklist', label: 'Privacy-First Checklist' },
+        { id: 'takeaway', label: 'Takeaway' }
     ];
 </script>
 
@@ -79,28 +89,31 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
     
-<header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated} · Mochify Engineering Team
-            </span>
-        </div>
+<header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title="Privacy &amp; Image Optimization: A Comprehensive Guide (2026)" accent="Image Optimization" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated} · Mochify Engineering Team
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Privacy &amp; Image Optimization: A Comprehensive Guide (2026)
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             In an era where "free" web tools are often front-ends for data harvesting, the infrastructure behind your image optimization matters as much as the compression ratio itself.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 Most legacy optimizers write your assets to a temporary disk on a remote server for 24-48 hours, creating a vulnerability window for data leaks and unauthorized AI training. (If you want the engine off third-party infrastructure entirely, see our <a href="/guides/self-hosting-image-optimization-docker">Docker self-hosting guide</a>.) 
                 
                 <span class="block mt-4">
@@ -110,69 +123,13 @@
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
         
-        <section class="my-12">
-            <SectionHeading>What's in this Guide</SectionHeading>
-
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    
-                    <li>
-                        <a href="#hidden-risks" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">01</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">The Hidden Risks of "Free" Tools</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#zero-retention" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">02</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Zero-Retention Architecture</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#comparison" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">03</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Professional Scaling</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-
-                     <li>
-                        <a href="#privacy-first-checklist" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">04</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Privacy-First Checklist</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-
-                     <li>
-                        <a href="#takeaway" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">05</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Takeaway</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc} heading="What's in this Guide" />
         </section>
 
-        <section id="hidden-risks">
+        <section id="hidden-risks" class="scroll-mt-24">
             <SectionHeading>The Hidden Risk of "Free" Data Processing</SectionHeading>
             <p>
                Standard image optimizers typically operate on a "store-and-delete" model. Even if a provider claims to delete your data, the fact that your images ever touch a physical disk on a third-party server creates a security liability. For agencies handling pre-release product shots or developers managing sensitive user-generated content, this "retention window" is a critical failure point in a modern security stack.
@@ -182,7 +139,7 @@
             </p>
         </section>
 
-        <section id="zero-retention">
+        <section id="zero-retention" class="scroll-mt-24">
             <SectionHeading>Decoding Zero-Retention Architecture</SectionHeading>
             <p class="mb-6">
                 Mochify utilizes a <strong>Zero-Retention Architecture</strong> powered by in-memory C++ processing. Unlike legacy tools, your images are never written to a permanent disk.
@@ -209,7 +166,7 @@
             
         </section>
 
-        <section id="comparison">
+        <section id="comparison" class="scroll-mt-24">
             <SectionHeading>Professional Scaling: Standard Access vs. Mochify Pro<sup>*</sup></SectionHeading>
 
             <p>
@@ -217,55 +174,55 @@
             </p>
 
             <div class="my-12">
-        <ScrollableTable class="my-6">
-            <table class="w-full text-left border-collapse">
+        <GuideTable class="my-6">
+            <table>
                 
                 <thead>
-                    <tr class="bg-[#FFF5F7] border-b border-pink-100">
-                        <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider w-1/3">Feature</th>
-                        <th class="py-5 px-6 text-sm font-black text-[#875F42] uppercase tracking-wider w-1/3">Standard Access</th>
-                        <th class="py-5 px-6 text-sm font-black text-[#F06292] uppercase tracking-wider w-1/3">
+                    <tr>
+                        <th>Feature</th>
+                        <th>Standard Access</th>
+                        <th>
                             Mochify Pro
                             <sup class="text-[#F06292] text-[10px] ml-0.5">*</sup>
                         </th>
                     </tr>
                 </thead>
 
-                <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
+                <tbody>
                     
-                    <tr class="group hover:bg-[#FFF9FB] transition-colors duration-200">
-                        <td class="py-5 px-6 font-bold text-[#4A2C2C]">Privacy Policy</td>
-                        <td class="py-5 px-6">Zero-Retention</td>
-                        <td class="py-5 px-6 font-bold text-[#4A2C2C]">Zero-Retention</td>
+                    <tr>
+                        <td>Privacy Policy</td>
+                        <td>Zero-Retention</td>
+                        <td>Zero-Retention</td>
                     </tr>
 
-                    <tr class="group hover:bg-[#FFF9FB] transition-colors duration-200">
-                        <td class="py-5 px-6 font-bold text-[#4A2C2C]">Retention Time</td>
-                        <td class="py-5 px-6">0 minutes</td>
-                        <td class="py-5 px-6 font-bold text-[#4A2C2C]">0 Minutes</td>
+                    <tr>
+                        <td>Retention Time</td>
+                        <td>0 minutes</td>
+                        <td>0 Minutes</td>
                     </tr>
 
-                    <tr class="group hover:bg-[#FFF9FB] transition-colors duration-200">
-                        <td class="py-5 px-6 font-bold text-[#4A2C2C]">Account Type</td>
-                        <td class="py-5 px-6">No Account Required</td>
-                        <td class="py-5 px-6 font-bold text-[#4A2C2C]">No Account, API Key</td>
+                    <tr>
+                        <td>Account Type</td>
+                        <td>No Account Required</td>
+                        <td>No Account, API Key</td>
                     </tr>
 
-                    <tr class="group hover:bg-[#FFF9FB] transition-colors duration-200">
-                        <td class="py-5 px-6 font-bold text-[#4A2C2C]">Workflow</td>
-                        <td class="py-5 px-6">Manual Web Tool</td>
-                        <td class="py-5 px-6 font-bold text-[#4A2C2C]">API Integration</td>
+                    <tr>
+                        <td>Workflow</td>
+                        <td>Manual Web Tool</td>
+                        <td>API Integration</td>
                     </tr>
 
-                    <tr class="group hover:bg-[#FFF9FB] transition-colors duration-200">
-                        <td class="py-5 px-6 font-bold text-[#4A2C2C]">Batch Limits</td>
-                        <td class="py-5 px-6">25 files, 20MB each</td>
-                        <td class="py-5 px-6 font-bold text-[#F06292]">Unlimited Scalability</td>
+                    <tr>
+                        <td>Batch Limits</td>
+                        <td>25 files, 20MB each</td>
+                        <td>Unlimited Scalability</td>
                     </tr>
 
                 </tbody>
             </table>
-        </ScrollableTable>
+        </GuideTable>
 
     <div class="mt-4 px-2 text-xs font-medium text-[#875F42] opacity-70 flex items-center gap-1.5">
         <span class="text-[#F06292] font-black">*</span>
@@ -274,7 +231,7 @@
 </div>
         </section>
 
-        <section id="privacy-first-checklist">
+        <section id="privacy-first-checklist" class="scroll-mt-24">
             <SectionHeading>The 2026 Privacy-First Checklist</SectionHeading>
             <p>
                 When evaluating any optimization tool for your 2026 tech stack, ensure they meet these three "Expert" criteria:
@@ -295,7 +252,7 @@
             </ul>
         </section>
 
-        <section id="takeaway">
+        <section id="takeaway" class="scroll-mt-24">
             <SectionHeading>The "Expert" Takeaway</SectionHeading>
 
             <p>
@@ -327,7 +284,26 @@
     </a>
 </div>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>
