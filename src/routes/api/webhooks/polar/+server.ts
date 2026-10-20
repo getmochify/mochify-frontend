@@ -82,6 +82,27 @@ async function reseedBucket(
 	}).catch((e) => console.error('[webhook] reseedBucket fetch error:', e));
 }
 
+// Subscription plans whose holder buying a Day Pass gets it as a top-up rather
+// than a plan change. Same set as STORAGE_PLANS in $lib/server/storagePlan.
+const SUBSCRIPTION_PLANS = new Set(['seller', 'pro', 'growth']);
+
+// Add a Day Pass's uploads to a subscriber's live bucket without touching their
+// plan (worker /credit; see applyCredit in mochify-worker's quota.ts). Unlike
+// reseedBucket this throws on failure: the worker applies each orderId once, so
+// letting the webhook 500 and Polar retry is safe, and a silently dropped
+// credit is a paid-for pass that never arrived.
+async function creditBucket(userId: string, amount: number, orderId: string): Promise<string> {
+	if (!CF_WORKER_URL || !CF_WORKER_TOKEN) throw new Error('[daypass] worker not configured');
+	const res = await fetch(`${CF_WORKER_URL}/credit`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json', 'X-Worker-Token': CF_WORKER_TOKEN },
+		body: JSON.stringify({ identifier: await sha256Hex(userId), userId, amount, orderId })
+	});
+	if (!res.ok) throw new Error(`[daypass] credit failed: ${res.status} ${await res.text().catch(() => '')}`);
+	const { status } = (await res.json()) as { status: string };
+	return status;
+}
+
 // Resolve the app user id for a Polar customer. Prefer the externalId set at
 // checkout; fall back to an email match for customers created without one. A
 // day-pass buyer (order.created, bought via a raw Polar link while often logged
@@ -420,6 +441,31 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 
 			const email = order.customer.email;
 			if (!email) break;
+
+			// A subscriber gets the pass as a top-up. The path below writes
+			// plan 'day' over whatever they had, and a lapsed pass reads as
+			// free, so a Seller, Pro or Growth customer who bought one was on
+			// the free tier a day later. Checked before the magic link: they
+			// already have an account, and a Polar retry would resend it.
+			const existing = await db
+				.prepare(
+					'SELECT u.id AS id, p.plan AS plan FROM user u LEFT JOIN profile p ON p.user_id = u.id WHERE u.email = ? LIMIT 1'
+				)
+				.bind(email)
+				.first<{ id: string; plan: string | null }>();
+			if (existing?.plan && SUBSCRIPTION_PLANS.has(existing.plan)) {
+				const status = await creditBucket(existing.id, 100, order.id);
+				if (status === 'ok') {
+					const posthog = getPostHogClient();
+					posthog.capture({
+						distinctId: existing.id,
+						event: 'day_pass_activated',
+						properties: { polar_order_id: order.id, mode: 'subscriber_credit', plan: existing.plan }
+					});
+					await posthog.flush();
+				}
+				break;
+			}
 
 			// Send magic link — creates the user in D1 if they don't exist yet.
 			const auth = createAuth(db, platform?.env?.RESEND_API_KEY);
