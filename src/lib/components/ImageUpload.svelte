@@ -2019,7 +2019,7 @@
 									href="/auth/register"
 									onclick={() =>
 										posthog.capture('signup_cta_clicked', { trigger: 'batch_cap_banner' })}
-									class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+									class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
 								>
 									Sign up free: {FREE_PLAN_QUOTA} uploads a month, {BATCH_LIMIT_STANDARD} per batch
 								</a>
@@ -2031,7 +2031,7 @@
 									href="/pricing"
 									onclick={() =>
 										posthog.capture('upgrade_cta_clicked', { trigger: 'batch_cap_banner' })}
-									class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+									class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
 								>
 									Compare plans
 								</a>
