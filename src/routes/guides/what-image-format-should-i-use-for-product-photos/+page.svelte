@@ -1,7 +1,8 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
@@ -90,34 +91,37 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Product Photos" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            What Image Format Should I Use for Product Photos?
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Use AVIF as your primary format, WebP as your first fallback, and JPEG as your universal fallback. AVIF consistently produces the smallest files at good visual quality for photographic content, WebP covers browsers that don't yet handle AVIF cleanly, and JPEG ensures nothing breaks for older systems or third-party integrations.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-[#6C3F31] leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong>Published May 2026 by the Mochify Engineering Team.</strong> This article covers the practical format fallback order for ecommerce product images and explains when JPEG is still the right choice for marketplace uploads.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
         <section id="fallback-order" class="scroll-mt-24">
             <SectionHeading>The practical fallback order</SectionHeading>
@@ -147,9 +151,9 @@
             <p class="mb-4">If you're uploading directly to a marketplace (Amazon, eBay, Etsy) or a CMS that re-processes images on ingest, JPEG is often the right choice for your upload file. Those platforms apply their own compression pipeline, so delivering AVIF at upload doesn't give you control over what they serve, and picking the wrong one is a common way to <a href="https://mochify.app/guides/ebay-image-file-not-supported">fix "file not supported" errors on eBay</a> before they happen. For your own storefront - Shopify, WooCommerce, a custom build - serving AVIF via <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> gives you full control and the best results.</p>
             <p class="mb-4">Format support also varies more between platforms than most sellers expect, and the differences are rarely documented in one place. Before you standardize on a single export preset, it is worth checking <a href="/guides/product-image-requirements-marketplace-guide">what each marketplace actually accepts</a> for format, dimensions, and file size.</p>
 
-            <InfoBox type="tip" title="Marketplace tip">
+            <GlassInfoBox type="tip" title="Marketplace tip">
                 Keep a separate set of high-quality JPEG exports specifically for marketplace uploads. Your own storefront and your marketplace listings have different requirements - don't try to use the same file for both.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="preparing-images" class="scroll-mt-24">
@@ -168,7 +172,26 @@
             </a>
         </div>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

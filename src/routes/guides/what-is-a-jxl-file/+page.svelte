@@ -1,7 +1,9 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "What Is a JXL File? How to Open, Convert, and Share JPEG XL",
@@ -96,37 +98,40 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="JXL File" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            What Is a JXL File? How to Open, Convert, and Share JPEG XL
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             A <code class={inlineCode}>.jxl</code> file is a JPEG XL image, defined under the ISO/IEC 18181 standard. It supports both lossy and lossless compression, wide color gamut, HDR, and high bit depth - and it can losslessly recode an existing JPEG to JXL and restore it byte-for-byte, cutting file size by around 22% in the process. Browsers caught up in October 2026 (Chrome 155 and Firefox 158 decode it by default; Safari has since version 17), but email clients, chat apps and many desktop viewers still do not, so if you have received a JXL file you cannot open, you will likely need to convert it first.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published August 12, 2026 by the Mochify Engineering Team.</strong>
                 Based on caniuse.com data and official OS and app documentation current to June 2026.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <section id="how-to-open-a-jxl-file">
+        <section id="how-to-open-a-jxl-file" class="scroll-mt-24">
             <SectionHeading>How to Open a JXL File</SectionHeading>
             <p><strong>On macOS:</strong> Safari 17+ has partial native JXL support, so macOS Sonoma and later can view JXL images in the browser. Finder and Preview support varies by macOS version.</p>
             <p><strong>On Windows:</strong> Windows 11 does not display JXL files by default. Install the <a href="https://apps.microsoft.com/detail/9mzprth5c0tb" target="_blank" rel="noopener noreferrer">JPEG XL Image Extension</a> from the Microsoft Store; after installation, File Explorer and the Photos app can preview <code class={inlineCode}>.jxl</code> files.</p>
@@ -134,35 +139,41 @@
             <p>In a browser: Chrome 155 and later (released October 6, 2026), Firefox 158 and later (October 13) and Safari 17 and later all display a <code class={inlineCode}>.jxl</code> inline; Edge had not shipped it as of October 7, 2026. If your Chrome is on 152, 153 or 154, restart it to pick up the update. For the dated per-browser table and the rollout caveats, see our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support">JPEG XL in Chrome and what changes now</a>.</p>
         </section>
 
-        <section id="how-to-convert-or-share-a-jxl-file">
+        <section id="how-to-convert-or-share-a-jxl-file" class="scroll-mt-24">
             <SectionHeading>How to Convert or Share a JXL File</SectionHeading>
             <p><strong>JXL to JPEG</strong> is the most compatible output. JPEG opens everywhere - in email clients, older apps, and every browser. If you need to send a JXL image to a client or upload it to a platform that does not yet support the format, converting to JPEG is the safest route.</p>
             <p><strong>JXL to PDF</strong> is the right move when you need to share a batch of JXL images as a single document. If you have shot or received JXL files and need to send them to a client whose email viewer or platform cannot handle the format, bundling them into a PDF sidesteps the compatibility issue entirely. <a href="/solutions/jxl-to-pdf">Mochify's JXL to PDF tool</a> combines up to 20 JXL files - along with PNG, JPG, WebP, AVIF, or HEIC - into one shareable PDF. No software to install; the files are processed server-side and wiped immediately. Screenshots are the clearest case for lossless JXL: <a href="/guides/jxl-vs-png-for-screenshots">a real macOS screenshot came out 46% smaller than PNG</a> with the pixels intact.</p>
         </section>
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Work with your JXL files"
             href="/solutions/jxl-to-pdf"
             label="Try JXL to PDF free →"
         >
             Try <a href="/solutions/jxl-to-pdf">Mochify's JXL to PDF tool</a> to bundle JXL images into a shareable document, or use the <a href="/jpg-to-jpegxl">JPG to JXL converter</a> if you want to go the other direction and convert your JPEGs into space-efficient JXL files.
-        </GuideCTA>
+        </GlassCTA>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">- {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

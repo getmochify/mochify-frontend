@@ -1,7 +1,8 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
@@ -88,34 +89,37 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Preload AVIF Hero Images" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            How Do I Preload AVIF Hero Images in WordPress to Pass the LCP Threshold?
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Switching your hero image to AVIF cuts file size by up to 50% - but if the browser still discovers it late in the render pipeline, your LCP score won't budge. A single <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;link rel="preload"&gt;</code> hint injected into <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">wp_head</code> tells the browser to start the download before any CSS or JavaScript has been parsed.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 <strong>Quick answer:</strong> Add a preload hint for your AVIF hero image in <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">functions.php</code> using <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">wp_head</code>. Set <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">fetchpriority="high"</code> so the browser treats it as the highest-priority network request on the page.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
         <section id="why-avif-alone-isnt-enough" class="scroll-mt-24">
             <SectionHeading>Why AVIF alone isn't enough</SectionHeading>
@@ -123,9 +127,9 @@
             <p class="mb-4">When a browser loads a WordPress page it parses the HTML, builds the DOM, then fetches stylesheets, then - only after the CSS is parsed and the render tree is constructed - does it find the hero image URL buried in a CSS <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">background-image</code> rule or an <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;img&gt;</code> tag deep in the template. By that point, you've burned 300–600 ms of latency before the image download even starts.</p>
             <p class="mb-4">Google's LCP threshold is 2.5 seconds. On a typical shared-hosting WordPress site with a theme that loads 6–12 stylesheets, discovering the hero image late is the single biggest contributor to a failing LCP score - even when the image itself is small.</p>
 
-            <InfoBox type="tip" title="LCP measures the largest visible element">
+            <GlassInfoBox type="tip" title="LCP measures the largest visible element">
                 Your hero image is almost always the Largest Contentful Paint element. Reducing its file size matters, but reducing its discovery delay matters more. Preloading addresses the delay; AVIF addresses the size. You need both.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="preload-the-hero-image" class="scroll-mt-24">
@@ -151,9 +155,9 @@
 &#125;, 1 );</code></pre>
             </div>
 
-            <InfoBox type="note" title="If your hero image is in the Media Library">
+            <GlassInfoBox type="note" title="If your hero image is in the Media Library">
                 Replace <code>get_template_directory_uri() . '/images/hero.avif'</code> with the direct URL from the Media Library - for example, <code>https://example.com/wp-content/uploads/2026/04/hero.avif</code>. You can hardcode it or use <code>wp_get_attachment_url( $attachment_id )</code> if you store the ID in a theme option.
-            </InfoBox>
+            </GlassInfoBox>
 
             <p class="mb-4">The priority of <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">1</code> passed to <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">add_action</code> ensures the hint is output at the very top of <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;head&gt;</code>, before any stylesheets or scripts. The browser's preload scanner picks it up immediately and begins the AVIF download in parallel with everything else.</p>
 
@@ -161,9 +165,9 @@
 
             <p class="mb-4">If your hero is a plain <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;img&gt;</code> already in the HTML rather than one discovered late via CSS, you may not need the preload tag at all: <a href="https://mochify.app/guides/fetchpriority-vs-preload-lcp-image">should you use fetchpriority instead of preload?</a></p>
 
-            <InfoBox type="warning" title="Only preload the image that is actually the LCP element">
+            <GlassInfoBox type="warning" title="Only preload the image that is actually the LCP element">
                 Preloading an image that isn't visible above the fold wastes bandwidth and can hurt performance by competing with critical resources. Confirm which element PageSpeed Insights flags as the LCP candidate before adding the hint.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="check-the-result" class="scroll-mt-24">
@@ -188,7 +192,26 @@
             </div>
         </section>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

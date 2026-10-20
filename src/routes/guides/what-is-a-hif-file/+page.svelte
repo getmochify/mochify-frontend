@@ -1,8 +1,10 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "What Is a HIF File? (And How to Open One)",
@@ -82,37 +84,40 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="HIF File" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            What Is a HIF File? (And How to Open One)
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             A HIF file is a still photo saved in the HEIF (High Efficiency Image File Format) container by professional mirrorless cameras from Canon, Sony, and Fujifilm, using the same HEVC (H.265) compression that video uses. To open one, the short answer is: on a Mac it works with no setup, on Windows you install two Microsoft Store codecs, and on Linux you need a libheif-based viewer. Cameras write <code class={inlineCode}>.HIF</code> instead of JPEG because it records 10-bit color, about 1.07 billion shades against JPEG's roughly 16.8 million, at a similar or smaller file size (<a href="https://www.canon.co.uk/pro/infobank/image-file-types/" target="_blank" rel="noopener noreferrer">Canon UK Pro Infobank</a>).
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published June 13, 2026 by the Mochify Engineering Team.</strong>
                 This answer covers what a <code class={inlineCode}>.HIF</code> file is, why it so often refuses to open, and the exact way to view one on macOS, Windows, iOS, and Linux.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <section id="why-hif-files-wont-open">
+        <section id="why-hif-files-wont-open" class="scroll-mt-24">
             <SectionHeading>Why a HIF file won't open</SectionHeading>
             <p>A <code class={inlineCode}>.HIF</code> almost always fails for one reason: the app or operating system has no HEIF/HEVC decoder.</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
@@ -123,7 +128,7 @@
             <p>This is why a file can preview perfectly on a Mac yet get rejected when you upload it elsewhere. macOS has a system-level HEIF codec; the upload destination decodes with its own stack, which may have none. The file is not corrupt, the other end simply cannot read it.</p>
         </section>
 
-        <section id="how-to-open-hif">
+        <section id="how-to-open-hif" class="scroll-mt-24">
             <SectionHeading>How to open a HIF file, by platform</SectionHeading>
             <ul class="list-disc pl-6 space-y-2 my-4">
                 <li><strong class="text-[#4A2C2C]">macOS:</strong> No setup needed. Finder, Preview, and Photos have opened HEIF natively since High Sierra (10.13, 2017). Select the file and press spacebar to preview, or double-click to open (<a href="https://support.apple.com/en-us/116944" target="_blank" rel="noopener noreferrer">Apple Support</a>).</li>
@@ -132,12 +137,12 @@
                 <li><strong class="text-[#4A2C2C]">Linux:</strong> Install libheif. It provides command-line viewers, and image apps such as Eye of GNOME and Geeqie can then display <code class={inlineCode}>.HIF</code>.</li>
             </ul>
 
-            <InfoBox type="tip" title="HIF is not HEIC">
+            <GlassInfoBox type="tip" title="HIF is not HEIC">
                 If your file ends in <code class={inlineCode}>.HEIC</code> and came from an iPhone, that is Apple's variant of the same HEIF format, not a pro-camera <code class={inlineCode}>.HIF</code>. Use the <a href="/heic-to-jpeg">HEIC to JPEG converter</a> instead. This page covers the pro-camera lane (Canon, Sony, Fujifilm).
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
-        <section id="opening-vs-converting">
+        <section id="opening-vs-converting" class="scroll-mt-24">
             <SectionHeading>Opening it is not converting it</SectionHeading>
             <p>Opening a <code class={inlineCode}>.HIF</code> lets you view it, but it still won't upload to a marketplace, CMS, or print service that only accepts JPEG. For that you convert it. Mochify's <a href="/solutions/hif-to-jpg">HIF to JPG converter</a> takes <code class={inlineCode}>.HIF</code> files straight from Canon, Sony, and Fujifilm bodies, up to 3 a month with no account needed. Describe the job in plain English and Magic Flow applies the settings for you. Files are streamed to the encoder, processed in memory, and wiped immediately.</p>
             <p>For every conversion method and the 10-bit to 8-bit trade-offs, see the full <a href="/guides/hif-to-jpg-canon-sony-fujifilm">HIF to JPG guide</a>. For the complete walkthrough across every camera brand, see <a href="https://mochify.app/guides/heif-to-jpg-complete-guide">how to convert a HIF file to JPG</a>.</p>
@@ -145,28 +150,34 @@
         </section>
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Need that .HIF in a format that opens everywhere?"
             href="/solutions/hif-to-jpg"
             label="Try HIF to JPG free →"
         >
             Drop it into Mochify and type something like <em>"convert these HIF files to JPG and strip location data"</em>. It returns a universally shareable JPEG, encoded with jpegli for quality-first output.
-        </GuideCTA>
+        </GlassCTA>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

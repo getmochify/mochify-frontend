@@ -1,8 +1,9 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
@@ -83,28 +84,31 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''} · Mochify Engineering Team
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="JPEG XL by Default" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''} · Mochify Engineering Team
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Does Chrome 145 Enable JPEG XL by Default in 2026?
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             No. Chrome 145 includes JPEG XL decoding support, but it is off by default and gated behind a browser flag, and that stayed true through Chrome 154. The version that turned it on is Chrome 155, released on October 6, 2026: it decodes <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.jxl</code> images by default on every platform Chrome ships on, with no flag. Firefox 158 follows on October 13. A JPEG XL image on a public page still needs an AVIF or WebP fallback while installed browsers catch up, but the format is no longer experimental on the web.
         </p>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
         <section id="what-chrome-145-added" class="scroll-mt-24">
             <SectionHeading>What Chrome 145 actually added</SectionHeading>
@@ -119,9 +123,9 @@
 
             <p class="mb-4">Because most users cannot render one, a <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.jxl</code> that lands in your downloads folder is usually a dead end until you convert it. Our explainer covers <a href="/guides/what-is-a-jxl-file">what a JXL file is and how to open one</a> on Windows, macOS, and the web.</p>
 
-            <InfoBox type="warning" title="Do not serve .jxl without a fallback">
+            <GlassInfoBox type="warning" title="Do not serve .jxl without a fallback">
                 A <code>.jxl</code> file served without a <code>&lt;picture&gt;</code> fallback will fail silently for the majority of visitors. Until Chrome enables JPEG XL by default in a stable release, always pair it with an AVIF or WebP fallback.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="what-this-means" class="scroll-mt-24">
@@ -129,23 +133,23 @@
             <p class="mb-4">For production websites, one thing changes: JPEG XL is now a safe first source in a <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> element, with AVIF, WebP and a JPEG <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;img&gt;</code> below it. Serving a <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">.jxl</code> file on its own still fails silently for everyone on an older Chrome, on Edge, or in an email client, so the fallback stays. E-commerce teams on Shopify are unaffected either way, because Shopify does not accept JXL uploads.</p>
             <p class="mb-4">AVIF remains the best choice for maximum compression on public sites. WebP covers broader compatibility. JPEG encoded with Jpegli handles legacy browsers and email clients.</p>
 
-            <ScrollableTable class="mb-6">
-                <table class="w-full text-left bg-white">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Format</th>
-                            <th class="p-4 font-black">Global support (October 2026)</th>
-                            <th class="p-4 font-black">Recommended for production?</th>
+                            <th>Format</th>
+                            <th>Global support (October 2026)</th>
+                            <th>Recommended for production?</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">AVIF</td><td class="p-4">~93%</td><td class="p-4">Yes - best compression with broad support</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">WebP</td><td class="p-4">~97%</td><td class="p-4">Yes - widest compatibility</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Jpegli (JPEG)</td><td class="p-4">Universal</td><td class="p-4">Yes - best fallback for legacy browsers</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">JPEG XL</td><td class="p-4">~17% on Oct 7, rising as Chrome 155 and Firefox 158 roll out</td><td class="p-4">Yes, as the first source in a picture element with AVIF and WebP fallbacks</td></tr>
+                    <tbody>
+                        <tr><td>AVIF</td><td>~93%</td><td>Yes - best compression with broad support</td></tr>
+                        <tr><td>WebP</td><td>~97%</td><td>Yes - widest compatibility</td></tr>
+                        <tr><td>Jpegli (JPEG)</td><td>Universal</td><td>Yes - best fallback for legacy browsers</td></tr>
+                        <tr><td>JPEG XL</td><td>~17% on Oct 7, rising as Chrome 155 and Firefox 158 roll out</td><td>Yes, as the first source in a picture element with AVIF and WebP fallbacks</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <section id="the-2026-recommendation" class="scroll-mt-24">
@@ -154,16 +158,35 @@
 
             <p class="mb-4">For the dated per-browser table (Chrome, Edge, Firefox, Safari, Android), the rollout caveats and what to do by stack, read our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support">JPEG XL in Chrome: what changes for your images now</a>.</p>
 
-            <InfoBox type="tip" title="Watch the Chrome release notes">
+            <GlassInfoBox type="tip" title="Watch the Chrome release notes">
                 The Chrome release notes at <code>developer.chrome.com/release-notes</code> are the authoritative source. That is what happened in Chrome 155: the release notes list "JPEG XL decoding support (image/jxl) in blink" with no <code>chrome://flags</code> reference, and Google's blog post explains the Rust decoder and the security reasoning behind it.
-            </InfoBox>
+            </GlassInfoBox>
 
             <p class="mb-4">Mochify compresses and converts images to AVIF, WebP, and JPEG with privacy-first, zero-retention processing - no files stored, no data retained. Try it free at <a href="https://mochify.app">mochify.app</a>.</p>
 
             <p class="mb-4">Off the web, the calculation changes: for screenshots you keep rather than serve, <a href="/guides/jxl-vs-png-for-screenshots">lossless JXL is already the better archive format</a>.</p>
         </section>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

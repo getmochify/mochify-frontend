@@ -1,7 +1,7 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
@@ -66,34 +66,37 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date} · Mochify Engineering Team
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			Should I Use <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-2xl md:text-4xl font-bold border border-pink-100">fetchpriority="high"</code> or <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-2xl md:text-4xl font-bold border border-pink-100">rel="preload"</code> for My LCP Image?
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · {metadata.date} · Mochify Engineering Team
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Should I Use <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-2xl md:text-4xl font-bold border border-pink-100">fetchpriority="high"</code> or <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-2xl md:text-4xl font-bold border border-pink-100">rel="preload"</code> for My LCP Image?
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Use <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">fetchpriority="high"</code> on the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;img&gt;</code> element when your LCP image is already in the HTML. Use <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">rel="preload"</code> when the browser discovers the image late - because it lives behind a CSS file, a JavaScript file, or a request chain. In most cases, the right answer is one or the other, not both.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 <strong>Quick answer:</strong> If your LCP image is an <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;img&gt;</code> tag in the HTML, add <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">fetchpriority="high"</code> to it. If it is discovered late via CSS or JavaScript, add <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;link rel="preload" as="image"&gt;</code> in the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;head&gt;</code>. Don't use both on the same plain <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;img&gt;</code> - you will download it twice.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
         <section id="the-key-difference-discovery-vs-priority" class="scroll-mt-24">
             <SectionHeading>The key difference: discovery vs. priority</SectionHeading>
@@ -144,9 +147,9 @@
             <SectionHeading>The one mistake to avoid</SectionHeading>
             <p class="mb-4">Do not add both a preload link <em>and</em> <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">fetchpriority="high"</code> on a plain <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;img&gt;</code> tag for the same image. You will request the image twice and waste bandwidth - one of the most common self-inflicted LCP regressions.</p>
 
-            <InfoBox type="tip" title="Rule of thumb">
+            <GlassInfoBox type="tip" title="Rule of thumb">
                 If you use a <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;link rel="preload"&gt;</code>, that is the fetch. The <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;img&gt;</code> tag reuses the preloaded response from the browser cache - no <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">fetchpriority</code> needed on the element itself.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
@@ -160,7 +163,26 @@
             </a>
         </div>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

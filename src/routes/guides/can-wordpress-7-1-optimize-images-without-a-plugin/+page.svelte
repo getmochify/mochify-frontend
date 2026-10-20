@@ -1,7 +1,9 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Can WordPress 7.1 Optimize Images Without a Plugin?",
@@ -110,83 +112,92 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Without a Plugin" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Can WordPress 7.1 Optimize Images Without a Plugin?
-        </h1>
-
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Mostly, yes. WordPress 7.1 image optimization without a plugin is now real: the release (August 19, 2026) moves image compression, resizing, and thumbnail generation into your browser, converts iPhone HEIC photos to JPEG on upload, decodes AVIF natively, and preserves HDR gain maps. For routine upload-time optimization, most sites no longer need a dedicated plugin. The trade-off is control: WordPress optimizes to its own defaults, only in supported browsers, and it never touches the full-size original you upload.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl mb-8">
-            <p class="text-lg text-[#6C3F31] leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 <strong>Quick answer:</strong> Yes, largely. WordPress 7.1's browser-based pipeline (released August 19, 2026) handles upload-time compression, resizing, thumbnails, HEIC-to-JPEG conversion, and native AVIF decoding without a plugin. It uses fixed defaults, works fully only in Chrome and Edge 137+, and leaves your original file's metadata untouched.
             </p>
         </div>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published August 21, 2026 by the Mochify Engineering Team.</strong>
                 This quick answer separates what WordPress 7.1's new browser-based pipeline automates from what still requires a dedicated tool.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <section id="what-wordpress-7-1-does-natively">
+        <section id="what-wordpress-7-1-does-natively" class="scroll-mt-24">
             <SectionHeading>What WordPress 7.1 does natively</SectionHeading>
             <p>The new pipeline runs in the browser through a WebAssembly build of the libvips image library, so processing no longer hits PHP memory limits or upload timeouts on shared hosting. According to the <a href="https://make.wordpress.org/core/2026/07/22/client-side-media-processing-in-wordpress-7-1/" target="_blank" rel="noopener noreferrer">WordPress 7.1 dev notes</a>, libvips produces JPEGs around 15% smaller than the old server-side pipeline, and the <a href="https://wordpress.org/news/2026/08/mary-lou/" target="_blank" rel="noopener noreferrer">release announcement</a> confirms native handling for AVIF, HEIC, and HDR gain maps.</p>
             <p>In practice: HEIC photos are decoded in the browser and uploaded as web-ready JPEG (the HEIC original is kept as a companion file), 10-bit and 12-bit AVIF sources keep their bit depth in generated sizes, and HDR gain-map data survives across every thumbnail.</p>
             <p>One important limit: client-side processing currently works in Chrome and Edge 137+ only. Firefox, Safari, and low-memory devices silently fall back to the old server-side processing, so results are not identical for every user who uploads.</p>
         </section>
 
-        <section id="what-it-still-leaves-to-you">
+        <section id="what-it-still-leaves-to-you" class="scroll-mt-24">
             <SectionHeading>What it still leaves to you</SectionHeading>
             <p>WordPress applies its own defaults, not your decisions. JPEG quality stays fixed at 82 unless a developer adds code-level filters, there is no per-image choice of output format or quality in the admin, and the release notes describe nothing for re-optimizing images already in your media library. Scaling still caps large uploads at 2560px rather than the exact dimensions your theme needs.</p>
             <p>The original file is also untouched by design. WordPress has never stripped metadata from the full-size original, so an uploaded photo's EXIF data, including GPS location, stays in that file on your server. If that matters for privacy, it needs handling before upload; our <a href="/guides/does-stripping-exif-data-improve-wordpress-image-seo">EXIF and WordPress SEO Quick Answer</a> covers why.</p>
         </section>
 
-        <section id="where-pre-upload-optimization-still-fits">
+        <section id="where-pre-upload-optimization-still-fits" class="scroll-mt-24">
             <SectionHeading>Where pre-upload optimization still fits</SectionHeading>
             <p>Optimizing before upload gives you what 7.1 does not: exact dimensions, your chosen format and quality, and clean metadata, identical in every browser. WordPress is one case of a pattern that now runs everywhere; see <a href="/guides/what-automatic-image-optimization-actually-does">the bigger picture on platform defaults</a> for how the same trade-off plays out across Shopify, Instagram, and the marketplaces. Files are streamed into memory on Mochify's servers for processing and wiped immediately, with nothing retained. If your library is full of iPhone photos, start with the <a href="/heic-to-jpeg">HEIC to JPEG converter</a>, and see our guide to <a href="/guides/next-gen-image-formats-wordpress">fixing next-gen image formats in WordPress</a> for the delivery side that 7.1 still does not solve.</p>
         </section>
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Optimize before you upload"
             href="/"
             label="Open mochify.app →"
         >
             With Mochify you can describe the whole job in plain English, for example: <em>"resize these to 1600px wide, convert to WebP, and strip GPS data."</em>
-        </GuideCTA>
+        </GlassCTA>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

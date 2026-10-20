@@ -1,7 +1,9 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Does Stripping EXIF Data Improve WordPress Image SEO?",
@@ -108,76 +110,85 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Stripping EXIF Data" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Does Stripping EXIF Data Improve WordPress Image SEO?
-        </h1>
-
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Stripping EXIF data does not improve WordPress image SEO in any ranking sense. Google's own documentation frames image metadata as a licensing and attribution mechanism, not a ranking signal, so removing EXIF has no direct effect on where your images appear in search. It does have a real, if small, effect on file size, and a genuine privacy benefit worth having.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published August 7, 2026 by the Mochify Engineering Team.</strong>
                 This piece checks Google's own metadata guidance against how WordPress actually generates image sizes, since the two get conflated more often than not.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <section id="what-google-actually-says">
+        <section id="what-google-actually-says" class="scroll-mt-24">
             <SectionHeading>What Google actually says</SectionHeading>
             <p>Google's <a href="https://developers.google.com/search/docs/appearance/structured-data/image-license-metadata" target="_blank" rel="noopener noreferrer">image metadata guidance</a> is about the Licensable badge and creator and credit information in Google Images, not rankings. It notes that removing metadata can shrink file size, but nowhere claims EXIF itself boosts search position. The metadata that does matter for those licensing features is IPTC data such as Creator, Credit Line, and Copyright Notice, not generic EXIF camera data, so stripping EXIF and stripping licensing metadata are two different decisions.</p>
         </section>
 
-        <section id="what-actually-happens-in-wordpress">
+        <section id="what-actually-happens-in-wordpress" class="scroll-mt-24">
             <SectionHeading>What actually happens in WordPress</SectionHeading>
             <p>The original upload keeps its EXIF data, but visitors and Googlebot usually see the generated intermediate sizes, and whether those retain metadata depends on the image library WordPress is using. GD, the default on many hosts, typically strips EXIF and IPTC on resize; Imagick can preserve it. A <a href="https://core.trac.wordpress.org/ticket/11877" target="_blank" rel="noopener noreferrer">long-standing WordPress Trac ticket</a> documents this behavior. So the real question for most sites isn't whether to strip EXIF, it's which processing path the host is actually using. (WordPress 7.1 added a third path - <a href="/guides/can-wordpress-7-1-optimize-images-without-a-plugin">browser-side processing</a> - so the answer now also depends on the uploader's browser.)</p>
             <p>If you're compressing images through Mochify before upload, you control this directly rather than leaving it to whatever library the host picked. Describe it in plain English: <em>"compress these product photos and strip all metadata"</em> tells Magic Flow exactly what to do, rather than relying on a default you can't see.</p>
         </section>
 
-        <section id="when-to-keep-it">
+        <section id="when-to-keep-it" class="scroll-mt-24">
             <SectionHeading>When to keep it</SectionHeading>
             <p>Skip stripping if you rely on embedded rights data for licensing or stock-photo attribution, since Google's Licensable badge depends on it. Everyone else, meaning most WordPress sites, can safely default to stripping: it trims a little weight and removes GPS and location data that shouldn't be public, even though it won't move rankings. Image weight adds up: the median homepage carried roughly 1,058 KB of images on desktop in 2025, per the <a href="https://almanac.httparchive.org/en/2025/page-weight" target="_blank" rel="noopener noreferrer">HTTP Archive Web Almanac</a>. EXIF is a small slice of that, but it's free to remove. The larger slice is the format and pixel size of the images themselves, which is what PageSpeed's "Improve image delivery" row measures; <a href="/guides/next-gen-image-formats-wordpress">fixing that warning in WordPress without a plugin</a> is its own guide.</p>
             <p>For more on the risks of leaving EXIF data intact, including GPS leakage and device fingerprinting, see our full guide on <a href="/guides/exif-data-risks-image-compression-2026">EXIF data risks in image compression</a>.</p>
         </section>
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Compress and strip metadata in one step"
             href="/"
             label="Open mochify.app →"
         >
             Describe what you want in plain English and Magic Flow handles the rest.
-        </GuideCTA>
+        </GlassCTA>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>
