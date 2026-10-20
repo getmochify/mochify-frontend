@@ -9,6 +9,7 @@
 		getSessionToken,
 		resolveRemaining,
 		GUEST_QUOTA,
+		FREE_PLAN_QUOTA,
 		type UsageResponse
 	} from '$lib/user';
 	import { posthog } from '$lib/analytics';
@@ -220,7 +221,8 @@
 	let plan: 'free' | 'seller' | 'pro' | 'day' | 'growth' = $state('free');
 	let isAuthed: boolean = $state(false);
 	// Monthly ops for an authenticated plan, as reported by /api/usage — not a
-	// local copy of the pricing table. Guests get GUEST_QUOTA instead.
+	// local copy of the pricing table. Guests get GUEST_QUOTA instead. This is the
+	// caller's own allowance, so never quote it in a signup offer: use FREE_PLAN_QUOTA.
 	let planQuota = $state(25);
 
 	// The single tier value every limit and every string keys off.
@@ -1994,7 +1996,7 @@
 										posthog.capture('signup_cta_clicked', { trigger: 'batch_cap_banner' })}
 									class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
 								>
-									Sign up free for {planQuota} uploads a month
+									Sign up free for {FREE_PLAN_QUOTA} uploads a month
 								</a>
 							{/if}
 						</div>
@@ -2021,7 +2023,8 @@
 						{#if userTier === 'guest'}
 							{availableTokens} of your {GUEST_QUOTA} guest uploads remain this month, but {stagedCount}
 							file{stagedCount !== 1 ? 's' : ''}
-							{stagedCount !== 1 ? 'are' : 'is'} staged. A free account gives you {planQuota} a month.
+							{stagedCount !== 1 ? 'are' : 'is'} staged. A free account gives you {FREE_PLAN_QUOTA} a
+							month.
 						{:else if userTier === 'free'}
 							You've used your {monthlyQuota} free monthly uploads ({availableTokens} left), but {stagedCount}
 							file{stagedCount !== 1 ? 's' : ''}
@@ -2046,7 +2049,7 @@
 									posthog.capture('signup_cta_clicked', { trigger: 'token_wall_banner' })}
 								class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
 							>
-								Create free account for {planQuota}/mo
+								Create free account for {FREE_PLAN_QUOTA}/mo
 							</a>
 							{#if dayPassOffered}
 								<DayPassButton
@@ -2459,7 +2462,7 @@
                          which are real Day Pass benefits but answer a limit this user
                          did not hit. Order matches the banner, free account first. -->
 					<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
-						You've used your {GUEST_QUOTA} guest uploads for this month. A free account gives you {planQuota}
+						You've used your {GUEST_QUOTA} guest uploads for this month. A free account gives you {FREE_PLAN_QUOTA}
 						a month. Or a Day Pass is {DAY_PASS_OPS} conversions in 24 hours for {dayPassPrice},
 						with no subscription and no account needed.
 					</p>
@@ -2468,7 +2471,7 @@
 							href="/auth/register"
 							class="block rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 						>
-							Create free account for {planQuota}/mo
+							Create free account for {FREE_PLAN_QUOTA}/mo
 						</a>
 						<DayPassButton
 							trigger="limit_reached_modal"

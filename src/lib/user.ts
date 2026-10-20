@@ -5,6 +5,13 @@ import { authClient } from '$lib/auth-client'
 // step with that constant and with ANON_QUOTA in mochify-worker.
 export const GUEST_QUOTA = 3
 
+// What a free account gets each month: the number every "sign up" pitch to a
+// guest quotes. Not interchangeable with a snapshot's `quota`, which is the
+// *caller's* allowance — for a guest that is GUEST_QUOTA, so quoting it in a
+// signup offer told guests an account buys the 3 they already have. Keep in
+// step with the free tier in the tokens worker's PLAN_LIMITS.
+export const FREE_PLAN_QUOTA = 25
+
 /** Shape of the /v1/usage response we care about. */
 export type UsageResponse = { remaining?: number; available?: boolean }
 
