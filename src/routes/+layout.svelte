@@ -87,9 +87,30 @@
 	// track the reader down the article. Add each guide here as it converts;
 	// once they all have, drop the startsWith('/guides') branch entirely.
 	const NEW_STYLE_GUIDES = new Set([
-		'/guides/style-demo',
-		'/guides/why-hdr-photos-look-flat-when-shared',
+		'/guides/batch-crop-photos-to-square',
+		'/guides/blur-faces-license-plate-ai-assistant',
 		'/guides/bring-your-own-bucket-s3-r2',
+		'/guides/can-chatgpt-compress-images',
+		'/guides/compress-pdf-on-mac',
+		'/guides/convert-website-images-to-webp-and-avif',
+		'/guides/css-background-image-webp-fallback',
+		'/guides/does-jpeg-support-hdr',
+		'/guides/how-to-make-any-photo-ultra-hdr',
+		'/guides/html-picture-tag',
+		'/guides/jpeg-xl-chrome-support',
+		'/guides/jxl-vs-png-for-screenshots',
+		'/guides/lossless-image-formats',
+		'/guides/next-gen-image-formats-wordpress',
+		'/guides/optimizing-hero-images',
+		'/guides/reduce-photo-file-size-iphone',
+		'/guides/remove-objects-from-photo-ai-assistant',
+		'/guides/save-image-as-type-alternative',
+		'/guides/save-webp-as-jpg-chrome',
+		'/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera',
+		'/guides/style-demo',
+		'/guides/webp-avif-transparency',
+		'/guides/why-did-my-upload-fail',
+		'/guides/why-hdr-photos-look-flat-when-shared'
 	]);
 
 	const showBlobs = $derived(
