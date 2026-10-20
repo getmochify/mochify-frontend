@@ -105,35 +105,18 @@
 	const ogAlt = $derived(ogAltFor(page.url.pathname));
 	const ogSize = $derived(ogSizeFor(page.url.pathname));
 
-	// Import Outfit (Weights: 600, 700, 800, 900)
-	import '@fontsource/outfit/600.css';
-	import '@fontsource/outfit/700.css';
-	import '@fontsource/outfit/800.css';
-	import '@fontsource/outfit/900.css';
-
-	// Import Nunito (Weights: 400, 500, 600, 700)
-	import '@fontsource/nunito/400.css';
-	import '@fontsource/nunito/500.css';
-	import '@fontsource/nunito/600.css';
-	import '@fontsource/nunito/700.css';
-
-	// Preload the most-used weights so fonts arrive before first paint,
-	// preventing the font-display:swap reflow that causes CLS.
-	import qs400 from '@fontsource/nunito/files/nunito-latin-400-normal.woff2?url';
-	import qs600 from '@fontsource/nunito/files/nunito-latin-600-normal.woff2?url';
-	import qs700 from '@fontsource/nunito/files/nunito-latin-700-normal.woff2?url';
-	// Outfit 900 is the H1 (font-black) on every page, so it is the heading face
-	// the first screen needs; 700 and 800 were preloaded before but are not used
-	// above the fold (measured 2026-10-04 on /, /flow, a tool page, a guide and
-	// /pricing), so they load normally via the @fontsource CSS when needed.
-	import of900 from '@fontsource/outfit/files/outfit-latin-900-normal.woff2?url';
+	// Variable fonts: one file per face covers every weight, so font-black and
+	// font-extrabold get the real 800/900 instead of a browser-faked bold (the
+	// static Nunito set stopped at 700). Nothing is preloaded: four preloads
+	// raced the render-blocking stylesheet and cost ~350ms of first paint on a
+	// throttled phone (measured 2026-10-20). The metric-matched fallbacks in
+	// layout.css stop the swap from shifting the layout instead.
+	// The static @fontsource packages stay installed for scripts/generate-og.js.
+	import '@fontsource-variable/outfit/wght.css';
+	import '@fontsource-variable/nunito/wght.css';
 </script>
 
 <svelte:head>
-	<link rel="preload" as="font" type="font/woff2" href={qs400} crossorigin="anonymous">
-	<link rel="preload" as="font" type="font/woff2" href={qs600} crossorigin="anonymous">
-	<link rel="preload" as="font" type="font/woff2" href={qs700} crossorigin="anonymous">
-	<link rel="preload" as="font" type="font/woff2" href={of900} crossorigin="anonymous">
 	<link rel="canonical" href="https://mochify.app{page.url.pathname}" />
 	<meta property="og:image" content={ogImage} />
 	<meta property="og:image:width" content={String(ogSize.width)} />

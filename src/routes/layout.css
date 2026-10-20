@@ -24,11 +24,49 @@ html {
   overflow-y: visible;
 }
 
+/* Metric-matched stand-ins, used until the web fonts arrive. Each is a local
+   Arial (desktop) or Roboto (Android) rescaled to Nunito's or Outfit's
+   proportions, so the swap repaints the glyphs without moving the layout.
+   Numbers from @capsizecss/metrics via createFontStack; regenerate them if
+   either face changes. */
+@font-face {
+  font-family: "Nunito Fallback Arial";
+  src: local('Arial'), local('ArialMT');
+  ascent-override: 99.7134%;
+  descent-override: 34.8159%;
+  line-gap-override: 0%;
+  size-adjust: 101.3906%;
+}
+@font-face {
+  font-family: "Nunito Fallback Roboto";
+  src: local('Roboto Regular'), local('Roboto-Regular');
+  ascent-override: 99.495%;
+  descent-override: 34.7396%;
+  line-gap-override: 0%;
+  size-adjust: 101.6132%;
+}
+@font-face {
+  font-family: "Outfit Fallback Arial";
+  src: local('Arial'), local('ArialMT');
+  ascent-override: 100.18%;
+  descent-override: 26.0468%;
+  line-gap-override: 0%;
+  size-adjust: 99.8204%;
+}
+@font-face {
+  font-family: "Outfit Fallback Roboto";
+  src: local('Roboto Regular'), local('Roboto-Regular');
+  ascent-override: 99.9605%;
+  descent-override: 25.9897%;
+  line-gap-override: 0%;
+  size-adjust: 100.0395%;
+}
+
 /* --- 1. TAILWIND V4 THEME CONFIG --- */
 /* This tells Tailwind: "When I say font-sans, use Nunito." */
 @theme {
-  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Nunito Variable", "Nunito Fallback Arial", "Nunito Fallback Roboto", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Outfit Variable", "Outfit Fallback Arial", "Outfit Fallback Roboto", ui-sans-serif, system-ui, sans-serif;
   
   /* Optional: Map your colors here if you want to use them like 'bg-mochi-pink' */
   --color-mochi-bg: #FDFBF7;
@@ -76,13 +114,13 @@ html {
  * without it, and with it `1200px`, `HEIC` and `JPEG XL` would split mid-token.
  */
 html[lang='ja'] {
-  --font-sans: "Nunito", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Outfit", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Nunito Variable", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Outfit Variable", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
   body {
-    font-family: var(--font-sans); /* Uses Quicksand */
+    font-family: var(--font-sans); /* Uses Nunito */
     background-color: var(--mochi-bg);
     color: var(--cocoa-deep);
     line-height: 1.6;

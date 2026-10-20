@@ -73,7 +73,7 @@ Defined in `src/routes/layout.css` (imported via `+layout.svelte`). Tailwind v4 
 | `--cocoa-deep` | `#6C3F31` | Body text |
 | `--matcha-green` | `#A5D6A7` | Submit/action buttons |
 
-Body font: **Quicksand**. Heading font: **Outfit** (both via `@fontsource`).
+Body font: **Nunito**. Heading font: **Outfit**. Both are the variable builds (`@fontsource-variable/*`, one file per face for every weight) with metric-matched Arial/Roboto fallbacks in `layout.css`, and neither is preloaded (preloads raced the render-blocking stylesheet). The static `@fontsource/*` packages remain for `scripts/generate-og.js`.
 
 Custom utility classes: `.reveal` (scroll-triggered fade-in), `.shimmer-text`, `.animate-float`, `.btn-mochi`, `.card-mochi`.
 
