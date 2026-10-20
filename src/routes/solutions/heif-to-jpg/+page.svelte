@@ -213,7 +213,7 @@
         <div class="space-y-3">
             {#each flavours as flavour (flavour.ext)}
                 <div class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex flex-col sm:flex-row sm:items-center gap-4">
-                    <span class="shrink-0 inline-flex items-center justify-center px-3 py-1.5 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4338CA] font-mono font-black text-sm sm:w-24">
+                    <span class="shrink-0 inline-flex items-center justify-center px-3 py-1.5 rounded-xl bg-gradient-to-br from-[#818CF8] to-[#4F46E5] shadow-[0_2px_8px_rgba(79,70,229,0.35)] text-white font-mono font-black text-sm sm:w-24">
                         {flavour.ext}
                     </span>
                     <p class="flex-1 text-sm text-[#6C3F31] leading-relaxed">
