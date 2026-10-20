@@ -135,7 +135,7 @@
 						<button
 							type="button"
 							onclick={() => form?.useExample(example)}
-							class="mochi-row flex h-full w-full cursor-pointer items-center rounded-2xl px-4 py-2.5 text-left text-sm leading-snug text-[#6C3F31]"
+							class="mochi-row flex h-full w-full cursor-pointer items-center rounded-2xl px-4 py-2.5 text-left text-sm font-medium leading-snug text-balance text-[#6C3F31]"
 							>{example}</button
 						>
 					</li>
