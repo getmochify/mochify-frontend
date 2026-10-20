@@ -335,8 +335,8 @@
         <section id="batch-trimmed" class="scroll-mt-24">
             <SectionHeading>"Staging 3 of N files": why your batch was trimmed</SectionHeading>
             <p class="mb-4">This banner is not an error. Free accounts and visitors without an account convert 3 files per batch; any paid plan (Seller, Pro or a Day Pass) converts 25 per batch. When you add more than your batch size, we stage 3 and set the rest aside. Nothing happens to the files we set aside: they are not uploaded and they do not count against your allowance.</p>
-            <p class="mb-4">Two things people get wrong here. Signing up for a free account raises your monthly allowance from 3 to 25, but it does not raise the batch size: Free and guest batches are both 3. And the trimmed files are not lost; the banner says "convert these 3 now and drop the rest in a second batch," which is exactly what it sounds like.</p>
-            <p class="mb-4">If you regularly have more than three files, a Day Pass ($2) gets you 25 at a time for 24 hours, and the <a href="/pricing">pricing page</a> has the monthly plans.</p>
+            <p class="mb-4">Two things people get wrong here. Signing up for a free account raises your monthly allowance from 3 to 25, but it does not raise the batch size: Free and guest batches are both 3. And the trimmed files are not lost: on a free account you can convert these 3 and drop the next 3 after. Without an account, though, the 3 in front of you are your whole allowance for the month, so a second batch needs a free account or a Day Pass.</p>
+            <p class="mb-4">If you regularly have more than three files, a Day Pass ($2) gets you 25 per batch and 100 uploads within 24 hours, no account needed. For more than 100, Seller covers 300 uploads a month, and the <a href="/pricing">pricing page</a> has the monthly plans.</p>
         </section>
 
         <section id="quota-exhausted" class="scroll-mt-24">

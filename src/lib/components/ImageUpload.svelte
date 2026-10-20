@@ -178,6 +178,9 @@
 	// "Day Pass" tells a first-time visitor nothing, "100 conversions in 24
 	// hours" tells them whether it solves the problem in front of them.
 	const DAY_PASS_OPS = 100;
+	// Seller's monthly allowance, quoted on the batch-cap box for drops too big
+	// for a Day Pass. Keep in step with /pricing.
+	const SELLER_OPS = 300;
 
 	// Prices in cents, the unit Polar quotes. These are what everyone sees
 	// unless Polar holds a price in the visitor's own currency: this component
@@ -874,7 +877,10 @@
 		posthog.capture('manual_compress_started', {
 			files: selectedFiles.length,
 			format: imageType,
-			authed: !!jwt
+			authed: !!jwt,
+			// Separates "converted the trimmed 3" from an ordinary start in the
+			// batch-cap read; the box's own CTAs already carry trigger.
+			...(activeBanner?.kind === 'batch-cap' ? { source: 'batch_cap_box' } : {})
 		});
 
 		errorMessage = '';
@@ -1955,16 +1961,25 @@
                          would be a promise the free tier does not keep. Guests still
                          get the signup link, labelled with what it actually buys
                          (the monthly allowance), below the offer that fixes the cap. -->
+					<!-- Tier-aware because the same advice is wrong for a guest: their
+                         monthly allowance is also 3, so the staged 3 spend the month
+                         and "drop the rest in a second batch" walks them into the
+                         token wall. Only reachable for a guest with the full 3 left:
+                         fewer, and insufficientTokens outranks this banner. -->
 					<p class="text-xs font-bold text-cocoa-deep">
 						Staging {batchTrim?.staged} of {batchTrim?.offered} files.
-						{userTier === 'guest'
-							? 'Guest and free batches are'
-							: userTier === 'free'
-								? 'The free tier is'
-								: 'Batches are'} capped at {batchLimit} files per batch.
+						{#if userTier === 'guest'}
+							Batches are capped at {batchLimit} on the free plan, and these {batchTrim?.staged} are also
+							your free allowance this month without an account.
+						{:else if userTier === 'free'}
+							Free batches are capped at {batchLimit} files; you have {monthlyUploadsRemaining} uploads
+							left this month.
+						{:else}
+							Batches are capped at {batchLimit} files per batch.
+						{/if}
 					</p>
 					{#if userTier !== 'pro'}
-						<div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-2">
+						<div class="mt-1.5 flex flex-wrap items-start gap-x-3 gap-y-2">
 							<!-- Every non-free plan carries the same 25-file batch, so a
                                  Day Pass is a real answer to this cap rather than a
                                  consolation prize, and the cheapest subscription that
@@ -1973,12 +1988,22 @@
                                  Pro here asked $24.99 for something $7.99 buys, and
                                  contradicted the pricing page's own comparison table. -->
 							{#if dayPassOffered}
-								<DayPassButton
-									trigger="batch_cap_banner"
-									class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
-								>
-									Day Pass ({dayPassPrice}) for {BATCH_LIMIT_PAID} at a time
-								</DayPassButton>
+								<!-- Both numbers on the button: the batch size answers the
+                                     cap this box just named, the 100 answers "can I do
+                                     all of these". -->
+								<div class="flex flex-col items-start gap-1">
+									<DayPassButton
+										trigger="batch_cap_banner"
+										class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+									>
+										Day Pass ({dayPassPrice}): {BATCH_LIMIT_PAID} per batch, {DAY_PASS_OPS} uploads today
+									</DayPassButton>
+									<p class="text-xs font-medium text-[#6C3F31]/70">
+										{userTier === 'guest'
+											? 'No account needed. Valid for 24 hours.'
+											: `Adds to your free ${monthlyQuota} this month. Valid for 24 hours.`}
+									</p>
+								</div>
 							{:else}
 								<a
 									href="/pricing"
@@ -1996,12 +2021,34 @@
 										posthog.capture('signup_cta_clicked', { trigger: 'batch_cap_banner' })}
 									class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
 								>
-									Sign up free for {FREE_PLAN_QUOTA} uploads a month
+									Sign up free: {FREE_PLAN_QUOTA} uploads a month, {BATCH_LIMIT_STANDARD} per batch
+								</a>
+							{:else if dayPassOffered && (batchTrim?.offered ?? 0) > BATCH_LIMIT_PAID}
+								<!-- A free account already has the signup; past what a single
+                                     paid batch takes, point at the plans instead. Not shown
+                                     without the Day Pass, whose fallback already links here. -->
+								<a
+									href="/pricing"
+									onclick={() =>
+										posthog.capture('upgrade_cta_clicked', { trigger: 'batch_cap_banner' })}
+									class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+								>
+									Compare plans
 								</a>
 							{/if}
 						</div>
+						{#if (batchTrim?.offered ?? 0) > DAY_PASS_OPS}
+							<!-- hif-to-jpg drops average 52 files and have reached 1,710; a
+                                 Day Pass should not read as the whole answer past 100. -->
+							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+								Dropping more than {DAY_PASS_OPS}? Seller covers {SELLER_OPS} uploads a month, {BATCH_LIMIT_PAID}
+								per batch.
+							</p>
+						{/if}
 						<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
-							Or convert these {batchTrim?.staged} now and drop the rest in a second batch.
+							{userTier === 'guest'
+								? `Or convert these ${batchTrim?.staged} now. A second batch today needs a free account or a Day Pass.`
+								: `Or convert these ${batchTrim?.staged} now and drop the next ${batchLimit} after.`}
 						</p>
 					{/if}
 					<UploadHelpLink
