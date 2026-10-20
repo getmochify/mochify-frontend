@@ -14,6 +14,7 @@
 	import {
 		getSessionToken,
 		getPlan,
+		FREE_PLAN_QUOTA,
 		getBucketConnection,
 		getDriveConnection,
 		resolveRemaining,
@@ -48,6 +49,9 @@
 	} from '$lib/uploadError';
 	import { EN_PROMPT_FORM_STRINGS, type PromptFormStrings } from '$lib/i18n/promptForm';
 	import UploadHelpLink from '$lib/components/UploadHelpLink.svelte';
+	import DayPassButton from '$lib/components/DayPassButton.svelte';
+	import { dayPassEnabled } from '$lib/dayPass';
+	import { formatPrice } from '$lib/currency';
 	import { portal } from '$lib/portal';
 	import {
 		loadPromptHistory,
@@ -391,6 +395,46 @@
 	// null until /api/usage resolves — the generate gate in submit() only fires on a
 	// known-'free' plan, so an in-flight plan lookup never blocks a paying user.
 	let userPlan: 'free' | 'seller' | 'pro' | 'day' | 'growth' | null = $state(null);
+
+	// The batch-cap notice under the tray. Same offer as ImageUpload's batch-cap
+	// box, so the two surfaces never quote different terms; see the comments
+	// there for why each line says what it says. It replaced a red toast that
+	// read "Limited to 3 files. Upgrade to Seller or Growth", which treated a
+	// working trim as an error, never said how many files were left behind, and
+	// offered a subscription to a guest a $2 Day Pass or a free account would do.
+	const BATCH_LIMIT_PAID = 25;
+	const DAY_PASS_OPS = 100;
+	const SELLER_OPS = 300; // keep in step with /pricing
+	let batchTrim: { staged: number; offered: number } | null = $state(null);
+	// getPlan() answers 'free' for signed-out callers too, so the session is what
+	// separates guest from free. Resolved from warmAuth(), which a file add
+	// already triggers, rather than a request of its own.
+	let isAuthed = $state(false);
+	const batchTier = $derived(
+		userPlan && userPlan !== 'free' ? 'paid' : isAuthed ? 'free' : 'guest'
+	);
+
+	// Lazy, like ImageUpload's: the prices only matter once the notice shows.
+	type LocalPrices = { currency: string; prices: Record<string, number> };
+	let localPrices = $state<LocalPrices | null>(null);
+	let pricesRequested = false;
+	const priceCurrency = $derived(localPrices?.currency ?? 'usd');
+	const dayPassPrice = $derived(formatPrice(localPrices?.prices?.dayPass ?? 200, priceCurrency));
+	const cheapestPlanPrice = $derived(
+		formatPrice(localPrices?.prices?.sellerMonthly ?? 799, priceCurrency)
+	);
+	async function loadLocalPrices() {
+		if (pricesRequested) return;
+		pricesRequested = true;
+		try {
+			const res = await fetch('/api/prices');
+			if (!res.ok) return;
+			const body = (await res.json()) as { pricing: LocalPrices | null };
+			if (body.pricing) localPrices = body.pricing;
+		} catch {
+			/* stay on USD */
+		}
+	}
 	$effect(() => {
 		Promise.all([getBucketConnection(), getDriveConnection()]).then(([b, d]) => {
 			bucketConnected = b.connected && b.status === 'ok';
@@ -708,19 +752,40 @@
 			showStatus('error', `Mix not allowed — clear files first to switch to ${modeLabel}.`);
 		}
 
-		const available = MAX_FILES - files.length;
+		const available = Math.max(0, MAX_FILES - files.length);
 		const toAdd = validFiles.slice(0, available);
-		if (validFiles.length > toAdd.length) {
-			showStatus(
-				'error',
-				`Limited to ${MAX_FILES} files. Upgrade to Seller or Growth for batches up to 25.`
-			);
-		}
+		const droppedByCap = validFiles.length - toAdd.length;
 
 		if (toAdd.length > 0 && uploadMode === null) uploadMode = effectiveMode;
+		const offered = files.length + validFiles.length;
 		files = [...files, ...toAdd];
-		if (toAdd.length > 0) warmAuth();
+		if (droppedByCap > 0) {
+			batchTrim = { staged: files.length, offered };
+			void loadLocalPrices();
+		}
+		if (toAdd.length > 0 || droppedByCap > 0) {
+			warmAuth();
+			const cap = MAX_FILES;
+			warmedAuth?.then((jwt) => {
+				isAuthed = !!jwt;
+				// After the session resolves, so `tier` separates guest from free
+				// the same way ImageUpload's event does.
+				if (droppedByCap > 0)
+					posthog.capture('batch_cap_trimmed', {
+						error_key: 'batch_trimmed',
+						cap,
+						dropped: droppedByCap,
+						tier: plan !== 'free' ? 'pro' : jwt ? 'free' : 'guest',
+						surface: 'magic_flow'
+					});
+			});
+		}
 	}
+
+	// Every run and every clear empties the tray; the notice goes with it.
+	$effect(() => {
+		if (files.length === 0) batchTrim = null;
+	});
 
 	const imageSuggestions = $derived(t.imageSuggestions);
 	const pdfSuggestions = [
@@ -905,6 +970,7 @@
 
 	function removeFile(i: number) {
 		files = files.filter((_, idx) => idx !== i);
+		batchTrim = null;
 		if (files.length === 0) uploadMode = null;
 	}
 
@@ -3311,6 +3377,111 @@
 					></div>
 				</div>
 			</div>
+
+			{#if batchTrim}
+				<!-- Batch-cap notice: the same tier-aware offer as ImageUpload's
+				     batch-cap box, set inside the card, in the tray's own pink rather
+				     than an error red, because nothing failed. -->
+				<div
+					class="animate-fade-in mx-4 mt-3 flex items-start gap-3 rounded-2xl border border-[#F06292]/15 bg-[#FFF0F3]/70 px-4 py-3 sm:mx-6"
+					role="status"
+				>
+					<div class="flex min-w-0 flex-1 flex-col gap-1">
+						<p class="text-xs font-bold text-[#4A2C2C] sm:text-sm">
+							Added {batchTrim.staged} of {batchTrim.offered} files.
+							{#if batchTier === 'guest'}
+								Without an account, batches are {MAX_FILES} files, and these {batchTrim.staged} are also
+								your uploads for this month.
+							{:else if batchTier === 'free'}
+								Free batches are {MAX_FILES} files at a time.
+							{:else}
+								Batches are up to {MAX_FILES} files. Send these, then add the rest.
+							{/if}
+						</p>
+						{#if batchTier !== 'paid'}
+							<div class="mt-1 flex flex-wrap items-start gap-x-3 gap-y-2">
+								{#if dayPassEnabled()}
+									<div class="flex flex-col items-start gap-1 sm:max-w-xs">
+										<DayPassButton
+											trigger="magic_flow_batch_cap"
+											class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+										>
+											Day Pass ({dayPassPrice}): {BATCH_LIMIT_PAID} per batch, {DAY_PASS_OPS} uploads
+											today
+										</DayPassButton>
+										<p class="text-xs font-medium text-[#6C3F31]/70">
+											{batchTier === 'guest'
+												? 'The Day Pass needs no account and lasts 24 hours.'
+												: `The Day Pass gives you ${DAY_PASS_OPS} uploads for 24 hours, then your free ${FREE_PLAN_QUOTA} starts fresh.`}
+										</p>
+									</div>
+								{:else}
+									<a
+										href="/pricing"
+										onclick={() =>
+											posthog.capture('upgrade_cta_clicked', { trigger: 'magic_flow_batch_cap' })}
+										class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+									>
+										Upgrade from {cheapestPlanPrice}/mo for {BATCH_LIMIT_PAID} at a time
+									</a>
+								{/if}
+								{#if batchTier === 'guest'}
+									<a
+										href="/auth/register"
+										onclick={() =>
+											posthog.capture('signup_cta_clicked', { trigger: 'magic_flow_batch_cap' })}
+										class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+									>
+										Sign up free: {FREE_PLAN_QUOTA} uploads a month, {MAX_FILES} per batch
+									</a>
+								{:else if dayPassEnabled() && batchTrim.offered > BATCH_LIMIT_PAID}
+									<a
+										href="/pricing"
+										onclick={() =>
+											posthog.capture('upgrade_cta_clicked', { trigger: 'magic_flow_batch_cap' })}
+										class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+									>
+										Compare plans
+									</a>
+								{/if}
+							</div>
+							{#if batchTrim.offered > DAY_PASS_OPS}
+								<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+									Dropping more than {DAY_PASS_OPS}? Seller covers {SELLER_OPS} uploads a month, {BATCH_LIMIT_PAID}
+									per batch.
+								</p>
+							{/if}
+							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+								{batchTier === 'guest'
+									? `Or send these ${batchTrim.staged} now. A second batch today needs a free account or a Day Pass.`
+									: `Or send these ${batchTrim.staged} now and add the next ${MAX_FILES} after.`}
+							</p>
+						{/if}
+						<UploadHelpLink
+							errorKey="batch_trimmed"
+							surface="magic_flow_batch_cap"
+							label="Why was my batch trimmed?"
+							class="mt-1 self-start text-[#8D6E63]"
+						/>
+					</div>
+					<button
+						type="button"
+						onclick={() => (batchTrim = null)}
+						class="-mt-0.5 -mr-1 flex h-6 w-6 flex-shrink-0 cursor-pointer items-center justify-center rounded-full text-[#875F42]/60 transition-colors hover:bg-white/70 hover:text-[#F06292]"
+						aria-label="Dismiss"
+					>
+						<svg
+							class="h-3.5 w-3.5"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							stroke-width="3"
+						>
+							<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+						</svg>
+					</button>
+				</div>
+			{/if}
 
 			<div class="flex flex-col gap-3 px-4 pt-4 pb-3 sm:px-6 sm:pt-5">
 				<input
