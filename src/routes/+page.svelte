@@ -4,6 +4,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import LocaleBanner from '$lib/components/LocaleBanner.svelte';
 	import PromptFormApp from '$lib/components/PromptFormApp.svelte';
+	import CodeCard from '$lib/components/guide-demo/CodeCard.svelte';
 	import { getPlan } from '$lib/user';
 
 	// Honoured by the constellation pulses and the demo loops. Set on mount so
@@ -743,7 +744,7 @@
 		</div>
 	</section>
 
-	<!-- ═══ 3. THREE STEPS · white band, terminal cards ═══ -->
+	<!-- ═══ 3. THREE STEPS · white band, code cards ═══ -->
 	<section class="reveal bg-white/60 py-14 md:py-20">
 		<div class="mx-auto max-w-6xl px-4 sm:px-6">
 			<h2
@@ -759,8 +760,8 @@
 			</p>
 
 			<div class="grid gap-10 md:grid-cols-3 md:grid-rows-[auto_auto_1fr] md:gap-x-6 md:gap-y-0">
-				<!-- Step 1. No outer card: the window is the card. Subgrid keeps the
-                     three title rows, body rows, and windows aligned across columns. -->
+				<!-- Step 1. No outer card: the code card is the card. Subgrid keeps the
+                     three title rows, body rows, and code cards aligned across columns. -->
 				<div class="md:row-span-3 md:grid md:grid-rows-subgrid">
 					<div class="mb-3 flex items-center gap-3">
 						<span
@@ -772,28 +773,18 @@
 					<p class="mb-5 leading-relaxed text-[#875F42]">
 						macOS via Homebrew. Linux and Cargo paths on the repo.
 					</p>
-					<div
-						class="flex flex-col overflow-hidden rounded-2xl bg-[#1C1C1E] shadow-lg ring-1 ring-black/5 md:h-full"
-					>
-						<div
-							class="flex shrink-0 items-center gap-2 border-b border-white/5 bg-[#2C2C2E] px-4 py-2.5"
-						>
-							<div class="h-3 w-3 shrink-0 rounded-full bg-[#FF5F57]"></div>
-							<div class="h-3 w-3 shrink-0 rounded-full bg-[#FFBD2E]"></div>
-							<div class="h-3 w-3 shrink-0 rounded-full bg-[#28C941]"></div>
-							<span class="ml-2 truncate font-mono text-xs text-white/40">terminal</span>
-						</div>
-						<div class="flex-1 space-y-1.5 p-4 font-mono text-xs leading-relaxed text-white/85">
+					<CodeCard filename="terminal" compact class="md:h-full">
+						<div class="space-y-1.5">
 							<p><span class="text-[#F06292] select-none">$</span> brew tap getmochify/mochify</p>
 							<p><span class="text-[#F06292] select-none">$</span> brew install mochify</p>
 							<p><span class="text-[#F06292] select-none">$</span> mochify auth login</p>
-							<p class="text-[#28C941]">✓ signed in, CLI and MCP ready</p>
+							<p class="text-[#A5D6A7]">✓ signed in, CLI and MCP ready</p>
 						</div>
-					</div>
+					</CodeCard>
 				</div>
 
-				<!-- Step 2. No outer card: the window is the card. Subgrid keeps the
-                     three title rows, body rows, and windows aligned across columns. -->
+				<!-- Step 2. No outer card: the code card is the card. Subgrid keeps the
+                     three title rows, body rows, and code cards aligned across columns. -->
 				<div class="md:row-span-3 md:grid md:grid-rows-subgrid">
 					<div class="mb-3 flex items-center gap-3">
 						<span
@@ -805,26 +796,13 @@
 					<p class="mb-5 leading-relaxed text-[#875F42]">
 						Three lines of JSON. Restart Claude Desktop.
 					</p>
-					<div
-						class="flex flex-col overflow-hidden rounded-2xl bg-[#1C1C1E] shadow-lg ring-1 ring-black/5 md:h-full"
-					>
-						<div
-							class="flex shrink-0 items-center gap-2 border-b border-white/5 bg-[#2C2C2E] px-4 py-2.5"
-						>
-							<div class="h-3 w-3 shrink-0 rounded-full bg-[#FF5F57]"></div>
-							<div class="h-3 w-3 shrink-0 rounded-full bg-[#FFBD2E]"></div>
-							<div class="h-3 w-3 shrink-0 rounded-full bg-[#28C941]"></div>
-							<span class="ml-2 truncate font-mono text-xs text-white/40"
-								>claude_desktop_config.json</span
-							>
-						</div>
-						<pre
-							class="flex-1 overflow-x-auto p-4 font-mono text-xs leading-relaxed text-white/75">{claudeConfig}</pre>
-					</div>
+					<CodeCard filename="claude_desktop_config.json" compact class="md:h-full">
+						<pre class="m-0 font-[inherit] text-[#f3e8e6]/85">{claudeConfig}</pre>
+					</CodeCard>
 				</div>
 
-				<!-- Step 3. No outer card: the window is the card. Subgrid keeps the
-                     three title rows, body rows, and windows aligned across columns. -->
+				<!-- Step 3. No outer card: the code card is the card. Subgrid keeps the
+                     three title rows, body rows, and code cards aligned across columns. -->
 				<div class="md:row-span-3 md:grid md:grid-rows-subgrid">
 					<div class="mb-3 flex items-center gap-3">
 						<span
@@ -837,34 +815,24 @@
 						Ask Claude in plain English. The image stays on your laptop; only paths cross the
 						context.
 					</p>
-					<div
-						class="flex flex-col overflow-hidden rounded-2xl bg-[#1C1C1E] shadow-lg ring-1 ring-black/5 md:h-full"
-					>
-						<div
-							class="flex shrink-0 items-center gap-2 border-b border-white/5 bg-[#2C2C2E] px-4 py-2.5"
-						>
-							<div class="h-3 w-3 shrink-0 rounded-full bg-[#FF5F57]"></div>
-							<div class="h-3 w-3 shrink-0 rounded-full bg-[#FFBD2E]"></div>
-							<div class="h-3 w-3 shrink-0 rounded-full bg-[#28C941]"></div>
-							<span class="ml-2 truncate font-mono text-xs text-white/40">Claude Desktop</span>
-						</div>
-						<div class="flex-1 space-y-3 p-4 font-mono text-xs leading-relaxed">
+					<CodeCard filename="Claude Desktop" compact class="md:h-full">
+						<div class="space-y-3">
 							<div class="flex gap-2">
 								<span class="shrink-0 text-[#F06292]">you</span>
-								<span class="text-white/80">Convert ~/Desktop/hero.jpg to AVIF at 1200px wide</span>
+								<span>Convert ~/Desktop/hero.jpg to AVIF at 1200px wide</span>
 							</div>
 							<div class="flex gap-2">
-								<span class="shrink-0 text-[#FFBD2E]">tool</span>
-								<span class="text-white/50">mochify · squish(path, type="avif", width=1200)</span>
-							</div>
-							<div class="flex gap-2">
-								<span class="shrink-0 text-[#28C941]">done</span>
-								<span class="text-white/80"
-									>hero.avif · 34 KB <span class="text-white/40">(was 2.1 MB)</span></span
+								<span class="shrink-0 text-[#D7B9A8]">tool</span>
+								<span class="text-[#f3e8e6]/55"
+									>mochify · squish(path, type="avif", width=1200)</span
 								>
 							</div>
+							<div class="flex gap-2">
+								<span class="shrink-0 text-[#A5D6A7]">done</span>
+								<span>hero.avif · 34 KB <span class="text-[#f3e8e6]/45">(was 2.1 MB)</span></span>
+							</div>
 						</div>
-					</div>
+					</CodeCard>
 				</div>
 			</div>
 		</div>
@@ -988,7 +956,7 @@
 	</section>
 
 	<!-- ═══ 5. TOKEN SAVINGS · full-bleed dark, the argument that closes developers ═══ -->
-	<section class="reveal bg-[#1C1C1E] py-16 md:py-24">
+	<section class="reveal bg-[#2D1B1B] py-16 md:py-24">
 		<div class="mx-auto max-w-6xl px-4 sm:px-6">
 			<h2
 				class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-white md:text-[2.5rem]"
@@ -1025,12 +993,12 @@
 				</div>
 			</div>
 
-			<div class="mb-8 overflow-hidden rounded-3xl bg-[#111113] shadow-2xl ring-1 ring-white/10">
-				<div class="flex items-center gap-2 border-b border-white/5 bg-[#2C2C2E] px-5 py-3">
-					<div class="h-3 w-3 rounded-full bg-[#FF5F57]"></div>
-					<div class="h-3 w-3 rounded-full bg-[#FFBD2E]"></div>
-					<div class="h-3 w-3 rounded-full bg-[#28C841]"></div>
-					<span class="ml-3 font-mono text-xs text-white/40"
+			<div
+				class="mb-8 overflow-hidden rounded-3xl border border-[#FFB3C6]/12 bg-gradient-to-br from-[#241a1c] to-[#1c1416] shadow-2xl"
+			>
+				<div class="flex items-center border-b border-white/[0.06] px-5 py-3">
+					<span
+						class="truncate rounded-full border border-[#F06292]/25 bg-[#F06292]/12 px-3 py-0.5 font-mono text-[0.7rem] font-bold tracking-[0.06em] text-[#FFB3C6] uppercase"
 						>context window, bytes travelling through your agent</span
 					>
 				</div>
@@ -1038,7 +1006,7 @@
 					<div class="p-6 md:p-8">
 						<div class="mb-5 flex items-center gap-2">
 							<span
-								class="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#FF5F57]"
+								class="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#FF8A80]"
 							>
 								<svg
 									class="h-2.5 w-2.5 text-white"
@@ -1056,7 +1024,7 @@
 							{#each [{ label: 'agent', payload: '→ image bytes', bad: true }, { label: 'tool call', payload: '→ bytes again', bad: true }, { label: 'response', payload: '→ bytes again', bad: true }, { label: 'agent', payload: '', bad: false }] as row}
 								<div class="flex items-center gap-3">
 									<span class="w-20 shrink-0 text-white/40">{row.label}</span>
-									<span class={row.bad ? 'font-bold text-[#FF5F57]' : 'text-white/25'}
+									<span class={row.bad ? 'font-bold text-[#FF8A80]' : 'text-white/25'}
 										>{row.payload}</span
 									>
 								</div>
@@ -1066,7 +1034,7 @@
 					<div class="p-6 md:p-8">
 						<div class="mb-5 flex items-center gap-2">
 							<span
-								class="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#28C841]"
+								class="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#A5D6A7]"
 							>
 								<svg
 									class="h-2.5 w-2.5 text-white"
@@ -1084,7 +1052,7 @@
 							{#each [{ label: 'agent', payload: '→ file path' }, { label: 'tool call', payload: '→ path only' }, { label: 'response', payload: '→ path + meta' }, { label: 'agent', payload: '' }] as row}
 								<div class="flex items-center gap-3">
 									<span class="w-20 shrink-0 text-white/40">{row.label}</span>
-									<span class="font-bold text-[#28C841]">{row.payload}</span>
+									<span class="font-bold text-[#A5D6A7]">{row.payload}</span>
 								</div>
 							{/each}
 						</div>

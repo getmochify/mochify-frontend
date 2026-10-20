@@ -1,22 +1,38 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
+
 	// Quieter code block: language/filename chip instead of fake macOS window
-	// chrome, warm dark surface, soft pink glow in the shadow.
+	// chrome, warm dark surface, soft pink glow in the shadow. The one code
+	// block style for the site: guides pass `code`; the homepage passes a
+	// `children` snippet for rich content (prompt markers, a chat transcript)
+	// and `compact` for the smaller step cards.
 	let {
 		filename = '',
-		code = ''
+		code = '',
+		compact = false,
+		class: className = '',
+		children
 	}: {
 		filename?: string;
 		code?: string;
+		/** Smaller type and padding, no outer margin, body fills the card's height. */
+		compact?: boolean;
+		class?: string;
+		children?: Snippet;
 	} = $props();
 </script>
 
-<div class="code-card">
+<div class="code-card {className}" class:compact>
 	{#if filename}
 		<div class="code-header">
 			<span class="chip">{filename}</span>
 		</div>
 	{/if}
-	<pre><code>{code}</code></pre>
+	{#if children}
+		<div class="code-body">{@render children()}</div>
+	{:else}
+		<pre><code>{code}</code></pre>
+	{/if}
 </div>
 
 <style>
@@ -40,6 +56,10 @@
 	}
 
 	.chip {
+		max-width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 		font-family: 'SF Mono', 'Monaco', 'Fira Code', monospace;
 		font-size: 0.7rem;
 		font-weight: 700;
@@ -52,10 +72,12 @@
 		padding: 0.2rem 0.7rem;
 	}
 
-	.code-card pre {
+	.code-card pre,
+	.code-body {
 		margin: 0;
 		padding: 1.25rem 1.5rem;
 		overflow-x: auto;
+		font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
 		font-size: 0.9375rem;
 		line-height: 1.7;
 		color: #f3e8e6;
@@ -70,5 +92,23 @@
 		border: none;
 		font-weight: 400;
 		font-size: inherit;
+	}
+
+	.compact {
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.compact .code-header {
+		flex-shrink: 0;
+	}
+
+	.compact pre,
+	.compact .code-body {
+		flex: 1;
+		padding: 1rem;
+		font-size: 0.75rem;
+		line-height: 1.65;
 	}
 </style>
