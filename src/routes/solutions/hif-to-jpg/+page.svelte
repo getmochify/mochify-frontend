@@ -149,7 +149,31 @@
             <ImageUpload types=".HEIF, .HIF" output="jpg" showTypes={false} compact queryParams="photography=1&quality=85" showExifOption={true} stripExifDefault={false} showDayPass={true} />
         </div>
 
-        <section class="mt-10 mb-20 max-w-2xl mx-auto">
+        <section class="mt-10 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">How to convert HIF to JPG</h2>
+            <ol class="space-y-4">
+                <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
+                    <span class="shrink-0 w-8 h-8 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4338CA] font-black text-sm flex items-center justify-center">1</span>
+                    <p class="leading-relaxed text-[#6C3F31]">
+                        <strong class="text-[#4A2C2C]">Drop your .HIF files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. Got a whole shoot to convert? A <a href="/pricing" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours, no account needed.
+                    </p>
+                </li>
+                <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
+                    <span class="shrink-0 w-8 h-8 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4338CA] font-black text-sm flex items-center justify-center">2</span>
+                    <p class="leading-relaxed text-[#6C3F31]">
+                        <strong class="text-[#4A2C2C]">Decide what happens to the metadata.</strong> Once your files are in, a Strip EXIF switch appears; that is the only choice on this page. It starts off here, so your camera data (ISO, shutter, lens, GPS) stays in the JPG unless you switch it on. Each file is then decoded and re-encoded as a JPG with Google's jpegli encoder.
+                    </p>
+                </li>
+                <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
+                    <span class="shrink-0 w-8 h-8 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4338CA] font-black text-sm flex items-center justify-center">3</span>
+                    <p class="leading-relaxed text-[#6C3F31]">
+                        <strong class="text-[#4A2C2C]">Download your JPGs.</strong> They open in Lightroom, Photoshop, Windows Photos, Preview, every browser and every upload form, none of which need to know what HIF is.
+                    </p>
+                </li>
+            </ol>
+        </section>
+
+        <section class="mt-20 mb-20 max-w-2xl mx-auto">
             <div class="liquid-glass rounded-[2rem] px-7 py-6 flex flex-col sm:flex-row items-center gap-5">
                 <div class="flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FFD6E5] to-[#F06292]/20">
                     <svg class="h-6 w-6 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
