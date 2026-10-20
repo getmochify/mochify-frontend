@@ -1,8 +1,11 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         title: "Does Converting HIF to JPG Reduce Quality?",
@@ -18,6 +21,12 @@
         { href: '/guides/hif-to-jpg-canon-sony-fujifilm', title: 'HIF to JPG for Canon, Sony, and Fujifilm', desc: 'The full conversion workflow and settings for professional cameras.' },
         { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli Guide 2026: Quality-Per-Byte', desc: 'How the encoder protects detail and avoids gradient banding.' },
         { href: '/heic-to-jpeg', title: 'HEIC to JPEG', desc: 'The separate route for Apple and iPhone .HEIC photos.' },
+    ];
+
+    const toc = [
+        { id: 'when-quality-drop-shows', label: 'When the quality drop actually shows' },
+        { id: 'canon-hdr-pq', label: 'The real exception: Canon HDR PQ' },
+        { id: 'keep-conversions-clean', label: 'How to keep conversions clean' }
     ];
 </script>
 
@@ -81,59 +90,48 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Reduce Quality" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · {metadata.date}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Does Converting HIF to JPG Reduce Quality?
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Converting HIF to JPG does not visibly reduce quality for most photographs. A .HIF file stores 10-bit color (about 1.07 billion possible values) and a standard JPG stores 8-bit (16.7 million), so the precision drop is real on paper. In practice it stays invisible for typical photographic content. The one case that genuinely changes how an image looks is not the bit-depth drop at all: it is converting a Canon HDR PQ file to a standard JPG without a tone-map.
         </p>
 
-        <p class="text-sm text-[#875F42]">Published {metadata.date} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong>. Covers post-conversion quality for professional HIF/HEIF files from Canon, Sony, and Fujifilm cameras, not the separate iPhone .HEIC path.</p>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">Published {metadata.date} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong>. Covers post-conversion quality for professional HIF/HEIF files from Canon, Sony, and Fujifilm cameras, not the separate iPhone .HEIC path.</p>
+        </div>
     </header>
 
-    <!-- TOC -->
-    <nav class="bg-[#FFF5F7] border border-pink-100 rounded-3xl p-4 mb-8" aria-label="What's in this guide">
-        <h2 class="font-extrabold text-[#4A2C2C] text-base mb-8">
-            What's in This Guide
-            <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
-        </h2>
-        <ol class="space-y-3">
-            {#each [
-                { n: '01', id: 'when-quality-drop-shows', label: 'When the quality drop actually shows' },
-                { n: '02', id: 'canon-hdr-pq', label: 'The real exception: Canon HDR PQ' },
-                { n: '03', id: 'keep-conversions-clean', label: 'How to keep conversions clean' },
-            ] as item}
-                <li class="flex items-center gap-4">
-                    <span class="w-8 h-8 shrink-0 bg-[#FFF0F5] border border-pink-100 rounded-full flex items-center justify-center font-black text-[#F06292] text-xs">{item.n}</span>
-                    <a href="#{item.id}" class="text-[#6C3F31] font-semibold text-sm hover:text-[#F06292] transition-colors">{item.label}</a>
-                </li>
-            {/each}
-        </ol>
-    </nav>
+    <div class="space-y-12">
 
-    <div class="space-y-12 text-lg text-[#6C3F31] leading-relaxed">
+        <section>
+            <GuideTOC items={toc} heading="What's in This Guide" />
+        </section>
 
         <section id="when-quality-drop-shows" class="scroll-mt-24">
             <SectionHeading>When the quality drop actually shows</SectionHeading>
             <p class="mb-4">The 8-bit limit only becomes visible in smooth, low-contrast gradients: clear skies, skin in soft light, deep shadow roll-offs. Sony cites the sky gradient as the canonical reason HEIF records in 10-bit. In high-detail scenes (foliage, fabric, street textures) JPG compression masks the smaller tonal steps, and a well-encoded 8-bit file is effectively indistinguishable from the 10-bit source. Whether banding appears is content-dependent, so judge it per image rather than by rule.</p>
             <p class="mb-4">This holds across the pro-camera HIF/HEIF world: Canon, Sony, and Fujifilm all write HIF on the same 10-bit basis.</p>
 
-            <InfoBox type="tip" title="HIF is not HEIC">
+            <GlassInfoBox type="tip" title="HIF is not HEIC">
                 .HEIC is the same HEIF format underneath but is Apple's iPhone variant. If you are converting iPhone photos, use the <a href="/heic-to-jpeg">HEIC to JPEG</a> route instead.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="canon-hdr-pq" class="scroll-mt-24">
@@ -148,15 +146,30 @@
             <p>Mochify encodes every JPG with jpegli, so gradient-heavy shots survive conversion better than a basic exporter manages. Because the interface is natural language, you can describe the job in plain English - for example: <code class={inlineCode}>convert these HIF photos to JPG at quality 90</code>. Your files stream into the encoder in memory on Mochify's API, are processed, and are wiped immediately with no retention.</p>
         </section>
 
-        <aside class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-8">
-            <p class="text-[#6C3F31] leading-relaxed mb-5">Convert your Canon, Sony, or Fujifilm HIF files without the banding risk. Just tell Mochify what you want - for example <em>"convert these HIF photos to JPG at quality 90"</em> - and jpegli handles the rest.</p>
-            <a href="/solutions/hif-to-jpg" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
-                Convert HIF to JPG free
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-            </a>
-        </aside>
+        <GlassCTA href="/solutions/hif-to-jpg" label="Convert HIF to JPG free">
+            Convert your Canon, Sony, or Fujifilm HIF files without the banding risk. Just tell Mochify what you want - for example <em>"convert these HIF photos to JPG at quality 90"</em> - and jpegli handles the rest.
+        </GlassCTA>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

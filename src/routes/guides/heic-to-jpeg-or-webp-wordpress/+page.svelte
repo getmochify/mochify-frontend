@@ -1,7 +1,9 @@
 <script lang="ts">
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
@@ -84,30 +86,35 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.datePublished} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="JPEG or WebP" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · {metadata.datePublished} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Should I convert HEIC to JPEG or WebP for WordPress uploads?
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             JPEG works everywhere and is the safest default for WordPress uploads. WebP is the better choice when file size matters and you don't need to support very old browsers: it's typically 25–35% smaller than an equivalent JPEG, and global browser support is now above 97%. Either way, never upload HEIC directly for public display. Browsers don't support it natively, and your visitors will either see nothing or trigger a server-side fallback that may or may not work depending on your host.
         </p>
 
-        <p class="text-sm text-[#875F42]">Published {metadata.datePublished} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong>. This guide covers WordPress's built-in HEIC handling, what it gets wrong, and why converting before upload gives you more control over the result.</p>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">Published {metadata.datePublished} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong>. This guide covers WordPress's built-in HEIC handling, what it gets wrong, and why converting before upload gives you more control over the result.</p>
+        </div>
     </header>
 
-    <div class="space-y-12 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
         <section id="what-wordpress-does-with-heic" class="scroll-mt-24">
             <SectionHeading>What WordPress actually does with a HEIC file</SectionHeading>
@@ -116,9 +123,9 @@
             <p class="mb-4">Neither approach gives you meaningful control over output format or quality without extra configuration.</p>
             <p class="mb-4">Embedded metadata is the other thing that changes hands at upload, because WordPress generates its own resized derivatives from whatever you give it. If that matters for your workflow, <a href="/guides/does-stripping-exif-data-improve-wordpress-image-seo">what WordPress does to image metadata on resize</a> sets out the default behavior and what it means in practice.</p>
 
-            <InfoBox type="tip" title="Check your host first">
+            <GlassInfoBox type="tip" title="Check your host first">
                 WordPress's automatic HEIC conversion requires Imagick with HEIC support, and not all hosts have it. Go to Tools &gt; Site Health &gt; Info &gt; Media Handling to see what your server supports before relying on it.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="converting-before-upload" class="scroll-mt-24">
@@ -146,15 +153,30 @@
             <p class="mb-4">Convert your iPhone photos before they reach WordPress at <a href="/heic-to-jpeg">mochify.app/heic-to-jpeg</a>.</p>
         </section>
 
-        <aside class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-8">
-            <p class="text-[#6C3F31] leading-relaxed mb-5">Upload your HEIC files and convert to JPEG or WebP in seconds. Just describe what you need, <em>"convert to WebP, max 1200px, strip EXIF"</em>, and Mochify handles the rest. Free to try, no signup required for your first three images.</p>
-            <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
-                Try it free
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-            </a>
-        </aside>
+        <GlassCTA href="/" label="Try it free">
+            Upload your HEIC files and convert to JPEG or WebP in seconds. Just describe what you need, <em>"convert to WebP, max 1200px, strip EXIF"</em>, and Mochify handles the rest. Free to try, no signup required for your first three images.
+        </GlassCTA>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

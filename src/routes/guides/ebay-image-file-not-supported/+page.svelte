@@ -1,7 +1,9 @@
 <script lang="ts">
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
@@ -86,39 +88,44 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Not Supported" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Why Does eBay Say My Image File Is Not Supported?
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             eBay rejects images its upload tool cannot read, most commonly RAW files and the .HIF files professional cameras write, files over its 12MB limit, and, for some sellers, iPhone HEIC photos, even though eBay now lists HEIC as accepted. Converting to JPEG before uploading fixes the error in almost every case.
         </p>
 
-        <p class="text-sm text-[#875F42]">Published {metadata.datePublished} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong></p>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">Published {metadata.datePublished} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong></p>
+        </div>
     </header>
 
-    <div class="space-y-12 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
         <section id="what-formats-does-ebay-accept" class="scroll-mt-24">
             <SectionHeading>What formats does eBay actually accept?</SectionHeading>
             <p class="mb-4">eBay's help page lists JPEG, PNG, GIF, TIFF, BMP, WebP, HEIC and AVIF as accepted formats, at up to 12MB per photo (<a href="https://www.ebay.com/help/selling/listings/adding-pictures-listings?id=4148" target="_blank" rel="noopener noreferrer">eBay: Adding pictures to your listings</a>). In practice, sellers still report HEIC uploads failing on eBay's community forums, so JPEG remains the safest choice for main product photos.</p>
             <p class="mb-4">RAW files from cameras (CR3, ARW, NEF, and similar) and HIF files from professional mirrorless cameras are never accepted. Renaming a HEIC or RAW file with a <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">.jpg</code> extension does not work. eBay checks the actual file data, not just the extension. Mochify's uploader does the same, and when it refuses a file the cause is often not the format at all: <a href="/guides/why-did-my-upload-fail">the upload error guide</a> covers the sidecar and placeholder files behind many of those rejections.</p>
 
-            <InfoBox type="tip" title="Good to know">
+            <GlassInfoBox type="tip" title="Good to know">
                 eBay's list of accepted formats has grown to include WebP, HEIC and AVIF, but the list is not the whole story: a camera's .HIF file is still not on it, and HEIC uploads still fail for some sellers. When in doubt, export as JPEG.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="the-12mb-file-size-limit" class="scroll-mt-24">
@@ -146,15 +153,30 @@
             <p class="mb-4">Hitting upload errors on every listing is a volume problem as much as a format one. If you're reselling at any real scale, see <a href="/guides/is-reselling-worth-it">our reseller ROI guide</a> for the honest math on where the time actually goes.</p>
         </section>
 
-        <aside class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-8">
-            <p class="text-[#6C3F31] leading-relaxed mb-5">Convert HEIC, HIF, RAW, or oversized images to eBay-ready JPEG in seconds. Just describe what you need: <em>"convert to JPEG, 1600px, quality 85"</em> and Mochify handles the rest.</p>
-            <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
-                Try it free
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-            </a>
-        </aside>
+        <GlassCTA href="/" label="Try it free">
+            Convert HEIC, HIF, RAW, or oversized images to eBay-ready JPEG in seconds. Just describe what you need: <em>"convert to JPEG, 1600px, quality 85"</em> and Mochify handles the rest.
+        </GlassCTA>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>
