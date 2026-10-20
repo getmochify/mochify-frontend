@@ -109,6 +109,7 @@ Growth -- $79.99/month (or $799.99/year, about $66.67/month)
 
 Day Pass -- $2 one-time
 - 100 image ops for 24 hours
+- Replaces a free account's allowance for those 24 hours; a fresh free 25 starts when it ends
 - 75MB max file size
 - Activated by magic link, no subscription
 - Includes erase, recolor and the full PDF toolkit; saving to Google Drive or a bucket is not included (a pass has no account to attach one to)

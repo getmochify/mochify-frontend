@@ -59,7 +59,7 @@
 		},
 		{
 			title: 'For batches, use the web app',
-			html: '<p>Drop the files at <a href="https://mochify.app">mochify.app</a> and prompt once for all of them. Free is 3 images a month with no account at all (a guest allowance by IP address that resets monthly) or 25 a month with a free account, up to 20MB per file and 3 per batch. Seller and Pro raise that to 75MB and 25 per batch. A $2 Day Pass gives you 100 uploads within 24 hours with no account and no subscription, and its allowance sits on top of whatever tier you were already on.</p>'
+			html: '<p>Drop the files at <a href="https://mochify.app">mochify.app</a> and prompt once for all of them. Free is 3 images a month with no account at all (a guest allowance by IP address that resets monthly) or 25 a month with a free account, up to 20MB per file and 3 per batch. Seller and Pro raise that to 75MB and 25 per batch. A $2 Day Pass gives you 100 uploads within 24 hours with no account and no subscription. On a free account it replaces your monthly allowance for those 24 hours, and a fresh 25 starts when it ends.</p>'
 		}
 	];
 

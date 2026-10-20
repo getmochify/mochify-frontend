@@ -329,7 +329,7 @@
             <SectionHeading>"Exceeds 20MB limit": the file is over your per-file limit</SectionHeading>
             <p class="mb-4">The per-file limit is 20MB on Free (and without an account) and 75MB on Seller, Pro and the Day Pass. The check runs in your browser before anything is sent, so an oversize file gets its own red card, never joins the upload, and never counts against anything.</p>
             <p class="mb-4">The limit is per file, not per batch. If one photo is over and the rest are fine, the rest convert normally.</p>
-            <p class="mb-4">For a one-off batch of large files, the Day Pass is the cheapest route: $2, 100 uploads within 24 hours, files up to 75MB, no account or subscription, and it sits on top of whatever monthly allowance you already have. For regular work with 45-61MP camera files, <a href="/pricing">Seller or Pro</a> is the fit. We covered why camera files run this big, and what to do about it, in our guide to <a href="/guides/photo-file-too-large-to-upload">photos that are too large to upload</a>.</p>
+            <p class="mb-4">For a one-off batch of large files, the Day Pass is the cheapest route: $2, 100 uploads within 24 hours, files up to 75MB, no account or subscription. On a free account it stands in for your monthly allowance for those 24 hours, and a fresh 25 starts when it ends. For regular work with 45-61MP camera files, <a href="/pricing">Seller or Pro</a> is the fit. We covered why camera files run this big, and what to do about it, in our guide to <a href="/guides/photo-file-too-large-to-upload">photos that are too large to upload</a>.</p>
         </section>
 
         <section id="batch-trimmed" class="scroll-mt-24">
@@ -342,7 +342,7 @@
         <section id="quota-exhausted" class="scroll-mt-24">
             <SectionHeading>"Rate limit reached": you have used this month's uploads</SectionHeading>
             <p class="mb-4">Despite the wording, this is not a rate limit and waiting a minute will not help. It means the monthly allowance on your account (or the 3 free conversions per month for visitors without an account) ran out partway through a batch. The files that converted before the limit are already downloaded; the message tells you how many remain.</p>
-            <p class="mb-4">Your options are your monthly reset, a Day Pass ($2 for 100 uploads within 24 hours, which sits on top of your monthly allowance rather than replacing it), or a plan: 25 a month on Free, 300 on Seller, 1,200 on Pro. If you are converting without an account, signing up for a free account takes you from 3 a month to 25.</p>
+            <p class="mb-4">Your options are your monthly reset, a Day Pass ($2 for 100 uploads within 24 hours; on a free account it replaces the monthly allowance for that day, and a fresh 25 starts after), or a plan: 25 a month on Free, 300 on Seller, 1,200 on Pro. If you are converting without an account, signing up for a free account takes you from 3 a month to 25.</p>
 
             <GlassInfoBox type="note" title="We know the wording is wrong">
                 <p class="m-0">We know "Rate limit reached" is the wrong phrase for this and it is on the list to change.</p>

@@ -99,7 +99,7 @@ export const plans = [
 		maxFileSize: '75MB',
 		batch: 25,
 		notable:
-			'One-time, no subscription and no account needed (activated by magic link). Includes erase, recolor and the full PDF tools. The allowance is separate from a tier allowance rather than replacing it. Saving to Google Drive or your own bucket is not included, because a pass has no account to attach a destination to.'
+			'One-time, no subscription and no account needed (activated by magic link). Includes erase, recolor and the full PDF tools. For those 24 hours the pass replaces a free account\'s allowance, and a fresh free allowance starts when it ends. Saving to Google Drive or your own bucket is not included, because a pass has no account to attach a destination to.'
 	}
 ];
 
