@@ -1,9 +1,11 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: "HIF/HEIF to JPEG for Professional Photographers: A Privacy-First Workflow Guide",
@@ -24,6 +26,19 @@
         { q: 'Does the Mochify CLI work with Lightroom export scripts?', a: "Yes. The CLI accepts folder paths and glob patterns, so you can point it at a Lightroom export folder and run a single command to generate all platform derivative sets. Combine this with Lightroom's \"post-process action\" setting to trigger the CLI automatically after each export job." },
         { q: 'What color profile should I use for web gallery delivery?', a: 'sRGB. Most gallery platforms display images using sRGB color spaces, and files delivered in Adobe RGB or ProPhoto RGB will display with muted, undersaturated colors on any platform that does not perform color profile conversion. Specify sRGB in your Magic Flow prompt and Mochify converts the color space during processing.' },
     ];
+
+    const related = [
+                    { href: '/guides/heif-to-jpg-complete-guide', title: 'HEIF to JPG: The Complete Conversion Guide', desc: 'Every conversion method compared side by side, in-camera, DPP, Imaging Edge, Lightroom, and Mochify.' },
+                    { href: '/guides/fujifilm-hif-to-jpg', title: 'Fuji HIF to JPEG: X-T5, X-H2, X100VI', desc: 'Specific workflow for Fujifilm HIF files from X-series cameras.' },
+                    { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'A complete breakdown of metadata types, privacy risks, and how to strip selectively.' },
+                    { href: '/guides/2026-guide-next-gen-formats', title: 'WebP vs AVIF vs JPEG XL: 2026 Comparison', desc: 'Format comparison for web delivery, with real-world benchmark data.' },
+                    { href: '/guides/jpegli-shopify-product-images', title: 'How to Use Jpegli for Shopify Product Images', desc: 'Platform-specific dimension guides and pre-upload workflows for product photography.' },
+                    { href: '/guides/privacy-image-optimization', title: 'Privacy & Image Optimization (2026)', desc: 'Zero-retention workflows for NDA and commercial work.' },
+                    { href: '/guides/should-i-optimize-images-before-upload', title: 'Should I Optimize Images Before I Upload?', desc: 'A practical guide to pre-upload optimization for every platform.' },
+                    { href: '/guides/heic-to-pdf-iphone-photos', title: 'Convert iPhone HEIC Photos to PDF', desc: 'For iPhone .HEIC photos rather than pro-camera .HIF files: bundling HEIC shots into a single PDF.' },
+                    { href: '/guides/what-is-a-hif-file', title: 'What Is a HIF File? (And How to Open One)', desc: 'HIF files explained: what the .HIF container is and how to open one across macOS, Windows, iOS and Linux.' },
+                    { href: '/guides/sony-hif-to-jpg', title: 'How to Convert Sony HIF Files to JPG', desc: 'Sony HIF to JPG conversion with Imaging Edge Desktop or online, and which Alpha bodies shoot HEIF.' },
+                ];
 </script>
 
 <ReadProgress />
@@ -102,34 +117,37 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-green-50 text-green-600 text-xs font-bold uppercase tracking-wider border border-green-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.date} · Mochify Engineering Team
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Professional Photographers" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · {metadata.date} · Mochify Engineering Team
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            HIF/HEIF to JPEG for Professional Photographers: A Privacy-First Workflow Guide
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Canon, Nikon, Fuji, and Sony mirrorless cameras now shoot native 10-bit HEIF files. The delivery world has not caught up. Here is how to bridge that gap without leaking client data or wasting hours in export queues.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 This guide maps the friction points photographers hit converting HIF and HEIF to gallery-ready, marketplace-ready, or wire-ready JPEG in 2026, and provides repeatable workflow blueprints for wedding, commercial, and editorial shooters. EXIF privacy, batch efficiency, and zero-retention processing throughout.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
         <!-- TOC -->
         <nav aria-label="Table of contents">
@@ -161,7 +179,7 @@
         </nav>
 
         <!-- Section 01 -->
-        <section id="why-stuck">
+        <section id="why-stuck" class="scroll-mt-24">
             <SectionHeading>Why photographers are stuck between HIF/HEIF and JPEG</SectionHeading>
             <p>The quality-per-byte advantage of native 10-bit HEIF over JPEG is real. The delivery world has not caught up.</p>
             <p>Canon, Nikon, Fuji, and Sony mirrorless cameras now shoot native 10-bit HEIF files, saved with the .HIF extension (<a href="https://mochify.app/guides/what-is-a-hif-file">HIF files explained</a>), and the capture quality argument for HEIF is straightforward: more tonal range, better highlight and shadow retention, smaller files than equivalent RAW. But client galleries, press wire services, e-commerce marketplaces, and editorial CMSes still expect JPEG, often with specific size and color profile requirements. The result is a conversion step that happens on every job, for every destination, with tools that were never designed for it.</p>
@@ -170,19 +188,19 @@
         </section>
 
         <!-- Section 02 -->
-        <section id="format-cheat-sheet">
+        <section id="format-cheat-sheet" class="scroll-mt-24">
             <SectionHeading>Format cheat sheet: HIF, HEIF, JPEG, WebP, AVIF at a glance</SectionHeading>
             <p>Knowing which format belongs at which stage of your workflow prevents silent quality loss and platform rejection errors.</p>
 
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[540px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Format</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Bit depth</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Typical use</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Platform support</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">EXIF risk</th>
+                        <tr>
+                            <th>Format</th>
+                            <th>Bit depth</th>
+                            <th>Typical use</th>
+                            <th>Platform support</th>
+                            <th>EXIF risk</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -195,24 +213,24 @@
                             { fmt: 'JPEG XL', bit: 'Up to 32-bit', use: 'Archive, future-proofing', support: 'Experimental', risk: 'Medium' },
                         ] as row, i}
                             <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">{row.fmt}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.bit}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.use}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.support}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.risk}</td>
+                                <td>{row.fmt}</td>
+                                <td>{row.bit}</td>
+                                <td>{row.use}</td>
+                                <td>{row.support}</td>
+                                <td>{row.risk}</td>
                             </tr>
                         {/each}
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
-            <InfoBox type="tip" title="30-Second Summary">
+            <GlassInfoBox type="tip" title="30-Second Summary">
                 Shoot HIF/HEIF on camera for capture quality. Deliver JPEG for anything that needs to "just work" with clients, galleries, or wire systems. Use AVIF or WebP for your own website. Always strip EXIF before uploading anywhere.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- Section 03 -->
-        <section id="pain-points">
+        <section id="pain-points" class="scroll-mt-24">
             <SectionHeading>The five pain points that break real workflows</SectionHeading>
             <p>Most photographers hit the same five walls. Understanding them precisely is the first step to routing around them.</p>
 
@@ -243,7 +261,7 @@
         </section>
 
         <!-- Section 04 -->
-        <section id="workflow-wedding">
+        <section id="workflow-wedding" class="scroll-mt-24">
             <SectionHeading>Workflow blueprint: wedding and portrait shooters</SectionHeading>
             <p>Wedding and portrait photographers deliver hundreds of images per job through galleries like Pixieset, SmugMug, or Pic-Time. The goal is a gallery-ready JPEG set that meets each platform's size guidelines, looks sharp at preview scale, and contains no sensitive EXIF data.</p>
 
@@ -275,7 +293,7 @@
         </section>
 
         <!-- Section 05 -->
-        <section id="workflow-commercial">
+        <section id="workflow-commercial" class="scroll-mt-24">
             <SectionHeading>Workflow blueprint: commercial and product photographers</SectionHeading>
             <p>Commercial shooters supplying assets to Shopify, WooCommerce, Etsy, Amazon, and similar platforms need to balance visual quality against strict file size and dimension requirements, while keeping derivative management clean across multiple platforms.</p>
 
@@ -315,7 +333,7 @@
         </section>
 
         <!-- Section 06 -->
-        <section id="workflow-editorial">
+        <section id="workflow-editorial" class="scroll-mt-24">
             <SectionHeading>Workflow blueprint: editorial and press photographers</SectionHeading>
             <p>Press and editorial photographers file on tight deadlines. Wire services and newsroom systems expect JPEG with specific color profiles, size constraints, and controlled metadata. You need to keep caption IPTC data intact while removing GPS coordinates that could compromise sources or reveal sensitive locations.</p>
 
@@ -346,35 +364,35 @@
         </section>
 
         <!-- Section 07 -->
-        <section id="privacy-exif">
+        <section id="privacy-exif" class="scroll-mt-24">
             <SectionHeading>Privacy and EXIF: what your images are silently broadcasting</SectionHeading>
             <p>Every JPEG and HEIF file you export carries a metadata payload. Most photographers have never looked at it. They should.</p>
             <p>EXIF data in a standard JPEG or HEIF file typically includes GPS latitude and longitude (often accurate to within a few metres), timestamp and timezone, camera make, model, and serial number, lens information, an embedded JPEG thumbnail of the original uncropped frame, and the software version used in post-production.</p>
 
-            <InfoBox type="warning" title="The thumbnail problem">
+            <GlassInfoBox type="warning" title="The thumbnail problem">
                 If you shoot wide, crop tight, and export a JPEG without stripping EXIF, the embedded thumbnail in the file often shows the uncropped original. A client or marketplace can extract that thumbnail and see content you deliberately kept out of the final image.
-            </InfoBox>
+            </GlassInfoBox>
 
             <p>Marketplace platforms like eBay and Etsy sometimes perform their own re-compression on upload - but they do not reliably strip EXIF in the process. That means even if the platform generates its own display version of your image, the underlying metadata may still be present and readable by anyone who downloads the file.</p>
             <p>Stripping EXIF removes GPS coordinates, device IDs, timestamps, and embedded thumbnails in a fraction of a second and barely changes file size (typically less than 1% of total file size). There is no quality trade-off. There is no reason not to strip it on every file that leaves your control.</p>
         </section>
 
         <!-- Section 08 -->
-        <section id="how-mochify-fits">
+        <section id="how-mochify-fits" class="scroll-mt-24">
             <SectionHeading>How Mochify fits into a pro photographer workflow</SectionHeading>
             <p>Mochify is an in-memory, zero-retention image processing engine. Files stream through RAM and are discarded immediately after processing - nothing is written to disk, nothing is retained for AI training, and nothing is stored beyond the instant your download completes.</p>
             <p>For photographers, that architecture matters. Wedding and portrait photographers handle client imagery under implied (and often contractual) privacy obligations. Commercial and editorial photographers work with embargoed products and sensitive subjects. Running those files through a generic online converter with an opaque privacy policy is not acceptable - but neither is setting up and maintaining a complex self-hosted pipeline.</p>
             <p>Mochify's interface is natural language first, via Magic Flow. You describe the task - "convert these HIF files to sRGB JPEG for client gallery, 3,600 px, under 2 MB, strip all EXIF" - and the engine resolves the appropriate format, quality, resize, and metadata settings automatically. No format dropdown, no quality slider to guess at, no separate EXIF-stripping tool.</p>
             <p>The same natural language interface is available across four surfaces: the browser app at mochify.app (drag, describe, download; up to 25 files per batch), the REST API for scripted workflows, the CLI for folder-level batch processing, and an MCP server for AI agent workflows via Claude Desktop and other MCP-compatible tools.</p>
 
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[440px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Plan</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Images/month</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Max file size</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Best for</th>
+                        <tr>
+                            <th>Plan</th>
+                            <th>Images/month</th>
+                            <th>Max file size</th>
+                            <th>Best for</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -384,15 +402,15 @@
                             { plan: 'Pro - $24.99/month', images: '1,200', size: '75 MB', for: 'Working pros, multi-shoot weeks' },
                         ] as row, i}
                             <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">{row.plan}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.images}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.size}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.for}</td>
+                                <td>{row.plan}</td>
+                                <td>{row.images}</td>
+                                <td>{row.size}</td>
+                                <td>{row.for}</td>
                             </tr>
                         {/each}
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
             <p class="text-sm text-[#875F42] italic">Annual plans (Lite and Pro) save 17% vs monthly. All tiers include Magic Flow, API, MCP, and all supported formats.</p>
 
             <div class="my-10 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
@@ -406,7 +424,7 @@
         </section>
 
         <!-- Section 09 -->
-        <section id="technical-proof">
+        <section id="technical-proof" class="scroll-mt-24">
             <SectionHeading>Technical proof: file size, quality, and time savings</SectionHeading>
             <p>These are the numbers that matter for your actual workflow decisions.</p>
 
@@ -430,13 +448,13 @@
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Modern format savings</h3>
             <p>A representative conversion for a commercial product shoot - 25 hero images at 3,200 px wide from Nikon Z HEIF originals:</p>
 
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[380px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Output format</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Avg file size</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">vs JPEG baseline</th>
+                        <tr>
+                            <th>Output format</th>
+                            <th>Avg file size</th>
+                            <th>vs JPEG baseline</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -447,51 +465,46 @@
                             { fmt: 'AVIF (quality 60)', size: '0.9 MB', diff: '-50%', color: 'text-green-700 font-black' },
                         ] as row, i}
                             <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.fmt}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.size}</td>
-                                <td class="px-4 py-3 text-sm border-b border-pink-50 {row.color}">{row.diff}</td>
+                                <td>{row.fmt}</td>
+                                <td>{row.size}</td>
+                                <td>{row.diff}</td>
                             </tr>
                         {/each}
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Batch time</h3>
             <p>A 25-image batch of Canon or Fuji HIF files converted to sRGB JPEG at 3,600 px long edge via Mochify's Pro tier typically completes in under 60 seconds from upload to download. The same job handled via manual Lightroom export presets plus a separate EXIF-stripping tool plus a manual resize pass typically takes 8–15 minutes.</p>
 
-            <InfoBox type="tip" title="Pro tip: time savings compound">
+            <GlassInfoBox type="tip" title="Pro tip: time savings compound">
                 Saving 8–15 minutes per shoot batch adds up to several hours per week for busy photographers. Across a full shooting season, that is real studio time recovered - not theoretical efficiency gains.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- FAQ -->
-        <GuideFAQs items={faqItems} />
+        <GlassFAQs items={faqItems} jsonLd={false} />
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each [
-                    { href: '/guides/heif-to-jpg-complete-guide', title: 'HEIF to JPG: The Complete Conversion Guide', desc: 'Every conversion method compared side by side, in-camera, DPP, Imaging Edge, Lightroom, and Mochify.' },
-                    { href: '/guides/fujifilm-hif-to-jpg', title: 'Fuji HIF to JPEG: X-T5, X-H2, X100VI', desc: 'Specific workflow for Fujifilm HIF files from X-series cameras.' },
-                    { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'A complete breakdown of metadata types, privacy risks, and how to strip selectively.' },
-                    { href: '/guides/2026-guide-next-gen-formats', title: 'WebP vs AVIF vs JPEG XL: 2026 Comparison', desc: 'Format comparison for web delivery, with real-world benchmark data.' },
-                    { href: '/guides/jpegli-shopify-product-images', title: 'How to Use Jpegli for Shopify Product Images', desc: 'Platform-specific dimension guides and pre-upload workflows for product photography.' },
-                    { href: '/guides/privacy-image-optimization', title: 'Privacy & Image Optimization (2026)', desc: 'Zero-retention workflows for NDA and commercial work.' },
-                    { href: '/guides/should-i-optimize-images-before-upload', title: 'Should I Optimize Images Before I Upload?', desc: 'A practical guide to pre-upload optimization for every platform.' },
-                    { href: '/guides/heic-to-pdf-iphone-photos', title: 'Convert iPhone HEIC Photos to PDF', desc: 'For iPhone .HEIC photos rather than pro-camera .HIF files: bundling HEIC shots into a single PDF.' },
-                    { href: '/guides/what-is-a-hif-file', title: 'What Is a HIF File? (And How to Open One)', desc: 'HIF files explained: what the .HIF container is and how to open one across macOS, Windows, iOS and Linux.' },
-                    { href: '/guides/sony-hif-to-jpg', title: 'How to Convert Sony HIF Files to JPG', desc: 'Sony HIF to JPG conversion with Imaging Edge Desktop or online, and which Alpha bodies shoot HEIF.' },
-                ] as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">: {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

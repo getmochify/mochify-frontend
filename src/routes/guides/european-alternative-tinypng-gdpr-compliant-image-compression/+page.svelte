@@ -1,6 +1,8 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
@@ -9,6 +11,17 @@
         datePublished: "March 22, 2026",
         lastUpdated: "September 22, 2026"
     };
+
+    const toc = [
+        { id: 'intro', label: 'The Search for a European Alternative to TinyPNG' },
+        { id: 'us-tech', label: 'Why Europeans Are Moving Away from US Tech' },
+        { id: 'hidden-risks', label: 'The Hidden Privacy Risks of "Free" Compressors' },
+        { id: 'zero-retention', label: 'What Zero-Retention, In-Memory Processing Really Means' },
+        { id: 'mochify', label: 'How Mochify Works as a Privacy-First, EU-Based Compressor' },
+        { id: 'workflows', label: 'Practical Workflows for EU Merchants, Publishers, and Agencies' },
+        { id: 'checklist', label: 'Checklist: How to Choose a Secure, EU-Friendly Compressor' },
+        { id: 'faq', label: 'FAQ' }
+    ];
 </script>
 
 <ReadProgress />
@@ -54,126 +67,43 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-<header class="mb-12 border-b border-pink-50 pb-12">
-    <div class="flex flex-wrap items-center gap-4 mb-6">
-        <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-            {metadata.category}
-        </span>
-        <span class="text-sm font-bold text-[#875F42]">
-            {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated} · Mochify Engineering Team
-        </span>
-    </div>
+<header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title="A European Alternative to TinyPNG: Privacy-First Image Compression That Leaves No Trace" accent="European Alternative" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated} · Mochify Engineering Team
+		</p>
 
-    <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-        A European Alternative to TinyPNG: Privacy-First Image Compression That Leaves No Trace
-    </h1>
-
-    <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
         What you will learn: why European businesses are reconsidering US-hosted image tools, the real privacy risks in "free" compressors, and how Mochify's zero-retention, EU-hosted architecture changes the picture.
     </p>
 
-    <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-        <p class="text-lg text-[#6C3F31] leading-relaxed">
+    <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
             TinyPNG is fast and accessible, but for European businesses handling client imagery, EXIF-rich product photos, or any data under NDA, the question of <strong class="text-[#D81B60] font-black">where your images actually go</strong> is not a formality. This guide answers it.
         </p>
     </div>
 </header>
 
-<div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+<div class="space-y-12">
 
-    <section class="my-12">
-        <SectionHeading>What's in this Guide</SectionHeading>
+    <section>
+            <GuideTOC items={toc} heading="What's in this Guide" />
+        </section>
 
-        <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-            <ul class="space-y-3">
-
-                <li>
-                    <a href="#intro" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                        <span class="flex items-center gap-4">
-                            <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">01</span>
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">The Search for a European Alternative to TinyPNG</span>
-                        </span>
-                        <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#us-tech" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                        <span class="flex items-center gap-4">
-                            <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">02</span>
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Why Europeans Are Moving Away from US Tech</span>
-                        </span>
-                        <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#hidden-risks" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                        <span class="flex items-center gap-4">
-                            <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">03</span>
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">The Hidden Privacy Risks of "Free" Compressors</span>
-                        </span>
-                        <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#zero-retention" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                        <span class="flex items-center gap-4">
-                            <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">04</span>
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">What Zero-Retention, In-Memory Processing Really Means</span>
-                        </span>
-                        <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#mochify" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                        <span class="flex items-center gap-4">
-                            <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">05</span>
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">How Mochify Works as a Privacy-First, EU-Based Compressor</span>
-                        </span>
-                        <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#workflows" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                        <span class="flex items-center gap-4">
-                            <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">06</span>
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Practical Workflows for EU Merchants, Publishers, and Agencies</span>
-                        </span>
-                        <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#checklist" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                        <span class="flex items-center gap-4">
-                            <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">07</span>
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Checklist: How to Choose a Secure, EU-Friendly Compressor</span>
-                        </span>
-                        <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#faq" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                        <span class="flex items-center gap-4">
-                            <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">08</span>
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">FAQ</span>
-                        </span>
-                        <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                    </a>
-                </li>
-
-            </ul>
-        </nav>
-    </section>
-
-    <section id="intro">
+    <section id="intro" class="scroll-mt-24">
         <SectionHeading>The Search for a European Alternative to TinyPNG</SectionHeading>
         <p>
             If you are a European business compressing images for the web, there is a reasonable chance you have used TinyPNG at some point. It is fast, accessible, and free for small volumes. But if you have ever paused to ask where your images go after you drop them onto that familiar panda interface, you are in the right place.
@@ -186,7 +116,7 @@
         </p>
     </section>
 
-    <section id="us-tech">
+    <section id="us-tech" class="scroll-mt-24">
         <SectionHeading>Why Europeans Are Moving Away from US Tech for Image Workflows</SectionHeading>
         <p>
             European organizations are increasingly scrutinizing US-hosted tools not out of sentiment, but because the legal risk is real. The core issue is the <strong>CLOUD Act</strong> (Clarifying Lawful Overseas Use of Data Act), passed in 2018 in the United States. It allows US authorities to compel US companies to hand over data stored on their servers, regardless of where those servers physically sit. If your image optimization tool runs on AWS, Google Cloud, or Azure in Frankfurt, the company operating it may still be subject to CLOUD Act disclosure obligations.
@@ -199,7 +129,7 @@
         </p>
     </section>
 
-    <section id="hidden-risks">
+    <section id="hidden-risks" class="scroll-mt-24">
         <SectionHeading>The Hidden Privacy Risks of "Free" Online Image Compressors</SectionHeading>
         <p>
             Most free online image compressors are not privacy-first tools: they are file-handling web apps built for conversion volume, and privacy is secondary to speed and simplicity. The risks are specific and worth naming directly.
@@ -229,7 +159,7 @@
         </p>
     </section>
 
-    <section id="zero-retention">
+    <section id="zero-retention" class="scroll-mt-24">
         <SectionHeading>What Zero-Retention, In-Memory Image Processing Really Means</SectionHeading>
         <p>
             Zero-retention means your image is processed and immediately discarded: it is never written to a persistent storage layer at any point. This is a technical architecture choice, not just a privacy policy statement.
@@ -245,7 +175,7 @@
         </p>
     </section>
 
-    <section id="mochify">
+    <section id="mochify" class="scroll-mt-24">
         <SectionHeading>How Mochify Works as a Privacy-First, EU-Based Image Compressor</SectionHeading>
         <p>
             Mochify is a privacy-first image compression service built on zero-retention, in-memory processing, hosted on Netcup infrastructure in Germany, and operated by a UK-registered sole trader registered with the Information Commissioner's Office (ICO) under UK GDPR.
@@ -282,90 +212,90 @@
 
         <h3 class="text-[1.75rem] font-bold text-[#4A2C2C] mt-10 mb-6">EU-Friendly Image Compressor Feature Comparison</h3>
 
-            <ScrollableTable class="my-6">
-                <table class="w-full text-left border-collapse text-sm">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7] border-b border-pink-100">
-                            <th class="py-4 px-5 font-black text-[#4A2C2C] uppercase tracking-wider text-xs">Feature</th>
-                            <th class="py-4 px-5 font-black text-[#875F42] uppercase tracking-wider text-xs">TinyPNG</th>
-                            <th class="py-4 px-5 font-black text-[#875F42] uppercase tracking-wider text-xs">Squoosh</th>
-                            <th class="py-4 px-5 font-black text-[#875F42] uppercase tracking-wider text-xs">Cloudinary (Free)</th>
-                            <th class="py-4 px-5 font-black text-[#F06292] uppercase tracking-wider text-xs">Mochify</th>
+                        <tr>
+                            <th>Feature</th>
+                            <th>TinyPNG</th>
+                            <th>Squoosh</th>
+                            <th>Cloudinary (Free)</th>
+                            <th>Mochify</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr class="hover:bg-[#FFF9FB] transition-colors duration-200">
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">EU/UK data jurisdiction</td>
-                            <td class="py-4 px-5">Partial (Dutch co., US infra)</td>
-                            <td class="py-4 px-5">No (Google infra)</td>
-                            <td class="py-4 px-5">No (US-based)</td>
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">Yes (UK + Germany)</td>
+                    <tbody>
+                        <tr>
+                            <td>EU/UK data jurisdiction</td>
+                            <td>Partial (Dutch co., US infra)</td>
+                            <td>No (Google infra)</td>
+                            <td>No (US-based)</td>
+                            <td>Yes (UK + Germany)</td>
                         </tr>
-                        <tr class="hover:bg-[#FFF9FB] transition-colors duration-200">
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">Zero-retention (no disk write)</td>
-                            <td class="py-4 px-5">Not confirmed</td>
-                            <td class="py-4 px-5">N/A (client-side)</td>
-                            <td class="py-4 px-5">No</td>
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">Yes</td>
+                        <tr>
+                            <td>Zero-retention (no disk write)</td>
+                            <td>Not confirmed</td>
+                            <td>N/A (client-side)</td>
+                            <td>No</td>
+                            <td>Yes</td>
                         </tr>
-                        <tr class="hover:bg-[#FFF9FB] transition-colors duration-200">
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">EXIF handling</td>
-                            <td class="py-4 px-5">No</td>
-                            <td class="py-4 px-5">Manual</td>
-                            <td class="py-4 px-5">No</td>
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">Explicit, on request</td>
+                        <tr>
+                            <td>EXIF handling</td>
+                            <td>No</td>
+                            <td>Manual</td>
+                            <td>No</td>
+                            <td>Explicit, on request</td>
                         </tr>
-                        <tr class="hover:bg-[#FFF9FB] transition-colors duration-200">
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">GDPR DPA available</td>
-                            <td class="py-4 px-5">Limited</td>
-                            <td class="py-4 px-5">No</td>
-                            <td class="py-4 px-5">Yes (paid)</td>
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">Yes</td>
+                        <tr>
+                            <td>GDPR DPA available</td>
+                            <td>Limited</td>
+                            <td>No</td>
+                            <td>Yes (paid)</td>
+                            <td>Yes</td>
                         </tr>
-                        <tr class="hover:bg-[#FFF9FB] transition-colors duration-200">
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">No AI training on uploads</td>
-                            <td class="py-4 px-5">Not confirmed</td>
-                            <td class="py-4 px-5">N/A</td>
-                            <td class="py-4 px-5">Not confirmed</td>
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">Yes</td>
+                        <tr>
+                            <td>No AI training on uploads</td>
+                            <td>Not confirmed</td>
+                            <td>N/A</td>
+                            <td>Not confirmed</td>
+                            <td>Yes</td>
                         </tr>
-                        <tr class="hover:bg-[#FFF9FB] transition-colors duration-200">
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">AVIF + JPEG XL output</td>
-                            <td class="py-4 px-5">No</td>
-                            <td class="py-4 px-5">Yes</td>
-                            <td class="py-4 px-5">Yes (paid)</td>
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">Yes</td>
+                        <tr>
+                            <td>AVIF + JPEG XL output</td>
+                            <td>No</td>
+                            <td>Yes</td>
+                            <td>Yes (paid)</td>
+                            <td>Yes</td>
                         </tr>
-                        <tr class="hover:bg-[#FFF9FB] transition-colors duration-200">
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">HEIC input</td>
-                            <td class="py-4 px-5">No</td>
-                            <td class="py-4 px-5">Yes</td>
-                            <td class="py-4 px-5">Yes (paid)</td>
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">Yes</td>
+                        <tr>
+                            <td>HEIC input</td>
+                            <td>No</td>
+                            <td>Yes</td>
+                            <td>Yes (paid)</td>
+                            <td>Yes</td>
                         </tr>
-                        <tr class="hover:bg-[#FFF9FB] transition-colors duration-200">
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">REST API</td>
-                            <td class="py-4 px-5">Yes (paid)</td>
-                            <td class="py-4 px-5">No</td>
-                            <td class="py-4 px-5">Yes (paid)</td>
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">Yes</td>
+                        <tr>
+                            <td>REST API</td>
+                            <td>Yes (paid)</td>
+                            <td>No</td>
+                            <td>Yes (paid)</td>
+                            <td>Yes</td>
                         </tr>
-                        <tr class="hover:bg-[#FFF9FB] transition-colors duration-200">
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">MCP server for AI agents</td>
-                            <td class="py-4 px-5">No</td>
-                            <td class="py-4 px-5">No</td>
-                            <td class="py-4 px-5">No</td>
-                            <td class="py-4 px-5 font-bold text-[#4A2C2C]">Yes</td>
+                        <tr>
+                            <td>MCP server for AI agents</td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>Yes</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         <p class="mt-3 text-xs text-[#875F42] opacity-70 px-2">
             Squoosh processes images client-side in the browser, which is inherently private, but it lacks API access, batch processing, and HEIC support at scale.
         </p>
     </section>
 
-    <section id="workflows">
+    <section id="workflows" class="scroll-mt-24">
         <SectionHeading>Practical Workflows for EU Merchants, Publishers, and Agencies</SectionHeading>
         <p>
             The right workflow depends on your volume and your risk tolerance. Here are three concrete scenarios.
@@ -399,7 +329,7 @@
         </p>
     </section>
 
-    <section id="checklist">
+    <section id="checklist" class="scroll-mt-24">
         <SectionHeading>Checklist: How to Choose a Secure, EU-Friendly Image Compressor</SectionHeading>
         <p>
             Use this checklist when evaluating any image compression tool for a European or privacy-sensitive workflow:
@@ -445,7 +375,7 @@
         </p>
     </section>
 
-    <section id="faq">
+    <section id="faq" class="scroll-mt-24">
         <SectionHeading>FAQ</SectionHeading>
 
         <div class="space-y-6 mt-6">
@@ -554,3 +484,22 @@
 
 </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

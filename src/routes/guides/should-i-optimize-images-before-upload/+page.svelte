@@ -1,10 +1,12 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: "Should I Optimize My Images Before I Upload Them?",
@@ -141,85 +143,74 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Optimize My Images" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Should I Optimize My Images Before I Upload Them?
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             In almost every case, yes - not because platforms do nothing, but because you need predictable performance, visual quality, and privacy. The nuance is in <em>how</em> you optimize.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl mb-4">
-            <p class="text-[#6C3F31] leading-relaxed text-base">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 This guide covers when pre-upload optimization is mandatory, when it's optional, which image factors actually matter (LCP, EXIF, formats, dimensions), and step-by-step workflows with Magic Flow prompt examples for Shopify, WordPress, marketplaces, developers, photographers, and privacy-sensitive work.
             </p>
         </div>
 
-        <p class="text-sm text-[#875F42]">Published 13 April 2026 by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong></p>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">Published 13 April 2026 by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong></p>
+        </div>
     </header>
 
-    <div class="space-y-12 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
         <section>
-            <SectionHeading>What's in this guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                    <li>
-                        <a href="#{item.id}" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform flex-shrink-0">{item.num}</span>
-                                <span class="text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors text-sm md:text-base">{item.label}</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    {/each}
-                </ul>
-            </nav>
+            <GuideTOC items={toc} heading="What's in this guide" />
         </section>
 
         <!-- Cheat Sheet -->
         <section>
             <SectionHeading>Cheat sheet: pre-upload optimization at a glance</SectionHeading>
 
-            <ScrollableTable class="mb-6">
-                <table class="w-full text-left bg-white text-base">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Scenario</th>
-                            <th class="p-4 font-black">Optimize before upload?</th>
-                            <th class="p-4 font-black">Key reason</th>
+                            <th>Scenario</th>
+                            <th>Optimize before upload?</th>
+                            <th>Key reason</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Shopify product images</td><td class="p-4">Yes, strongly recommended</td><td class="p-4">Control 2048×2048px sizing, EXIF stripping; CDN then works from better inputs</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">WordPress hero images</td><td class="p-4">Yes, mandatory for good LCP</td><td class="p-4">Hero images are the most common LCP bottleneck; pre-compressed WebP/AVIF keeps LCP under 2.5s</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Etsy / eBay / Amazon listings</td><td class="p-4">Yes, especially for privacy</td><td class="p-4">Marketplaces re-compress but rarely strip EXIF reliably; GPS data can leak</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Next.js with image CDN</td><td class="p-4">Recommended for normalization, optional for final compression</td><td class="p-4">CDN generates optimized variants; clean source inputs still reduce artifact risk</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Social media</td><td class="p-4">Recommended, not critical for performance</td><td class="p-4">Platforms compress heavily; EXIF risk persists in some download contexts</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Small icons, logos, SVGs</td><td class="p-4">Usually no</td><td class="p-4">File weight is minimal; build tools handle these</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Archive masters / RAW files</td><td class="p-4">No - keep originals, optimize delivery copies</td><td class="p-4">Protect fidelity for future reuse</td></tr>
+                    <tbody>
+                        <tr><td>Shopify product images</td><td>Yes, strongly recommended</td><td>Control 2048×2048px sizing, EXIF stripping; CDN then works from better inputs</td></tr>
+                        <tr><td>WordPress hero images</td><td>Yes, mandatory for good LCP</td><td>Hero images are the most common LCP bottleneck; pre-compressed WebP/AVIF keeps LCP under 2.5s</td></tr>
+                        <tr><td>Etsy / eBay / Amazon listings</td><td>Yes, especially for privacy</td><td>Marketplaces re-compress but rarely strip EXIF reliably; GPS data can leak</td></tr>
+                        <tr><td>Next.js with image CDN</td><td>Recommended for normalization, optional for final compression</td><td>CDN generates optimized variants; clean source inputs still reduce artifact risk</td></tr>
+                        <tr><td>Social media</td><td>Recommended, not critical for performance</td><td>Platforms compress heavily; EXIF risk persists in some download contexts</td></tr>
+                        <tr><td>Small icons, logos, SVGs</td><td>Usually no</td><td>File weight is minimal; build tools handle these</td></tr>
+                        <tr><td>Archive masters / RAW files</td><td>No - keep originals, optimize delivery copies</td><td>Protect fidelity for future reuse</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
-            <InfoBox type="tip" title="Magic Flow safe default prompt">
+            <GlassInfoBox type="tip" title="Magic Flow safe default prompt">
                 "Make these web-ready: max 1600px wide, prefer WebP or AVIF, keep each file under 250KB, strip all EXIF metadata."
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- 01 -->
@@ -273,9 +264,9 @@
             <p class="mb-4">Yes - this is the scenario where pre-upload optimization makes the biggest measurable difference. WordPress stores the original file plus multiple auto-generated sizes. Every heavy original you upload stays in your database and backups forever, and on shared hosting, the CPU cost of generating derivatives slows down initial processing.</p>
             <p class="mb-4">Hero images are the most frequent cause of poor LCP scores in Lighthouse and PageSpeed Insights audits. A 2400px-wide WebP or AVIF hero compressed to under 200KB will consistently outperform a 3MB JPEG on mobile, regardless of what your caching or CDN layer does on top. The dimensions to upload, the crop rules that stop a banner zooming on phones, and what a 1920-pixel hero actually weighs in each format are in our guide to <a href="/guides/optimizing-hero-images">hero image size for websites</a>.</p>
 
-            <InfoBox type="tip" title="Skip the plugins">
+            <GlassInfoBox type="tip" title="Skip the plugins">
                 Many WordPress performance guides push users toward image optimization plugins. These add database overhead, API dependencies on third-party services, and often require paid subscriptions. Optimizing before upload with an external tool means your WordPress install stays lean and the media library receives already-correct files.
-            </InfoBox>
+            </GlassInfoBox>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Client work, NDA assets, and sensitive locations</h3>
             <p class="mb-4">Always optimize (and strip EXIF) before upload when the images involve client locations, private facilities, or personally identifiable subjects. GDPR, UK GDPR, and similar frameworks treat location and device data as personal data. The safest position is to ensure that metadata never leaves the controlled environment at all.</p>
@@ -366,9 +357,9 @@
                 {/each}
             </ol>
 
-            <InfoBox type="note" title="If you're unsure">
+            <GlassInfoBox type="note" title="If you're unsure">
                 The safe default: resize to your largest display need, compress with WebP or jpegli JPEG, strip EXIF, and keep the original locally. That single step addresses LCP, privacy, and platform unpredictability in one go.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- 08 -->
@@ -474,9 +465,28 @@ REST API: POST /v1/prompt  {'{"prompt": "compress these for web delivery: max 16
         </section>
 
         <!-- 11 FAQ -->
-        <GuideFAQs items={faqItems} />
+        <GlassFAQs items={faqItems} jsonLd={false} />
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

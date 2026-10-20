@@ -1,8 +1,11 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Product Image Requirements for Every Major Marketplace",
@@ -144,54 +147,41 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Product Image Requirements" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Product Image Requirements for Every Major Marketplace
-        </h1>
-
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Getting rejected from Amazon because your background isn't quite white enough is annoying. Getting demoted in Etsy search because your first photo is 600 pixels wide is worse - it can cost you sales for months before you even notice. Every major marketplace has its own image rules, and they disagree with each other in ways that matter: what Amazon calls mandatory, eBay treats as optional; what Shopify leaves to your theme, WooCommerce bakes into its thumbnail pipeline. This guide pulls the official technical requirements for seven major selling platforms into one place, with honest notes about where the "rules" are actually vendor-sourced estimates rather than documented specs. By the end, you'll have a clear picture of what each platform demands, where to invest your image-editing time, and how to run a batch through a consistent prep workflow before uploading. A bit of context on why this is worth taking seriously: Amazon links image zoom directly to revenue, stating in its own Seller Central documentation that "zoom has been proven to enhance sales" - and zoom requires images of at least 1,000 pixels on the longest side. Etsy is more explicit still, tying the resolution of your primary photo to where your listing shows up in search. These aren't soft suggestions.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published August 2026 by the Mochify Engineering Team.</strong>
                 Platform specs checked against each marketplace's official help and developer documentation June 2026; third-party estimates are clearly labeled throughout.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc.map((t) => ({ id: t.href.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
         <section id="the-three-rules-every-marketplace-shares" class="scroll-mt-24">
@@ -295,86 +285,86 @@
 
         <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>Quick-Reference Cheat Sheet</SectionHeading>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[1200px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Platform</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Min dimensions</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Sweet spot</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Max file size</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Accepted upload formats</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">White BG required?</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Square required?</th>
+                        <tr>
+                            <th>Platform</th>
+                            <th>Min dimensions</th>
+                            <th>Sweet spot</th>
+                            <th>Max file size</th>
+                            <th>Accepted upload formats</th>
+                            <th>White BG required?</th>
+                            <th>Square required?</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Amazon</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">500 px (long side); 1,000 px for zoom</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">1,600-2,000 px</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">~10,000 px long side (no MB cap stated)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">JPEG, PNG, TIFF, GIF (non-animated)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Yes - MAIN image, RGB 255/255/255</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No</td>
+                        <tr>
+                            <td>Amazon</td>
+                            <td>500 px (long side); 1,000 px for zoom</td>
+                            <td>1,600-2,000 px</td>
+                            <td>~10,000 px long side (no MB cap stated)</td>
+                            <td>JPEG, PNG, TIFF, GIF (non-animated)</td>
+                            <td>Yes - MAIN image, RGB 255/255/255</td>
+                            <td>No</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Shopify</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">None enforced</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">2,048 x 2,048 px</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">20 MB</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">JPEG, PNG, WebP, HEIC, SVG, GIF, BMP, TIFF, PSD</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Recommended for consistent grids; not required</td>
+                        <tr>
+                            <td>Shopify</td>
+                            <td>None enforced</td>
+                            <td>2,048 x 2,048 px</td>
+                            <td>20 MB</td>
+                            <td>JPEG, PNG, WebP, HEIC, SVG, GIF, BMP, TIFF, PSD</td>
+                            <td>No</td>
+                            <td>Recommended for consistent grids; not required</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Etsy</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">635 px (for search); 2,000 px for priority placement</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">2,000 x 2,000 px</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">~20 MB (1 MB warned as upload risk)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">JPEG, PNG, GIF (no animated, no transparent PNG)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No (but common)</td>
+                        <tr>
+                            <td>Etsy</td>
+                            <td>635 px (for search); 2,000 px for priority placement</td>
+                            <td>2,000 x 2,000 px</td>
+                            <td>~20 MB (1 MB warned as upload risk)</td>
+                            <td>JPEG, PNG, GIF (no animated, no transparent PNG)</td>
+                            <td>No</td>
+                            <td>No (but common)</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">eBay</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">500 px (long side)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">1,600 x 1,600 px</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">12 MB</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">JPEG, PNG, GIF, BMP, TIFF, AVIF, HEIC, WebP (non-JPEG converted to JPEG server-side)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No</td>
+                        <tr>
+                            <td>eBay</td>
+                            <td>500 px (long side)</td>
+                            <td>1,600 x 1,600 px</td>
+                            <td>12 MB</td>
+                            <td>JPEG, PNG, GIF, BMP, TIFF, AVIF, HEIC, WebP (non-JPEG converted to JPEG server-side)</td>
+                            <td>No</td>
+                            <td>No</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">WooCommerce</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">None (theme-dependent)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Match your theme's single-product width (typically 800-1,600 px)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">None (server-dependent)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">JPEG, PNG, GIF, WebP (via WordPress)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Thumbnails square by default; configurable</td>
+                        <tr>
+                            <td>WooCommerce</td>
+                            <td>None (theme-dependent)</td>
+                            <td>Match your theme's single-product width (typically 800-1,600 px)</td>
+                            <td>None (server-dependent)</td>
+                            <td>JPEG, PNG, GIF, WebP (via WordPress)</td>
+                            <td>No</td>
+                            <td>Thumbnails square by default; configurable</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Vinted</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Not documented</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">900 x 1,200 px or 1,080 x 1,350 px (3:4 portrait; third-party estimate)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Not documented (~20 MB cited in third-party guides)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Not documented (JPEG/PNG assumed)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No (portrait 3:4 better suited)</td>
+                        <tr>
+                            <td>Vinted</td>
+                            <td>Not documented</td>
+                            <td>900 x 1,200 px or 1,080 x 1,350 px (3:4 portrait; third-party estimate)</td>
+                            <td>Not documented (~20 MB cited in third-party guides)</td>
+                            <td>Not documented (JPEG/PNG assumed)</td>
+                            <td>No</td>
+                            <td>No (portrait 3:4 better suited)</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Depop</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">~640 px (from third-party sources)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">1,080 x 1,080 px square</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">~15 MB (from third-party sources)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">JPEG, PNG (assumed from third-party guides)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Yes - strongly; non-square images get auto-cropped to square</td>
+                        <tr>
+                            <td>Depop</td>
+                            <td>~640 px (from third-party sources)</td>
+                            <td>1,080 x 1,080 px square</td>
+                            <td>~15 MB (from third-party sources)</td>
+                            <td>JPEG, PNG (assumed from third-party guides)</td>
+                            <td>No</td>
+                            <td>Yes - strongly; non-square images get auto-cropped to square</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <!-- Workflow card -->
@@ -454,28 +444,34 @@
         </section>
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Prep once, sell everywhere"
             href="/"
             label="Try it free at mochify.app →"
         >
             Once your images are at the right spec, they upload cleanly to any platform in this guide - no per-platform re-editing required. <a href="https://mochify.app">Optimize your marketplace images at mochify.app</a>.
-        </GuideCTA>
+        </GlassCTA>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

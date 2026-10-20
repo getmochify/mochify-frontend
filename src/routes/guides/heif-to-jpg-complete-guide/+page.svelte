@@ -1,10 +1,13 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "HEIF to JPG: The Complete Conversion Guide",
@@ -179,58 +182,45 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="HEIF to JPG" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            HEIF to JPG: The Complete Conversion Guide
-        </h1>
-
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-6">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Your camera writes HEIF because it is the technically better format: 10-bit color, HDR-ready, roughly half the file size of an equivalent JPEG. Then you try to deliver the shoot and discover that browsers, client galleries, and print labs mostly cannot read it. Converting HEIF to JPG is the step that turns a superior capture format into a file the rest of the world can open. This guide covers every reliable conversion route, what you give up in the process, and how to keep the quality you paid for.
         </p>
 
-        <p class="text-lg text-[#6C3F31] leading-relaxed max-w-2xl mb-8">
+        <p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
             One scope note before we start. This guide is about HEIF stills from professional mirrorless cameras - the <code class={inlineCode}>.HIF</code> files that Canon, Sony, and Fujifilm bodies write. If your file is a <code class={inlineCode}>.HEIC</code> from an iPhone, that is the same format family but a different hardware world and a different workflow: head to our <a href="https://mochify.app/heic-to-jpeg">HEIC to JPEG converter</a> instead.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published July 15, 2026 by the Mochify Engineering Team.</strong>
                 This guide covers HEIF stills from professional mirrorless cameras - the .HIF files that Canon, Sony, and Fujifilm bodies write. If your file is a .HEIC from an iPhone, that is the same format family but a different workflow: head to our HEIC to JPEG converter instead.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc.map((t) => ({ id: t.href.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
         <section id="what-is-heif-and-why-does-your-camera-use-it" class="scroll-mt-24">
@@ -273,9 +263,9 @@
             <p>Sony's free desktop suite converts HEIF to JPEG or TIFF and is the manufacturer-recommended route for Alpha shooters. Sony's guidance is specific and worth following: export JPEG (8-bit) for delivery and playback compatibility, but export 16-bit TIFF when you plan further editing, because TIFF preserves the 10-bit gradation data that JPEG cannot hold. HLG (HDR) stills converted to TIFF should then be handled in color-managed software.</p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Fujifilm: the USB rename trick</h3>
-            <InfoBox type="tip" title="Fujifilm's USB rename trick">
+            <GlassInfoBox type="tip" title="Fujifilm's USB rename trick">
                 <p>Fujifilm ships no dedicated HEIF converter, but the <a href="https://fujifilm-dsc.com/en/manual/x-t5/menu_shooting/image_quality_setting/" target="_blank" rel="noopener noreferrer">X-T5 manual</a> documents a genuinely useful quirk: when HEIF pictures are uploaded from the camera to a computer over USB, the <code class={inlineCode}>.HIF</code> extension is changed to <code class={inlineCode}>.HEIC</code> automatically, which lets any HEIF-aware app open them.</p>
-            </InfoBox>
+            </GlassInfoBox>
             <p>From there, macOS or Adobe tools handle the JPEG export. Fujifilm-specific depth, including film simulation handling, is in our <a href="https://mochify.app/guides/fujifilm-hif-to-jpg">Fuji HIF guide</a>.</p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">macOS: Preview and Photos</h3>
@@ -355,112 +345,118 @@
 
         <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>HEIF to JPG cheat sheet</SectionHeading>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[900px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Method</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Best for</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Batch?</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Quality control</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">HDR PQ handling</th>
+                        <tr>
+                            <th>Method</th>
+                            <th>Best for</th>
+                            <th>Batch?</th>
+                            <th>Quality control</th>
+                            <th>HDR PQ handling</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Canon in-camera conversion</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No-computer workflow</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Yes (select range)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Fixed</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Canon's own tone mapping</td>
+                        <tr>
+                            <td>Canon in-camera conversion</td>
+                            <td>No-computer workflow</td>
+                            <td>Yes (select range)</td>
+                            <td>Fixed</td>
+                            <td>Canon's own tone mapping</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Canon DPP</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Canon desktop batch</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Yes</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No (fixed on HEIF saves)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">SDR output, sRGB locked</td>
+                        <tr>
+                            <td>Canon DPP</td>
+                            <td>Canon desktop batch</td>
+                            <td>Yes</td>
+                            <td>No (fixed on HEIF saves)</td>
+                            <td>SDR output, sRGB locked</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Sony Imaging Edge Desktop</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Sony Alpha shooters</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Yes</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Yes</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">JPEG for delivery, TIFF for editing</td>
+                        <tr>
+                            <td>Sony Imaging Edge Desktop</td>
+                            <td>Sony Alpha shooters</td>
+                            <td>Yes</td>
+                            <td>Yes</td>
+                            <td>JPEG for delivery, TIFF for editing</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Fujifilm USB transfer + OS tools</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Fuji bodies (auto .HIF to .HEIC rename)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Yes</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Via OS app</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">n/a (sRGB in camera)</td>
+                        <tr>
+                            <td>Fujifilm USB transfer + OS tools</td>
+                            <td>Fuji bodies (auto .HIF to .HEIC rename)</td>
+                            <td>Yes</td>
+                            <td>Via OS app</td>
+                            <td>n/a (sRGB in camera)</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">macOS Preview / Photos</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Quick exports, any brand</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Small batches</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Quality slider</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Automatic SDR mapping</td>
+                        <tr>
+                            <td>macOS Preview / Photos</td>
+                            <td>Quick exports, any brand</td>
+                            <td>Small batches</td>
+                            <td>Quality slider</td>
+                            <td>Automatic SDR mapping</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Windows Photos + codecs</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Windows one-offs</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Limited</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Basic</td>
+                        <tr>
+                            <td>Windows Photos + codecs</td>
+                            <td>Windows one-offs</td>
+                            <td>No</td>
+                            <td>Limited</td>
+                            <td>Basic</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Lightroom / Camera Raw</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Edit-then-deliver workflow</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Yes</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Full</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Color-managed</td>
+                        <tr>
+                            <td>Lightroom / Camera Raw</td>
+                            <td>Edit-then-deliver workflow</td>
+                            <td>Yes</td>
+                            <td>Full</td>
+                            <td>Color-managed</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold"><a href="https://mochify.app/solutions/hif-to-jpg">Mochify web (Magic Flow)</a></td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Any brand, plain-English batch, jpegli output</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Yes (up to 25)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Via prompt</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Encoder tone mapping</td>
+                        <tr>
+                            <td><a href="https://mochify.app/solutions/hif-to-jpg">Mochify web (Magic Flow)</a></td>
+                            <td>Any brand, plain-English batch, jpegli output</td>
+                            <td>Yes (up to 25)</td>
+                            <td>Via prompt</td>
+                            <td>Encoder tone mapping</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Mochify CLI / local MCP</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Scripted and agent pipelines</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Yes</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Via <code class={inlineCode}>-p</code> prompt</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Encoder tone mapping</td>
+                        <tr>
+                            <td>Mochify CLI / local MCP</td>
+                            <td>Scripted and agent pipelines</td>
+                            <td>Yes</td>
+                            <td>Via <code class={inlineCode}>-p</code> prompt</td>
+                            <td>Encoder tone mapping</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <!-- FAQ -->
-        <GuideFAQs items={faqs} />
+        <GlassFAQs items={faqs} jsonLd={false} />
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Turn HEIF files into shareable JPEGs"
             href="/"
             label="Try it free at mochify.app →"
         >
             <a href="https://mochify.app/solutions/hif-to-jpg">Try Mochify free</a> - no signup needed for your first three conversions.
-        </GuideCTA>
+        </GlassCTA>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

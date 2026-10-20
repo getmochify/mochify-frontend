@@ -1,10 +1,12 @@
 <script lang="ts">
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import CodeCard from '$lib/components/guide-demo/CodeCard.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import CodeBlock from '$lib/components/CodeBlock.svelte';
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         title: "Convert MP4 to WebM for the Web: Smaller Files, Faster Pages, No Upload Required",
@@ -160,53 +162,39 @@
     <\/script>`}
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="MP4 to WebM" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Convert MP4 to WebM for the Web: Smaller Files, Faster Pages, No Upload Required
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Converting an MP4 hero video to WebM using VP9 typically cuts file size by 30–50% with no visible quality difference. This guide covers the codec landscape, the exact size savings you can expect, the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> fallback pattern that keeps Safari and legacy browsers covered, and how to convert without uploading your footage to a third-party server.
         </p>
 
-        <p class="text-sm text-[#875F42]">Published {metadata.date} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong>. For web developers and performance-focused teams who need to reduce video payload for LCP-critical pages without compromising compatibility or privacy.</p>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">Published {metadata.date} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong>. For web developers and performance-focused teams who need to reduce video payload for LCP-critical pages without compromising compatibility or privacy.</p>
+        </div>
     </header>
 
-    <!-- Card-link TOC -->
-    <section class="mb-12">
-        <h2 class="font-extrabold text-[#4A2C2C] text-lg mb-8">
-            What's in This Guide
-            <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
-        </h2>
-        <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-            <ul class="space-y-3">
-                {#each tocItems as item}
-                    <li>
-                        <a href="#{item.id}" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform shrink-0">{item.n}</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </nav>
-    </section>
+    <section>
+            <GuideTOC items={tocItems} heading="What's in This Guide" />
+        </section>
 
-    <div class="space-y-12 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
         <!-- Intro -->
         <p>If you have an MP4 video on your landing page, hero section, or product demo, you are almost certainly serving a larger file than you need to. Converting that MP4 to WebM using VP9 typically cuts file size by 30–50% with no visible quality difference. That is not a theoretical gain: a 12 MB hero video becomes roughly 7 MB, and a background loop that took three seconds to buffer on mobile might load in under two. For pages where video is the Largest Contentful Paint element, this matters directly for your Core Web Vitals score.</p>
@@ -242,79 +230,79 @@
             <p class="mb-4">The numbers here come from several independent benchmarks and are consistent enough to use as planning figures.</p>
 
             <p class="mb-3 font-bold text-[#4A2C2C]">1080p 60-second clip, comparative output sizes:</p>
-            <ScrollableTable class="mb-6">
-                <table class="w-full text-sm">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border-b border-pink-100">Format</th>
-                            <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border-b border-pink-100">Codec</th>
-                            <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border-b border-pink-100">Approximate size</th>
-                            <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border-b border-pink-100">vs H.264</th>
+                        <tr>
+                            <th>Format</th>
+                            <th>Codec</th>
+                            <th>Approximate size</th>
+                            <th>vs H.264</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-b border-pink-50">
-                            <td class="px-4 py-3">MP4</td>
-                            <td class="px-4 py-3">H.264</td>
-                            <td class="px-4 py-3">~12 MB</td>
-                            <td class="px-4 py-3 text-[#875F42]">baseline</td>
-                        </tr>
-                        <tr class="border-b border-pink-50 bg-[#FFFBFC]">
-                            <td class="px-4 py-3">WebM</td>
-                            <td class="px-4 py-3">VP9</td>
-                            <td class="px-4 py-3">~7 MB</td>
-                            <td class="px-4 py-3 text-[#F06292] font-bold">~42% smaller</td>
+                        <tr>
+                            <td>MP4</td>
+                            <td>H.264</td>
+                            <td>~12 MB</td>
+                            <td>baseline</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3">WebM</td>
-                            <td class="px-4 py-3">AV1</td>
-                            <td class="px-4 py-3">~5 MB</td>
-                            <td class="px-4 py-3 text-[#F06292] font-bold">~58% smaller</td>
+                            <td>WebM</td>
+                            <td>VP9</td>
+                            <td>~7 MB</td>
+                            <td>~42% smaller</td>
+                        </tr>
+                        <tr>
+                            <td>WebM</td>
+                            <td>AV1</td>
+                            <td>~5 MB</td>
+                            <td>~58% smaller</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <p class="mb-3 font-bold text-[#4A2C2C]">720p 60-second clip:</p>
-            <ScrollableTable class="mb-6">
-                <table class="w-full text-sm">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border-b border-pink-100">Format</th>
-                            <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border-b border-pink-100">Codec</th>
-                            <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border-b border-pink-100">Approximate size</th>
-                            <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border-b border-pink-100">vs H.264</th>
+                        <tr>
+                            <th>Format</th>
+                            <th>Codec</th>
+                            <th>Approximate size</th>
+                            <th>vs H.264</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-b border-pink-50">
-                            <td class="px-4 py-3">MP4</td>
-                            <td class="px-4 py-3">H.264</td>
-                            <td class="px-4 py-3">~6 MB</td>
-                            <td class="px-4 py-3 text-[#875F42]">baseline</td>
-                        </tr>
-                        <tr class="border-b border-pink-50 bg-[#FFFBFC]">
-                            <td class="px-4 py-3">WebM</td>
-                            <td class="px-4 py-3">VP9</td>
-                            <td class="px-4 py-3">~3.5 MB</td>
-                            <td class="px-4 py-3 text-[#F06292] font-bold">~42% smaller</td>
+                        <tr>
+                            <td>MP4</td>
+                            <td>H.264</td>
+                            <td>~6 MB</td>
+                            <td>baseline</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3">WebM</td>
-                            <td class="px-4 py-3">AV1</td>
-                            <td class="px-4 py-3">~2.5 MB</td>
-                            <td class="px-4 py-3 text-[#F06292] font-bold">~58% smaller</td>
+                            <td>WebM</td>
+                            <td>VP9</td>
+                            <td>~3.5 MB</td>
+                            <td>~42% smaller</td>
+                        </tr>
+                        <tr>
+                            <td>WebM</td>
+                            <td>AV1</td>
+                            <td>~2.5 MB</td>
+                            <td>~58% smaller</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <p class="mb-4">These are representative benchmarks corroborated by <a href="https://www.mux.com/articles/how-to-create-webm-videos-with-ffmpeg" target="_blank" rel="noopener noreferrer">Mux's encoding guidance</a>, which recommends 2–3 Mbps for 1080p VP9 versus 4–6 Mbps for H.264 at comparable quality - implying roughly 40–50% bitrate savings.</p>
             <p class="mb-4">The rule of thumb for planning: expect WebM/VP9 to deliver 30–50% smaller files than MP4/H.264 at equivalent visual quality. AV1 can push that to 40–58%, at the cost of significantly longer encode times.</p>
 
-            <InfoBox type="tip" title="AV1 encode time trade-off">
+            <GlassInfoBox type="tip" title="AV1 encode time trade-off">
                 AV1 is 5–10x slower than VP9 to encode, and VP9 is already slower than H.264. For short web clips this is usually fine - a 30-second loop might take a few minutes rather than seconds - but for longer content or batch jobs, AV1 encode time is a real planning consideration.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- Section 4 -->
@@ -322,7 +310,7 @@
             <SectionHeading>The &lt;video&gt; Fallback Pattern Every Site Should Use</SectionHeading>
             <p class="mb-4">Serving WebM without a fallback is a mistake - older browsers and some contexts still require MP4. The correct pattern is a <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> element with multiple <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;source&gt;</code> children in priority order. The browser picks the first source it can play and stops evaluating the rest.</p>
 
-            <CodeBlock filename="hero.html" code={videoFallbackCode} />
+            <CodeCard filename="hero.html" code={videoFallbackCode} />
 
             <p class="mb-4">A few implementation notes worth keeping in mind:</p>
 
@@ -374,9 +362,9 @@
             <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8">Real incidents have happened</h3>
             <p class="mb-4">A 2024 report documented a breach at TuneFab, a media converter, where a misconfigured database exposed around 280 GB of user data including IP addresses and account identifiers. A separate incident involved Dirpy, an online video downloader, leaking 15.7 million records including user activity logs and the URLs of downloaded content.</p>
 
-            <InfoBox type="warning" title="FBI advisory">
+            <GlassInfoBox type="warning" title="FBI advisory">
                 A 2025 advisory from the FBI warned that some free online file converter sites have been used to distribute malware, tricking users into downloading infected files as part of conversion workflows. The recommendation is to avoid arbitrary free converters and use trusted, local tools instead.
-            </InfoBox>
+            </GlassInfoBox>
 
             <p class="mb-4">The alternative is browser-based conversion using WebAssembly - tools where the conversion engine runs inside your browser tab and your video bytes never touch a remote server. ffmpeg.wasm is a full WebAssembly port of FFmpeg that runs entirely client-side; the project explicitly describes its privacy benefit as "your users' data only lives inside their browser." These tools can even run offline once cached, since there is no server round-trip involved.</p>
             <p>Mochify's video tool takes the same approach: conversion happens in your browser. The video never leaves your device. See also <a href="/guides/privacy-image-optimization">Privacy and Image Optimization</a> for a broader look at the data-handling landscape for online media tools.</p>
@@ -404,9 +392,9 @@
             {/each}
         </ol>
 
-        <InfoBox type="tip" title="Pro tip: shorter loops, smaller files">
+        <GlassInfoBox type="tip" title="Pro tip: shorter loops, smaller files">
             If your source video is longer than a short loop, trim it to the minimum necessary length before converting. For background videos especially, a 6–10 second seamless loop delivers the same visual effect at a fraction of the file size.
-        </InfoBox>
+        </GlassInfoBox>
 
         <div class="border-t border-pink-100 mt-8 pt-6 text-[#875F42] text-base leading-relaxed">
             <strong class="text-[#6C3F31]">Privacy note:</strong> Because processing is entirely in-browser, there are no retention concerns. The video bytes never leave your device - not to Mochify's servers, not to any third party. This is the fundamental architectural difference from server-side online converters.
@@ -416,12 +404,12 @@
     <!-- Cheat Sheet -->
     <section id="cheat-sheet" class="scroll-mt-24 mt-12 bg-[#FFF5F7] border border-pink-100 rounded-3xl p-8">
         <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-6">MP4 to WebM Cheat Sheet</h2>
-        <ScrollableTable>
-            <table class="w-full text-sm">
+        <GuideTable class="my-6">
+            <table>
                 <thead>
-                    <tr class="bg-white">
-                        <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border-b border-pink-100">Decision</th>
-                        <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border-b border-pink-100">Recommendation</th>
+                    <tr>
+                        <th>Decision</th>
+                        <th>Recommendation</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -439,14 +427,14 @@
                         ['Typical VP9 file saving', '30–50% smaller than H.264 at similar quality'],
                         ['AV1 encode time trade-off', '5–10x slower than VP9; not worth it for tight deadlines'],
                     ] as [decision, rec], i}
-                        <tr class="{i % 2 === 1 ? 'bg-white' : ''} border-b border-pink-50 last:border-b-0">
-                            <td class="px-4 py-3 font-semibold text-[#4A2C2C] align-top">{decision}</td>
-                            <td class="px-4 py-3 text-[#6C3F31]">{rec}</td>
+                        <tr>
+                            <td>{decision}</td>
+                            <td>{rec}</td>
                         </tr>
                     {/each}
                 </tbody>
             </table>
-        </ScrollableTable>
+        </GuideTable>
     </section>
 
     <!-- FAQ -->
@@ -514,7 +502,26 @@
     </aside>
 
     <div class="mt-12">
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
     </div>
 
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

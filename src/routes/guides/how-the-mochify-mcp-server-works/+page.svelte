@@ -1,9 +1,11 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: "How the Mochify MCP Server Works: Hosted vs Local, with Worked Examples",
@@ -25,6 +27,21 @@
         { q: "Does the MCP server support background removal and smart crop?", a: "Yes. squish exposes removeBackground, crop (smart crop to the subject), smartCompress (softens the background, leaves the subject untouched), brightness, clarity, stripExif, rotate, and HDR gain-map preservation. It can also crop to or hide an area the assistant picks by looking at the image (region, redactBoxes), and hide faces automatically (redactFaces). All of these are available on every plan, including Free. On paid plans, including the Day Pass, it can also paint small objects out and fill in the background (eraseBoxes, up to eight boxes; this invents pixels, so it is for tidying a photo, never for hiding anything sensitive) and change an object's color while keeping its shading (recolorBoxes); <a href=\"/guides/remove-objects-from-photo-ai-assistant\">removing objects from a photo with an AI assistant</a> shows both on real photos, including the runs that did not come out clean." },
         { q: "Can I use the MCP server through Cursor or other MCP clients?", a: "Yes. For the hosted server, any client that supports remote MCP connectors over HTTP with OAuth can register https://mcp.mochify.app. For the local server, any client that supports the standard stdio MCP pattern - Cursor, Continue, Cline, Claude Code with custom config, and others - can spawn mochify serve as a subprocess. Mochify is also listed on Smithery and Glama MCP marketplaces." },
     ];
+
+    const toc = [
+                        { n: '01', href: '#cheat-sheet',  label: '30-second cheat sheet' },
+                        { n: '02', href: '#two-surfaces', label: 'The two surfaces of the Mochify MCP server' },
+                        { n: '03', href: '#hosted-mcp',   label: 'How the hosted MCP server works' },
+                        { n: '04', href: '#local-install', label: 'How the local install works' },
+                        { n: '05', href: '#when-to-use',  label: 'When to use which (decision table)' },
+                        { n: '06', href: '#example-1',    label: 'Worked example 1: hosted MCP with a public URL' },
+                        { n: '07', href: '#example-2',    label: 'Worked example 2: hosted MCP with an uploaded image' },
+                        { n: '08', href: '#example-3',    label: 'Worked example 3: local MCP server in Claude Desktop' },
+                        { n: '09', href: '#example-4',    label: 'Worked example 4: direct CLI in Claude Code or a build pipeline' },
+                        { n: '10', href: '#token-cost',   label: 'The honest answer on token cost' },
+                        { n: '11', href: '#faq',          label: 'FAQ' },
+                        { n: '12', href: '#related',      label: 'Related guides' },
+                    ];
 </script>
 
 <ReadProgress />
@@ -74,66 +91,40 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''} · Mochify Engineering Team
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Mochify MCP Server" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''} · Mochify Engineering Team
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            How the Mochify MCP Server Works: Hosted vs Local, with Worked Examples
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             The bridge between your AI agent and our compression engine comes in two distinct flavours. Here's how each one works, where each one belongs, and the part nobody else writes down: where the MCP server actually saves you tokens, and where it doesn't.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 This guide covers the hosted MCP server at <code class="bg-pink-100 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mcp.mochify.app</code> and the local MCP server via <code class="bg-pink-100 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mochify serve</code> - their architecture, setup, token-cost profiles, retention behavior, and four concrete worked examples.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-                <ul class="space-y-3">
-                    {#each [
-                        { n: '01', href: '#cheat-sheet',  label: '30-second cheat sheet' },
-                        { n: '02', href: '#two-surfaces', label: 'The two surfaces of the Mochify MCP server' },
-                        { n: '03', href: '#hosted-mcp',   label: 'How the hosted MCP server works' },
-                        { n: '04', href: '#local-install', label: 'How the local install works' },
-                        { n: '05', href: '#when-to-use',  label: 'When to use which (decision table)' },
-                        { n: '06', href: '#example-1',    label: 'Worked example 1: hosted MCP with a public URL' },
-                        { n: '07', href: '#example-2',    label: 'Worked example 2: hosted MCP with an uploaded image' },
-                        { n: '08', href: '#example-3',    label: 'Worked example 3: local MCP server in Claude Desktop' },
-                        { n: '09', href: '#example-4',    label: 'Worked example 4: direct CLI in Claude Code or a build pipeline' },
-                        { n: '10', href: '#token-cost',   label: 'The honest answer on token cost' },
-                        { n: '11', href: '#faq',          label: 'FAQ' },
-                        { n: '12', href: '#related',      label: 'Related guides' },
-                    ] as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc.map((t) => ({ id: t.href.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
         <!-- Cheat Sheet -->
@@ -141,48 +132,48 @@
             <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">30-Second Cheat Sheet</h2>
             <p class="mb-6">If your goal is the lowest possible token cost, use either local mode or hosted-MCP URL input. The hosted MCP now returns compressed results as a short-lived download URL rather than inline binary - which fixes the old return-side problem but means the compressed result is briefly held in Mochify-controlled storage.</p>
 
-            <ScrollableTable class="mb-6">
-                <table class="w-full text-left bg-white text-sm">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Workflow</th>
-                            <th class="p-4 font-black">Image bytes go to</th>
-                            <th class="p-4 font-black">In agent context?</th>
-                            <th class="p-4 font-black">Best for</th>
+                            <th>Workflow</th>
+                            <th>Image bytes go to</th>
+                            <th>In agent context?</th>
+                            <th>Best for</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
+                    <tbody>
                         <tr>
-                            <td class="p-4 font-bold">Hosted MCP, URL input</td>
-                            <td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">api.mochify.app</code></td>
-                            <td class="p-4">Neither (URLs in, URL out)</td>
-                            <td class="p-4">Public or CDN-hosted images you want as AVIF, WebP, or JXL</td>
+                            <td>Hosted MCP, URL input</td>
+                            <td><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">api.mochify.app</code></td>
+                            <td>Neither (URLs in, URL out)</td>
+                            <td>Public or CDN-hosted images you want as AVIF, WebP, or JXL</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold">Hosted MCP, uploaded image</td>
-                            <td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">api.mochify.app</code></td>
-                            <td class="p-4">Neither (upload link in, URL out)</td>
-                            <td class="p-4">Photos attached to a conversation, at full resolution</td>
+                            <td>Hosted MCP, uploaded image</td>
+                            <td><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">api.mochify.app</code></td>
+                            <td>Neither (upload link in, URL out)</td>
+                            <td>Photos attached to a conversation, at full resolution</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold">Local MCP (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">mochify serve</code>)</td>
-                            <td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">api.mochify.app</code> via local binary</td>
-                            <td class="p-4">Neither (paths only)</td>
-                            <td class="p-4">Claude Desktop, Cursor, file work on disk</td>
+                            <td>Local MCP (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">mochify serve</code>)</td>
+                            <td><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">api.mochify.app</code> via local binary</td>
+                            <td>Neither (paths only)</td>
+                            <td>Claude Desktop, Cursor, file work on disk</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold">Direct CLI (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">mochify</code>)</td>
-                            <td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">api.mochify.app</code> via local binary</td>
-                            <td class="p-4">Neither (paths only)</td>
-                            <td class="p-4">Build pipelines, Claude Code, batch jobs, scripts</td>
+                            <td>Direct CLI (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">mochify</code>)</td>
+                            <td><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">api.mochify.app</code> via local binary</td>
+                            <td>Neither (paths only)</td>
+                            <td>Build pipelines, Claude Code, batch jobs, scripts</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
-            <InfoBox type="note" title="Encoding always happens server-side">
+            <GlassInfoBox type="note" title="Encoding always happens server-side">
                 Encoding still happens in RAM on <code class="bg-blue-50 text-blue-600 px-1.5 py-px rounded font-mono text-sm">api.mochify.app</code> for all four workflows. Local install workflows skip the pickup store entirely - the compressed bytes flow straight from the API back to your disk.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- Two Surfaces -->
@@ -212,9 +203,9 @@
 
             <p class="mb-6">JPEG is the default output (encoded with Google's jpegli encoder, which delivers roughly 35% better compression than <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">libjpeg-turbo</code> at matched quality). AVIF, JPEG XL, WebP, and PNG are also supported. Options include resize, smart-crop to a subject, EXIF stripping, brightness, clarity, <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">smartCompress</code>, HDR gain-map preservation, and AI background removal. The assistant can also crop to (<code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">region</code>) or hide (<code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">redactBoxes</code>) an area it picks by looking at the image - "hide the number plate", "crop to the logo" - and Mochify receives only the coordinates. <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">redactFaces</code> hides faces with Mochify's own detector.</p>
 
-            <InfoBox type="note" title="URL passback is a recent change">
+            <GlassInfoBox type="note" title="URL passback is a recent change">
                 Earlier versions of the hosted MCP returned the processed image inline as binary content, which produced reliable hangs and unsaveable results across most chat clients. URL passback fixes that, at the cost of a brief pickup window on Mochify's side - covered in the retention section below.
-            </InfoBox>
+            </GlassInfoBox>
 
             <h3 id="retention-honestly" class="text-xl font-bold text-[#4A2C2C] mb-3 scroll-mt-24">Retention, honestly</h3>
             <p class="mb-4">The original image you send to Mochify is streamed into the encoder in RAM, processed, and discarded. There are no disk writes of the source, and no logs containing image data.</p>
@@ -258,27 +249,27 @@ mochify *.heic -p "convert to WebP, 1200px wide, strip EXIF" -o ./out</code></pr
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>find . -name "*.jpg" | mochify -t webp -o ./out
 ls *.heic | mochify -t jpg</code></pre>
 
-            <ScrollableTable class="mb-6">
-                <table class="w-full text-left bg-white text-sm">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Flag</th>
-                            <th class="p-4 font-black">What it does</th>
+                            <th>Flag</th>
+                            <th>What it does</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-t, --type &lt;FORMAT&gt;</code></td><td class="p-4">Output format: <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">jpg</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">png</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">webp</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">avif</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">jxl</code></td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-w, --width &lt;N&gt;</code></td><td class="p-4">Target width in pixels</td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-H, --height &lt;N&gt;</code></td><td class="p-4">Target height in pixels</td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">--crop</code></td><td class="p-4">Saliency-guided crop to exact dimensions</td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-o, --output &lt;DIR&gt;</code></td><td class="p-4">Output directory (defaults to input dir)</td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-n, --name &lt;NAME&gt;</code></td><td class="p-4">Base name for the output file</td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-r, --rotation &lt;DEG&gt;</code></td><td class="p-4">Rotate by 0, 90, 180, or 270 degrees</td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">--clarity</code></td><td class="p-4">Midtone contrast enhancement</td></tr>
-                        <tr><td class="p-4"><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-p, --prompt &lt;TEXT&gt;</code></td><td class="p-4">Natural-language prompt that resolves all params automatically</td></tr>
+                    <tbody>
+                        <tr><td><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-t, --type &lt;FORMAT&gt;</code></td><td>Output format: <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">jpg</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">png</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">webp</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">avif</code>, <code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">jxl</code></td></tr>
+                        <tr><td><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-w, --width &lt;N&gt;</code></td><td>Target width in pixels</td></tr>
+                        <tr><td><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-H, --height &lt;N&gt;</code></td><td>Target height in pixels</td></tr>
+                        <tr><td><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">--crop</code></td><td>Saliency-guided crop to exact dimensions</td></tr>
+                        <tr><td><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-o, --output &lt;DIR&gt;</code></td><td>Output directory (defaults to input dir)</td></tr>
+                        <tr><td><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-n, --name &lt;NAME&gt;</code></td><td>Base name for the output file</td></tr>
+                        <tr><td><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-r, --rotation &lt;DEG&gt;</code></td><td>Rotate by 0, 90, 180, or 270 degrees</td></tr>
+                        <tr><td><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">--clarity</code></td><td>Midtone contrast enhancement</td></tr>
+                        <tr><td><code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">-p, --prompt &lt;TEXT&gt;</code></td><td>Natural-language prompt that resolves all params automatically</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Local MCP server mode</h3>
             <p class="mb-3">Same binary, different invocation. Add this to <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">~/Library/Application Support/Claude/claude_desktop_config.json</code>:</p>
@@ -294,9 +285,9 @@ ls *.heic | mochify -t jpg</code></pre>
 
             <p class="mb-4">Restart Claude Desktop. The <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish</code> tool now appears in the connections panel and uses the credentials from your earlier <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">mochify auth login</code>. No OAuth round-trip, no remote connector to refresh, no token expiry to worry about.</p>
 
-            <InfoBox type="tip" title="Give Claude the full path">
+            <GlassInfoBox type="tip" title="Give Claude the full path">
                 When asking Claude to process an image via the local MCP, give it the full path: <em>"Convert /Users/me/Desktop/photo.jpg to AVIF at 1000px wide."</em> The local binary opens the file, sends bytes to the API, gets the result back, writes it to disk, and returns the saved path and file size. The image never enters Claude's context.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- When to use which -->
@@ -304,26 +295,26 @@ ls *.heic | mochify -t jpg</code></pre>
             <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">When to Use Which</h2>
             <p class="mb-6">Pick by what's true about your task, not by which tool you've heard of.</p>
 
-            <ScrollableTable class="mb-8">
-                <table class="w-full text-left bg-white text-sm">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">If…</th>
-                            <th class="p-4 font-black">Use</th>
+                            <th>If…</th>
+                            <th>Use</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4">Someone shared an image URL and you want it as AVIF or WebP</td><td class="p-4 font-semibold">Hosted MCP (URL input)</td></tr>
-                        <tr><td class="p-4">You want to drag an image into a chat and have it compressed, cropped or redacted</td><td class="p-4 font-semibold">Hosted MCP (upload) - see <a href="#example-2">Worked Example 2</a></td></tr>
-                        <tr><td class="p-4">You're in Claude Desktop and images live on your laptop</td><td class="p-4 font-semibold">Local MCP server (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">mochify serve</code>)</td></tr>
-                        <tr><td class="p-4">You're in Claude Code working in a project repo full of images</td><td class="p-4 font-semibold">Direct CLI</td></tr>
-                        <tr><td class="p-4">You're building a static site and want compression as a build step</td><td class="p-4 font-semibold">Direct CLI (no agent needed)</td></tr>
-                        <tr><td class="p-4">Your agent is generating images and needs to compress before commit</td><td class="p-4 font-semibold">Direct CLI from the script</td></tr>
-                        <tr><td class="p-4">You want zero image bytes in any agent's context window</td><td class="p-4 font-semibold">Either local mode</td></tr>
-                        <tr><td class="p-4">No developer environment, want the simplest possible AI workflow</td><td class="p-4 font-semibold">Hosted MCP with a URL</td></tr>
+                    <tbody>
+                        <tr><td>Someone shared an image URL and you want it as AVIF or WebP</td><td>Hosted MCP (URL input)</td></tr>
+                        <tr><td>You want to drag an image into a chat and have it compressed, cropped or redacted</td><td>Hosted MCP (upload) - see <a href="#example-2">Worked Example 2</a></td></tr>
+                        <tr><td>You're in Claude Desktop and images live on your laptop</td><td>Local MCP server (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-xs">mochify serve</code>)</td></tr>
+                        <tr><td>You're in Claude Code working in a project repo full of images</td><td>Direct CLI</td></tr>
+                        <tr><td>You're building a static site and want compression as a build step</td><td>Direct CLI (no agent needed)</td></tr>
+                        <tr><td>Your agent is generating images and needs to compress before commit</td><td>Direct CLI from the script</td></tr>
+                        <tr><td>You want zero image bytes in any agent's context window</td><td>Either local mode</td></tr>
+                        <tr><td>No developer environment, want the simplest possible AI workflow</td><td>Hosted MCP with a URL</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <div class="my-8 bg-[#FFF5F7] p-8 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
                 <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
@@ -482,9 +473,9 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
 
             <p class="mb-6">The same paths-not-bytes principle carries over to documents: you can <a href="https://mochify.app/guides/extract-images-from-pdf-agent-workflows">extract, split, and convert PDF pages in an agent pipeline</a> without ever putting page bytes in the agent's context either.</p>
 
-            <InfoBox type="note" title="Image bytes still travel to Mochify's servers">
+            <GlassInfoBox type="note" title="Image bytes still travel to Mochify's servers">
                 In local modes, the image bytes still travel from your laptop to <code class="bg-blue-50 text-blue-600 px-1.5 py-px rounded font-mono text-sm">api.mochify.app</code> over HTTPS for the actual encoding work. They never hit your agent's context, but they do hit Mochify's servers, where the original is processed in RAM and discarded immediately. If you need image bytes to never leave your machine, the only option is to self-host the engine via our <a href="/guides/self-hosting-image-optimization-docker" class="text-blue-600 hover:text-blue-700 underline">Docker self-hosting guide</a>.
-            </InfoBox>
+            </GlassInfoBox>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">The practical rule</h3>
             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
@@ -494,29 +485,29 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
             </ul>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mb-4">Benchmark: 1600px PNG source, three formats</h3>
-            <ScrollableTable class="mb-4">
-                <table class="w-full text-left bg-white text-sm">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Output format</th>
-                            <th class="p-4 font-black">Quality setting</th>
-                            <th class="p-4 font-black">File size</th>
-                            <th class="p-4 font-black">Reduction vs. source</th>
+                            <th>Output format</th>
+                            <th>Quality setting</th>
+                            <th>File size</th>
+                            <th>Reduction vs. source</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4 font-semibold text-[#4A2C2C]">PNG (source)</td><td class="p-4">-</td><td class="p-4">3.1 MB</td><td class="p-4">-</td></tr>
-                        <tr><td class="p-4">JPEG (jpegli)</td><td class="p-4">80</td><td class="p-4 font-semibold text-[#4A2C2C]">193 KB</td><td class="p-4 text-[#15803d] font-bold">−94%</td></tr>
-                        <tr><td class="p-4">WebP</td><td class="p-4">80</td><td class="p-4 font-semibold text-[#4A2C2C]">122 KB</td><td class="p-4 text-[#15803d] font-bold">−96%</td></tr>
-                        <tr><td class="p-4">AVIF</td><td class="p-4">60</td><td class="p-4 font-semibold text-[#4A2C2C]">80 KB</td><td class="p-4 text-[#15803d] font-bold">−97%</td></tr>
+                    <tbody>
+                        <tr><td>PNG (source)</td><td>-</td><td>3.1 MB</td><td>-</td></tr>
+                        <tr><td>JPEG (jpegli)</td><td>80</td><td>193 KB</td><td>−94%</td></tr>
+                        <tr><td>WebP</td><td>80</td><td>122 KB</td><td>−96%</td></tr>
+                        <tr><td>AVIF</td><td>60</td><td>80 KB</td><td>−97%</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
             <p class="text-sm text-[#875F42] italic mb-8">Source is a lossless 1600px PNG - the large reductions reflect PNG→lossy format conversion as well as compression. For a JPEG-to-JPEG comparison, <a href="https://opensource.googleblog.com/2024/04/introducing-jpegli-a-new-jpeg-coding.html">Google's jpegli announcement</a> reports 35% better compression than libjpeg-turbo at matched quality, and <a href="https://web.dev/articles/compress-images-avif">web.dev's AVIF benchmarks</a> place AVIF 40–50% below comparable JPEG.</p>
         </section>
 
         <!-- FAQ -->
-        <GuideFAQs items={faqItems} html />
+        <GlassFAQs items={faqItems} jsonLd={false} />
 
         <!-- Related -->
         <section id="related" class="scroll-mt-24">
@@ -561,3 +552,22 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

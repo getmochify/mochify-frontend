@@ -1,9 +1,11 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const inlineCode = "bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm";
 
@@ -71,6 +73,18 @@
         date: "March 9, 2026",
         lastEdited: "September 12, 2026"
     };
+
+    const toc = [
+        { id: 'what-is', label: 'What is the Mochify MCP server?' },
+        { id: 'how-it-works', label: 'How the MCP connection works' },
+        { id: 'llm-controls', label: 'What the LLM controls: type, size, EXIF' },
+        { id: 'setup', label: 'How to connect Mochify via MCP' },
+        { id: 'example', label: 'Example: compressing images from a prompt' },
+        { id: 'comparison', label: 'MCP vs. the web tool: when to use each' },
+        { id: 'cheat-sheet', label: 'Cheat sheet: prompt-to-flag mapping' },
+        { id: 'faq', label: 'FAQ' },
+        { id: 'hosted-mcp', label: 'Hosted MCP: zero-install, any AI client' }
+    ];
 </script>
 
 <ReadProgress />
@@ -159,123 +173,40 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastEdited}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title="How to Use Mochify via MCP: AI Agent Image Compression (2026)" accent="Mochify via MCP" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastEdited}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            How to Use Mochify via MCP: AI Agent Image Compression (2026)
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Connect Mochify to Claude Desktop, Cursor, or any MCP-compatible assistant and compress images directly from a conversation. No browser tab, no manual settings - just describe what you want.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 <strong>Published March 2026 by the Mochify Engineering Team.</strong> The Mochify MCP server exposes our squish engine as a callable tool for AI assistants. Same compression quality, zero-retention privacy - now accessible from inside your AI workflow.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    <li>
-                        <a href="#what-is" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">01</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">What is the Mochify MCP server?</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#how-it-works" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">02</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">How the MCP connection works</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#llm-controls" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">03</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">What the LLM controls: type, size, EXIF</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#setup" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">04</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">How to connect Mochify via MCP</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#example" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">05</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Example: compressing images from a prompt</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#comparison" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">06</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">MCP vs. the web tool: when to use each</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#cheat-sheet" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">07</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Cheat sheet: prompt-to-flag mapping</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#faq" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">08</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">FAQ</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#hosted-mcp" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">09</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Hosted MCP: zero-install, any AI client</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc} heading="What's in This Guide" />
         </section>
 
         <section class="my-8 bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
@@ -327,9 +258,9 @@
                 </div>
             </div>
 
-            <InfoBox type="tip" title="Pro tip">
+            <GlassInfoBox type="tip" title="Pro tip">
                 When building automations, give your agent a standing instruction like "always compress for web and strip EXIF" so it applies those settings without needing reminders per image.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="setup" class="scroll-mt-24">
@@ -373,9 +304,9 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
             <p class="mb-4">Restart Claude Desktop after saving. The Mochify <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">squish</code> tool will appear in your assistant's available functions - test it with: <em>"Compress this image as a WebP for the web."</em></p>
 
-            <InfoBox type="tip" title="No API key needed to start">
+            <GlassInfoBox type="tip" title="No API key needed to start">
                 Without a key, requests run on the free tier - 25 images per month, or 3 images a month with no signup (tracked by IP address). To use your plan's higher limits (Seller 300/month, Pro 1,200/month), run <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">mochify auth login</code> once to authenticate against your Mochify account.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="hosted-mcp" class="scroll-mt-24">
@@ -384,26 +315,26 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
             <p class="mb-6">One behavioral note specific to the hosted server: it returns the compressed image as a short-lived download URL on <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">files.mochify.app</code> (about a five-minute window), not as inline binary. Your original is still processed in RAM and discarded immediately; only the compressed output sits briefly in a pickup store so the link can resolve. The local CLI never uses that pickup store - it writes results straight to disk.</p>
 
-            <ScrollableTable class="mb-8">
-                <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black"></th>
-                            <th class="p-4 font-black">Hosted MCP (mcp.mochify.app)</th>
-                            <th class="p-4 font-black">Local CLI MCP (stdio)</th>
+                            <th></th>
+                            <th>Hosted MCP (mcp.mochify.app)</th>
+                            <th>Local CLI MCP (stdio)</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4 font-bold">Setup</td><td class="p-4">Paste a URL, click Authorize</td><td class="p-4">Install CLI, edit config file</td></tr>
-                        <tr><td class="p-4 font-bold">Works in Claude.ai web</td><td class="p-4 text-[#F06292] font-bold">Yes</td><td class="p-4">No (desktop only)</td></tr>
-                        <tr><td class="p-4 font-bold">Works in Claude Desktop</td><td class="p-4 text-[#F06292] font-bold">Yes</td><td class="p-4 text-[#F06292] font-bold">Yes</td></tr>
-                        <tr><td class="p-4 font-bold">Works in Gemini / Cursor / Windsurf</td><td class="p-4 text-[#F06292] font-bold">Yes (remote MCP URL)</td><td class="p-4">Varies by client</td></tr>
-                        <tr><td class="p-4 font-bold">Image source</td><td class="p-4">Public URLs (agent fetches)</td><td class="p-4">Local files + public URLs</td></tr>
-                        <tr><td class="p-4 font-bold">Auth</td><td class="p-4">OAuth 2.0 (one-click)</td><td class="p-4">Optional API key via env var</td></tr>
-                        <tr><td class="p-4 font-bold">Can run simultaneously</td><td class="p-4 text-[#F06292] font-bold">Yes</td><td class="p-4 text-[#F06292] font-bold">Yes</td></tr>
+                    <tbody>
+                        <tr><td>Setup</td><td>Paste a URL, click Authorize</td><td>Install CLI, edit config file</td></tr>
+                        <tr><td>Works in Claude.ai web</td><td>Yes</td><td>No (desktop only)</td></tr>
+                        <tr><td>Works in Claude Desktop</td><td>Yes</td><td>Yes</td></tr>
+                        <tr><td>Works in Gemini / Cursor / Windsurf</td><td>Yes (remote MCP URL)</td><td>Varies by client</td></tr>
+                        <tr><td>Image source</td><td>Public URLs (agent fetches)</td><td>Local files + public URLs</td></tr>
+                        <tr><td>Auth</td><td>OAuth 2.0 (one-click)</td><td>Optional API key via env var</td></tr>
+                        <tr><td>Can run simultaneously</td><td>Yes</td><td>Yes</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Claude.ai web (claude.ai)</h3>
             <p class="mb-4">In Claude.ai, go to <strong>Settings → Integrations</strong> and add a new integration with the URL:</p>
@@ -428,9 +359,9 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
             <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Smithery &amp; Glama</h3>
             <p class="mb-4">Mochify is listed on <strong>Smithery</strong> and <strong>Glama</strong> - MCP registries and marketplaces where you can discover and install MCP tools with a single click. Search for "Mochify" to add the hosted server directly from the registry without touching any config file.</p>
 
-            <InfoBox type="tip" title="Agentic workflows with multiple MCPs">
+            <GlassInfoBox type="tip" title="Agentic workflows with multiple MCPs">
                 Combine the Mochify hosted MCP with a filesystem or Google Drive MCP and your assistant becomes a full image pipeline agent. Say <em>"Optimize all the product photos in my Drive folder as WebPs and strip the EXIF"</em> - the Drive MCP fetches the URLs, Mochify processes each one, and each result comes back as a short-lived download link. No scripts, no manual steps.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="example" class="scroll-mt-24">
@@ -463,25 +394,25 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
             <SectionHeading>MCP vs. the web tool: when to use each</SectionHeading>
             <p class="mb-6">Both options use the same squish engine and deliver the same output quality. The difference is workflow fit.</p>
 
-            <ScrollableTable class="mb-6">
-                <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black"></th>
-                            <th class="p-4 font-black">Web tool (mochify.app)</th>
-                            <th class="p-4 font-black">MCP server</th>
+                            <th></th>
+                            <th>Web tool (mochify.app)</th>
+                            <th>MCP server</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4 font-bold">Best for</td><td class="p-4">One-off compression, quick jobs</td><td class="p-4">Automated workflows, agent pipelines</td></tr>
-                        <tr><td class="p-4 font-bold">Interface</td><td class="p-4">Browser, natural language field</td><td class="p-4">AI assistant (Claude, Cursor, etc.)</td></tr>
-                        <tr><td class="p-4 font-bold">Setup required</td><td class="p-4">None</td><td class="p-4">MCP client configuration</td></tr>
-                        <tr><td class="p-4 font-bold">Batch handling</td><td class="p-4">Up to 25 files</td><td class="p-4">Depends on agent implementation</td></tr>
-                        <tr><td class="p-4 font-bold">Privacy</td><td class="p-4">Zero-retention, in-memory</td><td class="p-4">Zero-retention, in-memory</td></tr>
-                        <tr><td class="p-4 font-bold">Format support</td><td class="p-4">WebP, AVIF, JXL, JPEG</td><td class="p-4">WebP, AVIF, JXL, JPEG</td></tr>
+                    <tbody>
+                        <tr><td>Best for</td><td>One-off compression, quick jobs</td><td>Automated workflows, agent pipelines</td></tr>
+                        <tr><td>Interface</td><td>Browser, natural language field</td><td>AI assistant (Claude, Cursor, etc.)</td></tr>
+                        <tr><td>Setup required</td><td>None</td><td>MCP client configuration</td></tr>
+                        <tr><td>Batch handling</td><td>Up to 25 files</td><td>Depends on agent implementation</td></tr>
+                        <tr><td>Privacy</td><td>Zero-retention, in-memory</td><td>Zero-retention, in-memory</td></tr>
+                        <tr><td>Format support</td><td>WebP, AVIF, JXL, JPEG</td><td>WebP, AVIF, JXL, JPEG</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <p>If you're optimizing images as part of a larger agent workflow - content pipelines, automated publishing, code-adjacent tasks - MCP is the right path. For quick, individual jobs, the web tool is faster to reach. If you're working in Claude Code specifically, see our guide to <a href="https://mochify.app/guides/image-compression-claude-code-cli-mcp">image compression inside Claude Code</a> for the setup and workflows.</p>
 
@@ -491,26 +422,26 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
         <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>Cheat sheet: prompt-to-flag mapping</SectionHeading>
 
-            <ScrollableTable class="mb-8">
-                <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Prompt</th>
-                            <th class="p-4 font-black">Format</th>
-                            <th class="p-4 font-black">Resize</th>
-                            <th class="p-4 font-black">EXIF strip</th>
+                            <th>Prompt</th>
+                            <th>Format</th>
+                            <th>Resize</th>
+                            <th>EXIF strip</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4 font-bold">"Instagram square"</td><td class="p-4">WebP</td><td class="p-4">1080×1080</td><td class="p-4">Optional</td></tr>
-                        <tr><td class="p-4 font-bold">"Smallest possible, mobile"</td><td class="p-4">AVIF</td><td class="p-4">~800px</td><td class="p-4">No</td></tr>
-                        <tr><td class="p-4 font-bold">"Blog hero, fast loading"</td><td class="p-4">WebP</td><td class="p-4">~1200px</td><td class="p-4">No</td></tr>
-                        <tr><td class="p-4 font-bold">"Archive, no quality loss"</td><td class="p-4">JPEG XL</td><td class="p-4">Original</td><td class="p-4">No</td></tr>
-                        <tr><td class="p-4 font-bold">"Clean for public upload"</td><td class="p-4">WebP</td><td class="p-4">Optional</td><td class="p-4 text-[#F06292] font-bold">Yes</td></tr>
-                        <tr><td class="p-4 font-bold">"Email thumbnail"</td><td class="p-4">JPEG (jpegli)</td><td class="p-4">~600px</td><td class="p-4 text-[#F06292] font-bold">Yes</td></tr>
+                    <tbody>
+                        <tr><td>"Instagram square"</td><td>WebP</td><td>1080×1080</td><td>Optional</td></tr>
+                        <tr><td>"Smallest possible, mobile"</td><td>AVIF</td><td>~800px</td><td>No</td></tr>
+                        <tr><td>"Blog hero, fast loading"</td><td>WebP</td><td>~1200px</td><td>No</td></tr>
+                        <tr><td>"Archive, no quality loss"</td><td>JPEG XL</td><td>Original</td><td>No</td></tr>
+                        <tr><td>"Clean for public upload"</td><td>WebP</td><td>Optional</td><td>Yes</td></tr>
+                        <tr><td>"Email thumbnail"</td><td>JPEG (jpegli)</td><td>~600px</td><td>Yes</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <section id="faq" class="scroll-mt-24">
@@ -533,7 +464,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
             </div>
         </section>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
         <div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
@@ -560,3 +491,22 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

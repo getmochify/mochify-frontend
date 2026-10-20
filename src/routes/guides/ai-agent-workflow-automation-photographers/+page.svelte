@@ -1,10 +1,13 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "AI Agent Workflow Automation for Photographers: Save Hours with Claude and Mochify",
@@ -53,6 +56,18 @@
         { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'A complete breakdown of metadata types, privacy risks, and how to strip selectively.' },
         { href: '/guides/privacy-image-optimization', title: 'Privacy & Image Optimization: A Comprehensive Guide', desc: 'How to keep your images secure with zero-retention optimization in 2026.' },
         { href: '/guides/compress-optimize-ai-generated-images', title: 'How to Compress and Optimize AI-Generated Images', desc: 'Extending agent workflows beyond camera files: compressing AI-generated images in automated workflows.' },
+    ];
+
+    const toc = [
+        { id: 'cheat-sheet', label: 'Cheat sheet: Agent workflow at a glance' },
+        { id: 'why-photographers-lose-time', label: 'Why photographers still lose time after the shoot ends' },
+        { id: 'how-the-stack-works', label: 'How the stack works: Claude, Dispatch, and Mochify MCP' },
+        { id: 'folder-structure', label: 'Setting up the folder structure and agent trigger' },
+        { id: 'worked-example', label: 'The worked example: wedding shoot, agent running, photographer in the field' },
+        { id: 'multi-destination', label: 'Multi-destination derivatives: one shoot, four outputs' },
+        { id: 'privacy', label: 'Privacy in an automated pipeline' },
+        { id: 'validation', label: 'What to validate and what can go wrong' },
+        { id: 'faq', label: 'FAQ' }
     ];
 </script>
 
@@ -138,139 +153,55 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-bold uppercase tracking-wider border border-green-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="AI Agent Workflow Automation" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            AI Agent Workflow Automation for Photographers: Save Hours with Claude and Mochify
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Most photographers have optimized the shoot. The real time sink is what happens after: converting exports, resizing for each platform, stripping EXIF, and dropping files into the right delivery folders.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 This guide shows you how to build an AI agent pipeline on Claude, Dispatch, and Mochify's MCP server that eliminates all of that manual work. Files arrive in upload-ready folders while you're still in the car.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- Table of Contents -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    <li>
-                        <a href="#cheat-sheet" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">01</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Cheat sheet: Agent workflow at a glance</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#why-photographers-lose-time" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">02</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Why photographers still lose time after the shoot ends</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#how-the-stack-works" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">03</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">How the stack works: Claude, Dispatch, and Mochify MCP</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#folder-structure" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">04</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Setting up the folder structure and agent trigger</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#worked-example" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">05</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">The worked example: wedding shoot, agent running, photographer in the field</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#multi-destination" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">06</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Multi-destination derivatives: one shoot, four outputs</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#privacy" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">07</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Privacy in an automated pipeline</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#validation" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">08</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">What to validate and what can go wrong</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#faq" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">09</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">FAQ</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc} heading="What's in This Guide" />
         </section>
 
         <!-- 01 Cheat Sheet -->
-        <section id="cheat-sheet">
+        <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>Cheat Sheet: Agent Workflow at a Glance</SectionHeading>
             <p>Configure each row once. After that, dropping a folder triggers the full pipeline automatically, with no manual steps in between.</p>
 
-            <ScrollableTable class="my-6">
-                <table class="w-full border-collapse text-sm">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-100">Trigger</th>
-                            <th class="text-left px-4 py-3 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-100">Agent action</th>
-                            <th class="text-left px-4 py-3 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-100">Mochify MCP call</th>
-                            <th class="text-left px-4 py-3 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-100">Output folder</th>
+                        <tr>
+                            <th>Trigger</th>
+                            <th>Agent action</th>
+                            <th>Mochify MCP call</th>
+                            <th>Output folder</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -295,19 +226,19 @@
                             },
                         ] as row, i}
                             <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
-                                <td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-mono text-xs">{row.trigger}</td>
-                                <td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50">{row.action}</td>
-                                <td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 italic text-sm">{row.mcp}</td>
-                                <td class="px-4 py-3 text-[#6C3F31] border-b border-pink-50 font-mono text-xs">{row.output}</td>
+                                <td>{row.trigger}</td>
+                                <td>{row.action}</td>
+                                <td>{row.mcp}</td>
+                                <td>{row.output}</td>
                             </tr>
                         {/each}
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <!-- 02 Why photographers lose time -->
-        <section id="why-photographers-lose-time">
+        <section id="why-photographers-lose-time" class="scroll-mt-24">
             <SectionHeading>Why Photographers Still Lose Time After the Shoot Ends</SectionHeading>
             <p>The export is not the finish line. After Lightroom or Capture One finishes, you still need to generate platform-specific derivative sets, strip location data, confirm file sizes are within each platform's limits, and move files to the right delivery folders.</p>
 
@@ -318,26 +249,26 @@
             <p>You're not sitting idle; you're travelling between locations, meeting clients, or trying to sleep, but the work is still waiting.</p>
             <p>When an agent handles this, the window collapses to <strong class="text-[#4A2C2C]">under 60 seconds for a 25-image batch at Pro tier</strong>. You configure the agent's instruction set once, and it fires automatically every time a new export lands. You get a notification when the files are ready. Nothing else required.</p>
 
-            <InfoBox type="tip" title="Ready to try Mochify's MCP server?">
+            <GlassInfoBox type="tip" title="Ready to try Mochify's MCP server?">
                 Connect at <a href="/" class="text-[#D81B60] underline">mochify.app</a>. MCP access is included on all tiers.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- 03 How the stack works -->
-        <section id="how-the-stack-works">
+        <section id="how-the-stack-works" class="scroll-mt-24">
             <SectionHeading>How the Stack Works: Claude, Dispatch, and Mochify MCP</SectionHeading>
             <p>The three-layer architecture is straightforward: an AI agent runtime handles orchestration, a scheduler handles triggers, and Mochify's MCP server is the image processing engine the agent calls. The agent handles the logic; Mochify handles the actual pixel work.</p>
             <p><strong class="text-[#4A2C2C]">Claude</strong> (via Claude Desktop or a compatible client) is where you define instruction sets: essentially, pre-written tasks the agent executes when triggered. For this workflow, you write the instruction set once: detect the shoot type from the folder name, call Mochify MCP with the appropriate conversion parameters, and send a confirmation when done. <a href="https://docs.anthropic.com/en/docs/build-with-claude/mcp" rel="noopener noreferrer" class="text-[#D81B60] underline">Anthropic's MCP documentation</a> covers the protocol spec in detail for developers who want to go deeper.</p>
             <p><strong class="text-[#4A2C2C]">Dispatch</strong> is the scheduling and trigger layer. It runs a file watcher on your <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">/exports/raw-jpegs/</code> directory and fires the agent job when a new folder appears. This is what makes the workflow genuinely hands-off: the export from Lightroom is the only action you take. Dispatch handles everything after.</p>
             <p><strong class="text-[#4A2C2C]">Mochify's MCP server</strong> exposes the same C++ compression engine and zero-retention pipeline as the web interface, but callable by an AI agent in natural language. The agent describes the task: format, size constraints, color profile, EXIF handling. Mochify resolves the parameters and returns the processed files. No settings UI, no format dropdowns.</p>
 
-            <InfoBox type="note" title="MCP access on all tiers">
+            <GlassInfoBox type="note" title="MCP access on all tiers">
                 There is no developer paywall. After installing the binary, run <code>mochify auth login</code> once. It opens your browser, you sign in, and credentials are saved to <code>~/.config/mochify/credentials.toml</code>, which both the CLI and the <code>mochify serve</code> MCP server pick up automatically. (<code>MOCHIFY_API_KEY</code> still works as an optional environment-variable override.) Free, Seller, and Pro all include MCP access.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- 04 Folder structure -->
-        <section id="folder-structure">
+        <section id="folder-structure" class="scroll-mt-24">
             <SectionHeading>Setting Up the Folder Structure and Agent Trigger</SectionHeading>
             <p>Get the folder structure right first, because the agent infers shoot type from path conventions; getting this wrong means the agent will not know which derivative set to generate.</p>
             <p>Here's the recommended local structure:</p>
@@ -368,13 +299,13 @@ dispatch trigger mochify-agent --param folder="$FOLDER_PATH"</code></pre>
 
             <p>Set this script as the "After Export" action in Lightroom. Every export will now fire Dispatch automatically, which fires the agent, which calls Mochify. You set this up once.</p>
 
-            <InfoBox type="tip" title="Pro tip">
+            <GlassInfoBox type="tip" title="Pro tip">
                 Keep the <code>archive/</code> folder as a post-processing step: move originals there after the agent confirms successful output. This keeps <code>raw-jpegs/</code> clean and prevents duplicate processing if Dispatch re-checks the folder.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- 05 Worked example -->
-        <section id="worked-example">
+        <section id="worked-example" class="scroll-mt-24">
             <SectionHeading>The Worked Example: Wedding Shoot, Agent Running, Photographer in the Field</SectionHeading>
             <p>Here's a complete, concrete run-through. It's a Saturday in May 2026. You've just finished the ceremony set. You're in the car park, tablet in hand, and you trigger a Lightroom export over your studio's remote connection.</p>
 
@@ -415,18 +346,18 @@ dispatch trigger mochify-agent --param folder="$FOLDER_PATH"</code></pre>
             <p>The <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">--prompt</code> flag accepts the same natural language instruction as the MCP call. This is useful for one-off runs, debugging, or verifying output before you trust the agent to run unsupervised.</p>
 
             <!-- CTA -->
-            <GuideCTA
+            <GlassCTA
                 class="mt-6"
                 heading="Process your own batch right now"
                 href="/"
                 label="Try Mochify free →"
             >
                 No setup required. Drag, describe, download.
-            </GuideCTA>
+            </GlassCTA>
         </section>
 
         <!-- 06 Multi-destination -->
-        <section id="multi-destination">
+        <section id="multi-destination" class="scroll-mt-24">
             <SectionHeading>Multi-Destination Derivatives: One Shoot, Four Outputs</SectionHeading>
             <p>For a commercial shoot, you're not delivering to one platform; you're delivering to several with different specs. The agent handles all of them in a single pass, running the instruction sets sequentially.</p>
             <p>Here's the prompt sequence the agent runs for a commercial product shoot:</p>
@@ -452,13 +383,13 @@ strip all metadata"</code></pre>
 
             <p>For a 25-image commercial batch at Pro tier, all four derivative sets complete in under four minutes total. The agent coordinates the sequence, but each Mochify call is independent; if one fails, the others continue.</p>
 
-            <InfoBox type="technical" title="EXIF stripping overhead">
+            <GlassInfoBox type="technical" title="EXIF stripping overhead">
                 EXIF stripping adds less than <strong>2% to processing time</strong>. It's not a meaningful overhead, so specify it freely in every prompt.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- 07 Privacy -->
-        <section id="privacy">
+        <section id="privacy" class="scroll-mt-24">
             <SectionHeading>Privacy in an Automated Pipeline</SectionHeading>
             <p>Privacy matters more in an agent workflow, not less, because files are being processed without you watching. Mochify's in-memory, zero-retention pipeline means your originals are streamed to api.mochify.app, encoded in RAM, and discarded immediately, with no disk writes of the source, no logs containing image data, and nothing retained after processing. The agent passes the task to Mochify, the bytes are encoded on Mochify's API, and the local binary writes the compressed output straight back to your folder, with no pickup store and no intermediary cloud storage. Your image bytes do travel to Mochify's API for the encoding step itself (that is where the C++ engine runs); if you need them never to leave your machine at all, self-host the engine via our <a href="/guides/self-hosting-image-optimization-docker" class="text-[#D81B60] underline">Docker self-hosting guide</a>.</p>
             <p>EXIF stripping is specified as intent in the Magic Flow prompt, not configured as a separate tool step. You write "strip all EXIF including embedded thumbnails" in the same sentence as your format and size requirements, and Mochify resolves and applies all of it in a single pass. This matters for client privacy: wedding and portrait files contain GPS coordinates, device metadata, and sometimes embedded contact information from your camera profile.</p>
@@ -471,7 +402,7 @@ strip GPS and device metadata, 2,400px long edge, JPEG"</code></pre>
         </section>
 
         <!-- 08 Validation -->
-        <section id="validation">
+        <section id="validation" class="scroll-mt-24">
             <SectionHeading>What to Validate and What Can Go Wrong</SectionHeading>
             <p>An automated pipeline is only trustworthy if it validates its own output. Here's what to configure the agent to check before marking a batch complete.</p>
 
@@ -482,31 +413,37 @@ strip GPS and device metadata, 2,400px long edge, JPEG"</code></pre>
         </section>
 
         <!-- Final CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Set up your agent workflow today"
             href="/"
             label="Get started at mochify.app →"
         >
             Connect Mochify's MCP server, available on all plans, no developer paywall.
-        </GuideCTA>
+        </GlassCTA>
 
         <!-- FAQ -->
-        <GuideFAQs items={faqItems} />
+        <GlassFAQs items={faqItems} jsonLd={false} />
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each relatedGuides as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title}<span class="font-normal opacity-70">, {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={relatedGuides} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

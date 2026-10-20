@@ -1,10 +1,13 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Mochify vs TinyPNG: An Honest Comparison",
@@ -177,56 +180,43 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Mochify vs TinyPNG" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Mochify vs TinyPNG: An Honest Comparison
-        </h1>
-
-        <div class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8 space-y-4">
+        <div class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90 space-y-4">
             <p><strong class="text-[#4A2C2C]">TinyPNG is the most recognizable name in image compression, and if all you need is dragging a few PNGs onto a page, it's genuinely good at that.</strong> Mochify is the better fit when you need larger files on a free plan, format conversion beyond the basics, natural-language control, background removal, video, PDFs, or an official CLI and MCP server for automated and AI-agent workflows.</p>
             <p>The deeper difference is generational: TinyPNG was built for the pre-AI web and does one thing automatically, while Mochify was built in the age of AI, and its defining features (plain-English control, AI background removal, saliency-guided cropping, agent-native surfaces) only exist because of it.</p>
             <p>The two products also treat your files differently after upload: TinyPNG stores them for up to 48 hours; Mochify wipes them from memory the moment encoding finishes.</p>
             <p>This comparison covers all of it, with every TinyPNG claim checked against Tinify's own live pages in July 2026. Where TinyPNG wins, we say so.</p>
         </div>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published July 21, 2026 by the Mochify Engineering Team.</strong>
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc.map((t) => ({ id: t.href.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
         <section id="the-short-version" class="scroll-mt-24">
@@ -234,9 +224,9 @@
             <p>Pick TinyPNG if you compress lots of small web images and value a household-name tool with a huge plugin ecosystem. Pick Mochify if your files are bigger than 5MB, you want to describe the result instead of accepting automatic output, you need capabilities TinyPNG doesn't have (background removal, video, PDF tooling, JPEG XL through the API), or you're wiring image processing into an AI agent or build pipeline.</p>
             <p>Neither tool asks much learning of you, for opposite reasons. TinyPNG removes every decision; Mochify removes the settings instead, and you type the outcome you want in plain English. Arguably "make these web-ready, under 300KB each" is less to learn than discovering, mid-job, which needs the automatic answer can't cover.</p>
 
-            <InfoBox type="note" title="A note on method">
+            <GlassInfoBox type="note" title="A note on method">
                 Comparison pages in this niche routinely repeat stale claims: several popular "TinyPNG alternatives" articles still say TinyPNG lacks AVIF support or caps you at 20 images per month. Both are wrong. TinyPNG handles AVIF in the web tool and the API, and its free limit is 20 images per session, not per month. Every TinyPNG fact below was verified against <a href="https://tinypng.com/" target="_blank" rel="noopener noreferrer">tinypng.com</a> and its parent Tinify's pages as of July 2026.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="where-tinypng-wins" class="scroll-mt-24">
@@ -272,49 +262,49 @@
 
         <section id="pricing-compared-honestly" class="scroll-mt-24">
             <SectionHeading>Pricing compared honestly</SectionHeading>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[640px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Plan</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">TinyPNG (Tinify)</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Mochify</th>
+                        <tr>
+                            <th>Plan</th>
+                            <th>TinyPNG (Tinify)</th>
+                            <th>Mochify</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Free, no signup</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">20 images/session, 5MB each, 3 conversions</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">3 images/month, 20MB each</td>
+                        <tr>
+                            <td>Free, no signup</td>
+                            <td>20 images/session, 5MB each, 3 conversions</td>
+                            <td>3 images/month, 20MB each</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Free, with account</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Same session limits</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">25 images/month, 20MB, batch of 3</td>
+                        <tr>
+                            <td>Free, with account</td>
+                            <td>Same session limits</td>
+                            <td>25 images/month, 20MB, batch of 3</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Entry paid</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Web Pro ~$39/yr: unlimited web compressions, 75MB files</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Seller $7.99/mo or $79.99/yr: 300 images/mo, 75MB, batch of 25, priority queue</td>
+                        <tr>
+                            <td>Entry paid</td>
+                            <td>Web Pro ~$39/yr: unlimited web compressions, 75MB files</td>
+                            <td>Seller $7.99/mo or $79.99/yr: 300 images/mo, 75MB, batch of 25, priority queue</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Higher paid</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Web Ultra ~$149/yr: 150MB files, unlimited conversions</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Pro $24.99/mo or $249.99/yr: 1,200 images/mo, top priority</td>
+                        <tr>
+                            <td>Higher paid</td>
+                            <td>Web Ultra ~$149/yr: 150MB files, unlimited conversions</td>
+                            <td>Pro $24.99/mo or $249.99/yr: 1,200 images/mo, top priority</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Pay-as-you-go</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">API: 500 free/mo, then $0.009 per compression</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Day Pass $2 one-time: 100 uploads within 24 hours, no subscription</td>
+                        <tr>
+                            <td>Pay-as-you-go</td>
+                            <td>API: 500 free/mo, then $0.009 per compression</td>
+                            <td>Day Pass $2 one-time: 100 uploads within 24 hours, no subscription</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] font-bold">Developer access</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">API metered separately from web plans</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">MCP &amp; API included on every tier, same quota</td>
+                        <tr>
+                            <td>Developer access</td>
+                            <td>API metered separately from web plans</td>
+                            <td>MCP &amp; API included on every tier, same quota</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
             <p class="text-sm text-[#875F42]">Prices are USD; the <a href="/pricing">pricing page</a> shows your local currency.</p>
             <p>Read that table both ways. If you compress hundreds of sub-5MB images a month in a browser and need nothing else, TinyPNG Web Pro is the better deal, full stop. Mochify's tiers price in the capabilities rather than raw compression volume: every tier, including Free, carries Magic Flow, background removal, MCP and API access, and the full format set. TinyPNG meters its API per compression ($0.009 each after the free 500, with resize and convert each counting as an extra compression); Mochify's API and MCP draw from the same monthly quota as everything else, with no per-operation billing.</p>
             <p>TinyPNG's published prices were checked against Tinify's own pages in July 2026 but are theirs to change; verify current figures on their site before deciding on price alone.</p>
@@ -330,79 +320,79 @@
 
         <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>Cheat sheet: Mochify vs TinyPNG at a glance</SectionHeading>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[760px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Feature</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">TinyPNG</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Mochify</th>
+                        <tr>
+                            <th>Feature</th>
+                            <th>TinyPNG</th>
+                            <th>Mochify</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Free file size limit</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">5MB</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">20MB</td>
+                        <tr>
+                            <td>Free file size limit</td>
+                            <td>5MB</td>
+                            <td>20MB</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Free batch (no signup)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">20/session</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">3 per batch</td>
+                        <tr>
+                            <td>Free batch (no signup)</td>
+                            <td>20/session</td>
+                            <td>3 per batch</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Formats</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">AVIF, WebP, JPEG, PNG (JXL in-browser only)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">JPG (jpegli), PNG, WebP, AVIF, JPEG XL, HEIC input</td>
+                        <tr>
+                            <td>Formats</td>
+                            <td>AVIF, WebP, JPEG, PNG (JXL in-browser only)</td>
+                            <td>JPG (jpegli), PNG, WebP, AVIF, JPEG XL, HEIC input</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Quality control</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">None (fully automatic)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Magic Flow natural-language prompts</td>
+                        <tr>
+                            <td>Quality control</td>
+                            <td>None (fully automatic)</td>
+                            <td>Magic Flow natural-language prompts</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Background removal</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Yes, all tiers</td>
+                        <tr>
+                            <td>Background removal</td>
+                            <td>No</td>
+                            <td>Yes, all tiers</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Video</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Yes, in-browser (never uploaded)</td>
+                        <tr>
+                            <td>Video</td>
+                            <td>No</td>
+                            <td>Yes, in-browser (never uploaded)</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">PDF tools</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Page extraction + splitting</td>
+                        <tr>
+                            <td>PDF tools</td>
+                            <td>No</td>
+                            <td>Page extraction + splitting</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Metadata control</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">API-only opt-in preserve (JPEG)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Stated in the prompt, any surface</td>
+                        <tr>
+                            <td>Metadata control</td>
+                            <td>API-only opt-in preserve (JPEG)</td>
+                            <td>Stated in the prompt, any surface</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">File retention</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Stored up to 48 hours</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Wiped from RAM immediately (hosted MCP output: 5-min pickup)</td>
+                        <tr>
+                            <td>File retention</td>
+                            <td>Stored up to 48 hours</td>
+                            <td>Wiped from RAM immediately (hosted MCP output: 5-min pickup)</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Official CLI / MCP server</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No (community only)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Yes, both</td>
+                        <tr>
+                            <td>Official CLI / MCP server</td>
+                            <td>No (community only)</td>
+                            <td>Yes, both</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Integrations</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">WordPress, Figma, ~50 community, S3/GCS, CDN</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">API + MCP on all tiers</td>
+                        <tr>
+                            <td>Integrations</td>
+                            <td>WordPress, Figma, ~50 community, S3/GCS, CDN</td>
+                            <td>API + MCP on all tiers</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] font-bold">Best for</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">High-volume small web images, plugin ecosystems</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">Larger files, format depth, AI-agent workflows, privacy-critical work</td>
+                        <tr>
+                            <td>Best for</td>
+                            <td>High-volume small web images, plugin ecosystems</td>
+                            <td>Larger files, format depth, AI-agent workflows, privacy-critical work</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <!-- Workflow card -->
@@ -443,31 +433,37 @@
         </section>
 
         <!-- FAQ -->
-        <GuideFAQs items={faqs} />
+        <GlassFAQs items={faqs} jsonLd={false} />
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="The five-minute test beats any comparison table"
             href="/"
             label="Try it free at mochify.app →"
         >
             Upload the same batch to both tools, prompt <em>"compress these for the web, keep visible quality, strip all metadata"</em>, and let your own images settle it.
-        </GuideCTA>
+        </GlassCTA>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>
