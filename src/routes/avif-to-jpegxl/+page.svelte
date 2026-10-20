@@ -111,7 +111,7 @@
 <div class="flex-1 bg-[#FDFBF7] min-h-screen flex flex-col">
     <Navigation />
 
-    <div class="max-w-5xl mx-auto w-full pt-6">
+    <div class="max-w-5xl mx-auto w-full pt-6 md:px-4">
         <Breadcrumb items={breadcrumbItems} />
     </div>
 
