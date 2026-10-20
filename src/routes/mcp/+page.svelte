@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
     import FaqAccordion from '$lib/components/FaqAccordion.svelte';
@@ -51,7 +52,45 @@
         }
     ];
 
+    let demoVideo: HTMLVideoElement;
+    let reduceMotion = $state(false);
+
+    onMount(() => {
+        reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Attach src only when the demo is near the viewport, and pause it once
+        // it leaves, so a visitor who never scrolls this far downloads nothing.
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    if (!demoVideo.src && demoVideo.dataset.src) demoVideo.src = demoVideo.dataset.src;
+                    if (!reduceMotion) demoVideo.play().catch(() => {});
+                } else if (!demoVideo.paused) {
+                    demoVideo.pause();
+                }
+            },
+            { rootMargin: '300px 0px', threshold: 0 }
+        );
+        observer.observe(demoVideo);
+        return () => observer.disconnect();
+    });
+
     const organization = { '@type': 'Organization', name: 'Mochify', url: 'https://mochify.app' };
+
+    const demoDescription =
+        'One sentence in Claude: remove the bin from a street photo and export it as a 4:5 and a 1:1 crop. Mochify erases the bin, the assistant picks both crops, and the two files are saved to the desktop.';
+
+    const videoLd = {
+        '@context': 'https://schema.org',
+        '@type': 'VideoObject',
+        name: 'Mochify MCP server demo: erase and crop a photo from Claude',
+        description: demoDescription,
+        thumbnailUrl: 'https://mochify.app/videos/mcp-erase-crop-demo-poster.jpg',
+        contentUrl: 'https://mochify.app/videos/mcp-erase-crop-demo.mp4',
+        uploadDate: '2026-10-20',
+        duration: 'PT25S',
+        publisher: organization
+    };
 
     const breadcrumbLd = {
         '@context': 'https://schema.org',
@@ -154,6 +193,7 @@ mochify auth login`;
     {@html `<script type="application/ld+json">${JSON.stringify(breadcrumbLd)}<\/script>`}
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}
     {@html `<script type="application/ld+json">${JSON.stringify(faqLd)}<\/script>`}
+    {@html `<script type="application/ld+json">${JSON.stringify(videoLd)}<\/script>`}
 </svelte:head>
 
 <div class="relative flex min-h-screen flex-col">
@@ -196,6 +236,26 @@ mochify auth login`;
             Works with Claude Desktop, Cursor and any client that supports MCP. Free account: 25 images a month. Images are processed in memory at api.mochify.app and wiped as soon as the job finishes; the model that picks a box never sends Mochify a description of what is in it.
         </p>
     </div>
+
+    <section class="mt-16 max-w-4xl mx-auto space-y-4">
+        <h2 id="demo" class={h2Class}>See it in action</h2>
+        <p class="leading-relaxed text-[#6C3F31]">{demoDescription}</p>
+        <video
+            bind:this={demoVideo}
+            data-src="/videos/mcp-erase-crop-demo.mp4"
+            poster="/videos/mcp-erase-crop-demo-poster.jpg"
+            width="1042"
+            height="720"
+            muted
+            loop
+            playsinline
+            preload="none"
+            controls={reduceMotion}
+            disablepictureinpicture
+            aria-label="Demo: asking Claude to remove the bin from a photo on the desktop and export 4:5 and 1:1 crops; Claude calls Mochify, then shows both finished crops with the bin gone."
+            class="w-full h-auto rounded-2xl shadow-sm border border-pink-50 bg-[#FFF5F7]"
+        ></video>
+    </section>
 
     <section class="mt-16 max-w-4xl mx-auto space-y-6">
         <h2 id="setup" class={h2Class}>Two ways to connect</h2>
