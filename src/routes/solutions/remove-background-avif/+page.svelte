@@ -145,19 +145,19 @@
             <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">How to remove the background from an AVIF image</h2>
             <ol class="space-y-4">
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-xl bg-[#F3F0FF] border border-[#DDD6FE] text-[#6D28D9] font-black text-sm flex items-center justify-center">1</span>
+                    <span class="shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)] text-white font-black text-sm flex items-center justify-center">1</span>
                     <p class="leading-relaxed text-[#6C3F31]">
                         <strong class="text-[#4A2C2C]">Drop the file in</strong> as it is: an .avif, or a JPG, PNG, WebP, HEIC, HEIF or HIF. Up to 3 per batch with no signup or a free account, 25 on Seller and Pro.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-xl bg-[#F3F0FF] border border-[#DDD6FE] text-[#6D28D9] font-black text-sm flex items-center justify-center">2</span>
+                    <span class="shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)] text-white font-black text-sm flex items-center justify-center">2</span>
                     <p class="leading-relaxed text-[#6C3F31]">
                         <strong class="text-[#4A2C2C]">The background is removed</strong> from each image and the subject is written out as an AVIF with a full alpha channel. There are no settings: one output, a transparent AVIF.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-xl bg-[#F3F0FF] border border-[#DDD6FE] text-[#6D28D9] font-black text-sm flex items-center justify-center">3</span>
+                    <span class="shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)] text-white font-black text-sm flex items-center justify-center">3</span>
                     <p class="leading-relaxed text-[#6C3F31]">
                         <strong class="text-[#4A2C2C]">Download the cut-outs.</strong> Nothing was converted to PNG along the way, so there is no second step.
                     </p>

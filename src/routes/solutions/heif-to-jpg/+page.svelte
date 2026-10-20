@@ -182,19 +182,19 @@
         <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">How to convert HEIF to JPG</h2>
         <ol class="space-y-4">
             <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
-                <span class="shrink-0 w-8 h-8 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4338CA] font-black text-sm flex items-center justify-center">1</span>
+                <span class="shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)] text-white font-black text-sm flex items-center justify-center">1</span>
                 <p class="leading-relaxed text-[#6C3F31]">
                     <strong class="text-[#4A2C2C]">Drop your files</strong> in the box above, or click browse. .heif, .heic and .hif files can go in the same batch: up to 3 files per batch with no signup or on a free account, 25 per batch on Seller and Pro.
                 </p>
             </li>
             <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
-                <span class="shrink-0 w-8 h-8 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4338CA] font-black text-sm flex items-center justify-center">2</span>
+                <span class="shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)] text-white font-black text-sm flex items-center justify-center">2</span>
                 <p class="leading-relaxed text-[#6C3F31]">
                     <strong class="text-[#4A2C2C]">Choose whether to keep the metadata.</strong> Once your files are in, a Strip EXIF switch appears; that is the only choice on this page. Each file is then decoded and re-encoded as a JPG with Google's jpegli encoder.
                 </p>
             </li>
             <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
-                <span class="shrink-0 w-8 h-8 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4338CA] font-black text-sm flex items-center justify-center">3</span>
+                <span class="shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)] text-white font-black text-sm flex items-center justify-center">3</span>
                 <p class="leading-relaxed text-[#6C3F31]">
                     <strong class="text-[#4A2C2C]">Download your JPGs.</strong> They open in Windows Photos, Preview, every browser and every upload form, none of which need to know what HEIF is.
                 </p>

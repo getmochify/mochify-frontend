@@ -153,19 +153,19 @@
             <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">How to convert HIF to JPG</h2>
             <ol class="space-y-4">
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4338CA] font-black text-sm flex items-center justify-center">1</span>
+                    <span class="shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)] text-white font-black text-sm flex items-center justify-center">1</span>
                     <p class="leading-relaxed text-[#6C3F31]">
                         <strong class="text-[#4A2C2C]">Drop your .HIF files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. Got a whole shoot to convert? A <a href="/pricing" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours, no account needed.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4338CA] font-black text-sm flex items-center justify-center">2</span>
+                    <span class="shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)] text-white font-black text-sm flex items-center justify-center">2</span>
                     <p class="leading-relaxed text-[#6C3F31]">
                         <strong class="text-[#4A2C2C]">Decide what happens to the metadata.</strong> Once your files are in, a Strip EXIF switch appears; that is the only choice on this page. It starts off here, so your camera data (ISO, shutter, lens, GPS) stays in the JPG unless you switch it on. Each file is then decoded and re-encoded as a JPG with Google's jpegli encoder.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4338CA] font-black text-sm flex items-center justify-center">3</span>
+                    <span class="shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)] text-white font-black text-sm flex items-center justify-center">3</span>
                     <p class="leading-relaxed text-[#6C3F31]">
                         <strong class="text-[#4A2C2C]">Download your JPGs.</strong> They open in Lightroom, Photoshop, Windows Photos, Preview, every browser and every upload form, none of which need to know what HIF is.
                     </p>
