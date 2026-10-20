@@ -145,11 +145,11 @@
 
     <div class="text-center mb-12 space-y-6">
         <div class="flex flex-wrap justify-center gap-3">
-            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-[#EEF2FF] border border-[#C7D2FE] shadow-sm text-[#4338CA] text-xs font-bold tracking-wide uppercase">
+            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-gradient-to-br from-[#818CF8] to-[#4F46E5] shadow-[0_2px_8px_rgba(79,70,229,0.35)] text-white text-xs font-bold tracking-wide uppercase">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11v6m4-6v6m4-9V5.25A2.25 2.25 0 0015.75 3h-7.5A2.25 2.25 0 006 5.25V8m-2.25 0h16.5" /></svg>
                 Every HEIF Variant
             </span>
-            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-[#FFF5F7] border border-pink-100 shadow-sm text-[#F06292] text-xs font-bold tracking-wide uppercase">
+            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)] text-white text-xs font-bold tracking-wide uppercase">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 Never Saved to Disk
             </span>
