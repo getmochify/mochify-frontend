@@ -60,7 +60,9 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		font-family: 'SF Mono', 'Monaco', 'Fira Code', monospace;
+		font-family:
+			ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+			monospace;
 		font-size: 0.7rem;
 		font-weight: 700;
 		letter-spacing: 0.06em;
@@ -77,7 +79,9 @@
 		margin: 0;
 		padding: 1.25rem 1.5rem;
 		overflow-x: auto;
-		font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+		font-family:
+			ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+			monospace;
 		font-size: 0.9375rem;
 		line-height: 1.7;
 		color: #f3e8e6;
@@ -85,7 +89,9 @@
 	}
 
 	.code-card code {
-		font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+		font-family:
+			ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+			monospace;
 		background: transparent;
 		color: inherit;
 		padding: 0;

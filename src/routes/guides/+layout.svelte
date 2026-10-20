@@ -228,7 +228,9 @@
 		padding: 0.2rem 0.5rem;
 		border-radius: 0.375rem;
 		font-size: 0.9375rem;
-		font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Droid Sans Mono', monospace;
+		font-family:
+			ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+			monospace;
 		border: 1px solid #ffe5ec;
 		font-weight: 500;
 	}
