@@ -53,25 +53,30 @@
     ];
 
     let demoVideo: HTMLVideoElement;
+    let setupVideo: HTMLVideoElement;
     let reduceMotion = $state(false);
 
     onMount(() => {
         reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        // Attach src only when the demo is near the viewport, and pause it once
-        // it leaves, so a visitor who never scrolls this far downloads nothing.
+        // Attach src only when a clip is near the viewport, and pause it once
+        // it leaves, so a visitor who never scrolls that far downloads nothing.
         const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    if (!demoVideo.src && demoVideo.dataset.src) demoVideo.src = demoVideo.dataset.src;
-                    if (!reduceMotion) demoVideo.play().catch(() => {});
-                } else if (!demoVideo.paused) {
-                    demoVideo.pause();
+            (entries) => {
+                for (const entry of entries) {
+                    const video = entry.target as HTMLVideoElement;
+                    if (entry.isIntersecting) {
+                        if (!video.src && video.dataset.src) video.src = video.dataset.src;
+                        if (!reduceMotion) video.play().catch(() => {});
+                    } else if (!video.paused) {
+                        video.pause();
+                    }
                 }
             },
             { rootMargin: '300px 0px', threshold: 0 }
         );
         observer.observe(demoVideo);
+        observer.observe(setupVideo);
         return () => observer.disconnect();
     });
 
@@ -263,6 +268,21 @@ mochify auth login`;
         <div class="space-y-4">
             <h3 class="text-xl font-bold text-[#4A2C2C]">Hosted: nothing to install</h3>
             <p class={pClass}>In Claude Desktop, go to Settings, then Connectors, add https://mcp.mochify.app and sign in when the browser window opens. Cursor and other clients that support remote MCP connectors follow the same shape. From then on the assistant has five Mochify tools: squish for images, create_upload for a photo attached to the chat, pdf and pdf_create for documents, and check_usage for your allowance.</p>
+            <video
+                bind:this={setupVideo}
+                data-src="/videos/mcp-setup-claude.mp4"
+                poster="/videos/mcp-setup-claude-poster.jpg"
+                width="1042"
+                height="720"
+                muted
+                loop
+                playsinline
+                preload="none"
+                controls={reduceMotion}
+                disablepictureinpicture
+                aria-label="Setup in Claude Desktop: Settings, Connectors, Add custom connector, name Mochify, URL https://mcp.mochify.app, sign in, and the Mochify connector listing its tools."
+                class="w-full h-auto rounded-2xl shadow-sm border border-pink-50 bg-[#FFF5F7]"
+            ></video>
             <p class={pClass}>Results come back as a download link on files.mochify.app that works for about five minutes. The assistant receives the link, never the image.</p>
         </div>
 
