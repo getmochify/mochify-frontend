@@ -57,13 +57,13 @@
     <!-- Hero -->
     <section class="relative max-w-5xl mx-auto px-4 pt-16 pb-12 sm:px-6 lg:px-8 w-full text-center">
         <div class="flex flex-wrap justify-center gap-3 mb-8">
-            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-[#FFF5F7] border border-pink-100 shadow-sm text-[#F06292] text-xs font-bold tracking-wide uppercase">
+            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl deep-chip-pink text-xs font-bold tracking-wide uppercase">
                 Vinted Photo Requirements
             </span>
-            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-[#F3E5F5] border border-purple-100 shadow-sm text-purple-600 text-xs font-bold tracking-wide uppercase">
+            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl deep-chip-violet text-xs font-bold tracking-wide uppercase">
                 3:4 Portrait Crop
             </span>
-            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-[#F1F8E9] border border-[#DCEDC8] shadow-sm text-[#33691E] text-xs font-bold tracking-wide uppercase">
+            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl deep-chip-matcha text-xs font-bold tracking-wide uppercase">
                 Background Removal
             </span>
         </div>

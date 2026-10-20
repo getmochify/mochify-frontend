@@ -314,5 +314,52 @@ html[lang='ja'] {
   .card-mochi {
     @apply bg-white rounded-2xl shadow-sm border border-transparent hover:shadow-md transition-shadow duration-200;
   }
-  
+
+  /* Deep fills for small markers: icon tiles, step numbers, badges. Pair
+     with your own size, radius and layout utilities; these set only the
+     fill, the white foreground and the matching glow.
+     .deep-tile* is for a glyph or a single digit, where the light top stop
+     is fine. .deep-chip-* is for words: both stops keep white text at
+     roughly 4.5:1 or better, so small uppercase badge text stays legible. */
+  .deep-tile {
+    background-image: linear-gradient(to bottom right, #ff9ebb, #f06292);
+    box-shadow: 0 2px 8px rgba(240, 98, 146, 0.35);
+    color: #fff;
+  }
+  .deep-chip-pink {
+    background-image: linear-gradient(to bottom right, #e91e63, #c2185b);
+    box-shadow: 0 2px 8px rgba(233, 30, 99, 0.3);
+    color: #fff;
+  }
+  .deep-chip-indigo {
+    background-image: linear-gradient(to bottom right, #6366f1, #4338ca);
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+    color: #fff;
+  }
+  .deep-chip-violet {
+    background-image: linear-gradient(to bottom right, #7c3aed, #5b21b6);
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+    color: #fff;
+  }
+  .deep-chip-green {
+    background-image: linear-gradient(to bottom right, #15803d, #166534);
+    box-shadow: 0 2px 8px rgba(21, 128, 61, 0.3);
+    color: #fff;
+  }
+  .deep-chip-matcha {
+    background-image: linear-gradient(to bottom right, #558b2f, #33691e);
+    box-shadow: 0 2px 8px rgba(85, 139, 47, 0.3);
+    color: #fff;
+  }
+  .deep-chip-amber {
+    background-image: linear-gradient(to bottom right, #b45309, #92400e);
+    box-shadow: 0 2px 8px rgba(180, 83, 9, 0.3);
+    color: #fff;
+  }
+  .deep-chip-cocoa {
+    background-image: linear-gradient(to bottom right, #875f42, #6c3f31);
+    box-shadow: 0 2px 8px rgba(108, 63, 49, 0.3);
+    color: #fff;
+  }
+
 }

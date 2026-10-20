@@ -213,13 +213,13 @@ mochify auth login`;
 
     <div class="text-center mb-10 space-y-6">
         <div class="flex flex-wrap justify-center gap-3">
-            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-[#F3F0FF] border border-[#DDD6FE] shadow-sm text-[#6D28D9] text-xs font-bold tracking-wide uppercase">
+            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl deep-chip-violet text-xs font-bold tracking-wide uppercase">
                 MCP Server
             </span>
-            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-[#F0FDF4] border border-green-100 shadow-sm text-green-700 text-xs font-bold tracking-wide uppercase">
+            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl deep-chip-green text-xs font-bold tracking-wide uppercase">
                 Hosted or Local
             </span>
-            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-[#FFF5F7] border border-pink-100 shadow-sm text-[#F06292] text-xs font-bold tracking-wide uppercase">
+            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl deep-chip-pink text-xs font-bold tracking-wide uppercase">
                 Zero Retention
             </span>
         </div>

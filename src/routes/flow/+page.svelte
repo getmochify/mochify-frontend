@@ -131,7 +131,7 @@
                 {#each exampleCards as card (card.title)}
                     <div class="mochi-card flex h-full flex-col rounded-3xl bg-white p-6">
                         <div class="flex items-center gap-3 mb-4">
-                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)]">
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                                 <svg class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d={card.icon} /></svg>
                             </span>
                             <h3 class="font-heading font-bold text-lg text-[#4A2C2C]">{card.title}</h3>

@@ -60,13 +60,13 @@
     <!-- Hero -->
     <section class="relative max-w-5xl mx-auto px-4 pt-16 pb-12 sm:px-6 lg:px-8 w-full text-center">
         <div class="flex flex-wrap justify-center gap-3 mb-8">
-            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-[#FFF5F7] border border-pink-100 shadow-sm text-[#F06292] text-xs font-bold tracking-wide uppercase">
+            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl deep-chip-pink text-xs font-bold tracking-wide uppercase">
                 eBay photo size and rules
             </span>
-            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-[#F1F8E9] border border-[#DCEDC8] shadow-sm text-[#33691E] text-xs font-bold tracking-wide uppercase">
+            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl deep-chip-matcha text-xs font-bold tracking-wide uppercase">
                 1600px recommended
             </span>
-            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-white border border-[#875F42]/10 shadow-sm text-[#875F42] text-xs font-bold tracking-wide uppercase">
+            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl deep-chip-cocoa text-xs font-bold tracking-wide uppercase">
                 White background in one prompt
             </span>
         </div>

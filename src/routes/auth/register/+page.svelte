@@ -415,7 +415,7 @@
 								<span
 									aria-hidden="true"
 									class="mt-px flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[7px] border transition-all duration-150 peer-focus-visible:ring-2 peer-focus-visible:ring-[#F06292]/40 peer-focus-visible:ring-offset-2 {marketingOptOut
-										? 'border-transparent bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)]'
+										? 'border-transparent deep-tile'
 										: 'border-[#875F42]/20 bg-white/80'}"
 								>
 									<svg
