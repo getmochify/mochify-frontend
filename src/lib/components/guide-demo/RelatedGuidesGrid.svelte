@@ -45,7 +45,7 @@
 
 	.related-heading {
 		font-size: 1.5rem;
-		font-weight: 900;
+		font-weight: 800;
 		color: #4a2c2c;
 		margin: 0 0 2rem;
 	}

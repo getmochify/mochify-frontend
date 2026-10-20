@@ -379,7 +379,7 @@ dispatch trigger mochify-agent --param folder="$FOLDER_PATH"</code></pre>
             <p>Here's a complete, concrete run-through. It's a Saturday in May 2026. You've just finished the ceremony set. You're in the car park, tablet in hand, and you trigger a Lightroom export over your studio's remote connection.</p>
 
             <div class="bg-gradient-to-b from-[#FFF5F7] to-[#FDFBF7] rounded-2xl border border-pink-100 p-6 md:p-8 mt-4">
-                <h3 class="text-lg font-black text-[#4A2C2C] mb-4 mt-0">Step by step</h3>
+                <h3 class="text-lg font-bold text-[#4A2C2C] mb-4 mt-0">Step by step</h3>
                 <ol class="list-none p-0 space-y-4">
                     {#each [
                         { n: 1, title: 'Export triggered.', body: 'Lightroom exports 80 HIF files from the ceremony set to /studio/exports/raw-jpegs/wedding-2026-05-03-hartley/. The folder name contains wedding-, which maps to the Pixieset instruction set.' },

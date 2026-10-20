@@ -215,7 +215,7 @@
 					<div
 						class="rounded-3xl border border-white/80 bg-gradient-to-br from-[#FFF4F8] to-[#FFFAF2] p-7 shadow-[0_8px_32px_rgba(240,98,146,0.08)] sm:p-8"
 					>
-						<h2 class="mb-7 text-lg font-black tracking-tight text-[#4A2C2C]">
+						<h2 class="mb-7 text-lg font-extrabold tracking-tight text-[#4A2C2C]">
 							{panel.heading}
 						</h2>
 

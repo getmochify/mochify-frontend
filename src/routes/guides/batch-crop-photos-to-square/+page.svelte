@@ -276,7 +276,7 @@
 				to fixed pixel coordinates.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-black text-[#4A2C2C]">The Photos app: one at a time</h3>
+			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">The Photos app: one at a time</h3>
 			<p class="mb-4">
 				Microsoft documents the Windows Photos editor as a single-image tool, offering to "crop,
 				flip, or rotate photos to trim out the unwanted parts manually or use preset aspect ratios."
@@ -284,7 +284,7 @@
 				sessions.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-black text-[#4A2C2C]">
+			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">
 				PowerToys Image Resizer: yes, it crops
 			</h3>
 			<p class="mb-4">
@@ -322,7 +322,7 @@
 				edge. Your subject had better be near the middle.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-black text-[#4A2C2C]">
+			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">
 				IrfanView: fixed coordinates, applied to all
 			</h3>
 			<p class="mb-4">
@@ -350,7 +350,7 @@
 				clearly if you look for it. Automator will crop a batch, with one uniform rectangle.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-black text-[#4A2C2C]">
+			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">
 				Preview: batch resize yes, batch crop no
 			</h3>
 			<p class="mb-4">
@@ -368,7 +368,7 @@
 				is absent.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-black text-[#4A2C2C]">
+			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">
 				Automator: a real batch crop, one rectangle
 			</h3>
 			<p class="mb-4">
@@ -389,7 +389,7 @@
 				an older macOS.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-black text-[#4A2C2C]">Shortcuts</h3>
+			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">Shortcuts</h3>
 			<p class="mb-4">
 				The Shortcuts app has a Crop Image action, and Apple documents only its category, describing
 				transform actions as ones that "edit content (such as cropping an image)." The specific
@@ -417,7 +417,7 @@
 				flatly that the Photos app does not support cropping multiple photos at once. It does.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-black text-[#4A2C2C]">The route that works</h3>
+			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">The route that works</h3>
 			<ol class="mb-4 ml-6 list-decimal space-y-2">
 				<li>
 					Open your first photo, tap <strong>Edit</strong>, tap <strong>Crop</strong>, choose the
@@ -443,7 +443,7 @@
 				reopening the photo afterwards and hunting for a menu item that is not there.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-black text-[#4A2C2C]">What it does not do</h3>
+			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">What it does not do</h3>
 			<p class="mb-4">
 				It does not carry your framing. We positioned the first crop deliberately off-center, and
 				every pasted photo came back cropped dead center anyway. What travels is the 1:1 ratio, not
@@ -489,7 +489,7 @@
 				might expect.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-black text-[#4A2C2C]">
+			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">
 				ImageMagick: use <code>-extent</code>, not <code>-crop</code>
 			</h3>
 			<p class="mb-4">
@@ -524,7 +524,7 @@
 				works on most installs.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-black text-[#4A2C2C]">
+			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">
 				libvips and sharp: the closest thing to a smart crop in open source
 			</h3>
 			<p class="mb-4">

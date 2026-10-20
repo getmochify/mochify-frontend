@@ -114,7 +114,7 @@
 
     <!-- Benefits grid -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
-        <h2 class="text-2xl sm:text-3xl font-black text-[#4A2C2C] text-center mb-10">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#4A2C2C] text-center mb-10">
             What eBay asks for,<br>
             <span class="text-[#F06292]">and what buyers respond to.</span>
         </h2>
@@ -144,7 +144,7 @@
                     <div class="w-12 h-12 rounded-2xl {benefit.color} border flex items-center justify-center">
                         {@html benefit.icon}
                     </div>
-                    <h3 class="font-black text-[#4A2C2C] text-lg">{benefit.title}</h3>
+                    <h3 class="font-bold text-[#4A2C2C] text-lg">{benefit.title}</h3>
                     <p class="text-[#6C3F31] text-sm leading-relaxed">{benefit.body}</p>
                 </div>
             {/each}
@@ -154,7 +154,7 @@
     <!-- Social proof / conversion angle -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
         <div class="bg-gradient-to-br from-[#FFF0F3] to-[#FFF5F7] rounded-3xl border border-pink-100 p-10 text-center space-y-6">
-            <h2 class="text-2xl sm:text-3xl font-black text-[#4A2C2C]">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-[#4A2C2C]">
                 Your main photo is competing with hundreds of others.
             </h2>
             <p class="text-[#6C3F31] max-w-2xl mx-auto leading-relaxed">
@@ -178,7 +178,7 @@
     <!-- How it works -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
         <div class="bg-white rounded-2xl border border-pink-50 shadow-sm p-8">
-            <h2 class="text-xl font-black text-[#4A2C2C] mb-8 text-center">From phone to listing in three steps</h2>
+            <h2 class="text-xl font-extrabold text-[#4A2C2C] mb-8 text-center">From phone to listing in three steps</h2>
             <div class="grid sm:grid-cols-3 gap-8 relative">
                 {#each [
                     { n: 1, title: 'Upload', body: 'Drop in your photos, straight from your camera roll: 3 at a time on Free, up to 25 at once on Seller, Pro and Growth. JPEG, HEIC from iPhone, HIF from a camera, PNG, WebP and AVIF all work.' },
@@ -189,7 +189,7 @@
                         <div class="w-10 h-10 mx-auto mb-4 rounded-full bg-[#FFF0F3] border border-pink-100 text-[#F06292] flex items-center justify-center font-black text-sm">
                             {step.n}
                         </div>
-                        <h3 class="font-black text-[#4A2C2C] text-sm uppercase tracking-widest mb-2">{step.title}</h3>
+                        <h3 class="font-bold text-[#4A2C2C] text-sm uppercase tracking-widest mb-2">{step.title}</h3>
                         <p class="text-[#6C3F31] text-sm leading-relaxed opacity-90">{@html step.body}</p>
                     </div>
                 {/each}
@@ -200,7 +200,7 @@
 
     <!-- FAQ (keyword-rich) -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
-        <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 text-center">eBay photo questions, answered</h2>
+        <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6 text-center">eBay photo questions, answered</h2>
         <div class="space-y-3 max-w-3xl mx-auto">
             {#each faqs as faq}
                 <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md transition-all">
@@ -219,7 +219,7 @@
     <!-- Final CTA -->
     <section class="relative max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8 w-full text-center">
         <div class="bg-gradient-to-br from-[#F06292] to-[#E91E8C] rounded-3xl p-12 space-y-6 shadow-xl">
-            <h2 class="text-3xl sm:text-4xl font-black text-white leading-tight">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
                 Ready to list faster on eBay?
             </h2>
             <p class="text-white/90 text-lg max-w-xl mx-auto leading-relaxed">

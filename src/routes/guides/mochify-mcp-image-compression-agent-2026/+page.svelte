@@ -279,7 +279,7 @@
         </section>
 
         <section class="my-8 bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
-            <h2 class="text-xl font-black text-[#4A2C2C] mb-3">30-second summary</h2>
+            <h2 class="text-xl font-extrabold text-[#4A2C2C] mb-3">30-second summary</h2>
             <p>The Mochify MCP server lets any MCP-compatible AI assistant - Claude, Cursor, or similar - compress and optimize images directly from a conversation. Describe what you want, and the assistant calls Mochify's squish engine with the right flags. No browser tab, no manual settings, no file management overhead.</p>
         </section>
 
@@ -312,17 +312,17 @@
 
             <div class="space-y-6 mb-6">
                 <div>
-                    <h3 class="text-xl font-black text-[#4A2C2C] mb-2">Output format</h3>
+                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-2">Output format</h3>
                     <p>Based on your described use case, the model picks from WebP, AVIF, JPEG XL, or JPEG (jpegli). "Best for the web" leans WebP. "Smallest possible" picks AVIF, which at quality 60 produces files roughly 45% smaller than JPEG at quality 80. "Lossless" picks JPEG XL.</p>
                 </div>
 
                 <div>
-                    <h3 class="text-xl font-black text-[#4A2C2C] mb-2">Resize and cropping</h3>
+                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-2">Resize and cropping</h3>
                     <p>Dimension context ("Instagram square," "thumbnail banner," "half the size") maps to explicit <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">--resize</code> and crop flags. The model understands common publishing formats and translates them to pixel dimensions without you specifying numbers.</p>
                 </div>
 
                 <div>
-                    <h3 class="text-xl font-black text-[#4A2C2C] mb-2">EXIF metadata stripping</h3>
+                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-2">EXIF metadata stripping</h3>
                     <p>Privacy-aware prompts ("strip location," "clean for public upload") enable metadata removal. Camera data, GPS coordinates, and device info are wiped before the file comes back.</p>
                 </div>
             </div>
@@ -336,7 +336,7 @@
             <SectionHeading>How to connect Mochify via MCP</SectionHeading>
             <p class="mb-6">The Mochify CLI includes the MCP server. Install it, then point your client at it.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">1. Install the CLI</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">1. Install the CLI</h3>
 
             <p class="mb-2 font-semibold text-[#4A2C2C]">macOS (Homebrew):</p>
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>brew tap getmochify/mochify
@@ -353,7 +353,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
             <p class="mb-6">All binaries are statically linked - no dependencies needed. Also available on the <a href="https://github.com/getmochify/mochify-cli/releases">GitHub releases page</a>.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">2. Add to your MCP client config</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">2. Add to your MCP client config</h3>
             <p class="mb-3">For <strong>Claude Desktop</strong>, edit <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">~/Library/Application Support/Claude/claude_desktop_config.json</code>:</p>
 
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`{
@@ -405,12 +405,12 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
                 </table>
             </ScrollableTable>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Claude.ai web (claude.ai)</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Claude.ai web (claude.ai)</h3>
             <p class="mb-4">In Claude.ai, go to <strong>Settings → Integrations</strong> and add a new integration with the URL:</p>
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>https://mcp.mochify.app</code></pre>
             <p class="mb-6">Claude will redirect you to Mochify to sign in and authorize. After that, just tell Claude to compress an image by URL and it will call the <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">squish</code> tool automatically.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Claude Desktop (remote server)</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Claude Desktop (remote server)</h3>
             <p class="mb-4">Add a remote entry to your Claude Desktop config alongside any local servers you already have:</p>
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`{
   "mcpServers": {
@@ -422,10 +422,10 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 }`}</code></pre>
             <p class="mb-6">Claude Desktop will walk you through the OAuth flow the first time it connects. You can run both this remote entry and the local <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">mochify serve</code> entry at the same time - they use independent tokens.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Gemini, Cursor, Windsurf, and other MCP clients</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Gemini, Cursor, Windsurf, and other MCP clients</h3>
             <p class="mb-6">Any client that supports remote MCP servers (HTTP+SSE or Streamable HTTP transport) works with the hosted endpoint. Add <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app/mcp</code> as the server URL and follow the client's OAuth prompt.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Smithery &amp; Glama</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Smithery &amp; Glama</h3>
             <p class="mb-4">Mochify is listed on <strong>Smithery</strong> and <strong>Glama</strong> - MCP registries and marketplaces where you can discover and install MCP tools with a single click. Search for "Mochify" to add the hosted server directly from the registry without touching any config file.</p>
 
             <InfoBox type="tip" title="Agentic workflows with multiple MCPs">
@@ -544,7 +544,7 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
                 </span>
             </div>
 
-            <h3 class="text-2xl md:text-3xl font-black text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
+            <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
                 Try it without MCP - just describe what you need
             </h3>
 

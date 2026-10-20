@@ -426,7 +426,7 @@
 				for each, so it is worth identifying which one you have before re-exporting anything.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-black text-[#4A2C2C]">
+			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">
 				1. The destination re-encoded it as a JPEG
 			</h3>
 			<p class="mb-4">
@@ -438,7 +438,7 @@
 				converted to progressive JPEG with black backgrounds on roughly one product image in ten.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-black text-[#4A2C2C]">
+			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">
 				2. The app that opened it cannot read the alpha channel
 			</h3>
 			<p class="mb-4">
@@ -463,7 +463,7 @@
 				>, May 2023). In each case the same file opened correctly elsewhere.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-black text-[#4A2C2C]">
+			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">
 				3. The export never wrote an alpha channel
 			</h3>
 			<p class="mb-4">
@@ -483,7 +483,7 @@
 				October 2023).
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-black text-[#4A2C2C]">4. It is the page, not the file</h3>
+			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">4. It is the page, not the file</h3>
 			<p class="mb-4">
 				Two of the three Shopify "transparent product images show a black background" threads we
 				read (April and June 2023) turned out to be theme CSS: the Dawn theme's product-media
@@ -492,7 +492,7 @@
 				its own; if it is transparent alone and black in the layout, the layout is the problem.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-black text-[#4A2C2C]">
+			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">
 				5. Animation and premultiplied alpha edge cases
 			</h3>
 			<p class="mb-4">

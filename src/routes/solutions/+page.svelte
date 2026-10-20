@@ -280,7 +280,7 @@
                     </span>
                 </div>
 
-                <h3 class="text-xl font-black text-[#4A2C2C] mb-3 group-hover:text-[#F06292] transition-colors">
+                <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 group-hover:text-[#F06292] transition-colors">
                     {tool.name}
                 </h3>
                 <p class="text-sm text-[#6C3F31] leading-relaxed mb-6 opacity-90">
@@ -297,7 +297,7 @@
         {/snippet}
 
         {#each grouped as group (group.category)}
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">{group.category}</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">{group.category}</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
                 {#each group.tools as tool (tool.slug)}
                     {@render toolCard(tool)}
@@ -306,11 +306,11 @@
         {/each}
 
         <section class="mt-8">
-            <h2 class="text-3xl font-black text-[#4A2C2C] mb-8">Which tool do I need?</h2>
+            <h2 class="text-3xl font-extrabold text-[#4A2C2C] mb-8">Which tool do I need?</h2>
             <div class="grid md:grid-cols-2 gap-6 items-start">
                 {#each chooser as block (block.heading)}
                     <div class="bg-white p-7 rounded-2xl border border-pink-50 shadow-sm">
-                        <h3 class="font-black text-[#4A2C2C] mb-4">{block.heading}</h3>
+                        <h3 class="font-bold text-[#4A2C2C] mb-4">{block.heading}</h3>
                         <ul class="space-y-3">
                             {#each block.items as item}
                                 <li class="flex gap-3 text-sm text-[#6C3F31] leading-relaxed">
@@ -331,21 +331,21 @@
         </section>
 
         <section class="mt-20 max-w-3xl space-y-4">
-            <h2 class="text-2xl font-black text-[#4A2C2C]">Tool pages, Magic Flow or the API?</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C]">Tool pages, Magic Flow or the API?</h2>
             <p class="leading-relaxed text-[#6C3F31]">
                 A tool page is the quickest route when the job matches it: one fixed conversion, nothing to learn. For anything else, <a href="/flow" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Magic Flow</a> takes a plain-English instruction such as "Remove the background, transparent PNG" or "Square crop and optimize for eBay" and does the job in one pass. In Chrome, the <a href="/chrome-extension" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Mochify extension</a> adds a right-click "Convert to" menu for any image on a web page. For folders and automation, the Mochify CLI, the <a href="https://mochify.app/mcp" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">hosted and local MCP servers</a> and the REST API run the same encoder; the <a href="/docs" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a> has every parameter.
             </p>
         </section>
 
         <section class="mt-16 max-w-3xl space-y-4">
-            <h2 class="text-2xl font-black text-[#4A2C2C]">What happens to your files</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C]">What happens to your files</h2>
             <p class="leading-relaxed text-[#6C3F31]">
                 Images and PDFs travel over HTTPS to api.mochify.app, are processed in memory and discarded as soon as the job finishes. Nothing is written to disk, nothing containing your files is logged, and nothing is used to train AI. Metadata, including GPS location, is stripped by default. Video conversion runs in your browser, so the video never leaves your device. The <a href="/architecture" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">architecture page</a> has the detail.
             </p>
         </section>
 
         <section class="mt-20">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">Frequently asked questions</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">Frequently asked questions</h2>
             <FaqAccordion {faqs} class="grid md:grid-cols-2 gap-4 items-start" />
         </section>
 

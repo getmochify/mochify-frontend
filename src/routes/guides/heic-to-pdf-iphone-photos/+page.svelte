@@ -436,7 +436,7 @@
         <!-- Section 7: Mochify Workflow -->
         <section id="mochify-workflow" class="scroll-mt-24">
             <div class="bg-gradient-to-br from-[#FFF5F7] to-white border border-pink-100 rounded-3xl p-8 md:p-10">
-                <h2 class="!mt-0 text-[1.75rem] font-black text-[#4A2C2C] mb-10">
+                <h2 class="!mt-0 text-[1.75rem] font-extrabold text-[#4A2C2C] mb-10">
                     Mochify Workflow: HEIC Photos to PDF
                     <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
                 </h2>

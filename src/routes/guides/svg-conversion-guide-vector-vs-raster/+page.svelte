@@ -312,17 +312,17 @@
 
             <p class="mb-4">SVG wins on sites and apps you fully control, where you can sanitize files and serve them safely. Here are the real-world cases where you should keep it as vector.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Logos on your own site</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Logos on your own site</h3>
             <p class="mb-4">Infinite resolution, tiny files for simple shapes, easy theming with CSS, and perfect crispness on retina displays. If you own the theme and can control how files are sanitized or deployed, inline SVG or <code class="bg-[#FFF5F7] rounded-lg px-2 py-px text-[#D81B60] font-mono text-sm">&lt;img src&gt;</code> SVG for your site header and footer is the right call.</p>
             <p class="mb-4">You get dark mode theming for free (a CSS <code class="bg-[#FFF5F7] rounded-lg px-2 py-px text-[#D81B60] font-mono text-sm">fill</code> change, no new export), and the file itself is often just a few hundred bytes for a flat logo.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Icons and UI elements in web apps</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Icons and UI elements in web apps</h3>
             <p class="mb-4">Icon systems in SPAs and design systems benefit significantly from SVG sprites or inline SVG. You get hover states, recoloring, and dark mode support without re-exporting a new PNG every time the design changes. For a set of 50+ icons, a single SVG sprite will almost always beat an equivalent PNG sprite sheet on payload and request count.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Diagrams, charts, and technical documentation</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Diagrams, charts, and technical documentation</h3>
             <p class="mb-4">SVG avoids text blurring when zoomed and keeps file sizes reasonable compared to large PNG diagrams. For documentation sites, dashboards, and admin UIs you control, SVG is the obvious choice when precision and accessibility matter.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Animated and interactive graphics</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Animated and interactive graphics</h3>
             <p class="mb-4">SVG + CSS/JavaScript gives you lightweight animations without video overhead. Explainer diagrams, step-by-step illustrations, and simple motion graphics all work well here - again, on properties you control.</p>
 
             <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6 my-6">
@@ -336,19 +336,19 @@
 
             <p class="mb-4">This is where most of the friction lives for non-developer site owners, ecommerce sellers, and agency clients.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">WordPress media library uploads</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">WordPress media library uploads</h3>
             <p class="mb-4">WordPress will reject SVG uploads with a "Sorry, this file type is not permitted for security reasons" error. You can unlock this with plugins like Safe SVG or custom code, but for non-technical publishers or client sites, that's friction that usually isn't worth adding. Convert your SVG to WebP or PNG before uploading to WordPress - you get a safe, optimized file without any extra plugins or security overhead.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Etsy, Shopify, and other ecommerce marketplaces</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Etsy, Shopify, and other ecommerce marketplaces</h3>
             <p class="mb-4">Etsy only accepts JPEG, PNG, and GIF for listing photos. SVG is not supported as a product image format, full stop. Shopify has partial SVG support in theme code but most merchants still rely on raster product images, and many marketplace listing tools reprocess everything to JPEG or WebP anyway. Practical rule: if the upload picker doesn't explicitly accept SVG, don't try to force it. Export a raster version upfront. The <a href="/solutions/svg-to-jpg">SVG to JPG converter</a> makes that copy at the size you pick, with transparent areas filled white.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Email templates and newsletters</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Email templates and newsletters</h3>
             <p class="mb-4">This one catches a lot of people off guard. Gmail and Outlook do not reliably render external SVG images. They often show broken images or strip SVG entirely. For logos, icons, and social badges in email, PNG at 2x resolution is dramatically more reliable. Save SVG for the web; use PNG for everything going into an email template.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">User-generated content on multi-tenant platforms</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">User-generated content on multi-tenant platforms</h3>
             <p class="mb-4">Any platform that lets users upload avatars, product images, or attachments is vulnerable if it accepts unsanitized SVG. XSS via malicious SVG uploads is a documented, real-world attack vector. In these contexts, it's often simpler and safer to block SVG at the upload layer and require PNG, JPEG, or WebP instead. The rasterization happens once, the risk is eliminated permanently.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Legacy and enterprise CMS environments</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Legacy and enterprise CMS environments</h3>
             <p class="mb-4">Many enterprise CMSs, DAMs, and LMS platforms either treat SVG as unsafe or don't generate correct thumbnails from vector files. Teams end up using PNG anyway for consistent previews - better to pre-convert with control over output quality than to let the platform rasterize badly.</p>
 
             <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-5 my-6 text-base">
@@ -362,15 +362,15 @@
 
             <p class="mb-4">WordPress deserves its own section because this is where most site owners hit the wall, and the trade-offs are real.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Why core blocks SVG</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Why core blocks SVG</h3>
             <p class="mb-4">Core's MIME-type whitelist is deliberate. Without built-in sanitization, an SVG upload is effectively a potential script upload. WordPress documentation and major hosts like WP Engine explicitly warn that enabling SVG without sanitization is dangerous. This isn't a quirk - it's a security policy.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Enabling SVG safely (if you must)</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Enabling SVG safely (if you must)</h3>
             <p class="mb-4">If you need SVG in WordPress, the two main options are:</p>
             <p class="mb-4">A sanitizing plugin like <strong>Safe SVG</strong>, which runs uploads through a dedicated SVG sanitizer (based on the <code class="bg-[#FFF5F7] rounded-lg px-2 py-px text-[#D81B60] font-mono text-sm">enshrined/svg-sanitize</code> library), integrates SVGO optimization, and lets you restrict who can upload SVG files. Or custom code using the <code class="bg-[#FFF5F7] rounded-lg px-2 py-px text-[#D81B60] font-mono text-sm">upload_mimes</code> filter - but only with careful permission scoping so lower-trust roles can't upload arbitrary SVG files.</p>
             <p class="mb-4">WP Engine recommends limiting SVG uploads to admin-level users only, even when using a sanitizing plugin.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">The plugin trade-off</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">The plugin trade-off</h3>
             <p class="mb-4">Every plugin you add to WordPress brings update overhead, potential conflicts, and sometimes database or thumbnail bloat. Plugin bloat is a real drag on maintenance - the same reason we built Mochify to work entirely outside WordPress rather than as another plugin you have to monitor.</p>
             <p class="mb-4">For most WordPress sites, the cleaner workflow is: keep SVG files in your design tooling or version control, convert to WebP or AVIF using Mochify before uploading, and skip the SVG plugin entirely. You get 90% of the quality benefits with fewer moving parts and no SVG-specific security surface to maintain.</p>
 
@@ -510,7 +510,7 @@
                     },
                 ] as step}
                     <div class="border-l-4 border-[#F06292] pl-5">
-                        <h3 class="text-base font-black text-[#D81B60] mb-2">{step.title}</h3>
+                        <h3 class="text-base font-bold text-[#D81B60] mb-2">{step.title}</h3>
                         <ul class="space-y-1.5 ml-4 list-disc marker:text-mochi-pink">
                             {#each step.items as item}
                                 <li class="text-base text-cocoa-deep">{item}</li>
@@ -547,7 +547,7 @@
                     },
                 ] as recipe}
                     <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-                        <h3 class="text-lg font-black text-[#4A2C2C] mb-3">{recipe.title}</h3>
+                        <h3 class="text-lg font-bold text-[#4A2C2C] mb-3">{recipe.title}</h3>
                         <p class="text-base text-cocoa-deep m-0">{@html recipe.body}</p>
                     </div>
                 {/each}
@@ -556,7 +556,7 @@
             <div class="bg-gradient-to-br from-[#FFF5F7] to-[#FDFBF7] rounded-3xl border border-pink-100 p-8 mt-8">
                 <div class="flex items-center gap-3 mb-1">
                     <span class="w-1.5 h-8 bg-mochi-pink rounded-sm shrink-0"></span>
-                    <h2 class="text-xl font-black text-[#4A2C2C]">Mochify Workflow: Convert SVG to WebP, AVIF, or PNG</h2>
+                    <h2 class="text-xl font-extrabold text-[#4A2C2C]">Mochify Workflow: Convert SVG to WebP, AVIF, or PNG</h2>
                 </div>
                 <p class="text-sm text-cocoa-milk mb-6 ml-4">No account required on the free tier. Up to 3 files a month.</p>
 
@@ -584,7 +584,7 @@
 
         <!-- CTA -->
         <div class="bg-gradient-to-br from-[#FFF5F7] to-[#FDFBF7] rounded-3xl border border-pink-100 p-8 text-center">
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-2">Convert your SVGs in seconds</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-2">Convert your SVGs in seconds</h3>
             <p class="text-cocoa-deep text-base mb-5">WebP, AVIF, PNG, or JPEG XL - describe the output you want, Mochify handles the rest. No account needed on the free tier. No files stored after download.</p>
             <a href="https://mochify.app" class="inline-block bg-mochi-pink hover:bg-[#D81B60] text-white rounded-xl px-7 py-3 font-black text-base transition-colors no-underline">
                 Convert SVG now at mochify.app →

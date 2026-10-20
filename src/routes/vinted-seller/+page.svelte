@@ -90,7 +90,7 @@
 
     <!-- Benefits grid -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
-        <h2 class="text-2xl sm:text-3xl font-black text-[#4A2C2C] text-center mb-10">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#4A2C2C] text-center mb-10">
             What makes a Vinted photo work.<br>
             <span class="text-[#F06292]">And what makes buyers scroll past.</span>
         </h2>
@@ -120,7 +120,7 @@
                     <div class="w-12 h-12 rounded-2xl {benefit.color} border flex items-center justify-center">
                         {@html benefit.icon}
                     </div>
-                    <h3 class="font-black text-[#4A2C2C] text-lg">{benefit.title}</h3>
+                    <h3 class="font-bold text-[#4A2C2C] text-lg">{benefit.title}</h3>
                     <p class="text-[#6C3F31] text-sm leading-relaxed">{benefit.body}</p>
                 </div>
             {/each}
@@ -130,7 +130,7 @@
     <!-- Conversion angle -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
         <div class="bg-gradient-to-br from-[#FFF0F3] to-[#FFF5F7] rounded-3xl border border-pink-100 p-10 text-center space-y-6">
-            <h2 class="text-2xl sm:text-3xl font-black text-[#4A2C2C]">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-[#4A2C2C]">
                 The Vinted feed rewards good photos.
             </h2>
             <p class="text-[#6C3F31] max-w-2xl mx-auto leading-relaxed">
@@ -154,7 +154,7 @@
     <!-- How it works -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
         <div class="bg-white rounded-2xl border border-pink-50 shadow-sm p-8">
-            <h2 class="text-xl font-black text-[#4A2C2C] mb-8 text-center">From phone photo to Vinted listing in seconds</h2>
+            <h2 class="text-xl font-extrabold text-[#4A2C2C] mb-8 text-center">From phone photo to Vinted listing in seconds</h2>
             <div class="grid sm:grid-cols-3 gap-8 relative">
                 {#each [
                     { n: 1, title: 'Upload', body: 'Drop in your photos straight from your camera roll, 3 at a time on Free and up to 25 at once on Seller and Pro. JPEG, HEIC from iPhone, PNG, all supported.' },
@@ -165,7 +165,7 @@
                         <div class="w-10 h-10 mx-auto mb-4 rounded-full bg-[#FFF0F3] border border-pink-100 text-[#F06292] flex items-center justify-center font-black text-sm">
                             {step.n}
                         </div>
-                        <h3 class="font-black text-[#4A2C2C] text-sm uppercase tracking-widest mb-2">{step.title}</h3>
+                        <h3 class="font-bold text-[#4A2C2C] text-sm uppercase tracking-widest mb-2">{step.title}</h3>
                         <p class="text-[#6C3F31] text-sm leading-relaxed opacity-90">{step.body}</p>
                     </div>
                 {/each}
@@ -176,7 +176,7 @@
 
     <!-- FAQ -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
-        <h2 class="text-2xl font-black text-[#4A2C2C] mb-6 text-center">Vinted Photo Questions, Answered</h2>
+        <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6 text-center">Vinted Photo Questions, Answered</h2>
         <div class="space-y-3 max-w-3xl mx-auto">
             {#each faqs as faq}
                 <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md transition-all">
@@ -195,7 +195,7 @@
     <!-- Final CTA -->
     <section class="relative max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8 w-full text-center">
         <div class="bg-gradient-to-br from-[#F06292] to-[#E91E8C] rounded-3xl p-12 space-y-6 shadow-xl">
-            <h2 class="text-3xl sm:text-4xl font-black text-white leading-tight">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
                 Start selling more on Vinted.
             </h2>
             <p class="text-white/90 text-lg max-w-xl mx-auto leading-relaxed">

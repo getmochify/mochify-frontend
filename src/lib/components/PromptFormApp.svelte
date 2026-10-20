@@ -4261,13 +4261,13 @@
 				</svg>
 			</div>
 			{#if upgradeCtaMode === 'generate'}
-				<h3 class="mb-2 text-lg font-black text-[#4A2C2C]">Image generation is a Pro feature</h3>
+				<h3 class="mb-2 text-lg font-bold text-[#4A2C2C]">Image generation is a Pro feature</h3>
 				<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
 					Describe any image and Mochify will create it in every format and size you need. Upgrade
 					to unlock AI image generation.
 				</p>
 			{:else}
-				<h3 class="mb-2 text-lg font-black text-[#4A2C2C]">You've used your quota</h3>
+				<h3 class="mb-2 text-lg font-bold text-[#4A2C2C]">You've used your quota</h3>
 				<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
 					You've reached your plan's processing limit. Upgrade to get more images per month and
 					unlock batch processing up to 25 files.
@@ -4329,7 +4329,7 @@
 					<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
 				</svg>
 			</div>
-			<h3 class="mb-2 text-lg font-black text-[#4A2C2C]">You've hit the free limit</h3>
+			<h3 class="mb-2 text-lg font-bold text-[#4A2C2C]">You've hit the free limit</h3>
 			<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
 				Without an account you get 3 free images per month. Create a free account for 25
 				images/month, or upgrade for even more.

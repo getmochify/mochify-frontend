@@ -258,7 +258,7 @@
 
         <!-- Workflow card -->
         <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mt-0 mb-4">The fastest fix: convert to JPG</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">The fastest fix: convert to JPG</h2>
             <p class="text-base mb-4">Converting HEIF to JPG removes the dependency instead of working around it, which is why it stays the fastest fix: a JPG opens in every viewer, browser, marketplace, and email client ever made, with no codecs, no extensions, and nothing for the recipient to install. You keep the HEIF originals (they are excellent capture files - Sony's own documentation puts HEIF compression efficiency at roughly twice JPEG's), and you hand the JPGs to everything that needs to display them.</p>
             <p class="text-base mb-4">Our <a href="https://mochify.app/solutions/heif-to-jpg">HEIF to JPG converter</a> is built for exactly the stuck-file case this guide describes:</p>
             <ul class="list-disc pl-6 space-y-3 text-base">

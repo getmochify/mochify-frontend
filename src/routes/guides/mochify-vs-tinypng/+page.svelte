@@ -407,7 +407,7 @@
 
         <!-- Workflow card -->
         <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: test both on your own images</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: test both on your own images</h2>
             <p class="text-base mb-7">Benchmarks on other people's images prove little. The honest test takes five minutes with your own.</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">

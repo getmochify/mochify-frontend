@@ -280,7 +280,7 @@
 
         <p class="mt-6">This stack means that from upload to download, your image never touches a US-jurisdiction service.</p>
 
-        <h3 class="text-[1.75rem] font-black text-[#4A2C2C] mt-10 mb-6">EU-Friendly Image Compressor Feature Comparison</h3>
+        <h3 class="text-[1.75rem] font-bold text-[#4A2C2C] mt-10 mb-6">EU-Friendly Image Compressor Feature Comparison</h3>
 
             <ScrollableTable class="my-6">
                 <table class="w-full text-left border-collapse text-sm">
@@ -371,7 +371,7 @@
             The right workflow depends on your volume and your risk tolerance. Here are three concrete scenarios.
         </p>
 
-        <h3 class="text-[1.75rem] font-black text-[#4A2C2C] mt-10 mb-4">Shopify and WooCommerce Merchants</h3>
+        <h3 class="text-[1.75rem] font-bold text-[#4A2C2C] mt-10 mb-4">Shopify and WooCommerce Merchants</h3>
         <p>
             Product photography for e-commerce is a high-frequency, moderate-risk workflow. A typical merchant shoots 20–50 product images per SKU on a smartphone. Those images contain EXIF data: GPS location of the shoot, device model, and timestamp, which has no place on a product page and could expose information you would rather keep private.
         </p>
@@ -379,7 +379,7 @@
             The standard workflow: upload your raw JPEG or HEIC exports to Mochify, ask for metadata to be stripped as part of your request, and download compressed WebP or AVIF files ready for your store. A 4MB HEIC from an iPhone typically compresses to under 200KB as AVIF at quality 70 with no perceptible loss, a 95% reduction that directly improves your Largest Contentful Paint score and Core Web Vitals. You can run this as a batch through the browser UI or automate it via the REST API if your upload volume justifies it.
         </p>
 
-        <h3 class="text-[1.75rem] font-black text-[#4A2C2C] mt-10 mb-4">WordPress Publishers</h3>
+        <h3 class="text-[1.75rem] font-bold text-[#4A2C2C] mt-10 mb-4">WordPress Publishers</h3>
         <p>
             WordPress sites accumulate images fast. The privacy risk is lower here than for agencies, but page speed and format modernization are real concerns. If you are serving JPEG files from five years ago, you are likely leaving 40–60% of your image weight on the table compared to AVIF equivalents.
         </p>
@@ -387,7 +387,7 @@
             For publishers, the practical Mochify workflow is to run existing libraries through the API in batches, converting JPEG and PNG to WebP or AVIF, and replacing the originals in your media library. The HEIC-to-JPEG conversion path is also useful if your editorial team shoots on iPhones and needs reliable, universally compatible output. See our <a href="/heic-to-jpeg">HEIC to JPEG converter</a> for format compatibility details.
         </p>
 
-        <h3 class="text-[1.75rem] font-black text-[#4A2C2C] mt-10 mb-4">Agencies Handling Client Assets</h3>
+        <h3 class="text-[1.75rem] font-bold text-[#4A2C2C] mt-10 mb-4">Agencies Handling Client Assets</h3>
         <p>
             This is the highest-stakes scenario. Agencies often process client photography, identifiable staff headshots, unreleased product imagery, and brand assets that are commercially sensitive. Uploading that material to a US-hosted tool without a DPA is a genuine compliance failure, not a gray area.
         </p>
@@ -502,7 +502,7 @@
             </span>
         </div>
 
-        <h3 class="text-2xl md:text-3xl font-black text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
+        <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
             Ready to compress without compromise?
         </h3>
 
@@ -517,7 +517,7 @@
     </div>
 
     <section id="related" class="scroll-mt-24">
-        <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-6">Related guides</h2>
+        <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-6">Related guides</h2>
         <ul class="space-y-3">
             <li>
                 <a href="/guides/privacy-image-optimization" class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">

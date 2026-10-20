@@ -3,7 +3,7 @@
 </script>
 
 <section class="my-12">
-    <h2 class="text-2xl font-black text-[#4A2C2C] mb-10">
+    <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-10">
         Related Guides
         <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
     </h2>

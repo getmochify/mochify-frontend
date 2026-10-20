@@ -150,7 +150,7 @@
         </div>
 
         <section class="mt-10 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">How to convert HIF to JPG</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">How to convert HIF to JPG</h2>
             <ol class="space-y-4">
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
                     <span class="shrink-0 w-8 h-8 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4338CA] font-black text-sm flex items-center justify-center">1</span>

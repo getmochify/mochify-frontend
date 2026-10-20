@@ -330,7 +330,7 @@
 
         <!-- Workflow card -->
         <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: Batch-Prepping a Week of Listing Photos</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: Batch-Prepping a Week of Listing Photos</h2>
             <p class="text-base mb-7">Shoot once, prompt once per platform, and let batch processing take the 400-500 monthly photos off your plate:</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">

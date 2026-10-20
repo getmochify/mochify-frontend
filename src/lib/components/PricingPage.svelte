@@ -573,7 +573,7 @@
 
 		<!-- Feature comparison table -->
 		<div class="mx-auto mt-16 max-w-4xl">
-			<h2 class="mb-8 text-center text-xl font-black text-[#4A2C2C]">{t.fullComparison}</h2>
+			<h2 class="mb-8 text-center text-xl font-extrabold text-[#4A2C2C]">{t.fullComparison}</h2>
 
 			<div class="overflow-hidden rounded-3xl border border-pink-100 bg-white shadow-sm">
 				<div class="overflow-x-auto">
@@ -722,7 +722,7 @@
              reference list. -->
 		<div class="mx-auto mt-16 max-w-3xl">
 			<h2
-				class="mb-3 text-center font-heading text-3xl leading-[1.1] font-black text-[#4A2C2C] md:text-[2.5rem]"
+				class="mb-3 text-center font-heading text-3xl leading-[1.1] font-extrabold text-[#4A2C2C] md:text-[2.5rem]"
 			>
 				{t.faqHeading}
 			</h2>
@@ -761,7 +761,9 @@
 			<div
 				class="rounded-3xl border border-pink-100 bg-gradient-to-b from-[#FFF0F3]/70 to-white px-6 py-10 text-center shadow-sm md:px-12 md:py-12"
 			>
-				<h2 class="mb-3 font-heading text-2xl leading-[1.15] font-black text-[#4A2C2C] md:text-3xl">
+				<h2
+					class="mb-3 font-heading text-2xl leading-[1.15] font-extrabold text-[#4A2C2C] md:text-3xl"
+				>
 					{t.ctaHeading}
 				</h2>
 				<p class="mx-auto mb-8 max-w-md leading-relaxed text-[#6C3F31]">

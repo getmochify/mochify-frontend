@@ -177,7 +177,7 @@
             <p class="mb-4">A preloaded AVIF hero typically moves LCP discovery 300–600 ms earlier. Combined with the 40–50% file-size reduction from AVIF over standard JPEG, most WordPress sites with a hero-image LCP element comfortably hit the 2.5s "Good" threshold after both changes.</p>
 
             <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-                <h3 class="text-lg font-black text-[#4A2C2C] mb-3">Try Mochify for AVIF conversion</h3>
+                <h3 class="text-lg font-bold text-[#4A2C2C] mb-3">Try Mochify for AVIF conversion</h3>
                 <p class="text-[#6C3F31] leading-relaxed mb-4">
                     Convert your hero image to AVIF at <a href="https://mochify.app">mochify.app</a> - no account required, processed in RAM, never stored. Download the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.avif</code> file and upload it directly to your WordPress Media Library.
                 </p>

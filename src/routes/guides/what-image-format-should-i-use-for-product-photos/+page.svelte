@@ -158,7 +158,7 @@
         </section>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
-            <h3 class="text-lg font-black text-[#4A2C2C] mb-3">Compress product photos to AVIF or WebP in one step</h3>
+            <h3 class="text-lg font-bold text-[#4A2C2C] mb-3">Compress product photos to AVIF or WebP in one step</h3>
             <p class="text-[#6C3F31] leading-relaxed mb-4">
                 Just type something like <em>"convert to AVIF and compress for product pages"</em> - Magic Flow handles format conversion, compression, and EXIF stripping. Files are processed in-memory and wiped after your session ends. No account required for up to 3 files.
             </p>

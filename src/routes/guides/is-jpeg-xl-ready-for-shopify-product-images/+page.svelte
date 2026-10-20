@@ -198,7 +198,7 @@
         </section>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
-            <h3 class="text-lg font-black text-[#4A2C2C] mb-3">For live Shopify delivery today, use AVIF</h3>
+            <h3 class="text-lg font-bold text-[#4A2C2C] mb-3">For live Shopify delivery today, use AVIF</h3>
             <p class="text-[#6C3F31] leading-relaxed mb-4">
                 Type <em>"convert my product images to AVIF with a WebP fallback and strip all metadata"</em> into Magic Flow and Mochify handles the batch - no account, no plugins, no data retention.
             </p>

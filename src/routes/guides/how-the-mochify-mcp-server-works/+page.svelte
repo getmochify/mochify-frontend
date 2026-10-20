@@ -138,7 +138,7 @@
 
         <!-- Cheat Sheet -->
         <section id="cheat-sheet" class="scroll-mt-24">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">30-Second Cheat Sheet</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">30-Second Cheat Sheet</h2>
             <p class="mb-6">If your goal is the lowest possible token cost, use either local mode or hosted-MCP URL input. The hosted MCP now returns compressed results as a short-lived download URL rather than inline binary - which fixes the old return-side problem but means the compressed result is briefly held in Mochify-controlled storage.</p>
 
             <ScrollableTable class="mb-6">
@@ -187,7 +187,7 @@
 
         <!-- Two Surfaces -->
         <section id="two-surfaces" class="scroll-mt-24">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">The Two Surfaces of the Mochify MCP Server</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">The Two Surfaces of the Mochify MCP Server</h2>
             <p class="mb-4">Mochify exposes its compression engine to AI agents through two separate surfaces. Both ultimately call the same hosted API at <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">api.mochify.app/v1/squish</code>, where the encoding work happens in RAM and the original is discarded immediately. They differ in where the agent's request originates, whether image bytes ever pass through the agent's context window, and whether the compressed result is briefly held server-side for pickup.</p>
 
             <p class="mb-4">The <strong class="text-[#4A2C2C]">hosted MCP server</strong> lives at <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code>. Any MCP-compatible client - Claude Desktop, Cursor, any agent runtime that supports remote connectors - can register it, authenticate via OAuth, and call its tools. The agent sends a request, Mochify's hosted MCP forwards it to the API, and the processed image comes back as a short-lived download URL on <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">files.mochify.app</code>.</p>
@@ -201,13 +201,13 @@
 
         <!-- Hosted MCP -->
         <section id="hosted-mcp" class="scroll-mt-24">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">How the Hosted MCP Server Works</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">How the Hosted MCP Server Works</h2>
             <p class="mb-6">The hosted server is a connector that any MCP-compatible AI assistant can register and call. Once OAuth is complete, the agent has five tools available: <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish</code> for image processing, <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">create_upload</code> for getting an image attached to the chat to Mochify, <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">pdf</code> and <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">pdf_create</code> for documents, and <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">check_usage</code> for quota checks. The squish tool can also hide things the assistant points at: our guide to <a href="/guides/blur-faces-license-plate-ai-assistant">blurring faces or a license plate from your assistant</a> shows the redaction parameters on two real photos.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Setup, in one paragraph</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Setup, in one paragraph</h3>
             <p class="mb-6">In Claude Desktop, go to Settings → Connectors, add <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code>, then complete an OAuth flow that authorises Mochify to process images on your behalf. Cursor and other clients follow the same shape. The full step-by-step is in our <a href="/guides/mochify-mcp-image-compression-agent-2026">MCP setup guide</a>. Authentication is OAuth-based, the connector talks to our servers over HTTPS, and the agent doesn't need to manage an API key directly.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">The <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-base">squish</code> tool</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">The <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-base">squish</code> tool</h3>
             <p class="mb-4">The <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">squish</code> tool accepts a public HTTPS URL to fetch the image from, an <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">uploadId</code> from <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">create_upload</code>, or - for a small file whose bytes the agent can actually read - base64 bytes plus a media type. It returns a <strong class="text-[#4A2C2C]">short-lived download URL</strong> for the processed image - a five-minute TTL on <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">files.mochify.app</code>, with an explicit "expires in ~5 minutes" note in the response so the agent and any downstream tool know exactly when the link goes dead.</p>
 
             <p class="mb-6">JPEG is the default output (encoded with Google's jpegli encoder, which delivers roughly 35% better compression than <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">libjpeg-turbo</code> at matched quality). AVIF, JPEG XL, WebP, and PNG are also supported. Options include resize, smart-crop to a subject, EXIF stripping, brightness, clarity, <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">smartCompress</code>, HDR gain-map preservation, and AI background removal. The assistant can also crop to (<code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">region</code>) or hide (<code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">redactBoxes</code>) an area it picks by looking at the image - "hide the number plate", "crop to the logo" - and Mochify receives only the coordinates. <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">redactFaces</code> hides faces with Mochify's own detector.</p>
@@ -216,7 +216,7 @@
                 Earlier versions of the hosted MCP returned the processed image inline as binary content, which produced reliable hangs and unsaveable results across most chat clients. URL passback fixes that, at the cost of a brief pickup window on Mochify's side - covered in the retention section below.
             </InfoBox>
 
-            <h3 id="retention-honestly" class="text-xl font-black text-[#4A2C2C] mb-3 scroll-mt-24">Retention, honestly</h3>
+            <h3 id="retention-honestly" class="text-xl font-bold text-[#4A2C2C] mb-3 scroll-mt-24">Retention, honestly</h3>
             <p class="mb-4">The original image you send to Mochify is streamed into the encoder in RAM, processed, and discarded. There are no disk writes of the source, and no logs containing image data.</p>
 
             <p class="mb-4">What URL passback adds is a brief <strong class="text-[#4A2C2C]">pickup window</strong> for the compressed result. After encoding, Mochify holds the processed bytes in a pickup store keyed by an unguessable hash, with a five-minute TTL. After five minutes the result is evicted regardless of whether anything fetched it.</p>
@@ -227,7 +227,7 @@
                 <p class="text-[#6C3F31] mb-0">This is a softening of the original "wiped immediately" claim - on the compressed-output side, and for originals only when you choose to use an upload link. We'd rather describe it accurately than carry a phrase that no longer matches what the server does. The two local install workflows don't use the pickup store at all - the local binary receives the compressed bytes from the API and writes them straight to your disk. If you need the strongest possible end-to-end retention story, use a local mode or self-host via our <a href="/guides/self-hosting-image-optimization-docker">Docker guide</a>.</p>
             </div>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Where the agent's tokens go</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Where the agent's tokens go</h3>
             <p class="mb-4">Now that the hosted MCP returns a download URL instead of an inline image, the token-cost story has shifted. URL input is genuinely cheap on both sides: a URL in, a URL out. An image attached to the chat no longer has to be base64-encoded into the tool call either: it travels through an upload link, so the agent handles a short ID rather than the image on the way in, and a URL on the way back.</p>
 
             <p>When you use the hosted MCP through Claude, what passes through the agent provider's systems is now just the download URL string, unless the agent itself fetches the file and brings the bytes into the conversation. The image bytes only enter the chat provider's infrastructure if the agent decides they need to.</p>
@@ -235,10 +235,10 @@
 
         <!-- Local Install -->
         <section id="local-install" class="scroll-mt-24">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">How the Local Install Works</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">How the Local Install Works</h2>
             <p class="mb-6">The local install is a single Rust binary that runs as either a direct CLI or as a local MCP server that Claude Desktop spawns as a subprocess. In either mode, the agent sees only file paths and compression metadata - never image bytes, and nothing held server-side after the compressed result is written to your disk.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Installation and auth</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Installation and auth</h3>
             <p class="mb-3 font-semibold text-[#4A2C2C]">macOS (Homebrew):</p>
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>brew tap getmochify/mochify
 brew install mochify</code></pre>
@@ -247,7 +247,7 @@ brew install mochify</code></pre>
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify auth login</code></pre>
             <p class="mb-6">This opens your browser, you sign in with your Mochify account, and credentials are written to <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">~/.config/mochify/credentials.toml</code>. No environment variables to manage, no API key to copy and paste.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Direct CLI mode</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Direct CLI mode</h3>
             <p class="mb-4">The CLI takes one or more file paths and a set of options. The <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">-p</code> flag is the headline feature - describe the goal in plain English:</p>
 
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify photo.jpg -p "optimize for eBay"
@@ -280,7 +280,7 @@ ls *.heic | mochify -t jpg</code></pre>
                 </table>
             </ScrollableTable>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">Local MCP server mode</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Local MCP server mode</h3>
             <p class="mb-3">Same binary, different invocation. Add this to <code class="bg-pink-50 text-[#D81B60] px-2 py-px rounded font-mono text-sm">~/Library/Application Support/Claude/claude_desktop_config.json</code>:</p>
 
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`{
@@ -301,7 +301,7 @@ ls *.heic | mochify -t jpg</code></pre>
 
         <!-- When to use which -->
         <section id="when-to-use" class="scroll-mt-24">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">When to Use Which</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">When to Use Which</h2>
             <p class="mb-6">Pick by what's true about your task, not by which tool you've heard of.</p>
 
             <ScrollableTable class="mb-8">
@@ -327,7 +327,7 @@ ls *.heic | mochify -t jpg</code></pre>
 
             <div class="my-8 bg-[#FFF5F7] p-8 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
                 <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-                <h3 class="text-xl font-black text-[#4A2C2C] relative z-10 mb-2">Ready to connect Mochify to your AI workflow?</h3>
+                <h3 class="text-xl font-bold text-[#4A2C2C] relative z-10 mb-2">Ready to connect Mochify to your AI workflow?</h3>
                 <p class="text-[#6C3F31] relative z-10 mb-6">MCP and API access are included on every plan, starting at Free. No paywall on developer or agent features.</p>
                 <a href="/pricing" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
                     View plans
@@ -338,7 +338,7 @@ ls *.heic | mochify -t jpg</code></pre>
 
         <!-- Example 1 -->
         <section id="example-1" class="scroll-mt-24">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Worked Example 1: Hosted MCP with a Public URL</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">Worked Example 1: Hosted MCP with a Public URL</h2>
             <p class="mb-6">URL-input mode is the cheapest hosted MCP workflow: no image bytes touch the agent's context window in either direction - a URL string in, a URL string out.</p>
 
             <p class="mb-4">A blogger is in Claude Desktop with the Mochify connector registered. They say: <em>"Convert this hero image to AVIF and resize to 1200px wide for my blog: https://example.com/photo.jpg"</em></p>
@@ -364,21 +364,21 @@ ls *.heic | mochify -t jpg</code></pre>
 
         <!-- Example 2 -->
         <section id="example-2" class="scroll-mt-24">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Worked Example 2: Hosted MCP with an Uploaded Image</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">Worked Example 2: Hosted MCP with an Uploaded Image</h2>
             <p class="mb-6">This was historically the workflow most people tried first, and it disappointed in three independent ways. As of October 2026 all three are fixed. We're going to be just as direct about what's solid as we were about what wasn't - including a correction to how we used to describe the first one.</p>
 
             <div class="bg-[#FFF9F5] rounded-2xl p-6 border border-[#FFE4D6] mb-4">
-                <h3 class="text-base font-black text-[#4A2C2C] mb-2">Failure 1 (fixed): the image you attached never reached Mochify intact.</h3>
+                <h3 class="text-base font-bold text-[#4A2C2C] mb-2">Failure 1 (fixed): the image you attached never reached Mochify intact.</h3>
                 <p class="text-[#6C3F31] text-base mb-0">We used to say the model sends a vision-processed copy of your attachment. Testing showed the real problem is starker: a model sees an attached image as pixels, not as a file, so in a plain chat it has no bytes to send at all. Only when the client also gives it file access (code execution, a shell) can it read the actual file. Upload links fix this: <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">create_upload</code> returns a one-time link, the original goes to Mochify through it at full resolution, and the model only ever handles an ID.</p>
             </div>
 
             <div class="bg-[#FFF9F5] rounded-2xl p-6 border border-[#FFE4D6] mb-4">
-                <h3 class="text-base font-black text-[#4A2C2C] mb-2">Failure 2 (fixed): the base64 round-trip was size-capped.</h3>
+                <h3 class="text-base font-bold text-[#4A2C2C] mb-2">Failure 2 (fixed): the base64 round-trip was size-capped.</h3>
                 <p class="text-[#6C3F31] text-base mb-0">A base64-encoded image has to fit inside the MCP tool-call payload, and base64 inflates bytes by roughly a third, so anything much larger than a small screenshot was at risk of being truncated or rejected. With an upload link nothing image-sized goes through the tool call: the file is uploaded directly, up to the normal 75 MB limit.</p>
             </div>
 
             <div class="bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100 mb-6">
-                <h3 class="text-base font-black text-[#4A2C2C] mb-2">Failure 3 (fixed): returning the compressed image inline used to be unreliable.</h3>
+                <h3 class="text-base font-bold text-[#4A2C2C] mb-2">Failure 3 (fixed): returning the compressed image inline used to be unreliable.</h3>
                 <p class="text-[#6C3F31] text-base mb-0">Mochify's hosted MCP previously returned the processed image inline as binary content, which forced the chat client to render or save a binary blob from a tool response. Support varied wildly, and in practice the tool call frequently hung or produced a result the user couldn't save. We've now switched to URL passback: the response is a text URL on <code class="bg-pink-100 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">files.mochify.app</code>, valid for five minutes. Chat clients handle a URL string without difficulty.</p>
             </div>
 
@@ -397,7 +397,7 @@ Redacted 1 area(s).</code></pre>
 
         <!-- Example 3 -->
         <section id="example-3" class="scroll-mt-24">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Worked Example 3: Local MCP Server in Claude Desktop</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">Worked Example 3: Local MCP Server in Claude Desktop</h2>
             <p class="mb-6">The local MCP server is the right surface for chat-driven file work: image bytes flow directly from disk to the API and back to disk, no agent context touched, no pickup store involved.</p>
 
             <blockquote class="border-l-4 border-[#F06292] pl-6 py-3 mb-6 bg-[#FFF5F7] rounded-r-2xl">
@@ -425,7 +425,7 @@ Redacted 1 area(s).</code></pre>
 
         <!-- Example 4 -->
         <section id="example-4" class="scroll-mt-24">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Worked Example 4: Direct CLI in Claude Code or a Build Pipeline</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">Worked Example 4: Direct CLI in Claude Code or a Build Pipeline</h2>
             <p class="mb-6">The direct CLI is the cheapest workflow per image by orders of magnitude - zero image bytes in any agent context, works with no agent at all, and slots cleanly into any Unix pipeline or CI step.</p>
 
             <p class="mb-4">A developer working on a Next.js site opens Claude Code and asks: <em>"Optimize everything in public/images to AVIF and WebP, then add a preload tag for the hero image."</em></p>
@@ -473,7 +473,7 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
 
         <!-- Token Cost -->
         <section id="token-cost" class="scroll-mt-24">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">The Honest Answer on Token Cost</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">The Honest Answer on Token Cost</h2>
             <p class="mb-4">The hosted MCP server used to be a workflow saver but not a token saver, because compressed results returned inline as binary. With URL passback, that's no longer true on the return side. The local install remains the cheapest workflow per image, because no image bytes ever enter the agent's context in either direction. For the underlying numbers behind these tradeoffs, see our breakdown of <a href="https://mochify.app/guides/llm-image-token-costs">how many tokens does an image use?</a></p>
 
             <p class="mb-4">The <strong class="text-[#4A2C2C]">hosted MCP server with URL input</strong> is now genuinely cheap both ways - a URL string in, a URL string out. An image attached to the chat is now cheap too: it travels through an upload link rather than as base64 in the tool call, so the agent handles a short ID on the way in and a URL on the way back.</p>
@@ -486,14 +486,14 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
                 In local modes, the image bytes still travel from your laptop to <code class="bg-blue-50 text-blue-600 px-1.5 py-px rounded font-mono text-sm">api.mochify.app</code> over HTTPS for the actual encoding work. They never hit your agent's context, but they do hit Mochify's servers, where the original is processed in RAM and discarded immediately. If you need image bytes to never leave your machine, the only option is to self-host the engine via our <a href="/guides/self-hosting-image-optimization-docker" class="text-blue-600 hover:text-blue-700 underline">Docker self-hosting guide</a>.
             </InfoBox>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3">The practical rule</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">The practical rule</h3>
             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
                 <li>A few chat-driven image edits per week with no install - use the hosted MCP and don't worry about it.</li>
                 <li>Chat-driven work where the files are already on your laptop - install the local MCP server (<code class="bg-pink-50 text-[#D81B60] px-1.5 py-px rounded font-mono text-sm">mochify serve</code>).</li>
                 <li>Anything resembling a pipeline (build step, content workflow, batch processing, repo-wide cleanup, agentic content generation) - use the direct CLI.</li>
             </ul>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-4">Benchmark: 1600px PNG source, three formats</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-4">Benchmark: 1600px PNG source, three formats</h3>
             <ScrollableTable class="mb-4">
                 <table class="w-full text-left bg-white text-sm">
                     <thead class="bg-pink-50 text-[#4A2C2C]">
@@ -520,7 +520,7 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
 
         <!-- Related -->
         <section id="related" class="scroll-mt-24">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-6">Related Guides</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-6">Related Guides</h2>
             <ul class="space-y-3">
                 {#each [
                     { href: '/guides/mochify-mcp-image-compression-agent-2026', title: 'How to Use Mochify via MCP: AI Agent Image Compression', desc: 'The practical setup walkthrough for connecting Mochify to Claude Desktop and other MCP clients.' },
@@ -547,7 +547,7 @@ git add ./public/heroes/ && git commit -m "Add hero for $DRAFT_PATH"</code></pre
             <div class="relative z-10 mb-6">
                 <span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">Free Tool</span>
             </div>
-            <h3 class="text-2xl md:text-3xl font-black text-[#4A2C2C] relative z-10 mb-3">
+            <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-3">
                 Wire Mochify into your AI workflow today
             </h3>
             <p class="text-[#6C3F31] text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">

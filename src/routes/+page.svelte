@@ -493,7 +493,7 @@
 									>
 										You're on the free plan
 									</p>
-									<h3 class="text-base leading-snug font-black text-[#4A2C2C]">
+									<h3 class="text-base leading-snug font-bold text-[#4A2C2C]">
 										Running a lot of images? Get more headroom.
 									</h3>
 									<p class="mt-1 text-xs text-[#7A5A3A]">
@@ -601,7 +601,7 @@
 	<section id="surfaces" class="reveal border-y border-pink-100 bg-[#FFF0F3]/55 py-14 md:py-20">
 		<div class="mx-auto max-w-6xl px-4 sm:px-6">
 			<h2
-				class="mb-4 font-heading text-3xl leading-[1.1] font-black text-[#4A2C2C] md:text-[2.5rem]"
+				class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-[#4A2C2C] md:text-[2.5rem]"
 			>
 				Works where you work
 			</h2>
@@ -747,7 +747,7 @@
 	<section class="reveal bg-white/60 py-14 md:py-20">
 		<div class="mx-auto max-w-6xl px-4 sm:px-6">
 			<h2
-				class="mb-4 font-heading text-3xl leading-[1.1] font-black text-[#4A2C2C] md:text-[2.5rem]"
+				class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-[#4A2C2C] md:text-[2.5rem]"
 			>
 				From install to compressing inside Claude in three steps
 			</h2>
@@ -874,7 +874,7 @@
 	<section class="reveal py-14 md:py-20">
 		<div class="mx-auto max-w-6xl px-4 sm:px-6">
 			<h2
-				class="mb-4 font-heading text-3xl leading-[1.1] font-black text-[#4A2C2C] md:text-[2.5rem]"
+				class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-[#4A2C2C] md:text-[2.5rem]"
 			>
 				See it in action
 			</h2>
@@ -894,7 +894,7 @@
 								>{f.label}</span
 							>
 							<h3
-								class="mb-4 font-heading text-2xl leading-tight font-black text-[#4A2C2C] md:text-3xl"
+								class="mb-4 font-heading text-2xl leading-tight font-extrabold text-[#4A2C2C] md:text-3xl"
 							>
 								{f.title}
 							</h3>
@@ -934,7 +934,7 @@
 
 			<!-- Asset types, a lighter strip rather than its own section -->
 			<div class="mt-20 border-t border-pink-100 pt-12">
-				<h3 class="mb-2 font-heading text-2xl font-black text-[#4A2C2C]">
+				<h3 class="mb-2 font-heading text-2xl font-bold text-[#4A2C2C]">
 					Images, video, and PDFs, one toolkit
 				</h3>
 				<p class="mb-8 max-w-2xl text-[#875F42]">
@@ -990,7 +990,9 @@
 	<!-- ═══ 5. TOKEN SAVINGS · full-bleed dark, the argument that closes developers ═══ -->
 	<section class="reveal bg-[#1C1C1E] py-16 md:py-24">
 		<div class="mx-auto max-w-6xl px-4 sm:px-6">
-			<h2 class="mb-4 font-heading text-3xl leading-[1.1] font-black text-white md:text-[2.5rem]">
+			<h2
+				class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-white md:text-[2.5rem]"
+			>
 				Why this doesn't waste your tokens
 			</h2>
 			<span
@@ -1124,7 +1126,7 @@
 				Shopify and ecommerce
 			</p>
 			<h2
-				class="mb-4 font-heading text-3xl leading-[1.1] font-black text-[#4A2C2C] md:text-[2.5rem]"
+				class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-[#4A2C2C] md:text-[2.5rem]"
 			>
 				Better Core Web Vitals start with smaller product images
 			</h2>
@@ -1187,7 +1189,7 @@
 	<section class="reveal border-t border-pink-100 py-14 md:py-20">
 		<div class="mx-auto max-w-3xl px-4 sm:px-6">
 			<h2
-				class="mb-3 text-center font-heading text-3xl leading-[1.1] font-black text-[#4A2C2C] md:text-[2.5rem]"
+				class="mb-3 text-center font-heading text-3xl leading-[1.1] font-extrabold text-[#4A2C2C] md:text-[2.5rem]"
 			>
 				Frequently asked questions
 			</h2>
@@ -1429,7 +1431,7 @@
 
 			<div class="mx-auto max-w-2xl text-center">
 				<h2
-					class="mb-4 font-heading text-3xl leading-[1.1] font-black text-[#4A2C2C] md:text-[2.5rem]"
+					class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-[#4A2C2C] md:text-[2.5rem]"
 				>
 					Wire Mochify into your workflow today
 				</h2>

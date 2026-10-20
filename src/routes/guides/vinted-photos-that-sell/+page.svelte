@@ -322,7 +322,7 @@
 
         <!-- Workflow card -->
         <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: Fix a Whole Clear-Out in One Prompt</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: Fix a Whole Clear-Out in One Prompt</h2>
             <p class="text-base mb-7">You can turn a camera roll of casual phone shots into a consistent, portrait-cropped, metadata-free Vinted listing set with one plain-English instruction. Mochify's Magic Flow takes a described outcome and applies the right crop, size, format, and cleanup automatically:</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">

@@ -144,7 +144,7 @@
         </div>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">How to resize and convert photos for eBay</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">How to resize and convert photos for eBay</h2>
             <ol class="space-y-4">
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
                     <span class="shrink-0 w-8 h-8 rounded-xl bg-[#FFF5F7] border border-pink-100 text-[#F06292] font-black text-sm flex items-center justify-center">1</span>
@@ -170,14 +170,14 @@
         <section class="mt-20 max-w-4xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-start">
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-black text-[#4A2C2C]">eBay photo size: why 1600 pixels</h2>
+                    <h2 class="text-2xl font-extrabold text-[#4A2C2C]">eBay photo size: why 1600 pixels</h2>
                     <p class="leading-relaxed text-[#6C3F31]">
                         eBay asks for at least 500 x 500 pixels and recommends about 1600 x 1600, and says photos in a 1:1 or 16:9 ratio look best in listings and search (<a href="https://www.ebay.com/help/selling/listings/adding-pictures-listings?id=4148" target="_blank" rel="noopener noreferrer" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">eBay: Adding pictures to your listings</a>). This page resizes the long edge to 1600 pixels and keeps the photo's shape, so a portrait shot stays portrait and a landscape stays landscape. Nothing is enlarged: a photo already smaller than 1600 pixels keeps its size, because upscaling adds pixels without adding detail. A 1600-pixel JPEG is also far below eBay's 12MB limit per photo, even from a large camera sensor, and uploads quickly from a phone connection. For square listing photos, use the <a href="/solutions/bulk-ai-square-cropper" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">bulk square cropper</a>, which centers each crop on the item.
                     </p>
                 </div>
 
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-black text-[#4A2C2C]">What eBay accepts, and why JPEG is still the safe choice</h2>
+                    <h2 class="text-2xl font-extrabold text-[#4A2C2C]">What eBay accepts, and why JPEG is still the safe choice</h2>
                     <p class="leading-relaxed text-[#6C3F31]">
                         eBay's help page lists JPEG, PNG, GIF, TIFF, BMP, WebP, HEIC and AVIF as accepted formats, with a limit of 12MB per photo. Two gaps remain in practice. The .HIF files professional cameras write are not on that list, and sellers still report failed HEIC uploads on eBay's community forums. JPEG is accepted by eBay and by every other marketplace you might cross-list to, so converting once settles it. If eBay still refuses a file after conversion, <a href="/guides/ebay-image-file-not-supported" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">why eBay says a file is not supported</a> goes through the other causes.
                     </p>
@@ -186,21 +186,21 @@
         </section>
 
         <section class="mt-20 max-w-3xl mx-auto space-y-4">
-            <h2 class="text-2xl font-black text-[#4A2C2C]">Backgrounds and what eBay rewards</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C]">Backgrounds and what eBay rewards</h2>
             <p class="leading-relaxed text-[#6C3F31]">
                 eBay's own advice: white backgrounds are generally best, a darker one can suit shiny or reflective items, the main photo should show the whole item face-on, and badges, logos and watermarks can hurt a listing's placement in search. eBay's listing tool has a Background button that swaps a background for solid white. To do it before you list, ask Magic Flow in the <a href="/flow" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">web app</a> to "remove the background and put it on a white background"; background removal is included on every plan. The <a href="/guides/product-image-requirements-marketplace-guide" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">marketplace image requirements guide</a> has the numbers for every other platform, and the <a href="/guides/cross-listing-marketplace-photo-requirements" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">cross-listing photo guide</a> preps one set of photos for all of them.
             </p>
         </section>
 
         <section class="mt-20 max-w-3xl mx-auto space-y-4">
-            <h2 class="text-2xl font-black text-[#4A2C2C]">Resizing and converting on iPhone, Mac or Windows</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C]">Resizing and converting on iPhone, Mac or Windows</h2>
             <p class="leading-relaxed text-[#6C3F31]">
                 For future photos, an iPhone can shoot JPEG instead of HEIC: Settings, Camera, Formats, Most Compatible (<a href="https://support.apple.com/HT207022" target="_blank" rel="noopener noreferrer" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Apple</a>). On a Mac, Preview's File, Export saves a copy as JPEG, and Tools, Adjust Size changes its dimensions, one file at a time. On Windows, open the photo in Photos or Paint, resize it, and save a copy as JPEG; HEIC files need Microsoft's HEIF Image Extensions installed. None of these reads a camera's .HIF file reliably or handles a mixed folder in one pass, which is where this page earns its keep.
             </p>
         </section>
 
         <section class="mt-20 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-black text-[#4A2C2C]">Bulk and automated resizing</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C]">Bulk and automated resizing</h2>
             <p class="leading-relaxed text-[#6C3F31]">
                 Seller and Pro accounts process up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. For a whole inventory, the same job runs from the Mochify CLI (<code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify auth login</code>), from an AI agent through the hosted or local MCP server, and from the REST API, where <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">width</code> and <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">height</code> together keep the long edge at 1600 pixels:
             </p>
@@ -214,7 +214,7 @@
         </section>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">Frequently asked questions</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">Frequently asked questions</h2>
             <FaqAccordion {faqs} class="grid md:grid-cols-2 gap-4 items-start" />
         </section>
 

@@ -238,7 +238,7 @@
             <p>HEIF (High Efficiency Image File Format) is a still-image container standardized as ISO/IEC 23008-12, storing pictures compressed with the HEVC video codec. Professional mirrorless cameras save HEIF stills with the <code class={inlineCode}>.HIF</code> extension, and they do it for two reasons: the files are dramatically smaller than JPEG at the same quality, and they hold 10-bit color instead of JPEG's 8-bit ceiling.</p>
             <p>The efficiency numbers are not marketing. <a href="https://nokiatech.github.io/heif/technical.html" target="_blank" rel="noopener noreferrer">Nokia's HEIF technical documentation</a> - Nokia co-developed the format - measured that JPEG needs on average 139% more bitrate than HEVC still coding to hit the same objective quality. In other words, an equivalent JPEG runs about 2.4x the size. <a href="https://support.d-imaging.sony.co.jp/support/ilc/heif/01/en/index.html" target="_blank" rel="noopener noreferrer">Sony's own HEIF documentation</a> puts it more simply: compression efficiency roughly twice that of JPEG, with "rich 10-bit color depth gradation."</p>
             <p>That bit depth matters more than it sounds. An 8-bit JPEG stores 256 tonal values per channel, around 16.7 million colors. A 10-bit HEIF stores 1,024 values per channel, over a billion colors. The practical difference shows up in smooth gradients - skies, studio backdrops, skin - which band and posterize sooner in 8-bit when you push them in post.</p>
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Which cameras write HEIF</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Which cameras write HEIF</h3>
             <p><strong>Canon</strong> enables HEIF through the HDR PQ setting on most current EOS R bodies (R5, R5 Mark II, R6 Mark II, R3, R1, R7, R8, R10, plus the EOS-1D X Mark III). Canon's HEIF stills conform to the PQ HDR specification in ITU-R BT.2100.</p>
             <p><strong>Sony</strong> added HEIF with the a7S III and now offers it across the Alpha line (a1, a7 IV, a7R V, a7C II, a9 III and others) via the JPEG/HEIF Switch menu, with a choice of 4:2:0 or 4:2:2 color sampling and optional HLG HDR stills.</p>
             <p><strong>Fujifilm</strong> offers 10-bit HEIF on the X-H2S, X-H2, X-T5, and X100VI through the SELECT JPEG/HEIF image quality setting, with film simulations baked in at capture.</p>
@@ -263,31 +263,31 @@
             <SectionHeading>How to convert HEIF to JPG: every method</SectionHeading>
             <p>The best HEIF to JPG method depends on where you are standing: at the camera, at a desktop with manufacturer software, or in a browser. Here is every reliable route.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">In-camera (Canon)</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">In-camera (Canon)</h3>
             <p>Canon bodies convert without touching a computer. In Playback, select an image (or "Select range" for a batch), choose <strong>HEIF to JPEG conversion</strong>, and the camera writes JPEG copies using its own tone-mapping engine. Canon's manual carries one honest caveat: "some scenes may look different after conversion," and the option is unavailable for cropped images and 4K/8K frame grabs. There is no quality setting - you get the camera's default.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Canon Digital Photo Professional (DPP)</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Canon Digital Photo Professional (DPP)</h3>
             <p>DPP batch-converts HEIF to JPEG or TIFF, with a setup step: you must activate the HEVC codec first (Help menu, "Activate HEVC codec"; EOS R, Ra, and 5D Mark IV files need a separate codec download from Canon). Two limitations worth knowing from <a href="https://cam.start.canon/en/S002/manual/html/UG-12_HDRPQ_0070.html" target="_blank" rel="noopener noreferrer">Canon's own DPP documentation</a>: converted files are saved as SDR images with the color space locked to sRGB, and you cannot select the JPEG compression level when saving from HEIF.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Sony Imaging Edge Desktop</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Sony Imaging Edge Desktop</h3>
             <p>Sony's free desktop suite converts HEIF to JPEG or TIFF and is the manufacturer-recommended route for Alpha shooters. Sony's guidance is specific and worth following: export JPEG (8-bit) for delivery and playback compatibility, but export 16-bit TIFF when you plan further editing, because TIFF preserves the 10-bit gradation data that JPEG cannot hold. HLG (HDR) stills converted to TIFF should then be handled in color-managed software.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Fujifilm: the USB rename trick</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Fujifilm: the USB rename trick</h3>
             <InfoBox type="tip" title="Fujifilm's USB rename trick">
                 <p>Fujifilm ships no dedicated HEIF converter, but the <a href="https://fujifilm-dsc.com/en/manual/x-t5/menu_shooting/image_quality_setting/" target="_blank" rel="noopener noreferrer">X-T5 manual</a> documents a genuinely useful quirk: when HEIF pictures are uploaded from the camera to a computer over USB, the <code class={inlineCode}>.HIF</code> extension is changed to <code class={inlineCode}>.HEIC</code> automatically, which lets any HEIF-aware app open them.</p>
             </InfoBox>
             <p>From there, macOS or Adobe tools handle the JPEG export. Fujifilm-specific depth, including film simulation handling, is in our <a href="https://mochify.app/guides/fujifilm-hif-to-jpg">Fuji HIF guide</a>.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">macOS: Preview and Photos</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">macOS: Preview and Photos</h3>
             <p>HEIF support has been built into macOS since High Sierra. Open the file in Preview or Photos, choose File, then Export, pick JPEG, set quality, save. Preview's "Export Selected Images" handles small batches. Note that Canon HDR PQ files come out as SDR JPEGs with automatic tone mapping - expect the exported file to look flatter than the HDR original did on an HDR display.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Windows: codecs first, then Photos</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Windows: codecs first, then Photos</h3>
             <p>Install the free HEIF Image Extension from the Microsoft Store plus the $0.99 HEVC Video Extensions, and the Photos app can open <code class={inlineCode}>.HIF</code> files and save them as JPEG. Skip the codecs and you get "we can't open this file." For batches, IrfanView or ImageMagick built with libheif support remain the reliable free options. If the codecs are installed and a 10-bit <code class={inlineCode}>.HIF</code> still will not open - a common failure on pro-camera files - our <a href="https://mochify.app/guides/open-heif-files-on-windows">Windows HEIF troubleshooting guide</a> covers every route that works.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Lightroom and Camera Raw</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Lightroom and Camera Raw</h3>
             <p><a href="https://helpx.adobe.com/lightroom-cc/kb/heic-files-support.html" target="_blank" rel="noopener noreferrer">Adobe's support matrix</a> confirms Lightroom Classic, Lightroom, and Camera Raw read HEIF files including the <code class={inlineCode}>.HIF</code> extension directly (macOS 10.13+, Windows 10+; Windows needs the Microsoft codecs installed). Import, edit, export as JPEG - the standard workflow, with full quality control. Photoshop on Windows likewise requires both Microsoft codecs.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Online converters</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Online converters</h3>
             <p>Generic upload-and-convert sites work for one-off files, but check two things before trusting them with client work: what encoder produces the JPEG (quality varies widely), and what happens to your upload afterward (retention policies range from clear to nonexistent). For a converter built around a stated zero-retention model and a modern JPEG encoder, see the <a href="#mochify-workflow">Mochify workflow below</a>; for a plain .heif from a desktop editor or an Android phone, the <a href="/solutions/heif-to-jpg">HEIF to JPG converter</a> takes every variant in one batch.</p>
         </section>
 
@@ -314,7 +314,7 @@
 
         <!-- Workflow card -->
         <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: HEIF to JPG in one prompt</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: HEIF to JPG in one prompt</h2>
             <p class="text-base mb-7">Mochify converts HEIF files from Canon, Sony, and Fujifilm bodies to JPG in a single natural-language step, using jpegli for the encoding. No settings to decode - you describe the outcome.</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">

@@ -396,7 +396,7 @@
                     <div class="flex items-start gap-4 rounded-2xl border border-pink-100 bg-white p-5">
                         <span class="w-9 h-9 shrink-0 rounded-full bg-pink-50 flex items-center justify-center text-sm font-black text-[#F06292] border border-pink-100">{step.n}</span>
                         <div>
-                            <h3 class="font-black text-[#4A2C2C] text-lg mb-1 mt-0">{step.h}</h3>
+                            <h3 class="font-bold text-[#4A2C2C] text-lg mb-1 mt-0">{step.h}</h3>
                             <p class="text-base text-[#6C3F31] m-0">{@html step.body}</p>
                         </div>
                     </div>

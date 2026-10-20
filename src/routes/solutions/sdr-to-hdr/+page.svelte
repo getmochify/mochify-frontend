@@ -217,7 +217,7 @@
          served byte-for-byte as Mochify produced them: no <picture>, no srcset,
          no CDN transform, nothing that would strip the embedded gain map. -->
     <section class="hdr-compare mt-10 max-w-4xl mx-auto" aria-labelledby="hdr-compare-h">
-        <h2 id="hdr-compare-h" class="text-2xl font-black text-[#4A2C2C] mb-2 text-center">See the difference (and find out if your screen can show it)</h2>
+        <h2 id="hdr-compare-h" class="text-2xl font-extrabold text-[#4A2C2C] mb-2 text-center">See the difference (and find out if your screen can show it)</h2>
         <p class="text-[#6C3F31] leading-relaxed mb-7 max-w-2xl mx-auto text-center">
             Both images are the same photo of a sunlit lobby. The one on the right carries a gain map that Mochify generated from the highlights already in the frame: the patch of sun on the wall, the rippling shadows beside it, and the glowing light tubes are where to look.
         </p>
@@ -295,7 +295,7 @@
     <!-- Preserve vs generate. The distinction core is careful to report separately,
          so it gets the most prominent position on the page rather than a footnote. -->
     <section class="mt-10 max-w-4xl mx-auto">
-        <h2 class="text-2xl font-black text-[#4A2C2C] mb-2">Two ways a photo comes back HDR</h2>
+        <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-2">Two ways a photo comes back HDR</h2>
         <p class="text-[#6C3F31] leading-relaxed mb-7 max-w-2xl">
             Which lane your file takes is decided by the file itself, not by a setting. Drop it in and Mochify checks whether a gain map is already there.
         </p>
@@ -326,7 +326,7 @@
         <div class="grid md:grid-cols-2 gap-12 items-start">
             <div class="space-y-8">
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-black text-[#4A2C2C]">What a gain map actually is</h2>
+                    <h2 class="text-2xl font-extrabold text-[#4A2C2C]">What a gain map actually is</h2>
                     <p class="leading-relaxed text-[#6C3F31]">
                         An ordinary photo tops out at white. A phone screen can go several times brighter than that, and a gain map is how a single file uses the extra range: a small, smooth, half-resolution <strong class="text-[#7E685E]">brightness multiplier</strong> stored next to the normal picture.
                     </p>
@@ -356,7 +356,7 @@
                 </div>
 
                 <div class="space-y-3">
-                    <h3 class="text-lg font-black text-[#4A2C2C]">Which output formats can carry it</h3>
+                    <h3 class="text-lg font-bold text-[#4A2C2C]">Which output formats can carry it</h3>
                     {#each formatSupport as f (f.fmt)}
                         <div class="bg-white p-5 rounded-2xl border border-pink-50 shadow-sm flex gap-4 items-start">
                             <span class="shrink-0 inline-flex items-center justify-center px-2.5 py-1 rounded-lg font-mono font-black text-xs w-16 text-center
@@ -377,14 +377,14 @@
     </section>
 
     <section class="mt-20 max-w-4xl mx-auto">
-        <h2 class="text-2xl font-black text-[#4A2C2C] mb-2">Edits that switch HDR off</h2>
+        <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-2">Edits that switch HDR off</h2>
         <p class="text-[#6C3F31] leading-relaxed mb-7 max-w-2xl">
             A gain map is a ratio to the image underneath it. Change that image and the ratio stops meaning what it meant, so these operations return a clean standard-range file instead of one labeled HDR that no longer is.
         </p>
         <div class="grid sm:grid-cols-2 gap-3">
             {#each disqualifiers as d (d.op)}
                 <div class="bg-white p-5 rounded-2xl border border-pink-50 shadow-sm">
-                    <h3 class="font-black text-[#4A2C2C] text-sm mb-1.5">{d.op}</h3>
+                    <h3 class="font-bold text-[#4A2C2C] text-sm mb-1.5">{d.op}</h3>
                     <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">{d.why}</p>
                 </div>
             {/each}
@@ -392,7 +392,7 @@
     </section>
 
     <section class="mt-20 max-w-4xl mx-auto">
-        <h2 class="text-2xl font-black text-[#4A2C2C] mb-2">Same thing from the API</h2>
+        <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-2">Same thing from the API</h2>
         <p class="text-[#6C3F31] leading-relaxed mb-6 max-w-2xl">
             One parameter. Use <span class="font-mono font-bold text-[#4A2C2C]">hdr=true</span> to preserve only, or <span class="font-mono font-bold text-[#4A2C2C]">hdr=generate</span> to preserve and synthesize, which is what this page sends.
         </p>

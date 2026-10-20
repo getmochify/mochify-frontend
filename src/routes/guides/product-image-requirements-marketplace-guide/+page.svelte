@@ -379,7 +379,7 @@
 
         <!-- Workflow card -->
         <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: Prep Images for Any Marketplace</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: Prep Images for Any Marketplace</h2>
             <p class="text-base mb-7">Getting images to spec across multiple platforms involves the same few operations repeatedly: resize to the right dimensions, compress to meet file size limits, convert to an accepted format, and remove backgrounds where needed. A single plain-English prompt handles all of this in one pass.</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">

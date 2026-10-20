@@ -273,14 +273,14 @@ claude mcp get mochify # details for one server
         <section id="three-real-workflows" class="scroll-mt-24">
             <SectionHeading>Three real workflows</SectionHeading>
             <p>The patterns developers already use for image optimization, pre-commit hooks, CI actions, and build steps, map cleanly onto Claude Code. Here are three that earn their place.</p>
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">1. CLI as a pre-commit / build step</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">1. CLI as a pre-commit / build step</h3>
             <p>Run the <code class={inlineCode}>mochify</code> CLI as a build step so no oversized asset gets committed. This mirrors the well-established pattern of wrapping an optimizer (oxipng, ImageOptim CLI) in a pre-commit hook, but with Magic Flow you describe the intent instead of memorizing flags:</p>
             <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 my-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`# Compress staged images before they land in a commit
 mochify -p "compress for web, convert PNGs to AVIF, strip EXIF" ./src/assets/*.png`}</code></pre>
             <p>Because the CLI is a client over the API and returns paths to disk, it slots into a Husky hook or an npm script the same way any other formatter would. Strip EXIF here too: it removes location and camera metadata before the file ever reaches your repo. (More on why that matters in our <a href="https://mochify.app/guides/exif-data-risks-image-compression-2026">EXIF data risks guide</a>.)</p>
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3"><code class={inlineCode}>mochify serve</code> as a local MCP tool in a session</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3"><code class={inlineCode}>mochify serve</code> as a local MCP tool in a session</h3>
             <p>Let the agent find and fix images interactively. Once <code class={inlineCode}>mochify serve</code> is registered, you can ask Claude Code to do multi-step asset work it could not do with a plain CLI: "Find all images contributing to poor LCP on the homepage, re-encode the hero to AVIF, add a WebP fallback in the <code class={inlineCode}>&lt;picture&gt;</code> element, and update the <code class={inlineCode}>srcset</code>." The agent decides which images matter, calls the Mochify tool to compress them, and edits the markup, all in one loop. This is the workflow a plain build step cannot match, because it couples compression with code changes and reasoning.</p>
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Non-interactive mode in CI</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Non-interactive mode in CI</h3>
             <p>Pipe Claude Code's headless mode into a CI job for repo-wide passes. Claude Code supports a non-interactive <code class={inlineCode}>claude -p</code> mode you can drive from a GitHub Action, combining a git diff of changed assets with a request to compress them and summarize the result. The Mochify MCP tool does the encoding; the action commits the optimized files back to the branch. This is the agent-driven version of the many CI actions that compress images on pull requests, with the difference that the agent can also adjust the code that references those assets.</p>
         </section>
 
@@ -303,7 +303,7 @@ mochify -p "compress for web, convert PNGs to AVIF, strip EXIF" ./src/assets/*.p
 
         <!-- Workflow card -->
         <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mt-0 mb-4">Mochify workflow: compress images in Claude Code</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify workflow: compress images in Claude Code</h2>
             <p class="text-base mb-7">Tell Mochify what you want in plain English and Magic Flow resolves the format, quality, and resize settings for you. This is the natural-language layer that sits in front of every Mochify surface, including the CLI (<code class={inlineCode}>-p</code> / <code class={inlineCode}>--prompt</code>) and the local MCP server. A two-step pipeline handles it: a language model parses your prompt, then the native C++ engine on Mochify's API servers does the encoding. Here is the end-to-end flow for compressing images inside a Claude Code session:</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">

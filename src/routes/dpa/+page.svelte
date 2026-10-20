@@ -23,7 +23,7 @@
                 For businesses that require a formal Data Processing Agreement (DPA) as part of their GDPR compliance obligations, we have prepared the following template in accordance with UK GDPR and Article 28 requirements.
             </p>
 
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How this works</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-4">How this works</h2>
             <ul class="space-y-3 mb-8">
                 <li class="flex gap-3 text-[#6C3F31]">
                     <span class="text-[#F06292] font-bold mt-0.5">•</span>

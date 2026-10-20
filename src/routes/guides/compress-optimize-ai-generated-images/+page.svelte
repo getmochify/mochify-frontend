@@ -248,12 +248,12 @@
         <section id="optimization-moves" class="scroll-mt-24">
             <SectionHeading>The Optimization Moves That Actually Matter</SectionHeading>
             <p>Three moves do almost all the work: pick a modern format, resize to the size you will actually display, and strip the metadata. Everything else is a refinement on top of these.</p>
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-7 mb-3">Format choice is the biggest lever</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-7 mb-3">Format choice is the biggest lever</h3>
             <p>For generated imagery destined for the web, the priority order is AVIF, then WebP, with JPEG (via the jpegli encoder) and PNG as fallbacks. Google's WebP reference figures put <a href="https://developers.google.com/speed/webp" target="_blank" rel="noopener noreferrer">lossless WebP at 26% smaller than PNG and lossy WebP at 25-34% smaller than JPEG</a> at equivalent quality. AVIF, built on the AV1 codec, goes further: independent comparisons and <a href="https://web.dev/learn/images/avif" target="_blank" rel="noopener noreferrer">web.dev's AVIF documentation</a> describe roughly 50% reductions versus JPEG and 20-30% versus WebP at matched quality, with particular strength on the photographic detail and gradients common in diffusion output. A worked figure from a 2026 format comparison makes the magnitude tangible: a 2000x2000 image compressed from a 540 KB JPEG baseline to about 350 KB WebP (-35%) and 210 KB AVIF (-61%).</p>
             <p>Browser support no longer holds you back. Per <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">Can I Use</a>, AVIF reached full support across Chrome, Edge, Firefox, Safari, and iOS Safari, covering well over 95% of global usage by 2025-2026, and WebP support is effectively universal. The safe delivery chain is AVIF with a WebP and then JPEG/PNG fallback, which <code class={inlineCode}>&lt;picture&gt;</code> elements and most image CDNs negotiate automatically. JPEG XL joined the delivery set in October 2026, when Chrome 155 and Firefox 158 began decoding it by default; put it first in the picture element where it is smaller, and keep the AVIF and WebP fallbacks for Edge and older installs.</p>
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-7 mb-3">Resize to the display size</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-7 mb-3">Resize to the display size</h3>
             <p>Generators hand you a high-resolution canvas so you have room to crop, but the final embed is usually much smaller: 1200x630 for a social card, 800x800 for a product shot, 1600px on the long edge for a retina-friendly hero. Serving the source dimensions everywhere is the most common avoidable waste in a generated-image pipeline. A single oversized hero can consume more bandwidth than every other resource on the page combined.</p>
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-7 mb-3">Strip the metadata</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-7 mb-3">Strip the metadata</h3>
             <p>EXIF, IPTC, and XMP fields carry nothing the browser needs to render an image, and removing them can <a href="https://calendar.perfplanet.com/2022/reduce-image-sizes-by-removing-metadata/" target="_blank" rel="noopener noreferrer">trim 15-30% off the file</a> with zero visual impact. For generated assets the payload is usually lighter than a DSLR's, but some pipelines embed tool identifiers or prompt traces, so stripping is both a size win and a way to avoid leaking internal detail.</p>
             <div class="mt-6">
                 <InfoBox type="tip" title="Keep PNG for masters only">
@@ -274,11 +274,11 @@
         <section id="workflows" class="scroll-mt-24">
             <SectionHeading>Three Real-World Workflows You Can Copy</SectionHeading>
             <p>There are three established shapes for the optimize-after-generation step, and most pipelines are a variation on one of them. Each separates generation from optimization so the compression logic is deterministic and reusable.</p>
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-7 mb-3">Workflow A: the content agent</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-7 mb-3">Workflow A: the content agent</h3>
             <p>An agent drafts an article, calls an image-generation API for illustrations, and publishes to a CMS. Each generated image is saved to a working directory, an optimization tool is called with the path and a preset (hero, inline, thumbnail), and the agent updates the CMS entry to point at the returned AVIF or WebP variant. The source PNG either moves to cold storage or is discarded. This is the workflow most teams building AI content pipelines actually need, and it is the one the Mochify section below walks through end to end.</p>
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-7 mb-3">Workflow B: the diffusion pipeline</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-7 mb-3">Workflow B: the diffusion pipeline</h3>
             <p>Stable Diffusion or SDXL setups generate at model-native size, upscale to target resolution, apply brand or artistic filters, then call a compression step that produces sized AVIF/WebP derivatives and strips metadata. Those optimized files become the canonical production assets, and a CDN negotiates the final format per client via the <code class={inlineCode}>Accept</code> header. The principle is the same as a build pipeline: normalize and compress before anything reaches origin.</p>
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-7 mb-3">Workflow C: the repo build step</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-7 mb-3">Workflow C: the repo build step</h3>
             <p>Teams that check generated assets into a repository can lean on CI. GitHub Actions such as <code class={inlineCode}>calibreapp/image-actions</code> traverse a pull request, recompress and transcode any new PNG/JPEG/WebP/AVIF, and commit the optimized versions back to the branch. An agent commits the raw generations as part of a content PR; CI enforces the size and format standard before merge. Agents generate, CI optimizes, humans review - clean separation of concerns.</p>
             <p>The thread running through all three: the model decides what to generate and where it goes, and a dedicated tool decides how it gets compressed. That boundary is what makes the pipeline cheap to run and easy to reason about.</p>
         </section>
@@ -292,7 +292,7 @@
 
         <!-- Workflow card -->
         <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: Optimizing Generated Images Inside an Agent</h2>
+            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: Optimizing Generated Images Inside an Agent</h2>
             <p class="mb-7">Mochify's local MCP server is built for the optimize-after-generation pattern: the agent describes the task in plain language, the tool handles the file, and only a file path comes back into context. No image bytes enter the model, so the context window stays clean no matter how many images the job touches. Here is the full setup.</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">

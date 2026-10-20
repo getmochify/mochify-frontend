@@ -125,7 +125,7 @@
              same height. Wrapping rows no longer leave dead space under the
              shorter cards, and the rows line up across all three. -->
         <section class="mt-16 w-full max-w-4xl">
-            <h2 class="text-center font-heading font-black text-2xl md:text-3xl leading-tight text-[#4A2C2C] mb-2">Compression is just one thing you can ask for</h2>
+            <h2 class="text-center font-heading font-extrabold text-2xl md:text-3xl leading-tight text-[#4A2C2C] mb-2">Compression is just one thing you can ask for</h2>
             <p class="text-center text-[#875F42] mb-8 max-w-xl mx-auto">Type it the way you would say it. Mochify works out the formats, sizes and settings. Tap any example to load it.</p>
             <div class="grid sm:grid-cols-3 gap-5">
                 {#each exampleCards as card (card.title)}

@@ -91,7 +91,7 @@
 {#if featuredGuides.length > 0}
 <section class="mb-14" aria-label="Featured guides">
     <div class="mb-7">
-        <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-3">Featured</h2>
+        <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-3">Featured</h2>
         <div class="featured-heading-bar"></div>
     </div>
 
@@ -110,7 +110,7 @@
                 </span>
                 <span class="text-white/40 text-xs font-semibold">{featuredGuides[0].readTime}</span>
             </div>
-            <h3 class="text-2xl md:text-4xl font-black text-white group-hover:text-[#F06292] transition-colors duration-200 mb-4 leading-tight max-w-3xl">
+            <h3 class="text-2xl md:text-4xl font-extrabold text-white group-hover:text-[#F06292] transition-colors duration-200 mb-4 leading-tight max-w-3xl">
                 {featuredGuides[0].title}
             </h3>
             <p class="text-white/60 text-base md:text-lg leading-relaxed mb-8 max-w-2xl">
@@ -137,7 +137,7 @@
                 </span>
                 <span class="text-[10px] font-bold text-[#875F42] uppercase tracking-wider">{guide.category}</span>
             </div>
-            <h3 class="text-lg md:text-xl font-black text-[#4A2C2C] group-hover:text-[#F06292] transition-colors mb-3 leading-snug">
+            <h3 class="text-lg md:text-xl font-bold text-[#4A2C2C] group-hover:text-[#F06292] transition-colors mb-3 leading-snug">
                 {guide.title}
             </h3>
             <p class="text-[#875F42] text-sm leading-relaxed mb-4 opacity-80 line-clamp-3">
@@ -184,7 +184,7 @@
                 {/if}
             </div>
 
-            <h2 class="text-lg md:text-xl font-black leading-snug text-[#4A2C2C] group-hover:text-[#F06292] transition-colors mb-2">
+            <h2 class="text-lg md:text-xl font-extrabold leading-snug text-[#4A2C2C] group-hover:text-[#F06292] transition-colors mb-2">
                 {guide.title}
             </h2>
 
@@ -221,7 +221,7 @@
         </span>
     </div>
 
-    <h3 class="text-2xl md:text-3xl font-black text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
+    <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
         Ready to squish some images?
     </h3>
 

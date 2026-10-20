@@ -233,21 +233,21 @@
         <section id="why-it-matters" class="scroll-mt-24">
             <SectionHeading>Why pre-upload optimization still matters</SectionHeading>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Images, Core Web Vitals, and SEO</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Images, Core Web Vitals, and SEO</h3>
             <p class="mb-4">Pre-upload image optimization is one of the clearest levers for improving Largest Contentful Paint (LCP), which Google uses as a confirmed ranking signal. Images are often the largest element on the page - when they're bloated, the LCP timer keeps running. Multiple audits show that unoptimized images routinely account for 50–80% of total page bytes on ecommerce pages, and replacing a 2MB hero JPEG with a properly compressed WebP or AVIF at the same dimensions can cut LCP by several seconds on a mobile connection.</p>
             <p class="mb-4">Better Core Web Vitals translate directly into visibility. Research from DebugBear and others has documented cases where improving Web Vitals scores increased the number of URLs with "Good" rankings by hundreds of percent, with corresponding lifts in organic impressions. For an image-heavy site - ecommerce stores, portfolios, publisher blogs - getting images right before they ever hit your CMS is the single highest-leverage thing you can do.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">How platforms actually handle your images</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">How platforms actually handle your images</h3>
             <p class="mb-4">Shopify's CDN automatically generates multiple responsive sizes and can serve WebP based on browser support. Our breakdown of <a href="/guides/what-automatic-image-optimization-actually-does">what automatic image optimization actually does</a> covers what each platform's automatic layer handles, and where it stops. WordPress stores the original plus multiple derivatives. Etsy and Amazon both re-compress at ingest. So the question isn't "do they optimize anything?" - they do. The question is whether you're comfortable with opaque, platform-defined defaults.</p>
             <p class="mb-4">The problem with relying entirely on platform processing is unpredictability. Shopify can convert to WebP but still serves your original as the base for all transformations - if that original is a 12MB DSLR file, every generated size is working from unnecessarily large source material, and aggressive CDN re-compression often introduces visible sharpness loss. WordPress plugin behavior varies wildly by host and configuration. Marketplaces don't publish their compression parameters. Optimizing before upload puts you in control of the quality-to-size trade-off rather than discovering it after launch.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Privacy and EXIF: what your metadata reveals</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Privacy and EXIF: what your metadata reveals</h3>
             <p class="mb-4">This is the angle most platform documentation skips entirely. Every JPEG and HEIC you shoot with a smartphone or modern camera contains EXIF metadata - and that data commonly includes GPS coordinates accurate to a few meters, device make/model and serial numbers, timestamps, and sometimes face recognition tags.</p>
             <p class="mb-4">GDPR classifies this as personal data when it can identify individuals. Many marketplaces and social platforms re-compress images but don't reliably remove EXIF in all contexts - some allow "download original" functionality that delivers your file intact. If you photograph products at home, in a client's studio, or at a private location, the GPS coordinates are embedded in every shot.</p>
             <p class="mb-4">Mochify strips EXIF by default as part of the processing pipeline, with an explicit opt-in to retain it when needed (for example, professional photographers preserving copyright metadata). Files are processed in RAM only and wiped immediately - they never touch disk, and they're never stored. Your location data doesn't leave your control.</p>
 
             <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
-                <h3 class="text-lg font-black text-[#4A2C2C] mb-3">Prepare your images before they leave your machine</h3>
+                <h3 class="text-lg font-bold text-[#4A2C2C] mb-3">Prepare your images before they leave your machine</h3>
                 <p class="text-[#6C3F31] leading-relaxed mb-4">Strip EXIF, resize, and compress in one step. No account needed to start.</p>
                 <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
                     Try it free
@@ -260,7 +260,7 @@
         <section id="when-definitely" class="scroll-mt-24">
             <SectionHeading>When you definitely should optimize before upload</SectionHeading>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Product images for Shopify, Etsy, eBay, and Amazon</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Product images for Shopify, Etsy, eBay, and Amazon</h3>
             <p class="mb-4">Yes - strongly. Product photos are typically the heaviest assets on listing pages and the most likely LCP elements. Each marketplace has its own recommended dimensions: Etsy recommends at least 2000px on the longest side for full zoom quality, Amazon requires a minimum of 1000px but recommends 2000px or more, and eBay best practice lands around 1600×1600px. None of them gives you fine-grained guidance on compression - that's your job, and getting the format wrong is exactly <a href="https://mochify.app/guides/ebay-image-file-not-supported">why eBay says an image file is not supported</a> at the point of upload.</p>
             <p class="mb-4">Camera JPEGs and HEIC files from modern smartphones are routinely 5–12MB. Uploading those directly means the platform is working from massive originals, often re-compressing in ways that hurt sharpness at zoom. More importantly: none of these platforms consistently strips EXIF. If your product photography includes shots from your home, workshop, or client location, the GPS coordinates are in every file you upload.</p>
             <p class="mb-4">For Etsy specifically, <a href="/guides/etsy-listing-photo-size-guide">Etsy's current photo specs</a> (at least 2000px, under 1MB) explain why so many listing photos come back blurry after upload.</p>
@@ -269,7 +269,7 @@
 
             <p class="mb-4">The right workflow: convert to jpegli JPEG, WebP, or AVIF at the platform's recommended dimensions, target a clean file size (300–500KB for most marketplace images is realistic without visible quality loss), and strip all EXIF before upload.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">WordPress heroes, galleries, and WooCommerce stores</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">WordPress heroes, galleries, and WooCommerce stores</h3>
             <p class="mb-4">Yes - this is the scenario where pre-upload optimization makes the biggest measurable difference. WordPress stores the original file plus multiple auto-generated sizes. Every heavy original you upload stays in your database and backups forever, and on shared hosting, the CPU cost of generating derivatives slows down initial processing.</p>
             <p class="mb-4">Hero images are the most frequent cause of poor LCP scores in Lighthouse and PageSpeed Insights audits. A 2400px-wide WebP or AVIF hero compressed to under 200KB will consistently outperform a 3MB JPEG on mobile, regardless of what your caching or CDN layer does on top. The dimensions to upload, the crop rules that stop a banner zooming on phones, and what a 1920-pixel hero actually weighs in each format are in our guide to <a href="/guides/optimizing-hero-images">hero image size for websites</a>.</p>
 
@@ -277,7 +277,7 @@
                 Many WordPress performance guides push users toward image optimization plugins. These add database overhead, API dependencies on third-party services, and often require paid subscriptions. Optimizing before upload with an external tool means your WordPress install stays lean and the media library receives already-correct files.
             </InfoBox>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Client work, NDA assets, and sensitive locations</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Client work, NDA assets, and sensitive locations</h3>
             <p class="mb-4">Always optimize (and strip EXIF) before upload when the images involve client locations, private facilities, or personally identifiable subjects. GDPR, UK GDPR, and similar frameworks treat location and device data as personal data. The safest position is to ensure that metadata never leaves the controlled environment at all.</p>
             <p class="mb-4">Mochify's zero-retention, in-memory pipeline is specifically built for this: there is no disk write, no server-side log of the files processed, and no persistent storage. For agency workflows where client assets must stay confidential, this is a meaningful differentiator versus SaaS tools that retain your files for days or weeks.</p>
         </section>
@@ -286,14 +286,14 @@
         <section id="when-optional" class="scroll-mt-24">
             <SectionHeading>When pre-upload optimization is optional or secondary</SectionHeading>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Modern image CDNs and build-time pipelines</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Modern image CDNs and build-time pipelines</h3>
             <p class="mb-4">If you're running a Next.js site with Cloudflare Images, Imgix, or a similar image CDN in front, the CDN is generating AVIF/WebP/JPEG variants on-the-fly from your source assets. In this setup, the priority isn't aggressive pre-compression - it's <strong>normalization</strong>. You want clean inputs: consistent sRGB color profile, sensible maximum dimensions (a 3000px long edge is plenty), and EXIF stripped. The CDN handles the rest.</p>
             <p class="mb-4">Use Mochify here as a normalization step, not a final-delivery encoder. A Magic Flow prompt like <em>"normalize for CDN: 3000px long edge, sRGB, strip EXIF, master format lossless WebP, keep visual quality very high"</em> gives the CDN a clean, compact source without sacrificing fidelity.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Archival masters and high-fidelity photos</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Archival masters and high-fidelity photos</h3>
             <p class="mb-4">Never let your master file become a lossy, pre-compressed web copy. Photographers, design teams, and archive managers should always retain a high-quality original - whether that's a RAW file, a lossless TIFF, or a high-quality JPEG XL - in local or controlled storage. The "optimize before upload" advice in this guide refers to preparing delivery copies, not replacing your masters with heavily compressed versions.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Tiny icons, logos, and SVGs</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Tiny icons, logos, and SVGs</h3>
             <p class="mb-4">For icons, UI graphics, and SVGs, standard build tools already handle minification and caching effectively. File sizes are typically minimal (under 20KB), and the performance impact of manual pre-optimization is negligible.</p>
         </section>
 
@@ -301,10 +301,10 @@
         <section id="image-factors" class="scroll-mt-24">
             <SectionHeading>The image factors that actually matter</SectionHeading>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Dimensions</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Dimensions</h3>
             <p class="mb-4">Oversized dimensions are the primary driver of bloated file sizes. A 4000px-wide camera image displayed in a 1200px column contains four times the pixel data that will ever be rendered - and every pixel costs bytes. Resize to the largest display size you'll actually need (with some headroom for Retina/HiDPI: 2× is usually sufficient), and you'll often achieve 70–80% file size reduction before any encoder-level compression is applied.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">File size and compression</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">File size and compression</h3>
             <p class="mb-4">Common red flags: any image over 500KB on a product listing page, any hero image over 1MB, any inline blog image over 200KB. For encoding efficiency: AVIF typically achieves around 50% smaller files than JPEG at comparable visual quality, and WebP commonly saves 25–35% versus JPEG. Mochify's jpegli encoder delivers up to 35% better compression at high quality versus standard libjpeg-turbo/MozJPEG encoders, producing standard JPEG files that work everywhere.</p>
 
             <div class="bg-[#FFF9F5] rounded-3xl p-6 border border-orange-100 mb-4">
@@ -312,7 +312,7 @@
                 <p class="text-[#6C3F31] text-base">A typical 5.2MB camera JPEG product photo, resized to 2048×2048px and compressed with jpegli at quality 82, consistently comes in at 280–340KB with no visible quality loss at normal zoom levels. That's a 93%+ reduction with full zoom fidelity retained.</p>
             </div>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Format choice: JPEG, WebP, AVIF, PNG, JPEG XL</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Format choice: JPEG, WebP, AVIF, PNG, JPEG XL</h3>
             <p class="mb-4">Each format has a genuinely different use case. Don't default to "always AVIF" or "always WebP" without considering the destination:</p>
             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
                 <li><strong>WebP:</strong> About 96% browser support, 25–35% smaller than JPEG. Safe default for almost all web delivery.</li>
@@ -322,7 +322,7 @@
                 <li><strong>JPEG XL:</strong> Excellent archival format, but delivery support is still niche at ~12–17% in 2026. Don't use it as your primary web format yet.</li>
             </ul>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">EXIF metadata and privacy guarantees</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">EXIF metadata and privacy guarantees</h3>
             <p class="mb-4">EXIF can add 30–80KB to each file (a minor but real bandwidth cost) and carries significant privacy and compliance risk. Strip it before upload as a default. The only time to retain EXIF is when you have a specific professional reason - copyright metadata for press photography, capture date for archival workflows - and in those cases, do it explicitly with an opt-in.</p>
         </section>
 
@@ -330,19 +330,19 @@
         <section id="audience-advice" class="scroll-mt-24">
             <SectionHeading>Audience-specific advice: what should you do?</SectionHeading>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Ecommerce sellers and Shopify stores</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Ecommerce sellers and Shopify stores</h3>
             <p class="mb-4">Optimize everything before upload. Convert HEIC or camera JPEGs to jpegli JPEG or WebP/AVIF at marketplace-specific dimensions. Strip all EXIF. For Shopify specifically: target 2048×2048px and under 400KB. For Etsy/eBay/Amazon: 2000–2500px on the longest side, under 500KB, JPEG or WebP.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">WordPress and WooCommerce site owners</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">WordPress and WooCommerce site owners</h3>
             <p class="mb-4">Pre-upload optimization replaces the need for most image optimization plugins. Resize hero images to your theme's max content width (usually 1400–1600px), convert to WebP, target under 200KB for inline images and under 350KB for product images. Upload the optimized copy, not the original. If PageSpeed Insights already lists your images under "Improve image delivery", our guide to <a href="/guides/next-gen-image-formats-wordpress">clearing that warning in WordPress without a plugin</a> shows which copy WordPress is serving and how to replace it.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Developers and technical teams</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Developers and technical teams</h3>
             <p class="mb-4">Use Mochify as a normalization and build-time step rather than a final delivery encoder. The REST API (<code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">POST /v1/prompt</code> at <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">api.mochify.app</code>) and CLI (<code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">--prompt</code> flag) support Magic Flow, so you can integrate natural-language optimization prompts into CI pipelines or preprocessing scripts. The MCP server lets AI agents request optimized variants inline, without a browser tab.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Designers, photographers, and agencies</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Designers, photographers, and agencies</h3>
             <p class="mb-4">Keep your masters. Treat pre-upload optimization as producing delivery variants from those masters, not replacing them. For web portfolios and client review links, target 2560px long edge, jpegli at quality 85, under 1MB. For client deliverables, strip GPS and device serial numbers as a default. For HEIC input from iPhone shoots, Mochify converts directly to AVIF/WebP/JPEG without manual intermediate steps.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Privacy-conscious users and casual creators</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Privacy-conscious users and casual creators</h3>
             <p class="mb-4">The "just strip EXIF and resize" use case is fully served on the free tier, with no account required for up to 3 files a month. Use the Magic Flow default prompt, download the optimized files, upload to wherever you're sharing. The free tier gives you 25 images per month.</p>
         </section>
 
@@ -412,7 +412,7 @@
         <section id="prompt-examples" class="scroll-mt-24">
             <SectionHeading>Magic Flow prompt examples for every audience</SectionHeading>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Shopify and ecommerce</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Shopify and ecommerce</h3>
             <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm mb-6">
                 <div class="bg-[#4A2C2C] px-5 py-3"><span class="text-pink-200 text-xs font-black uppercase tracking-widest">Magic Flow prompts</span></div>
                 <pre class="!m-0 !rounded-none bg-[#2D1B1B] text-[#FFF0F3] text-sm p-6 overflow-x-auto leading-relaxed whitespace-pre-wrap"><code>"Optimize these Shopify product photos: 2048x2048px, jpegli JPEG, keep them under 400KB, strip EXIF, and make sure they stay sharp when zoomed."
@@ -422,7 +422,7 @@
 "Prepare these product images for Amazon: 2000x2000px square, white background preserved, high-quality jpegli JPEG, under 500KB, no metadata."</code></pre>
             </div>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">WordPress and publishers</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">WordPress and publishers</h3>
             <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm mb-6">
                 <div class="bg-[#4A2C2C] px-5 py-3"><span class="text-pink-200 text-xs font-black uppercase tracking-widest">Magic Flow prompts</span></div>
                 <pre class="!m-0 !rounded-none bg-[#2D1B1B] text-[#FFF0F3] text-sm p-6 overflow-x-auto leading-relaxed whitespace-pre-wrap"><code>"Prepare these blog images for WordPress: 1400px content width, prefer WebP, keep files under 200KB, strip EXIF, and keep text in screenshots crisp."
@@ -432,7 +432,7 @@
 "Prepare this as a homepage hero image: 2400px wide, AVIF first with JPEG fallback, target under 200KB if possible without banding, remove all metadata."</code></pre>
             </div>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Developers (API / CLI / MCP)</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Developers (API / CLI / MCP)</h3>
             <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm mb-6">
                 <div class="bg-[#4A2C2C] px-5 py-3"><span class="text-pink-200 text-xs font-black uppercase tracking-widest">API / CLI</span></div>
                 <pre class="!m-0 !rounded-none bg-[#2D1B1B] text-[#FFF0F3] text-sm p-6 overflow-x-auto leading-relaxed whitespace-pre-wrap"><code>"Normalize this asset set for a Next.js image CDN: convert everything to sRGB, longest edge 3000px, keep near-lossless quality, strip EXIF, output lossless WebP as masters."
@@ -442,7 +442,7 @@ CLI:      --prompt "normalize for CDN: 3000px long edge, sRGB, strip EXIF, maste
 REST API: POST /v1/prompt  {'{"prompt": "compress these for web delivery: max 1600px, WebP, under 250KB, strip all metadata"}'}</code></pre>
             </div>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-6">Designers, photographers, and agencies</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-6">Designers, photographers, and agencies</h3>
             <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm mb-6">
                 <div class="bg-[#4A2C2C] px-5 py-3"><span class="text-pink-200 text-xs font-black uppercase tracking-widest">Magic Flow prompts</span></div>
                 <pre class="!m-0 !rounded-none bg-[#2D1B1B] text-[#FFF0F3] text-sm p-6 overflow-x-auto leading-relaxed whitespace-pre-wrap"><code>"Create web portfolio versions of these photos: 2560px on the long edge, jpegli JPEG around quality 85, target 800KB-1.2MB each, keep all visual detail, strip EXIF."

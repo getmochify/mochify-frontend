@@ -521,7 +521,7 @@
 		<div class="dash-card mb-6 rounded-3xl border border-[rgba(0,0,0,0.06)] p-6 shadow-sm">
 			<div class="mb-4 flex items-start justify-between">
 				<div>
-					<h2 class="text-lg font-black text-[#4A2C2C]">API Key</h2>
+					<h2 class="text-lg font-extrabold text-[#4A2C2C]">API Key</h2>
 					<p class="mt-0.5 text-xs text-[#875F42]/60">
 						Use this key from the web app, CLI, or curl
 					</p>
@@ -682,7 +682,7 @@
 			<div class="flex items-start justify-between gap-4">
 				<div class="min-w-0">
 					<div class="flex items-center gap-2">
-						<h2 class="font-black text-[#4A2C2C]">Third-party AI features</h2>
+						<h2 class="font-extrabold text-[#4A2C2C]">Third-party AI features</h2>
 						<span
 							class="rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase {aiOptin
 								? 'bg-[#A5D6A7]/30 text-[#2E5C31]'
@@ -745,7 +745,7 @@
 			<div class="flex items-start justify-between gap-4">
 				<div class="min-w-0">
 					<div class="flex items-center gap-2">
-						<h2 class="font-black text-[#4A2C2C]">Offers and reminders</h2>
+						<h2 class="font-extrabold text-[#4A2C2C]">Offers and reminders</h2>
 						<span
 							class="rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase {marketingOn
 								? 'bg-[#A5D6A7]/30 text-[#2E5C31]'
@@ -807,7 +807,7 @@
 		<div class="dash-card mb-6 rounded-3xl border border-[rgba(0,0,0,0.06)] p-6 shadow-sm">
 			<div class="mb-4 flex items-center justify-between">
 				<div>
-					<h2 class="font-black text-[#4A2C2C]">Connections</h2>
+					<h2 class="font-extrabold text-[#4A2C2C]">Connections</h2>
 					<p class="mt-0.5 text-xs text-cocoa-milk/60">
 						Connect external services to your workflow
 					</p>
@@ -1437,7 +1437,7 @@
 				</p>
 			{:else}
 				<div class="dash-card space-y-3 rounded-3xl border border-red-200/60 p-6">
-					<h2 class="font-black text-red-700/80">Delete account</h2>
+					<h2 class="font-extrabold text-red-700/80">Delete account</h2>
 					<p class="text-sm text-[#875F42]/60">
 						Your account is deactivated immediately and permanently deleted after 14 days — signing
 						in again within that window cancels the deletion.

@@ -185,7 +185,7 @@
 
     <!-- Card-link TOC -->
     <section class="mb-12">
-        <h2 class="font-black text-[#4A2C2C] text-lg mb-8">
+        <h2 class="font-extrabold text-[#4A2C2C] text-lg mb-8">
             What's in This Guide
             <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
         </h2>
@@ -326,19 +326,19 @@
 
             <p class="mb-4">A few implementation notes worth keeping in mind:</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8">Order matters</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8">Order matters</h3>
             <p class="mb-4">Put the WebM source first. Browsers that support VP9 will take it and download the smaller file. Browsers that do not will fall through to the MP4. <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Performance/video" target="_blank" rel="noopener noreferrer">MDN explicitly recommends listing the smaller resource first</a> so capable browsers pay the lower bandwidth cost.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8">Include the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">type</code> attribute with codec hints</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8">Include the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">type</code> attribute with codec hints</h3>
             <p class="mb-4">The browser uses this to skip sources it cannot play without attempting to download them. <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">video/webm; codecs="vp9, opus"</code> and <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">video/mp4; codecs="avc1.42E01E, mp4a.40.2"</code> are the correct type strings for VP9 WebM and H.264 MP4 respectively.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="metadata"</code> instead of <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="auto"</code></h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="metadata"</code> instead of <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="auto"</code></h3>
             <p class="mb-4">This tells the browser to fetch only enough to know the video's duration and dimensions, not the full file, on initial load. For hero videos especially, this is the difference between video content dominating your LCP or staying out of the critical path.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">muted</code> is required for <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">autoplay</code></h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">muted</code> is required for <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">autoplay</code></h3>
             <p class="mb-4">Browsers block autoplay of unmuted video. If you want a background loop to start automatically, it must be muted.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">playsinline</code> for iOS Safari</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">playsinline</code> for iOS Safari</h3>
             <p>Without this, iOS Safari will try to play the video fullscreen rather than inline in the page.</p>
         </section>
 
@@ -365,13 +365,13 @@
             <p class="mb-4">The obvious tool for converting MP4 to WebM is a search away - dozens of sites offer free browser-based conversion. But what most of them actually do is upload your file to a remote server, run FFmpeg, and hand you back the result. That means your footage leaves your machine.</p>
             <p class="mb-4">The implications range from inconvenient to serious.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8">Retention windows vary wildly</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8">Retention windows vary wildly</h3>
             <p class="mb-4">Some services delete files after conversion; others hold them for 24 hours or longer. Convertio's policy, for example, states that output files are held for 24 hours before deletion, with IP addresses and conversion metadata kept for significantly longer. If you are converting client footage, demo reels, unreleased product videos, or anything under NDA, "deleted after 24 hours" is not the same as "never left your device."</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8">Logs persist even when files do not</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8">Logs persist even when files do not</h3>
             <p class="mb-4">Even services that delete files promptly tend to log IP addresses, file types, conversion timestamps, and success flags. This data can be retained for weeks or months, and it is exactly the kind of data that appears in breach reports.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mb-3 mt-8">Real incidents have happened</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8">Real incidents have happened</h3>
             <p class="mb-4">A 2024 report documented a breach at TuneFab, a media converter, where a misconfigured database exposed around 280 GB of user data including IP addresses and account identifiers. A separate incident involved Dirpy, an online video downloader, leaking 15.7 million records including user activity logs and the URLs of downloaded content.</p>
 
             <InfoBox type="warning" title="FBI advisory">
@@ -386,7 +386,7 @@
 
     <!-- Mochify Workflow -->
     <section id="mochify-workflow" class="scroll-mt-24 mt-12 bg-gradient-to-b from-[#FFF5F7] to-white border border-pink-100 rounded-3xl p-8">
-        <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-4">Mochify Workflow: Convert MP4 to WebM in Your Browser</h2>
+        <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">Mochify Workflow: Convert MP4 to WebM in Your Browser</h2>
         <p class="text-[#6C3F31] text-lg mb-8 leading-relaxed">Mochify's video engine runs entirely client-side. Open the tool, drop in your MP4, and the conversion runs in your browser tab. No account required to start; no upload to a remote server; no waiting on a queue.</p>
 
         <ol class="space-y-5" aria-label="Conversion steps">
@@ -415,7 +415,7 @@
 
     <!-- Cheat Sheet -->
     <section id="cheat-sheet" class="scroll-mt-24 mt-12 bg-[#FFF5F7] border border-pink-100 rounded-3xl p-8">
-        <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-6">MP4 to WebM Cheat Sheet</h2>
+        <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-6">MP4 to WebM Cheat Sheet</h2>
         <ScrollableTable>
             <table class="w-full text-sm">
                 <thead>
@@ -451,7 +451,7 @@
 
     <!-- FAQ -->
     <section id="faq" class="scroll-mt-24 mt-12">
-        <h2 class="text-[1.75rem] font-black text-[#4A2C2C] mb-10">
+        <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-10">
             FAQ
             <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
         </h2>

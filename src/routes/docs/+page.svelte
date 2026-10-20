@@ -156,7 +156,7 @@
 
                 <!-- Overview -->
                 <section id="overview">
-                    <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Overview</h2>
+                    <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-4">Overview</h2>
                     <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-6 space-y-4">
                         <p class="text-[#6C3F31] leading-relaxed">
                             All API requests are made to the base URL:
@@ -187,7 +187,7 @@
 
                 <!-- Authentication -->
                 <section id="authentication">
-                    <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Authentication</h2>
+                    <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-4">Authentication</h2>
                     <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-6 space-y-5">
                         <p class="api-prose text-[#6C3F31] leading-relaxed">{@html auth.summary}</p>
                         <div class="rounded-2xl overflow-hidden border border-pink-100">
@@ -209,14 +209,14 @@
                 <section id="squish">
                     <div class="flex items-center gap-3 mb-4">
                         <span class="px-2.5 py-1 rounded-lg bg-[#F06292] text-white text-xs font-black uppercase tracking-wide">{squish.method}</span>
-                        <h2 class="text-2xl font-black text-[#4A2C2C] font-mono">{squish.path}</h2>
+                        <h2 class="text-2xl font-extrabold text-[#4A2C2C] font-mono">{squish.path}</h2>
                     </div>
                     <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-6 space-y-6">
                         <p class="api-prose text-[#6C3F31] leading-relaxed">{@html squish.summary}</p>
 
                         <!-- Query parameters -->
                         <div>
-                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Query Parameters</h3>
+                            <h3 class="text-sm font-bold text-[#4A2C2C] uppercase tracking-wider mb-3">Query Parameters</h3>
                             <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
                                 <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
                                     <span>Parameter</span>
@@ -248,7 +248,7 @@
 
                         <!-- Request headers -->
                         <div>
-                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Request Headers</h3>
+                            <h3 class="text-sm font-bold text-[#4A2C2C] uppercase tracking-wider mb-3">Request Headers</h3>
                             <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
                                 {#each squishRequestHeaders as header}
                                     <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm">
@@ -261,7 +261,7 @@
 
                         <!-- Response -->
                         <div>
-                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Response</h3>
+                            <h3 class="text-sm font-bold text-[#4A2C2C] uppercase tracking-wider mb-3">Response</h3>
                             <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
                                 <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
                                     <span>Header / Field</span>
@@ -282,7 +282,7 @@
 
                         <!-- Examples -->
                         <div>
-                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Examples</h3>
+                            <h3 class="text-sm font-bold text-[#4A2C2C] uppercase tracking-wider mb-3">Examples</h3>
                             <div class="space-y-3">
                                 {#each squishExamples as example}
                                     <div class="rounded-2xl overflow-hidden border border-pink-100">
@@ -302,14 +302,14 @@
                 <section id="pdf">
                     <div class="flex items-center gap-3 mb-4">
                         <span class="px-2.5 py-1 rounded-lg bg-[#F06292] text-white text-xs font-black uppercase tracking-wide">{pdf.method}</span>
-                        <h2 class="text-2xl font-black text-[#4A2C2C] font-mono">{pdf.path}</h2>
+                        <h2 class="text-2xl font-extrabold text-[#4A2C2C] font-mono">{pdf.path}</h2>
                     </div>
                     <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-6 space-y-6">
                         <p class="api-prose text-[#6C3F31] leading-relaxed">{@html pdf.summary}</p>
 
                         <!-- Operations -->
                         <div>
-                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Operations</h3>
+                            <h3 class="text-sm font-bold text-[#4A2C2C] uppercase tracking-wider mb-3">Operations</h3>
                             <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
                                 <div class="grid grid-cols-[auto_auto_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
                                     <span>op</span>
@@ -332,7 +332,7 @@
 
                         {#each Object.entries(pdfParams) as [op, params]}
                             <div>
-                                <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Parameters: op={op}</h3>
+                                <h3 class="text-sm font-bold text-[#4A2C2C] uppercase tracking-wider mb-3">Parameters: op={op}</h3>
                                 <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
                                     <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
                                         <span>Parameter</span>
@@ -370,7 +370,7 @@
 
                         <!-- Saving to your own storage -->
                         <div>
-                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Saving to your own storage</h3>
+                            <h3 class="text-sm font-bold text-[#4A2C2C] uppercase tracking-wider mb-3">Saving to your own storage</h3>
                             <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
                                 <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
                                     <span>Parameter</span>
@@ -395,7 +395,7 @@
 
                         <!-- Plans and limits -->
                         <div>
-                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Plans and limits</h3>
+                            <h3 class="text-sm font-bold text-[#4A2C2C] uppercase tracking-wider mb-3">Plans and limits</h3>
                             <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
                                 {#each pdfLimits as limit, i}
                                     <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-4 items-start text-sm {i % 2 === 1 ? 'bg-[#FDFBF7]' : ''}">
@@ -408,7 +408,7 @@
 
                         <!-- Response headers -->
                         <div>
-                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Response Headers</h3>
+                            <h3 class="text-sm font-bold text-[#4A2C2C] uppercase tracking-wider mb-3">Response Headers</h3>
                             <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
                                 <div class="grid grid-cols-[1fr_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
                                     <span>Header</span>
@@ -425,7 +425,7 @@
 
                         <!-- Examples -->
                         <div>
-                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Examples</h3>
+                            <h3 class="text-sm font-bold text-[#4A2C2C] uppercase tracking-wider mb-3">Examples</h3>
                             <div class="space-y-3">
                                 {#each pdfExamples as example}
                                     <div class="rounded-2xl overflow-hidden border border-pink-100">
@@ -445,12 +445,12 @@
                 <section id="check-tokens">
                     <div class="flex items-center gap-3 mb-4">
                         <span class="px-2.5 py-1 rounded-lg bg-[#A5D6A7] text-[#2E7D32] text-xs font-black uppercase tracking-wide">{checkTokens.method}</span>
-                        <h2 class="text-2xl font-black text-[#4A2C2C] font-mono">{checkTokens.path}</h2>
+                        <h2 class="text-2xl font-extrabold text-[#4A2C2C] font-mono">{checkTokens.path}</h2>
                     </div>
                     <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-6 space-y-6">
                         <p class="api-prose text-[#6C3F31] leading-relaxed">{@html checkTokens.summary}</p>
                         <div>
-                            <h3 class="text-sm font-black text-[#4A2C2C] uppercase tracking-wider mb-3">Response</h3>
+                            <h3 class="text-sm font-bold text-[#4A2C2C] uppercase tracking-wider mb-3">Response</h3>
                             <div class="rounded-2xl overflow-hidden border border-pink-100 divide-y divide-pink-50">
                                 <div class="grid grid-cols-[1fr_auto_2fr] gap-x-4 px-5 py-3 bg-[#FFF5F7] text-xs font-black text-[#875F42]/60 uppercase tracking-wider">
                                     <span>Field</span>
@@ -479,7 +479,7 @@
 
                 <!-- Errors -->
                 <section id="errors">
-                    <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Errors</h2>
+                    <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-4">Errors</h2>
                     <div class="bg-white rounded-3xl border border-pink-100 shadow-sm p-6 space-y-4">
                         <p class="text-[#6C3F31] leading-relaxed">
                             The API uses standard HTTP status codes.
@@ -502,7 +502,7 @@
 
                 <!-- CTA -->
                 <div class="bg-gradient-to-br from-[#FFF0F5] to-white rounded-3xl border border-[#F06292]/20 shadow-sm p-8 text-center">
-                    <h3 class="text-xl font-black text-[#4A2C2C] mb-2">Need more operations?</h3>
+                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-2">Need more operations?</h3>
                     <p class="text-[#6C3F31]/70 text-sm mb-6">Upgrade to Pro for 1,200 operations/month and a dedicated API key.</p>
                     <div class="flex flex-col sm:flex-row gap-3 justify-center">
                         <a href="/pricing" class="px-6 py-3 rounded-2xl bg-[#F06292] text-white text-sm font-black hover:bg-[#E0527F] transition-all shadow-sm hover:shadow-md">

@@ -158,7 +158,7 @@
         </div>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">How to convert AVIF to JPG</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">How to convert AVIF to JPG</h2>
             <ol class="space-y-4">
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
                     <span class="shrink-0 w-8 h-8 rounded-xl bg-[#FFF5F7] border border-pink-100 text-[#F06292] font-black text-sm flex items-center justify-center">1</span>
@@ -184,7 +184,7 @@
         <section class="mt-20 max-w-4xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-start">
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-black text-[#4A2C2C]">Why your computer will not open an AVIF file</h2>
+                    <h2 class="text-2xl font-extrabold text-[#4A2C2C]">Why your computer will not open an AVIF file</h2>
                     <p class="leading-relaxed text-[#6C3F31]">
                         AVIF is the format websites now serve because it makes pages faster: the same picture at a fraction of a JPEG's size. Every current browser renders it, so when you right-click and save an image from a site, you increasingly get an .avif file whether or not anything else on your computer can open it.
                     </p>
@@ -194,7 +194,7 @@
                 </div>
 
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-black text-[#4A2C2C]">Will converting AVIF to JPG lose quality?</h2>
+                    <h2 class="text-2xl font-extrabold text-[#4A2C2C]">Will converting AVIF to JPG lose quality?</h2>
                     <p class="leading-relaxed text-[#6C3F31]">
                         Not visibly, with a good encoder. Almost every AVIF you meet is already lossy, and converting it to JPEG is a second lossy encode, so the encoder decides how much survives. Mochify writes every JPEG through Google's jpegli, which in published testing was preferred over libjpeg-turbo and MozJPEG output while using fewer bits per pixel. The <a href="/guides/jpeg-in-2026-jpegli" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">jpegli guide</a> has the numbers.
                     </p>
@@ -206,14 +206,14 @@
         </section>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Convert AVIF to JPG on Windows 11 or Mac without a converter</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-4">Convert AVIF to JPG on Windows 11 or Mac without a converter</h2>
             <p class="leading-relaxed text-[#6C3F31] max-w-3xl">
                 You can do it natively, one file at a time. On Windows 10 or 11, install the AV1 Video Extension from the Microsoft Store, open the .avif in Paint, then File, Save as, JPEG picture. On macOS Ventura or later, open it in Preview, then File, Export, and set the format to JPEG. Both use the system encoder with no control over quality or metadata, and neither handles a folder. The <a href="/guides/avif-to-jpg" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">full AVIF to JPG guide</a> walks through every route, including the command line.
             </p>
         </section>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Bulk, batch and automated AVIF to JPG</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-4">Bulk, batch and automated AVIF to JPG</h2>
             <p class="leading-relaxed text-[#6C3F31] max-w-3xl mb-6">
                 A folder of AVIFs is the usual case: a scraped product catalog, a client handoff, a batch of downloads. Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. The same conversion runs from the terminal with the Mochify CLI (<span class="font-mono font-bold text-[#4A2C2C]">mochify</span>, one plain-English prompt for a whole directory, sign in once with <span class="font-mono font-bold text-[#4A2C2C]">mochify auth login</span>), from an AI agent through the hosted or local MCP server, and from the REST API:
             </p>
@@ -231,7 +231,7 @@
         </section>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">FAQ</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">FAQ</h2>
             <FaqAccordion {faqs} class="grid md:grid-cols-2 gap-4 items-start" />
         </section>
 

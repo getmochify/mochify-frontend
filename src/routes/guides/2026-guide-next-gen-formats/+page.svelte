@@ -987,7 +987,7 @@
                 </span>
             </div>
 
-            <h3 class="text-2xl md:text-3xl font-black text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
+            <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
                 Ready to convert your images?
             </h3>
 

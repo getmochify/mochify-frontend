@@ -159,7 +159,7 @@
         </div>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">How to convert HEIC to JPG</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">How to convert HEIC to JPG</h2>
             <ol class="space-y-4">
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
                     <span class="shrink-0 w-8 h-8 rounded-xl bg-[#FFF5F7] border border-pink-100 text-[#F06292] font-black text-sm flex items-center justify-center">1</span>
@@ -185,7 +185,7 @@
         <section class="mt-20 max-w-4xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-start">
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-black text-[#4A2C2C]">Why your iPhone photos are HEIC, and why nothing else opens them</h2>
+                    <h2 class="text-2xl font-extrabold text-[#4A2C2C]">Why your iPhone photos are HEIC, and why nothing else opens them</h2>
                     <p class="leading-relaxed text-[#6C3F31]">
                         Since iOS 11, iPhones have saved photos as HEIC by default: a HEIF container with the picture encoded in HEVC, at roughly half the size of an equivalent JPEG. Apple's own devices open it natively, so you never notice until a photo leaves the Apple ecosystem: an upload form rejects it, a Windows PC shows a blank thumbnail, or an Android phone, a CMS or a print shop hands it straight back.
                     </p>
@@ -195,7 +195,7 @@
                 </div>
 
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-black text-[#4A2C2C]">Will converting HEIC to JPG lose quality?</h2>
+                    <h2 class="text-2xl font-extrabold text-[#4A2C2C]">Will converting HEIC to JPG lose quality?</h2>
                     <p class="leading-relaxed text-[#6C3F31]">
                         Not visibly, with a good encoder. An iPhone HEIC is already a lossy file, and converting it to JPEG is a second lossy encode, so the encoder decides how much survives. Mochify writes every JPEG through Google's jpegli, which in published testing was preferred over libjpeg-turbo and MozJPEG output while using fewer bits per pixel. The <a href="/guides/jpeg-in-2026-jpegli" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">jpegli guide</a> has the numbers.
                     </p>
@@ -209,19 +209,19 @@
         <section class="mt-20 max-w-4xl mx-auto">
             <div class="grid md:grid-cols-3 gap-8 items-start">
                 <div class="space-y-3">
-                    <h2 class="text-xl font-black text-[#4A2C2C]">Convert HEIC to JPG on Windows 11 or 10 without a converter</h2>
+                    <h2 class="text-xl font-extrabold text-[#4A2C2C]">Convert HEIC to JPG on Windows 11 or 10 without a converter</h2>
                     <p class="leading-relaxed text-[#6C3F31] text-sm">
                         You can, one file at a time, once the codecs are in. Install the HEIF Image Extension and the HEVC Video Extensions from the Microsoft Store, open the .heic in Photos, then use the three-dots menu, Save as, and choose JPG. Paint works the same way after the extensions are installed. Without the paid HEVC extension, Photos opens the container and shows nothing. Every fix, and what to do when 10-bit files still refuse, is in <a href="/guides/open-heif-files-on-windows" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">how to open HEIF files on Windows</a>.
                     </p>
                 </div>
                 <div class="space-y-3">
-                    <h2 class="text-xl font-black text-[#4A2C2C]">Convert HEIC to JPG on a Mac</h2>
+                    <h2 class="text-xl font-extrabold text-[#4A2C2C]">Convert HEIC to JPG on a Mac</h2>
                     <p class="leading-relaxed text-[#6C3F31] text-sm">
                         Right-click the file in Finder, choose Quick Actions, then Convert Image, and pick JPEG (macOS Monterey or later). Or open it in Preview, then File, Export, and set the format to JPEG. Both use the system encoder with no control over quality, and neither handles a folder, which is where a batch converter earns its keep.
                     </p>
                 </div>
                 <div class="space-y-3">
-                    <h2 class="text-xl font-black text-[#4A2C2C]">Convert HEIC to JPG on the iPhone itself</h2>
+                    <h2 class="text-xl font-extrabold text-[#4A2C2C]">Convert HEIC to JPG on the iPhone itself</h2>
                     <p class="leading-relaxed text-[#6C3F31] text-sm">
                         Three routes, none of which need an app. To stop new photos being HEIC at all, go to Settings, Camera, Formats and choose Most Compatible; the camera then saves JPEG. To convert when you copy to a computer, go to Settings, Photos (Settings, Apps, Photos on iOS 18) and set Transfer to Mac or PC to Automatic. For a photo you already have, save it to the Files app, touch and hold it, choose Quick Actions, then Convert Image, and pick JPEG. AirDrop to a Mac keeps the file as HEIC. If the JPG is then too big for an upload form, see <a href="https://mochify.app/guides/reduce-photo-file-size-iphone" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">how to reduce photo file size on iPhone</a> for the built-in route and the quick one.
                     </p>
@@ -230,7 +230,7 @@
         </section>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Bulk, batch and automated HEIC to JPG</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-4">Bulk, batch and automated HEIC to JPG</h2>
             <p class="leading-relaxed text-[#6C3F31] max-w-3xl mb-6">
                 A camera roll is the usual case: a client's phone photos, a marketplace listing shot on an iPhone, a whole trip. Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. The same conversion runs from the terminal with the Mochify CLI (<span class="font-mono font-bold text-[#4A2C2C]">mochify</span>, one plain-English prompt for a whole directory, sign in once with <span class="font-mono font-bold text-[#4A2C2C]">mochify auth login</span>), from an AI agent through the hosted or local MCP server, and from the REST API:
             </p>
@@ -248,7 +248,7 @@
         </section>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">FAQ</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">FAQ</h2>
             <FaqAccordion {faqs} class="grid md:grid-cols-2 gap-4 items-start" />
         </section>
 

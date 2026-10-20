@@ -409,7 +409,7 @@
             <p class="mb-4">Google's announcement cited a 35% compression improvement at high quality settings. This number comes from a specific methodology: crowdsourced raters comparing images from the Cloudinary Image Dataset '22, encoded at several bitrates using jpegli, libjpeg-turbo, and MozJPEG, with results aggregated using ELO scoring.</p>
 
             <div class="my-6 bg-[#FFF5F7] rounded-2xl p-6 border border-pink-100">
-                <h3 class="text-lg font-black text-[#875F42] mb-3">Important caveats:</h3>
+                <h3 class="text-lg font-bold text-[#875F42] mb-3">Important caveats:</h3>
                 <ul class="list-disc list-outside ml-6 space-y-2 text-[#6C3F31]">
                     <li> The 35% figure applies to high-quality settings (e.g., quality 90+). At medium quality (70-80), the gap narrows.</li>
                     <li>The test used photographic content. Graphics, screenshots, and synthetic images may behave differently.</li>
@@ -449,7 +449,7 @@
                     </ul>
 
                     <div class="bg-gradient-to-br from-pink-50 to-orange-50 p-6 rounded-2xl border border-pink-100">
-                        <h4 class="text-lg font-black text-[#875F42] mb-3">Why the slow rollout?</h4>
+                        <h4 class="text-lg font-bold text-[#875F42] mb-3">Why the slow rollout?</h4>
                         <p class="text-[#6C3F31]">Established tools with massive installed bases move cautiously. MozJPEG is proven, stable, and "good enough" for most workflows. Jpegli requires recompilation with libjxl dependencies, which adds complexity. As jpegli matures and more benchmark data accumulates, expect gradual adoption-but don't expect Adobe or WordPress plugins to switch overnight.</p>
                     </div>
                 </div>
@@ -734,7 +734,7 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
             <p class="mb-6">Mochify processes images entirely in RAM. The file streams into memory, gets compressed (using jpegli or other modern encoders), and is deleted the instant the download completes. Nothing touches the hard drive. No training data. No 24-hour retention window. Just ephemeral processing at C++20 speed.</p>
 
             <div class="bg-gradient-to-br from-pink-50 to-orange-50 p-8 rounded-[2rem] border border-pink-100">
-                <h3 class="text-lg font-black text-[#875F42] mb-3 flex items-center gap-2">
+                <h3 class="text-lg font-bold text-[#875F42] mb-3 flex items-center gap-2">
                     Why this matters for JPEG workflows specifically
                 </h3>
                 <p class="text-[#6C3F31] leading-relaxed mb-4">
@@ -755,7 +755,7 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
                 </span>
             </div>
 
-            <h3 class="text-2xl md:text-3xl font-black text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
+            <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
                 Try It: Compare Jpegli on One Real Image
             </h3>
 

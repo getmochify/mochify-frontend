@@ -179,7 +179,7 @@
     </div>
 
     <section class="mt-10 max-w-4xl mx-auto">
-        <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">How to convert HEIF to JPG</h2>
+        <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">How to convert HEIF to JPG</h2>
         <ol class="space-y-4">
             <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
                 <span class="shrink-0 w-8 h-8 rounded-xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4338CA] font-black text-sm flex items-center justify-center">1</span>
@@ -205,7 +205,7 @@
     <!-- Extension triage: the anti-duplication centrepiece. Routes visitors to the
          Apple and pro-camera pages rather than competing with them. -->
     <section class="mt-20 max-w-4xl mx-auto">
-        <h2 class="text-2xl font-black text-[#4A2C2C] mb-2">Which HEIF have you actually got?</h2>
+        <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-2">Which HEIF have you actually got?</h2>
         <p class="text-[#6C3F31] leading-relaxed mb-7 max-w-2xl">
             All three extensions below are the same container with different branding on the outside, and all three convert here. If your file came from one of the two specialist sources, those pages carry notes this one does not.
         </p>
@@ -239,7 +239,7 @@
     <section class="mt-20 max-w-4xl mx-auto">
         <div class="space-y-8">
             <div class="space-y-4">
-                <h2 class="text-2xl font-black text-[#4A2C2C]">Why HEIF files refuse to open</h2>
+                <h2 class="text-2xl font-extrabold text-[#4A2C2C]">Why HEIF files refuse to open</h2>
                 <p class="leading-relaxed text-[#6C3F31]">
                     HEIF is only the wrapper. What sits inside is almost always <strong class="text-[#7E685E]">HEVC</strong>, a patent-encumbered codec, and that is the whole problem: your machine can read the container perfectly well and still have no legal right to decode the picture.
                 </p>
@@ -251,7 +251,7 @@
             <div class="grid sm:grid-cols-2 gap-3 items-start">
                 {#each openIssues as issue (issue.platform)}
                     <div class="bg-white p-5 rounded-2xl border border-pink-50 shadow-sm">
-                        <h3 class="font-black text-[#4A2C2C] text-sm mb-1.5">{issue.platform}</h3>
+                        <h3 class="font-bold text-[#4A2C2C] text-sm mb-1.5">{issue.platform}</h3>
                         <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">
                             {issue.detail}{#if issue.moreHref}
                                 {' '}{issue.moreLabel}
@@ -272,7 +272,7 @@
     </section>
 
     <section class="mt-20 max-w-4xl mx-auto space-y-4">
-        <h2 class="text-2xl font-black text-[#4A2C2C]">Convert HEIF to JPG without a converter</h2>
+        <h2 class="text-2xl font-extrabold text-[#4A2C2C]">Convert HEIF to JPG without a converter</h2>
         <p class="leading-relaxed text-[#6C3F31]">
             You can, one file at a time, once your system can decode the file.
         </p>
@@ -297,7 +297,7 @@
     </section>
 
     <section class="mt-20 max-w-4xl mx-auto space-y-4">
-        <h2 class="text-2xl font-black text-[#4A2C2C]">Bulk, batch and automated HEIF to JPG</h2>
+        <h2 class="text-2xl font-extrabold text-[#4A2C2C]">Bulk, batch and automated HEIF to JPG</h2>
         <p class="leading-relaxed text-[#6C3F31]">
             A folder of mixed .heif, .heic and .hif files is the usual case. Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. The same conversion runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify auth login</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
         </p>
@@ -312,7 +312,7 @@
     </section>
 
     <section class="mt-20 max-w-4xl mx-auto">
-        <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">Frequently asked questions</h2>
+        <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">Frequently asked questions</h2>
         <FaqAccordion {faqs} class="grid md:grid-cols-2 gap-4 items-start" />
     </section>
 

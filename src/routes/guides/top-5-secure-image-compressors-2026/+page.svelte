@@ -226,7 +226,7 @@
         </section>
 
         <section id="why-beyond-tinypng" class="my-12">
-            <h2 class="text-3xl font-black text-[#4A2C2C] mb-6">Why Users Look Beyond TinyPNG</h2>
+            <h2 class="text-3xl font-extrabold text-[#4A2C2C] mb-6">Why Users Look Beyond TinyPNG</h2>
             <p class="mb-6">
                 TinyPNG built its brand on simplicity, but its limitations have become friction points for serious workflows:
             </p>
@@ -262,7 +262,7 @@
         </section>
 
         <section id="criteria" class="my-12">
-            <h2 class="text-3xl font-black text-[#4A2C2C] mb-6">Comparison Criteria</h2>
+            <h2 class="text-3xl font-extrabold text-[#4A2C2C] mb-6">Comparison Criteria</h2>
             <p class="mb-6">To cut through marketing claims, we evaluated tools on six concrete dimensions:</p>
             
             <div class="grid md:grid-cols-2 gap-6">
@@ -294,7 +294,7 @@
         </section>
 
         <section id="head-to-head" class="my-16">
-            <h2 class="text-3xl font-black text-[#4A2C2C] mb-8">Head-to-Head Comparison Table</h2>
+            <h2 class="text-3xl font-extrabold text-[#4A2C2C] mb-8">Head-to-Head Comparison Table</h2>
             
             <!-- Mobile: Card Layout -->
             <div class="my-8 md:hidden space-y-4">
@@ -538,7 +538,7 @@
         </section>
 
         <section id="deep-dives" class="my-16 space-y-12">
-            <h2 class="text-3xl font-black text-[#4A2C2C] mb-8">Tool-by-Tool Deep Dives</h2>
+            <h2 class="text-3xl font-extrabold text-[#4A2C2C] mb-8">Tool-by-Tool Deep Dives</h2>
 
             <div class="border-l-4 border-gray-200 pl-6 py-2">
                 <h3 class="text-2xl font-bold text-[#4A2C2C] mb-4">TinyPNG</h3>
@@ -625,7 +625,7 @@
         </section>
 
         <section id="modern-formats" class="my-16">
-            <h2 class="text-3xl font-black text-[#4A2C2C] mb-6">Why Modern Format Support Matters</h2>
+            <h2 class="text-3xl font-extrabold text-[#4A2C2C] mb-6">Why Modern Format Support Matters</h2>
             <p class="mb-6">In 2026, delivering only JPEG and PNG means leaving performance (and money) on the table.</p>
 
             <div class="space-y-8">
@@ -645,14 +645,14 @@
                 </div>
 
                 <div class="bg-[#FFF5F7] rounded-3xl p-6 border border-pink-100">
-                    <h4 class="text-lg font-black text-[#875F42] mb-3">The Practical Impact:</h4>
+                    <h4 class="text-lg font-bold text-[#875F42] mb-3">The Practical Impact:</h4>
                     <p class="text-[#6C3F31]">Tools that lack these formats put users on the back foot. You either accept inferior compression (JPEG/PNG only) or juggle multiple tools to convert, compress, and convert again.</p>
                 </div>
             </div>
         </section>
 
         <section id="jpeg-encoder" class="my-16">
-            <h2 class="text-3xl font-black text-[#4A2C2C] mb-6">The JPEG Encoder Question</h2>
+            <h2 class="text-3xl font-extrabold text-[#4A2C2C] mb-6">The JPEG Encoder Question</h2>
             <p class="mb-6">
                 Here's an uncomfortable truth: most web users will still need JPEG output for years to come. Marketplaces like eBay and Etsy, legacy CMSs, and client contracts often specify JPEG-only delivery. So when modern formats aren't an option, <em>which JPEG encoder</em> your tool uses becomes critical.
             </p>
@@ -688,7 +688,7 @@
         </section>
 
         <section id="recommendations" class="my-16 bg-[#FFF5F7] p-8 rounded-3xl border border-pink-100">
-            <h2 class="text-3xl font-black text-[#4A2C2C] mb-6">Use Case Recommendations</h2>
+            <h2 class="text-3xl font-extrabold text-[#4A2C2C] mb-6">Use Case Recommendations</h2>
             
             <div class="space-y-8">
                 <div>
@@ -737,7 +737,7 @@
         </section>
 
         <section id="conclusion" class="my-16">
-            <h2 class="text-3xl font-black text-[#4A2C2C] mb-6">Conclusion</h2>
+            <h2 class="text-3xl font-extrabold text-[#4A2C2C] mb-6">Conclusion</h2>
             <p class="mb-6">
                 The 2026 image compression landscape is no longer about "which tool is fastest?" It's about three strategic pillars:
             </p>
@@ -763,7 +763,7 @@
                 <p class="text-[#6C3F31] italic">The web is getting faster and more private. Your image compressor should keep up.</p>
             </div>
             
-<div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow"><div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div> <div class="relative z-10 mb-6"><span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">Free Tool</span></div> <h3 class="text-2xl md:text-3xl font-black text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">Ready to convert your images?</h3> <p class="text-[#6C3F31] text-lg max-w-2xl mx-auto relative z-10 mb-8 leading-relaxed">Try Mochify's zero-retention WebP and AVIF converters - no accounts, no plugins, no stored files. Process in-memory with C++ engine speed, then upload directly to your site or marketplace.</p> <a href="https://mochify.app" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline"><span>Start Optimizing</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg></a></div>
+<div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow"><div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div> <div class="relative z-10 mb-6"><span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">Free Tool</span></div> <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">Ready to convert your images?</h3> <p class="text-[#6C3F31] text-lg max-w-2xl mx-auto relative z-10 mb-8 leading-relaxed">Try Mochify's zero-retention WebP and AVIF converters - no accounts, no plugins, no stored files. Process in-memory with C++ engine speed, then upload directly to your site or marketplace.</p> <a href="https://mochify.app" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline"><span>Start Optimizing</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg></a></div>
         </section>
 
         <RelatedGuides guides={related} />

@@ -190,7 +190,7 @@
 								<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 							</svg>
 						</div>
-						<h2 class="mb-2 text-2xl font-black tracking-tight text-[#4A2C2C]">Message sent</h2>
+						<h2 class="mb-2 text-2xl font-extrabold tracking-tight text-[#4A2C2C]">Message sent</h2>
 						<p class="text-sm text-[#875F42]/70">
 							Thanks for reaching out. We'll get back to you at the email you provided.
 						</p>

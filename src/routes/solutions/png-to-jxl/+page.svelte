@@ -190,7 +190,7 @@
                 ] as step}
                     <div class="bg-white p-6 rounded-2xl border border-pink-50 shadow-sm">
                         <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-amber-50 text-amber-600 font-black text-sm mb-4">{step.n}</span>
-                        <h3 class="font-black text-[#4A2C2C] text-sm mb-1.5">{step.t}</h3>
+                        <h3 class="font-bold text-[#4A2C2C] text-sm mb-1.5">{step.t}</h3>
                         <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">{step.d}</p>
                     </div>
                 {/each}

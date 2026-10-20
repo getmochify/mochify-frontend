@@ -2631,7 +2631,7 @@
 					</svg>
 				</div>
 				{#if hasOversized}
-					<h3 class="mb-2 text-lg font-black text-[#4A2C2C]">File too large</h3>
+					<h3 class="mb-2 text-lg font-bold text-[#4A2C2C]">File too large</h3>
 					<p class="mb-6 text-sm leading-relaxed text-cocoa-milk/70">
 						Your plan supports files up to {maxFileSizeMb}MB. Every paid plan handles up to {paidFileSizeMb}MB,
 						from {cheapestPlanPrice}/mo, or a {dayPassPrice} Day Pass covers it for 24 hours.
@@ -2661,7 +2661,7 @@
 						</button>
 					</div>
 				{:else}
-					<h3 class="mb-2 text-lg font-black text-[#4A2C2C]">Monthly limit reached</h3>
+					<h3 class="mb-2 text-lg font-bold text-[#4A2C2C]">Monthly limit reached</h3>
 					<p class="mb-6 text-sm leading-relaxed text-cocoa-milk/70">
 						You've used your full image quota for this month. Upgrade for a higher limit, or wait
 						for your monthly reset.
@@ -2730,7 +2730,7 @@
 						<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
 					</svg>
 				</div>
-				<h3 class="mb-2 text-lg font-black text-[#4A2C2C]">Limit reached</h3>
+				<h3 class="mb-2 text-lg font-bold text-[#4A2C2C]">Limit reached</h3>
 
 				{#if dayPassOffered}
 					<!-- Reached now only by a 429 or by a click that beat the token

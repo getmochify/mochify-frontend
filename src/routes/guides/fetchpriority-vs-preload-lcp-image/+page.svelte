@@ -150,7 +150,7 @@
         </section>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <h3 class="text-lg font-black text-[#4A2C2C] mb-3">Make either hint count</h3>
+            <h3 class="text-lg font-bold text-[#4A2C2C] mb-3">Make either hint count</h3>
             <p class="text-[#6C3F31] leading-relaxed mb-4">
                 Get the image small enough that the priority hint actually moves your LCP. Use <a href="https://mochify.app">mochify.app</a> to compress and convert your hero image to AVIF or WebP before wiring up the hints - try prompting <em>"convert to AVIF and optimize for a 1200px hero slot"</em> to get a web-ready file in seconds.
             </p>

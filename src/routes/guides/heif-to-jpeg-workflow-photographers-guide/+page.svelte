@@ -216,25 +216,25 @@
             <SectionHeading>The five pain points that break real workflows</SectionHeading>
             <p>Most photographers hit the same five walls. Understanding them precisely is the first step to routing around them.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">1. HIF/HEIF rejection and silent gallery conversions</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">1. HIF/HEIF rejection and silent gallery conversions</h3>
             <p>Gallery platforms and CMSes handle HEIF inconsistently, and often silently. SmugMug accepts HEIC uploads but immediately converts them to JPEG on ingest, dropping the original file. Platforms running older software reject HEIF outright with generic errors. Either way, photographers are forced to pre-convert - with the platform deciding compression settings, color profile, and dimensions.</p>
             <p>The fix is to own the conversion step yourself, before upload, with a known quality setting, a defined color profile (sRGB for web/gallery delivery), and a long-edge dimension you chose.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">2. File size limits on galleries, marketplaces, and email</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">2. File size limits on galleries, marketplaces, and email</h3>
             <p>Email attachments hit limits around 20–25 MB. Etsy, eBay, and Shopify product pages have their own per-image recommended sizes - typically 1,600–2,000 px on the long edge and well under 1 MB for fast page loads. High-resolution HIF/HEIF files from modern mirrorless bodies can easily exceed these limits, causing photographers to scramble with whatever tool is nearest and producing inconsistent compression across a set.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">3. Privacy and EXIF leakage</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">3. Privacy and EXIF leakage</h3>
             <p>EXIF metadata is not just technical noise. It can include GPS coordinates precise enough to pinpoint a shoot location, timestamps, device serial numbers, and an embedded thumbnail of the uncropped original frame. That thumbnail often shows content that was deliberately cropped out of the final image. For wedding photographers, this means client home addresses sitting in gallery metadata. For commercial and editorial shooters, it means shoot locations and unreleased products readable by anyone who downloads a file.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">4. Batch inefficiency across multiple destinations</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">4. Batch inefficiency across multiple destinations</h3>
             <p>A typical commercial shoot produces multiple derivative sets: full-resolution JPEG for archive, smaller proofs for the client gallery, AVIF for the brand website, and specifically sized variants per marketplace. Managing this with separate Lightroom presets, manual folder structures, and ad-hoc compression tools is slow and error-prone. Pro photographers in busy periods report spending several hours per week on export tasks that should be automated.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">5. Plugin bloat and cloud lock-in</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">5. Plugin bloat and cloud lock-in</h3>
             <p>Tools like ShortPixel solve part of the problem by installing plugins into your CMS, but they tie your optimization pipeline to a specific hosting provider. Switching hosts means rebuilding your entire setup. External pre-processing - optimizing files before they touch any CMS or gallery - avoids all of this. Files arrive already optimized, any gallery or CMS accepts them, and your pipeline is fully portable.</p>
 
             <div class="my-10 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
                 <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-                <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Process your first batch for free</h3>
+                <h3 class="text-[1.75rem] font-bold text-[#4A2C2C] relative z-10 mb-3">Process your first batch for free</h3>
                 <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6">No account needed. Drag your HIF or HEIF files, describe your output in plain English, download gallery-ready JPEGs in seconds.</p>
                 <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                     Try Mochify free →
@@ -397,7 +397,7 @@
 
             <div class="my-10 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
                 <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-                <h3 class="text-[1.75rem] font-black text-[#4A2C2C] relative z-10 mb-3">Try Mochify free - no account needed</h3>
+                <h3 class="text-[1.75rem] font-bold text-[#4A2C2C] relative z-10 mb-3">Try Mochify free - no account needed</h3>
                 <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6">Process your first files instantly. No signup, no data retained.</p>
                 <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                     Start at mochify.app →
@@ -410,7 +410,7 @@
             <SectionHeading>Technical proof: file size, quality, and time savings</SectionHeading>
             <p>These are the numbers that matter for your actual workflow decisions.</p>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Encoder efficiency</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Encoder efficiency</h3>
             <p>Mochify uses jpegli for JPEG output. Google's published benchmarks show jpegli at 2.8 bits per pixel (BPP) matching libjpeg-turbo at 3.7 BPP on subjective quality - a roughly 24% file size reduction at equivalent visual quality.</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
@@ -427,7 +427,7 @@
                 {/each}
             </div>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Modern format savings</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Modern format savings</h3>
             <p>A representative conversion for a commercial product shoot - 25 hero images at 3,200 px wide from Nikon Z HEIF originals:</p>
 
             <ScrollableTable class="my-6">
@@ -456,7 +456,7 @@
                 </table>
             </ScrollableTable>
 
-            <h3 class="text-xl font-black text-[#4A2C2C] mt-8 mb-3">Batch time</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Batch time</h3>
             <p>A 25-image batch of Canon or Fuji HIF files converted to sRGB JPEG at 3,600 px long edge via Mochify's Pro tier typically completes in under 60 seconds from upload to download. The same job handled via manual Lightroom export presets plus a separate EXIF-stripping tool plus a manual resize pass typically takes 8–15 minutes.</p>
 
             <InfoBox type="tip" title="Pro tip: time savings compound">

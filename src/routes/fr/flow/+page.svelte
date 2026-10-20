@@ -138,7 +138,7 @@
 			{#each frFlowSections as section (section.id)}
 				<section id={section.id} class="scroll-mt-24">
 					<h2
-						class="mb-4 border-b-2 border-[#F06292]/30 pb-2 font-heading text-2xl font-black text-[#4A2C2C] md:text-3xl"
+						class="mb-4 border-b-2 border-[#F06292]/30 pb-2 font-heading text-2xl font-extrabold text-[#4A2C2C] md:text-3xl"
 					>
 						{section.heading}
 					</h2>
@@ -159,7 +159,7 @@
 		</article>
 
 		<section class="mt-16 w-full max-w-3xl">
-			<h2 class="mb-6 text-center font-heading text-2xl font-black text-[#4A2C2C] md:text-3xl">
+			<h2 class="mb-6 text-center font-heading text-2xl font-extrabold text-[#4A2C2C] md:text-3xl">
 				FAQ
 			</h2>
 			<FaqAccordion {faqs} class="space-y-3" />

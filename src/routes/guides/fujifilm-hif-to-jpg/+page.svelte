@@ -129,7 +129,7 @@
     <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-orange-100 rounded-full blur-2xl opacity-50"></div>
 
     <div class="relative z-10">
-        <h3 class="text-[#4A2C2C] font-black text-xl mb-4 flex items-center gap-2">
+        <h3 class="text-[#4A2C2C] font-bold text-xl mb-4 flex items-center gap-2">
             <span class="text-orange-400 text-2xl">⚡</span> 
             A Note on "Clarity" &amp; Speed
         </h3>
@@ -179,7 +179,7 @@
         </span>
     </div>
 
-    <h3 class="text-2xl md:text-3xl font-black text-[#4A2C2C] relative z-10 mb-4 flex flex-col md:flex-row items-center justify-center gap-2">
+    <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-4 flex flex-col md:flex-row items-center justify-center gap-2">
         <span class="text-3xl">📂</span>
         Don't want to rename 100 files?
     </h3>

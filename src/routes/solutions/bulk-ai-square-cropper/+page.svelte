@@ -219,12 +219,12 @@
 
         <!-- How to -->
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">How to crop images to a square in bulk</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">How to crop images to a square in bulk</h2>
             <div class="grid sm:grid-cols-3 gap-4">
                 {#each steps as step}
                     <div class="bg-white p-6 rounded-2xl border border-pink-50 shadow-sm">
                         <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-violet-50 text-violet-600 font-black text-sm mb-4">{step.n}</span>
-                        <h3 class="font-black text-[#4A2C2C] text-sm mb-1.5">{step.t}</h3>
+                        <h3 class="font-bold text-[#4A2C2C] text-sm mb-1.5">{step.t}</h3>
                         <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">{step.d}</p>
                     </div>
                 {/each}
@@ -233,7 +233,7 @@
 
         <!-- How the crop decides -->
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">How the crop decides where to cut</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-4">How the crop decides where to cut</h2>
             <div class="space-y-4 max-w-3xl">
                 <p class="text-[#6C3F31] leading-relaxed">
                     A plain center crop takes the middle of the frame and hopes the subject is there. Often it is not: a product shot with headroom, a person standing to one side, an item low in the frame all lose the thing that mattered, and bulk tools that apply one rectangle to every image repeat the mistake across the batch.
@@ -246,7 +246,7 @@
 
         <!-- Which size -->
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">Which square size to pick</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">Which square size to pick</h2>
             <div class="bg-violet-50 border border-violet-100 rounded-2xl p-6 space-y-3 max-w-3xl">
                 <ul class="space-y-3">
                     {#each sizeGuide as row}
@@ -264,7 +264,7 @@
 
         <!-- Square without cropping -->
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Square without cropping?</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-4">Square without cropping?</h2>
             <p class="text-[#6C3F31] leading-relaxed max-w-3xl">
                 This page crops. If you need the whole picture kept and the sides filled with a blurred or solid background, that is a padded square, a different job and not one this tool does. Cropping is the right choice when the subject should fill the frame: product listings, portraits, profile pictures and any grid that displays 1:1 thumbnails. Padding is the right choice for a landscape you cannot afford to cut.
             </p>
@@ -272,7 +272,7 @@
 
         <!-- Desktop / phone routes -->
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Cropping to square on Windows, Mac or iPhone without a tool</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-4">Cropping to square on Windows, Mac or iPhone without a tool</h2>
             <p class="text-[#6C3F31] leading-relaxed max-w-3xl">
                 You can, one image at a time. Windows Photos and the Mac's Preview both crop a single image to 1:1; the iPhone's Photos app does the same from Edit, Crop, then the Square preset. None of them handles a folder. The batch routes that exist, IrfanView's batch conversion on Windows, an Automator Crop Images action on a Mac, a Shortcuts Crop Image action on iPhone, Photoshop's Actions with Batch, all apply one fixed rectangle to every file, which is the center-crop problem again. This page is for the batch where each crop has to be decided per image. If you want the full walkthrough of those native routes, and what each one does to your framing, see our <a href="/guides/batch-crop-photos-to-square">guide to batch cropping photos to square</a>.
             </p>
@@ -280,7 +280,7 @@
 
         <!-- Bulk / automation -->
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Bulk, batch and automated square cropping</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-4">Bulk, batch and automated square cropping</h2>
             <p class="text-[#6C3F31] leading-relaxed mb-6 max-w-3xl">
                 A catalog, a client shoot or a whole marketplace inventory is the usual case. Seller and Pro accounts crop up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. The same saliency crop runs from the terminal with the Mochify CLI (<span class="font-mono font-bold text-[#4A2C2C]">mochify</span>, one plain-English prompt for a whole folder, sign in once with <span class="font-mono font-bold text-[#4A2C2C]">mochify auth login</span>), from an AI agent through the hosted or local MCP server, and from the REST API, where <span class="font-mono font-bold text-[#4A2C2C]">smartCrop</span> with equal width and height is the square crop:
             </p>
@@ -297,7 +297,7 @@
 
         <!-- Marketplaces -->
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-4">Square crops for marketplaces and grids</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-4">Square crops for marketplaces and grids</h2>
             <p class="text-[#6C3F31] leading-relaxed max-w-3xl">
                 Most marketplaces do not require a square upload, and most crop your thumbnail to one anyway: eBay and Depop render listing thumbnails at or close to 1:1, Etsy asks for a landscape or square first photo and then crops it three ways, and Amazon standardizes search cards on 1:1 without mandating the ratio. A pre-cropped square survives all of that with the product where you framed it; <a href="/guides/do-marketplace-product-images-need-to-be-square" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">do marketplace product images need to be square?</a> has the platform-by-platform answer. Vinted and Poshmark are the exceptions, displaying 3:4 portrait; the <a href="/guides/vinted-photos-that-sell" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Vinted photo guide</a> covers that crop. For one photo set that has to work everywhere, the <a href="/guides/cross-listing-marketplace-photo-requirements" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">cross-listing photo guide</a> has the batch workflow, and <a href="/guides/ecommerce-product-photo-workflow-resize-convert" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">resize and convert product photos in one pass</a> takes it from phone to listing.
             </p>
@@ -305,7 +305,7 @@
 
         <!-- FAQ -->
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-black text-[#4A2C2C] mb-6">FAQ</h2>
+            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">FAQ</h2>
             <FaqAccordion {faqs} />
         </section>
 
