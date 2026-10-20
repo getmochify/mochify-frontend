@@ -6,12 +6,15 @@
 
 	let {
 		trigger,
+		source = undefined,
 		class: className = '',
 		next = undefined,
 		children
 	}: {
 		/** PostHog `day_pass_cta_clicked` trigger label for this surface. */
 		trigger: string;
+		/** Which uploader limit box the click came from (batch_cap_box, size_row, allowance_box). */
+		source?: string;
 		/** Classes for the button itself — it is the element the old anchor was. */
 		class?: string;
 		/** Override the return path; defaults to the page the CTA sits on. */
@@ -22,7 +25,7 @@
 	const returnTo = $derived(next ?? dayPassNext(page.url));
 
 	function handleSubmit(event: SubmitEvent) {
-		posthog.capture('day_pass_cta_clicked', { trigger });
+		posthog.capture('day_pass_cta_clicked', { trigger, ...(source ? { source } : {}) });
 		// With JS the checkout is started as a JSON fetch instead of this form's
 		// native POST, which is what keeps callers whose `Origin` header never
 		// arrives out of SvelteKit's CSRF rejection. See `startDayPassCheckout`.

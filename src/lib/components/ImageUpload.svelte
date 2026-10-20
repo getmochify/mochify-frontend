@@ -39,6 +39,7 @@
 		type TransferState
 	} from '$lib/xhrTransfer';
 	import UploadHelpLink from '$lib/components/UploadHelpLink.svelte';
+	import LimitsWhy from '$lib/components/LimitsWhy.svelte';
 	import { portal } from '$lib/portal';
 	import { formatPrice } from '$lib/currency';
 	import { getImagePreview, releaseImagePreview } from '$lib/imagePreview';
@@ -132,6 +133,8 @@
 	type BlockedFile = {
 		file: File;
 		size: number;
+		/** Over the paid ceiling: no plan takes it, so no route is offered. */
+		overMax: boolean;
 		thumbnailUrl?: string;
 	};
 
@@ -181,6 +184,10 @@
 	// Seller's monthly allowance, quoted on the batch-cap box for drops too big
 	// for a Day Pass. Keep in step with /pricing.
 	const SELLER_OPS = 300;
+	// The next tier's allowance, quoted to a subscriber who runs out. Keep in
+	// step with /pricing and the tokens worker's PLAN_LIMITS.
+	const PRO_OPS = 1200;
+	const GROWTH_OPS = 5000;
 
 	// Prices in cents, the unit Polar quotes. These are what everyone sees
 	// unless Polar holds a price in the visitor's own currency: this component
@@ -237,6 +244,14 @@
 	// from free, which plan alone cannot do, since getPlan() answers 'free' for
 	// signed-out callers too.
 	const userTier: UserTier = $derived(plan !== 'free' ? 'pro' : isAuthed ? 'free' : 'guest');
+	// The limit messages split the paid tier further: a Day Pass holder's
+	// allowance is the pass, and a subscriber is never offered a Day Pass
+	// (their route is the next tier up). Limits themselves still key off userTier.
+	type LimitTier = 'guest' | 'free' | 'day' | 'seller' | 'pro' | 'growth';
+	const limitTier = $derived((userTier === 'pro' ? plan : userTier) as LimitTier);
+	const isSubscriber = $derived(
+		limitTier === 'seller' || limitTier === 'pro' || limitTier === 'growth'
+	);
 	const batchLimit = $derived(userTier === 'pro' ? BATCH_LIMIT_PAID : BATCH_LIMIT_STANDARD);
 	const maxFileSize = $derived(
 		userTier === 'pro' ? FILE_SIZE_LIMIT_PAID : FILE_SIZE_LIMIT_STANDARD
@@ -274,6 +289,10 @@
 	// both numbers ("Staging 3 of 8"), and cleared by anything that invalidates
 	// those numbers: a new ingest, a manual removal, or a reset.
 	let batchTrim: { staged: number; offered: number } | null = $state(null);
+	// The same pair when the monthly allowance, not the batch cap, cut the
+	// tray: a guest with 1 upload left who drops 3 gets 1 staged. Cleared by the
+	// same things that clear batchTrim.
+	let allowanceTrim = $state<{ staged: number; offered: number } | null>(null);
 
 	let showSignupCta = $state(false);
 	let showUpgradeCta = $state(false);
@@ -444,8 +463,12 @@
 		planQuota = snapshot.quota;
 		isAuthed = !!resolvedJwt;
 
-		// A fresh ingest supersedes the previous one's trim notice.
+		// A fresh ingest supersedes the previous one's trim notices.
 		batchTrim = null;
+		allowanceTrim = null;
+		// Every file in this drop, oversize ones included: the batch box reads
+		// "{k} of your {N} files", and N is what the visitor dropped.
+		const droppedCount = allFiles.length;
 
 		// Rejections raised by THIS ingest, committed in one place at the end.
 		// They used to be written straight to errorMessage and read back later,
@@ -506,6 +529,7 @@
 					.map((r) => ({
 						file: r.file,
 						size: r.size.size,
+						overMax: r.size.size > FILE_SIZE_LIMIT_PAID,
 						thumbnailUrl: undefined as string | undefined
 					}));
 				// Capped like the staging tray: a drop of fifty large files should
@@ -593,7 +617,10 @@
 			// No key: nothing failed, so there is nothing for the guide to explain.
 			rejections.push({ text: 'All selected files are already in the list.' });
 		} else if (droppedByCap > 0) {
-			batchTrim = { staged: combinedFiles.length, offered: eligibleFiles.length };
+			batchTrim = {
+				staged: combinedFiles.length,
+				offered: selectedFiles.length - addedCount + (droppedCount - invalidFiles.length)
+			};
 			posthog.capture('batch_cap_trimmed', {
 				error_key: 'batch_trimmed',
 				cap: batchLimit,
@@ -607,6 +634,21 @@
 		// actually staged (capped at batchLimit), never the raw dropped count, so
 		// a 5-file drop on a 3-file plan asks for 3 operations and not 5.
 		await checkTokenLimit();
+
+		// Some uploads left but fewer than staged: stage what the allowance
+		// covers, the way the batch cap does, and let the allowance box say so.
+		// At zero there is nothing to stage, so the tray stays as dropped and the
+		// box offers the routes instead.
+		if (
+			hasCheckedTokens &&
+			Number.isFinite(availableTokens) &&
+			availableTokens > 0 &&
+			selectedFiles.length > availableTokens
+		) {
+			const offered = batchTrim?.offered ?? selectedFiles.length;
+			trimToAvailable();
+			allowanceTrim = { staged: selectedFiles.length, offered };
+		}
 	}
 
 	// Formats a magnitude, signed. Math.log of a negative is NaN, which used to
@@ -622,6 +664,14 @@
 		// Clamped so anything past GB keeps a unit instead of indexing off the end.
 		const i = Math.min(Math.floor(Math.log(abs) / Math.log(k)), sizes.length - 1);
 		return sign + Math.round((abs / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+	}
+
+	// Decimal MB to one place, so a size reads the same as in Finder (26.6MB,
+	// not the 25.32 MiB formatFileSize gives). The limits are enforced in MiB,
+	// to match core (utils/PlanLimits.h), which is ~5% more than the MB the copy
+	// states: the copy can under-promise but never over-promise.
+	function sizeMb(bytes: number): string {
+		return `${(bytes / 1_000_000).toFixed(1)}MB`;
 	}
 
 	$effect(() => {
@@ -647,7 +697,9 @@
 			? `${monthlyUploadsRemaining} guest upload${monthlyUploadsRemaining !== 1 ? 's' : ''} remaining this month`
 			: userTier === 'free'
 				? `${monthlyUploadsRemaining} / ${monthlyQuota} free monthly uploads left`
-				: `${monthlyUploadsRemaining} / ${monthlyQuota} monthly uploads left`
+				: limitTier === 'day'
+					? `${monthlyUploadsRemaining} / ${monthlyQuota} Day Pass uploads left`
+					: `${monthlyUploadsRemaining} / ${monthlyQuota} monthly uploads left`
 	);
 
 	// The two limits are routinely confused with each other — users read "3" on
@@ -701,18 +753,27 @@
 		selectedFiles = selectedFiles.slice(0, trimTarget);
 		fileProgress = fileProgress.slice(0, trimTarget);
 		totalOriginalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
-		posthog.capture('token_wall_trimmed', { kept: trimTarget, tier: userTier });
+		posthog.capture('token_wall_trimmed', { kept: trimTarget, tier: userTier, auto: true });
 	}
 
 	// Drop one blocked card. Kept separate from removeFile because the two lists
 	// are separate: nothing here indexes into fileProgress.
-	function removeOversized(index: number) {
-		const blocked = oversizedFiles[index];
-		if (blocked) releaseImagePreview(blocked.file);
-		oversizedFiles = oversizedFiles.filter((_, i) => i !== index);
+	function removeOversized(files: File[]) {
+		const drop = new Set(files);
+		files.forEach((f) => releaseImagePreview(f));
+		oversizedFiles = oversizedFiles.filter((b) => !drop.has(b.file));
 	}
 
 	const hasOversized = $derived(oversizedFiles.length > 0);
+	// Over this tier's limit but within 75MB: a Day Pass or a paid plan takes
+	// these. Only a guest or free account can have any.
+	const inBandFiles = $derived(oversizedFiles.filter((b) => !b.overMax));
+	// Over 75MB: nothing takes these, so their rows carry no route and the
+	// unlock button does not count them.
+	const overMaxFiles = $derived(oversizedFiles.filter((b) => b.overMax));
+	const sizeRouteOffered = $derived(
+		dayPassOffered && inBandFiles.length > 0 && (limitTier === 'guest' || limitTier === 'free')
+	);
 
 	// Backstop for the paths that never fire a dragover: the file picker, and
 	// files handed over by a parent surface.
@@ -723,6 +784,31 @@
 	// Everything the user handed us was oversized — there is nothing to convert,
 	// so the CTA becomes the upgrade that would make the batch convertible.
 	const blockedByFileSize = $derived(hasOversized && stagedCount === 0);
+
+	// The allowance box's primary route. Guests and free accounts get the Day
+	// Pass (it is the only thing that converts today), as does a pass holder
+	// who has used theirs up. Subscribers never do: their route is the next tier.
+	//
+	// A pass holder only once the pass is used up: a second pass reseeds the
+	// bucket at 100 rather than adding to it, so buying one with uploads still
+	// left would throw those away.
+	const allowanceDayPass = $derived(
+		dayPassOffered &&
+			(limitTier === 'guest' ||
+				limitTier === 'free' ||
+				(limitTier === 'day' && Number.isFinite(availableTokens) && availableTokens <= 0))
+	);
+	const nextTier = $derived(
+		limitTier === 'seller'
+			? { name: 'Pro', ops: PRO_OPS }
+			: limitTier === 'pro'
+				? { name: 'Growth', ops: GROWTH_OPS }
+				: null
+	);
+	// What this tier's monthly allowance is called in the allowance box.
+	const allowanceTotal = $derived(
+		limitTier === 'guest' ? GUEST_QUOTA : limitTier === 'day' ? DAY_PASS_OPS : monthlyQuota
+	);
 
 	// The CTA states the outcome and the format, and recounts as thumbnails are
 	// removed. 'jpeg' is normalised to JPG so the button matches the extension
@@ -739,7 +825,7 @@
 
 	type Banner =
 		| { kind: 'error'; text: string }
-		| { kind: 'tokens-short' }
+		| { kind: 'allowance'; k: number; n: number }
 		| { kind: 'batch-cap' }
 		| { kind: 'limits-ok' }
 		| null;
@@ -755,21 +841,28 @@
 	const activeBanner: Banner = $derived(
 		errorMessage
 			? { kind: 'error', text: errorMessage }
-			: insufficientTokens
-				? { kind: 'tokens-short' }
-				: batchTrim
-					? { kind: 'batch-cap' }
-					: hasCheckedTokens && stagedCount > 0 && monthlyUploadsRemaining > 0
-						? { kind: 'limits-ok' }
-						: null
+			: allowanceTrim
+				? { kind: 'allowance', k: allowanceTrim.staged, n: allowanceTrim.offered }
+				: insufficientTokens
+					? { kind: 'allowance', k: trimTarget, n: stagedCount }
+					: batchTrim
+						? { kind: 'batch-cap' }
+						: hasCheckedTokens && stagedCount > 0 && monthlyUploadsRemaining > 0
+							? { kind: 'limits-ok' }
+							: null
 	);
 
 	function handleButtonClick() {
 		if (isLoading) return;
 
 		if (blockedByFileSize) {
-			if (!isAuthed && dayPassOffered) {
-				posthog.capture('day_pass_cta_clicked', { trigger: 'button_click_file_size' });
+			// Files over 75MB have no route, so a tray of only those has no action.
+			if (inBandFiles.length === 0) return;
+			if (sizeRouteOffered) {
+				posthog.capture('day_pass_cta_clicked', {
+					trigger: 'button_click_file_size',
+					source: 'size_row'
+				});
 				// Called inside the click so the checkout tab opens on the user
 				// gesture rather than as a popup. The hidden form below is only the
 				// fallback now — see `startDayPassCheckout`.
@@ -778,10 +871,9 @@
 					trigger: 'button_click_file_size',
 					fallbackForm: dayPassDirectForm
 				});
-			} else if (!isAuthed) {
-				showSignupCta = true;
-				posthog.capture('signup_cta_shown', { trigger: 'button_click_file_size' });
 			} else {
+				// A free account does not lift the size limit, so a guest is not
+				// sent to sign up for it: the modal's paid route is the fix.
 				showUpgradeCta = true;
 				posthog.capture('upgrade_cta_shown', { trigger: 'button_click_file_size' });
 			}
@@ -806,12 +898,29 @@
 		// its other callers (a 429, and the race guard in compressImage for a
 		// click that beats the token check).
 		if (insufficientTokens) {
-			if (isAuthed) {
-				showUpgradeCta = true;
-				posthog.capture('upgrade_cta_shown', { trigger: 'button_click_no_tokens' });
-			} else {
-				posthog.capture('signup_cta_clicked', { trigger: 'button_click_no_tokens' });
+			// Mirrors the allowance box's primary route (see allowanceButtonLabel).
+			if (allowanceDayPass) {
+				posthog.capture('day_pass_cta_clicked', {
+					trigger: 'button_click_no_tokens',
+					source: 'allowance_box'
+				});
+				void startDayPassCheckout({
+					next: dayPassReturnTo,
+					trigger: 'button_click_no_tokens',
+					fallbackForm: dayPassDirectForm
+				});
+			} else if (!isAuthed) {
+				posthog.capture('signup_cta_clicked', {
+					trigger: 'button_click_no_tokens',
+					source: 'allowance_box'
+				});
 				void goto('/auth/register');
+			} else {
+				posthog.capture('upgrade_cta_clicked', {
+					trigger: 'button_click_no_tokens',
+					source: 'allowance_box'
+				});
+				void goto('/pricing');
 			}
 			return;
 		}
@@ -879,8 +988,14 @@
 			format: imageType,
 			authed: !!jwt,
 			// Separates "converted the trimmed 3" from an ordinary start in the
-			// batch-cap read; the box's own CTAs already carry trigger.
-			...(activeBanner?.kind === 'batch-cap' ? { source: 'batch_cap_box' } : {})
+			// limit-box reads; the boxes' own CTAs carry the same source.
+			...(activeBanner?.kind === 'batch-cap'
+				? { source: 'batch_cap_box' }
+				: activeBanner?.kind === 'allowance'
+					? { source: 'allowance_box' }
+					: hasOversized
+						? { source: 'size_row' }
+						: {})
 		});
 
 		errorMessage = '';
@@ -888,6 +1003,7 @@
 		errorDecoder = undefined;
 		successMessage = '';
 		batchTrim = null;
+		allowanceTrim = null;
 		processPhase = 'uploading';
 		uploadPercent = 0;
 		downloadPercent = 0;
@@ -1319,6 +1435,7 @@
 		errorKey = undefined;
 		errorDecoder = undefined;
 		batchTrim = null;
+		allowanceTrim = null;
 		successMessage = '';
 		imageType = output;
 		if (fileInputElement) fileInputElement.value = '';
@@ -1336,6 +1453,7 @@
 		// both derive from stagedCount, and skip notices refer to files that
 		// never entered the tray at all.
 		batchTrim = null;
+		allowanceTrim = null;
 	}
 
 	const formats = [
@@ -1478,7 +1596,7 @@
 				</svg>
 			</div>
 			<div class="min-w-0 flex-1">
-				<p class="text-sm font-black text-[#4A2C2C]">Payment received — check your email</p>
+				<p class="text-sm font-black text-[#4A2C2C]">Payment received. Check your email</p>
 				<p class="mt-0.5 text-xs text-[#6C3F31]/70">
 					We've sent a magic link to activate your Day Pass. Click it to unlock 100 image ops for 24
 					hours.
@@ -1697,92 +1815,147 @@
 	</label>
 
 	<!-- Blocked cards: files we accepted but cannot convert on this plan. Rendered
-         outside the staging tray because they are not staged — they carry the
-         ceiling they broke and the upgrade that clears it, on the card itself,
-         so the user never has to match a count in a banner to a missing file. -->
+         outside the staging tray because they are not staged. Two kinds, kept
+         apart because only one has a fix: over this tier's limit but within
+         75MB (a Day Pass or a paid plan takes it), and over 75MB (nothing does,
+         so the row says so and offers no route; selling a pass against it was
+         a false promise). Three or more in-band files collapse to one line. -->
+	{#snippet blockedThumb(blocked: BlockedFile)}
+		<div
+			class="h-10 w-10 flex-shrink-0 overflow-hidden rounded-xl border border-red-200 bg-white p-0.5"
+		>
+			{#if blocked.thumbnailUrl}
+				<img
+					src={blocked.thumbnailUrl}
+					alt={blocked.file.name}
+					width="40"
+					height="40"
+					draggable="false"
+					class="h-full w-full rounded-lg object-cover opacity-60"
+					onerror={() => {
+						releaseImagePreview(blocked.file);
+						blocked.thumbnailUrl = undefined;
+					}}
+				/>
+			{:else}
+				<div
+					class="flex h-full w-full items-center justify-center rounded-lg text-[7px] font-bold tracking-wide text-[#EF5350] uppercase"
+				>
+					{blocked.file.name.split('.').pop()}
+				</div>
+			{/if}
+		</div>
+	{/snippet}
+	{#snippet removeBlocked(files: File[], label: string)}
+		<button
+			onclick={() => removeOversized(files)}
+			class="flex h-6 w-6 flex-shrink-0 cursor-pointer items-center justify-center rounded-full text-red-400 transition-colors hover:bg-white hover:text-red-600"
+			aria-label={label}
+		>
+			<svg
+				class="h-3.5 w-3.5"
+				fill="none"
+				stroke="currentColor"
+				viewBox="0 0 24 24"
+				stroke-width="3"
+			>
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+			</svg>
+		</button>
+	{/snippet}
+	{#snippet sizeRoute()}
+		{#if sizeRouteOffered}
+			<DayPassButton
+				trigger="file_size_card"
+				source="size_row"
+				class="underline underline-offset-2 hover:text-red-900"
+			>
+				Day Pass ({dayPassPrice}): files up to {paidFileSizeMb}MB
+			</DayPassButton>
+		{:else}
+			<a
+				href="/pricing"
+				onclick={() =>
+					posthog.capture('upgrade_cta_clicked', { trigger: 'file_size_card', source: 'size_row' })}
+				class="underline underline-offset-2 hover:text-red-900"
+			>
+				Seller and Pro: {paidFileSizeMb}MB files
+			</a>
+		{/if}
+	{/snippet}
 	{#if hasOversized}
 		<div class="flex flex-col gap-2 px-4 sm:px-6 {stagedCount === 0 ? 'pt-4' : 'pt-3'}">
-			{#each oversizedFiles as blocked, index (blocked.file.name + blocked.file.size)}
+			{#if inBandFiles.length >= 3}
 				<div
 					class="flex items-center gap-3 rounded-2xl border border-red-100 bg-red-50 px-3 py-2.5"
 				>
-					<div
-						class="h-10 w-10 flex-shrink-0 overflow-hidden rounded-xl border border-red-200 bg-white p-0.5"
-					>
-						{#if blocked.thumbnailUrl}
-							<img
-								src={blocked.thumbnailUrl}
-								alt={blocked.file.name}
-								width="40"
-								height="40"
-								draggable="false"
-								class="h-full w-full rounded-lg object-cover opacity-60"
-								onerror={() => {
-									releaseImagePreview(blocked.file);
-									blocked.thumbnailUrl = undefined;
-								}}
-							/>
-						{:else}
-							<div
-								class="flex h-full w-full items-center justify-center rounded-lg text-[7px] font-bold tracking-wide text-[#EF5350] uppercase"
-							>
-								{blocked.file.name.split('.').pop()}
-							</div>
-						{/if}
+					{@render blockedThumb(inBandFiles[0])}
+					<div class="min-w-0 flex-1 text-xs font-bold text-red-700">
+						{inBandFiles.length} files are over the {maxFileSizeMb}MB free limit ({inBandFiles
+							.map((b) => sizeMb(b.size))
+							.join(', ')}).
+						{@render sizeRoute()}
+						<LimitsWhy errorKey="file_too_large" surface="file_size_card" class="ml-1.5" />
 					</div>
-
+					{@render removeBlocked(
+						inBandFiles.map((b) => b.file),
+						`Remove the ${inBandFiles.length} files over ${maxFileSizeMb}MB`
+					)}
+				</div>
+			{:else}
+				{#each inBandFiles as blocked (blocked.file.name + blocked.file.size)}
+					<div
+						class="flex items-center gap-3 rounded-2xl border border-red-100 bg-red-50 px-3 py-2.5"
+					>
+						{@render blockedThumb(blocked)}
+						<div class="min-w-0 flex-1">
+							<p class="truncate text-xs font-bold text-[#4A2C2C]">{blocked.file.name}</p>
+							<div class="mt-0.5 text-xs font-bold text-red-700">
+								Over the {maxFileSizeMb}MB free limit ({sizeMb(blocked.size)}).
+								{@render sizeRoute()}
+								<LimitsWhy errorKey="file_too_large" surface="file_size_card" class="ml-1.5" />
+							</div>
+						</div>
+						{@render removeBlocked([blocked.file], `Remove ${blocked.file.name}`)}
+					</div>
+				{/each}
+			{/if}
+			{#each overMaxFiles as blocked (blocked.file.name + blocked.file.size)}
+				<div
+					class="flex items-center gap-3 rounded-2xl border border-red-100 bg-red-50 px-3 py-2.5"
+				>
+					{@render blockedThumb(blocked)}
 					<div class="min-w-0 flex-1">
 						<p class="truncate text-xs font-bold text-[#4A2C2C]">{blocked.file.name}</p>
-						<!-- One link, pointed at whichever offer actually clears this
-                             file. Where the Day Pass is live it is the exact answer to
-                             the size ceiling ($2, same {paidFileSizeMb}MB) and a far
-                             smaller ask than a subscription, so it wins the slot; the
-                             modal behind this same condition already leads with it. -->
 						<div class="mt-0.5 text-xs font-bold text-red-700">
-							Exceeds {maxFileSizeMb}MB limit ({formatFileSize(blocked.size)}).
-							{#if dayPassOffered}
-								<DayPassButton
-									trigger="file_size_card"
-									class="underline underline-offset-2 hover:text-red-900"
-								>
-									Day Pass ({dayPassPrice}) for files up to {paidFileSizeMb}MB
-								</DayPassButton>
-							{:else}
-								<a
-									href="/pricing"
-									onclick={() =>
-										posthog.capture('upgrade_cta_clicked', { trigger: 'file_size_card' })}
-									class="underline underline-offset-2 hover:text-red-900"
-								>
-									Upgrade for up to {paidFileSizeMb}MB
-								</a>
-							{/if}
-							<UploadHelpLink
-								errorKey="file_too_large"
-								surface="file_size_card"
-								label="Why?"
-								class="ml-1.5 text-red-700"
-							/>
+							This file is {sizeMb(blocked.size)}. No plan takes files over {paidFileSizeMb}MB;
+							resize or compress it on your computer first.
+							<LimitsWhy errorKey="file_too_large" surface="file_size_card" class="ml-1.5" />
 						</div>
 					</div>
-
-					<button
-						onclick={() => removeOversized(index)}
-						class="flex h-6 w-6 flex-shrink-0 cursor-pointer items-center justify-center rounded-full text-red-400 transition-colors hover:bg-white hover:text-red-600"
-						aria-label="Remove {blocked.file.name}"
-					>
-						<svg
-							class="h-3.5 w-3.5"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							stroke-width="3"
-						>
-							<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-						</svg>
-					</button>
+					{@render removeBlocked([blocked.file], `Remove ${blocked.file.name}`)}
 				</div>
 			{/each}
+			{#if sizeRouteOffered}
+				<!-- Once under the rows, not per row: what the pass is, then the
+                     subscription for anyone who will hit this every month. -->
+				<p class="px-1 text-xs font-medium text-[#6C3F31]/70">
+					{limitTier === 'guest'
+						? 'The Day Pass needs no account.'
+						: `When the Day Pass ends, your free ${FREE_PLAN_QUOTA} starts fresh.`}
+					Or
+					<a
+						href="/pricing"
+						onclick={() =>
+							posthog.capture('upgrade_cta_clicked', {
+								trigger: 'file_size_card',
+								source: 'size_row'
+							})}
+						class="font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+						>Seller and Pro: {paidFileSizeMb}MB files every month.</a
+					>
+				</p>
+			{/if}
 		</div>
 	{/if}
 
@@ -1904,7 +2077,7 @@
 	{/if}
 
 	<!-- Single banner slot. Exactly one of these renders (see activeBanner):
-         error > tokens-short > batch-cap > limits-ok. A trimmed batch is a
+         error > allowance > batch-cap > limits-ok. A trimmed batch is a
          notice, not a failure, so only 'error' gets the red treatment. -->
 	{#if activeBanner}
 		<div
@@ -1947,211 +2120,258 @@
                          run will draw from, then the two ceilings it must fit inside.
                          Stating them here, while files are staged, is what stops the
                          batch cap from being discovered by hitting it. -->
-					<p class="text-xs font-bold text-[#33691E]">
-						{usageLabel}
-					</p>
-					<p class="text-xs font-medium text-[#33691E]/80">
-						Up to {batchLimit} files per batch, {maxFileSizeMb}MB each. This batch uses {stagedCount}
-						of your monthly uploads.
-					</p>
+					{#if limitTier === 'guest'}
+						<p class="text-xs font-bold text-[#33691E]">{usageLabel}.</p>
+						<p class="text-xs font-medium text-[#33691E]/80">
+							Up to {batchLimit} files per batch, {maxFileSizeMb}MB each. This batch uses {stagedCount}
+							of your monthly uploads.
+						</p>
+					{:else}
+						<p class="text-xs font-bold text-[#33691E]">
+							{Math.max(0, monthlyUploadsRemaining - stagedCount)} uploads left
+							{limitTier === 'day' ? 'on your Day Pass' : 'this month'} after this batch.
+						</p>
+						<p class="text-xs font-medium text-[#33691E]/80">
+							Up to {batchLimit} files per batch, {maxFileSizeMb}MB each.
+						</p>
+					{/if}
 				{:else if activeBanner.kind === 'batch-cap'}
-					<!-- A cap trim, with the honest version of the upsell. Only a paid
-                         plan raises the per-batch cap: guest and free are both capped
-                         at 3, so offering "sign up" as a way to convert all at once
-                         would be a promise the free tier does not keep. Guests still
-                         get the signup link, labelled with what it actually buys
-                         (the monthly allowance), below the offer that fixes the cap. -->
-					<!-- Tier-aware because the same advice is wrong for a guest: their
-                         monthly allowance is also 3, so the staged 3 spend the month
-                         and "drop the rest in a second batch" walks them into the
-                         token wall. Only reachable for a guest with the full 3 left:
-                         fewer, and insufficientTokens outranks this banner. -->
+					<!-- What happened, the route that fixes it, one line of facts about
+                         that route, the secondary route, the fallback (content-ops
+                         handoff 2026-10-20-uploader-limit-messages). It opens on the
+                         count rather than the restriction: the first draft led with
+                         "3 are also your uploads for this month", which a guest read
+                         as "3 is all you get" before learning an account gives 25.
+
+                         Only a paid plan or a Day Pass raises the per-batch cap, so
+                         signing up is offered for what it actually buys (the monthly
+                         allowance), never as a way round the cap. Subscribers are
+                         never offered a Day Pass. -->
+					{@const k = batchTrim?.staged ?? stagedCount}
+					{@const n = batchTrim?.offered ?? stagedCount}
 					<p class="text-xs font-bold text-cocoa-deep">
-						Staging {batchTrim?.staged} of {batchTrim?.offered} files.
-						{#if userTier === 'guest'}
-							Batches are capped at {batchLimit} on the free plan, and these {batchTrim?.staged} are also
-							your free allowance this month without an account.
-						{:else if userTier === 'free'}
-							Free batches are capped at {batchLimit} files; you have {monthlyUploadsRemaining} uploads
-							left this month.
+						{k} of your {n} files {k === 1 ? 'is' : 'are'} in this batch.
+						{#if limitTier === 'guest'}
+							Free converts {BATCH_LIMIT_STANDARD} at a time. Without an account that's also the monthly
+							total; a free account makes it {FREE_PLAN_QUOTA} a month.
+						{:else if limitTier === 'free'}
+							Free converts {BATCH_LIMIT_STANDARD} at a time{#if hasCheckedTokens}; you have {monthlyUploadsRemaining}
+								uploads left this month{/if}.
+						{:else if limitTier === 'day'}
+							The Day Pass converts {BATCH_LIMIT_PAID} at a time{#if hasCheckedTokens}; you have {monthlyUploadsRemaining}
+								uploads left on it{/if}.
 						{:else}
-							Batches are capped at {batchLimit} files per batch.
+							Your plan converts {BATCH_LIMIT_PAID} at a time{#if hasCheckedTokens}; you have {monthlyUploadsRemaining}
+								uploads left this month{/if}.
 						{/if}
 					</p>
-					{#if userTier !== 'pro'}
+					{#if limitTier === 'guest' || limitTier === 'free'}
 						<div class="mt-1.5 flex flex-wrap items-start gap-x-3 gap-y-2">
-							<!-- Every non-free plan carries the same 25-file batch, so a
-                                 Day Pass is a real answer to this cap rather than a
-                                 consolation prize, and the cheapest subscription that
-                                 lifts it is Seller, not Pro. Both slots quote the true
-                                 entry price for the limit in front of the user: naming
-                                 Pro here asked $24.99 for something $7.99 buys, and
-                                 contradicted the pricing page's own comparison table. -->
 							{#if dayPassOffered}
-								<!-- Both numbers on the button: the batch size answers the
-                                     cap this box just named, the 100 answers "can I do
-                                     all of these". -->
-								<div class="flex flex-col items-start gap-1">
+								<div class="flex flex-col items-start gap-1 sm:max-w-xs">
 									<DayPassButton
 										trigger="batch_cap_banner"
+										source="batch_cap_box"
 										class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
 									>
 										Day Pass ({dayPassPrice}): {BATCH_LIMIT_PAID} per batch, {DAY_PASS_OPS} uploads today
 									</DayPassButton>
 									<p class="text-xs font-medium text-[#6C3F31]/70">
-										{userTier === 'guest'
-											? 'The Day Pass needs no account and lasts 24 hours.'
-											: `The Day Pass gives you ${DAY_PASS_OPS} uploads for 24 hours, then your free ${monthlyQuota} starts fresh.`}
+										{limitTier === 'guest'
+											? `The Day Pass needs no account, lasts 24 hours and takes files up to ${paidFileSizeMb}MB.`
+											: `The Day Pass lasts 24 hours and takes files up to ${paidFileSizeMb}MB; when it ends, your free ${FREE_PLAN_QUOTA} starts fresh.`}
 									</p>
 								</div>
 							{:else}
 								<a
 									href="/pricing"
 									onclick={() =>
-										posthog.capture('upgrade_cta_clicked', { trigger: 'batch_cap_banner' })}
+										posthog.capture('upgrade_cta_clicked', {
+											trigger: 'batch_cap_banner',
+											source: 'batch_cap_box'
+										})}
 									class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
 								>
 									Upgrade from {cheapestPlanPrice}/mo for {BATCH_LIMIT_PAID} at a time
 								</a>
 							{/if}
-							{#if userTier === 'guest'}
+							{#if limitTier === 'guest'}
 								<a
 									href="/auth/register"
 									onclick={() =>
-										posthog.capture('signup_cta_clicked', { trigger: 'batch_cap_banner' })}
+										posthog.capture('signup_cta_clicked', {
+											trigger: 'batch_cap_banner',
+											source: 'batch_cap_box'
+										})}
 									class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
 								>
 									Sign up free: {FREE_PLAN_QUOTA} uploads a month, {BATCH_LIMIT_STANDARD} per batch
 								</a>
-							{:else if dayPassOffered && (batchTrim?.offered ?? 0) > BATCH_LIMIT_PAID}
-								<!-- A free account already has the signup; past what a single
-                                     paid batch takes, point at the plans instead. Not shown
-                                     without the Day Pass, whose fallback already links here. -->
+							{:else if dayPassOffered && n > BATCH_LIMIT_PAID}
 								<a
 									href="/pricing"
 									onclick={() =>
-										posthog.capture('upgrade_cta_clicked', { trigger: 'batch_cap_banner' })}
+										posthog.capture('upgrade_cta_clicked', {
+											trigger: 'batch_cap_banner',
+											source: 'batch_cap_box'
+										})}
 									class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
 								>
 									Compare plans
 								</a>
 							{/if}
 						</div>
-						{#if (batchTrim?.offered ?? 0) > DAY_PASS_OPS}
-							<!-- hif-to-jpg drops average 52 files and have reached 1,710; a
-                                 Day Pass should not read as the whole answer past 100. -->
+						<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+							{limitTier === 'guest'
+								? `Or convert ${k === 1 ? 'this one' : `these ${k}`} now and come back with an account or a Day Pass for the rest.`
+								: `Or convert ${k === 1 ? 'this one' : `these ${k}`} now and drop the next ${BATCH_LIMIT_STANDARD} after.`}
+						</p>
+					{:else}
+						<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+							Convert {k === 1 ? 'this one' : `these ${k}`}, then drop the rest.
+						</p>
+						{#if limitTier === 'day' && hasCheckedTokens && n > monthlyUploadsRemaining}
 							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
-								Dropping more than {DAY_PASS_OPS}? Seller covers {SELLER_OPS} uploads a month, {BATCH_LIMIT_PAID}
-								per batch.
+								More than your pass covers?
+								<a
+									href="/pricing"
+									onclick={() =>
+										posthog.capture('upgrade_cta_clicked', {
+											trigger: 'batch_cap_banner',
+											source: 'batch_cap_box'
+										})}
+									class="font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+									>Seller is {SELLER_OPS} uploads a month.</a
+								>
 							</p>
 						{/if}
-						<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
-							{userTier === 'guest'
-								? `Or convert these ${batchTrim?.staged} now. A second batch today needs a free account or a Day Pass.`
-								: `Or convert these ${batchTrim?.staged} now and drop the next ${batchLimit} after.`}
-						</p>
 					{/if}
-					<UploadHelpLink
+					<LimitsWhy
 						errorKey="batch_trimmed"
 						surface="batch_cap_banner"
 						label="Why was my batch trimmed?"
 						class="mt-1.5 self-start text-[#8D6E63]"
 					/>
-				{:else if activeBanner.kind === 'tokens-short'}
-					<!-- One sentence stating the shortfall, then the ways out. The copy
-                         splits on userTier, not on availableTokens === 0, because
-                         "create an account" and "upgrade" are different offers and only
-                         one applies to any given user.
+				{:else if activeBanner.kind === 'allowance'}
+					<!-- The monthly allowance (or the pass's 100) cannot cover what was
+                         dropped. Same shape as the batch box. At zero nothing was
+                         staged for conversion; above zero the tray was trimmed to what
+                         the allowance covers (see processFiles), and the box says so.
 
-                         Both offers are stated here, in full, because this is the last
-                         surface before money changes hands: a $2 charge should never be
-                         the first place someone learns what they are buying. -->
+                         Guests, free accounts and pass holders lead with the Day Pass,
+                         the one route that converts today. Subscribers are never
+                         offered one; their route is the next tier. -->
+					{@const k = activeBanner.k}
+					{@const n = activeBanner.n}
 					<p class="text-xs font-bold text-cocoa-deep">
-						{#if userTier === 'guest'}
-							{availableTokens} of your {GUEST_QUOTA} guest uploads remain this month, but {stagedCount}
-							file{stagedCount !== 1 ? 's' : ''}
-							{stagedCount !== 1 ? 'are' : 'is'} staged. A free account gives you {FREE_PLAN_QUOTA} a
-							month.
-						{:else if userTier === 'free'}
-							You've used your {monthlyQuota} free monthly uploads ({availableTokens} left), but {stagedCount}
-							file{stagedCount !== 1 ? 's' : ''}
-							{stagedCount !== 1 ? 'are' : 'is'} staged.
+						{#if k === 0}
+							{#if limitTier === 'guest'}
+								You've used your {GUEST_QUOTA} free uploads for this month without an account. Nothing
+								has been uploaded.
+							{:else if limitTier === 'free'}
+								You've used your {allowanceTotal} free uploads for this month. Nothing has been uploaded.
+							{:else if limitTier === 'day'}
+								Your Day Pass has used its {DAY_PASS_OPS} uploads.
+							{:else if nextTier}
+								You've used this month's {allowanceTotal.toLocaleString('en-US')} uploads. {nextTier.name}
+								is {nextTier.ops.toLocaleString('en-US')} a month.
+							{:else}
+								You've used this month's {allowanceTotal.toLocaleString('en-US')} uploads; the allowance
+								resets on your billing date.
+							{/if}
 						{:else}
-							{availableTokens} of your {monthlyQuota} monthly uploads remain, but {stagedCount}
-							file{stagedCount !== 1 ? 's' : ''}
-							{stagedCount !== 1 ? 'are' : 'is'} staged.
+							{k} of your {n} files {k === 1 ? 'is' : 'are'} in this batch;
+							{#if limitTier === 'guest'}
+								{k === 1 ? "it's your last free upload" : "they're your last free uploads"} this month
+								without an account.
+							{:else if limitTier === 'free'}
+								{k === 1 ? "it's your last free upload" : "they're your last free uploads"} this month.
+							{:else if limitTier === 'day'}
+								{k === 1
+									? "it's the last upload on your Day Pass."
+									: "they're the last uploads on your Day Pass."}
+							{:else}
+								{k === 1
+									? "it's your last upload this month."
+									: "they're your last uploads this month."}
+								{#if nextTier}
+									{nextTier.name} is {nextTier.ops.toLocaleString('en-US')} a month.
+								{/if}
+							{/if}
 						{/if}
 					</p>
 
-					<div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-2">
-						{#if userTier === 'guest'}
-							<!-- Free account leads, and the Day Pass is the aside. This
-                                 user needs a handful more uploads; an account gives them
-                                 25 for nothing, and both paths cost the same email and
-                                 magic link. Charging $2 for the slower fix to a problem
-                                 the free tier already solves would read as a trick. -->
+					<div class="mt-1.5 flex flex-wrap items-start gap-x-3 gap-y-2">
+						{#if allowanceDayPass}
+							<DayPassButton
+								trigger="token_wall_banner"
+								source="allowance_box"
+								class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+							>
+								{limitTier === 'guest'
+									? `Day Pass (${dayPassPrice}): ${DAY_PASS_OPS} uploads today, no account needed`
+									: limitTier === 'free'
+										? `Day Pass (${dayPassPrice}): ${DAY_PASS_OPS} uploads today, then your free ${FREE_PLAN_QUOTA} starts fresh`
+										: `New Day Pass (${dayPassPrice}): another ${DAY_PASS_OPS} uploads today`}
+							</DayPassButton>
+						{/if}
+						{#if limitTier === 'guest'}
 							<a
 								href="/auth/register"
 								onclick={() =>
-									posthog.capture('signup_cta_clicked', { trigger: 'token_wall_banner' })}
-								class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+									posthog.capture('signup_cta_clicked', {
+										trigger: 'token_wall_banner',
+										source: 'allowance_box'
+									})}
+								class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
 							>
-								Create free account for {FREE_PLAN_QUOTA}/mo
+								Sign up free: {FREE_PLAN_QUOTA} uploads a month
 							</a>
-							{#if dayPassOffered}
-								<DayPassButton
-									trigger="token_wall_banner"
-									class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
-								>
-									or Day Pass, {dayPassPrice} for {DAY_PASS_OPS} conversions in 24h
-								</DayPassButton>
-							{/if}
-						{:else if userTier === 'free'}
-							<!-- Running out of a monthly allowance is a recurring-need
-                                 signal by construction, so the subscription leads here
-                                 and the pass is the "just today" escape hatch. Per op the
-                                 pass undercuts every plan several times over; putting it
-                                 first in front of someone who has just demonstrated
-                                 monthly demand would train them to never subscribe. -->
+						{:else if limitTier !== 'growth'}
 							<a
 								href="/pricing"
 								onclick={() =>
-									posthog.capture('upgrade_cta_clicked', { trigger: 'token_wall_banner' })}
-								class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+									posthog.capture('upgrade_cta_clicked', {
+										trigger: 'token_wall_banner',
+										source: 'allowance_box'
+									})}
+								class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
 							>
-								Upgrade from {cheapestPlanPrice}/mo
+								{limitTier === 'free'
+									? `Or Seller: ${SELLER_OPS} a month, ${BATCH_LIMIT_PAID} per batch, ${paidFileSizeMb}MB files.`
+									: limitTier === 'day'
+										? `For regular volume, Seller is ${SELLER_OPS} a month.`
+										: 'Compare plans'}
 							</a>
-							{#if dayPassOffered}
-								<DayPassButton
-									trigger="token_wall_banner"
-									class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
-								>
-									or just today, Day Pass {dayPassPrice} for {DAY_PASS_OPS} conversions
-								</DayPassButton>
-							{/if}
-						{:else}
-							<a
-								href="/pricing"
-								onclick={() =>
-									posthog.capture('upgrade_cta_clicked', { trigger: 'token_wall_banner' })}
-								class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
-							>
-								Upgrade for more images
-							</a>
-						{/if}
-
-						<!-- Hidden at zero tokens: "Trim to 0 files" would just empty
-                             the tray, which is not an offer worth making. -->
-						{#if trimTarget > 0}
-							<button
-								type="button"
-								onclick={trimToAvailable}
-								class="cursor-pointer text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
-							>
-								Trim to {trimTarget} file{trimTarget !== 1 ? 's' : ''}
-							</button>
 						{/if}
 					</div>
+					{#if limitTier === 'day' && k === 0}
+						<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+							Or your free {FREE_PLAN_QUOTA} starts fresh when this pass ends.
+						</p>
+					{:else if k === 0 && limitTier === 'guest'}
+						<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">Or wait for the monthly reset.</p>
+					{:else if k > 0}
+						<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+							{#if stagedCount > k}
+								Or
+								<button
+									type="button"
+									onclick={trimToAvailable}
+									class="cursor-pointer font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+									>trim to {k} file{k !== 1 ? 's' : ''}</button
+								>
+								and convert {k === 1 ? 'it' : 'them'} now.
+							{:else}
+								Or convert {k === 1 ? 'this one' : `these ${k}`} now.
+							{/if}
+						</p>
+					{/if}
+					<LimitsWhy
+						errorKey="quota_exhausted"
+						surface="token_wall_banner"
+						class="mt-1.5 self-start text-[#8D6E63]"
+					/>
 				{:else}
 					<p
 						class="text-xs font-bold {activeBanner.kind === 'error'
@@ -2181,8 +2401,9 @@
          state whose only way forward is the size upsell, and gating this block on
          selectedFiles alone used to make blockedByFileSize unreachable. -->
 	{#if stagedCount > 0 || hasOversized}
-		<!-- Submit / CTA button -->
-		<div class="px-4 pb-4 sm:px-6">
+		<!-- Submit / CTA button. Absent when the tray holds only files over 75MB:
+             no plan takes them, so there is no action to offer. -->
+		<div class="px-4 pb-4 sm:px-6" class:hidden={blockedByFileSize && inBandFiles.length === 0}>
 			<button
 				onclick={handleButtonClick}
 				disabled={isLoading}
@@ -2228,9 +2449,11 @@
                      underneath offered a free account, so the two loudest elements
                      on the card pushed different products at the same moment. -->
 					<span>
-						{!isAuthed
-							? `Create free account to convert ${stagedCount} image${stagedCount !== 1 ? 's' : ''}`
-							: 'Upgrade plan to continue'}
+						{allowanceDayPass
+							? `Get a Day Pass to convert ${stagedCount} image${stagedCount !== 1 ? 's' : ''}`
+							: !isAuthed
+								? `Create free account to convert ${stagedCount} image${stagedCount !== 1 ? 's' : ''}`
+								: 'See plans to continue'}
 					</span>
 				{:else if blockedByFileSize}
 					<svg
@@ -2244,12 +2467,15 @@
 							clip-rule="evenodd"
 						/>
 					</svg>
+					<!-- Counts only the 20-75MB files: nothing unlocks one over 75MB. -->
 					<span>
-						{!isAuthed && dayPassOffered
-							? `Unlock with Day Pass — ${dayPassPrice} · ${paidFileSizeMb}MB files`
-							: !isAuthed
-								? 'Create free account to unlock'
-								: `Upgrade for ${paidFileSizeMb}MB files`}
+						{sizeRouteOffered
+							? `Unlock ${
+									inBandFiles.length === oversizedFiles.length
+										? `${inBandFiles.length} file${inBandFiles.length !== 1 ? 's' : ''}`
+										: `${inBandFiles.length} of ${oversizedFiles.length} files`
+								} with a Day Pass (${dayPassPrice}): files up to ${paidFileSizeMb}MB`
+							: `Upgrade for ${paidFileSizeMb}MB files`}
 					</span>
 				{:else}
 					<svg
@@ -2334,13 +2560,17 @@
 							Saving…
 						{/if}
 					{:else if stagedCount > 0 || hasOversized}
+						<!-- "in this batch", not "ready": nothing has been processed. -->
 						{#if stagedCount > 0}
-							{stagedCount}
-							{stagedCount === 1 ? 'image' : 'images'} ready
+							{stagedCount} in this batch
 						{/if}
-						{#if stagedCount > 0 && hasOversized}·{/if}
-						{#if hasOversized}
-							{oversizedFiles.length} over {maxFileSizeMb}MB
+						{#if inBandFiles.length > 0}
+							{#if stagedCount > 0}·{/if}
+							{inBandFiles.length} over {maxFileSizeMb}MB
+						{/if}
+						{#if overMaxFiles.length > 0}
+							{#if stagedCount > 0 || inBandFiles.length > 0}·{/if}
+							{overMaxFiles.length} over {paidFileSizeMb}MB
 						{/if}
 						{#if stagedCount > 1 || hasOversized}
 							· <button
@@ -2412,7 +2642,7 @@
 								trigger="upgrade_modal_file_size"
 								class="block w-full rounded-2xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 							>
-								Get Day Pass — {dayPassPrice} · 75MB files
+								Day Pass ({dayPassPrice}): files up to {paidFileSizeMb}MB
 							</DayPassButton>
 						{/if}
 						<a
@@ -2433,8 +2663,8 @@
 				{:else}
 					<h3 class="mb-2 text-lg font-black text-[#4A2C2C]">Monthly limit reached</h3>
 					<p class="mb-6 text-sm leading-relaxed text-cocoa-milk/70">
-						You've used your full image quota for this month. Upgrade for a higher limit, or your
-						quota resets at the start of next month.
+						You've used your full image quota for this month. Upgrade for a higher limit, or wait
+						for your monthly reset.
 					</p>
 					<div class="flex flex-col gap-3">
 						<a
@@ -2524,7 +2754,7 @@
 							trigger="limit_reached_modal"
 							class="block w-full rounded-2xl border border-[#875F42]/15 px-6 py-3 text-center text-sm font-bold text-[#6C3F31] transition-all hover:border-[#F06292]/30 hover:bg-[#FFF5F7] hover:text-[#F06292]"
 						>
-							Day Pass — {dayPassPrice} for {DAY_PASS_OPS} conversions
+							Day Pass ({dayPassPrice}): {DAY_PASS_OPS} uploads today
 						</DayPassButton>
 					</div>
 				{:else}

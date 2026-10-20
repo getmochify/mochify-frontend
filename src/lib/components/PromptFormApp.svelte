@@ -50,6 +50,7 @@
 	import { EN_PROMPT_FORM_STRINGS, type PromptFormStrings } from '$lib/i18n/promptForm';
 	import UploadHelpLink from '$lib/components/UploadHelpLink.svelte';
 	import DayPassButton from '$lib/components/DayPassButton.svelte';
+	import LimitsWhy from '$lib/components/LimitsWhy.svelte';
 	import { dayPassEnabled } from '$lib/dayPass';
 	import { formatPrice } from '$lib/currency';
 	import { portal } from '$lib/portal';
@@ -410,9 +411,20 @@
 	// separates guest from free. Resolved from warmAuth(), which a file add
 	// already triggers, rather than a request of its own.
 	let isAuthed = $state(false);
+	// 'day' apart from the subscriptions: a pass holder's remaining count is on
+	// the pass, and a subscriber is never offered a Day Pass.
 	const batchTier = $derived(
-		userPlan && userPlan !== 'free' ? 'paid' : isAuthed ? 'free' : 'guest'
+		userPlan === 'day'
+			? 'day'
+			: userPlan && userPlan !== 'free'
+				? 'paid'
+				: isAuthed
+					? 'free'
+					: 'guest'
 	);
+	// Shown only once the count is known: a guess here would be a number the
+	// visitor then sees contradicted.
+	const remainingKnown = $derived.by(() => hasCheckedTokens && Number.isFinite(availableTokens));
 
 	// Lazy, like ImageUpload's: the prices only matter once the notice shows.
 	type LocalPrices = { currency: string; prices: Record<string, number> };
@@ -757,7 +769,9 @@
 		const droppedByCap = validFiles.length - toAdd.length;
 
 		if (toAdd.length > 0 && uploadMode === null) uploadMode = effectiveMode;
-		const offered = files.length + validFiles.length;
+		// Every file in this drop that could have joined, size-rejected ones
+		// included: the notice reads "{k} of your {N} files", N being what was dropped.
+		const offered = files.length + validFiles.length + rejectedCount;
 		files = [...files, ...toAdd];
 		if (droppedByCap > 0) {
 			batchTrim = { staged: files.length, offered };
@@ -3379,6 +3393,8 @@
 			</div>
 
 			{#if batchTrim}
+				{@const k = batchTrim.staged}
+				{@const n = batchTrim.offered}
 				<!-- Batch-cap notice: the same tier-aware offer as ImageUpload's
 				     batch-cap box, set inside the card, in the tray's own pink rather
 				     than an error red, because nothing failed. -->
@@ -3387,23 +3403,32 @@
 					role="status"
 				>
 					<div class="flex min-w-0 flex-1 flex-col gap-1">
+						<!-- Same message set as ImageUpload's batch box (content-ops
+						     handoff 2026-10-20-uploader-limit-messages), with this
+						     page's own verb: "send". -->
 						<p class="text-xs font-bold text-[#4A2C2C] sm:text-sm">
-							Added {batchTrim.staged} of {batchTrim.offered} files.
+							{k} of your {n} files {k === 1 ? 'is' : 'are'} in this batch.
 							{#if batchTier === 'guest'}
-								Without an account, batches are {MAX_FILES} files, and these {batchTrim.staged} are also
-								your uploads for this month.
+								Free sends {MAX_FILES} at a time. Without an account that's also the monthly total; a
+								free account makes it {FREE_PLAN_QUOTA} a month.
 							{:else if batchTier === 'free'}
-								Free batches are {MAX_FILES} files at a time.
+								Free sends {MAX_FILES} at a time{#if remainingKnown}; you have {availableTokens} uploads
+									left this month{/if}.
+							{:else if batchTier === 'day'}
+								The Day Pass sends {MAX_FILES} at a time{#if remainingKnown}; you have {availableTokens}
+									uploads left on it{/if}.
 							{:else}
-								Batches are up to {MAX_FILES} files. Send these, then add the rest.
+								Your plan sends {MAX_FILES} at a time{#if remainingKnown}; you have {availableTokens}
+									uploads left this month{/if}.
 							{/if}
 						</p>
-						{#if batchTier !== 'paid'}
+						{#if batchTier === 'guest' || batchTier === 'free'}
 							<div class="mt-1 flex flex-wrap items-start gap-x-3 gap-y-2">
 								{#if dayPassEnabled()}
 									<div class="flex flex-col items-start gap-1 sm:max-w-xs">
 										<DayPassButton
 											trigger="magic_flow_batch_cap"
+											source="batch_cap_box"
 											class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
 										>
 											Day Pass ({dayPassPrice}): {BATCH_LIMIT_PAID} per batch, {DAY_PASS_OPS} uploads
@@ -3411,15 +3436,18 @@
 										</DayPassButton>
 										<p class="text-xs font-medium text-[#6C3F31]/70">
 											{batchTier === 'guest'
-												? 'The Day Pass needs no account and lasts 24 hours.'
-												: `The Day Pass gives you ${DAY_PASS_OPS} uploads for 24 hours, then your free ${FREE_PLAN_QUOTA} starts fresh.`}
+												? 'The Day Pass needs no account, lasts 24 hours and takes files up to 75MB.'
+												: `The Day Pass lasts 24 hours and takes files up to 75MB; when it ends, your free ${FREE_PLAN_QUOTA} starts fresh.`}
 										</p>
 									</div>
 								{:else}
 									<a
 										href="/pricing"
 										onclick={() =>
-											posthog.capture('upgrade_cta_clicked', { trigger: 'magic_flow_batch_cap' })}
+											posthog.capture('upgrade_cta_clicked', {
+												trigger: 'magic_flow_batch_cap',
+												source: 'batch_cap_box'
+											})}
 										class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
 									>
 										Upgrade from {cheapestPlanPrice}/mo for {BATCH_LIMIT_PAID} at a time
@@ -3429,35 +3457,54 @@
 									<a
 										href="/auth/register"
 										onclick={() =>
-											posthog.capture('signup_cta_clicked', { trigger: 'magic_flow_batch_cap' })}
+											posthog.capture('signup_cta_clicked', {
+												trigger: 'magic_flow_batch_cap',
+												source: 'batch_cap_box'
+											})}
 										class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
 									>
 										Sign up free: {FREE_PLAN_QUOTA} uploads a month, {MAX_FILES} per batch
 									</a>
-								{:else if dayPassEnabled() && batchTrim.offered > BATCH_LIMIT_PAID}
+								{:else if dayPassEnabled() && n > BATCH_LIMIT_PAID}
 									<a
 										href="/pricing"
 										onclick={() =>
-											posthog.capture('upgrade_cta_clicked', { trigger: 'magic_flow_batch_cap' })}
+											posthog.capture('upgrade_cta_clicked', {
+												trigger: 'magic_flow_batch_cap',
+												source: 'batch_cap_box'
+											})}
 										class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
 									>
 										Compare plans
 									</a>
 								{/if}
 							</div>
-							{#if batchTrim.offered > DAY_PASS_OPS}
-								<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
-									Dropping more than {DAY_PASS_OPS}? Seller covers {SELLER_OPS} uploads a month, {BATCH_LIMIT_PAID}
-									per batch.
-								</p>
-							{/if}
 							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
 								{batchTier === 'guest'
-									? `Or send these ${batchTrim.staged} now. A second batch today needs a free account or a Day Pass.`
-									: `Or send these ${batchTrim.staged} now and add the next ${MAX_FILES} after.`}
+									? `Or send ${k === 1 ? 'this one' : `these ${k}`} now and come back with an account or a Day Pass for the rest.`
+									: `Or send ${k === 1 ? 'this one' : `these ${k}`} now and add the next ${MAX_FILES} after.`}
 							</p>
+						{:else}
+							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+								Send {k === 1 ? 'this one' : `these ${k}`}, then add the rest.
+							</p>
+							{#if batchTier === 'day' && remainingKnown && n > availableTokens}
+								<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+									More than your pass covers?
+									<a
+										href="/pricing"
+										onclick={() =>
+											posthog.capture('upgrade_cta_clicked', {
+												trigger: 'magic_flow_batch_cap',
+												source: 'batch_cap_box'
+											})}
+										class="font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+										>Seller is {SELLER_OPS} uploads a month.</a
+									>
+								</p>
+							{/if}
 						{/if}
-						<UploadHelpLink
+						<LimitsWhy
 							errorKey="batch_trimmed"
 							surface="magic_flow_batch_cap"
 							label="Why was my batch trimmed?"
