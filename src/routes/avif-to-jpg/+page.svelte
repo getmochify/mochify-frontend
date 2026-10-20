@@ -160,19 +160,19 @@
         <section class="mt-20 max-w-4xl mx-auto">
             <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">How to convert AVIF to JPG</h2>
             <ol class="space-y-4">
-                <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
+                <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)] text-white font-black text-sm flex items-center justify-center">1</span>
                     <p class="leading-relaxed text-[#6C3F31]">
                         <strong class="text-[#4A2C2C]">Drop your .avif files above</strong>, or click browse. Up to 3 a month with no account, 25 a month with a free account.
                     </p>
                 </li>
-                <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
+                <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)] text-white font-black text-sm flex items-center justify-center">2</span>
                     <p class="leading-relaxed text-[#6C3F31]">
                         <strong class="text-[#4A2C2C]">Let it run.</strong> There is nothing to type and nothing to set: this page does one job, an AVIF to JPG conversion tuned for quality, and starts it as soon as the files land.
                     </p>
                 </li>
-                <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-start">
+                <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] shadow-[0_2px_8px_rgba(240,98,146,0.35)] text-white font-black text-sm flex items-center justify-center">3</span>
                     <p class="leading-relaxed text-[#6C3F31]">
                         <strong class="text-[#4A2C2C]">Download your JPGs.</strong> They open in Photos, Paint, Preview, Photoshop, email clients and upload forms, none of which need to know what AVIF is.
