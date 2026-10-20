@@ -2000,8 +2000,8 @@
 									</DayPassButton>
 									<p class="text-xs font-medium text-[#6C3F31]/70">
 										{userTier === 'guest'
-											? 'No account needed. Valid for 24 hours.'
-											: `Adds to your free ${monthlyQuota} this month. Valid for 24 hours.`}
+											? 'The Day Pass needs no account and lasts 24 hours.'
+											: `The Day Pass gives you ${DAY_PASS_OPS} uploads for 24 hours, then your free ${monthlyQuota} starts fresh.`}
 									</p>
 								</div>
 							{:else}
