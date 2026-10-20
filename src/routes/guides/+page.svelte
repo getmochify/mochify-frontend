@@ -238,22 +238,7 @@
 </div>
 
 <style>
-    /* The breadcrumb renders in the shared guides layout with no gutter from
-       md up; give it this page's wrapper padding (sm:px-6 lg:px-8) so it lines
-       up with the header and cards. */
-    @media (min-width: 640px) {
-        :global(nav[aria-label='Breadcrumb']) {
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
-        }
-    }
 
-    @media (min-width: 1024px) {
-        :global(nav[aria-label='Breadcrumb']) {
-            padding-left: 2rem;
-            padding-right: 2rem;
-        }
-    }
 
     .featured-heading-bar {
         height: 5px;

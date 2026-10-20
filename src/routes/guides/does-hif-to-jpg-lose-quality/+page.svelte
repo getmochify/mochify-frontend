@@ -154,22 +154,3 @@
 
     </div>
 </article>
-
-<style>
-	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
-       it with this page's 3xl reading column. */
-	:global(nav[aria-label='Breadcrumb']) {
-		max-width: 48rem;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 1.25rem;
-	}
-
-	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
-	@media (max-width: 767px) {
-		:global(nav[aria-label='Breadcrumb']) {
-			padding-left: 1.25rem;
-			padding-right: 1.25rem;
-		}
-	}
-</style>

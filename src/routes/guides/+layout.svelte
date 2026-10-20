@@ -50,7 +50,14 @@
 <div id="top" class="relative flex min-h-screen flex-col">
 	<Navigation />
 	<main class="relative z-10 mx-auto w-full max-w-4xl flex-grow px-0 md:px-4 md:py-12">
-		<Breadcrumb items={breadcrumbItems} />
+		<!-- Articles: the 3xl reading column and its mobile gutter. Index: the
+		     page wrapper's sm:px-6 lg:px-8, so it lines up with the header. -->
+		<Breadcrumb
+			items={breadcrumbItems}
+			class={slug
+				? 'mx-auto mb-5 max-w-3xl px-5 sm:px-6 md:px-0'
+				: 'mb-3 px-4 sm:px-6 md:mb-4 lg:px-8'}
+		/>
 		{@render children()}
 	</main>
 

@@ -1,8 +1,14 @@
 <script lang="ts">
-    let { items }: { items: { name: string; href?: string }[] } = $props();
+    // Spacing comes from the caller. Pages used to restyle the breadcrumb
+    // with :global rules, which leaked across client-side navigations
+    // (a page's CSS stays in the document after you leave it).
+    let {
+        items,
+        class: className = 'px-4 md:px-0 mb-3 md:mb-4'
+    }: { items: { name: string; href?: string }[]; class?: string } = $props();
 </script>
 
-<nav aria-label="Breadcrumb" class="px-4 md:px-0 mb-3 md:mb-4">
+<nav aria-label="Breadcrumb" class={className}>
     <ol class="flex items-center flex-wrap gap-x-1.5 gap-y-1">
         {#each items as item, i}
             <li class="flex items-center gap-1.5 min-w-0">
