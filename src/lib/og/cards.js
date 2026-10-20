@@ -325,6 +325,11 @@ export const cards = [
 		title: 'How to Give a CSS Background Image a WebP or AVIF Fallback'
 	},
 	{
+		path: '/guides/remove-objects-from-photo-ai-assistant',
+		eyebrow: 'GUIDE',
+		title: 'How to Remove Objects From a Photo With an AI Assistant'
+	},
+	{
 		path: '/guides/blur-faces-license-plate-ai-assistant',
 		eyebrow: 'GUIDE',
 		title: 'How to Blur Faces or a License Plate in a Photo, with Your AI Assistant'

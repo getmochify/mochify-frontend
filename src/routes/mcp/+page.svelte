@@ -16,7 +16,7 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is the Mochify MCP server free?',
-            a: 'Yes, on every plan, with a free account giving 25 images a month. Compressing, converting, cropping, hiding faces and areas, building a PDF from images and checking your usage are on every plan. Erasing an object, recoloring an object and the PDF-in operations (compress, extract, rasterize, split) need a paid plan or the $2 Day Pass.'
+            a: 'Yes, on every plan, with a free account giving 25 images a month. Compressing, converting, cropping, hiding faces and areas, building a PDF from images and checking your usage are on every plan. Erasing an object, recoloring an object and the PDF-in operations (compress, extract, rasterize, split) need a paid plan or the $2 Day Pass (a Day Pass is used here on the free account you sign in with).'
         },
         {
             q: 'Which assistants can I use it with?',
@@ -157,6 +157,11 @@ mochify auth login`;
             href: 'https://mochify.app/guides/blur-faces-license-plate-ai-assistant',
             title: 'How to Blur Faces or a License Plate in a Photo (Ask Your AI Assistant)',
             desc: 'redaction on two real photos, including what the detector missed.'
+        },
+        {
+            href: 'https://mochify.app/guides/remove-objects-from-photo-ai-assistant',
+            title: 'How to Remove Objects From a Photo With an AI Assistant (and Recolor Them)',
+            desc: 'erase and recolor on real photos, with the three runs that did not come out clean.'
         },
         {
             href: 'https://mochify.app/guides/image-compression-claude-code-cli-mcp',
@@ -330,7 +335,7 @@ mochify auth login`;
         <p class={promptClass}>"Remove the bin on the left and fill in the background."</p>
         <p><span class={paidPlan}>Paid plans, including the Day Pass.</span></p>
         <p class={pClass}>Erase paints a boxed object out and fills the space with plausible background. Your assistant draws the box around the whole object with a margin, shadow included; Mochify finds the object's outline inside the box and repaints only the outline plus a margin, so as little of the scene as possible is invented. Up to eight objects in one call. It is best on small distractions against texture or a plain background: a bin, a cable, a stray passer-by. Large removals come out softer, because the model paints at a fixed 512 by 512.</p>
-        <p class={pClass}>Erase invents pixels. It is for tidying your own photos, and never a way to hide anything sensitive; for that, ask it to hide the area instead (see <a href="#redact" class={linkClass}>Hide faces and areas</a>). An erased image always has its metadata removed and any HDR gain map dropped.</p>
+        <p class={pClass}>Erase invents pixels. It is for tidying your own photos, and never a way to hide anything sensitive; for that, ask it to hide the area instead (see <a href="#redact" class={linkClass}>Hide faces and areas</a>). An erased image always has its metadata removed and any HDR gain map dropped. Real runs, including the ones that came out soft, are in <a href="/guides/remove-objects-from-photo-ai-assistant" class={linkClass}>how to remove objects from a photo with an AI assistant</a>.</p>
         <!-- Pair 4 (erase) goes here; its "after" image is also the planned og:image. -->
     </section>
 
@@ -368,7 +373,7 @@ mochify auth login`;
         <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
             <li>Free account: 25 images a month, every tool except erase, recolor and the PDF-in operations</li>
             <li>Seller, Pro and Growth: the plan's monthly allowance, every tool, PDFs to 10 pages (Growth goes further)</li>
-            <li>Day Pass: 100 uploads in 24 hours for $2, every tool, PDFs to 10 pages</li>
+            <li>Day Pass: 100 uploads in 24 hours for $2, every tool, PDFs to 10 pages (used from an assistant on a free account you are signed in with)</li>
             <li>Each file you get back counts as one image, and each PDF you compress counts as one</li>
         </ul>
         <p class={pClass}>Monthly plans and limits are on the <a href="https://mochify.app/pricing" class={linkClass}>pricing page</a>.</p>

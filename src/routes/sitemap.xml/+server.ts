@@ -62,6 +62,7 @@ export async function GET() {
 		'/guides/convert-website-images-to-webp-and-avif',
 		'/guides/html-picture-tag',
 		'/guides/css-background-image-webp-fallback',
+		'/guides/remove-objects-from-photo-ai-assistant',
 		'/guides/blur-faces-license-plate-ai-assistant',
 		'/guides/can-chatgpt-compress-images',
 		'/guides/compress-pdf-on-mac',

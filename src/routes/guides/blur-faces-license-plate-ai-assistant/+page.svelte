@@ -22,7 +22,7 @@
 		category: 'AI & Automation',
 		readTime: '22 min read',
 		date: 'October 16, 2026',
-		lastUpdated: 'October 19, 2026',
+		lastUpdated: 'October 20, 2026',
 		bylineNote:
 			'Written from two real redaction runs on October 16, 2026: a parked car with two plates, and a fifteen-person group photo where the detector found twelve.'
 	};
@@ -123,7 +123,7 @@
 		{
 			title: 'Can ChatGPT Compress a Photo? We Measured What Comes Back',
 			href: '/guides/can-chatgpt-compress-images',
-			desc: 'the upload-step measurements behind section 4: what a chatbot actually receives when you attach a picture.'
+			desc: 'the upload-step measurements behind the "why not just ask the chatbot" section: what a chatbot actually receives when you attach a picture.'
 		},
 		{
 			title: 'Image Compression Inside Claude Code: The Mochify CLI + MCP Guide',
@@ -142,7 +142,7 @@
 		url: pageUrl,
 		mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
 		datePublished: '2026-10-16',
-		dateModified: '2026-10-19',
+		dateModified: '2026-10-20',
 		inLanguage: 'en',
 		author: {
 			'@type': 'Organization',
@@ -185,7 +185,7 @@
 		description: metadata.description,
 		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
 		datePublished: '2026-10-16',
-		dateModified: '2026-10-19'
+		dateModified: '2026-10-20'
 	};
 
 	/** @param {object} data */
@@ -340,7 +340,9 @@
 				<li>
 					<p class="mb-0">
 						<strong>Blur</strong>: the cosmetic style. It looks softer, and blurred faces and text
-						can sometimes be partly recovered (section 1), so it is for a look, not for secrecy.
+						can sometimes be partly recovered (see <a href="#why-blur-fails"
+							>why blurring is not the same as hiding</a
+						>), so it is for a look, not for secrecy.
 					</p>
 				</li>
 				<li>
@@ -579,7 +581,11 @@
 						<tr>
 							<td>Recoverable?</td>
 							<td>The information is gone from the pixels</td>
-							<td>Sometimes partly, for text and faces (section 1)</td>
+							<td
+								>Sometimes partly, for text and faces (see <a href="#why-blur-fails"
+									>why blurring is not the same as hiding</a
+								>)</td
+							>
 						</tr>
 						<tr>
 							<td>Use it for</td>
@@ -713,8 +719,8 @@
 				<a href="https://mochify.app/docs">API documentation page</a>.
 			</p>
 			<p class="mb-4">
-				For a marketplace seller with a hundred photos and no code, the assistant route in section 3
-				handles a batch the same way: <em>"hide the plates in all of these"</em>, one call per
+				For a marketplace seller with a hundred photos and no code,
+				<a href="#ask-your-assistant">the assistant route above</a> handles a batch the same way: <em>"hide the plates in all of these"</em>, one call per
 				image, one line of results per image to read through.
 			</p>
 		</section>
@@ -726,7 +732,12 @@
 				thing is the point of the picture. A product on a white background, a landscape, a
 				screenshot of your own code: compress and convert as usual and move on. The
 				<a href="https://mochify.app/flow">Magic Flow page</a> does that job in one sentence and never
-				touches the pixels you did not mention.
+				touches the pixels you did not mention. And if the thing in the frame is a distraction rather
+				than a secret (a bin, a cable, a stranger in the distance), you want it gone rather than hidden:
+				that is erase, a different tool with a different guarantee, covered in
+				<a href="/guides/remove-objects-from-photo-ai-assistant"
+					>how to remove objects from a photo with an AI assistant</a
+				>.
 			</p>
 			<p class="mb-4">
 				You also do not need Mochify for a single casual photo where a quick smudge on your phone is

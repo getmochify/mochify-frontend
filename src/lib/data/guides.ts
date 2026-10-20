@@ -554,7 +554,7 @@ export const guides: Guide[] = [
 		category: 'AI & Automation',
 		readTime: '9 min read',
 		date: 'May 28, 2026',
-		lastUpdated: 'October 19, 2026',
+		lastUpdated: 'October 20, 2026',
 		featured: true
 	},
 	{
@@ -646,6 +646,15 @@ export const guides: Guide[] = [
 		date: 'April 23, 2026'
 	},
 	{
+		title: 'How to Remove Objects From a Photo With an AI Assistant (and Recolor Them)',
+		description:
+			'Ask the AI assistant you already have open to erase a bin, a cable or a stranger from your own photo, or recolor an object and keep its shading. Real runs.',
+		url: '/guides/remove-objects-from-photo-ai-assistant',
+		category: 'AI & Automation',
+		readTime: '28 min read',
+		date: 'October 20, 2026'
+	},
+	{
 		title: 'How to Blur Faces or a License Plate in a Photo (Ask Your AI Assistant)',
 		description:
 			'Ask your AI assistant to hide a license plate, faces or an address: it finds the area, Mochify redacts it and strips the metadata. Why fill beats blur.',
@@ -653,7 +662,7 @@ export const guides: Guide[] = [
 		category: 'AI & Automation',
 		readTime: '22 min read',
 		date: 'October 16, 2026',
-		lastUpdated: 'October 19, 2026'
+		lastUpdated: 'October 20, 2026'
 	},
 	{
 		title: 'Can ChatGPT Compress a Photo? We Measured What Comes Back',
