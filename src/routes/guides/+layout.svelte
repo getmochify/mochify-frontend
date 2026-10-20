@@ -121,6 +121,15 @@
 		}
 	}
 
+	/* The 3.5rem above is section rhythm. A heading that opens a padded card
+	   (a summary box, a workflow panel) already has the card's padding above
+	   it, and a mt-0 utility on it loses to this unlayered rule, so zero it
+	   here. */
+	:global(article .rounded-2xl > h2:first-child),
+	:global(article .rounded-3xl > h2:first-child) {
+		margin-top: 0;
+	}
+
 	:global(article h3) {
 		font-size: 1.5rem;
 		font-weight: 700;
