@@ -1,8 +1,11 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: "SVG Conversion Guide: When to Keep Vector and When to Rasterize",
@@ -23,6 +26,37 @@
         { q: 'Why do SVG logos break in Gmail or Outlook?', a: 'Gmail and Outlook do not reliably render external SVG images - they often display a broken image icon or strip SVG entirely. Use PNG or JPEG for logos and icons in email templates. A PNG at 2x resolution will look sharp on retina screens and render reliably across all major email clients.' },
         { q: 'Does converting SVG to WebP or AVIF remove the security risk?', a: 'Yes. Once an SVG is rasterized to WebP or AVIF, it becomes pixel data and can no longer execute scripts. Even if the original SVG contained malicious markup, the raster export is safe to serve and upload. This is one of the underrated benefits of a rasterization workflow.' },
         { q: "What's the advantage of using Mochify instead of a generic online converter?", a: 'Most online converters store uploaded files on disk and may retain them for hours or days. Mochify processes everything in memory only and discards files immediately after download - no persistent storage, no training data, no retention. You also get native support for WebP, AVIF, and JPEG XL in a single tool, with Magic Flow natural language processing so you can describe the output you want in plain English rather than configuring format dropdowns.' },
+    ];
+
+    const related = [
+                    {
+                        href: '/guides/next-gen-image-formats-wordpress',
+                        title: 'Next-gen formats in WordPress (without plugins)',
+                        desc: 'The companion workflow guide for serving WebP and AVIF in WordPress without a page-builder plugin.'
+                    },
+                    {
+                        href: '/guides/history-image-compression-2026',
+                        title: 'The history of image compression: WebP, AVIF, JPEG XL',
+                        desc: 'A deeper look at how modern formats compare and where each one wins.'
+                    },
+                    {
+                        href: '/guides/exif-data-risks-image-compression-2026',
+                        title: 'EXIF data risks: strip metadata before you publish',
+                        desc: "Why zero-retention matters beyond just format choice - and what's hiding in your image files."
+                    },
+                ];
+
+    const toc = [
+        { id: 'how-svg-works', label: 'SVG: what makes it powerful (and risky)' },
+        { id: 'cheat-sheet', label: 'Quick decision cheat sheet' },
+        { id: 'when-svg-wins', label: 'When SVG is genuinely the best format' },
+        { id: 'when-to-convert', label: 'When you should convert SVG to raster' },
+        { id: 'wordpress-and-svg', label: 'WordPress and SVG: security, sanitization, plugin bloat' },
+        { id: 'choosing-raster-format', label: 'Choosing the right raster format after converting' },
+        { id: 'decision-framework', label: 'Decision framework: step-by-step' },
+        { id: 'workflow-recipes', label: 'Workflow recipes with Mochify' },
+        { id: 'faq', label: 'FAQ' },
+        { id: 'related-guides', label: 'Related guides' }
     ];
 </script>
 
@@ -109,133 +143,40 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-bold uppercase tracking-wider border border-green-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-cocoa-milk">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="SVG" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            {metadata.title}
-        </h1>
-
-        <p class="text-xl text-cocoa-deep opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             SVG is one of the best formats on the web - until the platform you're working with rejects it, your email client breaks it, or your WordPress media uploader refuses to accept it. The real question isn't "can I use SVG?" It's "should I use SVG <em>here</em>, for <em>this</em> workflow?"
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-cocoa-deep leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 This guide is about decisions, not definitions. We walk you through exactly when SVG is the right call, when you need to convert it to a raster format, and which format to convert to. The examples skew toward WordPress, WooCommerce, and marketplace sellers - because that's where most of the friction lives.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-cocoa-deep leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    <li>
-                        <a href="#how-svg-works" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">01</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">SVG: what makes it powerful (and risky)</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#cheat-sheet" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">02</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Quick decision cheat sheet</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#when-svg-wins" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">03</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">When SVG is genuinely the best format</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#when-to-convert" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">04</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">When you should convert SVG to raster</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#wordpress-and-svg" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">05</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">WordPress and SVG: security, sanitization, plugin bloat</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#choosing-raster-format" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">06</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Choosing the right raster format after converting</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#decision-framework" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">07</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Decision framework: step-by-step</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#workflow-recipes" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">08</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Workflow recipes with Mochify</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#faq" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">09</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">FAQ</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#related-guides" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-mochi-pink border border-pink-100 group-hover:scale-110 transition-transform">10</span>
-                                <span class="text-cocoa-deep font-bold group-hover:text-mochi-pink transition-colors">Related guides</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-mochi-pink group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc} heading="What's in This Guide" />
         </section>
 
         <!-- 01 - HOW SVG WORKS -->
@@ -263,15 +204,15 @@
 
             <p class="mb-4">Use this as your first filter before going deeper into the guide.</p>
 
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[500px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3.5 text-sm font-black text-[#4A2C2C] border-b border-pink-100">Situation</th>
-                            <th class="text-left px-4 py-3.5 text-sm font-black text-[#4A2C2C] border-b border-pink-100">Recommendation</th>
+                        <tr>
+                            <th>Situation</th>
+                            <th>Recommendation</th>
                         </tr>
                     </thead>
-                    <tbody class="text-base">
+                    <tbody>
                         {#each [
                             ['Logo or icon on your own site, you control the theme', 'Keep as SVG'],
                             ['WordPress media uploader (default install)', 'Convert to WebP or PNG'],
@@ -283,13 +224,13 @@
                             ['Internal asset archive, developer pipeline', 'Keep SVG as source; export WebP/AVIF for delivery'],
                         ] as [situation, rec], i}
                             <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
-                                <td class="px-4 py-3 border-b border-pink-50 text-cocoa-deep">{situation}</td>
-                                <td class="px-4 py-3 border-b border-pink-50 font-bold text-[#4A2C2C]">{rec}</td>
+                                <td>{situation}</td>
+                                <td>{rec}</td>
                             </tr>
                         {/each}
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <div class="bg-[#FFF9F5] rounded-2xl border border-orange-100 p-6 my-6">
                 <p class="font-bold text-[#4A2C2C] mb-2">Format quick map after converting</p>
@@ -407,18 +348,18 @@
 
             <p class="mb-4">Once you've decided to convert an SVG, you have three modern format options worth knowing. Here's how they compare for SVG-derived assets specifically.</p>
 
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[500px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3.5 text-sm font-black text-[#4A2C2C] border-b border-pink-100 whitespace-nowrap">Format</th>
-                            <th class="text-left px-4 py-3.5 text-sm font-black text-[#4A2C2C] border-b border-pink-100 whitespace-nowrap">Browser support</th>
-                            <th class="text-left px-4 py-3.5 text-sm font-black text-[#4A2C2C] border-b border-pink-100 whitespace-nowrap">Compression vs PNG</th>
-                            <th class="text-left px-4 py-3.5 text-sm font-black text-[#4A2C2C] border-b border-pink-100 whitespace-nowrap">Transparency</th>
-                            <th class="text-left px-4 py-3.5 text-sm font-black text-[#4A2C2C] border-b border-pink-100">Best for</th>
+                        <tr>
+                            <th>Format</th>
+                            <th>Browser support</th>
+                            <th>Compression vs PNG</th>
+                            <th>Transparency</th>
+                            <th>Best for</th>
                         </tr>
                     </thead>
-                    <tbody class="text-base">
+                    <tbody>
                         {#each [
                             ['WebP', '~96% (effectively universal)', '25–35% smaller', 'Full alpha', 'WordPress, WooCommerce, general web use'],
                             ['AVIF', '~95% (newer but solid)', 'Often better than WebP, esp. for detail', 'Full alpha', 'Modern-only sites, large hero illustrations'],
@@ -426,16 +367,16 @@
                             ['PNG', 'Universal', 'Larger files (lossless)', 'Full alpha', 'Email, legacy platforms, guaranteed compatibility'],
                         ] as [fmt, support, compression, transparency, bestFor], i}
                             <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
-                                <td class="px-4 py-3 border-b border-pink-50 font-bold text-[#4A2C2C]">{fmt}</td>
-                                <td class="px-4 py-3 border-b border-pink-50 text-cocoa-deep">{support}</td>
-                                <td class="px-4 py-3 border-b border-pink-50 text-cocoa-deep">{compression}</td>
-                                <td class="px-4 py-3 border-b border-pink-50 text-cocoa-deep">{transparency}</td>
-                                <td class="px-4 py-3 border-b border-pink-50 text-cocoa-deep">{bestFor}</td>
+                                <td>{fmt}</td>
+                                <td>{support}</td>
+                                <td>{compression}</td>
+                                <td>{transparency}</td>
+                                <td>{bestFor}</td>
                             </tr>
                         {/each}
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 my-6">
                 {#each [
@@ -592,39 +533,12 @@
         </div>
 
         <!-- 09 - FAQ -->
-        <GuideFAQs items={faqItems} />
+        <GlassFAQs items={faqItems} jsonLd={false} />
 
         <!-- 10 - RELATED GUIDES -->
-        <section id="related-guides" class="scroll-mt-24">
-            <SectionHeading>Related Guides</SectionHeading>
-
-            <ul class="space-y-3">
-                {#each [
-                    {
-                        href: '/guides/next-gen-image-formats-wordpress',
-                        title: 'Next-gen formats in WordPress (without plugins)',
-                        desc: 'The companion workflow guide for serving WebP and AVIF in WordPress without a page-builder plugin.'
-                    },
-                    {
-                        href: '/guides/history-image-compression-2026',
-                        title: 'The history of image compression: WebP, AVIF, JPEG XL',
-                        desc: 'A deeper look at how modern formats compare and where each one wins.'
-                    },
-                    {
-                        href: '/guides/exif-data-risks-image-compression-2026',
-                        title: 'EXIF data risks: strip metadata before you publish',
-                        desc: "Why zero-retention matters beyond just format choice - and what's hiding in your image files."
-                    },
-                ] as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">: {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <div id="related-guides" class="scroll-mt-24">
+            <RelatedGuidesGrid guides={related} />
+        </div>
 
         <!-- Tool links + byline -->
         <div class="mt-10 pt-6 border-t border-pink-50 flex flex-wrap gap-3">
@@ -637,3 +551,22 @@
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

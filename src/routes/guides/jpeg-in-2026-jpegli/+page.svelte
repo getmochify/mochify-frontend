@@ -1,9 +1,11 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         category: "Image Optimization",
@@ -38,6 +40,16 @@
             href: "/guides/does-hif-to-jpg-lose-quality",
             desc: "Where jpegli's quality-per-byte matters most: converting 10-bit camera HIF files to 8-bit JPEG."
         }
+    ];
+
+    const toc = [
+        { id: 'comparison', label: 'JPEG Encoder Comparison Cheat Sheet' },
+        { id: 'basics', label: 'JPEG Basics That Matter for Performance' },
+        { id: 'what-is-jpegli', label: 'What Jpegli Is (Better Encoding, Not a New Format)' },
+        { id: 'adoption', label: 'Why Your Stack Probably Still Uses MozJPEG' },
+        { id: 'workflows', label: 'Real-World Workflows for Platform-Locked Scenarios' },
+        { id: 'testing', label: 'A Repeatable Test Methodology' },
+        { id: 'faq', label: 'FAQ: Common Questions About JPEG Optimization' }
     ];
 </script>
 
@@ -80,105 +92,41 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
     
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title="JPEG Compression in 2026: Why Jpegli Changes the Quality-Per-Byte Game" accent="Jpegli" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            JPEG Compression in 2026: Why Jpegli Changes the Quality-Per-Byte Game
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             <strong>The problem:</strong> I have to deliver JPEG because the platform only accepts JPEG (eBay, Etsy, legacy CMS, print upload portals), but I still need smaller files without ugly artifacts. The old tools give me two bad choices-crank quality to 90 and bloat the file, or drop to 70 and watch detail collapse into blocky mush.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl"><p class="text-lg text-[#6C3F31] leading-relaxed">            Modern JPEG encoders changed that trade-off. Google's jpegli library (released in 2024) delivers reported compression improvements of up to 35% at high quality settings while maintaining full compatibility with every JPEG viewer on the planet. This isn't a new format requiring browser support or user education-it's better math inside the same old container.
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">            Modern JPEG encoders changed that trade-off. Google's jpegli library (released in 2024) delivers reported compression improvements of up to 35% at high quality settings while maintaining full compatibility with every JPEG viewer on the planet. This isn't a new format requiring browser support or user education-it's better math inside the same old container.
 </p></div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
         
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    <li>
-                        <a href="#comparison" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">01</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">JPEG Encoder Comparison Cheat Sheet</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#basics" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">02</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">JPEG Basics That Matter for Performance</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#what-is-jpegli" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">03</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">What Jpegli Is (Better Encoding, Not a New Format)</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#adoption" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">04</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Why Your Stack Probably Still Uses MozJPEG</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#workflows" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">05</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Real-World Workflows for Platform-Locked Scenarios</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#testing" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">06</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">A Repeatable Test Methodology</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#faq" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">07</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">FAQ: Common Questions About JPEG Optimization</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc} heading="What's in This Guide" />
         </section>
 
-        <section id="comparison">
+        <section id="comparison" class="scroll-mt-24">
             <SectionHeading>JPEG Encoder Comparison: 2026 Cheat Sheet</SectionHeading>
 
             <!-- Mobile: Card Layout -->
@@ -263,49 +211,49 @@
             </div>
 
             <!-- Desktop: Table Layout -->
-                <ScrollableTable class="my-6">
-                    <table class="w-full text-left border-collapse">
+                <GuideTable class="my-6">
+                    <table>
                         <thead>
-                            <tr class="bg-[#FFF5F7] border-b border-pink-100">
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Encoder</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Speed</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Quality-per-Byte</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Compatibility</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Best For</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Current Adoption</th>
+                            <tr>
+                                <th>Encoder</th>
+                                <th>Speed</th>
+                                <th>Quality-per-Byte</th>
+                                <th>Compatibility</th>
+                                <th>Best For</th>
+                                <th>Current Adoption</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-pink-50">
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">libjpeg-turbo</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Very fast (baseline)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Standard</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Universal</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">High-volume pipelines prioritizing speed over size</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Default in most Linux distros</td>
+                        <tbody>
+                            <tr>
+                                <td>libjpeg-turbo</td>
+                                <td>Very fast (baseline)</td>
+                                <td>Standard</td>
+                                <td>Universal</td>
+                                <td>High-volume pipelines prioritizing speed over size</td>
+                                <td>Default in most Linux distros</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">MozJPEG</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Fast</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Better than libjpeg-turbo (especially at medium quality)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Universal</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">WordPress, CDN edge, general web delivery</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Widely adopted in web optimization tools</td>
+                            <tr>
+                                <td>MozJPEG</td>
+                                <td>Fast</td>
+                                <td>Better than libjpeg-turbo (especially at medium quality)</td>
+                                <td>Universal</td>
+                                <td>WordPress, CDN edge, general web delivery</td>
+                                <td>Widely adopted in web optimization tools</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors bg-pink-50/20">
-                                <td class="py-5 px-6 font-bold text-[#D81B60]">jpegli</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Fast (comparable to MozJPEG)</td>
-                                <td class="py-5 px-6 text-[#D81B60] font-bold">Best reported (up to 35% smaller at high quality vs libjpeg-turbo)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Universal (fully interoperable)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">High-quality exports, photography, platform-locked scenarios</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Emerging (2024 release, not yet in mainstream tools)</td>
+                            <tr>
+                                <td>jpegli</td>
+                                <td>Fast (comparable to MozJPEG)</td>
+                                <td>Best reported (up to 35% smaller at high quality vs libjpeg-turbo)</td>
+                                <td>Universal (fully interoperable)</td>
+                                <td>High-quality exports, photography, platform-locked scenarios</td>
+                                <td>Emerging (2024 release, not yet in mainstream tools)</td>
                             </tr>
                         </tbody>
                     </table>
-                </ScrollableTable>
+                </GuideTable>
         </section>
 
-        <section id="basics">
+        <section id="basics" class="scroll-mt-24">
             <SectionHeading>JPEG Basics That Matter for Performance</SectionHeading>
 
             <div class="space-y-8">
@@ -316,9 +264,9 @@
 
                     <p class="mb-4"><strong>Progressive JPEG</strong> encodes the image in multiple scans-first a rough, blurry preview of the entire frame, then successive passes that refine detail. This improves perceived load speed (users see <em>something</em> immediately) and typically results in 2-10% smaller files for images over 10KB. The trade-off is slightly higher CPU cost during decode, which matters on older mobile devices but is negligible on modern hardware.</p>
 
-                    <InfoBox type="tip">
+                    <GlassInfoBox type="tip" title="FOR COMPLIANCE TEAMS">
                         <strong>When to use progressive:</strong> Large hero images, above-the-fold content, slow mobile connections. <strong>When to skip it:</strong> Thumbnails under 10KB, environments where decode speed is critical (embedded devices), scenarios where every CPU cycle counts.
-                    </InfoBox>
+                    </GlassInfoBox>
                 </div>
 
                 <div>
@@ -366,7 +314,7 @@
             </div>
         </section>
 
-        <section id="what-is-jpegli">
+        <section id="what-is-jpegli" class="scroll-mt-24">
             <SectionHeading>What Jpegli Is: Better JPEG Encoding, Not a New Format</SectionHeading>
 
             <p class="mb-6">Jpegli is an advanced JPEG encoder (and decoder) released by Google in April 2024. It produces standard JPEG files that open in every image viewer, browser, and photo app-no special support required.</p>
@@ -421,7 +369,7 @@
             <p class="mb-4 font-bold text-[#D81B60]">Bottom line: Jpegli improves quality-per-byte in tests and reported real-world use, but it is not a universal 35% win on every image. Where that efficiency matters most is an Ultra HDR JPEG, which pays for a second layer out of the same byte budget; see <a href="https://mochify.app/guides/why-hdr-photos-look-flat-when-shared">why HDR photos look flat when shared and how gain maps fix it</a>. Test it on your specific content at your target quality level.</p>
         </section>
 
-        <section id="adoption">
+        <section id="adoption" class="scroll-mt-24">
             <SectionHeading>Adoption Reality: Why Your Stack Probably Still Uses MozJPEG or libjpeg-turbo</SectionHeading>
 
             <div class="space-y-8">
@@ -464,7 +412,7 @@
             <p class="mb-4">The same applies to WordPress users who install five plugins (image optimization, lazy load, CDN integration, WebP conversion, and a caching layer) and wonder why their admin panel takes 8 seconds to load. Plugin bloat is real-each plugin adds database queries, background processes, and potential conflicts. Optimize your images <em>before</em> upload. Use an external tool, get the file size and format right, then import clean assets. Your server, your database, and your sanity will thank you.</p>
         </section>
 
-        <section id="workflows">
+        <section id="workflows" class="scroll-mt-24">
             <SectionHeading>Practical Workflows: Real Scenarios Where JPEG (and Jpegli) Matter</SectionHeading>
 
             <div class="space-y-10">
@@ -484,9 +432,9 @@
                         <li><strong>Verify one image first</strong> – Encode one sample, upload it to the platform, check how it looks on desktop and mobile. If the platform recompresses on upload, you'll see it immediately.</li>
                     </ol>
 
-                    <InfoBox type="tip">
+                    <GlassInfoBox type="tip" title="FOR COMPLIANCE TEAMS">
                         Use an external optimizer that supports jpegli output (like Mochify) to avoid plugin overhead and maintain clean local exports.
-                    </InfoBox>
+                    </GlassInfoBox>
                 </div>
 
                 <div class="bg-white p-8 rounded-[2.5rem] border border-pink-100 shadow-sm">
@@ -530,14 +478,14 @@
                         <li><strong>Test decode compatibility</strong> - Open a few files in common client tools (Windows Photo Viewer, macOS Preview, Gmail image preview). Jpegli JPEGs are fully compatible, but it never hurts to verify before delivering 500 files.</li>
                     </ol>
 
-                    <InfoBox type="technical">
+                    <GlassInfoBox type="technical" title="FOR COMPLIANCE TEAMS">
                         <strong>Why not do this in Lightroom?</strong> Lightroom's export quality slider is a black box, and as of 2026, it does not use jpegli. External optimization with jpegli gives you explicit control and measurably smaller files at equivalent visual quality (per test results reported by Google and independent reviewers).
-                    </InfoBox>
+                    </GlassInfoBox>
                 </div>
             </div>
         </section>
 
-        <section id="testing">
+        <section id="testing" class="scroll-mt-24">
             <SectionHeading>A Repeatable Test Methodology: Compare Encoders on Your Content</SectionHeading>
 
             <p class="mb-6">Generic benchmarks (like Google's or Gianni Rosato's) are useful, but they tested <em>their</em> images. Your product photos, your hero images, your content may behave differently. Here's a methodology you can replicate in 30 minutes.</p>
@@ -680,46 +628,46 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
                     </div>
 
                     <!-- Desktop: Table Layout -->
-                        <ScrollableTable class="my-6">
-                            <table class="w-full text-left border-collapse">
+                        <GuideTable class="my-6">
+                            <table>
                                 <thead>
-                                    <tr class="bg-[#FFF5F7] border-b border-pink-100">
-                                        <th class="py-4 px-6 text-sm font-black text-[#4A2C2C]">Encoder</th>
-                                        <th class="py-4 px-6 text-sm font-black text-[#4A2C2C]">Quality</th>
-                                        <th class="py-4 px-6 text-sm font-black text-[#4A2C2C]">File Size</th>
-                                        <th class="py-4 px-6 text-sm font-black text-[#4A2C2C]">Encoding Time</th>
-                                        <th class="py-4 px-6 text-sm font-black text-[#4A2C2C]">Visual Score (SSIM)</th>
-                                        <th class="py-4 px-6 text-sm font-black text-[#4A2C2C]">Subjective Notes</th>
+                                    <tr>
+                                        <th>Encoder</th>
+                                        <th>Quality</th>
+                                        <th>File Size</th>
+                                        <th>Encoding Time</th>
+                                        <th>Visual Score (SSIM)</th>
+                                        <th>Subjective Notes</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-pink-50">
+                                <tbody>
                                     <tr>
-                                        <td class="py-4 px-6 text-[#6C3F31]">libjpeg-turbo</td>
-                                        <td class="py-4 px-6 text-[#6C3F31]">78</td>
-                                        <td class="py-4 px-6 text-[#6C3F31]">305KB</td>
-                                        <td class="py-4 px-6 text-[#6C3F31]">45ms</td>
-                                        <td class="py-4 px-6 text-[#6C3F31]">0.92</td>
-                                        <td class="py-4 px-6 text-[#6C3F31]">Slight blocking in sky</td>
+                                        <td>libjpeg-turbo</td>
+                                        <td>78</td>
+                                        <td>305KB</td>
+                                        <td>45ms</td>
+                                        <td>0.92</td>
+                                        <td>Slight blocking in sky</td>
                                     </tr>
                                     <tr>
-                                        <td class="py-4 px-6 text-[#6C3F31]">MozJPEG</td>
-                                        <td class="py-4 px-6 text-[#6C3F31]">82</td>
-                                        <td class="py-4 px-6 text-[#6C3F31]">298KB</td>
-                                        <td class="py-4 px-6 text-[#6C3F31]">98ms</td>
-                                        <td class="py-4 px-6 text-[#6C3F31]">0.94</td>
-                                        <td class="py-4 px-6 text-[#6C3F31]">Clean, good detail</td>
+                                        <td>MozJPEG</td>
+                                        <td>82</td>
+                                        <td>298KB</td>
+                                        <td>98ms</td>
+                                        <td>0.94</td>
+                                        <td>Clean, good detail</td>
                                     </tr>
-                                    <tr class="bg-pink-50/30">
-                                        <td class="py-4 px-6 font-bold text-[#D81B60]">jpegli 4:2:0</td>
-                                        <td class="py-4 px-6 text-[#6C3F31]">85</td>
-                                        <td class="py-4 px-6 text-[#6C3F31]">303KB</td>
-                                        <td class="py-4 px-6 text-[#6C3F31]">71ms</td>
-                                        <td class="py-4 px-6 text-[#6C3F31]">0.95</td>
-                                        <td class="py-4 px-6 text-[#6C3F31]">Cleanest gradients</td>
+                                    <tr>
+                                        <td>jpegli 4:2:0</td>
+                                        <td>85</td>
+                                        <td>303KB</td>
+                                        <td>71ms</td>
+                                        <td>0.95</td>
+                                        <td>Cleanest gradients</td>
                                     </tr>
                                 </tbody>
                             </table>
-                        </ScrollableTable>
+                        </GuideTable>
 
                     <p class="mb-4">This data is specific to <em>your</em> content and workflow. Use it to decide which encoder to adopt.</p>
                 </div>
@@ -830,7 +778,26 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
             </div>
         </section>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
     </div>
 
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

@@ -1,10 +1,12 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import CodeCard from '$lib/components/guide-demo/CodeCard.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import CodeBlock from '$lib/components/CodeBlock.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         category: "Image Formats",
@@ -44,6 +46,15 @@
             href: "/guides/converting-images-to-jpeg-xl",
             desc: "Every conversion path to JXL, the October 2026 browser picture, and how to serve it with picture fallbacks."
         }
+    ];
+
+    const toc = [
+        { id: 'formats', label: 'Understanding Modern Image Formats' },
+        { id: 'testing', label: 'Real-World Performance Testing' },
+        { id: 'browser-support', label: 'Browser Compatibility Matrix (2026)' },
+        { id: 'when-to-use', label: 'When to Use Each Format' },
+        { id: 'seo', label: 'SEO and Core Web Vitals Impact' },
+        { id: 'workflow', label: 'Conversion Workflow and Tooling' }
     ];
 </script>
 
@@ -111,99 +122,43 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
     
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated} · Mochify Engineering Team
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title="The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL" accent="Next-Gen Formats" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated} · Mochify Engineering Team
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Your 2MB JPEG homepage hero is killing your LCP score. Google's PageSpeed Insights keeps screaming "Serve images in next-gen formats," but which one should you actually use?
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 WebP has been around since 2010, AVIF promises 50% better compression, and JPEG XL, after three years outside Chrome, is back: Chrome 155 (October 6, 2026) and Firefox 158 (October 13) decode it by default. This isn't another surface-level format comparison. We're diving into encoder efficiency, chroma subsampling trade-offs, and what Safari's "partial" JPEG XL support, and the October 2026 Chrome and Firefox releases, mean for production workflows.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
         
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    <li>
-                        <a href="#formats" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">01</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Understanding Modern Image Formats</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#testing" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">02</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Real-World Performance Testing</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#browser-support" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">03</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Browser Compatibility Matrix (2026)</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#when-to-use" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">04</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">When to Use Each Format</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#seo" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">05</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">SEO and Core Web Vitals Impact</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#workflow" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">06</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Conversion Workflow and Tooling</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc} heading="What's in This Guide" />
         </section>
 
-        <section id="formats">
+        <section id="formats" class="scroll-mt-24">
             <SectionHeading>Format Comparison at a Glance</SectionHeading>
 
             <!-- Mobile: Card Layout -->
@@ -314,61 +269,61 @@
             </div>
 
             <!-- Desktop: Table Layout -->
-                <ScrollableTable class="my-6">
-                    <table class="w-full text-left border-collapse">
+                <GuideTable class="my-6">
+                    <table>
                         <thead>
-                            <tr class="bg-[#FFF5F7] border-b border-pink-100">
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Format</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Browser Support (2026)</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Typical Compression vs JPEG</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Quality</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Best Use Case</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Animation Support</th>
+                            <tr>
+                                <th>Format</th>
+                                <th>Browser Support (2026)</th>
+                                <th>Typical Compression vs JPEG</th>
+                                <th>Quality</th>
+                                <th>Best Use Case</th>
+                                <th>Animation Support</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-pink-50">
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">WebP</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">96% (universal)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">25-35% smaller</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Excellent</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Broad compatibility priority</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Yes</td>
+                        <tbody>
+                            <tr>
+                                <td>WebP</td>
+                                <td>96% (universal)</td>
+                                <td>25-35% smaller</td>
+                                <td>Excellent</td>
+                                <td>Broad compatibility priority</td>
+                                <td>Yes</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">AVIF</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">95% (Chrome, Edge, Safari, Firefox)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">20-50% smaller than WebP</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Superior at low bitrates</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Maximum compression needs</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Yes</td>
+                            <tr>
+                                <td>AVIF</td>
+                                <td>95% (Chrome, Edge, Safari, Firefox)</td>
+                                <td>20-50% smaller than WebP</td>
+                                <td>Superior at low bitrates</td>
+                                <td>Maximum compression needs</td>
+                                <td>Yes</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">JPEG XL</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">~12% (Safari partial only)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">10-30% smaller than AVIF</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Exceptional, lossless recompression</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Future-proofing only (not production)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Yes</td>
+                            <tr>
+                                <td>JPEG XL</td>
+                                <td>~12% (Safari partial only)</td>
+                                <td>10-30% smaller than AVIF</td>
+                                <td>Exceptional, lossless recompression</td>
+                                <td>Future-proofing only (not production)</td>
+                                <td>Yes</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">HEIC</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">iOS/macOS native (not web)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Similar to AVIF</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Excellent</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Mobile capture - web conversion</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Limited</td>
+                            <tr>
+                                <td>HEIC</td>
+                                <td>iOS/macOS native (not web)</td>
+                                <td>Similar to AVIF</td>
+                                <td>Excellent</td>
+                                <td>Mobile capture - web conversion</td>
+                                <td>Limited</td>
                             </tr>
                         </tbody>
                     </table>
-                </ScrollableTable>
+                </GuideTable>
 
-            <InfoBox type="tip">
+            <GlassInfoBox type="tip" title="FOR COMPLIANCE TEAMS">
                 WebP is production-safe everywhere. AVIF is the performance leader. JPEG XL remains experimental.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
-        <section id="formats">
+        <section id="formats" class="scroll-mt-24">
             <SectionHeading>Understanding Modern Image Formats</SectionHeading>
             
             <p class="mb-6">
@@ -386,9 +341,9 @@
                 If you're still serving JPEG-only images, you're leaving 25-35% file size savings on the table. The flip side lands on your visitors: when they right-click and save one of those images, they get a WebP, which is why so many of them go looking for <a href="/guides/save-webp-as-jpg-chrome">how to save a WebP as JPG in Chrome</a>.
             </p>
             
-            <InfoBox type="technical">
+            <GlassInfoBox type="technical" title="FOR COMPLIANCE TEAMS">
                 WebP uses predictive coding for lossless images and block-based transform coding for lossy. The encoder offers quality settings from 0-100, but sweet spots typically land between 75-85 for photography.
-            </InfoBox>
+            </GlassInfoBox>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">AVIF: Maximum Compression for Modern Browsers</h3>
             <p class="mb-4">
@@ -406,9 +361,9 @@
                 <strong>The catch: Encoding speed.</strong> AVIF's computational complexity means slower generation times compared to WebP - a consideration if you're batch-processing thousands of images.
             </p>
             
-            <InfoBox type="tip">
+            <GlassInfoBox type="tip" title="FOR COMPLIANCE TEAMS">
                 This is where our C-based engine at Mochify makes a measurable difference; interpreted languages struggle with AVIF encoding at scale.
-            </InfoBox>
+            </GlassInfoBox>
 
             <p class="mb-4">
                 Compatibility is the one place AVIF still trips people up - a handful of older tools and apps still can't open it. When a recipient can't open one, <a href="/avif-to-jpg">converting AVIF back to JPG</a> takes seconds, and the <a href="/guides/avif-to-jpg">full conversion guide</a> covers the native routes.
@@ -429,9 +384,9 @@
                 The practical consequence is that readers meet JPEG XL as a file they were sent and cannot open rather than as a format they chose. If that is where you are, start with <a href="/guides/what-is-a-jxl-file">how to open a JXL file</a> and convert it to something your tools accept.
             </p>
             
-            <InfoBox type="warning">
+            <GlassInfoBox type="warning" title="FOR COMPLIANCE TEAMS">
                 Don't use JPEG XL in production unless you're implementing multi-source fallbacks with picture elements. The 12% support figure is misleading - Safari's partial implementation breaks too many features to count as real support.
-            </InfoBox>
+            </GlassInfoBox>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">HEIC: Mobile-First Considerations</h3>
             <p class="mb-4">
@@ -441,21 +396,21 @@
                 <strong>The problem:</strong> HEIC isn't a web format. No browser renders it natively, and many online platforms - eBay, Etsy, Shopify - reject HEIC uploads entirely. If you're shooting on iPhone and uploading to e-commerce platforms or WordPress, you need conversion in your workflow.
             </p>
             
-            <InfoBox type="tip">
+            <GlassInfoBox type="tip" title="FOR COMPLIANCE TEAMS">
                 This friction is exactly why we built dedicated HEIC-to-JPEG converters - the "Unsupported File" error on marketplaces is a daily pain point for mobile-first sellers.
-            </InfoBox>
+            </GlassInfoBox>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">            JPEGLI: Smarter JPEG, Same Compatibility</h3>
             <p class="mb-4">
                 Modern JPEG encoders like JPEGLI give you a surprising amount of extra headroom before you even touch WebP or AVIF. JPEGLI keeps the standard .jpg extension and full viewer compatibility but uses more advanced psychovisual tricks to squeeze up to ~30-35% extra compression at high quality compared to traditional encoders such as libjpeg-turbo or MozJPEG.
             </p>
             
-            <InfoBox type="tip">
+            <GlassInfoBox type="tip" title="FOR COMPLIANCE TEAMS">
                 Mochify's JPEG output uses <a href="/guides/jpeg-in-2026-jpegli">JPEGLI</a> under the hood, so even your “boring old” JPEGs come out smaller and cleaner than standard exports from most CMSes or desktop tools.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
-        <section id="testing">
+        <section id="testing" class="scroll-mt-24">
             <SectionHeading>Real-World Performance Testing</SectionHeading>
             
             <p class="mb-6">
@@ -473,49 +428,49 @@
             <p class="mb-6">All conversions used Cloudinary's default settings (quality ~80-85 equivalent) except where noted. SSIM (Structural Similarity Index) scores measure perceptual quality - higher is better (1.0 = identical).</p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">File Size Comparison</h3>
-                <ScrollableTable class="my-6">
-                    <table class="w-full text-left border-collapse">
+                <GuideTable class="my-6">
+                    <table>
                         <thead>
-                            <tr class="bg-[#FFF5F7] border-b border-pink-100">
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Format</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Photograph</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Logo</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Animated</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Transparency</th>
+                            <tr>
+                                <th>Format</th>
+                                <th>Photograph</th>
+                                <th>Logo</th>
+                                <th>Animated</th>
+                                <th>Transparency</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-pink-50">
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">Original</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">990KB (JPEG)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">11KB (JPEG)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">1,300KB (GIF)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">225KB (PNG)</td>
+                        <tbody>
+                            <tr>
+                                <td>Original</td>
+                                <td>990KB (JPEG)</td>
+                                <td>11KB (JPEG)</td>
+                                <td>1,300KB (GIF)</td>
+                                <td>225KB (PNG)</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">WebP</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">700KB (-29%)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">4KB (-64%)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">488KB (-62%)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">70KB (-69%)</td>
+                            <tr>
+                                <td>WebP</td>
+                                <td>700KB (-29%)</td>
+                                <td>4KB (-64%)</td>
+                                <td>488KB (-62%)</td>
+                                <td>70KB (-69%)</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">AVIF</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">507KB (-49%)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">2KB (-82%)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">56KB (-96%)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">18KB (-92%)</td>
+                            <tr>
+                                <td>AVIF</td>
+                                <td>507KB (-49%)</td>
+                                <td>2KB (-82%)</td>
+                                <td>56KB (-96%)</td>
+                                <td>18KB (-92%)</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">JPEG XL</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">472KB (-52%)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">6KB (-45%)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">14KB (-99%)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">63KB (-72%)</td>
+                            <tr>
+                                <td>JPEG XL</td>
+                                <td>472KB (-52%)</td>
+                                <td>6KB (-45%)</td>
+                                <td>14KB (-99%)</td>
+                                <td>63KB (-72%)</td>
                             </tr>
                         </tbody>
                     </table>
-                </ScrollableTable>
+                </GuideTable>
 
             <ul class="list-disc pl-6 mb-8 space-y-2">
         <li><strong>Photograph winner:</strong> JPEG XL at 472KB (52% reduction), but AVIF at 507KB is negligibly different to the human eye.</li>
@@ -527,44 +482,44 @@
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">Quality Comparison: SSIM Scores</h3>
             <p class="mb-4">File size means nothing if images look terrible. SSIM scores (scale 0-1, higher = better):</p>
             
-                <ScrollableTable class="my-6">
-                    <table class="w-full text-left border-collapse">
+                <GuideTable class="my-6">
+                    <table>
                         <thead>
-                            <tr class="bg-[#FFF5F7] border-b border-pink-100">
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Source Type</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">WebP SSIM</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">AVIF SSIM</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">JPEG XL SSIM</th>
+                            <tr>
+                                <th>Source Type</th>
+                                <th>WebP SSIM</th>
+                                <th>AVIF SSIM</th>
+                                <th>JPEG XL SSIM</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-pink-50">
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">Photograph</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">0.94</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">0.96</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">0.97</td>
+                        <tbody>
+                            <tr>
+                                <td>Photograph</td>
+                                <td>0.94</td>
+                                <td>0.96</td>
+                                <td>0.97</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">Logo</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">0.89</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">0.92</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">0.88</td>
+                            <tr>
+                                <td>Logo</td>
+                                <td>0.89</td>
+                                <td>0.92</td>
+                                <td>0.88</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">Animated (per-frame avg)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">0.91</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">0.94</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">0.93</td>
+                            <tr>
+                                <td>Animated (per-frame avg)</td>
+                                <td>0.91</td>
+                                <td>0.94</td>
+                                <td>0.93</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">Transparency</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">0.93</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">0.97</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">0.91</td>
+                            <tr>
+                                <td>Transparency</td>
+                                <td>0.93</td>
+                                <td>0.97</td>
+                                <td>0.91</td>
                             </tr>
                         </tbody>
                     </table>
-                </ScrollableTable>
+                </GuideTable>
 
             <p class="mb-6">
                 AVIF consistently delivers higher perceptual quality at smaller file sizes than WebP. JPEG XL edges out AVIF in photographic content but struggles with flat-color graphics (the logo test).
@@ -576,86 +531,86 @@
             </p>
             <p class="mb-4">Benchmark: 5MP photograph, consumer-grade hardware, libwebp/libavif/libjxl encoders:</p>
 
-                <ScrollableTable class="my-6">
-                    <table class="w-full text-left border-collapse">
+                <GuideTable class="my-6">
+                    <table>
                         <thead>
-                            <tr class="bg-[#FFF5F7] border-b border-pink-100">
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Format</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Encode Time</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Decode Time (browser)</th>
+                            <tr>
+                                <th>Format</th>
+                                <th>Encode Time</th>
+                                <th>Decode Time (browser)</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-pink-50">
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">WebP</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">1.2 seconds</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">8ms</td>
+                        <tbody>
+                            <tr>
+                                <td>WebP</td>
+                                <td>1.2 seconds</td>
+                                <td>8ms</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">AVIF</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">4.7 seconds</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">12ms</td>
+                            <tr>
+                                <td>AVIF</td>
+                                <td>4.7 seconds</td>
+                                <td>12ms</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">JPEG XL</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">2.9 seconds</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Not re-measured since Chrome 155 shipped</td>
+                            <tr>
+                                <td>JPEG XL</td>
+                                <td>2.9 seconds</td>
+                                <td>Not re-measured since Chrome 155 shipped</td>
                             </tr>
                         </tbody>
                     </table>
-                </ScrollableTable>
+                </GuideTable>
             
-            <InfoBox type="tip">
+            <GlassInfoBox type="tip" title="FOR COMPLIANCE TEAMS">
                 WebP encodes fastest. AVIF's computational complexity shows here - nearly 4x slower than WebP. JPEG XL sits in the middle on encode time; its browser decode speed is only now measurable at scale, since Chrome 155 and Firefox 158 are the first mainstream releases to decode it by default. Mochify's C engine handles AVIF encoding significantly faster than JavaScript-based tools like Squoosh, which rely on WebAssembly - compiled but still slower than native C.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
-        <section id="browser-support">
+        <section id="browser-support" class="scroll-mt-24">
             <SectionHeading>Browser Compatibility Matrix: February 2026</SectionHeading>
             
             <p class="mb-4">This is where theory meets production reality.</p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">Desktop Browser Support</h3>
-                <ScrollableTable class="my-6">
-                    <table class="w-full text-left border-collapse">
+                <GuideTable class="my-6">
+                    <table>
                         <thead>
-                            <tr class="bg-[#FFF5F7] border-b border-pink-100">
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Format</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Chrome 155+</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Edge 154</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Safari 26</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Firefox 158+</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Opera 135</th>
+                            <tr>
+                                <th>Format</th>
+                                <th>Chrome 155+</th>
+                                <th>Edge 154</th>
+                                <th>Safari 26</th>
+                                <th>Firefox 158+</th>
+                                <th>Opera 135</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-pink-50">
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-4 px-5 text-sm font-bold text-[#4A2C2C]">WebP</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
+                        <tbody>
+                            <tr>
+                                <td>WebP</td>
+                                <td>✅ Full</td>
+                                <td>✅ Full</td>
+                                <td>✅ Full</td>
+                                <td>✅ Full</td>
+                                <td>✅ Full</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-4 px-5 text-sm font-bold text-[#4A2C2C]">AVIF</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
+                            <tr>
+                                <td>AVIF</td>
+                                <td>✅ Full</td>
+                                <td>✅ Full</td>
+                                <td>✅ Full</td>
+                                <td>✅ Full</td>
+                                <td>✅ Full</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-4 px-5 text-sm font-bold text-[#4A2C2C]">JPEG XL</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full (155+; 145-154 flagged)</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">❌ Not yet</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">⚠️ Partial (stills only)</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full (158+, from Oct 13)</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">❌ Not yet</td>
+                            <tr>
+                                <td>JPEG XL</td>
+                                <td>✅ Full (155+; 145-154 flagged)</td>
+                                <td>❌ Not yet</td>
+                                <td>⚠️ Partial (stills only)</td>
+                                <td>✅ Full (158+, from Oct 13)</td>
+                                <td>❌ Not yet</td>
                             </tr>
                         </tbody>
                     </table>
-                </ScrollableTable>
+                </GuideTable>
 
             <p class="text-sm text-gray-500 mb-4">Data current as of October 7, 2026 (caniuse.com/jpegxl; Chrome 155 release notes; Mozilla Bugzilla 2065096)</p>
     <p class="mb-4">
@@ -669,47 +624,47 @@
     </p>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Mobile Browser Considerations</h3>
-                <ScrollableTable class="my-6">
-                    <table class="w-full text-left border-collapse">
+                <GuideTable class="my-6">
+                    <table>
                         <thead>
-                            <tr class="bg-[#FFF5F7] border-b border-pink-100">
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Format</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Chrome Android 155+</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Safari iOS 26</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Samsung Internet 30</th>
-                                <th class="py-4 px-5 text-xs font-black text-[#4A2C2C] uppercase tracking-wider">Firefox Android 158+</th>
+                            <tr>
+                                <th>Format</th>
+                                <th>Chrome Android 155+</th>
+                                <th>Safari iOS 26</th>
+                                <th>Samsung Internet 30</th>
+                                <th>Firefox Android 158+</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-pink-50">
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-4 px-5 text-sm font-bold text-[#4A2C2C]">WebP</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
+                        <tbody>
+                            <tr>
+                                <td>WebP</td>
+                                <td>✅ Full</td>
+                                <td>✅ Full</td>
+                                <td>✅ Full</td>
+                                <td>✅ Full</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-4 px-5 text-sm font-bold text-[#4A2C2C]">AVIF</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full</td>
+                            <tr>
+                                <td>AVIF</td>
+                                <td>✅ Full</td>
+                                <td>✅ Full</td>
+                                <td>✅ Full</td>
+                                <td>✅ Full</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-4 px-5 text-sm font-bold text-[#4A2C2C]">JPEG XL</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full (155+, per Chrome's intent to ship)</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">⚠️ Partial (stills only)</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">❌ Not yet</td>
-                                <td class="py-4 px-5 text-sm text-[#6C3F31]">✅ Full (158+)</td>
+                            <tr>
+                                <td>JPEG XL</td>
+                                <td>✅ Full (155+, per Chrome's intent to ship)</td>
+                                <td>⚠️ Partial (stills only)</td>
+                                <td>❌ Not yet</td>
+                                <td>✅ Full (158+)</td>
                             </tr>
                         </tbody>
                     </table>
-                </ScrollableTable>
+                </GuideTable>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Fallback Strategies</h3>
             <p class="mb-4">Production-grade implementation requires <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> elements with format cascades:</p>
 
-            <CodeBlock filename="picture.html" code={`<picture>
+            <CodeCard filename="picture.html" code={`<picture>
   <source srcset="hero.avif" type="image/avif" />
   <source srcset="hero.webp" type="image/webp" />
   <img src="hero.jpg" width="1920" height="1080"
@@ -722,7 +677,7 @@
 
             <p class="mb-4">For JPEG XL, add it at the top of the cascade if you're experimenting:</p>
 
-            <CodeBlock filename="picture.html" code={`<picture>
+            <CodeCard filename="picture.html" code={`<picture>
   <source srcset="hero.jxl" type="image/jxl" />;
   <source srcset="hero.avif" type="image/avif" />;
   <source srcset="hero.webp" type="image/webp" />;
@@ -731,12 +686,12 @@
 
             <p class="mb-4">In our own stack, the hero.jpg in these examples is encoded with JPEGLI, which gives you smaller, better-looking JPEGs while staying 100% compatible with every browser and marketplace that only understands .jpg.</p>
 
-            <InfoBox type="tip">
+            <GlassInfoBox type="tip" title="FOR COMPLIANCE TEAMS">
                 Supporting browsers load JXL; everyone else cascades to AVIF/WebP. This future-proofs your stack but requires generating and storing 3-4 versions per image - manageable for hero assets, painful for galleries with hundreds of photos.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
-        <section id="when-to-use">
+        <section id="when-to-use" class="scroll-mt-24">
             <SectionHeading>When to Use Each Format</SectionHeading>
             
             <p class="mb-6">Decision fatigue is real. Here's the practical breakdown.</p>
@@ -774,21 +729,21 @@
                 Real-world scenario: Photography portfolios with multi-source fallbacks. Serve JXL to Chrome 155+, Firefox 158+ and Safari 17+ users, AVIF to everyone else, WebP as final fallback. Users with JXL support get 10-30% better compression; everyone else still gets excellent quality.
             </p>
             
-            <InfoBox type="warning">
+            <GlassInfoBox type="warning" title="FOR COMPLIANCE TEAMS">
                 Skip JPEG XL for production work in February 2026. Revisit in Q4 2026 if Chrome ships stable support. Until then, AVIF delivers 90% of the benefit with 95% browser coverage.
-            </InfoBox>
+            </GlassInfoBox>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">HEIC: Don't Use for Web (Convert Instead)</h3>
             <p class="mb-4">
                 HEIC isn't a web format. Period. If you're shooting on iPhone, convert to JPEG or AVIF before uploading to <a href="/guides/next-gen-image-formats-wordpress">WordPress</a>, Shopify, Etsy, or eBay. Most platforms reject HEIC uploads with "Unsupported File" errors - a daily frustration for mobile-first sellers.
             </p>
             
-            <InfoBox type="tip">
+            <GlassInfoBox type="tip" title="FOR COMPLIANCE TEAMS">
                 Convert HEIC to JPEG for marketplace compatibility, or convert to AVIF for your own website if you control the stack. Our HEIC converter handles this in-memory without storing your product photos anywhere - crucial for pre-launch inventory that competitors would love to see.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
-        <section id="seo">
+        <section id="seo" class="scroll-mt-24">
             <SectionHeading>SEO and Core Web Vitals Impact</SectionHeading>
             
             <p class="mb-4">
@@ -806,44 +761,44 @@
     </ul>
 
             <p class="mb-4">Format impact on a typical 1920x1080 hero image over 4G connection (6 Mbps):</p>
-                <ScrollableTable class="my-6">
-                    <table class="w-full text-left border-collapse">
+                <GuideTable class="my-6">
+                    <table>
                         <thead>
-                            <tr class="bg-[#FFF5F7] border-b border-pink-100">
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Format</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">File Size</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Download Time</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">LCP Impact</th>
+                            <tr>
+                                <th>Format</th>
+                                <th>File Size</th>
+                                <th>Download Time</th>
+                                <th>LCP Impact</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-pink-50">
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">JPEG (original)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">1,800KB</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">2.4s</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">⚠️ Borderline</td>
+                        <tbody>
+                            <tr>
+                                <td>JPEG (original)</td>
+                                <td>1,800KB</td>
+                                <td>2.4s</td>
+                                <td>⚠️ Borderline</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">WebP (q80)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">1,200KB</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">1.6s</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">✅ Good</td>
+                            <tr>
+                                <td>WebP (q80)</td>
+                                <td>1,200KB</td>
+                                <td>1.6s</td>
+                                <td>✅ Good</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">AVIF (q75)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">680KB</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">0.9s</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">✅ Excellent</td>
+                            <tr>
+                                <td>AVIF (q75)</td>
+                                <td>680KB</td>
+                                <td>0.9s</td>
+                                <td>✅ Excellent</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">JPEG XL (q80)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">590KB</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">0.8s</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">✅ Excellent (unsupported)</td>
+                            <tr>
+                                <td>JPEG XL (q80)</td>
+                                <td>590KB</td>
+                                <td>0.8s</td>
+                                <td>✅ Excellent (unsupported)</td>
                             </tr>
                         </tbody>
                     </table>
-                </ScrollableTable>
+                </GuideTable>
 
             <p class="mb-4">
                 Switching from JPEG to AVIF can move you from "Needs Improvement" to "Good" without changing anything else. That's a direct SEO benefit - Google's ranking algorithm weights Core Web Vitals scores for mobile search results.
@@ -858,52 +813,52 @@
             <p class="mb-4">
                 We tested three landing page configurations: Test site: E-commerce homepage, hero image (1920x1080), 6 product thumbnails, standard text/CSS/JS payload.
             </p>
-                <ScrollableTable class="my-6">
-                    <table class="w-full text-left border-collapse">
+                <GuideTable class="my-6">
+                    <table>
                         <thead>
-                            <tr class="bg-[#FFF5F7] border-b border-pink-100">
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Configuration</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Hero Format</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">LCP (Mobile)</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">LCP (Desktop)</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">PageSpeed Score</th>
+                            <tr>
+                                <th>Configuration</th>
+                                <th>Hero Format</th>
+                                <th>LCP (Mobile)</th>
+                                <th>LCP (Desktop)</th>
+                                <th>PageSpeed Score</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-pink-50">
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">Baseline</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">JPEG 1.8MB</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">3.2s ⚠️</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">1.9s ✅</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">67</td>
+                        <tbody>
+                            <tr>
+                                <td>Baseline</td>
+                                <td>JPEG 1.8MB</td>
+                                <td>3.2s ⚠️</td>
+                                <td>1.9s ✅</td>
+                                <td>67</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">WebP Optimized</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">WebP 1.2MB</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">2.3s ✅</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">1.4s ✅</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">82</td>
+                            <tr>
+                                <td>WebP Optimized</td>
+                                <td>WebP 1.2MB</td>
+                                <td>2.3s ✅</td>
+                                <td>1.4s ✅</td>
+                                <td>82</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">AVIF Optimized</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">AVIF 680KB</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">1.8s ✅</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">1.0s ✅</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">91</td>
+                            <tr>
+                                <td>AVIF Optimized</td>
+                                <td>AVIF 680KB</td>
+                                <td>1.8s ✅</td>
+                                <td>1.0s ✅</td>
+                                <td>91</td>
                             </tr>
                         </tbody>
                     </table>
-                </ScrollableTable>
+                </GuideTable>
             <p class="mb-4">
                 AVIF delivered a 24-point PageSpeed improvement over baseline JPEG. WebP sits in the middle - solid gains, less dramatic than AVIF.
             </p>
             
-            <InfoBox type="tip">
+            <GlassInfoBox type="tip" title="FOR COMPLIANCE TEAMS">
                 Plugin-free optimization matters here. WordPress image plugins process images after upload, bloating your database with multiple size variants and adding server load on every page render. Optimizing before upload - using an external tool - eliminates that overhead entirely. Your WordPress install stays clean, your database stays small, and your server isn't burning CPU cycles recompressing images on demand.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
-        <section id="workflow">
+        <section id="workflow" class="scroll-mt-24">
             <SectionHeading>Conversion Workflow and Tooling</SectionHeading>
             
             <p class="mb-6">Format knowledge means nothing if your tools can't deliver. Here's the production workflow.</p>
@@ -920,9 +875,9 @@
                 External optimization before hitting your CMS avoids plugin bloat. Upload optimized images directly to WordPress, Shopify, Webflow - wherever.
             </p>
             
-            <InfoBox type="warning">
+            <GlassInfoBox type="warning" title="FOR COMPLIANCE TEAMS">
                 Most free converters store your images for 24 hours (or longer). Check privacy policies. If you're processing client work, pre-launch products, or healthcare imagery, disk-based storage creates liability. Our converters process entirely in-memory using C - files never hit disk, never get retained, never train AI models. Zero-retention isn't marketing; it's architecture.
-            </InfoBox>
+            </GlassInfoBox>
 
             <p class="mb-4">
                 When you do need JPEG (marketplaces, email, legacy apps), use a modern encoder instead of the default export in Photoshop or your CMS. Our converters use Google's JPEGLI library to produce JPEGs that are noticeably smaller at the same visual quality, so your JPEG fallbacks and marketplace uploads carry less weight without sacrificing clarity.
@@ -1000,7 +955,26 @@ Try Mochify's zero-retention WebP and AVIF converters - no accounts, no plugins,
             </a>
         </div>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

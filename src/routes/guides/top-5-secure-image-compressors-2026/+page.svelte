@@ -1,9 +1,11 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         category: "Image Optimization",
@@ -38,6 +40,16 @@
             href: "/guides/jpeg-in-2026-jpegli",
             desc: "The encoder behind Mochify's JPEG output."
         }
+    ];
+
+    const toc = [
+        { id: 'why-beyond-tinypng', label: 'Why Users Look Beyond TinyPNG' },
+        { id: 'criteria', label: 'Comparison Criteria' },
+        { id: 'head-to-head', label: 'Head-to-Head Comparison Table' },
+        { id: 'deep-dives', label: 'Tool-by-Tool Deep Dives' },
+        { id: 'modern-formats', label: 'Why Modern Format Support Matters' },
+        { id: 'jpeg-encoder', label: 'The JPEG Encoder Question' },
+        { id: 'recommendations', label: 'Use Case Recommendations' }
     ];
 </script>
 
@@ -115,108 +127,43 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
     
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated} · Mochify Engineering Team
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title="Top 5 Secure Image Compressors - Privacy & Performance Comparison (2026)" accent="Secure Image Compressors" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated} · Mochify Engineering Team
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Top 5 Secure Image Compressors - Privacy & Performance Comparison (2026)
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             <strong>The dilemma:</strong> You need to compress sensitive images or large batches, but you're tired of vague "deleted after processing" promises, 20-file limits, and lack of modern format support like HEIC and JPEG XL. 
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                  In 2026, privacy-conscious users and power users need more than a simple drag-and-drop interface. You need transparency about data retention, support for AVIF and HEIC, and - critically - a JPEG encoder that doesn't waste bytes.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
         
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner">
-                <ul class="space-y-3">
-                    <li>
-                        <a href="#why-beyond-tinypng" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">01</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Why Users Look Beyond TinyPNG</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#criteria" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">02</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Comparison Criteria</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#head-to-head" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">03</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Head-to-Head Comparison Table</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#deep-dives" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">04</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Tool-by-Tool Deep Dives</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#modern-formats" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">05</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Why Modern Format Support Matters</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#jpeg-encoder" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">06</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">The JPEG Encoder Question</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#recommendations" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">07</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">Use Case Recommendations</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc} heading="What's in This Guide" />
         </section>
 
-        <section id="introduction">
+        <section id="introduction" class="scroll-mt-24">
             <p class="mb-6">
                 You're hitting the 20-file limit on TinyPNG again. Or you're staring at an "Unsupported File" error when trying to upload HEIC photos from your iPhone. Or maybe you just read yet another privacy policy that vaguely promises your images will be "deleted after processing" - without defining what that actually means.
             </p>
@@ -450,80 +397,80 @@
             </div>
 
             <!-- Desktop: Table Layout -->
-                <ScrollableTable class="my-6">
-                    <table class="w-full text-left border-collapse">
+                <GuideTable class="my-6">
+                    <table>
                         <thead>
-                            <tr class="bg-[#FFF5F7] border-b border-pink-100">
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Tool</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Account Required?</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">Free Tier Limits</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider min-w-[180px]">Input Formats</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">AVIF?</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">HEIC?</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">JPEG XL?</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider min-w-[200px]">Retention / Privacy</th>
-                                <th class="py-5 px-6 text-sm font-black text-[#4A2C2C] uppercase tracking-wider">JPEG Encoder</th>
+                            <tr>
+                                <th>Tool</th>
+                                <th>Account Required?</th>
+                                <th>Free Tier Limits</th>
+                                <th>Input Formats</th>
+                                <th>AVIF?</th>
+                                <th>HEIC?</th>
+                                <th>JPEG XL?</th>
+                                <th>Retention / Privacy</th>
+                                <th>JPEG Encoder</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-pink-50">
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">TinyPNG</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Optional (20/session free)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">20 images/session, ~5MB max per file</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">JPG, PNG, WebP</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Yes (recent)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">No</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">No</td>
-                                <td class="py-5 px-6 text-red-600">Disk storage, vague "deleted after processing"</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Unknown/proprietary</td>
+                        <tbody>
+                            <tr>
+                                <td>TinyPNG</td>
+                                <td>Optional (20/session free)</td>
+                                <td>20 images/session, ~5MB max per file</td>
+                                <td>JPG, PNG, WebP</td>
+                                <td>Yes (recent)</td>
+                                <td>No</td>
+                                <td>No</td>
+                                <td>Disk storage, vague "deleted after processing"</td>
+                                <td>Unknown/proprietary</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">Squoosh</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">No</td>
-                                <td class="py-5 px-6 text-green-600 font-bold">Unlimited (browser-based)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">JPG, PNG, WebP, AVIF, JXL</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Yes</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">No</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Yes</td>
-                                <td class="py-5 px-6 text-green-600 font-bold">Client-side only (no server upload)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">MozJPEG for JPEG</td>
+                            <tr>
+                                <td>Squoosh</td>
+                                <td>No</td>
+                                <td>Unlimited (browser-based)</td>
+                                <td>JPG, PNG, WebP, AVIF, JXL</td>
+                                <td>Yes</td>
+                                <td>No</td>
+                                <td>Yes</td>
+                                <td>Client-side only (no server upload)</td>
+                                <td>MozJPEG for JPEG</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">ShortPixel</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Yes (plugin or web)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">100 images/month free</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">JPG, PNG, GIF, WebP, AVIF, HEIC</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Yes</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Yes</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">No</td>
-                                <td class="py-5 px-6 text-orange-600">Server-stored during processing, CDN retention concerns</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Unknown (likely MozJPEG variant)</td>
+                            <tr>
+                                <td>ShortPixel</td>
+                                <td>Yes (plugin or web)</td>
+                                <td>100 images/month free</td>
+                                <td>JPG, PNG, GIF, WebP, AVIF, HEIC</td>
+                                <td>Yes</td>
+                                <td>Yes</td>
+                                <td>No</td>
+                                <td>Server-stored during processing, CDN retention concerns</td>
+                                <td>Unknown (likely MozJPEG variant)</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors">
-                                <td class="py-5 px-6 font-bold text-[#4A2C2C]">Cloudinary</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Yes</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Generous trial, then usage-based</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Extensive (all major formats)</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Yes</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Yes</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Yes</td>
-                                <td class="py-5 px-6 text-red-600">Stored in CDN for 30+ days, requires manual invalidation</td>
-                                <td class="py-5 px-6 text-[#6C3F31]">Multiple engines available</td>
+                            <tr>
+                                <td>Cloudinary</td>
+                                <td>Yes</td>
+                                <td>Generous trial, then usage-based</td>
+                                <td>Extensive (all major formats)</td>
+                                <td>Yes</td>
+                                <td>Yes</td>
+                                <td>Yes</td>
+                                <td>Stored in CDN for 30+ days, requires manual invalidation</td>
+                                <td>Multiple engines available</td>
                             </tr>
-                            <tr class="hover:bg-pink-50/30 transition-colors bg-pink-50/20">
-                                <td class="py-5 px-6 font-bold text-[#F06292]">Mochify</td>
-                                <td class="py-5 px-6 font-bold text-[#6C3F31]">No (for standard tool)</td>
-                                <td class="py-5 px-6 font-bold text-[#6C3F31]">25 images/batch, 20MB max per file</td>
-                                <td class="py-5 px-6 font-bold text-[#6C3F31]">JPG, PNG, WebP, AVIF, HEIC (upload only), JPEG XL</td>
-                                <td class="py-5 px-6 font-bold text-[#6C3F31]">Yes</td>
-                                <td class="py-5 px-6 font-bold text-[#6C3F31]">Yes</td>
-                                <td class="py-5 px-6 font-bold text-[#6C3F31]">Yes</td>
-                                <td class="py-5 px-6 text-green-600 font-bold">Zero-retention, in-memory only - never written to disk</td>
-                                <td class="py-5 px-6 font-bold text-[#F06292]">jpegli (Google's high-efficiency encoder)</td>
+                            <tr>
+                                <td>Mochify</td>
+                                <td>No (for standard tool)</td>
+                                <td>25 images/batch, 20MB max per file</td>
+                                <td>JPG, PNG, WebP, AVIF, HEIC (upload only), JPEG XL</td>
+                                <td>Yes</td>
+                                <td>Yes</td>
+                                <td>Yes</td>
+                                <td>Zero-retention, in-memory only - never written to disk</td>
+                                <td>jpegli (Google's high-efficiency encoder)</td>
                             </tr>
                         </tbody>
                     </table>
-                </ScrollableTable>
+                </GuideTable>
 
             <div class="bg-pink-50 rounded-3xl p-6 md:p-8 border border-pink-100">
                 <h3 class="font-bold text-[#4A2C2C] mb-4">Key Takeaways from the Table</h3>
@@ -680,9 +627,9 @@
                     <p class="mb-4">When you're uploading 500 product photos to eBay or compressing images for a client who mandates JPEG, jpegli means <em>smaller files at the same quality</em> - or the same file size at higher quality. For a 5MB DSLR photo, that's the difference between a 400KB output and a 280KB output, both looking identical to the customer.</p>
                     <p class="mb-4">Most tools (TinyPNG, ShortPixel) use proprietary or older JPEG stacks. Squoosh transparently uses MozJPEG. Mochify is the only mainstream web tool explicitly using jpegli for standard JPEG output.</p>
                     
-                    <InfoBox type="tip">
+                    <GlassInfoBox type="tip" title="FOR COMPLIANCE TEAMS">
                         <strong>Key Point:</strong> jpegli is <em>not</em> a new format. It produces standard <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.jpg</code> files that open in any viewer, browser, or app. The encoder efficiency is invisible to end-users - they just see faster-loading images.
-                    </InfoBox>
+                    </GlassInfoBox>
                 </div>
             </div>
         </section>
@@ -766,7 +713,26 @@
 <div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow"><div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div> <div class="relative z-10 mb-6"><span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">Free Tool</span></div> <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">Ready to convert your images?</h3> <p class="text-[#6C3F31] text-lg max-w-2xl mx-auto relative z-10 mb-8 leading-relaxed">Try Mochify's zero-retention WebP and AVIF converters - no accounts, no plugins, no stored files. Process in-memory with C++ engine speed, then upload directly to your site or marketplace.</p> <a href="https://mochify.app" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline"><span>Start Optimizing</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg></a></div>
         </section>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>
