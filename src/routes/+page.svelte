@@ -421,7 +421,7 @@
 	</script>
 </svelte:head>
 
-<Navigation />
+<Navigation wide />
 
 <LocaleBanner
 	offers={[

@@ -8,7 +8,10 @@
 	// Pages that ARE the sign-up destination (e.g. /auth/register) opt out of the
 	// "Get started" CTA: it links to the page you're already on and competes with
 	// the primary form. "Sign in" stays, since it's a real escape hatch for existing users.
-	let { showGetStarted = true }: { showGetStarted?: boolean } = $props();
+	// `wide` matches pages whose sections use max-w-6xl px-4 sm:px-6 (the
+	// homepage), so the logo and the CTA line up with the content edges.
+	let { showGetStarted = true, wide = false }: { showGetStarted?: boolean; wide?: boolean } =
+		$props();
 
 	// The header's Pricing link follows the page's language (handoff 2026-09-24
 	// E4). On /fr/flow it used to read "Pricing" and go to the English page, which
@@ -100,7 +103,11 @@
 	let hideLaunch = $derived(onDashboard || page.url.pathname === '/flow');
 </script>
 
-<nav class="relative z-20 mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-6">
+<nav
+	class="relative z-20 mx-auto flex w-full items-center justify-between px-4 py-6 {wide
+		? 'max-w-6xl sm:px-6'
+		: 'max-w-5xl'}"
+>
 	<a href="/" class="group flex items-center gap-2 transition-transform active:scale-95">
 		<div
 			class="flex h-8 w-8 items-center justify-center rounded-lg bg-mochi-pink shadow-sm transition-transform group-hover:rotate-6"
