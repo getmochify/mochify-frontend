@@ -1,9 +1,12 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Photo File Too Large to Upload? Why Free Tools Reject Camera Files",
@@ -177,54 +180,41 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Too Large to Upload" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Photo File Too Large to Upload? Why Free Tools Reject Camera Files
-        </h1>
-
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             If you keep seeing "file too large to upload," your camera is probably not doing anything wrong - the tools on the other end are. Modern mirrorless cameras produce 13MB to 50MB photos as a matter of routine, while most free compression tools cap uploads at 5MB to 20MB, and most destinations (marketplaces, email, portals) cap them again at 10MB to 25MB. This guide names the wall: exactly how big today's camera files are, exactly where the free-tool limits sit, why those limits exist, and the fastest honest path to files that upload everywhere.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published July 23, 2026 by the Mochify Engineering Team.</strong>
                 Written for the moment an upload form says no: real file sizes from current camera bodies, the caps that reject them, and which fix fits which file.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc.map((t) => ({ id: t.href.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
         <section id="the-short-answer" class="scroll-mt-24">
@@ -238,38 +228,38 @@
             <p>Straight-out-of-camera stills from current high-resolution bodies routinely run 13MB to 52MB, and RAW files run far beyond that. The resolution race made this normal: Fujifilm's X-T5 and X-H2 shoot 40MP, Canon's EOS R5 45MP, Sony's A7R V 61MP - pixel counts that were medium-format territory a few years ago are now the enthusiast default.</p>
             <p>Real numbers, from two sources. <a href="https://cam.start.canon/en/C003/manual/html/UG-09_Reference_0100.html" target="_blank" rel="noopener noreferrer">Canon's official EOS R5 specifications</a> list approximate file sizes of 13.5MB for a Fine Large JPEG, 13.4MB for a Fine Large HEIF (<code>.HIF</code>), 21.9MB for C-RAW, and 45.4MB for RAW. Those are Canon's averages; detailed scenes run higher.</p>
             <p>At 61MP the numbers jump. AlphaShooters' <a href="https://www.alphashooters.com/sony-a7rv-file-size/" target="_blank" rel="noopener noreferrer">measured Sony A7R V file sizes</a> across four test scenes:</p>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[480px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">A7R V file type</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Measured size</th>
+                        <tr>
+                            <th>A7R V file type</th>
+                            <th>Measured size</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">JPEG Extra Fine</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">35-52MB</td>
+                        <tr>
+                            <td>JPEG Extra Fine</td>
+                            <td>35-52MB</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">HEIF 4:2:2 Extra Fine</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">12-27MB</td>
+                        <tr>
+                            <td>HEIF 4:2:2 Extra Fine</td>
+                            <td>12-27MB</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">HEIF 4:2:0 Extra Fine</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">10-23MB</td>
+                        <tr>
+                            <td>HEIF 4:2:0 Extra Fine</td>
+                            <td>10-23MB</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Compressed RAW</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">64-73MB</td>
+                        <tr>
+                            <td>Compressed RAW</td>
+                            <td>64-73MB</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] font-bold">Uncompressed RAW</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">125-134MB</td>
+                        <tr>
+                            <td>Uncompressed RAW</td>
+                            <td>125-134MB</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
             <p>Read that JPEG row again: a maximum-quality JPEG from a current 61MP body is 35-52MB. Not RAW - JPEG. Every one of those files sails past a 5MB cap, most pass 20MB, and the detailed-scene ones pass anything short of 75MB.</p>
             <p>Two format notes. First, HEIF is doing real work in that table - the same scenes that produce 35-52MB JPEGs produce 12-27MB HEIFs, which is why pro bodies push the format; our guide on <a href="/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera">shooting HEIF vs JPEG on mirrorless cameras</a> covers that trade-off. Second, a demarcation we insist on: <code>.HIF</code> files come from professional cameras (Canon, Sony, Fujifilm); <code>.HEIC</code> files come from iPhones. Same format family underneath, completely different workflows. This guide is in the pro-camera lane; if your too-large file is a <code>.HEIC</code> from an iPhone, the <a href="/heic-to-jpeg">HEIC to JPEG converter</a> is your faster path. If it also has to get under a size limit, our <a href="/guides/reduce-photo-file-size-iphone">guide to reducing photo file size on iPhone</a> covers the quick route and the built-in one.</p>
         </section>
@@ -362,85 +352,91 @@
 
         <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>Cheat Sheet: File Sizes vs Tool Limits</SectionHeading>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[720px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">File</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Typical size</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Fits free caps?</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Right move</th>
+                        <tr>
+                            <th>File</th>
+                            <th>Typical size</th>
+                            <th>Fits free caps?</th>
+                            <th>Right move</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Phone photo (JPEG/HEIC)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">2-8MB</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Usually (5MB caps: sometimes not)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Compress + resize; iPhone <code>.HEIC</code> to JPEG</td>
+                        <tr>
+                            <td>Phone photo (JPEG/HEIC)</td>
+                            <td>2-8MB</td>
+                            <td>Usually (5MB caps: sometimes not)</td>
+                            <td>Compress + resize; iPhone <code>.HEIC</code> to JPEG</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Canon R5 JPEG / <code>.HIF</code> (45MP)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">~13-20MB</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">20MB yes; 5-10MB caps no</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Resize + re-encode (jpegli)</td>
+                        <tr>
+                            <td>Canon R5 JPEG / <code>.HIF</code> (45MP)</td>
+                            <td>~13-20MB</td>
+                            <td>20MB yes; 5-10MB caps no</td>
+                            <td>Resize + re-encode (jpegli)</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Sony A7R V JPEG Extra Fine (61MP)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">35-52MB</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No free cap fits</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">75MB-tier tool: resize + re-encode</td>
+                        <tr>
+                            <td>Sony A7R V JPEG Extra Fine (61MP)</td>
+                            <td>35-52MB</td>
+                            <td>No free cap fits</td>
+                            <td>75MB-tier tool: resize + re-encode</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">HEIF 4:2:2 from 61MP body</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">12-27MB</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">20MB usually; 5-10MB no</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Convert to JPEG or AVIF</td>
+                        <tr>
+                            <td>HEIF 4:2:2 from 61MP body</td>
+                            <td>12-27MB</td>
+                            <td>20MB usually; 5-10MB no</td>
+                            <td>Convert to JPEG or AVIF</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">C-RAW / compressed RAW</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">22-73MB</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Raw converter first, then compress export</td>
+                        <tr>
+                            <td>C-RAW / compressed RAW</td>
+                            <td>22-73MB</td>
+                            <td>No</td>
+                            <td>Raw converter first, then compress export</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] font-bold">Uncompressed RAW</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">125MB+</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">No (exceeds 75MB tiers too)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">Raw converter first - always</td>
+                        <tr>
+                            <td>Uncompressed RAW</td>
+                            <td>125MB+</td>
+                            <td>No (exceeds 75MB tiers too)</td>
+                            <td>Raw converter first - always</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
             <p>Destination caps to hit: eBay 12MB, Vinted 10MB, Gmail 25MB. Caps verified July 2026: TinyPNG free 5MB, Compressor.io ~10MB (reported), Mochify Free 20MB, Mochify Seller/Pro 75MB.</p>
         </section>
 
         <!-- FAQ -->
-        <GuideFAQs items={faqs} />
+        <GlassFAQs items={faqs} jsonLd={false} />
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Hit a size wall today?"
             href="/"
             label="Start Optimizing Now →"
         >
             Drop the file into Mochify and prompt <em>"resize to 2000px, convert to JPEG, keep under 10MB"</em> - 3 images a month free with no signup, 20MB per file on the Free tier.
-        </GuideCTA>
+        </GlassCTA>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

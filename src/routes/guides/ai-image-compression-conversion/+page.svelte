@@ -1,10 +1,12 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: 'AI Image Compression and Conversion: Describe the Result, Skip the Settings',
@@ -186,23 +188,26 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="AI Image Compression" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            AI Image Compression and Conversion: Describe the Result, Skip the Settings
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-4">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             AI image compression and conversion means turning heavy, inconsistent photos into fast, standards-compliant files (AVIF, WebP, or a well-tuned JPEG) at the right size and quality, without you having to know which format or quality value to pick. You describe the outcome you want in plain English, a language model works out the settings, and a native engine does the encoding.
         </p>
 
@@ -210,33 +215,17 @@
             This guide covers why image settings are a guessing game, the 2026 format landscape, how natural-language compression actually works, how it differs from generative AI, and how to use it from a single browser prompt to a fully agentic pipeline.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published June 30, 2026 by the Mochify Engineering Team.</strong> The same approach scales from one person dropping three photos into a browser to a developer wiring image processing straight into an AI agent.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc.map((t) => ({ id: t.href.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
         <!-- 1. The real problem -->
@@ -331,9 +320,9 @@
                 </ol>
             </div>
 
-            <InfoBox type="note" title="A note on what happens to your files">
+            <GlassInfoBox type="note" title="A note on what happens to your files">
                 For images and PDFs, the request travels to <code>api.mochify.app</code> over HTTPS, is processed in memory, and is wiped immediately after encoding, with no disk writes of the original and no logs containing file data. That is zero retention on the image and PDF path. Video is different: it is processed in your browser and never leaves your device.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- 8. How Mochify compares -->
@@ -349,9 +338,9 @@
             <p class="mb-4">If your images show identifiable people or carry metadata like GPS coordinates, they count as personal data under UK and EU GDPR, which means the tool you use to process them is a data processor and you are the controller. That makes retention and data transfer real compliance questions, not just nice-to-haves. Regulators including the UK ICO and the EDPB expect controllers to use only processors that provide sufficient guarantees, to hold clear contracts covering the nature and purpose of processing, and to understand where data is stored and whether it leaves the UK or EEA.</p>
             <p class="mb-4">This is why Mochify's retention model is built the way it is, and why it is worth being precise rather than making a single blanket claim. Images and PDFs are streamed into server memory at <code>api.mochify.app</code>, encoded, and wiped immediately, with no disk writes of the source and no logs containing file data. The hosted MCP server additionally holds the <em>compressed output</em> behind an unguessable, five-minute download URL so an agent can fetch it, then evicts it; the original is still discarded at once. The local CLI and local MCP server skip that pickup step entirely and stay zero retention end to end. Video, as noted, never leaves your browser at all. The aggregate position is simple to state honestly: zero retention on image and PDF, and video never leaves the device.</p>
 
-            <InfoBox type="tip" title="For compliance teams">
+            <GlassInfoBox type="tip" title="For compliance teams">
                 For teams that need the paperwork, we publish a <a href="/dpa">Data Processing Agreement</a>, and our <a href="/guides/privacy-image-optimization">privacy and image optimization guide</a> explains what zero retention means for agencies and regulated work. If you handle client or NDA-bound images, that DPA is the document to send to your compliance team.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- 10. Cheat sheet -->
@@ -359,54 +348,54 @@
             <SectionHeading>Cheat sheet</SectionHeading>
 
             <p class="mb-3"><strong>Format decision, at a glance</strong></p>
-            <ScrollableTable class="mb-8">
-                <table class="w-full text-left bg-white text-sm">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Goal</th>
-                            <th class="p-4 font-black">Use</th>
-                            <th class="p-4 font-black">Why</th>
+                            <th>Goal</th>
+                            <th>Use</th>
+                            <th>Why</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
+                    <tbody>
                         {#each formatTable as row}
                             <tr>
-                                <td class="p-4 font-semibold text-[#4A2C2C]">{row.goal}</td>
-                                <td class="p-4">{row.use}</td>
-                                <td class="p-4">{row.why}</td>
+                                <td>{row.goal}</td>
+                                <td>{row.use}</td>
+                                <td>{row.why}</td>
                             </tr>
                         {/each}
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <p class="mb-3"><strong>Which surface</strong></p>
-            <ScrollableTable class="mb-6">
-                <table class="w-full text-left bg-white text-sm">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">You are</th>
-                            <th class="p-4 font-black">Use</th>
+                            <th>You are</th>
+                            <th>Use</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
+                    <tbody>
                         {#each surfaceTable as row}
                             <tr>
-                                <td class="p-4 font-semibold text-[#4A2C2C]">{row.you}</td>
-                                <td class="p-4">{row.use}</td>
+                                <td>{row.you}</td>
+                                <td>{row.use}</td>
                             </tr>
                         {/each}
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
-            <InfoBox type="tip" title="The one rule">
+            <GlassInfoBox type="tip" title="The one rule">
                 Describe the result you want in plain English. Let Magic Flow pick the format, quality, and size. MCP and API access are on every tier, including Free.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- 11. FAQ -->
-        <GuideFAQs items={faqs} />
+        <GlassFAQs items={faqs} jsonLd={false} />
 
         <!-- CTA -->
         <div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
@@ -428,8 +417,27 @@
 
         <!-- 12. Related guides -->
         <div id="related-guides">
-            <RelatedGuides guides={related} />
+            <RelatedGuidesGrid guides={related} />
         </div>
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

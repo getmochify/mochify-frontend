@@ -1,10 +1,13 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Cross-Listing for Resellers: One Set of Photos, Every Marketplace",
@@ -199,54 +202,41 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Cross-Listing" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Cross-Listing for Resellers: One Set of Photos, Every Marketplace
-        </h1>
-
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Cross-listing is how serious resellers grow: the same item, listed on eBay, Poshmark, Mercari, Depop, and Vinted at once, so it sells wherever the buyer happens to be. Cross-listing apps have made the text side of this nearly effortless. The photo side is another story. Every marketplace wants a different shape, a different size, and a different file format, and the apps mostly copy your photos as-is and hope for the best. This guide covers what cross-listing actually involves, what the apps do and don't handle, the current photo requirements for six marketplaces, and a batch workflow that preps one photo set for all of them in minutes.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published August 5, 2026 by the Mochify Engineering Team.</strong>
                 Written for resellers who list everywhere: what the cross-listing apps handle, what they leave to you, and the fastest way to close the gap.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc.map((t) => ({ id: t.href.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
         <!-- 01 -->
@@ -255,53 +245,53 @@
             <p>Cross-listing means publishing the same item for sale on two or more marketplaces at the same time, then removing it everywhere the moment it sells anywhere. No major marketplace prohibits listing an item elsewhere; the obligation you take on is availability, which is why the delist-on-sale habit is the one rule every experienced reseller treats as non-negotiable.</p>
             <p>It's worth doing because the buyer pools genuinely differ. The US secondhand apparel market grew 14% in 2024, its strongest year since 2021, and is projected to reach $74 billion by 2029 according to <a href="https://newsroom.thredup.com/news/thredup-13th-resale-report" target="_blank" rel="noopener noreferrer">ThredUp's 2025 Resale Report</a>. A vintage band tee might sit for weeks on eBay and sell in a day on Depop; a mid-range handbag usually runs the other way. Listing everywhere is how you find out.</p>
             <p>The catch is workload. A full manual listing takes most sellers somewhere between 20 and 40 minutes, and re-listing the same item on each additional platform adds several more minutes per marketplace. Multiply by a 200-item closet and the appeal of automation is obvious.</p>
-            <InfoBox type="warning" title="Use your own photos">
+            <GlassInfoBox type="warning" title="Use your own photos">
                 One caution before you automate: eBay's <a href="https://www.ebay.com/help/policies/listing-policies/images-videos-text-policy?id=4240" target="_blank" rel="noopener noreferrer">images and text policy</a> requires that you use your own photos and descriptions. Cross-listing your own originals is fine. Copying another seller's photos, even for an identical item, is not.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- 02 -->
         <section id="what-cross-listing-apps-actually-do" class="scroll-mt-24">
             <SectionHeading>What cross-listing apps actually do (and what they cost)</SectionHeading>
             <p>Cross-listing apps copy your listing data (title, description, price, category mappings, and photos) from one marketplace form to another, and most add inventory sync so a sale on one platform delists the item from the rest. As of July 2026 the main players are:</p>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[640px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">App</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Price (from)</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Marketplaces</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">What it does with photos</th>
+                        <tr>
+                            <th>App</th>
+                            <th>Price (from)</th>
+                            <th>Marketplaces</th>
+                            <th>What it does with photos</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Vendoo</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">~$14.99/mo</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">~10 (eBay, Poshmark, Mercari, Depop, Grailed, Facebook, Etsy, more)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Manual: separate photo slots per marketplace; you supply the variants</td>
+                        <tr>
+                            <td>Vendoo</td>
+                            <td>~$14.99/mo</td>
+                            <td>~10 (eBay, Poshmark, Mercari, Depop, Grailed, Facebook, Etsy, more)</td>
+                            <td>Manual: separate photo slots per marketplace; you supply the variants</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">List Perfectly</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">~$29/mo</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">11 (adds Kidizen, Vestiaire, Shopify, Whatnot)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Hosts up to 30 images; auto-adjusts non-square images for 1:1 marketplaces</td>
+                        <tr>
+                            <td>List Perfectly</td>
+                            <td>~$29/mo</td>
+                            <td>11 (adds Kidizen, Vestiaire, Shopify, Whatnot)</td>
+                            <td>Hosts up to 30 images; auto-adjusts non-square images for 1:1 marketplaces</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Crosslist</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">~$21/mo (annual)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">11+ (including Vinted)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Letterboxes rectangular photos to square with black borders (or center-crops)</td>
+                        <tr>
+                            <td>Crosslist</td>
+                            <td>~$21/mo (annual)</td>
+                            <td>11+ (including Vinted)</td>
+                            <td>Letterboxes rectangular photos to square with black borders (or center-crops)</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] font-bold">Flyp</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">Free 100 days, then ~$9/mo</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">4 (eBay, Poshmark, Mercari, Depop)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">Copies photos as-is</td>
+                        <tr>
+                            <td>Flyp</td>
+                            <td>Free 100 days, then ~$9/mo</td>
+                            <td>4 (eBay, Poshmark, Mercari, Depop)</td>
+                            <td>Copies photos as-is</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
             <p>Prices and features are from each vendor's own site, accessed July 2026, and change often; treat them as ballparks. All four are good at what they promise: moving listing data around. List Perfectly claims sellers list "80% faster" with it, and even discounting a vendor's own number, the time savings on the text side are real.</p>
             <p>Whether any of these subscriptions earns its place depends on your volume more than its feature list. We work through <a href="/guides/is-reselling-worth-it">whether the reselling math works at your volume</a> separately, including where a paid tool starts paying for itself.</p>
         </section>
@@ -324,63 +314,63 @@
         <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>Marketplace photo requirements compared (cheat sheet)</SectionHeading>
             <p>Requirements below are from each marketplace's official documentation where it exists, accessed July 2026. Where a marketplace publishes no hard spec, we note the commonly reported figure.</p>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[720px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Marketplace</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Photos per listing</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Shape that wins</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Size guidance</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">File limits &amp; formats</th>
+                        <tr>
+                            <th>Marketplace</th>
+                            <th>Photos per listing</th>
+                            <th>Shape that wins</th>
+                            <th>Size guidance</th>
+                            <th>File limits &amp; formats</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">eBay</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Up to 24</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">1:1 or 16:9</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Min 500x500px; ~1600px recommended</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">12MB; JPEG, PNG, WebP, HEIC, AVIF, TIFF, BMP, GIF (<a href="https://www.ebay.com/help/selling/listings/adding-pictures-listings?id=4148" target="_blank" rel="noopener noreferrer">eBay photo rules</a>)</td>
+                        <tr>
+                            <td>eBay</td>
+                            <td>Up to 24</td>
+                            <td>1:1 or 16:9</td>
+                            <td>Min 500x500px; ~1600px recommended</td>
+                            <td>12MB; JPEG, PNG, WebP, HEIC, AVIF, TIFF, BMP, GIF (<a href="https://www.ebay.com/help/selling/listings/adding-pictures-listings?id=4148" target="_blank" rel="noopener noreferrer">eBay photo rules</a>)</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Poshmark</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Up to 16 (commonly cited)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">3:4 portrait since March 2026</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">~1000px+</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Square photos get auto-framed to portrait</td>
+                        <tr>
+                            <td>Poshmark</td>
+                            <td>Up to 16 (commonly cited)</td>
+                            <td>3:4 portrait since March 2026</td>
+                            <td>~1000px+</td>
+                            <td>Square photos get auto-framed to portrait</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Mercari</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Up to 12</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Square-leaning grid</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No official spec; ~1080px works well</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">First photo is your cover (<a href="https://www.mercari.com/us/help_center/topics/listing/guides/creating-a-listing/" target="_blank" rel="noopener noreferrer">Mercari listing guide</a>)</td>
+                        <tr>
+                            <td>Mercari</td>
+                            <td>Up to 12</td>
+                            <td>Square-leaning grid</td>
+                            <td>No official spec; ~1080px works well</td>
+                            <td>First photo is your cover (<a href="https://www.mercari.com/us/help_center/topics/listing/guides/creating-a-listing/" target="_blank" rel="noopener noreferrer">Mercari listing guide</a>)</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Depop</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">4 (commonly reported; 8 rolling out)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Square 1:1; non-square gets cropped</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">1080x1080px typical</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Original photos required; stock images get listings removed</td>
+                        <tr>
+                            <td>Depop</td>
+                            <td>4 (commonly reported; 8 rolling out)</td>
+                            <td>Square 1:1; non-square gets cropped</td>
+                            <td>1080x1080px typical</td>
+                            <td>Original photos required; stock images get listings removed</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Vinted</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Up to 20</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">3:4 portrait</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">1080x1440px recommended</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">10MB; JPEG/PNG</td>
+                        <tr>
+                            <td>Vinted</td>
+                            <td>Up to 20</td>
+                            <td>3:4 portrait</td>
+                            <td>1080x1440px recommended</td>
+                            <td>10MB; JPEG/PNG</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] font-bold">Facebook Marketplace</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">Up to 10 (commonly cited)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">Square-safe</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">~1200x1200px</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">JPEG/PNG</td>
+                        <tr>
+                            <td>Facebook Marketplace</td>
+                            <td>Up to 10 (commonly cited)</td>
+                            <td>Square-safe</td>
+                            <td>~1200x1200px</td>
+                            <td>JPEG/PNG</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
             <p>Three things jump out of that table. First, no two platforms agree. Second, the shape question alone splits three ways: square for Depop and Mercari, portrait for Poshmark and Vinted, flexible for eBay. Third, the first photo matters most everywhere, because every platform uses it as the search thumbnail, and several crop it differently in search than on the listing page.</p>
             <p>The table above covers the six resale marketplaces most cross-listers work across. If your catalog also goes to Amazon, Shopify, Etsy, or a WooCommerce storefront, where the specs are stricter and enforcement is automated, <a href="/guides/product-image-requirements-marketplace-guide">the complete requirements table for every major marketplace</a> sets all of them out side by side.</p>
             <p>Shooting advice follows directly: photograph with generous negative space around the item, so the same frame survives a square crop and a portrait crop. For the platforms that crop aggressively, our quick answer on <a href="https://mochify.app/guides/do-marketplace-product-images-need-to-be-square">whether marketplace product images need to be square</a> covers the safe default.</p>
@@ -403,39 +393,45 @@
                 {/each}
             </div>
 
-            <InfoBox type="tip" title="Be deliberate about EXIF">
+            <GlassInfoBox type="tip" title="Be deliberate about EXIF">
                 Note the "strip all metadata" line in the prompts: it's stated explicitly because you should always be deliberate about EXIF. Your phone embeds GPS coordinates in every photo, and your home address has no business in a marketplace listing.
-            </InfoBox>
+            </GlassInfoBox>
 
             <p class="text-sm text-[#875F42]">A privacy note on how this works: image processing happens on Mochify's servers. Your photos travel over HTTPS to api.mochify.app, are processed in RAM, and are wiped immediately after encoding, with no disk writes and no logs containing file data. Batch sizes run up to 25 files on the Seller and Pro tiers (3 per batch on Free), which fits a full listing's photo set for every platform in one pass.</p>
         </section>
 
         <!-- FAQ -->
-        <GuideFAQs items={faqs} />
+        <GlassFAQs items={faqs} jsonLd={false} />
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="One shoot, every marketplace"
             href="/"
             label="Open Magic Flow →"
         >
             Three prompts per shoot batch, a few minutes total, and every marketplace gets photos shaped for its layout instead of one platform's leftovers. Upload your next batch and try <em>"smart-crop these to square, 1080px, JPEG, strip all metadata"</em> for yourself.
-        </GuideCTA>
+        </GlassCTA>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

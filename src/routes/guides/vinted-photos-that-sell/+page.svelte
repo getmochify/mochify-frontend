@@ -1,10 +1,13 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "How to Take Vinted Photos That Sell",
@@ -188,63 +191,50 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Vinted Photos" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            How to Take Vinted Photos That Sell
-        </h1>
-
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Good photos are the single biggest lever a Vinted seller controls. The feed is a grid of portrait thumbnails, buyers decide in a glance, and two identical hoodies at the same price will sell at very different speeds depending on which one looks like a shop listing and which one looks like a pile on a bed. This guide covers how to take good photos for Vinted from the ground up: what Vinted's own rules ask for, how to shoot with a phone and daylight, the real technical facts about sizes and cropping (which almost every blog post gets wrong), and how to batch-fix an entire wardrobe clear-out in one plain-English prompt.
         </p>
 
-        <InfoBox type="technical" title="The short answers">
+        <GlassInfoBox type="technical" title="The short answers">
             <p class="mb-3">If that is all you came for:</p>
             <ul class="list-disc pl-6 space-y-2 m-0">
                 <li><strong class="text-[#4A2C2C]">Vinted photo size and aspect ratio:</strong> portrait, about 3:4, 1080px wide or more (for example 1080x1440), item centered. Vinted sets no official spec; this is what its image pipeline actually rewards. <a href="#technical-facts">The real numbers</a>.</li>
                 <li><strong class="text-[#4A2C2C]">Vinted photo rules:</strong> up to 20 photos, the first must show the whole item, and every photo must be your own. No stock, catalog or watermarked images. <a href="#vinted-rules">The rules Vinted actually sets</a>.</li>
                 <li><strong class="text-[#4A2C2C]">Why Vinted crops your photos:</strong> the search grid crops every first photo to a fixed portrait thumbnail, so landscape or off-center shots lose their edges. <a href="#faq">More in the FAQ</a>.</li>
             </ul>
-        </InfoBox>
+        </GlassInfoBox>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published July 19, 2026 by the Mochify Engineering Team.</strong>
                 Written after checking what Vinted's help pages and image pipeline actually do in July 2026, since most photo-requirements posts invent their numbers.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc.map((t) => ({ id: t.href.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
         <section id="why-photos-matter" class="scroll-mt-24">
@@ -305,9 +295,9 @@
             <p>Fix the source, not the upload: shoot in daylight, wipe the lens, tap to focus, step closer instead of zooming, and give Vinted an original of 1,080 to 1,600 pixels on the long side. If a batch is already shot at mixed sizes, resize the lot to 1440 pixels tall and export as JPEG before uploading; <a href="https://mochify.app/vinted-seller">the Vinted seller tool</a> does that in one prompt. Sellers also report listings being hidden for low-quality photos. Vinted publishes no such threshold, so a sharp, well-lit original is the safe side of whatever the filter is.</p>
             <p><strong class="text-[#4A2C2C]">Profile picture.</strong> Vinted publishes no size for it either. The avatar is served as a 100x100 square and shown as a small circle (48 pixels wide in the web catalog, October 2026), so upload a square image with your face or logo centered. Anything from about 400 pixels up looks identical once shrunk, and the corners are lost to the circle.</p>
 
-            <InfoBox type="note" title="iPhone sellers: convert HEIC first">
+            <GlassInfoBox type="note" title="iPhone sellers: convert HEIC first">
                 Your camera saves .HEIC files. The Vinted app handles them, but browsers and desktop editing tools often do not. If you organize or edit listing photos on a computer, convert them first with our <a href="/heic-to-jpeg">HEIC to JPEG converter</a> - and see <a href="/guides/heic-to-jpeg-or-webp-wordpress">Should I convert HEIC to JPEG or WebP for WordPress uploads?</a> if you also sell on your own site.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="privacy" class="scroll-mt-24">
@@ -315,9 +305,9 @@
             <p>Listing photos taken at home can reveal more than the item: reflections, paperwork in the background, and the photo's hidden EXIF metadata, which can include the exact GPS coordinates of where it was taken. Vinted's own guidance already covers the visible half - avoid your face, blur identifiable features, and never share personal details in photos or chat.</p>
             <p>The invisible half is metadata. Phone cameras embed EXIF data in every shot: device model, timestamp, and (if location services are on for the camera) GPS coordinates of your home. Marketplaces typically re-encode uploads, which in practice removes most metadata - but "typically" and "most" are doing heavy lifting there, and the photos also sit in your cloud library, get shared in chats, and get reused across platforms that behave differently. The robust habit is stripping metadata yourself before upload, stated explicitly as part of your workflow rather than assumed. Our guide to <a href="/guides/exif-data-risks-image-compression-2026">the risks of EXIF data in image compression</a> covers what leaks and why.</p>
 
-            <InfoBox type="tip" title="Two-second background scan">
+            <GlassInfoBox type="tip" title="Two-second background scan">
                 Before shooting, scan for window views that identify your street, letters with your address, screens, and mirrors. Cheaper than editing them out afterwards.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- Workflow card -->
@@ -361,90 +351,96 @@
 
         <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>Cheat Sheet</SectionHeading>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[480px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">What</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">The move</th>
+                        <tr>
+                            <th>What</th>
+                            <th>The move</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Orientation</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Portrait, 3:4 ratio (phone default)</td>
+                        <tr>
+                            <td>Orientation</td>
+                            <td>Portrait, 3:4 ratio (phone default)</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Size</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">~1080x1440px; anything beyond ~1600px is wasted</td>
+                        <tr>
+                            <td>Size</td>
+                            <td>~1080x1440px; anything beyond ~1600px is wasted</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Format</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">JPEG or PNG (convert iPhone HEIC first)</td>
+                        <tr>
+                            <td>Format</td>
+                            <td>JPEG or PNG (convert iPhone HEIC first)</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">First photo</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Entire item, centered, no collage</td>
+                        <tr>
+                            <td>First photo</td>
+                            <td>Entire item, centered, no collage</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Photos per listing</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Up to 20; use 5-8 minimum, more for branded items</td>
+                        <tr>
+                            <td>Photos per listing</td>
+                            <td>Up to 20; use 5-8 minimum, more for branded items</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Light</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Daylight near a window; no flash, no filters</td>
+                        <tr>
+                            <td>Light</td>
+                            <td>Daylight near a window; no flash, no filters</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Background</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Plain wall, floor, or white sheet</td>
+                        <tr>
+                            <td>Background</td>
+                            <td>Plain wall, floor, or white sheet</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Style</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Flat lay or hanger; worn optional (keep your face out)</td>
+                        <tr>
+                            <td>Style</td>
+                            <td>Flat lay or hanger; worn optional (keep your face out)</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Honesty</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Photograph every flaw; close-ups of labels and stitching</td>
+                        <tr>
+                            <td>Honesty</td>
+                            <td>Photograph every flaw; close-ups of labels and stitching</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Privacy</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Scan backgrounds; strip EXIF metadata before upload</td>
+                        <tr>
+                            <td>Privacy</td>
+                            <td>Scan backgrounds; strip EXIF metadata before upload</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] font-bold">Batch fix</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">One Magic Flow prompt: crop 3:4, center, JPEG, strip metadata</td>
+                        <tr>
+                            <td>Batch fix</td>
+                            <td>One Magic Flow prompt: crop 3:4, center, JPEG, strip metadata</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <!-- FAQ -->
-        <GuideFAQs items={faqs} />
+        <GlassFAQs items={faqs} jsonLd={false} />
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Selling this weekend?"
             href="/vinted-seller"
             label="Try the Vinted photo optimizer →"
         >
             Batch-fix your listing photos in one prompt - just describe it, like <em>"crop these to 3:4 portrait, center the item, convert to JPEG, and strip all metadata"</em>. Free for up to 25 images a month, no card needed.
-        </GuideCTA>
+        </GlassCTA>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

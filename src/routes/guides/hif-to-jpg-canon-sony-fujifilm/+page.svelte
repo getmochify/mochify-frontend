@@ -1,9 +1,12 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
 
     const metadata = {
         title: "HIF to JPG: Convert Canon, Sony & Fujifilm Photos to Shareable JPEGs",
@@ -126,58 +129,45 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-green-50 text-green-600 text-xs font-bold uppercase tracking-wider border border-green-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title="HIF to JPG: Convert Canon, Sony &amp; Fujifilm Photos to Shareable JPEGs" accent="HIF to JPG" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            HIF to JPG: Convert Canon, Sony &amp; Fujifilm Photos to Shareable JPEGs
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             HIF files come off professional mirrorless cameras full of 10-bit color and punishing dynamic range, and then promptly refuse to open on half the computers in the world. If you need to convert HIF to JPG and want to understand what you are trading away in the process, this guide covers every method, on every platform, for every camera brand.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published June 2026 by the Mochify Engineering Team.</strong>
                 Covering Canon EOS R-series, Sony Alpha, and Fujifilm X-series workflows, plus a deep dive into what actually changes when you go from 10-bit HIF to 8-bit JPEG.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                        <li>
-                            <a href={item.id} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7" /></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc.map((t) => ({ id: t.id.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
         <!-- Section 1 -->
-        <section id="what-is-a-hif-file">
+        <section id="what-is-a-hif-file" class="scroll-mt-24">
             <SectionHeading>What is a HIF file?</SectionHeading>
             <p>A HIF file is a still image from a professional mirrorless camera saved in the HEIF (High Efficiency Image File Format) container, with <code class={inlineCode}>.HIF</code> as the vendor-specific file extension. Fujifilm's official camera manual states this directly: "HEIF pictures are stored on the memory card as files with the extension <code class={inlineCode}>.HIF</code>." Canon's Digital Photo Professional software uses the same <code class={inlineCode}>.HIF</code> convention for its HEIF save-as type. Under the hood, HIF uses HEVC (H.265) compression inside an ISO Base Media File Format container (the same family that underpins MP4 video) to pack more color depth into a smaller file than traditional JPEG. For a platform-by-platform primer on opening one, see <a href="https://mochify.app/guides/what-is-a-hif-file">what is a HIF file?</a></p>
 
@@ -193,7 +183,7 @@
         </section>
 
         <!-- Section 2 -->
-        <section id="why-hif-files-wont-open">
+        <section id="why-hif-files-wont-open" class="scroll-mt-24">
             <SectionHeading>Why your HIF files won't open or upload</SectionHeading>
             <p>HIF files convert cleanly once you have the right tool, but they fail silently in a surprising number of everyday situations.</p>
 
@@ -212,7 +202,7 @@
         </section>
 
         <!-- Section 3 -->
-        <section id="how-to-convert-hif-to-jpg">
+        <section id="how-to-convert-hif-to-jpg" class="scroll-mt-24">
             <SectionHeading>How to convert HIF to JPG: every method</SectionHeading>
             <p>Converting HIF to JPG is straightforward once you know which tool to reach for. Here is every reliable method, by platform and camera brand.</p>
 
@@ -233,13 +223,13 @@
             </ol>
             <p>macOS 12 and later adds Shortcuts and Finder Quick Actions. Right-clicking a batch of <code class={inlineCode}>.HIF</code> files and choosing "Convert Image" produces JPEGs without opening any app.</p>
 
-            <InfoBox type="note" title="Canon HDR PQ on macOS">
+            <GlassInfoBox type="note" title="Canon HDR PQ on macOS">
                 When exporting Canon HDR PQ files, macOS maps the HDR PQ tone curve to standard dynamic range automatically. The result may look slightly darker or flatter than the file appeared on an HDR-capable display. That is not a macOS bug; it is the inherent 10-bit-HDR-to-8-bit-SDR conversion at work.
-            </InfoBox>
+            </GlassInfoBox>
 
-            <InfoBox type="tip" title="Fujifilm on older macOS">
+            <GlassInfoBox type="tip" title="Fujifilm on older macOS">
                 Some apps do not recognize the <code class={inlineCode}>.HIF</code> extension even if they handle <code class={inlineCode}>.HEIC</code>. Renaming <code class={inlineCode}>.HIF</code> to <code class={inlineCode}>.HEIC</code> is a widely reported workaround that lets Photos and other HEIF-aware apps open the file, though it is not officially documented by Apple or Fujifilm.
-            </InfoBox>
+            </GlassInfoBox>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">In-camera conversion (Canon)</h3>
             <p>Canon's EOS R-series gives you a JPEG conversion path that never touches a computer:</p>
@@ -265,7 +255,7 @@
         </section>
 
         <!-- Section 4 -->
-        <section id="what-you-lose-and-keep">
+        <section id="what-you-lose-and-keep" class="scroll-mt-24">
             <SectionHeading>What you lose (and keep) going 10-bit HIF to 8-bit JPG</SectionHeading>
             <p>The core trade-off is bit depth. HIF files from professional cameras are typically 10-bit per channel. Standard JPEG is 8-bit. That means moving from 1,024 tonal steps per channel to 256, and in smooth gradients like skies and skin, that compression can show up as banding or posterisation. For the short version, <a href="https://mochify.app/guides/does-hif-to-jpg-lose-quality">does converting HIF to JPG reduce quality?</a></p>
             <p>In practice, the risk is more theoretical than catastrophic for well-exposed shots. Good converters apply perceptual tone-mapping and dithering to spread quantisation across imperceptible steps. Photoshop users, for example, can enable "Use dither" when exporting 8-bit images from higher-bit sources to hide gradient steps.</p>
@@ -280,7 +270,7 @@
         </section>
 
         <!-- Section 5 -->
-        <section id="exif-metadata-and-gps-privacy">
+        <section id="exif-metadata-and-gps-privacy" class="scroll-mt-24">
             <SectionHeading>EXIF metadata and GPS privacy</SectionHeading>
             <p>HIF files carry the same EXIF payload as JPEG: camera make and model, lens, ISO, shutter speed, aperture, software, and often GPS coordinates with metre-level precision.</p>
             <p>GPS data in EXIF is a privacy risk that is easy to miss. Anyone who downloads the original file can read the GPS tag with a free EXIF viewer. Privacy researchers have documented how unstripped location data in shared images can reveal home addresses, workplaces, schools, and daily routines. The EXIF specification also includes device serial numbers, which are useful for fingerprinting a photographer's gear across public archives.</p>
@@ -288,37 +278,37 @@
         </section>
 
         <!-- Section 6 -->
-        <section id="why-jpg-is-still-the-safe-format">
+        <section id="why-jpg-is-still-the-safe-format" class="scroll-mt-24">
             <SectionHeading>Why JPG is still the safe universal share format</SectionHeading>
             <p>JPEG remains the one format that every browser, social network, CMS, marketplace, and print service can handle without question. That is not because JPEG is the most efficient format; modern alternatives are measurably better, but universal acceptance is worth more than compression gains when a file needs to open everywhere.</p>
             <p>The <a href="https://almanac.httparchive.org/en/2022/media" target="_blank" rel="noopener noreferrer">HTTP Archive Web Almanac</a> reports images account for around 36–37% of total page weight on a median website, making format choice a meaningful performance lever. Despite this, browser support for newer formats is still uneven:</p>
 
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[600px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Format</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Chrome</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Firefox</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Edge</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Safari</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Notes</th>
+                        <tr>
+                            <th>Format</th>
+                            <th>Chrome</th>
+                            <th>Firefox</th>
+                            <th>Edge</th>
+                            <th>Safari</th>
+                            <th>Notes</th>
                         </tr>
                     </thead>
                     <tbody>
                         {#each browserSupport as row, i}
                             <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">{row.fmt}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.chrome}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.firefox}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.edge}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.safari}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.notes}</td>
+                                <td>{row.fmt}</td>
+                                <td>{row.chrome}</td>
+                                <td>{row.firefox}</td>
+                                <td>{row.edge}</td>
+                                <td>{row.safari}</td>
+                                <td>{row.notes}</td>
                             </tr>
                         {/each}
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
             <p class="text-sm text-[#875F42]">Sources: <a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">caniuse.com/heif</a>, <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">caniuse.com/avif</a>, <a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer">caniuse.com/jpegxl</a>, checked October 7, 2026.</p>
 
             <p>JPEG's durability is reinforced by jpegli. The ~35% compression improvement at high quality settings narrows the gap between traditional JPEG and modern formats like AVIF and WebP considerably. When compatibility cannot be compromised, a well-encoded jpegli JPEG is the practical answer: it opens everywhere and wastes fewer bytes doing it.</p>
@@ -326,7 +316,7 @@
         </section>
 
         <!-- Section 7 -->
-        <section id="mochify-workflow">
+        <section id="mochify-workflow" class="scroll-mt-24">
             <SectionHeading>Mochify Workflow: convert HIF to JPG in one step</SectionHeading>
             <p>Mochify's HIF-to-JPG converter accepts <code class={inlineCode}>.HIF</code> files directly from Canon, Sony, and Fujifilm cameras. The fastest path is natural language via Magic Flow; describe what you want in plain English, and the tool resolves format, quality, resize, and metadata settings automatically.</p>
 
@@ -370,36 +360,36 @@
         </section>
 
         <!-- Section 8 -->
-        <section id="cheat-sheet">
+        <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>HIF to JPG cheat sheet</SectionHeading>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[640px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Method</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Best for</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Batch?</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Quality control</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Strips metadata?</th>
+                        <tr>
+                            <th>Method</th>
+                            <th>Best for</th>
+                            <th>Batch?</th>
+                            <th>Quality control</th>
+                            <th>Strips metadata?</th>
                         </tr>
                     </thead>
                     <tbody>
                         {#each cheatSheet as row, i}
                             <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">{row.method}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.best}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.batch}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.quality}</td>
-                                <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">{row.strips}</td>
+                                <td>{row.method}</td>
+                                <td>{row.best}</td>
+                                <td>{row.batch}</td>
+                                <td>{row.quality}</td>
+                                <td>{row.strips}</td>
                             </tr>
                         {/each}
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <!-- FAQ -->
-        <GuideFAQs items={faqs} heading="Frequently Asked Questions" />
+        <GlassFAQs items={faqs} heading="Frequently Asked Questions" jsonLd={false} />
 
         <!-- CTA -->
         <div class="my-10 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
@@ -411,20 +401,26 @@
             </a>
         </div>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">: {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7" /></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

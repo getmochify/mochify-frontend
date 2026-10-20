@@ -1,9 +1,12 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Is Reselling Worth It in 2026? The Honest Math",
@@ -180,54 +183,41 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Reselling Worth It" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Is Reselling Worth It in 2026? The Honest Math
-        </h1>
-
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Is reselling worth it in 2026? For most people who treat it as a system rather than a hobby, yes - the US secondhand market hit $55.5 billion in 2025 and is growing nearly four times faster than the broader retail clothing market. But "worth it" is a math question, not a vibes question, and most articles about reselling skip the arithmetic entirely. This guide walks through the actual numbers: what the market looks like, what your time is really spent on, what tools cost, and where the money leaks out of a one-person reselling operation.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published July 23, 2026 by the Mochify Engineering Team.</strong>
                 The math here is deliberately conservative, and the free-tier cases are stated plainly: sometimes the right spend on photo tooling is zero.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc.map((t) => ({ id: t.href.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
         <section id="the-short-answer" class="scroll-mt-24">
@@ -278,39 +268,39 @@
         <section id="what-reseller-tools-cost" class="scroll-mt-24">
             <SectionHeading>What Reseller Tools Cost in 2026</SectionHeading>
             <p>The honest answer: the popular reseller stack costs $15-60 a month, and most of it is cross-listing software, not photo tooling. As of July 2026, the main cross-listers price out like this (vendor-published pricing, rounded):</p>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[560px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Tool</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Entry price</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">What it does with photos</th>
+                        <tr>
+                            <th>Tool</th>
+                            <th>Entry price</th>
+                            <th>What it does with photos</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Vendoo</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">from $14.99/mo</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Manual per-marketplace photo slots</td>
+                        <tr>
+                            <td>Vendoo</td>
+                            <td>from $14.99/mo</td>
+                            <td>Manual per-marketplace photo slots</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Crosslist</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">from ~$20.83/mo (annual)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Letterboxes to square; built-in editor</td>
+                        <tr>
+                            <td>Crosslist</td>
+                            <td>from ~$20.83/mo (annual)</td>
+                            <td>Letterboxes to square; built-in editor</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">List Perfectly</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">from $29/mo</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Hosts photos; assists 1:1 conversion</td>
+                        <tr>
+                            <td>List Perfectly</td>
+                            <td>from $29/mo</td>
+                            <td>Hosts photos; assists 1:1 conversion</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] font-bold">Flyp</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">free 100 days, then $9/mo</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">Copies photos as-is</td>
+                        <tr>
+                            <td>Flyp</td>
+                            <td>free 100 days, then $9/mo</td>
+                            <td>Copies photos as-is</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
             <p>Cross-listers are genuinely useful at volume - copying a listing to a second marketplace beats retyping it. But note what none of them do: per-platform photo <em>optimization</em>. They move your images around; they do not re-crop portrait for Poshmark, convert HEIC for eBay, or compress an oversized photo under a platform cap. The photo work still happens upstream, which is why it belongs in your math as its own line.</p>
             <p>For the photo line, the relevant comparison set is image tools, and the range is $0 to about $25/month. Mochify's Seller tier is $7.99/month; you can see the full breakdown, in your local currency, on the <a href="/pricing">pricing page</a>. Whether that line should be $0 or $7.99 is the next section, and the answer is not always $7.99.</p>
         </section>
@@ -381,79 +371,85 @@
 
         <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>Cheat Sheet: the Reseller ROI Decision Table</SectionHeading>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[640px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Your volume</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Photos/month</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Photo tool spend</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Why</th>
+                        <tr>
+                            <th>Your volume</th>
+                            <th>Photos/month</th>
+                            <th>Photo tool spend</th>
+                            <th>Why</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">1-3 listings/month</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">~10-30</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50"><strong class="text-[#4A2C2C]">$0 (Free tier)</strong></td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">25 images/month covers it</td>
+                        <tr>
+                            <td>1-3 listings/month</td>
+                            <td>~10-30</td>
+                            <td><strong class="text-[#4A2C2C]">$0 (Free tier)</strong></td>
+                            <td>25 images/month covers it</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">One-off haul or clear-out</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">~50-100</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50"><strong class="text-[#4A2C2C]">$5 Credit Pack, once</strong></td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">100 images, no expiry, no subscription</td>
+                        <tr>
+                            <td>One-off haul or clear-out</td>
+                            <td>~50-100</td>
+                            <td><strong class="text-[#4A2C2C]">$5 Credit Pack, once</strong></td>
+                            <td>100 images, no expiry, no subscription</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">5-10 listings/week</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">200-450</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50"><strong class="text-[#4A2C2C]">Seller, $7.99/mo</strong></td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">300 images/mo, batches of 25 vs 3, 75MB files, priority queue</td>
+                        <tr>
+                            <td>5-10 listings/week</td>
+                            <td>200-450</td>
+                            <td><strong class="text-[#4A2C2C]">Seller, $7.99/mo</strong></td>
+                            <td>300 images/mo, batches of 25 vs 3, 75MB files, priority queue</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Team or store scale</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">500-1,200+</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50"><strong class="text-[#4A2C2C]">Pro, $24.99/mo</strong></td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">1,200 images/mo, top queue priority</td>
+                        <tr>
+                            <td>Team or store scale</td>
+                            <td>500-1,200+</td>
+                            <td><strong class="text-[#4A2C2C]">Pro, $24.99/mo</strong></td>
+                            <td>1,200 images/mo, top queue priority</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] font-bold">Any volume + cross-posting</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">n/a</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">Cross-lister $9-29/mo <em>separately</em></td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31]">They copy listings; they do not optimize photos</td>
+                        <tr>
+                            <td>Any volume + cross-posting</td>
+                            <td>n/a</td>
+                            <td>Cross-lister $9-29/mo <em>separately</em></td>
+                            <td>They copy listings; they do not optimize photos</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
             <p>Break-even rule of thumb: a paid photo tool must save ~20 minutes/month at your effective hourly rate. At 200+ photos/month with batch processing, it saves hours.</p>
         </section>
 
         <!-- FAQ -->
-        <GuideFAQs items={faqs} />
+        <GlassFAQs items={faqs} jsonLd={false} />
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Ready to run the math on your own listings?"
             href="/"
             label="Start Optimizing Now →"
         >
             Drop this week's photos into Mochify and prompt <em>"crop these square, convert to JPEG, keep under 12MB, and strip all metadata"</em> - 3 images a month free with no signup, 25 a month with a free account.
-        </GuideCTA>
+        </GlassCTA>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

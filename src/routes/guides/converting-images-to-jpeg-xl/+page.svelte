@@ -1,10 +1,13 @@
 <script lang="ts">
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import CodeCard from '$lib/components/guide-demo/CodeCard.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import CodeBlock from '$lib/components/CodeBlock.svelte';
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
 
     const metadata = {
         title: "Converting Images to JPEG XL: The Practical Guide for 2026",
@@ -49,6 +52,20 @@
   <source type="image/webp" srcset="image.webp">
   <img src="image.jpg" alt="Description of image" width="800" height="600">
 </picture>`;
+
+    const toc = [
+                    { n: '01', id: 'what-is-jpeg-xl', label: 'What JPEG XL actually is (and why the name is confusing)' },
+                    { n: '02', id: 'browser-support', label: 'Browser and ecosystem support in 2026' },
+                    { n: '03', id: 'compression-benchmarks', label: 'Compression benchmarks: how much smaller?' },
+                    { n: '04', id: 'jpeg-to-jxl', label: 'Converting JPEG to JPEG XL' },
+                    { n: '05', id: 'png-to-jxl', label: 'Converting PNG to JPEG XL' },
+                    { n: '06', id: 'avif-to-jxl', label: 'Converting AVIF to JPEG XL' },
+                    { n: '07', id: 'fallback-pattern', label: 'The fallback pattern: serving JXL safely on the web' },
+                    { n: '08', id: 'when-not-to-use', label: 'When not to use JPEG XL' },
+                    { n: '09', id: 'mochify-workflow', label: 'Mochify Workflow: convert to JPEG XL in one prompt' },
+                    { n: '10', id: 'cheat-sheet', label: 'JPEG XL Quick-Reference Cheat Sheet' },
+                    { n: '11', id: 'faq', label: 'FAQ' },
+                ];
 </script>
 
 <ReadProgress />
@@ -150,62 +167,39 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="JPEG XL" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Converting Images to JPEG XL: The Practical Guide for 2026
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             JPEG XL promises better compression than JPEG, WebP, and often AVIF, lossless JPEG archiving, HDR support, and progressive rendering. As of October 2026 it decodes by default in Chrome 155 and later and in Firefox 158 and later, and in Safari 17 and later for still images; the catch is that installed browsers, Edge and everything outside a browser lag behind, so a fallback still matters. This guide covers the benchmarks, every meaningful conversion path, honest browser support, and how to set up a <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm border border-pink-100">&lt;picture&gt;</code> fallback that actually works.
         </p>
 
-        <p class="text-sm text-[#875F42]">Published {metadata.datePublished} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong>. Covers JPEG, PNG, and AVIF-to-JXL workflows, with compression data from Google's image coding benchmarks and practical guidance on when JXL is and isn't production-ready.</p>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">Published {metadata.datePublished} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong>. Covers JPEG, PNG, and AVIF-to-JXL workflows, with compression data from Google's image coding benchmarks and practical guidance on when JXL is and isn't production-ready.</p>
+        </div>
     </header>
 
-    <!-- TOC -->
-    <section class="mb-12">
-        <SectionHeading>What's in This Guide</SectionHeading>
-        <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-            <ul class="space-y-3">
-                {#each [
-                    { n: '01', id: 'what-is-jpeg-xl', label: 'What JPEG XL actually is (and why the name is confusing)' },
-                    { n: '02', id: 'browser-support', label: 'Browser and ecosystem support in 2026' },
-                    { n: '03', id: 'compression-benchmarks', label: 'Compression benchmarks: how much smaller?' },
-                    { n: '04', id: 'jpeg-to-jxl', label: 'Converting JPEG to JPEG XL' },
-                    { n: '05', id: 'png-to-jxl', label: 'Converting PNG to JPEG XL' },
-                    { n: '06', id: 'avif-to-jxl', label: 'Converting AVIF to JPEG XL' },
-                    { n: '07', id: 'fallback-pattern', label: 'The fallback pattern: serving JXL safely on the web' },
-                    { n: '08', id: 'when-not-to-use', label: 'When not to use JPEG XL' },
-                    { n: '09', id: 'mochify-workflow', label: 'Mochify Workflow: convert to JPEG XL in one prompt' },
-                    { n: '10', id: 'cheat-sheet', label: 'JPEG XL Quick-Reference Cheat Sheet' },
-                    { n: '11', id: 'faq', label: 'FAQ' },
-                ] as item}
-                    <li>
-                        <a href="#{item.id}" class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="flex items-center gap-4">
-                                <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                            </span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </nav>
-    </section>
+    <section>
+            <GuideTOC items={toc} heading="What's in This Guide" />
+        </section>
 
-    <div class="space-y-12 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
         <section id="what-is-jpeg-xl" class="scroll-mt-24">
             <SectionHeading>What JPEG XL Actually Is (and Why the Name Is Confusing)</SectionHeading>
@@ -220,9 +214,9 @@
             <p class="mb-4">Chrome's history with JXL is worth knowing because it explains where things stand now. Chromium shipped early JPEG XL support behind a flag in versions 91–109, then <a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer">removed it entirely in Chrome 110</a> citing "lack of ecosystem momentum." In late 2025 and early 2026, Google reversed course: a Rust-based JXL decoder (<code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">jxl-rs</code>) was merged into Chromium's rendering pipeline. Chrome 145 to 154 exposed it via <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">chrome://flags/#enable-jxl-image-format</code>, disabled by default. Chrome 155, released on October 6, 2026, enables it by default on Windows, macOS, Linux, ChromeOS and Android, with no flag; Google's announcement, "Shipping JPEG XL in Chrome", explains the Rust decoder and the memory-safety reasoning. Installed browsers take weeks to update, so for the rest of 2026 a share of Chrome traffic is still on 152 to 154.</p>
             <p class="mb-4">Firefox enables JPEG XL by default from Firefox 158, released on October 13, 2026, with animation and progressive display; Firefox 157 does not, despite Mozilla's August intent to ship naming it. Edge, Samsung Internet and the other Chromium-based browsers had not shipped the change as of October 7, 2026, and Microsoft has made no statement. Check caniuse.com/jpegxl for the live row before you drop a fallback.</p>
 
-            <InfoBox type="tip" title="Practical takeaway">
+            <GlassInfoBox type="tip" title="Practical takeaway">
                 Use JPEG XL as an enhancement layer served only to capable clients, with a robust fallback for everyone else. The <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;picture&gt;</code> element is your main tool - covered in the <a href="#fallback-pattern">fallback pattern section</a> below.
-            </InfoBox>
+            </GlassInfoBox>
 
             <p class="mt-4"><strong class="text-[#4A2C2C]">CDN and platform support</strong> follows the same split. Fastly Image Optimizer supports JPEG XL as both input and output. Cloudflare Images and Netlify Image CDN do not yet support JXL as an output format. Imgix accepts JXL as input but only serves AVIF or WebP as output. Major CMSes - WordPress core and Shopify - do not expose JXL in their upload or delivery pipelines: WordPress 7.1's client-side media pipeline outputs JPEG, PNG, WebP, AVIF and GIF, and Shopify's accepted upload formats are JPEG, PNG, GIF, HEIC and WebP. Browser support arriving does not change either of those until the platforms add an encoder.</p>
         </section>
@@ -272,7 +266,7 @@
             <SectionHeading>The Fallback Pattern: Serving JXL Safely on the Web</SectionHeading>
             <p class="mb-4">The canonical pattern for JPEG XL on the web uses the HTML <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;picture&gt;</code> element. Browsers evaluate <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;source&gt;</code> elements in order and select the first format they support, falling back to the <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;img&gt;</code> tag for everything else.</p>
 
-            <CodeBlock filename="HTML" code={pictureCode} />
+            <CodeCard filename="HTML" code={pictureCode} />
 
             <p class="mb-4">This stack gives you JXL for Chrome 155+, Firefox 158+ and Safari 17+, AVIF for Edge and older Chrome and Firefox, WebP for older clients, and JPEG for everything else.</p>
             <p class="mb-4"><strong class="text-[#4A2C2C]">Always include <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">width</code> and <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">height</code> attributes</strong> on the <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;img&gt;</code> tag. Browsers need these to reserve layout space before the image loads. Omitting them causes cumulative layout shift (CLS), which affects your Core Web Vitals score. See our guide on <a href="/guides/optimizing-hero-images">optimizing hero images for web performance</a> for more on this.</p>
@@ -286,9 +280,9 @@
             <p class="mb-4"><strong class="text-[#4A2C2C]">Production-ready with fallbacks:</strong> any site whose audience is mostly on Chrome, Firefox or Safari (Chrome 155, Firefox 158 and Safari 17 decode JXL natively); internal archival and storage pipelines where browser support is irrelevant; sites running on Fastly Image Optimizer, which can serve JXL to capable clients automatically; HDR photography and retina-quality sites where the 32-bit depth is a real advantage.</p>
             <p class="mb-4"><strong class="text-[#4A2C2C]">Wait or test carefully:</strong> WordPress and Shopify sites - neither platform exposes JXL in its standard delivery stack. Mass-market web apps where a broken image in Edge or in a not-yet-updated Chrome is a business problem. Any pipeline that feeds third-party systems such as social previews, email clients, or ad networks, which mostly do not understand JXL and will display nothing.</p>
 
-            <InfoBox type="note" title="The right mental model for 2026">
+            <GlassInfoBox type="note" title="The right mental model for 2026">
                 JPEG XL is where WebP was around 2018. Strong format, real compression wins, but meaningful adoption gaps that require engineering around. The difference is that the archival and lossless-JPEG-transcode use cases are valuable today, independent of where browser support lands.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="mochify-workflow" class="scroll-mt-24 bg-gradient-to-b from-[#FFF5F7] to-white border border-pink-100 rounded-3xl p-8">
@@ -324,9 +318,9 @@
             </ol>
 
             <div class="mt-8">
-                <InfoBox type="tip" title="Developer tip">
+                <GlassInfoBox type="tip" title="Developer tip">
                     Using the local MCP server (<code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">mochify serve</code>) via Claude Desktop or a compatible agent? It returns file paths and metadata rather than image bytes, keeping your agent context clean for large batches. See our guide on <a href="/guides/how-the-mochify-mcp-server-works">how the Mochify MCP server works</a> for setup details.
-                </InfoBox>
+                </GlassInfoBox>
             </div>
 
             <p class="mt-6 text-sm text-[#875F42] border-t border-pink-100 pt-5 leading-relaxed">
@@ -337,14 +331,14 @@
         <section id="cheat-sheet" class="scroll-mt-24 bg-[#FFF5F7] border border-pink-100 rounded-3xl p-8">
             <SectionHeading>JPEG XL Quick-Reference Cheat Sheet</SectionHeading>
 
-            <ScrollableTable class="mt-6">
-                <table class="w-full text-sm border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF0F5]">
-                            <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border border-pink-100">Scenario</th>
-                            <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border border-pink-100">Recommended mode</th>
-                            <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border border-pink-100">Expected size vs original</th>
-                            <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border border-pink-100">Notes</th>
+                        <tr>
+                            <th>Scenario</th>
+                            <th>Recommended mode</th>
+                            <th>Expected size vs original</th>
+                            <th>Notes</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -358,23 +352,23 @@
                             ['Safari-primary audience', 'JXL as first source', 'Best quality per byte', 'Always include AVIF/WebP/JPEG fallback'],
                             ['Chrome/Firefox general delivery', 'JXL behind picture, not primary', 'n/a', 'Not default-on in Chrome or Firefox mid-2026'],
                         ] as row}
-                            <tr class="even:bg-[#FFFAFC]">
+                            <tr>
                                 {#each row as cell}
-                                    <td class="px-4 py-3 border border-pink-100 text-[#6C3F31] align-top">{cell}</td>
+                                    <td>{cell}</td>
                                 {/each}
                             </tr>
                         {/each}
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
             <h3 class="font-bold text-[#4A2C2C] text-lg mt-10 mb-4">Browser support summary (mid-2026)</h3>
-            <ScrollableTable>
-                <table class="w-full text-sm border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF0F5]">
-                            <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border border-pink-100">Browser</th>
-                            <th class="text-left px-4 py-3 font-bold text-[#4A2C2C] border border-pink-100">JPEG XL support</th>
+                        <tr>
+                            <th>Browser</th>
+                            <th>JPEG XL support</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -385,15 +379,15 @@
                             ['Edge, Samsung Internet, not-yet-updated installs', 'Not yet; keep an AVIF or WebP fallback'],
                             ['Global coverage', '~17% on October 7, 2026, rising as Chrome 155 and Firefox 158 roll out'],
                         ] as row}
-                            <tr class="even:bg-[#FFFAFC]">
+                            <tr>
                                 {#each row as cell}
-                                    <td class="px-4 py-3 border border-pink-100 text-[#6C3F31] align-top">{cell}</td>
+                                    <td>{cell}</td>
                                 {/each}
                             </tr>
                         {/each}
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <section id="faq" class="scroll-mt-24">
@@ -449,15 +443,30 @@
             </div>
         </section>
 
-        <aside class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-8">
-            <p class="text-[#6C3F31] leading-relaxed mb-5">Ready to convert your images to JPEG XL? Drop your files at <strong class="text-[#4A2C2C]">mochify.app</strong> and describe what you need in plain English - something like <em>"convert these to JPEG XL for archival, keep full quality"</em> or <em>"batch convert to JXL and compress for web."</em> No settings panel, no plugins, no signup required for up to 3 files.</p>
-            <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
-                Try it free
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-            </a>
-        </aside>
+        <GlassCTA href="/" label="Try it free">
+            Ready to convert your images to JPEG XL? Drop your files at <strong class="text-[#4A2C2C]">mochify.app</strong> and describe what you need in plain English - something like <em>"convert these to JPEG XL for archival, keep full quality"</em> or <em>"batch convert to JXL and compress for web."</em> No settings panel, no plugins, no signup required for up to 3 files.
+        </GlassCTA>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

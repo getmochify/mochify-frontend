@@ -1,8 +1,10 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
@@ -183,53 +185,40 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title="On-Device AI Agents: Image and PDF Optimization for Local Workflows" accent="On-Device AI Agents" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            On-Device AI Agents: Image and PDF Optimization for Local Workflows
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Local AI agents running on hardware like NVIDIA DGX Spark and Apple Silicon are practical in 2026 - but running the model locally doesn't automatically mean your data stays local. This guide covers what the hardware shift actually enables, how MCP connects agents to genuinely local tools, and how to build an image and PDF optimization workflow that keeps server-side data retention at zero.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published June 2026 by the Mochify Engineering Team.</strong> This guide covers the hardware driving the on-device AI shift, how MCP stdio servers connect agents to genuinely local tools, why a local agent runtime doesn't guarantee local data handling, and how to run zero-retention image and PDF optimization inside a local agent pipeline.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc.map((t) => ({ id: t.href.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
         <!-- 1. Hardware shift -->
@@ -353,10 +342,10 @@
                 </ol>
             </div>
 
-            <InfoBox type="note" title="Privacy note">
+            <GlassInfoBox type="note" title="Privacy note">
                 <p class="mb-3">Images and PDFs travel from your machine to <code class="bg-blue-50 text-blue-600 px-1.5 py-px rounded font-mono text-sm">api.mochify.app</code> over HTTPS for the encoding step. Processing happens in RAM, with no disk writes of the source and no logs containing file data. The local Rust binary is a client over that API; it does not encode locally. Because the local MCP path uses no pickup store, compressed bytes come straight back to the binary and are written to disk - zero server-side retention end-to-end.</p>
                 <p class="mb-0">The hosted MCP server at <code class="bg-blue-50 text-blue-600 px-1.5 py-px rounded font-mono text-sm">mcp.mochify.app</code> works differently: it returns a short-lived download URL on <code class="bg-blue-50 text-blue-600 px-1.5 py-px rounded font-mono text-sm">files.mochify.app</code> (valid for about five minutes) rather than a file path. That's the right surface for non-developers who want OAuth-based access without installing anything. For agent workflows where you want file paths and zero server-side retention end-to-end, the local server is the right choice. See <a href="/guides/why-we-relaxed-zero-retention-for-mcp" class="text-blue-600 hover:text-blue-700 underline">why we adjusted our zero-retention policy for MCP</a> for the full explanation.</p>
-            </InfoBox>
+            </GlassInfoBox>
 
             <p class="mb-4"><strong class="text-[#4A2C2C]">On video:</strong> if your workflow involves video, that's handled separately. Mochify's video engine runs entirely client-side in the browser - the bytes never leave your device. That's a stronger local privacy guarantee than even the MCP path, but it means video is web-app-only. The CLI, local MCP server, and REST API handle images and PDFs. Route video compression through the web app.</p>
             <p>MCP access is available on all Mochify tiers including Free (25 images/month). For heavier batch workloads, Seller ($7.99/month) gives you 300 images/month and 25-file batches. Prices are USD; details and your local currency are at <a href="/pricing">mochify.app/pricing</a>.</p>
@@ -365,32 +354,32 @@
         <!-- 7. Cheat sheet -->
         <section id="cheat-sheet" class="scroll-mt-24">
             <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">7. Cheat Sheet: On-Device Agent and Local MCP Tool Stack</h2>
-            <ScrollableTable class="mb-6">
-                <table class="w-full text-left bg-white text-sm">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Scenario</th>
-                            <th class="p-4 font-black">Local or remote?</th>
-                            <th class="p-4 font-black">Recommended approach</th>
-                            <th class="p-4 font-black">Data leaves device?</th>
+                            <th>Scenario</th>
+                            <th>Local or remote?</th>
+                            <th>Recommended approach</th>
+                            <th>Data leaves device?</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
+                    <tbody>
                         {#each cheatSheet as row}
                             <tr>
-                                <td class="p-4 font-semibold text-[#4A2C2C]">{row.scenario}</td>
-                                <td class="p-4">{row.loc}</td>
-                                <td class="p-4">{row.approach}</td>
-                                <td class="p-4">{row.leaves}</td>
+                                <td>{row.scenario}</td>
+                                <td>{row.loc}</td>
+                                <td>{row.approach}</td>
+                                <td>{row.leaves}</td>
                             </tr>
                         {/each}
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <!-- FAQ -->
-        <GuideFAQs items={faqs} />
+        <GlassFAQs items={faqs} jsonLd={false} />
 
         <!-- Related -->
         <section id="related" class="scroll-mt-24">
@@ -427,3 +416,22 @@
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

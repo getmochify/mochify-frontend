@@ -1,10 +1,13 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Image Compression Inside Claude Code: The Mochify CLI + MCP Guide",
@@ -175,54 +178,41 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Claude Code" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Image Compression Inside Claude Code: The Mochify CLI + MCP Guide
-        </h1>
-
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Yes, Claude Code can use MCP, and that is the cleanest way to compress images without leaving your editor. Claude Code is a full Model Context Protocol client: it connects to local and remote MCP servers, discovers their tools, and calls them mid-session (<a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener noreferrer">Claude Code MCP docs</a>). That means you can wire image compression straight into a coding session, run it as a build step, or trigger it from CI, all without copy-pasting files into a browser. This guide shows you two concrete ways to do that with Mochify: the <code class={inlineCode}>mochify</code> CLI as a build/pre-commit step, and <code class={inlineCode}>mochify serve</code> as a local MCP server Claude Code can call directly. We will keep this Claude-Code-specific. If you want the full hosted-vs-local architecture story, our <a href="https://mochify.app/guides/how-the-mochify-mcp-server-works">MCP server explainer</a> covers that in depth. Here, the focus is the developer workflow: how to compress images in Claude Code, why returning file paths beats inlining image bytes, and what "zero-retention" actually buys you when you are handling client assets.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published July 17, 2026 by the Mochify Engineering Team.</strong>
                 This guide stays Claude-Code-specific: the CLI as a build step and mochify serve as a local MCP the agent calls directly. For the full hosted-vs-local architecture, see our MCP server explainer.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <!-- TOC -->
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc.map((t) => ({ id: t.href.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
         <section id="can-claude-code-use-mcp" class="scroll-mt-24">
@@ -296,9 +286,9 @@ mochify -p "compress for web, convert PNGs to AVIF, strip EXIF" ./src/assets/*.p
             <p>Optimizing images is the single biggest lever on Largest Contentful Paint, and modern formats compress dramatically better than JPEG. Google's web.dev guidance is consistent that LCP is usually dominated by a hero image, so compressing, correctly sizing, and modernizing that image is the highest-impact change you can make (<a href="https://web.dev/articles/optimize-vitals-lighthouse" target="_blank" rel="noopener noreferrer">web.dev: optimize LCP</a>).</p>
             <p>The format gains are large and measurable. WebP typically runs 25-35% smaller than JPEG at similar quality, and AVIF often lands around 50% smaller than JPEG and 20% smaller than WebP. Crucially, AVIF is now production-ready: caniuse reports support across Chrome (85+), Safari (16.4+), Firefox (93+), Edge (121+), and most mobile browsers, putting global coverage near 94% (<a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">caniuse: AVIF</a>). JPEG XL caught up in October 2026, when Chrome 155 and Firefox 158 enabled it by default; Edge and older installs still lack it, so ship it with fallbacks and feature detection.</p>
             <p>In concrete terms, a 2.4 MB JPEG hero re-encoded to AVIF at web quality typically lands around 410 KB, an 83% reduction, with no visible quality loss on a standard display. Do that across a batch and you are shipping a fraction of the bytes. When you would rather keep the familiar JPEG container, Mochify uses Google's jpegli encoder to squeeze more quality per byte out of standard JPEG; our <a href="https://mochify.app/guides/jpeg-in-2026-jpegli">jpegli guide</a> covers when that is the right call.</p>
-            <InfoBox type="tip" title="Batch tip">
+            <GlassInfoBox type="tip" title="Batch tip">
                 <p>Running larger batches across a whole repo? Paid tiers raise the per-batch limit to 25 files and lift the monthly allowance; see the current limits at <a href="https://mochify.app/pricing">mochify.app/pricing</a>.</p>
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- Workflow card -->
@@ -349,102 +339,108 @@ mochify -p "compress for web, convert PNGs to AVIF, strip EXIF" ./src/assets/*.p
 
         <section id="cheat-sheet" class="scroll-mt-24">
             <SectionHeading>Cheat sheet</SectionHeading>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[640px] border-collapse">
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Task</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Command or prompt</th>
+                        <tr>
+                            <th>Task</th>
+                            <th>Command or prompt</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Install (macOS)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50"><code class={inlineCode}>brew tap getmochify/mochify && brew install mochify</code></td>
+                        <tr>
+                            <td>Install (macOS)</td>
+                            <td><code class={inlineCode}>brew tap getmochify/mochify && brew install mochify</code></td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Authenticate</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50"><code class={inlineCode}>mochify auth login</code></td>
+                        <tr>
+                            <td>Authenticate</td>
+                            <td><code class={inlineCode}>mochify auth login</code></td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Register local MCP in Claude Code</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50"><code class={inlineCode}>claude mcp add --transport stdio mochify -- mochify serve</code></td>
+                        <tr>
+                            <td>Register local MCP in Claude Code</td>
+                            <td><code class={inlineCode}>claude mcp add --transport stdio mochify -- mochify serve</code></td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Check the server</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50"><code class={inlineCode}>/mcp</code> (inside Claude Code) or <code class={inlineCode}>claude mcp list</code></td>
+                        <tr>
+                            <td>Check the server</td>
+                            <td><code class={inlineCode}>/mcp</code> (inside Claude Code) or <code class={inlineCode}>claude mcp list</code></td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">One-off CLI compress</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50"><code class={inlineCode}>mochify -p "convert to AVIF, max 1600px wide" ./hero.jpg</code></td>
+                        <tr>
+                            <td>One-off CLI compress</td>
+                            <td><code class={inlineCode}>mochify -p "convert to AVIF, max 1600px wide" ./hero.jpg</code></td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Pre-commit batch</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50"><code class={inlineCode}>mochify -p "compress for web, strip EXIF" ./assets/*.png</code></td>
+                        <tr>
+                            <td>Pre-commit batch</td>
+                            <td><code class={inlineCode}>mochify -p "compress for web, strip EXIF" ./assets/*.png</code></td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">In-session agent prompt</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">"Find images over 500 KB in /public, convert to AVIF, update srcset"</td>
+                        <tr>
+                            <td>In-session agent prompt</td>
+                            <td>"Find images over 500 KB in /public, convert to AVIF, update srcset"</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
-            <ScrollableTable class="my-6">
-                <table class="w-full min-w-[720px] border-collapse">
+            </GuideTable>
+            <GuideTable class="my-6">
+                <table>
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">What you want</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Best surface</th>
-                            <th class="text-left px-4 py-3 text-[#4A2C2C] font-black text-sm border-b border-pink-100">Image bytes in agent context?</th>
+                        <tr>
+                            <th>What you want</th>
+                            <th>Best surface</th>
+                            <th>Image bytes in agent context?</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Build step / CI / scripts</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Direct CLI (<code class={inlineCode}>mochify</code>)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No (paths only)</td>
+                        <tr>
+                            <td>Build step / CI / scripts</td>
+                            <td>Direct CLI (<code class={inlineCode}>mochify</code>)</td>
+                            <td>No (paths only)</td>
                         </tr>
-                        <tr class="bg-[#FDFBF7] align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">Interactive work in Claude Code</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Local MCP (<code class={inlineCode}>mochify serve</code>)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">No (paths only)</td>
+                        <tr>
+                            <td>Interactive work in Claude Code</td>
+                            <td>Local MCP (<code class={inlineCode}>mochify serve</code>)</td>
+                            <td>No (paths only)</td>
                         </tr>
-                        <tr class="bg-white align-top">
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50 font-bold">No-install, chat-only</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Hosted MCP (<code class={inlineCode}>mcp.mochify.app</code>)</td>
-                            <td class="px-4 py-3 text-sm text-[#6C3F31] border-b border-pink-50">Output returned as a short-lived URL</td>
+                        <tr>
+                            <td>No-install, chat-only</td>
+                            <td>Hosted MCP (<code class={inlineCode}>mcp.mochify.app</code>)</td>
+                            <td>Output returned as a short-lived URL</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <!-- FAQ -->
-        <GuideFAQs items={faqs} />
+        <GlassFAQs items={faqs} jsonLd={false} />
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Compress images without leaving Claude Code"
             href="/"
             label="Try it free at mochify.app →"
         >
             Install the <code class={inlineCode}>mochify</code> binary, register <code class={inlineCode}>mochify serve</code> as your local MCP server, and describe what you want in plain English, for example <em>"convert to AVIF, max 1600px wide"</em>.
-        </GuideCTA>
+        </GlassCTA>
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">· {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>
