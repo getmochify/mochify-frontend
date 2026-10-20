@@ -1,9 +1,11 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassFAQs from '$lib/components/guide-demo/GlassFAQs.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import GuideFAQs from '$lib/components/GuideFAQs.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "What Is an AVIF File? (And How to Open One)",
@@ -125,43 +127,46 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-[#F06292] text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="AVIF File" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            What Is an AVIF File? (And How to Open One)
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             An AVIF file is an image saved in the AV1 Image File Format, a modern format that stores pictures using the open-source AV1 video codec. Websites use it because AVIF files can be up to 50% smaller than equivalent JPEGs at the same visual quality, which makes pages load faster. Every modern browser opens AVIF - 93.42% of global browser traffic supports it as of May 2026, per <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">caniuse.com</a> - but plenty of desktop apps still do not, which is why the file that saved from a website refuses to open on your computer.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published July 14, 2026 by the Mochify Engineering Team.</strong>
                 Part of Mochify's Quick Guides series, answering fast, practical questions about the image formats reshaping how the modern web loads pictures.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
-        <section id="why-you-keep-running-into-avif-files">
+        <section id="why-you-keep-running-into-avif-files" class="scroll-mt-24">
             <SectionHeading>Why You Keep Running Into AVIF Files</SectionHeading>
             <p>Websites switched to AVIF for speed, and the switch mostly happened without anyone telling you. WordPress 6.5 and later accepts AVIF uploads out of the box and can convert images to AVIF automatically, and image CDNs quietly serve AVIF to any browser that accepts it. So when you right-click and save an image, you often get an <code class={inlineCode}>.avif</code> file - the format the site served, not the JPG you expected.</p>
             <p>The format itself is genuinely good: alongside the smaller file sizes, AVIF supports 10-bit color, HDR, transparency, and even animation. If a transparent AVIF ever comes back on a black background, here is <a href="/guides/webp-avif-transparency">what flattened the alpha channel and how to fix it</a>. (AVIF stores HDR in the pixels rather than as a gain map over an SDR base, which changes how it falls back on ordinary screens; our guide to <a href="https://mochify.app/guides/why-hdr-photos-look-flat-when-shared">HDR photos that look flat when shared</a> covers the difference.) The catch is that support outside the browser lags behind.</p>
         </section>
 
-        <section id="how-to-open-an-avif-file">
+        <section id="how-to-open-an-avif-file" class="scroll-mt-24">
             <SectionHeading>How to Open an AVIF File</SectionHeading>
             <p>The quickest way to view one is to drag it into any modern browser tab - Chrome, Firefox, Safari, and Edge all render AVIF natively. Beyond that, it depends on your system:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
@@ -171,36 +176,42 @@
             </ul>
             <p>Converting takes seconds: drop the file on Mochify's <a href="/avif-to-jpg">AVIF to JPG converter</a> and type what you want in plain English, for example "convert to JPG and strip all metadata". No signup is needed for up to 3 images a month, and your file is processed in memory and wiped immediately after conversion.</p>
 
-            <InfoBox type="tip" title="AVIF is not the same as WebP or JPEG XL">
+            <GlassInfoBox type="tip" title="AVIF is not the same as WebP or JPEG XL">
                 AVIF, WebP, and JPEG XL are all next-gen formats that beat JPEG on size. If you are deciding which to serve on your own site rather than just trying to open a file, see <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl">What Should I Use in 2026: WebP, AVIF, or JPEG XL?</a> Selling on a hosted storefront narrows the question further, because the platform may already be converting for you: see <a href="/guides/should-my-product-images-be-avif-or-webp-in-2026">whether your product images should be AVIF or WebP</a>.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Got an AVIF file that will not open where you need it to?"
             href="/avif-to-jpg"
             label="Try AVIF to JPG free →"
         >
             Drop it into Mochify and just describe what you want, like <em>"convert to JPG and strip all metadata"</em> - no signup needed for up to 3 images a month.
-        </GuideCTA>
+        </GlassCTA>
 
-        <GuideFAQs items={faqs} />
+        <GlassFAQs items={faqs} jsonLd={false} />
 
-        <!-- Related guides -->
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each related as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">: {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

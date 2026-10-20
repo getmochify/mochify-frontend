@@ -1,5 +1,7 @@
 <script>
     import ReadProgress from '$lib/components/ReadProgress.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
@@ -11,6 +13,14 @@
         date: "February 01, 2026",
         lastUpdated: "June 4, 2026"
     };
+
+    const related = [
+                    { href: '/guides/hif-to-jpg-canon-sony-fujifilm', title: 'HIF to JPG: Canon, Sony & Fujifilm', desc: 'Every conversion method on every platform, plus what changes going 10-bit to 8-bit.' },
+                    { href: '/guides/heif-to-jpeg-workflow-photographers-guide', title: 'HIF/HEIF to JPEG for Professional Photographers', desc: 'Client delivery, archiving, and when to keep HIF originals.' },
+                    { href: '/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera', title: 'Should I Shoot HEIF or JPEG?', desc: 'The format decision before you press the shutter.' },
+                    { href: '/guides/what-is-a-hif-file', title: 'What Is a HIF File? (And How to Open One)', desc: 'What the .HIF container is and how to open one on macOS, Windows, iOS and Linux.' },
+                    { href: '/guides/does-hif-to-jpg-lose-quality', title: 'Does Converting HIF to JPG Reduce Quality?', desc: 'Will converting HIF to JPG lose quality? The honest answer, and the one case where it really shows.' },
+                ];
 </script>
 
 <ReadProgress />
@@ -73,23 +83,26 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
     
-<header class="mb-12 border-b border-pink-50 pb-12">
-    <div class="flex flex-wrap items-center gap-4 mb-6">
-        <span class="inline-block px-3 py-1 rounded-full bg-green-50 text-green-600 text-xs font-bold uppercase tracking-wider border border-green-100">
-            {metadata.category}
-        </span>
-        <span class="text-sm font-bold text-[#875F42]">
-            {metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''} · Mochify Engineering Team
-        </span>
-    </div>
+<header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title="Fuji HIF Files Explained: How to Convert X‑T5 / X‑H2 / X100VI HIF to JPEG" accent="Fuji HIF Files" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''} · Mochify Engineering Team
+		</p>
 
-    <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-        Fuji HIF Files Explained: How to Convert X‑T5 / X‑H2 / X100VI HIF to JPEG
-    </h1>
-
-    <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
         HIF/HEIF is a highly efficient 10-bit image format, but it's not supported everywhere. Here is the definitive workflow for Windows and Mac.
     </p>
 
@@ -102,7 +115,7 @@
     </div>
 </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
         
         <section>
             <SectionHeading>What is HIF / HEIF?</SectionHeading>
@@ -201,25 +214,26 @@
             </p>
         </section>
 
-        <section>
-            <SectionHeading>Related Guides</SectionHeading>
-            <ul class="space-y-3">
-                {#each [
-                    { href: '/guides/hif-to-jpg-canon-sony-fujifilm', title: 'HIF to JPG: Canon, Sony & Fujifilm', desc: 'Every conversion method on every platform, plus what changes going 10-bit to 8-bit.' },
-                    { href: '/guides/heif-to-jpeg-workflow-photographers-guide', title: 'HIF/HEIF to JPEG for Professional Photographers', desc: 'Client delivery, archiving, and when to keep HIF originals.' },
-                    { href: '/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera', title: 'Should I Shoot HEIF or JPEG?', desc: 'The format decision before you press the shutter.' },
-                    { href: '/guides/what-is-a-hif-file', title: 'What Is a HIF File? (And How to Open One)', desc: 'What the .HIF container is and how to open one on macOS, Windows, iOS and Linux.' },
-                    { href: '/guides/does-hif-to-jpg-lose-quality', title: 'Does Converting HIF to JPG Reduce Quality?', desc: 'Will converting HIF to JPG lose quality? The honest answer, and the one case where it really shows.' },
-                ] as guide}
-                    <li>
-                        <a href={guide.href} class="group flex items-center justify-between p-5 rounded-2xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                            <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{guide.title} <span class="font-normal opacity-70">: {guide.desc}</span></span>
-                            <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7" /></svg>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
-        </section>
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

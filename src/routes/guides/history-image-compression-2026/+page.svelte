@@ -1,10 +1,12 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
+    import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "The History of Image Compression: From BMP to AVIF & Jpegli (2026 Guide)",
@@ -78,81 +80,68 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
     
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="History of Image Compression" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            {metadata.title}
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Once computers could display pictures, the next problem arrived instantly: storage. A single 24-bit, 1024×768 pixel image weighs 2.4 MB uncompressed. That was massive in the 1980s when a 10 MB hard drive cost hundreds of dollars, and it's still massive today when that same image needs to travel over a cellular connection in rural Iowa.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 The history of image compression is the history of solving constraints. From disk space to dial-up, and now Core Web Vitals. Every format we use today emerged because someone hit a wall and built a workaround.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
         
-        <section class="my-12">
-            <SectionHeading>What's in This Guide</SectionHeading>
-
-            <nav class="bg-[#FFF5F7] rounded-3xl p-4 border border-pink-100 shadow-inner" aria-label="Table of contents">
-                <ul class="space-y-3">
-                    {#each toc as item}
-                        <li>
-                            <a href={item.href} class="group flex items-center justify-between p-3 rounded-xl bg-white border border-pink-50 shadow-sm hover:shadow-md hover:shadow-pink-100 hover:-translate-y-0.5 transition-all duration-300 no-underline">
-                                <span class="flex items-center gap-4">
-                                    <span class="w-7 h-7 rounded-full bg-pink-50 flex items-center justify-center text-[10px] font-black text-[#F06292] border border-pink-100 group-hover:scale-110 transition-transform">{item.n}</span>
-                                    <span class="text-sm text-[#6C3F31] font-bold group-hover:text-[#F06292] transition-colors">{item.label}</span>
-                                </span>
-                                <svg class="w-4 h-4 text-pink-300 group-hover:text-[#F06292] group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </nav>
+        <section>
+            <GuideTOC items={toc.map((t) => ({ id: t.href.replace('#', ''), label: t.label }))} heading="What's in This Guide" />
         </section>
 
          <section id="cheat-sheet" class="scroll-mt-24">
              <SectionHeading>Cheat Sheet: Image Formats at a Glance</SectionHeading>
-             <ScrollableTable class="mb-8">
-                <table class="w-full text-left bg-white whitespace-nowrap md:whitespace-normal">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+             <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Format</th>
-                            <th class="p-4 font-black">Era</th>
-                            <th class="p-4 font-black">Compression</th>
-                            <th class="p-4 font-black">Typical Use</th>
-                            <th class="p-4 font-black">Browser Support 2026</th>
+                            <th>Format</th>
+                            <th>Era</th>
+                            <th>Compression</th>
+                            <th>Typical Use</th>
+                            <th>Browser Support 2026</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4 font-bold">BMP</td><td class="p-4">1980s</td><td class="p-4">None</td><td class="p-4">Basically dead</td><td class="p-4 text-red-500 font-bold">Universal (avoid)</td></tr>
-                        <tr><td class="p-4 font-bold">GIF</td><td class="p-4">1987</td><td class="p-4">Lossless (LZW), 256 colors</td><td class="p-4">Animation, simple UI</td><td class="p-4 text-[#81C784] font-bold">Universal</td></tr>
-                        <tr><td class="p-4 font-bold">JPEG</td><td class="p-4">1992</td><td class="p-4">Lossy (DCT)</td><td class="p-4">Photography</td><td class="p-4 text-[#81C784] font-bold">Universal</td></tr>
-                        <tr><td class="p-4 font-bold">PNG</td><td class="p-4">1996</td><td class="p-4">Lossless</td><td class="p-4">UI, screenshots, transparency</td><td class="p-4 text-[#81C784] font-bold">Universal</td></tr>
-                        <tr><td class="p-4 font-bold">WebP</td><td class="p-4">2010</td><td class="p-4">Lossy + lossless</td><td class="p-4">General web images</td><td class="p-4 text-[#81C784] font-bold">96%</td></tr>
-                        <tr><td class="p-4 font-bold">AVIF</td><td class="p-4">2019</td><td class="p-4">Lossy + lossless (AV1)</td><td class="p-4">Maximum compression</td><td class="p-4 text-[#81C784] font-bold">95%</td></tr>
-                        <tr><td class="p-4 font-bold">HEIC</td><td class="p-4">2015</td><td class="p-4">Lossy (HEVC)</td><td class="p-4">iOS capture format</td><td class="p-4 text-red-500 font-bold">Poor (needs conversion)</td></tr>
-                        <tr><td class="p-4 font-bold">JPEG XL</td><td class="p-4">2021</td><td class="p-4">Lossy + lossless</td><td class="p-4">Experimental/future</td><td class="p-4 text-orange-500 font-bold">~12-17%</td></tr>
-                        <tr><td class="p-4 font-bold">Jpegli-encoded JPEG</td><td class="p-4">2024</td><td class="p-4">Lossy (improved DCT)</td><td class="p-4">Standard JPEG, better efficiency</td><td class="p-4 text-[#81C784] font-bold">Universal (it's JPEG)</td></tr>
+                    <tbody>
+                        <tr><td>BMP</td><td>1980s</td><td>None</td><td>Basically dead</td><td>Universal (avoid)</td></tr>
+                        <tr><td>GIF</td><td>1987</td><td>Lossless (LZW), 256 colors</td><td>Animation, simple UI</td><td>Universal</td></tr>
+                        <tr><td>JPEG</td><td>1992</td><td>Lossy (DCT)</td><td>Photography</td><td>Universal</td></tr>
+                        <tr><td>PNG</td><td>1996</td><td>Lossless</td><td>UI, screenshots, transparency</td><td>Universal</td></tr>
+                        <tr><td>WebP</td><td>2010</td><td>Lossy + lossless</td><td>General web images</td><td>96%</td></tr>
+                        <tr><td>AVIF</td><td>2019</td><td>Lossy + lossless (AV1)</td><td>Maximum compression</td><td>95%</td></tr>
+                        <tr><td>HEIC</td><td>2015</td><td>Lossy (HEVC)</td><td>iOS capture format</td><td>Poor (needs conversion)</td></tr>
+                        <tr><td>JPEG XL</td><td>2021</td><td>Lossy + lossless</td><td>Experimental/future</td><td>~12-17%</td></tr>
+                        <tr><td>Jpegli-encoded JPEG</td><td>2024</td><td>Lossy (improved DCT)</td><td>Standard JPEG, better efficiency</td><td>Universal (it's JPEG)</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <section id="why-exists" class="scroll-mt-24">
@@ -247,20 +236,39 @@
              <p class="mb-4">The problem: disk-based processing means your image exists on someone else's hardware, even temporarily. It can be logged, retained longer than advertised, or accessed in ways you don't control. Some tools are vague about whether your images are used to train AI models or aggregated for analytics.</p>
              <p class="mb-4">There's a better architecture: in-memory processing. At Mochify, images are streamed into RAM, processed, and wiped instantly. Nothing touches the disk. This isn't just marketing - it's a fundamental architectural choice that makes data retention impossible, not just unlikely.</p>
              
-             <InfoBox type="tip" title="Conclusion">
+             <GlassInfoBox type="tip" title="Conclusion">
                 The history of image compression is a story of constraints. In 2026, those constraints are LCP scores and privacy. Use WebP/AVIF for the web, jpegli-encoded JPEGs for compatibility, and always strip metadata if it's not needed.
-             </InfoBox>
+             </GlassInfoBox>
         </section>
 
-        <GuideCTA
+        <GlassCTA
             heading="Ready to compress with zero retention?"
             href="/"
             label="Start Compressing Now"
         >
             Try Mochify's image compressor - in-memory processing, no disk storage, support for JPEG (jpegli), WebP, AVIF, HEIC, and JPEG XL.
-        </GuideCTA>
+        </GlassCTA>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

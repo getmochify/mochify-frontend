@@ -1,8 +1,9 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
@@ -86,34 +87,37 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="WebP, AVIF, or JPEG XL" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            What Should I Use in 2026: WebP, AVIF, or JPEG XL?
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             For most web projects in 2026, use AVIF as your primary format and WebP as your fallback. AVIF now sits at 95%+ global browser support and delivers 20–50% smaller files than WebP at comparable quality. JPEG XL decodes by default in Chrome 155 (October 6, 2026) and Firefox 158 (October 13), and in Safari 17 and later for still images; add it as the first source where it is smaller or where you need lossless or progressive loading, and keep the AVIF and WebP fallbacks while installed browsers, Edge and email clients catch up.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 <strong>Published April 2026 by the Mochify Engineering Team.</strong> This guide reflects browser support data and format recommendations current as of April 2026, based on caniuse.com tracking.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
         <p>A reliable <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> element covers all three in a sensible order:</p>
 
@@ -132,38 +136,38 @@
         <section id="browser-support-2026" class="scroll-mt-24">
             <SectionHeading>2026 browser support at a glance</SectionHeading>
 
-            <ScrollableTable class="mb-4">
-                <table class="w-full text-left bg-white">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Format</th>
-                            <th class="p-4 font-black">Global support 2026</th>
-                            <th class="p-4 font-black">vs JPEG file size savings</th>
-                            <th class="p-4 font-black">Best for</th>
+                            <th>Format</th>
+                            <th>Global support 2026</th>
+                            <th>vs JPEG file size savings</th>
+                            <th>Best for</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
+                    <tbody>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">WebP</td>
-                            <td class="p-4">96–97%</td>
-                            <td class="p-4">25–35% smaller</td>
-                            <td class="p-4">Broad compatibility fallback</td>
+                            <td>WebP</td>
+                            <td>96–97%</td>
+                            <td>25–35% smaller</td>
+                            <td>Broad compatibility fallback</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">AVIF</td>
-                            <td class="p-4">~95%</td>
-                            <td class="p-4">20–50% smaller than WebP</td>
-                            <td class="p-4">Primary web delivery</td>
+                            <td>AVIF</td>
+                            <td>~95%</td>
+                            <td>20–50% smaller than WebP</td>
+                            <td>Primary web delivery</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">JPEG XL</td>
-                            <td class="p-4">~17% on Oct 7, 2026, rising: Chrome 155+, Firefox 158+, Safari 17+ (stills)</td>
-                            <td class="p-4">35–60% potential</td>
-                            <td class="p-4">Archival, print, native apps</td>
+                            <td>JPEG XL</td>
+                            <td>~17% on Oct 7, 2026, rising: Chrome 155+, Firefox 158+, Safari 17+ (stills)</td>
+                            <td>35–60% potential</td>
+                            <td>Archival, print, native apps</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
             <p class="text-sm text-[#875F42]">
                 Sources: <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">caniuse.com/avif</a>, <a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer">caniuse.com/jpegxl</a> (read October 7, 2026)
             </p>
@@ -173,9 +177,9 @@
             <SectionHeading>Where JPEG XL stands after Chrome 155</SectionHeading>
             <p class="mb-4">Google brought JPEG XL back to Chrome behind a flag in February 2026 and switched it on by default in Chrome 155 on October 6, 2026; Firefox 158 does the same on October 13, and Safari has decoded still JXL images since version 17. Edge and Samsung Internet had not shipped it as of October 7, installed browsers update over weeks, and email clients do not render it, so JPEG XL belongs at the top of a picture element rather than on its own. AVIF and WebP still cover 95%+ of real-world users without any conditional logic. Our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support">JPEG XL in Chrome and what changes now</a> has the dated per-browser table.</p>
 
-            <InfoBox type="warning" title="Do not serve .jxl without a fallback">
+            <GlassInfoBox type="warning" title="Do not serve .jxl without a fallback">
                 A <code>.jxl</code> file served without a <code>&lt;picture&gt;</code> fallback will fail silently for anyone on Edge, on a Chrome or Firefox that has not yet updated to the October 2026 releases, or in an email client. Until the installed base has caught up with the October 2026 releases, always pair it with AVIF and WebP fallbacks; our <a href="/guides/html-picture-tag">HTML picture tag guide</a> has the markup and the source order.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="avif-vs-webp" class="scroll-mt-24">
@@ -186,9 +190,9 @@
 
             <p class="mb-4">Serving AVIF is the right call for the web - but compatibility questions still come up once a file leaves your site, like when someone downloads an image and needs to open it in a tool that doesn't support AVIF yet. For those cases, see <a href="/guides/avif-to-jpg">our AVIF to JPG conversion guide</a>, or convert the file in seconds with the <a href="/avif-to-jpg">AVIF to JPG converter</a>. The equivalent problem on the WebP side, including why the browser handed you one in the first place, is covered in <a href="/guides/save-webp-as-jpg-chrome">our guide to saving a WebP as JPG in Chrome</a>. If you want that conversion in the right-click menu itself, our <a href="/guides/save-image-as-type-alternative">guide to choosing a safe right-click image converter</a> covers what to check before installing one.</p>
 
-            <InfoBox type="tip" title="Magic Flow handles format selection automatically">
+            <GlassInfoBox type="tip" title="Magic Flow handles format selection automatically">
                 In Mochify, you can type <em>"convert to AVIF with WebP fallback max 1600px"</em> and the NLP engine picks the right settings for every file. No format dropdowns, no manual quality sliders.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
@@ -202,7 +206,26 @@
             </a>
         </div>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

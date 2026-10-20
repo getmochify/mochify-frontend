@@ -1,9 +1,10 @@
 <script lang="ts">
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
-    import GuideCTA from '$lib/components/GuideCTA.svelte';
 
     const metadata = {
         title: "Do Marketplace Product Images Need to Be Square?",
@@ -111,29 +112,32 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
     <!-- Header -->
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="Need to Be Square" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Do Marketplace Product Images Need to Be Square?
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             No marketplace universally requires square product images, but most display listings in square or near-square thumbnail grids - which means a portrait or landscape image that has not been pre-cropped will be auto-cropped by the platform, often poorly. The practical rule for any seller with a mixed catalog: standardize on a consistent aspect ratio before uploading, with square (1:1) or horizontal (4:3) as the safest choices for grid-based browsing.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6">
-            <p class="text-[#6C3F31] text-base leading-relaxed m-0">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
                 <strong class="text-[#4A2C2C]">Published June 29, 2026 by the Mochify Engineering Team.</strong>
                 Platform guidelines sourced from official help centers and checked against live documentation as of June 2026.
             </p>
@@ -141,7 +145,7 @@
     </header>
 
     <!-- Article body -->
-    <div class="space-y-14 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
         <!-- Section 1 -->
         <section id="what-each-platform-actually-says" class="scroll-mt-24">
@@ -173,9 +177,9 @@
                 The shape question also cuts the other way now: Poshmark moved its display layer to 3:4 portrait in March 2026, joining Vinted, so "square-safe" is no longer a universal default. When you list the same item across several platforms, <a href="/guides/cross-listing-marketplace-photo-requirements">the cross-listing photo guide</a> maps each marketplace's current shape, size, and format in one place.
             </p>
 
-            <InfoBox type="tip" title="Shooting tip">
+            <GlassInfoBox type="tip" title="Shooting tip">
                 Keep your subject centered with breathing room on all four sides. An image with central subject placement survives square, portrait, and landscape thumbnail crops without losing the product - giving you one versatile photo that works across Etsy, Amazon, and Shopify in a single shot.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <!-- Section 3 -->
@@ -196,17 +200,36 @@
         </section>
 
         <!-- CTA -->
-        <GuideCTA
+        <GlassCTA
             heading="Crop your product catalog to square automatically"
             href="/solutions/bulk-ai-square-cropper"
             label="Try the Bulk Square Cropper →"
         >
             Preparing a product catalog for multiple marketplaces? Mochify's saliency engine identifies the focal point in each photo and crops to square automatically - no manual adjustments per image.
 
-        </GuideCTA>
+        </GlassCTA>
 
         <!-- Related guides -->
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>

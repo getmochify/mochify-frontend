@@ -1,8 +1,9 @@
 <script>
-    import ScrollableTable from '$lib/components/ScrollableTable.svelte';
     import ReadProgress from '$lib/components/ReadProgress.svelte';
-    import InfoBox from '$lib/components/InfoBox.svelte';
-    import RelatedGuides from '$lib/components/RelatedGuides.svelte';
+    import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+    import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
+    import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
+    import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
 
     const metadata = {
@@ -79,61 +80,64 @@
     </script>
 </svelte:head>
 
-<article class="bg-white rounded-none md:rounded-3xl pt-6 px-6 pb-8 md:p-12 border-x md:border border-pink-50 shadow-sm relative overflow-hidden">
+<article
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+>
+	<div class="hero-wash" aria-hidden="true"></div>
 
-    <header class="mb-12 border-b border-pink-50 pb-12">
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <span class="inline-block px-3 py-1 rounded-full bg-pink-50 text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-100">
-                {metadata.category}
-            </span>
-            <span class="text-sm font-bold text-[#875F42]">
-                {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
-            </span>
-        </div>
+    <header class="mb-12 md:mb-14">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			{metadata.category}
+		</p>
+		<h1
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+		>
+			<AccentTitle title={metadata.title} accent="JPEG XL" />
+		</h1>
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
+		</p>
 
-        <h1 class="text-3xl md:text-5xl font-black text-[#4A2C2C] leading-tight mb-6">
-            Is JPEG XL Ready for Shopify Product Images in 2026?
-        </h1>
-
-        <p class="text-xl text-[#6C3F31] opacity-90 leading-relaxed max-w-2xl mb-8">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             JPEG XL (JXL) is still not usable on a live Shopify store, and the reason has changed. Browsers are no longer the blocker: Chrome 155 (October 6, 2026) and Firefox 158 (October 13) decode JPEG XL by default, and Safari has for still images since version 17. Shopify is the blocker: it does not accept JXL uploads, and its image CDN serves JPG, PNG and WebP. Keep uploading JPEG or PNG and let Shopify serve WebP where it can; keep your masters as lossless JXL if you want the archive benefit.
         </p>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-            <p class="text-lg text-[#6C3F31] leading-relaxed">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
                 <strong>Published April 2026 by the Mochify Engineering Team.</strong> This guide covers JXL browser support status, Shopify upload compatibility, and the right format stack to use while the standard matures.
             </p>
         </div>
     </header>
 
-    <div class="space-y-8 text-lg text-[#6C3F31] leading-relaxed">
+    <div class="space-y-12">
 
         <section id="where-jxl-support-actually-stands" class="scroll-mt-24">
             <SectionHeading>Where JXL support actually stands</SectionHeading>
             <p class="mb-4">Chrome 145, released in February 2026, reintroduced JPEG XL decoding via a new Rust-based decoder called <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">jxl-rs</code> behind a browser flag, and Chrome 155, released on October 6, 2026, turned it on by default. Firefox 158 does the same on October 13. Safari 17+ on macOS and iOS decodes still images. Edge had not shipped it as of October 7, 2026, and installed Chrome and Firefox versions take weeks to update, so a fallback still matters on the open web.</p>
             <p class="mb-4">For a Shopify store none of that matters yet, because the platform never serves a JXL in the first place. In e-commerce, a broken product photo is a lost conversion, so the only safe path is the one Shopify controls.</p>
 
-            <ScrollableTable class="mb-4">
-                <table class="w-full text-left bg-white">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black">Browser</th>
-                            <th class="p-4 font-black">JXL status (October 7, 2026)</th>
+                            <th>Browser</th>
+                            <th>JXL status (October 7, 2026)</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Chrome 155+</td><td class="p-4">Decodes by default (145 to 154: flag only)</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Safari 17+ (macOS/iOS)</td><td class="p-4">Still images only, no flag needed</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Firefox 158+</td><td class="p-4">Decodes by default from October 13, 2026</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Edge</td><td class="p-4">Not yet shipped</td></tr>
-                        <tr><td class="p-4 font-bold text-[#4A2C2C]">Global coverage</td><td class="p-4 font-bold text-[#4A2C2C]">~17% on October 7, rising as Chrome 155 and Firefox 158 roll out</td></tr>
+                    <tbody>
+                        <tr><td>Chrome 155+</td><td>Decodes by default (145 to 154: flag only)</td></tr>
+                        <tr><td>Safari 17+ (macOS/iOS)</td><td>Still images only, no flag needed</td></tr>
+                        <tr><td>Firefox 158+</td><td>Decodes by default from October 13, 2026</td></tr>
+                        <tr><td>Edge</td><td>Not yet shipped</td></tr>
+                        <tr><td>Global coverage</td><td>~17% on October 7, rising as Chrome 155 and Firefox 158 roll out</td></tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
 
-            <InfoBox type="warning" title="A broken product photo is a lost conversion">
+            <GlassInfoBox type="warning" title="A broken product photo is a lost conversion">
                 Until the October releases reach installed browsers, serving JXL without a fallback still means many customers see a broken image; on Shopify the question does not arise, because the platform will not take the file. Don't use it as a primary delivery format until Chrome enables it by default.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <section id="shopify-doesnt-accept-jxl-uploads" class="scroll-mt-24">
@@ -147,44 +151,44 @@
             <p class="mb-4">JXL's compression is genuinely excellent. It delivers 20–60% better file sizes than JPEG for lossless re-encodes, supports progressive decoding, and offers lossless round-trip conversion back to JPEG with zero additional quality loss. For archiving high-resolution product photography masters, that is a compelling use case.</p>
             <p class="mb-4">The con: it cannot be your delivery format until browser support is default-on. AVIF currently sits at 95%+ global browser support and delivers 20–50% smaller files than WebP at comparable quality. For Shopify in 2026, AVIF is the right call - and Mochify outputs it natively.</p>
 
-            <ScrollableTable class="mb-4">
-                <table class="w-full text-left bg-white">
-                    <thead class="bg-pink-50 text-[#4A2C2C]">
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
                         <tr>
-                            <th class="p-4 font-black"></th>
-                            <th class="p-4 font-black">AVIF</th>
-                            <th class="p-4 font-black">WebP</th>
-                            <th class="p-4 font-black">JPEG XL</th>
+                            <th></th>
+                            <th>AVIF</th>
+                            <th>WebP</th>
+                            <th>JPEG XL</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-pink-50 text-[#6C3F31]">
+                    <tbody>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Compression vs JPEG</td>
-                            <td class="p-4">40–50% smaller</td>
-                            <td class="p-4">25–35% smaller</td>
-                            <td class="p-4">20–60% smaller</td>
+                            <td>Compression vs JPEG</td>
+                            <td>40–50% smaller</td>
+                            <td>25–35% smaller</td>
+                            <td>20–60% smaller</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Global browser support</td>
-                            <td class="p-4">~95%</td>
-                            <td class="p-4">~98%</td>
-                            <td class="p-4">~17% on Oct 7, 2026, rising (Chrome 155+, Firefox 158+, Safari 17+)</td>
+                            <td>Global browser support</td>
+                            <td>~95%</td>
+                            <td>~98%</td>
+                            <td>~17% on Oct 7, 2026, rising (Chrome 155+, Firefox 158+, Safari 17+)</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Shopify upload accepted</td>
-                            <td class="p-4">Yes</td>
-                            <td class="p-4">Yes</td>
-                            <td class="p-4">No</td>
+                            <td>Shopify upload accepted</td>
+                            <td>Yes</td>
+                            <td>Yes</td>
+                            <td>No</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-[#4A2C2C]">Safe for live stores now</td>
-                            <td class="p-4">Yes</td>
-                            <td class="p-4">Yes</td>
-                            <td class="p-4">No</td>
+                            <td>Safe for live stores now</td>
+                            <td>Yes</td>
+                            <td>Yes</td>
+                            <td>No</td>
                         </tr>
                     </tbody>
                 </table>
-            </ScrollableTable>
+            </GuideTable>
         </section>
 
         <section id="when-to-use-jxl" class="scroll-mt-24">
@@ -192,9 +196,9 @@
             <p class="mb-4">Use JPEG XL now for one thing on Shopify: archiving original product photo masters before conversion. Chrome has shipped JXL as a default-on feature, so the browser side is settled; what you are waiting for is Shopify adding the format to its upload list. Our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support">JPEG XL in Chrome and what changes now</a> has the dated browser table and the by-stack advice.</p>
             <p class="mb-4">For pre-conversion archives, Mochify supports JXL as both an input and output format. You can type a plain-English prompt like <em>"convert to JPEG XL and strip EXIF data for archiving"</em> into Magic Flow at <a href="https://mochify.app">mochify.app</a>, and it will handle the batch without retaining your data. When you are ready to prepare those images for Shopify, convert the same archive to AVIF or WebP in one step.</p>
 
-            <InfoBox type="tip" title="The right workflow for Shopify right now">
+            <GlassInfoBox type="tip" title="The right workflow for Shopify right now">
                 Upload AVIF to Shopify for best compression. Keep a JPEG or high-quality WebP as fallback for any legacy integrations. Revisit JXL for live delivery once Chrome enables it without a flag.
-            </InfoBox>
+            </GlassInfoBox>
         </section>
 
         <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
@@ -208,7 +212,26 @@
             </a>
         </div>
 
-        <RelatedGuides guides={related} />
+        <RelatedGuidesGrid guides={related} />
 
     </div>
 </article>
+
+<style>
+	/* The breadcrumb renders in the shared guides layout at max-w-4xl; align
+       it with this page's 3xl reading column. */
+	:global(nav[aria-label='Breadcrumb']) {
+		max-width: 48rem;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.25rem;
+	}
+
+	/* Match the article's mobile gutter (px-5 vs the breadcrumb's px-4). */
+	@media (max-width: 767px) {
+		:global(nav[aria-label='Breadcrumb']) {
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+		}
+	}
+</style>
