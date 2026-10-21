@@ -169,6 +169,9 @@ interface RetryableXhrError extends Error {
 	// everywhere a user-facing message is produced, so the surface that renders
 	// the message can render the matching help link without re-deriving it.
 	errorKey?: UploadErrorKey;
+	// The decoder's own sentence (X-Mochify-Decoder), as the /v1/squish path
+	// attaches it; ImageUpload sends it with the help-link event.
+	decoder?: string;
 }
 
 function xhrError(
@@ -379,6 +382,7 @@ function readResult(
 		error.status = xhr.status;
 		error.rejectLabel = rejectLabel;
 		error.errorKey = key;
+		error.decoder = readDecoderHeader(xhr);
 		throw error;
 	})();
 }

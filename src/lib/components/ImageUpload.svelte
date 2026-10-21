@@ -19,6 +19,7 @@
 		CHUNK_THRESHOLD_BYTES,
 		type ChunkedUploadParams
 	} from '$lib/uploadChunked';
+	import { wsAvailable } from '$lib/uploadWs';
 	import { resolveUploadSize, effectiveSize, uploadBodyOf } from '$lib/uploadSize';
 	import { checkTruncation, truncationVerdictOf } from '$lib/truncationCheck';
 	import {
@@ -1034,10 +1035,14 @@
 					const safeType = ALLOWED_FORMATS.has(imageType) ? imageType : 'jpg';
 
 					let blob: Blob;
-					if (effectiveSize(file) > CHUNK_THRESHOLD_BYTES) {
-						// Large file on a possibly-flaky connection: upload in
-						// ~5MB chunks (each independently retried) instead of
-						// one whole-file POST. See src/lib/uploadChunked.ts.
+					// With WebSocket available every file takes the resumable path,
+					// as on /flow: the bytes go over the socket (a drop costs one
+					// 64 KB frame, not the file), and core holds the result until
+					// it has downloaded. Same params as /v1/squish, solution-page
+					// queryParams included. Where WebSocket is blocked, large files
+					// fall back to 1 MB HTTP chunks inside uploadChunked and small
+					// ones keep the single POST below.
+					if (effectiveSize(file) > CHUNK_THRESHOLD_BYTES || wsAvailable()) {
 						let lastLoaded = 0;
 						const chunkedParams: ChunkedUploadParams = {
 							type: safeType,
@@ -1054,6 +1059,8 @@
 
 						blob = await uploadChunked(uploadBodyOf(file), API_URL, chunkedParams, {
 							jwt,
+							transport: 'ws',
+							holdResult: true,
 							onUploadProgress: (loaded) => {
 								const delta = loaded - lastLoaded;
 								lastLoaded = loaded;
