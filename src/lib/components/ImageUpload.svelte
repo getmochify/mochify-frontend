@@ -166,7 +166,13 @@
 	let successMessage: string = $state('');
 	let totalOriginalSize: number = $state(0);
 	let fileInputElement: HTMLInputElement;
-	const CONCURRENT_UPLOADS = 1;
+	// Two at once, so the next file uploads while core processes the previous
+	// one; upload bandwidth is shared, so more would not upload any faster. Kept
+	// below /flow's 4 because this runs on the public solution pages, mostly for
+	// anonymous users, against the same 4 core workers. Files are pulled by a
+	// pool (a slow file does not hold up a whole batch), and the bar shows one
+	// phase for the run (see setPhase in compressImage).
+	const CONCURRENT_UPLOADS = 2;
 
 	// ---- Tier limits ------------------------------------------------------
 	// Guest and Free share the per-batch and per-file ceilings; the only thing
@@ -1026,6 +1032,27 @@
 			const totalBytes = selectedFiles.reduce((sum, f) => sum + effectiveSize(f), 0);
 			let uploadedBytes = 0;
 
+			// With two files in flight they are usually in different phases (one
+			// uploading while the other processes), and writing processPhase from
+			// both made the bar flick between them. Each file records its own phase
+			// and the bar shows the earliest stage any in-flight file is in: the
+			// batch's upload progress first, then a download, then processing.
+			// Nothing in flight (between one file and the next) keeps the last value
+			// rather than flashing the bar away.
+			const filePhases: Record<number, 'uploading' | 'processing' | 'downloading'> = {};
+			const showPhase = () => {
+				for (const p of ['uploading', 'downloading', 'processing'] as const) {
+					if (Object.values(filePhases).includes(p)) {
+						processPhase = p;
+						return;
+					}
+				}
+			};
+			const setPhase = (index: number, phase: 'uploading' | 'processing' | 'downloading') => {
+				filePhases[index] = phase;
+				showPhase();
+			};
+
 			const processFile = async (index: number) => {
 				const file = selectedFiles[index];
 				fileProgress[index].status = 'processing';
@@ -1068,7 +1095,7 @@
 								uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
 							},
 							onPhaseChange: (phase) => {
-								processPhase = phase;
+								setPhase(index, phase);
 								if (phase === 'downloading') downloadPercent = 0;
 							},
 							onDownloadProgress: (loaded, total) => {
@@ -1097,7 +1124,7 @@
 										const delta = e.loaded - lastLoaded;
 										lastLoaded = e.loaded;
 										uploadedBytes += delta;
-										processPhase = 'uploading';
+										setPhase(index, 'uploading');
 										uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
 									});
 
@@ -1105,12 +1132,12 @@
 										uploadedBytes += effectiveSize(file) - lastLoaded;
 										lastLoaded = effectiveSize(file);
 										uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
-										processPhase = 'processing';
+										setPhase(index, 'processing');
 										downloadPercent = 0;
 									});
 
 									xhr.addEventListener('progress', (e) => {
-										processPhase = 'downloading';
+										setPhase(index, 'downloading');
 										if (e.lengthComputable) {
 											downloadPercent = Math.round((e.loaded / e.total) * 100);
 										}
@@ -1243,17 +1270,24 @@
 								file_readable: await probeReadable(uploadBodyOf(file))
 							};
 					}
+				} finally {
+					delete filePhases[index];
+					showPhase();
 				}
 			};
 
-			batchLoop: for (let i = 0; i < selectedFiles.length; i += CONCURRENT_UPLOADS) {
-				const batch = [];
-				for (let j = i; j < Math.min(i + CONCURRENT_UPLOADS, selectedFiles.length); j++) {
-					batch.push(processFile(j));
-				}
-				await Promise.allSettled(batch);
-				if (hitRateLimit) break batchLoop;
-			}
+			// A pool rather than fixed batches: each worker takes the next file as
+			// soon as its last one is done, so one slow file never holds its
+			// partner's slot idle. A 429 stops both workers taking NEW files; a
+			// file already in flight still finishes. processFile never rejects (it
+			// records every failure on fileProgress), so Promise.all is safe.
+			let nextFile = 0;
+			const worker = async () => {
+				while (!hitRateLimit && nextFile < selectedFiles.length) await processFile(nextFile++);
+			};
+			await Promise.all(
+				Array.from({ length: Math.min(CONCURRENT_UPLOADS, selectedFiles.length) }, worker)
+			);
 
 			const successfulFiles = selectedFiles.filter((_, i) => fileProgress[i].status === 'complete');
 			const failedFiles = selectedFiles.filter((_, i) => fileProgress[i].status === 'error');
