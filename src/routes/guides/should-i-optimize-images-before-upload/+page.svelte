@@ -7,6 +7,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Should I Optimize My Images Before I Upload Them?",
@@ -92,15 +93,7 @@
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team" },
         "isPartOf": { "@type": "CollectionPage", "name": "Image Optimization Guides", "url": "https://mochify.app/guides" },
-        "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app"},
-                {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides"},
-                {"@type": "ListItem", "position": 3, "name": "Should I Optimize My Images Before I Upload Them?", "item": "https://mochify.app/guides/should-i-optimize-images-before-upload"}
-            ]
-        }
+        "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" }
     }
     </script>
     <script type="application/ld+json">
@@ -141,6 +134,13 @@
         ]
     }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/should-i-optimize-images-before-upload"
+        description={metadata.description}
+        datePublished="2026-04-13"
+        dateModified="2026-10-16"
+    />
 </svelte:head>
 
 <article

@@ -8,6 +8,7 @@
 	import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
 	import StepList from '$lib/components/guide-demo/StepList.svelte';
 	import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
+	import GuideSchema from '$lib/components/GuideSchema.svelte';
 
 	// Built from content-ops `article-originals/should-i-shoot-heif-or-jpeg-mirrorless-camera.html`
 	// (handoff spec v1). Body copy is verbatim from the handoff; head and schema are
@@ -137,66 +138,6 @@
 			desc: 'The codec fixes, and why 10-bit camera files are the hard case.'
 		}
 	];
-
-	const organization = { '@type': 'Organization', name: 'Mochify', url: 'https://mochify.app' };
-
-	const articleLd = {
-		'@context': 'https://schema.org',
-		'@type': 'Article',
-		headline: metadata.title,
-		description: metadata.description,
-		url: pageUrl,
-		mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
-		datePublished: '2026-04-25',
-		dateModified: '2026-10-07',
-		inLanguage: 'en',
-		author: {
-			'@type': 'Organization',
-			name: 'Mochify Engineering Team',
-			url: 'https://mochify.app'
-		},
-		publisher: {
-			...organization,
-			logo: { '@type': 'ImageObject', url: 'https://mochify.app/logo.png' },
-			sameAs: ['https://github.com/getmochify']
-		},
-		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
-		about: [
-			'HEIF',
-			'JPEG',
-			'HIF files',
-			'HDR PQ',
-			'HLG',
-			'Canon EOS R',
-			'Nikon Z',
-			'Sony Alpha',
-			'Fujifilm X',
-			'RAW'
-		].map((name) => ({ '@type': 'Thing', name })),
-		keywords,
-		speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.article-intro', 'h1'] }
-	};
-
-	const breadcrumbLd = {
-		'@context': 'https://schema.org',
-		'@type': 'BreadcrumbList',
-		itemListElement: [
-			{ '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mochify.app/' },
-			{ '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://mochify.app/guides' },
-			{ '@type': 'ListItem', position: 3, name: metadata.title, item: pageUrl }
-		]
-	};
-
-	const webPageLd = {
-		'@context': 'https://schema.org',
-		'@type': 'WebPage',
-		name: metadata.title,
-		url: pageUrl,
-		description: metadata.description,
-		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
-		datePublished: '2026-04-25',
-		dateModified: '2026-10-07'
-	};
 </script>
 
 <ReadProgress />
@@ -219,12 +160,17 @@
 	<meta name="twitter:title" content={metadata.seoTitle} />
 	<meta name="twitter:description" content={metadata.description} />
 
-	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
-	{@html `<script type="application/ld+json">${JSON.stringify(articleLd)}<\/script>`}
-	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
-	{@html `<script type="application/ld+json">${JSON.stringify(breadcrumbLd)}<\/script>`}
-	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
-	{@html `<script type="application/ld+json">${JSON.stringify(webPageLd)}<\/script>`}
+	<GuideSchema
+		name={metadata.title}
+		url={pageUrl}
+		description={metadata.description}
+		datePublished="2026-04-25"
+		dateModified="2026-10-07"
+		article={{
+			about: ['HEIF', 'JPEG', 'HIF files', 'HDR PQ', 'HLG', 'Canon EOS R', 'Nikon Z', 'Sony Alpha', 'Fujifilm X', 'RAW'],
+			keywords
+		}}
+	/>
 </svelte:head>
 
 <article

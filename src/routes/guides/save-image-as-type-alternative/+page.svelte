@@ -9,6 +9,7 @@
 	import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
 	import StepList from '$lib/components/guide-demo/StepList.svelte';
 	import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
+	import GuideSchema from '$lib/components/GuideSchema.svelte';
 
 	const metadata = {
 		title: 'Save Image as Type Is Gone: How to Replace It Safely',
@@ -199,6 +200,13 @@
 			]
 		}
 	</script>
+	<GuideSchema
+		name={metadata.title}
+		url="https://mochify.app/guides/save-image-as-type-alternative"
+		description={metadata.description}
+		datePublished="2026-09-23"
+		dateModified="2026-10-02"
+	/>
 </svelte:head>
 
 <article

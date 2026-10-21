@@ -6,6 +6,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "SVG Conversion Guide: When to Keep Vector and When to Rasterize",
@@ -96,17 +97,6 @@
         }
     </script>
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "SVG Conversion Guide", "item": "https://mochify.app/guides/svg-conversion-guide-vector-vs-raster" }
-        ]
-        }
-    </script>
 
     <script type="application/ld+json">
         {
@@ -141,6 +131,13 @@
         ]
         }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/svg-conversion-guide-vector-vs-raster"
+        description={metadata.description}
+        datePublished="2026-05-16"
+        dateModified="2026-10-07"
+    />
 </svelte:head>
 
 <article

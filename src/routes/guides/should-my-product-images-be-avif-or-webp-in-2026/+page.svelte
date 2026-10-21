@@ -5,6 +5,7 @@
     import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Should My Product Images Be AVIF or WebP in 2026?",
@@ -67,17 +68,13 @@
         }
     </script>
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Should My Product Images Be AVIF or WebP in 2026?", "item": "https://mochify.app/guides/should-my-product-images-be-avif-or-webp-in-2026" }
-        ]
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/should-my-product-images-be-avif-or-webp-in-2026"
+        description={metadata.description}
+        datePublished="2026-08-14"
+        dateModified="2026-08-14"
+    />
 </svelte:head>
 
 <article

@@ -5,6 +5,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Is JPEG XL Ready for Shopify Product Images in 2026?",
@@ -67,17 +68,16 @@
             { "@type": "Thing", "name": "AVIF" },
             { "@type": "Thing", "name": "WebP" },
             { "@type": "Thing", "name": "Web performance" }
-        ],
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app" },
-                { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-                { "@type": "ListItem", "position": 3, "name": "Is JPEG XL Ready for Shopify Product Images in 2026?", "item": "https://mochify.app/guides/is-jpeg-xl-ready-for-shopify-product-images" }
-            ]
-        }
+        ]
     }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/is-jpeg-xl-ready-for-shopify-product-images"
+        description={metadata.description}
+        datePublished="2026-04-14"
+        dateModified="2026-10-07"
+    />
 </svelte:head>
 
 <article

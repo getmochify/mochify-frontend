@@ -5,6 +5,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Do Journaling Apps Compress Images? Avoid Storage Bloat.",
@@ -75,17 +76,13 @@
         }
     </script>
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Do Journaling Apps Compress Images?", "item": "https://mochify.app/guides/do-journaling-apps-compress-images" }
-        ]
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/do-journaling-apps-compress-images"
+        description={metadata.description}
+        datePublished="2026-05-18"
+        dateModified="2026-05-18"
+    />
 </svelte:head>
 
 <article

@@ -4,6 +4,7 @@
     import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Does Stripping EXIF Data Improve WordPress Image SEO?",
@@ -37,77 +38,18 @@
     <meta name="twitter:title" content={metadata.title} />
     <meta name="twitter:description" content={metadata.description} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "Does Stripping EXIF Data Improve WordPress Image SEO?",
-        "description": "Stripping EXIF data doesn't improve WordPress image SEO rankings, but it trims file size and removes private location data.",
-        "url": "https://mochify.app/guides/does-stripping-exif-data-improve-wordpress-image-seo",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https://mochify.app/guides/does-stripping-exif-data-improve-wordpress-image-seo"
-        },
-        "datePublished": "2026-08-07",
-        "dateModified": "2026-10-16",
-        "inLanguage": "en",
-        "author": {
-            "@type": "Organization",
-            "name": "Mochify Engineering Team",
-            "url": "https://mochify.app"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Mochify",
-            "url": "https://mochify.app",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://mochify.app/logo.png"
-            }
-        },
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Mochify",
-            "url": "https://mochify.app"
-        },
-        "about": [
-            { "@type": "Thing", "name": "EXIF metadata" },
-            { "@type": "Thing", "name": "WordPress image SEO" },
-            { "@type": "Thing", "name": "image compression" },
-            { "@type": "Thing", "name": "Google image licensing metadata" }
-        ],
-        "keywords": "strip EXIF data WordPress, EXIF metadata SEO, WordPress image metadata, image SEO ranking factors",
-        "speakable": {
-            "@type": "SpeakableSpecification",
-            "cssSelector": [".article-intro", "h1"]
-        }
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Does Stripping EXIF Data Improve WordPress Image SEO?", "item": "https://mochify.app/guides/does-stripping-exif-data-improve-wordpress-image-seo" }
-        ]
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Does Stripping EXIF Data Improve WordPress Image SEO?",
-        "url": "https://mochify.app/guides/does-stripping-exif-data-improve-wordpress-image-seo",
-        "description": "Stripping EXIF data doesn't improve WordPress image SEO rankings, but it trims file size and removes private location data.",
-        "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
-        "datePublished": "2026-08-07",
-        "dateModified": "2026-10-16"
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/does-stripping-exif-data-improve-wordpress-image-seo"
+        description={metadata.description}
+        datePublished="2026-08-07"
+        dateModified="2026-10-16"
+        article={{
+            about: ['EXIF metadata', 'WordPress image SEO', 'image compression', 'Google image licensing metadata'],
+            keywords:
+                'strip EXIF data WordPress, EXIF metadata SEO, WordPress image metadata, image SEO ranking factors'
+        }}
+    />
 </svelte:head>
 
 <article

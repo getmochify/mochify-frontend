@@ -7,6 +7,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "HIF to JPG: Convert Canon, Sony & Fujifilm Photos to Shareable JPEGs",
@@ -127,6 +128,13 @@
         ]
         }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/hif-to-jpg-canon-sony-fujifilm"
+        description={metadata.description}
+        datePublished="2026-06-04"
+        dateModified="2026-10-07"
+    />
 </svelte:head>
 
 <article

@@ -4,6 +4,7 @@
     import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "How Do I Preload AVIF Hero Images in WordPress to Pass the LCP Threshold?",
@@ -87,6 +88,13 @@
         ]
     }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/preload-avif-hero-images-wordpress-lcp"
+        description={metadata.description}
+        datePublished="2026-04-09"
+        dateModified="2026-07-13"
+    />
 </svelte:head>
 
 <article

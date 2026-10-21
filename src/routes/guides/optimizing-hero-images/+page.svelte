@@ -9,6 +9,7 @@
 	import CodeCard from '$lib/components/guide-demo/CodeCard.svelte';
 	import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
 	import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+	import GuideSchema from '$lib/components/GuideSchema.svelte';
 
 	// Built from content-ops `article-originals/optimizing-hero-images.html` (handoff spec v1).
 	// Body copy is verbatim from the handoff; head and schema are generated
@@ -136,66 +137,6 @@
 			desc: 'for the video-hero case.'
 		}
 	];
-
-	const organization = { '@type': 'Organization', name: 'Mochify', url: 'https://mochify.app' };
-
-	const articleLd = {
-		'@context': 'https://schema.org',
-		'@type': 'Article',
-		headline: metadata.title,
-		description: metadata.description,
-		url: pageUrl,
-		mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
-		datePublished: '2026-02-20',
-		dateModified: '2026-10-16',
-		inLanguage: 'en',
-		author: {
-			'@type': 'Organization',
-			name: 'Mochify Engineering Team',
-			url: 'https://mochify.app'
-		},
-		publisher: {
-			...organization,
-			logo: { '@type': 'ImageObject', url: 'https://mochify.app/logo.png' },
-			sameAs: ['https://github.com/getmochify']
-		},
-		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
-		about: [
-			'hero image',
-			'image size',
-			'Largest Contentful Paint',
-			'AVIF',
-			'WebP',
-			'srcset',
-			'responsive images'
-		].map((name) => ({ '@type': 'Thing', name })),
-		keywords,
-		speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.article-intro', 'h1'] }
-	};
-
-	const breadcrumbLd = {
-		'@context': 'https://schema.org',
-		'@type': 'BreadcrumbList',
-		itemListElement: [
-			{ '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mochify.app/' },
-			{ '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://mochify.app/guides' },
-			{ '@type': 'ListItem', position: 3, name: metadata.title, item: pageUrl }
-		]
-	};
-
-	const webPageLd = {
-		'@context': 'https://schema.org',
-		'@type': 'WebPage',
-		name: metadata.title,
-		url: pageUrl,
-		description: metadata.description,
-		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
-		datePublished: '2026-02-20',
-		dateModified: '2026-10-16'
-	};
-
-	/** @param {object} data */
-	const ld = (data) => JSON.stringify(data).replace(/</g, '\\u003c');
 </script>
 
 <ReadProgress />
@@ -218,12 +159,17 @@
 	<meta name="twitter:title" content={metadata.seoTitle} />
 	<meta name="twitter:description" content={metadata.description} />
 
-	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
-	{@html `<script type="application/ld+json">${ld(articleLd)}<\/script>`}
-	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
-	{@html `<script type="application/ld+json">${ld(breadcrumbLd)}<\/script>`}
-	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
-	{@html `<script type="application/ld+json">${ld(webPageLd)}<\/script>`}
+	<GuideSchema
+		name={metadata.title}
+		url={pageUrl}
+		description={metadata.description}
+		datePublished="2026-02-20"
+		dateModified="2026-10-16"
+		article={{
+			about: ['hero image', 'image size', 'Largest Contentful Paint', 'AVIF', 'WebP', 'srcset', 'responsive images'],
+			keywords
+		}}
+	/>
 </svelte:head>
 
 <article

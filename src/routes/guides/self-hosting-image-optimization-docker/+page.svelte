@@ -6,6 +6,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         category: "Image Optimization",
@@ -62,6 +63,13 @@
     }
     }
 </script>
+	<GuideSchema
+		name="Self-Hosting Image Optimization: A Guide to Mochify-Lite on Docker"
+		url="https://mochify.app/guides/self-hosting-image-optimization-docker"
+		description="Self-host your own image compression engine with Mochify-Lite on Docker: setup, API examples, security practices and how it compares to the full engine."
+		datePublished="2026-02-18"
+		dateModified="2026-10-01"
+	/>
 </svelte:head>
 
 <article

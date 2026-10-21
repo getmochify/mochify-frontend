@@ -8,6 +8,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Mochify vs TinyPNG: An Honest Comparison",
@@ -88,80 +89,18 @@
     <meta name="twitter:title" content="Mochify vs TinyPNG - An Honest 2026 Comparison" />
     <meta name="twitter:description" content={metadata.description} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "Mochify vs TinyPNG: An Honest Comparison",
-        "description": "TinyPNG stores files 48 hours; Mochify wipes them instantly. An honest head-to-head on pricing, formats, AI features, and where TinyPNG genuinely wins.",
-        "url": "https://mochify.app/guides/mochify-vs-tinypng",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https://mochify.app/guides/mochify-vs-tinypng"
-        },
-        "datePublished": "2026-07-21",
-        "dateModified": "2026-09-23",
-        "inLanguage": "en",
-        "author": {
-            "@type": "Organization",
-            "name": "Mochify Engineering Team",
-            "url": "https://mochify.app"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Mochify",
-            "url": "https://mochify.app",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://mochify.app/logo.png"
-            }
-        },
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Mochify",
-            "url": "https://mochify.app"
-        },
-        "about": [
-            { "@type": "Thing", "name": "TinyPNG" },
-            { "@type": "Thing", "name": "Tinify" },
-            { "@type": "Thing", "name": "image compression" },
-            { "@type": "Thing", "name": "AVIF" },
-            { "@type": "Thing", "name": "JPEG XL" },
-            { "@type": "Thing", "name": "MCP" },
-            { "@type": "Thing", "name": "image privacy" }
-        ],
-        "keywords": "mochify vs tinypng, tinypng alternative, tinypng review, is tinypng safe, image compressor comparison",
-        "speakable": {
-            "@type": "SpeakableSpecification",
-            "cssSelector": [".article-intro", "h1"]
-        }
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Mochify vs TinyPNG: An Honest Comparison", "item": "https://mochify.app/guides/mochify-vs-tinypng" }
-        ]
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Mochify vs TinyPNG: An Honest Comparison",
-        "url": "https://mochify.app/guides/mochify-vs-tinypng",
-        "description": "TinyPNG stores files 48 hours; Mochify wipes them instantly. An honest head-to-head on pricing, formats, AI features, and where TinyPNG genuinely wins.",
-        "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
-        "datePublished": "2026-07-21",
-        "dateModified": "2026-09-23"
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/mochify-vs-tinypng"
+        description={metadata.description}
+        datePublished="2026-07-21"
+        dateModified="2026-09-23"
+        article={{
+            about: ['TinyPNG', 'Tinify', 'image compression', 'AVIF', 'JPEG XL', 'MCP', 'image privacy'],
+            keywords:
+                'mochify vs tinypng, tinypng alternative, tinypng review, is tinypng safe, image compressor comparison'
+        }}
+    />
 
     <script type="application/ld+json">
         {

@@ -10,6 +10,7 @@
 	import StepList from '$lib/components/guide-demo/StepList.svelte';
 	import CodeCard from '$lib/components/guide-demo/CodeCard.svelte';
 	import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
+	import GuideSchema from '$lib/components/GuideSchema.svelte';
 
 	// First long-form guide published on the guide-demo component set rather
 	// than the older SectionHeading/InfoBox pair. /guides/style-demo stays as
@@ -183,70 +184,13 @@
 		}
 	</script>
 
-	<script type="application/ld+json">
-		{
-			"@context": "https://schema.org",
-			"@type": "FAQPage",
-			"mainEntity": [
-				{
-					"@type": "Question",
-					"name": "Does WebP support transparency?",
-					"acceptedAnswer": {
-						"@type": "Answer",
-						"text": "Yes. Lossless WebP stores a full 8-bit alpha channel with every pixel, and lossy WebP adds a separate alpha plane in an ALPH chunk, so both kinds can hold soft, partial transparency. Every current browser renders it; the only common failures are apps with old decoders and platforms that convert uploads to JPEG."
-					}
-				},
-				{
-					"@type": "Question",
-					"name": "Does AVIF support transparency?",
-					"acceptedAnswer": {
-						"@type": "Answer",
-						"text": "Yes. AVIF stores transparency as a second, monochrome AV1 image inside the file at the same bit depth as the color image, and it can compress that alpha plane lossily, which is one reason AVIF cut-outs are often smaller than WebP ones. Static AVIF with alpha displays correctly in Chrome, Firefox, Edge and Safari 16.4 or later."
-					}
-				},
-				{
-					"@type": "Question",
-					"name": "Why does my transparent PNG turn black when I convert it to AVIF?",
-					"acceptedAnswer": {
-						"@type": "Answer",
-						"text": "Usually because the converter is built on an old ImageMagick 6 or a library without alpha support, both of which write the color image and drop the alpha item. Convert with a current libavif or ImageMagick 7 build, then check the output reports transparent pixels."
-					}
-				},
-				{
-					"@type": "Question",
-					"name": "Why does my cut-out show a black background on Etsy?",
-					"acceptedAnswer": {
-						"@type": "Answer",
-						"text": "Because Etsy stores listing images as JPEG and states in its help center that the transparent parts of the image will appear black on Etsy. No file format changes that. Composite the cut-out onto the background you want before uploading."
-					}
-				},
-				{
-					"@type": "Question",
-					"name": "How do I check whether an image file actually has an alpha channel?",
-					"acceptedAnswer": {
-						"@type": "Answer",
-						"text": "Open it on a brightly colored web page and see whether the color shows through, or run ImageMagick's identify command and read False (has transparent pixels) or True (fully opaque). For WebP, ExifTool's WebP_Flags tag also reports the alpha bit."
-					}
-				},
-				{
-					"@type": "Question",
-					"name": "Does removing the background on Mochify cost extra or need a paid plan?",
-					"acceptedAnswer": {
-						"@type": "Answer",
-						"text": "No. Background removal is on every plan including Free, and it works without an account within the same allowance as any other conversion: 3 images a month with no signup, 25 a month with a free account, at up to 20MB and 3 files per batch. Paid plans raise the allowance, the file size (75MB) and the batch size (25)."
-					}
-				},
-				{
-					"@type": "Question",
-					"name": "Should I use PNG, WebP or AVIF for a transparent logo?",
-					"acceptedAnswer": {
-						"@type": "Answer",
-						"text": "Keep a PNG master, publish WebP by default, and serve AVIF where your site or CDN can fall back to WebP for the rest. Google puts lossless WebP at 26% smaller than PNG, AVIF is usually smaller still on soft-edged cut-outs, and PNG is the one to send wherever the destination will flatten the file anyway."
-					}
-				}
-			]
-		}
-	</script>
+	<GuideSchema
+		name="Do WebP and AVIF Support Transparency? Why Cut-Outs Come Back Black or White (and How to Fix It)"
+		url="https://mochify.app/guides/webp-avif-transparency"
+		description={metadata.description}
+		datePublished="2026-09-21"
+		dateModified="2026-10-15"
+	/>
 </svelte:head>
 
 <article

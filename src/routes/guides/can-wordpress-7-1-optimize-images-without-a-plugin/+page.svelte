@@ -4,6 +4,7 @@
     import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Can WordPress 7.1 Optimize Images Without a Plugin?",
@@ -37,79 +38,18 @@
     <meta name="twitter:title" content={metadata.title} />
     <meta name="twitter:description" content={metadata.description} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "Can WordPress 7.1 Optimize Images Without a Plugin?",
-        "description": "Mostly, yes. WordPress 7.1 compresses, resizes, and converts HEIC images in-browser, but only in Chrome/Edge and only to fixed defaults.",
-        "url": "https://mochify.app/guides/can-wordpress-7-1-optimize-images-without-a-plugin",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https://mochify.app/guides/can-wordpress-7-1-optimize-images-without-a-plugin"
-        },
-        "datePublished": "2026-08-21",
-        "dateModified": "2026-08-25",
-        "inLanguage": "en",
-        "author": {
-            "@type": "Organization",
-            "name": "Mochify Engineering Team",
-            "url": "https://mochify.app"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Mochify",
-            "url": "https://mochify.app",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://mochify.app/logo.png"
-            }
-        },
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Mochify",
-            "url": "https://mochify.app"
-        },
-        "about": [
-            { "@type": "Thing", "name": "WordPress 7.1" },
-            { "@type": "Thing", "name": "libvips" },
-            { "@type": "Thing", "name": "HEIC image format" },
-            { "@type": "Thing", "name": "AVIF image format" },
-            { "@type": "Thing", "name": "HDR gain maps" },
-            { "@type": "Thing", "name": "EXIF metadata" }
-        ],
-        "keywords": "WordPress 7.1 image optimization without plugin, wordpress 7.1 image optimization, wordpress image compression without plugin, heic to jpeg wordpress uploads, avif support wordpress, wordpress media library optimization, libvips image processing",
-        "speakable": {
-            "@type": "SpeakableSpecification",
-            "cssSelector": [".article-intro", "h1"]
-        }
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Can WordPress 7.1 Optimize Images Without a Plugin?", "item": "https://mochify.app/guides/can-wordpress-7-1-optimize-images-without-a-plugin" }
-        ]
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Can WordPress 7.1 Optimize Images Without a Plugin?",
-        "url": "https://mochify.app/guides/can-wordpress-7-1-optimize-images-without-a-plugin",
-        "description": "Mostly, yes. WordPress 7.1 compresses, resizes, and converts HEIC images in-browser, but only in Chrome/Edge and only to fixed defaults.",
-        "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
-        "datePublished": "2026-08-21",
-        "dateModified": "2026-08-25"
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/can-wordpress-7-1-optimize-images-without-a-plugin"
+        description={metadata.description}
+        datePublished="2026-08-21"
+        dateModified="2026-08-25"
+        article={{
+            about: ['WordPress 7.1', 'libvips', 'HEIC image format', 'AVIF image format', 'HDR gain maps', 'EXIF metadata'],
+            keywords:
+                'WordPress 7.1 image optimization without plugin, wordpress 7.1 image optimization, wordpress image compression without plugin, heic to jpeg wordpress uploads, avif support wordpress, wordpress media library optimization, libvips image processing'
+        }}
+    />
 </svelte:head>
 
 <article

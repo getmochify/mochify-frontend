@@ -5,6 +5,7 @@
     import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Why Does eBay Say My Image File Is Not Supported?",
@@ -70,14 +71,6 @@
             "url": "https://mochify.app",
             "logo": { "@type": "ImageObject", "url": "https://mochify.app/logo.png" }
         },
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app"},
-                {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides"},
-                {"@type": "ListItem", "position": 3, "name": "Why Does eBay Say My Image File Is Not Supported?", "item": "https://mochify.app/guides/ebay-image-file-not-supported"}
-            ]
-        },
         "about": [
             { "@type": "Thing", "name": "eBay image requirements" },
             { "@type": "Thing", "name": "Image format conversion" },
@@ -86,6 +79,13 @@
         "keywords": "ebay image file not supported, ebay image upload error, heic ebay, hif ebay, convert image to jpeg ebay"
     }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/ebay-image-file-not-supported"
+        description={metadata.description}
+        datePublished="2026-06-24"
+        dateModified="2026-10-01"
+    />
 </svelte:head>
 
 <article

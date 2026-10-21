@@ -5,6 +5,7 @@
     import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Do Marketplace Product Images Need to Be Square?",
@@ -94,14 +95,6 @@
             "url": "https://mochify.app",
             "logo": { "@type": "ImageObject", "url": "https://mochify.app/logo.png" }
         },
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app" },
-                { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-                { "@type": "ListItem", "position": 3, "name": "Do Marketplace Product Images Need to Be Square?", "item": "https://mochify.app/guides/do-marketplace-product-images-need-to-be-square" }
-            ]
-        },
         "about": [
             { "@type": "Thing", "name": "product image aspect ratio" },
             { "@type": "Thing", "name": "marketplace product photography" },
@@ -110,6 +103,13 @@
         "keywords": "marketplace product images, square product images, Etsy image requirements, Amazon product images, Shopify image ratio, product image aspect ratio, e-commerce image size"
     }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/do-marketplace-product-images-need-to-be-square"
+        description={metadata.description}
+        datePublished="2026-06-29"
+        dateModified="2026-09-22"
+    />
 </svelte:head>
 
 <article

@@ -6,6 +6,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const inlineCode = "bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm";
 
@@ -171,6 +172,13 @@
         ]
         }
     </script>
+    <GuideSchema
+        name="How to Use Mochify via MCP: AI Agent Image Compression (2026)"
+        url="https://mochify.app/guides/mochify-mcp-image-compression-agent-2026"
+        description={metadata.description}
+        datePublished="2026-03-09"
+        dateModified="2026-09-12"
+    />
 </svelte:head>
 
 <article

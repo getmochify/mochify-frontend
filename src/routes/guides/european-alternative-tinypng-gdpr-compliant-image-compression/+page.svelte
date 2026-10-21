@@ -4,6 +4,7 @@
     import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         category: "Data Privacy",
@@ -65,6 +66,85 @@
         "dateModified": "2026-09-22"
         }
     </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Is Mochify actually GDPR-compliant for processing client images?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Mochify is operated by a UK-registered sole trader registered with the Information Commissioner's Office under UK GDPR, with image processing hosted on Netcup infrastructure in Germany under EU data protection law. Images are processed in memory only and never stored. We recommend reviewing our privacy policy and requesting a data processing agreement if you are using the API for client work, but the architectural guarantees (no disk writes, no retention) are the most substantive protection available."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What makes Mochify a European alternative to TinyPNG specifically?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "TinyPNG is operated by a Dutch company but relies on infrastructure that may be subject to US jurisdiction. Mochify's processing infrastructure sits in Germany with Netcup, and the service is operated by a UK-registered sole trader under UK GDPR with ICO registration. More importantly, the zero-retention architecture means no file is ever stored, which eliminates the retention risk that jurisdictional questions typically relate to."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does Mochify strip EXIF data automatically?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "On the common paths, yes: Mochify re-encodes your image rather than repackaging it, so EXIF metadata including GPS coordinates, device identifiers, and timestamps does not survive the process. Because the exact behavior varies by surface and workflow, we recommend stating it explicitly rather than relying on a default - ask for it in the prompt (\"compress these and strip all metadata\") and the handling is explicit and checkable."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I use Mochify as my agency's image compressor under NDA?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The zero-retention architecture means client images are never stored on our servers: they are processed in RAM and the memory is released immediately after the compressed output is returned. There is no file to breach, log, or disclose. For formal NDA compliance, you should review our privacy policy and request a DPA, but the technical architecture provides the strongest available guarantee."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does Mochify use images to train AI models?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Images processed through Mochify are never used for AI training, model improvement, or any purpose beyond the immediate compression request. This applies to both the browser UI and the API."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What image formats does Mochify support?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Mochify accepts JPEG, PNG, WebP, AVIF, JPEG XL, and HEIC/HEIF as inputs. Outputs include JPEG (via Google's Jpegli encoder), PNG, WebP, AVIF, and JPEG XL. This makes it one of the few EU-hosted services with full AVIF and JPEG XL output support, plus HEIC conversion, useful for any workflow involving iPhone photography."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between Mochify and a client-side tool like Squoosh?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Squoosh processes images in the browser, which is private by design. However, it has no REST API, no batch processing, no HEIC input support at scale, and no MCP server for AI agent integration. Mochify is the right choice when you need server-side automation, volume processing, or format coverage beyond what a browser app can handle, while maintaining comparable privacy guarantees through zero-retention architecture."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is an MCP server and why does it matter for image compression?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "MCP (Model Context Protocol) is a standard that allows AI coding assistants like Claude and Cursor to call external tools directly. Mochify's MCP server means an AI agent can compress, convert, and optimize images as part of an automated workflow without any manual file handling. All image processing via the MCP server uses the same zero-retention Squish engine as the browser UI and REST API."
+                }
+            }
+        ]
+    }
+    </script>
+    <GuideSchema
+        name="A European Alternative to TinyPNG: Privacy-First Image Compression That Leaves No Trace"
+        url="https://mochify.app/guides/european-alternative-tinypng-gdpr-compliant-image-compression"
+        description="GDPR-compliant image compression hosted in the EU: Mochify processes images in memory only, never stores your files, and strips EXIF metadata on re-encode."
+        datePublished="2026-03-22"
+        dateModified="2026-09-22"
+    />
 </svelte:head>
 
 <article

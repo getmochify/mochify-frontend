@@ -11,6 +11,7 @@
     import StepList from '$lib/components/guide-demo/StepList.svelte';
     import CodeCard from '$lib/components/guide-demo/CodeCard.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     // Uses the guide-demo component set (open reading column, mochi glass
     // surfaces) rather than the boxed card layout the other guides still use.
@@ -178,17 +179,6 @@ grep X-Mochify-HDR headers.txt
         }
     </script>
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Why HDR Photos Look Flat When You Share Them (and How Gain Maps Fix It)", "item": "https://mochify.app/guides/why-hdr-photos-look-flat-when-shared" }
-        ]
-        }
-    </script>
 
     <script type="application/ld+json">
         {
@@ -238,6 +228,13 @@ grep X-Mochify-HDR headers.txt
         ]
         }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/why-hdr-photos-look-flat-when-shared"
+        description={metadata.description}
+        datePublished="2026-08-26"
+        dateModified="2026-10-07"
+    />
 </svelte:head>
 
 <!-- Single max-w-3xl reading column: header, prose, and every card share the

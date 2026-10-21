@@ -8,6 +8,7 @@
 	import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
 	import StepList from '$lib/components/guide-demo/StepList.svelte';
 	import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
+	import GuideSchema from '$lib/components/GuideSchema.svelte';
 
 	// Built from content-ops `article-originals/lossless-image-formats.html` (handoff spec v1).
 	// Body copy is verbatim from the handoff; head and schema are generated
@@ -24,6 +25,9 @@
 	};
 
 	const pageUrl = 'https://mochify.app/guides/lossless-image-formats';
+
+	const keywords =
+		'lossless image format, best lossless image format, lossless png compression, is png lossless, is webp lossless, lossless jpeg xl, lossless vs lossy';
 
 	const toc = [
 		{
@@ -136,58 +140,6 @@
 			desc: 'where each format stands on support, size and features.'
 		}
 	];
-
-	const organization = { '@type': 'Organization', name: 'Mochify', url: 'https://mochify.app' };
-
-	const articleLd = {
-		'@context': 'https://schema.org',
-		'@type': 'Article',
-		headline: metadata.title,
-		description: metadata.description,
-		url: pageUrl,
-		mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
-		datePublished: '2026-10-02',
-		dateModified: '2026-10-07',
-		inLanguage: 'en',
-		author: {
-			'@type': 'Organization',
-			name: 'Mochify Engineering Team',
-			url: 'https://mochify.app'
-		},
-		publisher: {
-			...organization,
-			logo: { '@type': 'ImageObject', url: 'https://mochify.app/logo.png' },
-			sameAs: ['https://github.com/getmochify']
-		},
-		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
-		about: ['Lossless compression', 'PNG', 'WebP', 'JPEG XL', 'AVIF', 'Image formats'].map(
-			(name) => ({ '@type': 'Thing', name })
-		),
-		keywords:
-			'lossless image format, best lossless image format, lossless png compression, is png lossless, is webp lossless, lossless jpeg xl, lossless vs lossy',
-		speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.article-intro', 'h1'] }
-	};
-
-	const breadcrumbLd = {
-		'@context': 'https://schema.org',
-		'@type': 'BreadcrumbList',
-		itemListElement: [
-			{ '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mochify.app/' },
-			{ '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://mochify.app/guides' },
-			{ '@type': 'ListItem', position: 3, name: metadata.title, item: pageUrl }
-		]
-	};
-
-	const webPageLd = {
-		'@context': 'https://schema.org',
-		'@type': 'WebPage',
-		name: metadata.title,
-		url: pageUrl,
-		description: metadata.description,
-		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
-		datePublished: '2026-10-02',
-		dateModified: '2026-10-07'
-	};
 </script>
 
 <ReadProgress />
@@ -195,10 +147,7 @@
 <svelte:head>
 	<title>{metadata.seoTitle}</title>
 	<meta name="description" content={metadata.description} />
-	<meta
-		name="keywords"
-		content="lossless image format, best lossless image format, lossless png compression, is png lossless, is webp lossless, lossless jpeg xl, lossless vs lossy"
-	/>
+	<meta name="keywords" content={keywords} />
 	<meta
 		name="robots"
 		content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
@@ -213,12 +162,17 @@
 	<meta name="twitter:title" content={metadata.seoTitle} />
 	<meta name="twitter:description" content={metadata.description} />
 
-	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
-	{@html `<script type="application/ld+json">${JSON.stringify(articleLd)}<\/script>`}
-	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
-	{@html `<script type="application/ld+json">${JSON.stringify(breadcrumbLd)}<\/script>`}
-	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
-	{@html `<script type="application/ld+json">${JSON.stringify(webPageLd)}<\/script>`}
+	<GuideSchema
+		name={metadata.title}
+		url={pageUrl}
+		description={metadata.description}
+		datePublished="2026-10-02"
+		dateModified="2026-10-07"
+		article={{
+			about: ['Lossless compression', 'PNG', 'WebP', 'JPEG XL', 'AVIF', 'Image formats'],
+			keywords
+		}}
+	/>
 </svelte:head>
 
 <article

@@ -6,6 +6,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Product Image Requirements for Every Major Marketplace",
@@ -55,79 +56,18 @@
     <meta name="twitter:title" content="Product Image Requirements for Every Major Marketplace" />
     <meta name="twitter:description" content={metadata.description} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "Product Image Requirements for Every Major Marketplace",
-        "description": "The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted and Depop: dimensions, formats, file size limits and what each platform enforces.",
-        "url": "https://mochify.app/guides/product-image-requirements-marketplace-guide",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https://mochify.app/guides/product-image-requirements-marketplace-guide"
-        },
-        "datePublished": "2026-08-06",
-        "dateModified": "2026-10-01",
-        "inLanguage": "en",
-        "author": {
-            "@type": "Organization",
-            "name": "Mochify Engineering Team",
-            "url": "https://mochify.app"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Mochify",
-            "url": "https://mochify.app",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://mochify.app/logo.png"
-            }
-        },
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Mochify",
-            "url": "https://mochify.app"
-        },
-        "about": [
-            { "@type": "Thing", "name": "Amazon image requirements" },
-            { "@type": "Thing", "name": "Shopify product images" },
-            { "@type": "Thing", "name": "Etsy image requirements" },
-            { "@type": "Thing", "name": "eBay photo requirements" },
-            { "@type": "Thing", "name": "WooCommerce image sizes" },
-            { "@type": "Thing", "name": "product photography" }
-        ],
-        "keywords": "product image requirements, marketplace image specs, Amazon image requirements, Shopify product images, Etsy image size, eBay photo requirements, ecommerce product photography",
-        "speakable": {
-            "@type": "SpeakableSpecification",
-            "cssSelector": [".article-intro", "h1"]
-        }
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Product Image Requirements for Every Major Marketplace", "item": "https://mochify.app/guides/product-image-requirements-marketplace-guide" }
-        ]
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Product Image Requirements for Every Major Marketplace",
-        "url": "https://mochify.app/guides/product-image-requirements-marketplace-guide",
-        "description": "The 2026 spec guide for Amazon, Shopify, Etsy, eBay, WooCommerce, Vinted and Depop: dimensions, formats, file size limits and what each platform enforces.",
-        "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
-        "datePublished": "2026-08-06",
-        "dateModified": "2026-10-01"
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/product-image-requirements-marketplace-guide"
+        description={metadata.description}
+        datePublished="2026-08-06"
+        dateModified="2026-10-01"
+        article={{
+            about: ['Amazon image requirements', 'Shopify product images', 'Etsy image requirements', 'eBay photo requirements', 'WooCommerce image sizes', 'product photography'],
+            keywords:
+                'product image requirements, marketplace image specs, Amazon image requirements, Shopify product images, Etsy image size, eBay photo requirements, ecommerce product photography'
+        }}
+    />
 
     <script type="application/ld+json">
         {

@@ -6,6 +6,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "HIF/HEIF to JPEG for Professional Photographers: A Privacy-First Workflow Guide",
@@ -115,6 +116,13 @@
         ]
         }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/heif-to-jpeg-workflow-photographers-guide"
+        description={metadata.description}
+        datePublished="2026-04-23"
+        dateModified="2026-04-23"
+    />
 </svelte:head>
 
 <article

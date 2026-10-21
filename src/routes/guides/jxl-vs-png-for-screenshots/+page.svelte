@@ -10,6 +10,7 @@
     import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
     import StepList from '$lib/components/guide-demo/StepList.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     // Rendered with the guide-demo component set (same as
     // bring-your-own-bucket-s3-r2). Every number in this guide comes from one
@@ -154,14 +155,6 @@
                 "url": "https://mochify.app/logo.png"
             }
         },
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app"},
-                {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides"},
-                {"@type": "ListItem", "position": 3, "name": "JPEG XL vs PNG for Screenshots: Half the Size, Same Pixels", "item": "https://mochify.app/guides/jxl-vs-png-for-screenshots"}
-            ]
-        },
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",
@@ -169,6 +162,13 @@
         }
         }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/jxl-vs-png-for-screenshots"
+        description={metadata.description}
+        datePublished="2026-09-12"
+        dateModified="2026-10-07"
+    />
 </svelte:head>
 
 <!-- Single max-w-3xl reading column: header, prose, and every card share the

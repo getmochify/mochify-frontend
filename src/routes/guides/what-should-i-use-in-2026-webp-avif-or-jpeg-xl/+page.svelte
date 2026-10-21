@@ -5,6 +5,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "What Should I Use in 2026: WebP, AVIF, or JPEG XL?",
@@ -74,17 +75,16 @@
             {"@type": "Thing", "name": "JPEG XL"},
             {"@type": "Thing", "name": "Image compression"},
             {"@type": "Thing", "name": "Web performance"}
-        ],
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app"},
-                {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides"},
-                {"@type": "ListItem", "position": 3, "name": "What Should I Use in 2026: WebP, AVIF, or JPEG XL?", "item": "https://mochify.app/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl"}
-            ]
-        }
+        ]
     }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl"
+        description={metadata.description}
+        datePublished="2026-04-13"
+        dateModified="2026-10-14"
+    />
 </svelte:head>
 
 <article

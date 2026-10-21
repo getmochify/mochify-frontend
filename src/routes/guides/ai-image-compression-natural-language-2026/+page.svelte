@@ -5,6 +5,7 @@
     import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "AI Image Compression with Natural Language - Mochify 2026",
@@ -91,6 +92,77 @@
         "dateModified": "2026-05-18"
         }
     </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What AI model does Mochify use for natural language compression?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We use Mistral Small 4, called via the Mistral API. It parses your prompt and determines the appropriate compression flags before passing instructions to the squish engine."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do I need to write precise technical descriptions?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Casual descriptions like \"make it small for my blog\" work well. The model is built to handle vague intent and translate it into specific settings."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What formats can the AI choose from?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "WebP, AVIF, JPEG XL, and JPEG (encoded with jpegli for better efficiency). The choice depends on what you describe."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does the AI always strip EXIF data?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Only when your prompt indicates a privacy or clean-upload intent. If you don't mention it, metadata is left untouched."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is my image stored after processing?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Mochify processes images in memory only - zero retention. This applies whether you use the standard tool or the natural language feature."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I use this for batch compression?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The natural language feature on the homepage applies the same settings to your upload. For high-volume batch workflows, see our CLI and MCP options."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What if the AI picks the wrong format?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "You can specify the format explicitly in your description (\"give me a WebP\") and the model will follow that instruction directly."
+                }
+            }
+        ]
+    }
+    </script>
+    <GuideSchema
+        name="AI-Powered Image Compression: How Mochify's Natural Language Feature Works (2026)"
+        url="https://mochify.app/guides/ai-image-compression-natural-language-2026"
+        description={metadata.description}
+        datePublished="2026-03-08"
+        dateModified="2026-05-18"
+    />
 </svelte:head>
 
 <article

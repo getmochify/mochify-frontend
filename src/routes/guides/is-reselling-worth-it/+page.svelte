@@ -7,6 +7,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Is Reselling Worth It in 2026? The Honest Math",
@@ -89,81 +90,18 @@
     <meta name="twitter:title" content={metadata.seoTitle} />
     <meta name="twitter:description" content={metadata.description} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "Is Reselling Worth It in 2026? The Honest Math",
-        "description": "Is reselling worth it in 2026? The honest math: market data, time per listing, tool costs, and when a free photo workflow beats a paid one.",
-        "url": "https://mochify.app/guides/is-reselling-worth-it",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https://mochify.app/guides/is-reselling-worth-it"
-        },
-        "datePublished": "2026-07-23",
-        "dateModified": "2026-10-01",
-        "inLanguage": "en",
-        "author": {
-            "@type": "Organization",
-            "name": "Mochify Engineering Team",
-            "url": "https://mochify.app"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Mochify",
-            "url": "https://mochify.app",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://mochify.app/logo.png"
-            }
-        },
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Mochify",
-            "url": "https://mochify.app"
-        },
-        "about": [
-            { "@type": "Thing", "name": "reselling" },
-            { "@type": "Thing", "name": "online marketplaces" },
-            { "@type": "Thing", "name": "eBay" },
-            { "@type": "Thing", "name": "Vinted" },
-            { "@type": "Thing", "name": "Poshmark" },
-            { "@type": "Thing", "name": "cross-listing apps" },
-            { "@type": "Thing", "name": "product photography" },
-            { "@type": "Thing", "name": "batch image processing" }
-        ],
-        "keywords": "is reselling worth it, how much do resellers make, reseller tools, reselling side hustle, cross listing apps, reseller photo workflow",
-        "speakable": {
-            "@type": "SpeakableSpecification",
-            "cssSelector": [".article-intro", "h1"]
-        }
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Is Reselling Worth It in 2026? The Honest Math", "item": "https://mochify.app/guides/is-reselling-worth-it" }
-        ]
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Is Reselling Worth It in 2026? The Honest Math",
-        "url": "https://mochify.app/guides/is-reselling-worth-it",
-        "description": "Is reselling worth it in 2026? The honest math: market data, time per listing, tool costs, and when a free photo workflow beats a paid one.",
-        "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
-        "datePublished": "2026-07-23",
-        "dateModified": "2026-10-01"
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/is-reselling-worth-it"
+        description={metadata.description}
+        datePublished="2026-07-23"
+        dateModified="2026-10-01"
+        article={{
+            about: ['reselling', 'online marketplaces', 'eBay', 'Vinted', 'Poshmark', 'cross-listing apps', 'product photography', 'batch image processing'],
+            keywords:
+                'is reselling worth it, how much do resellers make, reseller tools, reselling side hustle, cross listing apps, reseller photo workflow'
+        }}
+    />
 
     <script type="application/ld+json">
         {

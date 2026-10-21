@@ -8,6 +8,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "How to Take Vinted Photos That Sell",
@@ -99,78 +100,18 @@
     <meta name="twitter:title" content={metadata.title} />
     <meta name="twitter:description" content={metadata.description} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "How to Take Vinted Photos That Sell",
-        "description": "Vinted photo size and aspect ratio (portrait, about 3:4, 1080px or wider), the photo rules including stock photos, why Vinted crops, and photos that sell.",
-        "url": "https://mochify.app/guides/vinted-photos-that-sell",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https://mochify.app/guides/vinted-photos-that-sell"
-        },
-        "datePublished": "2026-07-19",
-        "dateModified": "2026-10-09",
-        "inLanguage": "en",
-        "author": {
-            "@type": "Organization",
-            "name": "Mochify Engineering Team",
-            "url": "https://mochify.app"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Mochify",
-            "url": "https://mochify.app",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://mochify.app/logo.png"
-            }
-        },
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Mochify",
-            "url": "https://mochify.app"
-        },
-        "about": [
-            { "@type": "Thing", "name": "Vinted" },
-            { "@type": "Thing", "name": "product photography" },
-            { "@type": "Thing", "name": "marketplace selling" },
-            { "@type": "Thing", "name": "image optimization" },
-            { "@type": "Thing", "name": "EXIF metadata" }
-        ],
-        "keywords": "how to take good photos for vinted, vinted photo tips, vinted photos, vinted selling tips, vinted photo size",
-        "speakable": {
-            "@type": "SpeakableSpecification",
-            "cssSelector": [".article-intro", "h1"]
-        }
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "How to Take Vinted Photos That Sell", "item": "https://mochify.app/guides/vinted-photos-that-sell" }
-        ]
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "How to Take Vinted Photos That Sell",
-        "url": "https://mochify.app/guides/vinted-photos-that-sell",
-        "description": "Vinted photo size and aspect ratio (portrait, about 3:4, 1080px or wider), the photo rules including stock photos, why Vinted crops, and photos that sell.",
-        "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
-        "datePublished": "2026-07-19",
-        "dateModified": "2026-10-09"
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/vinted-photos-that-sell"
+        description={metadata.description}
+        datePublished="2026-07-19"
+        dateModified="2026-10-09"
+        article={{
+            about: ['Vinted', 'product photography', 'marketplace selling', 'image optimization', 'EXIF metadata'],
+            keywords:
+                'how to take good photos for vinted, vinted photo tips, vinted photos, vinted selling tips, vinted photo size'
+        }}
+    />
 
     <script type="application/ld+json">
         {

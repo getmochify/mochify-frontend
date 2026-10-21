@@ -8,6 +8,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Converting Images to JPEG XL: The Practical Guide for 2026",
@@ -99,14 +100,6 @@
             "url": "https://mochify.app",
             "logo": { "@type": "ImageObject", "url": "https://mochify.app/logo.png" }
         },
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app"},
-                {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides"},
-                {"@type": "ListItem", "position": 3, "name": "Converting Images to JPEG XL: The Practical Guide for 2026", "item": "https://mochify.app/guides/converting-images-to-jpeg-xl"}
-            ]
-        },
         "about": [
             { "@type": "Thing", "name": "JPEG XL" },
             { "@type": "Thing", "name": "Image compression" },
@@ -165,6 +158,13 @@
         ]
     }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/converting-images-to-jpeg-xl"
+        description={metadata.description}
+        datePublished="2026-06-26"
+        dateModified="2026-10-14"
+    />
 </svelte:head>
 
 <article

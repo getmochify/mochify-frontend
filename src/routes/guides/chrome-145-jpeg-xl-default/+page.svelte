@@ -5,6 +5,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Does Chrome 145 Enable JPEG XL by Default in 2026?",
@@ -51,7 +52,7 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": ["Article", "WebPage"],
+        "@type": "Article",
         "headline": "Does Chrome 145 Enable JPEG XL by Default in 2026?",
         "description": "Chrome 145 shipped JPEG XL behind a flag. Chrome 155, released October 6, 2026, turned it on by default. What that changes for serving JXL on the web.",
         "url": "https://mochify.app/guides/chrome-145-jpeg-xl-default",
@@ -72,16 +73,16 @@
             "name": "Mochify",
             "url": "https://mochify.app"
         },
-        "about": ["JPEG XL", "Chrome 145", "browser support", "image formats", "web performance"],
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Guides", "item": "https://mochify.app/guides" },
-                { "@type": "ListItem", "position": 2, "name": "Does Chrome 145 Enable JPEG XL by Default?", "item": "https://mochify.app/guides/chrome-145-jpeg-xl-default" }
-            ]
-        }
+        "about": ["JPEG XL", "Chrome 145", "browser support", "image formats", "web performance"]
     }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/chrome-145-jpeg-xl-default"
+        description={metadata.description}
+        datePublished="2026-04-10"
+        dateModified="2026-10-07"
+    />
 </svelte:head>
 
 <article

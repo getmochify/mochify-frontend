@@ -7,6 +7,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Photo File Too Large to Upload? Why Free Tools Reject Camera Files",
@@ -86,82 +87,18 @@
     <meta name="twitter:title" content={metadata.seoTitle} />
     <meta name="twitter:description" content={metadata.description} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "Photo File Too Large to Upload? Why Free Tools Reject Camera Files",
-        "description": "Why free tools reject modern camera files: real sizes from 45-61MP bodies, the 5-20MB caps that refuse them, and the fastest route to a file that uploads.",
-        "url": "https://mochify.app/guides/photo-file-too-large-to-upload",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https://mochify.app/guides/photo-file-too-large-to-upload"
-        },
-        "datePublished": "2026-07-23",
-        "dateModified": "2026-09-26",
-        "inLanguage": "en",
-        "author": {
-            "@type": "Organization",
-            "name": "Mochify Engineering Team",
-            "url": "https://mochify.app"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Mochify",
-            "url": "https://mochify.app",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://mochify.app/logo.png"
-            }
-        },
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Mochify",
-            "url": "https://mochify.app"
-        },
-        "about": [
-            { "@type": "Thing", "name": "image file size" },
-            { "@type": "Thing", "name": "upload limits" },
-            { "@type": "Thing", "name": "image compression" },
-            { "@type": "Thing", "name": "HEIF" },
-            { "@type": "Thing", "name": "JPEG" },
-            { "@type": "Thing", "name": "RAW files" },
-            { "@type": "Thing", "name": "mirrorless cameras" },
-            { "@type": "Thing", "name": "Sony A7R V" },
-            { "@type": "Thing", "name": "Canon EOS R5" }
-        ],
-        "keywords": "file too large to upload, photo too big to upload, compress large photos, image file size limit, camera file sizes, compress 45mp photos",
-        "speakable": {
-            "@type": "SpeakableSpecification",
-            "cssSelector": [".article-intro", "h1"]
-        }
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Photo File Too Large to Upload? Why Free Tools Reject Camera Files", "item": "https://mochify.app/guides/photo-file-too-large-to-upload" }
-        ]
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Photo File Too Large to Upload? Why Free Tools Reject Camera Files",
-        "url": "https://mochify.app/guides/photo-file-too-large-to-upload",
-        "description": "Why free tools reject modern camera files: real sizes from 45-61MP bodies, the 5-20MB caps that refuse them, and the fastest route to a file that uploads.",
-        "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
-        "datePublished": "2026-07-23",
-        "dateModified": "2026-09-26"
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/photo-file-too-large-to-upload"
+        description={metadata.description}
+        datePublished="2026-07-23"
+        dateModified="2026-09-26"
+        article={{
+            about: ['image file size', 'upload limits', 'image compression', 'HEIF', 'JPEG', 'RAW files', 'mirrorless cameras', 'Sony A7R V', 'Canon EOS R5'],
+            keywords:
+                'file too large to upload, photo too big to upload, compress large photos, image file size limit, camera file sizes, compress 45mp photos'
+        }}
+    />
 
     <script type="application/ld+json">
         {

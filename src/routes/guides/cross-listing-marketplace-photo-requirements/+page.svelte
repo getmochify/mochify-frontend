@@ -8,6 +8,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Cross-Listing for Resellers: One Set of Photos, Every Marketplace",
@@ -173,17 +174,6 @@
         }
     </script>
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Cross-Listing for Resellers: One Set of Photos, Every Marketplace", "item": "https://mochify.app/guides/cross-listing-marketplace-photo-requirements" }
-        ]
-        }
-    </script>
 
     <script type="application/ld+json">
         {
@@ -200,6 +190,13 @@
         ]
         }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/cross-listing-marketplace-photo-requirements"
+        description={metadata.description}
+        datePublished="2026-08-05"
+        dateModified="2026-10-01"
+    />
 </svelte:head>
 
 <article

@@ -3,6 +3,7 @@
     import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Fuji HIF Files Explained: How to Convert X‑T5 / X‑H2 / X100VI / X‑T50 HIF to JPEG",
@@ -81,6 +82,13 @@
         "dateModified": "2026-06-04"
         }
     </script>
+    <GuideSchema
+        name="Fuji HIF Files Explained: How to Convert X‑T5 / X‑H2 / X100VI HIF to JPEG"
+        url="https://mochify.app/guides/fujifilm-hif-to-jpg"
+        description={metadata.description}
+        datePublished="2026-02-01"
+        dateModified="2026-06-04"
+    />
 </svelte:head>
 
 <article

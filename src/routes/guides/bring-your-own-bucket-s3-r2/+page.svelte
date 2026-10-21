@@ -9,6 +9,7 @@
     import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
     import StepList from '$lib/components/guide-demo/StepList.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     // Built from the content-ops handoff (article-originals/bring-your-own-bucket-s3-r2.html,
     // spec v1) and rendered with the guide-demo component set - the open reading
@@ -131,17 +132,13 @@
         }
     </script>
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Bring Your Own Bucket: Send Processed Images Straight to Your Own S3 or R2", "item": "https://mochify.app/guides/bring-your-own-bucket-s3-r2" }
-        ]
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/bring-your-own-bucket-s3-r2"
+        description={metadata.description}
+        datePublished="2026-09-03"
+        dateModified="2026-09-23"
+    />
 </svelte:head>
 
 <!-- Single max-w-3xl reading column: header, prose, and every card share the

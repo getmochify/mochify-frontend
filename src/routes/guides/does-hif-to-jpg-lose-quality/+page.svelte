@@ -6,6 +6,7 @@
     import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Does Converting HIF to JPG Reduce Quality?",
@@ -77,17 +78,13 @@
         }
     </script>
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Does Converting HIF to JPG Reduce Quality?", "item": "https://mochify.app/guides/does-hif-to-jpg-lose-quality" }
-        ]
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/does-hif-to-jpg-lose-quality"
+        description={metadata.description}
+        datePublished="2026-06-05"
+        dateModified="2026-06-05"
+    />
 </svelte:head>
 
 <article

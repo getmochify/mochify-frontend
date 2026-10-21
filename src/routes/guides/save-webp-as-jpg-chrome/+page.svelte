@@ -9,6 +9,7 @@
 	import GuideTOC from '$lib/components/guide-demo/GuideTOC.svelte';
 	import StepList from '$lib/components/guide-demo/StepList.svelte';
 	import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
+	import GuideSchema from '$lib/components/GuideSchema.svelte';
 
 	const metadata = {
 		title: 'How to Save a WebP as JPG in Chrome',
@@ -188,6 +189,13 @@
 			]
 		}
 	</script>
+	<GuideSchema
+		name="How to Save a WebP as JPG in Chrome: Every Route That Actually Works"
+		url="https://mochify.app/guides/save-webp-as-jpg-chrome"
+		description={metadata.description}
+		datePublished="2026-09-22"
+		dateModified="2026-10-02"
+	/>
 </svelte:head>
 
 <article

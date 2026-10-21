@@ -9,6 +9,7 @@
 	import CodeCard from '$lib/components/guide-demo/CodeCard.svelte';
 	import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
 	import AccentTitle from '$lib/components/guide-demo/AccentTitle.svelte';
+	import GuideSchema from '$lib/components/GuideSchema.svelte';
 
 	// Built from content-ops `article-originals/remove-objects-from-photo-ai-assistant.html` (handoff spec v1).
 	// Body copy is verbatim from the handoff; head and schema are generated
@@ -128,64 +129,6 @@
 			desc: 'what a chatbot actually receives when you attach a picture, and why that matters for any edit it makes alone.'
 		}
 	];
-
-	const organization = { '@type': 'Organization', name: 'Mochify', url: 'https://mochify.app' };
-
-	const articleLd = {
-		'@context': 'https://schema.org',
-		'@type': 'Article',
-		headline: metadata.title,
-		description: metadata.description,
-		url: pageUrl,
-		mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
-		datePublished: '2026-10-20',
-		inLanguage: 'en',
-		author: {
-			'@type': 'Organization',
-			name: 'Mochify Engineering Team',
-			url: 'https://mochify.app'
-		},
-		publisher: {
-			...organization,
-			logo: { '@type': 'ImageObject', url: 'https://mochify.app/logo.png' },
-			sameAs: ['https://github.com/getmochify']
-		},
-		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
-		about: [
-			'object removal',
-			'inpainting',
-			'recolor',
-			'EXIF metadata',
-			'MCP server',
-			'Mochify API',
-			'marketplace listing photos'
-		].map((name) => ({ '@type': 'Thing', name })),
-		keywords,
-		speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.article-intro', 'h1'] }
-	};
-
-	const breadcrumbLd = {
-		'@context': 'https://schema.org',
-		'@type': 'BreadcrumbList',
-		itemListElement: [
-			{ '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mochify.app/' },
-			{ '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://mochify.app/guides' },
-			{ '@type': 'ListItem', position: 3, name: metadata.title, item: pageUrl }
-		]
-	};
-
-	const webPageLd = {
-		'@context': 'https://schema.org',
-		'@type': 'WebPage',
-		name: metadata.title,
-		url: pageUrl,
-		description: metadata.description,
-		isPartOf: { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' },
-		datePublished: '2026-10-20'
-	};
-
-	/** @param {object} data */
-	const ld = (data) => JSON.stringify(data).replace(/</g, '\\u003c');
 </script>
 
 <ReadProgress />
@@ -208,12 +151,16 @@
 	<meta name="twitter:title" content={metadata.seoTitle} />
 	<meta name="twitter:description" content={metadata.description} />
 
-	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
-	{@html `<script type="application/ld+json">${ld(articleLd)}<\/script>`}
-	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
-	{@html `<script type="application/ld+json">${ld(breadcrumbLd)}<\/script>`}
-	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
-	{@html `<script type="application/ld+json">${ld(webPageLd)}<\/script>`}
+	<GuideSchema
+		name={metadata.title}
+		url={pageUrl}
+		description={metadata.description}
+		datePublished="2026-10-20"
+		article={{
+			about: ['object removal', 'inpainting', 'recolor', 'EXIF metadata', 'MCP server', 'Mochify API', 'marketplace listing photos'],
+			keywords
+		}}
+	/>
 </svelte:head>
 
 <article

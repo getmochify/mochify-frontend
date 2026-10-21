@@ -6,6 +6,7 @@
     import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "How the Mochify MCP Server Works: Hosted vs Local, with Worked Examples",
@@ -89,6 +90,13 @@
       ]
     }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/how-the-mochify-mcp-server-works"
+        description={metadata.description}
+        datePublished="2026-05-28"
+        dateModified="2026-10-20"
+    />
 </svelte:head>
 
 <article

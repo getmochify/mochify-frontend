@@ -8,6 +8,7 @@
     import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Ecommerce Product Photo Workflow: Resize & Convert in One Prompt",
@@ -102,17 +103,6 @@
         }
     </script>
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Ecommerce Product Photo Workflow", "item": "https://mochify.app/guides/ecommerce-product-photo-workflow-resize-convert" }
-        ]
-        }
-    </script>
 
     <script type="application/ld+json">
         {
@@ -152,6 +142,13 @@
         ]
         }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/ecommerce-product-photo-workflow-resize-convert"
+        description={metadata.description}
+        datePublished="2026-05-23"
+        dateModified="2026-09-22"
+    />
 </svelte:head>
 
 <article

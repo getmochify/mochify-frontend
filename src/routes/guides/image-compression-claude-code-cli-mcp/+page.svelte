@@ -8,6 +8,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Image Compression Inside Claude Code: The Mochify CLI + MCP Guide",
@@ -89,77 +90,18 @@
     <meta name="twitter:title" content="Image Compression Inside Claude Code: The Mochify CLI + MCP Guide" />
     <meta name="twitter:description" content={metadata.description} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "Image Compression Inside Claude Code: The Mochify CLI + MCP Guide",
-        "description": "Can Claude Code use MCP? Yes. Here's how to compress images inside Claude Code with the Mochify CLI as a build step and a local MCP server.",
-        "url": "https://mochify.app/guides/image-compression-claude-code-cli-mcp",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https://mochify.app/guides/image-compression-claude-code-cli-mcp"
-        },
-        "datePublished": "2026-07-17",
-        "dateModified": "2026-10-16",
-        "inLanguage": "en",
-        "author": {
-            "@type": "Organization",
-            "name": "Mochify Engineering Team",
-            "url": "https://mochify.app"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Mochify",
-            "url": "https://mochify.app",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://mochify.app/logo.png"
-            }
-        },
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Mochify",
-            "url": "https://mochify.app"
-        },
-        "about": [
-            { "@type": "Thing", "name": "Claude Code" },
-            { "@type": "Thing", "name": "Model Context Protocol" },
-            { "@type": "Thing", "name": "image compression" },
-            { "@type": "Thing", "name": "AVIF" }
-        ],
-        "keywords": "can claude code use mcp, how to create claude mcp server, compress images in claude code, mochify cli, local mcp server, image compression",
-        "speakable": {
-            "@type": "SpeakableSpecification",
-            "cssSelector": [".article-intro", "h1"]
-        }
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Image Compression Inside Claude Code: The Mochify CLI + MCP Guide", "item": "https://mochify.app/guides/image-compression-claude-code-cli-mcp" }
-        ]
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Image Compression Inside Claude Code: The Mochify CLI + MCP Guide",
-        "url": "https://mochify.app/guides/image-compression-claude-code-cli-mcp",
-        "description": "Can Claude Code use MCP? Yes. Here's how to compress images inside Claude Code with the Mochify CLI as a build step and a local MCP server.",
-        "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
-        "datePublished": "2026-07-17",
-        "dateModified": "2026-10-16"
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/image-compression-claude-code-cli-mcp"
+        description={metadata.description}
+        datePublished="2026-07-17"
+        dateModified="2026-10-16"
+        article={{
+            about: ['Claude Code', 'Model Context Protocol', 'image compression', 'AVIF'],
+            keywords:
+                'can claude code use mcp, how to create claude mcp server, compress images in claude code, mochify cli, local mcp server, image compression'
+        }}
+    />
 
     <script type="application/ld+json">
         {

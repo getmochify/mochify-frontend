@@ -4,6 +4,7 @@
     import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "What Is a JXL File? How to Open, Convert, and Share JPEG XL",
@@ -34,68 +35,18 @@
     <meta property="og:url" content="https://mochify.app/guides/what-is-a-jxl-file" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "What Is a JXL File? How to Open, Convert, and Share JPEG XL",
-        "description": "A .jxl file is a JPEG XL image. Chrome 155 and Firefox 158 open it; many apps still don't. How to open one, convert it to JPEG, or share it as a PDF.",
-        "url": "https://mochify.app/guides/what-is-a-jxl-file",
-        "datePublished": "2026-08-12",
-        "dateModified": "2026-10-07",
-        "inLanguage": "en",
-        "author": {
-            "@type": "Organization",
-            "name": "Mochify Engineering Team",
-            "url": "https://mochify.app"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Mochify",
-            "url": "https://mochify.app"
-        },
-        "isPartOf": {
-            "@type": "CollectionPage",
-            "name": "Image Optimization Guides",
-            "url": "https://mochify.app/guides"
-        },
-        "about": [
-            { "@type": "Thing", "name": "JPEG XL" },
-            { "@type": "Thing", "name": "JXL file format" },
-            { "@type": "Thing", "name": "image formats" },
-            { "@type": "Thing", "name": "browser support" }
-        ],
-        "keywords": "jxl file, what is a jxl file, jpeg xl, open jxl file, convert jxl, jxl to pdf, jxl to jpg, jpeg xl browser support"
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "What Is a JXL File? How to Open, Convert, and Share JPEG XL", "item": "https://mochify.app/guides/what-is-a-jxl-file" }
-        ]
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "What Is a JXL File? How to Open, Convert, and Share JPEG XL",
-        "description": "A .jxl file is a JPEG XL image. Chrome 155 and Firefox 158 open it; many apps still don't. How to open one, convert it to JPEG, or share it as a PDF.",
-        "url": "https://mochify.app/guides/what-is-a-jxl-file",
-        "inLanguage": "en",
-        "isPartOf": {
-            "@type": "CollectionPage",
-            "name": "Image Optimization Guides",
-            "url": "https://mochify.app/guides"
-        }
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/what-is-a-jxl-file"
+        description={metadata.description}
+        datePublished="2026-08-12"
+        dateModified="2026-10-07"
+        article={{
+            about: ['JPEG XL', 'JXL file format', 'image formats', 'browser support'],
+            keywords:
+                'jxl file, what is a jxl file, jpeg xl, open jxl file, convert jxl, jxl to pdf, jxl to jpg, jpeg xl browser support'
+        }}
+    />
 </svelte:head>
 
 <article

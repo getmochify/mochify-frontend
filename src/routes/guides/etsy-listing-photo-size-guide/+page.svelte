@@ -8,6 +8,7 @@
     import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Etsy Listing Photo Size: The Complete Guide",
@@ -128,17 +129,6 @@
         }
     </script>
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Etsy Listing Photo Size: The Complete Guide", "item": "https://mochify.app/guides/etsy-listing-photo-size-guide" }
-        ]
-        }
-    </script>
 
     <script type="application/ld+json">
         {
@@ -183,6 +173,13 @@
         ]
         }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/etsy-listing-photo-size-guide"
+        description={metadata.description}
+        datePublished="2026-08-03"
+        dateModified="2026-09-22"
+    />
 </svelte:head>
 
 <article

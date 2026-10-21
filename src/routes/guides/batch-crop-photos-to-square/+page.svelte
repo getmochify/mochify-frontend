@@ -10,6 +10,7 @@
 	import StepList from '$lib/components/guide-demo/StepList.svelte';
 	import CodeCard from '$lib/components/guide-demo/CodeCard.svelte';
 	import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
+	import GuideSchema from '$lib/components/GuideSchema.svelte';
 
 	const metadata = {
 		title: 'How to Batch Crop Photos to Square',
@@ -193,6 +194,13 @@
 			]
 		}
 	</script>
+	<GuideSchema
+		name="How to Batch Crop Photos to Square on Windows, Mac, iPhone and the Command Line"
+		url="https://mochify.app/guides/batch-crop-photos-to-square"
+		description={metadata.description}
+		datePublished="2026-09-22"
+		dateModified="2026-09-22"
+	/>
 </svelte:head>
 
 <article

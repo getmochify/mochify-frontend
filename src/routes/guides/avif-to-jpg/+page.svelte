@@ -7,6 +7,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "How to Convert AVIF to JPG on Windows 11, Mac, or Any Device",
@@ -92,78 +93,18 @@
     <meta name="twitter:title" content="How to Convert AVIF to JPG on Windows 11, Mac or Online" />
     <meta name="twitter:description" content={metadata.description} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "How to Convert AVIF to JPG on Windows 11, Mac, or Any Device",
-        "description": "AVIF is a modern format browsers love but desktop apps often reject. Convert AVIF to JPG free online in seconds, or use native tools on Windows and Mac.",
-        "url": "https://mochify.app/guides/avif-to-jpg",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https://mochify.app/guides/avif-to-jpg"
-        },
-        "datePublished": "2026-07-13",
-        "dateModified": "2026-09-23",
-        "inLanguage": "en",
-        "author": {
-            "@type": "Organization",
-            "name": "Mochify Engineering Team",
-            "url": "https://mochify.app"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Mochify",
-            "url": "https://mochify.app",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://mochify.app/logo.png"
-            }
-        },
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Mochify",
-            "url": "https://mochify.app"
-        },
-        "about": [
-            { "@type": "Thing", "name": "AVIF" },
-            { "@type": "Thing", "name": "JPEG" },
-            { "@type": "Thing", "name": "image conversion" },
-            { "@type": "Thing", "name": "AV1 codec" },
-            { "@type": "Thing", "name": "jpegli" }
-        ],
-        "keywords": "avif to jpg, convert avif to jpg, avif file, open avif on windows, open avif on mac, avif converter",
-        "speakable": {
-            "@type": "SpeakableSpecification",
-            "cssSelector": [".article-intro", "h1"]
-        }
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "How to Convert AVIF to JPG on Windows 11, Mac, or Any Device", "item": "https://mochify.app/guides/avif-to-jpg" }
-        ]
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "How to Convert AVIF to JPG on Windows 11, Mac, or Any Device",
-        "url": "https://mochify.app/guides/avif-to-jpg",
-        "description": "AVIF is a modern format browsers love but desktop apps often reject. Convert AVIF to JPG free online in seconds, or use native tools on Windows and Mac.",
-        "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
-        "datePublished": "2026-07-13",
-        "dateModified": "2026-09-23"
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/avif-to-jpg"
+        description={metadata.description}
+        datePublished="2026-07-13"
+        dateModified="2026-09-23"
+        article={{
+            about: ['AVIF', 'JPEG', 'image conversion', 'AV1 codec', 'jpegli'],
+            keywords:
+                'avif to jpg, convert avif to jpg, avif file, open avif on windows, open avif on mac, avif converter'
+        }}
+    />
 
     <script type="application/ld+json">
         {

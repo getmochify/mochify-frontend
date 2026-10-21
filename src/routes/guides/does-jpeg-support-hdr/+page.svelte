@@ -4,6 +4,7 @@
     import GlassCTA from '$lib/components/guide-demo/GlassCTA.svelte';
     import GlassPanel from '$lib/components/guide-demo/GlassPanel.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     // Quick-answer profile: three short sections, so no TOC card. Same
     // guide-demo component set (open reading column, mochi glass surfaces)
@@ -90,17 +91,13 @@
         }
     </script>
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Does JPEG Support HDR?", "item": "https://mochify.app/guides/does-jpeg-support-hdr" }
-        ]
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/does-jpeg-support-hdr"
+        description='Yes: a JPEG can carry HDR as a gain map (Ultra HDR, Adaptive HDR, ISO 21496-1) and opens everywhere. Why most "JPG to HDR" converters give the wrong file.'
+        datePublished="2026-09-20"
+        dateModified="2026-09-20"
+    />
 </svelte:head>
 
 <!-- Single max-w-3xl reading column: header, prose, and every card share the

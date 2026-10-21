@@ -8,6 +8,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "HEIF to JPG: The Complete Conversion Guide",
@@ -91,78 +92,18 @@
     <meta name="twitter:title" content="HEIF to JPG: The Complete Conversion Guide" />
     <meta name="twitter:description" content={metadata.description} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "HEIF to JPG: The Complete Conversion Guide",
-        "description": "Convert HEIF (.HIF) files from Canon, Sony, and Fujifilm cameras to universally compatible JPG. Every method, the quality trade-offs, and batch workflows.",
-        "url": "https://mochify.app/guides/heif-to-jpg-complete-guide",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https://mochify.app/guides/heif-to-jpg-complete-guide"
-        },
-        "datePublished": "2026-07-15",
-        "dateModified": "2026-09-21",
-        "inLanguage": "en",
-        "author": {
-            "@type": "Organization",
-            "name": "Mochify Engineering Team",
-            "url": "https://mochify.app"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Mochify",
-            "url": "https://mochify.app",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://mochify.app/logo.png"
-            }
-        },
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Mochify",
-            "url": "https://mochify.app"
-        },
-        "about": [
-            { "@type": "Thing", "name": "HEIF" },
-            { "@type": "Thing", "name": "JPEG" },
-            { "@type": "Thing", "name": "image conversion" },
-            { "@type": "Thing", "name": "HIF file" },
-            { "@type": "Thing", "name": "HEVC codec" }
-        ],
-        "keywords": "heif to jpg, convert heif to jpg, heif to jpeg, HIF file, Canon HDR PQ, Sony HEIF, Fujifilm HEIF, 10-bit photography",
-        "speakable": {
-            "@type": "SpeakableSpecification",
-            "cssSelector": [".article-intro", "h1"]
-        }
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "HEIF to JPG: The Complete Conversion Guide", "item": "https://mochify.app/guides/heif-to-jpg-complete-guide" }
-        ]
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "HEIF to JPG: The Complete Conversion Guide",
-        "url": "https://mochify.app/guides/heif-to-jpg-complete-guide",
-        "description": "Convert HEIF (.HIF) files from Canon, Sony, and Fujifilm cameras to universally compatible JPG. Every method, the quality trade-offs, and batch workflows.",
-        "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
-        "datePublished": "2026-07-15",
-        "dateModified": "2026-09-21"
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/heif-to-jpg-complete-guide"
+        description={metadata.description}
+        datePublished="2026-07-15"
+        dateModified="2026-09-21"
+        article={{
+            about: ['HEIF', 'JPEG', 'image conversion', 'HIF file', 'HEVC codec'],
+            keywords:
+                'heif to jpg, convert heif to jpg, heif to jpeg, HIF file, Canon HDR PQ, Sony HEIF, Fujifilm HEIF, 10-bit photography'
+        }}
+    />
 
     <script type="application/ld+json">
         {

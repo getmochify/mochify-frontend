@@ -7,6 +7,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Convert MP4 to WebM for the Web: Smaller Files, Faster Pages, No Upload Required",
@@ -103,18 +104,6 @@
     {@html `<script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Convert MP4 to WebM for the Web", "item": "https://mochify.app/guides/mp4-to-webm-web-video-guide" }
-        ]
-    }
-    <\/script>`}
-
-    {@html `<script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
         "@type": "FAQPage",
         "mainEntity": [
             {
@@ -160,6 +149,13 @@
         ]
     }
     <\/script>`}
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/mp4-to-webm-web-video-guide"
+        description={metadata.description}
+        datePublished="2026-06-26"
+        dateModified="2026-10-02"
+    />
 </svelte:head>
 
 <article

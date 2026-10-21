@@ -4,6 +4,7 @@
     import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "What Image Format Should I Use for Product Photos?",
@@ -78,17 +79,16 @@
             {"@type": "Thing", "name": "JPEG"},
             {"@type": "Thing", "name": "Image optimization"},
             {"@type": "Thing", "name": "Ecommerce product photography"}
-        ],
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app"},
-                {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides"},
-                {"@type": "ListItem", "position": 3, "name": "What Image Format Should I Use for Product Photos?", "item": "https://mochify.app/guides/what-image-format-should-i-use-for-product-photos"}
-            ]
-        }
+        ]
     }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/what-image-format-should-i-use-for-product-photos"
+        description={metadata.description}
+        datePublished="2026-05-19"
+        dateModified="2026-10-07"
+    />
 </svelte:head>
 
 <article

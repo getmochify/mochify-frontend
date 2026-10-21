@@ -11,6 +11,7 @@
     import StepList from '$lib/components/guide-demo/StepList.svelte';
     import CodeCard from '$lib/components/guide-demo/CodeCard.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     // Uses the guide-demo component set (open reading column, mochi glass
     // surfaces) rather than the boxed card layout the older guides still use.
@@ -178,17 +179,13 @@ grep X-Mochify-HDR headers.txt
         }
     </script>
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "How to Make Any Photo Ultra HDR (Google Photos, Samsung, iPhone, Lightroom, or Online)", "item": "https://mochify.app/guides/how-to-make-any-photo-ultra-hdr" }
-        ]
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/how-to-make-any-photo-ultra-hdr"
+        description={metadata.description}
+        datePublished="2026-09-20"
+        dateModified="2026-09-20"
+    />
 </svelte:head>
 
 <!-- Single max-w-3xl reading column: header, prose, and every card share the

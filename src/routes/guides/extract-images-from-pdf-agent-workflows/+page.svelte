@@ -6,6 +6,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Extract Images from PDF in AI Agent Workflows: Split and Convert Pages",
@@ -109,17 +110,6 @@
         }
     </script>
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Extract Images from PDF in AI Agent Workflows", "item": "https://mochify.app/guides/extract-images-from-pdf-agent-workflows" }
-        ]
-        }
-    </script>
 
     <script type="application/ld+json">
         {
@@ -137,6 +127,13 @@
         ]
         }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/extract-images-from-pdf-agent-workflows"
+        description={metadata.description}
+        datePublished="2026-06-16"
+        dateModified="2026-10-12"
+    />
 </svelte:head>
 
 <article

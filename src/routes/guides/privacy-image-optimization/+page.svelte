@@ -5,6 +5,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         category: "Data Privacy",
@@ -87,6 +88,13 @@
         "dateModified": "2026-09-03"
         }
     </script>
+    <GuideSchema
+        name="Privacy & Image Optimization: A Comprehensive Guide (2026)"
+        url="https://mochify.app/guides/privacy-image-optimization"
+        description="Secure your images with Zero-Retention optimization. The only way to ensure 100% data privacy in 2026. Fast, private, and storage-free image processing."
+        datePublished="2026-02-05"
+        dateModified="2026-09-03"
+    />
 </svelte:head>
 
 <article

@@ -7,6 +7,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "How to Compress and Optimize AI-Generated Images (in Automated and Agent Workflows)",
@@ -98,79 +99,18 @@
     <meta name="twitter:title" content="How to Compress and Optimize AI-Generated Images in Agent Workflows" />
     <meta name="twitter:description" content={metadata.description} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "How to Compress and Optimize AI-Generated Images (in Automated and Agent Workflows)",
-        "description": "AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize step in an agent pipeline.",
-        "url": "https://mochify.app/guides/compress-optimize-ai-generated-images",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https://mochify.app/guides/compress-optimize-ai-generated-images"
-        },
-        "datePublished": "2026-07-02",
-        "dateModified": "2026-10-07",
-        "inLanguage": "en",
-        "author": {
-            "@type": "Organization",
-            "name": "Mochify Engineering Team",
-            "url": "https://mochify.app"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Mochify",
-            "url": "https://mochify.app",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://mochify.app/logo.png"
-            }
-        },
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Mochify",
-            "url": "https://mochify.app"
-        },
-        "about": [
-            { "@type": "Thing", "name": "AI image compression" },
-            { "@type": "Thing", "name": "Image optimization" },
-            { "@type": "Thing", "name": "AVIF" },
-            { "@type": "Thing", "name": "WebP" },
-            { "@type": "Thing", "name": "AI agent workflows" },
-            { "@type": "Thing", "name": "Model Context Protocol" }
-        ],
-        "keywords": "ai image compression, ai image optimization, automate image optimization, compress ai images, convert png to webp, reduce png file size",
-        "speakable": {
-            "@type": "SpeakableSpecification",
-            "cssSelector": [".article-intro", "h1"]
-        }
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "How to Compress and Optimize AI-Generated Images", "item": "https://mochify.app/guides/compress-optimize-ai-generated-images" }
-        ]
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "How to Compress and Optimize AI-Generated Images (in Automated and Agent Workflows)",
-        "url": "https://mochify.app/guides/compress-optimize-ai-generated-images",
-        "description": "AI image compression for generated assets: why diffusion outputs are huge, which formats win, and how to automate the optimize step in an agent pipeline.",
-        "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
-        "datePublished": "2026-07-02",
-        "dateModified": "2026-10-07"
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/compress-optimize-ai-generated-images"
+        description={metadata.description}
+        datePublished="2026-07-02"
+        dateModified="2026-10-07"
+        article={{
+            about: ['AI image compression', 'Image optimization', 'AVIF', 'WebP', 'AI agent workflows', 'Model Context Protocol'],
+            keywords:
+                'ai image compression, ai image optimization, automate image optimization, compress ai images, convert png to webp, reduce png file size'
+        }}
+    />
 
     <script type="application/ld+json">
         {

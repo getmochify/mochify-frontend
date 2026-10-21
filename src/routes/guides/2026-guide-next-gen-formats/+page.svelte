@@ -7,6 +7,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         category: "Image Formats",
@@ -120,6 +121,13 @@
         "dateModified": "2026-10-16"
         }
     </script>
+    <GuideSchema
+        name="The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL"
+        url="https://mochify.app/guides/2026-guide-next-gen-formats"
+        description="Fix LCP errors using WebP, AVIF, and JPEG XL. Compare 2026 benchmarks, browser support, and privacy-first speeds. Master your image workflow with Mochify."
+        datePublished="2026-02-10"
+        dateModified="2026-10-16"
+    />
 </svelte:head>
 
 <article

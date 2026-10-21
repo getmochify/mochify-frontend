@@ -7,6 +7,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: 'AI Image Compression and Conversion: Describe the Result, Skip the Settings',
@@ -126,17 +127,6 @@
     }
     </script>
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/"},
-        {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides"},
-        {"@type": "ListItem", "position": 3, "name": "AI Image Compression and Conversion", "item": "https://mochify.app/guides/ai-image-compression-conversion"}
-      ]
-    }
-    </script>
 
     <script type="application/ld+json">
     {
@@ -186,6 +176,13 @@
       ]
     }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/ai-image-compression-conversion"
+        description={metadata.description}
+        datePublished="2026-06-30"
+        dateModified="2026-10-07"
+    />
 </svelte:head>
 
 <article

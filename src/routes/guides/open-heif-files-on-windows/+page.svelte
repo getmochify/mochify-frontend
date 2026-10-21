@@ -6,6 +6,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "How to Open HEIF Files on Windows (or Convert Them to JPG)",
@@ -53,79 +54,18 @@
     <meta name="twitter:title" content="How to Open HEIF Files on Windows (or Convert Them to JPG)" />
     <meta name="twitter:description" content={metadata.description} />
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "How to Open HEIF Files on Windows (or Convert Them to JPG)",
-        "description": "Windows needs two codec extensions to open HEIF files, and 10-bit camera HIFs often fail anyway. Every fix that works, plus the fast JPG route.",
-        "url": "https://mochify.app/guides/open-heif-files-on-windows",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https://mochify.app/guides/open-heif-files-on-windows"
-        },
-        "datePublished": "2026-08-19",
-        "dateModified": "2026-09-17",
-        "inLanguage": "en",
-        "author": {
-            "@type": "Organization",
-            "name": "Mochify Engineering Team",
-            "url": "https://mochify.app"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Mochify",
-            "url": "https://mochify.app",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://mochify.app/logo.png"
-            }
-        },
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Mochify",
-            "url": "https://mochify.app"
-        },
-        "about": [
-            { "@type": "Thing", "name": "HEIF" },
-            { "@type": "Thing", "name": "HEVC codec" },
-            { "@type": "Thing", "name": "Windows 10" },
-            { "@type": "Thing", "name": "Microsoft Store extensions" },
-            { "@type": "Thing", "name": "HIF files" },
-            { "@type": "Thing", "name": "JPG conversion" }
-        ],
-        "keywords": "open heif files on windows, heif windows 10, heif image extensions, hevc video extensions, heif to jpg, hif to jpg windows, convert heif to jpg",
-        "speakable": {
-            "@type": "SpeakableSpecification",
-            "cssSelector": [".article-intro", "h1"]
-        }
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "How to Open HEIF Files on Windows (or Convert Them to JPG)", "item": "https://mochify.app/guides/open-heif-files-on-windows" }
-        ]
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "How to Open HEIF Files on Windows (or Convert Them to JPG)",
-        "url": "https://mochify.app/guides/open-heif-files-on-windows",
-        "description": "Windows needs two codec extensions to open HEIF files, and 10-bit camera HIFs often fail anyway. Every fix that works, plus the fast JPG route.",
-        "isPartOf": { "@type": "WebSite", "name": "Mochify", "url": "https://mochify.app" },
-        "datePublished": "2026-08-19",
-        "dateModified": "2026-09-17"
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/open-heif-files-on-windows"
+        description={metadata.description}
+        datePublished="2026-08-19"
+        dateModified="2026-09-17"
+        article={{
+            about: ['HEIF', 'HEVC codec', 'Windows 10', 'Microsoft Store extensions', 'HIF files', 'JPG conversion'],
+            keywords:
+                'open heif files on windows, heif windows 10, heif image extensions, hevc video extensions, heif to jpg, hif to jpg windows, convert heif to jpg'
+        }}
+    />
 
     <script type="application/ld+json">
         {

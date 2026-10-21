@@ -8,6 +8,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "AI Agent Workflow Automation for Photographers: Save Hours with Claude and Mochify",
@@ -116,17 +117,6 @@
         }
     </script>
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "AI Agent Workflow Automation for Photographers", "item": "https://mochify.app/guides/ai-agent-workflow-automation-photographers" }
-        ]
-        }
-    </script>
 
     <script type="application/ld+json">
         {
@@ -151,6 +141,13 @@
         ]
         }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/ai-agent-workflow-automation-photographers"
+        description={metadata.description}
+        datePublished="2026-05-03"
+        dateModified="2026-06-24"
+    />
 </svelte:head>
 
 <article

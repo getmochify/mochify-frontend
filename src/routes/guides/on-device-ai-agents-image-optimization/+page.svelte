@@ -6,6 +6,7 @@
     import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "On-Device AI Agents - Image and PDF Optimization for Local Workflows",
@@ -183,6 +184,13 @@
       ]
     }
     </script>
+    <GuideSchema
+        name="On-Device AI Agents: Image and PDF Optimization for Local Workflows"
+        url="https://mochify.app/guides/on-device-ai-agents-image-optimization"
+        description={metadata.description}
+        datePublished="2026-06-02"
+        dateModified="2026-09-23"
+    />
 </svelte:head>
 
 <article

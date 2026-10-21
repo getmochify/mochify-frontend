@@ -5,6 +5,7 @@
     import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Should I convert HEIC to JPEG or WebP for WordPress uploads?",
@@ -66,14 +67,6 @@
             "url": "https://mochify.app",
             "logo": { "@type": "ImageObject", "url": "https://mochify.app/logo.png" }
         },
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app"},
-                {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides"},
-                {"@type": "ListItem", "position": 3, "name": "Should I convert HEIC to JPEG or WebP for WordPress uploads?", "item": "https://mochify.app/guides/heic-to-jpeg-or-webp-wordpress"}
-            ]
-        },
         "about": [
             { "@type": "Thing", "name": "HEIC image format" },
             { "@type": "Thing", "name": "WebP image format" },
@@ -84,6 +77,13 @@
         "keywords": "HEIC to JPEG WordPress, HEIC to WebP WordPress, convert HEIC before upload, WordPress image formats, image compression WordPress"
     }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/heic-to-jpeg-or-webp-wordpress"
+        description={metadata.description}
+        datePublished="2026-06-25"
+        dateModified="2026-10-07"
+    />
 </svelte:head>
 
 <article

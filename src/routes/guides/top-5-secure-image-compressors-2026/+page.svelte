@@ -6,6 +6,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         category: "Image Optimization",
@@ -125,6 +126,13 @@
             "dateModified": "2026-10-07"
         }
     </script>
+    <GuideSchema
+        name="Top 5 Secure Image Compressors - Privacy & Performance Comparison (2026)"
+        url="https://mochify.app/guides/top-5-secure-image-compressors-2026"
+        description="Compare the best secure image compressors of 2026: which offer true zero-retention privacy, support HEIC, AVIF and JPEG XL, and deliver the smallest files."
+        datePublished="2026-02-17"
+        dateModified="2026-10-07"
+    />
 </svelte:head>
 
 <article

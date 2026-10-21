@@ -7,6 +7,7 @@
     import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "How to Convert iPhone Photos (HEIC) to PDF",
@@ -125,14 +126,6 @@
             "url": "https://mochify.app",
             "logo": { "@type": "ImageObject", "url": "https://mochify.app/logo.png" }
         },
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app"},
-                {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides"},
-                {"@type": "ListItem", "position": 3, "name": "How to Convert iPhone Photos (HEIC) to PDF", "item": "https://mochify.app/guides/heic-to-pdf-iphone-photos"}
-            ]
-        },
         "about": [
             { "@type": "Thing", "name": "HEIC" },
             { "@type": "Thing", "name": "PDF conversion" },
@@ -215,6 +208,13 @@
         ]
     }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/heic-to-pdf-iphone-photos"
+        description={metadata.description}
+        datePublished="2026-06-29"
+        dateModified="2026-10-12"
+    />
 </svelte:head>
 
 <article

@@ -5,6 +5,7 @@
     import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Does HEIF/HEIC Work With Client Gallery Platforms Like Pixieset and SmugMug?",
@@ -71,17 +72,13 @@
         }
     </script>
 
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mochify.app" },
-            { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://mochify.app/guides" },
-            { "@type": "ListItem", "position": 3, "name": "Does HEIF/HEIC Work With Client Gallery Platforms Like Pixieset and SmugMug?", "item": "https://mochify.app/guides/does-heif-heic-work-with-client-galleries" }
-        ]
-        }
-    </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/does-heif-heic-work-with-client-galleries"
+        description={metadata.description}
+        datePublished="2026-04-26"
+        dateModified="2026-09-22"
+    />
 </svelte:head>
 
 <article

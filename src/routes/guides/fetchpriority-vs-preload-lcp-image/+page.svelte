@@ -3,6 +3,7 @@
     import GlassInfoBox from '$lib/components/guide-demo/GlassInfoBox.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "Should I Use fetchpriority or rel=\"preload\" for My LCP Image?",
@@ -64,6 +65,13 @@
         "about": ["Largest Contentful Paint", "Core Web Vitals", "fetchpriority", "rel preload", "Web Performance"]
     }
     </script>
+    <GuideSchema
+        name='Should I Use fetchpriority="high" or rel="preload" for My LCP Image?'
+        url="https://mochify.app/guides/fetchpriority-vs-preload-lcp-image"
+        description='Use fetchpriority="high" on an <img> tag found in HTML. Use rel="preload" when the browser discovers the image late, via CSS or JavaScript.'
+        datePublished="2026-06-20"
+        dateModified="2026-06-20"
+    />
 </svelte:head>
 
 <article

@@ -7,6 +7,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         title: "The History of Image Compression: From BMP to AVIF & Jpegli (2026 Guide)",
@@ -78,6 +79,13 @@
         "dateModified": "2026-10-07"
         }
     </script>
+    <GuideSchema
+        name={metadata.title}
+        url="https://mochify.app/guides/history-image-compression-2026"
+        description={metadata.description}
+        datePublished="2026-02-15"
+        dateModified="2026-10-07"
+    />
 </svelte:head>
 
 <article

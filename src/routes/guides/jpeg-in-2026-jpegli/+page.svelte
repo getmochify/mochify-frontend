@@ -6,6 +6,7 @@
     import GuideTable from '$lib/components/guide-demo/GuideTable.svelte';
     import RelatedGuidesGrid from '$lib/components/guide-demo/RelatedGuidesGrid.svelte';
     import SectionHeading from '$lib/components/SectionHeading.svelte';
+    import GuideSchema from '$lib/components/GuideSchema.svelte';
 
     const metadata = {
         category: "Image Optimization",
@@ -90,6 +91,109 @@
         "dateModified": "2026-10-07"
         }
     </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Is jpegli just Google's version of MozJPEG?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. MozJPEG improved on libjpeg-turbo primarily through better quantization and trellis optimization. Jpegli applies adaptive quantization heuristics from JPEG XL, improved matrix selection, and optionally uses the XYB colorspace-techniques MozJPEG doesn't use. In independent tests, jpegli outperforms MozJPEG on high-quality photographic content, though results vary by image."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Will jpegli-encoded JPEGs open on my iPhone?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Jpegli produces standard JPEG files fully compliant with ISO/IEC 10918-1. Every JPEG viewer, including iOS Photos, Android Gallery, Windows Photo Viewer, and every web browser, will open them without issue."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I use jpegli in Photoshop or Lightroom?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Not natively as of early 2026. Adobe has not integrated jpegli into their export pipelines. You can export from Lightroom at high quality, then recompress externally using a tool that supports jpegli (like Mochify or command-line cjpegli from libjxl)."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does jpegli support progressive JPEG?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Jpegli can encode both baseline and progressive JPEGs. Use progressive encoding for large images (hero images, product photos above 100KB) to improve perceived load speed."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How much smaller are jpegli files compared to MozJPEG?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "It depends on the image and quality setting. Google's tests showed up to 35% smaller files at high quality (90+) compared to libjpeg-turbo, and smaller than MozJPEG in several scenarios. Independent tests show mixed results-sometimes 10-15% smaller, sometimes negligible. Test on your own content."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Should I switch all my existing JPEGs to jpegli?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Only if you need to reduce file size and are reprocessing assets anyway (e.g., resizing for a new platform, refreshing a product catalog). Recompressing an already-compressed JPEG introduces generation loss. If the current JPEG is \"good enough,\" leave it."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What chroma subsampling should I use with jpegli?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For photographic content, 4:2:0 is standard and delivers the smallest files with minimal visible quality loss. For graphics, screenshots, or images with fine color detail (e.g., product photos with intricate patterns), test 4:2:2 or 4:4:4-the file will be larger, but color fidelity improves."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does jpegli work with ICC color profiles?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Jpegli can embed ICC profiles (including sRGB and XYB). For web delivery, sRGB is safe to embed or assume. For print workflows, retain the original profile from your RAW processor."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why isn't jpegli the default in WordPress plugins yet?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Adoption lag. WordPress image optimization plugins (ShortPixel, Smush, EWWW) are built around libjpeg-turbo and MozJPEG, which are stable, widely tested, and simple to deploy. Jpegli requires libjxl dependencies and was only released in 2024. Expect gradual adoption as jpegli proves itself in production at scale."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is jpegli faster or slower than MozJPEG?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Comparable. Google's benchmarks and independent tests show jpegli encoding speed is similar to MozJPEG and faster than older tools like Guetzli. Decode speed is identical (they all produce standard JPEGs decoded by the same libraries)."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I use jpegli for JPEG XL output?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Jpegli produces JPEG files, not JPEG XL files. JPEG XL is a separate next-generation format with better compression than JPEG; Chrome 155, Firefox 158 and Safari decode it, but it still needs a fallback for older installs, Edge and email. If you want JPEG XL output, use cjxl from the libjxl toolkit."
+                }
+            }
+        ]
+    }
+    </script>
+    <GuideSchema
+        name="JPEG Compression in 2026: Why Jpegli Changes the Quality-Per-Byte Game"
+        url="https://mochify.app/guides/jpeg-in-2026-jpegli"
+        description="Better JPEG quality at smaller sizes with Google's jpegli encoder: up to 35% better compression for eBay, Etsy and platform-locked workflows, same JPEG."
+        datePublished="2026-02-09"
+        dateModified="2026-10-07"
+    />
 </svelte:head>
 
 <article
