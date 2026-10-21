@@ -2746,6 +2746,13 @@
 					const sharedParams = new URLSearchParams();
 					if (fileConfig.smartCompress) sharedParams.append('smartCompress', '1');
 					if (fileConfig.smartCrop) sharedParams.append('smartCrop', '1');
+					// What the crop keeps: 'subject' (full body, the whole product) or
+					// 'face' (headshots). The worker only sends it with a smart crop.
+					if (
+						fileConfig.smartCrop &&
+						(fileConfig.cropFocus === 'face' || fileConfig.cropFocus === 'subject')
+					)
+						sharedParams.append('cropFocus', fileConfig.cropFocus);
 					if (fileConfig.removeBackground) sharedParams.append('removeBackground', '1');
 					if (fileConfig.background)
 						sharedParams.append('background', String(fileConfig.background));

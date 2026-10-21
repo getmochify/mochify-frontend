@@ -148,6 +148,13 @@ export const squishParams = [
 			'Saliency-guided crop, centered on the detected subject. Requires both <code>width</code> and <code>height</code>. Accepts <code>1</code> or <code>true</code>.'
 	},
 	{
+		name: 'cropFocus',
+		default: 'auto',
+		description:
+			'What a smart crop keeps when it has to cut: <code>auto</code>, <code>face</code> or <code>subject</code>. Only applies with <code>smartCrop</code>.',
+		more: '<code>auto</code> anchors on a face when one is found and otherwise keeps the whole subject when it fits. <code>subject</code> keeps the whole subject even when there is a face: use it for full-length shots and products, where a face anchor would cut off the feet or the bottom of the item. <code>face</code> anchors on the face even after <code>removeBackground</code>: use it for headshots and avatars. Any other value is a <code>400</code>. Check <code>X-Mochify-Crop</code> for what decided the crop.'
+	},
+	{
 		name: 'region',
 		description:
 			'Crop to a rectangle you choose, as four comma-separated <strong>fractions</strong> of the image: <code>x,y,w,h</code> from the top-left corner (<code>0.25,0.5,0.5,0.5</code> is the middle of the bottom half). Built for a caller whose own vision model picks the box, as in "crop to the feet": Mochify receives four numbers, never the image description.',
@@ -233,15 +240,15 @@ export const squishParams = [
 		name: 'lossless',
 		default: 'false',
 		description:
-			'Pixel-exact output. Accepts <code>1</code> or <code>true</code>, overrides <code>quality</code>, and disables <code>smartCompress</code> softening.',
-		more: 'Only <code>jxl</code>, <code>webp</code> and <code>png</code> can honor it: <code>jpg</code> and <code>avif</code> are rejected with a <code>400</code> rather than silently encoded lossy. A source that is <em>already</em> lossy (JPEG, AVIF, HEIC) is re-encoded at the highest lossy setting instead, since nothing can restore what that file already discarded. Expect the output to be <strong>larger</strong> than the input: lossless preserves pixels, not file size. Check <code>X-Mochify-Lossless</code> for what was actually emitted.'
+			'Pixel-exact output. <code>1</code> or <code>true</code> covers every output; a list of formats (<code>lossless=jxl</code> or <code>jxl,png</code>) covers only those outputs. Overrides <code>quality</code> for the outputs it covers, and disables <code>smartCompress</code> softening.',
+		more: 'Only <code>jxl</code>, <code>webp</code> and <code>png</code> can honor it. With <code>1</code>, a request with any <code>jpg</code> or <code>avif</code> output is rejected with a <code>400</code> rather than silently encoded lossy. To mix, name the lossless outputs: <code>types=jxl,avif&amp;lossless=jxl</code> returns a pixel-exact JXL and an ordinary AVIF, one operation each. Every listed format must be one of the outputs and able to honor it, or the request is a <code>400</code> before it is charged. A source that is <em>already</em> lossy (JPEG, AVIF, HEIC) is re-encoded at the highest lossy setting instead, since nothing can restore what that file already discarded. Expect the output to be <strong>larger</strong> than the input: lossless preserves pixels, not file size. Check <code>X-Mochify-Lossless</code> for what was actually emitted.'
 	},
 	{
 		name: 'quantize',
 		default: 'false',
 		description:
 			'Lossy PNG. Accepts <code>1</code> or <code>true</code>. Reduces the image to a dithered palette of up to 256 colors and emits an indexed PNG, typically 4–5× smaller than the lossless encode.',
-		more: 'Without it a <code>png</code> is always pixel-exact, and <code>quality</code> alone never makes it lossy. With it, <code>quality</code> picks the palette size: omitted means the full 256 colors; <code>80</code> ≈ 108, <code>65</code> ≈ 56, <code>20</code> = 8. Applies to <code>png</code> outputs only: a request with no <code>png</code> output is a <code>400</code>, and in a multi-variant request only the <code>png</code> entries are quantized. Cannot be combined with <code>lossless</code> (a <code>400</code>). Alpha is preserved. Check <code>X-Mochify-Quantize</code> for what was actually emitted.'
+		more: 'Without it a <code>png</code> is always pixel-exact, and <code>quality</code> alone never makes it lossy. With it, <code>quality</code> picks the palette size: omitted means the full 256 colors; <code>80</code> ≈ 108, <code>65</code> ≈ 56, <code>20</code> = 8. Applies to <code>png</code> outputs only: a request with no <code>png</code> output is a <code>400</code>, and in a multi-variant request only the <code>png</code> entries are quantized. Cannot be combined with a <code>lossless</code> that covers the <code>png</code> output (a <code>400</code>); <code>lossless=jxl</code> beside a quantized <code>png</code> is fine. Alpha is preserved. Check <code>X-Mochify-Quantize</code> for what was actually emitted.'
 	},
 	{
 		name: 'targetBytes',
@@ -325,12 +332,17 @@ export const squishResponse = [
 	{
 		name: 'X-Mochify-Lossless',
 		description:
-			'Only present when <code>lossless</code> was requested. <code>true</code> means the returned bytes reproduce the submitted pixels exactly; <code>downgraded</code> means they are the best lossy encode instead, because the source was already lossy or because HDR reconstruction replaced the submitted pixels.'
+			'Only present when <code>lossless</code> was requested, and with a list it speaks only for the listed outputs. <code>true</code> means the returned bytes reproduce the submitted pixels exactly; <code>downgraded</code> means they are the best lossy encode instead, because the source was already lossy or because HDR reconstruction replaced the submitted pixels.'
 	},
 	{
 		name: 'X-Mochify-Quantize',
 		description:
 			'Present for a <code>png</code> output when <code>quantize</code> or <code>targetBytes</code> was requested. <code>true</code> means the returned PNG is a reduced palette (lossy); <code>false</code> means it is pixel-exact. With only <code>targetBytes</code>, <code>false</code> means the lossless encode already fit. For a multi-variant ZIP, <code>true</code> if any <code>png</code> entry was quantized.'
+	},
+	{
+		name: 'X-Mochify-Crop',
+		description:
+			'Only present when a smart crop ran. What decided it: <code>face</code> (anchored on the detected face), <code>subject</code> (the whole salient subject) or <code>center</code> (nothing detected). With <code>cropFocus=face</code> and no face found, this reads <code>subject</code>.'
 	},
 	{
 		name: 'X-Mochify-Region',
