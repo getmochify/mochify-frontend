@@ -1,6 +1,6 @@
 // Beta upload test suite (/beta/upload). Runs the same file through each upload
 // transport on the visitor's REAL connection and reports what happened, so the
-// WebSocket path (core's /v1/beta/upload/ws) can be judged against the chunked
+// WebSocket path (core's /v1/upload/ws) can be judged against the chunked
 // HTTP path on the patchy links it exists for.
 //
 // Deliberately standalone: production uploads (uploadChunked.ts, uploadStage.ts)
@@ -228,7 +228,7 @@ function wsConnection(
 	window: number
 ): Promise<WsOutcome> {
 	return new Promise((resolve) => {
-		const url = `${o.apiUrl.replace(/^http/, 'ws')}/v1/beta/upload/ws?session=${encodeURIComponent(session)}`;
+		const url = `${o.apiUrl.replace(/^http/, 'ws')}/v1/upload/ws?session=${encodeURIComponent(session)}`;
 		const ws = new WebSocket(url);
 		ws.binaryType = 'arraybuffer';
 		let pos = 0;

@@ -12,9 +12,11 @@
 // the params and gets the processed image back. No tokens are charged until
 // that complete call, so an abandoned or rejected prompt costs the user nothing.
 //
-// Deliberately NOT chunked: chunking exists for resumability on large files, and
-// a small file on a flaky link needs re-sending rather than resuming. Staging is
-// one round trip where the chunked path is init + N chunks + complete.
+// Two transports. Over HTTP (the default, and the fallback where WebSocket is
+// blocked) it is ONE POST of the whole body to /v1/upload/stage, files up to
+// STAGE_MAX_BYTES only. With `transport: 'ws'` (/flow) it is a deferred
+// /v1/upload/init plus the bytes over $lib/uploadWs, which resumes after a drop
+// and so also takes files up to STAGE_MAX_BYTES_WS.
 //
 // Everything here fails SOFT. A staging failure of any kind resolves to null and
 // the caller silently falls back to the existing upload path — we are trading
@@ -75,6 +77,22 @@ export interface Stager {
 
 export function isStageEligible(file: File): boolean {
 	return file.size > 0 && file.size <= STAGE_MAX_BYTES;
+}
+
+// Over the WebSocket, files above STAGE_MAX_BYTES are speculated too, up to
+// this size: they are the ones that take longest, so overlapping them with the
+// parse saves the most. Only over the socket, because there a drop costs one
+// frame; a 25 MB single-POST stage that fails is uploaded twice. 25 MB covers
+// phone photos and HEICs; past it the bandwidth spent on a prompt that is then
+// rejected or a no-op is the bigger cost.
+export const STAGE_MAX_BYTES_WS = 25 * 1024 * 1024;
+// Large files stage on their own two workers, never in the six above. Two
+// 25 MB sessions sit well inside core's 200 MB per-identity budget alongside
+// the small ones, and the small files never wait behind a large one.
+export const STAGE_LARGE_CONCURRENCY = 2;
+
+function isLargeStageEligible(file: File): boolean {
+	return file.size > STAGE_MAX_BYTES && file.size <= STAGE_MAX_BYTES_WS;
 }
 
 /** A stager that stages nothing — used when speculation is switched off. */
@@ -349,7 +367,10 @@ export function startStaging(
 	// single-POST stage when the socket is blocked. Only /flow passes it.
 	opts: { transport?: 'http' | 'ws'; onRetryStateChange?: (retrying: boolean) => void } = {}
 ): Stager {
-	const eligible = files.filter(isStageEligible);
+	let useWs = opts.transport === 'ws' && wsAvailable();
+	const small = files.filter(isStageEligible);
+	const large = useWs ? files.filter(isLargeStageEligible) : [];
+	const eligible = [...small, ...large];
 	const results = new Map<File, Promise<string | null>>();
 	// Session ids we hold that the upload loop has not taken responsibility for.
 	// A file leaves this map the moment get() hands its id out — from then on the
@@ -359,8 +380,6 @@ export function startStaging(
 	// Files the server refused outright, with the reason to show the user.
 	const rejections = new Map<File, UploadErrorInfo>();
 	let abandoned = false;
-	let cursor = 0;
-	let useWs = opts.transport === 'ws' && wsAvailable();
 
 	// Each worker pulls the next file rather than the list being pre-partitioned,
 	// so one slow large file cannot stall a whole slice of the batch.
@@ -369,11 +388,16 @@ export function startStaging(
 		results.set(f, new Promise<string | null>((res) => resolvers.set(f, res)));
 	}
 
-	const runWorker = async (): Promise<void> => {
-		while (cursor < eligible.length) {
-			const file = eligible[cursor++];
+	// Two queues, each pulled by its own workers.
+	const runWorker = async (queue: File[]): Promise<void> => {
+		while (queue.length > 0) {
+			const file = queue.shift()!;
 			const resolve = resolvers.get(file)!;
-			if (abandoned) {
+			const isLarge = !isStageEligible(file);
+			// A large file is only ever staged over the socket (see
+			// STAGE_MAX_BYTES_WS); once the batch has lost it, it waits for the
+			// parse like any other large file.
+			if (abandoned || (isLarge && !useWs)) {
 				resolve(null);
 				continue;
 			}
@@ -386,8 +410,12 @@ export function startStaging(
 					// blocks it.
 					const blocked = outcome === 'blocked';
 					useWs = false;
-					outcome = await stageOne(apiUrl, file, jwt, onProgress);
-					if (blocked && outcome.sessionId) rememberWsBlocked();
+					if (isLarge) {
+						outcome = { sessionId: null };
+					} else {
+						outcome = await stageOne(apiUrl, file, jwt, onProgress);
+						if (blocked && outcome.sessionId) rememberWsBlocked();
+					}
 				}
 			} else {
 				outcome = await stageOne(apiUrl, file, jwt, onProgress);
@@ -411,10 +439,16 @@ export function startStaging(
 	if (eligible.length > 0) {
 		posthog.capture('speculative_stage_started', {
 			files: eligible.length,
+			large: large.length,
 			skipped: files.length - eligible.length,
 			bytes: eligible.reduce((sum, f) => sum + f.size, 0)
 		});
-		for (let i = 0; i < Math.min(STAGE_CONCURRENCY, eligible.length); i++) void runWorker();
+		const smallQueue = [...small];
+		const largeQueue = [...large];
+		for (let i = 0; i < Math.min(STAGE_CONCURRENCY, smallQueue.length); i++)
+			void runWorker(smallQueue);
+		for (let i = 0; i < Math.min(STAGE_LARGE_CONCURRENCY, largeQueue.length); i++)
+			void runWorker(largeQueue);
 	}
 
 	return {

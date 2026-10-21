@@ -1,4 +1,4 @@
-// WebSocket byte transfer for /flow (core's /v1/beta/upload/ws). Moves a
+// WebSocket byte transfer for /flow (core's /v1/upload/ws). Moves a
 // file's bytes into an EXISTING upload session — created by /v1/upload/init,
 // deferred or not — so init, complete, billing and validation stay exactly
 // where uploadChunked.ts and uploadStage.ts already have them.
@@ -135,9 +135,7 @@ function httpError(status: number, message: string, rejectLabel?: string): WsHtt
 function attempt(o: WsTransferOptions, startAcked: number, onReady: () => void): Promise<Attempt> {
 	return new Promise((resolve) => {
 		const base = o.apiUrl.replace(/^http/, 'ws');
-		const ws = new WebSocket(
-			`${base}/v1/beta/upload/ws?session=${encodeURIComponent(o.sessionId)}`
-		);
+		const ws = new WebSocket(`${base}/v1/upload/ws?session=${encodeURIComponent(o.sessionId)}`);
 		ws.binaryType = 'arraybuffer';
 		const total = o.file.size;
 		let pos = startAcked;
