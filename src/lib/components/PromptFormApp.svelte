@@ -144,6 +144,12 @@
 	let speculating: boolean = $state(false);
 	let completedFiles: number = $state(0);
 	let totalFiles: number = $state(0);
+	// Files the user attached, as opposed to totalFiles, which counts OUTPUTS
+	// (one photo as webp+avif at two sizes is 4) because quota, "Processing x/y"
+	// and the completion message are all per output. The upload label wants
+	// this one: one photo is uploaded once however many outputs it makes.
+	// 0 where a path never sets it, and the label then falls back to totalFiles.
+	let inputCount: number = $state(0);
 	let downloadAsZip: boolean = $state(false);
 
 	// Output destination — results are written straight to the user's own storage
@@ -1352,6 +1358,7 @@
 		uploadPercent = 0;
 		speculating = false;
 		completedFiles = 0;
+		inputCount = 0;
 		bucketStored = 0;
 		bucketFallbacks = 0;
 		missedTargets = [];
@@ -2195,6 +2202,7 @@
 
 				processPhase = 'processing';
 				const totalVideoFiles = files.length;
+				inputCount = files.length;
 				totalFiles = files.reduce(
 					(sum, f, i) => sum + videoVariantCount(videoFileMap[f.name] ?? videoFileArray[i]),
 					0
@@ -2384,6 +2392,7 @@
 			};
 
 			processPhase = 'uploading';
+			inputCount = files.length;
 			totalFiles = files.reduce(
 				(sum, f, i) => sum + variantCount(fileMap[f.name] ?? fileArrayByIndex[i]),
 				0
@@ -3918,8 +3927,9 @@
 								{/if}
 							{:else if displayPhase === 'working'}
 								{#if uploadPercent < 100}
-									{uploadMode === 'video' ? 'Converting' : 'Uploading'}{totalFiles > 1
-										? ` ${totalFiles} ${uploadMode === 'pdf' ? 'PDFs' : uploadMode === 'video' ? 'files' : 'images'}`
+									{uploadMode === 'video' ? 'Converting' : 'Uploading'}{(inputCount || totalFiles) >
+									1
+										? ` ${inputCount || totalFiles} ${uploadMode === 'pdf' ? 'PDFs' : uploadMode === 'video' ? 'files' : 'images'}`
 										: '…'}{uploadMode !== 'video'
 										? ` (${uploadPercent}%)`
 										: uploadPercent < 100
