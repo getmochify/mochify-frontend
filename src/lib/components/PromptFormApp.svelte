@@ -1573,7 +1573,15 @@
 			// asks for a PDF, route to the imgpdf NLP mode + multipart create flow.
 			const imagesToPdf = uploadMode === 'image' && /\bpdfs?\b/i.test(prompt);
 
-			const nlpBody: Record<string, unknown> = { prompt: prompt.trim(), fileData: fileDetails };
+			// 'lossless-formats': this client forwards the worker's losslessFormats
+			// as core's lossless=<list> (below), so "lossless JPEG XL and an AVIF"
+			// can be delivered as asked. Clients that do not say so (the CLI, the
+			// extension) keep the all-or-nothing `lossless` they understand.
+			const nlpBody: Record<string, unknown> = {
+				prompt: prompt.trim(),
+				fileData: fileDetails,
+				features: ['lossless-formats']
+			};
 			if (locale) nlpBody.locale = locale;
 			if (uploadMode === 'pdf') nlpBody.mode = 'pdf';
 			else if (uploadMode === 'video') nlpBody.mode = 'video';
@@ -2778,6 +2786,14 @@
 					// source was already lossy the backend downgrades to its best lossy
 					// encode and says so in X-Mochify-Lossless.
 					if (fileConfig.lossless === true) sharedParams.append('lossless', '1');
+					// Some outputs lossless and some not ("lossless jxl and avif"): the
+					// worker lists the ones that can be, and `lossless` stays false so
+					// nothing above sends it. Added per request below, because a
+					// per-variant (bucket) request must only name its own format: core
+					// 400s a list naming a format that is not one of its outputs.
+					const losslessFormats: string[] = Array.isArray(fileConfig.losslessFormats)
+						? fileConfig.losslessFormats.map(String)
+						: [];
 					// Byte ceiling. Forwarded verbatim: the worker has already floored
 					// it to a whole number, dropped anything under core's minimum, and
 					// cleared `lossless` if both arrived (core 400s that pair). The
@@ -2863,6 +2879,7 @@
 						};
 						const params = new URLSearchParams(sharedParams.toString());
 						params.append('types', formats.join(','));
+						if (losslessFormats.length) params.append('lossless', losslessFormats.join(','));
 						// Core applies it to the png entries of the ZIP only.
 						if (wantsQuantize && formats.includes('png')) params.append('quantize', '1');
 						// Requested sizes go verbatim (no origDims echo-skip): core never
@@ -2976,6 +2993,7 @@
 
 							const params = new URLSearchParams(sharedParams.toString());
 							params.append('type', fmt);
+							if (losslessFormats.includes(fmt)) params.append('lossless', '1');
 							if (wantsQuantize && fmt === 'png') params.append('quantize', '1');
 							// Forward dimensions, skipping if unchanged from original (unless smartCrop active)
 							if (size.width && (size.width !== origDims[fileIdx]?.w || fileConfig.smartCrop))
