@@ -532,6 +532,12 @@ export const pdfOps = [
 		description: 'Explode a PDF into one single-page PDF per page. Takes no parameters.'
 	},
 	{
+		op: 'merge',
+		returns: 'PDF',
+		description:
+			'Combine two or more PDFs into one, pages in upload order. Send a <code>multipart/form-data</code> upload with each PDF appended as its own file part. Pages keep their text, fonts and images; bookmarks and form fields from the inputs are not carried over. A password-protected input is refused. Takes no parameters.'
+	},
+	{
 		op: 'create',
 		returns: 'PDF',
 		description:
@@ -664,7 +670,7 @@ export const pdfStorageParams = [
 		name: 'dest',
 		description:
 			'Write the result to your connected storage instead of returning it. One of <code>bucket</code> or <code>drive</code>. The response becomes a JSON receipt, <code>{ "stored": true, ... }</code>, and the bytes go straight from Mochify to your storage rather than back through the browser.',
-		more: 'Only the operations that produce a single file accept it: <code>op=optimize</code>, and <code>op=create</code> with <code>combine=1</code>. <code>extract</code>, <code>rasterize</code>, <code>split</code> and <code>combine=0</code> return an archive and are refused with a 400 rather than filed under a made-up name.'
+		more: 'Only the operations that produce a single file accept it: <code>op=optimize</code>, <code>op=merge</code>, and <code>op=create</code> with <code>combine=1</code>. <code>extract</code>, <code>rasterize</code>, <code>split</code> and <code>combine=0</code> return an archive and are refused with a 400 rather than filed under a made-up name.'
 	},
 	{
 		name: 'name',
@@ -680,13 +686,13 @@ export const pdfLimits = [
 	{
 		name: 'Plan access',
 		description:
-			'<code>optimize</code>, <code>extract</code>, <code>rasterize</code> and <code>split</code> require a paid plan (Seller, Pro, Growth, or Day Pass). <code>create</code> is available on every plan, including Free.'
+			'<code>optimize</code>, <code>extract</code>, <code>rasterize</code>, <code>split</code> and <code>merge</code> require a paid plan (Seller, Pro, Growth, or Day Pass). <code>create</code> is available on every plan, including Free.'
 	},
 	{ name: 'Request body', description: '100 MB maximum.' },
 	{
 		name: 'Pages',
 		description:
-			'200 absolute. For the PDF-in operations, Growth is unlimited within that and other paid plans cap at 10 pages.'
+			'200 absolute. For the PDF-in operations, Growth is unlimited within that and other paid plans cap at 10 pages. For <code>merge</code> the count is the merged document, every input together.'
 	},
 	{
 		name: 'Images per <code>create</code>',
@@ -700,7 +706,7 @@ export const pdfResponseHeaders = [
 	{ name: 'X-Latency-Ms', description: 'Processing time in milliseconds. All operations.' },
 	{
 		name: 'X-Mochify-Pages',
-		description: 'Pages processed. <code>rasterize</code>, <code>split</code>, <code>create</code>.'
+		description: 'Pages processed. <code>rasterize</code>, <code>split</code>, <code>create</code>, <code>merge</code>.'
 	},
 	{
 		name: 'X-Mochify-Images',

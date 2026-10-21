@@ -1897,23 +1897,30 @@
 				// Latched once for the whole run, same as the image path: toggling
 				// the switch mid-flight must not split a batch across destinations.
 				//
-				// Only op=optimize returns a single PDF. extract, rasterize and
-				// split answer with a ZIP, which core refuses to file into a
-				// bucket or Drive folder under a made-up name — so those fall back
-				// to downloading, and say so rather than silently ignoring the
+				// Only op=optimize and op=merge return a single PDF. extract,
+				// rasterize and split answer with a ZIP, which core refuses to file
+				// into a bucket or Drive folder under a made-up name — so those fall
+				// back to downloading, and say so rather than silently ignoring the
 				// toggle.
+				const singlePdfOut = pdfConfig.op === 'optimize' || pdfConfig.op === 'merge';
 				const pdfRemoteDest =
-					canSaveRemote && destination !== 'download' && pdfConfig.op === 'optimize'
-						? destination
-						: null;
-				const remoteIgnored =
-					canSaveRemote && destination !== 'download' && pdfConfig.op !== 'optimize';
+					canSaveRemote && destination !== 'download' && singlePdfOut ? destination : null;
+				const remoteIgnored = canSaveRemote && destination !== 'download' && !singlePdfOut;
+
+				// Merging is ONE request carrying every PDF (multipart, in tray
+				// order), where every other op is one request per file.
+				if (pdfConfig.op === 'merge' && pdfFiles.length < 2) {
+					showStatus('error', 'Attach at least two PDFs to merge them into one.');
+					return;
+				}
 
 				// Resolves the saving alongside the blob: op=optimize's whole point is
 				// how much smaller the file got, and that only exists in a response
 				// header (exposed via Access-Control-Expose-Headers in core's Cors.h).
+				// One upload: a single PDF, or (op=merge) every PDF as multipart parts.
+				type PdfUpload = { body: Blob | FormData; size: number; label: string };
 				const pdfXhr = (
-					file: File,
+					upload: PdfUpload,
 					params: URLSearchParams,
 					onUploadEnd?: () => void
 				): Promise<{ blob: Blob; savedPct: number | null; deliveryError: string | null }> =>
@@ -1923,7 +1930,9 @@
 								processPhase = 'uploading';
 								const xhr = new XMLHttpRequest();
 								xhr.open('POST', `${API_URL}/v1/pdf?${params}`);
-								xhr.setRequestHeader('Content-Type', 'application/pdf');
+								// FormData sets its own multipart boundary.
+								if (!(upload.body instanceof FormData))
+									xhr.setRequestHeader('Content-Type', 'application/pdf');
 								if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
 								xhr.responseType = 'blob';
 								let lastLoaded = 0;
@@ -1944,10 +1953,10 @@
 									onUploadEnd?.();
 								};
 								xhr.onload = () => {
-									const remaining = file.size - lastLoaded;
+									const remaining = upload.size - lastLoaded;
 									if (remaining > 0) {
 										uploadedBytes += remaining;
-										lastLoaded = file.size;
+										lastLoaded = upload.size;
 										uploadPercent = Math.min(Math.round((uploadedBytes / totalBytes) * 100), 100);
 									}
 									if (xhr.status >= 200 && xhr.status < 300) {
@@ -1967,13 +1976,15 @@
 									reader.onload = () => {
 										const text = (reader.result as string)?.trim() || '';
 										const e: any = new Error(
-											text || `Failed processing ${file.name} (Status: ${status})`
+											text || `Failed processing ${upload.label} (Status: ${status})`
 										);
 										e.status = status;
 										reject(e);
 									};
 									reader.onerror = () => {
-										const e: any = new Error(`Failed processing ${file.name} (Status: ${status})`);
+										const e: any = new Error(
+											`Failed processing ${upload.label} (Status: ${status})`
+										);
 										e.status = status;
 										reject(e);
 									};
@@ -1981,11 +1992,11 @@
 								};
 								xhr.onerror = () => {
 									rollback();
-									const e: any = new Error(`Lost connection processing ${file.name}`);
+									const e: any = new Error(`Lost connection processing ${upload.label}`);
 									e.retryable = true;
 									reject(e);
 								};
-								xhr.send(file);
+								xhr.send(upload.body);
 							}),
 						'pdf_flow',
 						2,
@@ -1993,16 +2004,42 @@
 						(retrying) => (isRetrying = retrying)
 					);
 
-				for (const file of pdfFiles) {
+				// What each request carries: one per file, or one for a merge.
+				const units: (PdfUpload & { baseName: string })[] =
+					pdfConfig.op === 'merge'
+						? [
+								{
+									body: (() => {
+										const form = new FormData();
+										for (const f of pdfFiles) form.append('pdfs', f, f.name);
+										return form;
+									})(),
+									size: totalBytes,
+									label: `${pdfFiles.length} PDFs`,
+									baseName: `${pdfFiles[0].name.replace(/\.pdf$/i, '')}_merged`
+								}
+							]
+						: pdfFiles.map((f) => ({
+								body: f,
+								size: f.size,
+								label: f.name,
+								baseName: f.name.replace(/\.pdf$/i, '')
+							}));
+				if (pdfConfig.op === 'merge') totalFiles = 1;
+
+				for (const unit of units) {
 					if (hitRateLimit) break;
 
 					const params = new URLSearchParams({ op: pdfConfig.op });
-					const baseName = file.name.replace(/\.pdf$/i, '');
+					const baseName = unit.baseName;
+					// The PDF this request hands back, when it is one PDF.
+					const pdfName =
+						pdfConfig.op === 'merge' ? `${baseName}.pdf` : `${baseName}_compressed.pdf`;
 					if (pdfRemoteDest) {
 						params.set('dest', pdfRemoteDest);
 						// Core requires a name: it is the destination filename, and
 						// without it every PDF in a batch would collide.
-						params.set('name', `${baseName}_compressed.pdf`);
+						params.set('name', pdfName);
 					}
 					if (pdfConfig.op === 'rasterize') {
 						params.set('type', pdfConfig.type);
@@ -2025,7 +2062,7 @@
 
 					try {
 						processPhase = 'uploading';
-						const { blob, savedPct, deliveryError } = await pdfXhr(file, params, () => {
+						const { blob, savedPct, deliveryError } = await pdfXhr(unit, params, () => {
 							processPhase = 'processing';
 						});
 						processPhase = 'downloading';
@@ -2052,10 +2089,7 @@
 								: pdfConfig.op === 'extract'
 									? 'images'
 									: 'rasterized';
-						const zipName =
-							pdfConfig.op === 'optimize'
-								? `${baseName}_compressed.pdf`
-								: `${baseName}_${opSuffix}.zip`;
+						const zipName = singlePdfOut ? pdfName : `${baseName}_${opSuffix}.zip`;
 						const url = URL.createObjectURL(blob);
 						const a = document.createElement('a');
 						a.style.display = 'none';
@@ -2084,7 +2118,7 @@
 						failedFiles = [
 							...failedFiles,
 							{
-								name: file.name,
+								name: unit.label,
 								reason: e instanceof Error ? e.message : `Server error ${e?.status ?? ''}`
 							}
 						];
@@ -2115,27 +2149,32 @@
 					const compressed =
 						pdfConfig.op === 'optimize' && failedFiles.length === 0 && lastSavedPct !== null;
 					const savedTo = destination === 'drive' ? 'Google Drive' : destinationName;
+					const merged = pdfConfig.op === 'merge';
 					const msg =
-						failedFiles.length > 0
-							? `${processedPdfs} of ${totalPdfFiles} PDFs processed. ✨`
-							: // Filed for some, downloaded for the rest: name the split
-								// rather than reporting a clean save that didn't happen.
-								pdfDeliveryFallbacks > 0
-								? `${processedPdfs} PDF${processedPdfs > 1 ? 's' : ''} processed. ${deliveryNote(
-										pdfDeliveryError,
-										savedTo
-									)}`
-								: pdfStored > 0
-									? lastSavedPct !== null && lastSavedPct > 0
-										? `Compressed ${lastSavedPct}% and saved to ${savedTo}! ✨`
-										: `Saved ${pdfStored} PDF${pdfStored > 1 ? 's' : ''} to ${savedTo}! ✨`
-									: compressed && lastSavedPct! > 0
-										? `PDF compressed — ${lastSavedPct}% smaller! ✨`
-										: compressed
-											? 'This PDF is already well optimized, so it was left as-is.'
-											: remoteIgnored
-												? `PDF${totalPdfFiles > 1 ? 's' : ''} downloaded — this one returns a zip, which can't be filed into ${savedTo}.`
-												: `PDF${totalPdfFiles > 1 ? 's' : ''} processed successfully! ✨`;
+						merged && pdfDeliveryFallbacks === 0
+							? pdfStored > 0
+								? `Merged ${pdfFiles.length} PDFs and saved to ${savedTo}! ✨`
+								: `Merged ${pdfFiles.length} PDFs into one! ✨`
+							: failedFiles.length > 0
+								? `${processedPdfs} of ${totalPdfFiles} PDFs processed. ✨`
+								: // Filed for some, downloaded for the rest: name the split
+									// rather than reporting a clean save that didn't happen.
+									pdfDeliveryFallbacks > 0
+									? `${processedPdfs} PDF${processedPdfs > 1 ? 's' : ''} processed. ${deliveryNote(
+											pdfDeliveryError,
+											savedTo
+										)}`
+									: pdfStored > 0
+										? lastSavedPct !== null && lastSavedPct > 0
+											? `Compressed ${lastSavedPct}% and saved to ${savedTo}! ✨`
+											: `Saved ${pdfStored} PDF${pdfStored > 1 ? 's' : ''} to ${savedTo}! ✨`
+										: compressed && lastSavedPct! > 0
+											? `PDF compressed — ${lastSavedPct}% smaller! ✨`
+											: compressed
+												? 'This PDF is already well optimized, so it was left as-is.'
+												: remoteIgnored
+													? `PDF${totalPdfFiles > 1 ? 's' : ''} downloaded — this one returns a zip, which can't be filed into ${savedTo}.`
+													: `PDF${totalPdfFiles > 1 ? 's' : ''} processed successfully! ✨`;
 					showStatus('success', msg);
 					onSuccess?.();
 				}
