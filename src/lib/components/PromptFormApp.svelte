@@ -2500,7 +2500,9 @@
 							(o, scale) => {
 								staged = o;
 								stagedScale = scale;
-							}
+							},
+							file,
+							true
 						);
 						posthog.capture('speculative_hit', { size: file.size });
 						// Trust the header when it arrives; fall back to comparing the
@@ -2543,6 +2545,9 @@
 					return uploadChunked(uploadBodyOf(file), API_URL, chunkedParams, {
 						jwt,
 						transport: 'ws',
+						// Core holds the result until we have it, so a download lost to
+						// a drop is fetched again instead of lost after the charge.
+						holdResult: true,
 						onTargetOutcome: recordMiss,
 						onRetryStateChange: (retrying) => (isRetrying = retrying),
 						onUploadProgress: (loaded) => {

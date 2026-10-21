@@ -143,6 +143,9 @@ export interface ChunkedUploadCallbacks {
 	// chunks; init and complete are unchanged. Falls back to HTTP chunks on the
 	// same session if the socket is blocked. Only /flow opts in.
 	transport?: 'http' | 'ws';
+	// Ask core to hold the result until acknowledged, so a download lost to a
+	// drop is fetched again instead of lost after the charge (completeUpload).
+	holdResult?: boolean;
 }
 
 interface RetryableXhrError extends Error {
@@ -304,12 +307,162 @@ async function getUploadStatus(
 	return typeof body?.offset === 'number' ? body.offset : 0;
 }
 
+// One request that answers with the result (complete, or a held result's
+// re-fetch). Resolves with the loaded XHR whatever its status, and rejects
+// only on a network failure, retryable, with what the transfer had done.
+function requestResult(
+	method: 'POST' | 'GET',
+	url: string,
+	jwt: string | null | undefined,
+	params: ChunkedUploadParams | undefined,
+	onDownloadProgress?: (loaded: number, total: number) => void
+): Promise<XMLHttpRequest> {
+	return new Promise((resolve, reject) => {
+		const xhr = new XMLHttpRequest();
+		xhr.responseType = 'blob';
+		xhr.addEventListener('progress', (e) => {
+			if (e.lengthComputable) onDownloadProgress?.(e.loaded, e.total);
+		});
+		xhr.addEventListener('load', () => resolve(xhr));
+		// No body worth measuring, and upload listeners would add a preflight.
+		const transfer = trackTransfer(xhr, 0, false);
+		xhr.addEventListener('error', () => {
+			const err = xhrError('Network error', { retryable: true, errorKey: 'network_error' });
+			err.transfer = transfer();
+			reject(err);
+		});
+		xhr.open(method, url);
+		if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
+		if (params) {
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.send(JSON.stringify(params));
+		} else {
+			xhr.send();
+		}
+	});
+}
+
+// Turns a loaded complete response into the Blob, or the classified error.
+function readResult(
+	xhr: XMLHttpRequest,
+	source: 'chunked_complete' | 'staged_complete',
+	onTargetOutcome?: (outcome: TargetOutcome, scale?: number) => void,
+	file?: File
+): Promise<Blob> {
+	if (xhr.status >= 200 && xhr.status < 300) {
+		const target = readTargetOutcome(xhr);
+		if (target) onTargetOutcome?.(target, readTargetScale(xhr));
+		return Promise.resolve(xhr.response as Blob);
+	}
+	// Surface the server's classified reason (e.g. a corrupt-image 422 from
+	// a truncated HEIC) instead of a bare "finalize failed: 422". responseType
+	// is 'blob', so the body arrives as a Blob — read it async, same as the
+	// direct /v1/squish path in ImageUpload.svelte.
+	return (async () => {
+		const rejectLabel = readRejectLabel(xhr);
+		const serverText = await readXhrErrorText(xhr);
+		// The chunked path read the label but never reported it, so every
+		// rejection of a chunk-uploaded file was invisible in PostHog — and
+		// this is the path large camera files take, which is exactly where
+		// corrupt-image / unsupported-format land. Track it at the one place
+		// the response is already being inspected.
+		trackReject({
+			label: rejectLabel,
+			status: xhr.status,
+			source,
+			detected: readDetectedHeader(xhr),
+			decoder: readDecoderHeader(xhr),
+			file
+		});
+		const { message, key } = uploadErrorMessage(xhr.status, serverText, rejectLabel);
+		const error: RetryableXhrError = new Error(message);
+		error.status = xhr.status;
+		error.rejectLabel = rejectLabel;
+		error.errorKey = key;
+		throw error;
+	})();
+}
+
+// How long a held complete keeps trying to get its answer back. Core holds a
+// ready result for ~60 s, so the limit that matters is that one; this only
+// bounds waiting out a long processing step or an offline spell.
+const HELD_RESULT_MAX_MS = 5 * 60 * 1000;
+
+// The answer to a held complete whose response was lost to a network drop.
+// Core keeps it (utils/ResultStore.h): poll /v1/upload/result, waiting through
+// 202 "processing" and offline spells. A 404 there means nothing was held, i.e.
+// the complete never took the session (the request died before reaching core)
+// or the hold lapsed; /v1/upload/status tells the two apart, and if the session
+// is still open the complete is simply sent again, which is safe because core
+// never took it and so never charged for it.
+async function recoverHeldResult(
+	apiUrl: string,
+	sessionId: string,
+	jwt: string | null | undefined,
+	params: ChunkedUploadParams | undefined,
+	lost: unknown,
+	onDownloadProgress?: (loaded: number, total: number) => void
+): Promise<XMLHttpRequest> {
+	const q = `session=${encodeURIComponent(sessionId)}`;
+	const deadline = Date.now() + HELD_RESULT_MAX_MS;
+	let failures = 0;
+	while (Date.now() < deadline) {
+		if (isOffline()) await waitForOnline(Math.max(0, deadline - Date.now())).catch(() => {});
+		try {
+			const got = await requestResult(
+				'GET',
+				`${apiUrl}/v1/upload/result?${q}`,
+				jwt,
+				undefined,
+				onDownloadProgress
+			);
+			if (got.status === 202) {
+				await new Promise((r) => setTimeout(r, 1000));
+				continue;
+			}
+			if (got.status !== 404) {
+				posthog.capture('upload_result_recovered', { via: 'held' });
+				return got;
+			}
+			let open = true;
+			try {
+				await getUploadStatus(apiUrl, sessionId, jwt);
+			} catch (e) {
+				// Only a 404 says the session is gone; anything else (a network
+				// failure, a 503) says nothing yet, so try again.
+				if ((e as RetryableXhrError)?.status !== 404) {
+					throw xhrError('Status check failed', { retryable: true, errorKey: 'network_error' });
+				}
+				open = false;
+			}
+			if (!open) break;
+			const again = await requestResult(
+				'POST',
+				`${apiUrl}/v1/upload/complete?${q}&hold=1`,
+				jwt,
+				params,
+				onDownloadProgress
+			);
+			// 404: a racing first attempt took the session after all; its answer
+			// is being held, so go back to polling for it.
+			if (again.status === 404) continue;
+			posthog.capture('upload_result_recovered', { via: 'resent' });
+			return again;
+		} catch (err) {
+			if (!isRetryable(err)) throw err;
+			await new Promise((r) => setTimeout(r, Math.min(500 * 2 ** failures++, 8000)));
+		}
+	}
+	posthog.capture('upload_result_lost', {});
+	throw lost;
+}
+
 // Exported because the speculative staging path in $lib/uploadStage.ts finishes
 // its uploads through exactly this endpoint — the only difference being that it
 // sends the output params in the body (its session was staged without them).
 // Sharing the function keeps one place that classifies a complete-phase failure,
 // rather than a second copy that would quietly drift on error handling.
-export function completeUpload(
+export async function completeUpload(
 	apiUrl: string,
 	sessionId: string,
 	jwt: string | null | undefined,
@@ -325,65 +478,46 @@ export function completeUpload(
 	// success — it must not change this function's shape for everyone else.
 	onTargetOutcome?: (outcome: TargetOutcome, scale?: number) => void,
 	// The file being completed, for reject telemetry only (see trackReject).
-	file?: File
+	file?: File,
+	// Ask core to hold the response until acknowledged (~60 s at most), so a
+	// download lost to a drop is fetched again rather than lost after the
+	// charge. Only /flow passes it.
+	hold = false
 ): Promise<Blob> {
-	return new Promise<Blob>((resolve, reject) => {
-		const xhr = new XMLHttpRequest();
-		xhr.responseType = 'blob';
-		xhr.addEventListener('progress', (e) => {
-			if (e.lengthComputable) onDownloadProgress?.(e.loaded, e.total);
-		});
-		xhr.addEventListener('load', () => {
-			if (xhr.status >= 200 && xhr.status < 300) {
-				const target = readTargetOutcome(xhr);
-				if (target) onTargetOutcome?.(target, readTargetScale(xhr));
-				resolve(xhr.response);
-				return;
-			}
-			// Surface the server's classified reason (e.g. a corrupt-image 422 from
-			// a truncated HEIC) instead of a bare "finalize failed: 422". responseType
-			// is 'blob', so the body arrives as a Blob — read it async, same as the
-			// direct /v1/squish path in ImageUpload.svelte.
-			void (async () => {
-				const rejectLabel = readRejectLabel(xhr);
-				const serverText = await readXhrErrorText(xhr);
-				// The chunked path read the label but never reported it, so every
-				// rejection of a chunk-uploaded file was invisible in PostHog — and
-				// this is the path large camera files take, which is exactly where
-				// corrupt-image / unsupported-format land. Track it at the one place
-				// the response is already being inspected.
-				trackReject({
-					label: rejectLabel,
-					status: xhr.status,
-					source,
-					detected: readDetectedHeader(xhr),
-					decoder: readDecoderHeader(xhr),
-					file
-				});
-				const { message, key } = uploadErrorMessage(xhr.status, serverText, rejectLabel);
-				const error: RetryableXhrError = new Error(message);
-				error.status = xhr.status;
-				error.rejectLabel = rejectLabel;
-				error.errorKey = key;
-				reject(error);
-			})();
-		});
-		// No body worth measuring, and upload listeners would add a preflight.
-		const transfer = trackTransfer(xhr, 0, false);
-		xhr.addEventListener('error', () => {
-			const err = xhrError('Network error', { retryable: true, errorKey: 'network_error' });
-			err.transfer = transfer();
-			reject(err);
-		});
-		xhr.open('POST', `${apiUrl}/v1/upload/complete?session=${encodeURIComponent(sessionId)}`);
-		if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
-		if (params) {
-			xhr.setRequestHeader('Content-Type', 'application/json');
-			xhr.send(JSON.stringify(params));
-		} else {
-			xhr.send();
-		}
-	});
+	const q = `session=${encodeURIComponent(sessionId)}`;
+	if (!hold) {
+		const xhr = await requestResult(
+			'POST',
+			`${apiUrl}/v1/upload/complete?${q}`,
+			jwt,
+			params,
+			onDownloadProgress
+		);
+		return readResult(xhr, source, onTargetOutcome, file);
+	}
+
+	let xhr: XMLHttpRequest;
+	try {
+		xhr = await requestResult(
+			'POST',
+			`${apiUrl}/v1/upload/complete?${q}&hold=1`,
+			jwt,
+			params,
+			onDownloadProgress
+		);
+	} catch (err) {
+		if (!isRetryable(err)) throw err;
+		posthog.capture('upload_result_recovering', { source });
+		xhr = await recoverHeldResult(apiUrl, sessionId, jwt, params, err, onDownloadProgress);
+	}
+	// We have the answer, success or failure: let core drop its copy now rather
+	// than at its TTL. Fire-and-forget; the TTL is the guarantee.
+	void fetch(`${apiUrl}/v1/upload/ack?${q}`, {
+		method: 'POST',
+		keepalive: true,
+		headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
+	}).catch(() => {});
+	return readResult(xhr, source, onTargetOutcome, file);
 }
 
 // The browser is reporting a hard offline state. `navigator.onLine === false`
@@ -651,7 +785,8 @@ async function runChunkedUpload(
 					undefined,
 					'chunked_complete',
 					onTargetOutcome,
-					file instanceof File ? file : undefined
+					file instanceof File ? file : undefined,
+					callbacks.holdResult === true
 				),
 			'chunk_complete',
 			onRetryStateChange
