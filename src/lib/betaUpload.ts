@@ -61,10 +61,16 @@ const WS_WINDOW: Partial<Record<Method, number>> = { 'ws-64k': 16, 'ws-64k-w64':
 // No ack for this long means a half-dead connection, which patchy Wi-Fi
 // produces more often than a clean close.
 const WS_STALL_MS = 20_000;
-// Retries count only attempts that made no progress since the last one, so a
-// long upload on a link that keeps dropping but keeps moving is never abandoned.
-const MAX_STALLED_RETRIES = 10;
-const RUN_LIMIT_MS = 10 * 60 * 1000;
+// A connection that has not said "ready" by now is not going to: a reconnect
+// started mid network switch can otherwise hang until the browser gives up,
+// which on iOS is far longer than this.
+const WS_CONNECT_MS = 10_000;
+const STATUS_TIMEOUT_MS = 10_000;
+// An upload is abandoned only after this long with NO progress, the same
+// patience /flow's withReconnect has (OFFLINE_MAX_WAIT_MS). A time, not a retry
+// count: a 4G to Wi-Fi switch can take tens of seconds and many failed attempts,
+// and a count measured that as dead (the first version gave up after ~55 s).
+const NO_PROGRESS_LIMIT_MS = 5 * 60 * 1000;
 
 const sleep = (ms: number, signal: AbortSignal) =>
 	new Promise<void>((resolve, reject) => {
@@ -75,7 +81,71 @@ const sleep = (ms: number, signal: AbortSignal) =>
 		});
 	});
 
-const backoff = (stalled: number) => Math.min(500 * 2 ** stalled, 8000);
+const backoff = (failures: number) => Math.min(500 * 2 ** failures, 8000);
+
+// Resolves once the browser reports a network, or after `ms` regardless:
+// navigator.onLine can be wrong in both directions, so it shortens the wait
+// rather than deciding it.
+function waitOnline(ms: number, signal: AbortSignal): Promise<void> {
+	if (typeof navigator === 'undefined' || navigator.onLine !== false) return Promise.resolve();
+	return new Promise((resolve, reject) => {
+		const done = () => {
+			clearTimeout(t);
+			window.removeEventListener('online', done);
+			signal.removeEventListener('abort', onAbort);
+			resolve();
+		};
+		const onAbort = () => {
+			done();
+			reject(new Error('Cancelled'));
+		};
+		const t = setTimeout(done, ms);
+		window.addEventListener('online', done);
+		signal.addEventListener('abort', onAbort);
+	});
+}
+
+// The one recovery rule both transports share, so neither is judged by a more
+// forgiving policy than the other.
+class Recovery {
+	private lastProgress = performance.now();
+	private failures = 0;
+	private o: RunOptions;
+	private tag: string;
+
+	constructor(o: RunOptions, tag: string) {
+		this.o = o;
+		this.tag = tag;
+	}
+
+	progressed() {
+		this.lastProgress = performance.now();
+		this.failures = 0;
+	}
+
+	// Called after a failed attempt: back off, then wait out an offline spell.
+	// Throws once there has been no progress for NO_PROGRESS_LIMIT_MS.
+	async afterFailure() {
+		const left = NO_PROGRESS_LIMIT_MS - (performance.now() - this.lastProgress);
+		if (left <= 0) throw new Error(`no progress for ${NO_PROGRESS_LIMIT_MS / 60000} minutes`);
+		const wait = Math.min(backoff(this.failures++), left);
+		this.o.onLog(`${this.tag}: retrying in ${wait} ms`);
+		await sleep(wait, this.o.signal);
+		if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+			this.o.onLog(`${this.tag}: offline, waiting for a network`);
+			await waitOnline(left - wait, this.o.signal);
+			this.o.onLog(`${this.tag}: back online`);
+		}
+	}
+}
+
+// Going offline kills every connection anyway; acting on the event saves
+// waiting for a stall timer to notice. Returns the unsubscribe.
+function onOffline(fn: () => void): () => void {
+	if (typeof window === 'undefined') return () => {};
+	window.addEventListener('offline', fn);
+	return () => window.removeEventListener('offline', fn);
+}
 
 // The Cloudflare typings make Response.json() return unknown.
 type Json = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -148,6 +218,7 @@ function wsConnection(
 			if (settled) return;
 			settled = true;
 			clearTimeout(stallTimer);
+			unsubscribeOffline();
 			o.signal.removeEventListener('abort', onAbort);
 			try {
 				ws.close();
@@ -165,6 +236,15 @@ function wsConnection(
 		};
 		const onAbort = () => settle({ offset: acked, fatal: 'Cancelled' });
 		o.signal.addEventListener('abort', onAbort);
+		const unsubscribeOffline = onOffline(() => {
+			o.onLog('ws: browser went offline');
+			settle({ offset: acked });
+		});
+		// Until "ready", the connect timeout is the only timer running.
+		stallTimer = setTimeout(() => {
+			o.onLog(`ws: not ready after ${WS_CONNECT_MS / 1000}s, treating as dropped`);
+			settle({ offset: acked });
+		}, WS_CONNECT_MS);
 
 		const pump = () => {
 			while (!settled && inflight < window && pos < total) {
@@ -182,10 +262,7 @@ function wsConnection(
 			}
 		};
 
-		ws.onopen = () => {
-			ws.send(JSON.stringify(o.token ? { token: o.token } : {}));
-			armStall();
-		};
+		ws.onopen = () => ws.send(JSON.stringify(o.token ? { token: o.token } : {}));
 		ws.onmessage = (e) => {
 			const m = JSON.parse(e.data as string);
 			if (m.type === 'ready') {
@@ -226,37 +303,40 @@ async function runWs(
 	stats: RunResult,
 	window: number
 ) {
-	const t0 = performance.now();
+	const recovery = new Recovery(o, 'ws');
 	let best = 0;
-	let stalled = 0;
 	for (;;) {
 		const { offset, fatal } = await wsConnection(o, session, data, stats, window);
 		if (fatal) throw new Error(fatal);
 		if (offset >= data.length) return;
 		if (offset > best) {
 			best = offset;
-			stalled = 0;
-		} else if (++stalled > MAX_STALLED_RETRIES) {
-			throw new Error(`gave up after ${MAX_STALLED_RETRIES} reconnects without progress`);
+			recovery.progressed();
 		}
-		if (performance.now() - t0 > RUN_LIMIT_MS) throw new Error('run took over 10 minutes');
 		stats.reconnects++;
-		const wait = backoff(stalled);
-		o.onLog(`ws: reconnecting in ${wait} ms`);
-		await sleep(wait, o.signal);
+		await recovery.afterFailure();
 	}
 }
 
 // ---- HTTP offset chunks ------------------------------------------------
 
 async function serverOffset(o: RunOptions, session: string): Promise<number> {
-	const r = await fetch(`${o.apiUrl}/v1/upload/status?session=${encodeURIComponent(session)}`, {
-		headers: authHeaders(o.token),
-		signal: o.signal
-	});
-	const body = await readJson(r);
-	if (!r.ok) throw new Error(`status ${r.status}: ${body.error ?? ''}`);
-	return body.offset as number;
+	const ctl = new AbortController();
+	const onAbort = () => ctl.abort();
+	o.signal.addEventListener('abort', onAbort);
+	const t = setTimeout(() => ctl.abort(), STATUS_TIMEOUT_MS);
+	try {
+		const r = await fetch(`${o.apiUrl}/v1/upload/status?session=${encodeURIComponent(session)}`, {
+			headers: authHeaders(o.token),
+			signal: ctl.signal
+		});
+		const body = await readJson(r);
+		if (!r.ok) throw new Error(`status ${r.status}: ${body.error ?? ''}`);
+		return body.offset as number;
+	} finally {
+		clearTimeout(t);
+		o.signal.removeEventListener('abort', onAbort);
+	}
 }
 
 async function runHttp(
@@ -266,10 +346,8 @@ async function runHttp(
 	chunkSize: number,
 	stats: RunResult
 ) {
-	const t0 = performance.now();
+	const recovery = new Recovery(o, 'http');
 	let offset = 0;
-	let best = 0;
-	let stalled = 0;
 	let sentSinceDrop = 0;
 	while (offset < data.length) {
 		const piece = o.file.slice(offset, Math.min(offset + chunkSize, data.length));
@@ -278,6 +356,7 @@ async function runHttp(
 		const ctl = new AbortController();
 		const onAbort = () => ctl.abort();
 		o.signal.addEventListener('abort', onAbort);
+		const unsubscribeOffline = onOffline(() => ctl.abort());
 		const deadline = setTimeout(() => ctl.abort(), Math.max(30_000, piece.size / 32));
 		try {
 			// A simulated drop kills the connection once dropEvery bytes have gone
@@ -313,33 +392,32 @@ async function runHttp(
 			}
 			offset = body.offset;
 			sentSinceDrop += piece.size;
+			recovery.progressed();
 			o.onProgress(offset);
 		} catch (e) {
 			if (o.signal.aborted) throw new Error('Cancelled');
 			if ((e as Error & { fatal?: boolean }).fatal) throw e;
-			if (performance.now() - t0 > RUN_LIMIT_MS) throw new Error('run took over 10 minutes');
 			stats.reconnects++;
 			o.onLog(`http: chunk at ${offset} failed (${(e as Error).message})`);
+			// The status check can fail too while the network is switching;
+			// each failure goes through the same recovery rule.
 			for (;;) {
-				const wait = backoff(stalled);
-				await sleep(wait, o.signal);
+				await recovery.afterFailure();
 				try {
-					offset = await serverOffset(o, session);
+					const resumed = await serverOffset(o, session);
+					if (resumed > offset) recovery.progressed();
+					offset = resumed;
 					break;
-				} catch {
-					if (++stalled > MAX_STALLED_RETRIES) throw new Error('status unreachable, gave up');
+				} catch (err) {
+					if (o.signal.aborted) throw new Error('Cancelled');
+					o.onLog(`http: status check failed (${(err as Error).message})`);
 				}
-			}
-			if (offset > best) {
-				best = offset;
-				stalled = 0;
-			} else if (++stalled > MAX_STALLED_RETRIES) {
-				throw new Error(`gave up after ${MAX_STALLED_RETRIES} retries without progress`);
 			}
 			o.onLog(`http: resuming at ${offset}`);
 			o.onProgress(offset);
 		} finally {
 			clearTimeout(deadline);
+			unsubscribeOffline();
 			o.signal.removeEventListener('abort', onAbort);
 		}
 	}
