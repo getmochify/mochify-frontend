@@ -12,6 +12,7 @@
 	let file: File | null = $state(null);
 	let selected: Record<Method, boolean> = $state({
 		'ws-64k': true,
+		'ws-64k-w64': true,
 		'http-5m': true,
 		'http-256k': true
 	});

@@ -12,10 +12,11 @@
 // By default a run never calls /v1/upload/complete, so it is free: init only
 // peeks the quota and the session is aborted afterwards.
 
-export type Method = 'ws-64k' | 'http-5m' | 'http-256k';
+export type Method = 'ws-64k' | 'ws-64k-w64' | 'http-5m' | 'http-256k';
 
 export const METHODS: { id: Method; label: string; note: string }[] = [
-	{ id: 'ws-64k', label: 'WebSocket, 64 KB frames', note: 'beta' },
+	{ id: 'ws-64k', label: 'WebSocket, 64 KB frames', note: 'beta, 1 MB in flight' },
+	{ id: 'ws-64k-w64', label: 'WebSocket, 64 KB frames, wide', note: 'beta, 4 MB in flight' },
 	{ id: 'http-5m', label: 'HTTP chunks, 5 MB', note: 'what /flow uses today' },
 	{ id: 'http-256k', label: 'HTTP chunks, 256 KB', note: 'small-chunk comparison' }
 ];
@@ -52,7 +53,11 @@ export interface RunOptions {
 }
 
 const WS_FRAME = 64 * 1024;
-const WS_WINDOW = 16; // frames in flight before waiting for acks
+// Frames in flight before waiting for acks. The wide variant exists to test
+// whether the window is what holds the WebSocket below 5 MB HTTP chunks on a
+// fast link (measured 2.8 s vs 1.9 s for ~16 MB wired). If it closes the gap,
+// the window was the limit; if not, the cost is per frame.
+const WS_WINDOW: Partial<Record<Method, number>> = { 'ws-64k': 16, 'ws-64k-w64': 64 };
 // No ack for this long means a half-dead connection, which patchy Wi-Fi
 // produces more often than a clean close.
 const WS_STALL_MS = 20_000;
@@ -124,7 +129,8 @@ function wsConnection(
 	o: RunOptions,
 	session: string,
 	data: Uint8Array,
-	stats: RunResult
+	stats: RunResult,
+	window: number
 ): Promise<WsOutcome> {
 	return new Promise((resolve) => {
 		const url = `${o.apiUrl.replace(/^http/, 'ws')}/v1/beta/upload/ws?session=${encodeURIComponent(session)}`;
@@ -161,7 +167,7 @@ function wsConnection(
 		o.signal.addEventListener('abort', onAbort);
 
 		const pump = () => {
-			while (!settled && inflight < WS_WINDOW && pos < total) {
+			while (!settled && inflight < window && pos < total) {
 				if (o.dropEvery && sentHere >= o.dropEvery) {
 					o.onLog(`ws: forced drop at ${pos}`);
 					settle({ offset: acked });
@@ -213,12 +219,18 @@ function wsConnection(
 	});
 }
 
-async function runWs(o: RunOptions, session: string, data: Uint8Array, stats: RunResult) {
+async function runWs(
+	o: RunOptions,
+	session: string,
+	data: Uint8Array,
+	stats: RunResult,
+	window: number
+) {
 	const t0 = performance.now();
 	let best = 0;
 	let stalled = 0;
 	for (;;) {
-		const { offset, fatal } = await wsConnection(o, session, data, stats);
+		const { offset, fatal } = await wsConnection(o, session, data, stats, window);
 		if (fatal) throw new Error(fatal);
 		if (offset >= data.length) return;
 		if (offset > best) {
@@ -350,7 +362,8 @@ export async function runMethod(method: Method, o: RunOptions): Promise<RunResul
 	try {
 		session = await initSession(o);
 		o.onLog(`${method}: session ${session.slice(0, 10)}…`);
-		if (method === 'ws-64k') await runWs(o, session, data, result);
+		const window = WS_WINDOW[method];
+		if (window) await runWs(o, session, data, result, window);
 		else
 			await runHttp(o, session, data, method === 'http-5m' ? 5 * 1024 * 1024 : 256 * 1024, result);
 		result.ms = Math.round(performance.now() - t0);
