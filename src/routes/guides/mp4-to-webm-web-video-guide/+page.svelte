@@ -74,8 +74,8 @@
         "description": "Convert MP4 to WebM with VP9 for 30–50% smaller files. Browser support, Core Web Vitals, the video fallback pattern and in-browser conversion, no upload.",
         "url": "https://mochify.app/guides/mp4-to-webm-web-video-guide",
         "image": "https://mochify.app/og/guides-mp4-to-webm-web-video-guide.png",
-        "datePublished": "2026-06-26",
-        "dateModified": "2026-10-02",
+        "datePublished": "2026-06-26T12:00:00+00:00",
+        "dateModified": "2026-10-02T12:00:00+00:00",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",

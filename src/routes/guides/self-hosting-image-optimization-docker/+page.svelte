@@ -54,8 +54,8 @@
         "url": "https://mochify.app"
     },
     "image": "https://mochify.app/og/guides-self-hosting-image-optimization-docker.png",
-    "datePublished": "2026-02-18",
-    "dateModified": "2026-10-01",
+    "datePublished": "2026-02-18T12:00:00+00:00",
+    "dateModified": "2026-10-01T12:00:00+00:00",
     "url": "https://mochify.app/guides/self-hosting-image-optimization-docker",
     "isPartOf": {
         "@type": "CollectionPage",

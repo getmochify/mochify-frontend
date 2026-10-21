@@ -106,8 +106,8 @@
       "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
       "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app", "logo": { "@type": "ImageObject", "url": "https://mochify.app/logo.png" } },
       "image": "https://mochify.app/og/guides-on-device-ai-agents-image-optimization.png",
-      "datePublished": "2026-06-02",
-      "dateModified": "2026-09-23",
+      "datePublished": "2026-06-02T12:00:00+00:00",
+      "dateModified": "2026-09-23T12:00:00+00:00",
       "inLanguage": "en",
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://mochify.app/guides/on-device-ai-agents-image-optimization" }
     }

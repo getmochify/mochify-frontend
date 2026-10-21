@@ -62,8 +62,8 @@
             "@id": "https://mochify.app/guides/ebay-image-file-not-supported"
         },
         "image": "https://mochify.app/og/guides-ebay-image-file-not-supported.png",
-        "datePublished": "2026-06-24",
-        "dateModified": "2026-10-01",
+        "datePublished": "2026-06-24T12:00:00+00:00",
+        "dateModified": "2026-10-01T12:00:00+00:00",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {

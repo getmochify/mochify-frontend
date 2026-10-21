@@ -9,6 +9,9 @@
 	// `dateModified` falls back to `datePublished`, so a guide that has never
 	// been updated still emits both dates. The Article image is the guide's
 	// social card, the same URL the root layout puts in og:image.
+	// Dates are stamped at noon UTC: Google flags a date with no time zone,
+	// and noon is the same calendar day everywhere from UTC-11 to UTC+11, so
+	// the schema date never drifts from the visible one. Not a date bump.
 	// Content-ops handoff: dev-handoffs/2026-10-21-guides-structured-data.md.
 
 	/**
@@ -23,7 +26,11 @@
 	 */
 	let { name, url, description, datePublished, dateModified = null, article } = $props();
 
-	const modified = $derived(dateModified ?? datePublished);
+	/** @param {string} date */
+	const stamp = (date) => (/^\d{4}-\d{2}-\d{2}$/.test(date) ? `${date}T12:00:00+00:00` : date);
+
+	const published = $derived(stamp(datePublished));
+	const modified = $derived(stamp(dateModified ?? datePublished));
 	const website = { '@type': 'WebSite', name: 'Mochify', url: 'https://mochify.app' };
 
 	const articleLd = $derived(
@@ -35,7 +42,7 @@
 			url,
 			mainEntityOfPage: { '@type': 'WebPage', '@id': url },
 			image: ogImageFor(new URL(url).pathname),
-			datePublished,
+			datePublished: published,
 			dateModified: modified,
 			inLanguage: 'en',
 			author: {
@@ -74,7 +81,7 @@
 		url,
 		description,
 		isPartOf: website,
-		datePublished,
+		datePublished: published,
 		dateModified: modified
 	});
 

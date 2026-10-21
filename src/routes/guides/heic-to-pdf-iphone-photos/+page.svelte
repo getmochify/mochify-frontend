@@ -117,8 +117,8 @@
             "@id": "https://mochify.app/guides/heic-to-pdf-iphone-photos"
         },
         "image": "https://mochify.app/og/guides-heic-to-pdf-iphone-photos.png",
-        "datePublished": "2026-06-29",
-        "dateModified": "2026-10-12",
+        "datePublished": "2026-06-29T12:00:00+00:00",
+        "dateModified": "2026-10-12T12:00:00+00:00",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {

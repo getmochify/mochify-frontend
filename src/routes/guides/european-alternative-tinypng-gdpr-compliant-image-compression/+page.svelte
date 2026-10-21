@@ -63,8 +63,8 @@
             "CLOUD Act image data privacy"
         ],
         "image": "https://mochify.app/og/guides-european-alternative-tinypng-gdpr-compliant-image-compression.png",
-        "datePublished": "2026-03-22",
-        "dateModified": "2026-09-22"
+        "datePublished": "2026-03-22T12:00:00+00:00",
+        "dateModified": "2026-09-22T12:00:00+00:00"
         }
     </script>
     <script type="application/ld+json">

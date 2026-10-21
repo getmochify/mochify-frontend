@@ -98,8 +98,8 @@
             "@id": "https://mochify.app/guides/what-automatic-image-optimization-actually-does"
         },
         "image": "https://mochify.app/og/guides-what-automatic-image-optimization-actually-does.png",
-        "datePublished": "2026-08-25",
-        "dateModified": "2026-10-16",
+        "datePublished": "2026-08-25T12:00:00+00:00",
+        "dateModified": "2026-10-16T12:00:00+00:00",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",

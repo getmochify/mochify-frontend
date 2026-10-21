@@ -83,8 +83,8 @@
         "description": "How to extract images from PDF, split multi-page files and convert pages to WebP in an AI agent pipeline. Mechanics, pitfalls and a privacy-first workflow.",
         "url": "https://mochify.app/guides/extract-images-from-pdf-agent-workflows",
         "image": "https://mochify.app/og/guides-extract-images-from-pdf-agent-workflows.png",
-        "datePublished": "2026-06-16",
-        "dateModified": "2026-10-12",
+        "datePublished": "2026-06-16T12:00:00+00:00",
+        "dateModified": "2026-10-12T12:00:00+00:00",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",

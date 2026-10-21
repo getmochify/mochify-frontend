@@ -97,8 +97,8 @@
             "@id": "https://mochify.app/guides/etsy-listing-photo-size-guide"
         },
         "image": "https://mochify.app/og/guides-etsy-listing-photo-size-guide.png",
-        "datePublished": "2026-08-03",
-        "dateModified": "2026-09-22",
+        "datePublished": "2026-08-03T12:00:00+00:00",
+        "dateModified": "2026-09-22T12:00:00+00:00",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",

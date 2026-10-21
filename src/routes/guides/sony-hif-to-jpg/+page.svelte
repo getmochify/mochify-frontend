@@ -44,8 +44,8 @@
         "description": "Convert Sony .HIF files to JPG with Sony's free Imaging Edge Desktop, or convert online in one step. Which Alpha bodies shoot HEIF, and how to export.",
         "url": "https://mochify.app/guides/sony-hif-to-jpg",
         "image": "https://mochify.app/og/guides-sony-hif-to-jpg.png",
-        "datePublished": "2026-06-17",
-        "dateModified": "2026-09-12",
+        "datePublished": "2026-06-17T12:00:00+00:00",
+        "dateModified": "2026-09-12T12:00:00+00:00",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",

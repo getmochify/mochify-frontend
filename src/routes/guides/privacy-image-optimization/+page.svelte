@@ -85,8 +85,8 @@
             "2026 privacy-first vendor checklist"
         ],
         "image": "https://mochify.app/og/guides-privacy-image-optimization.png",
-        "datePublished": "2026-02-05",
-        "dateModified": "2026-09-03"
+        "datePublished": "2026-02-05T12:00:00+00:00",
+        "dateModified": "2026-09-03T12:00:00+00:00"
         }
     </script>
     <GuideSchema

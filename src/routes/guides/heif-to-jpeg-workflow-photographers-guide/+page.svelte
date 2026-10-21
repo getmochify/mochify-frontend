@@ -66,8 +66,8 @@
             "url": "https://mochify.app"
         },
         "image": "https://mochify.app/og/guides-heif-to-jpeg-workflow-photographers-guide.png",
-        "datePublished": "2026-04-23",
-        "dateModified": "2026-04-23",
+        "datePublished": "2026-04-23T12:00:00+00:00",
+        "dateModified": "2026-04-23T12:00:00+00:00",
         "url": "https://mochify.app/guides/heif-to-jpeg-workflow-photographers-guide",
         "isPartOf": {
             "@type": "CollectionPage",

@@ -58,8 +58,8 @@
         "url": "https://mochify.app/guides/chrome-145-jpeg-xl-default",
         "inLanguage": "en",
         "image": "https://mochify.app/og/guides-chrome-145-jpeg-xl-default.png",
-        "datePublished": "2026-04-10",
-        "dateModified": "2026-10-07",
+        "datePublished": "2026-04-10T12:00:00+00:00",
+        "dateModified": "2026-10-07T12:00:00+00:00",
         "author": {
             "@type": "Organization",
             "name": "Mochify Engineering Team"

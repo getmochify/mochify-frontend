@@ -159,8 +159,8 @@
 				"@id": "https://mochify.app/guides/save-webp-as-jpg-chrome"
 			},
 			"image": "https://mochify.app/og/guides-save-webp-as-jpg-chrome.png",
-			"datePublished": "2026-09-22",
-			"dateModified": "2026-10-02",
+			"datePublished": "2026-09-22T12:00:00+00:00",
+			"dateModified": "2026-10-02T12:00:00+00:00",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",

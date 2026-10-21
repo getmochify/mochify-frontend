@@ -89,8 +89,8 @@
             }
         ],
         "image": "https://mochify.app/og/guides-ai-image-compression-natural-language-2026.png",
-        "datePublished": "2026-03-08",
-        "dateModified": "2026-05-18"
+        "datePublished": "2026-03-08T12:00:00+00:00",
+        "dateModified": "2026-05-18T12:00:00+00:00"
         }
     </script>
     <script type="application/ld+json">

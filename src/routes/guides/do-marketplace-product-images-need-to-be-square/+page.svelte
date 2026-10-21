@@ -86,8 +86,8 @@
             "@id": "https://mochify.app/guides/do-marketplace-product-images-need-to-be-square"
         },
         "image": "https://mochify.app/og/guides-do-marketplace-product-images-need-to-be-square.png",
-        "datePublished": "2026-06-29",
-        "dateModified": "2026-09-22",
+        "datePublished": "2026-06-29T12:00:00+00:00",
+        "dateModified": "2026-09-22T12:00:00+00:00",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {

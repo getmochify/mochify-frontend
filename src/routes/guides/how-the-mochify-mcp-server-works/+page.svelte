@@ -62,8 +62,8 @@
       "author": { "@type": "Organization", "name": "Mochify Engineering Team" },
       "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app" },
       "image": "https://mochify.app/og/guides-how-the-mochify-mcp-server-works.png",
-      "datePublished": "2026-05-28",
-      "dateModified": "2026-10-20",
+      "datePublished": "2026-05-28T12:00:00+00:00",
+      "dateModified": "2026-10-20T12:00:00+00:00",
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://mochify.app/guides/how-the-mochify-mcp-server-works" }
     }
     </script>

@@ -51,8 +51,8 @@
         "url": "https://mochify.app/guides/fetchpriority-vs-preload-lcp-image",
         "inLanguage": "en",
         "image": "https://mochify.app/og/guides-fetchpriority-vs-preload-lcp-image.png",
-        "datePublished": "2026-06-20",
-        "dateModified": "2026-06-20",
+        "datePublished": "2026-06-20T12:00:00+00:00",
+        "dateModified": "2026-06-20T12:00:00+00:00",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",

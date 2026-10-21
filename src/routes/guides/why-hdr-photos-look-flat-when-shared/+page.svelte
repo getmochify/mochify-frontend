@@ -143,8 +143,8 @@ grep X-Mochify-HDR headers.txt
             "@id": "https://mochify.app/guides/why-hdr-photos-look-flat-when-shared"
         },
         "image": "https://mochify.app/og/guides-why-hdr-photos-look-flat-when-shared.png",
-        "datePublished": "2026-08-26",
-        "dateModified": "2026-10-07",
+        "datePublished": "2026-08-26T12:00:00+00:00",
+        "dateModified": "2026-10-07T12:00:00+00:00",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",

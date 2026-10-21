@@ -58,8 +58,8 @@
             "logo": { "@type": "ImageObject", "url": "https://mochify.app/logo.png" }
         },
         "image": "https://mochify.app/og/guides-do-journaling-apps-compress-images.png",
-        "datePublished": "2026-05-18",
-        "dateModified": "2026-05-18",
+        "datePublished": "2026-05-18T12:00:00+00:00",
+        "dateModified": "2026-05-18T12:00:00+00:00",
         "url": "https://mochify.app/guides/do-journaling-apps-compress-images",
         "about": [
             {"@type": "Thing", "name": "Image compression"},

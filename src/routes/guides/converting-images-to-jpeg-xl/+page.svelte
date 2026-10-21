@@ -91,8 +91,8 @@
             "@id": "https://mochify.app/guides/converting-images-to-jpeg-xl"
         },
         "image": "https://mochify.app/og/guides-converting-images-to-jpeg-xl.png",
-        "datePublished": "2026-06-26",
-        "dateModified": "2026-10-14",
+        "datePublished": "2026-06-26T12:00:00+00:00",
+        "dateModified": "2026-10-14T12:00:00+00:00",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {

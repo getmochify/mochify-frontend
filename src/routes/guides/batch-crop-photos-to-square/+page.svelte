@@ -163,8 +163,8 @@
 				"@id": "https://mochify.app/guides/batch-crop-photos-to-square"
 			},
 			"image": "https://mochify.app/og/guides-batch-crop-photos-to-square.png",
-			"datePublished": "2026-09-22",
-			"dateModified": "2026-09-22",
+			"datePublished": "2026-09-22T12:00:00+00:00",
+			"dateModified": "2026-09-22T12:00:00+00:00",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",

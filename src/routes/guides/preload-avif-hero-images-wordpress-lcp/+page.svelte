@@ -68,8 +68,8 @@
         "url": "https://mochify.app/guides/preload-avif-hero-images-wordpress-lcp",
         "inLanguage": "en",
         "image": "https://mochify.app/og/guides-preload-avif-hero-images-wordpress-lcp.png",
-        "datePublished": "2026-04-09",
-        "dateModified": "2026-07-13",
+        "datePublished": "2026-04-09T12:00:00+00:00",
+        "dateModified": "2026-07-13T12:00:00+00:00",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",

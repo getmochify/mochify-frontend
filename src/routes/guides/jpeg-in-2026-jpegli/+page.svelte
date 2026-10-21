@@ -88,8 +88,8 @@
             "zero-retention image optimization"
         ],
         "image": "https://mochify.app/og/guides-jpeg-in-2026-jpegli.png",
-        "datePublished": "2026-02-09",
-        "dateModified": "2026-10-07"
+        "datePublished": "2026-02-09T12:00:00+00:00",
+        "dateModified": "2026-10-07T12:00:00+00:00"
         }
     </script>
     <script type="application/ld+json">

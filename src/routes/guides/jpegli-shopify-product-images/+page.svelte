@@ -62,8 +62,8 @@
         "url": "https://mochify.app/guides/jpegli-shopify-product-images",
         "inLanguage": "en",
         "image": "https://mochify.app/og/guides-jpegli-shopify-product-images.png",
-        "datePublished": "2026-04-06",
-        "dateModified": "2026-09-12",
+        "datePublished": "2026-04-06T12:00:00+00:00",
+        "dateModified": "2026-09-12T12:00:00+00:00",
         "isPartOf": {
             "@type": "CollectionPage",
             "name": "Image Optimization Guides",

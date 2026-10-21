@@ -79,8 +79,8 @@
             }
         ],
         "image": "https://mochify.app/og/guides-fujifilm-hif-to-jpg.png",
-        "datePublished": "2026-02-01",
-        "dateModified": "2026-06-04"
+        "datePublished": "2026-02-01T12:00:00+00:00",
+        "dateModified": "2026-06-04T12:00:00+00:00"
         }
     </script>
     <GuideSchema

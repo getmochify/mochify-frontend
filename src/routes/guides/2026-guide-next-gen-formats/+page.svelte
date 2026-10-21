@@ -118,8 +118,8 @@
             }
         ],
         "image": "https://mochify.app/og/guides-2026-guide-next-gen-formats.png",
-        "datePublished": "2026-02-10",
-        "dateModified": "2026-10-16"
+        "datePublished": "2026-02-10T12:00:00+00:00",
+        "dateModified": "2026-10-16T12:00:00+00:00"
         }
     </script>
     <GuideSchema

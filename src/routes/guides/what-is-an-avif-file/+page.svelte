@@ -73,8 +73,8 @@
         "description": "An AVIF file is an image in the AV1 Image File Format, up to 50% smaller than JPEG. Here's how to open it on Windows and Mac, or convert it to JPG.",
         "url": "https://mochify.app/guides/what-is-an-avif-file",
         "image": "https://mochify.app/og/guides-what-is-an-avif-file.png",
-        "datePublished": "2026-07-14",
-        "dateModified": "2026-09-22",
+        "datePublished": "2026-07-14T12:00:00+00:00",
+        "dateModified": "2026-09-22T12:00:00+00:00",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",

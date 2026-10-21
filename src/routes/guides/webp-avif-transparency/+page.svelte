@@ -154,8 +154,8 @@
 				"@id": "https://mochify.app/guides/webp-avif-transparency"
 			},
 			"image": "https://mochify.app/og/guides-webp-avif-transparency.png",
-			"datePublished": "2026-09-21",
-			"dateModified": "2026-10-15",
+			"datePublished": "2026-09-21T12:00:00+00:00",
+			"dateModified": "2026-10-15T12:00:00+00:00",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",

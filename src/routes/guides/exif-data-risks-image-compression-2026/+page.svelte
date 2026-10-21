@@ -117,8 +117,8 @@
             }
         ],
         "image": "https://mochify.app/og/guides-exif-data-risks-image-compression-2026.png",
-        "datePublished": "2026-02-13",
-        "dateModified": "2026-10-16"
+        "datePublished": "2026-02-13T12:00:00+00:00",
+        "dateModified": "2026-10-16T12:00:00+00:00"
         }
     </script>
     <GuideSchema

@@ -168,8 +168,8 @@
 				"@id": "https://mochify.app/guides/save-image-as-type-alternative"
 			},
 			"image": "https://mochify.app/og/guides-save-image-as-type-alternative.png",
-			"datePublished": "2026-09-23",
-			"dateModified": "2026-10-02",
+			"datePublished": "2026-09-23T12:00:00+00:00",
+			"dateModified": "2026-10-02T12:00:00+00:00",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",

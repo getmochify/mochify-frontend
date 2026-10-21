@@ -39,8 +39,8 @@
         "description": "Yes, Safari 17+ renders HEIC natively on the web. Chrome, Firefox, and Edge do not. Convert to JPEG or WebP before publishing for full compatibility.",
         "url": "https://mochify.app/guides/can-safari-open-heic-images",
         "image": "https://mochify.app/og/guides-can-safari-open-heic-images.png",
-        "datePublished": "2026-07-29",
-        "dateModified": "2026-09-26",
+        "datePublished": "2026-07-29T12:00:00+00:00",
+        "dateModified": "2026-09-26T12:00:00+00:00",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",

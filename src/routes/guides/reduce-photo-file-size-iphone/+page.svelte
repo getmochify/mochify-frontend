@@ -168,8 +168,8 @@
 				"@id": "https://mochify.app/guides/reduce-photo-file-size-iphone"
 			},
 			"image": "https://mochify.app/og/guides-reduce-photo-file-size-iphone.png",
-			"datePublished": "2026-09-25",
-			"dateModified": "2026-10-19",
+			"datePublished": "2026-09-25T12:00:00+00:00",
+			"dateModified": "2026-10-19T12:00:00+00:00",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
