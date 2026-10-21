@@ -61,6 +61,7 @@
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/ebay-image-file-not-supported"
         },
+        "image": "https://mochify.app/og/guides-ebay-image-file-not-supported.png",
         "datePublished": "2026-06-24",
         "dateModified": "2026-10-01",
         "inLanguage": "en",

@@ -74,6 +74,7 @@
       "headline": "Why We Relaxed Our Zero-Retention Policy for MCP Server Compressions",
       "description": "Why we softened Mochify's 'wiped immediately' claim on hosted MCP compressions to a five-minute pickup window, what we kept, and what it means for you.",
       "url": "https://mochify.app/guides/why-we-relaxed-zero-retention-for-mcp",
+      "image": "https://mochify.app/og/guides-why-we-relaxed-zero-retention-for-mcp.png",
       "datePublished": "2026-05-29",
       "dateModified": "2026-10-15",
       "inLanguage": "en",

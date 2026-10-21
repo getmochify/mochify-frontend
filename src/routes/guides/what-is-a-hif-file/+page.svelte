@@ -44,6 +44,7 @@
         "headline": "What Is a HIF File? (And How to Open One)",
         "description": "A HIF file is a 10-bit HEIF photo from Canon, Sony and Fujifilm cameras. Here is what it is and how to open one on macOS, Windows, iOS and Linux.",
         "url": "https://mochify.app/guides/what-is-a-hif-file",
+        "image": "https://mochify.app/og/guides-what-is-a-hif-file.png",
         "datePublished": "2026-06-13",
         "dateModified": "2026-09-12",
         "inLanguage": "en",

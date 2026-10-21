@@ -57,6 +57,7 @@
         "description": "Chrome 145 shipped JPEG XL behind a flag. Chrome 155, released October 6, 2026, turned it on by default. What that changes for serving JXL on the web.",
         "url": "https://mochify.app/guides/chrome-145-jpeg-xl-default",
         "inLanguage": "en",
+        "image": "https://mochify.app/og/guides-chrome-145-jpeg-xl-default.png",
         "datePublished": "2026-04-10",
         "dateModified": "2026-10-07",
         "author": {

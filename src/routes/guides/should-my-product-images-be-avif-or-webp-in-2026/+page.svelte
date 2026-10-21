@@ -40,6 +40,7 @@
         "headline": "Should My Product Images Be AVIF or WebP in 2026?",
         "description": "Neither, manually, on Shopify: the CDN already negotiates AVIF, WebP, or JPEG per browser. Manual conversion matters once you step outside that pipeline.",
         "url": "https://mochify.app/guides/should-my-product-images-be-avif-or-webp-in-2026",
+        "image": "https://mochify.app/og/guides-should-my-product-images-be-avif-or-webp-in-2026.png",
         "datePublished": "2026-08-14",
         "dateModified": "2026-08-14",
         "inLanguage": "en",

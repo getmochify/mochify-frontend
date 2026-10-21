@@ -141,6 +141,7 @@ grep X-Mochify-HDR headers.txt
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/how-to-make-any-photo-ultra-hdr"
         },
+        "image": "https://mochify.app/og/guides-how-to-make-any-photo-ultra-hdr.png",
         "datePublished": "2026-09-20",
         "dateModified": "2026-09-20",
         "inLanguage": "en",

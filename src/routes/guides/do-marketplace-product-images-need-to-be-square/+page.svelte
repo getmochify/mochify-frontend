@@ -85,6 +85,7 @@
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/do-marketplace-product-images-need-to-be-square"
         },
+        "image": "https://mochify.app/og/guides-do-marketplace-product-images-need-to-be-square.png",
         "datePublished": "2026-06-29",
         "dateModified": "2026-09-22",
         "inLanguage": "en",

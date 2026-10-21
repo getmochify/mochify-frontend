@@ -61,6 +61,7 @@
         "description": "Pre-compress Shopify product images with Jpegli before upload so Shopify's recompression can't degrade them: ~35% smaller files, faster LCP, better SEO.",
         "url": "https://mochify.app/guides/jpegli-shopify-product-images",
         "inLanguage": "en",
+        "image": "https://mochify.app/og/guides-jpegli-shopify-product-images.png",
         "datePublished": "2026-04-06",
         "dateModified": "2026-09-12",
         "isPartOf": {

@@ -105,6 +105,7 @@
       "description": "From NVIDIA DGX Spark to Apple Silicon, local AI agents are real in 2026. What that means for handling images and PDFs inside MCP agent pipelines.",
       "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
       "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app", "logo": { "@type": "ImageObject", "url": "https://mochify.app/logo.png" } },
+      "image": "https://mochify.app/og/guides-on-device-ai-agents-image-optimization.png",
       "datePublished": "2026-06-02",
       "dateModified": "2026-09-23",
       "inLanguage": "en",

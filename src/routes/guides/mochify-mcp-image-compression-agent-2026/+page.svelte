@@ -148,6 +148,7 @@
             "text": "The optimized image is returned directly into your workflow - no browser tab, no manual steps."
             }
         ],
+        "image": "https://mochify.app/og/guides-mochify-mcp-image-compression-agent-2026.png",
         "datePublished": "2026-03-09",
         "dateModified": "2026-09-12"
         }

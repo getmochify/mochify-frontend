@@ -55,6 +55,7 @@
         "headline": "What Image Format Should I Use for Product Photos?",
         "description": "Use AVIF for the smallest files, WebP as a fallback, and JPEG for the broadest compatibility. Here's the practical order for ecommerce product images.",
         "url": "https://mochify.app/guides/what-image-format-should-i-use-for-product-photos",
+        "image": "https://mochify.app/og/guides-what-image-format-should-i-use-for-product-photos.png",
         "datePublished": "2026-05-19",
         "dateModified": "2026-10-07",
         "inLanguage": "en",

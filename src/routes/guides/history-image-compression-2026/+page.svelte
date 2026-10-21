@@ -75,6 +75,7 @@
             "WebP, AVIF, and JPEG XL emergence",
             "jpegli and modern 2026 compression"
         ],
+        "image": "https://mochify.app/og/guides-history-image-compression-2026.png",
         "datePublished": "2026-02-15",
         "dateModified": "2026-10-07"
         }

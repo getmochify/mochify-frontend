@@ -122,6 +122,7 @@
             }
             ]
             },
+            "image": "https://mochify.app/og/guides-top-5-secure-image-compressors-2026.png",
             "datePublished": "2026-02-17",
             "dateModified": "2026-10-07"
         }

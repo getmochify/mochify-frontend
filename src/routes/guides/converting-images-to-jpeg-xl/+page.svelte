@@ -90,6 +90,7 @@
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/converting-images-to-jpeg-xl"
         },
+        "image": "https://mochify.app/og/guides-converting-images-to-jpeg-xl.png",
         "datePublished": "2026-06-26",
         "dateModified": "2026-10-14",
         "inLanguage": "en",

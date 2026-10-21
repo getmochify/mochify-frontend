@@ -51,6 +51,7 @@
         "headline": "What Should I Use in 2026: WebP, AVIF, or JPEG XL?",
         "description": "Use AVIF as your primary format with WebP as fallback. JPEG XL decodes in Chrome 155 and Firefox 158 from October 2026, so add it on top, with a fallback.",
         "url": "https://mochify.app/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl",
+        "image": "https://mochify.app/og/guides-what-should-i-use-in-2026-webp-avif-or-jpeg-xl.png",
         "datePublished": "2026-04-13",
         "dateModified": "2026-10-14",
         "inLanguage": "en",

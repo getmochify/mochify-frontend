@@ -78,6 +78,7 @@
             "text": "Download the converted JPEGs and import them into your editing, archiving, or client delivery workflow as you would with native camera JPEGs."
             }
         ],
+        "image": "https://mochify.app/og/guides-fujifilm-hif-to-jpg.png",
         "datePublished": "2026-02-01",
         "dateModified": "2026-06-04"
         }

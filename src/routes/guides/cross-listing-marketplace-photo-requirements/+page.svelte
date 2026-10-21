@@ -134,6 +134,7 @@
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/cross-listing-marketplace-photo-requirements"
         },
+        "image": "https://mochify.app/og/guides-cross-listing-marketplace-photo-requirements.png",
         "datePublished": "2026-08-05",
         "dateModified": "2026-10-01",
         "inLanguage": "en",

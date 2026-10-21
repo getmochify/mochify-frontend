@@ -88,6 +88,7 @@
         "headline": "Should I Optimize My Images Before I Upload Them?",
         "description": "A practical guide to pre-upload image optimization: when it is mandatory, when it is optional, and the right workflow for Shopify, WordPress, and marketplaces.",
         "url": "https://mochify.app/guides/should-i-optimize-images-before-upload",
+        "image": "https://mochify.app/og/guides-should-i-optimize-images-before-upload.png",
         "datePublished": "2026-04-13",
         "dateModified": "2026-10-16",
         "inLanguage": "en",

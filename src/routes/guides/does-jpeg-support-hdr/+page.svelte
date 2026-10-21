@@ -53,6 +53,7 @@
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/does-jpeg-support-hdr"
         },
+        "image": "https://mochify.app/og/guides-does-jpeg-support-hdr.png",
         "datePublished": "2026-09-20",
         "dateModified": "2026-09-20",
         "inLanguage": "en",

@@ -88,6 +88,7 @@
             "text": "Download the result. Your image is processed in memory and never stored."
             }
         ],
+        "image": "https://mochify.app/og/guides-ai-image-compression-natural-language-2026.png",
         "datePublished": "2026-03-08",
         "dateModified": "2026-05-18"
         }

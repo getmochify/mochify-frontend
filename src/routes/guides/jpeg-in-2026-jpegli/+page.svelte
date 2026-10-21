@@ -87,6 +87,7 @@
             "marketplace product photo workflows",
             "zero-retention image optimization"
         ],
+        "image": "https://mochify.app/og/guides-jpeg-in-2026-jpegli.png",
         "datePublished": "2026-02-09",
         "dateModified": "2026-10-07"
         }

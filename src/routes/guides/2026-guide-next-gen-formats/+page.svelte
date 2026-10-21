@@ -117,6 +117,7 @@
             "text": "Monitor Core Web Vitals and bandwidth usage after rollout, then adjust formats and quality based on field data from your analytics and RUM tooling."
             }
         ],
+        "image": "https://mochify.app/og/guides-2026-guide-next-gen-formats.png",
         "datePublished": "2026-02-10",
         "dateModified": "2026-10-16"
         }

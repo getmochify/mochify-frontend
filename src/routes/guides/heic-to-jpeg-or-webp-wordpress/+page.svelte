@@ -57,6 +57,7 @@
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/heic-to-jpeg-or-webp-wordpress"
         },
+        "image": "https://mochify.app/og/guides-heic-to-jpeg-or-webp-wordpress.png",
         "datePublished": "2026-06-25",
         "dateModified": "2026-10-07",
         "inLanguage": "en",

@@ -45,6 +45,7 @@
         "headline": "LLM Image Token Costs: How Many Tokens Does an Image Use?",
         "description": "No single number: about 1,300 tokens per megapixel on Claude, 1,229 on GPT-5.5+, 1,032 on Gemini. Generating one costs 196 to 7,024 output tokens. Dated.",
         "url": "https://mochify.app/guides/llm-image-token-costs",
+        "image": "https://mochify.app/og/guides-llm-image-token-costs.png",
         "datePublished": "2026-06-07",
         "dateModified": "2026-10-16",
         "inLanguage": "en",

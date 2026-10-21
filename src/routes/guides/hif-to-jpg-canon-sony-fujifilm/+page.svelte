@@ -103,6 +103,7 @@
         "headline": "HIF to JPG: Convert Canon, Sony & Fujifilm Photos to Shareable JPEGs",
         "description": "Convert HIF to JPG from Canon, Sony and Fujifilm cameras. Every method on every platform, plus what you trade away going 10-bit to 8-bit.",
         "url": "https://mochify.app/guides/hif-to-jpg-canon-sony-fujifilm",
+        "image": "https://mochify.app/og/guides-hif-to-jpg-canon-sony-fujifilm.png",
         "datePublished": "2026-06-04",
         "dateModified": "2026-10-07",
         "inLanguage": "en",

@@ -62,6 +62,7 @@
             "TinyPNG alternative Europe",
             "CLOUD Act image data privacy"
         ],
+        "image": "https://mochify.app/og/guides-european-alternative-tinypng-gdpr-compliant-image-compression.png",
         "datePublished": "2026-03-22",
         "dateModified": "2026-09-22"
         }

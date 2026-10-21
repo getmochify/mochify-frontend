@@ -116,6 +116,7 @@
             "text": "Swap the cleaned images into your CMS, marketplace listings, or client deliverables to minimize GDPR liability and reduce the risk of stalking, doxxing, or data leakage."
             }
         ],
+        "image": "https://mochify.app/og/guides-exif-data-risks-image-compression-2026.png",
         "datePublished": "2026-02-13",
         "dateModified": "2026-10-16"
         }

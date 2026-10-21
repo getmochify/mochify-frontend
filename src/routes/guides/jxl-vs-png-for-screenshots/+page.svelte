@@ -138,6 +138,7 @@
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/jxl-vs-png-for-screenshots"
         },
+        "image": "https://mochify.app/og/guides-jxl-vs-png-for-screenshots.png",
         "datePublished": "2026-09-12",
         "dateModified": "2026-10-07",
         "inLanguage": "en",

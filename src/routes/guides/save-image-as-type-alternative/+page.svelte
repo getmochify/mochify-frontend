@@ -167,6 +167,7 @@
 				"@type": "WebPage",
 				"@id": "https://mochify.app/guides/save-image-as-type-alternative"
 			},
+			"image": "https://mochify.app/og/guides-save-image-as-type-alternative.png",
 			"datePublished": "2026-09-23",
 			"dateModified": "2026-10-02",
 			"inLanguage": "en",

@@ -94,6 +94,7 @@
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/bring-your-own-bucket-s3-r2"
         },
+        "image": "https://mochify.app/og/guides-bring-your-own-bucket-s3-r2.png",
         "datePublished": "2026-09-03",
         "dateModified": "2026-09-23",
         "inLanguage": "en",

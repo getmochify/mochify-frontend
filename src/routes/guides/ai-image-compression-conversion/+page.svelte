@@ -111,6 +111,7 @@
       "url": "https://mochify.app/guides/ai-image-compression-conversion",
       "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
       "publisher": { "@type": "Organization", "name": "Mochify", "url": "https://mochify.app", "logo": { "@type": "ImageObject", "url": "https://mochify.app/logo.png" } },
+      "image": "https://mochify.app/og/guides-ai-image-compression-conversion.png",
       "datePublished": "2026-06-30",
       "dateModified": "2026-10-07",
       "inLanguage": "en",

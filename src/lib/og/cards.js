@@ -195,6 +195,11 @@ export const cards = [
 		title: 'Does HEIF/HEIC Work With Client Gallery Platforms Like Pixieset and SmugMug?'
 	},
 	{
+		path: '/guides/does-stripping-exif-data-improve-wordpress-image-seo',
+		eyebrow: 'GUIDE',
+		title: 'Does Stripping EXIF Data Improve WordPress Image SEO?'
+	},
+	{
 		path: '/guides/does-hif-to-jpg-lose-quality',
 		eyebrow: 'GUIDE',
 		title: 'Does Converting HIF to JPG Reduce Quality?'

@@ -41,6 +41,7 @@
         "headline": "Does HEIF/HEIC Work With Client Gallery Platforms Like Pixieset and SmugMug?",
         "description": "HEIF and HEIC files don't work reliably with most client gallery platforms. Here's what actually happens on upload, and how to keep control of your output.",
         "url": "https://mochify.app/guides/does-heif-heic-work-with-client-galleries",
+        "image": "https://mochify.app/og/guides-does-heif-heic-work-with-client-galleries.png",
         "datePublished": "2026-04-26",
         "dateModified": "2026-09-22",
         "inLanguage": "en",

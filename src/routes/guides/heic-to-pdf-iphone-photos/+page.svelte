@@ -116,6 +116,7 @@
             "@type": "WebPage",
             "@id": "https://mochify.app/guides/heic-to-pdf-iphone-photos"
         },
+        "image": "https://mochify.app/og/guides-heic-to-pdf-iphone-photos.png",
         "datePublished": "2026-06-29",
         "dateModified": "2026-10-12",
         "inLanguage": "en",

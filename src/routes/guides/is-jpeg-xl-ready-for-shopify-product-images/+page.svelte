@@ -56,6 +56,7 @@
         "headline": "Is JPEG XL Ready for Shopify Product Images in 2026?",
         "description": "JPEG XL still isn't usable on live Shopify stores: Chrome 155 decodes it, but Shopify doesn't accept JXL uploads. Upload JPEG or PNG; archive as JXL.",
         "url": "https://mochify.app/guides/is-jpeg-xl-ready-for-shopify-product-images",
+        "image": "https://mochify.app/og/guides-is-jpeg-xl-ready-for-shopify-product-images.png",
         "datePublished": "2026-04-14",
         "dateModified": "2026-10-07",
         "inLanguage": "en",

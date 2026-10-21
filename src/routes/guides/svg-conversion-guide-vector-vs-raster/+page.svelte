@@ -86,6 +86,7 @@
             "name": "Mochify",
             "url": "https://mochify.app"
         },
+        "image": "https://mochify.app/og/guides-svg-conversion-guide-vector-vs-raster.png",
         "datePublished": "2026-05-16",
         "dateModified": "2026-10-07",
         "url": "https://mochify.app/guides/svg-conversion-guide-vector-vs-raster",

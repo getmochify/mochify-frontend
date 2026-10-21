@@ -67,6 +67,7 @@
         "description": "Serving AVIF isn't enough - browsers still discover it late. Add a preload hint to your WordPress theme so the hero image starts downloading before the render tree is built.",
         "url": "https://mochify.app/guides/preload-avif-hero-images-wordpress-lcp",
         "inLanguage": "en",
+        "image": "https://mochify.app/og/guides-preload-avif-hero-images-wordpress-lcp.png",
         "datePublished": "2026-04-09",
         "dateModified": "2026-07-13",
         "isPartOf": {

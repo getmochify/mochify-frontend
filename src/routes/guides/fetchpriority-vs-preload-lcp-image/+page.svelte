@@ -50,6 +50,7 @@
         "description": "Use fetchpriority=\"high\" on an img tag found in HTML. Use rel=\"preload\" when the browser discovers the image late, via CSS or JavaScript.",
         "url": "https://mochify.app/guides/fetchpriority-vs-preload-lcp-image",
         "inLanguage": "en",
+        "image": "https://mochify.app/og/guides-fetchpriority-vs-preload-lcp-image.png",
         "datePublished": "2026-06-20",
         "dateModified": "2026-06-20",
         "isPartOf": {

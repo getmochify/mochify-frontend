@@ -1,11 +1,14 @@
 <script>
+	import { ogImageFor } from '$lib/og/cards.js';
+
 	// The JSON-LD every guide emits, in the shape of the handoff spec v1 (§2.2):
 	// Article (when `article` is passed), BreadcrumbList (Home -> Guides -> page)
 	// and WebPage. Legacy guides whose Article is hand-written (TechArticle,
 	// HowTo steps) omit `article` and keep their own block, which must not
 	// carry `breadcrumb` - schema.org defines it on WebPage only.
 	// `dateModified` falls back to `datePublished`, so a guide that has never
-	// been updated still emits both dates.
+	// been updated still emits both dates. The Article image is the guide's
+	// social card, the same URL the root layout puts in og:image.
 	// Content-ops handoff: dev-handoffs/2026-10-21-guides-structured-data.md.
 
 	/**
@@ -31,6 +34,7 @@
 			description,
 			url,
 			mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+			image: ogImageFor(new URL(url).pathname),
 			datePublished,
 			dateModified: modified,
 			inLanguage: 'en',

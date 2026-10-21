@@ -49,6 +49,7 @@
         "headline": "Does Converting HIF to JPG Reduce Quality?",
         "description": "Converting HIF to JPG rarely reduces visible quality. The exception is Canon HDR PQ, where the HDR-to-SDR tone-map changes the look more than bit depth.",
         "url": "https://mochify.app/guides/does-hif-to-jpg-lose-quality",
+        "image": "https://mochify.app/og/guides-does-hif-to-jpg-lose-quality.png",
         "datePublished": "2026-06-05",
         "dateModified": "2026-06-05",
         "inLanguage": "en",

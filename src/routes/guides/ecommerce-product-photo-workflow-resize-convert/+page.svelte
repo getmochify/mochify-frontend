@@ -87,6 +87,7 @@
         "headline": "Ecommerce Product Photo Workflow: Resize & Convert in One Prompt",
         "description": "Batch-convert product photos to JPG at 1200px and 800px with one natural-language prompt. The fastest workflow for Shopify, Etsy, eBay and Amazon sellers.",
         "url": "https://mochify.app/guides/ecommerce-product-photo-workflow-resize-convert",
+        "image": "https://mochify.app/og/guides-ecommerce-product-photo-workflow-resize-convert.png",
         "datePublished": "2026-05-23",
         "dateModified": "2026-09-22",
         "inLanguage": "en",
