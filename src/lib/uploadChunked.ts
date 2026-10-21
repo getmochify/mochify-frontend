@@ -12,6 +12,7 @@ import { withRetry, isRetryable } from '$lib/uploadRetry';
 import { trackTransfer, transferProps, type TransferState } from '$lib/xhrTransfer';
 import { readTargetOutcome, readTargetScale, type TargetOutcome } from '$lib/targetOutcome';
 import { posthog } from '$lib/analytics';
+import { wsAvailable, wsTransfer, rememberWsBlocked, WsBlockedError } from '$lib/uploadWs';
 import {
 	uploadErrorMessage,
 	readXhrErrorText,
@@ -33,6 +34,13 @@ import {
 // 8MB single POST is a ~40s non-resumable transfer.
 export const CHUNK_THRESHOLD_BYTES = 5 * 1024 * 1024;
 const CHUNK_SIZE_BYTES = 5 * 1024 * 1024;
+// Chunk size when a `transport: 'ws'` upload falls back to HTTP because the
+// WebSocket is blocked. Smaller than CHUNK_SIZE_BYTES because the callers that
+// opt into WebSocket are the ones on patchy links, where a dropped 5 MB chunk
+// is the costliest thing that can happen (/beta/upload: it never finished on a
+// link dropping every 2 MB). 1 MB rather than 256 KB: per-request round trips
+// made 256 KB ~4x slower on a good link.
+const WS_FALLBACK_CHUNK_BYTES = 1024 * 1024;
 
 // Longest we'll hold a stalled upload open waiting for the browser to come back
 // online before giving up. The server keeps the half-uploaded session in RAM
@@ -131,6 +139,10 @@ export interface ChunkedUploadCallbacks {
 	// ever mention it — see targetOutcome.ts. `scale` is set when core also
 	// shrank the output to fit (X-Mochify-Target-Scale).
 	onTargetOutcome?: (outcome: TargetOutcome, scale?: number) => void;
+	// 'ws' moves the bytes over a WebSocket ($lib/uploadWs) instead of HTTP
+	// chunks; init and complete are unchanged. Falls back to HTTP chunks on the
+	// same session if the socket is blocked. Only /flow opts in.
+	transport?: 'http' | 'ws';
 }
 
 interface RetryableXhrError extends Error {
@@ -512,14 +524,53 @@ async function runChunkedUpload(
 		onRetryStateChange
 	);
 
-	const totalChunks = Math.ceil(file.size / CHUNK_SIZE_BYTES);
-	posthog.capture('chunked_upload_started', { fileSize: file.size, chunks: totalChunks });
-
 	// Highest byte offset reported so far, across every chunk and across any
 	// chunk's retries. Progress is clamped up to this, so a retry that
 	// re-sends the current chunk from zero can never push the reported total
 	// backward (see onUploadProgress's contract above).
 	let maxLoadedSeen = 0;
+	const reportLoaded = (loaded: number) => {
+		if (loaded > maxLoadedSeen) {
+			maxLoadedSeen = loaded;
+			onUploadProgress?.(maxLoadedSeen, file.size);
+		}
+	};
+
+	let viaWs = false;
+	let wsFellBack = false;
+	if (callbacks.transport === 'ws' && wsAvailable()) {
+		posthog.capture('chunked_upload_started', { fileSize: file.size, transport: 'ws' });
+		try {
+			// Progress here is the server's acknowledged offset, not bytes handed
+			// to the socket, so the bar never runs ahead of what core holds.
+			await wsTransfer({
+				apiUrl,
+				sessionId,
+				file,
+				jwt,
+				onProgress: reportLoaded,
+				onRetryStateChange,
+				rejectSource: 'chunked_ws'
+			});
+			viaWs = true;
+		} catch (err) {
+			if (!(err instanceof WsBlockedError)) throw err;
+			// Nothing reached the session (the socket never said "ready"), so the
+			// HTTP loop below starts from 0 on the same session.
+			wsFellBack = true;
+			posthog.capture('upload_ws_fallback', { fileSize: file.size });
+		}
+	}
+
+	const chunkSize = wsFellBack ? WS_FALLBACK_CHUNK_BYTES : CHUNK_SIZE_BYTES;
+	const totalChunks = Math.ceil(file.size / chunkSize);
+	if (!viaWs) {
+		posthog.capture('chunked_upload_started', {
+			fileSize: file.size,
+			chunks: totalChunks,
+			...(wsFellBack ? { transport: 'http_fallback' } : {})
+		});
+	}
 
 	// `offset` is the server-confirmed contiguous high-water mark. Each chunk is
 	// sent starting exactly here and, on success, advances to the server's
@@ -527,12 +578,12 @@ async function runChunkedUpload(
 	// withRetry — re-sending the same chunk at the same offset is safe (the
 	// server no-ops already-received bytes), which fixes the lost-ACK case the
 	// old sequential-index model turned into an unrecoverable 409.
-	let offset = 0;
+	let offset = viaWs ? file.size : 0;
 	while (offset < file.size) {
 		const newOffset = await withReconnect(
 			async () => {
 				const start = offset; // read fresh each attempt (a 409 re-sync below can move it)
-				const end = Math.min(start + CHUNK_SIZE_BYTES, file.size);
+				const end = Math.min(start + chunkSize, file.size);
 				const slice = file.slice(start, end);
 				try {
 					return await uploadOneChunkAtOffset(
@@ -541,13 +592,7 @@ async function runChunkedUpload(
 						start,
 						slice,
 						jwt,
-						(loadedInChunk) => {
-							const totalLoaded = Math.min(start + loadedInChunk, file.size);
-							if (totalLoaded > maxLoadedSeen) {
-								maxLoadedSeen = totalLoaded;
-								onUploadProgress?.(maxLoadedSeen, file.size);
-							}
-						}
+						(loadedInChunk) => reportLoaded(Math.min(start + loadedInChunk, file.size))
 					);
 				} catch (err) {
 					// Defensive: a 409 gap means client and server disagree on
@@ -580,7 +625,14 @@ async function runChunkedUpload(
 		offset = newOffset;
 	}
 
-	posthog.capture('chunked_upload_all_chunks_sent', { fileSize: file.size, chunks: totalChunks });
+	// The socket failed and HTTP then worked: that is the evidence the network
+	// blocks WebSocket, rather than the link being bad for everything.
+	if (wsFellBack) rememberWsBlocked();
+	posthog.capture('chunked_upload_all_chunks_sent', {
+		fileSize: file.size,
+		chunks: viaWs ? 0 : totalChunks,
+		transport: viaWs ? 'ws' : wsFellBack ? 'http_fallback' : 'http'
+	});
 	onPhaseChange?.('processing');
 
 	try {

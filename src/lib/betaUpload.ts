@@ -155,16 +155,41 @@ function authHeaders(token: string | null): Record<string, string> {
 	return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
+// Retried through the same Recovery rule as the transfer, as /flow's
+// withReconnect retries its init: a link that is dead at the moment the upload
+// starts is as likely as one that dies halfway. Only a network failure, a 5xx
+// or a 429 is retried; any other status is the caller's or the file's. A lost
+// response can leave an orphan session behind, which core evicts after
+// kUnstartedTtl (180 s) since no bytes ever reach it.
 async function initSession(o: RunOptions): Promise<string> {
-	const r = await fetch(`${o.apiUrl}/v1/upload/init`, {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json', ...authHeaders(o.token) },
-		body: JSON.stringify({ totalBytes: o.file.size, ...o.params }),
-		signal: o.signal
-	});
-	const body = await readJson(r);
-	if (!r.ok || !body.sessionId) throw new Error(`init ${r.status}: ${body.error ?? 'no session'}`);
-	return body.sessionId as string;
+	const recovery = new Recovery(o, 'init');
+	for (;;) {
+		const ctl = new AbortController();
+		const onAbort = () => ctl.abort();
+		o.signal.addEventListener('abort', onAbort);
+		const t = setTimeout(() => ctl.abort(), STATUS_TIMEOUT_MS);
+		try {
+			const r = await fetch(`${o.apiUrl}/v1/upload/init`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json', ...authHeaders(o.token) },
+				body: JSON.stringify({ totalBytes: o.file.size, ...o.params }),
+				signal: ctl.signal
+			});
+			const body = await readJson(r);
+			if (r.ok && body.sessionId) return body.sessionId as string;
+			const msg = `init ${r.status}: ${body.error ?? 'no session'}`;
+			if (r.status < 500 && r.status !== 429) throw Object.assign(new Error(msg), { fatal: true });
+			o.onLog(msg);
+		} catch (e) {
+			if (o.signal.aborted) throw new Error('Cancelled');
+			if ((e as Error & { fatal?: boolean }).fatal) throw e;
+			o.onLog(`init: failed (${(e as Error).message})`);
+		} finally {
+			clearTimeout(t);
+			o.signal.removeEventListener('abort', onAbort);
+		}
+		await recovery.afterFailure();
+	}
 }
 
 async function finishSession(o: RunOptions, session: string, result: RunResult) {

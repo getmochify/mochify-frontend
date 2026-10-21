@@ -234,7 +234,9 @@ export function trackReject(opts: {
 	// in, so rejections stay distinguishable in telemetry. 'stage' is the
 	// speculative POST itself, which refuses a file while the user is still
 	// typing; it was previously the one reject path that reported nothing.
-	source: 'squish' | 'chunked_complete' | 'staged_complete' | 'stage';
+	// 'chunked_ws' / 'staged_ws': the WebSocket transfer ($lib/uploadWs),
+	// whose first frame core checks the same way it checks a first chunk.
+	source: 'squish' | 'chunked_complete' | 'staged_complete' | 'stage' | 'chunked_ws' | 'staged_ws';
 	plan?: string;
 	detected?: string;
 	decoder?: string;

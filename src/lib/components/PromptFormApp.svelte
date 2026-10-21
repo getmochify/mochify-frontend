@@ -41,6 +41,7 @@
 	import { resolveUploadSize, effectiveSize, uploadBodyOf } from '$lib/uploadSize';
 	import { checkTruncation } from '$lib/truncationCheck';
 	import { startStaging, noStager, shouldSpeculate, type Stager } from '$lib/uploadStage';
+	import { wsAvailable } from '$lib/uploadWs';
 	import {
 		uploadErrorMessage,
 		readXhrErrorText,
@@ -136,6 +137,11 @@
 	// waiting to reconnect) after a network drop. Drives the amber
 	// "unstable connection" banner, mirroring ImageUpload.
 	let isRetrying: boolean = $state(false);
+	// True while the speculative pass is moving bytes during the prompt parse.
+	// The bar then shows real upload progress through 'thinking' instead of an
+	// indeterminate pulse: over the WebSocket it is the server's acknowledged
+	// offset, so it never claims bytes core does not hold.
+	let speculating: boolean = $state(false);
 	let completedFiles: number = $state(0);
 	let totalFiles: number = $state(0);
 	let downloadAsZip: boolean = $state(false);
@@ -1344,6 +1350,7 @@
 		isProcessing = true;
 		processPhase = 'thinking';
 		uploadPercent = 0;
+		speculating = false;
 		completedFiles = 0;
 		bucketStored = 0;
 		bucketFallbacks = 0;
@@ -1526,12 +1533,24 @@
 				// Without this it showed 0% for work that was already done — and
 				// kept showing it, since a fully-staged batch never uploads again.
 				const speculativeTotal = files.reduce((sum, f) => sum + f.size, 0);
-				stager = startStaging(files, API_URL, jwt, (delta) => {
-					speculativeBytes += delta;
-					if (speculativeTotal > 0) {
-						uploadPercent = Math.min(Math.round((speculativeBytes / speculativeTotal) * 100), 100);
-					}
-				});
+				stager = startStaging(
+					files,
+					API_URL,
+					jwt,
+					(delta) => {
+						speculativeBytes += delta;
+						if (speculativeTotal > 0) {
+							uploadPercent = Math.min(
+								Math.round((speculativeBytes / speculativeTotal) * 100),
+								100
+							);
+						}
+					},
+					// Resumable staging (see $lib/uploadWs): a drop mid-parse costs one
+					// frame, not the file. Falls back to the single-POST stage itself.
+					{ transport: 'ws', onRetryStateChange: (retrying) => (isRetrying = retrying) }
+				);
+				speculating = stager.eligible > 0;
 			}
 
 			const fileDetails = await Promise.all(
@@ -2505,10 +2524,17 @@
 					}
 				}
 
-				if (effectiveSize(file) > CHUNK_THRESHOLD_BYTES) {
+				// With WebSocket available every file takes the resumable path, small
+				// ones included: a single-POST squish re-sends the whole file on
+				// every drop, and the files that reach here un-staged are often the
+				// ones on the worst links (shouldSpeculate skips 2g and saveData).
+				// It costs an init and a socket handshake per file, a few hundred ms
+				// on a good link. On a network that blocks WebSocket (wsAvailable()
+				// false) small files keep the single POST, as before.
+				if (effectiveSize(file) > CHUNK_THRESHOLD_BYTES || wsAvailable()) {
 					// Large file on a possibly-flaky connection: upload in
 					// ~5MB chunks (each independently retried) instead of one
-					// whole-file POST. See src/lib/uploadChunked.ts.
+					// whole-file POST, or over a WebSocket. See src/lib/uploadChunked.ts.
 					const chunkedParams: ChunkedUploadParams = {};
 					for (const [key, value] of params.entries()) {
 						chunkedParams[key] = value;
@@ -2516,6 +2542,7 @@
 					let lastLoaded = 0;
 					return uploadChunked(uploadBodyOf(file), API_URL, chunkedParams, {
 						jwt,
+						transport: 'ws',
 						onTargetOutcome: recordMiss,
 						onRetryStateChange: (retrying) => (isRetrying = retrying),
 						onUploadProgress: (loaded) => {
@@ -3133,6 +3160,7 @@
 		} finally {
 			isProcessing = false;
 			isRetrying = false;
+			speculating = false;
 			processPhase = 'idle';
 			stager.abandon();
 			clearInterval(msgInterval);
@@ -3730,7 +3758,17 @@
 				{/if}
 				{#if isProcessing}
 					<div class="relative h-1 overflow-hidden bg-white/20">
-						{#if displayPhase === 'thinking' || displayPhase === 'packing'}
+						{#if displayPhase === 'thinking' && speculating && uploadPercent > 0 && uploadPercent < 100}
+							<!-- Bytes are already moving while the prompt parses: show how far,
+							     over a faint pulse that still says "thinking". -->
+							<div
+								class="absolute inset-0 animate-pulse bg-gradient-to-r from-[#F06292] to-[#e040a0] opacity-25"
+							></div>
+							<div
+								class="relative h-full bg-gradient-to-r from-[#F06292] to-[#e040a0] shadow-[0_0_10px_rgba(240,98,146,0.5)] transition-all duration-300 ease-out"
+								style="width: {uploadPercent}%"
+							></div>
+						{:else if displayPhase === 'thinking' || displayPhase === 'packing'}
 							<div
 								class="absolute inset-0 animate-pulse bg-gradient-to-r from-[#F06292] to-[#e040a0] opacity-60"
 							></div>
@@ -3868,6 +3906,11 @@
 								<span class="flex-shrink-0 animate-pulse">✨</span>
 								{#key thinkingText}<span class="animate-fade-in truncate">{thinkingText}</span
 									>{/key}
+								{#if speculating && uploadPercent > 0}
+									<span class="flex-shrink-0 text-[#875F42]/40"
+										>· {uploadPercent < 100 ? `${uploadPercent}% uploaded` : 'uploaded'}</span
+									>
+								{/if}
 							{:else if displayPhase === 'working'}
 								{#if uploadPercent < 100}
 									{uploadMode === 'video' ? 'Converting' : 'Uploading'}{totalFiles > 1

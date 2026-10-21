@@ -21,6 +21,7 @@
 // latency for nothing, so a failure must never become a user-visible error.
 import { posthog } from '$lib/analytics';
 import { CHUNK_THRESHOLD_BYTES } from '$lib/uploadChunked';
+import { wsAvailable, wsTransfer, rememberWsBlocked, WsBlockedError } from '$lib/uploadWs';
 import {
 	uploadErrorMessage,
 	readRejectLabel,
@@ -225,6 +226,112 @@ function stageOne(
 	});
 }
 
+// WebSocket staging: a deferred /v1/upload/init (no params, same contract as
+// /v1/upload/stage) and the bytes over $lib/uploadWs, so a drop while the
+// prompt parses costs one frame instead of the whole file. Same fail-soft
+// contract as stageOne. 'blocked' (the socket never connected) and
+// 'unsupported' (a core without deferred init) both tell the caller to stage
+// over HTTP instead; only 'blocked' says anything about the network.
+//
+// One thing moves: /v1/upload/stage validates the whole body as it lands, and
+// a deferred init cannot. The first frame still gets core's magic-byte check
+// (a non-image is refused while the user is typing), but a truncated or bomb
+// file is now refused at /v1/upload/complete, which the upload loop already
+// reports as a rejection ('staged_complete').
+async function stageOneWs(
+	apiUrl: string,
+	file: File,
+	jwt: string | null | undefined,
+	onProgress?: (deltaBytes: number) => void,
+	onRetryStateChange?: (retrying: boolean) => void
+): Promise<StageOutcome | 'blocked' | 'unsupported'> {
+	let lastLoaded = 0;
+	const rollback = () => {
+		if (lastLoaded > 0) onProgress?.(-lastLoaded);
+		lastLoaded = 0;
+	};
+	const giveUp = (reason: string, status?: number, rejection?: UploadErrorInfo): StageOutcome => {
+		rollback();
+		posthog.capture('speculative_stage_failed', {
+			reason,
+			status,
+			size: file.size,
+			rejected: !!rejection,
+			transport: 'ws'
+		});
+		return { sessionId: null, rejection };
+	};
+
+	let sessionId: string;
+	try {
+		const resp = await fetch(`${apiUrl}/v1/upload/init`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				...(jwt ? { Authorization: `Bearer ${jwt}` } : {})
+			},
+			body: JSON.stringify({ totalBytes: file.size, deferred: true })
+		});
+		const body = (await resp.json().catch(() => ({}))) as {
+			sessionId?: string;
+			error?: string;
+			deferred?: boolean;
+		};
+		if (!resp.ok) {
+			// init only judges the size against the plan here (413); everything
+			// else is conditions, as for stageOne.
+			if (HARD_REJECT_STATUSES.has(resp.status)) {
+				return giveUp('rejected', resp.status, uploadErrorMessage(resp.status, body.error ?? ''));
+			}
+			return giveUp('http', resp.status);
+		}
+		if (!body.sessionId) return giveUp('no-session-id', resp.status);
+		// A core without deferred init ignores the flag and makes an ordinary
+		// session, which would then process with DEFAULT params and ignore the
+		// ones complete sends. Never use one; stage over HTTP instead.
+		if (body.deferred !== true) {
+			abortStaged(apiUrl, body.sessionId, jwt);
+			return 'unsupported';
+		}
+		sessionId = body.sessionId;
+	} catch {
+		return giveUp('network');
+	}
+
+	try {
+		await wsTransfer({
+			apiUrl,
+			sessionId,
+			file,
+			jwt,
+			rejectSource: 'staged_ws',
+			onRetryStateChange,
+			onProgress: (acked) => {
+				onProgress?.(acked - lastLoaded);
+				lastLoaded = acked;
+			}
+		});
+		return { sessionId };
+	} catch (err) {
+		if (err instanceof WsBlockedError) {
+			rollback();
+			abortStaged(apiUrl, sessionId, jwt);
+			return 'blocked';
+		}
+		const status = (err as { status?: number }).status;
+		// A first-frame refusal: core has already dropped the session.
+		if (status && HARD_REJECT_STATUSES.has(status)) {
+			const e = err as Error & { errorKey?: UploadErrorInfo['key']; rejectLabel?: string };
+			return giveUp('rejected', status, {
+				message: e.message,
+				key: e.errorKey ?? uploadErrorMessage(status, e.message, e.rejectLabel).key
+			});
+		}
+		abortStaged(apiUrl, sessionId, jwt);
+		return giveUp(status ? 'http' : 'network', status);
+	}
+}
+
 /**
  * Begin staging `files` immediately. Returns synchronously so the caller can
  * fire the NLP request in the same tick — the whole point is that these two
@@ -237,7 +344,10 @@ export function startStaging(
 	files: File[],
 	apiUrl: string,
 	jwt: string | null | undefined,
-	onProgress?: (deltaBytes: number) => void
+	onProgress?: (deltaBytes: number) => void,
+	// 'ws' stages over $lib/uploadWs (resumable), falling back to the
+	// single-POST stage when the socket is blocked. Only /flow passes it.
+	opts: { transport?: 'http' | 'ws'; onRetryStateChange?: (retrying: boolean) => void } = {}
 ): Stager {
 	const eligible = files.filter(isStageEligible);
 	const results = new Map<File, Promise<string | null>>();
@@ -250,6 +360,7 @@ export function startStaging(
 	const rejections = new Map<File, UploadErrorInfo>();
 	let abandoned = false;
 	let cursor = 0;
+	let useWs = opts.transport === 'ws' && wsAvailable();
 
 	// Each worker pulls the next file rather than the list being pre-partitioned,
 	// so one slow large file cannot stall a whole slice of the batch.
@@ -266,7 +377,22 @@ export function startStaging(
 				resolve(null);
 				continue;
 			}
-			const { sessionId, rejection } = await stageOne(apiUrl, file, jwt, onProgress);
+			let outcome: StageOutcome | 'blocked' | 'unsupported' | undefined;
+			if (useWs) {
+				outcome = await stageOneWs(apiUrl, file, jwt, onProgress, opts.onRetryStateChange);
+				if (outcome === 'blocked' || outcome === 'unsupported') {
+					// Stop trying the socket for the rest of this batch. For
+					// 'blocked', the HTTP stage working is what proves the network
+					// blocks it.
+					const blocked = outcome === 'blocked';
+					useWs = false;
+					outcome = await stageOne(apiUrl, file, jwt, onProgress);
+					if (blocked && outcome.sessionId) rememberWsBlocked();
+				}
+			} else {
+				outcome = await stageOne(apiUrl, file, jwt, onProgress);
+			}
+			const { sessionId, rejection } = outcome;
 			if (rejection) rejections.set(file, rejection);
 			if (sessionId) {
 				// abandon() may have fired while this upload was in flight; that
