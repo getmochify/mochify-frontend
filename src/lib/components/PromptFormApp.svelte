@@ -447,6 +447,12 @@
 	let localPrices = $state<LocalPrices | null>(null);
 	let pricesRequested = false;
 	const priceCurrency = $derived(localPrices?.currency ?? 'usd');
+	// Every PDF-in op (optimize, extract, rasterize, split, merge) is paid-only,
+	// so a free tray holding a PDF has no prompt that can succeed. Images → PDF
+	// (op=create) runs in image mode and is open to every plan, so it is not
+	// caught here. userPlan is 'free' for guests too; null (still loading)
+	// passes, and core's 403 remains the backstop.
+	const pdfGated = $derived(uploadMode === 'pdf' && userPlan === 'free');
 	const dayPassPrice = $derived(formatPrice(localPrices?.prices?.dayPass ?? 200, priceCurrency));
 	const cheapestPlanPrice = $derived(
 		formatPrice(localPrices?.prices?.sellerMonthly ?? 799, priceCurrency)
@@ -601,7 +607,7 @@
 	let showSignupCta: boolean = $state(false);
 	let showUpgradeCta: boolean = $state(false);
 	// Which copy the upgrade modal shows: quota exhaustion vs. gen-AI paywall.
-	let upgradeCtaMode: 'quota' | 'generate' = $state('quota');
+	let upgradeCtaMode: 'quota' | 'generate' | 'pdf' = $state('quota');
 	let failedFiles: { name: string; reason: string; key?: UploadErrorKey }[] = $state([]);
 	let victoryGlow: boolean = $state(false);
 
@@ -1335,6 +1341,16 @@
 			upgradeCtaMode = 'generate';
 			showUpgradeCta = true;
 			posthog.capture('create_flow_gated', { plan: userPlan });
+			return;
+		}
+
+		// Same reasoning for PDFs on Free: without this the prompt was parsed and
+		// every PDF uploaded, only for core to refuse it with a 403 that then
+		// opened the quota modal, which explains nothing.
+		if (pdfGated) {
+			upgradeCtaMode = 'pdf';
+			showUpgradeCta = true;
+			posthog.capture('pdf_flow_gated', { plan: userPlan, files: files.length });
 			return;
 		}
 
@@ -2125,6 +2141,7 @@
 							break;
 						}
 						if (e?.status === 403) {
+							upgradeCtaMode = 'pdf';
 							showUpgradeCta = true;
 							break;
 						}
@@ -3669,6 +3686,46 @@
 				</div>
 			{/if}
 
+			{#if pdfGated}
+				<!-- Said as soon as the PDF is in the tray, not after a prompt and an
+				     upload: there is nothing the visitor can type that Free will run. -->
+				<div
+					class="animate-fade-in mx-4 mt-3 flex flex-col gap-1 rounded-2xl border border-[#F06292]/15 bg-[#FFF0F3]/70 px-4 py-3 sm:mx-6"
+					role="status"
+				>
+					<p class="text-xs font-bold text-[#4A2C2C] sm:text-sm">
+						PDF tools need a paid plan or a Day Pass.
+					</p>
+					<p class="text-xs font-medium text-[#6C3F31]/70">
+						Compress, merge, split, rasterize or extract images from PDFs. The Day Pass, Seller and
+						Pro handle up to {PDF_PAGE_CAP_STANDARD} pages per PDF; Growth up to {PDF_MAX_PAGES}.
+						Turning images into a PDF stays free.
+					</p>
+					<div class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-2">
+						{#if dayPassEnabled()}
+							<DayPassButton
+								trigger="magic_flow_pdf_gate"
+								source="pdf_gate_box"
+								class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+							>
+								Day Pass ({dayPassPrice}): every PDF tool for 24 hours
+							</DayPassButton>
+						{/if}
+						<a
+							href="/pricing"
+							onclick={() =>
+								posthog.capture('upgrade_cta_clicked', {
+									trigger: 'magic_flow_pdf_gate',
+									source: 'pdf_gate_box'
+								})}
+							class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+						>
+							Compare plans
+						</a>
+					</div>
+				</div>
+			{/if}
+
 			<div class="flex flex-col gap-3 px-4 pt-4 pb-3 sm:px-6 sm:pt-5">
 				<input
 					bind:this={fileInputEl}
@@ -4427,6 +4484,12 @@
 				<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
 					Describe any image and Mochify will create it in every format and size you need. Upgrade
 					to unlock AI image generation.
+				</p>
+			{:else if upgradeCtaMode === 'pdf'}
+				<h3 class="mb-2 text-lg font-bold text-[#4A2C2C]">PDF tools are on paid plans</h3>
+				<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
+					Compressing, merging, splitting, rasterizing and pulling images out of a PDF need a paid
+					plan or a Day Pass. Turning images into a PDF stays free.
 				</p>
 			{:else}
 				<h3 class="mb-2 text-lg font-bold text-[#4A2C2C]">You've used your quota</h3>

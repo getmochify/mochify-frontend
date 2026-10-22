@@ -11,6 +11,24 @@
 	// SSR output stays static and the first paint never animates unexpectedly.
 	let reduceMotion = $state(false);
 
+	// The hub gives a small mochi squish as each pulse lands. Driven by the
+	// pulse's own animationiteration, which fires the moment it reaches the
+	// centre, so the two cannot drift apart the way a parallel timer would.
+	// The Web Animations API restarts cleanly when a second pulse lands
+	// mid-squish. No pulses render under reduced motion, so neither does this.
+	let hubEl: HTMLDivElement | undefined = $state();
+	function squishHub() {
+		hubEl?.animate(
+			[
+				{ transform: 'scale(1, 1)' },
+				{ transform: 'scale(1.07, 0.92)', offset: 0.3 },
+				{ transform: 'scale(0.98, 1.03)', offset: 0.65 },
+				{ transform: 'scale(1, 1)' }
+			],
+			{ duration: 420, easing: 'ease-out' }
+		);
+	}
+
 	let copied = $state(false);
 	async function copyInstall() {
 		try {
@@ -655,7 +673,10 @@
 
 				{#if !reduceMotion}
 					{#each surfaceNodes as n, i}
-						<span class="pulse" style={`left:${n.x}%; top:${n.y}%; animation-delay:${i * 0.45}s;`}
+						<span
+							class="pulse"
+							style={`left:${n.x}%; top:${n.y}%; animation-delay:${i * 0.45}s;`}
+							onanimationiteration={squishHub}
 						></span>
 					{/each}
 				{/if}
@@ -690,6 +711,7 @@
 							class="pointer-events-none absolute -inset-4 animate-pulse rounded-[1.75rem] bg-[#F06292]/30 blur-xl"
 						></div>
 						<div
+							bind:this={hubEl}
 							class="relative flex h-20 w-20 items-center justify-center rounded-[1.4rem] bg-[#F06292] shadow-xl ring-4 shadow-pink-300/50 ring-white/70"
 						>
 							<span class="font-heading text-4xl leading-none font-black text-white">M</span>

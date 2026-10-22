@@ -2,6 +2,7 @@
     import { page } from '$app/stores';
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
+    import Mochi from '$lib/components/Mochi.svelte';
 </script>
 
 <svelte:head>
@@ -17,17 +18,12 @@
         
         <div class="bg-white p-12 md:p-16 rounded-[3rem] border border-pink-50 shadow-sm text-center max-w-2xl mx-auto animate-fade-in-up">
             
-            <div class="relative mb-6">
-                <h1 class="text-9xl font-black text-[#F06292] opacity-10 select-none scale-150 transform">
-                    {$page.status}
+            <div class="mb-6 flex flex-col items-center">
+                <Mochi class="mb-4 w-36 md:w-44" />
+                <span class="text-[#F06292] font-bold tracking-widest uppercase text-sm mb-2">Error {$page.status}</span>
+                <h1 class="text-3xl md:text-5xl font-extrabold text-[#4A2C2C]">
+                    Oops! squished it.
                 </h1>
-                
-                <div class="absolute inset-0 flex flex-col items-center justify-center">
-                    <span class="text-[#F06292] font-bold tracking-widest uppercase text-sm mb-2">Error {$page.status}</span>
-                    <h2 class="text-3xl md:text-5xl font-extrabold text-[#4A2C2C]">
-                        Oops! squished it.
-                    </h2>
-                </div>
             </div>
 
             <p class="text-xl text-[#875F42] leading-relaxed mb-10 max-w-md mx-auto">
