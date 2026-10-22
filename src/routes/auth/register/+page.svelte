@@ -265,10 +265,16 @@
 
 			<div class="order-1 w-full lg:order-2">
 				<div class="mb-8 text-center">
-					<h1 class="mb-1 text-3xl font-black tracking-tight text-[#4A2C2C]">Create account</h1>
-					<p class="text-sm text-[#875F42]/70">
-						{panel.subtitle}
-					</p>
+					<!-- After submit the account is not usable yet, so the heading says
+					     what to do next rather than still selling the signup. -->
+					<h1 class="mb-1 text-3xl font-black tracking-tight text-[#4A2C2C]">
+						{success ? 'Check your email' : 'Create account'}
+					</h1>
+					{#if !success}
+						<p class="text-sm text-[#875F42]/70">
+							{panel.subtitle}
+						</p>
+					{/if}
 				</div>
 
 				<div
@@ -277,37 +283,47 @@
 					{#if success}
 						<div class="py-4 text-center">
 							<div
-								class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#F4FBF2]"
+								class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFF0F5]"
 							>
+								<!-- An envelope, not a tick: nothing is finished until the
+								     link is opened, and a tick read as "you're done". -->
 								<svg
-									class="h-7 w-7 text-[#A5D6A7]"
+									class="h-7 w-7 text-[#F06292]"
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
-									stroke-width="2.5"
+									stroke-width="2"
+									aria-hidden="true"
 								>
 									<path
 										stroke-linecap="round"
 										stroke-linejoin="round"
-										d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+										d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
 									/>
 								</svg>
 							</div>
-							<p class="mb-1 text-lg font-black text-[#4A2C2C]">Check your email</p>
-							<p class="text-sm text-[#875F42]/70">
-								We sent a confirmation link to <strong class="text-[#6C3F31]">{email}</strong>.
+							<p class="text-sm text-[#875F42]/80">
+								We sent a link to <strong class="break-all text-[#6C3F31]">{email}</strong>. Open it
+								to finish setting up your account{planName
+									? ` and we'll take you straight to ${planName} checkout`
+									: ''}.
 							</p>
-							{#if planName}
-								<p class="mt-2 text-sm text-[#875F42]/70">
-									Open it and we will take you straight to {planName} checkout.
-								</p>
-							{/if}
-							<p class="mt-2 text-sm text-[#875F42]/70">
-								Already have an account? <a
-									href="/auth/login"
-									class="font-bold text-[#F06292] hover:underline">Sign in instead</a
-								>
+							<p
+								class="mt-4 rounded-2xl bg-[#FFF5F8] px-4 py-3 text-xs leading-relaxed text-[#875F42]/80"
+							>
+								Not there after a minute? Check your spam or promotions folder. The link works for
+								24 hours.
 							</p>
+							<button
+								type="button"
+								onclick={() => {
+									success = false;
+									password = '';
+								}}
+								class="mt-4 cursor-pointer text-sm font-bold text-[#F06292] hover:underline"
+							>
+								Wrong address? Start again
+							</button>
 						</div>
 					{:else}
 						{#if error}
