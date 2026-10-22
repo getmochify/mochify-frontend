@@ -96,57 +96,151 @@
 		aria-label="Squish the mochi"
 		class="block cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#F06292]"
 	>
-		<svg bind:this={svgEl} viewBox="0 0 200 180" class="block h-auto w-full" aria-hidden="true">
+		<!-- overflow visible: the squish spreads the body to 130% of its width,
+		     past the viewBox edges, and an SVG clips to its viewport by default. -->
+		<svg
+			bind:this={svgEl}
+			viewBox="0 0 200 180"
+			overflow="visible"
+			class="block h-auto w-full overflow-visible"
+			aria-hidden="true"
+		>
 			<defs>
-				<radialGradient id="mochi-body" cx="40%" cy="30%" r="80%">
+				<radialGradient id="mochi-body" cx="42%" cy="30%" r="78%">
 					<stop offset="0%" stop-color="#FFFFFF" />
-					<stop offset="60%" stop-color="#FFF1F5" />
-					<stop offset="100%" stop-color="#FFD6E3" />
+					<stop offset="55%" stop-color="#FFF5F8" />
+					<stop offset="86%" stop-color="#FCDCE6" />
+					<stop offset="100%" stop-color="#F7C9D8" />
 				</radialGradient>
+				<clipPath id="mochi-clip"><path d="M12 142 C8 104 40 46 100 46 C160 46 192 104 188 142 C186 162 160 166 100 166 C40 166 14 162 12 142 Z" /></clipPath>
+				<!-- Blur does the softening: no hard edge anywhere on the body. -->
+				<filter id="mochi-blur-1" x="-50%" y="-50%" width="200%" height="200%">
+					<feGaussianBlur stdDeviation="1.2" />
+				</filter>
+				<filter id="mochi-blur-3" x="-50%" y="-50%" width="200%" height="200%">
+					<feGaussianBlur stdDeviation="3" />
+				</filter>
+				<filter id="mochi-blur-5" x="-50%" y="-50%" width="200%" height="200%">
+					<feGaussianBlur stdDeviation="5" />
+				</filter>
+				<filter id="mochi-blur-9" x="-50%" y="-50%" width="200%" height="200%">
+					<feGaussianBlur stdDeviation="9" />
+				</filter>
 			</defs>
 
 			<!-- Shadow squashes with the body, so the two read as one object. -->
-			<ellipse class="shadow" cx="100" cy="166" rx="70" ry="7" fill="#4A2C2C" opacity="0.08" />
+			<ellipse
+				class="shadow"
+				class:squish={squishing}
+				cx="100"
+				cy="167"
+				rx="78"
+				ry="8"
+				fill="#C9849B"
+				opacity="0.25"
+				filter="url(#mochi-blur-5)"
+			/>
 
-			<text class="huh" x="150" y="34" font-size="26" font-weight="900" font-family="'Outfit Variable', Outfit, sans-serif" fill="#F06292">?</text>
+			<text
+				class="huh"
+				x="150"
+				y="40"
+				font-size="26"
+				font-weight="900"
+				font-family="'Outfit Variable', Outfit, sans-serif"
+				fill="#F06292">?</text
+			>
 
 			<g class="body" class:squish={squishing}>
-				<path
-					d="M18 136 C18 66 58 34 100 34 C142 34 182 66 182 136 C182 158 160 162 100 162 C40 162 18 158 18 136 Z"
-					fill="url(#mochi-body)"
-					stroke="#F8BBD0"
-					stroke-width="2"
-				/>
+				<!-- A slumped daifuku rather than a dome: the base bulges past the
+				     shoulders, which is most of what makes it read as soft. -->
+				<path d="M12 142 C8 104 40 46 100 46 C160 46 192 104 188 142 C186 162 160 166 100 166 C40 166 14 162 12 142 Z" fill="url(#mochi-body)" />
+				<!-- Shading inside the body instead of an outline: a blurred blush
+				     pooled at the base and a soft inner rim, both clipped to the
+				     silhouette so they fade into the edge rather than draw one. -->
+				<g clip-path="url(#mochi-clip)">
+					<ellipse
+						cx="100"
+						cy="176"
+						rx="96"
+						ry="30"
+						fill="#F4B3C8"
+						opacity="0.45"
+						filter="url(#mochi-blur-9)"
+					/>
+					<path
+						d="M12 142 C8 104 40 46 100 46 C160 46 192 104 188 142 C186 162 160 166 100 166 C40 166 14 162 12 142 Z"
+						fill="none"
+						stroke="#F0AEC4"
+						stroke-width="5"
+						opacity="0.6"
+						filter="url(#mochi-blur-3)"
+					/>
+				</g>
 				<!-- Sheen and a dusting of starch, the two things that make it mochi
 				     rather than a pink blob. -->
-				<ellipse cx="70" cy="62" rx="22" ry="10" fill="#FFFFFF" opacity="0.9" transform="rotate(-20 70 62)" />
-				<circle cx="132" cy="58" r="1.6" fill="#FFFFFF" />
-				<circle cx="144" cy="70" r="1.2" fill="#FFFFFF" />
-				<circle cx="56" cy="92" r="1.2" fill="#FFFFFF" />
+				<ellipse
+					cx="68"
+					cy="72"
+					rx="26"
+					ry="11"
+					fill="#FFFFFF"
+					opacity="0.95"
+					transform="rotate(-22 68 72)"
+					filter="url(#mochi-blur-3)"
+				/>
+				<ellipse
+					cx="60"
+					cy="74"
+					rx="7"
+					ry="3.5"
+					fill="#FFFFFF"
+					transform="rotate(-22 60 74)"
+					filter="url(#mochi-blur-1)"
+				/>
+				<circle cx="134" cy="66" r="1.5" fill="#FFFFFF" />
+				<circle cx="146" cy="78" r="1.1" fill="#FFFFFF" />
+				<circle cx="54" cy="100" r="1.1" fill="#FFFFFF" />
 
-				<ellipse cx="62" cy="118" rx="13" ry="8" fill="#F48FB1" opacity="0.4" />
-				<ellipse cx="138" cy="118" rx="13" ry="8" fill="#F48FB1" opacity="0.4" />
+				<ellipse
+					cx="60"
+					cy="126"
+					rx="15"
+					ry="9"
+					fill="#F7A1BE"
+					opacity="0.55"
+					filter="url(#mochi-blur-3)"
+				/>
+				<ellipse
+					cx="140"
+					cy="126"
+					rx="15"
+					ry="9"
+					fill="#F7A1BE"
+					opacity="0.55"
+					filter="url(#mochi-blur-3)"
+				/>
 
 				{#if squishing}
 					<!-- >< eyes while squished -->
 					<g stroke="#4A2C2C" stroke-width="4" stroke-linecap="round" fill="none">
-						<path d="M70 94 L80 101 L70 108" />
-						<path d="M130 94 L120 101 L130 108" />
+						<path d="M70 102 L80 109 L70 116" />
+						<path d="M130 102 L120 109 L130 116" />
 					</g>
-					<ellipse cx="100" cy="122" rx="6" ry="7" fill="#4A2C2C" />
+					<ellipse cx="100" cy="128" rx="6" ry="7" fill="#4A2C2C" />
 				{:else}
 					<g class="eyes" style="transform: translate({look.x}px, {look.y}px)">
 						<g class="blink">
-							<ellipse cx="76" cy="100" rx="7" ry="9" fill="#4A2C2C" />
-							<ellipse cx="124" cy="100" rx="7" ry="9" fill="#4A2C2C" />
-							<circle cx="78.5" cy="96.5" r="2.4" fill="#FFFFFF" />
-							<circle cx="126.5" cy="96.5" r="2.4" fill="#FFFFFF" />
+							<ellipse cx="76" cy="108" rx="7" ry="9" fill="#4A2C2C" />
+							<ellipse cx="124" cy="108" rx="7" ry="9" fill="#4A2C2C" />
+							<circle cx="78.5" cy="104.5" r="2.4" fill="#FFFFFF" />
+							<circle cx="126.5" cy="104.5" r="2.4" fill="#FFFFFF" />
 						</g>
 					</g>
 					<path
-						d="M92 118 Q100 125 108 118"
+						d="M93 125 Q100 131 107 125"
 						stroke="#4A2C2C"
-						stroke-width="3.5"
+						stroke-width="3.2"
 						stroke-linecap="round"
 						fill="none"
 					/>
@@ -169,6 +263,9 @@
 		transform-box: fill-box;
 		transform-origin: 50% 50%;
 		animation: shadow 3.2s ease-in-out infinite;
+	}
+	.shadow.squish {
+		animation: shadow-squish 0.65s cubic-bezier(0.3, 1.6, 0.5, 1);
 	}
 	.eyes {
 		transition: transform 0.35s cubic-bezier(0.3, 1.3, 0.5, 1);
@@ -217,6 +314,22 @@
 			transform: scaleX(1);
 		}
 		50% {
+			transform: scaleX(1.04);
+		}
+	}
+	/* Tracks the body's squish keyframes horizontally. */
+	@keyframes shadow-squish {
+		0%,
+		100% {
+			transform: scaleX(1);
+		}
+		25% {
+			transform: scaleX(1.3);
+		}
+		55% {
+			transform: scaleX(0.9);
+		}
+		80% {
 			transform: scaleX(1.04);
 		}
 	}
@@ -280,6 +393,7 @@
 		.body,
 		.body.squish,
 		.shadow,
+		.shadow.squish,
 		.blink,
 		.huh,
 		.bubble {
