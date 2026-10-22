@@ -169,8 +169,9 @@
 			// The verification link comes back here. With autoSignInAfterVerification
 			// on, a buyer who clicked "Get Seller" is signed in and dropped straight
 			// into checkout instead of landing on the dashboard and having to find
-			// the pricing page again.
-			callbackURL: next,
+			// the pricing page again. Via /auth/verified, which forwards a signed-in
+			// visitor to `next` and explains every other outcome.
+			callbackURL: `/auth/verified?next=${encodeURIComponent(next)}`,
 			// Rides along in the request body rather than as a top-level argument,
 			// because the client only types the fields Better Auth knows about and
 			// this one is deliberately not a declared additionalField: it belongs on

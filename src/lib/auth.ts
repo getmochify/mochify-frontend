@@ -238,6 +238,10 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
             // branch), closing the loop without a separate resend endpoint.
             sendOnSignIn: true,
             autoSignInAfterVerification: true,
+            // 24 hours rather than Better Auth's default of 1. Signups often
+            // check their inbox later, or find the email in spam the next day,
+            // and an expired link could only be replaced by signing in again.
+            expiresIn: 60 * 60 * 24,
             // Counterpart to the create hook: for email/password signups this is
             // the first moment the address is known to deliver. Syncing from the
             // profile rather than forcing unsubscribed:false matters here, since
@@ -260,7 +264,18 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                         from: "Mochify <hello@mochify.app>",
                         to: user.email,
                         subject: "Verify your email",
-                        html: `<p>Click <a href="${url}">here</a> to verify your email address.</p>`,
+                        // A real button, the URL in plain text for clients that
+                        // strip or block links, and a text part. The old body was
+                        // one HTML-only "click here" line, which spam filters
+                        // score badly, and email signups are the only accounts
+                        // that depend on this message arriving.
+                        html: `
+                            <p style="font-family:sans-serif;color:#4A2C2C">Thanks for signing up to Mochify. Confirm your email address to finish setting up your account.</p>
+                            <p><a href="${url}" style="display:inline-block;padding:12px 28px;background:#F06292;color:white;border-radius:10px;text-decoration:none;font-family:sans-serif;font-weight:bold">Verify email</a></p>
+                            <p style="font-family:sans-serif;font-size:12px;color:#875F42">Or paste this link into your browser:<br><span style="word-break:break-all">${url}</span></p>
+                            <p style="font-family:sans-serif;font-size:12px;color:#875F42">This link expires in 24 hours. If you didn't create a Mochify account, you can ignore this email.</p>
+                        `,
+                        text: `Thanks for signing up to Mochify. Confirm your email address to finish setting up your account:\n\n${url}\n\nThis link expires in 24 hours. If you didn't create a Mochify account, you can ignore this email.`,
                     });
                 } catch (e) {
                     console.error("[auth] sendVerificationEmail failed:", e);

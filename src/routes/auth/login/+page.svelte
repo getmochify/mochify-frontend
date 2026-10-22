@@ -31,7 +31,14 @@
 		error = '';
 		errorCode = '';
 
-		const { error: err } = await authClient.signIn.email({ email, password });
+		// callbackURL only matters when the account is unverified: it is where
+		// the fresh link that sendOnSignIn mails out comes back to. Without it
+		// that link landed on `/`, dropping the visitor's `next`.
+		const { error: err } = await authClient.signIn.email({
+			email,
+			password,
+			callbackURL: `/auth/verified?next=${encodeURIComponent(next)}`
+		});
 
 		if (err) {
 			// EMAIL_NOT_VERIFIED: auth.ts sets emailVerification.sendOnSignIn,
