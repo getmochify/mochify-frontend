@@ -12,7 +12,7 @@
         category: "Image Optimization",
         readTime: "20 min read",
         date: "February 09, 2026",
-        lastUpdated: "October 7, 2026"
+        lastUpdated: "October 22, 2026"
     };
 
     const related = [
@@ -44,7 +44,7 @@
     ];
 
     const toc = [
-        { id: 'comparison', label: 'JPEG Encoder Comparison Cheat Sheet' },
+        { id: 'comparison', label: 'jpegli vs MozJPEG vs libjpeg-turbo Cheat Sheet' },
         { id: 'basics', label: 'JPEG Basics That Matter for Performance' },
         { id: 'what-is-jpegli', label: 'What Jpegli Is (Better Encoding, Not a New Format)' },
         { id: 'adoption', label: 'Why Your Stack Probably Still Uses MozJPEG' },
@@ -57,16 +57,16 @@
 <ReadProgress />
 
 <svelte:head>
-    <title>JPEG Compression in 2026: Why Jpegli Changes the Game</title>
-    <meta name="description" content="Better JPEG quality at smaller sizes with Google's jpegli encoder: up to 35% better compression for eBay, Etsy and platform-locked workflows, same JPEG.">
-    <meta property="og:title" content="JPEG Compression in 2026: Why Jpegli Changes the Game" />
-    <meta property="og:description" content="Better JPEG quality at smaller sizes with Google's jpegli encoder: up to 35% better compression for eBay, Etsy and platform-locked workflows, same JPEG." />
+    <title>Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026</title>
+    <meta name="description" content="Jpegli vs MozJPEG and libjpeg-turbo: how much smaller Google's jpegli makes a JPEG at the same quality, where MozJPEG still holds, and when to switch.">
+    <meta property="og:title" content="Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026" />
+    <meta property="og:description" content="Jpegli vs MozJPEG and libjpeg-turbo: how much smaller Google's jpegli makes a JPEG at the same quality, where MozJPEG still holds, and when to switch." />
 
     <script type="application/ld+json">
         {
         "@context": "https://schema.org",
         "@type": "TechArticle",
-        "headline": "JPEG Compression in 2026: Why Jpegli Changes the Quality-Per-Byte Game",
+        "headline": "Jpegli vs MozJPEG vs libjpeg-turbo: Which JPEG Encoder to Use in 2026",
         "description": "A 2026 guide to using Google's jpegli encoder for e-commerce and marketplace workflows, comparing it to MozJPEG and libjpeg-turbo, and explaining how Mochify delivers privacy-first jpegli compression.",
         "url": "https://mochify.app/guides/jpeg-in-2026-jpegli",
         "inLanguage": "en",
@@ -89,7 +89,7 @@
         ],
         "image": "https://mochify.app/og/guides-jpeg-in-2026-jpegli.png",
         "datePublished": "2026-02-09T12:00:00+00:00",
-        "dateModified": "2026-10-07T12:00:00+00:00"
+        "dateModified": "2026-10-22T12:00:00+00:00"
         }
     </script>
     <script type="application/ld+json">
@@ -134,7 +134,7 @@
                 "name": "How much smaller are jpegli files compared to MozJPEG?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "It depends on the image and quality setting. Google's tests showed up to 35% smaller files at high quality (90+) compared to libjpeg-turbo, and smaller than MozJPEG in several scenarios. Independent tests show mixed results-sometimes 10-15% smaller, sometimes negligible. Test on your own content."
+                    "text": "It depends on the image and quality setting. In Google's rater study jpegli used 2.8 bits per pixel against MozJPEG's 3.5 at a quality similar to libjpeg-turbo 95, about 20% fewer bits for files raters slightly preferred, and 26% fewer than libjpeg-turbo's 3.8 (Google's 35% headline is the same gap counted from jpegli's side). At medium quality the gap narrows and independent tests show mixed results-sometimes 10-15% smaller, sometimes negligible. Test on your own content."
                 }
             },
             {
@@ -189,11 +189,11 @@
     }
     </script>
     <GuideSchema
-        name="JPEG Compression in 2026: Why Jpegli Changes the Quality-Per-Byte Game"
+        name="Jpegli vs MozJPEG vs libjpeg-turbo: Which JPEG Encoder to Use in 2026"
         url="https://mochify.app/guides/jpeg-in-2026-jpegli"
-        description="Better JPEG quality at smaller sizes with Google's jpegli encoder: up to 35% better compression for eBay, Etsy and platform-locked workflows, same JPEG."
+        description="Jpegli vs MozJPEG and libjpeg-turbo: how much smaller Google's jpegli makes a JPEG at the same quality, where MozJPEG still holds, and when to switch."
         datePublished="2026-02-09"
-        dateModified="2026-10-07"
+        dateModified="2026-10-22"
     />
 </svelte:head>
 
@@ -209,7 +209,7 @@
 		<h1
 			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
 		>
-			<AccentTitle title="JPEG Compression in 2026: Why Jpegli Changes the Quality-Per-Byte Game" accent="Jpegli" />
+			<AccentTitle title="Jpegli vs MozJPEG vs libjpeg-turbo: Which JPEG Encoder to Use in 2026" accent="Jpegli" />
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
@@ -217,11 +217,15 @@
 		</p>
 
         <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+            <strong>Jpegli vs MozJPEG, in one paragraph:</strong> at high quality on photographs, Google's jpegli makes the smaller JPEG. In Google's rater study jpegli at 2.8 bits per pixel was slightly preferred over MozJPEG at 3.5 and libjpeg-turbo at 3.8, so MozJPEG spent 25% more bits and libjpeg-turbo 36% more for the same result; at medium quality the two are close and MozJPEG wins on some images. Both write standard JPEG that every viewer opens, so the choice is about bytes, not compatibility.
+        </p>
+
+        <p class="article-intro mt-5 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             <strong>The problem:</strong> I have to deliver JPEG because the platform only accepts JPEG (eBay, Etsy, legacy CMS, print upload portals), but I still need smaller files without ugly artifacts. The old tools give me two bad choices-crank quality to 90 and bloat the file, or drop to 70 and watch detail collapse into blocky mush.
         </p>
 
         <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">            Modern JPEG encoders changed that trade-off. Google's jpegli library (released in 2024) delivers reported compression improvements of up to 35% at high quality settings while maintaining full compatibility with every JPEG viewer on the planet. This isn't a new format requiring browser support or user education-it's better math inside the same old container.
+            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">            Modern JPEG encoders changed that trade-off. Google's jpegli library (released in 2024) gets the smaller files above out of the same old container: a standard JPEG, no new format, no browser support to wait for, no user education. The improvement is better math inside a file every viewer on the planet already opens.
 </p></div>
     </header>
 
@@ -232,7 +236,7 @@
         </section>
 
         <section id="comparison" class="scroll-mt-24">
-            <SectionHeading>JPEG Encoder Comparison: 2026 Cheat Sheet</SectionHeading>
+            <SectionHeading>JPEG Encoder Comparison: jpegli vs MozJPEG vs libjpeg-turbo (2026 Cheat Sheet)</SectionHeading>
 
             <!-- Mobile: Card Layout -->
             <div class="my-8 md:hidden space-y-4">
@@ -297,7 +301,7 @@
                         </div>
                         <div>
                             <span class="text-xs font-black text-[#D81B60] uppercase tracking-wider block mb-1">Quality-per-Byte</span>
-                            <span class="text-base font-bold text-[#D81B60]">Best reported (up to 35% smaller at high quality vs libjpeg-turbo)</span>
+                            <span class="text-base font-bold text-[#D81B60]">Best reported (about 20% fewer bits than MozJPEG and 26% fewer than libjpeg-turbo at high quality)</span>
                         </div>
                         <div>
                             <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Compatibility</span>
@@ -348,7 +352,7 @@
                             <tr>
                                 <td>jpegli</td>
                                 <td>Fast (comparable to MozJPEG)</td>
-                                <td>Best reported (up to 35% smaller at high quality vs libjpeg-turbo)</td>
+                                <td>Best reported (about 20% fewer bits than MozJPEG and 26% fewer than libjpeg-turbo at high quality)</td>
                                 <td>Universal (fully interoperable)</td>
                                 <td>High-quality exports, photography, platform-locked scenarios</td>
                                 <td>Emerging (2024 release, not yet in mainstream tools)</td>
@@ -356,6 +360,10 @@
                         </tbody>
                     </table>
                 </GuideTable>
+
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-10 mb-3">Jpegli vs MozJPEG: the short answer</h3>
+            <p class="mb-4">At high quality on photographs, jpegli makes the smaller file. In Google's <a href="https://arxiv.org/abs/2403.18589" target="_blank" rel="noopener noreferrer">crowdsourced rater study</a> (Bruse, Versari, Szabadka and Alakuijala, March 2024), jpegli at 2.8 bits per pixel was preferred 54% of the time over MozJPEG at 3.5 and libjpeg-turbo at 3.8, at a quality similar to libjpeg-turbo's quality 95: MozJPEG spent 25% more bits for a result raters liked slightly less, libjpeg-turbo 36% more. At medium and low quality (quality 80 and below) the two are close and MozJPEG wins on some images, which is what independent tests keep finding. Encoding speed is comparable, both are drop-in replacements for libjpeg62, and both write standard JPEG that every viewer opens, so the choice never touches compatibility.</p>
+            <p class="mb-4">Switch to jpegli when you encode at quality 85 or above, you are re-encoding from originals anyway, and your pipeline can take a libjxl build or a tool that ships jpegli. Stay on MozJPEG when a mature pipeline encodes at medium quality and nobody has tested the two on your images yet; then test them at matched file size, not at a matched quality number, which means different things to each encoder.</p>
         </section>
 
         <section id="basics" class="scroll-mt-24">
@@ -443,7 +451,7 @@
                         <li><strong>XYB colorspace option</strong> – Jpegli can encode JPEG using the XYB colorspace (a perceptually uniform space developed for JPEG XL) via an embedded ICC profile, improving coding efficiency. This is an advanced feature not yet widely used in practice.</li>
                     </ul>
 
-                    <p class="mb-4">The result, as reported by Google in crowdsourced rater studies, is that jpegli at 2.8 bits-per-pixel (BPP) matched the visual quality of libjpeg-turbo at 3.7 BPP-a 32% reduction in bitrate, or equivalently, a 35% compression improvement at similar quality.</p>
+                    <p class="mb-4">The result, in Google's <a href="https://arxiv.org/abs/2403.18589" target="_blank" rel="noopener noreferrer">crowdsourced rater study</a> (arXiv 2403.18589, March 2024), is that jpegli at 2.8 bits-per-pixel (BPP) was preferred 54% of the time over libjpeg-turbo at 3.8 BPP and MozJPEG at 3.5 BPP, at a quality similar to libjpeg-turbo's quality 95: libjpeg-turbo spent 36% more bits and MozJPEG 25% more for files raters liked slightly less, which is where the 35% headline comes from.</p>
                 </div>
 
                 <div>
@@ -503,7 +511,7 @@
 
                     <div class="bg-gradient-to-br from-pink-50 to-orange-50 p-6 rounded-2xl border border-pink-100">
                         <h4 class="text-lg font-bold text-[#875F42] mb-3">Why the slow rollout?</h4>
-                        <p class="text-[#6C3F31]">Established tools with massive installed bases move cautiously. MozJPEG is proven, stable, and "good enough" for most workflows. Jpegli requires recompilation with libjxl dependencies, which adds complexity. As jpegli matures and more benchmark data accumulates, expect gradual adoption-but don't expect Adobe or WordPress plugins to switch overnight.</p>
+                        <p class="text-[#6C3F31]">Established tools with massive installed bases move cautiously. MozJPEG is proven and stable, and pipelines that encode at medium quality, where the two are close, have had no reason to re-test. Adopting jpegli means a build against the libjxl dependencies, or a tool that ships it, which is work that has to be justified image set by image set. As jpegli matures and more benchmark data accumulates, expect gradual adoption-but don't expect Adobe or WordPress plugins to switch overnight.</p>
                     </div>
                 </div>
             </div>
@@ -848,7 +856,7 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
                 
                 <div class="bg-white p-6 rounded-2xl border border-pink-100">
                     <h4 class="font-bold text-[#4A2C2C] text-lg mb-2">How much smaller are jpegli files compared to MozJPEG?</h4>
-                    <p class="text-[#6C3F31]">It depends on the image and quality setting. Google's tests showed up to 35% smaller files at high quality (90+) compared to libjpeg-turbo, and smaller than MozJPEG in several scenarios. Independent tests show mixed results-sometimes 10-15% smaller, sometimes negligible. Test on your own content.</p>
+                    <p class="text-[#6C3F31]">It depends on the image and quality setting. In Google's rater study jpegli used 2.8 bits per pixel against MozJPEG's 3.5 at a quality similar to libjpeg-turbo 95, about 20% fewer bits for files raters slightly preferred, and 26% fewer than libjpeg-turbo's 3.8 (Google's 35% headline is the same gap counted from jpegli's side). At medium quality the gap narrows and independent tests show mixed results-sometimes 10-15% smaller, sometimes negligible. Test on your own content.</p>
                 </div>
                 
                 <div class="bg-white p-6 rounded-2xl border border-pink-100">

@@ -13,7 +13,7 @@
         category: "Image Formats",
         readTime: "20 min read",
         datePublished: "February 10, 2026",
-        lastUpdated: "October 16, 2026"
+        lastUpdated: "October 22, 2026"
     };
 
     const related = [
@@ -63,9 +63,9 @@
 
 <svelte:head>
     <title>WebP vs AVIF vs JPEG XL: 2026 Comparison Guide | Mochify</title>
-    <meta name="description" content="Fix LCP errors using WebP, AVIF, and JPEG XL. Compare 2026 benchmarks, browser support, and privacy-first speeds. Master your image workflow with Mochify." />
+    <meta name="description" content="WebP vs AVIF vs JPEG XL, tested: file size, SSIM quality, encode speed and browser support, now that Chrome 155 and Firefox 158 decode JPEG XL by default." />
     <meta property="og:title" content="WebP vs AVIF vs JPEG XL: 2026 Comparison Guide | Mochify" />
-    <meta property="og:description" content="Fix LCP errors using WebP, AVIF, and JPEG XL. Compare 2026 benchmarks, browser support, and privacy-first speeds. Master your image workflow with Mochify." />
+    <meta property="og:description" content="WebP vs AVIF vs JPEG XL, tested: file size, SSIM quality, encode speed and browser support, now that Chrome 155 and Firefox 158 decode JPEG XL by default." />
     <script type="application/ld+json">
         {
         "@context": "https://schema.org",
@@ -119,15 +119,15 @@
         ],
         "image": "https://mochify.app/og/guides-2026-guide-next-gen-formats.png",
         "datePublished": "2026-02-10T12:00:00+00:00",
-        "dateModified": "2026-10-16T12:00:00+00:00"
+        "dateModified": "2026-10-22T12:00:00+00:00"
         }
     </script>
     <GuideSchema
-        name="The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL"
+        name="WebP vs AVIF vs JPEG XL (JXL): The 2026 Comparison Guide"
         url="https://mochify.app/guides/2026-guide-next-gen-formats"
-        description="Fix LCP errors using WebP, AVIF, and JPEG XL. Compare 2026 benchmarks, browser support, and privacy-first speeds. Master your image workflow with Mochify."
+        description="WebP vs AVIF vs JPEG XL, tested: file size, SSIM quality, encode speed and browser support, now that Chrome 155 and Firefox 158 decode JPEG XL by default."
         datePublished="2026-02-10"
-        dateModified="2026-10-16"
+        dateModified="2026-10-22"
     />
 </svelte:head>
 
@@ -143,7 +143,7 @@
 		<h1
 			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
 		>
-			<AccentTitle title="The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL" accent="Next-Gen Formats" />
+			<AccentTitle title="WebP vs AVIF vs JPEG XL (JXL): The 2026 Comparison Guide" accent="WebP vs AVIF vs JPEG XL (JXL)" />
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
@@ -151,6 +151,10 @@
 		</p>
 
         <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+            <strong>WebP vs JPEG XL (JXL) in one paragraph, October 2026:</strong> JPEG XL makes the smaller file on photographs (472KB against WebP's 700KB from the same 990KB JPEG in our test) and scores higher on perceptual quality, while WebP encodes faster (1.2 seconds against 2.9 for a 5MP photograph) and still wins on reach: it decodes in 96% of browsers, where JPEG XL decodes by default only in Chrome 155+ and Firefox 158+, as still images in Safari, and not yet in Edge or Samsung Internet. Serve JPEG XL as the first source in a picture element and keep AVIF and WebP beneath it. On flat-color logos WebP was the smaller file (4KB against 6KB) at default encoder settings.
+        </p>
+
+        <p class="article-intro mt-5 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
             Your 2MB JPEG homepage hero is killing your LCP score. Google's PageSpeed Insights keeps screaming "Serve images in next-gen formats," but which one should you actually use?
         </p>
 
@@ -229,7 +233,7 @@
                     <div class="space-y-3 text-[#6C3F31]">
                         <div>
                             <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Browser Support (2026)</span>
-                            <span class="text-base">~12% (Safari partial only)</span>
+                            <span class="text-base">Chrome 155+, Firefox 158+; Safari stills only</span>
                         </div>
                         <div>
                             <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Compression vs JPEG</span>
@@ -241,7 +245,7 @@
                         </div>
                         <div>
                             <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Best Use Case</span>
-                            <span class="text-base">Future-proofing only (not production)</span>
+                            <span class="text-base">First picture source; lossless and archival work</span>
                         </div>
                         <div>
                             <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Animation Support</span>
@@ -309,10 +313,10 @@
                             </tr>
                             <tr>
                                 <td>JPEG XL</td>
-                                <td>~12% (Safari partial only)</td>
+                                <td>Chrome 155+, Firefox 158+; Safari stills only</td>
                                 <td>10-30% smaller than AVIF</td>
                                 <td>Exceptional, lossless recompression</td>
-                                <td>Future-proofing only (not production)</td>
+                                <td>First picture source; lossless and archival work</td>
                                 <td>Yes</td>
                             </tr>
                             <tr>
@@ -328,7 +332,7 @@
                 </GuideTable>
 
             <GlassInfoBox type="tip" title="FOR COMPLIANCE TEAMS">
-                WebP is production-safe everywhere. AVIF is the performance leader. JPEG XL remains experimental.
+                WebP is production-safe everywhere. AVIF is the performance leader on the installed base. JPEG XL decodes by default in Chrome 155 and Firefox 158 (October 2026); serve it with AVIF and WebP beneath it until Edge and Samsung Internet ship it.
             </GlassInfoBox>
         </section>
 
@@ -386,7 +390,7 @@
                 On paper, it's impressive: Progressive decoding, lossless JPEG recompression (converting existing JPEGs to JXL without quality loss), practically unlimited color depth, and modular compression that adapts to content type. File size benchmarks show JPEG XL beating AVIF by 10-30% in certain scenarios. If you want to try it, our practical guide covers <a href="https://mochify.app/guides/converting-images-to-jpeg-xl">how to convert images to JPEG XL</a> from JPEG, PNG, or AVIF, with the picture-element fallbacks you need to serve it safely.
             </p>
             <p class="mb-4">
-                <strong>The reality in February 2026:</strong> Browser support is abysmal. Safari offers "partial" support (decoding only, no animation, no progressive rendering). Chrome added decoding back into Chromium in January 2026 but hasn't shipped it to stable releases. Firefox refuses implementation, citing decoder bloat and insufficient gains over AVIF.
+                <strong>The reality in October 2026:</strong> support has turned a corner but is not universal. Chrome 155 (October 6) and Firefox 158 (October 13) decode JPEG XL by default. Safari's "partial" support is still images only (no animation, no progressive rendering), and Edge and Samsung Internet have not shipped it. The installed-browser share was about 17% on October 7 and will climb as those two releases roll out.
             </p>
 
             <p class="mb-4">
@@ -394,7 +398,7 @@
             </p>
             
             <GlassInfoBox type="warning" title="FOR COMPLIANCE TEAMS">
-                Don't use JPEG XL in production unless you're implementing multi-source fallbacks with picture elements. The 12% support figure is misleading - Safari's partial implementation breaks too many features to count as real support.
+                Serve JPEG XL in production only through a picture element with AVIF and WebP sources beneath it. Chrome 155 and Firefox 158 decode it by default; Safari's partial implementation is still images only, and Edge and Samsung Internet have not shipped it yet.
             </GlassInfoBox>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">HEIC: Mobile-First Considerations</h3>
@@ -483,7 +487,7 @@
 
             <ul class="list-disc pl-6 mb-8 space-y-2">
         <li><strong>Photograph winner:</strong> JPEG XL at 472KB (52% reduction), but AVIF at 507KB is negligibly different to the human eye.</li>
-        <li><strong>Logo winner:</strong> AVIF crushes this test at 2KB - an 88% reduction. WebP manages 4KB. JPEG XL oddly performs worse at 6KB, likely due to default encoder settings optimized for photographic content.</li>
+        <li><strong>Logo winner:</strong> AVIF crushes this test at 2KB - an 88% reduction. WebP manages 4KB. JPEG XL comes in larger at 6KB with default encoder settings, which are tuned for photographic content; on the photograph above it produced the smallest file of the three.</li>
         <li><strong>Animation winner:</strong> JPEG XL destroys the GIF at 14KB (99% reduction). This is the most dramatic result - animated GIFs are preposterously inefficient by 2026 standards. AVIF's 56KB is still excellent.</li>
         <li><strong>Transparency winner:</strong> AVIF again at 18KB (92% reduction). PNG was never designed for compression; it's a lossless archival format that web developers hijacked for transparency support. Both WebP and AVIF carry a full alpha channel of their own, so a cut-out rarely needs to stay a PNG: here is <a href="/guides/webp-avif-transparency">how each format stores transparency, and why cut-outs sometimes come back black</a>.</li>
             </ul>
@@ -575,7 +579,7 @@
         </section>
 
         <section id="browser-support" class="scroll-mt-24">
-            <SectionHeading>Browser Compatibility Matrix: February 2026</SectionHeading>
+            <SectionHeading>Browser Compatibility Matrix: October 2026</SectionHeading>
             
             <p class="mb-4">This is where theory meets production reality.</p>
 
@@ -727,19 +731,19 @@
                 Real-world scenario: Marketing landing pages with full-viewport hero images. A 2MB JPEG hero kills your LCP. A 400KB AVIF version (with WebP fallback) keeps you under budget and improves your Lighthouse score from 60 to 90+.
             </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">JPEG XL: Choose When Future-Proofing Experiments</h3>
+            <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">JPEG XL: Choose for Lossless, Archival and High-Fidelity Work</h3>
             <ul class="list-disc pl-6 mb-4 space-y-1">
-        <li>You're running technical experiments or proof-of-concept projects</li>
+        <li>You serve high-quality photography, where JPEG XL's file size and SSIM edge over AVIF shows</li>
         <li>You're implementing multi-format cascades anyway (JXL at top, AVIF/WebP fallbacks)</li>
         <li>You need lossless JPEG recompression for archival workflows (JXL can recompress existing JPEGs without generation loss - useful for massive legacy libraries)</li>
-                <li>You have 6-12 months to wait for potential browser adoption (optimiztic timeline)</li>
+                <li>You can keep AVIF and WebP sources in the cascade until Edge and Samsung Internet ship JPEG XL</li>
             </ul>
             <p class="mb-4 italic text-base">
                 Real-world scenario: Photography portfolios with multi-source fallbacks. Serve JXL to Chrome 155+, Firefox 158+ and Safari 17+ users, AVIF to everyone else, WebP as final fallback. Users with JXL support get 10-30% better compression; everyone else still gets excellent quality.
             </p>
             
             <GlassInfoBox type="warning" title="FOR COMPLIANCE TEAMS">
-                Skip JPEG XL for production work in February 2026. Revisit in Q4 2026 if Chrome ships stable support. Until then, AVIF delivers 90% of the benefit with 95% browser coverage.
+                Chrome shipped stable JPEG XL support in Q4 2026 (Chrome 155, October 6), with Firefox 158 a week later. Add it at the top of your picture cascade; AVIF still delivers most of the benefit on the 95% of browsers that decode it, so keep the AVIF and WebP sources until Edge and Samsung Internet catch up.
             </GlassInfoBox>
 
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">HEIC: Don't Use for Web (Convert Instead)</h3>
@@ -803,7 +807,7 @@
                                 <td>JPEG XL (q80)</td>
                                 <td>590KB</td>
                                 <td>0.8s</td>
-                                <td>✅ Excellent (unsupported)</td>
+                                <td>✅ Excellent (Chrome 155+, Firefox 158+)</td>
                             </tr>
                         </tbody>
                     </table>

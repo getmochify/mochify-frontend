@@ -459,24 +459,24 @@ export const guides: Guide[] = [
 		lastUpdated: 'October 16, 2026'
 	},
 	{
-		title: 'The 2026 Guide to Next-Gen Formats: WebP, AVIF, and JPEG XL',
+		title: 'WebP vs AVIF vs JPEG XL (JXL): The 2026 Comparison Guide',
 		description:
 			'Your 2MB JPEG homepage hero is killing your LCP score. Google\'s PageSpeed Insights keeps screaming "Serve images in next-gen formats," but which one should you actually use? WebP has been around since 2010, AVIF promises 50% better compression, and JPEG XL, after three years outside Chrome, is back: Chrome 155 (October 6, 2026) and Firefox 158 (October 13) decode it by default.',
 		url: '/guides/2026-guide-next-gen-formats',
 		category: 'Image Formats',
 		readTime: '20 min read',
 		date: 'February 10, 2026',
-		lastUpdated: 'October 16, 2026'
+		lastUpdated: 'October 22, 2026'
 	},
 	{
-		title: 'Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game',
+		title: 'Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026',
 		description:
 			"Boost eBay & Etsy sales with Jpegli. Get 35% better compression than MozJPEG with no quality loss. Master chroma & workflows via Mochify's encoder.",
 		url: '/guides/jpeg-in-2026-jpegli',
 		category: 'Image Optimization',
 		readTime: '20 min read',
 		date: 'February 9, 2026',
-		lastUpdated: 'August 26, 2026'
+		lastUpdated: 'October 22, 2026'
 	},
 	{
 		title: 'The Risks of EXIF Data in Image Compression (2026 Guide)',
@@ -506,7 +506,7 @@ export const guides: Guide[] = [
 		category: 'Image Optimization',
 		readTime: '15 min read',
 		date: 'February 17, 2026',
-		lastUpdated: 'July 21, 2026'
+		lastUpdated: 'October 22, 2026'
 	},
 	{
 		title: 'How to Self-Host an Image Optimization API with Docker',
@@ -719,7 +719,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '20 min read',
 		date: 'October 7, 2026',
-		lastUpdated: 'October 14, 2026'
+		lastUpdated: 'October 22, 2026'
 	},
 	{
 		title: 'Lossless Image Formats: Which One to Use, and When Lossless Is the Wrong Choice',
@@ -729,7 +729,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '26 min read',
 		date: 'October 2, 2026',
-		lastUpdated: 'October 7, 2026'
+		lastUpdated: 'October 22, 2026'
 	},
 	{
 		title: 'Should I Shoot HEIF or JPEG on My Mirrorless Camera?',

@@ -22,7 +22,7 @@
 		category: 'Image Formats',
 		readTime: '20 min read',
 		date: 'October 7, 2026',
-		lastUpdated: 'October 14, 2026',
+		lastUpdated: 'October 22, 2026',
 		bylineNote:
 			'Written the day after Chrome 155 shipped, with a dated support table and the caveats the release notes leave out.'
 	};
@@ -166,7 +166,7 @@
 		url={pageUrl}
 		description={metadata.description}
 		datePublished="2026-10-07"
-		dateModified="2026-10-14"
+		dateModified="2026-10-22"
 		article={{
 			about: ['JPEG XL', 'Chrome 155', 'Firefox 158', 'Safari', 'AVIF', 'WebP', 'jxl-rs', 'picture element'],
 			keywords
@@ -558,7 +558,9 @@
 				second source; keep WebP and JPEG below that. The decision is covered format by format in <a
 					href="https://mochify.app/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl"
 					>WebP, AVIF or JPEG XL in 2026?</a
-				>.
+				>. For the head-to-head numbers, our <a
+					href="https://mochify.app/guides/2026-guide-next-gen-formats">WebP vs JPEG XL comparison</a
+				> tests file size, SSIM quality and encode speed on the same images.
 			</p>
 		</section>
 

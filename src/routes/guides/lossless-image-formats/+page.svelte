@@ -21,7 +21,7 @@
 		category: 'Image Formats',
 		readTime: '26 min read',
 		date: 'October 2, 2026',
-		lastUpdated: 'October 7, 2026'
+		lastUpdated: 'October 22, 2026'
 	};
 
 	const pageUrl = 'https://mochify.app/guides/lossless-image-formats';
@@ -167,7 +167,7 @@
 		url={pageUrl}
 		description={metadata.description}
 		datePublished="2026-10-02"
-		dateModified="2026-10-07"
+		dateModified="2026-10-22"
 		article={{
 			about: ['Lossless compression', 'PNG', 'WebP', 'JPEG XL', 'AVIF', 'Image formats'],
 			keywords
@@ -612,7 +612,7 @@
 				where the 13.9x comes from. Lossy photo formats have also improved a great deal: WebP, AVIF
 				and JPEG XL at moderate quality settings, and even standard JPEG through Google's jpegli
 				encoder, deliver files that pass visual inspection at a fraction of lossless size. Our <a
-					href="https://mochify.app/guides/jpeg-in-2026-jpegli">Jpegli guide</a
+					href="https://mochify.app/guides/jpeg-in-2026-jpegli#comparison">jpegli vs MozJPEG comparison</a
 				> shows how far the plain JPEG has come.
 			</p>
 			<p class="mb-4">

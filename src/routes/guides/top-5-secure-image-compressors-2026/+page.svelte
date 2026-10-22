@@ -12,7 +12,7 @@
         category: "Image Optimization",
         readTime: "15 min read",
         datePublished: "February 17, 2026",
-        lastUpdated: "October 7, 2026"
+        lastUpdated: "October 22, 2026"
     };
 
     const related = [
@@ -124,7 +124,7 @@
             },
             "image": "https://mochify.app/og/guides-top-5-secure-image-compressors-2026.png",
             "datePublished": "2026-02-17T12:00:00+00:00",
-            "dateModified": "2026-10-07T12:00:00+00:00"
+            "dateModified": "2026-10-22T12:00:00+00:00"
         }
     </script>
     <GuideSchema
@@ -132,7 +132,7 @@
         url="https://mochify.app/guides/top-5-secure-image-compressors-2026"
         description="Compare the best secure image compressors of 2026: which offer true zero-retention privacy, support HEIC, AVIF and JPEG XL, and deliver the smallest files."
         datePublished="2026-02-17"
-        dateModified="2026-10-07"
+        dateModified="2026-10-22"
     />
 </svelte:head>
 
@@ -626,7 +626,7 @@
                             <strong>MozJPEG</strong> (2014): Mozilla's optimizer. Improved quantization and trellis encoding deliver ~5-10% smaller files at equivalent quality. Battle-tested and widely deployed (used by Squoosh).
                         </li>
                         <li class="pl-6 border-l-4 border-[#F06292] py-2 bg-pink-50/30">
-                            <strong>jpegli</strong> (2024): Google's latest encoder, designed for high-quality compression. (See our <a href="/guides/jpeg-in-2026-jpegli">Jpegli Guide 2026</a> for the quality-per-byte detail.) In Google's tests, jpegli delivers <strong>up to 35% better compression at Q90-95</strong> (the "visually lossless" range photographers care about). It's API/ABI compatible with libjpeg-turbo and MozJPEG, making adoption friction-low for developers.
+                            <strong>jpegli</strong> (2024): Google's latest encoder, designed for high-quality compression. (See our <a href="/guides/jpeg-in-2026-jpegli#comparison">jpegli vs MozJPEG comparison</a> for the figures.) In Google's tests, jpegli delivers <strong>up to 35% better compression at Q90-95</strong> (the "visually lossless" range photographers care about). It's API/ABI compatible with libjpeg-turbo and MozJPEG, making adoption friction-low for developers.
                         </li>
                     </ul>
                 </div>

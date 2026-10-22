@@ -292,7 +292,7 @@ export const cards = [
 	{
 		path: '/guides/jpeg-in-2026-jpegli',
 		eyebrow: 'GUIDE',
-		title: 'JPEG Compression in 2026: Why Jpegli Changes the Quality-Per-Byte Game'
+		title: 'Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026'
 	},
 	{
 		path: '/guides/jpegli-shopify-product-images',
