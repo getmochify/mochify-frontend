@@ -85,7 +85,7 @@
     "kysely-d1": "^0.4.0",
     "mediabunny": "^1.62.0",
     "pdfjs-dist": "^6.4.299",
-    "posthog-js": "^1.438.13",
+    "posthog-js": "^1.438.15",
     "posthog-node": "^5.56.4",
     "resend": "^6.34.1"
   }

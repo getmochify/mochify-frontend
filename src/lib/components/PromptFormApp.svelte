@@ -21,6 +21,7 @@
 		type UsageResponse
 	} from '$lib/user';
 	import { posthog } from '$lib/analytics';
+	import { formatFileSize } from '$lib/formatSize';
 	import { wasStored, deliveryNote } from '$lib/delivery';
 	import {
 		readTargetOutcome,
@@ -233,6 +234,9 @@
 	let typedMessage: string = $state('');
 	let agentOutcome: 'success' | 'error' | null = $state(null);
 	let agentOutcomeText: string = $state('');
+	// The help-link key for a failed outcome. The box replaces the floating
+	// status for a run it covers, so it has to carry the link the status did.
+	let agentOutcomeKey: UploadErrorKey | undefined = $state(undefined);
 	// The parts of the prompt the service cannot do, as the worker reported them
 	// (`unsupported`). The rest of the prompt still runs; these are shown so the
 	// user knows what was skipped instead of silently getting less.
@@ -609,16 +613,23 @@
 	}
 
 	function showStatus(type: 'success' | 'error', text: string, key?: UploadErrorKey) {
-		statusMessage = { type, text, key };
+		if (type === 'success') triggerVictoryGlow();
+		if (statusTimeout) clearTimeout(statusTimeout);
 		// Resolve the agent message box for the active flow only — the isProcessing
 		// guard stops pre-flight validation errors (file too big, mode mismatch)
 		// from flipping a previous run's box to an unrelated outcome.
+		// When the box takes the outcome, the floating status is not shown as
+		// well: it repeated the same sentence over the page heading. It remains
+		// for everything the box cannot cover, i.e. failures before a plan exists
+		// (validation, the prompt service unreachable).
 		if (agentMessage && isProcessing) {
 			agentOutcome = type;
 			agentOutcomeText = text;
+			agentOutcomeKey = type === 'error' ? key : undefined;
+			statusMessage = { type: null, text: '' };
+			return;
 		}
-		if (type === 'success') triggerVictoryGlow();
-		if (statusTimeout) clearTimeout(statusTimeout);
+		statusMessage = { type, text, key };
 		// A failure stands until the next submit. It used to self-dismiss after
 		// five seconds like a success does, which is wrong for a message the
 		// reader has to act on: it now carries a help link, and a link that
@@ -1135,6 +1146,7 @@
 		thinkingText = 'Regenerating your image…';
 		agentOutcome = null;
 		agentOutcomeText = '';
+		agentOutcomeKey = undefined;
 		const jwt = await getSessionToken();
 		try {
 			const zipBlob = await callGenerate(jwt, createParams);
@@ -1368,6 +1380,7 @@
 		agentMessage = '';
 		agentOutcome = null;
 		agentOutcomeText = '';
+		agentOutcomeKey = undefined;
 		skippedRequests = [];
 		noopOffered = false;
 		failedFiles = [];
@@ -2502,6 +2515,13 @@
 			const CONCURRENCY_LIMIT = 4;
 			const zipContents: Record<string, Uint8Array> = {};
 			const usedOutputNames: Record<string, number> = {};
+			// Input vs. output bytes, for the "Saved X" line. Only meaningful when
+			// every file came back as exactly one image the user received: a
+			// variant fan-out has several outputs per input, and a bucket write
+			// returns a receipt rather than the image.
+			let bytesIn = 0;
+			let bytesOut = 0;
+			let sizeComparable = true;
 
 			// `ceiling` is the targetBytes this variant was sent, or 0. Passed in
 			// rather than read off `params` so the three upload routes below share
@@ -2907,6 +2927,7 @@
 							: 0;
 
 					const totalVariants = formats.length * sizes.length;
+					if (totalVariants > 1) sizeComparable = false;
 					if (totalVariants > 1 && !bucketDest) {
 						// ── Multi-variant: ONE upload; core fans out server-side and
 						// returns a ZIP keyed by requested "{w}x{h}.{fmt}" entries. ──
@@ -3078,6 +3099,11 @@
 								const filed = bucketDest && (await wasStored(blob));
 								if (filed) bucketStored += 1;
 								else if (bucketDest) bucketFallbacks += 1;
+								if (filed) sizeComparable = false;
+								else {
+									bytesIn += file.size;
+									bytesOut += blob.size;
+								}
 
 								if (filed) {
 									// Nothing further: the bytes are in the user's storage.
@@ -3211,7 +3237,14 @@
 									null,
 									remoteDest === 'drive' ? 'Google Drive' : destinationName
 								)}`
-							: 'Image(s) processed successfully! ✨';
+							: sizeComparable && bytesOut > 0 && bytesOut < bytesIn
+								? `${
+										successCount === 1 ? 'Squished!' : `${successCount} images processed.`
+									} Saved ${formatFileSize(bytesIn - bytesOut)} (${(
+										((bytesIn - bytesOut) / bytesIn) *
+										100
+									).toFixed(1)}% smaller). ✨`
+								: 'Image(s) processed successfully! ✨';
 				showStatus('success', sizeNote ? `${msg} ${sizeNote}` : msg);
 				onSuccess?.();
 			}
@@ -4194,6 +4227,13 @@
 						>
 							{agentOutcomeText}
 						</p>
+						{#if agentOutcome === 'error' && agentOutcomeKey}
+							<UploadHelpLink
+								errorKey={agentOutcomeKey}
+								surface="magic_flow_status"
+								class="mt-1 text-amber-700"
+							/>
+						{/if}
 					{/if}
 					{#if skippedRequests.length > 0}
 						<p class="animate-fade-in mt-1 text-xs font-bold text-amber-700">
