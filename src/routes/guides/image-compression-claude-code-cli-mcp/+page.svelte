@@ -68,7 +68,7 @@
         { href: '/guides/how-the-mochify-mcp-server-works', title: 'How the Mochify MCP Server Works: Hosted vs Local', desc: 'The full architecture story, token costs, and worked examples.' },
         { href: '/guides/mochify-mcp-image-compression-agent-2026', title: 'How to Use Mochify via MCP (2026)', desc: 'Step-by-step setup for the hosted and local MCP servers.' },
         { href: '/guides/self-hosting-image-optimization-docker', title: 'How to Self-Host an Image Optimization API with Docker', desc: 'For teams that need encoding behind their own firewall.' },
-        { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli Guide 2026: Quality-Per-Byte', desc: 'When standard JPEG with jpegli beats jumping to AVIF.' },
+        { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026', desc: 'When standard JPEG with jpegli beats jumping to AVIF.' },
         { href: '/guides/exif-data-risks-image-compression-2026', title: 'The Risks of EXIF Data in Image Compression', desc: 'Why stripping metadata belongs in your build step.' },
         { href: '/guides/convert-website-images-to-webp-and-avif', title: "Convert a Website's Images to WebP and AVIF, and Keep Them That Way", desc: 'The same CLI outside Claude Code: one command for a whole site, and the script that only converts new images.' },
     ];

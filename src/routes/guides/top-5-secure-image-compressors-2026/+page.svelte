@@ -37,7 +37,7 @@
             desc: "Why metadata handling is part of \"secure.\""
         },
         {
-            title: "Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game",
+            title: "Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026",
             href: "/guides/jpeg-in-2026-jpegli",
             desc: "The encoder behind Mochify's JPEG output."
         }

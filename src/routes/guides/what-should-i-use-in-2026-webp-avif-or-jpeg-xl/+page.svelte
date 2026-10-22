@@ -23,7 +23,7 @@
             desc: "A deeper look at every major image format and where each fits in a modern web performance stack."
         },
         {
-            title: "Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game",
+            title: "Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026",
             href: "/guides/jpeg-in-2026-jpegli",
             desc: "How Google's Jpegli encoder compares to standard libjpeg and when it makes sense to use it."
         },

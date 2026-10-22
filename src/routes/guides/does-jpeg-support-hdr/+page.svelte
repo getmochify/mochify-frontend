@@ -22,7 +22,7 @@
     const related = [
         { title: "How to Make Any Photo Ultra HDR (Google Photos, Samsung, iPhone, Lightroom, or Online)", href: "/guides/how-to-make-any-photo-ultra-hdr", desc: "the step-by-step on every platform, and what conversion can and cannot do." },
         { title: "Why HDR Photos Look Flat When You Share Them (and How Gain Maps Fix It)", href: "/guides/why-hdr-photos-look-flat-when-shared", desc: "where the map gets lost and how to keep it." },
-        { title: "Jpegli Guide 2026: Quality-Per-Byte", href: "/guides/jpeg-in-2026-jpegli", desc: "the encoder that keeps the second layer close to free." }
+        { title: "Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026", href: "/guides/jpeg-in-2026-jpegli", desc: "the encoder that keeps the second layer close to free." }
     ];
 </script>
 

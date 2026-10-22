@@ -71,7 +71,7 @@
         { href: '/guides/what-is-an-avif-file', title: 'What Is an AVIF File? (And How to Open One)', desc: 'The format basics: why AVIF exists, what makes it small, and how to open one if you get stuck.' },
         { href: '/guides/2026-guide-next-gen-formats', title: 'The 2026 Guide to Next-Gen Formats: WebP, AVIF, JPEG XL', desc: "Where AVIF fits in the modern format landscape and when to serve it." },
         { href: '/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl', title: 'What Should I Use in 2026: WebP, AVIF, or JPEG XL?', desc: 'The quick decision version for your own site.' },
-        { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli Guide 2026: Quality-Per-Byte', desc: 'Why the JPEG encoder you convert with matters.' },
+        { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026', desc: 'Why the JPEG encoder you convert with matters.' },
         { href: '/guides/does-hif-to-jpg-lose-quality', title: 'Does Converting HIF to JPG Reduce Quality?', desc: 'The same 10-bit-to-8-bit tradeoff, in the pro-camera lane.' },
         { href: '/guides/optimizing-hero-images', title: 'Optimizing Hero Images for Web Performance', desc: 'Putting next-gen formats to work on your own pages.' },
     ];

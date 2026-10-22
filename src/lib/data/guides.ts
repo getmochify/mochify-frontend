@@ -471,7 +471,7 @@ export const guides: Guide[] = [
 	{
 		title: 'Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026',
 		description:
-			"Boost eBay & Etsy sales with Jpegli. Get 35% better compression than MozJPEG with no quality loss. Master chroma & workflows via Mochify's encoder.",
+			"Jpegli vs MozJPEG and libjpeg-turbo: how much smaller Google's jpegli makes a JPEG at the same quality, where MozJPEG still holds, and when to switch.",
 		url: '/guides/jpeg-in-2026-jpegli',
 		category: 'Image Optimization',
 		readTime: '20 min read',

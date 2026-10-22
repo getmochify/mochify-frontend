@@ -66,7 +66,7 @@
         { href: '/guides/heif-to-jpg-complete-guide', title: 'HEIF to JPG: The Complete Conversion Guide', desc: 'Every conversion path for pro-camera HEIF files.' },
         { href: '/guides/hif-to-jpg-canon-sony-fujifilm', title: 'HIF to JPG: Convert Canon, Sony & Fujifilm Photos', desc: 'The per-brand workflows, including what 10-bit to 8-bit costs you.' },
         { href: '/guides/should-i-shoot-heif-or-jpeg-mirrorless-camera', title: 'Should I Shoot HEIF or JPEG on My Mirrorless Camera?', desc: 'The capture-side decision that sets your file sizes.' },
-        { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli Guide 2026: Quality-Per-Byte', desc: 'The encoder math behind 35% smaller JPEGs.' },
+        { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026', desc: 'The encoder math behind 35% smaller JPEGs.' },
         { href: '/guides/european-alternative-tinypng-gdpr-compliant-image-compression', title: 'A European Alternative to TinyPNG (GDPR, Zero-Retention)', desc: 'How the compressor landscape differs on privacy.' },
     ];
 </script>

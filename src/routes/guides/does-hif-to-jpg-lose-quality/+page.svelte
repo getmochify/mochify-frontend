@@ -20,7 +20,7 @@
 
     const related = [
         { href: '/guides/hif-to-jpg-canon-sony-fujifilm', title: 'HIF to JPG for Canon, Sony, and Fujifilm', desc: 'The full conversion workflow and settings for professional cameras.' },
-        { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli Guide 2026: Quality-Per-Byte', desc: 'How the encoder protects detail and avoids gradient banding.' },
+        { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026', desc: 'How the encoder protects detail and avoids gradient banding.' },
         { href: '/heic-to-jpeg', title: 'HEIC to JPEG', desc: 'The separate route for Apple and iPhone .HEIC photos.' },
     ];
 

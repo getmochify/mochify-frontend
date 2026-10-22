@@ -36,7 +36,7 @@
     const related = [
         { href: '/guides/2026-guide-next-gen-formats', title: 'What Should I Use in 2026: WebP, AVIF, or JPEG XL?', desc: 'The full comparison of the next-gen formats covered here, with benchmarks and browser-support data.' },
         { href: '/guides/next-gen-image-formats-wordpress', title: 'Fix "Serve Images in Next-Gen Formats" in WordPress (No Plugins)', desc: 'How to clear the Lighthouse audit this history leads up to, without adding a plugin.' },
-        { href: '/guides/jpeg-in-2026-jpegli', title: 'JPEG Compression in 2026: Why Jpegli Changes the Quality-Per-Byte Game', desc: 'A deep dive on the modern encoder that gives 1992-era JPEG a second life.' },
+        { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026', desc: 'A deep dive on the modern encoder that gives 1992-era JPEG a second life.' },
         { href: '/heic-to-jpeg', title: 'Convert HEIC to JPEG', desc: 'Turn iPhone HEIC captures into universally supported JPEGs in the browser.' },
         { href: '/guides/privacy-image-optimization', title: 'Privacy-First Image Optimization', desc: 'Why in-memory, zero-retention processing matters when you compress client images.' },
     ];

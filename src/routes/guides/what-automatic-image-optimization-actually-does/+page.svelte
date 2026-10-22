@@ -66,7 +66,7 @@
         { title: "Should I Optimize My Images Before I Upload Them?", href: "/guides/should-i-optimize-images-before-upload", desc: "The yes/no decision this guide's argument rests on." },
         { title: "Ecommerce Product Photo Workflow: Resize & Convert in One Prompt", href: "/guides/ecommerce-product-photo-workflow-resize-convert", desc: "The concrete store-batch pipeline, end to end." },
         { title: "AI Image Compression and Conversion: Describe the Result, Skip the Settings", href: "/guides/ai-image-compression-conversion", desc: "How Magic Flow turns instructions into pipelines." },
-        { title: "JPEG Compression in 2026: Why Jpegli Changes the Quality-Per-Byte Game", href: "/guides/jpeg-in-2026-jpegli", desc: "The encoder advantage your pipeline gets and platform defaults don't." }
+        { title: "Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026", href: "/guides/jpeg-in-2026-jpegli", desc: "The encoder advantage your pipeline gets and platform defaults don't." }
     ];
 </script>
 

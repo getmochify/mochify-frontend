@@ -28,7 +28,7 @@
             desc: "Why Shopify stores still cannot use JPEG XL, even after Chrome 155."
         },
         {
-            title: "Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game",
+            title: "Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026",
             href: "/guides/jpeg-in-2026-jpegli",
             desc: "The encoder behind Mochify's JPEG output."
         },

@@ -51,7 +51,7 @@
     ];
 
     const relatedGuides = [
-        { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game', desc: 'The encoder logic behind sharp files under 1MB.' },
+        { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026', desc: 'The encoder logic behind sharp files under 1MB.' },
         { href: '/guides/should-i-optimize-images-before-upload', title: 'Should I Optimize My Images Before I Upload Them?', desc: "Why pre-upload optimization beats trusting any platform's compressor." },
         { href: '/guides/do-marketplace-product-images-need-to-be-square', title: 'Do Marketplace Product Images Need to Be Square?', desc: 'The cross-platform shape question, answered.' },
         { href: '/guides/ecommerce-product-photo-workflow-resize-convert', title: 'Ecommerce Product Photo Workflow: Resize & Convert in One Prompt', desc: 'The batch pattern for sellers on multiple platforms.' },

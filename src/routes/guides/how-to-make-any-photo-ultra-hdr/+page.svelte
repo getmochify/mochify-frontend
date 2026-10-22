@@ -107,7 +107,7 @@ grep X-Mochify-HDR headers.txt
 
     const related = [
         { title: "Why HDR Photos Look Flat When You Share Them (and How Gain Maps Fix It)", href: "/guides/why-hdr-photos-look-flat-when-shared", desc: "the troubleshooting companion: every place the map gets lost, and the fix for each." },
-        { title: "Jpegli Guide 2026: Quality-Per-Byte", href: "/guides/jpeg-in-2026-jpegli", desc: "the encoder that makes an Ultra HDR JPEG's second layer almost free." },
+        { title: "Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026", href: "/guides/jpeg-in-2026-jpegli", desc: "the encoder that makes an Ultra HDR JPEG's second layer almost free." },
         { title: "HEIF to JPG: The Complete Conversion Guide", href: "/guides/heif-to-jpg-complete-guide", desc: "converting the container most HDR captures start in." },
         { title: "HIF to JPG: Convert Canon, Sony & Fujifilm Photos to Shareable JPEGs", href: "/guides/hif-to-jpg-canon-sony-fujifilm", desc: "the pro-camera lane, where 10-bit HDR PQ files need a different plan." },
         { title: "What Is an AVIF File? (And How to Open One)", href: "/guides/what-is-an-avif-file", desc: "the format that stores HDR in the pixels instead of a map." }

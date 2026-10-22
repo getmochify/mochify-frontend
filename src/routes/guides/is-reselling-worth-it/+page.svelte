@@ -70,7 +70,7 @@
         { href: '/guides/ecommerce-product-photo-workflow-resize-convert', title: 'Ecommerce Product Photo Workflow: Resize & Convert in One Prompt', desc: "The one-prompt batch workflow this guide's pipeline is built on." },
         { href: '/guides/ebay-image-file-not-supported', title: 'Why Does eBay Say My Image File Is Not Supported?', desc: 'The formats eBay accepts and why uploads fail.' },
         { href: '/guides/do-marketplace-product-images-need-to-be-square', title: 'Do Marketplace Product Images Need to Be Square?', desc: 'Per-platform thumbnail and aspect-ratio rules.' },
-        { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli Guide 2026: Quality-Per-Byte', desc: 'Why the JPEG encoder behind your listing photos matters.' },
+        { href: '/guides/jpeg-in-2026-jpegli', title: 'Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026', desc: 'Why the JPEG encoder behind your listing photos matters.' },
     ];
 </script>
 

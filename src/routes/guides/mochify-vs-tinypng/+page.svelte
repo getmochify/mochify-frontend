@@ -68,7 +68,7 @@
         { href: 'https://mochify.app/guides/top-5-secure-image-compressors-2026', title: 'Top 5 Secure Image Compressors of 2026', desc: 'The wider field scored on privacy, performance, and formats.' },
         { href: 'https://mochify.app/guides/european-alternative-tinypng-gdpr-compliant-image-compression', title: 'A European Alternative to TinyPNG (GDPR, Zero-Retention)', desc: 'The EU-hosting and GDPR angle in depth.' },
         { href: 'https://mochify.app/guides/how-the-mochify-mcp-server-works', title: 'How the Mochify MCP Server Works: Hosted vs Local', desc: "The AI-agent surface TinyPNG doesn't have, explained." },
-        { href: 'https://mochify.app/guides/jpeg-in-2026-jpegli', title: 'Jpegli Guide 2026: Quality-Per-Byte', desc: "Why Mochify's JPEG output starts from a better encoder." },
+        { href: 'https://mochify.app/guides/jpeg-in-2026-jpegli', title: 'Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026', desc: "Why Mochify's JPEG output starts from a better encoder." },
         { href: 'https://mochify.app/guides/converting-images-to-jpeg-xl', title: 'Converting Images to JPEG XL: The Practical Guide for 2026', desc: "The format TinyPNG's API doesn't reach." }
     ];
 </script>

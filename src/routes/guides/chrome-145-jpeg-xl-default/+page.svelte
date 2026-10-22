@@ -23,7 +23,7 @@
             desc: "Which next-gen format should you actually use? A practical comparison of WebP, AVIF, and JPEG XL for the web in 2026."
         },
         {
-            title: "Jpegli Guide 2026: Why Jpegli Changes the Quality-Per-Byte Game",
+            title: "Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026",
             href: "/guides/jpeg-in-2026-jpegli",
             desc: "A deep dive into how Jpegli achieves 35% better compression than standard JPEG at equivalent visual quality."
         },
