@@ -9,6 +9,7 @@
 		source = undefined,
 		class: className = '',
 		next = undefined,
+		onPaid = undefined,
 		children
 	}: {
 		/** PostHog `day_pass_cta_clicked` trigger label for this surface. */
@@ -19,6 +20,8 @@
 		class?: string;
 		/** Override the return path; defaults to the page the CTA sits on. */
 		next?: string;
+		/** Called when payment completes in the overlay; the default is a notice card. */
+		onPaid?: () => void;
 		children?: Snippet;
 	} = $props();
 
@@ -31,7 +34,7 @@
 		// arrives out of SvelteKit's CSRF rejection. See `startDayPassCheckout`.
 		const form = event.currentTarget as HTMLFormElement;
 		event.preventDefault();
-		void startDayPassCheckout({ next: returnTo, trigger, fallbackForm: form });
+		void startDayPassCheckout({ next: returnTo, trigger, fallbackForm: form, onPaid });
 	}
 </script>
 

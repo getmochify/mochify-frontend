@@ -363,6 +363,25 @@
 		}
 	});
 
+	// Payment completed in the checkout overlay, so this page (and any files on
+	// it) is still here. A guest is activated by the emailed magic link, and the
+	// focus re-check unlocks the tab when they come back from it. A signed-in
+	// buyer needs no link: the webhook upgrades their plan within seconds, so
+	// poll for it instead of waiting for a focus change that may never come.
+	let dayPassPaidAuthed = $state(false);
+	function handleDayPassPaid() {
+		dayPassSuccess = true;
+		dayPassPaidAuthed = isAuthed;
+		if (!isAuthed) return;
+		let tries = 0;
+		const poll = async () => {
+			await recheckTier();
+			if ((userTier === 'pro' && !insufficientTokens) || ++tries >= 10) return;
+			setTimeout(poll, 3000);
+		};
+		setTimeout(poll, 2000);
+	}
+
 	let processPhase: 'idle' | 'uploading' | 'processing' | 'downloading' = $state('idle');
 	let uploadPercent: number = $state(0);
 	let downloadPercent: number = $state(0);
@@ -988,13 +1007,13 @@
 					trigger: 'button_click_file_size',
 					source: 'size_row'
 				});
-				// Called inside the click so the checkout tab opens on the user
-				// gesture rather than as a popup. The hidden form below is only the
-				// fallback now — see `startDayPassCheckout`.
+				// Opens the checkout as an overlay on this page. The hidden form below
+				// is only the fallback now — see `startDayPassCheckout`.
 				void startDayPassCheckout({
 					next: dayPassReturnTo,
 					trigger: 'button_click_file_size',
-					fallbackForm: dayPassDirectForm
+					fallbackForm: dayPassDirectForm,
+					onPaid: handleDayPassPaid
 				});
 			} else {
 				// A free account does not lift the size limit, so a guest is not
@@ -1032,7 +1051,8 @@
 				void startDayPassCheckout({
 					next: dayPassReturnTo,
 					trigger: 'button_click_no_tokens',
-					fallbackForm: dayPassDirectForm
+					fallbackForm: dayPassDirectForm,
+					onPaid: handleDayPassPaid
 				});
 			} else if (!isAuthed) {
 				posthog.capture('signup_cta_clicked', {
@@ -1906,11 +1926,19 @@
 				</svg>
 			</div>
 			<div class="min-w-0 flex-1">
-				<p class="text-sm font-black text-[#4A2C2C]">Payment received. Check your email</p>
-				<p class="mt-0.5 text-xs text-[#6C3F31]/70">
-					We've sent a magic link to activate your Day Pass. Click it to unlock 100 image ops for 24
-					hours.
-				</p>
+				{#if dayPassPaidAuthed}
+					<p class="text-sm font-black text-[#4A2C2C]">Payment received</p>
+					<p class="mt-0.5 text-xs text-[#6C3F31]/70">
+						Your Day Pass switches on in a few seconds: 100 image ops for 24 hours.
+					</p>
+				{:else}
+					<p class="text-sm font-black text-[#4A2C2C]">Payment received. Check your email</p>
+					<p class="mt-0.5 text-xs text-[#6C3F31]/70">
+						We've sent a magic link to activate your Day Pass. Click it to unlock 100 image ops for
+						24 hours.{#if stagedCount + queuedFiles.length > 0}
+							Your files stay here and pick up when you come back to this tab.{/if}
+					</p>
+				{/if}
 			</div>
 			<button
 				onclick={() => (dayPassSuccess = false)}
@@ -2240,6 +2268,7 @@
 	{#snippet sizeRoute()}
 		{#if sizeRouteOffered}
 			<DayPassButton
+				onPaid={handleDayPassPaid}
 				trigger="file_size_card"
 				source="size_row"
 				class="underline underline-offset-2 hover:text-red-900"
@@ -2544,6 +2573,7 @@
 							{#if dayPassOffered}
 								<div class="flex flex-col items-start gap-1 sm:max-w-xs">
 									<DayPassButton
+										onPaid={handleDayPassPaid}
 										trigger="batch_cap_banner"
 										source="batch_cap_box"
 										class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
@@ -2688,6 +2718,7 @@
 					<div class="mt-1.5 flex flex-wrap items-start gap-x-3 gap-y-2">
 						{#if allowanceDayPass}
 							<DayPassButton
+								onPaid={handleDayPassPaid}
 								trigger="token_wall_banner"
 								source="allowance_box"
 								class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
@@ -3028,6 +3059,7 @@
 					<div class="flex flex-col gap-3">
 						{#if dayPassOffered}
 							<DayPassButton
+								onPaid={handleDayPassPaid}
 								trigger="upgrade_modal_file_size"
 								class="block w-full rounded-2xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 							>
@@ -3140,6 +3172,7 @@
 							Create free account for {FREE_PLAN_QUOTA}/mo
 						</a>
 						<DayPassButton
+							onPaid={handleDayPassPaid}
 							trigger="limit_reached_modal"
 							class="block w-full rounded-2xl border border-[#875F42]/15 px-6 py-3 text-center text-sm font-bold text-[#6C3F31] transition-all hover:border-[#F06292]/30 hover:bg-[#FFF5F7] hover:text-[#F06292]"
 						>

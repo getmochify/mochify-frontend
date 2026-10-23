@@ -28,6 +28,8 @@ async function createCheckout(
 		email?: string;
 		discountId?: string | null;
 		metadata?: Record<string, string>;
+		/** Origin allowed to host the checkout in an iframe (Polar's embedded checkout). */
+		embedOrigin?: string;
 	}
 ): Promise<string> {
 	const timeout = new Promise<never>((_, reject) =>
@@ -41,7 +43,8 @@ async function createCheckout(
 			...(params.email ? { customerEmail: params.email } : {}),
 			...(params.currency ? { currency: params.currency } : {}),
 			...(params.discountId ? { discountId: params.discountId } : {}),
-			...(params.metadata ? { metadata: params.metadata } : {})
+			...(params.metadata ? { metadata: params.metadata } : {}),
+			...(params.embedOrigin ? { embedOrigin: params.embedOrigin } : {})
 		}),
 		timeout
 	]);
@@ -251,13 +254,19 @@ export const POST: RequestHandler = async ({ locals, url, platform, request, coo
 
 	let next: string | null = null;
 	let trigger: string | null = null;
+	// The CTA asks for an embeddable checkout when it will open Polar as an
+	// overlay on this page (see `startDayPassCheckout`). The no-JS form never
+	// does: it lands on the hosted page in a new tab, as before.
+	let embed = false;
 	if (wantsJson) {
 		const body = (await request.json().catch(() => null)) as {
 			next?: unknown;
 			trigger?: unknown;
+			embed?: unknown;
 		} | null;
 		next = typeof body?.next === 'string' ? body.next : null;
 		trigger = typeof body?.trigger === 'string' ? body.trigger : null;
+		embed = body?.embed === true;
 	} else {
 		const form = await request.formData().catch(() => null);
 		const rawNext = form?.get('next');
@@ -286,10 +295,14 @@ export const POST: RequestHandler = async ({ locals, url, platform, request, coo
 			currency,
 			userId: user?.id,
 			email: user?.email ?? undefined,
-			metadata: dayPassReturnPath(successUrl)
+			metadata: dayPassReturnPath(successUrl),
+			embedOrigin: embed ? url.origin : undefined
 		});
 	} catch (err) {
 		console.error('Polar day pass checkout error:', err);
+		// An overlay cannot show our error page, and navigating away would drop
+		// whatever the buyer had on the page; the caller says so in place.
+		if (embed) return json({ error: 'checkout_failed' }, { status: 502 });
 		// Absolute, because the caller may be navigating a freshly opened tab
 		// whose document has no base URL to resolve a path against.
 		const errorUrl = new URL('/pricing?checkout_error=1', url.origin).toString();
@@ -307,6 +320,7 @@ export const POST: RequestHandler = async ({ locals, url, platform, request, coo
 			currency: currency ?? 'default',
 			authed: !!user,
 			trigger,
+			embed,
 			...(user?.email ? { $set: { email: user.email } } : {})
 		}
 	});

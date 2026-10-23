@@ -1,3 +1,5 @@
+import { posthog } from '$lib/analytics';
+
 /**
  * The Day Pass checkout target. POST-only by design: the hosted `buy.polar.sh`
  * link it replaced created a real Polar checkout session on load, so crawlers
@@ -42,61 +44,173 @@ export function dayPassNext(url: URL): string {
 	return clean.pathname + clean.search;
 }
 
+/** How long the overlay may take to load before the buyer is offered a tab. */
+const EMBED_LOAD_TIMEOUT_MS = 12_000;
+
+type NoticeKind = 'paid' | 'fallback' | 'error';
+
 /**
- * Start the Day Pass checkout from the browser.
+ * A small status card pinned to the bottom of the page, built with plain DOM
+ * so every surface that offers the pass gets it without rendering anything of
+ * its own. Surfaces with a richer confirmation (the uploader's toast) pass
+ * `onPaid` and never see the 'paid' card.
+ */
+function showNotice(kind: NoticeKind, checkoutUrl?: string): void {
+	document.getElementById('mochi-day-pass-notice')?.remove();
+	const card = document.createElement('div');
+	card.id = 'mochi-day-pass-notice';
+	card.setAttribute('role', 'status');
+	card.style.cssText =
+		'position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:2147483646;' +
+		'width:min(420px,calc(100vw - 32px));box-sizing:border-box;padding:14px 40px 14px 16px;' +
+		'background:#FFF5F7;border:1px solid rgba(240,98,146,0.25);border-radius:16px;' +
+		'box-shadow:0 8px 24px rgba(108,63,49,0.15);font:14px/1.4 Nunito,system-ui,sans-serif;color:#4A2C2C';
+
+	const title = document.createElement('p');
+	title.style.cssText = 'margin:0;font-weight:900';
+	const body = document.createElement('p');
+	body.style.cssText = 'margin:2px 0 0;font-size:12px;color:rgba(108,63,49,0.75)';
+
+	if (kind === 'paid') {
+		title.textContent = 'Payment received. Check your email';
+		body.textContent =
+			"We've sent a magic link to activate your Day Pass. Click it to unlock 100 image ops for 24 hours.";
+	} else if (kind === 'fallback') {
+		title.textContent = "Checkout didn't open on this page.";
+		const link = document.createElement('a');
+		link.href = checkoutUrl ?? '#';
+		link.target = '_blank';
+		link.rel = 'noopener noreferrer';
+		link.textContent = 'Open checkout in a new tab';
+		link.style.cssText = 'color:#F06292;font-weight:800';
+		link.addEventListener('click', () => card.remove());
+		body.appendChild(link);
+	} else {
+		title.textContent = "Checkout couldn't start.";
+		body.textContent = 'Please try again in a moment.';
+	}
+
+	const close = document.createElement('button');
+	close.type = 'button';
+	close.setAttribute('aria-label', 'Dismiss');
+	close.textContent = '\u00d7';
+	close.style.cssText =
+		'position:absolute;top:8px;right:10px;border:0;background:none;cursor:pointer;' +
+		'font-size:20px;line-height:1;color:rgba(135,95,66,0.5)';
+	close.addEventListener('click', () => card.remove());
+
+	for (const el of [title, body, close]) card.appendChild(el);
+	document.body.appendChild(card);
+}
+
+/**
+ * Remove an overlay whose iframe never reported `loaded`. The embed library
+ * only hands back its instance once the frame loads, so a frame that a blocker
+ * or a dead connection stalls has to be taken down by hand: otherwise the page
+ * stays behind a scroll-locked full-screen frame with no close button.
+ */
+function removeStalledOverlay(checkoutUrl: string): void {
+	const origin = new URL(checkoutUrl).origin;
+	document.querySelectorAll<HTMLIFrameElement>('iframe').forEach((frame) => {
+		if (frame.src.startsWith(origin)) frame.remove();
+	});
+	document.querySelector('.polar-loader-spinner')?.parentElement?.remove();
+	document.body.classList.remove('polar-no-scroll');
+}
+
+/**
+ * Start the Day Pass checkout from the browser, as an overlay on this page.
  *
- * The native form POST is the fallback here, not the primary path. SvelteKit's
- * CSRF guard rejects any form-encoded POST whose `Origin` header does not match
- * the page origin, and it treats a *missing* Origin the same way — see
- * `csrf_check_origin` in kit's `respond.js`. A slice of real traffic arrives
- * with that header stripped (in-app webviews, privacy extensions, filtering
- * proxies), and those buyers got a bare "Cross-site POST form submissions are
- * forbidden" page instead of a checkout. The guard fires before `handle`, so
- * nothing server-side can rescue it.
+ * The checkout used to open in a new tab. Buyers lost the page they were on
+ * (an uploader with files waiting, a half-written prompt), and Polar's numbers
+ * after the 2026-09-10 POST-only fix showed most checkouts abandoned before a
+ * single field was filled. The overlay keeps the page underneath, takes Mochify's
+ * light colors, and tells the page when payment completes.
  *
- * A JSON body is not a form content type, so the guard skips the request
- * entirely and it is judged by the same-origin policy the browser already
- * enforces: a cross-site caller would need a CORS preflight this app never
- * answers. The form stays in the markup for the no-JS case (and as the
- * fallback below), which is still the reason the CTA is a form and not a link.
+ * Anonymous buyers are still activated by the magic link `order.created` sends:
+ * the email typed at checkout is unverified, so payment alone must never sign
+ * anyone in. The uploader re-checks the plan when its tab regains focus, which
+ * is what unlocks it after the link is clicked.
  *
- * Call this synchronously from the click/submit handler: the checkout tab is
- * opened inside the user gesture, before the await, or the popup blocker eats it.
+ * The native form POST stays the no-JS path (and the fallback when the fetch
+ * itself fails). It is sent as JSON otherwise: SvelteKit's CSRF guard rejects a
+ * form-encoded POST that arrives without an `Origin` header (in-app webviews,
+ * privacy extensions, filtering proxies), and a JSON body is not a form content
+ * type, so the guard skips it and the same-origin policy judges it instead.
  */
 export async function startDayPassCheckout(opts: {
 	next: string;
 	trigger: string;
 	/** Native POST form to fall back to when the fetch itself fails. */
 	fallbackForm?: HTMLFormElement | null;
+	/**
+	 * Called once payment completes, in place of the default notice. The
+	 * overlay is already closed by then.
+	 */
+	onPaid?: () => void;
 }): Promise<void> {
-	const tab = window.open('', '_blank');
-	try {
-		tab?.document.write(
-			'<title>Redirecting to checkout</title><p style="font:16px system-ui;padding:2rem">Taking you to checkout…</p>'
-		);
-	} catch {
-		/* cosmetic only */
-	}
-
+	let checkoutUrl: string;
 	try {
 		const res = await fetch(DAY_PASS_ACTION, {
 			method: 'POST',
 			headers: { 'content-type': 'application/json', accept: 'application/json' },
-			body: JSON.stringify({ next: opts.next, trigger: opts.trigger })
+			body: JSON.stringify({ next: opts.next, trigger: opts.trigger, embed: true })
 		});
+		if (res.status === 502) {
+			showNotice('error');
+			return;
+		}
 		const target = res.ok ? ((await res.json()) as { url?: string }).url : undefined;
 		if (!target) throw new Error(`day pass checkout failed: ${res.status}`);
-		if (tab) {
-			tab.opener = null;
-			tab.location.replace(target);
-		} else {
-			// Popup blocked despite the gesture — don't lose the buyer, use this tab.
-			window.location.assign(target);
-		}
+		checkoutUrl = target;
 	} catch {
-		tab?.close();
 		// `submit()` rather than `requestSubmit()`: it skips the submit handler
 		// that called us, so the fallback cannot loop back into this function.
 		opts.fallbackForm?.submit();
+		return;
+	}
+
+	let timedOut = false;
+	let timer: ReturnType<typeof setTimeout> | undefined;
+	try {
+		const { PolarEmbedCheckout } = await import('@polar-sh/checkout/embed');
+		const opening = PolarEmbedCheckout.create(checkoutUrl, { theme: 'light' });
+		const checkout = await Promise.race([
+			opening,
+			new Promise<never>((_, reject) => {
+				timer = setTimeout(() => reject(new Error('embed load timeout')), EMBED_LOAD_TIMEOUT_MS);
+			})
+		]).catch((err) => {
+			timedOut = true;
+			// A frame that loads after we gave up must not appear over the notice.
+			void opening.then((late) => late.close()).catch(() => {});
+			throw err;
+		});
+		clearTimeout(timer);
+		posthog.capture('day_pass_checkout_opened', { trigger: opts.trigger, mode: 'embed' });
+
+		let paid = false;
+		checkout.addEventListener('success', (event) => {
+			// Handled here rather than by Polar's default, which would redirect
+			// the whole page to the success URL and drop what was on it.
+			event.preventDefault();
+			paid = true;
+			checkout.close();
+			posthog.capture('day_pass_checkout_paid', { trigger: opts.trigger, mode: 'embed' });
+			if (opts.onPaid) opts.onPaid();
+			else showNotice('paid');
+		});
+		checkout.addEventListener('close', () => {
+			if (!paid) posthog.capture('day_pass_checkout_closed', { trigger: opts.trigger });
+		});
+	} catch (err) {
+		clearTimeout(timer);
+		if (timedOut) removeStalledOverlay(checkoutUrl);
+		posthog.capture('day_pass_checkout_opened', {
+			trigger: opts.trigger,
+			mode: 'fallback',
+			reason: timedOut ? 'timeout' : String(err).slice(0, 120)
+		});
+		showNotice('fallback', checkoutUrl);
 	}
 }
