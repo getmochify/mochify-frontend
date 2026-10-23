@@ -2633,7 +2633,7 @@
 					<LimitsWhy
 						errorKey="batch_trimmed"
 						surface="batch_cap_banner"
-						label="Why was my batch trimmed?"
+						label={legacyTrim ? 'Why was my batch trimmed?' : `Why ${batchLimit} at a time?`}
 						class="mt-1.5 self-start text-[#8D6E63]"
 					/>
 				{:else if activeBanner.kind === 'allowance'}
@@ -2950,6 +2950,9 @@
 						{#if stagedCount > 0}
 							{stagedCount} in this batch
 						{/if}
+						{#if queuedFiles.length > 0}
+							· {queuedFiles.length} waiting
+						{/if}
 						{#if inBandFiles.length > 0}
 							{#if stagedCount > 0}·{/if}
 							{inBandFiles.length} over {maxFileSizeMb}MB
@@ -2958,7 +2961,7 @@
 							{#if stagedCount > 0 || inBandFiles.length > 0}·{/if}
 							{overMaxFiles.length} over {paidFileSizeMb}MB
 						{/if}
-						{#if stagedCount > 1 || hasOversized}
+						{#if stagedCount > 1 || hasOversized || queuedFiles.length > 0}
 							· <button
 								onclick={resetForm}
 								class="cursor-pointer text-[#F06292]/70 transition-colors hover:text-[#F06292]"
