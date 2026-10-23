@@ -21,7 +21,7 @@
 		/** Override the return path; defaults to the page the CTA sits on. */
 		next?: string;
 		/** Called when payment completes in the overlay; the default is a notice card. */
-		onPaid?: () => void;
+		onPaid?: (checkoutUrl: string) => void;
 		children?: Snippet;
 	} = $props();
 

@@ -70,10 +70,11 @@ export async function startDayPassCheckout(opts: {
 	/** Native POST form to fall back to when the fetch itself fails. */
 	fallbackForm?: HTMLFormElement | null;
 	/**
-	 * Called once payment completes, in place of the default notice. The
-	 * overlay is already closed by then.
+	 * Called once payment completes, in place of the default notice, with the
+	 * paid checkout's URL (for `resendDayPassLink`). The overlay is already
+	 * closed by then.
 	 */
-	onPaid?: () => void;
+	onPaid?: (checkoutUrl: string) => void;
 }): Promise<void> {
 	let checkoutUrl: string;
 	try {
@@ -99,6 +100,36 @@ export async function startDayPassCheckout(opts: {
 	await openEmbeddedCheckout(checkoutUrl, {
 		plan: 'day',
 		trigger: opts.trigger,
-		onPaid: opts.onPaid ?? (() => showNotice('paid'))
+		onPaid:
+			opts.onPaid ??
+			((url) =>
+				showNotice('paid', url, {
+					label: 'Resend the link',
+					run: () => resendDayPassLink(url)
+				}))
 	});
+}
+
+/**
+ * Ask for the activation email again, for the checkout this browser just paid
+ * (see `api/day-pass/resend`). Resolves to the line to show in place of the
+ * button, and whether it is worth pressing again.
+ */
+export async function resendDayPassLink(
+	checkoutUrl: string
+): Promise<{ text: string; again?: boolean }> {
+	try {
+		const res = await fetch('/api/day-pass/resend', {
+			method: 'POST',
+			headers: { 'content-type': 'application/json', accept: 'application/json' },
+			body: JSON.stringify({ checkoutUrl })
+		});
+		if (res.ok) return { text: 'Sent. Check your inbox and spam folder.' };
+		if (res.status === 429) return { text: 'Just sent. Give it a minute, then check spam.' };
+		if (res.status === 409)
+			return { text: 'Payment is still processing. Try again in a moment.', again: true };
+	} catch {
+		/* fall through */
+	}
+	return { text: "Couldn't resend. Email hello@mochify.app and we'll sort it." };
 }

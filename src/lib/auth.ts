@@ -337,7 +337,10 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
         },
         plugins: [
             magicLink({
-                expiresIn: 600, // 10 minutes
+                // An hour, not ten minutes: the only sender is the Day Pass purchase,
+                // and a buyer who paid and opened their inbox a quarter of an hour
+                // later found a dead link and no way back in.
+                expiresIn: 3600,
                 sendMagicLink: async ({ email, url }) => {
                     if (!resend) return;
                     try {
@@ -346,10 +349,11 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                             to: email,
                             subject: "Your Mochify Day Pass is ready",
                             html: `
-                                <p style="font-family:sans-serif;color:#4A2C2C">Your Day Pass has been activated.</p>
-                                <p style="font-family:sans-serif;color:#4A2C2C">Click below to start converting — you have 100 images for the next 24 hours.</p>
+                                <p style="font-family:sans-serif;color:#4A2C2C">Your Day Pass is ready.</p>
+                                <p style="font-family:sans-serif;color:#4A2C2C">Click below to switch it on: 100 images over the next 24 hours, 25 at a time, files up to 75MB.</p>
                                 <p><a href="${url}" style="display:inline-block;padding:12px 28px;background:#F06292;color:white;border-radius:10px;text-decoration:none;font-family:sans-serif;font-weight:bold">Activate Day Pass →</a></p>
-                                <p style="font-family:sans-serif;font-size:12px;color:#875F42">This link expires in 10 minutes. If you didn't purchase a Day Pass, you can ignore this email.</p>
+                                <p style="font-family:sans-serif;color:#4A2C2C">Were you converting files when you bought it? They're still waiting in that tab. Switch back to it after clicking and they'll start converting.</p>
+                                <p style="font-family:sans-serif;font-size:12px;color:#875F42">This link expires in 1 hour. If it has expired, use "Resend the link" on the page where you paid, or reply to this email. If you didn't buy a Day Pass, you can ignore this email.</p>
                             `,
                         });
                     } catch (e) {

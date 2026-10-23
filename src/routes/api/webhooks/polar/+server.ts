@@ -10,7 +10,6 @@ import { CF_WORKER_URL, CF_WORKER_TOKEN } from '$env/static/private';
 import { PUBLIC_APP_URL } from '$env/static/public';
 import type { RequestHandler } from './$types';
 import { getPostHogClient } from '$lib/server/posthog';
-import { createAuth } from '$lib/auth';
 import { mintAbandonedCartDiscount, planForProduct } from '$lib/server/discounts';
 import { sendAbandonedCartEmails } from '$lib/server/emails/abandonedCart';
 import {
@@ -21,6 +20,7 @@ import {
 	recoveryForDiscount
 } from '$lib/server/abandonedCart';
 import { mirrorPlan } from '$lib/server/resendContacts';
+import { sendDayPassLink } from '$lib/server/dayPassLink';
 
 async function sha256Hex(input: string): Promise<string> {
 	const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input));
@@ -136,24 +136,6 @@ async function resolveUserId(
 		return row?.id ?? null;
 	}
 	return null;
-}
-
-/**
- * Where the Day Pass activation link lands: the page the pass was bought from
- * (see dayPassReturnPath in api/checkout), so the buyer is put back next to
- * their files rather than on the homepage. Metadata is set by our own checkout
- * call, but resolved against our origin anyway, and anything that leaves it
- * (`//host`, `/\host`, an absolute URL) falls back to the homepage.
- */
-function magicLinkReturn(raw: unknown): string {
-	if (typeof raw !== 'string' || !raw.startsWith('/')) return '/';
-	try {
-		const base = new URL(PUBLIC_APP_URL);
-		const target = new URL(raw, base);
-		return target.origin === base.origin ? target.pathname + target.search : '/';
-	} catch {
-		return '/';
-	}
 }
 
 export const POST: RequestHandler = async ({ request, platform }) => {
@@ -501,13 +483,12 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			}
 
 			// Send magic link — creates the user in D1 if they don't exist yet.
-			const auth = createAuth(db, platform?.env?.RESEND_API_KEY);
-			await auth.api
-				.signInMagicLink({
-					body: { email, callbackURL: magicLinkReturn(order.metadata?.return_path) },
-					headers: new Headers({ origin: PUBLIC_APP_URL })
-				})
-				.catch((e: unknown) => console.error('[daypass] magic link send failed:', e));
+			await sendDayPassLink(
+				db,
+				platform?.env?.RESEND_API_KEY,
+				email,
+				order.metadata?.return_path
+			).catch((e: unknown) => console.error('[daypass] magic link send failed:', e));
 
 			// Resolve user ID (guaranteed to exist now that magic link ran).
 			const userRow = await db

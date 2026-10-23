@@ -47,7 +47,13 @@
 	import { formatPrice } from '$lib/currency';
 	import { getImagePreview, releaseImagePreview } from '$lib/imagePreview';
 	import DayPassButton from '$lib/components/DayPassButton.svelte';
-	import { DAY_PASS_ACTION, dayPassEnabled, dayPassNext, startDayPassCheckout } from '$lib/dayPass';
+	import {
+		DAY_PASS_ACTION,
+		dayPassEnabled,
+		dayPassNext,
+		resendDayPassLink,
+		startDayPassCheckout
+	} from '$lib/dayPass';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://id.mochify.app';
@@ -369,9 +375,21 @@
 	// buyer needs no link: the webhook upgrades their plan within seconds, so
 	// poll for it instead of waiting for a focus change that may never come.
 	let dayPassPaidAuthed = $state(false);
-	function handleDayPassPaid() {
+	// The paid checkout, for "Resend the link" (see `resendDayPassLink`).
+	let paidCheckoutUrl: string | null = $state(null);
+	let resendState: { text: string; again?: boolean } | null = $state(null);
+	let resending = $state(false);
+	async function resendLink() {
+		if (!paidCheckoutUrl || resending) return;
+		resending = true;
+		resendState = await resendDayPassLink(paidCheckoutUrl);
+		resending = false;
+	}
+	function handleDayPassPaid(checkoutUrl: string) {
 		dayPassSuccess = true;
 		dayPassPaidAuthed = isAuthed;
+		paidCheckoutUrl = checkoutUrl;
+		resendState = null;
 		if (!isAuthed) return;
 		let tries = 0;
 		const poll = async () => {
@@ -1938,6 +1956,16 @@
 						24 hours.{#if stagedCount + queuedFiles.length > 0}
 							Your files stay here and pick up when you come back to this tab.{/if}
 					</p>
+					{#if paidCheckoutUrl}
+						<button
+							type="button"
+							onclick={resendLink}
+							disabled={resending || (resendState !== null && !resendState.again)}
+							class="mt-1.5 text-xs font-extrabold text-[#F06292] underline underline-offset-2 disabled:cursor-default disabled:no-underline disabled:opacity-80"
+						>
+							{resending ? 'Sending…' : (resendState?.text ?? 'Resend the link')}
+						</button>
+					{/if}
 				{/if}
 			</div>
 			<button

@@ -17,7 +17,15 @@ type NoticeKind = 'paid' | 'fallback' | 'error';
  * its own. Surfaces with a richer confirmation (the uploader's toast) pass
  * `onPaid` and never see the 'paid' card.
  */
-export function showNotice(kind: NoticeKind, checkoutUrl?: string): void {
+export function showNotice(
+	kind: NoticeKind,
+	checkoutUrl?: string,
+	/**
+	 * A text button under the message. `run` resolves to the text that replaces
+	 * its label, and whether it can be pressed again.
+	 */
+	action?: { label: string; run: () => Promise<{ text: string; again?: boolean }> }
+): void {
 	document.getElementById('mochi-day-pass-notice')?.remove();
 	const card = document.createElement('div');
 	card.id = 'mochi-day-pass-notice';
@@ -61,7 +69,23 @@ export function showNotice(kind: NoticeKind, checkoutUrl?: string): void {
 		'font-size:20px;line-height:1;color:rgba(135,95,66,0.5)';
 	close.addEventListener('click', () => card.remove());
 
-	for (const el of [title, body, close]) card.appendChild(el);
+	const parts: HTMLElement[] = [title, body, close];
+	if (action) {
+		const button = document.createElement('button');
+		button.type = 'button';
+		button.textContent = action.label;
+		button.style.cssText =
+			'margin-top:6px;padding:0;border:0;background:none;cursor:pointer;' +
+			'font:inherit;font-size:12px;font-weight:800;color:#F06292;text-decoration:underline';
+		button.addEventListener('click', async () => {
+			button.disabled = true;
+			const { text, again } = await action.run();
+			button.textContent = text;
+			button.disabled = !again;
+		});
+		parts.push(button);
+	}
+	for (const el of parts) card.appendChild(el);
 	document.body.appendChild(card);
 }
 
@@ -91,7 +115,8 @@ export async function openEmbeddedCheckout(
 		/** `day`, `seller`, `pro` or `growth`, for analytics. */
 		plan: string;
 		trigger: string;
-		onPaid: () => void;
+		/** Receives the paid checkout's URL (the Day Pass resend link needs it). */
+		onPaid: (checkoutUrl: string) => void;
 		/** Replaces the "open checkout in a new tab" notice when the overlay fails. */
 		onFallback?: (checkoutUrl: string) => void;
 	}
@@ -127,7 +152,7 @@ export async function openEmbeddedCheckout(
 			paid = true;
 			checkout.close();
 			posthog.capture('checkout_overlay_paid', { plan: opts.plan, trigger: opts.trigger });
-			opts.onPaid();
+			opts.onPaid(checkoutUrl);
 		});
 		checkout.addEventListener('close', () => {
 			if (!paid)
