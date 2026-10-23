@@ -1,7 +1,15 @@
 {
   "name": "mochify-frontend",
-  "compatibility_date": "2026-01-25",
-  "compatibility_flags": ["nodejs_compat_v2"],
+  "compatibility_date": "2026-10-01",
+  // Since 2024-09-23 this is the v2 Node layer that `nodejs_compat_v2` used to opt into.
+  "compatibility_flags": ["nodejs_compat"],
+  // Runs the worker near D1, KV and Polar rather than near the visitor, once
+  // Cloudflare has measured that it is faster. Only the dynamic routes are
+  // affected (sessions, /pricing, the dashboard, checkout, webhooks): static
+  // and prerendered pages are served from assets without invoking the worker.
+  // Set here, not in the dashboard: every deploy resets dashboard settings to
+  // this file.
+  "placement": { "mode": "smart" },
   // Logs and traces are off by default, so every console.error in a server
   // route is unretrievable without this.
   "observability": { "enabled": true, "head_sampling_rate": 1 },
