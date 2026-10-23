@@ -37,18 +37,25 @@ async function updateUsageKv(
 ): Promise<void> {
 	if (!kv) return;
 	const raw = await kv.get(userId).catch(() => null);
-	const existing = raw ? JSON.parse(raw) as { remaining?: number } : null;
+	const existing = raw ? (JSON.parse(raw) as { remaining?: number }) : null;
 	// Preserve how many ops they've used so the counter doesn't reset visually,
 	// but always update quota and plan to the new values.
-	const usedSoFar = existing?.remaining !== undefined
-		? Math.max(0, (existing as { remaining: number; quota?: number }).quota ?? opsLimit) - existing.remaining
-		: 0;
-	await kv.put(userId, JSON.stringify({
-		remaining: Math.max(0, opsLimit - usedSoFar),
-		quota: opsLimit,
-		plan,
-		updatedAt: new Date().toISOString()
-	})).catch(() => {});
+	const usedSoFar =
+		existing?.remaining !== undefined
+			? Math.max(0, (existing as { remaining: number; quota?: number }).quota ?? opsLimit) -
+				existing.remaining
+			: 0;
+	await kv
+		.put(
+			userId,
+			JSON.stringify({
+				remaining: Math.max(0, opsLimit - usedSoFar),
+				quota: opsLimit,
+				plan,
+				updatedAt: new Date().toISOString()
+			})
+		)
+		.catch(() => {});
 }
 
 async function reseedBucket(
@@ -77,9 +84,14 @@ async function reseedBucket(
 			// from a live one without going back to D1.
 			periodEnd: quotaPeriodEnd
 		})
-	}).then(async (r) => {
-		if (!r.ok) console.error(`[webhook] reseedBucket failed: ${r.status} ${await r.text().catch(() => '')}`);
-	}).catch((e) => console.error('[webhook] reseedBucket fetch error:', e));
+	})
+		.then(async (r) => {
+			if (!r.ok)
+				console.error(
+					`[webhook] reseedBucket failed: ${r.status} ${await r.text().catch(() => '')}`
+				);
+		})
+		.catch((e) => console.error('[webhook] reseedBucket fetch error:', e));
 }
 
 // Subscription plans whose holder buying a Day Pass gets it as a top-up rather
@@ -98,7 +110,8 @@ async function creditBucket(userId: string, amount: number, orderId: string): Pr
 		headers: { 'Content-Type': 'application/json', 'X-Worker-Token': CF_WORKER_TOKEN },
 		body: JSON.stringify({ identifier: await sha256Hex(userId), userId, amount, orderId })
 	});
-	if (!res.ok) throw new Error(`[daypass] credit failed: ${res.status} ${await res.text().catch(() => '')}`);
+	if (!res.ok)
+		throw new Error(`[daypass] credit failed: ${res.status} ${await res.text().catch(() => '')}`);
 	const { status } = (await res.json()) as { status: string };
 	return status;
 }
@@ -125,6 +138,24 @@ async function resolveUserId(
 	return null;
 }
 
+/**
+ * Where the Day Pass activation link lands: the page the pass was bought from
+ * (see dayPassReturnPath in api/checkout), so the buyer is put back next to
+ * their files rather than on the homepage. Metadata is set by our own checkout
+ * call, but resolved against our origin anyway, and anything that leaves it
+ * (`//host`, `/\host`, an absolute URL) falls back to the homepage.
+ */
+function magicLinkReturn(raw: unknown): string {
+	if (typeof raw !== 'string' || !raw.startsWith('/')) return '/';
+	try {
+		const base = new URL(PUBLIC_APP_URL);
+		const target = new URL(raw, base);
+		return target.origin === base.origin ? target.pathname + target.search : '/';
+	} catch {
+		return '/';
+	}
+}
+
 export const POST: RequestHandler = async ({ request, platform }) => {
 	const body = await request.text();
 	const headers = Object.fromEntries(request.headers.entries());
@@ -147,17 +178,18 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const kv = platform?.env?.USAGE_KV;
 
-	const PRODUCT_PLAN_MAP: Record<string, { plan: 'seller' | 'pro' | 'growth'; ops_limit: number }> = {
-		[env.POLAR_PRODUCT_ID_SELLER_MONTHLY]: { plan: 'seller', ops_limit: 300 },
-		[env.POLAR_PRODUCT_ID_SELLER_YEARLY]: { plan: 'seller', ops_limit: 300 },
-		[env.POLAR_PRODUCT_ID_PRO_MONTHLY]: { plan: 'pro', ops_limit: 1200 },
-		[env.POLAR_PRODUCT_ID_PRO_YEARLY]: { plan: 'pro', ops_limit: 1200 },
-		// Inert until POLAR_PRODUCT_ID_GROWTH_* env vars are set to the Polar product
-		// IDs. `?? ''` keeps the computed key a string before the vars are defined
-		// (svelte-kit only types known env vars as string); '' never matches a real id.
-		[env.POLAR_PRODUCT_ID_GROWTH_MONTHLY ?? '']: { plan: 'growth', ops_limit: 5000 },
-		[env.POLAR_PRODUCT_ID_GROWTH_YEARLY ?? '']: { plan: 'growth', ops_limit: 5000 }
-	};
+	const PRODUCT_PLAN_MAP: Record<string, { plan: 'seller' | 'pro' | 'growth'; ops_limit: number }> =
+		{
+			[env.POLAR_PRODUCT_ID_SELLER_MONTHLY]: { plan: 'seller', ops_limit: 300 },
+			[env.POLAR_PRODUCT_ID_SELLER_YEARLY]: { plan: 'seller', ops_limit: 300 },
+			[env.POLAR_PRODUCT_ID_PRO_MONTHLY]: { plan: 'pro', ops_limit: 1200 },
+			[env.POLAR_PRODUCT_ID_PRO_YEARLY]: { plan: 'pro', ops_limit: 1200 },
+			// Inert until POLAR_PRODUCT_ID_GROWTH_* env vars are set to the Polar product
+			// IDs. `?? ''` keeps the computed key a string before the vars are defined
+			// (svelte-kit only types known env vars as string); '' never matches a real id.
+			[env.POLAR_PRODUCT_ID_GROWTH_MONTHLY ?? '']: { plan: 'growth', ops_limit: 5000 },
+			[env.POLAR_PRODUCT_ID_GROWTH_YEARLY ?? '']: { plan: 'growth', ops_limit: 5000 }
+		};
 
 	switch (event.type) {
 		// Subscription became active (first payment succeeded).
@@ -173,7 +205,9 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			const isActive = sub.status === 'active';
 			const tier = PRODUCT_PLAN_MAP[sub.product.id];
 			if (!tier) {
-				console.error(`[webhook] Unknown product id=${sub.product.id}. Known: ${JSON.stringify(Object.keys(PRODUCT_PLAN_MAP))}`);
+				console.error(
+					`[webhook] Unknown product id=${sub.product.id}. Known: ${JSON.stringify(Object.keys(PRODUCT_PLAN_MAP))}`
+				);
 			}
 			const resolvedTier = tier ?? { plan: 'free' as const, ops_limit: 30 };
 			const plan = isActive ? resolvedTier.plan : 'free';
@@ -215,8 +249,12 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				// Runs on all three of created/active/updated, not just active, so the
 				// follow-up cancel gets more than one attempt. See settleConversion.
 				const recovery = sub.discountId ? await recoveryForDiscount(db, sub.discountId) : null;
-				await settleConversion(db, platform?.env?.RESEND_API_KEY, userId, sub.discountId ?? null)
-					.catch((e) => console.error('[abandoned-cart] settle failed:', e));
+				await settleConversion(
+					db,
+					platform?.env?.RESEND_API_KEY,
+					userId,
+					sub.discountId ?? null
+				).catch((e) => console.error('[abandoned-cart] settle failed:', e));
 
 				const posthog = getPostHogClient();
 				posthog.capture({
@@ -261,7 +299,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			const skip = !userId ? 'no_user' : !email ? 'no_email' : !target ? 'not_a_plan' : null;
 			if (skip) {
 				posthog.capture({
-					distinctId: userId ?? (email ?? 'anonymous'),
+					distinctId: userId ?? email ?? 'anonymous',
 					event: 'abandoned_cart_detected',
 					properties: { qualified: false, reason: skip }
 				});
@@ -311,21 +349,16 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				break;
 			}
 
-			const emails = await sendAbandonedCartEmails(
-				platform?.env?.RESEND_API_KEY,
-				email!,
-				userId!,
-				{
-					plan: target!.plan,
-					// Always offer monthly. The discount is scoped to the monthly
-					// products, so linking someone back to an annual checkout would
-					// hand them a code Polar then refuses to apply.
-					billing: 'monthly',
-					code: discount.code,
-					appUrl: PUBLIC_APP_URL,
-					country
-				}
-			);
+			const emails = await sendAbandonedCartEmails(platform?.env?.RESEND_API_KEY, email!, userId!, {
+				plan: target!.plan,
+				// Always offer monthly. The discount is scoped to the monthly
+				// products, so linking someone back to an annual checkout would
+				// hand them a code Polar then refuses to apply.
+				billing: 'monthly',
+				code: discount.code,
+				appUrl: PUBLIC_APP_URL,
+				country
+			});
 
 			await attachDiscount(db, co.id, discount, emails);
 
@@ -469,10 +502,12 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 
 			// Send magic link — creates the user in D1 if they don't exist yet.
 			const auth = createAuth(db, platform?.env?.RESEND_API_KEY);
-			await auth.api.signInMagicLink({
-				body: { email, callbackURL: '/' },
-				headers: new Headers({ origin: PUBLIC_APP_URL }),
-			}).catch((e: unknown) => console.error('[daypass] magic link send failed:', e));
+			await auth.api
+				.signInMagicLink({
+					body: { email, callbackURL: magicLinkReturn(order.metadata?.return_path) },
+					headers: new Headers({ origin: PUBLIC_APP_URL })
+				})
+				.catch((e: unknown) => console.error('[daypass] magic link send failed:', e));
 
 			// Resolve user ID (guaranteed to exist now that magic link ran).
 			const userRow = await db

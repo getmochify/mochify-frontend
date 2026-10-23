@@ -73,5 +73,31 @@ export const posthog = {
 	},
 	captureException(...args: unknown[]): void {
 		call('captureException', args);
+	},
+	/**
+	 * A flag's value once flags have loaded, or undefined when they don't load
+	 * within `timeoutMs` (blocked, offline, slow). Reading it records the
+	 * exposure ($feature_flag_called), so call it where the variant actually
+	 * changes what the visitor sees, and treat undefined as "not in the test".
+	 */
+	getFeatureFlag(key: string, timeoutMs = 2000): Promise<string | boolean | undefined> {
+		if (!browser) return Promise.resolve(undefined);
+		return new Promise((resolve) => {
+			let done = false;
+			const finish = (value: string | boolean | undefined) => {
+				if (done) return;
+				done = true;
+				resolve(value);
+			};
+			setTimeout(() => finish(undefined), timeoutMs);
+			load().then(() => {
+				if (!instance) return finish(undefined);
+				// Fires straight away when flags are already loaded, and again on
+				// every reload; `done` keeps it to one read and one exposure.
+				instance.onFeatureFlags(() => {
+					if (!done) finish(instance.getFeatureFlag(key));
+				});
+			});
+		});
 	}
 };

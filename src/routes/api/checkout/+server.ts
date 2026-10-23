@@ -27,6 +27,7 @@ async function createCheckout(
 		userId?: string;
 		email?: string;
 		discountId?: string | null;
+		metadata?: Record<string, string>;
 	}
 ): Promise<string> {
 	const timeout = new Promise<never>((_, reject) =>
@@ -39,7 +40,8 @@ async function createCheckout(
 			...(params.userId ? { externalCustomerId: params.userId } : {}),
 			...(params.email ? { customerEmail: params.email } : {}),
 			...(params.currency ? { currency: params.currency } : {}),
-			...(params.discountId ? { discountId: params.discountId } : {})
+			...(params.discountId ? { discountId: params.discountId } : {}),
+			...(params.metadata ? { metadata: params.metadata } : {})
 		}),
 		timeout
 	]);
@@ -69,6 +71,21 @@ function dayPassSuccessUrl(origin: string, next: FormDataEntryValue | null | und
 	}
 	target.searchParams.set('day_pass_success', '1');
 	return target.toString();
+}
+
+/**
+ * The same page as a path, for the activation magic link. An anonymous buyer
+ * finishes on the success page in the checkout tab, then activates from the
+ * email, and that link used to land on the homepage: three steps away from the
+ * converter with their files on it. Carried on the checkout's metadata, which
+ * Polar copies onto the order the webhook receives. Polar caps a metadata
+ * value at 500 characters, so a longer path is dropped rather than truncated.
+ */
+function dayPassReturnPath(successUrl: string): Record<string, string> | undefined {
+	const target = new URL(successUrl);
+	target.searchParams.delete('day_pass_success');
+	const path = target.pathname + target.search;
+	return path.length <= 500 ? { return_path: path } : undefined;
 }
 
 /**
@@ -268,7 +285,8 @@ export const POST: RequestHandler = async ({ locals, url, platform, request, coo
 			successUrl,
 			currency,
 			userId: user?.id,
-			email: user?.email ?? undefined
+			email: user?.email ?? undefined,
+			metadata: dayPassReturnPath(successUrl)
 		});
 	} catch (err) {
 		console.error('Polar day pass checkout error:', err);

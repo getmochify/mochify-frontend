@@ -7,6 +7,7 @@
 		getPlan,
 		getPlanSnapshot,
 		getSessionToken,
+		invalidatePlanCache,
 		resolveRemaining,
 		GUEST_QUOTA,
 		FREE_PLAN_QUOTA,
@@ -143,6 +144,31 @@
 	let selectedFiles: File[] = $state([]);
 	let fileProgress: FileProgress[] = $state([]);
 	let oversizedFiles: BlockedFile[] = $state([]);
+	// Legal files the batch cap (or the monthly allowance) kept out of this
+	// batch. They used to be sliced off and dropped, so a guest who dropped ten
+	// had to find and re-pick seven of them; now they wait, frosted, and move
+	// into selectedFiles as room opens (see refillFromQueue). Never uploaded
+	// from here: only selectedFiles enters the pipeline.
+	type QueuedFile = { file: File; thumbnailUrl?: string };
+	let queuedFiles: QueuedFile[] = $state([]);
+
+	// The queue ships as the `batch-queue` PostHog experiment, so the copy
+	// review running on these banners keeps a clean control arm. 'control'
+	// gets the pre-queue uploader: overflow discarded (holdInQueue lets go of
+	// it), the old trim notice and copy (legacyTrim), no re-check on return.
+	// Anything else, flags failing to load included, gets the queue. Read on
+	// the first overflow, so exposure is counted only for cap-hit sessions.
+	let queueEnabled = true;
+	let queueVariant: Promise<void> | null = null;
+	function resolveQueueVariant(): Promise<void> {
+		queueVariant ??= posthog.getFeatureFlag('batch-queue').then((variant) => {
+			queueEnabled = variant !== 'control';
+		});
+		return queueVariant;
+	}
+	// Control arm only: the pre-queue trim notice's two numbers, cleared at the
+	// same points it always was (a new ingest, a removal, a run, a reset).
+	let legacyTrim: { staged: number; offered: number } | null = $state(null);
 	let imageType: string = $state(output);
 	// Only these three encoders can emit pixel-exact bytes — the backend 400s a
 	// lossless request naming jpg or avif. The type selector can move the output
@@ -184,6 +210,13 @@
 	const BATCH_LIMIT_PAID = 25;
 	const FILE_SIZE_LIMIT_STANDARD = 20 * 1024 * 1024;
 	const FILE_SIZE_LIMIT_PAID = 75 * 1024 * 1024;
+	// Files past the batch cap are held in the queue rather than discarded, up
+	// to this many. A queued File is a handle, not its bytes, so this is cheap;
+	// it is sized to hif-to-jpg's camera-shoot drops (mean 52 files per cap hit,
+	// max 1,710, content-ops 2026-10-19 baseline). Only the first QUEUE_VISIBLE
+	// get a (frosted) thumbnail decoded for them.
+	const QUEUE_HOLD_LIMIT = 500;
+	const QUEUE_VISIBLE = 4;
 	// What $2 actually buys, in the unit the count walls are denominated in.
 	// Named because the Day Pass has to be explained wherever it is offered:
 	// "Day Pass" tells a first-time visitor nothing, "100 conversions in 24
@@ -292,14 +325,11 @@
 		});
 	});
 
-	// What the last ingest staged versus what it was offered, when the batch cap
-	// forced a trim. Held as a pair rather than a boolean so the banner can name
-	// both numbers ("Staging 3 of 8"), and cleared by anything that invalidates
-	// those numbers: a new ingest, a manual removal, or a reset.
-	let batchTrim: { staged: number; offered: number } | null = $state(null);
-	// The same pair when the monthly allowance, not the batch cap, cut the
-	// tray: a guest with 1 upload left who drops 3 gets 1 staged. Cleared by the
-	// same things that clear batchTrim.
+	// What the last ingest staged versus what it was offered, when the monthly
+	// allowance cut the tray: a guest with 1 upload left who drops 3 gets 1
+	// staged. Held as a pair so the banner can name both numbers, and cleared by
+	// anything that invalidates them: a new ingest, a manual removal, a run, or
+	// a reset. The batch cap needs no such pair: the queue itself is the record.
 	let allowanceTrim = $state<{ staged: number; offered: number } | null>(null);
 
 	let showSignupCta = $state(false);
@@ -461,6 +491,96 @@
 		});
 	}
 
+	// Only the visible head of the queue is decoded; the rest sit behind the
+	// "+N" tile and get theirs when they move up.
+	function attachQueuedThumbnails() {
+		queuedFiles.slice(0, QUEUE_VISIBLE).forEach(({ file, thumbnailUrl }) => {
+			if (thumbnailUrl) return;
+			getImagePreview(file).then((preview) => {
+				if (!preview.thumbUrl) return;
+				const held = queuedFiles.find((q) => q.file === file);
+				if (held && !held.thumbnailUrl) held.thumbnailUrl = preview.thumbUrl;
+			});
+		});
+	}
+
+	// Front for files sent back out of the tray (they were next in line), back
+	// for a new drop's overflow. Anything past QUEUE_HOLD_LIMIT is let go.
+	function holdInQueue(items: QueuedFile[], end: 'front' | 'back') {
+		if (!queueEnabled) {
+			items.forEach((q) => releaseImagePreview(q.file));
+			return;
+		}
+		const next = end === 'front' ? [...items, ...queuedFiles] : [...queuedFiles, ...items];
+		next.slice(QUEUE_HOLD_LIMIT).forEach((q) => releaseImagePreview(q.file));
+		queuedFiles = next.slice(0, QUEUE_HOLD_LIMIT);
+		attachQueuedThumbnails();
+	}
+
+	function removeQueued(file: File) {
+		releaseImagePreview(file);
+		queuedFiles = queuedFiles.filter((q) => q.file !== file);
+		attachQueuedThumbnails();
+	}
+
+	// A 429 mid-run: whatever did not convert goes back to the front of the
+	// queue, where it was dropped before the queue existed. Completed entries'
+	// previews are the caller's to release.
+	function returnUnfinishedToQueue() {
+		holdInQueue(
+			fileProgress
+				.filter((fp) => fp.status !== 'complete')
+				.map((fp) => ({ file: fp.file, thumbnailUrl: fp.thumbnailUrl })),
+			'front'
+		);
+		selectedFiles = [];
+		fileProgress = [];
+	}
+
+	// Moves the head of the queue into the tray whenever the tray has room: after
+	// a run, after a removal. Staged, not started: the visitor still presses
+	// Convert, so the cap stays one press per batch rather than vanishing.
+	//
+	// The allowance rule is the same one processFiles applies to a fresh drop:
+	// some uploads left but fewer than staged trims back to what they cover; at
+	// zero the tray fills anyway, so the allowance box can offer the routes.
+	function refillFromQueue(): number {
+		const room = batchLimit - selectedFiles.length;
+		if (room <= 0 || queuedFiles.length === 0) return 0;
+		const pulled = queuedFiles.slice(0, room);
+		queuedFiles = queuedFiles.slice(room);
+		selectedFiles = [...selectedFiles, ...pulled.map((q) => q.file)];
+		fileProgress = [
+			...fileProgress,
+			...pulled.map((q) => ({
+				file: q.file,
+				progress: 0,
+				phase: 'uploading' as const,
+				status: 'pending' as const,
+				thumbnailUrl: q.thumbnailUrl
+			}))
+		];
+		pulled.forEach((q) => {
+			if (!q.thumbnailUrl) attachFileProgressThumbnail(q.file);
+		});
+		totalOriginalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
+		if (
+			hasCheckedTokens &&
+			Number.isFinite(availableTokens) &&
+			availableTokens > 0 &&
+			selectedFiles.length > availableTokens
+		) {
+			trimToAvailable();
+		}
+		attachQueuedThumbnails();
+		posthog.capture('batch_queue_refilled', {
+			pulled: pulled.length,
+			queued: queuedFiles.length,
+			tier: userTier
+		});
+		return pulled.length;
+	}
+
 	async function processFiles(allFiles: File[]) {
 		// Await both before applying any limit, so paid-user ceilings (25 files,
 		// 75MB) are in force immediately rather than after files have already
@@ -471,12 +591,9 @@
 		planQuota = snapshot.quota;
 		isAuthed = !!resolvedJwt;
 
-		// A fresh ingest supersedes the previous one's trim notices.
-		batchTrim = null;
+		// A fresh ingest supersedes the previous one's trim notice.
 		allowanceTrim = null;
-		// Every file in this drop, oversize ones included: the batch box reads
-		// "{k} of your {N} files", and N is what the visitor dropped.
-		const droppedCount = allFiles.length;
+		legacyTrim = null;
 
 		// Rejections raised by THIS ingest, committed in one place at the end.
 		// They used to be written straight to errorMessage and read back later,
@@ -585,16 +702,19 @@
 			});
 		}
 
-		const existingFileKeys = new Set(selectedFiles.map((f) => `${f.name}-${f.size}`));
+		// Queued files count as already added: re-dropping one must not stage a
+		// second copy of it ahead of the queue.
+		const existingFileKeys = new Set(
+			[...selectedFiles, ...queuedFiles.map((q) => q.file)].map((f) => `${f.name}-${f.size}`)
+		);
 		const newFiles = allFiles.filter((f) => !existingFileKeys.has(`${f.name}-${f.size}`));
 
 		// Everything that could be staged if there were no cap, then what the cap
-		// actually allows. The banner reports both numbers, so they're named here
-		// rather than recovered from lengths further down.
+		// allows now. The rest is held in the queue, not dropped.
 		const eligibleFiles = [...selectedFiles, ...newFiles];
 		const combinedFiles = eligibleFiles.slice(0, batchLimit);
 		const addedCount = combinedFiles.length - selectedFiles.length;
-		const droppedByCap = eligibleFiles.length - combinedFiles.length;
+		const overflow = eligibleFiles.slice(batchLimit);
 
 		if (!hasOutputOverride && selectedFiles.length === 0 && newFiles.length > 0) {
 			imageType = detectOutputFormat(newFiles[0]);
@@ -615,25 +735,33 @@
 		combinedFiles.forEach(attachFileProgressThumbnail);
 		totalOriginalSize = combinedFiles.reduce((sum, file) => sum + file.size, 0);
 
-		// A cap trim is not a rejection — the files are legal, there are just too
-		// many for this tier — so it gets its own banner with the upsell rather
-		// than the red error slot. Rejections raised earlier in this ingest still
-		// go to the error banner, because they name files that are not in the
-		// tray at all: the one outcome a user cannot diagnose from what's on
-		// screen in front of them.
+		// A cap overflow is not a rejection — the files are legal, there are just
+		// too many for one batch on this tier — so they wait in the queue under
+		// the batch box rather than the red error slot. Rejections raised earlier
+		// in this ingest still go to the error banner, because they name files
+		// that are not in the tray at all: the one outcome a user cannot diagnose
+		// from what's on screen in front of them.
 		if (addedCount === 0 && newFiles.length === 0) {
 			// No key: nothing failed, so there is nothing for the guide to explain.
 			rejections.push({ text: 'All selected files are already in the list.' });
-		} else if (droppedByCap > 0) {
-			batchTrim = {
-				staged: combinedFiles.length,
-				offered: selectedFiles.length - addedCount + (droppedCount - invalidFiles.length)
-			};
+		} else if (overflow.length > 0) {
+			await resolveQueueVariant();
+			if (!queueEnabled) {
+				legacyTrim = { staged: combinedFiles.length, offered: eligibleFiles.length };
+			}
+			holdInQueue(
+				overflow.map((file) => ({ file })),
+				'back'
+			);
+			// Name kept for continuity with the pre-queue baseline; `dropped` now
+			// counts files queued rather than discarded.
 			posthog.capture('batch_cap_trimmed', {
 				error_key: 'batch_trimmed',
 				cap: batchLimit,
-				dropped: droppedByCap,
-				tier: userTier
+				dropped: overflow.length,
+				queued: queuedFiles.length,
+				tier: userTier,
+				queue: queueEnabled
 			});
 		}
 		commitIngestNotices();
@@ -653,7 +781,7 @@
 			availableTokens > 0 &&
 			selectedFiles.length > availableTokens
 		) {
-			const offered = batchTrim?.offered ?? selectedFiles.length;
+			const offered = legacyTrim?.offered ?? selectedFiles.length + queuedFiles.length;
 			trimToAvailable();
 			allowanceTrim = { staged: selectedFiles.length, offered };
 		}
@@ -735,14 +863,18 @@
 	// finite count strictly below stagedCount.
 	const trimTarget = $derived(Number.isFinite(availableTokens) ? Math.max(0, availableTokens) : 0);
 
-	// Secondary action on the token wall: drop the overflow instead of paying.
-	// Revokes the thumbnails it discards, matching removeFile — a trim that
-	// leaked object URLs would be a slow bleed on exactly the users who trim
-	// repeatedly rather than convert.
+	// Secondary action on the token wall: convert what the allowance covers
+	// instead of paying. The overflow goes back to the front of the queue, with
+	// its thumbnails, rather than being discarded.
 	function trimToAvailable() {
 		if (!Number.isFinite(availableTokens)) return;
 		if (selectedFiles.length <= trimTarget) return;
-		fileProgress.slice(trimTarget).forEach((fp) => releaseImagePreview(fp.file));
+		holdInQueue(
+			fileProgress
+				.slice(trimTarget)
+				.map((fp) => ({ file: fp.file, thumbnailUrl: fp.thumbnailUrl })),
+			'front'
+		);
 		selectedFiles = selectedFiles.slice(0, trimTarget);
 		fileProgress = fileProgress.slice(0, trimTarget);
 		totalOriginalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
@@ -838,7 +970,7 @@
 				? { kind: 'allowance', k: allowanceTrim.staged, n: allowanceTrim.offered }
 				: insufficientTokens
 					? { kind: 'allowance', k: trimTarget, n: stagedCount }
-					: batchTrim
+					: queuedFiles.length > 0 || legacyTrim
 						? { kind: 'batch-cap' }
 						: hasCheckedTokens && stagedCount > 0 && monthlyUploadsRemaining > 0
 							? { kind: 'limits-ok' }
@@ -940,7 +1072,8 @@
 		return MIME_BY_EXT[ext] ?? 'application/octet-stream';
 	}
 
-	async function compressImage() {
+	// `auto` is a paid run carrying on into the queue (see continueDrain).
+	async function compressImage(auto = false) {
 		// Hard re-entrancy guard. handleButtonClick already checks isLoading, but
 		// the button was only aria-disabled (still clickable) and isLoading used to
 		// latch late — after the awaits below — leaving a window where a second
@@ -956,6 +1089,8 @@
 		// Latch before any await so no second activation can slip through the gap.
 		// Cleared in the finally below and on the guest-quota early-return path.
 		isLoading = true;
+		// Set again only by a run that finishes cleanly with more queued.
+		continueDrain = false;
 
 		const jwt = await getSessionToken();
 		const uploadPlan = await getPlan();
@@ -982,21 +1117,23 @@
 			authed: !!jwt,
 			// Separates "converted the trimmed 3" from an ordinary start in the
 			// limit-box reads; the boxes' own CTAs carry the same source.
-			...(activeBanner?.kind === 'batch-cap'
-				? { source: 'batch_cap_box' }
-				: activeBanner?.kind === 'allowance'
-					? { source: 'allowance_box' }
-					: hasOversized
-						? { source: 'size_row' }
-						: {})
+			...(auto
+				? { source: 'queue_auto' }
+				: activeBanner?.kind === 'batch-cap'
+					? { source: 'batch_cap_box' }
+					: activeBanner?.kind === 'allowance'
+						? { source: 'allowance_box' }
+						: hasOversized
+							? { source: 'size_row' }
+							: {})
 		});
 
 		errorMessage = '';
 		errorKey = undefined;
 		errorDecoder = undefined;
 		successMessage = '';
-		batchTrim = null;
 		allowanceTrim = null;
+		legacyTrim = null;
 		processPhase = 'uploading';
 		uploadPercent = 0;
 		downloadPercent = 0;
@@ -1280,9 +1417,12 @@
 
 			if (successfulFiles.length === 0) {
 				if (hitRateLimit) {
-					fileProgress.forEach((fp) => releaseImagePreview(fp.file));
-					selectedFiles = [];
-					fileProgress = [];
+					// Nothing converted, so the whole tray goes back in line rather
+					// than being dropped; the refill re-stages it under the
+					// allowance box once the token check reports zero.
+					returnUnfinishedToQueue();
+					await checkTokenLimit();
+					refillFromQueue();
 					return;
 				}
 				// Diagnostic: this throw fires only when nothing is marked complete
@@ -1308,28 +1448,24 @@
 				throw allFailed;
 			}
 
-			if (successfulFiles.length === 1) {
-				const index = selectedFiles.findIndex((_, i) => fileProgress[i].status === 'complete');
-				const nameWithoutExt = successfulFiles[0].name.replace(/\.[^/.]+$/, '');
-				const extension = imageType === 'jpeg' ? 'jpg' : imageType;
-				downloadBlob(compressedBlobs[index], `${nameWithoutExt}.${extension}`);
-			} else {
-				const extension = imageType === 'jpeg' ? 'jpg' : imageType;
-				const zipEntries = selectedFiles
-					.map((file, i) => ({ file, i }))
-					.filter(({ i }) => fileProgress[i].status === 'complete')
-					.map(({ file, i }) => ({
-						name: `${file.name.replace(/\.[^/.]+$/, '')}.${extension}`,
-						blob: compressedBlobs[i]
-					}));
-
-				const zipBlob = await zipBlobs(zipEntries);
-				downloadBlob(zipBlob, 'compressed-images.zip');
-			}
+			// Held rather than downloaded here: a paid run that carries on into the
+			// queue adds to the same download (see flushResults in the finally).
+			const extension = imageType === 'jpeg' ? 'jpg' : imageType;
+			selectedFiles.forEach((file, i) => {
+				if (fileProgress[i].status !== 'complete') return;
+				heldResults.push({
+					name: `${file.name.replace(/\.[^/.]+$/, '')}.${extension}`,
+					blob: compressedBlobs[i]
+				});
+			});
 
 			// Compare against the successful files' original sizes only, so failed
 			// files don't inflate the reported savings.
 			const successfulOriginalSize = successfulFiles.reduce((sum, f) => sum + f.size, 0);
+			drainTotals.runs += 1;
+			drainTotals.files += successfulFiles.length;
+			drainTotals.original += successfulOriginalSize;
+			drainTotals.compressed += totalCompressedSize;
 
 			// Output is not always smaller, and when it isn't that is usually the
 			// point rather than a failure: hdr=generate attaches a gain map, a
@@ -1392,9 +1528,10 @@
 			}
 
 			if (hitRateLimit) {
-				fileProgress.forEach((fp) => releaseImagePreview(fp.file));
-				selectedFiles = [];
-				fileProgress = [];
+				fileProgress.forEach((fp) => {
+					if (fp.status === 'complete') releaseImagePreview(fp.file);
+				});
+				returnUnfinishedToQueue();
 			} else {
 				// Only revoke thumbnails for entries being removed — failed/pending
 				// files stay in the list and still need theirs.
@@ -1408,6 +1545,20 @@
 
 			if (fileInputElement) fileInputElement.value = '';
 			await checkTokenLimit();
+			// After the token check, so the refill applies the fresh allowance.
+			const pulled = refillFromQueue();
+
+			// A paid tier runs straight through the queue: they bought the pass or
+			// plan so as not to press Convert per batch. Free tiers keep the press,
+			// which is the thing the Day Pass removes. Any failure, a 429 or an
+			// allowance that cannot cover the refill stops the run for the
+			// visitor to look at; carrying on would retry a failing file forever.
+			continueDrain =
+				userTier === 'pro' &&
+				pulled > 0 &&
+				failedFiles.length === 0 &&
+				!hitRateLimit &&
+				!insufficientTokens;
 		} catch (error) {
 			const failureKey: UploadErrorKey | undefined =
 				(error as any)?.errorKey ?? (isNetworkError(error) ? 'network_error' : undefined);
@@ -1429,11 +1580,139 @@
 			errorKey = failureKey;
 			errorDecoder = (error as any)?.decoder;
 		} finally {
+			// Every exit path downloads what it holds unless the queue run is
+			// carrying on, and even then a full part goes out (RESULTS_PER_ZIP).
+			if (!continueDrain) {
+				await flushResults(true);
+				// Only for a run that emptied tray and queue: anything left behind
+				// (a failure, a 429) keeps the last run's message, which says so.
+				if (drainTotals.runs > 1 && selectedFiles.length === 0 && queuedFiles.length === 0)
+					successMessage = drainSummary();
+				drainTotals = { runs: 0, files: 0, original: 0, compressed: 0 };
+			} else if (heldResults.length >= RESULTS_PER_ZIP) {
+				await flushResults(false);
+			}
 			isLoading = false;
 			processPhase = 'idle';
 			isRetrying = false;
+			if (continueDrain) void compressImage(true);
 		}
 	}
+
+	// Converted files waiting to be downloaded. One run of a free tier flushes
+	// at its end, as before; a paid run through the queue keeps adding until
+	// the queue is empty, so a 52-file shoot is one zip, not three. Past
+	// RESULTS_PER_ZIP the results go out as numbered parts, because every held
+	// blob is in memory and a 1,700-file drop held whole would take the tab
+	// down. 100 is also the Day Pass allowance, so a pass holder gets one zip.
+	const RESULTS_PER_ZIP = 100;
+	let heldResults: { name: string; blob: Blob }[] = [];
+	let zipPart = 0;
+	// Not reactive: only ever read when a run finishes.
+	let continueDrain = false;
+	let drainTotals = { runs: 0, files: 0, original: 0, compressed: 0 };
+
+	async function flushResults(final: boolean) {
+		const entries = heldResults;
+		heldResults = [];
+		if (entries.length === 0) {
+			if (final) zipPart = 0;
+			return;
+		}
+		if (final && zipPart === 0 && entries.length === 1) {
+			downloadBlob(entries[0].blob, entries[0].name);
+		} else {
+			// Runs from compressImage's finally, so it must not throw: a throw
+			// there would leave isLoading latched and the button dead.
+			try {
+				const zipBlob = await zipBlobs(entries);
+				const name =
+					final && zipPart === 0
+						? 'compressed-images.zip'
+						: `compressed-images-part-${++zipPart}.zip`;
+				downloadBlob(zipBlob, name);
+			} catch (error) {
+				posthog.captureException(error);
+				errorMessage = 'Your images converted, but the zip could not be built. Please try again.';
+			}
+		}
+		if (final) zipPart = 0;
+	}
+
+	// The per-run message would only describe the last batch of a queue run.
+	function drainSummary(): string {
+		const delta = drainTotals.original - drainTotals.compressed;
+		return delta < 0
+			? `Done! ${drainTotals.files} images processed. ${formatFileSize(drainTotals.compressed)} total.`
+			: `Done! ${drainTotals.files} images optimised. Saved ${formatFileSize(delta)} total.`;
+	}
+
+	// The signup and the Day Pass both happen in another tab: register is a
+	// link, checkout opens its own tab, and an anonymous pass is activated by a
+	// magic link from the buyer's inbox. This tab, which holds the files, used
+	// to stay on the guest limits until a reload, and a reload loses the files.
+	// So when the visitor comes back with files waiting and something to
+	// unlock, the tier is read again: a signup lifts the allowance (the press
+	// per batch stays), a Day Pass or plan lifts the cap and starts the run.
+	let recheckingTier = false;
+	async function recheckTier() {
+		if (!queueEnabled || recheckingTier || isLoading) return;
+		if (stagedCount === 0 && queuedFiles.length === 0) return;
+		if (userTier === 'pro' && !insufficientTokens) return;
+		recheckingTier = true;
+		try {
+			const before = userTier;
+			const wasBlocked = insufficientTokens;
+			invalidatePlanCache();
+			const [snapshot, jwt] = await Promise.all([getPlanSnapshot(), getSessionToken()]);
+			plan = snapshot.plan;
+			planQuota = snapshot.quota;
+			isAuthed = !!jwt;
+			// Re-read the allowance even on an unchanged tier: a subscriber who
+			// topped up with a pass stays 'pro' but is no longer blocked.
+			await checkTokenLimit();
+			const upgraded = userTier !== before && (before === 'guest' || userTier === 'pro');
+			if (!upgraded && !(wasBlocked && !insufficientTokens)) return;
+			if (isLoading) return;
+			allowanceTrim = null;
+			legacyTrim = null;
+			refillFromQueue();
+			posthog.capture('queue_unlocked', {
+				from: before,
+				to: userTier,
+				staged: selectedFiles.length,
+				queued: queuedFiles.length
+			});
+			if (userTier === 'pro' && selectedFiles.length > 0 && !insufficientTokens) {
+				void compressImage(true);
+			}
+		} finally {
+			recheckingTier = false;
+		}
+	}
+
+	$effect(() => {
+		const onReturn = () => {
+			if (document.visibilityState === 'visible') void recheckTier();
+		};
+		document.addEventListener('visibilitychange', onReturn);
+		window.addEventListener('focus', onReturn);
+		return () => {
+			document.removeEventListener('visibilitychange', onReturn);
+			window.removeEventListener('focus', onReturn);
+		};
+	});
+
+	// Leaving mid-run would throw away results that were already charged for.
+	$effect(() => {
+		if (!isLoading) return;
+		const warn = (e: BeforeUnloadEvent) => {
+			if (heldResults.length === 0 && !continueDrain) return;
+			e.preventDefault();
+		};
+		window.addEventListener('beforeunload', warn);
+		return () => window.removeEventListener('beforeunload', warn);
+	});
 
 	function downloadBlob(blob: Blob, filename: string) {
 		const url = URL.createObjectURL(blob);
@@ -1454,15 +1733,17 @@
 	function resetForm() {
 		fileProgress.forEach((fp) => releaseImagePreview(fp.file));
 		oversizedFiles.forEach((b) => releaseImagePreview(b.file));
+		queuedFiles.forEach((q) => releaseImagePreview(q.file));
 		selectedFiles = [];
 		fileProgress = [];
 		oversizedFiles = [];
+		queuedFiles = [];
 		totalOriginalSize = 0;
 		errorMessage = '';
 		errorKey = undefined;
 		errorDecoder = undefined;
-		batchTrim = null;
 		allowanceTrim = null;
+		legacyTrim = null;
 		successMessage = '';
 		imageType = output;
 		if (fileInputElement) fileInputElement.value = '';
@@ -1474,13 +1755,15 @@
 		fileProgress = fileProgress.filter((_, i) => i !== index);
 		totalOriginalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
 
-		// The trim notice names a staged count that this removal has just made
-		// wrong ("Staging 3 of 8" over a tray of two), so it goes. Everything
-		// else re-evaluates on its own: insufficientTokens and the CTA counter
-		// both derive from stagedCount, and skip notices refer to files that
-		// never entered the tray at all.
-		batchTrim = null;
+		// The allowance notice names a staged count that this removal has just
+		// made wrong, so it goes. Everything else re-evaluates on its own:
+		// insufficientTokens and the CTA counter both derive from stagedCount,
+		// and skip notices refer to files that never entered the tray at all.
 		allowanceTrim = null;
+		legacyTrim = null;
+		// The freed slot goes to the next queued file. Not mid-run: the run
+		// indexes into selectedFiles.
+		if (!isLoading) refillFromQueue();
 	}
 
 	const formats = [
@@ -1680,7 +1963,7 @@
          <label> triggers permanently mounted (as PromptForm does) fixes it. -->
 	<div
 		class="relative flex flex-wrap items-center gap-3 px-4 pt-6 pb-3 sm:px-6"
-		class:hidden={selectedFiles.length === 0}
+		class:hidden={selectedFiles.length === 0 && queuedFiles.length === 0}
 	>
 		{#each fileProgress as fp, index}
 			<div class="group relative flex-shrink-0">
@@ -1790,6 +2073,70 @@
 			</div>
 		{/each}
 
+		<!-- The queue: files past the batch cap, waiting for the next batch.
+             Frosted so they read as "yours, not yet" rather than as part of this
+             batch; the batch box below says what moves them. -->
+		{#each queuedFiles.slice(0, QUEUE_VISIBLE) as queued (queued.file)}
+			<div class="group relative flex-shrink-0" title="{queued.file.name} (next batch)">
+				<div
+					class="relative h-16 w-16 overflow-hidden rounded-2xl border border-dashed border-pink-200 bg-[#FDFBF7] p-1"
+				>
+					{#if queued.thumbnailUrl}
+						<img
+							src={queued.thumbnailUrl}
+							alt="{queued.file.name}, waiting for the next batch"
+							width="64"
+							height="64"
+							draggable="false"
+							class="h-full w-full scale-110 rounded-xl object-cover opacity-60 blur-[3px]"
+						/>
+					{:else}
+						<div class="h-full w-full rounded-xl bg-pink-50"></div>
+					{/if}
+					<div class="absolute inset-0 flex items-center justify-center">
+						<svg
+							class="h-5 w-5 text-[#F06292]/80 drop-shadow-sm"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							viewBox="0 0 24 24"
+							aria-hidden="true"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+							/>
+						</svg>
+					</div>
+				</div>
+				<button
+					onclick={() => removeQueued(queued.file)}
+					class="absolute -top-2 -right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white/90 text-[#F06292] opacity-0 shadow-md backdrop-blur-sm transition-all group-hover:opacity-100 hover:scale-110 hover:bg-white hover:text-red-500 focus-visible:opacity-100"
+					title="Remove file"
+					aria-label="Remove {queued.file.name}"
+				>
+					<svg
+						class="h-3.5 w-3.5"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+						stroke-width="3"
+					>
+						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
+		{/each}
+		{#if queuedFiles.length > QUEUE_VISIBLE}
+			<div
+				class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl border border-dashed border-pink-200 bg-[#FFF9FB] text-sm font-black text-[#F06292]/80"
+				title="{queuedFiles.length - QUEUE_VISIBLE} more waiting for the next batch"
+			>
+				+{queuedFiles.length - QUEUE_VISIBLE}
+			</div>
+		{/if}
+
 		<!-- Add more -->
 		<label
 			for="file-input"
@@ -1814,7 +2161,7 @@
 	<label
 		for="file-input"
 		class="group m-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-pink-200 px-6 py-10 text-center transition-colors hover:border-[#F06292] hover:bg-[#FFF9FB] sm:m-6"
-		class:hidden={selectedFiles.length > 0}
+		class:hidden={selectedFiles.length > 0 || queuedFiles.length > 0}
 	>
 		<div
 			class="mb-1 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFF0F3] transition-transform duration-200 group-hover:scale-105"
@@ -2174,8 +2521,8 @@
                          signing up is offered for what it actually buys (the monthly
                          allowance), never as a way round the cap. Subscribers are
                          never offered a Day Pass. -->
-					{@const k = batchTrim?.staged ?? stagedCount}
-					{@const n = batchTrim?.offered ?? stagedCount}
+					{@const k = legacyTrim?.staged ?? stagedCount}
+					{@const n = legacyTrim?.offered ?? stagedCount + queuedFiles.length}
 					<p class="text-xs font-bold text-cocoa-deep">
 						{k} of your {n} files {k === 1 ? 'is' : 'are'} in this batch.
 						{#if limitTier === 'guest'}
@@ -2249,13 +2596,23 @@
 							{/if}
 						</div>
 						<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
-							{limitTier === 'guest'
-								? `Or convert ${k === 1 ? 'this one' : `these ${k}`} now and come back with an account or a Day Pass for the rest.`
-								: `Or convert ${k === 1 ? 'this one' : `these ${k}`} now and drop the next ${BATCH_LIMIT_STANDARD} after.`}
+							{#if legacyTrim}
+								{limitTier === 'guest'
+									? `Or convert ${k === 1 ? 'this one' : `these ${k}`} now and come back with an account or a Day Pass for the rest.`
+									: `Or convert ${k === 1 ? 'this one' : `these ${k}`} now and drop the next ${BATCH_LIMIT_STANDARD} after.`}
+							{:else}
+								{limitTier === 'guest'
+									? `Or convert ${k === 1 ? 'this one' : `these ${k}`} now. The rest stay here for when you have an account or a Day Pass.`
+									: `Or convert ${k === 1 ? 'this one' : `these ${k}`} now. The next ${BATCH_LIMIT_STANDARD} line up straight after.`}
+							{/if}
 						</p>
 					{:else}
 						<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
-							Convert {k === 1 ? 'this one' : `these ${k}`}, then drop the rest.
+							{#if legacyTrim}
+								Convert {k === 1 ? 'this one' : `these ${k}`}, then drop the rest.
+							{:else}
+								Convert {k === 1 ? 'this one' : `these ${k}`}. The rest line up straight after.
+							{/if}
 						</p>
 						{#if limitTier === 'day' && hasCheckedTokens && n > monthlyUploadsRemaining}
 							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
@@ -2455,7 +2812,9 @@
 							d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
 						></path>
 					</svg>
-					<span>Converting {stagedCount} image{stagedCount !== 1 ? 's' : ''} to {outputLabel}…</span
+					<span
+						>Converting {stagedCount} image{stagedCount !== 1 ? 's' : ''} to {outputLabel}…{#if queuedFiles.length > 0}
+							({queuedFiles.length} queued){/if}</span
 					>
 
 					<!-- Active CTAs instead of a dead disabled state -->
