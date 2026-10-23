@@ -1,4 +1,5 @@
 import { Polar } from '@polar-sh/sdk';
+import { AddressInputCountryAlpha2Input } from '@polar-sh/sdk/models/components/addressinput.js';
 import { env } from '$env/dynamic/private';
 import { PUBLIC_POSTHOG_PROJECT_TOKEN } from '$env/static/public';
 import { json, redirect, type Cookies } from '@sveltejs/kit';
@@ -17,6 +18,19 @@ function polarClient(): Polar {
 	});
 }
 
+const BILLING_COUNTRIES = new Set<string>(Object.values(AddressInputCountryAlpha2Input));
+
+/**
+ * The visitor's country as a billing-address prefill, or null when Polar would
+ * not accept it. Cloudflare sends `XX` for an unplaceable IP and `T1` for Tor,
+ * and the SDK rejects anything outside its country enum before the request is
+ * even sent, which would fail the whole checkout over a convenience.
+ */
+function billingCountry(country: string | null): AddressInputCountryAlpha2Input | null {
+	const code = country?.toUpperCase() ?? '';
+	return BILLING_COUNTRIES.has(code) ? (code as AddressInputCountryAlpha2Input) : null;
+}
+
 /** Create a checkout, capped so a slow Polar can't hold the request open. */
 async function createCheckout(
 	polar: Polar,
@@ -30,24 +44,41 @@ async function createCheckout(
 		metadata?: Record<string, string>;
 		/** Origin allowed to host the checkout in an iframe (Polar's embedded checkout). */
 		embedOrigin?: string;
+		/** Prefills the billing country; the buyer can still change it. */
+		country?: string | null;
 	}
 ): Promise<string> {
-	const timeout = new Promise<never>((_, reject) =>
-		setTimeout(() => reject(new Error('Polar API timeout')), POLAR_TIMEOUT_MS)
-	);
-	const checkout = await Promise.race([
-		polar.checkouts.create({
-			products: [params.productId],
-			successUrl: params.successUrl,
-			...(params.userId ? { externalCustomerId: params.userId } : {}),
-			...(params.email ? { customerEmail: params.email } : {}),
-			...(params.currency ? { currency: params.currency } : {}),
-			...(params.discountId ? { discountId: params.discountId } : {}),
-			...(params.metadata ? { metadata: params.metadata } : {}),
-			...(params.embedOrigin ? { embedOrigin: params.embedOrigin } : {})
-		}),
-		timeout
-	]);
+	const country = billingCountry(params.country ?? null);
+	const create = (withCountry: boolean) => {
+		const timeout = new Promise<never>((_, reject) =>
+			setTimeout(() => reject(new Error('Polar API timeout')), POLAR_TIMEOUT_MS)
+		);
+		return Promise.race([
+			polar.checkouts.create({
+				products: [params.productId],
+				successUrl: params.successUrl,
+				...(params.userId ? { externalCustomerId: params.userId } : {}),
+				...(params.email ? { customerEmail: params.email } : {}),
+				...(params.currency ? { currency: params.currency } : {}),
+				...(params.discountId ? { discountId: params.discountId } : {}),
+				...(params.metadata ? { metadata: params.metadata } : {}),
+				...(params.embedOrigin ? { embedOrigin: params.embedOrigin } : {}),
+				...(withCountry && country ? { customerBillingAddress: { country } } : {})
+			}),
+			timeout
+		]);
+	};
+	let checkout;
+	try {
+		checkout = await create(true);
+	} catch (err) {
+		// A timeout is not a refusal, and Polar may still create that checkout.
+		if (!country || (err instanceof Error && err.message === 'Polar API timeout')) throw err;
+		// A prefill must never cost the sale: if Polar refuses the country (a
+		// market it does not sell to), offer the checkout without it.
+		console.error(`[checkout] retrying without billing country ${country}:`, err);
+		checkout = await create(false);
+	}
 	return checkout.url;
 }
 
@@ -187,6 +218,7 @@ export const GET: RequestHandler = async ({ locals, url, platform, request }) =>
 			productId,
 			successUrl: `${url.origin}/dashboard?upgraded=true`,
 			currency,
+			country: countryFromRequest(request, platform),
 			userId: user.id,
 			email: user.email ?? undefined,
 			discountId
@@ -293,6 +325,7 @@ export const POST: RequestHandler = async ({ locals, url, platform, request, coo
 			productId,
 			successUrl,
 			currency,
+			country: countryFromRequest(request, platform),
 			userId: user?.id,
 			email: user?.email ?? undefined,
 			metadata: dayPassReturnPath(successUrl),
