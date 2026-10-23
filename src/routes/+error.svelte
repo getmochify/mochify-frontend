@@ -9,7 +9,9 @@
     <title>Page Not Found | Mochify</title>
 </svelte:head>
 
-<div class="min-h-screen bg-[#FDFBF7] flex flex-col relative overflow-hidden">
+<!-- No background of its own: the body already paints #FDFBF7, and an opaque
+     fill here would cover the layout's blush blobs. -->
+<div class="min-h-screen flex flex-col relative overflow-hidden">
     
 
     <Navigation />

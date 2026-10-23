@@ -86,8 +86,11 @@
 	// Guides paint their own top-only wash, which scrolls away with the page;
 	// the site-wide blobs are fixed and would track the reader down an article,
 	// so only the /guides index (in BLOB_ROUTES) gets them.
+	// Error pages too: a 404 can sit at any path, so the list can never match it.
 	const showBlobs = $derived(
-		BLOB_ROUTES.has(page.url.pathname) || page.url.pathname.startsWith('/solutions')
+		BLOB_ROUTES.has(page.url.pathname) ||
+			page.url.pathname.startsWith('/solutions') ||
+			page.error !== null
 	);
 
 	// Build-time OG card for this route (falls back to the generic card).
