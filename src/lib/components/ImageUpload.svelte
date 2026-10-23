@@ -14,6 +14,8 @@
 		type UsageResponse
 	} from '$lib/user';
 	import { posthog } from '$lib/analytics';
+	import { createBatchTitle, notifyBatchDone, NOTIFY_MIN_FILES } from '$lib/batchNotify';
+	import NotifyMeLink from '$lib/components/NotifyMeLink.svelte';
 	import { formatFileSize } from '$lib/formatSize';
 	import { withRetry } from '$lib/uploadRetry';
 	import {
@@ -1149,6 +1151,10 @@
 			}
 		}
 
+		// One drain, however many runs the queue takes, is one finish to announce.
+		if (!auto) drainStart = { at: Date.now(), files: 0 };
+		drainStart.files += selectedFiles.length;
+
 		posthog.capture('manual_compress_started', {
 			files: selectedFiles.length,
 			format: imageType,
@@ -1627,6 +1633,16 @@
 				if (drainTotals.runs > 1 && selectedFiles.length === 0 && queuedFiles.length === 0)
 					successMessage = drainSummary();
 				drainTotals = { runs: 0, files: 0, original: 0, compressed: 0 };
+				// Anything left in the tray after a run is a failure or a 429.
+				const ok = !errorMessage && fileProgress.every((fp) => fp.status === 'complete');
+				batchTitle.finish(ok);
+				notifyBatchDone({
+					surface: 'manual',
+					ok,
+					body: (ok ? successMessage : errorMessage || successMessage) || 'Your batch finished.',
+					files: drainStart.files,
+					startedAt: drainStart.at
+				});
 			} else if (heldResults.length >= RESULTS_PER_ZIP) {
 				await flushResults(false);
 			}
@@ -1649,6 +1665,20 @@
 	// Not reactive: only ever read when a run finishes.
 	let continueDrain = false;
 	let drainTotals = { runs: 0, files: 0, original: 0, compressed: 0 };
+	// Also not reactive: when the drain began and how many files it has run,
+	// for the finished-batch notification.
+	let drainStart = { at: 0, files: 0 };
+
+	// The run's count in the tab title, for a visitor who switched away.
+	const batchTitle = createBatchTitle();
+	$effect(() => {
+		if (!isLoading) return;
+		const done = fileProgress.filter(
+			(fp) => fp.status === 'complete' || fp.status === 'error'
+		).length;
+		batchTitle.progress(done, fileProgress.length);
+	});
+	$effect(() => () => batchTitle.reset());
 
 	async function flushResults(final: boolean) {
 		const entries = heldResults;
@@ -3003,6 +3033,9 @@
 							<span class="animate-pulse">⬡</span> Processing…
 						{:else if processPhase === 'downloading'}
 							Saving…
+						{/if}
+						{#if fileProgress.length + queuedFiles.length >= NOTIFY_MIN_FILES}
+							· <NotifyMeLink surface="manual" />
 						{/if}
 					{:else if stagedCount > 0 || hasOversized}
 						<!-- "in this batch", not "ready": nothing has been processed. -->

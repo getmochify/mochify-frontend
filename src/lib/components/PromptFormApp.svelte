@@ -21,6 +21,8 @@
 		type UsageResponse
 	} from '$lib/user';
 	import { posthog } from '$lib/analytics';
+	import { createBatchTitle, notifyBatchDone, NOTIFY_MIN_FILES } from '$lib/batchNotify';
+	import NotifyMeLink from '$lib/components/NotifyMeLink.svelte';
 	import { formatFileSize } from '$lib/formatSize';
 	import { wasStored, deliveryNote } from '$lib/delivery';
 	import {
@@ -151,6 +153,16 @@
 	// this one: one photo is uploaded once however many outputs it makes.
 	// 0 where a path never sets it, and the label then falls back to totalFiles.
 	let inputCount: number = $state(0);
+	// For the finished-batch notification (see batchNotify): when the run began,
+	// and what it ended on, as told to showStatus. Null until a run has an outcome.
+	let runStartedAt = 0;
+	type RunOutcome = { ok: boolean; text: string };
+	let runOutcome: RunOutcome | null = null;
+	// The run's count in the tab title, for a visitor who switched away.
+	const batchTitle = createBatchTitle();
+	$effect(() => {
+		if (isProcessing) batchTitle.progress(completedFiles, totalFiles);
+	});
 	let downloadAsZip: boolean = $state(false);
 
 	// Output destination — results are written straight to the user's own storage
@@ -556,6 +568,7 @@
 	// Component teardown isn't a `files` change, so the effect above never runs
 	// again to diff it away — release whatever's still cached on unmount.
 	onDestroy(() => {
+		batchTitle.reset();
 		for (const f of previewedFiles) {
 			if (isPdf(f)) releasePdfPreview(f);
 			else releaseImagePreview(f);
@@ -620,6 +633,7 @@
 
 	function showStatus(type: 'success' | 'error', text: string, key?: UploadErrorKey) {
 		if (type === 'success') triggerVictoryGlow();
+		if (isProcessing) runOutcome = { ok: type === 'success', text };
 		if (statusTimeout) clearTimeout(statusTimeout);
 		// Resolve the agent message box for the active flow only — the isProcessing
 		// guard stops pre-flight validation errors (file too big, mode mismatch)
@@ -1383,6 +1397,8 @@
 		// finally block resets the UI, so the bar just flashes briefly.
 		isProcessing = true;
 		processPhase = 'thinking';
+		runStartedAt = Date.now();
+		runOutcome = null;
 		uploadPercent = 0;
 		speculating = false;
 		completedFiles = 0;
@@ -3293,6 +3309,20 @@
 			stager.abandon();
 			clearInterval(msgInterval);
 			warmedAuth = null;
+			// Set by showStatus, which TypeScript cannot see from here: it narrows
+			// runOutcome to the null assigned at the top of this function.
+			const outcome = runOutcome as RunOutcome | null;
+			batchTitle.finish(outcome?.ok ?? true);
+			// Only a run that reached an outcome: a quota wall or a declined plan
+			// returns with nothing to announce.
+			if (outcome)
+				notifyBatchDone({
+					surface: 'flow',
+					ok: outcome.ok,
+					body: outcome.text,
+					files: inputCount || totalFiles,
+					startedAt: runStartedAt
+				});
 			// This run consumed tokens — refresh the cached count for the next gate.
 			checkTokenLimit();
 		}
@@ -4109,6 +4139,9 @@
 							{files.length} {files.length === 1 ? 'image' : 'images'} attached
 						{/if}
 					</span>
+					{#if isProcessing && (inputCount || files.length) >= NOTIFY_MIN_FILES}
+						<NotifyMeLink surface="flow" class="flex-shrink-0" />
+					{/if}
 					<!-- Info tooltip -->
 					<button
 						onclick={() => (showInfoTooltip = !showInfoTooltip)}
