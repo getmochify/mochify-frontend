@@ -21,13 +21,8 @@ import {
 } from '$lib/server/abandonedCart';
 import { mirrorPlan } from '$lib/server/resendContacts';
 import { sendDayPassLink } from '$lib/server/dayPassLink';
-
-async function sha256Hex(input: string): Promise<string> {
-	const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input));
-	return Array.from(new Uint8Array(buf))
-		.map((b) => b.toString(16).padStart(2, '0'))
-		.join('');
-}
+import { reseedBucket, sha256Hex } from '$lib/server/bucket';
+import { grantDayPass, parkDayPass } from '$lib/server/dayPassGrant';
 
 async function updateUsageKv(
 	kv: KVNamespace | undefined,
@@ -56,42 +51,6 @@ async function updateUsageKv(
 			})
 		)
 		.catch(() => {});
-}
-
-async function reseedBucket(
-	userId: string,
-	plan: string,
-	opsLimit: number,
-	quotaPeriodEnd: number | null
-): Promise<void> {
-	if (!CF_WORKER_URL || !CF_WORKER_TOKEN) return;
-	const identifier = await sha256Hex(userId);
-	let ttl = 30 * 24 * 60 * 60;
-	if (quotaPeriodEnd) {
-		const now = Date.now();
-		if (quotaPeriodEnd > now) ttl = Math.floor((quotaPeriodEnd - now) / 1000);
-	}
-	await fetch(`${CF_WORKER_URL}/seed/${identifier}`, {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json', 'X-Worker-Token': CF_WORKER_TOKEN },
-		body: JSON.stringify({
-			remaining: opsLimit,
-			quota: opsLimit,
-			plan,
-			ttl,
-			userId,
-			// Sent so the worker's usage mirror can tell a lapsed Day Pass
-			// from a live one without going back to D1.
-			periodEnd: quotaPeriodEnd
-		})
-	})
-		.then(async (r) => {
-			if (!r.ok)
-				console.error(
-					`[webhook] reseedBucket failed: ${r.status} ${await r.text().catch(() => '')}`
-				);
-		})
-		.catch((e) => console.error('[webhook] reseedBucket fetch error:', e));
 }
 
 // Subscription plans whose holder buying a Day Pass gets it as a top-up rather
@@ -482,62 +441,39 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				break;
 			}
 
-			// Send magic link — creates the user in D1 if they don't exist yet.
+			// A buyer with an account gets the pass now. A first-time buyer has
+			// none yet: the magic-link plugin creates the user when the link is
+			// clicked, not when it is sent, so the order is parked and the
+			// user-create hook in $lib/auth grants it on activation. This used to
+			// look the email up, find nobody and stop, and first-time buyers paid
+			// for a pass they never received. Parked before the link goes out, so
+			// even an instant click finds the row.
+			const userRow = await db
+				.prepare('SELECT id, email FROM user WHERE lower(email) = lower(?) LIMIT 1')
+				.bind(email)
+				.first<{ id: string; email: string }>();
+
+			if (userRow) {
+				await grantDayPass(db, platform?.env?.RESEND_API_KEY, userRow, order.id);
+			} else {
+				// Thrown on purpose if it fails (e.g. migration 0005 not applied):
+				// Polar retries a 500, and a dropped row is a paid pass lost.
+				await parkDayPass(db, email, order.id);
+				const posthog = getPostHogClient();
+				posthog.capture({
+					distinctId: email,
+					event: 'day_pass_pending',
+					properties: { polar_order_id: order.id }
+				});
+				await posthog.flush();
+			}
+
 			await sendDayPassLink(
 				db,
 				platform?.env?.RESEND_API_KEY,
 				email,
 				order.metadata?.return_path
 			).catch((e: unknown) => console.error('[daypass] magic link send failed:', e));
-
-			// Resolve user ID (guaranteed to exist now that magic link ran).
-			const userRow = await db
-				.prepare('SELECT id FROM user WHERE email = ? LIMIT 1')
-				.bind(email)
-				.first<{ id: string }>();
-
-			if (!userRow) break;
-
-			// Store timestamps as epoch-ms numbers to match every other profile writer
-			// (subscription cases, admin upgrade). The day-pass path previously
-			// wrote ISO strings here and omitted created_at, which left quota_period_end
-			// holding mixed types across rows and risked a NOT NULL insert failure.
-			const dayNow = Date.now();
-			const quotaPeriodEnd = dayNow + 24 * 60 * 60 * 1000;
-
-			await kysely
-				.insertInto('profile')
-				.values({
-					user_id: userRow.id,
-					plan: 'day',
-					ops_limit: 100,
-					quota_period_end: quotaPeriodEnd,
-					created_at: dayNow,
-					updated_at: dayNow
-				})
-				.onConflict((oc) =>
-					oc.column('user_id').doUpdateSet({
-						plan: 'day',
-						ops_limit: 100,
-						quota_period_end: quotaPeriodEnd,
-						updated_at: dayNow
-					})
-				)
-				.execute();
-
-			await reseedBucket(userRow.id, 'day', 100, quotaPeriodEnd);
-			// A first-time day-pass buyer was only just created by the magic link
-			// above and is not verified until they click it, so mirrorPlan declines
-			// to create the contact here — afterEmailVerification picks them up.
-			await mirrorPlan(db, platform?.env?.RESEND_API_KEY, userRow.id);
-
-			const posthog = getPostHogClient();
-			posthog.capture({
-				distinctId: userRow.id,
-				event: 'day_pass_activated',
-				properties: { polar_order_id: order.id }
-			});
-			await posthog.flush();
 			break;
 		}
 

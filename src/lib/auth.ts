@@ -12,6 +12,7 @@ import { syncContactFromProfile, needsContactBackstop } from "$lib/server/resend
 import { setUseCase } from "$lib/server/useCase";
 import { isUseCase } from "$lib/useCases";
 import { startOnboarding } from "$lib/server/emails/onboarding";
+import { claimPendingDayPass } from "$lib/server/dayPassGrant";
 import { setMarketingPreference } from "$lib/server/unsubscribe";
 
 // Which flow created the account, derived from the Better Auth endpoint that ran.
@@ -183,6 +184,15 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                             // the magic links.
                             await startOnboarding(db, resendKey, {
                                 userId: user.id,
+                                email: user.email,
+                            });
+                            // A first-time Day Pass buyer's account is created
+                            // right here, by the activation link; the webhook
+                            // parked their order because no user existed yet.
+                            // After the contact sync, so the pass's follow-up
+                            // event finds the contact.
+                            await claimPendingDayPass(db, resendKey, {
+                                id: user.id,
                                 email: user.email,
                             });
                         }
