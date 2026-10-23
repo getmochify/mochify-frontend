@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { startPlanCheckout } from '$lib/embedCheckout';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
@@ -425,6 +426,7 @@
 					<a
 						href="/api/checkout?plan=pro&billing=monthly"
 						data-sveltekit-reload
+						onclick={startPlanCheckout}
 						class="mt-2 inline-block text-xs font-bold text-[#F06292] hover:underline"
 						>Upgrade to Pro →</a
 					>
@@ -433,6 +435,7 @@
 					<a
 						href="/api/checkout?plan=seller&billing=monthly"
 						data-sveltekit-reload
+						onclick={startPlanCheckout}
 						class="mt-2 inline-block text-xs font-bold text-[#F06292] hover:underline">Upgrade →</a
 					>
 				{/if}
@@ -484,6 +487,7 @@
 					<a
 						href="/api/checkout?plan=seller&billing=monthly"
 						data-sveltekit-reload
+						onclick={startPlanCheckout}
 						class="rounded-2xl border border-[#875F42]/20 px-5 py-2.5 text-sm font-black text-[#4A2C2C] transition-all hover:border-[#F06292]/40 hover:bg-white/60 hover:text-[#F06292]"
 					>
 						Seller — {formatPrice(amounts.sellerMonthly, currency)}/mo
@@ -492,6 +496,7 @@
 					<a
 						href="/api/checkout?plan=pro&billing=monthly"
 						data-sveltekit-reload
+						onclick={startPlanCheckout}
 						class="rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-5 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 					>
 						Pro — {formatPrice(amounts.proMonthly, currency)}/mo
@@ -510,6 +515,7 @@
 				<a
 					href="/api/checkout?plan=pro&billing=monthly"
 					data-sveltekit-reload
+					onclick={startPlanCheckout}
 					class="flex-shrink-0 self-start rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-5 py-2.5 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] sm:self-auto"
 				>
 					Upgrade to Pro
@@ -888,8 +894,8 @@
 						{#if drive.connected}
 							<p class="mt-0.5 truncate text-xs text-cocoa-milk/60">
 								<span class="font-bold text-[#4A2C2C]">{drive.email ?? 'Google account'}</span>
-								· saves to <span class="font-bold text-[#4A2C2C]">{drive.folderName ?? 'Mochify'}</span
-								>
+								· saves to
+								<span class="font-bold text-[#4A2C2C]">{drive.folderName ?? 'Mochify'}</span>
 							</p>
 							{#if drive.status === 'error' && drive.statusDetail}
 								<p class="mt-1 text-xs font-medium text-red-600/80">{drive.statusDetail}</p>

@@ -142,14 +142,24 @@ function posthogDistinctId(cookies: Cookies, userId?: string): string {
 	return 'anonymous';
 }
 
-export const GET: RequestHandler = async ({ locals, url, platform, request }) => {
+type SubscriptionCheckout =
+	| { kind: 'checkout'; url: string; successUrl: string }
+	| { kind: 'signup'; url: string }
+	| { kind: 'invalid' }
+	| { kind: 'failed' };
+
+/**
+ * Create a subscription checkout for the plan in the query string. Shared by the
+ * GET link (hosted checkout, full-page redirect) and the JSON POST that opens
+ * the same checkout as an on-page overlay (`startPlanCheckout`); `embed` is
+ * the only difference between them.
+ */
+async function subscriptionCheckout(
+	{ locals, url, platform, request }: Parameters<RequestHandler>[0],
+	embed: boolean
+): Promise<SubscriptionCheckout> {
 	const plan = url.searchParams.get('plan') ?? 'pro';
 	const billing = url.searchParams.get('billing') ?? 'monthly';
-
-	// The Day Pass is POST-only, deliberately — see the POST handler below.
-	if (plan === 'day') {
-		return new Response('The Day Pass checkout is POST-only', { status: 405 });
-	}
 
 	const PRODUCTS: Record<string, Record<string, string>> = {
 		seller: {
@@ -172,15 +182,17 @@ export const GET: RequestHandler = async ({ locals, url, platform, request }) =>
 		console.error(
 			`[checkout] No product ID for plan=${plan} billing=${billing}. Check POLAR_PRODUCT_ID_* env vars.`
 		);
-		return new Response('Invalid plan or billing cycle', { status: 400 });
+		return { kind: 'invalid' };
 	}
 
 	const { user } = locals;
 
 	if (!user) {
+		// `next` is always the GET link, so after signing up the buyer lands on
+		// the hosted checkout whichever way they started.
 		const signupUrl = new URL('/auth/register', url.origin);
 		signupUrl.searchParams.set('next', url.pathname + url.search);
-		throw redirect(303, signupUrl.toString());
+		return { kind: 'signup', url: signupUrl.toString() };
 	}
 
 	const polar = polarClient();
@@ -212,20 +224,22 @@ export const GET: RequestHandler = async ({ locals, url, platform, request }) =>
 		countryFromRequest(request, platform)
 	);
 
+	const successUrl = `${url.origin}/dashboard?upgraded=true`;
 	let checkoutUrl: string;
 	try {
 		checkoutUrl = await createCheckout(polar, {
 			productId,
-			successUrl: `${url.origin}/dashboard?upgraded=true`,
+			successUrl,
 			currency,
 			country: countryFromRequest(request, platform),
 			userId: user.id,
 			email: user.email ?? undefined,
-			discountId
+			discountId,
+			embedOrigin: embed ? url.origin : undefined
 		});
 	} catch (err) {
 		console.error('Polar checkout error:', err);
-		throw redirect(303, '/pricing?checkout_error=1');
+		return { kind: 'failed' };
 	}
 
 	const posthog = getPostHogClient();
@@ -237,6 +251,7 @@ export const GET: RequestHandler = async ({ locals, url, platform, request }) =>
 			billing,
 			currency: currency ?? 'default',
 			recovered: discountId !== null,
+			embed,
 			$set: { email: user.email }
 		}
 	});
@@ -244,7 +259,26 @@ export const GET: RequestHandler = async ({ locals, url, platform, request }) =>
 	const flushPromise = posthog.flush().catch(() => {});
 	platform?.context?.waitUntil?.(flushPromise);
 
-	throw redirect(302, checkoutUrl);
+	return { kind: 'checkout', url: checkoutUrl, successUrl };
+}
+
+export const GET: RequestHandler = async (event) => {
+	// The Day Pass is POST-only, deliberately — see the POST handler below.
+	if (event.url.searchParams.get('plan') === 'day') {
+		return new Response('The Day Pass checkout is POST-only', { status: 405 });
+	}
+
+	const result = await subscriptionCheckout(event, false);
+	switch (result.kind) {
+		case 'invalid':
+			return new Response('Invalid plan or billing cycle', { status: 400 });
+		case 'signup':
+			throw redirect(303, result.url);
+		case 'failed':
+			throw redirect(303, '/pricing?checkout_error=1');
+		case 'checkout':
+			throw redirect(302, result.url);
+	}
 };
 
 /**
@@ -270,10 +304,26 @@ export const GET: RequestHandler = async ({ locals, url, platform, request }) =>
  * and JSON is not a form content type, so it is never subject to that check.
  * See `startDayPassCheckout` in `$lib/dayPass`.
  */
-export const POST: RequestHandler = async ({ locals, url, platform, request, cookies }) => {
+export const POST: RequestHandler = async (event) => {
+	const { locals, url, platform, request, cookies } = event;
 	const plan = url.searchParams.get('plan') ?? 'day';
 	if (plan !== 'day') {
-		return new Response('POST checkout is Day Pass only', { status: 400 });
+		// A subscription plan arrives here only as the JSON request behind the
+		// on-page overlay (`startPlanCheckout`); its links are plain GETs.
+		if (!request.headers.get('content-type')?.includes('application/json')) {
+			return new Response('POST checkout is Day Pass or JSON only', { status: 400 });
+		}
+		const result = await subscriptionCheckout(event, true);
+		switch (result.kind) {
+			case 'invalid':
+				return new Response('Invalid plan or billing cycle', { status: 400 });
+			case 'signup':
+				return json({ redirect: result.url });
+			case 'failed':
+				return json({ error: 'checkout_failed' }, { status: 502 });
+			case 'checkout':
+				return json({ url: result.url, successUrl: result.successUrl });
+		}
 	}
 
 	const productId = env.POLAR_PRODUCT_ID_DAY_PASS;

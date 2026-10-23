@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { startPlanCheckout } from '$lib/embedCheckout';
 	import Navigation from '$lib/components/Navigation.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import DayPassButton from '$lib/components/DayPassButton.svelte';
@@ -286,6 +287,7 @@
 				<a
 					href="/api/checkout?plan=seller&billing={billing}"
 					data-sveltekit-reload
+					onclick={startPlanCheckout}
 					class="block rounded-2xl bg-[#FBD5E2] px-6 py-3 text-center text-sm font-black text-[#AD1457] shadow-sm transition-all hover:bg-[#F8BBD0] hover:shadow-md active:scale-95"
 				>
 					{t.ctaSeller}
@@ -347,6 +349,7 @@
 				<a
 					href="/api/checkout?plan=pro&billing={billing}"
 					data-sveltekit-reload
+					onclick={startPlanCheckout}
 					class="block rounded-2xl bg-[#F06292] px-6 py-3 text-center text-sm font-black text-white shadow-sm transition-all hover:bg-[#E0527F] hover:shadow-md active:scale-95"
 				>
 					{t.ctaPro}
@@ -414,6 +417,7 @@
 					<a
 						href="/api/checkout?plan=growth&billing={billing}"
 						data-sveltekit-reload
+						onclick={startPlanCheckout}
 						class="block rounded-2xl border border-[#F06292]/40 px-6 py-3 text-center text-sm font-black text-[#F06292] shadow-sm transition-all hover:bg-[#FFF5F7] hover:shadow-md active:scale-95"
 					>
 						{t.ctaGrowth}
