@@ -198,7 +198,7 @@ export const guides: Guide[] = [
 		category: 'Workflows',
 		readTime: '11 min read',
 		date: 'August 5, 2026',
-		lastUpdated: 'August 7, 2026'
+		lastUpdated: 'October 23, 2026'
 	},
 	{
 		title: 'Etsy Listing Photo Size: The Complete Guide',

@@ -17,7 +17,7 @@
         category: "Workflows",
         readTime: "11 min read",
         date: "August 5, 2026",
-        lastUpdated: "October 1, 2026"
+        lastUpdated: "October 23, 2026"
     };
 
     const toc = [
@@ -48,7 +48,7 @@
         {
             n: '4',
             h: 'Export for your portrait platforms',
-            body: `Second prompt on the same originals: "Crop to 3:4 portrait, 1080x1440, JPEG, strip all metadata." That covers Poshmark's new portrait layout and Vinted. (Selling on Vinted specifically? The <a href="https://mochify.app/vinted-seller">Vinted seller tool</a> is tuned to its 1080x1440 recommendation.)`
+            body: `Second prompt on the same originals: "Crop to 3:4 portrait, 1080x1440, JPEG, strip all metadata." That covers Poshmark's new portrait layout and Vinted. (Selling on Vinted specifically? The <a href="https://mochify.app/vinted-seller">Vinted seller tool</a> is tuned to 3:4 at 1080x1440, the shape that fills Vinted's layout; Vinted itself publishes no official size.)`
         },
         {
             n: '5',
@@ -70,7 +70,7 @@
     const faqs = [
         {
             q: "What is the best cross-listing app?",
-            a: "It depends on your marketplaces and volume. Vendoo (from ~$14.99/mo) covers the most US marketplaces with per-platform photo slots; List Perfectly (from ~$29/mo) suits high-volume sellers; Crosslist (~$21/mo annual) is the pick if you need Vinted; Flyp is the budget option for the big four. None of them optimizes photos per platform, so pair any of them with a batch image workflow."
+            a: "It depends on your marketplaces and volume. Vendoo (from ~$14.99/mo) covers the most US marketplaces with per-platform photo slots; List Perfectly (from ~$29/mo) suits high-volume sellers and, as of October 2026, also lists to Vinted; Crosslist (~$21/mo annual) is the other route to Vinted; Flyp is the budget option for the big four. None of them optimizes photos per platform, so pair any of them with a batch image workflow."
         },
         {
             q: "Is cross-listing allowed on eBay, Poshmark, Mercari, Depop, and Vinted?",
@@ -136,7 +136,7 @@
         },
         "image": "https://mochify.app/og/guides-cross-listing-marketplace-photo-requirements.png",
         "datePublished": "2026-08-05T12:00:00+00:00",
-        "dateModified": "2026-10-01T12:00:00+00:00",
+        "dateModified": "2026-10-23T12:00:00+00:00",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -181,7 +181,7 @@
         "@context": "https://schema.org",
         "@type": "FAQPage",
         "mainEntity": [
-            { "@type": "Question", "name": "What is the best cross-listing app?", "acceptedAnswer": { "@type": "Answer", "text": "It depends on your marketplaces and volume. Vendoo (from ~$14.99/mo) covers the most US marketplaces with per-platform photo slots; List Perfectly (from ~$29/mo) suits high-volume sellers; Crosslist (~$21/mo annual) is the pick if you need Vinted; Flyp is the budget option for the big four. None of them optimizes photos per platform, so pair any of them with a batch image workflow." } },
+            { "@type": "Question", "name": "What is the best cross-listing app?", "acceptedAnswer": { "@type": "Answer", "text": "It depends on your marketplaces and volume. Vendoo (from ~$14.99/mo) covers the most US marketplaces with per-platform photo slots; List Perfectly (from ~$29/mo) suits high-volume sellers and, as of October 2026, also lists to Vinted; Crosslist (~$21/mo annual) is the other route to Vinted; Flyp is the budget option for the big four. None of them optimizes photos per platform, so pair any of them with a batch image workflow." } },
             { "@type": "Question", "name": "Is cross-listing allowed on eBay, Poshmark, Mercari, Depop, and Vinted?", "acceptedAnswer": { "@type": "Answer", "text": "No major marketplace prohibits listing the same item elsewhere. The rule that matters is availability: delist the item everywhere the moment it sells anywhere. Most cross-listing apps automate this with inventory sync. You must use your own photos; copying another seller's images violates eBay policy and Depop removes listings that use stock photos." } },
             { "@type": "Question", "name": "How do I cross-list from eBay to Poshmark?", "acceptedAnswer": { "@type": "Answer", "text": "Either manually (create a new Poshmark listing and re-enter details) or with an app like Vendoo, Flyp, or List Perfectly that copies the listing across. Before you do, reshape your photos: eBay images are usually square or landscape, and Poshmark has displayed listing photos in 3:4 portrait since March 2026, so a straight copy shows up with awkward framing." } },
             { "@type": "Question", "name": "Why do my Poshmark photos suddenly look cropped?", "acceptedAnswer": { "@type": "Answer", "text": "Poshmark's March 2026 redesign displays listing photos in portrait 3:4 across search and feeds. Old square photos are automatically framed into the portrait layout, which can trim edges. Your originals are preserved on the listing page, but re-exporting cover photos at 1080x1440 portrait restores control over the framing." } },
@@ -196,7 +196,7 @@
         url="https://mochify.app/guides/cross-listing-marketplace-photo-requirements"
         description={metadata.description}
         datePublished="2026-08-05"
-        dateModified="2026-10-01"
+        dateModified="2026-10-23"
     />
 </svelte:head>
 
@@ -272,7 +272,7 @@
                         <tr>
                             <td>List Perfectly</td>
                             <td>~$29/mo</td>
-                            <td>11 (adds Kidizen, Vestiaire, Shopify, Whatnot)</td>
+                            <td>14 (adds Vestiaire Collective, Instagram, Shopify, Whatnot, Vinted, Reverb, Listing Party)</td>
                             <td>Hosts up to 30 images; auto-adjusts non-square images for 1:1 marketplaces</td>
                         </tr>
                         <tr>
@@ -290,7 +290,7 @@
                     </tbody>
                 </table>
             </GuideTable>
-            <p>Prices and features are from each vendor's own site, accessed July 2026, and change often; treat them as ballparks. All four are good at what they promise: moving listing data around. List Perfectly claims sellers list "80% faster" with it, and even discounting a vendor's own number, the time savings on the text side are real.</p>
+            <p>Prices and features are from each vendor's own site, accessed July 2026 (List Perfectly's marketplace list re-read October 2026), and change often; treat them as ballparks. All four are good at what they promise: moving listing data around. List Perfectly claims sellers list "80% faster" with it, and even discounting a vendor's own number, the time savings on the text side are real.</p>
             <p>Whether any of these subscriptions earns its place depends on your volume more than its feature list. We work through <a href="/guides/is-reselling-worth-it">whether the reselling math works at your volume</a> separately, including where a paid tool starts paying for itself.</p>
         </section>
 
@@ -300,8 +300,8 @@
             <p>Here's the honest version: cross-listing apps move your photos between platforms, but none of them optimizes photos for each platform. The most any of them does is force a square. Crosslist <a href="https://docs.crosslist.com/knowledge-base/image-management/cropping-strategy" target="_blank" rel="noopener noreferrer">documents its approach openly</a>: rectangular images going to a square-format marketplace get black letterbox borders, with a setting to zoom-crop instead. List Perfectly similarly adjusts non-square images for marketplaces that require 1:1. That's the ceiling.</p>
             <p>What none of them does:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Re-crop for portrait platforms.</strong> Poshmark moved its entire display layer to 3:4 portrait in March 2026 (<a href="https://blog.poshmark.com/2026/03/25/your-guide-to-portrait-photos/" target="_blank" rel="noopener noreferrer">Poshmark's own guide</a> covers the change), and Vinted has recommended portrait framing for years. A square-letterboxed photo is now the wrong shape on both.</li>
-                <li><strong class="text-[#4A2C2C]">Convert formats.</strong> iPhone cameras shoot HEIC by default. eBay officially accepts HEIC, but its community forums carry years of threads from sellers whose <a href="https://community.ebay.com/t5/Report-eBay-Technical-Issues/Allowing-HEIC-format-image-files-to-be-compatible-and-posted-on/td-p/33375274" target="_blank" rel="noopener noreferrer">HEIC uploads fail anyway</a>; the standard workaround is converting to JPEG before upload. Depop and Vinted are stricter still.</li>
+                <li><strong class="text-[#4A2C2C]">Re-crop for portrait platforms.</strong> Poshmark moved its entire display layer to 3:4 portrait in March 2026 (<a href="https://blog.poshmark.com/2026/03/25/your-guide-to-portrait-photos/" target="_blank" rel="noopener noreferrer">Poshmark's own guide</a> covers the change), and Vinted, which publishes no photo spec at all, lays its grid out for portrait. A square-letterboxed photo is now the wrong shape on both.</li>
+                <li><strong class="text-[#4A2C2C]">Convert formats.</strong> iPhone cameras shoot HEIC by default. eBay officially accepts HEIC, but its community forums carry years of threads from sellers whose <a href="https://community.ebay.com/t5/Report-eBay-Technical-Issues/Allowing-HEIC-format-image-files-to-be-compatible-and-posted-on/td-p/33375274" target="_blank" rel="noopener noreferrer">HEIC uploads fail anyway</a>; the standard workaround is converting to JPEG before upload. Depop and Vinted publish no accepted-format list at all, so JPEG is the safe upload there too.</li>
                 <li><strong class="text-[#4A2C2C]">Hit resolution and file-size targets.</strong> eBay wants at least 500x500px and caps files at 12MB. <a href="/guides/etsy-listing-photo-size-guide">Etsy wants 2000px and files under 1MB</a>. One photo cannot be both unless something re-encodes it.</li>
             </ul>
             <p>The result is familiar to anyone who cross-lists at volume: listings that look sharp on the platform you photographed for and mediocre everywhere else. eBay's own research on 6.8 million listings found that better photo quality made items measurably more likely to sell (the widely cited figure is 4.5%; it dates from an older eBay study, so treat it as directional). Photo quality is not cosmetic. It's conversion.</p>
@@ -355,9 +355,9 @@
                         <tr>
                             <td>Vinted</td>
                             <td>Up to 20</td>
-                            <td>3:4 portrait</td>
-                            <td>1080x1440px recommended</td>
-                            <td>10MB; JPEG/PNG</td>
+                            <td>3:4 portrait (what its layout rewards; no published spec)</td>
+                            <td>~1080x1440px (observed; Vinted publishes no size)</td>
+                            <td>No published file limit or format list; JPEG is the safe upload</td>
                         </tr>
                         <tr>
                             <td>Facebook Marketplace</td>
