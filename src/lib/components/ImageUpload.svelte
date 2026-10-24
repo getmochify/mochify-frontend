@@ -166,7 +166,9 @@
 	// it), the old trim notice and copy (legacyTrim), no re-check on return.
 	// Anything else, flags failing to load included, gets the queue. Read on
 	// the first overflow, so exposure is counted only for cap-hit sessions.
-	let queueEnabled = true;
+	// $state so the test-arm copy (content-ops handoff 2026-10-23-batch-queue-
+	// messages) re-renders once the variant resolves.
+	let queueEnabled = $state(true);
 	let queueVariant: Promise<void> | null = null;
 	function resolveQueueVariant(): Promise<void> {
 		queueVariant ??= posthog.getFeatureFlag('batch-queue').then((variant) => {
@@ -982,6 +984,17 @@
 		`Convert ${stagedCount} image${stagedCount !== 1 ? 's' : ''} to ${outputLabel}`
 	);
 
+	// ---- Queue copy (test arm) ---------------------------------------------
+	// content-ops handoff 2026-10-23-batch-queue-messages. Files converted on
+	// this page this visit, across runs, so the post-batch lines can say
+	// "{done} done, {N} to go"; {N} is everything still here, batch and queue.
+	let doneThisVisit = $state(0);
+	const filesLeft = $derived(stagedCount + queuedFiles.length);
+	// A pass is 100 uploads, so "all {N}" is only promised when it covers them.
+	const passCovers = (n: number) => (n > DAY_PASS_OPS ? `${DAY_PASS_OPS} of them` : `all ${n}`);
+	// Change 4: shown once in this tab after a signup or a pass unlocks the queue.
+	let unlockNote = $state('');
+
 	// ---- Banner state -----------------------------------------------------
 	// Everything below derives from staged files and the token count. Nothing
 	// here is assigned imperatively, so no banner can outlive the state that
@@ -1014,6 +1027,17 @@
 						: hasCheckedTokens && stagedCount > 0 && monthlyUploadsRemaining > 0
 							? { kind: 'limits-ok' }
 							: null
+	);
+
+	// Change 2: a guest who has converted something, used the month, and still
+	// has files here. The moment with the most intent, so the pass is primary.
+	const guestWallWithQueue = $derived(
+		queueEnabled &&
+			limitTier === 'guest' &&
+			activeBanner?.kind === 'allowance' &&
+			activeBanner.k === 0 &&
+			doneThisVisit > 0 &&
+			filesLeft > 0
 	);
 
 	function handleButtonClick() {
@@ -1152,7 +1176,11 @@
 		}
 
 		// One drain, however many runs the queue takes, is one finish to announce.
-		if (!auto) drainStart = { at: Date.now(), files: 0 };
+		if (!auto) {
+			drainStart = { at: Date.now(), files: 0 };
+			// A signup's note stands until they press Convert; a pass's until its run ends.
+			if (!unlockNote.startsWith('Day Pass')) unlockNote = '';
+		}
 		drainStart.files += selectedFiles.length;
 
 		posthog.capture('manual_compress_started', {
@@ -1508,6 +1536,7 @@
 			const successfulOriginalSize = successfulFiles.reduce((sum, f) => sum + f.size, 0);
 			drainTotals.runs += 1;
 			drainTotals.files += successfulFiles.length;
+			doneThisVisit += successfulFiles.length;
 			drainTotals.original += successfulOriginalSize;
 			drainTotals.compressed += totalCompressedSize;
 
@@ -1567,7 +1596,7 @@
 				} else {
 					successMessage = single
 						? `Squished! Saved ${deltaSize} (${changePct}% smaller).`
-						: `Done! ${selectedFiles.length} images optimised. Saved ${deltaSize} total.`;
+						: `Done! ${selectedFiles.length} images optimized. Saved ${deltaSize} total.`;
 				}
 			}
 
@@ -1633,6 +1662,7 @@
 				if (drainTotals.runs > 1 && selectedFiles.length === 0 && queuedFiles.length === 0)
 					successMessage = drainSummary();
 				drainTotals = { runs: 0, files: 0, original: 0, compressed: 0 };
+				unlockNote = '';
 				// Anything left in the tray after a run is a failure or a 429.
 				const ok = !errorMessage && fileProgress.every((fp) => fp.status === 'complete');
 				batchTitle.finish(ok);
@@ -1712,7 +1742,7 @@
 		const delta = drainTotals.original - drainTotals.compressed;
 		return delta < 0
 			? `Done! ${drainTotals.files} images processed. ${formatFileSize(drainTotals.compressed)} total.`
-			: `Done! ${drainTotals.files} images optimised. Saved ${formatFileSize(delta)} total.`;
+			: `Done! ${drainTotals.files} images optimized. Saved ${formatFileSize(delta)} total.`;
 	}
 
 	// The signup and the Day Pass both happen in another tab: register is a
@@ -1745,6 +1775,12 @@
 			allowanceTrim = null;
 			legacyTrim = null;
 			refillFromQueue();
+			const here = selectedFiles.length + queuedFiles.length;
+			const files = `${here} file${here !== 1 ? 's' : ''}`;
+			if (limitTier === 'day' && !insufficientTokens)
+				unlockNote = `Day Pass active. Converting your ${files} now.`;
+			else if (before === 'guest' && userTier === 'free')
+				unlockNote = `You're signed in: ${FREE_PLAN_QUOTA} uploads a month. Your ${files} ${here !== 1 ? 'are' : 'is'} still here.`;
 			posthog.capture('queue_unlocked', {
 				from: before,
 				to: userTier,
@@ -1813,6 +1849,8 @@
 		allowanceTrim = null;
 		legacyTrim = null;
 		successMessage = '';
+		unlockNote = '';
+		doneThisVisit = 0;
 		imageType = output;
 		if (fileInputElement) fileInputElement.value = '';
 	}
@@ -2506,6 +2544,17 @@
 		</div>
 	{/if}
 
+	<!-- After a signup or a pass unlocks the queue in this tab (Change 4 of the
+         queue handoff). Gives way to the run's own success message. -->
+	{#if unlockNote && !successMessage}
+		<div
+			class="mx-4 mb-3 rounded-2xl border border-green-100 bg-[#F0FDF4] px-4 py-3 text-xs font-bold text-[#33691E] sm:mx-6"
+			role="status"
+		>
+			{unlockNote}
+		</div>
+	{/if}
+
 	<!-- Success is orthogonal to the banner chain: it only exists after a run,
          when every ingest-time condition has already been cleared. -->
 	{#if successMessage}
@@ -2610,40 +2659,45 @@
                          never offered a Day Pass. -->
 					{@const k = legacyTrim?.staged ?? stagedCount}
 					{@const n = legacyTrim?.offered ?? stagedCount + queuedFiles.length}
-					<p class="text-xs font-bold text-cocoa-deep">
-						{k} of your {n} files {k === 1 ? 'is' : 'are'} in this batch.
-						{#if limitTier === 'guest'}
-							Free converts {BATCH_LIMIT_STANDARD} at a time. Without an account that's also the monthly
-							total; a free account makes it {FREE_PLAN_QUOTA} a month.
-						{:else if limitTier === 'free'}
-							Free converts {BATCH_LIMIT_STANDARD} at a time{#if hasCheckedTokens}; you have {monthlyUploadsRemaining}
-								uploads left this month{/if}.
-						{:else if limitTier === 'day'}
-							The Day Pass converts {BATCH_LIMIT_PAID} at a time{#if hasCheckedTokens}; you have {monthlyUploadsRemaining}
-								uploads left on it{/if}.
-						{:else}
-							Your plan converts {BATCH_LIMIT_PAID} at a time{#if hasCheckedTokens}; you have {monthlyUploadsRemaining}
-								uploads left this month{/if}.
-						{/if}
-					</p>
-					{#if limitTier === 'guest' || limitTier === 'free'}
-						<div class="mt-1.5 flex flex-wrap items-start gap-x-3 gap-y-2">
+					{#if !legacyTrim}
+						<!-- Test arm of batch-queue: content-ops handoff
+						     2026-10-23-batch-queue-messages, Changes 1 and 3. Before
+						     anything has converted, Convert is the only primary action,
+						     so routes are links here; after a batch the line counts
+						     what is done and what is left. -->
+						{@const q = queuedFiles.length}
+						{@const afterBatch = doneThisVisit > 0 && limitTier !== 'day' && userTier !== 'pro'}
+						<p class="text-xs font-bold text-cocoa-deep">
+							{#if afterBatch}
+								{doneThisVisit} done, {n} to go. The next {k}
+								{k === 1 ? 'is' : 'are'} ready.
+							{:else}
+								{k} of your {n} files {k === 1 ? 'is' : 'are'} in this batch.
+								{#if limitTier === 'guest'}
+									Convert {k === 1 ? 'it' : 'these'} free now; the other {q} wait here for a free account
+									or a Day Pass.
+								{:else if limitTier === 'free'}
+									The next {BATCH_LIMIT_STANDARD} line up after each one{#if hasCheckedTokens}; you
+										have {monthlyUploadsRemaining} uploads left this month{/if}.
+								{:else}
+									The rest follow on their own, {BATCH_LIMIT_PAID} at a time.
+								{/if}
+							{/if}
+						</p>
+						{#if limitTier === 'guest' || limitTier === 'free'}
 							{#if dayPassOffered}
-								<div class="flex flex-col items-start gap-1 sm:max-w-xs">
-									<DayPassButton
-										onPaid={handleDayPassPaid}
-										trigger="batch_cap_banner"
-										source="batch_cap_box"
-										class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
-									>
-										Day Pass ({dayPassPrice}): {BATCH_LIMIT_PAID} per batch, {DAY_PASS_OPS} uploads today
-									</DayPassButton>
-									<p class="text-xs font-medium text-[#6C3F31]/70">
-										{limitTier === 'guest'
-											? `The Day Pass needs no account, lasts 24 hours and takes files up to ${paidFileSizeMb}MB.`
-											: `The Day Pass lasts 24 hours and takes files up to ${paidFileSizeMb}MB; when it ends, your free ${FREE_PLAN_QUOTA} starts fresh.`}
-									</p>
-								</div>
+								<DayPassButton
+									onPaid={handleDayPassPaid}
+									trigger="batch_cap_banner"
+									source="batch_cap_box"
+									class="mt-1 cursor-pointer self-start text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+								>
+									{afterBatch
+										? `Do ${n > DAY_PASS_OPS ? `${DAY_PASS_OPS} more` : `the other ${n}`} in one go with a Day Pass (${dayPassPrice}) ›`
+										: limitTier === 'guest'
+											? `Convert ${passCovers(n)} today with a Day Pass (${dayPassPrice}) ›`
+											: `Do ${passCovers(n)} in one go with a Day Pass (${dayPassPrice}) ›`}
+								</DayPassButton>
 							{:else}
 								<a
 									href="/pricing"
@@ -2652,57 +2706,12 @@
 											trigger: 'batch_cap_banner',
 											source: 'batch_cap_box'
 										})}
-									class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+									class="mt-1 cursor-pointer self-start text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
 								>
-									Upgrade from {cheapestPlanPrice}/mo for {BATCH_LIMIT_PAID} at a time
+									Upgrade from {cheapestPlanPrice}/mo for {BATCH_LIMIT_PAID} at a time ›
 								</a>
 							{/if}
-							{#if limitTier === 'guest'}
-								<a
-									href="/auth/register"
-									onclick={() =>
-										posthog.capture('signup_cta_clicked', {
-											trigger: 'batch_cap_banner',
-											source: 'batch_cap_box'
-										})}
-									class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
-								>
-									Sign up free: {FREE_PLAN_QUOTA} uploads a month, {BATCH_LIMIT_STANDARD} per batch
-								</a>
-							{:else if dayPassOffered && n > BATCH_LIMIT_PAID}
-								<a
-									href="/pricing"
-									onclick={() =>
-										posthog.capture('upgrade_cta_clicked', {
-											trigger: 'batch_cap_banner',
-											source: 'batch_cap_box'
-										})}
-									class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
-								>
-									Compare plans
-								</a>
-							{/if}
-						</div>
-						<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
-							{#if legacyTrim}
-								{limitTier === 'guest'
-									? `Or convert ${k === 1 ? 'this one' : `these ${k}`} now and come back with an account or a Day Pass for the rest.`
-									: `Or convert ${k === 1 ? 'this one' : `these ${k}`} now and drop the next ${BATCH_LIMIT_STANDARD} after.`}
-							{:else}
-								{limitTier === 'guest'
-									? `Or convert ${k === 1 ? 'this one' : `these ${k}`} now. The rest stay here for when you have an account or a Day Pass.`
-									: `Or convert ${k === 1 ? 'this one' : `these ${k}`} now. The next ${BATCH_LIMIT_STANDARD} line up straight after.`}
-							{/if}
-						</p>
-					{:else}
-						<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
-							{#if legacyTrim}
-								Convert {k === 1 ? 'this one' : `these ${k}`}, then drop the rest.
-							{:else}
-								Convert {k === 1 ? 'this one' : `these ${k}`}. The rest line up straight after.
-							{/if}
-						</p>
-						{#if limitTier === 'day' && hasCheckedTokens && n > monthlyUploadsRemaining}
+						{:else if limitTier === 'day' && hasCheckedTokens && n > monthlyUploadsRemaining}
 							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
 								More than your pass covers?
 								<a
@@ -2716,6 +2725,116 @@
 									>Seller is {SELLER_OPS} uploads a month.</a
 								>
 							</p>
+						{/if}
+					{:else}
+						<p class="text-xs font-bold text-cocoa-deep">
+							{k} of your {n} files {k === 1 ? 'is' : 'are'} in this batch.
+							{#if limitTier === 'guest'}
+								Free converts {BATCH_LIMIT_STANDARD} at a time. Without an account that's also the monthly
+								total; a free account makes it {FREE_PLAN_QUOTA} a month.
+							{:else if limitTier === 'free'}
+								Free converts {BATCH_LIMIT_STANDARD} at a time{#if hasCheckedTokens}; you have {monthlyUploadsRemaining}
+									uploads left this month{/if}.
+							{:else if limitTier === 'day'}
+								The Day Pass converts {BATCH_LIMIT_PAID} at a time{#if hasCheckedTokens}; you have {monthlyUploadsRemaining}
+									uploads left on it{/if}.
+							{:else}
+								Your plan converts {BATCH_LIMIT_PAID} at a time{#if hasCheckedTokens}; you have {monthlyUploadsRemaining}
+									uploads left this month{/if}.
+							{/if}
+						</p>
+						{#if limitTier === 'guest' || limitTier === 'free'}
+							<div class="mt-1.5 flex flex-wrap items-start gap-x-3 gap-y-2">
+								{#if dayPassOffered}
+									<div class="flex flex-col items-start gap-1 sm:max-w-xs">
+										<DayPassButton
+											onPaid={handleDayPassPaid}
+											trigger="batch_cap_banner"
+											source="batch_cap_box"
+											class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+										>
+											Day Pass ({dayPassPrice}): {BATCH_LIMIT_PAID} per batch, {DAY_PASS_OPS} uploads
+											today
+										</DayPassButton>
+										<p class="text-xs font-medium text-[#6C3F31]/70">
+											{limitTier === 'guest'
+												? `The Day Pass needs no account, lasts 24 hours and takes files up to ${paidFileSizeMb}MB.`
+												: `The Day Pass lasts 24 hours and takes files up to ${paidFileSizeMb}MB; when it ends, your free ${FREE_PLAN_QUOTA} starts fresh.`}
+										</p>
+									</div>
+								{:else}
+									<a
+										href="/pricing"
+										onclick={() =>
+											posthog.capture('upgrade_cta_clicked', {
+												trigger: 'batch_cap_banner',
+												source: 'batch_cap_box'
+											})}
+										class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+									>
+										Upgrade from {cheapestPlanPrice}/mo for {BATCH_LIMIT_PAID} at a time
+									</a>
+								{/if}
+								{#if limitTier === 'guest'}
+									<a
+										href="/auth/register"
+										onclick={() =>
+											posthog.capture('signup_cta_clicked', {
+												trigger: 'batch_cap_banner',
+												source: 'batch_cap_box'
+											})}
+										class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+									>
+										Sign up free: {FREE_PLAN_QUOTA} uploads a month, {BATCH_LIMIT_STANDARD} per batch
+									</a>
+								{:else if dayPassOffered && n > BATCH_LIMIT_PAID}
+									<a
+										href="/pricing"
+										onclick={() =>
+											posthog.capture('upgrade_cta_clicked', {
+												trigger: 'batch_cap_banner',
+												source: 'batch_cap_box'
+											})}
+										class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+									>
+										Compare plans
+									</a>
+								{/if}
+							</div>
+							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+								{#if legacyTrim}
+									{limitTier === 'guest'
+										? `Or convert ${k === 1 ? 'this one' : `these ${k}`} now and come back with an account or a Day Pass for the rest.`
+										: `Or convert ${k === 1 ? 'this one' : `these ${k}`} now and drop the next ${BATCH_LIMIT_STANDARD} after.`}
+								{:else}
+									{limitTier === 'guest'
+										? `Or convert ${k === 1 ? 'this one' : `these ${k}`} now. The rest stay here for when you have an account or a Day Pass.`
+										: `Or convert ${k === 1 ? 'this one' : `these ${k}`} now. The next ${BATCH_LIMIT_STANDARD} line up straight after.`}
+								{/if}
+							</p>
+						{:else}
+							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+								{#if legacyTrim}
+									Convert {k === 1 ? 'this one' : `these ${k}`}, then drop the rest.
+								{:else}
+									Convert {k === 1 ? 'this one' : `these ${k}`}. The rest line up straight after.
+								{/if}
+							</p>
+							{#if limitTier === 'day' && hasCheckedTokens && n > monthlyUploadsRemaining}
+								<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+									More than your pass covers?
+									<a
+										href="/pricing"
+										onclick={() =>
+											posthog.capture('upgrade_cta_clicked', {
+												trigger: 'batch_cap_banner',
+												source: 'batch_cap_box'
+											})}
+										class="font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+										>Seller is {SELLER_OPS} uploads a month.</a
+									>
+								</p>
+							{/if}
 						{/if}
 					{/if}
 					<LimitsWhy
@@ -2735,60 +2854,27 @@
                          offered one; their route is the next tier. -->
 					{@const k = activeBanner.k}
 					{@const n = activeBanner.n}
-					<p class="text-xs font-bold text-cocoa-deep">
-						{#if k === 0}
-							{#if limitTier === 'guest'}
-								You've used your {GUEST_QUOTA} free uploads for this month without an account. Nothing
-								has been uploaded.
-							{:else if limitTier === 'free'}
-								You've used your {allowanceTotal} free uploads for this month. Nothing has been uploaded.
-							{:else if limitTier === 'day'}
-								Your Day Pass has used its {DAY_PASS_OPS} uploads.
-							{:else if nextTier}
-								You've used this month's {allowanceTotal.toLocaleString('en-US')} uploads. {nextTier.name}
-								is {nextTier.ops.toLocaleString('en-US')} a month.
-							{:else}
-								You've used this month's {allowanceTotal.toLocaleString('en-US')} uploads; the allowance
-								resets on your billing date.
-							{/if}
-						{:else}
-							{k} of your {n} files {k === 1 ? 'is' : 'are'} in this batch;
-							{#if limitTier === 'guest'}
-								{k === 1 ? "it's your last free upload" : "they're your last free uploads"} this month
-								without an account.
-							{:else if limitTier === 'free'}
-								{k === 1 ? "it's your last free upload" : "they're your last free uploads"} this month.
-							{:else if limitTier === 'day'}
-								{k === 1
-									? "it's the last upload on your Day Pass."
-									: "they're the last uploads on your Day Pass."}
-							{:else}
-								{k === 1
-									? "it's your last upload this month."
-									: "they're your last uploads this month."}
-								{#if nextTier}
-									{nextTier.name} is {nextTier.ops.toLocaleString('en-US')} a month.
-								{/if}
-							{/if}
-						{/if}
-					</p>
-
-					<div class="mt-1.5 flex flex-wrap items-start gap-x-3 gap-y-2">
-						{#if allowanceDayPass}
+					{#if guestWallWithQueue}
+						<!-- Change 2 of the queue handoff: something converted, the month
+						     is used, files are waiting. Replaces "Nothing has been
+						     uploaded", which is false right after a successful batch. -->
+						<p class="text-xs font-bold text-cocoa-deep">
+							{doneThisVisit} done, {filesLeft} to go.
+						</p>
+						<div class="mt-1.5 flex flex-col items-start gap-1">
 							<DayPassButton
 								onPaid={handleDayPassPaid}
 								trigger="token_wall_banner"
 								source="allowance_box"
 								class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
 							>
-								{limitTier === 'guest'
-									? `Day Pass (${dayPassPrice}): ${DAY_PASS_OPS} uploads today, no account needed`
-									: limitTier === 'free'
-										? `Day Pass (${dayPassPrice}): ${DAY_PASS_OPS} uploads today, then your free ${FREE_PLAN_QUOTA} starts fresh`
-										: `New Day Pass (${dayPassPrice}): another ${DAY_PASS_OPS} uploads today`}
+								Convert {passCovers(filesLeft)} now: Day Pass ({dayPassPrice})
 							</DayPassButton>
-						{/if}
-						{#if limitTier === 'guest'}
+							<p class="text-xs font-medium text-[#6C3F31]/70">
+								No account needed. {DAY_PASS_OPS} uploads today, {BATCH_LIMIT_PAID} at a time, files up
+								to
+								{paidFileSizeMb}MB.
+							</p>
 							<a
 								href="/auth/register"
 								onclick={() =>
@@ -2796,55 +2882,133 @@
 										trigger: 'token_wall_banner',
 										source: 'allowance_box'
 									})}
-								class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+								class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
 							>
-								Sign up free: {FREE_PLAN_QUOTA} uploads a month
+								Or sign up free: {FREE_PLAN_QUOTA} uploads a month, {BATCH_LIMIT_STANDARD} at a time
 							</a>
-						{:else if limitTier !== 'growth'}
-							<a
-								href="/pricing"
-								onclick={() =>
-									posthog.capture('upgrade_cta_clicked', {
-										trigger: 'token_wall_banner',
-										source: 'allowance_box'
-									})}
-								class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
-							>
-								{limitTier === 'free'
-									? `Or Seller: ${SELLER_OPS} a month, ${BATCH_LIMIT_PAID} per batch, ${paidFileSizeMb}MB files.`
-									: limitTier === 'day'
-										? `For regular volume, Seller is ${SELLER_OPS} a month.`
-										: 'Compare plans'}
-							</a>
-						{/if}
-					</div>
-					{#if limitTier === 'day' && k === 0}
-						<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
-							Or your free {FREE_PLAN_QUOTA} starts fresh when this pass ends.
-						</p>
-					{:else if k === 0 && limitTier === 'guest'}
-						<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">Or wait for the monthly reset.</p>
-					{:else if k > 0}
-						<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
-							{#if stagedCount > k}
-								Or
-								<button
-									type="button"
-									onclick={trimToAvailable}
-									class="cursor-pointer font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
-									>trim to {k} file{k !== 1 ? 's' : ''}</button
-								>
-								and convert {k === 1 ? 'it' : 'them'} now.
+							<p class="text-xs font-medium text-[#6C3F31]/70">
+								Your {filesLeft} file{filesLeft !== 1 ? 's' : ''} stay here while you do either.
+							</p>
+						</div>
+					{:else}
+						<p class="text-xs font-bold text-cocoa-deep">
+							{#if k === 0}
+								{#if limitTier === 'guest'}
+									You've used your {GUEST_QUOTA} free uploads for this month without an account. Nothing
+									has been uploaded.
+								{:else if limitTier === 'free'}
+									{#if queueEnabled && doneThisVisit > 0 && filesLeft > 0}
+										{doneThisVisit} done, {filesLeft} to go. You've used your {allowanceTotal} free uploads
+										for this month.
+									{:else}
+										You've used your {allowanceTotal} free uploads for this month. Nothing has been uploaded.
+									{/if}
+								{:else if limitTier === 'day'}
+									Your Day Pass has used its {DAY_PASS_OPS} uploads.
+								{:else if nextTier}
+									You've used this month's {allowanceTotal.toLocaleString('en-US')} uploads. {nextTier.name}
+									is {nextTier.ops.toLocaleString('en-US')} a month.
+								{:else}
+									You've used this month's {allowanceTotal.toLocaleString('en-US')} uploads; the allowance
+									resets on your billing date.
+								{/if}
 							{:else}
-								Or convert {k === 1 ? 'this one' : `these ${k}`} now.
+								{k} of your {n} files {k === 1 ? 'is' : 'are'} in this batch;
+								{#if limitTier === 'guest'}
+									{k === 1 ? "it's your last free upload" : "they're your last free uploads"} this month
+									without an account.
+								{:else if limitTier === 'free'}
+									{k === 1 ? "it's your last free upload" : "they're your last free uploads"} this month.
+								{:else if limitTier === 'day'}
+									{k === 1
+										? "it's the last upload on your Day Pass."
+										: "they're the last uploads on your Day Pass."}
+								{:else}
+									{k === 1
+										? "it's your last upload this month."
+										: "they're your last uploads this month."}
+									{#if nextTier}
+										{nextTier.name} is {nextTier.ops.toLocaleString('en-US')} a month.
+									{/if}
+								{/if}
 							{/if}
 						</p>
+
+						<div class="mt-1.5 flex flex-wrap items-start gap-x-3 gap-y-2">
+							{#if allowanceDayPass}
+								<DayPassButton
+									onPaid={handleDayPassPaid}
+									trigger="token_wall_banner"
+									source="allowance_box"
+									class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+								>
+									{limitTier === 'guest'
+										? `Day Pass (${dayPassPrice}): ${DAY_PASS_OPS} uploads today, no account needed`
+										: limitTier === 'free'
+											? `Day Pass (${dayPassPrice}): ${DAY_PASS_OPS} uploads today, then your free ${FREE_PLAN_QUOTA} starts fresh`
+											: `New Day Pass (${dayPassPrice}): another ${DAY_PASS_OPS} uploads today`}
+								</DayPassButton>
+							{/if}
+							{#if limitTier === 'guest'}
+								<a
+									href="/auth/register"
+									onclick={() =>
+										posthog.capture('signup_cta_clicked', {
+											trigger: 'token_wall_banner',
+											source: 'allowance_box'
+										})}
+									class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+								>
+									Sign up free: {FREE_PLAN_QUOTA} uploads a month
+								</a>
+							{:else if limitTier !== 'growth'}
+								<a
+									href="/pricing"
+									onclick={() =>
+										posthog.capture('upgrade_cta_clicked', {
+											trigger: 'token_wall_banner',
+											source: 'allowance_box'
+										})}
+									class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+								>
+									{limitTier === 'free'
+										? `Or Seller: ${SELLER_OPS} a month, ${BATCH_LIMIT_PAID} per batch, ${paidFileSizeMb}MB files.`
+										: limitTier === 'day'
+											? `For regular volume, Seller is ${SELLER_OPS} a month.`
+											: 'Compare plans'}
+								</a>
+							{/if}
+						</div>
+						{#if limitTier === 'day' && k === 0}
+							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+								Or your free {FREE_PLAN_QUOTA} starts fresh when this pass ends.
+							</p>
+						{:else if k === 0 && limitTier === 'guest'}
+							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+								Or wait for the monthly reset.
+							</p>
+						{:else if k > 0}
+							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+								{#if stagedCount > k}
+									Or
+									<button
+										type="button"
+										onclick={trimToAvailable}
+										class="cursor-pointer font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+										>trim to {k} file{k !== 1 ? 's' : ''}</button
+									>
+									and convert {k === 1 ? 'it' : 'them'} now.
+								{:else}
+									Or convert {k === 1 ? 'this one' : `these ${k}`} now.
+								{/if}
+							</p>
+						{/if}
+						<LimitsWhy
+							errorKey="quota_exhausted"
+							surface="token_wall_banner"
+							class="mt-1.5 self-start text-[#8D6E63]"
+						/>
 					{/if}
-					<LimitsWhy
-						errorKey="quota_exhausted"
-						surface="token_wall_banner"
-						class="mt-1.5 self-start text-[#8D6E63]"
-					/>
 				{:else}
 					<p
 						class="text-xs font-bold {activeBanner.kind === 'error'
@@ -2924,11 +3088,13 @@
                      underneath offered a free account, so the two loudest elements
                      on the card pushed different products at the same moment. -->
 					<span>
-						{allowanceDayPass
-							? `Get a Day Pass to convert ${stagedCount} image${stagedCount !== 1 ? 's' : ''}`
-							: !isAuthed
-								? `Create free account to convert ${stagedCount} image${stagedCount !== 1 ? 's' : ''}`
-								: 'See plans to continue'}
+						{guestWallWithQueue
+							? `Convert ${passCovers(filesLeft)} with a Day Pass (${dayPassPrice})`
+							: allowanceDayPass
+								? `Get a Day Pass to convert ${stagedCount} image${stagedCount !== 1 ? 's' : ''}`
+								: !isAuthed
+									? `Create free account to convert ${stagedCount} image${stagedCount !== 1 ? 's' : ''}`
+									: 'See plans to continue'}
 					</span>
 				{:else if blockedByFileSize}
 					<svg

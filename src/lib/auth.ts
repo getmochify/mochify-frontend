@@ -358,10 +358,27 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                             from: "Mochify <hello@mochify.app>",
                             to: email,
                             subject: "Your Mochify Day Pass is ready",
+                            // A plain-text part alongside the HTML: HTML-only mail scores
+                            // worse with spam filters, and a buyer who never finds this
+                            // email has paid for nothing.
+                            text: [
+                                "Your Day Pass is ready.",
+                                "",
+                                "Open this link to sign in and start: 100 images over 24 hours, 25 at a time, files up to 75MB.",
+                                url,
+                                "",
+                                "Were you converting files when you bought it? They're still waiting in that tab. Switch back to it after opening the link and they'll start converting.",
+                                "",
+                                'This link expires in 1 hour. If it has expired, use "Resend the link" on the page where you paid, or reply to this email. If you didn\'t buy a Day Pass, you can ignore this email.',
+                            ].join("\n"),
+                            // "Sign in and start", not "switch it on": an existing account
+                            // holder's pass is granted by the webhook before this arrives,
+                            // so for them the link only signs in. A new buyer's pass starts
+                            // on the click. This wording is true for both.
                             html: `
                                 <p style="font-family:sans-serif;color:#4A2C2C">Your Day Pass is ready.</p>
-                                <p style="font-family:sans-serif;color:#4A2C2C">Click below to switch it on: 100 images over the next 24 hours, 25 at a time, files up to 75MB.</p>
-                                <p><a href="${url}" style="display:inline-block;padding:12px 28px;background:#F06292;color:white;border-radius:10px;text-decoration:none;font-family:sans-serif;font-weight:bold">Activate Day Pass →</a></p>
+                                <p style="font-family:sans-serif;color:#4A2C2C">Click below to sign in and start: 100 images over 24 hours, 25 at a time, files up to 75MB.</p>
+                                <p><a href="${url}" style="display:inline-block;padding:12px 28px;background:#F06292;color:white;border-radius:10px;text-decoration:none;font-family:sans-serif;font-weight:bold">Start my Day Pass →</a></p>
                                 <p style="font-family:sans-serif;color:#4A2C2C">Were you converting files when you bought it? They're still waiting in that tab. Switch back to it after clicking and they'll start converting.</p>
                                 <p style="font-family:sans-serif;font-size:12px;color:#875F42">This link expires in 1 hour. If it has expired, use "Resend the link" on the page where you paid, or reply to this email. If you didn't buy a Day Pass, you can ignore this email.</p>
                             `,
