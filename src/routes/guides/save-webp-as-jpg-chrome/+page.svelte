@@ -674,7 +674,7 @@
 				</li>
 				<li>
 					<strong>If the image has transparency, JPEG is the wrong target.</strong> JPEG has no alpha
-					channel, so a transparent background becomes solid, typically black or white. Convert to PNG
+					channel, so a transparent background becomes solid, typically black or white. <a href="/solutions/webp-to-png">Convert to PNG</a>
 					instead, or keep the WebP.
 				</li>
 			</ul>
@@ -756,7 +756,7 @@
 
 			<p class="mb-4">
 				<strong>The 30-second version:</strong> the site sent WebP, not Chrome. Renaming does nothing.
-				Copy image and paste is the fastest fix for one file. For a folder, use a converter. Keep the
+				Copy image and paste is the fastest fix for one file. For a folder, use a <a href="/solutions/webp-to-jpg">WebP to JPG converter</a>. Keep the
 				WebP if the destination accepts it.
 			</p>
 		</section>
