@@ -26,6 +26,10 @@
 		await authClient.signIn.social({ provider: 'google', callbackURL: next });
 	}
 
+	async function handleMicrosoft() {
+		await authClient.signIn.social({ provider: 'microsoft', callbackURL: next });
+	}
+
 	// The four `d` strings, named once. Every panel draws from the same set, so
 	// inlining them per entry would mean three copies of each path.
 	const ICON = {
@@ -356,6 +360,22 @@
 							>
 							Continue with Google
 						</button>
+
+						{#if data?.microsoft}
+							<button
+								type="button"
+								onclick={handleMicrosoft}
+								class="mt-3 flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-2xl border border-[#D1D5DB] bg-white py-3 text-sm font-bold text-[#4A2C2C] shadow-sm transition-all hover:border-[#9CA3AF] hover:shadow-md"
+							>
+								<svg class="h-4 w-4" viewBox="0 0 21 21" aria-hidden="true"
+									><path fill="#F25022" d="M1 1h9v9H1z" /><path fill="#7FBA00" d="M11 1h9v9h-9z" /><path
+										fill="#00A4EF"
+										d="M1 11h9v9H1z"
+									/><path fill="#FFB900" d="M11 11h9v9h-9z" /></svg
+								>
+								Continue with Microsoft
+							</button>
+						{/if}
 
 						<div class="my-1 flex items-center gap-3">
 							<div class="h-px flex-1 bg-[#875F42]/10"></div>

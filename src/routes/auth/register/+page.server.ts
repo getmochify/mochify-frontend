@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit'
 import { sanitiseNext, planIntent } from '$lib/server/next'
+import { microsoftLoginEnabled } from '$lib/auth'
 
 export const load = async ({ locals, url }) => {
     // Carry the checkout intent through signup. Someone who clicked "Get Seller"
@@ -8,5 +9,5 @@ export const load = async ({ locals, url }) => {
     // the dashboard afterwards.
     const next = sanitiseNext(url.searchParams.get('next'))
     if (locals.session) throw redirect(303, next)
-    return { next, plan: planIntent(url, next) }
+    return { next, plan: planIntent(url, next), microsoft: microsoftLoginEnabled() }
 }

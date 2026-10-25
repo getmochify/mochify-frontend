@@ -7,6 +7,7 @@ import { D1Dialect } from "kysely-d1";
 import { Resend } from "resend";
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET } from "$env/static/private";
 import { PUBLIC_APP_URL } from "$env/static/public";
+import { env } from "$env/dynamic/private";
 import { getPostHogClient } from "$lib/server/posthog";
 import { syncContactFromProfile, needsContactBackstop } from "$lib/server/resendContacts";
 import { setUseCase } from "$lib/server/useCase";
@@ -25,6 +26,10 @@ function signupMethod(path: string | undefined): string {
     if (path === "/sign-up/email" || path === "/sign-in/email") return "email";
     if (path.startsWith("/magic-link/verify")) return "magic-link";
     return "unknown";
+}
+
+export function microsoftLoginEnabled(): boolean {
+    return !!(env.MICROSOFT_CLIENT_ID && env.MICROSOFT_CLIENT_SECRET);
 }
 
 export function createAuth(db: D1Database, resendKey: string | undefined) {
@@ -344,6 +349,25 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                 clientId: GOOGLE_CLIENT_ID,
                 clientSecret: GOOGLE_CLIENT_SECRET,
             },
+            // Work and personal Microsoft accounts ("common" tenant). Runtime
+            // secrets rather than build vars, so the provider (and its button,
+            // see microsoftLoginEnabled) stays off until both are set. The photo
+            // fetch is off: it stores the Graph avatar as a data URL on user.image.
+            // emailVerified comes from the verified_primary_email /
+            // verified_secondary_email optional claims on the Entra app; without
+            // them every Microsoft signup counts as unverified (no auto-linking to
+            // an existing account, no Resend contact).
+            ...(microsoftLoginEnabled()
+                ? {
+                      microsoft: {
+                          clientId: env.MICROSOFT_CLIENT_ID!,
+                          clientSecret: env.MICROSOFT_CLIENT_SECRET!,
+                          tenantId: "common",
+                          prompt: "select_account" as const,
+                          disableProfilePhoto: true,
+                      },
+                  }
+                : {}),
         },
         plugins: [
             magicLink({
