@@ -44,6 +44,10 @@
                 {
                     text: 'An AVIF someone sent you: {0}.',
                     links: [{ href: '/avif-to-jpg', label: 'AVIF to JPG' }]
+                },
+                {
+                    text: 'A JPEG XL (.jxl) file that will not open: {0}.',
+                    links: [{ href: '/solutions/jxl-to-jpg', label: 'JXL to JPG' }]
                 }
             ]
         },

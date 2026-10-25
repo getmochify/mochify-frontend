@@ -586,6 +586,12 @@ export const cards = [
 		title: 'WebM to MP4 - Free & Private In-Browser Converter'
 	},
 	{
+		path: '/solutions/jxl-to-jpg',
+		eyebrow: 'TOOL',
+		title: 'JXL to JPG Converter',
+		alt: 'Mochify JXL to JPG converter'
+	},
+	{
 		path: '/solutions/png-to-jxl',
 		eyebrow: 'TOOL',
 		title: 'PNG to JXL Converter',
