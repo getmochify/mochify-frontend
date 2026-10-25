@@ -18,6 +18,8 @@
         'webp-to-pdf': 'WebP to PDF',
         'png-to-jxl': 'PNG to JXL',
         'jxl-to-jpg': 'JXL to JPG',
+        'webp-to-jpg': 'WebP to JPG',
+        'webp-to-png': 'WebP to PNG',
         'svg-to-avif': 'SVG to AVIF',
         'svg-to-webp': 'SVG to WebP',
         'svg-to-jxl': 'SVG to JXL',

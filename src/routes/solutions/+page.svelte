@@ -48,6 +48,13 @@
                 {
                     text: 'A JPEG XL (.jxl) file that will not open: {0}.',
                     links: [{ href: '/solutions/jxl-to-jpg', label: 'JXL to JPG' }]
+                },
+                {
+                    text: 'A .webp you saved from a website: {0}, or {1} to keep a transparent background.',
+                    links: [
+                        { href: '/solutions/webp-to-jpg', label: 'WebP to JPG' },
+                        { href: '/solutions/webp-to-png', label: 'WebP to PNG' }
+                    ]
                 }
             ]
         },
