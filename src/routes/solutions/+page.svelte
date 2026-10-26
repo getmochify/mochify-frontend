@@ -1,6 +1,8 @@
 <script lang="ts">
     import { imageTools, videoTools, solutionCategories, type SolutionTool } from '$lib/data/solutions';
     import FaqAccordion from '$lib/components/FaqAccordion.svelte';
+    import ListFilter from '$lib/components/ListFilter.svelte';
+    import { matchesQuery } from '$lib/listFilter';
     import { faqSchema, type FaqItem } from '$lib/faq';
 
     const metaDescription =
@@ -15,6 +17,18 @@
             tools: [...imageTools, ...videoTools].filter((t) => t.category === category)
         }))
         .filter((g) => g.tools.length > 0);
+
+    // The filter box: a group with nothing left is hidden, heading and all.
+    let query = $state('');
+    const shown = $derived(
+        grouped
+            .map((g) => ({
+                ...g,
+                tools: g.tools.filter((t) => matchesQuery(query, t.name, t.desc, t.tag, t.slug, g.category))
+            }))
+            .filter((g) => g.tools.length > 0)
+    );
+    const shownCount = $derived(shown.reduce((n, g) => n + g.tools.length, 0));
 
     // "Which tool do I need?": the job first, the tool second. Each entry is a
     // sentence with the links inline, because the answer is usually "this one,
@@ -307,7 +321,26 @@
             </a>
         {/snippet}
 
-        {#each grouped as group (group.category)}
+        <div class="max-w-xl mx-auto mb-10">
+            <ListFilter
+                bind:value={query}
+                results={shownCount}
+                surface="solutions"
+                label="Filter tools"
+                placeholder="Filter tools, e.g. HEIC, WebP, PDF, background"
+            />
+        </div>
+
+        {#if shownCount === 0}
+            <div class="mb-16 text-center text-sm text-[#875F42]">
+                <p class="mb-2 font-bold text-[#4A2C2C]">No tool page for "{query.trim()}" yet.</p>
+                <p class="m-0">
+                    <a href="/flow" class="font-bold text-[#F06292]">Magic Flow</a> handles most conversions from a plain sentence, like "convert to JPG under 1MB".
+                </p>
+            </div>
+        {/if}
+
+        {#each shown as group (group.category)}
             <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">{group.category}</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
                 {#each group.tools as tool (tool.slug)}

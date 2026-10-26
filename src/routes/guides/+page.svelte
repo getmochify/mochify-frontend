@@ -1,6 +1,8 @@
 <script lang="ts">
     import { tick } from 'svelte';
     import { guides as allGuides } from '$lib/data/guides';
+    import ListFilter from '$lib/components/ListFilter.svelte';
+    import { matchesQuery } from '$lib/listFilter';
 
     const metadata = {
         title: "Image Optimization Guides | Mochify",
@@ -13,8 +15,13 @@
 
     const categories = ['All', ...Array.from(new Set(guides.map(g => g.category)))];
     let selectedCategory = $state('All');
+    // Typed text narrows within the selected category; "All" plus a query
+    // searches every guide.
+    let query = $state('');
     const filteredGuides = $derived(
-        selectedCategory === 'All' ? guides : guides.filter(g => g.category === selectedCategory)
+        guides
+            .filter(g => selectedCategory === 'All' || g.category === selectedCategory)
+            .filter(g => matchesQuery(query, g.title, g.description, g.category, g.url))
     );
 
     // "All" shows the newest INITIAL_VISIBLE and a button for the rest. Every
@@ -22,7 +29,7 @@
     // link to every guide. A single category is small enough to show in full.
     const INITIAL_VISIBLE = 18;
     let showAll = $state(false);
-    const collapsed = $derived(selectedCategory === 'All' && !showAll && filteredGuides.length > INITIAL_VISIBLE);
+    const collapsed = $derived(selectedCategory === 'All' && !query.trim() && !showAll && filteredGuides.length > INITIAL_VISIBLE);
 
     async function revealAll() {
         showAll = true;
@@ -154,6 +161,16 @@
 </section>
 {/if}
 
+<div class="max-w-xl mx-auto mb-5">
+    <ListFilter
+        bind:value={query}
+        results={filteredGuides.length}
+        surface="guides"
+        label="Filter guides"
+        placeholder="Filter guides, e.g. HEIC Windows, WebP transparency"
+    />
+</div>
+
 <div class="flex flex-wrap gap-2 justify-center mb-10">
     {#each categories as cat}
         <button
@@ -165,7 +182,7 @@
     {/each}
 </div>
 
-<div class="grid md:grid-cols-2 gap-5 {collapsed ? 'mb-10' : 'mb-24'}">
+<div class="grid md:grid-cols-2 gap-5 {collapsed ? 'mb-10' : filteredGuides.length === 0 ? 'mb-0' : 'mb-24'}">
     {#each filteredGuides as guide, i (guide.url)}
         <a
             href={guide.url}
@@ -199,6 +216,15 @@
         </a>
     {/each}
 </div>
+
+{#if filteredGuides.length === 0}
+<div class="mb-24 text-center text-sm text-[#875F42]">
+    <p class="mb-2 font-bold text-[#4A2C2C]">No guides match "{query.trim()}"{selectedCategory !== 'All' ? ` in ${selectedCategory}` : ''}.</p>
+    <p class="m-0">
+        {#if selectedCategory !== 'All'}<button type="button" onclick={() => selectedCategory = 'All'} class="cursor-pointer font-bold text-[#F06292] underline underline-offset-2">Search all guides</button>, browse the <a href="/solutions" class="font-bold text-[#F06292]">tools</a>{:else}Try a shorter word, browse the <a href="/solutions" class="font-bold text-[#F06292]">tools</a>{/if}, or describe the job in <a href="/flow" class="font-bold text-[#F06292]">Magic Flow</a>.
+    </p>
+</div>
+{/if}
 
 {#if collapsed}
 <div class="flex justify-center mb-24">
