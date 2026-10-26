@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { tick, onMount, onDestroy } from 'svelte';
+	import { page } from '$app/state';
 	import { unzipSync } from 'fflate';
 	import { zipBlobs } from '$lib/zipWorker';
 	import { getImagePreview, releaseImagePreview } from '$lib/imagePreview';
@@ -106,6 +107,12 @@
 		 */
 		locale?: string;
 	} = $props();
+
+	// Signups from here come back to this page (/flow or the homepage) rather
+	// than /dashboard, which a bare /auth/register falls back to.
+	const registerHref = $derived(
+		`/auth/register?next=${encodeURIComponent(page.url.pathname + page.url.search)}`
+	);
 
 	// English is the default set; a locale supplies only what it overrides.
 	const t: PromptFormStrings = $derived({ ...EN_PROMPT_FORM_STRINGS, ...strings });
@@ -3641,7 +3648,7 @@
 								{/if}
 								{#if batchTier === 'guest'}
 									<a
-										href="/auth/register"
+										href={registerHref}
 										onclick={() =>
 											posthog.capture('signup_cta_clicked', {
 												trigger: 'magic_flow_batch_cap',
@@ -4593,7 +4600,7 @@
 				images/month, or upgrade for even more.
 			</p>
 			<a
-				href="/auth/register"
+				href={registerHref}
 				class="mb-3 block w-full rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] py-3 text-center font-black text-white shadow-lg shadow-pink-200/50 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-pink-300/60"
 			>
 				Create free account

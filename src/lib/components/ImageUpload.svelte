@@ -353,6 +353,9 @@
 	// converter's own query params intact. The endpoint validates this and adds
 	// `day_pass_success=1` itself, so the toast below can't be faked by a link.
 	const dayPassReturnTo = $derived(dayPassNext(page.url));
+	// Signups from here come back here, files and converter included. A bare
+	// /auth/register fell back to /dashboard, which sells Flow instead.
+	const registerHref = $derived(`/auth/register?next=${encodeURIComponent(dayPassReturnTo)}`);
 
 	// Submitted by handleButtonClick, which offers the pass without a CTA of its
 	// own (the main action button doubles as one for an oversized file). Every
@@ -1110,7 +1113,7 @@
 					trigger: 'button_click_no_tokens',
 					source: 'allowance_box'
 				});
-				void goto('/auth/register');
+				void goto(registerHref);
 			} else {
 				posthog.capture('upgrade_cta_clicked', {
 					trigger: 'button_click_no_tokens',
@@ -2795,7 +2798,7 @@
 								{/if}
 								{#if limitTier === 'guest'}
 									<a
-										href="/auth/register"
+										href={registerHref}
 										onclick={() =>
 											posthog.capture('signup_cta_clicked', {
 												trigger: 'batch_cap_banner',
@@ -2894,7 +2897,7 @@
 								{paidFileSizeMb}MB.
 							</p>
 							<a
-								href="/auth/register"
+								href={registerHref}
 								onclick={() =>
 									posthog.capture('signup_cta_clicked', {
 										trigger: 'token_wall_banner',
@@ -2969,7 +2972,7 @@
 							{/if}
 							{#if limitTier === 'guest'}
 								<a
-									href="/auth/register"
+									href={registerHref}
 									onclick={() =>
 										posthog.capture('signup_cta_clicked', {
 											trigger: 'token_wall_banner',
@@ -3411,7 +3414,7 @@
 					</p>
 					<div class="flex flex-col gap-3">
 						<a
-							href="/auth/register"
+							href={registerHref}
 							class="block rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 						>
 							Create free account for {FREE_PLAN_QUOTA}/mo
@@ -3431,7 +3434,7 @@
 					</p>
 					<div class="flex flex-col gap-3">
 						<a
-							href="/auth/register"
+							href={registerHref}
 							class="block rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 						>
 							Create free account
