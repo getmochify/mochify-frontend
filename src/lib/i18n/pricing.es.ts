@@ -77,7 +77,7 @@ export const ES_PRICING: PricingStrings = {
 		'<strong>100 imágenes</strong> en 24 horas',
 		'<strong>Borrado, recoloreado y herramientas PDF</strong> incluidos',
 		'<strong>75 MB</strong> por archivo y lotes más grandes',
-		'Sin suscripción y sin cuenta'
+		'Sin suscripción y sin registro'
 	],
 	opsNote: 'Una imagen entregada = una imagen de tu cuota, sin importar cuántos cambios le hagas.',
 	ctaSeller: 'Elegir Seller',
@@ -142,7 +142,7 @@ export const ES_PRICING: PricingStrings = {
 		},
 		{
 			q: '¿Cómo funciona el Day Pass?',
-			a: `Paga ${dayPassPrice} y te enviamos un enlace mágico por correo: pulsa en él para desbloquear 100 subidas de imágenes en 24 horas, archivos de 75 MB y lotes más grandes durante 24 horas. No hace falta cuenta ni suscripción.`
+			a: `Paga ${dayPassPrice} y el pase se activa al instante: 100 subidas de imágenes en 24 horas, archivos de 75 MB y lotes más grandes. También te enviamos un enlace por correo que confirma tu email e inicia sesión en cualquier otro dispositivo. Sin formulario de registro ni suscripción.`
 		},
 		{
 			q: '¿Puedo cancelar cuando quiera?',
@@ -215,7 +215,7 @@ export const ES_PRICING: PricingStrings = {
 			plan: 'dayPass',
 			name: 'Day Pass',
 			description: () =>
-				'Pase de 24 horas, pago único. Hasta 100 subidas de imágenes, archivos de hasta 75 MB y lotes más grandes. Sin suscripción ni cuenta, activado al instante con un enlace mágico.'
+				'Pase de 24 horas, pago único. Hasta 100 subidas de imágenes, archivos de hasta 75 MB y lotes más grandes. Sin suscripción ni registro, activo en cuanto pagas.'
 		}
 	]
 };

@@ -21,6 +21,7 @@
 		category: 'Workflows',
 		readTime: '20 min read',
 		date: 'October 12, 2026',
+		lastUpdated: 'October 26, 2026',
 		bylineNote:
 			"The built-in filter's settings were read from the file itself on macOS 27.0, the iPhone steps were checked on iOS 27.0, and the Mochify figures come from our own test on the same photo, all on October 9, 2026."
 	};
@@ -55,7 +56,7 @@
 	const workflowSteps = [
 		{
 			title: 'Open mochify.app/flow',
-			html: `<p>Open <a href="https://mochify.app/flow">mochify.app/flow</a> and sign in, or pick up a Day Pass ($2 / £2, 100 uploads in 24 hours, no account needed) if you have a one-off batch.</p>`
+			html: `<p>Open <a href="https://mochify.app/flow">mochify.app/flow</a> and sign in, or pick up a Day Pass ($2 / £2, 100 uploads in 24 hours, no signup needed) if you have a one-off batch.</p>`
 		},
 		{
 			title: 'Add the PDF',
@@ -155,6 +156,7 @@
 		url={pageUrl}
 		description={metadata.description}
 		datePublished="2026-10-12"
+		dateModified="2026-10-26"
 		article={{
 			about: ['PDF compression', 'Apple Preview', 'Quartz filters', 'ColorSync Utility', 'macOS 27', 'iOS 27', 'Magic Flow', 'JPEG'],
 			keywords
@@ -178,7 +180,7 @@
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
-			{metadata.readTime} · {metadata.date} · Mochify Engineering Team
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">

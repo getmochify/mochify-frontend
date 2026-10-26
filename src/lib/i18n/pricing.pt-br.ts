@@ -142,7 +142,7 @@ export const PT_BR_PRICING: PricingStrings = {
 		},
 		{
 			q: 'Como funciona o Day Pass?',
-			a: `Você paga ${dayPassPrice} e enviamos um link mágico por e-mail: clique nele para liberar 100 envios de imagens em 24 horas, arquivos de 75 MB e lotes maiores durante 24 horas. Não precisa de cadastro nem de assinatura.`
+			a: `Você paga ${dayPassPrice} e já pode usar na hora: 100 envios de imagens em 24 horas, arquivos de 75 MB e lotes maiores. Também enviamos um link por e-mail que confirma seu e-mail e faz login em qualquer outro aparelho. Sem formulário de cadastro e sem assinatura.`
 		},
 		{
 			q: 'Posso cancelar quando quiser?',
@@ -215,7 +215,7 @@ export const PT_BR_PRICING: PricingStrings = {
 			plan: 'dayPass',
 			name: 'Day Pass',
 			description: () =>
-				'Passe de 24 horas, pagamento único. Até 100 envios de imagens, arquivos de até 75 MB e lotes maiores. Sem assinatura e sem cadastro, liberado na hora por link mágico.'
+				'Passe de 24 horas, pagamento único. Até 100 envios de imagens, arquivos de até 75 MB e lotes maiores. Sem assinatura e sem cadastro, liberado assim que você paga.'
 		}
 	]
 };

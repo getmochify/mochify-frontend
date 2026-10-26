@@ -23,7 +23,8 @@
         description: "Every upload and conversion error Mochify shows, what caused it, what we did about it, and the one thing to try next. From the engineers who built it.",
         category: "Image Optimization",
         readTime: "17 min read",
-        date: "September 17, 2026"
+        date: "September 17, 2026",
+        lastUpdated: "October 26, 2026"
     };
 
     const toc = [
@@ -130,7 +131,7 @@
         },
         "image": "https://mochify.app/og/guides-why-did-my-upload-fail.png",
         "datePublished": "2026-09-17T12:00:00+00:00",
-        "dateModified": "2026-09-17T12:00:00+00:00",
+        "dateModified": "2026-10-26T12:00:00+00:00",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -158,7 +159,7 @@
         url="https://mochify.app/guides/why-did-my-upload-fail"
         description={metadata.description}
         datePublished="2026-09-17"
-        dateModified="2026-09-17"
+        dateModified="2026-10-26"
     />
 </svelte:head>
 
@@ -177,7 +178,7 @@
         </h1>
         <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
         <p class="mt-5 text-sm font-bold text-[#875F42] mb-0">
-            {metadata.readTime} · {metadata.date} · Mochify Engineering Team
+            {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
         </p>
 
         <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed mt-8 mb-0">
@@ -331,14 +332,14 @@
             <SectionHeading>"Exceeds 20MB limit": the file is over your per-file limit</SectionHeading>
             <p class="mb-4">The per-file limit is 20MB on Free (and without an account) and 75MB on Seller, Pro and the Day Pass. The check runs in your browser before anything is sent, so an oversize file gets its own red card, never joins the upload, and never counts against anything.</p>
             <p class="mb-4">The limit is per file, not per batch. If one photo is over and the rest are fine, the rest convert normally.</p>
-            <p class="mb-4">For a one-off batch of large files, the Day Pass is the cheapest route: $2, 100 uploads within 24 hours, files up to 75MB, no account or subscription. On a free account it stands in for your monthly allowance for those 24 hours, and a fresh 25 starts when it ends. For regular work with 45-61MP camera files, <a href="/pricing">Seller or Pro</a> is the fit. We covered why camera files run this big, and what to do about it, in our guide to <a href="/guides/photo-file-too-large-to-upload">photos that are too large to upload</a>.</p>
+            <p class="mb-4">For a one-off batch of large files, the Day Pass is the cheapest route: $2, 100 uploads within 24 hours, files up to 75MB, no signup and no subscription. On a free account it stands in for your monthly allowance for those 24 hours, and a fresh 25 starts when it ends. For regular work with 45-61MP camera files, <a href="/pricing">Seller or Pro</a> is the fit. We covered why camera files run this big, and what to do about it, in our guide to <a href="/guides/photo-file-too-large-to-upload">photos that are too large to upload</a>.</p>
         </section>
 
         <section id="batch-trimmed" class="scroll-mt-24">
             <SectionHeading>"Staging 3 of N files": why your batch was trimmed</SectionHeading>
             <p class="mb-4">This banner is not an error. Free accounts and visitors without an account convert 3 files per batch; any paid plan (Seller, Pro or a Day Pass) converts 25 per batch. When you add more than your batch size, we stage 3 and set the rest aside. Nothing happens to the files we set aside: they are not uploaded and they do not count against your allowance.</p>
             <p class="mb-4">Two things people get wrong here. Signing up for a free account raises your monthly allowance from 3 to 25, but it does not raise the batch size: Free and guest batches are both 3. And the trimmed files are not lost: on a free account you can convert these 3 and drop the next 3 after. Without an account, though, the 3 in front of you are your whole allowance for the month, so a second batch needs a free account or a Day Pass.</p>
-            <p class="mb-4">If you regularly have more than three files, a Day Pass ($2) gets you 25 per batch and 100 uploads within 24 hours, no account needed. For more than 100, Seller covers 300 uploads a month, and the <a href="/pricing">pricing page</a> has the monthly plans.</p>
+            <p class="mb-4">If you regularly have more than three files, a Day Pass ($2) gets you 25 per batch and 100 uploads within 24 hours, no signup needed. For more than 100, Seller covers 300 uploads a month, and the <a href="/pricing">pricing page</a> has the monthly plans.</p>
         </section>
 
         <section id="quota-exhausted" class="scroll-mt-24">

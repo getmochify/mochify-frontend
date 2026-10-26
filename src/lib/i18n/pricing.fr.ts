@@ -80,7 +80,7 @@ export const FR_PRICING: PricingStrings = {
 		'<strong>100 images</strong> en 24 heures',
 		'<strong>Effacement, recoloration et outils PDF</strong> inclus',
 		'<strong>75 Mo</strong> par fichier et des lots plus grands',
-		'Sans abonnement, sans compte'
+		'Sans abonnement, sans inscription'
 	],
 	opsNote: 'Une image produite = une image décomptée, quel que soit le nombre de retouches.',
 	ctaSeller: 'Choisir Seller',
@@ -145,7 +145,7 @@ export const FR_PRICING: PricingStrings = {
 		},
 		{
 			q: 'Comment fonctionne le Day Pass ?',
-			a: `Payez ${dayPassPrice} et nous vous envoyons un lien magique par e-mail : cliquez dessus pour débloquer 100 envois d'images en 24 heures, des fichiers de 75 Mo et des lots plus grands pendant 24 heures. Aucun compte ni abonnement nécessaire.`
+			a: `Payez ${dayPassPrice} et le pass est actif tout de suite, avec 100 envois d'images en 24 heures, des fichiers de 75 Mo et des lots plus grands. Nous vous envoyons aussi un lien par e-mail qui confirme votre adresse et vous connecte sur vos autres appareils. Pas de formulaire d'inscription, pas d'abonnement.`,
 		},
 		{
 			q: 'Puis-je annuler à tout moment ?',
@@ -218,7 +218,7 @@ export const FR_PRICING: PricingStrings = {
 			plan: 'dayPass',
 			name: 'Day Pass',
 			description: () =>
-				"Pass de 24 heures, paiement unique. Jusqu'à 100 envois d'images, des fichiers jusqu'à 75 Mo, des lots plus grands. Sans abonnement ni compte, activé immédiatement par lien magique."
+				"Pass de 24 heures, paiement unique. Jusqu'à 100 envois d'images, des fichiers jusqu'à 75 Mo, des lots plus grands. Sans abonnement ni inscription, actif dès le paiement."
 		}
 	]
 };

@@ -173,7 +173,7 @@ export const EN_PRICING: PricingStrings = {
 		'<strong>100 images</strong> within 24 hours',
 		'<strong>Erase, recolor &amp; PDF tools</strong> included',
 		'<strong>75MB</strong> per file &amp; larger batches',
-		'No subscription, no account needed'
+		'No subscription, no signup needed'
 	],
 	opsNote: 'One image out = one image used, however many edits you make to it.',
 	ctaSeller: 'Get Seller',
@@ -241,7 +241,7 @@ export const EN_PRICING: PricingStrings = {
 		},
 		{
 			q: 'How does the Day Pass work?',
-			a: `Pay ${dayPassPrice} and we email you a magic link. Click it to unlock 100 image uploads within 24 hours, 75MB files and larger batches for 24 hours. No account or subscription needed.`
+			a: `Pay ${dayPassPrice} and you are in straight away: 100 image uploads within 24 hours, 75MB files and larger batches. We also email you a link that confirms your email and signs you in on any other device. No signup form, no subscription.`
 		},
 		{
 			q: 'Can I cancel anytime?',
@@ -314,7 +314,7 @@ export const EN_PRICING: PricingStrings = {
 			plan: 'dayPass',
 			name: 'Day Pass',
 			description: () =>
-				'24-hour pass, one-time purchase. Upload up to 100 images, files up to 75MB, larger batches. No subscription or account required, activated instantly by magic link.'
+				'24-hour pass, one-time purchase. Upload up to 100 images, files up to 75MB, larger batches. No subscription or signup, active as soon as you pay.'
 		}
 	]
 };
