@@ -49,7 +49,7 @@
 	import UploadHelpLink from '$lib/components/UploadHelpLink.svelte';
 	import LimitsWhy from '$lib/components/LimitsWhy.svelte';
 	import { portal } from '$lib/portal';
-	import { formatPrice } from '$lib/currency';
+	import { formatPrice, USD_PRICES } from '$lib/currency';
 	import { getImagePreview, releaseImagePreview } from '$lib/imagePreview';
 	import DayPassButton from '$lib/components/DayPassButton.svelte';
 	import { recordToolUse } from '$lib/recentTools';
@@ -263,6 +263,13 @@
 	);
 	const cheapestPlanPrice = $derived(
 		formatPrice(localPrices?.prices?.sellerMonthly ?? CHEAPEST_PAID_MONTHLY_USD, priceCurrency)
+	);
+	// Quoted by the batch-cap box for drops bigger than Seller's month.
+	const proPlanPrice = $derived(
+		formatPrice(localPrices?.prices?.proMonthly ?? USD_PRICES.proMonthly, priceCurrency)
+	);
+	const growthPlanPrice = $derived(
+		formatPrice(localPrices?.prices?.growthMonthly ?? USD_PRICES.growthMonthly, priceCurrency)
 	);
 
 	// Deliberately lazy. Every price string below sits inside an upgrade wall,
@@ -1006,6 +1013,31 @@
 	const filesLeft = $derived(stagedCount + queuedFiles.length);
 	// A pass is 100 uploads, so "all {N}" is only promised when it covers them.
 	const passCovers = (n: number) => (n > DAY_PASS_OPS ? `${DAY_PASS_OPS} of them` : `all ${n}`);
+	// The batch-cap box offers a guest or free account the route that fits the
+	// number of files dropped (content-ops handoff 2026-10-26-batch-cap-box-
+	// routes-by-drop-size): the pass while it covers the drop, in one batch or
+	// in batches of 25, then the smallest plan whose month holds it. One "25
+	// per batch" line for every drop read as "not enough" at 60 files, and
+	// offered a pass covering a quarter of a 400-file drop.
+	type CapRoute = 'pass_one_batch' | 'pass_batches' | 'seller' | 'pro' | 'growth';
+	const capRoute = (n: number): CapRoute =>
+		n <= BATCH_LIMIT_PAID
+			? 'pass_one_batch'
+			: n <= DAY_PASS_OPS
+				? 'pass_batches'
+				: n <= SELLER_OPS
+					? 'seller'
+					: n <= PRO_OPS
+						? 'pro'
+						: 'growth';
+	// The box's clicks carry the drop size and what was offered, so the click
+	// rate per band reads straight off the click.
+	const capClick = (n: number, planOffered: string) => ({
+		trigger: 'batch_cap_banner',
+		source: 'batch_cap_box',
+		files_dropped: n,
+		plan_offered: planOffered
+	});
 	// Change 4: shown once in this tab after a signup or a pass unlocks the queue.
 	let unlockNote = $state('');
 
@@ -2388,6 +2420,121 @@
 			</svg>
 		</button>
 	{/snippet}
+	<!-- The batch-cap box's route for a guest or free account, by drop size
+	     (see capRoute). Both batch-queue arms render it: the control as pill
+	     buttons, the test arm as links, because there Convert is the only
+	     primary action. -->
+	{#snippet capRouteBlock(n: number, buttons: boolean)}
+		{@const route = capRoute(n)}
+		{@const primary = buttons
+			? 'rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]'
+			: 'cursor-pointer text-left text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]'}
+		{@const arrow = buttons ? '' : ' ›'}
+		{@const link =
+			'cursor-pointer text-left text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]'}
+		{@const facts = 'text-xs font-medium text-[#6C3F31]/70'}
+		{@const freshFree =
+			limitTier === 'free' ? ` When it ends, your free ${FREE_PLAN_QUOTA} starts fresh.` : ''}
+		{@const noSignup = limitTier === 'guest' ? 'No signup needed. ' : ''}
+		{#if route === 'pass_batches' && dayPassOffered}
+			<p class="mt-1 text-xs font-bold text-cocoa-deep">
+				Your {n} files fit in a Day Pass: {DAY_PASS_OPS} uploads today, {BATCH_LIMIT_PAID} at a time.
+			</p>
+		{:else if route === 'seller'}
+			<p class="mt-1 text-xs font-bold text-cocoa-deep">
+				{n} files is more than a Day Pass covers ({DAY_PASS_OPS} in 24 hours). Seller converts {SELLER_OPS}
+				a month, {BATCH_LIMIT_PAID} at a time.
+			</p>
+		{:else if route === 'pro'}
+			<p class="mt-1 text-xs font-bold text-cocoa-deep">
+				{n} files is more than Seller's {SELLER_OPS} a month. Pro converts {PRO_OPS.toLocaleString(
+					'en-US'
+				)}
+				a month, {BATCH_LIMIT_PAID} at a time.
+			</p>
+		{:else if route === 'growth'}
+			<p class="mt-1 text-xs font-bold text-cocoa-deep">
+				{n.toLocaleString('en-US')} files is more than Pro's {PRO_OPS.toLocaleString('en-US')} a month.
+				Growth converts {GROWTH_OPS.toLocaleString('en-US')} a month, {BATCH_LIMIT_PAID} at a time.
+			</p>
+		{/if}
+		<div class="mt-1.5 flex flex-col items-start gap-1 sm:max-w-sm">
+			{#if route === 'pass_one_batch' || route === 'pass_batches'}
+				{#if dayPassOffered}
+					<DayPassButton
+						onPaid={handleDayPassPaid}
+						trigger="batch_cap_banner"
+						source="batch_cap_box"
+						properties={{ files_dropped: n, plan_offered: 'day_pass' }}
+						class={primary}
+					>
+						{route === 'pass_one_batch'
+							? `Day Pass (${dayPassPrice}): all ${n} in one batch`
+							: `Convert all ${n} with a Day Pass (${dayPassPrice})`}{arrow}
+					</DayPassButton>
+					<p class={facts}>
+						{route === 'pass_one_batch'
+							? `${noSignup}${DAY_PASS_OPS} uploads today, ${BATCH_LIMIT_PAID} at a time, files up to ${paidFileSizeMb}MB.${freshFree}`
+							: `${noSignup}Lasts 24 hours; files up to ${paidFileSizeMb}MB.${freshFree}`}
+					</p>
+					{#if route === 'pass_batches'}
+						<a
+							href="/pricing"
+							onclick={() => posthog.capture('upgrade_cta_clicked', capClick(n, 'seller'))}
+							class={link}
+						>
+							Converting this many every month? Seller is {SELLER_OPS} a month, {BATCH_LIMIT_PAID} at
+							a time.
+						</a>
+					{/if}
+				{:else}
+					<a
+						href="/pricing"
+						onclick={() => posthog.capture('upgrade_cta_clicked', capClick(n, 'seller'))}
+						class={primary}
+					>
+						Upgrade from {cheapestPlanPrice}/mo for {BATCH_LIMIT_PAID} at a time{arrow}
+					</a>
+				{/if}
+				{#if limitTier === 'guest'}
+					<a
+						href={registerHref}
+						onclick={() => posthog.capture('signup_cta_clicked', capClick(n, 'signup'))}
+						class={link}
+					>
+						Or sign up free: {FREE_PLAN_QUOTA} uploads a month, {BATCH_LIMIT_STANDARD} at a time
+					</a>
+				{/if}
+			{:else}
+				{@const offer =
+					route === 'seller'
+						? { name: 'Seller', price: cheapestPlanPrice, ops: SELLER_OPS }
+						: route === 'pro'
+							? { name: 'Pro', price: proPlanPrice, ops: PRO_OPS }
+							: { name: 'Growth', price: growthPlanPrice, ops: GROWTH_OPS }}
+				<a
+					href="/pricing"
+					onclick={() => posthog.capture('upgrade_cta_clicked', capClick(n, route))}
+					class={primary}
+				>
+					{offer.name} ({offer.price}/mo): {offer.ops.toLocaleString('en-US')} a month{arrow}
+				</a>
+				<p class={facts}>Files up to {paidFileSizeMb}MB.</p>
+				{#if route === 'seller' && dayPassOffered}
+					<DayPassButton
+						onPaid={handleDayPassPaid}
+						trigger="batch_cap_banner"
+						source="batch_cap_box"
+						properties={{ files_dropped: n, plan_offered: 'day_pass' }}
+						class={link}
+					>
+						Or a Day Pass ({dayPassPrice}) for {DAY_PASS_OPS} of them today, {BATCH_LIMIT_PAID} at a time
+					</DayPassButton>
+				{/if}
+			{/if}
+		</div>
+	{/snippet}
+
 	{#snippet sizeRoute()}
 		{#if sizeRouteOffered}
 			<DayPassButton
@@ -2712,32 +2859,7 @@
 							{/if}
 						</p>
 						{#if limitTier === 'guest' || limitTier === 'free'}
-							{#if dayPassOffered}
-								<DayPassButton
-									onPaid={handleDayPassPaid}
-									trigger="batch_cap_banner"
-									source="batch_cap_box"
-									class="mt-1 cursor-pointer self-start text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
-								>
-									{afterBatch
-										? `Do ${n > DAY_PASS_OPS ? `${DAY_PASS_OPS} more` : `the other ${n}`} in one go with a Day Pass (${dayPassPrice}) ›`
-										: limitTier === 'guest'
-											? `Convert ${passCovers(n)} today with a Day Pass (${dayPassPrice}) ›`
-											: `Do ${passCovers(n)} in one go with a Day Pass (${dayPassPrice}) ›`}
-								</DayPassButton>
-							{:else}
-								<a
-									href="/pricing"
-									onclick={() =>
-										posthog.capture('upgrade_cta_clicked', {
-											trigger: 'batch_cap_banner',
-											source: 'batch_cap_box'
-										})}
-									class="mt-1 cursor-pointer self-start text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
-								>
-									Upgrade from {cheapestPlanPrice}/mo for {BATCH_LIMIT_PAID} at a time ›
-								</a>
-							{/if}
+							{@render capRouteBlock(n, false)}
 						{:else if limitTier === 'day' && hasCheckedTokens && n > monthlyUploadsRemaining}
 							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
 								More than your pass covers?
@@ -2771,63 +2893,7 @@
 							{/if}
 						</p>
 						{#if limitTier === 'guest' || limitTier === 'free'}
-							<div class="mt-1.5 flex flex-wrap items-start gap-x-3 gap-y-2">
-								{#if dayPassOffered}
-									<div class="flex flex-col items-start gap-1 sm:max-w-xs">
-										<DayPassButton
-											onPaid={handleDayPassPaid}
-											trigger="batch_cap_banner"
-											source="batch_cap_box"
-											class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
-										>
-											Day Pass ({dayPassPrice}): {BATCH_LIMIT_PAID} per batch, {DAY_PASS_OPS} uploads
-											today
-										</DayPassButton>
-										<p class="text-xs font-medium text-[#6C3F31]/70">
-											{limitTier === 'guest'
-												? `The Day Pass needs no signup, lasts 24 hours and takes files up to ${paidFileSizeMb}MB.`
-												: `The Day Pass lasts 24 hours and takes files up to ${paidFileSizeMb}MB; when it ends, your free ${FREE_PLAN_QUOTA} starts fresh.`}
-										</p>
-									</div>
-								{:else}
-									<a
-										href="/pricing"
-										onclick={() =>
-											posthog.capture('upgrade_cta_clicked', {
-												trigger: 'batch_cap_banner',
-												source: 'batch_cap_box'
-											})}
-										class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
-									>
-										Upgrade from {cheapestPlanPrice}/mo for {BATCH_LIMIT_PAID} at a time
-									</a>
-								{/if}
-								{#if limitTier === 'guest'}
-									<a
-										href={registerHref}
-										onclick={() =>
-											posthog.capture('signup_cta_clicked', {
-												trigger: 'batch_cap_banner',
-												source: 'batch_cap_box'
-											})}
-										class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
-									>
-										Sign up free: {FREE_PLAN_QUOTA} uploads a month, {BATCH_LIMIT_STANDARD} per batch
-									</a>
-								{:else if dayPassOffered && n > BATCH_LIMIT_PAID}
-									<a
-										href="/pricing"
-										onclick={() =>
-											posthog.capture('upgrade_cta_clicked', {
-												trigger: 'batch_cap_banner',
-												source: 'batch_cap_box'
-											})}
-										class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
-									>
-										Compare plans
-									</a>
-								{/if}
-							</div>
+							{@render capRouteBlock(n, true)}
 							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
 								{#if legacyTrim}
 									{limitTier === 'guest'

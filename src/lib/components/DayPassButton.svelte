@@ -15,6 +15,7 @@
 		class: className = '',
 		next = undefined,
 		onPaid = undefined,
+		properties = undefined,
 		children
 	}: {
 		/** PostHog `day_pass_cta_clicked` trigger label for this surface. */
@@ -27,13 +28,19 @@
 		next?: string;
 		/** Called when payment completes in the overlay; the default is a notice card. */
 		onPaid?: (checkoutUrl: string, activation: DayPassActivation) => void;
+		/** Extra properties for `day_pass_cta_clicked` (the batch-cap box sends its drop size). */
+		properties?: Record<string, unknown>;
 		children?: Snippet;
 	} = $props();
 
 	const returnTo = $derived(next ?? dayPassNext(page.url));
 
 	function handleSubmit(event: SubmitEvent) {
-		posthog.capture('day_pass_cta_clicked', { trigger, ...(source ? { source } : {}) });
+		posthog.capture('day_pass_cta_clicked', {
+			trigger,
+			...(source ? { source } : {}),
+			...properties
+		});
 		// With JS the checkout is started as a JSON fetch instead of this form's
 		// native POST, which is what keeps callers whose `Origin` header never
 		// arrives out of SvelteKit's CSRF rejection. See `startDayPassCheckout`.
