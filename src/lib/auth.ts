@@ -211,7 +211,30 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                     // Any successful sign-in (password, magic link, Google)
                     // cancels a pending account deletion — the account keeps
                     // its userId, so usage counters carry over untouched.
-                    after: async (session) => {
+                    after: async (session, ctx) => {
+                        // Magic links are only ever sent for the Day Pass (see the
+                        // plugin's sendMagicLink below), so a magic-link sign-in is
+                        // a clicked activation link. distinctId is the email, like
+                        // day_pass_pending and day_pass_email_sent.
+                        if (ctx?.path?.startsWith("/magic-link/verify")) {
+                            try {
+                                const row = await kysely
+                                    .selectFrom("user")
+                                    .select("email")
+                                    .where("id", "=", session.userId)
+                                    .executeTakeFirst();
+                                if (row?.email) {
+                                    const posthog = getPostHogClient();
+                                    posthog.capture({
+                                        distinctId: row.email,
+                                        event: "day_pass_link_clicked",
+                                    });
+                                    await posthog.flush();
+                                }
+                            } catch (e) {
+                                console.error("[auth] link-click capture failed:", e);
+                            }
+                        }
                         try {
                             const res = await kysely
                                 .updateTable("user")

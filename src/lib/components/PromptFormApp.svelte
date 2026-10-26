@@ -3629,7 +3629,7 @@
 										</DayPassButton>
 										<p class="text-xs font-medium text-[#6C3F31]/70">
 											{batchTier === 'guest'
-												? 'The Day Pass needs no account, lasts 24 hours and takes files up to 75MB.'
+												? 'The Day Pass needs no signup, lasts 24 hours and takes files up to 75MB.'
 												: `The Day Pass lasts 24 hours and takes files up to 75MB; when it ends, your free ${FREE_PLAN_QUOTA} starts fresh.`}
 										</p>
 									</div>

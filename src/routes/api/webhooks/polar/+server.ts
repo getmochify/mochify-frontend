@@ -480,7 +480,8 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				db,
 				platform?.env?.RESEND_API_KEY,
 				email,
-				order.metadata?.return_path
+				order.metadata?.return_path,
+				'webhook'
 			).catch((e: unknown) => console.error('[daypass] magic link send failed:', e));
 			break;
 		}

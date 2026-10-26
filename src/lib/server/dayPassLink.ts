@@ -1,5 +1,6 @@
 import { PUBLIC_APP_URL } from '$env/static/public';
 import { createAuth } from '$lib/auth';
+import { getPostHogClient } from '$lib/server/posthog';
 
 /**
  * Where the Day Pass activation link lands: the page the pass was bought from
@@ -28,11 +29,18 @@ export async function sendDayPassLink(
 	db: D1Database,
 	resendKey: string | undefined,
 	email: string,
-	returnPath: unknown
+	returnPath: unknown,
+	/** Which path sent it, for `day_pass_email_sent`. */
+	via: 'webhook' | 'resend'
 ): Promise<void> {
 	const auth = createAuth(db, resendKey);
 	await auth.api.signInMagicLink({
 		body: { email, callbackURL: magicLinkReturn(returnPath) },
 		headers: new Headers({ origin: PUBLIC_APP_URL })
 	});
+	// distinctId is the email, matching day_pass_pending, so the pending ->
+	// sent -> clicked -> activated gap reads as one person's timeline.
+	const posthog = getPostHogClient();
+	posthog.capture({ distinctId: email, event: 'day_pass_email_sent', properties: { via } });
+	await posthog.flush();
 }

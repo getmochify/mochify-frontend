@@ -2,6 +2,7 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { sendDayPassLink } from '$lib/server/dayPassLink';
 import { paidDayPassCheckout } from '$lib/server/dayPassCheckout';
+import { getPostHogClient } from '$lib/server/posthog';
 
 const MAX_SENDS = 3;
 const MIN_GAP_MS = 60_000;
@@ -26,6 +27,10 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 	if (checkout === 'not_found') return json({ error: 'not_found' }, { status: 404 });
 	if (checkout === 'not_paid') return json({ error: 'not_paid' }, { status: 409 });
 
+	const posthog = getPostHogClient();
+	posthog.capture({ distinctId: checkout.email, event: 'day_pass_resend_requested' });
+	await posthog.flush();
+
 	const kv = platform?.env?.USAGE_KV;
 	const key = `daypass-resend:${checkout.id}`;
 	const now = Date.now();
@@ -37,7 +42,13 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 	}
 
 	try {
-		await sendDayPassLink(db, platform?.env?.RESEND_API_KEY, checkout.email, checkout.returnPath);
+		await sendDayPassLink(
+			db,
+			platform?.env?.RESEND_API_KEY,
+			checkout.email,
+			checkout.returnPath,
+			'resend'
+		);
 	} catch (err) {
 		console.error('[daypass-resend] send failed:', err);
 		return json({ error: 'send_failed' }, { status: 502 });

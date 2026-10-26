@@ -158,6 +158,25 @@ export async function openEmbeddedCheckout(
 			mode: 'embed'
 		});
 
+		// Why and how fast the overlay closed. Six of 23 opens closed inside 2s
+		// with no error recorded, so `reason` and `open_ms` are what tell a
+		// visitor's own dismissal from an embed that broke on load.
+		const openedAt = performance.now();
+		let closed = false;
+		const reportClose = (reason: 'paid' | 'user_dismissed' | 'navigated') => {
+			if (closed) return;
+			closed = true;
+			window.removeEventListener('pagehide', onLeave);
+			posthog.capture('checkout_overlay_closed', {
+				plan: opts.plan,
+				trigger: opts.trigger,
+				reason,
+				open_ms: Math.round(performance.now() - openedAt)
+			});
+		};
+		const onLeave = () => reportClose('navigated');
+		window.addEventListener('pagehide', onLeave);
+
 		let paid = false;
 		checkout.addEventListener('success', (event) => {
 			// Handled here rather than by Polar's default, which would redirect
@@ -168,13 +187,16 @@ export async function openEmbeddedCheckout(
 			posthog.capture('checkout_overlay_paid', { plan: opts.plan, trigger: opts.trigger });
 			opts.onPaid(checkoutUrl);
 		});
-		checkout.addEventListener('close', () => {
-			if (!paid)
-				posthog.capture('checkout_overlay_closed', { plan: opts.plan, trigger: opts.trigger });
-		});
+		checkout.addEventListener('close', () => reportClose(paid ? 'paid' : 'user_dismissed'));
 	} catch (err) {
 		clearTimeout(timer);
 		if (timedOut) removeStalledOverlay(checkoutUrl);
+		posthog.capture('checkout_overlay_failed', {
+			plan: opts.plan,
+			trigger: opts.trigger,
+			reason: timedOut ? 'timeout' : 'load_error',
+			error: String(err).slice(0, 200)
+		});
 		posthog.capture('checkout_overlay_opened', {
 			plan: opts.plan,
 			trigger: opts.trigger,
@@ -196,12 +218,23 @@ export async function openEmbeddedCheckout(
  * failure falls back to following the link, since there is nothing on these
  * pages a full-page checkout would lose.
  */
+// One plan checkout at a time. A double tap on mobile fired two requests a
+// second apart and created two Polar checkouts (2026-10-24), both abandoned.
+let planCheckoutBusy = false;
+
 export function startPlanCheckout(event: MouseEvent): void {
 	if (event.defaultPrevented || event.button !== 0) return;
 	if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 	const link = event.currentTarget as HTMLAnchorElement;
 	const target = new URL(link.href);
 	event.preventDefault();
+	if (planCheckoutBusy) return;
+	planCheckoutBusy = true;
+	link.setAttribute('aria-busy', 'true');
+	const release = () => {
+		planCheckoutBusy = false;
+		link.removeAttribute('aria-busy');
+	};
 
 	const follow = () => window.location.assign(link.href);
 	void (async () => {
@@ -227,11 +260,18 @@ export function startPlanCheckout(event: MouseEvent): void {
 			return;
 		}
 		const successUrl = data.successUrl ?? '/dashboard?upgraded=true';
-		await openEmbeddedCheckout(data.url, {
-			plan: target.searchParams.get('plan') ?? 'pro',
-			trigger: window.location.pathname,
-			onPaid: () => window.location.assign(successUrl),
-			onFallback: (url) => window.location.assign(url)
-		});
+		// Released once the overlay is up (it covers the button) so closing it
+		// and choosing again still works. The navigating paths above keep it
+		// held: the page is going away.
+		try {
+			await openEmbeddedCheckout(data.url, {
+				plan: target.searchParams.get('plan') ?? 'pro',
+				trigger: window.location.pathname,
+				onPaid: () => window.location.assign(successUrl),
+				onFallback: (url) => window.location.assign(url)
+			});
+		} finally {
+			release();
+		}
 	})();
 }

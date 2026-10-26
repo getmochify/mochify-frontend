@@ -2463,7 +2463,7 @@
                      subscription for anyone who will hit this every month. -->
 				<p class="px-1 text-xs font-medium text-[#6C3F31]/70">
 					{limitTier === 'guest'
-						? 'The Day Pass needs no account.'
+						? 'The Day Pass needs no signup.'
 						: `When the Day Pass ends, your free ${FREE_PLAN_QUOTA} starts fresh.`}
 					Or
 					<a
@@ -2781,7 +2781,7 @@
 										</DayPassButton>
 										<p class="text-xs font-medium text-[#6C3F31]/70">
 											{limitTier === 'guest'
-												? `The Day Pass needs no account, lasts 24 hours and takes files up to ${paidFileSizeMb}MB.`
+												? `The Day Pass needs no signup, lasts 24 hours and takes files up to ${paidFileSizeMb}MB.`
 												: `The Day Pass lasts 24 hours and takes files up to ${paidFileSizeMb}MB; when it ends, your free ${FREE_PLAN_QUOTA} starts fresh.`}
 										</p>
 									</div>
@@ -2894,7 +2894,7 @@
 								Convert {passCovers(filesLeft)} now: Day Pass ({dayPassPrice})
 							</DayPassButton>
 							<p class="text-xs font-medium text-[#6C3F31]/70">
-								No account needed. {DAY_PASS_OPS} uploads today, {BATCH_LIMIT_PAID} at a time, files up
+								No signup needed. {DAY_PASS_OPS} uploads today, {BATCH_LIMIT_PAID} at a time, files up
 								to
 								{paidFileSizeMb}MB.
 							</p>
@@ -2966,7 +2966,7 @@
 									class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
 								>
 									{limitTier === 'guest'
-										? `Day Pass (${dayPassPrice}): ${DAY_PASS_OPS} uploads today, no account needed`
+										? `Day Pass (${dayPassPrice}): ${DAY_PASS_OPS} uploads today, no signup needed`
 										: limitTier === 'free'
 											? `Day Pass (${dayPassPrice}): ${DAY_PASS_OPS} uploads today, then your free ${FREE_PLAN_QUOTA} starts fresh`
 											: `New Day Pass (${dayPassPrice}): another ${DAY_PASS_OPS} uploads today`}
@@ -3412,7 +3412,7 @@
 					<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
 						You've used your {GUEST_QUOTA} guest uploads for this month. A free account gives you {FREE_PLAN_QUOTA}
 						a month. Or a Day Pass is {DAY_PASS_OPS} conversions in 24 hours for {dayPassPrice},
-						with no subscription and no account needed.
+						with no subscription and no signup needed.
 					</p>
 					<div class="flex flex-col gap-3">
 						<a
