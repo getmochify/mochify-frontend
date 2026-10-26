@@ -16,7 +16,7 @@
         category: "Image Formats",
         readTime: "11 min read",
         datePublished: "June 26, 2026",
-        lastUpdated: "October 14, 2026"
+        lastUpdated: "October 26, 2026"
     };
 
     const related = [
@@ -92,7 +92,7 @@
         },
         "image": "https://mochify.app/og/guides-converting-images-to-jpeg-xl.png",
         "datePublished": "2026-06-26T12:00:00+00:00",
-        "dateModified": "2026-10-14T12:00:00+00:00",
+        "dateModified": "2026-10-26T12:00:00+00:00",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -164,7 +164,7 @@
         url="https://mochify.app/guides/converting-images-to-jpeg-xl"
         description={metadata.description}
         datePublished="2026-06-26"
-        dateModified="2026-10-14"
+        dateModified="2026-10-26"
     />
 </svelte:head>
 
@@ -271,7 +271,7 @@
 
             <p class="mb-4">This stack gives you JXL for Chrome 155+, Firefox 158+ and Safari 17+, AVIF for Edge and older Chrome and Firefox, WebP for older clients, and JPEG for everything else.</p>
             <p class="mb-4"><strong class="text-[#4A2C2C]">Always include <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">width</code> and <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">height</code> attributes</strong> on the <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;img&gt;</code> tag. Browsers need these to reserve layout space before the image loads. Omitting them causes cumulative layout shift (CLS), which affects your Core Web Vitals score. See our guide on <a href="/guides/optimizing-hero-images">optimizing hero images for web performance</a> for more on this.</p>
-            <p class="mb-4"><strong class="text-[#4A2C2C]">Do not serve JPEG XL as your only format.</strong> A standalone <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;img src="image.jxl"&gt;</code> will display a broken image in Edge, in any Chrome or Firefox that has not yet updated to the October 2026 releases, and in email clients and chat apps. That remains the production reality for months after a release.</p>
+            <p class="mb-4"><strong class="text-[#4A2C2C]">Do not serve JPEG XL as your only format.</strong> A standalone <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">&lt;img src="image.jxl"&gt;</code> will display a broken image in Edge, in any Chrome or Firefox that has not yet updated to the October 2026 releases, and in email clients and chat apps. That remains the production reality for months after a release. If you need to send a JXL to someone whose software cannot open it, the <a href="/solutions/jxl-to-jpg">JXL to JPG converter</a> gives you a JPEG that opens anywhere.</p>
             <p><strong class="text-[#4A2C2C]">CDN-level negotiation</strong> is cleaner than HTML for high-traffic sites. If you are on Fastly Image Optimizer, you can configure it to auto-negotiate JXL based on the <code class="bg-pink-50 text-[#F06292] px-1.5 py-px rounded font-mono text-sm border border-pink-100">Accept</code> header, so the right format is served without changing your image markup. Cloudflare and Netlify do not yet offer this for JXL.</p>
         </section>
 

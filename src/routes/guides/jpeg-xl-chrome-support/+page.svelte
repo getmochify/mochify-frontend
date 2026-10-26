@@ -22,7 +22,7 @@
 		category: 'Image Formats',
 		readTime: '20 min read',
 		date: 'October 7, 2026',
-		lastUpdated: 'October 22, 2026',
+		lastUpdated: 'October 26, 2026',
 		bylineNote:
 			'Written the day after Chrome 155 shipped, with a dated support table and the caveats the release notes leave out.'
 	};
@@ -166,7 +166,7 @@
 		url={pageUrl}
 		description={metadata.description}
 		datePublished="2026-10-07"
-		dateModified="2026-10-22"
+		dateModified="2026-10-26"
 		article={{
 			about: ['JPEG XL', 'Chrome 155', 'Firefox 158', 'Safari', 'AVIF', 'WebP', 'jxl-rs', 'picture element'],
 			keywords
@@ -719,7 +719,7 @@
 							></tr
 						>
 						<tr
-							><td>Send a <code>.jxl</code> in email or chat</td><td>Do not; send JPEG or PNG</td
+							><td>Send a <code>.jxl</code> in email or chat</td><td>Do not; send JPEG or PNG (the <a href="/solutions/jxl-to-jpg">JXL to JPG converter</a> makes the JPEG)</td
 							><td>Email clients and chat apps do not render it</td></tr
 						>
 						<tr

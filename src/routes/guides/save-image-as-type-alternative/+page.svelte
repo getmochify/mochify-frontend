@@ -18,7 +18,7 @@
 		category: 'Image Formats',
 		readTime: '18 min read',
 		date: 'September 23, 2026',
-		lastUpdated: 'October 2, 2026'
+		lastUpdated: 'October 26, 2026'
 	};
 
 	const toc = [
@@ -169,7 +169,7 @@
 			},
 			"image": "https://mochify.app/og/guides-save-image-as-type-alternative.png",
 			"datePublished": "2026-09-23T12:00:00+00:00",
-			"dateModified": "2026-10-02T12:00:00+00:00",
+			"dateModified": "2026-10-26T12:00:00+00:00",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -206,7 +206,7 @@
 		url="https://mochify.app/guides/save-image-as-type-alternative"
 		description={metadata.description}
 		datePublished="2026-09-23"
-		dateModified="2026-10-02"
+		dateModified="2026-10-26"
 	/>
 </svelte:head>
 
@@ -553,7 +553,8 @@
 			<p class="mb-4">
 				Two habits worth keeping. First, <strong>convert once, from the best source</strong>: a web
 				image is usually already lossy, and converting it to another lossy format compresses it a
-				second time, so if you'll edit it, go to PNG. Second,
+				second time, so if you'll edit it, go to PNG (for a WebP, the
+				<a href="/solutions/webp-to-png">WebP to PNG converter</a> does that pixel for pixel). Second,
 				<strong>match the transparency</strong>: if the image has a transparent background, choose
 				PNG, WebP, AVIF or JPEG XL, never JPG. Our
 				<a href="/guides/webp-avif-transparency">WebP and AVIF transparency guide</a> explains why,
@@ -562,8 +563,9 @@
 				choosing one to standardize on.
 			</p>
 			<p class="mb-4">
-				If what you already have is a downloaded AVIF that won't open, our
-				<a href="/avif-to-jpg">free AVIF to JPG converter</a> handles the file directly.
+				If what you already have is a downloaded WebP or AVIF that won't open, our free
+				<a href="/solutions/webp-to-jpg">WebP to JPG converter</a> and
+				<a href="/avif-to-jpg">AVIF to JPG converter</a> handle the file directly.
 			</p>
 		</section>
 

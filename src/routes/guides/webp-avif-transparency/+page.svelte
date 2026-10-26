@@ -23,7 +23,7 @@
 		category: 'Image Formats',
 		readTime: '14 min read',
 		date: 'September 21, 2026',
-		lastUpdated: 'October 15, 2026'
+		lastUpdated: 'October 26, 2026'
 	};
 
 	const toc = [
@@ -90,7 +90,7 @@
 		},
 		{
 			q: 'Should I use PNG, WebP or AVIF for a transparent logo?',
-			a: 'Keep a PNG master, publish WebP by default, and serve AVIF where your site or CDN can fall back to WebP for the rest. Google puts lossless WebP at 26% smaller than PNG, AVIF is usually smaller still on soft-edged cut-outs, and PNG is the one to send wherever the destination will flatten the file anyway.'
+			a: 'Keep a PNG master, publish WebP by default, and serve AVIF where your site or CDN can fall back to WebP for the rest. Google puts lossless WebP at 26% smaller than PNG, AVIF is usually smaller still on soft-edged cut-outs, and PNG is the one to send wherever the destination will flatten the file anyway; the <a href="/solutions/webp-to-png">WebP to PNG converter</a> turns a transparent WebP into one with the alpha channel intact.'
 		}
 	];
 
@@ -155,7 +155,7 @@
 			},
 			"image": "https://mochify.app/og/guides-webp-avif-transparency.png",
 			"datePublished": "2026-09-21T12:00:00+00:00",
-			"dateModified": "2026-10-15T12:00:00+00:00",
+			"dateModified": "2026-10-26T12:00:00+00:00",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -190,7 +190,7 @@
 		url="https://mochify.app/guides/webp-avif-transparency"
 		description={metadata.description}
 		datePublished="2026-09-21"
-		dateModified="2026-10-15"
+		dateModified="2026-10-26"
 	/>
 </svelte:head>
 
