@@ -49,6 +49,7 @@
 	import { formatPrice } from '$lib/currency';
 	import { getImagePreview, releaseImagePreview } from '$lib/imagePreview';
 	import DayPassButton from '$lib/components/DayPassButton.svelte';
+	import { recordToolUse } from '$lib/recentTools';
 	import {
 		DAY_PASS_ACTION,
 		dayPassEnabled,
@@ -1567,6 +1568,7 @@
 			const deltaSize = formatFileSize(Math.abs(delta));
 			const finalSize = formatFileSize(totalCompressedSize);
 
+			if (successfulFiles.length > 0) recordToolUse(page.url.pathname);
 			if (hitRateLimit) {
 				const pendingFiles = fileProgress.filter((fp) => fp.status === 'pending').length;
 				posthog.capture('manual_compress_rate_limited', {

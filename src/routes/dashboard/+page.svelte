@@ -14,6 +14,8 @@
 	// module cache in $lib/user. Connecting or removing storage here has to drop
 	// it, or /flow keeps offering the old destination until the cache expires.
 	import { invalidateBucketCache, invalidateDriveCache } from '$lib/user';
+	import { readRecentPaths } from '$lib/recentTools';
+	import { imageTools, videoTools, type SolutionTool } from '$lib/data/solutions';
 
 	let { data } = $props();
 
@@ -42,7 +44,17 @@
 	let useCaseSaving = $state(false);
 	let useCaseChoice = $state('');
 
+	// Converters this browser used (see $lib/recentTools), so someone who signed
+	// up from hif-to-jpg can get back to it in one tap instead of being steered
+	// into Flow. Read on mount: localStorage does not exist during SSR.
+	let recentTools: SolutionTool[] = $state([]);
+
 	onMount(() => {
+		const tools = new Map([...imageTools, ...videoTools].map((t) => [`/${t.slug}`, t]));
+		recentTools = readRecentPaths()
+			.map((p) => tools.get(p))
+			.filter((t): t is SolutionTool => !!t)
+			.slice(0, 3);
 		try {
 			useCaseDismissed = localStorage.getItem(USE_CASE_DISMISSED) === '1';
 		} catch {
@@ -381,6 +393,43 @@
 				</button>
 			</div>
 		</div>
+
+		{#if recentTools.length > 0}
+			<div class="mb-6">
+				<p class="mb-2 text-xs font-bold tracking-widest text-[#875F42]/50 uppercase">
+					Recently used
+				</p>
+				<div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+					{#each recentTools as tool (tool.slug)}
+						<a
+							href="/{tool.slug}"
+							onclick={() => posthog.capture('dashboard_recent_tool_clicked', { tool: tool.slug })}
+							class="dash-glass flex items-center gap-3 rounded-2xl px-4 py-3 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+						>
+							<span
+								class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-[#F06292]/10 text-[#F06292]"
+							>
+								<svg
+									class="h-5 w-5"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+									stroke-width="2"
+									aria-hidden="true"
+								>
+									{#each tool.iconPaths as d (d)}
+										<path stroke-linecap="round" stroke-linejoin="round" {d} />
+									{/each}
+								</svg>
+							</span>
+							<span class="min-w-0 truncate text-sm font-bold text-[#4A2C2C]"
+								>{tool.name.replace(/ Converter$/, '')}</span
+							>
+						</a>
+					{/each}
+				</div>
+			</div>
+		{/if}
 
 		<!-- Post-checkout success banner -->
 		{#if justUpgraded}
