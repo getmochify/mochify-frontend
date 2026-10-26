@@ -4,7 +4,7 @@
     import { faqSchema, type FaqItem } from '$lib/faq';
 
     const metaDescription =
-        'Convert WebP to PNG online with transparency kept: logos, stickers and cut-outs come back see-through, pixel for pixel. Free, no signup, batch up to 25.';
+        'Convert WebP to PNG online with transparency kept: logos, stickers and cut-outs come back see-through, pixel for pixel. Free, no signup, no install.';
 
     const faqs: FaqItem[] = [
         {
@@ -126,7 +126,7 @@
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">2</span>
                     <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Convert.</strong> There is nothing to set: each file becomes a pixel-exact PNG with its transparency kept. A Strip EXIF switch appears once your files are in if you want to keep embedded metadata.
+                        <strong class="text-[#4A2C2C]">Convert.</strong> Each file becomes a pixel-exact PNG with its transparency kept. Metadata is removed by default; a Strip EXIF switch appears once your files are in if you want to keep it.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
@@ -145,7 +145,7 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl font-bold text-[#4A2C2C]">When PNG is the right choice</h2>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            Pick PNG when the image has a transparent background, sharp edges or text: logos, icons, stickers, product cut-outs, screenshots and graphics you will keep editing. PNG keeps every pixel and the alpha channel, and every design tool, office app and upload form accepts it.
+                            Pick PNG when the image has a transparent background, sharp edges or text: logos, icons, stickers, product cut-outs, screenshots and graphics you will keep editing. PNG keeps every pixel and the alpha channel, and every design tool, office app and upload form accepts it. Our guide to <a href="/guides/webp-avif-transparency" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">WebP and AVIF transparency</a> explains where a transparent WebP gets flattened and a PNG does not.
                         </p>
                         <p class="leading-relaxed text-[#6C3F31]">
                             For an ordinary photo with no transparency, <a href="/solutions/webp-to-jpg" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">WebP to JPG</a> is usually the better trade: it opens just as widely in a much smaller file.

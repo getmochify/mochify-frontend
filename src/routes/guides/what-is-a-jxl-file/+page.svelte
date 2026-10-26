@@ -12,7 +12,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         date: "August 12, 2026",
-        lastUpdated: "October 7, 2026"
+        lastUpdated: "October 26, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -40,7 +40,7 @@
         url="https://mochify.app/guides/what-is-a-jxl-file"
         description={metadata.description}
         datePublished="2026-08-12"
-        dateModified="2026-10-07"
+        dateModified="2026-10-26"
         article={{
             about: ['JPEG XL', 'JXL file format', 'image formats', 'browser support'],
             keywords:

@@ -4,7 +4,7 @@
     import { faqSchema, type FaqItem } from '$lib/faq';
 
     const metaDescription =
-        'Convert WebP to JPG online: turn .webp images saved from the web into JPEGs that every app, form and printer accepts. Free, no signup, batch up to 25.';
+        'Convert WebP to JPG online: turn .webp images saved from the web into JPEGs that every app, form and printer accepts. Free, no signup, nothing to install.';
 
     const faqs: FaqItem[] = [
         {
@@ -133,7 +133,7 @@
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">2</span>
                     <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Decide what happens to the metadata.</strong> Once your files are in, a Strip EXIF switch appears. It starts on, so any embedded data is removed unless you switch it off. Each file is then decoded and re-encoded as a JPG with Google's jpegli encoder.
+                        <strong class="text-[#4A2C2C]">Decide what happens to the metadata.</strong> Once your files are in, a Strip EXIF switch appears. It is on by default, so any embedded data is removed unless you switch it off. Each file is then decoded and re-encoded as a JPG with Google's jpegli encoder.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
@@ -158,7 +158,7 @@
                             Converting gives you a standard JPEG. Mochify encodes it with <strong class="text-[#7E685E]">Google's jpegli</strong>, so it works with all existing tools, with fewer wasted bytes than a typical encoder at the same quality.
                         </p>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            Doing this often? The <a href="/chrome-extension" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Mochify Chrome extension</a> lets you right-click any image on a page and save it straight as a JPG, so you never end up with the .webp in the first place.
+                            Doing this often? The <a href="/chrome-extension" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Mochify Chrome extension</a> lets you right-click any image on a page and save it straight as a JPG, so you never end up with the .webp in the first place. Every other route, including the ones with nothing to install, is in our guide to <a href="/guides/save-webp-as-jpg-chrome" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">saving a WebP as JPG in Chrome</a>.
                         </p>
                     </div>
 

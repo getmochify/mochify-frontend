@@ -135,7 +135,7 @@
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">2</span>
                     <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Decide what happens to the metadata.</strong> Once your files are in, a Strip EXIF switch appears. It starts on, so camera data and GPS are removed unless you switch it off. Each file is then decoded and re-encoded as a JPG with Google's jpegli encoder.
+                        <strong class="text-[#4A2C2C]">Decide what happens to the metadata.</strong> Once your files are in, a Strip EXIF switch appears. It is on by default, so camera data and GPS are removed unless you switch it off. Each file is then decoded and re-encoded as a JPG with Google's jpegli encoder.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">

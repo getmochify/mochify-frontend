@@ -18,7 +18,7 @@
 		category: 'Image Formats',
 		readTime: '19 min read',
 		date: 'September 22, 2026',
-		lastUpdated: 'October 2, 2026'
+		lastUpdated: 'October 26, 2026'
 	};
 
 	const toc = [
@@ -160,7 +160,7 @@
 			},
 			"image": "https://mochify.app/og/guides-save-webp-as-jpg-chrome.png",
 			"datePublished": "2026-09-22T12:00:00+00:00",
-			"dateModified": "2026-10-02T12:00:00+00:00",
+			"dateModified": "2026-10-26T12:00:00+00:00",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -195,7 +195,7 @@
 		url="https://mochify.app/guides/save-webp-as-jpg-chrome"
 		description={metadata.description}
 		datePublished="2026-09-22"
-		dateModified="2026-10-02"
+		dateModified="2026-10-26"
 	/>
 </svelte:head>
 
