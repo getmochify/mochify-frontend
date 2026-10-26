@@ -2,7 +2,12 @@
 	import type { Snippet } from 'svelte';
 	import { page } from '$app/state';
 	import { posthog } from '$lib/analytics';
-	import { DAY_PASS_ACTION, dayPassNext, startDayPassCheckout } from '$lib/dayPass';
+	import {
+		DAY_PASS_ACTION,
+		dayPassNext,
+		startDayPassCheckout,
+		type DayPassActivation
+	} from '$lib/dayPass';
 
 	let {
 		trigger,
@@ -21,7 +26,7 @@
 		/** Override the return path; defaults to the page the CTA sits on. */
 		next?: string;
 		/** Called when payment completes in the overlay; the default is a notice card. */
-		onPaid?: (checkoutUrl: string) => void;
+		onPaid?: (checkoutUrl: string, activation: DayPassActivation) => void;
 		children?: Snippet;
 	} = $props();
 

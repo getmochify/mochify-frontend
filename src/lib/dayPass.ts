@@ -1,4 +1,7 @@
+import { invalidateAll } from '$app/navigation';
 import { openEmbeddedCheckout, showNotice } from '$lib/embedCheckout';
+import { resetUserCaches } from '$lib/user';
+import { posthog } from '$lib/analytics';
 
 /**
  * The Day Pass checkout target. POST-only by design: the hosted `buy.polar.sh`
@@ -53,10 +56,11 @@ export function dayPassNext(url: URL): string {
  * single field was filled. The overlay keeps the page underneath, takes Mochify's
  * light colors, and tells the page when payment completes.
  *
- * Anonymous buyers are still activated by the magic link `order.created` sends:
- * the email typed at checkout is unverified, so payment alone must never sign
- * anyone in. The uploader re-checks the plan when its tab regains focus, which
- * is what unlocks it after the link is clicked.
+ * A buyer with no account is signed in right here once payment completes (see
+ * `activateDayPass`), so the pass starts in this tab: many never opened the
+ * magic link `order.created` emails, and bought again. A buyer whose email
+ * already has an account is never signed in by payment; they are asked to sign
+ * in, and the uploader re-checks the plan when its tab regains focus.
  *
  * The native form POST stays the no-JS path (and the fallback when the fetch
  * itself fails). It is sent as JSON otherwise: SvelteKit's CSRF guard rejects a
@@ -70,11 +74,11 @@ export async function startDayPassCheckout(opts: {
 	/** Native POST form to fall back to when the fetch itself fails. */
 	fallbackForm?: HTMLFormElement | null;
 	/**
-	 * Called once payment completes, in place of the default notice, with the
-	 * paid checkout's URL (for `resendDayPassLink`). The overlay is already
-	 * closed by then.
+	 * Called once payment completes and activation has been tried, in place of
+	 * the default notice, with the paid checkout's URL (for `resendDayPassLink`).
+	 * The overlay is already closed by then.
 	 */
-	onPaid?: (checkoutUrl: string) => void;
+	onPaid?: (checkoutUrl: string, activation: DayPassActivation) => void;
 }): Promise<void> {
 	let checkoutUrl: string;
 	try {
@@ -100,14 +104,67 @@ export async function startDayPassCheckout(opts: {
 	await openEmbeddedCheckout(checkoutUrl, {
 		plan: 'day',
 		trigger: opts.trigger,
-		onPaid:
-			opts.onPaid ??
-			((url) =>
+		onPaid: async (url) => {
+			const activation = await activateDayPass(url);
+			posthog.capture('day_pass_tab_activation', { status: activation, trigger: opts.trigger });
+			if (activation === 'signed_in') {
+				resetUserCaches();
+				void invalidateAll();
+			}
+			if (opts.onPaid) {
+				opts.onPaid(url, activation);
+			} else if (activation === 'signed_in') {
+				showNotice('active');
+			} else if (activation === 'sign_in') {
+				showNotice('sign_in', dayPassSignIn());
+			} else {
 				showNotice('paid', url, {
 					label: 'Resend the link',
 					run: () => resendDayPassLink(url)
-				}))
+				});
+			}
+		}
 	});
+}
+
+/**
+ * What the paying tab ended up as (see `api/auth/day-pass/activate`):
+ * `signed_in` with the pass on its way, `sign_in` when the email already has an
+ * account, and `email` when only the emailed link can activate it (this
+ * browser is signed in as someone else, or activation failed).
+ */
+export type DayPassActivation = 'signed_in' | 'sign_in' | 'email';
+
+/** Sign-in page that returns to this one, for a buyer whose email has an account. */
+export function dayPassSignIn(): string {
+	return `/auth/login?next=${encodeURIComponent(dayPassNext(new URL(window.location.href)))}`;
+}
+
+/**
+ * Start the pass in this tab, for the checkout it just paid for. Retries while
+ * Polar still reports the checkout as unpaid, which it can for a moment after
+ * the overlay's success event. Falls back to `email` on anything else, which
+ * leaves the buyer exactly where they were before this existed.
+ */
+async function activateDayPass(checkoutUrl: string): Promise<DayPassActivation> {
+	for (let attempt = 0; attempt < 5; attempt++) {
+		try {
+			const res = await fetch('/api/auth/day-pass/activate', {
+				method: 'POST',
+				headers: { 'content-type': 'application/json', accept: 'application/json' },
+				body: JSON.stringify({ checkoutUrl })
+			});
+			if (res.ok) {
+				const { status } = (await res.json()) as { status?: DayPassActivation };
+				return status === 'signed_in' || status === 'sign_in' ? status : 'email';
+			}
+			if (res.status !== 409) break;
+		} catch {
+			break;
+		}
+		await new Promise((r) => setTimeout(r, 1500));
+	}
+	return 'email';
 }
 
 /**

@@ -22,7 +22,7 @@ import {
 import { mirrorPlan } from '$lib/server/resendContacts';
 import { sendDayPassLink } from '$lib/server/dayPassLink';
 import { reseedBucket, sha256Hex } from '$lib/server/bucket';
-import { grantDayPass, parkDayPass } from '$lib/server/dayPassGrant';
+import { claimPendingDayPass, grantDayPass, parkDayPass } from '$lib/server/dayPassGrant';
 
 async function updateUsageKv(
 	kv: KVNamespace | undefined,
@@ -459,6 +459,14 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				// Thrown on purpose if it fails (e.g. migration 0005 not applied):
 				// Polar retries a 500, and a dropped row is a paid pass lost.
 				await parkDayPass(db, email, order.id);
+				// The paying tab may have created the account (api/auth/day-pass/
+				// activate) between the lookup above and the park; its claim
+				// found nothing yet, so claim on its behalf.
+				const created = await db
+					.prepare('SELECT id, email FROM user WHERE lower(email) = lower(?) LIMIT 1')
+					.bind(email)
+					.first<{ id: string; email: string }>();
+				if (created) await claimPendingDayPass(db, platform?.env?.RESEND_API_KEY, created);
 				const posthog = getPostHogClient();
 				posthog.capture({
 					distinctId: email,

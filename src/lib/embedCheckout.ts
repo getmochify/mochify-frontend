@@ -9,7 +9,7 @@ import { posthog } from '$lib/analytics';
 /** How long the overlay may take to load before the buyer is offered a tab. */
 const EMBED_LOAD_TIMEOUT_MS = 12_000;
 
-type NoticeKind = 'paid' | 'fallback' | 'error';
+type NoticeKind = 'paid' | 'active' | 'sign_in' | 'fallback' | 'error';
 
 /**
  * A small status card pinned to the bottom of the page, built with plain DOM
@@ -19,6 +19,7 @@ type NoticeKind = 'paid' | 'fallback' | 'error';
  */
 export function showNotice(
 	kind: NoticeKind,
+	/** The checkout to open for 'fallback'; the sign-in page for 'sign_in'. */
 	checkoutUrl?: string,
 	/**
 	 * A text button under the message. `run` resolves to the text that replaces
@@ -45,6 +46,19 @@ export function showNotice(
 		title.textContent = 'Payment received. Check your email';
 		body.textContent =
 			"We've sent a magic link to activate your Day Pass. Click it to unlock 100 image ops for 24 hours.";
+	} else if (kind === 'active') {
+		title.textContent = 'Day Pass active';
+		body.textContent =
+			'100 image ops for the next 24 hours. A sign-in link is in your email for later.';
+	} else if (kind === 'sign_in') {
+		title.textContent = 'Payment received. Sign in to use it';
+		body.textContent = 'That email already has a Mochify account, and your Day Pass is on it. ';
+		const link = document.createElement('a');
+		link.href = checkoutUrl ?? '/auth/login';
+		link.target = '_blank';
+		link.textContent = 'Sign in';
+		link.style.cssText = 'color:#F06292;font-weight:800';
+		body.appendChild(link);
 	} else if (kind === 'fallback') {
 		title.textContent = "Checkout didn't open on this page.";
 		const link = document.createElement('a');

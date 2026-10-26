@@ -53,8 +53,10 @@
 		DAY_PASS_ACTION,
 		dayPassEnabled,
 		dayPassNext,
+		dayPassSignIn,
 		resendDayPassLink,
-		startDayPassCheckout
+		startDayPassCheckout,
+		type DayPassActivation
 	} from '$lib/dayPass';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
@@ -374,11 +376,14 @@
 	});
 
 	// Payment completed in the checkout overlay, so this page (and any files on
-	// it) is still here. A guest is activated by the emailed magic link, and the
-	// focus re-check unlocks the tab when they come back from it. A signed-in
-	// buyer needs no link: the webhook upgrades their plan within seconds, so
-	// poll for it instead of waiting for a focus change that may never come.
+	// it) is still here. A guest with no account is signed in by `activateDayPass`
+	// before this runs, and a signed-in buyer needs nothing: either way the
+	// webhook grants the plan within seconds, so poll for it instead of waiting
+	// for a focus change that may never come. A guest whose email already has an
+	// account signs in (in a new tab, so the files stay) and the focus re-check
+	// unlocks this one; only the leftover cases still depend on the magic link.
 	let dayPassPaidAuthed = $state(false);
+	let dayPassNeedsSignIn = $state(false);
 	// The paid checkout, for "Resend the link" (see `resendDayPassLink`).
 	let paidCheckoutUrl: string | null = $state(null);
 	let resendState: { text: string; again?: boolean } | null = $state(null);
@@ -389,9 +394,11 @@
 		resendState = await resendDayPassLink(paidCheckoutUrl);
 		resending = false;
 	}
-	function handleDayPassPaid(checkoutUrl: string) {
+	function handleDayPassPaid(checkoutUrl: string, activation: DayPassActivation) {
 		dayPassSuccess = true;
+		if (activation === 'signed_in') isAuthed = true;
 		dayPassPaidAuthed = isAuthed;
+		dayPassNeedsSignIn = !isAuthed && activation === 'sign_in';
 		paidCheckoutUrl = checkoutUrl;
 		resendState = null;
 		if (!isAuthed) return;
@@ -2016,6 +2023,17 @@
 					<p class="text-sm font-black text-[#4A2C2C]">Payment received</p>
 					<p class="mt-0.5 text-xs text-[#6C3F31]/70">
 						Your Day Pass switches on in a few seconds: 100 image ops for 24 hours.
+					</p>
+				{:else if dayPassNeedsSignIn}
+					<p class="text-sm font-black text-[#4A2C2C]">Payment received. Sign in to use it</p>
+					<p class="mt-0.5 text-xs text-[#6C3F31]/70">
+						That email already has a Mochify account, and your Day Pass is on it.
+						<a
+							href={dayPassSignIn()}
+							target="_blank"
+							class="font-extrabold text-[#F06292] underline underline-offset-2">Sign in</a
+						>{#if stagedCount + queuedFiles.length > 0}, then come back to this tab and your files
+							pick up here{/if}.
 					</p>
 				{:else}
 					<p class="text-sm font-black text-[#4A2C2C]">Payment received. Check your email</p>

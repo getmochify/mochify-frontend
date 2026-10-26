@@ -14,6 +14,7 @@ import { setUseCase } from "$lib/server/useCase";
 import { isUseCase } from "$lib/useCases";
 import { startOnboarding } from "$lib/server/emails/onboarding";
 import { claimPendingDayPass } from "$lib/server/dayPassGrant";
+import { dayPassActivation } from "$lib/server/dayPassActivation";
 import { setMarketingPreference } from "$lib/server/unsubscribe";
 
 // Which flow created the account, derived from the Better Auth endpoint that ran.
@@ -25,6 +26,7 @@ function signupMethod(path: string | undefined): string {
         return path.split("/").pop() || "oauth";
     if (path === "/sign-up/email" || path === "/sign-in/email") return "email";
     if (path.startsWith("/magic-link/verify")) return "magic-link";
+    if (path === "/day-pass/activate") return "day-pass";
     return "unknown";
 }
 
@@ -339,6 +341,13 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                     userId: user.id,
                     email: user.email,
                 });
+                // A Day Pass buyer who signs up with a password instead of
+                // clicking the activation link. Only now, once the address is
+                // proven, or anyone could claim a pass by typing its email.
+                await claimPendingDayPass(db, resendKey, {
+                    id: user.id,
+                    email: user.email,
+                });
             },
             sendVerificationEmail: async ({ user, url }) => {
                 await sendVerifyEmail(user.email, url);
@@ -370,6 +379,7 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                 : {}),
         },
         plugins: [
+            dayPassActivation(db, resendKey),
             magicLink({
                 // An hour, not ten minutes: the only sender is the Day Pass purchase,
                 // and a buyer who paid and opened their inbox a quarter of an hour

@@ -1,8 +1,7 @@
-import { Polar } from '@polar-sh/sdk';
-import { env } from '$env/dynamic/private';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { sendDayPassLink } from '$lib/server/dayPassLink';
+import { paidDayPassCheckout } from '$lib/server/dayPassCheckout';
 
 const MAX_SENDS = 3;
 const MIN_GAP_MS = 60_000;
@@ -19,36 +18,13 @@ const MIN_GAP_MS = 60_000;
  */
 export const POST: RequestHandler = async ({ request, platform }) => {
 	const body = (await request.json().catch(() => null)) as { checkoutUrl?: unknown } | null;
-	const raw = typeof body?.checkoutUrl === 'string' ? body.checkoutUrl : '';
-	const secret = /^https:\/\/(?:sandbox\.)?polar\.sh\/checkout\/(polar_c_[A-Za-z0-9]+)/.exec(
-		raw
-	)?.[1];
-	if (!secret) return json({ error: 'invalid_checkout' }, { status: 400 });
-
 	const db = platform?.env?.DB;
 	if (!db) return json({ error: 'unavailable' }, { status: 503 });
 
-	const polar = new Polar({
-		accessToken: env.POLAR_ACCESS_TOKEN,
-		...(env.POLAR_SANDBOX === 'true' ? { server: 'sandbox' } : {})
-	});
-
-	let checkout;
-	try {
-		const pub = await polar.checkouts.clientGet({ clientSecret: secret });
-		checkout = await polar.checkouts.get({ id: pub.id });
-	} catch (err) {
-		console.error('[daypass-resend] checkout lookup failed:', err);
-		return json({ error: 'not_found' }, { status: 404 });
-	}
-
-	if (
-		checkout.status !== 'succeeded' ||
-		checkout.productId !== env.POLAR_PRODUCT_ID_DAY_PASS ||
-		!checkout.customerEmail
-	) {
-		return json({ error: 'not_paid' }, { status: 409 });
-	}
+	const checkout = await paidDayPassCheckout(body?.checkoutUrl);
+	if (checkout === 'invalid') return json({ error: 'invalid_checkout' }, { status: 400 });
+	if (checkout === 'not_found') return json({ error: 'not_found' }, { status: 404 });
+	if (checkout === 'not_paid') return json({ error: 'not_paid' }, { status: 409 });
 
 	const kv = platform?.env?.USAGE_KV;
 	const key = `daypass-resend:${checkout.id}`;
@@ -61,12 +37,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 	}
 
 	try {
-		await sendDayPassLink(
-			db,
-			platform?.env?.RESEND_API_KEY,
-			checkout.customerEmail,
-			checkout.metadata?.return_path
-		);
+		await sendDayPassLink(db, platform?.env?.RESEND_API_KEY, checkout.email, checkout.returnPath);
 	} catch (err) {
 		console.error('[daypass-resend] send failed:', err);
 		return json({ error: 'send_failed' }, { status: 502 });
