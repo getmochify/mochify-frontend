@@ -230,6 +230,11 @@ export async function wsTransfer(o: WsTransferOptions): Promise<void> {
 	let failedConnects = 0;
 	let failures = 0;
 	let lastProgress = performance.now();
+	const started = lastProgress;
+	// Summarised once per upload in `finally` rather than captured per drop:
+	// one patchy connection was logging dozens of events a session.
+	let reconnects = 0;
+	let outcome: 'done' | 'failed' = 'failed';
 	let retrying = false;
 	const setRetrying = (r: boolean) => {
 		if (r !== retrying) {
@@ -241,7 +246,10 @@ export async function wsTransfer(o: WsTransferOptions): Promise<void> {
 	try {
 		for (;;) {
 			const a = await attempt(o, acked, () => setRetrying(false));
-			if (a.kind === 'done') return;
+			if (a.kind === 'done') {
+				outcome = 'done';
+				return;
+			}
 			if (a.kind === 'fatal') throw a.error;
 
 			if (a.reachedReady) {
@@ -264,11 +272,20 @@ export async function wsTransfer(o: WsTransferOptions): Promise<void> {
 				throw err;
 			}
 			setRetrying(true);
-			posthog.capture('upload_ws_reconnect', { acked, total, failures });
+			reconnects++;
 			await sleep(Math.min(500 * 2 ** failures++, 8000, left));
 			await waitForOnline(left);
 		}
 	} finally {
 		setRetrying(false);
+		if (reconnects > 0) {
+			posthog.capture('upload_ws_resumed', {
+				reconnects,
+				outcome,
+				acked,
+				total,
+				ms: Math.round(performance.now() - started)
+			});
+		}
 	}
 }
