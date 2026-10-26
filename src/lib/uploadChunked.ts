@@ -146,6 +146,9 @@ export interface ChunkedUploadCallbacks {
 	// Ask core to hold the result until acknowledged, so a download lost to a
 	// drop is fetched again instead of lost after the charge (completeUpload).
 	holdResult?: boolean;
+	// Where the request came from, for core's images_processed event: the
+	// query string from $lib/apiClient, added to the complete URL only.
+	client?: string;
 }
 
 interface RetryableXhrError extends Error {
@@ -405,9 +408,11 @@ async function recoverHeldResult(
 	jwt: string | null | undefined,
 	params: ChunkedUploadParams | undefined,
 	lost: unknown,
-	onDownloadProgress?: (loaded: number, total: number) => void
+	onDownloadProgress?: (loaded: number, total: number) => void,
+	client?: string
 ): Promise<XMLHttpRequest> {
 	const q = `session=${encodeURIComponent(sessionId)}`;
+	const tag = client ? `&${client}` : '';
 	const deadline = Date.now() + HELD_RESULT_MAX_MS;
 	let failures = 0;
 	while (Date.now() < deadline) {
@@ -442,7 +447,7 @@ async function recoverHeldResult(
 			if (!open) break;
 			const again = await requestResult(
 				'POST',
-				`${apiUrl}/v1/upload/complete?${q}&hold=1`,
+				`${apiUrl}/v1/upload/complete?${q}&hold=1${tag}`,
 				jwt,
 				params,
 				onDownloadProgress
@@ -486,13 +491,17 @@ export async function completeUpload(
 	// Ask core to hold the response until acknowledged (~60 s at most), so a
 	// download lost to a drop is fetched again rather than lost after the
 	// charge. Only /flow passes it.
-	hold = false
+	hold = false,
+	// Where the request came from, for core's images_processed event (see
+	// $lib/apiClient). Only the complete URL carries it: that is the charge.
+	client?: string
 ): Promise<Blob> {
 	const q = `session=${encodeURIComponent(sessionId)}`;
+	const tag = client ? `&${client}` : '';
 	if (!hold) {
 		const xhr = await requestResult(
 			'POST',
-			`${apiUrl}/v1/upload/complete?${q}`,
+			`${apiUrl}/v1/upload/complete?${q}${tag}`,
 			jwt,
 			params,
 			onDownloadProgress
@@ -504,7 +513,7 @@ export async function completeUpload(
 	try {
 		xhr = await requestResult(
 			'POST',
-			`${apiUrl}/v1/upload/complete?${q}&hold=1`,
+			`${apiUrl}/v1/upload/complete?${q}&hold=1${tag}`,
 			jwt,
 			params,
 			onDownloadProgress
@@ -512,7 +521,7 @@ export async function completeUpload(
 	} catch (err) {
 		if (!isRetryable(err)) throw err;
 		posthog.capture('upload_result_recovering', { source });
-		xhr = await recoverHeldResult(apiUrl, sessionId, jwt, params, err, onDownloadProgress);
+		xhr = await recoverHeldResult(apiUrl, sessionId, jwt, params, err, onDownloadProgress, client);
 	}
 	// We have the answer, success or failure: let core drop its copy now rather
 	// than at its TTL. Fire-and-forget; the TTL is the guarantee.
@@ -790,7 +799,8 @@ async function runChunkedUpload(
 					'chunked_complete',
 					onTargetOutcome,
 					file instanceof File ? file : undefined,
-					callbacks.holdResult === true
+					callbacks.holdResult === true,
+					callbacks.client
 				),
 			'chunk_complete',
 			onRetryStateChange

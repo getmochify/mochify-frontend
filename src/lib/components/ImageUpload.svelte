@@ -14,6 +14,9 @@
 		type UsageResponse
 	} from '$lib/user';
 	import { posthog } from '$lib/analytics';
+	import { clientQuery } from '$lib/apiClient';
+	// For core's images_processed event (see $lib/apiClient).
+	const TOOL_CLIENT = clientQuery('tool_page');
 	import { createBatchTitle, notifyBatchDone, NOTIFY_MIN_FILES } from '$lib/batchNotify';
 	import NotifyMeLink from '$lib/components/NotifyMeLink.svelte';
 	import { formatFileSize } from '$lib/formatSize';
@@ -1292,6 +1295,7 @@
 
 						blob = await uploadChunked(uploadBodyOf(file), API_URL, chunkedParams, {
 							jwt,
+							client: TOOL_CLIENT,
 							transport: 'ws',
 							holdResult: true,
 							onUploadProgress: (loaded) => {
@@ -1435,7 +1439,7 @@
 									}
 									if (queryParams)
 										new URLSearchParams(queryParams).forEach((v, k) => squishParams.append(k, v));
-									xhr.open('POST', `${API_URL}/v1/squish?${squishParams}`);
+									xhr.open('POST', `${API_URL}/v1/squish?${squishParams}&${TOOL_CLIENT}`);
 									xhr.setRequestHeader('Content-Type', resolveContentType(file));
 									if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
 									xhr.responseType = 'blob';

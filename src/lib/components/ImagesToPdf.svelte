@@ -2,6 +2,7 @@
     import { env } from '$env/dynamic/public';
     import { getSessionToken, getPlan } from '$lib/user';
     import { posthog } from '$lib/analytics';
+    import { clientQuery } from '$lib/apiClient';
     import { withRetry } from '$lib/uploadRetry';
 
     const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
@@ -125,7 +126,7 @@
                         phase = 'uploading';
                         uploadPercent = 0;
                         const xhr = new XMLHttpRequest();
-                        xhr.open('POST', `${API_URL}/v1/pdf?${params}`);
+                        xhr.open('POST', `${API_URL}/v1/pdf?${params}&${clientQuery('tool_page')}`);
                         if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
                         // No Content-Type — the browser sets the multipart boundary.
                         xhr.responseType = 'blob';
@@ -181,7 +182,13 @@
             }, 100);
 
             const count = files.length;
-            posthog.capture('imgpdf_solution_completed', { images: count, page: pageSize, format: formatLabel });
+            posthog.capture('imgpdf_solution_completed', {
+                images: count,
+                files: count,
+                failed: 0,
+                page: pageSize,
+                format: formatLabel
+            });
             successMessage = `PDF created from ${count} ${formatLabel}${count > 1 ? 's' : ''}! ✨`;
             files = [];
             if (fileInputEl) fileInputEl.value = '';

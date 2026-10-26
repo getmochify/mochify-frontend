@@ -22,6 +22,9 @@
 		type UsageResponse
 	} from '$lib/user';
 	import { posthog } from '$lib/analytics';
+	import { clientQuery } from '$lib/apiClient';
+	// Every Flow request comes from /v1/prompt's parse (core's images_processed).
+	const FLOW_CLIENT = clientQuery('web_app', true);
 	import { createBatchTitle, notifyBatchDone, NOTIFY_MIN_FILES } from '$lib/batchNotify';
 	import NotifyMeLink from '$lib/components/NotifyMeLink.svelte';
 	import { formatFileSize } from '$lib/formatSize';
@@ -1752,7 +1755,7 @@
 								processPhase = 'uploading';
 								uploadPercent = 0;
 								const xhr = new XMLHttpRequest();
-								xhr.open('POST', `${API_URL}/v1/pdf?${params}`);
+								xhr.open('POST', `${API_URL}/v1/pdf?${params}&${FLOW_CLIENT}`);
 								if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
 								// No Content-Type — the browser sets the multipart boundary.
 								xhr.responseType = 'blob';
@@ -1812,6 +1815,8 @@
 						if (fileInputEl) fileInputEl.value = '';
 						posthog.capture('imgpdf_flow_completed', {
 							images: totalImages,
+							files: totalImages,
+							failed: 0,
 							page,
 							combine,
 							dest: imgPdfDest
@@ -1848,6 +1853,8 @@
 
 					posthog.capture('imgpdf_flow_completed', {
 						images: totalImages,
+						files: totalImages,
+						failed: 0,
 						page,
 						combine,
 						delivery_fell_back: imgPdfFellBack || undefined
@@ -1877,7 +1884,12 @@
 					} else if (e?.status === 403) {
 						showUpgradeCta = true;
 					} else {
-						posthog.capture('imgpdf_flow_completed', { images: totalImages, all_failed: true });
+						posthog.capture('imgpdf_flow_completed', {
+							images: totalImages,
+							files: 0,
+							failed: totalImages,
+							all_failed: true
+						});
 						showStatus(
 							'error',
 							e instanceof Error ? e.message : 'PDF creation failed — please try again.'
@@ -1981,7 +1993,7 @@
 							new Promise((resolve, reject) => {
 								processPhase = 'uploading';
 								const xhr = new XMLHttpRequest();
-								xhr.open('POST', `${API_URL}/v1/pdf?${params}`);
+								xhr.open('POST', `${API_URL}/v1/pdf?${params}&${FLOW_CLIENT}`);
 								// FormData sets its own multipart boundary.
 								if (!(upload.body instanceof FormData))
 									xhr.setRequestHeader('Content-Type', 'application/pdf');
@@ -2618,7 +2630,8 @@
 								stagedScale = scale;
 							},
 							file,
-							true
+							true,
+							FLOW_CLIENT
 						);
 						posthog.capture('speculative_hit', { size: file.size });
 						// Trust the header when it arrives; fall back to comparing the
@@ -2660,6 +2673,7 @@
 					let lastLoaded = 0;
 					return uploadChunked(uploadBodyOf(file), API_URL, chunkedParams, {
 						jwt,
+						client: FLOW_CLIENT,
 						transport: 'ws',
 						// Core holds the result until we have it, so a download lost to
 						// a drop is fetched again instead of lost after the charge.
@@ -2684,7 +2698,7 @@
 						new Promise((resolve, reject) => {
 							processPhase = 'uploading';
 							const xhr = new XMLHttpRequest();
-							xhr.open('POST', `${API_URL}/v1/squish?${params}`);
+							xhr.open('POST', `${API_URL}/v1/squish?${params}&${FLOW_CLIENT}`);
 							xhr.setRequestHeader('Content-Type', resolveContentType(file));
 							if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
 							xhr.responseType = 'blob';
