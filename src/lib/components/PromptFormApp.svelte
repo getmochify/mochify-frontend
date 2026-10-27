@@ -143,7 +143,7 @@
 	let isProcessing: boolean = $state(false);
 	let processPhase: 'idle' | 'thinking' | 'uploading' | 'processing' | 'downloading' | 'packing' =
 		$state('idle');
-	let thinkingText: string = $state('Reading your images…');
+	let thinkingText: string = $state('Reading your request…');
 
 	let uploadPercent: number = $state(0);
 	// True while an upload is stalled in withRetry's backoff loop (or paused
@@ -1431,10 +1431,10 @@
 		const thinkingMessages = isCreate
 			? ['Imagining your image…', 'Composing the scene…', 'Rendering with AI…']
 			: uploadMode === 'pdf'
-				? ['Reading your PDF…', 'Planning the transform…']
+				? ['Reading your request…', 'Planning the transform…']
 				: uploadMode === 'video'
-					? ['Reading your media…', 'Planning the conversion…']
-					: ['Reading your images…', 'Planning the squish…'];
+					? ['Reading your request…', 'Planning the conversion…']
+					: ['Reading your request…', 'Planning the squish…'];
 
 		thinkingText = thinkingMessages[0];
 		let msgIdx = 1;
