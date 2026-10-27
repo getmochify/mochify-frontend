@@ -2839,7 +2839,23 @@
 						continue;
 					}
 
-					const fileConfig = fileMap[file.name] ?? fileArrayByIndex[fileIdx] ?? {};
+					// No plan entry means the parser never saw this file. Processing it
+					// with defaults returns a plain re-encode as a "success" that ignored
+					// the instruction (seen when the worker planned 20 of a 25-file batch),
+					// so fail it visibly instead. Nothing was charged: it never reached squish.
+					const fileConfig = fileMap[file.name] ?? fileArrayByIndex[fileIdx];
+					if (!fileConfig) {
+						failedFiles = [
+							...failedFiles,
+							{
+								name: file.name,
+								reason: 'Skipped — this file was not included in the plan. Try again with fewer files.'
+							}
+						];
+						totalBytes -= file.size * (bucketDest ? variantCount(undefined) : 1);
+						posthog.capture('flow_file_unplanned', { planned: fileArray.length, files: files.length });
+						continue;
+					}
 
 					const formats: string[] =
 						Array.isArray(fileConfig.types) && fileConfig.types.length > 1
