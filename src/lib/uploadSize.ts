@@ -53,9 +53,34 @@ export function effectiveSize(file: File): number {
 	return cached ? cached.size : file.size;
 }
 
+// Leading zero bytes that mean "no content", matching core's ImageValidator
+// (kZeroPrefixMin): every format we accept has a non-zero byte in its first
+// 12, ISO-BMFF included ("ftyp" sits at offset 4). Core rejects these as 422
+// corrupt-image on the first upload frame; catching them here saves the
+// session, the round trip and a generic error for the same answer.
+const ZERO_HEADER_BYTES = 12;
+
+function isZeroHeader(bytes: Uint8Array): boolean {
+	if (bytes.byteLength < ZERO_HEADER_BYTES) return false;
+	for (let i = 0; i < ZERO_HEADER_BYTES; i++) if (bytes[i] !== 0) return false;
+	return true;
+}
+
 export async function resolveUploadSize(file: File, limit: number): Promise<ResolvedSize> {
-	// Fast path: a plausible non-zero size is trustworthy — no read needed.
+	// A plausible non-zero size is trustworthy, but the bytes behind it may not
+	// be: a cloud placeholder (iCloud "Optimise Storage", OneDrive/Dropbox
+	// online-only) or a file still being downloaded can report its full size
+	// and read back as zeros. Twelve bytes is the whole cost.
 	if (file.size > 0) {
+		let zeroHeader = false;
+		try {
+			zeroHeader = isZeroHeader(
+				new Uint8Array(await file.slice(0, ZERO_HEADER_BYTES).arrayBuffer())
+			);
+		} catch {
+			// Unreadable header: leave it to the upload, exactly as before.
+		}
+		if (zeroHeader) return { size: file.size, trusted: true, exceededLimit: false, unreadable: true };
 		return { size: file.size, trusted: true, exceededLimit: file.size > limit, unreadable: false };
 	}
 
@@ -80,6 +105,8 @@ export async function resolveUploadSize(file: File, limit: number): Promise<Reso
 		// placeholder file. Nothing to upload, so flag it unreadable rather than
 		// letting it POST an empty body.
 		if (total === 0) return { size: 0, trusted: false, exceededLimit: false, unreadable: true };
+		const head = new Uint8Array(await new Blob(chunks as BlobPart[]).slice(0, ZERO_HEADER_BYTES).arrayBuffer());
+		if (isZeroHeader(head)) return { size: total, trusted: false, exceededLimit: false, unreadable: true };
 		// chunks are ArrayBuffer-backed Uint8Arrays from a File stream; the cast
 		// satisfies the lib's SharedArrayBuffer-pedantic BlobPart typing.
 		bodyCache.set(file, new Blob(chunks as BlobPart[], { type: file.type }));
