@@ -32,7 +32,21 @@ type ContactProperties = {
 	tier: string;
 	/** Omitted rather than guessed when user.createdAt is missing or unparseable. */
 	signup_date?: string;
+	/** profile.use_case, set only by the email signup form's optional select. */
+	use_case?: string;
 };
+
+/**
+ * Resend refuses the WHOLE create or update when any property key is not defined
+ * in its dashboard (Contacts → Properties), not just that one property. Since
+ * `use_case` only ever comes from the email signup form, a missing definition
+ * kept exactly those signups off the list while Google signups sailed through.
+ * A property must never cost us the contact itself, so on that refusal the write
+ * is retried with consent alone and the property drift is logged loudly instead.
+ */
+function isPropertyRejection(error: { name: string }): boolean {
+	return error.name === 'validation_error' || error.name === 'invalid_parameter';
+}
 
 type ContactState = {
 	email: string;
@@ -150,13 +164,20 @@ export async function syncContact(
 				return true;
 			}
 
-			const { error } = await resend.contacts.update({
+			let { error } = await resend.contacts.update({
 				email: state.email,
 				unsubscribed: state.unsubscribed,
 				// Only the keys we own are sent, so anything curated in the Resend
 				// dashboard under another key survives the write.
 				...(state.properties ? { properties: state.properties } : {})
 			});
+			if (error && state.properties && isPropertyRejection(error)) {
+				console.error('[contacts] properties rejected, retrying without them:', error);
+				({ error } = await resend.contacts.update({
+					email: state.email,
+					unsubscribed: state.unsubscribed
+				}));
+			}
 			if (error) {
 				console.error('[contacts] update failed:', error);
 				return false;
@@ -164,12 +185,20 @@ export async function syncContact(
 			return true;
 		}
 
-		const { error } = await resend.contacts.create({
+		let { error } = await resend.contacts.create({
 			email: state.email,
 			unsubscribed: state.unsubscribed,
 			...(state.firstName ? { firstName: state.firstName } : {}),
 			...(state.properties ? { properties: state.properties } : {})
 		});
+		if (error && state.properties && isPropertyRejection(error)) {
+			console.error('[contacts] properties rejected, retrying without them:', error);
+			({ error } = await resend.contacts.create({
+				email: state.email,
+				unsubscribed: state.unsubscribed,
+				...(state.firstName ? { firstName: state.firstName } : {})
+			}));
+		}
 		if (error) {
 			console.error('[contacts] create failed:', error);
 			return false;

@@ -36,6 +36,7 @@ type to reach for.
 | ------------- | ---------------- | ------------------------------------------------ |
 | `tier`        | `profile.plan`   | `free` \| `day` \| `seller` \| `pro` \| `growth` |
 | `signup_date` | `user.createdAt` | `YYYY-MM-DD`, e.g. `2026-08-20`                  |
+| `use_case`    | `profile.use_case` | A `$lib/useCases` slug; omitted when unanswered |
 
 `signup_date` is the date only, deliberately. A segment filter compares strings,
 and `2026-08-20` orders correctly that way where a full ISO timestamp does not
@@ -93,11 +94,14 @@ that row is unverified at the moment the `order.created` webhook fires.
 
 1. **API key needs full access.** A sending-only key 401s on every contact write.
    Granted 2026-08-20; if the key is ever rotated, keep the scope.
-2. **The two properties must exist first.** Create `tier` and `signup_date` in
-   the Resend dashboard, both typed `string`, before deploying. Writing to a key
-   that has not been defined is rejected, and because `syncContact` swallows its
-   own errors that shows up as a logged `[contacts] update failed` rather than
-   anything louder.
+2. **The three properties must exist first.** Create `tier`, `signup_date` and
+   `use_case` in the Resend dashboard, all typed `string`, before deploying.
+   Writing to a key that has not been defined rejects the whole contact write,
+   not just that key. `use_case` (added 2026-09-24) was missed here, and since
+   only the email signup form sets it, email signups who answered the question
+   never reached Resend while Google signups did. `syncContact` now retries a
+   rejected write with consent alone and logs `[contacts] properties rejected`,
+   so a missing definition costs the property, never the contact.
 3. **Create the webhook** in the Resend dashboard against
    `https://mochify.app/api/webhooks/resend`, subscribed to `contact.updated`,
    `contact.deleted` and `email.complained`. Then

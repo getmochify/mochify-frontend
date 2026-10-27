@@ -34,7 +34,7 @@ const resend = new Resend(API_KEY);
 
 const SQL = `
 	SELECT u.email AS email, u.name AS name, u.createdAt AS created_at,
-	       p.marketing_opt_out AS opt_out, p.plan AS plan
+	       p.marketing_opt_out AS opt_out, p.plan AS plan, p.use_case AS use_case
 	FROM user u
 	LEFT JOIN profile p ON p.user_id = u.id
 	WHERE u.emailVerified = 1 AND u.deleted_at IS NULL
@@ -66,7 +66,8 @@ function propertiesFor(row) {
 	const signedUp = signupDate(row.created_at);
 	return {
 		tier: row.plan ?? 'free',
-		...(signedUp ? { signup_date: signedUp } : {})
+		...(signedUp ? { signup_date: signedUp } : {}),
+		...(row.use_case ? { use_case: row.use_case } : {})
 	};
 }
 
@@ -110,6 +111,8 @@ console.log(`${users.length} verified, non-deleted accounts${DRY_RUN ? ' (dry ru
 
 const tally = {};
 const failures = [];
+// Who is missing, by name: the dry run is mostly run to answer exactly that.
+const missing = [];
 const queue = [...users];
 
 // Resend rate limits per endpoint; keep the fan-out small and let a 429 surface
@@ -121,6 +124,7 @@ await Promise.all(
 			try {
 				const result = await syncOne(row);
 				tally[result] = (tally[result] ?? 0) + 1;
+				if (result === 'would-create' || result === 'created') missing.push(row.email);
 			} catch (e) {
 				failures.push(`${row.email}: ${e.message}`);
 			}
@@ -129,6 +133,10 @@ await Promise.all(
 );
 
 console.log(tally);
+if (missing.length) {
+	console.log(`\n${missing.length} not on the list${DRY_RUN ? '' : ' (now added)'}:`);
+	for (const email of missing) console.log(`  ${email}`);
+}
 if (failures.length) {
 	console.error(`\n${failures.length} failed:`);
 	for (const f of failures) console.error(`  ${f}`);
