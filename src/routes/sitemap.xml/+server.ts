@@ -94,6 +94,7 @@ export async function GET() {
 		'/guides/does-hif-to-jpg-lose-quality',
 		'/guides/what-is-a-hif-file',
 		'/guides/what-is-an-avif-file',
+		'/guides/what-is-a-webp-file',
 		'/guides/sony-hif-to-jpg',
 		'/guides/privacy-image-optimization',
 		'/guides/2026-guide-next-gen-formats',

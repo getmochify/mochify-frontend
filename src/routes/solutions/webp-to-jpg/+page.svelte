@@ -151,7 +151,7 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl font-bold text-[#4A2C2C]">Why is everything WebP now?</h2>
                         <p class="leading-relaxed text-[#6C3F31]">
-                            WebP makes images noticeably smaller than JPG at the same quality, so websites, shops and image search serve it to make pages load faster. That is good for the site and awkward for you: right-click and save, and the photo you wanted arrives as a .webp that an older editor, a print service or a form that asks for "JPG or PNG" will refuse.
+                            WebP makes images noticeably smaller than JPG at the same quality, so websites, shops and image search serve it to make pages load faster. That is good for the site and awkward for you: right-click and save, and the photo you wanted arrives as a .webp that an older editor, a print service or a form that asks for "JPG or PNG" will refuse. Our short explainer, <a href="/guides/what-is-a-webp-file">what a WebP file is and how to open one</a>, covers the format and which apps open it on Windows, Mac and phone before you decide whether to convert at all.
                         </p>
                         <p class="leading-relaxed text-[#6C3F31]">
                             Converting gives you a standard JPEG. Mochify encodes it with <strong class="text-[#7E685E]">Google's jpegli</strong>, so it works with all existing tools, with fewer wasted bytes than a typical encoder at the same quality.

@@ -18,7 +18,7 @@
 		category: 'Image Formats',
 		readTime: '19 min read',
 		date: 'September 22, 2026',
-		lastUpdated: 'October 26, 2026'
+		lastUpdated: 'October 27, 2026'
 	};
 
 	const toc = [
@@ -158,7 +158,7 @@
 			},
 			"image": "https://mochify.app/og/guides-save-webp-as-jpg-chrome.png",
 			"datePublished": "2026-09-22T12:00:00+00:00",
-			"dateModified": "2026-10-26T12:00:00+00:00",
+			"dateModified": "2026-10-27T12:00:00+00:00",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -193,7 +193,7 @@
 		url="https://mochify.app/guides/save-webp-as-jpg-chrome"
 		description={metadata.description}
 		datePublished="2026-09-22"
-		dateModified="2026-10-26"
+		dateModified="2026-10-27"
 	/>
 </svelte:head>
 
@@ -242,7 +242,9 @@
 			<p class="mb-4">
 				Chrome did not convert your image. The website's server chose to send WebP, Chrome
 				downloaded those bytes, and Save image as wrote those same bytes to your disk. The browser
-				is a courier here, not a converter.
+				is a courier here, not a converter. If you want the format itself explained first, and how
+				to open the file on each platform, start with
+				<a href="/guides/what-is-a-webp-file">what a WebP file is and how to open one</a>.
 			</p>
 			<p class="mb-4">
 				The mechanism is server-driven content negotiation. Your browser announces what it can

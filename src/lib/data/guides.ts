@@ -53,7 +53,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '19 min read',
 		date: 'September 22, 2026',
-		lastUpdated: 'October 2, 2026'
+		lastUpdated: 'October 27, 2026'
 	},
 	{
 		title: 'Do WebP and AVIF Support Transparency?',
@@ -218,6 +218,15 @@ export const guides: Guide[] = [
 		readTime: '2 min read',
 		date: 'July 29, 2026',
 		lastUpdated: 'September 26, 2026'
+	},
+	{
+		title: 'What Is a WebP File? (And How to Open One)',
+		description:
+			"A WebP file is Google's smaller web image format. Why your download saved as .webp, how to open it on Windows, Mac and phone, and when to convert it.",
+		url: '/guides/what-is-a-webp-file',
+		category: 'Quick Guides',
+		readTime: '3 min read',
+		date: 'October 27, 2026'
 	},
 	{
 		title: 'What Is an AVIF File? (And How to Open One)',
@@ -614,7 +623,7 @@ export const guides: Guide[] = [
 		category: 'Quick Guides',
 		readTime: '2 min read',
 		date: 'April 13, 2026',
-		lastUpdated: 'October 14, 2026'
+		lastUpdated: 'October 27, 2026'
 	},
 	{
 		title: 'Should I Optimize My Images Before I Upload Them?',

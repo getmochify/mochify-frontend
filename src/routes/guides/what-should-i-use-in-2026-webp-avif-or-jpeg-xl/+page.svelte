@@ -13,7 +13,7 @@
         category: "Quick Guides",
         readTime: "2 min read",
         date: "April 13, 2026",
-        lastUpdated: "October 26, 2026"
+        lastUpdated: "October 27, 2026"
     };
 
     const related = [
@@ -52,7 +52,7 @@
         "url": "https://mochify.app/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl",
         "image": "https://mochify.app/og/guides-what-should-i-use-in-2026-webp-avif-or-jpeg-xl.png",
         "datePublished": "2026-04-13T12:00:00+00:00",
-        "dateModified": "2026-10-26T12:00:00+00:00",
+        "dateModified": "2026-10-27T12:00:00+00:00",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -83,7 +83,7 @@
         url="https://mochify.app/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl"
         description={metadata.description}
         datePublished="2026-04-13"
-        dateModified="2026-10-26"
+        dateModified="2026-10-27"
     />
 </svelte:head>
 
@@ -188,7 +188,7 @@
 
             <p class="mb-4">Product photography is the one case where the answer can be "neither, manually". On a hosted storefront the CDN already negotiates the format per browser, so converting by hand duplicates work the platform does for you. For that decision, see <a href="/guides/should-my-product-images-be-avif-or-webp-in-2026">the product-image version of this question</a>.</p>
 
-            <p class="mb-4">Serving AVIF is the right call for the web - but compatibility questions still come up once a file leaves your site, like when someone downloads an image and needs to open it in a tool that doesn't support AVIF yet. For those cases, see <a href="/guides/avif-to-jpg">our AVIF to JPG conversion guide</a>, or convert the file in seconds with the <a href="/avif-to-jpg">AVIF to JPG converter</a>. The equivalent problem on the WebP side, including why the browser handed you one in the first place, is covered in <a href="/guides/save-webp-as-jpg-chrome">our guide to saving a WebP as JPG in Chrome</a>, and the <a href="/solutions/webp-to-jpg">WebP to JPG converter</a> handles a file you already have. If you want that conversion in the right-click menu itself, our <a href="/guides/save-image-as-type-alternative">guide to choosing a safe right-click image converter</a> covers what to check before installing one.</p>
+            <p class="mb-4">Serving AVIF is the right call for the web - but compatibility questions still come up once a file leaves your site, like when someone downloads an image and needs to open it in a tool that doesn't support AVIF yet. For those cases, see <a href="/guides/avif-to-jpg">our AVIF to JPG conversion guide</a>, or convert the file in seconds with the <a href="/avif-to-jpg">AVIF to JPG converter</a>. The equivalent problem on the WebP side, including why the browser handed you one in the first place, is covered in <a href="/guides/save-webp-as-jpg-chrome">our guide to saving a WebP as JPG in Chrome</a>, and the <a href="/solutions/webp-to-jpg">WebP to JPG converter</a> handles a file you already have. If you are not yet sure what the file is, start with <a href="/guides/what-is-a-webp-file">what a WebP file is and how to open one</a>. If you want that conversion in the right-click menu itself, our <a href="/guides/save-image-as-type-alternative">guide to choosing a safe right-click image converter</a> covers what to check before installing one.</p>
 
             <GlassInfoBox type="tip" title="Magic Flow handles format selection automatically">
                 In Mochify, you can type <em>"convert to AVIF with WebP fallback max 1600px"</em> and the NLP engine picks the right settings for every file. No format dropdowns, no manual quality sliders.
