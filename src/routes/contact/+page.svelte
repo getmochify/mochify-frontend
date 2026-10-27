@@ -139,7 +139,6 @@
 
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://mochify.app/contact" />
-	<meta property="og:title" content="Contact Mochify" />
 	<meta
 		property="og:description"
 		content="Get in touch with the Mochify team — feedback, support, billing, or anything else."

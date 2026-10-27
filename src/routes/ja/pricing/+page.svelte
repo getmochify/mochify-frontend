@@ -23,7 +23,6 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://mochify.app/ja/pricing" />
 	<meta property="og:locale" content="ja_JP" />
-	<meta property="og:title" content={JA_PRICING.metaTitle} />
 	<meta property="og:description" content={JA_PRICING.metaDescription} />
 
 </svelte:head>

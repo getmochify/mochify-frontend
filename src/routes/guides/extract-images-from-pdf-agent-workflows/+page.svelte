@@ -70,7 +70,6 @@
     <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="Extract Images from PDF in AI Agent Workflows - Split & Convert" />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/extract-images-from-pdf-agent-workflows" />
     <meta name="twitter:card" content="summary_large_image" />

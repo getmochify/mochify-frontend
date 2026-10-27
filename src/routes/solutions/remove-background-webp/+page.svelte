@@ -95,9 +95,7 @@
 <svelte:head>
     <title>WebP Background Remover - Transparent WebP, Free | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="WebP Background Remover - Mochify" />
     <meta property="og:description" content={metaDescription} />
-    <meta name="twitter:title" content="WebP Background Remover - Mochify" />
     <meta name="twitter:description" content={metaDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}

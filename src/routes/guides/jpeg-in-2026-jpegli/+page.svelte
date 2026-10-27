@@ -59,7 +59,6 @@
 <svelte:head>
     <title>Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026</title>
     <meta name="description" content="Jpegli vs MozJPEG and libjpeg-turbo: how much smaller Google's jpegli makes a JPEG at the same quality, where MozJPEG still holds, and when to switch.">
-    <meta property="og:title" content="Jpegli vs MozJPEG: Which JPEG Encoder to Use in 2026" />
     <meta property="og:description" content="Jpegli vs MozJPEG and libjpeg-turbo: how much smaller Google's jpegli makes a JPEG at the same quality, where MozJPEG still holds, and when to switch." />
 
     <script type="application/ld+json">

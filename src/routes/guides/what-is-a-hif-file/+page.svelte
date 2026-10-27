@@ -32,7 +32,6 @@
     <title>{metadata.title} | Mochify</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="What Is a HIF File? (And How to Open One)" />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/what-is-a-hif-file" />
     <meta name="twitter:card" content="summary_large_image" />

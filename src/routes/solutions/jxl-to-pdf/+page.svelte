@@ -87,7 +87,6 @@
 <svelte:head>
     <title>JXL to PDF Converter - Free, Online, No Signup | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="JXL to PDF Converter - Mochify" />
     <meta property="og:description" content={metaDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}

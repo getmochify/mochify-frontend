@@ -28,7 +28,6 @@
     <title>Should My Product Images Be AVIF or WebP in 2026? | Mochify</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:type" content="article" />
-    <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/should-my-product-images-be-avif-or-webp-in-2026" />
     <meta name="twitter:card" content="summary_large_image" />

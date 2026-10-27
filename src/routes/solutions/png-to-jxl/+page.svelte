@@ -127,7 +127,6 @@
 <svelte:head>
     <title>PNG to JXL Converter - Lossless Option, No Signup | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="PNG to JXL Converter - Mochify" />
     <meta property="og:description" content={metaDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}

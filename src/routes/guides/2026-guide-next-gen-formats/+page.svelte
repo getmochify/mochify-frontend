@@ -64,7 +64,6 @@
 <svelte:head>
     <title>WebP vs AVIF vs JPEG XL: 2026 Comparison Guide | Mochify</title>
     <meta name="description" content="WebP vs AVIF vs JPEG XL, tested: file size, SSIM quality, encode speed and browser support, now that Chrome 155 and Firefox 158 decode JPEG XL by default." />
-    <meta property="og:title" content="WebP vs AVIF vs JPEG XL: 2026 Comparison Guide | Mochify" />
     <meta property="og:description" content="WebP vs AVIF vs JPEG XL, tested: file size, SSIM quality, encode speed and browser support, now that Chrome 155 and Firefox 158 decode JPEG XL by default." />
     <script type="application/ld+json">
         {

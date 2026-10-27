@@ -29,7 +29,6 @@
 <svelte:head>
     <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
-    <meta property="og:title" content={metadata.seoTitle} />
     <meta property="og:description" content={metadata.description} />
 
     <script type="application/ld+json">

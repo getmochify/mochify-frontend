@@ -51,11 +51,9 @@
     <!-- canonical, og:image and twitter:image are injected by the root layout. -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mochify.app/flow" />
-    <meta property="og:title" content="Convert, Resize and Compress Images Online, Free | Mochify" />
     <meta property="og:description" content="Say what you need in plain English and Mochify does it: convert, resize, smart crop, remove backgrounds, rasterize PDF pages. No format pickers, no sliders." />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Convert, Resize and Compress Images Online, Free | Mochify" />
     <meta name="twitter:description" content="Say what you need in plain English and Mochify does it: convert, resize, smart crop, remove backgrounds, rasterize PDF pages. No format pickers, no sliders." />
 
 </svelte:head>

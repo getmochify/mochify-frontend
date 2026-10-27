@@ -142,13 +142,11 @@
 		content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
 	/>
 	<meta property="og:type" content="article" />
-	<meta property="og:title" content={metadata.seoTitle} />
 	<meta property="og:description" content={metadata.description} />
 	<meta property="og:url" content={pageUrl} />
 	<meta property="og:site_name" content="Mochify" />
 	<meta property="og:locale" content="en" />
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content={metadata.seoTitle} />
 	<meta name="twitter:description" content={metadata.description} />
 
 	<GuideSchema

@@ -33,7 +33,6 @@
     <title>{metadata.title}</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="LLM Image Token Costs: How Many Tokens Does an Image Use?" />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/llm-image-token-costs" />
     <meta name="twitter:card" content="summary_large_image" />

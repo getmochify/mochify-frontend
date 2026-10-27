@@ -61,7 +61,6 @@
     <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:type" content="article" />
-    <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/mp4-to-webm-web-video-guide" />
     <meta name="twitter:card" content="summary_large_image" />

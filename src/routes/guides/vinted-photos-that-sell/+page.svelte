@@ -12,9 +12,10 @@
 
     const metadata = {
         title: "How to Take Vinted Photos That Sell",
-        // Title tag deliberately differs from the H1 and from og:title: this page
-        // is served for size / ratio / rules queries, so the SERP line leads with
-        // those. og:title, twitter:title and JSON-LD headline stay on the H1.
+        // Title tag deliberately differs from the H1: this page is served for
+        // size / ratio / rules queries, so the SERP line leads with those. The
+        // JSON-LD headline stays on the H1; og:title mirrors the title tag
+        // sitewide (hooks.server.ts).
         seoTitle: "Vinted Photo Size, Aspect Ratio and Rules (Photos That Sell)",
         description: "Vinted photo size and aspect ratio (portrait, about 3:4, 1080px or wider), the photo rules including stock photos, why Vinted crops, and photos that sell.",
         category: "Workflows",
@@ -91,13 +92,11 @@
     <meta name="description" content={metadata.description}>
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/vinted-photos-that-sell" />
     <meta property="og:site_name" content="Mochify" />
     <meta property="og:locale" content="en" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={metadata.title} />
     <meta name="twitter:description" content={metadata.description} />
 
     <GuideSchema

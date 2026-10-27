@@ -56,7 +56,6 @@
 <svelte:head>
     <title>Privacy and Image Optimization - Zero-Retention Guide</title>
     <meta name="description" content="Secure your images with Zero-Retention optimization. The only way to ensure 100% data privacy in 2026. Fast, private, and storage-free image processing.">
-    <meta property="og:title" content="Privacy and Image Optimization - Zero-Retention Guide" />
     <meta property="og:description" content="Secure your images with Zero-Retention optimization. The only way to ensure 100% data privacy in 2026. Fast, private, and storage-free image processing." />
 
     <script type="application/ld+json">

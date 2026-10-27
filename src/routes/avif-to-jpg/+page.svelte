@@ -59,7 +59,6 @@
 <svelte:head>
     <title>AVIF to JPG Converter - Free, Online, No Signup | Mochify</title>
     <meta name="description" content="Convert AVIF to JPG online in seconds: up to 3 files with no signup, jpegli-encoded JPEGs that open everywhere. Processed in memory, never saved to disk.">
-    <meta property="og:title" content="AVIF to JPG Converter - Mochify">
     <meta property="og:description" content="Convert AVIF to JPG online in seconds: up to 3 files with no signup, jpegli-encoded JPEGs that open everywhere. Processed in memory, never saved to disk.">
 
     <script type="application/ld+json">

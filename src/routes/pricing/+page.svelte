@@ -22,7 +22,6 @@
 	/>
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://mochify.app/pricing" />
-	<meta property="og:title" content="Pricing | Mochify" />
 	<meta
 		property="og:description"
 		content="Simple pricing: 3 images free with no signup, 25 a month on a free account, Seller, Pro and Growth from 300 to 5,000 images a month, or a one-off Day Pass."

@@ -70,9 +70,7 @@
 <svelte:head>
     <title>SVG to PNG Converter - Free, Keeps Transparency | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="SVG to PNG Converter - Mochify" />
     <meta property="og:description" content={metaDescription} />
-    <meta name="twitter:title" content="SVG to PNG Converter - Mochify" />
     <meta name="twitter:description" content={metaDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}

@@ -147,13 +147,11 @@
 		content="how to reduce photo file size on iphone, reduce photo size on iphone, compress photos on iphone, make a picture smaller on iphone, resize a photo on iphone, compress photo to 1MB iphone"
 	/>
 	<meta property="og:type" content="article" />
-	<meta property="og:title" content={metadata.title} />
 	<meta property="og:description" content={metadata.description} />
 	<meta property="og:url" content="https://mochify.app/guides/reduce-photo-file-size-iphone" />
 	<meta property="og:site_name" content="Mochify" />
 	<meta property="og:locale" content="en" />
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content={metadata.title} />
 	<meta name="twitter:description" content={metadata.description} />
 
 	<script type="application/ld+json">

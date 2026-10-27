@@ -74,11 +74,9 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://mochify.app/ja/flow" />
 	<meta property="og:locale" content="ja_JP" />
-	<meta property="og:title" content={jaFlowMeta.ogTitle} />
 	<meta property="og:description" content={jaFlowMeta.ogDescription} />
 
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content={jaFlowMeta.ogTitle} />
 	<meta name="twitter:description" content={jaFlowMeta.ogDescription} />
 
 

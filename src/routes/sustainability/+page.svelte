@@ -8,7 +8,6 @@
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mochify.app/sustainability">
-    <meta property="og:title" content="Sustainability - Mochify">
     <meta property="og:description" content="How Mochify keeps its footprint small: efficient compression, lean zero-retention infrastructure, native C++ processing, and renewably-powered hosting.">
 </svelte:head>
 

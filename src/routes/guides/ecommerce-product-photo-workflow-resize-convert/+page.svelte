@@ -72,12 +72,10 @@
 <svelte:head>
     <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
-    <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://mochify.app/guides/ecommerce-product-photo-workflow-resize-convert" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={metadata.title} />
     <meta name="twitter:description" content={metadata.description} />
 
     <script type="application/ld+json">

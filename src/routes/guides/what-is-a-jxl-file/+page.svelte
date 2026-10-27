@@ -30,7 +30,6 @@
     <title>What Is a JXL File? How to Open, Convert and Share JPEG XL</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:type" content="article" />
-    <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/what-is-a-jxl-file" />
     <meta name="twitter:card" content="summary_large_image" />

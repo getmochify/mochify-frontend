@@ -74,7 +74,6 @@
 <svelte:head>
     <title>{metadata.title}</title>
     <meta name="description" content={metadata.description}>
-    <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/converting-images-to-jpeg-xl" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">

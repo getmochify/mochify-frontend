@@ -77,7 +77,6 @@
 <svelte:head>
     <title>WebP to JPG Converter - Free, Batch, No Signup | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="WebP to JPG Converter - Mochify" />
     <meta property="og:description" content={metaDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}

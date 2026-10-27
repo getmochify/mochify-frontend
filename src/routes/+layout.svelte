@@ -94,7 +94,8 @@
 	);
 
 	// Build-time OG card for this route (falls back to the generic card).
-	// Pages set their own og:title/description; the shared image is injected here
+	// Pages set their own og:description; og:title is mirrored from <title> in
+	// hooks.server.ts, and the shared image is injected here
 	// so we don't have to repeat it across ~90 routes. See src/lib/og/cards.js.
 	const ogImage = $derived(ogImageFor(page.url.pathname));
 	const ogAlt = $derived(ogAltFor(page.url.pathname));

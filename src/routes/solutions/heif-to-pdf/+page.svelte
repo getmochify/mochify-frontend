@@ -76,9 +76,7 @@
 <svelte:head>
     <title>HEIC and HEIF to PDF Converter - Free, No Signup | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="HEIC and HEIF to PDF Converter - Mochify" />
     <meta property="og:description" content={metaDescription} />
-    <meta name="twitter:title" content="HEIC and HEIF to PDF Converter - Mochify" />
     <meta name="twitter:description" content={metaDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}

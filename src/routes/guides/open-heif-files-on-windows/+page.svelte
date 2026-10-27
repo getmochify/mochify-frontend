@@ -45,13 +45,11 @@
     <meta name="description" content={metadata.description}>
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="How to Open HEIF Files on Windows (or Convert Them to JPG)" />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/open-heif-files-on-windows" />
     <meta property="og:site_name" content="Mochify" />
     <meta property="og:locale" content="en" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="How to Open HEIF Files on Windows (or Convert Them to JPG)" />
     <meta name="twitter:description" content={metadata.description} />
 
     <GuideSchema

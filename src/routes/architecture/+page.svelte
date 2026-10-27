@@ -8,7 +8,6 @@
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mochify.app/architecture">
-    <meta property="og:title" content="Architecture &amp; Data Handling — Mochify">
     <meta property="og:description" content="How Mochify processes images: an in-memory pipeline on a read-only container, with no image data ever written to disk.">
 </svelte:head>
 

@@ -31,7 +31,6 @@
     <title>{metadata.title} | Mochify</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="How Do I Convert Sony HIF Files to JPG?" />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/sony-hif-to-jpg" />
     <meta name="twitter:card" content="summary_large_image" />

@@ -194,10 +194,8 @@ mochify auth login`;
 <svelte:head>
     <title>{title}</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content={title} />
     <meta property="og:description" content={metaDescription} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={metaDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(breadcrumbLd)}<\/script>`}

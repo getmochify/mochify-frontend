@@ -67,9 +67,7 @@
 <svelte:head>
     <title>WebM to MP4 Converter - Free, No Upload | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="WebM to MP4 Converter - Mochify" />
     <meta property="og:description" content={metaDescription} />
-    <meta name="twitter:title" content="WebM to MP4 Converter - Mochify" />
     <meta name="twitter:description" content={metaDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}

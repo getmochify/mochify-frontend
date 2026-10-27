@@ -67,7 +67,6 @@
 <svelte:head>
     <title>SVG to WebP Converter - Free, Keeps Transparency | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="SVG to WebP Converter - Mochify" />
     <meta property="og:description" content={metaDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}

@@ -66,7 +66,6 @@
 <svelte:head>
     <title>{metadata.seoTitle}</title>
     <meta name="description" content={metadata.description}>
-    <meta property="og:title" content={metadata.seoTitle} />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://mochify.app/guides/svg-conversion-guide-vector-vs-raster" />

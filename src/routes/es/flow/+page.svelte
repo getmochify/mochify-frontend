@@ -79,11 +79,9 @@
 	<meta property="og:url" content="https://mochify.app/es/flow" />
 	<meta property="og:locale" content="es_ES" />
 	<meta property="og:locale:alternate" content="es_MX" />
-	<meta property="og:title" content={esFlowMeta.ogTitle} />
 	<meta property="og:description" content={esFlowMeta.ogDescription} />
 
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content={esFlowMeta.ogTitle} />
 	<meta name="twitter:description" content={esFlowMeta.ogDescription} />
 
 

@@ -210,7 +210,6 @@
 <svelte:head>
     <title>Free Image Converters: HEIC, HIF, AVIF, JXL, PDF | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="Free Image Converters and Tools - Mochify" />
     <meta property="og:description" content={metaDescription} />
     <script type="application/ld+json">
         {

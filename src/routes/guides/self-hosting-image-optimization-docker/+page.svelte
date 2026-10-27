@@ -33,7 +33,6 @@
 <svelte:head>
 <title>Self-Host Image Optimization: Mochify-Lite on Docker</title>
 <meta name="description" content="Self-host your own image compression engine with Mochify-Lite on Docker: setup, API examples, security practices and how it compares to the full engine.">
-<meta property="og:title" content="Self-Host Your Own Image Optimizer: Mochify-Lite on Docker" />
 <meta property="og:description" content="Stop relying on third-party services. Set up Mochify-Lite on Docker for private, local image compression with libjpeg-turbo. Perfect for developers who want full control." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://mochify.app/guides/self-hosting-image-optimization-docker" />

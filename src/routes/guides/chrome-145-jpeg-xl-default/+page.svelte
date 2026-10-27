@@ -45,7 +45,6 @@
 <svelte:head>
     <title>Chrome 145 JPEG XL: Flag Only. Chrome 155 Is On | Mochify</title>
     <meta name="description" content={metadata.description}>
-    <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/chrome-145-jpeg-xl-default" />
 

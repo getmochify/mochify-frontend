@@ -139,7 +139,6 @@
 		content="batch crop images, crop multiple images at once, batch crop photos, crop photos to square, bulk crop images, batch crop iphone, batch crop windows, imagemagick crop square"
 	/>
 	<meta property="og:type" content="article" />
-	<meta property="og:title" content={metadata.title} />
 	<meta property="og:description" content={metadata.description} />
 	<meta
 		property="og:url"
@@ -148,7 +147,6 @@
 	<meta property="og:site_name" content="Mochify" />
 	<meta property="og:locale" content="en" />
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content={metadata.title} />
 	<meta name="twitter:description" content={metadata.description} />
 
 	<script type="application/ld+json">

@@ -25,7 +25,6 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://mochify.app/fr/pricing" />
 	<meta property="og:locale" content="fr_FR" />
-	<meta property="og:title" content={FR_PRICING.metaTitle} />
 	<meta property="og:description" content={FR_PRICING.metaDescription} />
 
 </svelte:head>

@@ -73,7 +73,6 @@
 <svelte:head>
     <title>WebP to PNG Converter - Keeps Transparency, Free | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="WebP to PNG Converter - Mochify" />
     <meta property="og:description" content={metaDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}

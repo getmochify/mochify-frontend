@@ -8,7 +8,6 @@
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mochify.app/service-terms">
-    <meta property="og:title" content="Terms of Service - Mochify">
     <meta property="og:description" content="Read Mochify's Terms of Service to understand the terms and conditions for using our image optimization service.">
 </svelte:head>
 

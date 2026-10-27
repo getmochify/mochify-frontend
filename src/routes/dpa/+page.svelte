@@ -8,7 +8,6 @@
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mochify.app/dpa">
-    <meta property="og:title" content="Data Processing Agreement | Mochify">
     <meta property="og:description" content="Mochify's Data Processing Agreement (DPA) for business customers. GDPR-compliant, UK law governed. Download the template or request a countersigned copy.">
 </svelte:head>
 

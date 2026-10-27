@@ -292,7 +292,6 @@
 	<!-- Open Graph -->
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://mochify.app/" />
-	<meta property="og:title" content="Mochify: Image & PDF Compression for Web, CLI, MCP and API" />
 	<meta
 		property="og:description"
 		content="One engine, six surfaces: web app, CLI, local and hosted MCP, REST API, Chrome extension. Zero retention on images and PDFs; video never leaves your browser."
@@ -300,7 +299,6 @@
 
 	<!-- Twitter / X -->
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="Mochify: Image & PDF Compression for Web, CLI, MCP and API" />
 	<meta
 		name="twitter:description"
 		content="One engine for images and PDFs wherever you work: the web app, CLI, an MCP server for Claude, the REST API and a Chrome extension. Just say what you want."

@@ -48,7 +48,6 @@
     <title>eBay Photo Size and Rules - Optimize in One Prompt | Mochify</title>
     <meta name="description" content={metaDescription}>
     <meta name="keywords" content="eBay image size, optimize images for eBay, eBay photo requirements, eBay listing photos, eBay background removal">
-    <meta property="og:title" content="eBay photo size and rules, handled in one prompt">
     <meta property="og:description" content={metaDescription}>
 
     {@html `<script type="application/ld+json">${faqLd}<\/script>`}

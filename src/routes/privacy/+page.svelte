@@ -8,7 +8,6 @@
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mochify.app/privacy">
-    <meta property="og:title" content="Privacy Policy - Mochify">
     <meta property="og:description" content="Read Mochify's Privacy Policy to learn how we collect, use, and protect your data when using our image optimization service.">
 </svelte:head>
 

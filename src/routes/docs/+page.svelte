@@ -88,7 +88,6 @@
     <meta name="description" content="Mochify REST API reference. Compress and convert images programmatically. 3 ops free without an account, or 25/month with a free account.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mochify.app/docs">
-    <meta property="og:title" content="API Documentation | Mochify">
     <meta property="og:description" content="Mochify REST API reference. Compress and convert images programmatically. 3 ops free without an account, or 25/month with a free account.">
     <script type="application/ld+json">
     {

@@ -67,7 +67,6 @@
 <svelte:head>
     <title>SVG to JPEG XL (JXL) Converter - Free, Online | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="SVG to JPEG XL Converter - Mochify" />
     <meta property="og:description" content={metaDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}

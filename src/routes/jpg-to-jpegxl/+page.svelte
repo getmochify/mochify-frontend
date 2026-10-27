@@ -100,7 +100,6 @@
 <svelte:head>
     <title>JPG to JXL Converter - Free, Online, No Signup | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="JPG to JXL Converter - Mochify">
     <meta property="og:description" content={metaDescription}>
 
     {@html `<script type="application/ld+json">${JSON.stringify(breadcrumbLd)}<\/script>`}

@@ -80,9 +80,7 @@
 <svelte:head>
     <title>eBay Image Resizer &amp; Converter - 1600px JPEG, Free | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="eBay Image Resizer &amp; Converter - Mochify">
     <meta property="og:description" content={metaDescription} />
-    <meta name="twitter:title" content="eBay Image Resizer &amp; Converter - Mochify" />
     <meta name="twitter:description" content={metaDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(graphLd)}<\/script>`}

@@ -119,7 +119,7 @@ The guide's card metadata lives in `src/lib/data/guides.ts` — add an entry the
 1. Add an entry to the `cards` array in `src/lib/og/cards.js`: `{ path: '/guides/<slug>', eyebrow: 'GUIDE', title: '<card title>' }`. Card copy follows house style (**no em dashes**); the page's `og:title` is usually fine, just trim any `| Mochify` suffix and keep it readable on a card.
 2. Regenerate and commit the PNG: `bun run og`, then commit `static/og/guides-<slug>.png`.
 
-Do **not** add an `<meta og:image>` to the guide — the root layout injects it automatically from the manifest. Skipping the steps above isn't fatal (the guide falls back to the generic `static/og/default.png`) but the guide won't get a bespoke share card.
+Do **not** add an `<meta og:image>` to the guide — the root layout injects it automatically from the manifest. Nor an `og:title` or `twitter:title`, on any page: `src/hooks.server.ts` writes both from the rendered `<title>`, character for character, so Google never sees two candidate titles (handoff 2026-10-27-og-title-parity). Set only `<title>`. Skipping the steps above isn't fatal (the guide falls back to the generic `static/og/default.png`) but the guide won't get a bespoke share card.
 
 ### Mochify content publishing — non-negotiable preservation rules
 

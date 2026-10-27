@@ -122,10 +122,8 @@
 <svelte:head>
     <title>Bulk Square Crop - Auto-Crop Images to Square | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="Bulk Square Crop - Mochify" />
     <meta property="og:description" content={metaDescription} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Bulk Square Crop - Mochify" />
     <meta name="twitter:description" content={metaDescription} />
 
     <script type="application/ld+json">

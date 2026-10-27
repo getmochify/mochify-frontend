@@ -40,7 +40,6 @@
 <svelte:head>
     <title>What Should I Use in 2026: WebP, AVIF, or JPEG XL? | Mochify</title>
     <meta name="description" content={metadata.description}>
-    <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl" />
 

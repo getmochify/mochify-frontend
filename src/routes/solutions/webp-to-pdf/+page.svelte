@@ -68,9 +68,7 @@
 <svelte:head>
     <title>WebP to PDF Converter - Combine WebP Into One PDF | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="WebP to PDF Converter - Mochify" />
     <meta property="og:description" content={metaDescription} />
-    <meta name="twitter:title" content="WebP to PDF Converter - Mochify" />
     <meta name="twitter:description" content={metaDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}

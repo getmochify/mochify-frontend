@@ -69,7 +69,6 @@
 <svelte:head>
     <title>SVG to AVIF Converter - Free, Keeps Transparency | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="SVG to AVIF Converter - Mochify" />
     <meta property="og:description" content={metaDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}

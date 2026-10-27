@@ -47,13 +47,11 @@
     <meta name="description" content={metadata.description}>
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="Product Image Requirements for Every Major Marketplace" />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/product-image-requirements-marketplace-guide" />
     <meta property="og:site_name" content="Mochify" />
     <meta property="og:locale" content="en" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Product Image Requirements for Every Major Marketplace" />
     <meta name="twitter:description" content={metadata.description} />
 
     <GuideSchema

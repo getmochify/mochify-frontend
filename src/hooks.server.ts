@@ -62,12 +62,42 @@ function langFor(pathname: string): string {
 	return localeForPath(pathname).code;
 }
 
+/**
+ * `og:title` and `twitter:title` are the `<title>` text, character for character,
+ * on every page. When the two differed, Google treated them as two candidate
+ * titles and sometimes showed the og one (or the H1) instead of the title we
+ * wrote: a 2026-10-07 retitle was never displayed because its og:title still
+ * carried the old question (content-ops handoff 2026-10-27-og-title-parity).
+ *
+ * Written here rather than per page so the pair cannot drift again: pages set
+ * only `<title>` and never author an og/twitter title of their own. The tags go
+ * just before `</head>`, outside the comment markers Svelte hydrates
+ * `<svelte:head>` by, so the client never sees nodes it did not render. A chunk
+ * without a `<title>` (or without `</head>`, i.e. not the head chunk) passes
+ * through untouched.
+ */
+const TITLE_RE = /<title[^>]*>([\s\S]*?)<\/title>/;
+
+function mirrorTitleToSocial(html: string): string {
+	const match = TITLE_RE.exec(html);
+	const close = html.indexOf('</head>');
+	if (!match || close === -1) return html;
+	// Already entity-escaped as title text; an attribute also needs its quotes
+	// escaped (a title can carry rel="preload").
+	const content = match[1].trim().replace(/"/g, '&quot;');
+	if (!content) return html;
+	const tags =
+		`<meta property="og:title" content="${content}">` +
+		`<meta name="twitter:title" content="${content}">`;
+	return html.slice(0, close) + tags + html.slice(close);
+}
+
 export const handle: Handle = async ({ event, resolve: baseResolve }) => {
 	const lang = langFor(event.url.pathname);
 	const resolve: typeof baseResolve = (ev, opts) =>
 		baseResolve(ev, {
 			...opts,
-			transformPageChunk: ({ html }) => html.replace('%lang%', lang)
+			transformPageChunk: ({ html }) => mirrorTitleToSocial(html.replace('%lang%', lang))
 		});
 
 	let db: D1Database | undefined;

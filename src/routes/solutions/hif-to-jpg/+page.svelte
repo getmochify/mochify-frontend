@@ -78,7 +78,6 @@
 <svelte:head>
     <title>HIF to JPG Converter (Canon, Sony, Fuji) - Free | Mochify</title>
     <meta name="description" content="Free online HIF to JPG converter for Canon, Sony and Fujifilm cameras: R5, Sony Alpha, X-T5. Convert .HIF files to JPEG in seconds, no signup needed.">
-    <meta property="og:title" content="HIF to JPG Converter - Mochify">
     <meta property="og:description" content="Free online HIF to JPG converter for Canon, Sony and Fujifilm cameras: R5, Sony Alpha, X-T5. Convert .HIF files to JPEG in seconds, no signup needed.">
 
     <script type="application/ld+json">

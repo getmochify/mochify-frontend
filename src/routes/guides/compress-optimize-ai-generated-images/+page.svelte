@@ -92,11 +92,9 @@
     <title>Compress AI-Generated Images - Optimize in Agent Workflows</title>
     <meta name="description" content={metadata.description}>
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="How to Compress and Optimize AI-Generated Images (in Automated and Agent Workflows)" />
     <meta property="og:description" content={metadata.description} />
     <meta property="og:url" content="https://mochify.app/guides/compress-optimize-ai-generated-images" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="How to Compress and Optimize AI-Generated Images in Agent Workflows" />
     <meta name="twitter:description" content={metadata.description} />
 
     <GuideSchema

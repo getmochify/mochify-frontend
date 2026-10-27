@@ -71,9 +71,7 @@
 <svelte:head>
     <title>Convert HIF to AVIF Online (Fuji/Canon) - Free | Mochify</title>
     <meta name="description" content="Convert Fuji, Canon & Sony HIF photos to AVIF instantly. Perfect for photographers using X-T5, R5, or Sony Alpha. Free, secure, and runs in-memory.">
-    <meta property="og:title" content="HIF to AVIF Converter - Mochify">
     <meta property="og:description" content={ogDescription} />
-    <meta name="twitter:title" content="HIF to AVIF Converter - Mochify" />
     <meta name="twitter:description" content={ogDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}

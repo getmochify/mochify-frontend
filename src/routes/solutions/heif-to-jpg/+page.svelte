@@ -134,7 +134,6 @@
 <svelte:head>
     <title>HEIF to JPG Converter - Free, Online, No Signup | Mochify</title>
     <meta name="description" content={metaDescription}>
-    <meta property="og:title" content="HEIF to JPG Converter - Mochify">
     <meta property="og:description" content={metaDescription} />
 
     {@html `<script type="application/ld+json">${JSON.stringify(softwareLd)}<\/script>`}
