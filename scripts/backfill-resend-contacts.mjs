@@ -104,6 +104,19 @@ function propertiesFor(row) {
 const propertiesMatch = (existing, desired) =>
 	Object.entries(desired).every(([key, value]) => existing?.[key]?.value === value);
 
+/** One line per differing field, Resend's value first: `tier: <unset> -> free`. */
+function describeChange(existing, unsubscribed, properties) {
+	const diffs = [];
+	if (existing.unsubscribed !== unsubscribed) {
+		diffs.push(`unsubscribed: ${existing.unsubscribed} -> ${unsubscribed}`);
+	}
+	for (const [key, value] of Object.entries(properties)) {
+		const current = existing.properties?.[key]?.value;
+		if (current !== value) diffs.push(`${key}: ${current ?? '<unset>'} -> ${value}`);
+	}
+	return diffs.join(', ');
+}
+
 // Mirrors syncContact() in src/lib/server/resendContacts.ts: read first, because
 // create against an existing address does not reliably overwrite `unsubscribed`.
 async function syncOne(row) {
@@ -124,7 +137,10 @@ async function syncOne(row) {
 		) {
 			return 'unchanged';
 		}
-		if (DRY_RUN) return 'would-update';
+		if (DRY_RUN) {
+			changes.push(`${row.email}: ${describeChange(existing.data, unsubscribed, properties)}`);
+			return 'would-update';
+		}
 		const { error } = await call(() =>
 			resend.contacts.update({ email: row.email, unsubscribed, properties })
 		);
@@ -150,6 +166,8 @@ const tally = {};
 const failures = [];
 // Who is missing, by name: the dry run is mostly run to answer exactly that.
 const missing = [];
+// What a real run would overwrite, so a dry run can be checked before trusting it.
+const changes = [];
 const queue = [...users];
 
 // Resend rate limits per endpoint; keep the fan-out small and let a 429 surface
@@ -170,6 +188,10 @@ await Promise.all(
 );
 
 console.log(tally);
+if (changes.length) {
+	console.log(`\n${changes.length} would change:`);
+	for (const line of changes) console.log(`  ${line}`);
+}
 if (missing.length) {
 	console.log(`\n${missing.length} not on the list${DRY_RUN ? '' : ' (now added)'}:`);
 	for (const email of missing) console.log(`  ${email}`);
