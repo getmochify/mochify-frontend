@@ -24,6 +24,11 @@ const DB = 'mochify-auth';
 const DRY_RUN = process.argv.includes('--dry-run');
 const API_KEY = process.env.RESEND_API_KEY;
 const CONCURRENCY = 4;
+// Resend allows 10 requests a second per team, shared with live traffic (signup
+// syncs, onboarding events, transactional email). One request every 200ms across
+// all workers leaves half of that for production while this runs.
+const MIN_GAP_MS = 200;
+const MAX_ATTEMPTS = 5;
 
 if (!API_KEY) {
 	console.error('RESEND_API_KEY is required (needs full access, not sending-only)');
@@ -31,6 +36,30 @@ if (!API_KEY) {
 }
 
 const resend = new Resend(API_KEY);
+
+let nextSlot = 0;
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/** Waits for a global slot, so the four workers share one request rate. */
+async function paced() {
+	const now = Date.now();
+	const slot = Math.max(now, nextSlot);
+	nextSlot = slot + MIN_GAP_MS;
+	if (slot > now) await sleep(slot - now);
+}
+
+/**
+ * One Resend call, paced, retrying a 429 with backoff. Returns the SDK's
+ * `{ data, error }` so callers see any other error exactly as before.
+ */
+async function call(fn) {
+	for (let attempt = 1; ; attempt++) {
+		await paced();
+		const result = await fn();
+		if (result.error?.name !== 'rate_limit_exceeded' || attempt === MAX_ATTEMPTS) return result;
+		await sleep(1000 * attempt);
+	}
+}
 
 const SQL = `
 	SELECT u.email AS email, u.name AS name, u.createdAt AS created_at,
@@ -80,7 +109,13 @@ const propertiesMatch = (existing, desired) =>
 async function syncOne(row) {
 	const unsubscribed = row.opt_out === 1;
 	const properties = propertiesFor(row);
-	const existing = await resend.contacts.get({ email: row.email });
+	const existing = await call(() => resend.contacts.get({ email: row.email }));
+	// Only not_found means missing. Anything else (a 429 that outlasted the
+	// retries, an outage) used to fall through to "create", so a dry run counted
+	// rate-limited lookups as missing contacts.
+	if (existing.error && existing.error.name !== 'not_found') {
+		throw new Error(`get: ${existing.error.name} ${existing.error.message}`);
+	}
 
 	if (existing.data) {
 		if (
@@ -90,18 +125,20 @@ async function syncOne(row) {
 			return 'unchanged';
 		}
 		if (DRY_RUN) return 'would-update';
-		const { error } = await resend.contacts.update({ email: row.email, unsubscribed, properties });
+		const { error } = await call(() =>
+			resend.contacts.update({ email: row.email, unsubscribed, properties })
+		);
 		if (error) throw new Error(`update: ${error.name} ${error.message}`);
 		return 'updated';
 	}
 
 	if (DRY_RUN) return 'would-create';
-	const { error } = await resend.contacts.create({
+	const { error } = await call(() => resend.contacts.create({
 		email: row.email,
 		unsubscribed,
 		properties,
 		...(firstNameOf(row.name) ? { firstName: firstNameOf(row.name) } : {})
-	});
+	}));
 	if (error) throw new Error(`create: ${error.name} ${error.message}`);
 	return 'created';
 }

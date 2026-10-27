@@ -153,6 +153,13 @@ export async function syncContact(
 
 	try {
 		const existing = await resend.contacts.get({ email: state.email });
+		// Only not_found means "create it". A rate limit or outage on the read
+		// used to fall through to a create as if the contact were missing; now it
+		// fails unstamped, so the sign-in backstop tries again later.
+		if (existing.error && existing.error.name !== 'not_found') {
+			console.error('[contacts] lookup failed:', existing.error);
+			return false;
+		}
 
 		if (existing.data) {
 			// Already in the desired state. Skipping the write also stops us
