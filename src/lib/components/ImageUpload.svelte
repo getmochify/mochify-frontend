@@ -53,6 +53,7 @@
 	import { getImagePreview, releaseImagePreview } from '$lib/imagePreview';
 	import DayPassButton from '$lib/components/DayPassButton.svelte';
 	import { recordToolUse } from '$lib/recentTools';
+	import { withoutMacMetadata, MAC_METADATA_ONLY_MESSAGE } from '$lib/macMetadata';
 	import {
 		DAY_PASS_ACTION,
 		dayPassEnabled,
@@ -671,6 +672,14 @@
 			// two different grounds is rare, and one link beats two competing ones.
 			errorKey = rejections.find((r) => r.key)?.key;
 			successMessage = '';
+		}
+
+		const { kept, skipped: metadataSkipped } = withoutMacMetadata(allFiles);
+		allFiles = kept;
+		if (allFiles.length === 0 && metadataSkipped > 0) {
+			rejections.push({ text: MAC_METADATA_ONLY_MESSAGE, key: 'unsupported_format' });
+			commitIngestNotices();
+			return;
 		}
 
 		const invalidFiles = allFiles.filter((f) => {

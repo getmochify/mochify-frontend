@@ -62,6 +62,7 @@
 	import { dayPassEnabled } from '$lib/dayPass';
 	import { formatPrice } from '$lib/currency';
 	import { portal } from '$lib/portal';
+	import { withoutMacMetadata, MAC_METADATA_ONLY_MESSAGE } from '$lib/macMetadata';
 	import {
 		loadPromptHistory,
 		rememberPrompt,
@@ -716,7 +717,12 @@
 		return MIME_BY_EXT[ext] ?? 'application/octet-stream';
 	}
 
-	async function validateAndAddFiles(newFiles: File[]) {
+	async function validateAndAddFiles(dropped: File[]) {
+		const { kept: newFiles, skipped: metadataSkipped } = withoutMacMetadata(dropped);
+		if (newFiles.length === 0 && metadataSkipped > 0) {
+			showStatus('error', MAC_METADATA_ONLY_MESSAGE);
+			return;
+		}
 		const plan = await getPlan();
 		userPlan = plan;
 		MAX_FILE_SIZE =
