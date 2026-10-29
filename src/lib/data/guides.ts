@@ -220,6 +220,16 @@ export const guides: Guide[] = [
 		lastUpdated: 'September 26, 2026'
 	},
 	{
+		title:
+			'Vinted Photo Backgrounds: What the Rules Allow, What Gets Listings Hidden, and a Workflow That Passes',
+		description:
+			'Vinted says background removal is allowed if the photo stays accurate and a real photo is there. The rules, what gets listings hidden, and the workflow.',
+		url: '/guides/vinted-background-removal-rules',
+		category: 'Workflows',
+		readTime: '25 min read',
+		date: 'October 28, 2026'
+	},
+	{
 		title: 'What Is a WebP File? (And How to Open One)',
 		description:
 			"A WebP file is Google's smaller web image format. Why your download saved as .webp, how to open it on Windows, Mac and phone, and when to convert it.",
