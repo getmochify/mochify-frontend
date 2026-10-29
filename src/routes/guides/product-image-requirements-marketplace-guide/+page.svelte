@@ -14,7 +14,7 @@
         category: "Image Formats",
         readTime: "17 min read",
         datePublished: "August 6, 2026",
-        lastUpdated: "October 1, 2026"
+        lastUpdated: "October 29, 2026"
     };
 
     const toc = [
@@ -59,7 +59,7 @@
         url="https://mochify.app/guides/product-image-requirements-marketplace-guide"
         description={metadata.description}
         datePublished="2026-08-06"
-        dateModified="2026-10-01"
+        dateModified="2026-10-29"
         article={{
             about: ['Amazon image requirements', 'Shopify product images', 'Etsy image requirements', 'eBay photo requirements', 'WooCommerce image sizes', 'product photography'],
             keywords:
@@ -208,7 +208,7 @@
             <p>Vinted's English-language help content focuses almost entirely on what to photograph - authenticity shots, natural lighting, branded item close-ups - and gives almost nothing in the way of technical specs.</p>
             <p><strong>What the official docs say:</strong> Up to 20 photos per listing. Photos should show the full item first, then defects and branded details. No file format, pixel dimension, or file size limits are stated anywhere in Vinted's publicly available help center as of June 2026.</p>
             <p><strong>What third-party sources suggest</strong> (treat as best-practice estimates, not rules): Portrait images in a 3:4 ratio - around 900 x 1,200 px or 1,080 x 1,350 px - appear to work well with Vinted's vertical feed layout. A minimum shortest side of 600-800 px and a maximum file size around 20 MB are commonly cited. These are not confirmed by Vinted's documentation; they reflect what consistently works in practice.</p>
-            <p><strong>Practical approach:</strong> Shoot or crop to a portrait 3:4 ratio, keep files under 5 MB after compression, and ensure the shortest side is at least 800 px. Vinted compresses on upload, so starting from a sharp original gives you more to work with.</p>
+            <p><strong>Practical approach:</strong> Shoot or crop to a portrait 3:4 ratio, keep files under 5 MB after compression, and ensure the shortest side is at least 800 px. Vinted compresses on upload, so starting from a sharp original gives you more to work with. For what Vinted allows on backgrounds and editing, and why listings get hidden, see <a href="/guides/vinted-background-removal-rules">our Vinted background rules guide</a>.</p>
         </section>
 
         <section id="depop-square-or-be-cropped" class="scroll-mt-24">

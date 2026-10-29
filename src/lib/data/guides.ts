@@ -188,7 +188,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '17 min read',
 		date: 'August 6, 2026',
-		lastUpdated: 'September 12, 2026'
+		lastUpdated: 'October 29, 2026'
 	},
 	{
 		title: 'Cross-Listing for Resellers: One Set of Photos, Every Marketplace',
@@ -198,7 +198,7 @@ export const guides: Guide[] = [
 		category: 'Workflows',
 		readTime: '11 min read',
 		date: 'August 5, 2026',
-		lastUpdated: 'October 23, 2026'
+		lastUpdated: 'October 29, 2026'
 	},
 	{
 		title: 'Etsy Listing Photo Size: The Complete Guide',
@@ -227,7 +227,7 @@ export const guides: Guide[] = [
 		url: '/guides/vinted-background-removal-rules',
 		category: 'Workflows',
 		readTime: '25 min read',
-		date: 'October 28, 2026'
+		date: 'October 29, 2026'
 	},
 	{
 		title: 'What Is a WebP File? (And How to Open One)',
@@ -818,7 +818,7 @@ export const guides: Guide[] = [
 		category: 'Workflows',
 		readTime: '13 min read',
 		date: 'July 19, 2026',
-		lastUpdated: 'October 9, 2026'
+		lastUpdated: 'October 29, 2026'
 	},
 	{
 		title: 'Mochify vs TinyPNG: An Honest Comparison',

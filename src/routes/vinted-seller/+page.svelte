@@ -1,7 +1,7 @@
 <script lang="ts">
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
-    import { faqSchema, type FaqItem } from '$lib/faq';
+    import { faqParts, faqSchema, type FaqItem } from '$lib/faq';
 
     // The visible accordion and the FAQPage schema are built from this one
     // array, so the two cannot drift. The page previously hand-wrote a
@@ -14,7 +14,7 @@
         },
         {
             q: 'What are Vinted\'s image requirements in 2026?',
-            a: "Vinted's catalog rules require that photos show the actual item: no stock images, no watermarks, and no added text or borders. Its help pages also advise a clean, neutral background and natural light so buyers can judge the item clearly. Vinted publishes no file size, format or minimum resolution for listing photos, so treat any specific figure you read elsewhere as someone's observation rather than a rule."
+            a: "Vinted's catalog rules require that photos show the actual item as it is: taken by you, no stock, advert or watermarked images, and no editing that changes how the item looks. Vinted has said background removal is allowed where the photo stays an accurate representation and the listing carries real photos. Its help pages also advise a clean, neutral background and natural light so buyers can judge the item clearly. Vinted publishes no file size, format or minimum resolution for listing photos, so treat any specific figure you read elsewhere as someone's observation rather than a rule."
         },
         {
             q: 'How do I take better photos for Vinted?',
@@ -22,7 +22,11 @@
         },
         {
             q: 'Does removing the background help sell on Vinted?',
-            a: "Yes, especially for clothing and accessories. A clean white background removes distractions, makes colors appear truer to life, and gives your listing the same polished look as brand product pages. Buyers associate a clean photo with a trustworthy seller."
+            a: [
+                "It can, as an additional photo. Vinted has said background removal is allowed as long as the photo remains an accurate representation of the item and the listing carries real photos, so put a real, unedited photo first and use the white cut-out behind it. A clean background removes distractions; never edit the item itself. ",
+                { href: '/guides/vinted-background-removal-rules', label: "Our guide to Vinted's background rules" },
+                ' has the details.'
+            ]
         },
         {
             q: 'Can I optimize multiple Vinted photos at once?',
@@ -106,7 +110,7 @@
                     icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42"/></svg>`,
                     color: 'bg-[#F3E5F5] border-purple-100 text-purple-600',
                     title: 'Clean Backgrounds',
-                    body: "A messy bedroom or patterned floor behind your item screams casual listing. Our AI isolates your clothing or item and places it on a clean white background, the same look as the brand's own product photos, for free."
+                    body: "A messy bedroom or patterned floor behind your item screams casual listing. Our AI isolates your clothing or item and places it on a clean white background, for free. Vinted allows it as long as the photo stays an accurate representation of the item, so keep a real photo first."
                 },
                 {
                     icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75"/></svg>`,
@@ -185,7 +189,7 @@
                             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
                         </span>
                     </summary>
-                    <div class="px-6 pb-6 text-sm text-[#6C3F31] leading-relaxed">{faq.a}</div>
+                    <div class="px-6 pb-6 text-sm text-[#6C3F31] leading-relaxed">{#each faqParts(faq.a) as part}{#if typeof part === 'string'}{part}{:else}<a href={part.href} class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">{part.label}</a>{/if}{/each}</div>
                 </details>
             {/each}
         </div>

@@ -22,7 +22,7 @@
 			'Vinted says background removal is allowed if the photo stays accurate and a real photo is there. The rules, what gets listings hidden, and the workflow.',
 		category: 'Workflows',
 		readTime: '25 min read',
-		date: 'October 28, 2026',
+		date: 'October 29, 2026',
 		bylineNote:
 			"Written from Vinted's published rules and its October 2026 statement, the other marketplaces' own help pages, and a 25-photo batch run on October 28, 2026."
 	};
@@ -133,7 +133,7 @@
 		name={metadata.title}
 		url={pageUrl}
 		description={metadata.description}
-		datePublished="2026-10-28"
+		datePublished="2026-10-29"
 		article={{
 			about: [
 				'Vinted',

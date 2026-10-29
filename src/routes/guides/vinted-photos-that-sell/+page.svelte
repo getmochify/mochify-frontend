@@ -21,7 +21,7 @@
         category: "Workflows",
         readTime: "13 min read",
         date: "July 19, 2026",
-        lastUpdated: "October 9, 2026"
+        lastUpdated: "October 29, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -49,11 +49,11 @@
         },
         {
             q: "Do Vinted photos need a white background?",
-            a: "No. Vinted has no background requirement; its guidance asks for clear photos in natural daylight with true colors. A plain wall or floor works well. A clean white background does give listings the polished, brand-style look, and Mochify can apply background removal as part of your photo prep on any plan, including Free."
+            a: "No. Vinted has no background requirement; its guidance asks for clear photos in natural daylight with true colors. A plain wall or floor works well. Vinted has said background removal is allowed as long as the photo stays an accurate representation of the item and the listing carries real photos, so keep a real photo first and use a white cut-out as an additional one; Mochify can apply background removal as part of your photo prep on any plan, including Free. Our guide to <a href='/guides/vinted-background-removal-rules'>Vinted's background rules and what gets listings hidden</a> has the full answer."
         },
         {
             q: "Can I use stock photos on Vinted?",
-            a: "No. Vinted's rules require your own photos of the actual item, and listings using stock or watermarked images can be hidden or removed. Buyers also treat stock photos as a scam signal, so even where a listing survives, it converts poorly."
+            a: "No. Vinted's rules require your own photos of the actual item, and listings using stock or watermarked images can be hidden or removed. Buyers also treat stock photos as a scam signal, so even where a listing survives, it converts poorly. The full answer, including AI-generated images and the brand's own photo of the same item, is in <a href='/guides/vinted-background-removal-rules'>our Vinted background rules guide</a>."
         },
         {
             q: "Should I show flaws in my Vinted photos?",
@@ -104,7 +104,7 @@
         url="https://mochify.app/guides/vinted-photos-that-sell"
         description={metadata.description}
         datePublished="2026-07-19"
-        dateModified="2026-10-09"
+        dateModified="2026-10-29"
         article={{
             about: ['Vinted', 'product photography', 'marketplace selling', 'image optimization', 'EXIF metadata'],
             keywords:
@@ -119,8 +119,8 @@
         "mainEntity": [
             { "@type": "Question", "name": "What is the best photo size for Vinted?", "acceptedAnswer": { "@type": "Answer", "text": "Portrait orientation at a 3:4 ratio, around 1080x1440 pixels, with the item centered. Vinted publishes no official size requirement; this recommendation comes from how its pipeline actually behaves - grid thumbnails are cropped to a fixed 310x430 portrait window and item photos are served at roughly 800px, so a centered portrait shot survives both." } },
             { "@type": "Question", "name": "How many photos should a Vinted listing have?", "acceptedAnswer": { "@type": "Answer", "text": "Vinted allows up to 20 photos per listing. Five to eight covers most items: full front, full back, label, fabric close-up, and any flaws. Branded and designer items should carry more detail shots, since close-ups of logos, stitching, and tags are how buyers and Vinted judge authenticity." } },
-            { "@type": "Question", "name": "Do Vinted photos need a white background?", "acceptedAnswer": { "@type": "Answer", "text": "No. Vinted has no background requirement; its guidance asks for clear photos in natural daylight with true colors. A plain wall or floor works well. A clean white background does give listings the polished, brand-style look, and Mochify can apply background removal as part of your photo prep on any plan, including Free." } },
-            { "@type": "Question", "name": "Can I use stock photos on Vinted?", "acceptedAnswer": { "@type": "Answer", "text": "No. Vinted's rules require your own photos of the actual item, and listings using stock or watermarked images can be hidden or removed. Buyers also treat stock photos as a scam signal, so even where a listing survives, it converts poorly." } },
+            { "@type": "Question", "name": "Do Vinted photos need a white background?", "acceptedAnswer": { "@type": "Answer", "text": "No. Vinted has no background requirement; its guidance asks for clear photos in natural daylight with true colors. A plain wall or floor works well. Vinted has said background removal is allowed as long as the photo stays an accurate representation of the item and the listing carries real photos, so keep a real photo first and use a white cut-out as an additional one; Mochify can apply background removal as part of your photo prep on any plan, including Free. Our guide to Vinted's background rules and what gets listings hidden has the full answer." } },
+            { "@type": "Question", "name": "Can I use stock photos on Vinted?", "acceptedAnswer": { "@type": "Answer", "text": "No. Vinted's rules require your own photos of the actual item, and listings using stock or watermarked images can be hidden or removed. Buyers also treat stock photos as a scam signal, so even where a listing survives, it converts poorly. The full answer, including AI-generated images and the brand's own photo of the same item, is in our Vinted background rules guide." } },
             { "@type": "Question", "name": "Should I show flaws in my Vinted photos?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, always. Vinted's rules state that if a defect is not shown in photos and mentioned in the description, the buyer can return the item as significantly not as described. An honest close-up of a flaw costs a little on price and saves you a cancelled sale, a return, and a negative review." } },
             { "@type": "Question", "name": "Do worn photos really sell items faster?", "acceptedAnswer": { "@type": "Answer", "text": "Worn photos help buyers judge fit, and many sellers report better results with them, but they are not required and there is no reliable public data proving a specific uplift. Vinted itself suggests flat lay, hangers, or a mannequin if you prefer not to appear in photos. A headless mirror shot is a solid middle ground." } },
             { "@type": "Question", "name": "Why is Vinted cropping my photos?", "acceptedAnswer": { "@type": "Answer", "text": "Because the search grid crops every first photo to a fixed portrait thumbnail (310x430 pixels when served). If your photo is landscape or the item sits off-center, the sides get cut. Shoot portrait with the item centered, or batch-crop to 3:4 portrait before uploading." } },
@@ -284,7 +284,7 @@
                     </div>
                 </li>
             </ol>
-            <p class="text-base mt-7 mb-0">Two upgrades worth knowing about. High-volume sellers on the Seller or Pro plan get 25-file batches and 75MB files, which turns a 60-photo clear-out from a session-by-session job into three drag-and-drops. And background removal - placing your item on a clean white background, the brand-listing look - is part of the standard toolkit on every plan, including Free.</p>
+            <p class="text-base mt-7 mb-0">Two upgrades worth knowing about. High-volume sellers on the Seller or Pro plan get 25-file batches and 75MB files, which turns a 60-photo clear-out from a session-by-session job into three drag-and-drops. And background removal, placing your item on a clean white background, is part of the standard toolkit on every plan, including Free; on Vinted use it behind a real first photo, as <a href="/guides/vinted-background-removal-rules">our guide to Vinted's background rules</a> explains.</p>
             <p class="text-base mt-4 mb-0">Selling the same pieces elsewhere too? Vinted's portrait crop is not what eBay, Poshmark, or Depop want, so <a href="/guides/cross-listing-marketplace-photo-requirements">cross-listing your Vinted photos to other marketplaces</a> means re-exporting each set to the right shape, the same batch prompt with one line changed per platform.</p>
             <p class="text-base text-[#875F42] mt-4 mb-0">A note on privacy, because clothes photographed in your home are personal data in every sense: images sent to Mochify are streamed into server memory at <code class={inlineCode}>api.mochify.app</code>, processed, and wiped immediately. No disk writes, no logs containing your files, zero retention. Our <a href="/guides/privacy-image-optimization">privacy and image optimization guide</a> explains the model in depth.</p>
         </section>

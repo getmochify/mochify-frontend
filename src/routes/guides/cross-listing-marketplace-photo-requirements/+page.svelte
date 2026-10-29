@@ -17,7 +17,7 @@
         category: "Workflows",
         readTime: "11 min read",
         date: "August 5, 2026",
-        lastUpdated: "October 23, 2026"
+        lastUpdated: "October 29, 2026"
     };
 
     const toc = [
@@ -58,7 +58,7 @@
         {
             n: '6',
             h: 'Optional: clean backgrounds for covers',
-            body: `A clean or transparent background lifts cover photos on cluttered search grids. Background removal is included on every Mochify tier, so prompting "remove the background" on your cover shots costs nothing extra; for a plain cut-out with no prompt, the <a href="https://mochify.app/solutions/remove-background-webp">WebP background remover</a> returns a transparent WebP in one step.`
+            body: `A clean or transparent background lifts cover photos on cluttered search grids. Background removal is included on every Mochify tier, so prompting "remove the background" on your cover shots costs nothing extra; for a plain cut-out with no prompt, the <a href="https://mochify.app/solutions/remove-background-webp">WebP background remover</a> returns a transparent WebP in one step. Check each marketplace first: eBay and Amazon want white, Etsy requires at least one unedited photo and renders transparency black, and Vinted allows a cut-out behind a real first photo; <a href="/guides/vinted-background-removal-rules">our guide to marketplace background rules</a> tables all of them.`
         },
         {
             n: '7',
@@ -134,7 +134,7 @@
         },
         "image": "https://mochify.app/og/guides-cross-listing-marketplace-photo-requirements.png",
         "datePublished": "2026-08-05T12:00:00+00:00",
-        "dateModified": "2026-10-23T12:00:00+00:00",
+        "dateModified": "2026-10-29T12:00:00+00:00",
         "inLanguage": "en",
         "author": {
             "@type": "Organization",
@@ -194,7 +194,7 @@
         url="https://mochify.app/guides/cross-listing-marketplace-photo-requirements"
         description={metadata.description}
         datePublished="2026-08-05"
-        dateModified="2026-10-23"
+        dateModified="2026-10-29"
     />
 </svelte:head>
 
