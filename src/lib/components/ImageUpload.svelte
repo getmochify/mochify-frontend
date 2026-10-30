@@ -176,6 +176,10 @@
 	// $state so the test-arm copy (content-ops handoff 2026-10-23-batch-queue-
 	// messages) re-renders once the variant resolves.
 	let queueEnabled = $state(true);
+	let replayStarted = false;
+	$effect(() => () => {
+		if (replayStarted) posthog.stopSessionRecording();
+	});
 	let queueVariant: Promise<void> | null = null;
 	function resolveQueueVariant(): Promise<void> {
 		queueVariant ??= posthog.getFeatureFlag('batch-queue').then((variant) => {
@@ -817,6 +821,14 @@
 			rejections.push({ text: 'All selected files are already in the list.' });
 		} else if (overflow.length > 0) {
 			await resolveQueueVariant();
+			// Replay only cap-hit sessions, so the batch-queue experiment's arms
+			// can be watched without recording every visitor. Stopped again when
+			// this uploader unmounts (the $effect below), so other pages and
+			// their file lists are never recorded.
+			if (!replayStarted) {
+				replayStarted = true;
+				posthog.startSessionRecording();
+			}
 			if (!queueEnabled) {
 				legacyTrim = { staged: combinedFiles.length, offered: eligibleFiles.length };
 			}
@@ -2153,8 +2165,10 @@
          that opens the picker unmounts the instant the first file lands, and iOS
          Safari drops that first selection — you'd have to pick again. Keeping both
          <label> triggers permanently mounted (as PromptForm does) fixes it. -->
+	<!-- ph-no-capture: session replay (cap-hit sessions only) blocks this tray,
+	     so filenames and thumbnails never reach PostHog. -->
 	<div
-		class="relative flex flex-wrap items-center gap-3 px-4 pt-6 pb-3 sm:px-6"
+		class="ph-no-capture relative flex flex-wrap items-center gap-3 px-4 pt-6 pb-3 sm:px-6"
 		class:hidden={selectedFiles.length === 0 && queuedFiles.length === 0}
 	>
 		{#each fileProgress as fp, index}
@@ -2388,7 +2402,7 @@
          a false promise). Three or more in-band files collapse to one line. -->
 	{#snippet blockedThumb(blocked: BlockedFile)}
 		<div
-			class="h-10 w-10 flex-shrink-0 overflow-hidden rounded-xl border border-red-200 bg-white p-0.5"
+			class="ph-no-capture h-10 w-10 flex-shrink-0 overflow-hidden rounded-xl border border-red-200 bg-white p-0.5"
 		>
 			{#if blocked.thumbnailUrl}
 				<img
@@ -2587,7 +2601,7 @@
 			{:else}
 				{#each inBandFiles as blocked (blocked.file.name + blocked.file.size)}
 					<div
-						class="flex items-center gap-3 rounded-2xl border border-red-100 bg-red-50 px-3 py-2.5"
+						class="ph-no-capture flex items-center gap-3 rounded-2xl border border-red-100 bg-red-50 px-3 py-2.5"
 					>
 						{@render blockedThumb(blocked)}
 						<div class="min-w-0 flex-1">
@@ -2604,7 +2618,7 @@
 			{/if}
 			{#each overMaxFiles as blocked (blocked.file.name + blocked.file.size)}
 				<div
-					class="flex items-center gap-3 rounded-2xl border border-red-100 bg-red-50 px-3 py-2.5"
+					class="ph-no-capture flex items-center gap-3 rounded-2xl border border-red-100 bg-red-50 px-3 py-2.5"
 				>
 					{@render blockedThumb(blocked)}
 					<div class="min-w-0 flex-1">

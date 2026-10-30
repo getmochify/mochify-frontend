@@ -8,7 +8,13 @@
 // posthog-node via $lib/server/posthog and is unaffected.)
 import { browser } from '$app/environment';
 
-type Method = 'capture' | 'identify' | 'reset' | 'captureException';
+type Method =
+	| 'capture'
+	| 'identify'
+	| 'reset'
+	| 'captureException'
+	| 'startSessionRecording'
+	| 'stopSessionRecording';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let instance: any = null;
@@ -73,6 +79,17 @@ export const posthog = {
 	},
 	captureException(...args: unknown[]): void {
 		call('captureException', args);
+	},
+	/**
+	 * Start replay for this session only. Recording is off by default
+	 * (disable_session_recording in $lib/posthogConfig), so the recorder
+	 * script loads only for sessions that call this.
+	 */
+	startSessionRecording(...args: unknown[]): void {
+		call('startSessionRecording', args);
+	},
+	stopSessionRecording(...args: unknown[]): void {
+		call('stopSessionRecording', args);
 	},
 	/**
 	 * A flag's value once flags have loaded, or undefined when they don't load

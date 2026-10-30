@@ -6,8 +6,13 @@ import { posthog } from '$lib/analytics';
 // pricing table. Polar only frames checkouts for hosts on the organization's
 // allowlist (Settings > Preferences > Embedding), which must include mochify.app.
 
-/** How long the overlay may take to load before the buyer is offered a tab. */
-const EMBED_LOAD_TIMEOUT_MS = 12_000;
+/**
+ * How long the overlay may take to load before the buyer is offered a tab.
+ * Was 12s: the three timeouts in the week after launch (Oct 2026) all sat
+ * behind a scroll-locked spinner that long and none took the fallback. A
+ * frame that loads after this is closed (see openEmbeddedCheckout).
+ */
+const EMBED_LOAD_TIMEOUT_MS = 6_000;
 
 type NoticeKind = 'paid' | 'active' | 'sign_in' | 'fallback' | 'error';
 
@@ -60,14 +65,22 @@ export function showNotice(
 		link.style.cssText = 'color:#F06292;font-weight:800';
 		body.appendChild(link);
 	} else if (kind === 'fallback') {
-		title.textContent = "Checkout didn't open on this page.";
+		// A new tab rather than a redirect: the page underneath holds the
+		// visitor's files. The click is a user gesture, so no popup blocker.
+		title.textContent = 'Checkout is slow to load here.';
+		body.textContent = 'Finish in a new tab. Your files stay on this page.';
 		const link = document.createElement('a');
 		link.href = checkoutUrl ?? '#';
 		link.target = '_blank';
 		link.rel = 'noopener noreferrer';
-		link.textContent = 'Open checkout in a new tab';
-		link.style.cssText = 'color:#F06292;font-weight:800';
-		link.addEventListener('click', () => card.remove());
+		link.textContent = 'Continue to secure checkout';
+		link.style.cssText =
+			'display:block;margin-top:10px;padding:10px 14px;border-radius:12px;' +
+			'background:#F06292;color:#fff;font-weight:800;text-align:center;text-decoration:none';
+		link.addEventListener('click', () => {
+			posthog.capture('checkout_fallback_clicked');
+			card.remove();
+		});
 		body.appendChild(link);
 	} else {
 		title.textContent = "Checkout couldn't start.";
