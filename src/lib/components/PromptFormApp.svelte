@@ -59,7 +59,7 @@
 	import UploadHelpLink from '$lib/components/UploadHelpLink.svelte';
 	import DayPassButton from '$lib/components/DayPassButton.svelte';
 	import LimitsWhy from '$lib/components/LimitsWhy.svelte';
-	import { dayPassEnabled } from '$lib/dayPass';
+	import { DAY_PASS_OPS, dayPassEnabled, passForDrop } from '$lib/dayPass';
 	import { formatPrice } from '$lib/currency';
 	import { portal } from '$lib/portal';
 	import { withoutMacMetadata, MAC_METADATA_ONLY_MESSAGE } from '$lib/macMetadata';
@@ -443,7 +443,6 @@
 	// working trim as an error, never said how many files were left behind, and
 	// offered a subscription to a guest a $2 Day Pass or a free account would do.
 	const BATCH_LIMIT_PAID = 25;
-	const DAY_PASS_OPS = 100;
 	const SELLER_OPS = 300; // keep in step with /pricing
 	let batchTrim: { staged: number; offered: number } | null = $state(null);
 	// getPlan() answers 'free' for signed-out callers too, so the session is what
@@ -477,6 +476,9 @@
 	// passes, and core's 403 remains the backstop.
 	const pdfGated = $derived(uploadMode === 'pdf' && userPlan === 'free');
 	const dayPassPrice = $derived(formatPrice(localPrices?.prices?.dayPass ?? 200, priceCurrency));
+	const dayPassPlusPrice = $derived(
+		formatPrice(localPrices?.prices?.dayPassPlus ?? 500, priceCurrency)
+	);
 	const cheapestPlanPrice = $derived(
 		formatPrice(localPrices?.prices?.sellerMonthly ?? 799, priceCurrency)
 	);
@@ -3654,19 +3656,24 @@
 						{#if batchTier === 'guest' || batchTier === 'free'}
 							<div class="mt-1 flex flex-wrap items-start gap-x-3 gap-y-2">
 								{#if dayPassEnabled()}
+									<!-- Day Pass+ (300) once the drop outnumbers a Day Pass's 100,
+									     matching ImageUpload's batch box. -->
+									{@const pass = passForDrop(n)}
 									<div class="flex flex-col items-start gap-1 sm:max-w-xs">
 										<DayPassButton
 											trigger="magic_flow_batch_cap"
 											source="batch_cap_box"
+											plus={pass.plus}
+											properties={{ files_dropped: n }}
 											class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
 										>
-											Day Pass ({dayPassPrice}): {BATCH_LIMIT_PAID} per batch, {DAY_PASS_OPS} uploads
-											today
+											{pass.name} ({pass.plus ? dayPassPlusPrice : dayPassPrice}): {BATCH_LIMIT_PAID} per
+											batch, {pass.ops} uploads today
 										</DayPassButton>
 										<p class="text-xs font-medium text-[#6C3F31]/70">
 											{batchTier === 'guest'
-												? 'The Day Pass needs no signup, lasts 24 hours and takes files up to 75MB.'
-												: `The Day Pass lasts 24 hours and takes files up to 75MB; when it ends, your free ${FREE_PLAN_QUOTA} starts fresh.`}
+												? `The ${pass.name} needs no signup, lasts 24 hours and takes files up to 75MB.`
+												: `The ${pass.name} lasts 24 hours and takes files up to 75MB; when it ends, your free ${FREE_PLAN_QUOTA} starts fresh.`}
 										</p>
 									</div>
 								{:else}

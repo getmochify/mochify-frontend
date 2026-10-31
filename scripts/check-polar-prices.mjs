@@ -21,7 +21,8 @@ const PLANS = {
 	proYearly: 'POLAR_PRODUCT_ID_PRO_YEARLY',
 	growthMonthly: 'POLAR_PRODUCT_ID_GROWTH_MONTHLY',
 	growthYearly: 'POLAR_PRODUCT_ID_GROWTH_YEARLY',
-	dayPass: 'POLAR_PRODUCT_ID_DAY_PASS'
+	dayPass: 'POLAR_PRODUCT_ID_DAY_PASS',
+	dayPassPlus: 'POLAR_PRODUCT_ID_DAY_PASS_PLUS'
 };
 
 // Currencies Stripe and Polar quote in whole units, so an amount of 1000 is

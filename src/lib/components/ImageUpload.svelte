@@ -56,9 +56,12 @@
 	import { withoutMacMetadata, MAC_METADATA_ONLY_MESSAGE } from '$lib/macMetadata';
 	import {
 		DAY_PASS_ACTION,
+		DAY_PASS_OPS,
+		DAY_PASS_PLUS_OPS,
 		dayPassEnabled,
 		dayPassNext,
 		dayPassSignIn,
+		passForDrop,
 		resendDayPassLink,
 		startDayPassCheckout,
 		type DayPassActivation
@@ -238,11 +241,12 @@
 	// get a (frosted) thumbnail decoded for them.
 	const QUEUE_HOLD_LIMIT = 500;
 	const QUEUE_VISIBLE = 4;
-	// What $2 actually buys, in the unit the count walls are denominated in.
-	// Named because the Day Pass has to be explained wherever it is offered:
-	// "Day Pass" tells a first-time visitor nothing, "100 conversions in 24
-	// hours" tells them whether it solves the problem in front of them.
-	const DAY_PASS_OPS = 100;
+	// What $2 actually buys (DAY_PASS_OPS), and Day Pass+'s $5
+	// (DAY_PASS_PLUS_OPS), in the unit the count walls are denominated in.
+	// Named because the pass has to be explained wherever it is offered: "Day
+	// Pass" tells a first-time visitor nothing, "100 conversions in 24 hours"
+	// tells them whether it solves the problem in front of them. Day Pass+ is
+	// offered instead wherever the files on the page outnumber a Day Pass.
 	// Seller's monthly allowance, quoted on the batch-cap box for drops too big
 	// for a Day Pass. Keep in step with /pricing.
 	const SELLER_OPS = 300;
@@ -256,6 +260,7 @@
 	// renders on prerendered pages, so the country is only knowable after
 	// hydration (see /api/prices).
 	const DAY_PASS_USD = 200;
+	const DAY_PASS_PLUS_USD = 500;
 	const CHEAPEST_PAID_MONTHLY_USD = 799;
 
 	type LocalPrices = { currency: string; prices: Record<string, number> };
@@ -266,6 +271,14 @@
 	const dayPassPrice = $derived(
 		formatPrice(localPrices?.prices?.dayPass ?? DAY_PASS_USD, priceCurrency)
 	);
+	const dayPassPlusPrice = $derived(
+		formatPrice(localPrices?.prices?.dayPassPlus ?? DAY_PASS_PLUS_USD, priceCurrency)
+	);
+	/** Name, price and allowance of the pass that covers a drop of `n` files. */
+	const passOffer = (n: number) => {
+		const pass = passForDrop(n);
+		return { ...pass, price: pass.plus ? dayPassPlusPrice : dayPassPrice };
+	};
 	const cheapestPlanPrice = $derived(
 		formatPrice(localPrices?.prices?.sellerMonthly ?? CHEAPEST_PAID_MONTHLY_USD, priceCurrency)
 	);
@@ -1015,7 +1028,11 @@
 	);
 	// What this tier's monthly allowance is called in the allowance box.
 	const allowanceTotal = $derived(
-		limitTier === 'guest' ? GUEST_QUOTA : limitTier === 'day' ? DAY_PASS_OPS : monthlyQuota
+		limitTier === 'guest'
+			? GUEST_QUOTA
+			: limitTier === 'day'
+				? Math.max(monthlyQuota, DAY_PASS_OPS)
+				: monthlyQuota
 	);
 
 	// The CTA states the outcome and the format, and recounts as thumbnails are
@@ -1032,25 +1049,34 @@
 	// "{done} done, {N} to go"; {N} is everything still here, batch and queue.
 	let doneThisVisit = $state(0);
 	const filesLeft = $derived(stagedCount + queuedFiles.length);
-	// A pass is 100 uploads, so "all {N}" is only promised when it covers them.
-	const passCovers = (n: number) => (n > DAY_PASS_OPS ? `${DAY_PASS_OPS} of them` : `all ${n}`);
+	// "all {N}" is only promised when the pass offered for N covers them.
+	const passCovers = (n: number) => {
+		const { ops } = passForDrop(n);
+		return n > ops ? `${ops} of them` : `all ${n}`;
+	};
 	// The batch-cap box offers a guest or free account the route that fits the
 	// number of files dropped (content-ops handoff 2026-10-26-batch-cap-box-
 	// routes-by-drop-size): the pass while it covers the drop, in one batch or
 	// in batches of 25, then the smallest plan whose month holds it. One "25
 	// per batch" line for every drop read as "not enough" at 60 files, and
 	// offered a pass covering a quarter of a 400-file drop.
-	type CapRoute = 'pass_one_batch' | 'pass_batches' | 'seller' | 'pro' | 'growth';
+	//
+	// Past a Day Pass's 100 the route is Day Pass+ (300 for $5) where the page
+	// offers passes: drops over 100 are common on hif-to-jpg, and a buyer who
+	// wants today's files done is not looking for a subscription.
+	type CapRoute = 'pass_one_batch' | 'pass_batches' | 'pass_plus' | 'seller' | 'pro' | 'growth';
 	const capRoute = (n: number): CapRoute =>
 		n <= BATCH_LIMIT_PAID
 			? 'pass_one_batch'
 			: n <= DAY_PASS_OPS
 				? 'pass_batches'
-				: n <= SELLER_OPS
-					? 'seller'
-					: n <= PRO_OPS
-						? 'pro'
-						: 'growth';
+				: n <= DAY_PASS_PLUS_OPS && dayPassOffered
+					? 'pass_plus'
+					: n <= SELLER_OPS
+						? 'seller'
+						: n <= PRO_OPS
+							? 'pro'
+							: 'growth';
 	// The box's clicks carry the drop size and what was offered, so the click
 	// rate per band reads straight off the click.
 	const capClick = (n: number, planOffered: string) => ({
@@ -1155,14 +1181,19 @@
 		if (insufficientTokens) {
 			// Mirrors the allowance box's primary route (see allowanceButtonLabel).
 			if (allowanceDayPass) {
+				// The guest wall's button sells whichever pass its label quotes.
+				const plus = guestWallWithQueue && passForDrop(filesLeft).plus;
 				posthog.capture('day_pass_cta_clicked', {
 					trigger: 'button_click_no_tokens',
-					source: 'allowance_box'
+					source: 'allowance_box',
+					pass: plus ? 'plus' : 'day'
 				});
 				void startDayPassCheckout({
 					next: dayPassReturnTo,
 					trigger: 'button_click_no_tokens',
-					fallbackForm: dayPassDirectForm,
+					plus,
+					// The hidden form posts the Day Pass, so it is no fallback for Day Pass+.
+					fallbackForm: plus ? null : dayPassDirectForm,
 					onPaid: handleDayPassPaid
 				});
 			} else if (!isAuthed) {
@@ -2463,6 +2494,11 @@
 			<p class="mt-1 text-xs font-bold text-cocoa-deep">
 				Your {n} files fit in a Day Pass: {DAY_PASS_OPS} uploads today, {BATCH_LIMIT_PAID} at a time.
 			</p>
+		{:else if route === 'pass_plus'}
+			<p class="mt-1 text-xs font-bold text-cocoa-deep">
+				Your {n} files fit in a Day Pass+: {DAY_PASS_PLUS_OPS} uploads today, {BATCH_LIMIT_PAID} at a
+				time.
+			</p>
 		{:else if route === 'seller'}
 			<p class="mt-1 text-xs font-bold text-cocoa-deep">
 				{n} files is more than a Day Pass covers ({DAY_PASS_OPS} in 24 hours). Seller converts {SELLER_OPS}
@@ -2482,25 +2518,30 @@
 			</p>
 		{/if}
 		<div class="mt-1.5 flex flex-col items-start gap-1 sm:max-w-sm">
-			{#if route === 'pass_one_batch' || route === 'pass_batches'}
+			{#if route === 'pass_one_batch' || route === 'pass_batches' || route === 'pass_plus'}
 				{#if dayPassOffered}
+					{@const pass = passOffer(n)}
 					<DayPassButton
 						onPaid={handleDayPassPaid}
 						trigger="batch_cap_banner"
 						source="batch_cap_box"
-						properties={{ files_dropped: n, plan_offered: 'day_pass' }}
+						plus={pass.plus}
+						properties={{
+							files_dropped: n,
+							plan_offered: pass.plus ? 'day_pass_plus' : 'day_pass'
+						}}
 						class={primary}
 					>
 						{route === 'pass_one_batch'
 							? `Day Pass (${dayPassPrice}): all ${n} in one batch`
-							: `Convert all ${n} with a Day Pass (${dayPassPrice})`}{arrow}
+							: `Convert all ${n} with a ${pass.name} (${pass.price})`}{arrow}
 					</DayPassButton>
 					<p class={facts}>
 						{route === 'pass_one_batch'
 							? `${noSignup}${DAY_PASS_OPS} uploads today, ${BATCH_LIMIT_PAID} at a time, files up to ${paidFileSizeMb}MB.${freshFree}`
 							: `${noSignup}Lasts 24 hours; files up to ${paidFileSizeMb}MB.${freshFree}`}
 					</p>
-					{#if route === 'pass_batches'}
+					{#if route === 'pass_batches' || route === 'pass_plus'}
 						<a
 							href="/pricing"
 							onclick={() => posthog.capture('upgrade_cta_clicked', capClick(n, 'seller'))}
@@ -2543,15 +2584,19 @@
 					{offer.name} ({offer.price}/mo): {offer.ops.toLocaleString('en-US')} a month{arrow}
 				</a>
 				<p class={facts}>Files up to {paidFileSizeMb}MB.</p>
-				{#if route === 'seller' && dayPassOffered}
+				<!-- Only Pro and Growth drops reach here with passes on offer (up to
+				     300 is pass_plus), so the pass that covers the most of them. -->
+				{#if dayPassOffered}
 					<DayPassButton
 						onPaid={handleDayPassPaid}
 						trigger="batch_cap_banner"
 						source="batch_cap_box"
-						properties={{ files_dropped: n, plan_offered: 'day_pass' }}
+						plus
+						properties={{ files_dropped: n, plan_offered: 'day_pass_plus' }}
 						class={link}
 					>
-						Or a Day Pass ({dayPassPrice}) for {DAY_PASS_OPS} of them today, {BATCH_LIMIT_PAID} at a time
+						Or a Day Pass+ ({dayPassPlusPrice}) for {DAY_PASS_PLUS_OPS} of them today, {BATCH_LIMIT_PAID}
+						at a time
 					</DayPassButton>
 				{/if}
 			{/if}
@@ -2971,6 +3016,7 @@
 					{@const k = activeBanner.k}
 					{@const n = activeBanner.n}
 					{#if guestWallWithQueue}
+						{@const pass = passOffer(filesLeft)}
 						<!-- Change 2 of the queue handoff: something converted, the month
 						     is used, files are waiting. Replaces "Nothing has been
 						     uploaded", which is false right after a successful batch. -->
@@ -2982,13 +3028,13 @@
 								onPaid={handleDayPassPaid}
 								trigger="token_wall_banner"
 								source="allowance_box"
+								plus={pass.plus}
 								class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
 							>
-								Convert {passCovers(filesLeft)} now: Day Pass ({dayPassPrice})
+								Convert {passCovers(filesLeft)} now: {pass.name} ({pass.price})
 							</DayPassButton>
 							<p class="text-xs font-medium text-[#6C3F31]/70">
-								No signup needed. {DAY_PASS_OPS} uploads today, {BATCH_LIMIT_PAID} at a time, files up
-								to
+								No signup needed. {pass.ops} uploads today, {BATCH_LIMIT_PAID} at a time, files up to
 								{paidFileSizeMb}MB.
 							</p>
 							<a
@@ -3020,7 +3066,7 @@
 										You've used your {allowanceTotal} free uploads for this month. Nothing has been uploaded.
 									{/if}
 								{:else if limitTier === 'day'}
-									Your Day Pass has used its {DAY_PASS_OPS} uploads.
+									Your Day Pass has used its {allowanceTotal} uploads.
 								{:else if nextTier}
 									You've used this month's {allowanceTotal.toLocaleString('en-US')} uploads. {nextTier.name}
 									is {nextTier.ops.toLocaleString('en-US')} a month.
@@ -3205,7 +3251,7 @@
                      on the card pushed different products at the same moment. -->
 					<span>
 						{guestWallWithQueue
-							? `Convert ${passCovers(filesLeft)} with a Day Pass (${dayPassPrice})`
+							? `Convert ${passCovers(filesLeft)} with a ${passOffer(filesLeft).name} (${passOffer(filesLeft).price})`
 							: allowanceDayPass
 								? `Get a Day Pass to convert ${stagedCount} image${stagedCount !== 1 ? 's' : ''}`
 								: !isAuthed

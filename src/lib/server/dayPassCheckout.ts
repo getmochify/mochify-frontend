@@ -1,5 +1,6 @@
 import { Polar } from '@polar-sh/sdk';
 import { env } from '$env/dynamic/private';
+import { dayPassOpsForProduct } from '$lib/server/dayPassGrant';
 
 export type PaidDayPassCheckout = {
 	id: string;
@@ -16,8 +17,8 @@ export type PaidDayPassCheckout = {
  * email always comes from Polar, never from the request.
  *
  * Answers `invalid` for a URL that is not a Polar checkout, `not_found` when
- * Polar does not know it, and `not_paid` until it has succeeded for the Day
- * Pass product.
+ * Polar does not know it, and `not_paid` until it has succeeded for a Day
+ * Pass product (the Day Pass or Day Pass+).
  */
 export async function paidDayPassCheckout(
 	checkoutUrl: unknown
@@ -44,7 +45,7 @@ export async function paidDayPassCheckout(
 
 	if (
 		checkout.status !== 'succeeded' ||
-		checkout.productId !== env.POLAR_PRODUCT_ID_DAY_PASS ||
+		dayPassOpsForProduct(checkout.productId) === null ||
 		!checkout.customerEmail
 	) {
 		return 'not_paid';

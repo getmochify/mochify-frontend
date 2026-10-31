@@ -22,7 +22,12 @@ import {
 import { mirrorPlan } from '$lib/server/resendContacts';
 import { sendDayPassLink } from '$lib/server/dayPassLink';
 import { reseedBucket, sha256Hex } from '$lib/server/bucket';
-import { claimPendingDayPass, grantDayPass, parkDayPass } from '$lib/server/dayPassGrant';
+import {
+	claimPendingDayPass,
+	dayPassOpsForProduct,
+	grantDayPass,
+	parkDayPass
+} from '$lib/server/dayPassGrant';
 
 async function updateUsageKv(
 	kv: KVNamespace | undefined,
@@ -408,10 +413,12 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 		// One-time day pass purchase.
 		case 'order.created': {
 			const order = event.data;
-			// Only process paid, one-time purchases for the day pass product.
+			// Only process paid, one-time purchases for a day pass product: the
+			// Day Pass or Day Pass+, which differ only in how many uploads.
 			if (order.status !== 'paid') break;
 			if (order.billingReason !== 'purchase') break;
-			if (order.product?.id !== env.POLAR_PRODUCT_ID_DAY_PASS) break;
+			const passOps = dayPassOpsForProduct(order.product?.id);
+			if (passOps === null) break;
 
 			const email = order.customer.email;
 			if (!email) break;
@@ -428,13 +435,18 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				.bind(email)
 				.first<{ id: string; plan: string | null }>();
 			if (existing?.plan && SUBSCRIPTION_PLANS.has(existing.plan)) {
-				const status = await creditBucket(existing.id, 100, order.id);
+				const status = await creditBucket(existing.id, passOps, order.id);
 				if (status === 'ok') {
 					const posthog = getPostHogClient();
 					posthog.capture({
 						distinctId: existing.id,
 						event: 'day_pass_activated',
-						properties: { polar_order_id: order.id, mode: 'subscriber_credit', plan: existing.plan }
+						properties: {
+							polar_order_id: order.id,
+							mode: 'subscriber_credit',
+							plan: existing.plan,
+							ops: passOps
+						}
 					});
 					await posthog.flush();
 				}
@@ -454,11 +466,11 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				.first<{ id: string; email: string }>();
 
 			if (userRow) {
-				await grantDayPass(db, platform?.env?.RESEND_API_KEY, userRow, order.id);
+				await grantDayPass(db, platform?.env?.RESEND_API_KEY, userRow, order.id, passOps);
 			} else {
 				// Thrown on purpose if it fails (e.g. migration 0005 not applied):
 				// Polar retries a 500, and a dropped row is a paid pass lost.
-				await parkDayPass(db, email, order.id);
+				await parkDayPass(db, email, order.id, passOps);
 				// The paying tab may have created the account (api/auth/day-pass/
 				// activate) between the lookup above and the park; its claim
 				// found nothing yet, so claim on its behalf.
@@ -471,7 +483,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				posthog.capture({
 					distinctId: email,
 					event: 'day_pass_pending',
-					properties: { polar_order_id: order.id }
+					properties: { polar_order_id: order.id, ops: passOps }
 				});
 				await posthog.flush();
 			}

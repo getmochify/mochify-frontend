@@ -30,7 +30,9 @@ export function showNotice(
 	 * A text button under the message. `run` resolves to the text that replaces
 	 * its label, and whether it can be pressed again.
 	 */
-	action?: { label: string; run: () => Promise<{ text: string; again?: boolean }> }
+	action?: { label: string; run: () => Promise<{ text: string; again?: boolean }> },
+	/** Which pass was bought, for the 'paid', 'active' and 'sign_in' copy. */
+	pass: { name: string; ops: number } = { name: 'Day Pass', ops: 100 }
 ): void {
 	document.getElementById('mochi-day-pass-notice')?.remove();
 	const card = document.createElement('div');
@@ -49,15 +51,13 @@ export function showNotice(
 
 	if (kind === 'paid') {
 		title.textContent = 'Payment received. Check your email';
-		body.textContent =
-			"We've sent a magic link to activate your Day Pass. Click it to unlock 100 image ops for 24 hours.";
+		body.textContent = `We've sent a magic link to activate your ${pass.name}. Click it to unlock ${pass.ops} image ops for 24 hours.`;
 	} else if (kind === 'active') {
-		title.textContent = 'Day Pass active';
-		body.textContent =
-			'100 image ops for the next 24 hours. A sign-in link is in your email for later.';
+		title.textContent = `${pass.name} active`;
+		body.textContent = `${pass.ops} image ops for the next 24 hours. A sign-in link is in your email for later.`;
 	} else if (kind === 'sign_in') {
 		title.textContent = 'Payment received. Sign in to use it';
-		body.textContent = 'That email already has a Mochify account, and your Day Pass is on it. ';
+		body.textContent = `That email already has a Mochify account, and your ${pass.name} is on it. `;
 		const link = document.createElement('a');
 		link.href = checkoutUrl ?? '/auth/login';
 		link.target = '_blank';

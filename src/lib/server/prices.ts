@@ -19,7 +19,8 @@ export const PLAN_PRODUCT_IDS = (): Record<string, string> => ({
 	// treating as a reason to fall back to USD.
 	growthMonthly: env.POLAR_PRODUCT_ID_GROWTH_MONTHLY ?? '',
 	growthYearly: env.POLAR_PRODUCT_ID_GROWTH_YEARLY ?? '',
-	dayPass: env.POLAR_PRODUCT_ID_DAY_PASS
+	dayPass: env.POLAR_PRODUCT_ID_DAY_PASS,
+	dayPassPlus: env.POLAR_PRODUCT_ID_DAY_PASS_PLUS ?? ''
 });
 
 /**

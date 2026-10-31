@@ -52,7 +52,8 @@ export const USD_PRICES: Record<string, number> = {
 	// for ~3x the price" stays true at every rung rather than only Pro's.
 	growthMonthly: 7999,
 	growthYearly: 79999,
-	dayPass: 200
+	dayPass: 200,
+	dayPassPlus: 500
 };
 
 /**

@@ -83,6 +83,18 @@ async function createCheckout(
 }
 
 /**
+ * The Polar product for a Day Pass `plan` param: `day` (100 uploads) or
+ * `dayplus` (Day Pass+, 300), both bought through the POST handler below.
+ * `undefined` for any other plan, which is a subscription; `''` for a pass
+ * this deployment has no product id for.
+ */
+function dayPassProduct(plan: string | null): string | undefined {
+	if (plan === 'day') return env.POLAR_PRODUCT_ID_DAY_PASS ?? '';
+	if (plan === 'dayplus') return env.POLAR_PRODUCT_ID_DAY_PASS_PLUS ?? '';
+	return undefined;
+}
+
+/**
  * Where a Day Pass buyer lands after paying.
  *
  * `next` is whatever page the CTA was clicked on, so someone who bought the
@@ -264,7 +276,7 @@ async function subscriptionCheckout(
 
 export const GET: RequestHandler = async (event) => {
 	// The Day Pass is POST-only, deliberately — see the POST handler below.
-	if (event.url.searchParams.get('plan') === 'day') {
+	if (dayPassProduct(event.url.searchParams.get('plan')) !== undefined) {
 		return new Response('The Day Pass checkout is POST-only', { status: 405 });
 	}
 
@@ -307,7 +319,8 @@ export const GET: RequestHandler = async (event) => {
 export const POST: RequestHandler = async (event) => {
 	const { locals, url, platform, request, cookies } = event;
 	const plan = url.searchParams.get('plan') ?? 'day';
-	if (plan !== 'day') {
+	const productId = dayPassProduct(plan);
+	if (productId === undefined) {
 		// A subscription plan arrives here only as the JSON request behind the
 		// on-page overlay (`startPlanCheckout`); its links are plain GETs.
 		if (!request.headers.get('content-type')?.includes('application/json')) {
@@ -326,9 +339,8 @@ export const POST: RequestHandler = async (event) => {
 		}
 	}
 
-	const productId = env.POLAR_PRODUCT_ID_DAY_PASS;
 	if (!productId) {
-		console.error('[checkout] No POLAR_PRODUCT_ID_DAY_PASS set.');
+		console.error(`[checkout] No product id set for plan=${plan}.`);
 		return new Response('Day Pass is not configured', { status: 400 });
 	}
 
@@ -398,7 +410,7 @@ export const POST: RequestHandler = async (event) => {
 		distinctId: posthogDistinctId(cookies, user?.id),
 		event: 'checkout_initiated',
 		properties: {
-			plan: 'day',
+			plan,
 			billing: 'one_time',
 			currency: currency ?? 'default',
 			authed: !!user,

@@ -12,6 +12,23 @@ import { posthog } from '$lib/analytics';
 export const DAY_PASS_ACTION = '/api/checkout?plan=day';
 
 /**
+ * Day Pass+: the same 24-hour pass with 300 uploads instead of 100, offered
+ * where a visitor has dropped more files than a Day Pass covers (hif-to-jpg
+ * camera dumps routinely run past 100). Same plan server side, bigger
+ * allowance; see `dayPassOpsForProduct`.
+ */
+export const DAY_PASS_PLUS_ACTION = '/api/checkout?plan=dayplus';
+export const DAY_PASS_OPS = 100;
+export const DAY_PASS_PLUS_OPS = 300;
+
+/** The pass to offer for a drop of `n` files: the Day Pass while it covers them. */
+export function passForDrop(n: number): { plus: boolean; name: string; ops: number } {
+	return n > DAY_PASS_OPS
+		? { plus: true, name: 'Day Pass+', ops: DAY_PASS_PLUS_OPS }
+		: { plus: false, name: 'Day Pass', ops: DAY_PASS_OPS };
+}
+
+/**
  * Whether the Day Pass may be offered at all. The Polar product id lives on the
  * server, so this is what the client gates rendering on: without it every CTA
  * would post to an endpoint that answers "not configured".
@@ -71,6 +88,8 @@ export function dayPassNext(url: URL): string {
 export async function startDayPassCheckout(opts: {
 	next: string;
 	trigger: string;
+	/** Day Pass+ (300 uploads) rather than the Day Pass. */
+	plus?: boolean;
 	/** Native POST form to fall back to when the fetch itself fails. */
 	fallbackForm?: HTMLFormElement | null;
 	/**
@@ -80,9 +99,12 @@ export async function startDayPassCheckout(opts: {
 	 */
 	onPaid?: (checkoutUrl: string, activation: DayPassActivation) => void;
 }): Promise<void> {
+	const pass = opts.plus
+		? { name: 'Day Pass+', ops: DAY_PASS_PLUS_OPS }
+		: { name: 'Day Pass', ops: DAY_PASS_OPS };
 	let checkoutUrl: string;
 	try {
-		const res = await fetch(DAY_PASS_ACTION, {
+		const res = await fetch(opts.plus ? DAY_PASS_PLUS_ACTION : DAY_PASS_ACTION, {
 			method: 'POST',
 			headers: { 'content-type': 'application/json', accept: 'application/json' },
 			body: JSON.stringify({ next: opts.next, trigger: opts.trigger, embed: true })
@@ -102,11 +124,15 @@ export async function startDayPassCheckout(opts: {
 	}
 
 	await openEmbeddedCheckout(checkoutUrl, {
-		plan: 'day',
+		plan: opts.plus ? 'dayplus' : 'day',
 		trigger: opts.trigger,
 		onPaid: async (url) => {
 			const activation = await activateDayPass(url);
-			posthog.capture('day_pass_tab_activation', { status: activation, trigger: opts.trigger });
+			posthog.capture('day_pass_tab_activation', {
+				status: activation,
+				trigger: opts.trigger,
+				pass: opts.plus ? 'plus' : 'day'
+			});
 			if (activation === 'signed_in') {
 				resetUserCaches();
 				void invalidateAll();
@@ -114,14 +140,19 @@ export async function startDayPassCheckout(opts: {
 			if (opts.onPaid) {
 				opts.onPaid(url, activation);
 			} else if (activation === 'signed_in') {
-				showNotice('active');
+				showNotice('active', undefined, undefined, pass);
 			} else if (activation === 'sign_in') {
-				showNotice('sign_in', dayPassSignIn());
+				showNotice('sign_in', dayPassSignIn(), undefined, pass);
 			} else {
-				showNotice('paid', url, {
-					label: 'Resend the link',
-					run: () => resendDayPassLink(url)
-				});
+				showNotice(
+					'paid',
+					url,
+					{
+						label: 'Resend the link',
+						run: () => resendDayPassLink(url)
+					},
+					pass
+				);
 			}
 		}
 	});

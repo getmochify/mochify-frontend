@@ -4,6 +4,7 @@
 	import { posthog } from '$lib/analytics';
 	import {
 		DAY_PASS_ACTION,
+		DAY_PASS_PLUS_ACTION,
 		dayPassNext,
 		startDayPassCheckout,
 		type DayPassActivation
@@ -16,6 +17,7 @@
 		next = undefined,
 		onPaid = undefined,
 		properties = undefined,
+		plus = false,
 		children
 	}: {
 		/** PostHog `day_pass_cta_clicked` trigger label for this surface. */
@@ -30,6 +32,8 @@
 		onPaid?: (checkoutUrl: string, activation: DayPassActivation) => void;
 		/** Extra properties for `day_pass_cta_clicked` (the batch-cap box sends its drop size). */
 		properties?: Record<string, unknown>;
+		/** Sell Day Pass+ (300 uploads) instead of the Day Pass. */
+		plus?: boolean;
 		children?: Snippet;
 	} = $props();
 
@@ -39,6 +43,7 @@
 		posthog.capture('day_pass_cta_clicked', {
 			trigger,
 			...(source ? { source } : {}),
+			pass: plus ? 'plus' : 'day',
 			...properties
 		});
 		// With JS the checkout is started as a JSON fetch instead of this form's
@@ -46,7 +51,7 @@
 		// arrives out of SvelteKit's CSRF rejection. See `startDayPassCheckout`.
 		const form = event.currentTarget as HTMLFormElement;
 		event.preventDefault();
-		void startDayPassCheckout({ next: returnTo, trigger, fallbackForm: form, onPaid });
+		void startDayPassCheckout({ next: returnTo, trigger, plus, fallbackForm: form, onPaid });
 	}
 </script>
 
@@ -62,7 +67,7 @@
 -->
 <form
 	method="POST"
-	action={DAY_PASS_ACTION}
+	action={plus ? DAY_PASS_PLUS_ACTION : DAY_PASS_ACTION}
 	target="_blank"
 	rel="noopener noreferrer"
 	class="contents"
