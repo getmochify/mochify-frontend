@@ -169,6 +169,11 @@ mochify auth login`;
             desc: 'the local binary in a coding session.'
         },
         {
+            href: 'https://mochify.app/guides/agent-built-website-image-optimization',
+            title: 'Your AI Agent Built Your Website. Here Is How to Make Its Images Fast (and Strip the GPS)',
+            desc: 'six prompts that make the agent audit, shrink, convert and clean every image on a site it built.'
+        },
+        {
             href: 'https://mochify.app/guides/extract-images-from-pdf-agent-workflows',
             title: 'Working with PDFs in AI Agent Workflows',
             desc: 'extract, split and convert pages from an assistant.'

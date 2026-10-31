@@ -221,6 +221,16 @@ export const guides: Guide[] = [
 	},
 	{
 		title:
+			'Your AI Agent Built Your Website. Here Is How to Make Its Images Fast (and Strip the GPS)',
+		description:
+			'Your AI agent shipped the photos as they arrived. Six prompts (Lovable, Cursor, Claude Code) that shrink, convert and clean every image and strip the GPS.',
+		url: '/guides/agent-built-website-image-optimization',
+		category: 'AI & Automation',
+		readTime: '33 min read',
+		date: 'October 31, 2026'
+	},
+	{
+		title:
 			'Vinted Photo Backgrounds: What the Rules Allow, What Gets Listings Hidden, and a Workflow That Passes',
 		description:
 			'Vinted says background removal is allowed if the photo stays accurate and a real photo is there. The rules, what gets listings hidden, and the workflow.',
@@ -584,7 +594,7 @@ export const guides: Guide[] = [
 		category: 'AI & Automation',
 		readTime: '15 min read',
 		date: 'July 17, 2026',
-		lastUpdated: 'October 16, 2026'
+		lastUpdated: 'October 31, 2026'
 	},
 	{
 		title: 'A European Alternative to TinyPNG: Privacy-First, Zero-Retention Image Compression',
@@ -700,7 +710,7 @@ export const guides: Guide[] = [
 		category: 'Web Performance',
 		readTime: '34 min read',
 		date: 'October 14, 2026',
-		lastUpdated: 'October 15, 2026'
+		lastUpdated: 'October 31, 2026'
 	},
 	{
 		title: 'The HTML <picture> Tag (Picture Element): Format Fallbacks, Art Direction and the 2026 Source Order',

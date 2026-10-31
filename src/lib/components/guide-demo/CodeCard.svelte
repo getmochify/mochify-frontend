@@ -10,6 +10,7 @@
 		filename = '',
 		code = '',
 		compact = false,
+		wrap = false,
 		class: className = '',
 		children
 	}: {
@@ -17,12 +18,14 @@
 		code?: string;
 		/** Smaller type and padding, no outer margin, body fills the card's height. */
 		compact?: boolean;
+		/** Soft-wrap long lines, for prose such as a prompt to paste into an agent. */
+		wrap?: boolean;
 		class?: string;
 		children?: Snippet;
 	} = $props();
 </script>
 
-<div class="code-card {className}" class:compact>
+<div class="code-card {className}" class:compact class:wrap>
 	{#if filename}
 		<div class="code-header">
 			<span class="chip">{filename}</span>
@@ -98,6 +101,11 @@
 		border: none;
 		font-weight: 400;
 		font-size: inherit;
+	}
+
+	.wrap pre {
+		white-space: pre-wrap;
+		overflow-wrap: anywhere;
 	}
 
 	.compact {

@@ -440,6 +440,11 @@ export const cards = [
 		title: 'Top 5 Secure Image Compressors - Privacy & Performance Comparison (2026)'
 	},
 	{
+		path: '/guides/agent-built-website-image-optimization',
+		eyebrow: 'GUIDE',
+		title: 'Your AI Agent Built Your Website: Make Its Images Fast'
+	},
+	{
 		path: '/guides/vinted-background-removal-rules',
 		eyebrow: 'GUIDE',
 		title: 'Vinted Photo Backgrounds: What the Rules Allow'

@@ -16,7 +16,7 @@
         category: "AI & Automation",
         readTime: "15 min read",
         date: "July 17, 2026",
-        lastUpdated: "October 16, 2026"
+        lastUpdated: "October 31, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100";
@@ -93,7 +93,7 @@
         url="https://mochify.app/guides/image-compression-claude-code-cli-mcp"
         description={metadata.description}
         datePublished="2026-07-17"
-        dateModified="2026-10-16"
+        dateModified="2026-10-31"
         article={{
             about: ['Claude Code', 'Model Context Protocol', 'image compression', 'AVIF'],
             keywords:
@@ -209,7 +209,7 @@ claude mcp get mochify # details for one server
 mochify -p "compress for web, convert PNGs to AVIF, strip EXIF" ./src/assets/*.png`}</code></pre>
             <p>Because the CLI is a client over the API and returns paths to disk, it slots into a Husky hook or an npm script the same way any other formatter would. Strip EXIF here too: it removes location and camera metadata before the file ever reaches your repo. (More on why that matters in our <a href="https://mochify.app/guides/exif-data-risks-image-compression-2026">EXIF data risks guide</a>.)</p>
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3"><code class={inlineCode}>mochify serve</code> as a local MCP tool in a session</h3>
-            <p>Let the agent find and fix images interactively. Once <code class={inlineCode}>mochify serve</code> is registered, you can ask Claude Code to do multi-step asset work it could not do with a plain CLI: "Find all images contributing to poor LCP on the homepage, re-encode the hero to AVIF, add a WebP fallback in the <code class={inlineCode}>&lt;picture&gt;</code> element, and update the <code class={inlineCode}>srcset</code>." The agent decides which images matter, calls the Mochify tool to compress them, and edits the markup, all in one loop. This is the workflow a plain build step cannot match, because it couples compression with code changes and reasoning.</p>
+            <p>Let the agent find and fix images interactively. Once <code class={inlineCode}>mochify serve</code> is registered, you can ask Claude Code to do multi-step asset work it could not do with a plain CLI: "Find all images contributing to poor LCP on the homepage, re-encode the hero to AVIF, add a WebP fallback in the <code class={inlineCode}>&lt;picture&gt;</code> element, and update the <code class={inlineCode}>srcset</code>." The agent decides which images matter, calls the Mochify tool to compress them, and edits the markup, all in one loop. This is the workflow a plain build step cannot match, because it couples compression with code changes and reasoning. If the site itself was built by an agent and nobody has processed its images yet, start with the audit prompt in our guide to <a href="https://mochify.app/guides/agent-built-website-image-optimization#image-audit-prompt">optimizing the images on an AI-built website</a>, which hands the whole job to that agent in six prompts.</p>
             <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Non-interactive mode in CI</h3>
             <p>Pipe Claude Code's headless mode into a CI job for repo-wide passes. Claude Code supports a non-interactive <code class={inlineCode}>claude -p</code> mode you can drive from a GitHub Action, combining a git diff of changed assets with a request to compress them and summarize the result. The Mochify MCP tool does the encoding; the action commits the optimized files back to the branch. This is the agent-driven version of the many CI actions that compress images on pull requests, with the difference that the agent can also adjust the code that references those assets.</p>
         </section>

@@ -141,6 +141,7 @@ export async function GET() {
 		'/guides/image-compression-claude-code-cli-mcp',
 		'/guides/vinted-photos-that-sell',
 		'/guides/vinted-background-removal-rules',
+		'/guides/agent-built-website-image-optimization',
 		'/guides/mochify-vs-tinypng',
 		'/guides/is-reselling-worth-it',
 		'/guides/photo-file-too-large-to-upload',
