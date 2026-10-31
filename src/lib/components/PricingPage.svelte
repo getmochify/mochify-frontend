@@ -182,7 +182,7 @@
                  just fixed in the footer. Plain text wraps like prose instead. -->
 			<div class="mt-6 flex justify-center">
 				<p
-					class="inline-block rounded-2xl border border-pink-100 bg-[#FFF0F3]/70 px-5 py-2.5 text-sm font-black tracking-tight text-[#6C3F31] shadow-sm md:text-base"
+					class="inline-block rounded-2xl border border-pink-100 bg-[#FFF0F3]/70 px-5 py-2.5 text-sm font-bold tracking-tight text-[#6C3F31] shadow-sm md:text-base"
 				>
 					{t.surfaces}
 				</p>
@@ -599,16 +599,14 @@
 								<td class="px-6 py-4 text-center text-[#6C3F31]">{t.tblPerMonth(25)}</td>
 								<td class="px-6 py-4 text-center text-[#6C3F31]">{t.tblPerMonth(300)}</td>
 								<td class="px-6 py-4 text-center text-[#6C3F31]">{t.tblPerMonth(1200)}</td>
-								<td class="px-6 py-4 text-center text-xs text-[#6C3F31]/50"
-									>{t.tblPerMonth(5000)}</td
-								>
+								<td class="px-6 py-4 text-center text-[#6C3F31]">{t.tblPerMonth(5000)}</td>
 							</tr>
 							<tr>
 								<td class="px-6 py-4 text-[#6C3F31]">{t.tblMaxFileSize}</td>
 								<td class="px-6 py-4 text-center text-[#6C3F31]">{t.tblSizeFree}</td>
 								<td class="px-6 py-4 text-center font-bold text-[#6C3F31]">{t.tblSizePaid}</td>
 								<td class="px-6 py-4 text-center font-bold text-[#6C3F31]">{t.tblSizePaid}</td>
-								<td class="px-6 py-4 text-center text-xs text-[#6C3F31]/50">{t.tblSizePaid}</td>
+								<td class="px-6 py-4 text-center font-bold text-[#6C3F31]">{t.tblSizePaid}</td>
 							</tr>
 							<tr>
 								<td class="px-6 py-4 text-[#6C3F31]">JPG, WEBP, AVIF, PNG, JXL</td>
@@ -667,7 +665,10 @@
 									class="px-6 py-4 text-center text-[11px] font-bold tracking-wide text-[#F06292]/70 uppercase"
 									>{t.tblSoon}</td
 								>
-								<td class="px-6 py-4 text-center text-xs text-[#6C3F31]/50">{t.tblSoon}</td>
+								<td
+									class="px-6 py-4 text-center text-[11px] font-bold tracking-wide text-[#F06292]/70 uppercase"
+									>{t.tblSoon}</td
+								>
 							</tr>
 							<tr>
 								<td class="px-6 py-4 text-[#6C3F31]">{t.tblMcpApi}</td>
@@ -685,14 +686,18 @@
 								<td class="px-6 py-4 text-center text-xs font-bold text-[#F06292]"
 									>{t.tblFiles(25)}</td
 								>
-								<td class="px-6 py-4 text-center text-xs text-[#6C3F31]/50">{t.tblFiles(25)}</td>
+								<td class="px-6 py-4 text-center text-xs font-bold text-[#F06292]"
+									>{t.tblFiles(25)}</td
+								>
 							</tr>
 							<tr>
 								<td class="px-6 py-4 text-[#6C3F31]">{@html t.tblPdfTools}</td>
 								<td class="px-6 py-4 text-center text-xs text-[#6C3F31]/50">{t.tblPdfFree}</td>
 								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
 								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
-								<td class="px-6 py-4 text-center text-xs text-[#6C3F31]/50">{t.tblPdfUnlimited}</td>
+								<td class="px-6 py-4 text-center text-xs font-bold text-[#F06292]"
+									>{t.tblPdfUnlimited}</td
+								>
 							</tr>
 							<tr>
 								<td class="px-6 py-4 text-[#6C3F31]">{@html t.tblOwnStorage}</td>
@@ -713,7 +718,9 @@
 								<td class="px-6 py-4 text-center text-xs font-bold text-[#F06292]"
 									>{t.tblQueueTop}</td
 								>
-								<td class="px-6 py-4 text-center text-xs text-[#6C3F31]/50">{t.tblQueueTop}</td>
+								<td class="px-6 py-4 text-center text-xs font-bold text-[#F06292]"
+									>{t.tblQueueTop}</td
+								>
 							</tr>
 						</tbody>
 					</table>
