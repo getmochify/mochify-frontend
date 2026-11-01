@@ -17,6 +17,7 @@
         'jxl-to-pdf': 'JXL to PDF',
         'webp-to-pdf': 'WebP to PDF',
         'png-to-jxl': 'PNG to JXL',
+        'jpegli-compressor': 'jpegli JPEG Compressor',
         'jxl-to-jpg': 'JXL to JPG',
         'webp-to-jpg': 'WebP to JPG',
         'webp-to-png': 'WebP to PNG',

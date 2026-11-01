@@ -619,6 +619,12 @@ export const cards = [
 		alt: 'Mochify JXL to JPG converter'
 	},
 	{
+		path: '/solutions/jpegli-compressor',
+		eyebrow: 'TOOL',
+		title: 'Compress JPEG with jpegli',
+		alt: 'Mochify jpegli JPEG compressor'
+	},
+	{
 		path: '/solutions/png-to-jxl',
 		eyebrow: 'TOOL',
 		title: 'PNG to JXL Converter',

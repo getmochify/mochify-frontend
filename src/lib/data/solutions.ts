@@ -270,6 +270,16 @@ export const imageTools: SolutionTool[] = [
 		],
 		tag: 'Next-Gen',
 		category: 'Web formats'
+	},
+	{
+		name: 'jpegli JPEG Compressor',
+		slug: 'solutions/jpegli-compressor',
+		desc: "Shrink JPEGs with Google's jpegli encoder and keep them standard .jpg files that open everywhere.",
+		iconPaths: [
+			'M13 10V3L4 14h7v7l9-11h-7z'
+		],
+		tag: 'JPEG',
+		category: 'Web formats'
 	}
 ];
 

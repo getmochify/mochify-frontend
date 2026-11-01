@@ -76,6 +76,10 @@
             heading: 'Smaller files for the web',
             items: [
                 {
+                    text: 'A JPEG that has to stay a JPEG, only smaller: {0}.',
+                    links: [{ href: '/solutions/jpegli-compressor', label: 'jpegli JPEG Compressor' }]
+                },
+                {
                     text: 'JPEG XL: {0} (with a lossless option), {1} and {2}. Chrome 155 and Firefox 158 decode JPEG XL by default from October 2026; read {3} before you switch a site over.',
                     links: [
                         { href: '/solutions/png-to-jxl', label: 'PNG to JXL' },
