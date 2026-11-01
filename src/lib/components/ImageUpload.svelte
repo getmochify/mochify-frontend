@@ -871,7 +871,14 @@
 		// covers, the way the batch cap does, and let the allowance box say so.
 		// At zero there is nothing to stage, so the tray stays as dropped and the
 		// box offers the routes instead.
+		//
+		// Never during a run: processFile writes results by tray index, so a trim
+		// that lands mid-run (a drop while converting, or this ingest's token
+		// check resolving after Convert was pressed) left an in-flight file
+		// writing to a removed slot ("Cannot set properties of undefined"). The
+		// server enforces the allowance anyway; a 429 re-queues the rest.
 		if (
+			!isLoading &&
 			hasCheckedTokens &&
 			Number.isFinite(availableTokens) &&
 			availableTokens > 0 &&
@@ -2289,8 +2296,9 @@
 					</div>
 				{/if}
 
-				<!-- Remove button -->
-				{#if fp.status !== 'processing'}
+				<!-- Remove button: hidden for the whole run, since removing any card
+				     shifts the indices in-flight files write their results to. -->
+				{#if !isLoading}
 					<button
 						onclick={() => removeFile(index)}
 						class="absolute -top-2 -right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white/90 text-[#F06292] shadow-md backdrop-blur-sm transition-all hover:scale-110 hover:bg-white hover:text-red-500"

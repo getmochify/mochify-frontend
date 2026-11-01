@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { authClient } from '$lib/auth-client';
 	import Navigation from '$lib/components/Navigation.svelte';
 	import { posthog } from '$lib/analytics';
@@ -66,13 +66,17 @@
 				return;
 			}
 			// The plan/bucket/drive caches in $lib/user are module-scoped, so
-			// they survive this SPA transition and invalidateAll() does not
+			// they survive this SPA transition and invalidateAll does not
 			// touch them. Anything seeded while signed out (plan 'free') would
 			// otherwise stick for its 5-minute TTL and hold the new session on
 			// free-tier limits.
 			resetUserCaches();
-			await invalidateAll();
-			goto(next);
+			// One navigation that reloads every load, rather than invalidateAll()
+			// then goto(): the separate invalidate re-ran this page's own load,
+			// which now only redirects a signed-in visitor, and in Safari its
+			// __data.json fetch intermittently failed as "Load failed" outside any
+			// navigation, so handleError reported it instead of recovering.
+			goto(next, { invalidateAll: true });
 		}
 	}
 </script>
