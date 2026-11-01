@@ -149,8 +149,9 @@
             heading: 'Video',
             items: [
                 {
-                    text: '{0} and {1} run in your browser; the video never leaves your device.',
+                    text: '{0}, {1} and {2} run in your browser; the video never leaves your device.',
                     links: [
+                        { href: '/solutions/mov-to-mp4', label: 'MOV to MP4' },
                         { href: '/solutions/mp4-to-webm', label: 'MP4 to WebM' },
                         { href: '/solutions/webm-to-mp4', label: 'WebM to MP4' }
                     ]

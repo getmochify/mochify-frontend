@@ -10,7 +10,8 @@
 		maxFiles = 10,
 		formatLabel = '',
 		videoCodec,
-		audioCodec
+		audioCodec,
+		copyFallback
 	}: {
 		output?: string;
 		accept?: string;
@@ -20,6 +21,8 @@
 		videoCodec?: VideoCodec;
 		/** Preferred audio codec; the source audio is kept if the browser can't encode it. */
 		audioCodec?: AudioCodec;
+		/** With videoCodec set: source codecs to copy as-is when this browser can't decode them, instead of failing the file. */
+		copyFallback?: VideoCodec[];
 	} = $props();
 
 	const FORMAT_MIME: Record<string, string> = {
@@ -53,15 +56,17 @@
 
 	type WorkerResponse =
 		| { type: 'progress'; value: number }
-		| { type: 'done'; buffer: ArrayBuffer }
+		| { type: 'done'; buffer: ArrayBuffer; keptCodec?: string }
 		| { type: 'error'; message: string; fatal?: boolean };
+
+	type Converted = { buffer: ArrayBuffer; keptCodec?: string };
 
 	function convertInWorker(
 		worker: Worker,
 		file: File,
 		fmt: string,
 		audioOnly: boolean
-	): Promise<ArrayBuffer> {
+	): Promise<Converted> {
 		return new Promise((resolve, reject) => {
 			const onMessage = (event: MessageEvent<WorkerResponse>) => {
 				const msg = event.data;
@@ -69,14 +74,22 @@
 					percent = msg.value;
 				} else if (msg.type === 'done') {
 					worker.removeEventListener('message', onMessage);
-					resolve(msg.buffer);
+					resolve({ buffer: msg.buffer, keptCodec: msg.keptCodec });
 				} else {
 					worker.removeEventListener('message', onMessage);
 					reject(Object.assign(new Error(msg.message), { fatal: msg.fatal }));
 				}
 			};
 			worker.addEventListener('message', onMessage);
-			worker.postMessage({ file, output: fmt, audioOnly, videoCodec, audioCodec });
+			worker.postMessage({
+				file,
+				output: fmt,
+				audioOnly,
+				videoCodec,
+				audioCodec,
+				// A plain copy: a reactive prop array can't be structured-cloned.
+				copyFallback: copyFallback ? [...copyFallback] : undefined
+			});
 		});
 	}
 
@@ -150,6 +163,8 @@
 		// Successful files only, so the ratio shows real size savings.
 		let inputBytes = 0;
 		let outputBytes = 0;
+		// Files whose video was copied as-is because this browser can't decode it.
+		const kept: string[] = [];
 		const total = files.length;
 
 		for (let i = 0; i < total; i++) {
@@ -157,7 +172,13 @@
 			current = i + 1;
 			percent = 0;
 			try {
-				const buffer = await convertInWorker(worker, file, output, AUDIO_ONLY.has(output));
+				const { buffer, keptCodec } = await convertInWorker(
+					worker,
+					file,
+					output,
+					AUDIO_ONLY.has(output)
+				);
+				if (keptCodec && !kept.includes(keptCodec)) kept.push(keptCodec);
 				percent = 100;
 
 				const blob = new Blob([buffer], {
@@ -194,6 +215,7 @@
 			files: total,
 			output,
 			failed: failures.length,
+			kept_codec: kept.length ? kept.join(',') : undefined,
 			input_bytes: inputBytes,
 			output_bytes: outputBytes
 		});
@@ -202,6 +224,10 @@
 			errorMessage = failures[0] ?? 'Conversion failed — please try again.';
 		} else {
 			successMessage = `Converted ${done} file${done > 1 ? 's' : ''} to ${outLabel}!${failures.length ? ` (${failures.length} couldn't be converted)` : ''} ✨`;
+			if (kept.length) {
+				const names = kept.map((c) => (c === 'hevc' ? 'HEVC (H.265)' : c.toUpperCase()));
+				successMessage += ` This browser can't re-encode ${names.join(' or ')} video, so it was kept as it is inside the ${outLabel}. That plays on iPhone, Mac and most recent phones and PCs; for H.264, which plays everywhere, convert in Safari, or in Chrome or Edge on a newer computer.`;
+			}
 			files = [];
 			if (fileInputEl) fileInputEl.value = '';
 		}

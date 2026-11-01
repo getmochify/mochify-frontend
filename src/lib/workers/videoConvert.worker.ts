@@ -12,11 +12,16 @@ type ConvertRequest = {
 	// copied as-is, e.g. VP9/Opus WebM remuxes into an MP4 few players open.
 	videoCodec?: VideoCodec;
 	audioCodec?: AudioCodec;
+	// With videoCodec pinned: source codecs to copy into the output untouched
+	// when this browser can't decode them (HEVC outside Safari and
+	// hardware-backed Chrome), instead of failing the file. A list, not a flag:
+	// the MP4 muxer also accepts ProRes, and a ProRes MP4 plays almost nowhere.
+	copyFallback?: VideoCodec[];
 };
 
 type WorkerResponse =
 	| { type: 'progress'; value: number }
-	| { type: 'done'; buffer: ArrayBuffer }
+	| { type: 'done'; buffer: ArrayBuffer; keptCodec?: string }
 	| { type: 'error'; message: string; fatal?: boolean };
 
 let mediabunnyPromise: Promise<typeof import('mediabunny')> | null = null;
@@ -37,7 +42,8 @@ function post(message: WorkerResponse, transfer?: Transferable[]) {
 }
 
 self.onmessage = async (event: MessageEvent) => {
-	const { file, output, audioOnly, videoCodec, audioCodec } = event.data as ConvertRequest;
+	const { file, output, audioOnly, videoCodec, audioCodec, copyFallback } =
+		event.data as ConvertRequest;
 
 	let mediabunny: typeof import('mediabunny');
 	try {
@@ -98,6 +104,7 @@ self.onmessage = async (event: MessageEvent) => {
 		const target = new BufferTarget();
 		const out = new Output({ format: new FormatClass(), target });
 		const copyableVideoCodecs = out.format.getSupportedVideoCodecs();
+		let keptCodec: string | undefined;
 		const conversion = await Conversion.init({
 			input,
 			output: out,
@@ -110,6 +117,15 @@ self.onmessage = async (event: MessageEvent) => {
 					? codec === videoCodec
 					: !!codec && copyableVideoCodecs.includes(codec);
 				if (copyable) return undefined;
+				if (
+					codec &&
+					copyFallback?.includes(codec) &&
+					copyableVideoCodecs.includes(codec) &&
+					!(await track.canDecode())
+				) {
+					keptCodec = codec;
+					return undefined;
+				}
 				// Measured from packet sizes (metadata only, no decoding); the
 				// container's declared bitrate is often missing or wrong.
 				const { averageBitrate } = await track.computePacketStats();
@@ -135,11 +151,19 @@ self.onmessage = async (event: MessageEvent) => {
 		}
 		// A video track that can't be decoded or encoded is otherwise dropped
 		// silently, leaving an audio-only file with a video extension.
-		const droppedVideo = conversion.discardedTracks.some(
+		const droppedVideo = conversion.discardedTracks.find(
 			(d) => d.track.isVideoTrack() && d.reason !== 'discarded_by_user'
 		);
 		if (!audioOnly && droppedVideo) {
-			post({ type: 'error', message: "your browser can't convert this video's codec" });
+			// No browser decodes ProRes, so "your browser" would send people
+			// off to try another one for nothing.
+			const prores = (await droppedVideo.track.getCodec()) === 'prores';
+			post({
+				type: 'error',
+				message: prores
+					? "ProRes video can't be converted in a browser"
+					: "your browser can't convert this video's codec"
+			});
 			return;
 		}
 		conversion.onProgress = (p: number) => {
@@ -149,7 +173,7 @@ self.onmessage = async (event: MessageEvent) => {
 
 		const buffer = target.buffer;
 		if (!buffer) throw new Error('conversion produced no output');
-		post({ type: 'done', buffer }, [buffer]);
+		post({ type: 'done', buffer, keptCodec }, [buffer]);
 	} catch (e) {
 		post({ type: 'error', message: e instanceof Error ? e.message : 'conversion failed' });
 	}

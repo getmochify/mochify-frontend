@@ -591,6 +591,11 @@ export const cards = [
 		alt: 'Mochify JXL to PDF converter'
 	},
 	{
+		path: '/solutions/mov-to-mp4',
+		eyebrow: 'TOOL',
+		title: 'MOV to MP4 - Free & Private In-Browser Converter'
+	},
+	{
 		path: '/solutions/mp4-to-webm',
 		eyebrow: 'TOOL',
 		title: 'MP4 to WebM - Free & Private In-Browser Converter'

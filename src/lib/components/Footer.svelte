@@ -57,6 +57,7 @@
         {
             heading: 'Video',
             links: [
+                { href: '/solutions/mov-to-mp4', label: 'MOV to MP4' },
                 { href: '/solutions/mp4-to-webm', label: 'MP4 to WebM' },
                 { href: '/solutions/webm-to-mp4', label: 'WebM to MP4' }
             ]

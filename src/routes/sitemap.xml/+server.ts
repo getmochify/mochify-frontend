@@ -57,6 +57,7 @@ export async function GET() {
 		'/solutions/jxl-to-pdf',
 		'/solutions/heif-to-pdf',
 		'/solutions/bulk-ai-square-cropper',
+		'/solutions/mov-to-mp4',
 		'/solutions/mp4-to-webm',
 		'/solutions/webm-to-mp4',
 		'/chrome-extension',

@@ -26,6 +26,7 @@
         'svg-to-jxl': 'SVG to JXL',
         'svg-to-png': 'SVG to PNG',
         'svg-to-jpg': 'SVG to JPG',
+        'mov-to-mp4': 'MOV to MP4',
         'mp4-to-webm': 'MP4 to WebM',
         'webm-to-mp4': 'WebM to MP4',
         'ebay-image-converter': 'eBay Image Resizer and Converter',
