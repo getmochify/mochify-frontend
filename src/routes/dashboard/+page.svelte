@@ -48,13 +48,106 @@
 	// up from hif-to-jpg can get back to it in one tap instead of being steered
 	// into Flow. Read on mount: localStorage does not exist during SSR.
 	let recentTools: SolutionTool[] = $state([]);
+	// Recent tools live in localStorage, so SSR always sees none. "Start here"
+	// waits for mount, or every returning user would see it flash before their
+	// own tools replaced it.
+	let recentToolsRead = $state(false);
+
+	// The saved answer, kept live so answering the prompt above swaps the
+	// "Start here" tiles at once rather than on the next visit.
+	// svelte-ignore state_referenced_locally
+	let useCase = $state<string | null>(data.profile?.use_case ?? null);
+
+	// "Start here" for an account with no recent tools: usually a cold signup
+	// from the homepage or pricing, who reaches the dashboard with nothing to do
+	// on it. Three tiles chosen by use case, and gone once they have used a tool.
+	type StartTile = { key: string; name: string; href: string; iconPaths: string[] };
+	const allTools = new Map([...imageTools, ...videoTools].map((t) => [t.slug, t]));
+	const toolTile = (slug: string): StartTile[] => {
+		const t = allTools.get(slug);
+		return t
+			? [
+					{
+						key: t.slug,
+						name: t.name.replace(/ Converter$/, ''),
+						href: `/${t.slug}`,
+						iconPaths: t.iconPaths
+					}
+				]
+			: [];
+	};
+	const FLOW_TILE: StartTile = {
+		key: 'flow',
+		name: 'Describe what you need',
+		href: '/flow',
+		iconPaths: [
+			'M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z'
+		]
+	};
+	const DEV_TILES: StartTile[] = [
+		{
+			key: 'api-key',
+			name: 'Get an API key',
+			href: '#developer',
+			iconPaths: [
+				'M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z'
+			]
+		},
+		{
+			key: 'docs',
+			name: 'API docs',
+			href: '/docs',
+			iconPaths: ['M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5']
+		},
+		{
+			key: 'mcp',
+			name: 'Use it from an AI agent',
+			href: '/mcp',
+			iconPaths: [
+				'M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25z'
+			]
+		}
+	];
+	const SELLER_TILES = [
+		...toolTile('solutions/ebay-image-converter'),
+		...toolTile('solutions/bulk-ai-square-cropper'),
+		...toolTile('solutions/remove-background-webp')
+	];
+	let startTiles = $derived.by((): StartTile[] => {
+		switch (useCase) {
+			case 'developer':
+				return DEV_TILES;
+			case 'marketplace':
+			case 'store':
+				return SELLER_TILES;
+			case 'personal':
+				return [
+					...toolTile('heic-to-jpeg'),
+					...toolTile('solutions/jpegli-compressor'),
+					...toolTile('solutions/mov-to-mp4')
+				];
+			case 'marketing':
+				return [
+					FLOW_TILE,
+					...toolTile('solutions/remove-background-webp'),
+					...toolTile('solutions/jpegli-compressor')
+				];
+			default:
+				return [
+					FLOW_TILE,
+					...toolTile('heic-to-jpeg'),
+					...toolTile('solutions/bulk-ai-square-cropper')
+				];
+		}
+	});
 
 	onMount(() => {
-		const tools = new Map([...imageTools, ...videoTools].map((t) => [`/${t.slug}`, t]));
 		recentTools = readRecentPaths()
-			.map((p) => tools.get(p))
+			.map((p) => allTools.get(p.slice(1)))
 			.filter((t): t is SolutionTool => !!t)
 			.slice(0, 3);
+		recentToolsRead = true;
+		if (location.hash === '#developer') developerOpen = true;
 		try {
 			useCaseDismissed = localStorage.getItem(USE_CASE_DISMISSED) === '1';
 		} catch {
@@ -87,6 +180,13 @@
 	let newKeyPlaintext = $state<string | null>(null);
 	let copied = $state(false);
 	let keyLoading = $state(false);
+	// Seeded once, like hasKey: generating a key mid-visit must not snap the
+	// section shut or open under the visitor. onMount also opens it for a
+	// #developer link (the docs' "Get your API key" lands there).
+	// svelte-ignore state_referenced_locally
+	let developerOpen = $state(
+		hasKey || signedInApps.length > 0 || data.profile?.use_case === 'developer'
+	);
 
 	// Usage state — seeded from the server load so the card renders with real
 	// numbers on first paint (no loading flash). loadUsage() is kept only as a
@@ -325,6 +425,7 @@
 							useCaseSaving = false;
 							if (result.type === 'success') {
 								useCaseAnswered = true;
+								useCase = chosen;
 								posthog.capture('use_case_answered', { use_case: chosen });
 							}
 						};
@@ -429,6 +530,43 @@
 					{/each}
 				</div>
 			</div>
+		{:else if recentToolsRead}
+			<div class="mb-6">
+				<p class="mb-2 text-xs font-bold tracking-widest text-[#875F42]/50 uppercase">Start here</p>
+				<div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+					{#each startTiles as tile (tile.key)}
+						<a
+							href={tile.href}
+							onclick={() => {
+								if (tile.key === 'api-key') developerOpen = true;
+								posthog.capture('dashboard_start_tile_clicked', {
+									tile: tile.key,
+									use_case: useCase ?? 'unanswered'
+								});
+							}}
+							class="dash-glass flex items-center gap-3 rounded-2xl px-4 py-3 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+						>
+							<span
+								class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-[#F06292]/10 text-[#F06292]"
+							>
+								<svg
+									class="h-5 w-5"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+									stroke-width="2"
+									aria-hidden="true"
+								>
+									{#each tile.iconPaths as d (d)}
+										<path stroke-linecap="round" stroke-linejoin="round" {d} />
+									{/each}
+								</svg>
+							</span>
+							<span class="min-w-0 truncate text-sm font-bold text-[#4A2C2C]">{tile.name}</span>
+						</a>
+					{/each}
+				</div>
+			</div>
 		{/if}
 
 		<!-- Post-checkout success banner -->
@@ -518,7 +656,7 @@
 					</p>
 				{:else}
 					<p class="text-2xl font-black text-[#4A2C2C]">—</p>
-					<p class="mt-1 text-xs text-[#875F42]/50">Generate an API key to track usage</p>
+					<p class="mt-1 text-xs text-[#875F42]/50">Usage is unavailable right now</p>
 				{/if}
 			</div>
 		</div>
@@ -530,7 +668,7 @@
 			>
 				<p class="mb-1 text-base font-black text-[#4A2C2C]">Upgrade your plan</p>
 				<p class="mb-4 text-sm text-[#875F42]/60">
-					More images, larger files, priority queue, and API key access.
+					More images, bigger batches, larger files, and a priority queue.
 				</p>
 				<div class="flex flex-wrap gap-3">
 					<a
@@ -571,166 +709,6 @@
 				</a>
 			</div>
 		{/if}
-
-		<!-- API Key card -->
-		<div class="dash-card mb-6 rounded-3xl border border-[rgba(0,0,0,0.06)] p-6 shadow-sm">
-			<div class="mb-4 flex items-start justify-between">
-				<div>
-					<h2 class="text-lg font-extrabold text-[#4A2C2C]">API Key</h2>
-					<p class="mt-0.5 text-xs text-[#875F42]/60">
-						Use this key from the web app, CLI, or curl
-					</p>
-				</div>
-				{#if hasKey}
-					<form
-						method="POST"
-						action="?/regenerateKey"
-						use:enhance={() => {
-							keyLoading = true;
-							newKeyPlaintext = null;
-							return async ({ result }) => {
-								keyLoading = false;
-								const d =
-									result.type === 'success'
-										? (result.data as { apiKey?: string; createdAt?: string } | undefined)
-										: undefined;
-								if (d?.apiKey) {
-									newKeyPlaintext = d.apiKey;
-									keyCreatedAt = d.createdAt ?? new Date().toISOString();
-									posthog.capture('api_key_created', { action: 'regenerate' });
-								}
-							};
-						}}
-					>
-						<button
-							type="submit"
-							disabled={keyLoading}
-							class="text-xs font-bold text-[#875F42]/60 transition-colors hover:text-[#F06292] disabled:opacity-40"
-						>
-							{keyLoading ? 'Regenerating…' : 'Regenerate'}
-						</button>
-					</form>
-				{/if}
-			</div>
-
-			{#if newKeyPlaintext}
-				<div class="mb-4 rounded-2xl border border-amber-200 bg-amber-50 p-4">
-					<p class="mb-2 text-xs font-bold text-amber-700">
-						Save this key — you won't see it again
-					</p>
-					<div class="flex items-center gap-2">
-						<code
-							class="min-w-0 flex-1 overflow-x-auto rounded-xl border border-amber-200/60 bg-white/70 px-3 py-2 font-mono text-xs break-all text-[#4A2C2C]"
-							>{newKeyPlaintext}</code
-						>
-						<button
-							onclick={copyKey}
-							class="flex-shrink-0 rounded-xl px-3 py-2 text-xs font-bold transition-all {copied
-								? 'bg-[#A5D6A7]/30 text-[#2E5C31]'
-								: 'bg-white/70 text-[#875F42]/70 hover:bg-[#FFF5F7] hover:text-[#F06292]'} border border-white/60"
-						>
-							{copied ? 'Copied!' : 'Copy'}
-						</button>
-					</div>
-				</div>
-			{:else if hasKey}
-				<div
-					class="flex flex-col gap-1 rounded-2xl border border-white/60 bg-white/40 p-4 sm:flex-row sm:items-center sm:gap-3"
-				>
-					<code class="min-w-0 flex-1 truncate font-mono text-sm text-[#875F42]/60"
-						>••••••••••••••••••••••••••••••••</code
-					>
-					{#if keyCreatedAt}
-						<span class="flex-shrink-0 text-xs text-[#875F42]/40"
-							>Created {new Date(keyCreatedAt).toLocaleDateString()}</span
-						>
-					{/if}
-				</div>
-			{:else}
-				<div class="py-4 text-center">
-					<p class="mb-4 text-sm text-[#875F42]/60">
-						No API key yet. Generate one to start using authenticated processing.
-					</p>
-					<form
-						method="POST"
-						action="?/generateKey"
-						use:enhance={() => {
-							keyLoading = true;
-							newKeyPlaintext = null;
-							return async ({ result }) => {
-								keyLoading = false;
-								const d =
-									result.type === 'success'
-										? (result.data as { apiKey?: string; createdAt?: string } | undefined)
-										: undefined;
-								if (d?.apiKey) {
-									newKeyPlaintext = d.apiKey;
-									hasKey = true;
-									keyCreatedAt = d.createdAt ?? new Date().toISOString();
-									posthog.capture('api_key_created', { action: 'generate' });
-									loadUsage();
-								}
-							};
-						}}
-					>
-						<button
-							type="submit"
-							disabled={keyLoading}
-							class="cursor-pointer rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] disabled:transform-none disabled:opacity-60"
-						>
-							{keyLoading ? 'Generating…' : 'Generate API key'}
-						</button>
-					</form>
-				</div>
-			{/if}
-
-			<div class="mt-4 border-t border-[#875F42]/8 pt-4">
-				<p class="font-mono text-xs break-all text-[#875F42]/50">
-					curl -H "Authorization: Bearer &lt;key&gt;" -X POST https://api.mochify.app/v1/squish ...
-				</p>
-			</div>
-
-			{#if signedInApps.length > 0}
-				<div class="mt-4 border-t border-[#875F42]/8 pt-4">
-					<p class="mb-2 text-xs font-bold text-[#875F42]/60">
-						Signed in apps (separate from this key)
-					</p>
-					{#each signedInApps as app (app.client)}
-						<div class="flex items-center justify-between gap-3 py-1.5">
-							<span class="text-sm text-[#4A2C2C]">
-								{APP_NAMES[app.client] ?? app.client}
-								<span class="ml-1 text-xs text-[#875F42]/40"
-									>since {new Date(app.created_at + 'Z').toLocaleDateString()}</span
-								>
-							</span>
-							<form
-								method="POST"
-								action="?/signOutApp"
-								use:enhance={() => {
-									signingOut = app.client;
-									return async ({ result }) => {
-										signingOut = null;
-										if (result.type === 'success') {
-											signedInApps = signedInApps.filter((a) => a.client !== app.client);
-											posthog.capture('api_key_app_signed_out', { client: app.client });
-										}
-									};
-								}}
-							>
-								<input type="hidden" name="client" value={app.client} />
-								<button
-									type="submit"
-									disabled={signingOut === app.client}
-									class="text-xs font-bold text-[#875F42]/60 transition-colors hover:text-[#F06292] disabled:opacity-40"
-								>
-									{signingOut === app.client ? 'Signing out…' : 'Sign out'}
-								</button>
-							</form>
-						</div>
-					{/each}
-				</div>
-			{/if}
-		</div>
 
 		<!-- Third-party AI consent -->
 		<div class="dash-card mb-6 rounded-3xl border border-[rgba(0,0,0,0.06)] p-6 shadow-sm">
@@ -1467,6 +1445,201 @@
 				</form>
 			{/if}
 		</div>
+
+		<!-- Developer: collapsed by default. Almost nobody who signs in wants an
+		     API key (personal and marketplace users far outnumber developers), and a
+		     key card with a curl line near the top read as "this isn't for you" to
+		     everyone else. It opens itself for anyone with a key, a signed-in CLI or
+		     extension, a "developer" use-case answer, or a #developer link, so the
+		     people who need it lose nothing. -->
+		<details
+			id="developer"
+			bind:open={developerOpen}
+			class="dash-card group mb-6 scroll-mt-24 rounded-3xl border border-[rgba(0,0,0,0.06)] shadow-sm"
+		>
+			<summary
+				onclick={() => {
+					if (!developerOpen) posthog.capture('developer_section_opened');
+				}}
+				class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-3xl p-6 [&::-webkit-details-marker]:hidden"
+			>
+				<div>
+					<h2 class="font-extrabold text-[#4A2C2C]">Developer</h2>
+					<p class="mt-0.5 text-xs text-[#875F42]/60">API key, CLI, and integrations</p>
+				</div>
+				<svg
+					class="h-4 w-4 flex-shrink-0 text-[#875F42]/40 transition-transform group-open:rotate-90"
+					viewBox="0 0 20 20"
+					fill="currentColor"
+					aria-hidden="true"
+				>
+					<path
+						fill-rule="evenodd"
+						d="M7.21 14.77a.75.75 0 0 1 .02-1.06L11.17 10 7.23 6.29a.75.75 0 1 1 1.04-1.08l4.5 4.25a.75.75 0 0 1 0 1.08l-4.5 4.25a.75.75 0 0 1-1.06-.02Z"
+						clip-rule="evenodd"
+					/>
+				</svg>
+			</summary>
+			<div class="border-t border-[#875F42]/8 px-6 pt-5 pb-6">
+				<div class="mb-4 flex items-start justify-between">
+					<div>
+						<h3 class="font-extrabold text-[#4A2C2C]">API key</h3>
+						<p class="mt-0.5 text-xs text-[#875F42]/60">
+							Use this key from the web app, CLI, or curl
+						</p>
+					</div>
+					{#if hasKey}
+						<form
+							method="POST"
+							action="?/regenerateKey"
+							use:enhance={() => {
+								keyLoading = true;
+								newKeyPlaintext = null;
+								return async ({ result }) => {
+									keyLoading = false;
+									const d =
+										result.type === 'success'
+											? (result.data as { apiKey?: string; createdAt?: string } | undefined)
+											: undefined;
+									if (d?.apiKey) {
+										newKeyPlaintext = d.apiKey;
+										keyCreatedAt = d.createdAt ?? new Date().toISOString();
+										posthog.capture('api_key_created', { action: 'regenerate' });
+									}
+								};
+							}}
+						>
+							<button
+								type="submit"
+								disabled={keyLoading}
+								class="text-xs font-bold text-[#875F42]/60 transition-colors hover:text-[#F06292] disabled:opacity-40"
+							>
+								{keyLoading ? 'Regenerating…' : 'Regenerate'}
+							</button>
+						</form>
+					{/if}
+				</div>
+
+				{#if newKeyPlaintext}
+					<div class="mb-4 rounded-2xl border border-amber-200 bg-amber-50 p-4">
+						<p class="mb-2 text-xs font-bold text-amber-700">
+							Save this key now. You won't see it again.
+						</p>
+						<div class="flex items-center gap-2">
+							<code
+								class="min-w-0 flex-1 overflow-x-auto rounded-xl border border-amber-200/60 bg-white/70 px-3 py-2 font-mono text-xs break-all text-[#4A2C2C]"
+								>{newKeyPlaintext}</code
+							>
+							<button
+								onclick={copyKey}
+								class="flex-shrink-0 rounded-xl px-3 py-2 text-xs font-bold transition-all {copied
+									? 'bg-[#A5D6A7]/30 text-[#2E5C31]'
+									: 'bg-white/70 text-[#875F42]/70 hover:bg-[#FFF5F7] hover:text-[#F06292]'} border border-white/60"
+							>
+								{copied ? 'Copied!' : 'Copy'}
+							</button>
+						</div>
+					</div>
+				{:else if hasKey}
+					<div
+						class="flex flex-col gap-1 rounded-2xl border border-white/60 bg-white/40 p-4 sm:flex-row sm:items-center sm:gap-3"
+					>
+						<code class="min-w-0 flex-1 truncate font-mono text-sm text-[#875F42]/60"
+							>••••••••••••••••••••••••••••••••</code
+						>
+						{#if keyCreatedAt}
+							<span class="flex-shrink-0 text-xs text-[#875F42]/40"
+								>Created {new Date(keyCreatedAt).toLocaleDateString()}</span
+							>
+						{/if}
+					</div>
+				{:else}
+					<div class="py-4 text-center">
+						<p class="mb-4 text-sm text-[#875F42]/60">
+							No API key yet. Generate one to start using authenticated processing.
+						</p>
+						<form
+							method="POST"
+							action="?/generateKey"
+							use:enhance={() => {
+								keyLoading = true;
+								newKeyPlaintext = null;
+								return async ({ result }) => {
+									keyLoading = false;
+									const d =
+										result.type === 'success'
+											? (result.data as { apiKey?: string; createdAt?: string } | undefined)
+											: undefined;
+									if (d?.apiKey) {
+										newKeyPlaintext = d.apiKey;
+										hasKey = true;
+										keyCreatedAt = d.createdAt ?? new Date().toISOString();
+										posthog.capture('api_key_created', { action: 'generate' });
+										loadUsage();
+									}
+								};
+							}}
+						>
+							<button
+								type="submit"
+								disabled={keyLoading}
+								class="cursor-pointer rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] disabled:transform-none disabled:opacity-60"
+							>
+								{keyLoading ? 'Generating…' : 'Generate API key'}
+							</button>
+						</form>
+					</div>
+				{/if}
+
+				<div class="mt-4 border-t border-[#875F42]/8 pt-4">
+					<p class="font-mono text-xs break-all text-[#875F42]/50">
+						curl -H "Authorization: Bearer &lt;key&gt;" -X POST https://api.mochify.app/v1/squish
+						...
+					</p>
+				</div>
+
+				{#if signedInApps.length > 0}
+					<div class="mt-4 border-t border-[#875F42]/8 pt-4">
+						<p class="mb-2 text-xs font-bold text-[#875F42]/60">
+							Signed in apps (separate from this key)
+						</p>
+						{#each signedInApps as app (app.client)}
+							<div class="flex items-center justify-between gap-3 py-1.5">
+								<span class="text-sm text-[#4A2C2C]">
+									{APP_NAMES[app.client] ?? app.client}
+									<span class="ml-1 text-xs text-[#875F42]/40"
+										>since {new Date(app.created_at + 'Z').toLocaleDateString()}</span
+									>
+								</span>
+								<form
+									method="POST"
+									action="?/signOutApp"
+									use:enhance={() => {
+										signingOut = app.client;
+										return async ({ result }) => {
+											signingOut = null;
+											if (result.type === 'success') {
+												signedInApps = signedInApps.filter((a) => a.client !== app.client);
+												posthog.capture('api_key_app_signed_out', { client: app.client });
+											}
+										};
+									}}
+								>
+									<input type="hidden" name="client" value={app.client} />
+									<button
+										type="submit"
+										disabled={signingOut === app.client}
+										class="text-xs font-bold text-[#875F42]/60 transition-colors hover:text-[#F06292] disabled:opacity-40"
+									>
+										{signingOut === app.client ? 'Signing out…' : 'Sign out'}
+									</button>
+								</form>
+							</div>
+						{/each}
+					</div>
+				{/if}
+			</div>
+		</details>
 
 		<!-- Delete account — deliberately not a peer card. A red "Danger zone"
 		     card matching every other card's size and weight made it the

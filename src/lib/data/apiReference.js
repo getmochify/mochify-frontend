@@ -42,7 +42,7 @@ export const auth = {
 	scheme: 'Authorization: Bearer <key>',
 	keyPrefix: 'mchy_',
 	summary:
-		'The free tier requires no authentication. API keys are generated from your <a href="/dashboard">dashboard</a> and passed as a Bearer token.',
+		'The free tier requires no authentication. API keys are generated from your <a href="/dashboard#developer">dashboard</a> and passed as a Bearer token.',
 	notes: [
 		'API keys are shown once at creation and cannot be retrieved again. Store them securely. You can regenerate a key from your dashboard at any time.'
 	]
