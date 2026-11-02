@@ -59,7 +59,7 @@
     "prettier-plugin-tailwindcss": "^0.7.4",
     "satori": "^0.29.1",
     "svelte": "^5.57.3",
-    "svelte-check": "^4.7.7",
+    "svelte-check": "^4.7.8",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.72.1",
@@ -82,11 +82,11 @@
     "@polar-sh/sveltekit": "^0.7.6",
     "better-auth": "1.6.25",
     "fflate": "^0.8.3",
-    "kysely": "^0.28.18",
+    "kysely": "^0.28.19",
     "kysely-d1": "^0.4.0",
     "mediabunny": "^1.65.0",
-    "pdfjs-dist": "^6.4.299",
-    "posthog-js": "^1.444.0",
+    "pdfjs-dist": "^6.5.438",
+    "posthog-js": "^1.444.2",
     "posthog-node": "^5.61.1",
     "resend": "^6.37.0"
   }
