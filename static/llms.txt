@@ -17,6 +17,7 @@ Full reference: [https://mochify.app/llms-full.txt](https://mochify.app/llms-ful
 - [Guides](https://mochify.app/guides): Long-form articles on image formats, compression, and publishing workflows.
 - [Solutions](https://mochify.app/solutions): Task- and format-specific converter pages.
 - [MCP server](https://mcp.mochify.app): Hosted Model Context Protocol endpoint for AI assistants.
+- [auth.md](https://mochify.app/auth.md): How agents authenticate: MCP OAuth with dynamic client registration, API keys, and the anonymous tier.
 
 ## Legal and compliance
 
