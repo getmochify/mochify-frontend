@@ -2,8 +2,9 @@
 	import './layout.css';
 	import { browser } from '$app/environment';
 	import { page, updated } from '$app/state';
-	import { beforeNavigate } from '$app/navigation';
+	import { beforeNavigate, goto } from '$app/navigation';
 	import { posthog } from '$lib/analytics';
+	import { registerWebMcp } from '$lib/webmcp';
 	import { ogImageFor, ogAltFor, ogSizeFor } from '$lib/og/cards.js';
 	import BlobBackground from '$lib/components/BlobBackground.svelte';
 	let { children, data } = $props();
@@ -51,6 +52,12 @@
 		};
 	});
 
+	// WebMCP tools for in-browser AI agents (see $lib/webmcp). Registered once
+	// for the life of the tab: the root layout never unmounts, so the cleanup
+	// only matters in dev under HMR. Guide pages run with csr = false and get
+	// none, which is fine: the tools are for finding and opening pages.
+	$effect(() => registerWebMcp((path) => goto(path)));
+
 	let identifiedEmail: string | null = null;
 	$effect(() => {
 		if (!browser) return;
@@ -80,7 +87,7 @@
 		'/contact',
 		'/chrome-extension',
 		'/mcp',
-		'/guides',
+		'/guides'
 	]);
 
 	// Guides paint their own top-only wash, which scrolls away with the page;
@@ -128,41 +135,41 @@
 	<meta name="apple-mobile-web-app-title" content="Mochify" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
-	<link rel="dns-prefetch" href="https://api.mochify.app">
-	<link rel="preconnect" href="https://api.mochify.app" crossorigin="anonymous">
+	<link rel="dns-prefetch" href="https://api.mochify.app" />
+	<link rel="preconnect" href="https://api.mochify.app" crossorigin="anonymous" />
 
 	<script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "Organization",
-		"@id": "https://mochify.app/#organization",
-		"name": "Mochify",
-		"url": "https://mochify.app",
-		"logo": {
-			"@type": "ImageObject",
-			"url": "https://mochify.app/logo.png"
-		},
-		"email": "hello@mochify.app",
-		"address": {
-			"@type": "PostalAddress",
-			"streetAddress": "Suite RA01, 195-197 Wood Street",
-			"addressLocality": "London",
-			"postalCode": "E17 3NU",
-			"addressCountry": "GB"
-		},
-		"sameAs": [
-			"https://github.com/getmochify",
-			"https://hub.docker.com/r/mochify/mochify-lite",
-			"https://x.com/GetMochify",
-			"https://www.linkedin.com/company/mochify/",
-			"https://www.youtube.com/@GetMochify",
-			"https://www.tiktok.com/@getmochify"
-		]
-	}
+		{
+			"@context": "https://schema.org",
+			"@type": "Organization",
+			"@id": "https://mochify.app/#organization",
+			"name": "Mochify",
+			"url": "https://mochify.app",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://mochify.app/logo.png"
+			},
+			"email": "hello@mochify.app",
+			"address": {
+				"@type": "PostalAddress",
+				"streetAddress": "Suite RA01, 195-197 Wood Street",
+				"addressLocality": "London",
+				"postalCode": "E17 3NU",
+				"addressCountry": "GB"
+			},
+			"sameAs": [
+				"https://github.com/getmochify",
+				"https://hub.docker.com/r/mochify/mochify-lite",
+				"https://x.com/GetMochify",
+				"https://www.linkedin.com/company/mochify/",
+				"https://www.youtube.com/@GetMochify",
+				"https://www.tiktok.com/@getmochify"
+			]
+		}
 	</script>
 </svelte:head>
 
-<div class="min-h-screen flex flex-col">
+<div class="flex min-h-screen flex-col">
 	{#if showBlobs}<BlobBackground />{/if}
 	{@render children()}
 </div>
