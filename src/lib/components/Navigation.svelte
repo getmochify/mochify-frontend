@@ -76,7 +76,7 @@
 	}
 
 	async function signInWithGoogle() {
-		await authClient.signIn.social({ provider: 'google', callbackURL: '/dashboard' });
+		await authClient.signIn.social({ provider: 'google', callbackURL: returnTo });
 	}
 
 	// useSession() keeps the nav in sync client-side across navigations.
@@ -101,6 +101,25 @@
 	// pointing at the page you are already on.
 	let onDashboard = $derived(page.url.pathname === '/dashboard');
 	let hideLaunch = $derived(onDashboard || page.url.pathname === '/flow');
+
+	// Where a sign-up from this nav lands afterwards. A bare /auth/register fell
+	// back to /dashboard, so a reseller reading a guide or the eBay page signed up
+	// and was dropped onto an account page with nothing they had come for. Content
+	// pages now send people back to where they were. The neutral entry points (home,
+	// pricing, and the account pages themselves) keep /dashboard, whose "Start here"
+	// row is built for exactly that visitor. Pathname only: url.search throws while
+	// prerendering, and most of these pages are prerendered.
+	const DASHBOARD_FALLBACK = /^(?:\/(?:pricing|dashboard|auth(?:\/.*)?))?$/;
+	let returnTo = $derived.by(() => {
+		const path = page.url.pathname;
+		const unprefixed = navLocale.prefix ? path.slice(navLocale.prefix.length) || '/' : path;
+		return DASHBOARD_FALLBACK.test(unprefixed.replace(/\/$/, '')) ? '/dashboard' : path;
+	});
+	let registerHref = $derived(
+		returnTo === '/dashboard'
+			? '/auth/register'
+			: `/auth/register?next=${encodeURIComponent(returnTo)}`
+	);
 </script>
 
 <nav
@@ -209,7 +228,7 @@
 			</a>
 			{#if showGetStarted}
 				<a
-					href="/auth/register"
+					href={registerHref}
 					class="cursor-pointer rounded-full bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-5 py-2 text-sm font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] active:scale-95"
 				>
 					Get started
@@ -362,7 +381,7 @@
 			</a>
 			{#if showGetStarted}
 				<a
-					href="/auth/register"
+					href={registerHref}
 					class="mx-2 mb-2 rounded-2xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-6 py-4 text-center font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] active:scale-95"
 				>
 					Get started
