@@ -1,4 +1,5 @@
 import { posthog } from '$lib/analytics';
+import { USD_PRICES } from '$lib/currency';
 
 // Polar's embedded checkout, shared by the Day Pass (`$lib/dayPass`) and the
 // subscription plans (`startPlanCheckout` below). The overlay keeps the page
@@ -132,6 +133,26 @@ function removeStalledOverlay(checkoutUrl: string): void {
 }
 
 /**
+ * The plan's USD list price in dollars, for weighing purchases against each
+ * other in PostHog (the `batch-queue` experiment's revenue metric). Polar's
+ * success message carries no amount, so this is the list price, not what was
+ * charged: a GBP buyer or a discount still counts at the USD figure, which is
+ * the right unit for comparing a $5 Day Pass+ with a $2 Day Pass. Undefined
+ * for a plan this table does not know, so a new plan shows up as missing
+ * rather than as a wrong number.
+ */
+function listPriceUsd(plan: string, billing?: 'monthly' | 'yearly'): number | undefined {
+	const key =
+		plan === 'day'
+			? 'dayPass'
+			: plan === 'dayplus'
+				? 'dayPassPlus'
+				: `${plan}${billing === 'yearly' ? 'Yearly' : 'Monthly'}`;
+	const cents = USD_PRICES[key];
+	return cents === undefined ? undefined : cents / 100;
+}
+
+/**
  * Open `checkoutUrl` (created with `embedOrigin`) as an overlay. Resolves once
  * the overlay is showing or the fallback has run; `onPaid` fires later, after
  * the overlay has closed itself on payment.
@@ -139,8 +160,10 @@ function removeStalledOverlay(checkoutUrl: string): void {
 export async function openEmbeddedCheckout(
 	checkoutUrl: string,
 	opts: {
-		/** `day`, `seller`, `pro` or `growth`, for analytics. */
+		/** `day`, `dayplus`, `seller`, `pro` or `growth`, for analytics. */
 		plan: string;
+		/** Subscription billing period; absent for the passes. */
+		billing?: 'monthly' | 'yearly';
 		trigger: string;
 		/** Receives the paid checkout's URL (the Day Pass resend link needs it). */
 		onPaid: (checkoutUrl: string) => void;
@@ -197,7 +220,11 @@ export async function openEmbeddedCheckout(
 			event.preventDefault();
 			paid = true;
 			checkout.close();
-			posthog.capture('checkout_overlay_paid', { plan: opts.plan, trigger: opts.trigger });
+			posthog.capture('checkout_overlay_paid', {
+				plan: opts.plan,
+				trigger: opts.trigger,
+				amount_usd: listPriceUsd(opts.plan, opts.billing)
+			});
 			opts.onPaid(checkoutUrl);
 		});
 		checkout.addEventListener('close', () => reportClose(paid ? 'paid' : 'user_dismissed'));
@@ -279,6 +306,7 @@ export function startPlanCheckout(event: MouseEvent): void {
 		try {
 			await openEmbeddedCheckout(data.url, {
 				plan: target.searchParams.get('plan') ?? 'pro',
+				billing: target.searchParams.get('billing') === 'yearly' ? 'yearly' : 'monthly',
 				trigger: window.location.pathname,
 				onPaid: () => window.location.assign(successUrl),
 				onFallback: (url) => window.location.assign(url)
