@@ -304,7 +304,7 @@ mochify auth login`;
 
         <div class="space-y-4 pt-4">
             <h3 class="text-xl font-bold text-[#4A2C2C]">How a box works</h3>
-            <p class={pClass}>Four of the sections below need a box: crop to a region, hide an area, erase an object, recolor an object. Your assistant looks at the image and chooses the box; Mochify receives four numbers, fractions of the upright picture from the top-left corner, never pixels and never a description of what the box contains. The assistant that can see the picture does the understanding. Mochify does the editing.</p>
+            <p class={pClass}>Four of the sections below need a box: crop to a region, hide an area, erase an object, recolor an object. Crop and hide work on both servers; erase and recolor are on the hosted server and the REST API only. Your assistant looks at the image and chooses the box; Mochify receives four numbers, fractions of the upright picture from the top-left corner, never pixels and never a description of what the box contains. The assistant that can see the picture does the understanding. Mochify does the editing.</p>
         </div>
     </section>
 
@@ -336,7 +336,7 @@ mochify auth login`;
     <section class="mt-16 max-w-4xl mx-auto space-y-4">
         <h2 id="erase" class={h2Class}>Erase an object</h2>
         <p class={promptClass}>"Remove the bin on the left and fill in the background."</p>
-        <p><span class={paidPlan}>Paid plans, including the Day Pass.</span></p>
+        <p><span class={paidPlan}>Paid plans, including the Day Pass. Hosted server and REST API; not the local server.</span></p>
         <p class={pClass}>Erase paints a boxed object out and fills the space with plausible background. Your assistant draws the box around the whole object with a margin, shadow included; Mochify finds the object's outline inside the box and repaints only the outline plus a margin, so as little of the scene as possible is invented. Up to eight objects in one call. It is best on small distractions against texture or a plain background: a bin, a cable, a stray passer-by. Large removals come out softer, because the model paints at a fixed 512 by 512.</p>
         <p class={pClass}>Erase invents pixels. It is for tidying your own photos, and never a way to hide anything sensitive; for that, ask it to hide the area instead (see <a href="#redact" class={linkClass}>Hide faces and areas</a>). An erased image always has its metadata removed and any HDR gain map dropped. Real runs, including the ones that came out soft, are in <a href="/guides/remove-objects-from-photo-ai-assistant" class={linkClass}>how to remove objects from a photo with an AI assistant</a>.</p>
         <!-- Pair 4 (erase) goes here; its "after" image is also the planned og:image. -->
@@ -345,7 +345,7 @@ mochify auth login`;
     <section class="mt-16 max-w-4xl mx-auto space-y-4">
         <h2 id="recolor" class={h2Class}>Recolor an object</h2>
         <p class={promptClass}>"Make the jacket navy blue and keep the shading."</p>
-        <p><span class={paidPlan}>Paid plans, including the Day Pass.</span></p>
+        <p><span class={paidPlan}>Paid plans, including the Day Pass. Hosted server and REST API; not the local server.</span></p>
         <p class={pClass}>Recolor changes the color of a boxed object and keeps its shading: every fold, highlight and texture stays where it was, and only the hue moves to the color you named. Your assistant boxes the exact part to recolor, the jacket rather than the whole person, and Mochify finds the outline inside the box so the object changes and the rectangle does not. Nothing is generated. A box with no clear object in it is skipped and reported, never painted as a block. Up to eight objects in one call. A recolored image always has its metadata removed and any HDR gain map dropped.</p>
         <!-- Pair 5 (recolor) goes here. -->
     </section>
