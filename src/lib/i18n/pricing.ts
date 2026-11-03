@@ -36,6 +36,12 @@ export type PricingStrings = {
 	proFeatures: string[];
 	growthFeatures: string[];
 	freeFeatures: string[];
+	/** Day Pass card: the first feature line, for whichever size the switch is on. */
+	dayPassImages: (n: number) => string;
+	/** The size switch's options ("100 images") and its accessible name. */
+	dayPassOption: (n: number) => string;
+	dayPassSizeLabel: string;
+	/** The remaining Day Pass features, shared by both sizes. */
 	dayPassFeatures: string[];
 	/** One line under the cards: what an "image" is, lifted from the first FAQ. */
 	opsNote: string;
@@ -43,7 +49,7 @@ export type PricingStrings = {
 	ctaPro: string;
 	ctaGrowth: string;
 	ctaFree: string;
-	ctaDayPass: (price: string) => string;
+	ctaDayPass: (price: string, name: string) => string;
 	noSignupLink: string;
 	flowHref: string;
 	privacyLead: string;
@@ -169,8 +175,10 @@ export const EN_PRICING: PricingStrings = {
 		'<strong>API, MCP &amp; CLI</strong> included',
 		'<strong>20MB</strong> files, up to <strong>3</strong> per batch'
 	],
+	dayPassImages: (n) => `<strong>${n} images</strong> within 24 hours`,
+	dayPassOption: (n) => `${n} images`,
+	dayPassSizeLabel: 'Day Pass size',
 	dayPassFeatures: [
-		'<strong>100 images</strong> within 24 hours',
 		'<strong>Erase, recolor &amp; PDF tools</strong> included',
 		'<strong>75MB</strong> per file &amp; larger batches',
 		'No subscription, no signup needed'
@@ -180,7 +188,7 @@ export const EN_PRICING: PricingStrings = {
 	ctaPro: 'Get Pro',
 	ctaGrowth: 'Get Growth',
 	ctaFree: 'Start for free',
-	ctaDayPass: (price) => `Get Day Pass: ${price}`,
+	ctaDayPass: (price, name) => `Get ${name}: ${price}`,
 	noSignupLink: '3 images, no sign-up',
 	flowHref: '/flow',
 	privacyLead: 'Private by design.',

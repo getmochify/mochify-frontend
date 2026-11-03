@@ -3,7 +3,7 @@
 	import Navigation from '$lib/components/Navigation.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import DayPassButton from '$lib/components/DayPassButton.svelte';
-	import { dayPassEnabled } from '$lib/dayPass';
+	import { DAY_PASS_OPS, DAY_PASS_PLUS_OPS, dayPassEnabled } from '$lib/dayPass';
 	import {
 		formatMonthlyEquivalent,
 		formatPrice,
@@ -47,6 +47,15 @@
 	const t: PricingStrings = $derived({ ...EN_PRICING, ...strings });
 
 	let billing = $state<'monthly' | 'yearly'>('monthly');
+	// The Day Pass card sells both sizes. Starts on the $2 pass: the uploader
+	// already offers Day Pass+ to anyone who drops more than 100 files, so here
+	// it is there for the visitor who knows their job is big.
+	let dayPassPlus = $state(false);
+	const pass = $derived(
+		dayPassPlus
+			? { name: 'Day Pass+', plan: 'dayPassPlus', ops: DAY_PASS_PLUS_OPS }
+			: { name: 'Day Pass', plan: 'dayPass', ops: DAY_PASS_OPS }
+	);
 
 	// USD_PRICES is the shared fallback every price surface renders from (see
 	// $lib/currency); `data.pricing` overrides it when Polar holds prices in
@@ -541,16 +550,42 @@
 					<div class="flex-shrink-0">
 						<span
 							class="mb-3 inline-block rounded-full bg-[#FFF5F7] px-3 py-1 text-xs font-black tracking-wider text-[#F06292] uppercase"
-							>Day Pass</span
+							>{pass.name}</span
 						>
 						<div class="flex items-end gap-1">
-							<span class="text-3xl font-black text-[#4A2C2C]">{price('dayPass')}</span>
+							<span class="text-3xl font-black text-[#4A2C2C]">{price(pass.plan)}</span>
 							<span class="mb-1.5 text-sm text-[#6C3F31]/50">{t.oneTime}</span>
 						</div>
 					</div>
 
 					<div class="flex-grow">
+						<div
+							role="radiogroup"
+							aria-label={t.dayPassSizeLabel}
+							class="mb-4 inline-flex items-center gap-1 rounded-full bg-[#FFF0F5] p-1"
+						>
+							{#each [false, true] as plus (plus)}
+								<button
+									type="button"
+									role="radio"
+									aria-checked={dayPassPlus === plus}
+									onclick={() => (dayPassPlus = plus)}
+									class="cursor-pointer rounded-full px-4 py-1.5 text-xs font-black transition-all {dayPassPlus ===
+									plus
+										? 'bg-white text-mochi-pink shadow-sm'
+										: 'text-cocoa-deep/50 hover:text-cocoa-deep'}"
+								>
+									{t.dayPassOption(plus ? DAY_PASS_PLUS_OPS : DAY_PASS_OPS)} · {price(
+										plus ? 'dayPassPlus' : 'dayPass'
+									)}
+								</button>
+							{/each}
+						</div>
 						<ul class="flex flex-wrap gap-x-6 gap-y-2">
+							<li class="flex items-center gap-2 text-sm text-[#6C3F31]">
+								<span class="font-black text-[#A5D6A7]">✓</span>
+								<span>{@html t.dayPassImages(pass.ops)}</span>
+							</li>
 							{#each t.dayPassFeatures as feature}
 								<li class="flex items-center gap-2 text-sm text-[#6C3F31]">
 									<span class="font-black text-[#A5D6A7]">✓</span>
@@ -565,10 +600,11 @@
                          day_pass_success toast (magic-link instructions) is shown. -->
 						<DayPassButton
 							trigger="pricing_page"
+							plus={dayPassPlus}
 							next="/"
 							class="block rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 						>
-							{t.ctaDayPass(price('dayPass'))}
+							{t.ctaDayPass(price(pass.plan), pass.name)}
 						</DayPassButton>
 					</div>
 				</div>

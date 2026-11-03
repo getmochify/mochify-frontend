@@ -72,8 +72,10 @@ export const JA_PRICING: PricingStrings = {
 		'<strong>API・MCP・CLI</strong>付き',
 		'1ファイル<strong>20MB</strong>、1回に<strong>3ファイル</strong>まで'
 	],
+	dayPassImages: (n) => `24時間で<strong>${n}枚</strong>`,
+	dayPassOption: (n) => `${n}枚`,
+	dayPassSizeLabel: 'Day Passの枚数',
 	dayPassFeatures: [
-		'24時間で<strong>100枚</strong>',
 		'<strong>消去・色変更・PDFツール</strong>も利用可能',
 		'1ファイル<strong>75MB</strong>、まとめて処理も可能',
 		'契約も登録手続きも不要'
@@ -83,7 +85,7 @@ export const JA_PRICING: PricingStrings = {
 	ctaPro: 'Proを選ぶ',
 	ctaGrowth: 'Growthを選ぶ',
 	ctaFree: '無料で始める',
-	ctaDayPass: (price) => `Day Passを${price}で購入`,
+	ctaDayPass: (price, name) => `${name}を${price}で購入`,
 	noSignupLink: '登録なしで3枚試す',
 	flowHref: '/ja/flow',
 	privacyLead: '設計としてのプライバシー。',

@@ -73,8 +73,10 @@ export const PT_BR_PRICING: PricingStrings = {
 		'<strong>API, MCP e CLI</strong> incluídos',
 		'Arquivos de <strong>20 MB</strong>, até <strong>3</strong> por lote'
 	],
+	dayPassImages: (n) => `<strong>${n} imagens</strong> em 24 horas`,
+	dayPassOption: (n) => `${n} imagens`,
+	dayPassSizeLabel: 'Tamanho do Day Pass',
 	dayPassFeatures: [
-		'<strong>100 imagens</strong> em 24 horas',
 		'<strong>Apagar, recolorir e ferramentas de PDF</strong> incluídos',
 		'<strong>75 MB</strong> por arquivo e lotes maiores',
 		'Sem assinatura e sem cadastro'
@@ -84,7 +86,7 @@ export const PT_BR_PRICING: PricingStrings = {
 	ctaPro: 'Escolher o Pro',
 	ctaGrowth: 'Escolher o Growth',
 	ctaFree: 'Começar de graça',
-	ctaDayPass: (price) => `Comprar o Day Pass por ${price}`,
+	ctaDayPass: (price, name) => `Comprar o ${name} por ${price}`,
 	noSignupLink: '3 imagens, sem cadastro',
 	flowHref: '/pt-br/flow',
 	privacyLead: 'Privacidade desde o projeto.',
