@@ -23,6 +23,7 @@
 		category: 'AI & Automation',
 		readTime: '28 min read',
 		date: 'October 20, 2026',
+		lastUpdated: 'November 3, 2026',
 		bylineNote:
 			'Written from five real erase and recolor runs on October 19, 2026: a traffic cone and a car on an empty road, and a red leather bench that became blue.'
 	};
@@ -98,7 +99,7 @@
 		},
 		{
 			q: 'Can I erase an object with a Magic Flow prompt, or from the command line?',
-			a: `No. Erase and recolor need something that can see the picture to place the box, so they live on the two MCP servers and the REST API, not in the web app's prompt box, the Chrome extension or the <code>mochify</code> command-line tool. Face redaction is the exception that proves the rule: it needs no box, so a plain prompt asking for faces to be hidden works on every Magic Flow surface.`
+			a: `No. Erase and recolor need something that can see the picture to place the box, so they live on the hosted MCP server and the REST API, not in the web app's prompt box, the Chrome extension, the <code>mochify</code> command-line tool or the local MCP server. Face redaction is the exception that proves the rule: it needs no box, so a plain prompt asking for faces to be hidden works on every Magic Flow surface.`
 		}
 	];
 
@@ -154,6 +155,7 @@
 		url={pageUrl}
 		description={metadata.description}
 		datePublished="2026-10-20"
+		dateModified="2026-11-03"
 		article={{
 			about: ['object removal', 'inpainting', 'recolor', 'EXIF metadata', 'MCP server', 'Mochify API', 'marketplace listing photos'],
 			keywords
@@ -177,7 +179,7 @@
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
-			{metadata.readTime} · Published {metadata.date} · Mochify Engineering Team
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
@@ -255,9 +257,7 @@
 				looks like on a real car.
 			</p>
 			<p class="mb-4">
-				<strong>Something has to choose the box.</strong> Erase works on the REST API and on both of
-				Mochify's MCP servers, where your assistant (or your own code) looks at the image and picks the
-				rectangle. It is not in the <code>mochify</code> command-line tool, not a control in the web app,
+				<strong>Something has to choose the box.</strong> Erase works on the REST API and on Mochify's hosted MCP server, where your assistant (or your own code) looks at the image and picks the rectangle. The local server (<code>mochify serve</code>) does not offer erase or recolor. It is not in the <code>mochify</code> command-line tool, not a control in the web app,
 				not a Magic Flow prompt, and not on any of the tool pages, for the same reason redaction is not:
 				a text prompt cannot see the picture to place a box. Erase and recolor are on the paid plans,
 				including the Day Pass (used from an assistant, on a free account you are signed in with); the
@@ -368,9 +368,7 @@
 				does the pixel work. The <a href="https://mochify.app/mcp#erase">MCP server page</a> has the
 				one-time setup and the prompt for every capability; the
 				<a href="https://mochify.app/guides/how-the-mochify-mcp-server-works">hosted-versus-local guide</a>
-				goes deeper on the clients. If you run the local server (<code>mochify serve</code>) instead,
-				the same instructions apply, with one difference in what comes back: the local server writes
-				the finished file to disk and returns its path, with no download link and no pickup store.
+				goes deeper on the clients. The local server (<code>mochify serve</code>) does not offer erase or recolor, so for these two use the hosted server or the REST API. Its other tools write the finished file to disk and return its path, with no download link and no pickup store.
 			</p>
 			<p class="mb-4">
 				Here is the first real run, exactly as it happened on October 19, 2026, on a 1280 x 853 street
@@ -806,9 +804,7 @@
 							when the browser window opens; the <a href="https://mochify.app/mcp#setup">MCP server page</a>
 							has the config for the hosted and the local server (<code>mochify auth login</code> once,
 							then a short config entry). The hosted server returns a short-lived download link rather
-							than image bytes; the local server returns a file path. Erase and recolor need a paid plan,
-							including the Day Pass; because both servers need that sign-in, a Day Pass used from your
-							assistant is one bought on a free account you are signed in with.
+							than image bytes; the local server returns a file path. Erase and recolor need a paid plan, including the Day Pass; because the hosted server needs a sign-in, a Day Pass used from your assistant is one bought on a free account you are signed in with.
 						</p>
 					</li>
 					<li>

@@ -681,7 +681,8 @@ export const guides: Guide[] = [
 		url: '/guides/remove-objects-from-photo-ai-assistant',
 		category: 'AI & Automation',
 		readTime: '28 min read',
-		date: 'October 20, 2026'
+		date: 'October 20, 2026',
+		lastUpdated: 'November 3, 2026'
 	},
 	{
 		title: 'How to Blur Faces or a License Plate in a Photo (Ask Your AI Assistant)',
