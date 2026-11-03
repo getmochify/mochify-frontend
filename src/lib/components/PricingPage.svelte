@@ -632,10 +632,18 @@
 						<tbody class="divide-y divide-pink-50">
 							<tr>
 								<td class="px-6 py-4 text-[#6C3F31]">{t.tblMonthlyImages}</td>
-								<td class="px-6 py-4 text-center text-[#6C3F31]">{t.tblPerMonth(25)}</td>
-								<td class="px-6 py-4 text-center text-[#6C3F31]">{t.tblPerMonth(300)}</td>
-								<td class="px-6 py-4 text-center text-[#6C3F31]">{t.tblPerMonth(1200)}</td>
-								<td class="px-6 py-4 text-center text-[#6C3F31]">{t.tblPerMonth(5000)}</td>
+								<td class="px-6 py-4 text-center whitespace-nowrap text-[#6C3F31]"
+									>{t.tblPerMonth(25)}</td
+								>
+								<td class="px-6 py-4 text-center whitespace-nowrap text-[#6C3F31]"
+									>{t.tblPerMonth(300)}</td
+								>
+								<td class="px-6 py-4 text-center whitespace-nowrap text-[#6C3F31]"
+									>{t.tblPerMonth(1200)}</td
+								>
+								<td class="px-6 py-4 text-center whitespace-nowrap text-[#6C3F31]"
+									>{t.tblPerMonth(5000)}</td
+								>
 							</tr>
 							<tr>
 								<td class="px-6 py-4 text-[#6C3F31]">{t.tblMaxFileSize}</td>
