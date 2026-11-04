@@ -66,6 +66,7 @@
 		startDayPassCheckout,
 		type DayPassActivation
 	} from '$lib/dayPass';
+	import { warmCheckout } from '$lib/embedCheckout';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://id.mochify.app';
@@ -1139,6 +1140,18 @@
 			doneThisVisit > 0 &&
 			filesLeft > 0
 	);
+
+	// The main button sells the Day Pass in these two states; get the checkout
+	// ready while it does (see `warmCheckout`).
+	const buttonSellsDayPass = $derived(
+		(blockedByFileSize && sizeRouteOffered) || (insufficientTokens && allowanceDayPass)
+	);
+	$effect(() => {
+		if (buttonSellsDayPass) warmCheckout();
+	});
+	function warmIfSelling() {
+		if (buttonSellsDayPass) warmCheckout();
+	}
 
 	function handleButtonClick() {
 		if (isLoading) return;
@@ -3213,6 +3226,9 @@
 		<div class="px-4 pb-4 sm:px-6" class:hidden={blockedByFileSize && inBandFiles.length === 0}>
 			<button
 				onclick={handleButtonClick}
+				onpointerenter={warmIfSelling}
+				onpointerdown={warmIfSelling}
+				onfocus={warmIfSelling}
 				disabled={isLoading}
 				aria-disabled={isLoading}
 				class="group flex w-full items-center justify-center gap-2 rounded-2xl px-6 py-3.5 font-bold transition-all duration-300

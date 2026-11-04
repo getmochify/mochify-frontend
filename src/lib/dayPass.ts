@@ -103,6 +103,7 @@ export async function startDayPassCheckout(opts: {
 		? { name: 'Day Pass+', ops: DAY_PASS_PLUS_OPS }
 		: { name: 'Day Pass', ops: DAY_PASS_OPS };
 	let checkoutUrl: string;
+	const sessionStart = performance.now();
 	try {
 		const res = await fetch(opts.plus ? DAY_PASS_PLUS_ACTION : DAY_PASS_ACTION, {
 			method: 'POST',
@@ -126,6 +127,7 @@ export async function startDayPassCheckout(opts: {
 	await openEmbeddedCheckout(checkoutUrl, {
 		plan: opts.plus ? 'dayplus' : 'day',
 		trigger: opts.trigger,
+		sessionMs: Math.round(performance.now() - sessionStart),
 		onPaid: async (url) => {
 			const activation = await activateDayPass(url);
 			posthog.capture('day_pass_tab_activation', {

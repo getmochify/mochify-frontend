@@ -9,6 +9,7 @@
 		startDayPassCheckout,
 		type DayPassActivation
 	} from '$lib/dayPass';
+	import { warmCheckout } from '$lib/embedCheckout';
 
 	let {
 		trigger,
@@ -38,6 +39,11 @@
 	} = $props();
 
 	const returnTo = $derived(next ?? dayPassNext(page.url));
+
+	// Fetch the overlay's script and connect to Polar while the offer is on
+	// screen, and connect again on hover/focus/press: a preconnect lapses after
+	// about ten seconds unused. See `warmCheckout`.
+	$effect(() => warmCheckout());
 
 	function handleSubmit(event: SubmitEvent) {
 		posthog.capture('day_pass_cta_clicked', {
@@ -75,5 +81,11 @@
 >
 	<input type="hidden" name="next" value={returnTo} />
 	<input type="hidden" name="trigger" value={trigger} />
-	<button type="submit" class="cursor-pointer {className}">{@render children?.()}</button>
+	<button
+		type="submit"
+		class="cursor-pointer {className}"
+		onpointerenter={warmCheckout}
+		onpointerdown={warmCheckout}
+		onfocus={warmCheckout}>{@render children?.()}</button
+	>
 </form>

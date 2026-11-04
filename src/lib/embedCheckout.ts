@@ -10,10 +10,47 @@ import { USD_PRICES } from '$lib/currency';
 /**
  * How long the overlay may take to load before the buyer is offered a tab.
  * Was 12s: the three timeouts in the week after launch (Oct 2026) all sat
- * behind a scroll-locked spinner that long and none took the fallback. A
- * frame that loads after this is closed (see openEmbeddedCheckout).
+ * behind a scroll-locked spinner that long and none took the fallback.
  */
-const EMBED_LOAD_TIMEOUT_MS = 6_000;
+const EMBED_SLOW_MS = 6_000;
+
+/**
+ * How long the frame keeps loading behind that offer before it is taken down.
+ * Until Nov 2026 the frame was closed at 6s, which turned a slow Polar load
+ * from India (opens there took 3-4s, failures sat just past 6s) into a lost
+ * sale. Now the tab is offered at 6s and a frame that loads before this still
+ * opens. A frame that loads after this is closed (see openEmbeddedCheckout).
+ */
+const EMBED_LOAD_TIMEOUT_MS = 20_000;
+
+const POLAR_ORIGIN = 'https://polar.sh';
+
+let embedImport: Promise<typeof import('@polar-sh/checkout/embed')> | undefined;
+function loadEmbed() {
+	embedImport ??= import('@polar-sh/checkout/embed').catch((err) => {
+		embedImport = undefined;
+		throw err;
+	});
+	return embedImport;
+}
+
+/**
+ * Get ready for a checkout the visitor may be about to open: fetch the embed
+ * script and open a connection to Polar, which the overlay's frame otherwise
+ * pays for after the click. Creates nothing at Polar. Call it when a checkout
+ * button appears and again on hover/focus/press, since browsers drop an unused
+ * preconnect after about ten seconds.
+ */
+export function warmCheckout(): void {
+	if (typeof document === 'undefined') return;
+	void loadEmbed().catch(() => {});
+	document.getElementById('mochi-polar-preconnect')?.remove();
+	const link = document.createElement('link');
+	link.id = 'mochi-polar-preconnect';
+	link.rel = 'preconnect';
+	link.href = POLAR_ORIGIN;
+	document.head.appendChild(link);
+}
 
 type NoticeKind = 'paid' | 'active' | 'sign_in' | 'fallback' | 'error';
 
@@ -33,14 +70,20 @@ export function showNotice(
 	 */
 	action?: { label: string; run: () => Promise<{ text: string; again?: boolean }> },
 	/** Which pass was bought, for the 'paid', 'active' and 'sign_in' copy. */
-	pass: { name: string; ops: number } = { name: 'Day Pass', ops: 100 }
+	pass: { name: string; ops: number } = { name: 'Day Pass', ops: 100 },
+	/** Runs when the card goes away by the visitor's hand: its link or its ×. */
+	onLeave?: () => void
 ): void {
 	document.getElementById('mochi-day-pass-notice')?.remove();
 	const card = document.createElement('div');
 	card.id = 'mochi-day-pass-notice';
 	card.setAttribute('role', 'status');
+	// Polar's frame sits at the maximum z-index. The 'fallback' card is shown
+	// over a frame still loading, so it takes the same z-index and, appended
+	// later, paints on top; every other card stays under a checkout.
 	card.style.cssText =
-		'position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:2147483646;' +
+		'position:fixed;left:50%;bottom:16px;transform:translateX(-50%);' +
+		`z-index:${kind === 'fallback' ? 2147483647 : 2147483646};` +
 		'width:min(420px,calc(100vw - 32px));box-sizing:border-box;padding:14px 40px 14px 16px;' +
 		'background:#FFF5F7;border:1px solid rgba(240,98,146,0.25);border-radius:16px;' +
 		'box-shadow:0 8px 24px rgba(108,63,49,0.15);font:14px/1.4 Nunito,system-ui,sans-serif;color:#4A2C2C';
@@ -81,6 +124,7 @@ export function showNotice(
 		link.addEventListener('click', () => {
 			posthog.capture('checkout_fallback_clicked');
 			card.remove();
+			onLeave?.();
 		});
 		body.appendChild(link);
 	} else {
@@ -95,7 +139,10 @@ export function showNotice(
 	close.style.cssText =
 		'position:absolute;top:8px;right:10px;border:0;background:none;cursor:pointer;' +
 		'font-size:20px;line-height:1;color:rgba(135,95,66,0.5)';
-	close.addEventListener('click', () => card.remove());
+	close.addEventListener('click', () => {
+		card.remove();
+		onLeave?.();
+	});
 
 	const parts: HTMLElement[] = [title, body, close];
 	if (action) {
@@ -156,6 +203,11 @@ function listPriceUsd(plan: string, billing?: 'monthly' | 'yearly'): number | un
  * Open `checkoutUrl` (created with `embedOrigin`) as an overlay. Resolves once
  * the overlay is showing or the fallback has run; `onPaid` fires later, after
  * the overlay has closed itself on payment.
+ *
+ * Without `onFallback`, a frame slower than EMBED_SLOW_MS gets the "finish in
+ * a new tab" card over it but keeps loading until EMBED_LOAD_TIMEOUT_MS; the
+ * card goes if the frame arrives first. With `onFallback` (plan checkouts,
+ * which navigate away) the caller takes over at EMBED_SLOW_MS as before.
  */
 export async function openEmbeddedCheckout(
 	checkoutUrl: string,
@@ -165,33 +217,67 @@ export async function openEmbeddedCheckout(
 		/** Subscription billing period; absent for the passes. */
 		billing?: 'monthly' | 'yearly';
 		trigger: string;
+		/** How long the caller took to create the Polar checkout, for analytics. */
+		sessionMs?: number;
 		/** Receives the paid checkout's URL (the Day Pass resend link needs it). */
 		onPaid: (checkoutUrl: string) => void;
 		/** Replaces the "open checkout in a new tab" notice when the overlay fails. */
 		onFallback?: (checkoutUrl: string) => void;
 	}
 ): Promise<void> {
-	let timedOut = false;
+	// Where a slow checkout loses its time: creating the session (`session_ms`,
+	// our API and Polar's) or loading the frame (`frame_ms`, Polar's page in
+	// the visitor's browser). Opens from India took 3-4s in all (Nov 2026).
+	const frameStart = performance.now();
+	const timing = () => ({
+		session_ms: opts.sessionMs,
+		frame_ms: Math.round(performance.now() - frameStart)
+	});
+	// 'timeout' when the frame never loaded, 'gave_up' when the visitor left
+	// the slow card (its new-tab link or its ×) before it did.
+	let stalled: 'timeout' | 'gave_up' | undefined;
+	let slow = false;
+	let slowTimer: ReturnType<typeof setTimeout> | undefined;
 	let timer: ReturnType<typeof setTimeout> | undefined;
 	try {
-		const { PolarEmbedCheckout } = await import('@polar-sh/checkout/embed');
+		const { PolarEmbedCheckout } = await loadEmbed();
 		const opening = PolarEmbedCheckout.create(checkoutUrl, { theme: 'light' });
-		const checkout = await Promise.race([
-			opening,
-			new Promise<never>((_, reject) => {
-				timer = setTimeout(() => reject(new Error('embed load timeout')), EMBED_LOAD_TIMEOUT_MS);
-			})
-		]).catch((err) => {
-			timedOut = true;
+		const checkout = await new Promise<Awaited<typeof opening>>((resolve, reject) => {
+			opening.then(resolve, reject);
+			const stop = (why: 'timeout' | 'gave_up') => {
+				stalled = why;
+				reject(
+					new Error(why === 'timeout' ? 'embed load timeout' : 'embed abandoned while loading')
+				);
+			};
+			if (opts.onFallback) {
+				timer = setTimeout(() => stop('timeout'), EMBED_SLOW_MS);
+				return;
+			}
+			timer = setTimeout(() => stop('timeout'), EMBED_LOAD_TIMEOUT_MS);
+			slowTimer = setTimeout(() => {
+				slow = true;
+				posthog.capture('checkout_overlay_slow', {
+					plan: opts.plan,
+					trigger: opts.trigger,
+					session_ms: opts.sessionMs
+				});
+				showNotice('fallback', checkoutUrl, undefined, undefined, () => stop('gave_up'));
+			}, EMBED_SLOW_MS);
+		}).catch((err) => {
 			// A frame that loads after we gave up must not appear over the notice.
 			void opening.then((late) => late.close()).catch(() => {});
 			throw err;
 		});
 		clearTimeout(timer);
+		clearTimeout(slowTimer);
+		if (slow) document.getElementById('mochi-day-pass-notice')?.remove();
 		posthog.capture('checkout_overlay_opened', {
 			plan: opts.plan,
 			trigger: opts.trigger,
-			mode: 'embed'
+			mode: 'embed',
+			slow,
+			...timing()
 		});
 
 		// Why and how fast the overlay closed. Six of 23 opens closed inside 2s
@@ -230,19 +316,25 @@ export async function openEmbeddedCheckout(
 		checkout.addEventListener('close', () => reportClose(paid ? 'paid' : 'user_dismissed'));
 	} catch (err) {
 		clearTimeout(timer);
-		if (timedOut) removeStalledOverlay(checkoutUrl);
+		clearTimeout(slowTimer);
+		if (stalled) removeStalledOverlay(checkoutUrl);
+		const reason = stalled ?? 'load_error';
 		posthog.capture('checkout_overlay_failed', {
 			plan: opts.plan,
 			trigger: opts.trigger,
-			reason: timedOut ? 'timeout' : 'load_error',
-			error: String(err).slice(0, 200)
+			reason,
+			slow,
+			error: String(err).slice(0, 200),
+			...timing()
 		});
 		posthog.capture('checkout_overlay_opened', {
 			plan: opts.plan,
 			trigger: opts.trigger,
 			mode: 'fallback',
-			reason: timedOut ? 'timeout' : String(err).slice(0, 120)
+			reason: stalled ? reason : String(err).slice(0, 120)
 		});
+		// The visitor has already chosen (the tab opened, or they closed the card).
+		if (stalled === 'gave_up') return;
 		if (opts.onFallback) opts.onFallback(checkoutUrl);
 		else showNotice('fallback', checkoutUrl);
 	}
@@ -279,6 +371,7 @@ export function startPlanCheckout(event: MouseEvent): void {
 	const follow = () => window.location.assign(link.href);
 	void (async () => {
 		let data: { url?: string; successUrl?: string; redirect?: string };
+		const sessionStart = performance.now();
 		try {
 			const res = await fetch(target.pathname + target.search, {
 				method: 'POST',
@@ -308,6 +401,7 @@ export function startPlanCheckout(event: MouseEvent): void {
 				plan: target.searchParams.get('plan') ?? 'pro',
 				billing: target.searchParams.get('billing') === 'yearly' ? 'yearly' : 'monthly',
 				trigger: window.location.pathname,
+				sessionMs: Math.round(performance.now() - sessionStart),
 				onPaid: () => window.location.assign(successUrl),
 				onFallback: (url) => window.location.assign(url)
 			});
