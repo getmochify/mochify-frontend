@@ -38,6 +38,12 @@
 		type ScaledTarget
 	} from '$lib/targetOutcome';
 	import { isChunkLoadError, isNetworkError, recoverFromStaleChunk } from '$lib/chunkRecovery';
+	import {
+		convertInWorker,
+		createVideoWorker,
+		type ConvertError,
+		type ConvertRequest
+	} from '$lib/videoWorker';
 	import { withRetry } from '$lib/uploadRetry';
 	import {
 		uploadChunked,
@@ -578,9 +584,14 @@
 			cancelled = true;
 		};
 	});
+	// The /flow video branch's converter; terminated on unmount so a conversion
+	// left running doesn't keep decoding in the background.
+	let activeVideoWorker: Worker | null = null;
 	// Component teardown isn't a `files` change, so the effect above never runs
 	// again to diff it away — release whatever's still cached on unmount.
 	onDestroy(() => {
+		activeVideoWorker?.terminate();
+		activeVideoWorker = null;
 		batchTitle.reset();
 		for (const f of previewedFiles) {
 			if (isPdf(f)) releasePdfPreview(f);
@@ -822,7 +833,7 @@
 		if (modeMismatch > 0) {
 			const modeLabel =
 				effectiveMode === 'pdf' ? 'PDFs' : effectiveMode === 'video' ? 'video/audio' : 'images';
-			showStatus('error', `Mix not allowed — clear files first to switch to ${modeLabel}.`);
+			showStatus('error', `Mix not allowed. Clear files first to switch to ${modeLabel}.`);
 		}
 
 		const available = Math.max(0, MAX_FILES - files.length);
@@ -1117,10 +1128,10 @@
 		if (!res.ok) {
 			const message =
 				res.status === 403
-					? 'Image generation is a paid feature — upgrade to use it.'
+					? 'Image generation is a paid feature. Upgrade to use it.'
 					: res.status === 429
-						? "You're out of tokens for now — they refill, or upgrade for more."
-						: 'Generation failed — please try again.';
+						? "You're out of tokens for now. They refill, or upgrade for more."
+						: 'Generation failed. Please try again.';
 			const err = new Error(message) as Error & { status?: number };
 			err.status = res.status;
 			throw err;
@@ -1204,7 +1215,7 @@
 			} else
 				showStatus(
 					'error',
-					e instanceof Error ? e.message : 'Generation failed — please try again.'
+					e instanceof Error ? e.message : 'Generation failed. Please try again.'
 				);
 			posthog.capture('create_flow_regenerated', { failed: true });
 		} finally {
@@ -1540,7 +1551,7 @@
 						agentOutcomeText = e instanceof Error ? e.message : 'Generation failed.';
 						showStatus(
 							'error',
-							e instanceof Error ? e.message : 'Generation failed — please try again.'
+							e instanceof Error ? e.message : 'Generation failed. Please try again.'
 						);
 					}
 					posthog.capture('create_flow_completed', { failed: true });
@@ -1877,7 +1888,7 @@
 									imgPdfDest === 'drive' ? 'Google Drive' : destinationName
 								)}`
 							: imgPdfRemoteIgnored
-								? `${totalImages} PDFs created and zipped — a zip can't be filed into ${
+								? `${totalImages} PDFs created and zipped. A zip can't be filed into ${
 										destination === 'drive' ? 'Google Drive' : destinationName
 									}, so it downloaded instead.`
 								: isZip
@@ -1900,7 +1911,7 @@
 						});
 						showStatus(
 							'error',
-							e instanceof Error ? e.message : 'PDF creation failed — please try again.'
+							e instanceof Error ? e.message : 'PDF creation failed. Please try again.'
 						);
 					}
 				}
@@ -1932,8 +1943,8 @@
 								name: file.name,
 								reason:
 									pages > PDF_MAX_PAGES
-										? `${pages} pages — over the ${PDF_MAX_PAGES}-page limit.`
-										: `${pages} pages — your plan processes ${pageCap} pages per PDF.`
+										? `${pages} pages, over the ${PDF_MAX_PAGES}-page limit.`
+										: `${pages} pages, but your plan processes ${pageCap} pages per PDF.`
 							}
 						];
 						continue;
@@ -2207,10 +2218,7 @@
 
 				if (processedPdfs === 0) {
 					posthog.capture('pdf_flow_completed', { files: totalPdfFiles, all_failed: true });
-					showStatus(
-						'error',
-						failedFiles[0]?.reason ?? 'PDF processing failed — please try again.'
-					);
+					showStatus('error', failedFiles[0]?.reason ?? 'PDF processing failed. Please try again.');
 				} else {
 					posthog.capture('pdf_flow_completed', {
 						files: totalPdfFiles,
@@ -2242,11 +2250,11 @@
 											? `Compressed ${lastSavedPct}% and saved to ${savedTo}! ✨`
 											: `Saved ${pdfStored} PDF${pdfStored > 1 ? 's' : ''} to ${savedTo}! ✨`
 										: compressed && lastSavedPct! > 0
-											? `PDF compressed — ${lastSavedPct}% smaller! ✨`
+											? `PDF compressed, ${lastSavedPct}% smaller! ✨`
 											: compressed
 												? 'This PDF is already well optimized, so it was left as-is.'
 												: remoteIgnored
-													? `PDF${totalPdfFiles > 1 ? 's' : ''} downloaded — this one returns a zip, which can't be filed into ${savedTo}.`
+													? `PDF${totalPdfFiles > 1 ? 's' : ''} downloaded. This one returns a zip, which can't be filed into ${savedTo}.`
 													: `PDF${totalPdfFiles > 1 ? 's' : ''} processed successfully! ✨`;
 					showStatus('success', msg);
 					onSuccess?.();
@@ -2255,46 +2263,8 @@
 			}
 			// ── end PDF mode ──────────────────────────────────────────────────────
 
-			// ── Video / audio mode (client-side via MediaBunny) ───────────────────
+			// ── Video / audio mode (client-side via MediaBunny, in a worker) ──────
 			if (uploadMode === 'video') {
-				let mediabunny: typeof import('mediabunny');
-				try {
-					mediabunny = await import('mediabunny');
-				} catch (e) {
-					// A stale chunk after a deploy — the old hashed file is gone. Reload
-					// once to pull the current build, then bail out of this submit.
-					if (isChunkLoadError(e) && recoverFromStaleChunk()) return;
-					throw e;
-				}
-				const {
-					Input,
-					Output,
-					Conversion,
-					BlobSource,
-					BufferTarget,
-					ALL_FORMATS,
-					Mp4OutputFormat,
-					WebMOutputFormat,
-					MkvOutputFormat,
-					MovOutputFormat,
-					Mp3OutputFormat,
-					WavOutputFormat,
-					AdtsOutputFormat,
-					FlacOutputFormat,
-					OggOutputFormat
-				} = mediabunny;
-
-				const FORMAT_MAP: Record<string, any> = {
-					mp4: Mp4OutputFormat,
-					webm: WebMOutputFormat,
-					mkv: MkvOutputFormat,
-					mov: MovOutputFormat,
-					mp3: Mp3OutputFormat,
-					wav: WavOutputFormat,
-					aac: AdtsOutputFormat,
-					flac: FlacOutputFormat,
-					ogg: OggOutputFormat
-				};
 				const MIME_MAP: Record<string, string> = {
 					mp4: 'video/mp4',
 					webm: 'video/webm',
@@ -2307,6 +2277,20 @@
 					ogg: 'audio/ogg'
 				};
 				const AUDIO_ONLY_FMTS = new Set(['mp3', 'wav', 'aac', 'flac', 'ogg']);
+				// MP4 and MOV accept almost any codec, so an unpinned conversion copies
+				// e.g. VP9 into an MP4 few players open. Pin H.264/AAC as the
+				// mov-to-mp4 solution page does, keeping HEVC as-is where this browser
+				// can't decode it rather than failing the file.
+				const PINNED_CODECS: Record<
+					string,
+					Pick<ConvertRequest, 'videoCodec' | 'audioCodec' | 'copyFallback'>
+				> = {
+					mp4: { videoCodec: 'avc', audioCodec: 'aac', copyFallback: ['hevc'] },
+					mov: { videoCodec: 'avc', audioCodec: 'aac', copyFallback: ['hevc'] }
+				};
+				const NO_AUDIO_REASON = 'No audio track found. This file is video-only.';
+				const videoWorker = createVideoWorker();
+				activeVideoWorker = videoWorker;
 
 				const videoFileArray = parsedData.files || [];
 				const videoFileMap: Record<string, any> = {};
@@ -2328,138 +2312,141 @@
 					0
 				);
 				let processedVariants = 0;
+				// Codecs copied as-is because this browser can't decode them.
+				const keptCodecs: string[] = [];
 
-				for (let i = 0; i < files.length; i++) {
-					const file = files[i];
-					const fileConfig = videoFileMap[file.name] ?? videoFileArray[i] ?? {};
+				try {
+					for (let i = 0; i < files.length; i++) {
+						const file = files[i];
+						const fileConfig = videoFileMap[file.name] ?? videoFileArray[i] ?? {};
 
-					const formats: string[] =
-						Array.isArray(fileConfig.outputFormats) && fileConfig.outputFormats.length > 0
-							? fileConfig.outputFormats
-							: [fileConfig.outputFormat || 'mp4'];
+						const formats: string[] =
+							Array.isArray(fileConfig.outputFormats) && fileConfig.outputFormats.length > 0
+								? fileConfig.outputFormats
+								: [fileConfig.outputFormat || 'mp4'];
 
-					type SizeEntry = { width: number; height: number };
-					const sizes: SizeEntry[] =
-						Array.isArray(fileConfig.sizes) && fileConfig.sizes.length > 0
-							? fileConfig.sizes
-							: [{ width: fileConfig.width ?? 0, height: fileConfig.height ?? 0 }];
+						type SizeEntry = { width: number; height: number };
+						const sizes: SizeEntry[] =
+							Array.isArray(fileConfig.sizes) && fileConfig.sizes.length > 0
+								? fileConfig.sizes
+								: [{ width: fileConfig.width ?? 0, height: fileConfig.height ?? 0 }];
 
-					const multiFormat = formats.length > 1;
-					const multiSize = sizes.length > 1;
-					let hasAudio: boolean | null = null;
+						const multiFormat = formats.length > 1;
+						const multiSize = sizes.length > 1;
+						// Widened by hand: TypeScript does not follow the assignments in the catch below.
+						let hasAudio = null as boolean | null;
 
-					for (const size of sizes) {
-						for (const fmt of formats) {
-							const FormatClass = FORMAT_MAP[fmt] ?? Mp4OutputFormat;
+						for (const size of sizes) {
+							for (const fmt of formats) {
+								try {
+									uploadPercent = 0;
 
-							try {
-								uploadPercent = 0;
+									const audioOnly = AUDIO_ONLY_FMTS.has(fmt);
+									// Already found no audio for an earlier format of this file.
+									if (audioOnly && hasAudio === false) throw new Error(NO_AUDIO_REASON);
 
-								if (AUDIO_ONLY_FMTS.has(fmt) && hasAudio === false) {
-									failedFiles = [
-										...failedFiles,
-										{ name: file.name, reason: 'No audio track found — this file is video-only.' }
-									];
-									continue;
-								}
-
-								const input = new Input({ formats: ALL_FORMATS, source: new BlobSource(file) });
-
-								if (AUDIO_ONLY_FMTS.has(fmt) && hasAudio === null) {
-									const audioTracks = await input.getAudioTracks();
-									hasAudio = audioTracks.length > 0;
-									if (!hasAudio) {
-										failedFiles = [
-											...failedFiles,
-											{ name: file.name, reason: 'No audio track found — this file is video-only.' }
-										];
-										continue;
+									let buffer: ArrayBuffer;
+									let keptCodec: string | undefined;
+									try {
+										({ buffer, keptCodec } = await convertInWorker(
+											videoWorker,
+											{
+												file,
+												output: fmt,
+												audioOnly,
+												...(audioOnly ? {} : PINNED_CODECS[fmt]),
+												width: size.width,
+												height: size.height
+											},
+											(value) => (uploadPercent = value)
+										));
+									} catch (e) {
+										if ((e as ConvertError).fatal) {
+											// The converter failed to load, so every later file would too.
+											// A stale chunk after a deploy reloads once to pull the
+											// current build; anything else ends the batch.
+											if (isChunkLoadError(e) && recoverFromStaleChunk()) return;
+											throw Object.assign(
+												new Error('Could not load the converter. Please refresh and try again.'),
+												{ fatal: true }
+											);
+										}
+										if (
+											audioOnly &&
+											e instanceof Error &&
+											e.message === 'no audio track to extract'
+										) {
+											hasAudio = false;
+											throw new Error(NO_AUDIO_REASON);
+										}
+										throw e;
 									}
-								}
+									if (audioOnly) hasAudio = true;
+									if (keptCodec && !keptCodecs.includes(keptCodec)) keptCodecs.push(keptCodec);
+									uploadPercent = 100;
+									processPhase = 'downloading';
 
-								const videoOpts: Record<string, number> = {};
-								if (size.width > 0) videoOpts.width = size.width;
-								if (size.height > 0) videoOpts.height = size.height;
-
-								const target = new BufferTarget();
-								const output = new Output({ format: new FormatClass(), target });
-								const conversion = await Conversion.init({
-									input,
-									output,
-									...(Object.keys(videoOpts).length > 0 ? { video: videoOpts } : {})
-								});
-
-								if (!conversion.isValid) {
-									failedFiles = [
-										...failedFiles,
-										{ name: file.name, reason: 'Unsupported conversion for this file.' }
-									];
-									continue;
-								}
-
-								conversion.onProgress = (progress: number) => {
-									uploadPercent = Math.min(Math.round(progress * 100), 99);
-								};
-
-								await conversion.execute();
-								uploadPercent = 100;
-								processPhase = 'downloading';
-
-								const buffer = target.buffer;
-								if (!buffer) throw new Error('Conversion produced no output.');
-
-								const blob = new Blob([buffer], {
-									type: MIME_MAP[fmt] ?? 'application/octet-stream'
-								});
-								const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-								const outputExt = fmt;
-								const sizeSuffix = multiSize
-									? size.height
-										? `_${size.height}p`
-										: size.width
-											? `_${size.width}w`
-											: ''
-									: '';
-								const fmtSuffix = multiFormat ? `_${fmt}` : '';
-								const outputName = `${baseName}_mochified${sizeSuffix}${fmtSuffix}.${outputExt}`;
-
-								const url = URL.createObjectURL(blob);
-								const a = document.createElement('a');
-								a.style.display = 'none';
-								a.href = url;
-								a.download = outputName;
-								document.body.appendChild(a);
-								a.click();
-								setTimeout(() => {
-									URL.revokeObjectURL(url);
-									document.body.removeChild(a);
-								}, 100);
-							} catch (e: any) {
-								const variantLabel = [
-									multiSize
+									const blob = new Blob([buffer], {
+										type: MIME_MAP[fmt] ?? 'application/octet-stream'
+									});
+									const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+									const outputExt = fmt;
+									const sizeSuffix = multiSize
 										? size.height
-											? `${size.height}p`
+											? `_${size.height}p`
 											: size.width
-												? `${size.width}w`
+												? `_${size.width}w`
 												: ''
-										: '',
-									multiFormat ? fmt : ''
-								]
-									.filter(Boolean)
-									.join(' ');
-								failedFiles = [
-									...failedFiles,
-									{
-										name: variantLabel ? `${file.name} (${variantLabel})` : file.name,
-										reason: e instanceof Error ? e.message : 'Processing failed'
-									}
-								];
-							}
+										: '';
+									const fmtSuffix = multiFormat ? `_${fmt}` : '';
+									const outputName = `${baseName}_mochified${sizeSuffix}${fmtSuffix}.${outputExt}`;
 
-							processedVariants++;
-							completedFiles = processedVariants;
+									const url = URL.createObjectURL(blob);
+									const a = document.createElement('a');
+									a.style.display = 'none';
+									a.href = url;
+									a.download = outputName;
+									document.body.appendChild(a);
+									a.click();
+									setTimeout(() => {
+										URL.revokeObjectURL(url);
+										document.body.removeChild(a);
+									}, 100);
+								} catch (e: any) {
+									if ((e as ConvertError).fatal) throw e;
+									const variantLabel = [
+										multiSize
+											? size.height
+												? `${size.height}p`
+												: size.width
+													? `${size.width}w`
+													: ''
+											: '',
+										multiFormat ? fmt : ''
+									]
+										.filter(Boolean)
+										.join(' ');
+									failedFiles = [
+										...failedFiles,
+										{
+											name: variantLabel ? `${file.name} (${variantLabel})` : file.name,
+											// The worker's messages are lowercase fragments.
+											reason:
+												e instanceof Error && e.message
+													? e.message[0].toUpperCase() + e.message.slice(1)
+													: 'Processing failed'
+										}
+									];
+								}
+
+								processedVariants++;
+								completedFiles = processedVariants;
+							}
 						}
 					}
+				} finally {
+					videoWorker.terminate();
+					activeVideoWorker = null;
 				}
 
 				prompt = '';
@@ -2472,17 +2459,22 @@
 					posthog.capture('video_flow_completed', { files: totalVideoFiles, all_failed: true });
 					showStatus(
 						'error',
-						failedFiles[0]?.reason ?? 'Media processing failed — please try again.'
+						failedFiles[0]?.reason ?? 'Media processing failed. Please try again.'
 					);
 				} else {
 					posthog.capture('video_flow_completed', {
 						files: totalVideoFiles,
-						failed: failedFiles.length
+						failed: failedFiles.length,
+						kept_codec: keptCodecs.length ? keptCodecs.join(',') : undefined
 					});
-					const msg =
+					let msg =
 						failedFiles.length > 0
 							? `${successCount} of ${totalFiles} variants processed. ✨`
 							: `File${totalVideoFiles > 1 ? 's' : ''} converted successfully! ✨`;
+					if (keptCodecs.length) {
+						const names = keptCodecs.map((c) => (c === 'hevc' ? 'HEVC (H.265)' : c.toUpperCase()));
+						msg += ` This browser can't re-encode ${names.join(' or ')} video, so it was kept as it is.`;
+					}
 					showStatus('success', msg);
 					onSuccess?.();
 				}
@@ -2857,11 +2849,15 @@
 							...failedFiles,
 							{
 								name: file.name,
-								reason: 'Skipped — this file was not included in the plan. Try again with fewer files.'
+								reason:
+									'Skipped: this file was not included in the plan. Try again with fewer files.'
 							}
 						];
 						totalBytes -= file.size * (bucketDest ? variantCount(undefined) : 1);
-						posthog.capture('flow_file_unplanned', { planned: fileArray.length, files: files.length });
+						posthog.capture('flow_file_unplanned', {
+							planned: fileArray.length,
+							files: files.length
+						});
 						continue;
 					}
 
@@ -3095,7 +3091,7 @@
 								// returns a single raw blob — deliver it as the first variant
 								// rather than dropping the result.
 								console.warn(
-									`Expected application/zip for multi-variant request, got "${blob.type}" — old core?`
+									`Expected application/zip for multi-variant request, got "${blob.type}" (old core?)`
 								);
 								deliverVariant(
 									variantFinalName(formats[0], sizes[0]),
@@ -3283,7 +3279,7 @@
 				posthog.capture('magic_flow_completed', { files: totalFiles, all_failed: true });
 				showStatus(
 					'error',
-					failedFiles[0]?.reason ?? 'All files failed to process — please try again.',
+					failedFiles[0]?.reason ?? 'All files failed to process. Please try again.',
 					failedFiles[0]?.key ?? 'processing_failed'
 				);
 			} else {
@@ -3343,7 +3339,7 @@
 			if (!isNetworkError(err)) posthog.captureException(err);
 			showStatus(
 				'error',
-				err instanceof Error ? err.message : 'Something went wrong — please try again.',
+				err instanceof Error ? err.message : 'Something went wrong. Please try again.',
 				failureKey
 			);
 		} finally {
@@ -3667,8 +3663,8 @@
 											properties={{ files_dropped: n }}
 											class="rounded-full bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
 										>
-											{pass.name} ({pass.plus ? dayPassPlusPrice : dayPassPrice}): {BATCH_LIMIT_PAID} per
-											batch, {pass.ops} uploads today
+											{pass.name} ({pass.plus ? dayPassPlusPrice : dayPassPrice}): {BATCH_LIMIT_PAID}
+											per batch, {pass.ops} uploads today
 										</DayPassButton>
 										<p class="text-xs font-medium text-cocoa-deep/70">
 											{batchTier === 'guest'
@@ -4415,12 +4411,12 @@
 				</svg>
 				<div>
 					<p class="mb-1 text-xs font-bold text-amber-800">
-						{failedFiles.length === 1 ? '1 file' : `${failedFiles.length} files`} couldn't be processed
-						— try re-uploading:
+						{failedFiles.length === 1 ? '1 file' : `${failedFiles.length} files`} couldn't be processed.
+						Try re-uploading:
 					</p>
 					<ul class="space-y-0.5 text-xs text-amber-700">
 						{#each failedFiles as f}
-							<li><span class="font-medium">{f.name}</span> — {f.reason}</li>
+							<li><span class="font-medium">{f.name}</span>: {f.reason}</li>
 						{/each}
 					</ul>
 				</div>

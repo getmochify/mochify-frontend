@@ -4,7 +4,7 @@
 
 import type { AudioCodec, VideoCodec } from 'mediabunny';
 
-type ConvertRequest = {
+export type ConvertRequest = {
 	file: File;
 	output: string;
 	audioOnly: boolean;
@@ -17,9 +17,13 @@ type ConvertRequest = {
 	// hardware-backed Chrome), instead of failing the file. A list, not a flag:
 	// the MP4 muxer also accepts ProRes, and a ProRes MP4 plays almost nowhere.
 	copyFallback?: VideoCodec[];
+	// Target size in pixels; 0 or absent keeps the source dimension. With only
+	// one set, the other follows the aspect ratio.
+	width?: number;
+	height?: number;
 };
 
-type WorkerResponse =
+export type WorkerResponse =
 	| { type: 'progress'; value: number }
 	| { type: 'done'; buffer: ArrayBuffer; keptCodec?: string }
 	| { type: 'error'; message: string; fatal?: boolean };
@@ -42,8 +46,15 @@ function post(message: WorkerResponse, transfer?: Transferable[]) {
 }
 
 self.onmessage = async (event: MessageEvent) => {
-	const { file, output, audioOnly, videoCodec, audioCodec, copyFallback } =
+	const { file, output, audioOnly, videoCodec, audioCodec, copyFallback, width, height } =
 		event.data as ConvertRequest;
+	const resize: { width?: number; height?: number; fit?: 'contain' } = {};
+	if (width && width > 0) resize.width = width;
+	if (height && height > 0) resize.height = height;
+	// mediabunny refuses both dimensions without a fit; contain keeps the whole
+	// frame (letterboxed if the aspect differs) rather than stretching or cropping.
+	if (resize.width && resize.height) resize.fit = 'contain';
+	const resizing = resize.width !== undefined || resize.height !== undefined;
 
 	let mediabunny: typeof import('mediabunny');
 	try {
@@ -112,12 +123,14 @@ self.onmessage = async (event: MessageEvent) => {
 			// 'high' preset, which ignores how the source was actually encoded.
 			video: async (track) => {
 				// A copyable track is remuxed untouched; setting a quality would force a re-encode.
+				// A resize always re-encodes, so neither copy path applies to it.
 				const codec = await track.getCodec();
 				const copyable = videoCodec
 					? codec === videoCodec
 					: !!codec && copyableVideoCodecs.includes(codec);
-				if (copyable) return undefined;
+				if (copyable && !resizing) return undefined;
 				if (
+					!resizing &&
 					codec &&
 					copyFallback?.includes(codec) &&
 					copyableVideoCodecs.includes(codec) &&
@@ -129,9 +142,19 @@ self.onmessage = async (event: MessageEvent) => {
 				// Measured from packet sizes (metadata only, no decoding); the
 				// container's declared bitrate is often missing or wrong.
 				const { averageBitrate } = await track.computePacketStats();
+				// A downscale scales the bitrate with the pixel count, so a 240p copy
+				// can't come out larger than its 1080p source; an upscale keeps it.
+				const srcW = track.displayWidth;
+				const srcH = track.displayHeight;
+				const outW = resize.width ?? (resize.height! * srcW) / srcH;
+				const outH = resize.height ?? (resize.width! * srcH) / srcW;
+				const scale = resizing && srcW && srcH ? Math.min(1, (outW * outH) / (srcW * srcH)) : 1;
 				return {
 					codec: videoCodec,
-					quality: averageBitrate ? new Quality({ bitrate: Math.round(averageBitrate) }) : undefined
+					...resize,
+					quality: averageBitrate
+						? new Quality({ bitrate: Math.round(averageBitrate * scale) })
+						: undefined
 				};
 			},
 			audio: async (track) => {

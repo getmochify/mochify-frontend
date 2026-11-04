@@ -2,6 +2,7 @@
 	import { onDestroy } from 'svelte';
 	import { posthog } from '$lib/analytics';
 	import { isChunkLoadError, recoverFromStaleChunk } from '$lib/chunkRecovery';
+	import { convertInWorker, createVideoWorker, type ConvertError } from '$lib/videoWorker';
 	import type { AudioCodec, VideoCodec } from 'mediabunny';
 
 	let {
@@ -53,45 +54,6 @@
 		activeWorker?.terminate();
 		activeWorker = null;
 	});
-
-	type WorkerResponse =
-		| { type: 'progress'; value: number }
-		| { type: 'done'; buffer: ArrayBuffer; keptCodec?: string }
-		| { type: 'error'; message: string; fatal?: boolean };
-
-	type Converted = { buffer: ArrayBuffer; keptCodec?: string };
-
-	function convertInWorker(
-		worker: Worker,
-		file: File,
-		fmt: string,
-		audioOnly: boolean
-	): Promise<Converted> {
-		return new Promise((resolve, reject) => {
-			const onMessage = (event: MessageEvent<WorkerResponse>) => {
-				const msg = event.data;
-				if (msg.type === 'progress') {
-					percent = msg.value;
-				} else if (msg.type === 'done') {
-					worker.removeEventListener('message', onMessage);
-					resolve({ buffer: msg.buffer, keptCodec: msg.keptCodec });
-				} else {
-					worker.removeEventListener('message', onMessage);
-					reject(Object.assign(new Error(msg.message), { fatal: msg.fatal }));
-				}
-			};
-			worker.addEventListener('message', onMessage);
-			worker.postMessage({
-				file,
-				output: fmt,
-				audioOnly,
-				videoCodec,
-				audioCodec,
-				// A plain copy: a reactive prop array can't be structured-cloned.
-				copyFallback: copyFallback ? [...copyFallback] : undefined
-			});
-		});
-	}
 
 	const isMedia = (f: File) =>
 		f.type.startsWith('video/') ||
@@ -153,9 +115,7 @@
 		errorMessage = '';
 		successMessage = '';
 
-		const worker = new Worker(new URL('../workers/videoConvert.worker.ts', import.meta.url), {
-			type: 'module'
-		});
+		const worker = createVideoWorker();
 		activeWorker = worker;
 
 		const failures: string[] = [];
@@ -174,9 +134,16 @@
 			try {
 				const { buffer, keptCodec } = await convertInWorker(
 					worker,
-					file,
-					output,
-					AUDIO_ONLY.has(output)
+					{
+						file,
+						output,
+						audioOnly: AUDIO_ONLY.has(output),
+						videoCodec,
+						audioCodec,
+						// A plain copy: a reactive prop array can't be structured-cloned.
+						copyFallback: copyFallback ? [...copyFallback] : undefined
+					},
+					(value) => (percent = value)
 				);
 				if (keptCodec && !kept.includes(keptCodec)) kept.push(keptCodec);
 				percent = 100;
@@ -190,7 +157,7 @@
 				inputBytes += file.size;
 				outputBytes += buffer.byteLength;
 			} catch (e) {
-				const fatal = e instanceof Error && (e as Error & { fatal?: boolean }).fatal;
+				const fatal = e instanceof Error && (e as ConvertError).fatal;
 				const message = e instanceof Error ? e.message : 'conversion failed';
 				if (fatal) {
 					// Stale chunk after a deploy: reload once to pull the current build.
@@ -221,7 +188,7 @@
 		});
 
 		if (done === 0) {
-			errorMessage = failures[0] ?? 'Conversion failed — please try again.';
+			errorMessage = failures[0] ?? 'Conversion failed. Please try again.';
 		} else {
 			successMessage = `Converted ${done} file${done > 1 ? 's' : ''} to ${outLabel}!${failures.length ? ` (${failures.length} couldn't be converted)` : ''} ✨`;
 			if (kept.length) {
