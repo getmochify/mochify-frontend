@@ -125,13 +125,19 @@
         sliderPosition  = 50;
     }
 
+    // Revoke before dropping the URL, or each re-compress leaks the old blob.
+    function clearCompressed() {
+        if (compressedUrl) URL.revokeObjectURL(compressedUrl);
+        compressedUrl = null;
+        compressedSize = 0;
+        compressedRenderFailed = false;
+    }
+
     async function processImage() {
         if (!uploadedFile) return;
         isProcessing = true;
         errorMessage = '';
-        compressedUrl = null;
-        compressedSize = 0;
-        compressedRenderFailed = false;
+        clearCompressed();
 
         try {
             const resp = await fetch(
@@ -356,7 +362,7 @@
                                 class="px-4 py-2 rounded-xl text-sm font-bold transition-all {imageType === fmt.value
                                     ? 'bg-gradient-to-r from-mochi-pink to-[#E91E63] text-white shadow-sm'
                                     : 'bg-mochi-blush text-cocoa-deep border border-[#FFE5EC] hover:border-[#FFD6E0] hover:bg-mochi-strawberry'}"
-                                onclick={() => { imageType = fmt.value; compressedUrl = null; compressedSize = 0; compressedRenderFailed = false; }}
+                                onclick={() => { imageType = fmt.value; clearCompressed(); }}
                             >
                                 {fmt.label}
                                 <span class="opacity-60 text-xs font-medium ml-1">{fmt.detail}</span>
@@ -576,7 +582,7 @@
                             </button>
                             <button
                                 class="py-3 px-6 rounded-2xl font-semibold text-cocoa-deep bg-mochi-blush border border-[#FFE5EC] hover:bg-mochi-strawberry hover:border-[#FFD6E0] transition-all active:scale-[0.98]"
-                                onclick={() => { compressedUrl = null; compressedSize = 0; compressedRenderFailed = false; }}
+                                onclick={clearCompressed}
                             >
                                 Change settings
                             </button>

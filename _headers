@@ -24,3 +24,21 @@
 /.well-known/ai-catalog.json
   Content-Type: application/ai-catalog+json
   Cache-Control: public, max-age=3600
+
+# Social cards are regenerated in place (`bun run og` keeps the filename), so
+# they can't be immutable; a day is plenty for crawlers and share previews.
+/og/*
+  Cache-Control: public, max-age=86400
+
+# Icons keep their filenames across redesigns too, so a week rather than a
+# year: a changed icon reaches returning visitors within days.
+/favicon.ico
+  Cache-Control: public, max-age=604800
+/favicon-96x96.png
+  Cache-Control: public, max-age=604800
+/apple-touch-icon.png
+  Cache-Control: public, max-age=604800
+/web-app-manifest-192x192.png
+  Cache-Control: public, max-age=604800
+/web-app-manifest-512x512.png
+  Cache-Control: public, max-age=604800

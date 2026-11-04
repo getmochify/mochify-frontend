@@ -304,6 +304,22 @@ html[lang='ja'] {
   animation: pulse-glow 2.8s ease-in-out infinite;
 }
 
+/* Reduced motion: show reveal content in place and stop the decorative loops. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-float,
+  .animate-float-slow,
+  .shimmer-text,
+  .count-in,
+  .pulse-glow {
+    animation: none;
+  }
+}
+
 /* --- 6. MOCHI COMPONENTS --- */
 @layer components {
   /* The "Squishy" Button Class */
