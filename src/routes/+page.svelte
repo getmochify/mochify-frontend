@@ -455,11 +455,11 @@
 			<div class="flex flex-col md:grid md:grid-cols-2 md:items-center md:gap-x-12 md:gap-y-5">
 				<!-- A: headline. First in the DOM on every breakpoint. -->
 				<div class="order-1 md:col-start-1 md:row-start-1 md:self-end">
-					<p class="mb-4 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase md:text-sm">
+					<p class="mb-4 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase md:text-sm">
 						Image compression, built for AI-native workflows
 					</p>
 					<h1
-						class="mb-5 font-heading text-4xl leading-[1.05] font-black tracking-tight text-[#4A2C2C] sm:text-5xl md:mb-0 md:text-[3.4rem]"
+						class="mb-5 font-heading text-4xl leading-[1.05] font-black tracking-tight text-cocoa-ink sm:text-5xl md:mb-0 md:text-[3.4rem]"
 					>
 						Compress images, video, and PDFs with plain language.
 					</h1>
@@ -471,12 +471,12 @@
 				>
 					<PromptFormApp onSuccess={handleSuccess} maxWidth="max-w-3xl" />
 
-					<p class="mt-2 pr-1 text-right text-xs text-[#875F42]/70">
+					<p class="mt-2 pr-1 text-right text-xs text-cocoa-milk/70">
 						Want more room?
 						<a
 							href="/flow"
 							data-sveltekit-preload-data="hover"
-							class="group ml-0.5 inline-flex items-center gap-1 font-bold text-[#F06292] no-underline transition-colors hover:text-[#D81B60]"
+							class="group ml-0.5 inline-flex items-center gap-1 font-bold text-mochi-pink no-underline transition-colors hover:text-mochi-pink-deep"
 						>
 							Open Mochify Flow
 							<span class="transition-transform group-hover:translate-x-0.5">→</span>
@@ -491,7 +491,7 @@
 										showUpgradeCTA = false;
 										upgradeCTADismissed = true;
 									}}
-									class="absolute top-3 right-3 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white/60 text-[#875F42]/40 transition-all hover:bg-white hover:text-[#7A5A3A]"
+									class="absolute top-3 right-3 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white/60 text-cocoa-milk/40 transition-all hover:bg-white hover:text-[#7A5A3A]"
 									aria-label="Dismiss"
 								>
 									<svg
@@ -506,11 +506,11 @@
 								</button>
 								<div class="px-5 pt-4 pb-1">
 									<p
-										class="mb-0.5 text-xs font-extrabold tracking-widest text-[#F06292]/60 uppercase"
+										class="mb-0.5 text-xs font-extrabold tracking-widest text-mochi-pink/60 uppercase"
 									>
 										You're on the free plan
 									</p>
-									<h3 class="text-base leading-snug font-bold text-[#4A2C2C]">
+									<h3 class="text-base leading-snug font-bold text-cocoa-ink">
 										Running a lot of images? Get more headroom.
 									</h3>
 									<p class="mt-1 text-xs text-[#7A5A3A]">
@@ -521,7 +521,7 @@
 								<div class="px-5 py-3">
 									<a
 										href="/pricing"
-										class="block w-full rounded-xl bg-gradient-to-r from-[#FF9EBB] to-[#F06292] py-2.5 text-center text-sm font-bold text-white no-underline shadow-[0_4px_14px_rgba(240,98,146,0.35)] transition-all duration-200 hover:-translate-y-px hover:shadow-[0_6px_20px_rgba(240,98,146,0.5)]"
+										class="block w-full rounded-xl bg-gradient-to-r from-mochi-pink-light to-mochi-pink py-2.5 text-center text-sm font-bold text-white no-underline shadow-[0_4px_14px_rgba(240,98,146,0.35)] transition-all duration-200 hover:-translate-y-px hover:shadow-[0_6px_20px_rgba(240,98,146,0.5)]"
 									>
 										See all plans and pricing →
 									</a>
@@ -533,7 +533,7 @@
 
 				<!-- C: the pitch + install. Below the tool on mobile, under the h1 on desktop. -->
 				<div class="order-3 md:col-start-1 md:row-start-2 md:self-start">
-					<p class="mb-6 text-base leading-relaxed text-[#6C3F31] opacity-90 md:mt-6 md:text-lg">
+					<p class="mb-6 text-base leading-relaxed text-cocoa-deep opacity-90 md:mt-6 md:text-lg">
 						Drop a file and say what you want. Images and PDFs run anywhere the Rust binary does: a
 						shell, a build script, or inside Claude. Video converts in your browser and never
 						uploads. Zero retention throughout, and zero image bytes in your agent's context.
@@ -542,11 +542,11 @@
 					<div class="mb-4 flex flex-col items-start gap-3">
 						<button
 							onclick={copyInstall}
-							class="group flex w-full cursor-pointer items-center justify-between gap-6 rounded-2xl bg-[#2D1B1B] py-3.5 pr-4 pl-6 font-mono text-xs text-pink-100 shadow-lg transition-all hover:shadow-pink-300/20 sm:w-auto sm:text-base"
+							class="group flex w-full cursor-pointer items-center justify-between gap-6 rounded-2xl bg-cocoa-night py-3.5 pr-4 pl-6 font-mono text-xs text-pink-100 shadow-lg transition-all hover:shadow-pink-300/20 sm:w-auto sm:text-base"
 						>
 							<span class="flex flex-col gap-1 text-left whitespace-nowrap">
-								<span><span class="mr-2 text-[#F06292]">$</span>brew tap getmochify/mochify</span>
-								<span><span class="mr-2 text-[#F06292]">$</span>brew install mochify</span>
+								<span><span class="mr-2 text-mochi-pink">$</span>brew tap getmochify/mochify</span>
+								<span><span class="mr-2 text-mochi-pink">$</span>brew install mochify</span>
 							</span>
 							<span
 								class="inline-block min-w-[3.5rem] rounded-lg bg-white/10 px-2.5 py-1 text-center font-sans text-xs font-bold tracking-wider text-pink-100/80 uppercase transition-colors group-hover:bg-white/20"
@@ -556,23 +556,23 @@
 						</button>
 						<a
 							href="#surfaces"
-							class="group inline-flex items-center justify-center gap-2 self-start rounded-2xl border border-[#F06292]/30 bg-white/80 px-6 py-3 text-sm font-bold whitespace-nowrap text-[#F06292] no-underline shadow-lg shadow-pink-200/30 transition-all hover:border-[#F06292]/50 hover:bg-white hover:text-[#D81B60] hover:shadow-pink-300/40 sm:text-base"
+							class="group inline-flex items-center justify-center gap-2 self-start rounded-2xl border border-mochi-pink/30 bg-white/80 px-6 py-3 text-sm font-bold whitespace-nowrap text-mochi-pink no-underline shadow-lg shadow-pink-200/30 transition-all hover:border-mochi-pink/50 hover:bg-white hover:text-mochi-pink-deep hover:shadow-pink-300/40 sm:text-base"
 						>
 							CLI, MCP, and API
 							<span class="transition-transform group-hover:translate-x-0.5">→</span>
 						</a>
 					</div>
-					<p class="text-sm text-[#875F42] opacity-80">
+					<p class="text-sm text-cocoa-milk opacity-80">
 						Linux, Cargo, Smithery, and Glama install paths on the repo.
 					</p>
 
 					{#if (installPrompt && !installDismissed) || isIosInstall}
 						<button
 							onclick={installPrompt ? triggerInstall : () => (showIosTooltip = true)}
-							class="group mt-5 inline-flex items-center gap-2 rounded-full border border-[#F06292]/25 bg-gradient-to-r from-[#F06292]/8 to-[#875F42]/6 px-4 py-2 shadow-sm transition-all duration-200 hover:border-[#F06292]/40 hover:from-[#F06292]/15 hover:to-[#875F42]/12 md:hidden"
+							class="group mt-5 inline-flex items-center gap-2 rounded-full border border-mochi-pink/25 bg-gradient-to-r from-mochi-pink/8 to-cocoa-milk/6 px-4 py-2 shadow-sm transition-all duration-200 hover:border-mochi-pink/40 hover:from-mochi-pink/15 hover:to-cocoa-milk/12 md:hidden"
 						>
 							<svg
-								class="h-3.5 w-3.5 text-[#F06292]/70 transition-colors group-hover:text-[#F06292]"
+								class="h-3.5 w-3.5 text-mochi-pink/70 transition-colors group-hover:text-mochi-pink"
 								fill="none"
 								stroke="currentColor"
 								viewBox="0 0 24 24"
@@ -585,7 +585,7 @@
 								/>
 							</svg>
 							<span
-								class="text-xs font-semibold text-[#6C3F31]/70 transition-colors group-hover:text-[#6C3F31]"
+								class="text-xs font-semibold text-cocoa-deep/70 transition-colors group-hover:text-cocoa-deep"
 								>Add to Home Screen</span
 							>
 						</button>
@@ -598,9 +598,9 @@
 				class="mt-10 grid grid-cols-1 gap-x-6 gap-y-3 border-t border-pink-100 pt-6 sm:grid-cols-2 md:mt-12 lg:grid-cols-4"
 			>
 				{#each heroPoints as point}
-					<li class="flex items-start gap-2.5 text-sm text-[#6C3F31]">
+					<li class="flex items-start gap-2.5 text-sm text-cocoa-deep">
 						<svg
-							class="mt-0.5 h-4 w-4 shrink-0 text-[#F06292]"
+							class="mt-0.5 h-4 w-4 shrink-0 text-mochi-pink"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -615,17 +615,20 @@
 	</section>
 
 	<!-- ═══ 2. WORKS WHERE YOU WORK · blush band, constellation feeding the grid ═══ -->
-	<section id="surfaces" class="reveal border-y border-pink-100 bg-[#FFF0F3]/55 py-14 md:py-20">
+	<section
+		id="surfaces"
+		class="reveal border-y border-pink-100 bg-mochi-strawberry/55 py-14 md:py-20"
+	>
 		<div class="mx-auto max-w-6xl px-4 sm:px-6">
 			<h2
-				class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-[#4A2C2C] md:text-[2.5rem]"
+				class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-cocoa-ink md:text-[2.5rem]"
 			>
 				Works where you work
 			</h2>
 			<span
-				class="mb-6 block h-[5px] w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25"
+				class="mb-6 block h-[5px] w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink/25"
 			></span>
-			<p class="mb-12 max-w-2xl text-lg text-[#875F42]">
+			<p class="mb-12 max-w-2xl text-lg text-cocoa-milk">
 				One engine, six surfaces. Pick the one that fits your workflow.
 			</p>
 
@@ -688,7 +691,7 @@
 							class="flex items-center gap-2 rounded-2xl border border-pink-100 bg-white px-4 py-2 text-sm font-bold whitespace-nowrap text-[#A23861] shadow-md"
 						>
 							<svg
-								class="h-4 w-4 shrink-0 text-[#F06292]"
+								class="h-4 w-4 shrink-0 text-mochi-pink"
 								fill="none"
 								stroke="currentColor"
 								viewBox="0 0 24 24"
@@ -706,17 +709,17 @@
 				>
 					<div class="relative">
 						<div
-							class="pointer-events-none absolute -inset-4 animate-pulse rounded-[1.75rem] bg-[#F06292]/30 blur-xl"
+							class="pointer-events-none absolute -inset-4 animate-pulse rounded-[1.75rem] bg-mochi-pink/30 blur-xl"
 						></div>
 						<div
 							bind:this={hubEl}
-							class="relative flex h-20 w-20 items-center justify-center rounded-[1.4rem] bg-[#F06292] shadow-xl ring-4 shadow-pink-300/50 ring-white/70"
+							class="relative flex h-20 w-20 items-center justify-center rounded-[1.4rem] bg-mochi-pink shadow-xl ring-4 shadow-pink-300/50 ring-white/70"
 						>
 							<span class="font-heading text-4xl leading-none font-black text-white">M</span>
 						</div>
 					</div>
 					<p
-						class="mt-3 text-center text-[10px] leading-tight font-black tracking-[0.18em] text-[#875F42] uppercase opacity-70"
+						class="mt-3 text-center text-[10px] leading-tight font-black tracking-[0.18em] text-cocoa-milk uppercase opacity-70"
 					>
 						One engine<br />Six surfaces
 					</p>
@@ -735,19 +738,19 @@
 							: ''}"
 					>
 						<span
-							class="mb-2.5 inline-block text-[10px] font-black tracking-[0.14em] text-[#F06292] uppercase"
+							class="mb-2.5 inline-block text-[10px] font-black tracking-[0.14em] text-mochi-pink uppercase"
 							>{s.tag}</span
 						>
-						<h3 class="mb-2 font-heading text-lg font-bold text-[#4A2C2C]">{s.title}</h3>
-						<p class="mb-4 text-sm leading-relaxed text-[#875F42]">{s.body}</p>
+						<h3 class="mb-2 font-heading text-lg font-bold text-cocoa-ink">{s.title}</h3>
+						<p class="mb-4 text-sm leading-relaxed text-cocoa-milk">{s.body}</p>
 						<span class="inline-flex items-center gap-1.5">
 							<code
-								class="rounded-lg border border-pink-100 bg-[#FFF5F7] px-2 py-1 font-mono text-xs text-[#D81B60]"
+								class="rounded-lg border border-pink-100 bg-mochi-blush px-2 py-1 font-mono text-xs text-mochi-pink-deep"
 								>{s.mono}</code
 							>
 							{#if s.href}
 								<svg
-									class="h-3.5 w-3.5 -translate-x-1 text-[#F06292] opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100"
+									class="h-3.5 w-3.5 -translate-x-1 text-mochi-pink opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100"
 									fill="none"
 									stroke="currentColor"
 									stroke-width="2.5"
@@ -768,14 +771,14 @@
 	<section class="reveal bg-white/60 py-14 md:py-20">
 		<div class="mx-auto max-w-6xl px-4 sm:px-6">
 			<h2
-				class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-[#4A2C2C] md:text-[2.5rem]"
+				class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-cocoa-ink md:text-[2.5rem]"
 			>
 				From install to compressing inside Claude in three steps
 			</h2>
 			<span
-				class="mb-6 block h-[5px] w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25"
+				class="mb-6 block h-[5px] w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink/25"
 			></span>
-			<p class="mb-12 max-w-2xl text-lg text-[#875F42]">
+			<p class="mb-12 max-w-2xl text-lg text-cocoa-milk">
 				No OAuth, no remote connector to reconnect, no API key to manage.
 			</p>
 
@@ -785,20 +788,20 @@
 				<div class="md:row-span-3 md:grid md:grid-rows-subgrid">
 					<div class="mb-3 flex items-center gap-3">
 						<span
-							class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F06292] font-heading text-sm font-black text-white shadow-md ring-4 shadow-pink-200 ring-pink-100"
+							class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-mochi-pink font-heading text-sm font-black text-white shadow-md ring-4 shadow-pink-200 ring-pink-100"
 							>1</span
 						>
-						<h3 class="font-heading text-xl font-bold text-[#4A2C2C]">Install</h3>
+						<h3 class="font-heading text-xl font-bold text-cocoa-ink">Install</h3>
 					</div>
-					<p class="mb-5 leading-relaxed text-[#875F42]">
+					<p class="mb-5 leading-relaxed text-cocoa-milk">
 						macOS via Homebrew. Linux and Cargo paths on the repo.
 					</p>
 					<CodeCard filename="terminal" compact class="md:h-full">
 						<div class="space-y-1.5">
-							<p><span class="text-[#F06292] select-none">$</span> brew tap getmochify/mochify</p>
-							<p><span class="text-[#F06292] select-none">$</span> brew install mochify</p>
-							<p><span class="text-[#F06292] select-none">$</span> mochify auth login</p>
-							<p class="text-[#A5D6A7]">✓ signed in, CLI and MCP ready</p>
+							<p><span class="text-mochi-pink select-none">$</span> brew tap getmochify/mochify</p>
+							<p><span class="text-mochi-pink select-none">$</span> brew install mochify</p>
+							<p><span class="text-mochi-pink select-none">$</span> mochify auth login</p>
+							<p class="text-matcha-green">✓ signed in, CLI and MCP ready</p>
 						</div>
 					</CodeCard>
 				</div>
@@ -808,12 +811,12 @@
 				<div class="md:row-span-3 md:grid md:grid-rows-subgrid">
 					<div class="mb-3 flex items-center gap-3">
 						<span
-							class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F06292] font-heading text-sm font-black text-white shadow-md ring-4 shadow-pink-200 ring-pink-100"
+							class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-mochi-pink font-heading text-sm font-black text-white shadow-md ring-4 shadow-pink-200 ring-pink-100"
 							>2</span
 						>
-						<h3 class="font-heading text-xl font-bold text-[#4A2C2C]">Wire it into Claude</h3>
+						<h3 class="font-heading text-xl font-bold text-cocoa-ink">Wire it into Claude</h3>
 					</div>
-					<p class="mb-5 leading-relaxed text-[#875F42]">
+					<p class="mb-5 leading-relaxed text-cocoa-milk">
 						Three lines of JSON. Restart Claude Desktop.
 					</p>
 					<CodeCard filename="claude_desktop_config.json" compact class="md:h-full">
@@ -826,19 +829,19 @@
 				<div class="md:row-span-3 md:grid md:grid-rows-subgrid">
 					<div class="mb-3 flex items-center gap-3">
 						<span
-							class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F06292] font-heading text-sm font-black text-white shadow-md ring-4 shadow-pink-200 ring-pink-100"
+							class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-mochi-pink font-heading text-sm font-black text-white shadow-md ring-4 shadow-pink-200 ring-pink-100"
 							>3</span
 						>
-						<h3 class="font-heading text-xl font-bold text-[#4A2C2C]">Compress</h3>
+						<h3 class="font-heading text-xl font-bold text-cocoa-ink">Compress</h3>
 					</div>
-					<p class="mb-5 leading-relaxed text-[#875F42]">
+					<p class="mb-5 leading-relaxed text-cocoa-milk">
 						Ask Claude in plain English. The image stays on your laptop; only paths cross the
 						context.
 					</p>
 					<CodeCard filename="Claude Desktop" compact class="md:h-full">
 						<div class="space-y-3">
 							<div class="flex gap-2">
-								<span class="shrink-0 text-[#F06292]">you</span>
+								<span class="shrink-0 text-mochi-pink">you</span>
 								<span>Convert ~/Desktop/hero.jpg to AVIF at 1200px wide</span>
 							</div>
 							<div class="flex gap-2">
@@ -848,7 +851,7 @@
 								>
 							</div>
 							<div class="flex gap-2">
-								<span class="shrink-0 text-[#A5D6A7]">done</span>
+								<span class="shrink-0 text-matcha-green">done</span>
 								<span>hero.avif · 34 KB <span class="text-[#f3e8e6]/45">(was 2.1 MB)</span></span>
 							</div>
 						</div>
@@ -862,14 +865,14 @@
 	<section class="reveal py-14 md:py-20">
 		<div class="mx-auto max-w-6xl px-4 sm:px-6">
 			<h2
-				class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-[#4A2C2C] md:text-[2.5rem]"
+				class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-cocoa-ink md:text-[2.5rem]"
 			>
 				See it in action
 			</h2>
 			<span
-				class="mb-6 block h-[5px] w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25"
+				class="mb-6 block h-[5px] w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink/25"
 			></span>
-			<p class="mb-12 max-w-2xl text-lg text-[#875F42]">
+			<p class="mb-12 max-w-2xl text-lg text-cocoa-milk">
 				The browser, the shell, and Claude Desktop, all running the same engine.
 			</p>
 
@@ -878,17 +881,17 @@
 					<div class="grid items-center gap-8 md:grid-cols-2 md:gap-12">
 						<div class={i % 2 === 1 ? 'md:order-2' : ''}>
 							<span
-								class="mb-3 inline-block text-xs font-bold tracking-[0.14em] text-[#F06292] uppercase"
+								class="mb-3 inline-block text-xs font-bold tracking-[0.14em] text-mochi-pink uppercase"
 								>{f.label}</span
 							>
 							<h3
-								class="mb-4 font-heading text-2xl leading-tight font-extrabold text-[#4A2C2C] md:text-3xl"
+								class="mb-4 font-heading text-2xl leading-tight font-extrabold text-cocoa-ink md:text-3xl"
 							>
 								{f.title}
 							</h3>
-							<p class="mb-5 text-lg leading-relaxed text-[#6C3F31]">{f.body}</p>
+							<p class="mb-5 text-lg leading-relaxed text-cocoa-deep">{f.body}</p>
 							<div
-								class="overflow-x-auto rounded-xl bg-[#2D1B1B] px-4 py-3 font-mono text-sm text-pink-100"
+								class="overflow-x-auto rounded-xl bg-cocoa-night px-4 py-3 font-mono text-sm text-pink-100"
 							>
 								{f.quote}
 							</div>
@@ -899,7 +902,7 @@
                              never scrolls this far downloads none of them. -->
 						<div class={i % 2 === 1 ? 'md:order-1' : ''}>
 							<div
-								class="relative overflow-hidden rounded-3xl border border-pink-100 bg-gradient-to-br from-[#FFF5F7] to-[#FDE8EF] shadow-md"
+								class="relative overflow-hidden rounded-3xl border border-pink-100 bg-gradient-to-br from-mochi-blush to-[#FDE8EF] shadow-md"
 								style="aspect-ratio: 16/10;"
 							>
 								<video
@@ -922,10 +925,10 @@
 
 			<!-- Asset types, a lighter strip rather than its own section -->
 			<div class="mt-20 border-t border-pink-100 pt-12">
-				<h3 class="mb-2 font-heading text-2xl font-bold text-[#4A2C2C]">
+				<h3 class="mb-2 font-heading text-2xl font-bold text-cocoa-ink">
 					Images, video, and PDFs, one toolkit
 				</h3>
-				<p class="mb-8 max-w-2xl text-[#875F42]">
+				<p class="mb-8 max-w-2xl text-cocoa-milk">
 					Drop any asset into the web app and say what you want. Images and PDFs run through the
 					engine in RAM; video is converted in your browser and never uploaded at all.
 				</p>
@@ -934,10 +937,10 @@
 					{#each assets as a}
 						<div class="flex flex-col rounded-3xl border border-pink-100 bg-white p-6 shadow-sm">
 							<span
-								class="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl border border-pink-100 bg-[#FFF5F7]"
+								class="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl border border-pink-100 bg-mochi-blush"
 							>
 								<svg
-									class="h-5 w-5 text-[#F06292]"
+									class="h-5 w-5 text-mochi-pink"
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -946,25 +949,25 @@
 									><path stroke-linecap="round" stroke-linejoin="round" d={a.icon} /></svg
 								>
 							</span>
-							<h4 class="mb-1.5 font-heading text-lg font-bold text-[#4A2C2C]">{a.kind}</h4>
-							<p class="mb-4 text-sm leading-relaxed text-[#875F42]">{a.body}</p>
+							<h4 class="mb-1.5 font-heading text-lg font-bold text-cocoa-ink">{a.kind}</h4>
+							<p class="mb-4 text-sm leading-relaxed text-cocoa-milk">{a.body}</p>
 
 							<div class="mb-4 flex flex-wrap gap-1.5">
 								{#each a.formats as fmt}
 									<span
-										class="rounded-lg border border-pink-100 bg-[#FFF5F7] px-2 py-1 font-mono text-[11px] font-medium text-[#D81B60]"
+										class="rounded-lg border border-pink-100 bg-mochi-blush px-2 py-1 font-mono text-[11px] font-medium text-mochi-pink-deep"
 										>{fmt}</span
 									>
 								{/each}
 							</div>
 
 							<span
-								class="mt-auto flex items-center gap-2 border-t border-pink-100/70 pt-3 text-xs font-bold text-[#875F42]"
+								class="mt-auto flex items-center gap-2 border-t border-pink-100/70 pt-3 text-xs font-bold text-cocoa-milk"
 							>
 								<span
 									class="h-1.5 w-1.5 shrink-0 rounded-full {a.local
 										? 'bg-[#28C941]'
-										: 'bg-[#F06292]'}"
+										: 'bg-mochi-pink'}"
 								></span>
 								{a.where}
 							</span>
@@ -976,7 +979,7 @@
 	</section>
 
 	<!-- ═══ 5. TOKEN SAVINGS · full-bleed dark, the argument that closes developers ═══ -->
-	<section class="reveal bg-[#2D1B1B] py-16 md:py-24">
+	<section class="reveal bg-cocoa-night py-16 md:py-24">
 		<div class="mx-auto max-w-6xl px-4 sm:px-6">
 			<h2
 				class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-white md:text-[2.5rem]"
@@ -984,7 +987,7 @@
 				Why this doesn't waste your tokens
 			</h2>
 			<span
-				class="mb-6 block h-[5px] w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25"
+				class="mb-6 block h-[5px] w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink/25"
 			></span>
 			<p class="mb-12 max-w-2xl text-lg leading-relaxed text-white/60">
 				Most ways of giving an agent image-processing capability push image bytes through the
@@ -993,32 +996,32 @@
 
 			<div class="mb-12 grid gap-4 sm:grid-cols-3">
 				<div class="rounded-3xl border border-white/10 bg-white/[0.04] p-7 text-center">
-					<p class="mb-1 font-heading text-5xl font-black text-[#F06292]">0</p>
+					<p class="mb-1 font-heading text-5xl font-black text-mochi-pink">0</p>
 					<p class="text-sm font-bold tracking-wider text-white uppercase">
 						image bytes in context
 					</p>
 					<p class="mt-1 text-xs text-white/40">local MCP or CLI</p>
 				</div>
 				<div class="rounded-3xl border border-white/10 bg-white/[0.04] p-7 text-center">
-					<p class="mb-1 font-heading text-5xl font-black text-[#F06292]">~33%</p>
+					<p class="mb-1 font-heading text-5xl font-black text-mochi-pink">~33%</p>
 					<p class="text-sm font-bold tracking-wider text-white uppercase">
 						base64 inflation, avoided
 					</p>
 					<p class="mt-1 text-xs text-white/40">bytes that never enter the payload</p>
 				</div>
 				<div class="rounded-3xl border border-white/10 bg-white/[0.04] p-7 text-center">
-					<p class="mb-1 font-heading text-5xl font-black text-[#F06292]">5 min</p>
+					<p class="mb-1 font-heading text-5xl font-black text-mochi-pink">5 min</p>
 					<p class="text-sm font-bold tracking-wider text-white uppercase">max pickup window</p>
 					<p class="mt-1 text-xs text-white/40">hosted MCP only, local has zero</p>
 				</div>
 			</div>
 
 			<div
-				class="mb-8 overflow-hidden rounded-3xl border border-[#FFB3C6]/12 bg-gradient-to-br from-[#241a1c] to-[#1c1416] shadow-2xl"
+				class="mb-8 overflow-hidden rounded-3xl border border-mochi-pink-soft/12 bg-gradient-to-br from-[#241a1c] to-[#1c1416] shadow-2xl"
 			>
 				<div class="flex items-center border-b border-white/[0.06] px-5 py-3">
 					<span
-						class="truncate rounded-full border border-[#F06292]/25 bg-[#F06292]/12 px-3 py-0.5 font-mono text-[0.7rem] font-bold tracking-[0.06em] text-[#FFB3C6] uppercase"
+						class="truncate rounded-full border border-mochi-pink/25 bg-mochi-pink/12 px-3 py-0.5 font-mono text-[0.7rem] font-bold tracking-[0.06em] text-mochi-pink-soft uppercase"
 						>context window, bytes travelling through your agent</span
 					>
 				</div>
@@ -1054,7 +1057,7 @@
 					<div class="p-6 md:p-8">
 						<div class="mb-5 flex items-center gap-2">
 							<span
-								class="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#A5D6A7]"
+								class="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-matcha-green"
 							>
 								<svg
 									class="h-2.5 w-2.5 text-white"
@@ -1072,7 +1075,7 @@
 							{#each [{ label: 'agent', payload: '→ file path' }, { label: 'tool call', payload: '→ path only' }, { label: 'response', payload: '→ path + meta' }, { label: 'agent', payload: '' }] as row}
 								<div class="flex items-center gap-3">
 									<span class="w-20 shrink-0 text-white/40">{row.label}</span>
-									<span class="font-bold text-[#A5D6A7]">{row.payload}</span>
+									<span class="font-bold text-matcha-green">{row.payload}</span>
 								</div>
 							{/each}
 						</div>
@@ -1082,7 +1085,7 @@
 
 			<div class="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-6">
 				<svg
-					class="mt-0.5 h-5 w-5 shrink-0 text-[#F06292]"
+					class="mt-0.5 h-5 w-5 shrink-0 text-mochi-pink"
 					fill="none"
 					stroke="currentColor"
 					viewBox="0 0 24 24"
@@ -1100,7 +1103,8 @@
 					nothing is held server-side. For a fully on-machine engine, self-host via the
 					<a
 						href="/guides/self-hosting-image-optimization-docker"
-						class="text-[#F06292] underline underline-offset-2 hover:text-[#F8A5C2]">Docker guide</a
+						class="text-mochi-pink underline underline-offset-2 hover:text-[#F8A5C2]"
+						>Docker guide</a
 					>.
 				</p>
 			</div>
@@ -1110,18 +1114,18 @@
 	<!-- ═══ 6. CORE WEB VITALS · ported from the old homepage, commercial intent ═══ -->
 	<section class="reveal bg-white/60 py-14 md:py-20">
 		<div class="mx-auto max-w-4xl px-4 sm:px-6">
-			<p class="mb-2 text-xs font-bold tracking-widest text-[#F06292] uppercase">
+			<p class="mb-2 text-xs font-bold tracking-widest text-mochi-pink uppercase">
 				Shopify and ecommerce
 			</p>
 			<h2
-				class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-[#4A2C2C] md:text-[2.5rem]"
+				class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-cocoa-ink md:text-[2.5rem]"
 			>
 				Better Core Web Vitals start with smaller product images
 			</h2>
 			<span
-				class="mb-6 block h-[5px] w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25"
+				class="mb-6 block h-[5px] w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink/25"
 			></span>
-			<p class="mb-8 max-w-2xl leading-relaxed text-[#6C3F31]">
+			<p class="mb-8 max-w-2xl leading-relaxed text-cocoa-deep">
 				Largest Contentful Paint (LCP) is Google's primary page speed signal, and product images are
 				almost always the bottleneck. Converting your catalog to AVIF or WebP can cut file sizes by
 				up to 50% with no visible quality loss, directly improving your store's search ranking and
@@ -1131,25 +1135,25 @@
                  number-first shape as the token-savings stats, so the two rhyme. -->
 			<div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
 				<div class="rounded-3xl border border-pink-100 bg-white p-6 shadow-sm">
-					<p class="mb-3 font-heading text-4xl leading-none font-black text-[#F06292]">~50%</p>
-					<p class="mb-1.5 font-heading text-lg font-bold text-[#4A2C2C]">Smaller with AVIF</p>
-					<p class="text-sm leading-relaxed text-[#875F42]">
+					<p class="mb-3 font-heading text-4xl leading-none font-black text-mochi-pink">~50%</p>
+					<p class="mb-1.5 font-heading text-lg font-bold text-cocoa-ink">Smaller with AVIF</p>
+					<p class="text-sm leading-relaxed text-cocoa-milk">
 						AVIF cuts file size roughly in half versus JPEG at equivalent quality, the fastest
 						format Shopify supports.
 					</p>
 				</div>
 				<div class="rounded-3xl border border-pink-100 bg-white p-6 shadow-sm">
-					<p class="mb-3 font-heading text-4xl leading-none font-black text-[#F06292]">25</p>
-					<p class="mb-1.5 font-heading text-lg font-bold text-[#4A2C2C]">Images per batch</p>
-					<p class="text-sm leading-relaxed text-[#875F42]">
+					<p class="mb-3 font-heading text-4xl leading-none font-black text-mochi-pink">25</p>
+					<p class="mb-1.5 font-heading text-lg font-bold text-cocoa-ink">Images per batch</p>
+					<p class="text-sm leading-relaxed text-cocoa-milk">
 						Drop a whole set of product shots at once on Seller, Pro or a Day Pass. Describe what
 						you need, like "convert to WebP, max 1600px wide", and Mochify handles the rest.
 					</p>
 				</div>
 				<div class="rounded-3xl border border-pink-100 bg-white p-6 shadow-sm">
-					<p class="mb-3 font-heading text-4xl leading-none font-black text-[#F06292]">0</p>
-					<p class="mb-1.5 font-heading text-lg font-bold text-[#4A2C2C]">Copies kept, ever</p>
-					<p class="text-sm leading-relaxed text-[#875F42]">
+					<p class="mb-3 font-heading text-4xl leading-none font-black text-mochi-pink">0</p>
+					<p class="mb-1.5 font-heading text-lg font-bold text-cocoa-ink">Copies kept, ever</p>
+					<p class="text-sm leading-relaxed text-cocoa-milk">
 						Images are never stored or logged. Safe for unreleased products, private SKUs, and
 						anything not yet live on your store.
 					</p>
@@ -1160,13 +1164,13 @@
                  otherwise bounce at "sign up for a subscription", without competing
                  with Seller for the visitor who would take a plan. Text link only,
                  no button, so the hierarchy stays free trial -> plans. -->
-			<p class="mt-6 text-sm leading-relaxed text-[#875F42]/80">
-				Need a bigger batch just for today? A <strong class="font-bold text-[#6C3F31]"
+			<p class="mt-6 text-sm leading-relaxed text-cocoa-milk/80">
+				Need a bigger batch just for today? A <strong class="font-bold text-cocoa-deep"
 					>Day Pass</strong
 				>
 				unlocks 100 uploads and 25-file batches for 24 hours, no account or subscription, or see how Seller
 				compares on the
-				<a href="/pricing#day-pass" class="font-semibold text-[#F06292] hover:underline"
+				<a href="/pricing#day-pass" class="font-semibold text-mochi-pink hover:underline"
 					>pricing page</a
 				>.
 			</p>
@@ -1177,11 +1181,11 @@
 	<section class="reveal border-t border-pink-100 py-14 md:py-20">
 		<div class="mx-auto max-w-3xl px-4 sm:px-6">
 			<h2
-				class="mb-3 text-center font-heading text-3xl leading-[1.1] font-extrabold text-[#4A2C2C] md:text-[2.5rem]"
+				class="mb-3 text-center font-heading text-3xl leading-[1.1] font-extrabold text-cocoa-ink md:text-[2.5rem]"
 			>
 				Frequently asked questions
 			</h2>
-			<p class="mb-8 text-center text-[#875F42]">
+			<p class="mb-8 text-center text-cocoa-milk">
 				Everything you need to know before compressing your first batch.
 			</p>
 			<!-- One card, hairline-divided. Seven separate shadowed pills read as a
@@ -1191,11 +1195,11 @@
 			>
 				<details class="group transition-colors open:bg-[#FFFAFB]">
 					<summary
-						class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-[#4A2C2C] transition-colors select-none hover:text-[#D81B60]"
+						class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-cocoa-ink transition-colors select-none hover:text-mochi-pink-deep"
 					>
 						Is Mochify free to use?
 						<svg
-							class="h-5 w-5 shrink-0 text-[#F06292] transition-transform duration-200 group-open:rotate-180"
+							class="h-5 w-5 shrink-0 text-mochi-pink transition-transform duration-200 group-open:rotate-180"
 							fill="none"
 							stroke="currentColor"
 							stroke-width="2"
@@ -1205,7 +1209,7 @@
 							aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg
 						>
 					</summary>
-					<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-[#6C3F31]">
+					<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-cocoa-deep">
 						Yes. Try 3 files free without an account. A free account (no card needed) gives you 25
 						images a month at up to 20 MB each, with every output format, Magic Flow, background
 						removal, and full CLI, MCP and API access. Seller and Pro plans raise the monthly
@@ -1214,18 +1218,18 @@
 						Day Pass unlocks 100 uploads for 24 hours with no subscription. Current prices for your
 						region are on the <a
 							href="/pricing"
-							class="font-semibold text-[#F06292] hover:underline">pricing page</a
+							class="font-semibold text-mochi-pink hover:underline">pricing page</a
 						>.
 					</p>
 				</details>
 
 				<details class="group transition-colors open:bg-[#FFFAFB]">
 					<summary
-						class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-[#4A2C2C] transition-colors select-none hover:text-[#D81B60]"
+						class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-cocoa-ink transition-colors select-none hover:text-mochi-pink-deep"
 					>
 						Are my images stored or shared?
 						<svg
-							class="h-5 w-5 shrink-0 text-[#F06292] transition-transform duration-200 group-open:rotate-180"
+							class="h-5 w-5 shrink-0 text-mochi-pink transition-transform duration-200 group-open:rotate-180"
 							fill="none"
 							stroke="currentColor"
 							stroke-width="2"
@@ -1235,7 +1239,7 @@
 							aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg
 						>
 					</summary>
-					<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-[#6C3F31]">
+					<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-cocoa-deep">
 						No. Mochify streams each image or PDF straight into the encoder in server RAM,
 						compresses it, returns the result and discards it. Originals are never written to disk
 						and no logs contain image data. The one exception is the hosted MCP connector, which
@@ -1248,11 +1252,11 @@
 
 				<details class="group transition-colors open:bg-[#FFFAFB]">
 					<summary
-						class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-[#4A2C2C] transition-colors select-none hover:text-[#D81B60]"
+						class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-cocoa-ink transition-colors select-none hover:text-mochi-pink-deep"
 					>
 						How much smaller will my images be?
 						<svg
-							class="h-5 w-5 shrink-0 text-[#F06292] transition-transform duration-200 group-open:rotate-180"
+							class="h-5 w-5 shrink-0 text-mochi-pink transition-transform duration-200 group-open:rotate-180"
 							fill="none"
 							stroke="currentColor"
 							stroke-width="2"
@@ -1262,7 +1266,7 @@
 							aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg
 						>
 					</summary>
-					<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-[#6C3F31]">
+					<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-cocoa-deep">
 						It depends on the format and the source. As a guide, Jpegli typically produces JPEGs
 						around 35% smaller than a standard encoder at the same visual quality, WebP is around
 						26% smaller than JPEG, and AVIF is roughly 50% smaller than JPEG and 20% smaller than
@@ -1273,11 +1277,11 @@
 
 				<details class="group transition-colors open:bg-[#FFFAFB]">
 					<summary
-						class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-[#4A2C2C] transition-colors select-none hover:text-[#D81B60]"
+						class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-cocoa-ink transition-colors select-none hover:text-mochi-pink-deep"
 					>
 						What image formats does Mochify support?
 						<svg
-							class="h-5 w-5 shrink-0 text-[#F06292] transition-transform duration-200 group-open:rotate-180"
+							class="h-5 w-5 shrink-0 text-mochi-pink transition-transform duration-200 group-open:rotate-180"
 							fill="none"
 							stroke="currentColor"
 							stroke-width="2"
@@ -1287,7 +1291,7 @@
 							aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg
 						>
 					</summary>
-					<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-[#6C3F31]">
+					<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-cocoa-deep">
 						Input: JPEG, PNG, WebP, AVIF, HEIC/HEIF and JPEG XL. Output: JPEG (via Jpegli), PNG,
 						WebP, AVIF and JPEG XL. Without an account you can process 3 files per batch; paid plans
 						allow batches of up to 25. For larger volumes, the CLI and REST API handle scripted bulk
@@ -1297,11 +1301,11 @@
 
 				<details class="group transition-colors open:bg-[#FFFAFB]">
 					<summary
-						class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-[#4A2C2C] transition-colors select-none hover:text-[#D81B60]"
+						class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-cocoa-ink transition-colors select-none hover:text-mochi-pink-deep"
 					>
 						Does Mochify have an API?
 						<svg
-							class="h-5 w-5 shrink-0 text-[#F06292] transition-transform duration-200 group-open:rotate-180"
+							class="h-5 w-5 shrink-0 text-mochi-pink transition-transform duration-200 group-open:rotate-180"
 							fill="none"
 							stroke="currentColor"
 							stroke-width="2"
@@ -1311,17 +1315,17 @@
 							aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg
 						>
 					</summary>
-					<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-[#6C3F31]">
-						Yes. The REST API lives at <code class="font-mono text-xs text-[#F06292]"
+					<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-cocoa-deep">
+						Yes. The REST API lives at <code class="font-mono text-xs text-mochi-pink"
 							>api.mochify.app</code
 						>
 						and is available on every plan, including Free. Send a raw image body to
-						<code class="font-mono text-xs text-[#F06292]">POST /v1/squish</code>
+						<code class="font-mono text-xs text-mochi-pink">POST /v1/squish</code>
 						with a <code class="font-mono text-xs">type</code> parameter, or use
-						<code class="font-mono text-xs text-[#F06292]">POST /v1/pdf</code>
+						<code class="font-mono text-xs text-mochi-pink">POST /v1/pdf</code>
 						for PDF tools. A free account gives you a bearer token and 25 images a month; Seller and Pro
 						raise that to 300 and 1,200. The
-						<a href="/docs" class="font-semibold text-[#F06292] hover:underline"
+						<a href="/docs" class="font-semibold text-mochi-pink hover:underline"
 							>API documentation</a
 						> has examples in cURL, JavaScript and Python.
 					</p>
@@ -1329,11 +1333,11 @@
 
 				<details class="group transition-colors open:bg-[#FFFAFB]">
 					<summary
-						class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-[#4A2C2C] transition-colors select-none hover:text-[#D81B60]"
+						class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-cocoa-ink transition-colors select-none hover:text-mochi-pink-deep"
 					>
 						Can I use Mochify from the command line or inside Claude?
 						<svg
-							class="h-5 w-5 shrink-0 text-[#F06292] transition-transform duration-200 group-open:rotate-180"
+							class="h-5 w-5 shrink-0 text-mochi-pink transition-transform duration-200 group-open:rotate-180"
 							fill="none"
 							stroke="currentColor"
 							stroke-width="2"
@@ -1343,26 +1347,27 @@
 							aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg
 						>
 					</summary>
-					<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-[#6C3F31]">
+					<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-cocoa-deep">
 						Yes, on every plan. Install the Rust binary with <code
-							class="font-mono text-xs text-[#F06292]">brew install getmochify/mochify/mochify</code
+							class="font-mono text-xs text-mochi-pink"
+							>brew install getmochify/mochify/mochify</code
 						>
 						(Linux and Cargo paths are on the repo). The same binary runs as a direct CLI and, with
-						<code class="font-mono text-xs text-[#F06292]">mochify serve</code>, as a local MCP
+						<code class="font-mono text-xs text-mochi-pink">mochify serve</code>, as a local MCP
 						server for Claude Desktop, Claude Code, Cursor and any stdio MCP client. Because the
 						binary opens files on your own disk, only file paths and result metadata cross the agent
 						context, never image bytes. If you would rather not install anything, the hosted MCP at
-						<code class="font-mono text-xs text-[#F06292]">mcp.mochify.app</code> connects with OAuth.
+						<code class="font-mono text-xs text-mochi-pink">mcp.mochify.app</code> connects with OAuth.
 					</p>
 				</details>
 
 				<details class="group transition-colors open:bg-[#FFFAFB]">
 					<summary
-						class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-[#4A2C2C] transition-colors select-none hover:text-[#D81B60]"
+						class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-cocoa-ink transition-colors select-none hover:text-mochi-pink-deep"
 					>
 						What is Magic Flow?
 						<svg
-							class="h-5 w-5 shrink-0 text-[#F06292] transition-transform duration-200 group-open:rotate-180"
+							class="h-5 w-5 shrink-0 text-mochi-pink transition-transform duration-200 group-open:rotate-180"
 							fill="none"
 							stroke="currentColor"
 							stroke-width="2"
@@ -1372,7 +1377,7 @@
 							aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg
 						>
 					</summary>
-					<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-[#6C3F31]">
+					<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-cocoa-deep">
 						Magic Flow is Mochify's natural-language interface. Instead of choosing a format and
 						quality setting, you describe what you want, for example <em
 							>"convert to AVIF and strip location data"</em
@@ -1380,7 +1385,7 @@
 						or <em>"make these web-ready, max 1600px wide"</em>, and Mochify works out the right
 						parameters for each file. It uses a two-step pipeline: a language model parses the
 						prompt, then the native engine executes it. Magic Flow is available in the web app, the
-						CLI (<code class="font-mono text-xs text-[#F06292]">-p</code>) and both MCP servers.
+						CLI (<code class="font-mono text-xs text-mochi-pink">-p</code>) and both MCP servers.
 					</p>
 				</details>
 			</div>
@@ -1389,7 +1394,7 @@
 
 	<!-- ═══ 8. AUDIENCE + FINAL CTA · blush close ═══ -->
 	<section
-		class="reveal border-t border-pink-100 bg-gradient-to-b from-[#FFF0F3]/60 via-[#FFF0F3]/30 to-transparent pt-16 pb-8 md:pt-24 md:pb-12"
+		class="reveal border-t border-pink-100 bg-gradient-to-b from-mochi-strawberry/60 via-mochi-strawberry/30 to-transparent pt-16 pb-8 md:pt-24 md:pb-12"
 	>
 		<div class="mx-auto max-w-6xl px-4 sm:px-6">
 			<div class="mb-16 grid gap-5 sm:grid-cols-3">
@@ -1397,20 +1402,20 @@
 					href="/solutions"
 					class="block rounded-3xl border border-pink-100 bg-white p-6 no-underline shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
 				>
-					<h3 class="mb-2 font-heading text-lg font-bold text-[#4A2C2C]">Shopify and ecommerce</h3>
-					<p class="text-sm leading-relaxed text-[#875F42]">
+					<h3 class="mb-2 font-heading text-lg font-bold text-cocoa-ink">Shopify and ecommerce</h3>
+					<p class="text-sm leading-relaxed text-cocoa-milk">
 						Cut LCP with AVIF on product photos and batch-resize a whole catalog in one prompt.
 					</p>
 				</a>
 				<div class="block rounded-3xl border border-pink-100 bg-white p-6 shadow-sm">
-					<h3 class="mb-2 font-heading text-lg font-bold text-[#4A2C2C]">Agencies</h3>
-					<p class="text-sm leading-relaxed text-[#875F42]">
+					<h3 class="mb-2 font-heading text-lg font-bold text-cocoa-ink">Agencies</h3>
+					<p class="text-sm leading-relaxed text-cocoa-milk">
 						Batch client deliverables through a single CLI command or an agentic pipeline.
 					</p>
 				</div>
 				<div class="block rounded-3xl border border-pink-100 bg-white p-6 shadow-sm">
-					<h3 class="mb-2 font-heading text-lg font-bold text-[#4A2C2C]">Creators</h3>
-					<p class="text-sm leading-relaxed text-[#875F42]">
+					<h3 class="mb-2 font-heading text-lg font-bold text-cocoa-ink">Creators</h3>
+					<p class="text-sm leading-relaxed text-cocoa-milk">
 						Strip EXIF, resize for the web, and keep originals private with zero-retention
 						processing.
 					</p>
@@ -1419,22 +1424,22 @@
 
 			<div class="mx-auto max-w-2xl text-center">
 				<h2
-					class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-[#4A2C2C] md:text-[2.5rem]"
+					class="mb-4 font-heading text-3xl leading-[1.1] font-extrabold text-cocoa-ink md:text-[2.5rem]"
 				>
 					Wire Mochify into your workflow today
 				</h2>
-				<p class="mb-9 text-lg leading-relaxed text-[#6C3F31]">
+				<p class="mb-9 text-lg leading-relaxed text-cocoa-deep">
 					MCP and API access on every plan, starting at Free. No paywall on developer or agent
 					features.
 				</p>
 				<div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<button
 						onclick={copyInstall}
-						class="group flex cursor-pointer items-center gap-4 rounded-2xl bg-[#2D1B1B] px-6 py-3.5 font-mono text-xs text-pink-100 shadow-lg transition-all sm:text-base"
+						class="group flex cursor-pointer items-center gap-4 rounded-2xl bg-cocoa-night px-6 py-3.5 font-mono text-xs text-pink-100 shadow-lg transition-all sm:text-base"
 					>
 						<span class="flex flex-col gap-1 text-left whitespace-nowrap">
-							<span><span class="mr-2 text-[#F06292]">$</span>brew tap getmochify/mochify</span>
-							<span><span class="mr-2 text-[#F06292]">$</span>brew install mochify</span>
+							<span><span class="mr-2 text-mochi-pink">$</span>brew tap getmochify/mochify</span>
+							<span><span class="mr-2 text-mochi-pink">$</span>brew install mochify</span>
 						</span>
 						<span
 							class="inline-block min-w-[3.5rem] rounded-lg bg-white/10 px-2.5 py-1 text-center font-sans text-xs font-bold tracking-wider uppercase transition-colors group-hover:bg-white/20"
@@ -1443,7 +1448,7 @@
 					</button>
 					<a
 						href="/pricing"
-						class="inline-flex items-center gap-2 rounded-2xl bg-[#F06292] px-7 py-4 font-black text-white no-underline shadow-lg transition-all hover:-translate-y-0.5 hover:bg-[#D81B60]"
+						class="inline-flex items-center gap-2 rounded-2xl bg-mochi-pink px-7 py-4 font-black text-white no-underline shadow-lg transition-all hover:-translate-y-0.5 hover:bg-mochi-pink-deep"
 					>
 						View plans →
 					</a>
@@ -1470,16 +1475,16 @@
 			aria-modal="true"
 			aria-labelledby="ios-tooltip-title"
 			tabindex="-1"
-			class="w-full max-w-sm rounded-2xl border border-[#F06292]/20 bg-[#FDFBF7] p-5 shadow-xl"
+			class="w-full max-w-sm rounded-2xl border border-mochi-pink/20 bg-mochi-bg p-5 shadow-xl"
 		>
 			<div class="mb-3 flex items-start justify-between">
-				<p id="ios-tooltip-title" class="text-sm font-semibold text-[#4A2C2C]">
+				<p id="ios-tooltip-title" class="text-sm font-semibold text-cocoa-ink">
 					Add Mochify to your Home Screen
 				</p>
 				<button
 					onclick={() => (showIosTooltip = false)}
 					aria-label="Close"
-					class="ml-3 shrink-0 text-[#875F42]/50 transition-colors hover:text-[#875F42]"
+					class="ml-3 shrink-0 text-cocoa-milk/50 transition-colors hover:text-cocoa-milk"
 				>
 					<svg
 						class="h-4 w-4"
@@ -1494,23 +1499,23 @@
 				</button>
 			</div>
 			<ol class="space-y-2.5">
-				<li class="flex items-center gap-3 text-xs text-[#6C3F31]">
+				<li class="flex items-center gap-3 text-xs text-cocoa-deep">
 					<span
-						class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#F06292]/15 font-bold text-[#F06292]"
+						class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-mochi-pink/15 font-bold text-mochi-pink"
 						>1</span
 					>
 					<span>Tap the <strong>Share</strong> button in Safari</span>
 				</li>
-				<li class="flex items-center gap-3 text-xs text-[#6C3F31]">
+				<li class="flex items-center gap-3 text-xs text-cocoa-deep">
 					<span
-						class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#F06292]/15 font-bold text-[#F06292]"
+						class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-mochi-pink/15 font-bold text-mochi-pink"
 						>2</span
 					>
 					<span>Scroll down and tap <strong>Add to Home Screen</strong></span>
 				</li>
-				<li class="flex items-center gap-3 text-xs text-[#6C3F31]">
+				<li class="flex items-center gap-3 text-xs text-cocoa-deep">
 					<span
-						class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#F06292]/15 font-bold text-[#F06292]"
+						class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-mochi-pink/15 font-bold text-mochi-pink"
 						>3</span
 					>
 					<span>Tap <strong>Add</strong> to confirm</span>

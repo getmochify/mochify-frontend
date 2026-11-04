@@ -48,7 +48,7 @@ export const PT_BR_PRICING: PricingStrings = {
 	everythingInPro: 'Tudo do Pro, mais:',
 	sellerFeatures: [
 		'<strong>300 imagens</strong> por mês',
-		'<strong>Apagar e recolorir</strong> objetos <span class="text-[#6C3F31]/50">(beta)</span>',
+		'<strong>Apagar e recolorir</strong> objetos <span class="text-cocoa-deep/50">(beta)</span>',
 		'<strong>Kit de PDF completo:</strong> comprimir, extrair, dividir',
 		'Salve direto no <strong>Google Drive</strong> ou no seu próprio bucket',
 		'Arquivos de <strong>75 MB</strong>, <strong>25</strong> por lote',
@@ -62,8 +62,8 @@ export const PT_BR_PRICING: PricingStrings = {
 	],
 	growthFeatures: [
 		'<strong>5000 imagens</strong> por mês',
-		'<strong>PDFs de até 200 páginas</strong> <span class="text-[#6C3F31]/50">(10 no máximo nos outros planos)</span>',
-		'<strong>PDFs criados com 200 imagens</strong> <span class="text-[#6C3F31]/50">(10 no máximo nos outros planos)</span>'
+		'<strong>PDFs de até 200 páginas</strong> <span class="text-cocoa-deep/50">(10 no máximo nos outros planos)</span>',
+		'<strong>PDFs criados com 200 imagens</strong> <span class="text-cocoa-deep/50">(10 no máximo nos outros planos)</span>'
 	],
 	freeFeatures: [
 		'<strong>25 imagens</strong> por mês',
@@ -111,9 +111,9 @@ export const PT_BR_PRICING: PricingStrings = {
 	tblBatchUpload: 'Envio em lote',
 	tblQueue: 'Fila de processamento',
 	tblPdfTools:
-		'Ferramentas de PDF <span class="text-[#6C3F31]/50 text-xs">(comprimir, extrair, rasterizar, dividir, imagens→PDF)</span>',
+		'Ferramentas de PDF <span class="text-cocoa-deep/50 text-xs">(comprimir, extrair, rasterizar, dividir, imagens→PDF)</span>',
 	tblOwnStorage:
-		'Salvar no seu próprio armazenamento <span class="text-[#6C3F31]/50 text-xs">(Google Drive, ou S3 / R2 / compatível com S3)</span>',
+		'Salvar no seu próprio armazenamento <span class="text-cocoa-deep/50 text-xs">(Google Drive, ou S3 / R2 / compatível com S3)</span>',
 	tblPerMonth: (n) => `${n.toLocaleString('pt-BR')} / mês`,
 	tblFiles: (n) => `${n} arquivos`,
 	tblQueueStandard: 'Padrão',

@@ -151,30 +151,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title="Ecommerce Product Photo Workflow: Resize &amp; Convert in One Prompt" accent="Product Photo Workflow" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''} · Mochify Engineering Team
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Product photos from a camera are never the right size or format for a marketplace listing. Here's the fastest way to fix that - one prompt, two sizes, done.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
                 This guide walks through the workflow shown in the video above: drop your product shots into Magic Flow, type a single natural-language prompt, and download a ZIP with both sizes ready for your listing - no format pickers, no quality sliders, no repeat uploads.
             </p>
         </div>
@@ -199,7 +199,7 @@
                             class="absolute inset-0 w-full h-full"
                         ></iframe>
                     </div>
-                    <p class="text-center text-sm text-[#875F42] mt-3 font-medium">One prompt. Two sizes. Done.</p>
+                    <p class="text-center text-sm text-cocoa-milk mt-3 font-medium">One prompt. Two sizes. Done.</p>
                 </div>
             </div>
         </section>
@@ -213,9 +213,9 @@
             <SectionHeading>The Prompt</SectionHeading>
             <p>The workflow in the video comes down to a single line typed into Magic Flow:</p>
 
-            <div class="my-6 rounded-2xl border border-pink-200 bg-[#FFF5F7] px-6 py-5">
-                <p class="text-xs font-bold tracking-widest uppercase text-[#F06292]/70 mb-2">✦ Magic Flow prompt</p>
-                <p class="text-[1.75rem] font-black text-[#4A2C2C] m-0">"convert to jpg, resize to 1200px and 800px"</p>
+            <div class="my-6 rounded-2xl border border-pink-200 bg-mochi-blush px-6 py-5">
+                <p class="text-xs font-bold tracking-widest uppercase text-mochi-pink/70 mb-2">✦ Magic Flow prompt</p>
+                <p class="text-[1.75rem] font-black text-cocoa-ink m-0">"convert to jpg, resize to 1200px and 800px"</p>
             </div>
 
             <p>Magic Flow parses that intent and runs the squish engine twice per file - once at 1200px, once at 800px - returning both outputs in a single ZIP. No format picker, no slider for each size, no second upload. The engine resolves width-only instructions against the longest edge and preserves the original aspect ratio unless you explicitly ask for a crop.</p>
@@ -273,8 +273,8 @@
                     "Third-party logistics and fulfillment platforms almost universally expect JPEG",
                 ] as point}
                     <li class="flex items-start gap-3">
-                        <span class="text-[#F06292] font-black mt-0.5 shrink-0">→</span>
-                        <span class="text-[#6C3F31]">{point}</span>
+                        <span class="text-mochi-pink font-black mt-0.5 shrink-0">→</span>
+                        <span class="text-cocoa-deep">{point}</span>
                     </li>
                 {/each}
             </ul>
@@ -283,7 +283,7 @@
 
             <p>Etsy is the exception worth checking before you batch: it caps files at 1MB and wants 2000px or more on the long edge, so see <a href="/guides/etsy-listing-photo-size-guide">the Etsy photo size guide</a> for its current specs.</p>
 
-            <p>If you're uploading directly to Shopify and nowhere else, swap <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">jpg</code> for <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">webp</code> or <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">avif</code> in the prompt and you'll get 25–50% smaller files with no compatibility trade-off.</p>
+            <p>If you're uploading directly to Shopify and nowhere else, swap <code class="bg-mochi-blush text-mochi-pink-deep px-1.5 py-px rounded text-sm font-mono">jpg</code> for <code class="bg-mochi-blush text-mochi-pink-deep px-1.5 py-px rounded text-sm font-mono">webp</code> or <code class="bg-mochi-blush text-mochi-pink-deep px-1.5 py-px rounded text-sm font-mono">avif</code> in the prompt and you'll get 25–50% smaller files with no compatibility trade-off.</p>
 
             <GlassInfoBox type="note" title="Mochify uses jpegli for JPEG output">
                 All JPEG output uses Google's jpegli encoder, which produces files roughly 25–35% smaller than standard libjpeg at equivalent visual quality. The output is a fully standard JPEG - compatible with every platform, CMS, and image tool.
@@ -301,7 +301,7 @@
 
             <pre class="bg-[#1e1e2e] text-[#cdd6f4] rounded-2xl p-6 overflow-x-auto font-mono text-sm leading-relaxed my-4"><code>mochify *.jpg --prompt "convert to jpg, resize to 1200px and 800px" --output ./ready/</code></pre>
 
-            <p>Every JPEG in the current folder gets both size variants written to <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">./ready/</code> with <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">_1200w</code> and <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">_800w</code> suffixes. No per-file loop, no shell scripting. Install the CLI via:</p>
+            <p>Every JPEG in the current folder gets both size variants written to <code class="bg-mochi-blush text-mochi-pink-deep px-1.5 py-px rounded text-sm font-mono">./ready/</code> with <code class="bg-mochi-blush text-mochi-pink-deep px-1.5 py-px rounded text-sm font-mono">_1200w</code> and <code class="bg-mochi-blush text-mochi-pink-deep px-1.5 py-px rounded text-sm font-mono">_800w</code> suffixes. No per-file loop, no shell scripting. Install the CLI via:</p>
 
             <pre class="bg-[#1e1e2e] text-[#cdd6f4] rounded-2xl p-6 overflow-x-auto font-mono text-sm leading-relaxed my-4"><code>cargo install mochify</code></pre>
         </section>
@@ -332,7 +332,7 @@
                     },
                     {
                         prompt: '"convert to jpg, crop to 1:1, resize to 1080px"',
-                        note: 'Square crop centered on the subject, the correct format for Instagram product posts; for a whole catalog without a prompt, the <a href="https://mochify.app/solutions/bulk-ai-square-cropper" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">bulk square cropper</a> applies the same saliency crop to every file at a fixed size. If you are weighing that against the free routes built into Windows, macOS and iOS, <a href="/guides/batch-crop-photos-to-square" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">we compared all of them</a>.'
+                        note: 'Square crop centered on the subject, the correct format for Instagram product posts; for a whole catalog without a prompt, the <a href="https://mochify.app/solutions/bulk-ai-square-cropper" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">bulk square cropper</a> applies the same saliency crop to every file at a fixed size. If you are weighing that against the free routes built into Windows, macOS and iOS, <a href="/guides/batch-crop-photos-to-square" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">we compared all of them</a>.'
                     },
                     {
                         prompt: '"convert to jpg, resize to 2000px, smart compress"',
@@ -344,8 +344,8 @@
                     },
                 ] as v}
                     <div class="rounded-2xl border border-pink-100 bg-white p-5">
-                        <p class="font-black text-[#4A2C2C] font-mono text-sm mb-2 m-0">{v.prompt}</p>
-                        <p class="text-sm text-[#875F42] m-0">{@html v.note}</p>
+                        <p class="font-black text-cocoa-ink font-mono text-sm mb-2 m-0">{v.prompt}</p>
+                        <p class="text-sm text-cocoa-milk m-0">{@html v.note}</p>
                     </div>
                 {/each}
             </div>

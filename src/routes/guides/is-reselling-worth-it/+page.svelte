@@ -120,31 +120,31 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Reselling Worth It" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Is reselling worth it in 2026? For most people who treat it as a system rather than a hobby, yes - the US secondhand market hit $55.5 billion in 2025 and is growing nearly four times faster than the broader retail clothing market. But "worth it" is a math question, not a vibes question, and most articles about reselling skip the arithmetic entirely. This guide walks through the actual numbers: what the market looks like, what your time is really spent on, what tools cost, and where the money leaks out of a one-person reselling operation.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published July 23, 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published July 23, 2026 by the Mochify Engineering Team.</strong>
                 The math here is deliberately conservative, and the free-tier cases are stated plainly: sometimes the right spend on photo tooling is zero.
             </p>
         </div>
@@ -162,9 +162,9 @@
             <p>We build image tools for marketplace sellers, so we will be honest about where our own product fits - including the cases where you should not pay us anything.</p>
             <p>The three numbers that decide it:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Revenue per item</strong> - set by sourcing skill and marketplace choice, not by tools.</li>
-                <li><strong class="text-[#4A2C2C]">Minutes per listing</strong> - photography, editing, writing, cross-posting. This is where operations quietly die.</li>
-                <li><strong class="text-[#4A2C2C]">Fixed tool costs</strong> - cross-listers, photo tools, subscriptions. Cheap individually, corrosive in aggregate.</li>
+                <li><strong class="text-cocoa-ink">Revenue per item</strong> - set by sourcing skill and marketplace choice, not by tools.</li>
+                <li><strong class="text-cocoa-ink">Minutes per listing</strong> - photography, editing, writing, cross-posting. This is where operations quietly die.</li>
+                <li><strong class="text-cocoa-ink">Fixed tool costs</strong> - cross-listers, photo tools, subscriptions. Cheap individually, corrosive in aggregate.</li>
             </ul>
         </section>
 
@@ -173,8 +173,8 @@
             <p>The demand side of the equation is not in question. According to <a href="https://www.thredup.com/resale" target="_blank" rel="noopener noreferrer">ThredUp's 14th Annual Resale Report</a> (published April 2026), US resale reached $55.5 billion in 2025 - about 12% of the $458 billion Americans spent on clothing, footwear, and accessories that year. The US secondhand market is projected to reach $78.8 billion by 2030, a 7.3% compound annual growth rate, and globally the secondhand market is projected to grow from $289 billion in 2026 to <a href="https://ir.thredup.com/news-releases/news-release-details/thredups-14th-annual-resale-report-reveals-new-era-structural" target="_blank" rel="noopener noreferrer">$393 billion by 2030</a>, roughly twice the pace of the rest of the fashion industry.</p>
             <p>Two details in that report matter specifically for individual resellers:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Gen Z and Millennials are projected to drive more than 70% of market growth through 2030.</strong> Your buyers are young, mobile-first, and scroll fast - which raises the bar on listing photos, because a feed thumbnail is your only shot at a tap.</li>
-                <li><strong class="text-[#4A2C2C]">Nearly half of shoppers now discover secondhand items through social media, creators, and influencer feeds</strong> rather than search. Photos are not just listing assets anymore; they are distribution assets.</li>
+                <li><strong class="text-cocoa-ink">Gen Z and Millennials are projected to drive more than 70% of market growth through 2030.</strong> Your buyers are young, mobile-first, and scroll fast - which raises the bar on listing photos, because a feed thumbnail is your only shot at a tap.</li>
+                <li><strong class="text-cocoa-ink">Nearly half of shoppers now discover secondhand items through social media, creators, and influencer feeds</strong> rather than search. Photos are not just listing assets anymore; they are distribution assets.</li>
             </ul>
             <p>The takeaway: the market will absorb what you list. The constraint is how fast and how well you can list it.</p>
         </section>
@@ -192,9 +192,9 @@
             <p>Here is the answer-first version: a reseller listing 10 items a week processes roughly 400-500 photos a month, and the tooling gates that matter at that volume are monthly image caps and batch sizes, not fancy features.</p>
             <p>Work it through:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li>10 listings/week at 10 photos each = <strong class="text-[#4A2C2C]">~100 photos per week, 400-450 per month</strong> allowing for reshoots.</li>
+                <li>10 listings/week at 10 photos each = <strong class="text-cocoa-ink">~100 photos per week, 400-450 per month</strong> allowing for reshoots.</li>
                 <li>Each photo typically needs at least one transformation: crop to square for eBay and Mercari thumbnails, portrait 3:4 for Vinted and Poshmark, HEIC-to-JPEG conversion if you shoot on an iPhone, and compression under per-platform caps (12MB on eBay, 10MB on Vinted).</li>
-                <li>Done one image at a time in a phone editor at even 30 seconds per photo, 400-450 images is <strong class="text-[#4A2C2C]">well over 3 hours a month of pure image fiddling</strong>. Batch processing collapses that to minutes.</li>
+                <li>Done one image at a time in a phone editor at even 30 seconds per photo, 400-450 images is <strong class="text-cocoa-ink">well over 3 hours a month of pure image fiddling</strong>. Batch processing collapses that to minutes.</li>
             </ul>
             <p>This is why batch size is the quietly decisive spec in any image tool a reseller uses. Processing 100 photos in batches of 3 means 34 rounds of upload-wait-download. In batches of 25, it is 4 rounds. Same photos, same tool, an order of magnitude difference in babysitting.</p>
             <p>Square thumbnails deserve a special mention because they are the one transformation almost every marketplace rewards. Most marketplaces crop search thumbnails to 1:1 whether you like it or not - our quick answer on <a href="/guides/do-marketplace-product-images-need-to-be-square">whether marketplace product images need to be square</a> covers which platforms do what. Pre-cropping to square with the subject centered is the safe play, and it is exactly the kind of repetitive job that should never be done by hand: the <a href="/solutions/bulk-ai-square-cropper">Bulk Square Cropper</a> smart-crops in bulk using AI saliency detection, keeping the garment centered automatically, with output sizes from 500 to 2000px.</p>
@@ -245,64 +245,64 @@
             <SectionHeading>When Free Is Genuinely Enough</SectionHeading>
             <p>If you list a handful of items a month, do not pay for a photo tool - free tiers exist for exactly your volume. Here is our honest segmentation, using our own product as the example because we know its numbers best:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Casual sellers (up to ~2-3 listings/month, ~25 photos):</strong> stay on <strong class="text-[#4A2C2C]">Free</strong>. A free Mochify account processes 25 images a month at up to 20MB each, in batches of 3, with the full format set, background removal, and the Magic Flow natural language interface included. That covers a couple of listings with photos to spare. Paying would be irrational.</li>
-                <li><strong class="text-[#4A2C2C]">Occasional bursts (a closet clear-out, a one-off haul):</strong> the <strong class="text-[#4A2C2C]">$5 Credit Pack</strong> buys 100 images with no expiry and no subscription. Burst sellers are the segment subscriptions quietly overcharge; a one-time pack matches the shape of the work.</li>
-                <li><strong class="text-[#4A2C2C]">Active resellers (5+ listings/week, 200+ photos/month):</strong> this is where <strong class="text-[#4A2C2C]">Seller at $7.99/month</strong> starts paying for itself. The trigger is not any single feature - it is hitting the 25-image monthly cap in week one, and feeling the batch-of-3 limit on every processing round. Seller raises the caps to 300 images/month, 25 files per batch, and 75MB per file, with a priority queue. At 400 photos a month, the practical difference is 4 batch rounds instead of 34.</li>
-                <li><strong class="text-[#4A2C2C]">High-volume operations (multiple platforms, 500+ photos/month):</strong> Pro at $24.99/month lifts the cap to 1,200 images. Most individual resellers never need it; small teams and store-scale operations do.</li>
+                <li><strong class="text-cocoa-ink">Casual sellers (up to ~2-3 listings/month, ~25 photos):</strong> stay on <strong class="text-cocoa-ink">Free</strong>. A free Mochify account processes 25 images a month at up to 20MB each, in batches of 3, with the full format set, background removal, and the Magic Flow natural language interface included. That covers a couple of listings with photos to spare. Paying would be irrational.</li>
+                <li><strong class="text-cocoa-ink">Occasional bursts (a closet clear-out, a one-off haul):</strong> the <strong class="text-cocoa-ink">$5 Credit Pack</strong> buys 100 images with no expiry and no subscription. Burst sellers are the segment subscriptions quietly overcharge; a one-time pack matches the shape of the work.</li>
+                <li><strong class="text-cocoa-ink">Active resellers (5+ listings/week, 200+ photos/month):</strong> this is where <strong class="text-cocoa-ink">Seller at $7.99/month</strong> starts paying for itself. The trigger is not any single feature - it is hitting the 25-image monthly cap in week one, and feeling the batch-of-3 limit on every processing round. Seller raises the caps to 300 images/month, 25 files per batch, and 75MB per file, with a priority queue. At 400 photos a month, the practical difference is 4 batch rounds instead of 34.</li>
+                <li><strong class="text-cocoa-ink">High-volume operations (multiple platforms, 500+ photos/month):</strong> Pro at $24.99/month lifts the cap to 1,200 images. Most individual resellers never need it; small teams and store-scale operations do.</li>
             </ul>
             <p>The framing we would want as buyers: a $7.99 subscription needs to save you about 20 minutes a month at a $24/hour effective rate to break even. Against 3+ hours of manual image editing, batch processing clears that bar easily <em>if</em> you are at active-reseller volume. Below that volume, it does not, and you should keep your money.</p>
             <p>One more honest note: if your photos are already perfect JPEGs at the right size, a compressor mostly buys you smaller files and faster uploads. The bigger wins come when the tool replaces several manual steps at once - crop, convert, resize, compress - which is what the next section shows. For the JPEG output itself, Mochify uses Google's jpegli encoder; our <a href="/guides/jpeg-in-2026-jpegli">Jpegli guide</a> covers why that gets you roughly 35% better compression than older JPEG encoders with no compatibility downsides on marketplace uploads.</p>
         </section>
 
         <!-- Workflow card -->
-        <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: Batch-Prepping a Week of Listing Photos</h2>
+        <section id="mochify-workflow" class="scroll-mt-24 bg-mochi-blush rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
+            <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mt-0 mb-4">Mochify Workflow: Batch-Prepping a Week of Listing Photos</h2>
             <p class="text-base mb-7">Shoot once, prompt once per platform, and let batch processing take the 400-500 monthly photos off your plate:</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Shoot everything once</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Shoot everything once</strong>
                         <p class="text-base m-0">One session, all items, 8-12 photos each. Phone or camera, natural light. Do not edit on the phone.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Dump the week's photos into Mochify</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Dump the week's photos into Mochify</strong>
                         <p class="text-base m-0">On Seller, that is batches of up to 25 files, up to 75MB each.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">One prompt per target platform</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">One prompt per target platform</strong>
                         <p class="text-base m-0">Magic Flow takes plain English, so the per-platform variants are one line each. eBay and Mercari: <em>"crop these square with the item centered, convert to JPEG, keep under 12MB, and strip all metadata"</em>. Vinted and Poshmark: <em>"crop to 3:4 portrait at 1080x1440, compress under 10MB, strip all metadata"</em>. Etsy: <em>"resize to 2000px on the long edge, convert to JPEG, strip all metadata"</em>.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Need a clean background for a cover shot?</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Need a clean background for a cover shot?</strong>
                         <p class="text-base m-0">Background removal is included on every tier, Free included - prompt <em>"remove the background"</em> on the hero image and export a transparent version.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">5</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">5</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Download each platform's set</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Download each platform's set</strong>
                         <p class="text-base m-0">Feed it to your cross-lister or upload directly.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">6</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">6</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Vinted sellers: use the dedicated tools</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Vinted sellers: use the dedicated tools</strong>
                         <p class="text-base m-0">The <a href="/vinted-seller">Vinted seller tool</a> bakes the 3:4 smart crop to 1080x1440 and the under-10MB compression into one page, and the <a href="/solutions/ebay-image-converter">eBay Image Resizer and Converter</a> resizes photos to eBay's recommended 1600 pixels and converts them to JPEG. The <a href="/ebay-seller">eBay photo page</a> adds the white-background step and eBay's current limits.</p>
                     </div>
                 </li>
             </ol>
-            <p class="text-base text-[#875F42] mt-7 mb-0">Note the "strip all metadata" line in each prompt: phone photos carry EXIF data, including GPS coordinates of wherever you photographed your inventory - often your home. State the metadata handling explicitly in your prompt so you know it happened. And a privacy note, stated precisely: your images travel to <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">api.mochify.app</code> over HTTPS, are processed in RAM, and are wiped immediately after encoding - no disk writes, no logs containing file data, zero retention. We do not claim your photos "never leave your machine" (they must, for the encoding); we claim we keep nothing.</p>
+            <p class="text-base text-cocoa-milk mt-7 mb-0">Note the "strip all metadata" line in each prompt: phone photos carry EXIF data, including GPS coordinates of wherever you photographed your inventory - often your home. State the metadata handling explicitly in your prompt so you know it happened. And a privacy note, stated precisely: your images travel to <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">api.mochify.app</code> over HTTPS, are processed in RAM, and are wiped immediately after encoding - no disk writes, no logs containing file data, zero retention. We do not claim your photos "never leave your machine" (they must, for the encoding); we claim we keep nothing.</p>
         </section>
 
         <section id="cheat-sheet" class="scroll-mt-24">
@@ -321,25 +321,25 @@
                         <tr>
                             <td>1-3 listings/month</td>
                             <td>~10-30</td>
-                            <td><strong class="text-[#4A2C2C]">$0 (Free tier)</strong></td>
+                            <td><strong class="text-cocoa-ink">$0 (Free tier)</strong></td>
                             <td>25 images/month covers it</td>
                         </tr>
                         <tr>
                             <td>One-off haul or clear-out</td>
                             <td>~50-100</td>
-                            <td><strong class="text-[#4A2C2C]">$5 Credit Pack, once</strong></td>
+                            <td><strong class="text-cocoa-ink">$5 Credit Pack, once</strong></td>
                             <td>100 images, no expiry, no subscription</td>
                         </tr>
                         <tr>
                             <td>5-10 listings/week</td>
                             <td>200-450</td>
-                            <td><strong class="text-[#4A2C2C]">Seller, $7.99/mo</strong></td>
+                            <td><strong class="text-cocoa-ink">Seller, $7.99/mo</strong></td>
                             <td>300 images/mo, batches of 25 vs 3, 75MB files, priority queue</td>
                         </tr>
                         <tr>
                             <td>Team or store scale</td>
                             <td>500-1,200+</td>
-                            <td><strong class="text-[#4A2C2C]">Pro, $24.99/mo</strong></td>
+                            <td><strong class="text-cocoa-ink">Pro, $24.99/mo</strong></td>
                             <td>1,200 images/mo, top queue priority</td>
                         </tr>
                         <tr>

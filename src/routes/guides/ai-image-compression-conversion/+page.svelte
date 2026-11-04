@@ -186,35 +186,35 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="AI Image Compression" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             AI image compression and conversion means turning heavy, inconsistent photos into fast, standards-compliant files (AVIF, WebP, or a well-tuned JPEG) at the right size and quality, without you having to know which format or quality value to pick. You describe the outcome you want in plain English, a language model works out the settings, and a native engine does the encoding.
         </p>
 
-        <p class="text-base text-[#875F42] max-w-2xl mb-8">
+        <p class="text-base text-cocoa-milk max-w-2xl mb-8">
             This guide covers why image settings are a guessing game, the 2026 format landscape, how natural-language compression actually works, how it differs from generative AI, and how to use it from a single browser prompt to a fully agentic pipeline.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published June 30, 2026 by the Mochify Engineering Team.</strong> The same approach scales from one person dropping three photos into a browser to a developer wiring image processing straight into an AI agent.
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published June 30, 2026 by the Mochify Engineering Team.</strong> The same approach scales from one person dropping three photos into a browser to a developer wiring image processing straight into an AI agent.
             </p>
         </div>
     </header>
@@ -266,7 +266,7 @@
             <p class="mb-4">The same natural-language approach runs everywhere you might want to work, which is what lets a casual user and a power user use one tool rather than two. It helps to separate two ideas the rest of this section relies on. Surfaces are <em>where</em> you reach Mochify: the web app, the Chrome extension, the command-line tool, the local MCP server, and the hosted MCP server. Formats are <em>what</em> it does to your files: images, PDFs, and video. They are different kinds of thing, so we keep them separate.</p>
             <p class="mb-4">At the casual end, the web app and the Chrome extension are point-and-describe: drop in your files, type what you want, download the result. Images and PDFs are sent to Mochify's servers for encoding; video is the exception, processed entirely inside your browser so the footage never leaves your device.</p>
             <p class="mb-4">At the power-user end, the same engine is a developer surface. The <a href="https://github.com/getmochify/mochify-cli" target="_blank" rel="noopener noreferrer">command-line tool</a> (<code>mochify</code>, installed with <code>brew install getmochify/mochify/mochify</code>) brings Magic Flow to your terminal with a <code>-p</code> flag, so a prompt fits straight into a build script:</p>
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-xl p-4 mb-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify -p "convert to avif, max 1600px wide, keep them sharp" ./images</code></pre>
+            <pre class="bg-cocoa-night text-pink-100 rounded-xl p-4 mb-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify -p "convert to avif, max 1600px wide, keep them sharp" ./images</code></pre>
             <p class="mb-4">The REST API at <code>api.mochify.app</code> exposes the same capability through <code>POST /v1/prompt</code> for natural language, <code>POST /v1/squish</code> for direct image work, and <code>POST /v1/pdf</code> for document pages. Authentication is a one-time <code>mochify auth login</code> in the browser.</p>
             <p class="mb-0">The surface that defines the category, though, is the MCP server. The Model Context Protocol is an <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer">open standard from Anthropic</a> that lets AI assistants call external tools in a controlled, structured way, often described as a USB-C port for AI applications. Mochify ships two MCP surfaces. The local MCP server (<code>mochify serve</code>, the same binary as the CLI) returns file paths and metadata rather than image bytes, so the picture data never bloats the agent's context, which is the right default for developers building with Claude Code, Cursor, or Cline. The hosted MCP server at <code>mcp.mochify.app</code> needs no install and returns a short-lived download URL (valid for about five minutes) instead of inline binary, which suits non-developers who just want it to work. Both surfaces are available on every pricing tier, including Free; MCP and API access are not paywalled. Our <a href="/guides/how-the-mochify-mcp-server-works">guide to the hosted vs local MCP server</a> walks through setup for each.</p>
         </section>
@@ -284,33 +284,33 @@
             <SectionHeading>Mochify Workflow: a web-ready product set in one prompt</SectionHeading>
             <p class="mb-6">Here is the end-to-end flow for the most common job, getting a set of product photos web-ready, led by Magic Flow.</p>
 
-            <div class="bg-gradient-to-br from-[#FFF5F7] to-[#FDFBF7] rounded-3xl p-6 md:p-8 border border-pink-100 mb-6">
+            <div class="bg-gradient-to-br from-mochi-blush to-mochi-bg rounded-3xl p-6 md:p-8 border border-pink-100 mb-6">
                 <ol class="space-y-6">
                     <li class="flex gap-4 items-start">
-                        <span class="w-8 h-8 bg-[#F06292] text-white font-black text-sm rounded-full flex items-center justify-center shrink-0 mt-0.5">1</span>
+                        <span class="w-8 h-8 bg-mochi-pink text-white font-black text-sm rounded-full flex items-center justify-center shrink-0 mt-0.5">1</span>
                         <div class="flex-1 min-w-0">
-                            <strong class="block text-[#4A2C2C] text-lg mb-2">Describe the outcome.</strong>
+                            <strong class="block text-cocoa-ink text-lg mb-2">Describe the outcome.</strong>
                             <p class="mb-0">In the web app, the CLI, or through an agent, type what you want in plain English: <em>"Make these product photos web-ready: convert to AVIF with a WebP fallback, scale to a maximum of 1600px wide, keep them under 120 KB each, and strip the location data."</em></p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">
-                        <span class="w-8 h-8 bg-[#F06292] text-white font-black text-sm rounded-full flex items-center justify-center shrink-0 mt-0.5">2</span>
+                        <span class="w-8 h-8 bg-mochi-pink text-white font-black text-sm rounded-full flex items-center justify-center shrink-0 mt-0.5">2</span>
                         <div class="flex-1 min-w-0">
-                            <strong class="block text-[#4A2C2C] text-lg mb-2">Let the model resolve the settings.</strong>
+                            <strong class="block text-cocoa-ink text-lg mb-2">Let the model resolve the settings.</strong>
                             <p class="mb-0">Magic Flow parses the prompt, picks the format and quality, sets the resize, and queues the batch. You do not choose a quality value or a codec.</p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">
-                        <span class="w-8 h-8 bg-[#F06292] text-white font-black text-sm rounded-full flex items-center justify-center shrink-0 mt-0.5">3</span>
+                        <span class="w-8 h-8 bg-mochi-pink text-white font-black text-sm rounded-full flex items-center justify-center shrink-0 mt-0.5">3</span>
                         <div class="flex-1 min-w-0">
-                            <strong class="block text-[#4A2C2C] text-lg mb-2">The engine encodes.</strong>
+                            <strong class="block text-cocoa-ink text-lg mb-2">The engine encodes.</strong>
                             <p class="mb-0">Mochify's native C++ engine does the compression on the server and returns the optimized files (or, through the local CLI and local MCP server, writes them straight to disk).</p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">
-                        <span class="w-8 h-8 bg-[#F06292] text-white font-black text-sm rounded-full flex items-center justify-center shrink-0 mt-0.5">4</span>
+                        <span class="w-8 h-8 bg-mochi-pink text-white font-black text-sm rounded-full flex items-center justify-center shrink-0 mt-0.5">4</span>
                         <div class="flex-1 min-w-0">
-                            <strong class="block text-[#4A2C2C] text-lg mb-2">Drop them in.</strong>
+                            <strong class="block text-cocoa-ink text-lg mb-2">Drop them in.</strong>
                             <p class="mb-0">Upload the AVIF set with its fallbacks to your store or CMS, or let your pipeline do it if you have wired the CLI or API in.</p>
                         </div>
                     </li>
@@ -395,18 +395,18 @@
         <GlassFAQs items={faqs} jsonLd={false} />
 
         <!-- CTA -->
-        <div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
+        <div class="my-12 bg-mochi-blush p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
             <div class="relative z-10 mb-6">
-                <span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">Free Tool</span>
+                <span class="inline-block px-3 py-1 rounded-full bg-white text-mochi-pink text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">Free Tool</span>
             </div>
-            <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-3">
+            <h3 class="text-2xl md:text-3xl font-extrabold text-cocoa-ink relative z-10 mb-3">
                 Stop guessing at quality sliders and format menus
             </h3>
-            <p class="text-[#6C3F31] text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">
+            <p class="text-cocoa-deep text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">
                 Drop a batch into Mochify and just say what you want: <em>"make these product photos web-ready, convert to AVIF with a fallback, max 1600px, under 120 KB each."</em>
             </p>
-            <a href="/" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
+            <a href="/" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
                 <span>Try it free at mochify.app</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             </a>

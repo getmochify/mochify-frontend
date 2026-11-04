@@ -147,9 +147,9 @@
 	<Navigation />
 
 	<main class="relative z-10 mx-auto w-full max-w-3xl grow px-4 py-12 sm:px-6">
-		<p class="text-xs font-black tracking-widest text-[#F06292] uppercase">Beta test</p>
-		<h1 class="mt-1 text-3xl font-black text-[#4A2C2C]">Upload transport test</h1>
-		<p class="mt-3 text-sm text-[#875F42]">
+		<p class="text-xs font-black tracking-widest text-mochi-pink uppercase">Beta test</p>
+		<h1 class="mt-1 text-3xl font-black text-cocoa-ink">Upload transport test</h1>
+		<p class="mt-3 text-sm text-cocoa-milk">
 			Uploads one file through each transport on your current connection and reports how each did.
 			Most useful on the connection that gives you trouble: patchy Wi-Fi, a train, a weak mobile
 			signal. Nothing is processed or stored unless you tick the box below, so a run is free.
@@ -157,35 +157,35 @@
 
 		<section class="mt-8 space-y-5 rounded-2xl border border-pink-100 bg-white p-5 shadow-sm">
 			<div>
-				<label class="text-sm font-bold text-[#4A2C2C]" for="file">Image</label>
+				<label class="text-sm font-bold text-cocoa-ink" for="file">Image</label>
 				<input
 					id="file"
 					type="file"
 					accept="image/*"
 					onchange={pick}
 					disabled={running}
-					class="mt-2 block w-full text-sm text-[#875F42] file:mr-3 file:rounded-xl file:border-0 file:bg-[#FFF0F3] file:px-4 file:py-2 file:font-bold file:text-[#F06292]"
+					class="mt-2 block w-full text-sm text-cocoa-milk file:mr-3 file:rounded-xl file:border-0 file:bg-mochi-strawberry file:px-4 file:py-2 file:font-bold file:text-mochi-pink"
 				/>
 				{#if file}
-					<p class="mt-1 text-xs text-[#875F42]/70">
+					<p class="mt-1 text-xs text-cocoa-milk/70">
 						{fmtBytes(file.size)}. Larger files show the differences better.
 					</p>
 				{/if}
 			</div>
 
 			<fieldset>
-				<legend class="text-sm font-bold text-[#4A2C2C]">Transports</legend>
+				<legend class="text-sm font-bold text-cocoa-ink">Transports</legend>
 				{#each METHODS as m (m.id)}
-					<label class="mt-2 flex items-center gap-2 text-sm text-[#4A2C2C]">
+					<label class="mt-2 flex items-center gap-2 text-sm text-cocoa-ink">
 						<input type="checkbox" bind:checked={selected[m.id]} disabled={running} />
 						{m.label}
-						<span class="text-xs text-[#875F42]/70">{m.note}</span>
+						<span class="text-xs text-cocoa-milk/70">{m.note}</span>
 					</label>
 				{/each}
 			</fieldset>
 
 			<div class="grid gap-4 sm:grid-cols-2">
-				<label class="text-sm font-bold text-[#4A2C2C]">
+				<label class="text-sm font-bold text-cocoa-ink">
 					Rounds
 					<select
 						bind:value={rounds}
@@ -197,7 +197,7 @@
 						<option value={5}>5</option>
 					</select>
 				</label>
-				<label class="text-sm font-bold text-[#4A2C2C]">
+				<label class="text-sm font-bold text-cocoa-ink">
 					Simulated drops
 					<select
 						bind:value={dropEvery}
@@ -211,7 +211,7 @@
 				</label>
 			</div>
 			{#if dropEvery}
-				<p class="-mt-2 text-xs text-[#875F42]/70">
+				<p class="-mt-2 text-xs text-cocoa-milk/70">
 					Simulated drops check that each transport recovers; they cut the connection instantly, so
 					they say little about speed. 5 MB chunks cannot finish when drops come more often than
 					every 5 MB, just as on a real link that drops that often. Real-network runs are the ones
@@ -220,10 +220,10 @@
 			{/if}
 
 			<div>
-				<label class="flex items-center gap-2 text-sm text-[#4A2C2C]">
+				<label class="flex items-center gap-2 text-sm text-cocoa-ink">
 					<input type="checkbox" bind:checked={processResult} disabled={running} />
 					Process the result too
-					<span class="text-xs text-[#875F42]/70">uses 1 operation per transport per round</span>
+					<span class="text-xs text-cocoa-milk/70">uses 1 operation per transport per round</span>
 				</label>
 				{#if processResult}
 					<select
@@ -242,22 +242,22 @@
 				{#if running}
 					<button
 						onclick={cancel}
-						class="rounded-2xl border border-[#875F42]/20 px-5 py-2.5 text-sm font-black text-[#4A2C2C]"
+						class="rounded-2xl border border-cocoa-milk/20 px-5 py-2.5 text-sm font-black text-cocoa-ink"
 					>
 						Cancel
 					</button>
-					<span class="text-sm text-[#875F42]">{current}: {Math.round(progress * 100)}%</span>
+					<span class="text-sm text-cocoa-milk">{current}: {Math.round(progress * 100)}%</span>
 				{:else}
 					<button
 						onclick={run}
 						disabled={!file}
-						class="rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-5 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] disabled:opacity-50"
+						class="rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-5 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] disabled:opacity-50"
 					>
 						Run test
 					</button>
 				{/if}
 				{#if authChecked}
-					<span class="text-xs text-[#875F42]/70">
+					<span class="text-xs text-cocoa-milk/70">
 						{token
 							? 'Signed in'
 							: 'Not signed in: uses your guest allowance, which must not be used up'}
@@ -265,8 +265,8 @@
 				{/if}
 			</div>
 			{#if running}
-				<div class="h-2 overflow-hidden rounded-full bg-[#FFF0F3]">
-					<div class="h-full bg-[#F06292] transition-all" style="width: {progress * 100}%"></div>
+				<div class="h-2 overflow-hidden rounded-full bg-mochi-strawberry">
+					<div class="h-full bg-mochi-pink transition-all" style="width: {progress * 100}%"></div>
 				</div>
 			{/if}
 		</section>
@@ -276,13 +276,13 @@
 				class="mt-8 overflow-x-auto rounded-2xl border border-pink-100 bg-white p-5 shadow-sm"
 			>
 				<div class="flex items-center justify-between">
-					<h2 class="text-lg font-black text-[#4A2C2C]">Results</h2>
-					<button onclick={copyResults} class="text-xs font-bold text-[#F06292]">
+					<h2 class="text-lg font-black text-cocoa-ink">Results</h2>
+					<button onclick={copyResults} class="text-xs font-bold text-mochi-pink">
 						{copied ? 'Copied' : 'Copy as JSON'}
 					</button>
 				</div>
-				<table class="mt-3 w-full text-left text-sm text-[#4A2C2C]">
-					<thead class="text-xs text-[#875F42]/70">
+				<table class="mt-3 w-full text-left text-sm text-cocoa-ink">
+					<thead class="text-xs text-cocoa-milk/70">
 						<tr>
 							<th class="py-1 pr-3">Transport</th>
 							<th class="py-1 pr-3">Result</th>
@@ -302,7 +302,7 @@
 										{#if r.output}
 											<button
 												onclick={() => download(r)}
-												class="ml-1 text-xs font-bold text-[#F06292]"
+												class="ml-1 text-xs font-bold text-mochi-pink"
 											>
 												{fmtBytes(r.outputBytes ?? 0)}
 											</button>
@@ -319,7 +319,7 @@
 						{/each}
 					</tbody>
 				</table>
-				<p class="mt-3 text-xs text-[#875F42]/70">
+				<p class="mt-3 text-xs text-cocoa-milk/70">
 					Sent is data put on the network divided by the file size: 1.00× means nothing was re-sent.
 					Upload time excludes processing.
 				</p>
@@ -328,9 +328,9 @@
 
 		{#if log.length}
 			<details class="mt-6" open={running}>
-				<summary class="cursor-pointer text-sm font-bold text-[#4A2C2C]">Log</summary>
+				<summary class="cursor-pointer text-sm font-bold text-cocoa-ink">Log</summary>
 				<pre
-					class="mt-2 max-h-72 overflow-auto rounded-xl bg-[#4A2C2C] p-3 text-xs text-white/90">{log.join(
+					class="mt-2 max-h-72 overflow-auto rounded-xl bg-cocoa-ink p-3 text-xs text-white/90">{log.join(
 						'\n'
 					)}</pre>
 			</details>

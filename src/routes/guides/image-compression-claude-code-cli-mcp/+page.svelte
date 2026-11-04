@@ -119,31 +119,31 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Claude Code" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Yes, Claude Code can use MCP, and that is the cleanest way to compress images without leaving your editor. Claude Code is a full Model Context Protocol client: it connects to local and remote MCP servers, discovers their tools, and calls them mid-session (<a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener noreferrer">Claude Code MCP docs</a>). That means you can wire image compression straight into a coding session, run it as a build step, or trigger it from CI, all without copy-pasting files into a browser. This guide shows you two concrete ways to do that with Mochify: the <code class={inlineCode}>mochify</code> CLI as a build/pre-commit step, and <code class={inlineCode}>mochify serve</code> as a local MCP server Claude Code can call directly. We will keep this Claude-Code-specific. If you want the full hosted-vs-local architecture story, our <a href="https://mochify.app/guides/how-the-mochify-mcp-server-works">MCP server explainer</a> covers that in depth. Here, the focus is the developer workflow: how to compress images in Claude Code, why returning file paths beats inlining image bytes, and what "zero-retention" actually buys you when you are handling client assets.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published July 17, 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published July 17, 2026 by the Mochify Engineering Team.</strong>
                 This guide stays Claude-Code-specific: the CLI as a build step and mochify serve as a local MCP the agent calls directly. For the full hosted-vs-local architecture, see our MCP server explainer.
             </p>
         </div>
@@ -165,14 +165,14 @@
         <section id="how-to-create-and-register-a-claude-mcp-server" class="scroll-mt-24">
             <SectionHeading>How to create and register a Claude MCP server</SectionHeading>
             <p>You register an MCP server in Claude Code with <code class={inlineCode}>claude mcp add</code>, and for a local tool you use the <code class={inlineCode}>stdio</code> transport (<a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener noreferrer">Claude Code MCP docs</a>). The general shape puts options first, then the server name, then <code class={inlineCode}>--</code> and the command to run:</p>
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 my-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`# Syntax: options first, then name, then -- then the command
+            <pre class="bg-cocoa-night text-pink-100 rounded-2xl p-5 my-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`# Syntax: options first, then name, then -- then the command
 claude mcp add [options] <name> -- <command> [args...]
 
 # Register Mochify's local MCP server
 claude mcp add --transport stdio mochify -- mochify serve`}</code></pre>
             <p>That single command is the answer to "how to create a Claude MCP server" for the common case: you do not have to author a server from scratch when a tool already ships one. The <code class={inlineCode}>mochify</code> binary runs as a local MCP server when you launch it with <code class={inlineCode}>mochify serve</code>, and the line above tells Claude Code to start that process and speak MCP to it over stdio.</p>
             <p>Install the binary first. It is a single Rust binary distributed three ways:</p>
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 my-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`# macOS (Homebrew tap)
+            <pre class="bg-cocoa-night text-pink-100 rounded-2xl p-5 my-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`# macOS (Homebrew tap)
 brew tap getmochify/mochify
 brew install mochify
 
@@ -186,7 +186,7 @@ cargo install mochify
 mochify auth login`}</code></pre>
             <p><code class={inlineCode}>mochify auth login</code> is the standard auth path. It saves credentials to <code class={inlineCode}>~/.config/mochify/credentials.toml</code>, and both the CLI and the local MCP server pick them up automatically, so there is no API key to paste into a config file or refresh later.</p>
             <p>Once registered, check the server inside Claude Code:</p>
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 my-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`claude mcp list        # show configured servers
+            <pre class="bg-cocoa-night text-pink-100 rounded-2xl p-5 my-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`claude mcp list        # show configured servers
 claude mcp get mochify # details for one server
 /mcp                   # inside Claude Code: status + tool count`}</code></pre>
             <p>If you would rather author your own server, Anthropic ships an <code class={inlineCode}>mcp-server-dev</code> plugin that scaffolds a Node or Python skeleton you wire back in with the same <code class={inlineCode}>claude mcp add</code> flow. For compressing images, though, registering <code class={inlineCode}>mochify serve</code> is the whole job.</p>
@@ -203,14 +203,14 @@ claude mcp get mochify # details for one server
         <section id="three-real-workflows" class="scroll-mt-24">
             <SectionHeading>Three real workflows</SectionHeading>
             <p>The patterns developers already use for image optimization, pre-commit hooks, CI actions, and build steps, map cleanly onto Claude Code. Here are three that earn their place.</p>
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">1. CLI as a pre-commit / build step</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">1. CLI as a pre-commit / build step</h3>
             <p>Run the <code class={inlineCode}>mochify</code> CLI as a build step so no oversized asset gets committed. This mirrors the well-established pattern of wrapping an optimizer (oxipng, ImageOptim CLI) in a pre-commit hook, but with Magic Flow you describe the intent instead of memorizing flags:</p>
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 my-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`# Compress staged images before they land in a commit
+            <pre class="bg-cocoa-night text-pink-100 rounded-2xl p-5 my-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`# Compress staged images before they land in a commit
 mochify -p "compress for web, convert PNGs to AVIF, strip EXIF" ./src/assets/*.png`}</code></pre>
             <p>Because the CLI is a client over the API and returns paths to disk, it slots into a Husky hook or an npm script the same way any other formatter would. Strip EXIF here too: it removes location and camera metadata before the file ever reaches your repo. (More on why that matters in our <a href="https://mochify.app/guides/exif-data-risks-image-compression-2026">EXIF data risks guide</a>.)</p>
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3"><code class={inlineCode}>mochify serve</code> as a local MCP tool in a session</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3"><code class={inlineCode}>mochify serve</code> as a local MCP tool in a session</h3>
             <p>Let the agent find and fix images interactively. Once <code class={inlineCode}>mochify serve</code> is registered, you can ask Claude Code to do multi-step asset work it could not do with a plain CLI: "Find all images contributing to poor LCP on the homepage, re-encode the hero to AVIF, add a WebP fallback in the <code class={inlineCode}>&lt;picture&gt;</code> element, and update the <code class={inlineCode}>srcset</code>." The agent decides which images matter, calls the Mochify tool to compress them, and edits the markup, all in one loop. This is the workflow a plain build step cannot match, because it couples compression with code changes and reasoning. If the site itself was built by an agent and nobody has processed its images yet, start with the audit prompt in our guide to <a href="https://mochify.app/guides/agent-built-website-image-optimization#image-audit-prompt">optimizing the images on an AI-built website</a>, which hands the whole job to that agent in six prompts.</p>
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Non-interactive mode in CI</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">Non-interactive mode in CI</h3>
             <p>Pipe Claude Code's headless mode into a CI job for repo-wide passes. Claude Code supports a non-interactive <code class={inlineCode}>claude -p</code> mode you can drive from a GitHub Action, combining a git diff of changed assets with a request to compress them and summarize the result. The Mochify MCP tool does the encoding; the action commits the optimized files back to the branch. This is the agent-driven version of the many CI actions that compress images on pull requests, with the difference that the agent can also adjust the code that references those assets.</p>
         </section>
 
@@ -232,47 +232,47 @@ mochify -p "compress for web, convert PNGs to AVIF, strip EXIF" ./src/assets/*.p
         </section>
 
         <!-- Workflow card -->
-        <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify workflow: compress images in Claude Code</h2>
+        <section id="mochify-workflow" class="scroll-mt-24 bg-mochi-blush rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
+            <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mt-0 mb-4">Mochify workflow: compress images in Claude Code</h2>
             <p class="text-base mb-7">Tell Mochify what you want in plain English and Magic Flow resolves the format, quality, and resize settings for you. This is the natural-language layer that sits in front of every Mochify surface, including the CLI (<code class={inlineCode}>-p</code> / <code class={inlineCode}>--prompt</code>) and the local MCP server. A two-step pipeline handles it: a language model parses your prompt, then the native C++ engine on Mochify's API servers does the encoding. Here is the end-to-end flow for compressing images inside a Claude Code session:</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Install and authenticate</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Install and authenticate</strong>
                         <p class="text-base m-0"><code class={inlineCode}>brew tap getmochify/mochify && brew install mochify</code>, then <code class={inlineCode}>mochify auth login</code> once.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Register the local MCP server</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Register the local MCP server</strong>
                         <p class="text-base m-0"><code class={inlineCode}>claude mcp add --transport stdio mochify -- mochify serve</code>. Confirm with <code class={inlineCode}>/mcp</code> inside Claude Code.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Describe the task in plain English</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Describe the task in plain English</strong>
                         <p class="text-base m-0">In your session, ask: "Find every image over 500 KB in <code class={inlineCode}>/public</code>, convert them to AVIF at web quality, and keep the originals' filenames." Magic Flow maps that to the right parameters.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Let the agent call the tool</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Let the agent call the tool</strong>
                         <p class="text-base m-0">Claude Code invokes the Mochify MCP tool, which streams each image to <code class={inlineCode}>api.mochify.app</code> for encoding and writes the compressed result back to disk.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">5</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">5</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Review the summary</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Review the summary</strong>
                         <p class="text-base m-0">The tool returns file paths and before/after sizes, not image bytes, so the agent can reason about the result and update your markup without bloating its context.</p>
                     </div>
                 </li>
             </ol>
-            <p class="text-base text-[#875F42] mt-7 mb-0">For privacy, here is the precise model so you do not overclaim to your own clients. Images travel to <code class={inlineCode}>api.mochify.app</code> over HTTPS, are streamed into the encoder in RAM, and are wiped immediately after encoding, with no disk writes of the source and no logs containing file data. The compressed bytes come straight back to your local binary and are written to your disk. There is no server-side pickup store on the local CLI or <code class={inlineCode}>mochify serve</code> path, so these workflows are zero-retention end-to-end. Images do not "never leave your machine," they travel to the API for the encoding and come back; what they do not do is linger on our servers.</p>
+            <p class="text-base text-cocoa-milk mt-7 mb-0">For privacy, here is the precise model so you do not overclaim to your own clients. Images travel to <code class={inlineCode}>api.mochify.app</code> over HTTPS, are streamed into the encoder in RAM, and are wiped immediately after encoding, with no disk writes of the source and no logs containing file data. The compressed bytes come straight back to your local binary and are written to your disk. There is no server-side pickup store on the local CLI or <code class={inlineCode}>mochify serve</code> path, so these workflows are zero-retention end-to-end. Images do not "never leave your machine," they travel to the API for the encoding and come back; what they do not do is linger on our servers.</p>
             <p class="text-base mt-4 mb-0">A note on scope: the CLI, the local MCP server, and the REST API handle images (<code class={inlineCode}>/v1/squish</code>) and PDFs (<code class={inlineCode}>/v1/pdf</code>). Video is a separate, web-app-only capability that runs client-side in the browser, so do not wire video into a Claude Code or CI workflow expecting it to work from the CLI or MCP. Keep "where you reach Mochify" (the surfaces) separate from "what it does to your files" (the formats), and you will not trip over that boundary.</p>
             <p class="text-base mt-4 mb-0">Want to try the natural-language layer first? Start at <a href="https://mochify.app/docs">mochify.app/docs</a> and run a single <code class={inlineCode}>mochify -p "convert to AVIF, max 1600px wide" ./hero.jpg</code> before you wire up the agent.</p>
         </section>

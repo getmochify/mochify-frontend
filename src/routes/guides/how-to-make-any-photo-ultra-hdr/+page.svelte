@@ -190,7 +190,7 @@ grep X-Mochify-HDR headers.txt
 <!-- Single max-w-3xl reading column: header, prose, and every card share the
      same container edges. At rollout this constraint moves to the guides
      layout's <main> so the breadcrumb shares it too. -->
-<article class="relative mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-0 pt-6 md:pt-0 text-lg text-[#6C3F31] leading-relaxed">
+<article class="relative mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-0 pt-6 md:pt-0 text-lg text-cocoa-deep leading-relaxed">
 
     <!-- Top-only mochi wash: absolute (scrolls away with the page, unlike the
          fixed BlobBackground), full-bleed via the 100vw trick, and faded out
@@ -199,18 +199,18 @@ grep X-Mochify-HDR headers.txt
     <div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-        <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#F06292] mb-3 mt-0">
+        <p class="text-xs font-bold uppercase tracking-[0.18em] text-mochi-pink mb-3 mt-0">
             {metadata.category} · Guide
         </p>
-        <h1 class="text-3xl md:text-[2.75rem] font-black text-[#4A2C2C] tracking-tight leading-[1.1] mb-0">
-            How to Make Any Photo <span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">Ultra HDR</span> (Google Photos, Samsung, iPhone, Lightroom, or Online)
+        <h1 class="text-3xl md:text-[2.75rem] font-black text-cocoa-ink tracking-tight leading-[1.1] mb-0">
+            How to Make Any Photo <span class="bg-gradient-to-r from-mochi-pink to-[#EC407A] bg-clip-text text-transparent">Ultra HDR</span> (Google Photos, Samsung, iPhone, Lightroom, or Online)
         </h1>
-        <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-        <p class="mt-5 text-sm font-bold text-[#875F42] mb-0">
+        <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+        <p class="mt-5 text-sm font-bold text-cocoa-milk mb-0">
             {metadata.readTime} · {metadata.date} · Mochify Engineering Team
         </p>
 
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed mt-8 mb-0">
+        <p class="article-intro text-xl text-cocoa-deep opacity-90 leading-relaxed mt-8 mb-0">
             You can convert an ordinary photo to Ultra HDR in about a minute, and the result is still a normal JPEG that opens everywhere: on an HDR screen the highlights push past white, and on any other screen you see the same picture you started with. The catch is that "convert a photo to HDR" means four different things on the internet, and three of them will hand you the wrong file. This guide sorts out which HDR you actually want, explains what a conversion does and does not do to your picture, and then walks through the real steps on Google Photos, Samsung and Xiaomi phones, iPhone, Lightroom, and an online converter, finishing with where the result will and will not display once you post it.
         </p>
     </header>
@@ -250,7 +250,7 @@ grep X-Mochify-HDR headers.txt
             <SectionHeading>Google Photos on Android: the Ultra HDR slider</SectionHeading>
             <p class="mb-4">The fastest way to convert a photo to Ultra HDR on an Android phone is the Ultra HDR slider in the Google Photos editor, which works on existing photos, including ones taken years ago on a camera that never heard of gain maps. Google's help page gives the path in one line: open Google Photos, select a photo, tap Edit, then "use the Ultra HDR slider in the editor" (<a href="https://support.google.com/photos/answer/14159275" target="_blank" rel="noopener noreferrer">Google Photos Help: HDR photos</a>). The slider sits with the other adjustment tools, alongside Brightness and Contrast, and you set its strength, so you choose how much headroom to invent. Save, and the photo is an Ultra HDR JPEG in your library and in your backup.</p>
             <p class="mb-4">Two things Google's documentation says that people miss:</p>
-            <ul class="list-disc pl-6 space-y-3 marker:text-[#F06292] my-6">
+            <ul class="list-disc pl-6 space-y-3 marker:text-mochi-pink my-6">
                 <li><strong>The slider does not change your screen; the screen changes the slider.</strong> On Android 16 and later there is a system setting, Settings, then Display &amp; touch, then <strong>Enhanced HDR brightness</strong>, with its own on/off and intensity. If that is off, Google says "the Ultra HDR slider still shows up in the Google Photos app. It won't change the photo's appearance." Google's page does not say whether the map is still saved in that state, so the safe move is to turn the setting on before you judge the result. If you are not sure the phone renders HDR at all, open the <a href="/solutions/sdr-to-hdr#hdr-compare-h">side-by-side check</a> in the phone's browser; it answers that in one glance.</li>
                 <li><strong>Some edits will quietly save an SDR copy.</strong> Google Photos now preserves HDR through most edits, including Magic Eraser and Unblur, but its help page lists the exceptions: "certain filters", "incompatible formats", HDR output settings turned off, and Markup edits with the pen or highlighter. Do the Ultra HDR step last, and skip Markup on a photo you want to stay HDR.</li>
             </ul>
@@ -288,7 +288,7 @@ grep X-Mochify-HDR headers.txt
         <section id="online-converters" class="scroll-mt-24">
             <SectionHeading>Online converters: three checks before you upload</SectionHeading>
             <p class="mb-4">An online converter is the only route that works from any device, any browser and any file, but the category is full of tools that produce the wrong HDR, so run three checks before you trust one with a photo you care about. The checks take thirty seconds and rule out most of what ranks.</p>
-            <ol class="list-decimal pl-6 space-y-3 marker:text-[#F06292] marker:font-bold my-6">
+            <ol class="list-decimal pl-6 space-y-3 marker:text-mochi-pink marker:font-bold my-6">
                 <li><strong>Does it output an Ultra HDR JPEG, with a gain map?</strong> Look for the words "gain map", "Ultra HDR" or "ISO 21496-1" and a <code>.jpg</code> output. If the output extension is <code>.hdr</code>, <code>.exr</code> or <code>.pic</code>, it is a 3D-lighting format converter. If it only mentions "HDR effect", "filter" or "tone-mapped", it is a look, not a format.</li>
                 <li><strong>Does it say what it invents?</strong> A tool that claims to "recover" or "reconstruct" the dynamic range of a single JPEG is describing synthesis in flattering words. The honest ones tell you the headroom is generated and roughly how much. Prefer those; you will understand what you are looking at when the result is brighter than you expected.</li>
                 <li><strong>What happens to your file?</strong> Photos leave your device for any server-side tool. Read the retention line. A tool that processes in memory and discards the file is a different proposition from one that stores uploads, and a tool that says nothing has answered the question.</li>

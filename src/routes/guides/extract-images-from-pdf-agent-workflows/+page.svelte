@@ -137,31 +137,31 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Extract Images from PDF" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             If you build agents or automation, sooner or later a PDF lands in the pipeline and the agent needs a page as an image, the document broken into single pages, or a thumbnail for a preview card. This guide covers the three operations that recur when you extract images from PDF files, split multi-page documents, and convert pages to web formats inside an automated workflow - plus the correctness traps, the agent-tool-call pattern that keeps token costs sane, and the privacy model that matters when those PDFs hold regulated data.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published June 16, 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published June 16, 2026 by the Mochify Engineering Team.</strong>
                 This guide is for developers and AI builders wiring PDF operations into pipelines: the mechanics of rendering versus extraction, splitting without breaking documents, converting pages to WebP and AVIF, the paths-not-bytes pattern, and a privacy-first workflow for regulated documents.
             </p>
         </div>
@@ -178,9 +178,9 @@
 
         <section id="how-to-extract-images-from-a-pdf" class="scroll-mt-24">
             <SectionHeading>How to extract images from a PDF</SectionHeading>
-            <p>When you <strong class="text-[#4A2C2C]">extract images from PDF</strong> pages there are two genuinely different operations hiding under one phrase, and picking the wrong one is the most common mistake we see. You either pull <em>embedded</em> image objects straight out of the file, or you <em>render</em> the whole page to a new raster image. They produce different results and fail in different ways.</p>
-            <p><strong class="text-[#4A2C2C]">Embedded image extraction</strong> reads the PDF's internal object table and exports the original image streams, preserving the source format and resolution. This is the right call when a document contains a photo or a figure you want to reuse at its native quality, and tools like Poppler's <code class={inlineCode}>pdfimages</code> or PyMuPDF's <code class={inlineCode}>get_images</code>/<code class={inlineCode}>extract_image</code> are built for exactly this. The catch: it only sees objects that exist as discrete images. A text-only page, a vector chart, or a page that is itself one giant scanned bitmap will not give you the clean "logo.png" you were hoping for.</p>
-            <p><strong class="text-[#4A2C2C]">Page rendering</strong> runs the page's full drawing model (text, vectors, images, fonts, transparency) and composites it into a bitmap at a resolution you choose. This is what you want for previews, thumbnails, and feeding a page to a vision model. The single most important parameter is DPI. Renderers commonly default to roughly 72 DPI, which is fine for a tiny thumbnail and visibly blurry for anything else. As a rule of thumb, set 150 DPI for legible on-screen page images, 300 DPI when the output may be printed, and only reach for 600 DPI for fine line art or archival work. Higher DPI is not free: file size and render time climb with it, and you cannot recover detail by upscaling a low-DPI render after the fact, so set the resolution at the initial rasterisation step, not in post.</p>
+            <p>When you <strong class="text-cocoa-ink">extract images from PDF</strong> pages there are two genuinely different operations hiding under one phrase, and picking the wrong one is the most common mistake we see. You either pull <em>embedded</em> image objects straight out of the file, or you <em>render</em> the whole page to a new raster image. They produce different results and fail in different ways.</p>
+            <p><strong class="text-cocoa-ink">Embedded image extraction</strong> reads the PDF's internal object table and exports the original image streams, preserving the source format and resolution. This is the right call when a document contains a photo or a figure you want to reuse at its native quality, and tools like Poppler's <code class={inlineCode}>pdfimages</code> or PyMuPDF's <code class={inlineCode}>get_images</code>/<code class={inlineCode}>extract_image</code> are built for exactly this. The catch: it only sees objects that exist as discrete images. A text-only page, a vector chart, or a page that is itself one giant scanned bitmap will not give you the clean "logo.png" you were hoping for.</p>
+            <p><strong class="text-cocoa-ink">Page rendering</strong> runs the page's full drawing model (text, vectors, images, fonts, transparency) and composites it into a bitmap at a resolution you choose. This is what you want for previews, thumbnails, and feeding a page to a vision model. The single most important parameter is DPI. Renderers commonly default to roughly 72 DPI, which is fine for a tiny thumbnail and visibly blurry for anything else. As a rule of thumb, set 150 DPI for legible on-screen page images, 300 DPI when the output may be printed, and only reach for 600 DPI for fine line art or archival work. Higher DPI is not free: file size and render time climb with it, and you cannot recover detail by upscaling a low-DPI render after the fact, so set the resolution at the initial rasterisation step, not in post.</p>
             <p>A second rule of thumb worth internalising: rendering quality is not only about DPI. Anti-aliasing, font hinting, and color-space handling all affect whether small text and thin lines come out crisp or jagged, which is why a mature rendering engine matters more than a high number in the DPI field.</p>
             <p>So the decision is: do you need the <em>asset that was placed on the page</em> (extract embedded) or <em>what the page looks like</em> (render)? Agent pipelines almost always want the second, because they are producing previews and model inputs rather than harvesting original artwork.</p>
         </section>
@@ -189,8 +189,8 @@
             <SectionHeading>Splitting multi-page PDFs without breaking them</SectionHeading>
             <p>Splitting a multi-page PDF into single-page files is the simplest operation to describe and the easiest to get subtly wrong. Copying page ranges into new documents is trivial; preserving everything attached to those pages is not.</p>
             <p>The two failure modes to plan around:</p>
-            <p>First, <strong class="text-[#4A2C2C]">off-by-one page ranges.</strong> Command-line tools and human-facing UIs almost always use 1-based page numbers, while most programming libraries index pages from 0. An automation script that mixes a 1-based prompt ("split off pages 1 to 5") with a 0-based API call is the classic source of a split that is silently shifted by one page. Decide on one convention at the boundary of your pipeline and normalise to it.</p>
-            <p>Second, <strong class="text-[#4A2C2C]">structural loss.</strong> Splitting often drops document features that live above the page level. The pdfcpu project is refreshingly explicit about this: its <a href="https://pdfcpu.io/core/split" target="_blank" rel="noopener noreferrer">split documentation</a> states that annotations, outlines (bookmarks), structure trees, and forms "are not carried over into the output files," because copying them piecemeal can leave them broken or invalid. That matters more than it sounds. If your pipeline relies on a tagged structure tree for accessibility, on bookmarks for navigation, or on form fields staying interactive, a naive split will quietly degrade all three. For most agent use cases (slice a report into per-page PDFs to route, summarise, or attach) this is acceptable. For anything touching forms or accessibility tags, treat split output as lossy and verify.</p>
+            <p>First, <strong class="text-cocoa-ink">off-by-one page ranges.</strong> Command-line tools and human-facing UIs almost always use 1-based page numbers, while most programming libraries index pages from 0. An automation script that mixes a 1-based prompt ("split off pages 1 to 5") with a 0-based API call is the classic source of a split that is silently shifted by one page. Decide on one convention at the boundary of your pipeline and normalise to it.</p>
+            <p>Second, <strong class="text-cocoa-ink">structural loss.</strong> Splitting often drops document features that live above the page level. The pdfcpu project is refreshingly explicit about this: its <a href="https://pdfcpu.io/core/split" target="_blank" rel="noopener noreferrer">split documentation</a> states that annotations, outlines (bookmarks), structure trees, and forms "are not carried over into the output files," because copying them piecemeal can leave them broken or invalid. That matters more than it sounds. If your pipeline relies on a tagged structure tree for accessibility, on bookmarks for navigation, or on form fields staying interactive, a naive split will quietly degrade all three. For most agent use cases (slice a report into per-page PDFs to route, summarise, or attach) this is acceptable. For anything touching forms or accessibility tags, treat split output as lossy and verify.</p>
             <p>The practical guidance: split by page span for batch routing, split by bookmark when you genuinely need chapter-level sections and your tool supports the bookmark depth you need, and always test what survives before you trust it in production.</p>
         </section>
 
@@ -207,10 +207,10 @@
             <p>PDF extract/split/convert operations show up in agent pipelines because documents are rarely the final destination; they are an input to be triaged, summarised, routed, or indexed. The operations are the pre-processing that makes the rest of the pipeline possible.</p>
             <p>Realistic examples we see:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Document-processing agents</strong> that render each page to an image so a vision model can read scanned or image-heavy pages that have no extractable text layer.</li>
-                <li><strong class="text-[#4A2C2C]">Preview and thumbnail generation</strong>, where an agent renders the first page to a small WebP for a listing card, then routes the document based on what it sees.</li>
-                <li><strong class="text-[#4A2C2C]">Batch contract and report handling</strong>, where a large file is split into per-page or per-section PDFs so individual pages can be sent to different downstream steps (signature, redaction, summarisation).</li>
-                <li><strong class="text-[#4A2C2C]">Ingestion for search and retrieval</strong>, where pages are sliced into chunks and stored alongside thumbnails or cropped figures next to their embeddings.</li>
+                <li><strong class="text-cocoa-ink">Document-processing agents</strong> that render each page to an image so a vision model can read scanned or image-heavy pages that have no extractable text layer.</li>
+                <li><strong class="text-cocoa-ink">Preview and thumbnail generation</strong>, where an agent renders the first page to a small WebP for a listing card, then routes the document based on what it sees.</li>
+                <li><strong class="text-cocoa-ink">Batch contract and report handling</strong>, where a large file is split into per-page or per-section PDFs so individual pages can be sent to different downstream steps (signature, redaction, summarisation).</li>
+                <li><strong class="text-cocoa-ink">Ingestion for search and retrieval</strong>, where pages are sliced into chunks and stored alongside thumbnails or cropped figures next to their embeddings.</li>
             </ul>
             <p>This is increasingly true on local hardware too. As <a href="/guides/on-device-ai-agents-image-optimization">on-device AI agents</a> move onto desktop-class machines, the same discipline matters even more, because a local model's context window is tight and a folder of rendered pages will blow through it fast.</p>
             <p>In all of these, the agent is orchestrating tools, not doing the pixel work itself. Which leads to the pattern that actually matters for cost and reliability.</p>
@@ -225,35 +225,35 @@
         </section>
 
         <!-- Workflow card -->
-        <section id="mochify-workflow-extract-and-split" class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: extract and split a PDF inside an agent pipeline</h2>
+        <section id="mochify-workflow-extract-and-split" class="bg-mochi-blush rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
+            <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mt-0 mb-4">Mochify Workflow: extract and split a PDF inside an agent pipeline</h2>
             <p class="mb-7">Here is how this looks with Mochify's PDF utility, which does the two operations above (page-level image extraction and precision splitting) and is built to be driven by an agent. Mochify treats documents like web assets: the same engine that gets your images web-ready handles PDF pages, and you talk to it in plain English through Magic Flow. A worked example: an agent ingesting a folder of multi-page contracts, producing a WebP preview of each cover page and splitting the rest into single-page PDFs for routing.</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
                     <div>
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Describe the task in natural language</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Describe the task in natural language</strong>
                         <p class="text-base m-0">Magic Flow is the interface, so the agent does not assemble flags. It sends something like <em>"extract page 1 of each PDF as a WebP thumbnail, and split the remaining pages into single-page PDFs."</em> Magic Flow runs a two-step pipeline: a language model parses the prompt into concrete parameters, then Mochify's C++ engine executes the extraction and the split.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
                     <div>
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">The request hits the PDF endpoint</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">The request hits the PDF endpoint</strong>
                         <p class="text-base m-0">PDF work is served by a dedicated endpoint, <code class={inlineCode}>POST /v1/pdf</code> on <code class={inlineCode}>api.mochify.app</code>. The PDF utility is available wherever you reach Mochify as a developer: the web app, the CLI, both MCP servers, and the REST API.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
                     <div>
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Run it through the surface that suits the agent</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Run it through the surface that suits the agent</strong>
                         <p class="text-base m-0">For an autonomous pipeline, the local MCP server (<code class={inlineCode}>mochify serve</code>, the same Rust binary as the <code class={inlineCode}>mochify</code> CLI) is the one to reach for. It returns file paths and metadata, so the page images and split PDFs never enter the agent's context window, only their paths do. That is the paths-not-bytes pattern, enforced by the surface.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
                     <div>
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Hand the outputs downstream</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Hand the outputs downstream</strong>
                         <p class="text-base m-0">The agent now has, say, <code class={inlineCode}>cover-p1.webp</code> plus per-page PDFs and their metadata. It routes, summarises, or attaches them, fetching actual bytes only if a step truly needs them.</p>
                     </div>
                 </li>
@@ -264,7 +264,7 @@
                     PDFs are <strong>not</strong> processed on your machine. They travel to <code class={inlineCode}>api.mochify.app</code> over HTTPS exactly like images do, are processed in RAM, and are wiped immediately with no disk writes of the source and no logs containing file data. That is zero-retention, not "never leaves your laptop." The local CLI and local MCP server stay zero-retention end-to-end (no pickup store on the return), while the hosted MCP server holds only the <em>output</em> behind a short-lived download URL on <code class={inlineCode}>files.mochify.app</code> (a five-minute TTL) so the agent can fetch it; the original is still discarded immediately either way. For the full mechanics, see <a href="/guides/how-the-mochify-mcp-server-works">How the Mochify MCP Server Works</a> and <a href="/guides/why-we-relaxed-zero-retention-for-mcp">why we adjusted zero-retention for MCP</a>.
                 </GlassInfoBox>
             </div>
-            <p class="text-base text-[#875F42] mt-5 mb-0">Because MCP and API access are included on every tier, including Free, you can wire this into an agent without a paid plan to start. Point your agent at <a href="/">Mochify</a> and you are running.</p>
+            <p class="text-base text-cocoa-milk mt-5 mb-0">Because MCP and API access are included on every tier, including Free, you can wire this into an agent without a paid plan to start. Point your agent at <a href="/">Mochify</a> and you are running.</p>
         </section>
 
         <section id="privacy-and-compliance" class="scroll-mt-24">
@@ -279,12 +279,12 @@
             <SectionHeading>Quality and correctness gotchas</SectionHeading>
             <p>Most PDF pipeline bugs come from a short list of predictable mistakes. Here they are, so you can check for them before they ship.</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Default low DPI.</strong> Rendering at the ~72 DPI default produces blurry previews and unreadable print output. Set 150–300 DPI deliberately, and remember upscaling afterwards cannot recover lost detail.</li>
-                <li><strong class="text-[#4A2C2C]">Confusing extract with render.</strong> Embedded image extraction will miss text-only pages and vector charts; page rendering is what you want for previews and vision-model inputs. Pick the operation that matches the goal.</li>
-                <li><strong class="text-[#4A2C2C]">Off-by-one splits.</strong> 1-based CLIs versus 0-based libraries cause silently shifted page ranges. Normalise the convention at your pipeline boundary.</li>
-                <li><strong class="text-[#4A2C2C]">Lost structure on split.</strong> Annotations, bookmarks, structure trees, and forms can be dropped when splitting. If accessibility tags or interactive forms matter, verify they survived.</li>
-                <li><strong class="text-[#4A2C2C]">Scanned PDFs are images, not text.</strong> A document that is really a stack of scanned pages has no text layer to extract. You render pages to images and OCR them; do not expect text extraction to work on a photocopy.</li>
-                <li><strong class="text-[#4A2C2C]">Color, transparency, and thin lines.</strong> High DPI alone does not guarantee quality. Anti-aliasing and color-space handling decide whether small text and fine lines render cleanly.</li>
+                <li><strong class="text-cocoa-ink">Default low DPI.</strong> Rendering at the ~72 DPI default produces blurry previews and unreadable print output. Set 150–300 DPI deliberately, and remember upscaling afterwards cannot recover lost detail.</li>
+                <li><strong class="text-cocoa-ink">Confusing extract with render.</strong> Embedded image extraction will miss text-only pages and vector charts; page rendering is what you want for previews and vision-model inputs. Pick the operation that matches the goal.</li>
+                <li><strong class="text-cocoa-ink">Off-by-one splits.</strong> 1-based CLIs versus 0-based libraries cause silently shifted page ranges. Normalise the convention at your pipeline boundary.</li>
+                <li><strong class="text-cocoa-ink">Lost structure on split.</strong> Annotations, bookmarks, structure trees, and forms can be dropped when splitting. If accessibility tags or interactive forms matter, verify they survived.</li>
+                <li><strong class="text-cocoa-ink">Scanned PDFs are images, not text.</strong> A document that is really a stack of scanned pages has no text layer to extract. You render pages to images and OCR them; do not expect text extraction to work on a photocopy.</li>
+                <li><strong class="text-cocoa-ink">Color, transparency, and thin lines.</strong> High DPI alone does not guarantee quality. Anti-aliasing and color-space handling decide whether small text and fine lines render cleanly.</li>
             </ul>
         </section>
 
@@ -349,13 +349,13 @@
             <div class="space-y-4 mt-4">
                 {#each faqs as faq}
                     <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md open:shadow-md transition-all">
-                        <summary class="flex justify-between items-center gap-4 font-bold cursor-pointer list-none p-5 text-[#4A2C2C]">
+                        <summary class="flex justify-between items-center gap-4 font-bold cursor-pointer list-none p-5 text-cocoa-ink">
                             <span>{faq.q}</span>
-                            <span class="transition group-open:rotate-180 shrink-0 text-[#F06292]">
+                            <span class="transition group-open:rotate-180 shrink-0 text-mochi-pink">
                                 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="22"><path d="M6 9l6 6 6-6"></path></svg>
                             </span>
                         </summary>
-                        <div class="px-5 pb-5 text-base text-[#6C3F31] leading-relaxed opacity-90">
+                        <div class="px-5 pb-5 text-base text-cocoa-deep leading-relaxed opacity-90">
                             {@html faq.a}
                         </div>
                     </details>

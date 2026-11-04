@@ -98,30 +98,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Preload AVIF Hero Images" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Switching your hero image to AVIF cuts file size by up to 50% - but if the browser still discovers it late in the render pipeline, your LCP score won't budge. A single <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;link rel="preload"&gt;</code> hint injected into <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">wp_head</code> tells the browser to start the download before any CSS or JavaScript has been parsed.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-cocoa-deep">
                 <strong>Quick answer:</strong> Add a preload hint for your AVIF hero image in <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">functions.php</code> using <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">wp_head</code>. Set <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">fetchpriority="high"</code> so the browser treats it as the highest-priority network request on the page.
             </p>
         </div>
@@ -132,7 +132,7 @@
         <section id="why-avif-alone-isnt-enough" class="scroll-mt-24">
             <SectionHeading>Why AVIF alone isn't enough</SectionHeading>
             <p class="mb-4">AVIF gives you the smallest file at the highest quality of any widely-supported format in 2026. WordPress 6.5 added native AVIF upload support, so serving it is no longer a challenge. The problem is discovery timing.</p>
-            <p class="mb-4">When a browser loads a WordPress page it parses the HTML, builds the DOM, then fetches stylesheets, then - only after the CSS is parsed and the render tree is constructed - does it find the hero image URL buried in a CSS <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">background-image</code> rule or an <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;img&gt;</code> tag deep in the template. By that point, you've burned 300–600 ms of latency before the image download even starts.</p>
+            <p class="mb-4">When a browser loads a WordPress page it parses the HTML, builds the DOM, then fetches stylesheets, then - only after the CSS is parsed and the render tree is constructed - does it find the hero image URL buried in a CSS <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">background-image</code> rule or an <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">&lt;img&gt;</code> tag deep in the template. By that point, you've burned 300–600 ms of latency before the image download even starts.</p>
             <p class="mb-4">Google's LCP threshold is 2.5 seconds. On a typical shared-hosting WordPress site with a theme that loads 6–12 stylesheets, discovering the hero image late is the single biggest contributor to a failing LCP score - even when the image itself is small.</p>
 
             <GlassInfoBox type="tip" title="LCP measures the largest visible element">
@@ -142,14 +142,14 @@
 
         <section id="preload-the-hero-image" class="scroll-mt-24">
             <SectionHeading>Preload the hero image</SectionHeading>
-            <p class="mb-4">Open your theme's <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">functions.php</code> (or a site-specific plugin) and add the following. Replace the URL with the path to your AVIF file in the WordPress Media Library.</p>
+            <p class="mb-4">Open your theme's <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">functions.php</code> (or a site-specific plugin) and add the following. Replace the URL with the path to your AVIF file in the WordPress Media Library.</p>
 
             <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm mb-6">
-                <div class="bg-[#4A2C2C] px-5 py-3 flex items-center justify-between">
+                <div class="bg-cocoa-ink px-5 py-3 flex items-center justify-between">
                     <span class="text-pink-200 text-xs font-black uppercase tracking-widest">functions.php</span>
                     <span class="text-pink-300 text-xs font-mono opacity-60">PHP</span>
                 </div>
-                <pre class="bg-[#2D1B1B] text-[#FFF0F3] text-sm p-6 overflow-x-auto leading-relaxed"><code>add_action( 'wp_head', function () &#123;
+                <pre class="bg-cocoa-night text-mochi-strawberry text-sm p-6 overflow-x-auto leading-relaxed"><code>add_action( 'wp_head', function () &#123;
     if ( ! is_front_page() ) &#123;
         return;
     &#125;
@@ -167,11 +167,11 @@
                 Replace <code>get_template_directory_uri() . '/images/hero.avif'</code> with the direct URL from the Media Library - for example, <code>https://example.com/wp-content/uploads/2026/04/hero.avif</code>. You can hardcode it or use <code>wp_get_attachment_url( $attachment_id )</code> if you store the ID in a theme option.
             </GlassInfoBox>
 
-            <p class="mb-4">The priority of <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">1</code> passed to <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">add_action</code> ensures the hint is output at the very top of <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;head&gt;</code>, before any stylesheets or scripts. The browser's preload scanner picks it up immediately and begins the AVIF download in parallel with everything else.</p>
+            <p class="mb-4">The priority of <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">1</code> passed to <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">add_action</code> ensures the hint is output at the very top of <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">&lt;head&gt;</code>, before any stylesheets or scripts. The browser's preload scanner picks it up immediately and begins the AVIF download in parallel with everything else.</p>
 
-            <p class="mb-4">The <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">is_front_page()</code> guard limits the hint to the homepage. If your hero changes per template (category pages, landing pages), duplicate the action with the appropriate conditional and the correct URL for each context.</p>
+            <p class="mb-4">The <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">is_front_page()</code> guard limits the hint to the homepage. If your hero changes per template (category pages, landing pages), duplicate the action with the appropriate conditional and the correct URL for each context.</p>
 
-            <p class="mb-4">If your hero is a plain <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;img&gt;</code> already in the HTML rather than one discovered late via CSS, you may not need the preload tag at all: <a href="https://mochify.app/guides/fetchpriority-vs-preload-lcp-image">should you use fetchpriority instead of preload?</a></p>
+            <p class="mb-4">If your hero is a plain <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">&lt;img&gt;</code> already in the HTML rather than one discovered late via CSS, you may not need the preload tag at all: <a href="https://mochify.app/guides/fetchpriority-vs-preload-lcp-image">should you use fetchpriority instead of preload?</a></p>
 
             <GlassInfoBox type="warning" title="Only preload the image that is actually the LCP element">
                 Preloading an image that isn't visible above the fold wastes bandwidth and can hurt performance by competing with critical resources. Confirm which element PageSpeed Insights flags as the LCP candidate before adding the hint.
@@ -180,7 +180,7 @@
 
         <section id="check-the-result" class="scroll-mt-24">
             <SectionHeading>Check the result</SectionHeading>
-            <ol class="list-decimal pl-6 mb-6 space-y-3 marker:text-[#F06292] marker:font-bold">
+            <ol class="list-decimal pl-6 mb-6 space-y-3 marker:text-mochi-pink marker:font-bold">
                 <li><strong>Run PageSpeed Insights</strong> on your homepage URL. The "Preload Largest Contentful Paint image" audit should no longer appear as an opportunity.</li>
                 <li><strong>Check the waterfall</strong> in Chrome DevTools (Network tab). Your AVIF file should now start downloading near the top of the waterfall - alongside your HTML - rather than after stylesheets resolve.</li>
                 <li><strong>Confirm LCP in the Core Web Vitals report.</strong> Field data takes 28 days to update in Search Console, but lab data (Lighthouse, PageSpeed) updates immediately.</li>
@@ -188,12 +188,12 @@
 
             <p class="mb-4">A preloaded AVIF hero typically moves LCP discovery 300–600 ms earlier. Combined with the 40–50% file-size reduction from AVIF over standard JPEG, most WordPress sites with a hero-image LCP element comfortably hit the 2.5s "Good" threshold after both changes.</p>
 
-            <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-                <h3 class="text-lg font-bold text-[#4A2C2C] mb-3">Try Mochify for AVIF conversion</h3>
-                <p class="text-[#6C3F31] leading-relaxed mb-4">
+            <div class="bg-mochi-blush rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
+                <h3 class="text-lg font-bold text-cocoa-ink mb-3">Try Mochify for AVIF conversion</h3>
+                <p class="text-cocoa-deep leading-relaxed mb-4">
                     Convert your hero image to AVIF at <a href="https://mochify.app">mochify.app</a> - no account required, processed in RAM, never stored. Download the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.avif</code> file and upload it directly to your WordPress Media Library.
                 </p>
-                <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
+                <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
                     Convert to AVIF
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
                 </a>

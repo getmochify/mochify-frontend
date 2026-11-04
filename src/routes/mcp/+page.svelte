@@ -185,11 +185,11 @@ mochify auth login`;
         }
     ];
 
-    const linkClass = 'font-bold text-[#F06292] hover:text-[#D81B60] transition-colors';
-    const h2Class = 'text-2xl font-bold text-[#4A2C2C] scroll-mt-24';
-    const pClass = 'leading-relaxed text-[#6C3F31]';
+    const linkClass = 'font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors';
+    const h2Class = 'text-2xl font-bold text-cocoa-ink scroll-mt-24';
+    const pClass = 'leading-relaxed text-cocoa-deep';
     const promptClass =
-        'inline-block rounded-2xl rounded-bl-md bg-[#FFF5F7] border border-pink-100 px-5 py-3 text-[#4A2C2C] font-semibold leading-relaxed';
+        'inline-block rounded-2xl rounded-bl-md bg-mochi-blush border border-pink-100 px-5 py-3 text-cocoa-ink font-semibold leading-relaxed';
     const freePlan =
         'inline-flex items-center px-3 py-1 rounded-xl bg-[#F0FDF4] border border-green-100 text-green-700 text-xs font-bold tracking-wide';
     const paidPlan =
@@ -227,12 +227,12 @@ mochify auth login`;
             </span>
         </div>
 
-        <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
+        <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
             Edit images from your
-            <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">AI assistant</span>
+            <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">AI assistant</span>
         </h1>
 
-        <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
+        <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">
             Connect Mochify once and your assistant can compress, convert, crop, hide, erase and recolor the images you give it, and work on your PDFs, by asking in plain English. You describe the result. Where a box is needed, the assistant looks at the picture and chooses it. Mochify does the pixel work and hands back the file.
         </p>
 
@@ -245,14 +245,14 @@ mochify auth login`;
             </a>
         </div>
 
-        <p class="text-sm text-[#875F42] max-w-xl mx-auto leading-relaxed">
+        <p class="text-sm text-cocoa-milk max-w-xl mx-auto leading-relaxed">
             Works with Claude Desktop, Cursor and any client that supports MCP. Free account: 25 images a month. Images are processed in memory at api.mochify.app and wiped as soon as the job finishes; the model that picks a box never sends Mochify a description of what is in it.
         </p>
     </div>
 
     <section class="mt-16 max-w-4xl mx-auto space-y-4">
         <h2 id="demo" class={h2Class}>See it in action</h2>
-        <p class="leading-relaxed text-[#6C3F31]">{demoDescription}</p>
+        <p class="leading-relaxed text-cocoa-deep">{demoDescription}</p>
         <video
             bind:this={demoVideo}
             data-src="/videos/mcp-erase-crop-demo.mp4"
@@ -266,7 +266,7 @@ mochify auth login`;
             controls={reduceMotion}
             disablepictureinpicture
             aria-label="Demo: asking Claude to remove the bin from a photo on the desktop and export 4:5 and 1:1 crops; Claude calls Mochify, then shows both finished crops with the bin gone."
-            class="w-full h-auto rounded-2xl shadow-sm border border-pink-50 bg-[#FFF5F7]"
+            class="w-full h-auto rounded-2xl shadow-sm border border-pink-50 bg-mochi-blush"
         ></video>
     </section>
 
@@ -274,7 +274,7 @@ mochify auth login`;
         <h2 id="setup" class={h2Class}>Two ways to connect</h2>
 
         <div class="space-y-4">
-            <h3 class="text-xl font-bold text-[#4A2C2C]">Hosted: nothing to install</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink">Hosted: nothing to install</h3>
             <p class={pClass}>In Claude Desktop, go to Settings, then Connectors, add https://mcp.mochify.app and sign in when the browser window opens. Cursor and other clients that support remote MCP connectors follow the same shape. From then on the assistant has five Mochify tools: squish for images, create_upload for a photo attached to the chat, pdf and pdf_create for documents, and check_usage for your allowance.</p>
             <video
                 bind:this={setupVideo}
@@ -289,13 +289,13 @@ mochify auth login`;
                 controls={reduceMotion}
                 disablepictureinpicture
                 aria-label="Setup in Claude Desktop: Settings, Connectors, Add custom connector, name Mochify, URL https://mcp.mochify.app, sign in, and the Mochify connector listing its tools."
-                class="w-full h-auto rounded-2xl shadow-sm border border-pink-50 bg-[#FFF5F7]"
+                class="w-full h-auto rounded-2xl shadow-sm border border-pink-50 bg-mochi-blush"
             ></video>
             <p class={pClass}>Results come back as a download link on files.mochify.app that works for about five minutes. The assistant receives the link, never the image.</p>
         </div>
 
         <div class="space-y-4 pt-4">
-            <h3 class="text-xl font-bold text-[#4A2C2C]">Local: one binary, your disk</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink">Local: one binary, your disk</h3>
             <CodeCard filename="terminal" code={brewInstall} />
             <p class={pClass}>Then add it under mcpServers in your client's MCP config (claude_desktop_config.json in Claude Desktop):</p>
             <CodeCard filename="mcp config" code={localConfig} />
@@ -303,7 +303,7 @@ mochify auth login`;
         </div>
 
         <div class="space-y-4 pt-4">
-            <h3 class="text-xl font-bold text-[#4A2C2C]">How a box works</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink">How a box works</h3>
             <p class={pClass}>Four of the sections below need a box: crop to a region, hide an area, erase an object, recolor an object. Crop and hide work on both servers; erase and recolor are on the hosted server and the REST API only. Your assistant looks at the image and chooses the box; Mochify receives four numbers, fractions of the upright picture from the top-left corner, never pixels and never a description of what the box contains. The assistant that can see the picture does the understanding. Mochify does the editing.</p>
         </div>
     </section>
@@ -373,7 +373,7 @@ mochify auth login`;
 
     <section class="mt-16 max-w-4xl mx-auto space-y-4">
         <h2 id="plans" class={h2Class}>Plans</h2>
-        <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+        <ul class="list-disc space-y-2 pl-6 text-cocoa-deep leading-relaxed">
             <li>Free account: 25 images a month, every tool except erase, recolor and the PDF-in operations</li>
             <li>Seller, Pro and Growth: the plan's monthly allowance, every tool, PDFs to 10 pages (Growth goes further)</li>
             <li>Day Pass: 100 uploads in 24 hours for $2, every tool, PDFs to 10 pages (used from an assistant on a free account you are signed in with)</li>
@@ -384,7 +384,7 @@ mochify auth login`;
 
     <section class="mt-16 max-w-4xl mx-auto space-y-4">
         <h2 id="guides" class={h2Class}>Guides</h2>
-        <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+        <ul class="list-disc space-y-2 pl-6 text-cocoa-deep leading-relaxed">
             {#each guides as g}
                 <li><a href={g.href} class={linkClass}>{g.title}</a> - {g.desc}</li>
             {/each}

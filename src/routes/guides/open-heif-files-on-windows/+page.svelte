@@ -82,35 +82,35 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="HEIF Files on Windows" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Windows cannot open HEIF files out of the box, and the fix Microsoft offers is stranger than most people expect: two separate Store extensions, one of which costs $0.99, and even that combination fails on the 10-bit HEIF files that modern cameras write. If you have just double-clicked a <code>.heif</code> or <code>.hif</code> file and hit "You need an extension to use this file," this guide covers every route that actually works: what to install, which viewers decode HEIF on their own, why pro-camera files are a special case, and when converting to JPG is simply the faster answer.
         </p>
 
-        <p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+        <p class="mt-5 mb-0 text-lg leading-relaxed text-cocoa-deep">
             We have a <a href="https://mochify.app/solutions/heif-to-jpg">HEIF to JPG converter</a>, so we have an obvious interest in the conversion route. We will still walk you through the native fixes first, including the ones that cost nothing, and be precise about where each one stops working.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published August 19, 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published August 19, 2026 by the Mochify Engineering Team.</strong>
                 Written for the moment Windows says it needs an extension: the free and paid fixes first, then why 10-bit camera files break anyway.
             </p>
         </div>
@@ -185,8 +185,8 @@
         </section>
 
         <!-- Workflow card -->
-        <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">The fastest fix: convert to JPG</h2>
+        <section id="mochify-workflow" class="scroll-mt-24 bg-mochi-blush rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
+            <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mt-0 mb-4">The fastest fix: convert to JPG</h2>
             <p class="text-base mb-4">Converting HEIF to JPG removes the dependency instead of working around it, which is why it stays the fastest fix: a JPG opens in every viewer, browser, marketplace, and email client ever made, with no codecs, no extensions, and nothing for the recipient to install. You keep the HEIF originals (they are excellent capture files - Sony's own documentation puts HEIF compression efficiency at roughly twice JPEG's), and you hand the JPGs to everything that needs to display them.</p>
             <p class="text-base mb-4">Our <a href="https://mochify.app/solutions/heif-to-jpg">HEIF to JPG converter</a> is built for exactly the stuck-file case this guide describes:</p>
             <ul class="list-disc pl-6 space-y-3 text-base">

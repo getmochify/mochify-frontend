@@ -220,7 +220,7 @@
 					<div
 						class="rounded-3xl border border-white/80 bg-gradient-to-br from-[#FFF4F8] to-[#FFFAF2] p-7 shadow-[0_8px_32px_rgba(240,98,146,0.08)] sm:p-8"
 					>
-						<h2 class="mb-7 text-lg font-extrabold tracking-tight text-[#4A2C2C]">
+						<h2 class="mb-7 text-lg font-extrabold tracking-tight text-cocoa-ink">
 							{panel.heading}
 						</h2>
 
@@ -230,13 +230,13 @@
 							{#each panel.benefits as benefit (benefit.title)}
 								<li
 									class="flex items-start gap-4 rounded-2xl px-3 py-3 {benefit.highlight
-										? 'bg-white/80 shadow-[0_2px_10px_rgba(240,98,146,0.08)] ring-1 ring-[#F06292]/20'
+										? 'bg-white/80 shadow-[0_2px_10px_rgba(240,98,146,0.08)] ring-1 ring-mochi-pink/20'
 										: ''}"
 								>
 									<div
 										class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl {benefit.tone ===
 										'pink'
-											? 'bg-[#FDE7EF] text-[#F06292]'
+											? 'bg-[#FDE7EF] text-mochi-pink'
 											: 'bg-[#FDF0DC] text-[#D9922F]'}"
 									>
 										<svg
@@ -253,12 +253,12 @@
 									<div class="pt-0.5">
 										<p
 											class="text-sm font-black {benefit.highlight
-												? 'text-[#F06292]'
-												: 'text-[#4A2C2C]'}"
+												? 'text-mochi-pink'
+												: 'text-cocoa-ink'}"
 										>
 											{benefit.title}
 										</p>
-										<p class="mt-0.5 text-sm text-[#875F42]/70">{benefit.desc}</p>
+										<p class="mt-0.5 text-sm text-cocoa-milk/70">{benefit.desc}</p>
 									</div>
 								</li>
 							{/each}
@@ -271,11 +271,11 @@
 				<div class="mb-8 text-center">
 					<!-- After submit the account is not usable yet, so the heading says
 					     what to do next rather than still selling the signup. -->
-					<h1 class="mb-1 text-3xl font-black tracking-tight text-[#4A2C2C]">
+					<h1 class="mb-1 text-3xl font-black tracking-tight text-cocoa-ink">
 						{success ? 'Check your email' : 'Create account'}
 					</h1>
 					{#if !success}
-						<p class="text-sm text-[#875F42]/70">
+						<p class="text-sm text-cocoa-milk/70">
 							{panel.subtitle}
 						</p>
 					{/if}
@@ -292,7 +292,7 @@
 								<!-- An envelope, not a tick: nothing is finished until the
 								     link is opened, and a tick read as "you're done". -->
 								<svg
-									class="h-7 w-7 text-[#F06292]"
+									class="h-7 w-7 text-mochi-pink"
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -306,14 +306,14 @@
 									/>
 								</svg>
 							</div>
-							<p class="text-sm text-[#875F42]/80">
-								We sent a link to <strong class="break-all text-[#6C3F31]">{email}</strong>. Open it
+							<p class="text-sm text-cocoa-milk/80">
+								We sent a link to <strong class="break-all text-cocoa-deep">{email}</strong>. Open it
 								to finish setting up your account{planName
 									? ` and we'll take you straight to ${planName} checkout`
 									: ''}.
 							</p>
 							<p
-								class="mt-4 rounded-2xl bg-[#FFF5F8] px-4 py-3 text-xs leading-relaxed text-[#875F42]/80"
+								class="mt-4 rounded-2xl bg-[#FFF5F8] px-4 py-3 text-xs leading-relaxed text-cocoa-milk/80"
 							>
 								Not there after a minute? Check your spam or promotions folder. The link works for
 								24 hours.
@@ -324,7 +324,7 @@
 									success = false;
 									password = '';
 								}}
-								class="mt-4 cursor-pointer text-sm font-bold text-[#F06292] hover:underline"
+								class="mt-4 cursor-pointer text-sm font-bold text-mochi-pink hover:underline"
 							>
 								Wrong address? Start again
 							</button>
@@ -341,7 +341,7 @@
 						<button
 							type="button"
 							onclick={handleGoogle}
-							class="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-2xl border border-[#D1D5DB] bg-white py-3 text-sm font-bold text-[#4A2C2C] shadow-sm transition-all hover:border-[#9CA3AF] hover:shadow-md"
+							class="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-2xl border border-[#D1D5DB] bg-white py-3 text-sm font-bold text-cocoa-ink shadow-sm transition-all hover:border-[#9CA3AF] hover:shadow-md"
 						>
 							<svg class="h-4 w-4" viewBox="0 0 24 24"
 								><path
@@ -365,7 +365,7 @@
 							<button
 								type="button"
 								onclick={handleMicrosoft}
-								class="mt-3 flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-2xl border border-[#D1D5DB] bg-white py-3 text-sm font-bold text-[#4A2C2C] shadow-sm transition-all hover:border-[#9CA3AF] hover:shadow-md"
+								class="mt-3 flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-2xl border border-[#D1D5DB] bg-white py-3 text-sm font-bold text-cocoa-ink shadow-sm transition-all hover:border-[#9CA3AF] hover:shadow-md"
 							>
 								<svg class="h-4 w-4" viewBox="0 0 21 21" aria-hidden="true"
 									><path fill="#F25022" d="M1 1h9v9H1z" /><path fill="#7FBA00" d="M11 1h9v9h-9z" /><path
@@ -378,14 +378,14 @@
 						{/if}
 
 						<div class="my-1 flex items-center gap-3">
-							<div class="h-px flex-1 bg-[#875F42]/10"></div>
-							<span class="text-xs font-medium text-[#875F42]/40">or</span>
-							<div class="h-px flex-1 bg-[#875F42]/10"></div>
+							<div class="h-px flex-1 bg-cocoa-milk/10"></div>
+							<span class="text-xs font-medium text-cocoa-milk/40">or</span>
+							<div class="h-px flex-1 bg-cocoa-milk/10"></div>
 						</div>
 
 						<form onsubmit={handleRegister} class="flex flex-col gap-4">
 							<div class="flex flex-col gap-1.5">
-								<label for="email" class="text-xs font-bold tracking-wide text-[#6C3F31] uppercase"
+								<label for="email" class="text-xs font-bold tracking-wide text-cocoa-deep uppercase"
 									>Email</label
 								>
 								<input
@@ -395,14 +395,14 @@
 									required
 									autocomplete="email"
 									placeholder="you@example.com"
-									class="w-full rounded-2xl border border-[#875F42]/15 bg-white/80 px-4 py-3 text-sm font-medium text-[#4A2C2C] placeholder-[#875F42]/30 transition-all focus:border-[#F06292]/40 focus:ring-2 focus:ring-[#F06292]/30 focus:outline-none"
+									class="w-full rounded-2xl border border-cocoa-milk/15 bg-white/80 px-4 py-3 text-sm font-medium text-cocoa-ink placeholder-cocoa-milk/30 transition-all focus:border-mochi-pink/40 focus:ring-2 focus:ring-mochi-pink/30 focus:outline-none"
 								/>
 							</div>
 
 							<div class="flex flex-col gap-1.5">
 								<label
 									for="password"
-									class="text-xs font-bold tracking-wide text-[#6C3F31] uppercase">Password</label
+									class="text-xs font-bold tracking-wide text-cocoa-deep uppercase">Password</label
 								>
 								<input
 									id="password"
@@ -412,7 +412,7 @@
 									minlength={8}
 									autocomplete="new-password"
 									placeholder="Min. 8 characters"
-									class="w-full rounded-2xl border border-[#875F42]/15 bg-white/80 px-4 py-3 text-sm font-medium text-[#4A2C2C] placeholder-[#875F42]/30 transition-all focus:border-[#F06292]/40 focus:ring-2 focus:ring-[#F06292]/30 focus:outline-none"
+									class="w-full rounded-2xl border border-cocoa-milk/15 bg-white/80 px-4 py-3 text-sm font-medium text-cocoa-ink placeholder-cocoa-milk/30 transition-all focus:border-mochi-pink/40 focus:ring-2 focus:ring-mochi-pink/30 focus:outline-none"
 								/>
 							</div>
 
@@ -425,13 +425,13 @@
 							<div class="flex flex-col gap-1.5">
 								<label
 									for="use-case"
-									class="text-xs font-bold tracking-wide text-[#6C3F31] uppercase"
+									class="text-xs font-bold tracking-wide text-cocoa-deep uppercase"
 									>What will you mainly use Mochify for? <span class="font-medium normal-case opacity-60">(optional)</span></label
 								>
 								<select
 									id="use-case"
 									bind:value={useCase}
-									class="w-full cursor-pointer rounded-2xl border border-[#875F42]/15 bg-white/80 px-4 py-3 text-sm font-medium text-[#4A2C2C] transition-all focus:border-[#F06292]/40 focus:ring-2 focus:ring-[#F06292]/30 focus:outline-none"
+									class="w-full cursor-pointer rounded-2xl border border-cocoa-milk/15 bg-white/80 px-4 py-3 text-sm font-medium text-cocoa-ink transition-all focus:border-mochi-pink/40 focus:ring-2 focus:ring-mochi-pink/30 focus:outline-none"
 								>
 									<option value="">Prefer not to say</option>
 									{#each USE_CASES as option (option.slug)}
@@ -451,9 +451,9 @@
 								<input type="checkbox" bind:checked={marketingOptOut} class="peer sr-only" />
 								<span
 									aria-hidden="true"
-									class="mt-px flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[7px] border transition-all duration-150 peer-focus-visible:ring-2 peer-focus-visible:ring-[#F06292]/40 peer-focus-visible:ring-offset-2 {marketingOptOut
+									class="mt-px flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[7px] border transition-all duration-150 peer-focus-visible:ring-2 peer-focus-visible:ring-mochi-pink/40 peer-focus-visible:ring-offset-2 {marketingOptOut
 										? 'border-transparent deep-tile'
-										: 'border-[#875F42]/20 bg-white/80'}"
+										: 'border-cocoa-milk/20 bg-white/80'}"
 								>
 									<svg
 										class="h-2.5 w-2.5 text-white transition-transform duration-150 {marketingOptOut
@@ -469,9 +469,9 @@
 										<path d="M5 13l4 4L19 7" />
 									</svg>
 								</span>
-								<span class="text-xs leading-relaxed font-medium text-[#875F42]/80">
+								<span class="text-xs leading-relaxed font-medium text-cocoa-milk/80">
 									Don't email me offers or product news.
-									<span class="block text-[#875F42]/50">
+									<span class="block text-cocoa-milk/50">
 										Account and security emails are sent either way. You can change this any time in
 										your dashboard.
 									</span>
@@ -481,12 +481,12 @@
 							<button
 								type="submit"
 								disabled={loading}
-								class="mt-2 w-full rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] py-3 text-sm font-black tracking-wide text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] disabled:transform-none disabled:cursor-not-allowed disabled:opacity-60"
+								class="mt-2 w-full rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink py-3 text-sm font-black tracking-wide text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] disabled:transform-none disabled:cursor-not-allowed disabled:opacity-60"
 							>
 								{loading ? 'Creating account…' : 'Create account'}
 							</button>
 
-							<p class="-mt-1 text-center text-xs font-medium text-[#875F42]/50">
+							<p class="-mt-1 text-center text-xs font-medium text-cocoa-milk/50">
 								{panel.footnote}
 							</p>
 						</form>
@@ -494,9 +494,9 @@
 				</div>
 
 				{#if !success}
-					<p class="mt-6 text-center text-sm text-[#875F42]/60">
+					<p class="mt-6 text-center text-sm text-cocoa-milk/60">
 						Already have an account?
-						<a href="/auth/login" class="font-bold text-[#F06292] hover:underline">Sign in</a>
+						<a href="/auth/login" class="font-bold text-mochi-pink hover:underline">Sign in</a>
 					</p>
 				{/if}
 			</div>

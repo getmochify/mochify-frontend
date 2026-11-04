@@ -16,20 +16,20 @@
     let { title, eyebrow, updated, lead, children }: Props = $props();
 </script>
 
-<div class="min-h-screen bg-[#FDFBF7] flex flex-col">
+<div class="min-h-screen bg-mochi-bg flex flex-col">
     <Navigation />
 
     <main class="relative z-10 flex-grow w-full max-w-3xl mx-auto px-5 sm:px-6 py-12 md:py-16">
         <header class="mb-10 md:mb-14">
             {#if eyebrow}
-                <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#F06292] mb-3">{eyebrow}</p>
+                <p class="text-xs font-bold uppercase tracking-[0.18em] text-mochi-pink mb-3">{eyebrow}</p>
             {/if}
-            <h1 class="text-3xl md:text-[2.75rem] font-black text-[#4A2C2C] tracking-tight leading-[1.1]">
+            <h1 class="text-3xl md:text-[2.75rem] font-black text-cocoa-ink tracking-tight leading-[1.1]">
                 {title}
             </h1>
-            <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
+            <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
             {#if updated}
-                <p class="mt-5 text-sm text-[#875F42]/70">Last updated {updated}</p>
+                <p class="mt-5 text-sm text-cocoa-milk/70">Last updated {updated}</p>
             {/if}
         </header>
 

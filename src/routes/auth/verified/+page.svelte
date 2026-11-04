@@ -23,7 +23,7 @@
 	<main class="relative z-10 flex flex-grow items-start justify-center px-4 pt-16 pb-12">
 		<div class="w-full max-w-sm">
 			<div class="mb-8 text-center">
-				<h1 class="mb-1 text-3xl font-black tracking-tight text-[#4A2C2C]">
+				<h1 class="mb-1 text-3xl font-black tracking-tight text-cocoa-ink">
 					{state === 'verified'
 						? 'Email verified'
 						: state === 'expired'
@@ -37,7 +37,7 @@
 			>
 				{#if state === 'verified'}
 					<div
-						class="mb-5 rounded-2xl border border-[#66BB6A]/30 bg-[#A5D6A7]/20 px-4 py-3 text-sm font-medium text-[#2E5C31]"
+						class="mb-5 rounded-2xl border border-[#66BB6A]/30 bg-matcha-green/20 px-4 py-3 text-sm font-medium text-[#2E5C31]"
 					>
 						Your account is ready. Sign in to continue.
 					</div>
@@ -54,15 +54,15 @@
 
 				<a
 					href={loginHref}
-					class="block w-full rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] py-3 text-center text-sm font-black tracking-wide text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)]"
+					class="block w-full rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink py-3 text-center text-sm font-black tracking-wide text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)]"
 				>
 					Sign in
 				</a>
 			</div>
 
-			<p class="mt-6 text-center text-sm text-[#875F42]/60">
+			<p class="mt-6 text-center text-sm text-cocoa-milk/60">
 				Still stuck?
-				<a href="/contact" class="font-bold text-[#F06292] hover:underline">Contact us</a>
+				<a href="/contact" class="font-bold text-mochi-pink hover:underline">Contact us</a>
 			</p>
 		</div>
 	</main>

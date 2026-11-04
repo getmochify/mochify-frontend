@@ -151,9 +151,9 @@
                 </span>
             </div>
 
-            <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
+            <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
                 Convert
-                <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
+                <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
                     PNG
                 </span>
                 to
@@ -162,7 +162,7 @@
                 </span>
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
+            <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Drop PNG files here and get JPEG XL (JXL) files back. By default each file gets one high-quality encode tuned for PNG content, which makes the smallest file; switch <strong class="text-[#7E685E]">Lossless</strong> on after uploading and the JXL reproduces your PNG pixel for pixel, usually still smaller than the original. Up to 3 files a month with no signup and 20MB per file, or 25 a month with a free account. Files are processed in memory at api.mochify.app and wiped the moment your download is ready.
             </p>
         </div>
@@ -180,7 +180,7 @@
         </div>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">How to convert PNG to JXL</h2>
+            <h2 class="text-2xl font-bold text-cocoa-ink mb-6">How to convert PNG to JXL</h2>
             <div class="grid sm:grid-cols-3 gap-4">
                 {#each [
                     { n: '1', t: 'Drop your PNGs', d: 'Drag up to 3 files onto the box, or click it to choose them. No account is needed for your first files.' },
@@ -189,8 +189,8 @@
                 ] as step}
                     <div class="bg-white p-6 rounded-2xl border border-pink-50 shadow-sm">
                         <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-amber-50 text-amber-600 font-black text-sm mb-4">{step.n}</span>
-                        <h3 class="font-bold text-[#4A2C2C] text-sm mb-1.5">{step.t}</h3>
-                        <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">{step.d}</p>
+                        <h3 class="font-bold text-cocoa-ink text-sm mb-1.5">{step.t}</h3>
+                        <p class="text-sm text-cocoa-deep leading-relaxed opacity-90">{step.d}</p>
                     </div>
                 {/each}
             </div>
@@ -201,31 +201,31 @@
 
                 <div class="space-y-8">
                     <div class="space-y-4">
-                        <h2 class="text-2xl font-bold text-[#4A2C2C]">Lossless or compressed: which should you pick?</h2>
-                        <p class="leading-relaxed text-[#6C3F31]">
+                        <h2 class="text-2xl font-bold text-cocoa-ink">Lossless or compressed: which should you pick?</h2>
+                        <p class="leading-relaxed text-cocoa-deep">
                             <strong class="text-[#7E685E]">Lossless</strong> gives you the PNG's pixels back exactly, in a JXL that is typically smaller than the PNG, because JPEG XL's lossless coder handles flat color, sharp edges and text very efficiently. Pick it for logos, icons, design assets, screenshots you will keep editing, and anything you would otherwise archive as PNG. It is the slower path and the difference shows on large files. Sixteen-bit PNGs stay 16-bit.
                         </p>
-                        <p class="leading-relaxed text-[#6C3F31]">
+                        <p class="leading-relaxed text-cocoa-deep">
                             <strong class="text-[#7E685E]">Compressed</strong> (the default) re-encodes the pixels with one high-quality setting chosen for PNG content. The result looks the same on screen and is a good deal smaller again than lossless, which is what you want for screenshots and UI exports you only need to look at, or photos that happen to be saved as PNG. It is not a pixel-exact copy, so keep the PNG if you might need one later.
                         </p>
-                        <p class="leading-relaxed text-[#6C3F31]">
+                        <p class="leading-relaxed text-cocoa-deep">
                             Transparency is carried through in both modes: a PNG with a transparent background comes back as a JXL with the same alpha channel, so icons and cut-outs keep their edges.
                         </p>
-                        <p class="leading-relaxed text-[#6C3F31]">
+                        <p class="leading-relaxed text-cocoa-deep">
                             Metadata is stripped by default, GPS included, with nothing to set for it on this page. If you need the file's metadata kept, the Mochify web app has a Strip EXIF switch and the API takes stripExif=false.
                         </p>
                     </div>
 
                     <div class="space-y-4">
-                        <h2 class="text-2xl font-bold text-[#4A2C2C]">Can you use a JXL file on the web today?</h2>
-                        <p class="leading-relaxed text-[#6C3F31]">
-                            Most visitors, from October 2026. Chrome 155 and Firefox 158 decode JPEG XL by default and Safari has since version 17, so a JXL can be the first source on a public page; keep an <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">AVIF or WebP</a> fallback for Edge and for browsers that have not updated yet. Our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">JPEG XL in Chrome and what changes now</a> has the dated browser table, and the <a href="/guides/converting-images-to-jpeg-xl#png-to-jxl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">practical JPEG XL guide</a> covers the PNG path and the fallback pattern. JXL is also the right format for image pipelines and tools that read it, internal archives, and anywhere you control the viewer. JPEG remains the format that opens everywhere, including email and chat.
+                        <h2 class="text-2xl font-bold text-cocoa-ink">Can you use a JXL file on the web today?</h2>
+                        <p class="leading-relaxed text-cocoa-deep">
+                            Most visitors, from October 2026. Chrome 155 and Firefox 158 decode JPEG XL by default and Safari has since version 17, so a JXL can be the first source on a public page; keep an <a href="/guides/what-should-i-use-in-2026-webp-avif-or-jpeg-xl" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">AVIF or WebP</a> fallback for Edge and for browsers that have not updated yet. Our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">JPEG XL in Chrome and what changes now</a> has the dated browser table, and the <a href="/guides/converting-images-to-jpeg-xl#png-to-jxl" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">practical JPEG XL guide</a> covers the PNG path and the fallback pattern. JXL is also the right format for image pipelines and tools that read it, internal archives, and anywhere you control the viewer. JPEG remains the format that opens everywhere, including email and chat.
                         </p>
                     </div>
                 </div>
 
                 <div>
-                    <h2 class="text-2xl font-bold text-[#4A2C2C] mb-4">Frequently asked questions</h2>
+                    <h2 class="text-2xl font-bold text-cocoa-ink mb-4">Frequently asked questions</h2>
                     <FaqAccordion {faqs} />
                 </div>
             </div>
@@ -233,26 +233,26 @@
 
         <!-- Format comparison -->
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">PNG, JXL, AVIF or WebP: which one?</h2>
+            <h2 class="text-2xl font-bold text-cocoa-ink mb-6">PNG, JXL, AVIF or WebP: which one?</h2>
             <div class="overflow-x-auto rounded-2xl border border-pink-50 shadow-sm">
                 <table class="w-full border-collapse text-sm">
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Format</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Transparency</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Lossless on Mochify</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Browser support</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Best for</th>
+                        <tr class="bg-mochi-blush">
+                            <th class="text-left px-5 py-4 text-cocoa-milk font-black text-xs uppercase tracking-wider border-b border-pink-50">Format</th>
+                            <th class="text-left px-5 py-4 text-cocoa-milk font-black text-xs uppercase tracking-wider border-b border-pink-50">Transparency</th>
+                            <th class="text-left px-5 py-4 text-cocoa-milk font-black text-xs uppercase tracking-wider border-b border-pink-50">Lossless on Mochify</th>
+                            <th class="text-left px-5 py-4 text-cocoa-milk font-black text-xs uppercase tracking-wider border-b border-pink-50">Browser support</th>
+                            <th class="text-left px-5 py-4 text-cocoa-milk font-black text-xs uppercase tracking-wider border-b border-pink-50">Best for</th>
                         </tr>
                     </thead>
                     <tbody>
                         {#each formatRows as row, i}
-                            <tr class={row.highlight ? 'bg-amber-50' : i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
-                                <td class="px-5 py-3.5 font-black text-[#4A2C2C] border-b border-pink-50">{row.fmt}</td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.alpha}</td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.lossless}</td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.support}</td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.best}</td>
+                            <tr class={row.highlight ? 'bg-amber-50' : i % 2 === 0 ? 'bg-white' : 'bg-mochi-bg'}>
+                                <td class="px-5 py-3.5 font-black text-cocoa-ink border-b border-pink-50">{row.fmt}</td>
+                                <td class="px-5 py-3.5 text-cocoa-deep border-b border-pink-50">{row.alpha}</td>
+                                <td class="px-5 py-3.5 text-cocoa-deep border-b border-pink-50">{row.lossless}</td>
+                                <td class="px-5 py-3.5 text-cocoa-deep border-b border-pink-50">{row.support}</td>
+                                <td class="px-5 py-3.5 text-cocoa-deep border-b border-pink-50">{row.best}</td>
                             </tr>
                         {/each}
                     </tbody>
@@ -262,30 +262,30 @@
 
         <!-- Bulk / automation -->
         <section class="mt-20 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Bulk, batch and automated PNG to JXL</h2>
-            <p class="leading-relaxed text-[#6C3F31]">
-                Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. The same conversion runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify auth login</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
+            <h2 class="text-2xl font-bold text-cocoa-ink">Bulk, batch and automated PNG to JXL</h2>
+            <p class="leading-relaxed text-cocoa-deep">
+                Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. The same conversion runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify auth login</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
             </p>
             <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=jxl" \
   -H "Authorization: Bearer $MOCHIFY_KEY" \
   --data-binary @screenshot.png \
   -o screenshot.jxl</code></pre>
-            <p class="leading-relaxed text-[#6C3F31]">
-                The CLI, MCP and API are clients over the same encoder as this page: files travel over HTTPS to api.mochify.app, are converted in memory and discarded. Full parameter reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>. Lossless is available there too: add <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">&amp;lossless=1</code> to the same request. Coming from a JPEG instead? The <a href="/jpg-to-jpegxl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">JPG to JXL converter</a> is the better starting point; from AVIF, use <a href="/avif-to-jpegxl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">AVIF to JXL</a>.
+            <p class="leading-relaxed text-cocoa-deep">
+                The CLI, MCP and API are clients over the same encoder as this page: files travel over HTTPS to api.mochify.app, are converted in memory and discarded. Full parameter reference in the <a href="/docs" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">API documentation</a>. Lossless is available there too: add <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">&amp;lossless=1</code> to the same request. Coming from a JPEG instead? The <a href="/jpg-to-jpegxl" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">JPG to JXL converter</a> is the better starting point; from AVIF, use <a href="/avif-to-jpegxl" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">AVIF to JXL</a>.
             </p>
         </section>
 
         <!-- Also available -->
         <section class="mt-16 max-w-4xl mx-auto">
-            <p class="text-xs font-black text-[#875F42] uppercase tracking-widest mb-4">Also available</p>
+            <p class="text-xs font-black text-cocoa-milk uppercase tracking-widest mb-4">Also available</p>
             <div class="grid sm:grid-cols-3 gap-4">
                 <a href="/jpg-to-jpegxl" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">JPG to JXL →</p>
-                        <p class="text-xs text-[#875F42]">Re-encode JPEGs as JPEG XL, one high-quality path</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">JPG to JXL →</p>
+                        <p class="text-xs text-cocoa-milk">Re-encode JPEGs as JPEG XL, one high-quality path</p>
                     </div>
                 </a>
                 <a href="/avif-to-jpegxl" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -293,8 +293,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">AVIF to JXL →</p>
-                        <p class="text-xs text-[#875F42]">Transcode AVIF to JPEG XL</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">AVIF to JXL →</p>
+                        <p class="text-xs text-cocoa-milk">Transcode AVIF to JPEG XL</p>
                     </div>
                 </a>
                 <a href="/solutions/jxl-to-pdf" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -302,8 +302,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">JXL to PDF →</p>
-                        <p class="text-xs text-[#875F42]">Bundle JXL images into one PDF</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">JXL to PDF →</p>
+                        <p class="text-xs text-cocoa-milk">Bundle JXL images into one PDF</p>
                     </div>
                 </a>
             </div>

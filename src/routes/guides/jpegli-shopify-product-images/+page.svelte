@@ -93,30 +93,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Jpegli" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Shopify recompresses every image you upload, and that second pass degrades quality you worked hard to preserve. Pre-compress with Jpegli before upload and you control the output entirely - no apps, no plugins, no quality surprises.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-cocoa-deep">
                 <strong>Published April 2026 by the Mochify Engineering Team.</strong> Jpegli produces files roughly 35% smaller than a standard JPEG at equivalent visual quality - and outputs a standard <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">.jpg</code> file that every browser, Shopify theme, and marketplace reads without changes.
             </p>
         </div>
@@ -128,7 +128,7 @@
             <GuideTOC items={toc} heading="What's in this guide" />
         </section>
 
-        <section class="my-8 bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
+        <section class="my-8 bg-mochi-blush rounded-3xl p-6 md:p-8 border border-pink-100">
             <SectionHeading>30-second summary</SectionHeading>
             <p>Shopify recompresses your images on upload. If you give it a poorly-encoded JPEG, you get a doubly-degraded result. Give it a Jpegli-encoded JPEG - which packs more perceptual quality per byte than standard JPEG - and Shopify's pipeline has a much better input to work with. The output on your storefront is noticeably sharper, and the file is ~35% smaller to boot.</p>
         </section>
@@ -154,7 +154,7 @@
         <!-- Section 3 -->
         <section id="comparison" class="scroll-mt-24">
             <SectionHeading>Jpegli vs standard JPEG - at a glance</SectionHeading>
-            <p class="mb-4">Because Jpegli outputs a standard <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">.jpg</code> file, every browser and every Shopify theme reads it without any changes. There is no compatibility trade-off.</p>
+            <p class="mb-4">Because Jpegli outputs a standard <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">.jpg</code> file, every browser and every Shopify theme reads it without any changes. There is no compatibility trade-off.</p>
 
             <GuideTable class="my-6">
                 <table>
@@ -179,7 +179,7 @@
         <!-- Section 4 -->
         <section id="step-by-step" class="scroll-mt-24">
             <SectionHeading>Step-by-step: compress Shopify images with Jpegli</SectionHeading>
-            <ol class="list-decimal pl-6 mb-6 space-y-3 marker:text-[#F06292] marker:font-bold">
+            <ol class="list-decimal pl-6 mb-6 space-y-3 marker:text-mochi-pink marker:font-bold">
                 <li><strong>Resize first.</strong> Scale product images to 2048 × 2048 px (or your largest display size). Shopify will not upscale, so never upload smaller than needed.</li>
                 <li><strong>Open <a href="https://mochify.app">mochify.app</a>.</strong> No account is required for up to 3 files a month. Free tier: 25 images/month.</li>
                 <li><strong>Describe what you want using Magic Flow.</strong> Instead of manually picking settings, type your intent in plain English - for example: <em>"compress as jpegli at quality 82, strip location data, max 2048px"</em>. Mochify's NLP engine parses the prompt and applies the right format, quality, and metadata settings to every file automatically.</li>

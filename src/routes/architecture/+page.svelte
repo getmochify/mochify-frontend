@@ -63,15 +63,15 @@
         <pre class="text-[12px] leading-relaxed text-[#E6E6E6] font-mono whitespace-pre">$ docker inspect mochify-core
 
 <span class="text-[#9AA0A6]">"HostConfig": &#123;</span>
-    "ReadonlyRootfs": <span class="text-[#A5D6A7] font-bold">true</span>,
+    "ReadonlyRootfs": <span class="text-matcha-green font-bold">true</span>,
     "Tmpfs": &#123; "/tmp": "size=1024M,mode=1777" &#125;,
-    "CapDrop": [ <span class="text-[#A5D6A7] font-bold">"ALL"</span> ],
-    "CapAdd": <span class="text-[#A5D6A7] font-bold">null</span>,
+    "CapDrop": [ <span class="text-matcha-green font-bold">"ALL"</span> ],
+    "CapAdd": <span class="text-matcha-green font-bold">null</span>,
     "SecurityOpt": [ "no-new-privileges:true" ],
-    "Privileged": <span class="text-[#A5D6A7] font-bold">false</span>
+    "Privileged": <span class="text-matcha-green font-bold">false</span>
 <span class="text-[#9AA0A6]">&#125;,
 "Mounts": [</span>
-    &#123; "Destination": "/app/config.json", "RW": <span class="text-[#A5D6A7] font-bold">false</span> &#125;
+    &#123; "Destination": "/app/config.json", "RW": <span class="text-matcha-green font-bold">false</span> &#125;
 <span class="text-[#9AA0A6]">]</span></pre>
     </div>
 
@@ -105,7 +105,7 @@
 
     <div class="not-prose my-6 overflow-x-auto rounded-2xl bg-[#282C34] p-5 shadow-sm">
         <pre class="text-[12px] leading-relaxed text-[#E6E6E6] font-mono whitespace-pre"><span class="text-[#9AA0A6]">CONTAINER ID   NAME            CPU %    MEM USAGE / LIMIT    MEM %    NET I/O            BLOCK I/O      PIDS</span>
-06b59c402968   mochify-core    3.94%    480.6MiB / 15.62GiB  3.00%    14.8kB / 8.22kB    304MB / <span class="text-[#A5D6A7] font-bold">0B</span>     22</pre>
+06b59c402968   mochify-core    3.94%    480.6MiB / 15.62GiB  3.00%    14.8kB / 8.22kB    304MB / <span class="text-matcha-green font-bold">0B</span>     22</pre>
     </div>
 
     <p>

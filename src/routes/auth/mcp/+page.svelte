@@ -12,17 +12,17 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="flex min-h-screen flex-col bg-[#FDFBF7]">
+<div class="flex min-h-screen flex-col bg-mochi-bg">
 	<Navigation />
 
 	<main class="flex flex-grow items-start justify-center px-4 pt-16 pb-12">
 		<div class="w-full max-w-sm">
 			<div class="mb-8 text-center">
-				<h1 class="mb-1 text-3xl font-black tracking-tight text-[#4A2C2C]">
+				<h1 class="mb-1 text-3xl font-black tracking-tight text-cocoa-ink">
 					Authorize Integration
 				</h1>
-				<p class="text-sm text-[#875F42]/70">
-					Signed in as <span class="font-semibold text-[#4A2C2C]">{data.user.email}</span>
+				<p class="text-sm text-cocoa-milk/70">
+					Signed in as <span class="font-semibold text-cocoa-ink">{data.user.email}</span>
 				</p>
 			</div>
 
@@ -39,22 +39,22 @@
 
 				<div class="mb-5 flex items-center gap-3">
 					<div
-						class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292]"
+						class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink"
 					>
 						<svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 							<path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
 						</svg>
 					</div>
 					<div>
-						<p class="text-sm font-black text-[#4A2C2C]">Mochify Image Processing</p>
-						<p class="text-xs text-[#875F42]/60">Compress, convert, and resize images</p>
+						<p class="text-sm font-black text-cocoa-ink">Mochify Image Processing</p>
+						<p class="text-xs text-cocoa-milk/60">Compress, convert, and resize images</p>
 					</div>
 				</div>
 
-				<p class="{data.returnsTo ? 'mb-3' : 'mb-5'} text-sm text-[#875F42]/80">
+				<p class="{data.returnsTo ? 'mb-3' : 'mb-5'} text-sm text-cocoa-milk/80">
 					{#if data.clientName}
 						An app that calls itself
-						<span class="font-semibold text-[#4A2C2C]">“{data.clientName}”</span>
+						<span class="font-semibold text-cocoa-ink">“{data.clientName}”</span>
 						wants to process images on your behalf using your Mochify account and quota.
 					{:else}
 						This will allow your AI assistant to process images on your behalf using your Mochify
@@ -62,9 +62,9 @@
 					{/if}
 				</p>
 				{#if data.returnsTo}
-					<p class="mb-5 text-sm text-[#875F42]/80">
+					<p class="mb-5 text-sm text-cocoa-milk/80">
 						After you approve, you'll be sent back to
-						<span class="font-semibold text-[#4A2C2C]">{data.returnsTo}</span>. If that isn't
+						<span class="font-semibold text-cocoa-ink">{data.returnsTo}</span>. If that isn't
 						where you started, don't authorize.
 					</p>
 				{/if}
@@ -88,15 +88,15 @@
 					<button
 						type="submit"
 						disabled={loading}
-						class="w-full rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] py-3 text-sm font-black tracking-wide text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
+						class="w-full rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink py-3 text-sm font-black tracking-wide text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
 					>
 						{loading ? 'Authorizing…' : 'Authorize'}
 					</button>
 				</form>
 
-				<p class="mt-5 text-center text-xs text-[#875F42]/50">
+				<p class="mt-5 text-center text-xs text-cocoa-milk/50">
 					Not you?
-					<a href="/auth/login" class="font-bold text-[#F06292] hover:underline"
+					<a href="/auth/login" class="font-bold text-mochi-pink hover:underline"
 						>Sign in with a different account</a
 					>
 				</p>

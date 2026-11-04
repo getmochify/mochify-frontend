@@ -32,21 +32,21 @@
 </script>
 
 <div
-	class="rounded-3xl border border-pink-100 bg-gradient-to-b from-[#FFF0F3]/70 to-white px-6 py-10 text-center shadow-sm md:px-12 md:py-12 {className}"
+	class="rounded-3xl border border-pink-100 bg-gradient-to-b from-mochi-strawberry/70 to-white px-6 py-10 text-center shadow-sm md:px-12 md:py-12 {className}"
 >
 	<h3 class="cta-heading">{heading}</h3>
 	<p class="cta-body">{@render children()}</p>
 	<div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
 		<a
 			{href}
-			class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#F06292] px-7 py-4 font-black text-white no-underline shadow-lg transition-all hover:-translate-y-0.5 hover:bg-[#D81B60] sm:w-auto"
+			class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-mochi-pink px-7 py-4 font-black text-white no-underline shadow-lg transition-all hover:-translate-y-0.5 hover:bg-mochi-pink-deep sm:w-auto"
 		>
 			{label}
 		</a>
 		{#if secondaryHref && secondaryLabel}
 			<a
 				href={secondaryHref}
-				class="inline-flex w-full items-center justify-center rounded-2xl border border-[#875F42]/25 px-7 py-4 font-black text-[#6C3F31] no-underline transition-all hover:border-[#F06292]/40 hover:bg-[#FFF5F7] hover:text-[#F06292] sm:w-auto"
+				class="inline-flex w-full items-center justify-center rounded-2xl border border-cocoa-milk/25 px-7 py-4 font-black text-cocoa-deep no-underline transition-all hover:border-mochi-pink/40 hover:bg-mochi-blush hover:text-mochi-pink sm:w-auto"
 			>
 				{secondaryLabel}
 			</a>

@@ -92,30 +92,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Product Photos" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Use AVIF as your primary format, WebP as your first fallback, and JPEG as your universal fallback. AVIF consistently produces the smallest files at good visual quality for photographic content, WebP covers browsers that don't yet handle AVIF cleanly, and JPEG ensures nothing breaks for older systems or third-party integrations.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
                 <strong>Published May 2026 by the Mochify Engineering Team.</strong> This article covers the practical format fallback order for ecommerce product images and explains when JPEG is still the right choice for marketplace uploads.
             </p>
         </div>
@@ -125,13 +125,13 @@
 
         <section id="fallback-order" class="scroll-mt-24">
             <SectionHeading>The practical fallback order</SectionHeading>
-            <p class="mb-4">The strongest pattern for serving product images on the web is the HTML <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> element, which lets browsers pick the best format they can decode:</p>
+            <p class="mb-4">The strongest pattern for serving product images on the web is the HTML <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> element, which lets browsers pick the best format they can decode:</p>
 
             <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm mb-4">
-                <div class="bg-[#4A2C2C] px-5 py-3 flex items-center justify-between">
+                <div class="bg-cocoa-ink px-5 py-3 flex items-center justify-between">
                     <span class="text-pink-200 text-xs font-black uppercase tracking-widest">HTML</span>
                 </div>
-                <pre class="bg-[#2D1B1B] text-[#FFF0F3] text-sm p-6 overflow-x-auto leading-relaxed"><code>&lt;picture&gt;
+                <pre class="bg-cocoa-night text-mochi-strawberry text-sm p-6 overflow-x-auto leading-relaxed"><code>&lt;picture&gt;
   &lt;source srcset="product.avif" type="image/avif"&gt;
   &lt;source srcset="product.webp" type="image/webp"&gt;
   &lt;img src="product.jpg" alt="Product name"&gt;
@@ -148,7 +148,7 @@
 
         <section id="keep-jpeg" class="scroll-mt-24">
             <SectionHeading>When to keep JPEG as your only format</SectionHeading>
-            <p class="mb-4">If you're uploading directly to a marketplace (Amazon, eBay, Etsy) or a CMS that re-processes images on ingest, JPEG is often the right choice for your upload file. Those platforms apply their own compression pipeline, so delivering AVIF at upload doesn't give you control over what they serve, and picking the wrong one is a common way to <a href="https://mochify.app/guides/ebay-image-file-not-supported">fix "file not supported" errors on eBay</a> before they happen. For your own storefront - Shopify, WooCommerce, a custom build - serving AVIF via <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> gives you full control and the best results.</p>
+            <p class="mb-4">If you're uploading directly to a marketplace (Amazon, eBay, Etsy) or a CMS that re-processes images on ingest, JPEG is often the right choice for your upload file. Those platforms apply their own compression pipeline, so delivering AVIF at upload doesn't give you control over what they serve, and picking the wrong one is a common way to <a href="https://mochify.app/guides/ebay-image-file-not-supported">fix "file not supported" errors on eBay</a> before they happen. For your own storefront - Shopify, WooCommerce, a custom build - serving AVIF via <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> gives you full control and the best results.</p>
             <p class="mb-4">Format support also varies more between platforms than most sellers expect, and the differences are rarely documented in one place. Before you standardize on a single export preset, it is worth checking <a href="/guides/product-image-requirements-marketplace-guide">what each marketplace actually accepts</a> for format, dimensions, and file size.</p>
 
             <GlassInfoBox type="tip" title="Marketplace tip">
@@ -161,12 +161,12 @@
             <p class="mb-4">Compress product photos to AVIF or WebP before uploading to your storefront, and keep JPEG fallback versions for marketplace listings and older integrations. At <a href="https://mochify.app">mochify.app</a> you can describe the task in plain English - for example, type <em>"convert to AVIF and compress for product pages"</em> - and Magic Flow handles the format conversion, compression, and EXIF stripping in one step. Files are processed without being stored, so nothing is retained after your session ends.</p>
         </section>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
-            <h3 class="text-lg font-bold text-[#4A2C2C] mb-3">Compress product photos to AVIF or WebP in one step</h3>
-            <p class="text-[#6C3F31] leading-relaxed mb-4">
+        <div class="bg-mochi-blush rounded-3xl p-6 md:p-8 border border-pink-100">
+            <h3 class="text-lg font-bold text-cocoa-ink mb-3">Compress product photos to AVIF or WebP in one step</h3>
+            <p class="text-cocoa-deep leading-relaxed mb-4">
                 Just type something like <em>"convert to AVIF and compress for product pages"</em> - Magic Flow handles format conversion, compression, and EXIF stripping. Files are processed in-memory and wiped after your session ends. No account required for up to 3 files.
             </p>
-            <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
+            <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
                 Try it free
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             </a>

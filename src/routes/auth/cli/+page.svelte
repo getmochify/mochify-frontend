@@ -7,7 +7,7 @@
 	let loading = $state(false);
 
 	const button =
-		'w-full rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] py-3 text-sm font-black tracking-wide text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60';
+		'w-full rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink py-3 text-sm font-black tracking-wide text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60';
 </script>
 
 <svelte:head>
@@ -15,7 +15,7 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="flex min-h-screen flex-col bg-[#FDFBF7]">
+<div class="flex min-h-screen flex-col bg-mochi-bg">
 	<Navigation />
 
 	<main class="flex flex-grow items-start justify-center px-4 pt-16 pb-12">
@@ -23,23 +23,23 @@
 			{#if form?.success}
 				<div class="text-center">
 					<div
-						class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#A5D6A7]/30"
+						class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-matcha-green/30"
 					>
 						<svg class="h-8 w-8 text-[#2E5C31]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
 							<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 						</svg>
 					</div>
-					<h1 class="mb-2 text-3xl font-black tracking-tight text-[#4A2C2C]">You're in</h1>
-					<p class="text-sm text-[#875F42]/70">
+					<h1 class="mb-2 text-3xl font-black tracking-tight text-cocoa-ink">You're in</h1>
+					<p class="text-sm text-cocoa-milk/70">
 						The CLI is authorized. Return to your terminal — it should continue automatically.
 					</p>
-					<p class="mt-6 text-xs text-[#875F42]/40">You can close this tab.</p>
+					<p class="mt-6 text-xs text-cocoa-milk/40">You can close this tab.</p>
 				</div>
 			{:else}
 				<div class="mb-8 text-center">
-					<h1 class="mb-1 text-3xl font-black tracking-tight text-[#4A2C2C]">Authorize CLI</h1>
-					<p class="text-sm text-[#875F42]/70">
-						Signed in as <span class="font-semibold text-[#4A2C2C]">{data.user.email}</span>
+					<h1 class="mb-1 text-3xl font-black tracking-tight text-cocoa-ink">Authorize CLI</h1>
+					<p class="text-sm text-cocoa-milk/70">
+						Signed in as <span class="font-semibold text-cocoa-ink">{data.user.email}</span>
 					</p>
 				</div>
 
@@ -55,22 +55,22 @@
 					{/if}
 
 					{#if data.mode === 'legacy'}
-						<p class="mb-4 text-sm text-[#875F42]/80">
+						<p class="mb-4 text-sm text-cocoa-milk/80">
 							This login link comes from an older version of the Mochify CLI, which signs in a way
 							that is no longer supported.
 						</p>
-						<p class="mb-2 text-sm text-[#875F42]/80">
+						<p class="mb-2 text-sm text-cocoa-milk/80">
 							Update the CLI, then run <code>mochify auth login</code> again:
 						</p>
 						<pre
-							class="mb-5 overflow-x-auto rounded-2xl bg-[#4A2C2C]/5 px-4 py-3 text-xs text-[#4A2C2C]">brew upgrade mochify
+							class="mb-5 overflow-x-auto rounded-2xl bg-cocoa-ink/5 px-4 py-3 text-xs text-cocoa-ink">brew upgrade mochify
 scoop update mochify
 cargo install mochify</pre>
-						<p class="text-xs text-[#875F42]/60">
+						<p class="text-xs text-cocoa-milk/60">
 							If you didn't just run <code>mochify auth login</code> yourself, close this page.
 						</p>
 					{:else}
-						<p class="mb-5 text-sm text-[#875F42]/80">
+						<p class="mb-5 text-sm text-cocoa-milk/80">
 							{#if data.mode === 'loopback'}
 								This signs in the Mochify CLI that is running on this computer, and gives it an API
 								key for your account.
@@ -125,7 +125,7 @@ cargo install mochify</pre>
 									};
 								}}
 							>
-								<label for="code" class="mb-2 block text-xs font-bold text-[#4A2C2C]">Code</label>
+								<label for="code" class="mb-2 block text-xs font-bold text-cocoa-ink">Code</label>
 								<input
 									id="code"
 									name="code"
@@ -135,7 +135,7 @@ cargo install mochify</pre>
 									spellcheck="false"
 									placeholder="XXXX-XXXX"
 									value={form && 'code' in form ? form.code : data.prefill}
-									class="mb-4 w-full rounded-2xl border border-[#875F42]/20 bg-white px-4 py-3 text-center font-mono text-lg tracking-[0.3em] text-[#4A2C2C] uppercase"
+									class="mb-4 w-full rounded-2xl border border-cocoa-milk/20 bg-white px-4 py-3 text-center font-mono text-lg tracking-[0.3em] text-cocoa-ink uppercase"
 								/>
 								<button type="submit" disabled={loading} class={button}>
 									{loading ? 'Authorizing…' : 'Authorize Mochify CLI'}
@@ -144,9 +144,9 @@ cargo install mochify</pre>
 						{/if}
 					{/if}
 
-					<p class="mt-5 text-center text-xs text-[#875F42]/50">
+					<p class="mt-5 text-center text-xs text-cocoa-milk/50">
 						Not you?
-						<a href="/auth/login" class="font-bold text-[#F06292] hover:underline"
+						<a href="/auth/login" class="font-bold text-mochi-pink hover:underline"
 							>Sign in with a different account</a
 						>
 					</p>

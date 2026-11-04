@@ -219,25 +219,25 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
 	<header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category} · Guide
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="WebP and AVIF" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
 			To convert images to WebP and AVIF for a whole website you need two things, and almost every
 			tool, tutorial and plugin gives you only the first: a way to convert the images you have, and
 			a way to convert the images that arrive next week without anyone remembering to. This guide
@@ -246,7 +246,7 @@
 			files that do not have a <code>.webp</code> and <code>.avif</code> beside them yet, so it can run
 			every day, in a build, or from an AI coding agent, and cost nothing when there is nothing new.
 		</p>
-		<p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+		<p class="mt-5 mb-0 text-lg leading-relaxed text-cocoa-deep">
 			If you are here because a speed test said "Serve images in modern formats" (Lighthouse and
 			PageSpeed Insights; older reports said "next-gen formats"), you have met the symptom. If you
 			are here because the thing that used to fix it stopped working, you have met the real problem.
@@ -263,7 +263,7 @@
 			you can take control of yourself, and this particular piece of control is not a chore once the conversion
 			lives somewhere that does not rot.
 		</p>
-		<p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+		<p class="mt-5 mb-0 text-lg leading-relaxed text-cocoa-deep">
 			This guide is for the person who owns the site, whether or not they write code: a front-end
 			developer, a designer who maintains a portfolio, a small agency, a shop owner on a static
 			builder. It opens with why pipelines like the one above break, so that the one you build next
@@ -273,9 +273,9 @@
 			commands are short, and each one is explained.
 		</p>
 
-		<div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-			<p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-				<strong class="text-[#4A2C2C]"
+		<div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+			<p class="m-0 text-base leading-relaxed text-cocoa-deep">
+				<strong class="text-cocoa-ink"
 					>Published {metadata.date} by the Mochify Engineering Team.</strong
 				>
 				{metadata.bylineNote}
@@ -707,7 +707,7 @@
 					</li>
 				</ol>
 			</GlassPanel>
-			<p class="mt-6 mb-4 text-base leading-relaxed text-[#875F42]">
+			<p class="mt-6 mb-4 text-base leading-relaxed text-cocoa-milk">
 				<strong>Privacy, for this workflow.</strong> Images travel to <code>api.mochify.app</code>
 				over HTTPS, are streamed into the encoder in memory, and are wiped the moment the encode finishes:
 				no disk writes, no logs containing file data, never used to train AI. That is the same on the

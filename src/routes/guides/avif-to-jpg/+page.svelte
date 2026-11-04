@@ -123,31 +123,31 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="AVIF to JPG" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             You saved an image from a website, tried to open it, and your computer refused. The file ends in <code class={inlineCode}>.avif</code>, and suddenly you are searching for answers instead of getting on with your day. Here is the short version: AVIF is a modern image format that browsers love and desktop software often does not, and the fastest fix is converting it to JPG. Drop your file on our <a href="https://mochify.app/avif-to-jpg">AVIF to JPG converter</a> and you will have a universally compatible JPEG in seconds, no signup needed for up to 3 images a month. If you want to understand what happened, or you need a native route on Windows, Mac, or the command line, this guide covers every option.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published July 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published July 2026 by the Mochify Engineering Team.</strong>
                 Every route below, from a two-click browser fix to a full CLI pipeline, is covered so you can pick the one that matches your device and your workload.
             </p>
         </div>
@@ -204,7 +204,7 @@
             <SectionHeading>Command-Line and Batch Conversion</SectionHeading>
             <p>For scripted or repeatable conversion, you have two solid options: a general-purpose image tool like ImageMagick, or Mochify's own CLI. ImageMagick converts AVIF with a one-liner (<code class={inlineCode}>magick input.avif output.jpg</code>) when built with AVIF support, and it runs entirely on your machine - a good fit if you already have it installed and the defaults suit you.</p>
             <p>The Mochify CLI (<code class={inlineCode}>mochify</code>, installed via <code class={inlineCode}>brew install getmochify/mochify/mochify</code> on macOS, curl binaries on Linux, or <code class={inlineCode}>cargo install</code>) takes the natural-language approach to the terminal:</p>
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 my-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify -p "convert everything in ./downloads to JPG and strip all metadata" ./downloads/*.avif</code></pre>
+            <pre class="bg-cocoa-night text-pink-100 rounded-2xl p-5 my-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify -p "convert everything in ./downloads to JPG and strip all metadata" ./downloads/*.avif</code></pre>
             <p>Authenticate once with <code class={inlineCode}>mochify auth login</code> (browser-based OAuth; credentials are saved locally to <code class={inlineCode}>~/.config/mochify/credentials.toml</code>) and the same account and limits as the web app apply. One architectural point worth being straight about: the CLI is a client over the Mochify API, not a local encoder. Your images travel over HTTPS to api.mochify.app, are encoded in RAM by the same C++ engine as the web app, come back to your machine, and the originals are wiped from the server immediately with nothing written to disk. If you need conversion that never touches a network, ImageMagick is the honest recommendation; if you want jpegli output, batch prompts, and one workflow across web, terminal, and AI agents, that is what the CLI is for.</p>
             <p>The same applies to agent workflows: Mochify's local and hosted MCP servers and the REST API (<code class={inlineCode}>POST /v1/prompt</code> on api.mochify.app) all accept the identical plain-English instruction, so an automated pipeline can handle AVIF-to-JPG conversion the same way you would by hand. See <a href="https://mochify.app/guides/how-the-mochify-mcp-server-works">how the Mochify MCP server works</a> for the full setup.</p>
         </section>
@@ -222,40 +222,40 @@
         </section>
 
         <!-- Workflow card -->
-        <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: AVIF to JPG</h2>
+        <section id="mochify-workflow" class="scroll-mt-24 bg-mochi-blush rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
+            <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mt-0 mb-4">Mochify Workflow: AVIF to JPG</h2>
             <p class="text-base mb-7">Here is the whole flow, from opening the tool to downloading your JPGs.</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Open the converter</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Open the converter</strong>
                         <p class="text-base m-0">Open <a href="https://mochify.app/avif-to-jpg">mochify.app/avif-to-jpg</a> in any modern browser, on any OS.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Drop in your files</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Drop in your files</strong>
                         <p class="text-base m-0">Drop in your <code class={inlineCode}>.avif</code> files - up to 3 a month with no signup, 25 per month with a free account, or 25 per batch on Seller and Pro.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Describe what you want</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Describe what you want</strong>
                         <p class="text-base m-0">Type what you want in plain English, for example: <strong>"convert to JPG at high quality and strip all metadata"</strong>. Magic Flow parses the prompt with a language model, then Mochify's C++ engine executes the conversion with jpegli.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Download your JPGs</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Download your JPGs</strong>
                         <p class="text-base m-0">Download your converted files.</p>
                     </div>
                 </li>
             </ol>
-            <p class="text-base text-[#875F42] mt-7 mb-0">Privacy note for this workflow: images are sent over HTTPS to api.mochify.app, processed in memory, and wiped immediately after encoding - zero retention, no disk writes, no logs containing your file data. If your prompt asks for metadata stripping, as in the example above, EXIF data (camera info, timestamps, GPS coordinates) is removed in the same pass; make the instruction explicit in your prompt so the output matches your intent.</p>
+            <p class="text-base text-cocoa-milk mt-7 mb-0">Privacy note for this workflow: images are sent over HTTPS to api.mochify.app, processed in memory, and wiped immediately after encoding - zero retention, no disk writes, no logs containing your file data. If your prompt asks for metadata stripping, as in the example above, EXIF data (camera info, timestamps, GPS coordinates) is removed in the same pass; make the instruction explicit in your prompt so the output matches your intent.</p>
         </section>
 
         <section id="cheat-sheet" class="scroll-mt-24">

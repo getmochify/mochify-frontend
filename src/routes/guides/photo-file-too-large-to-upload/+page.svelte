@@ -116,31 +116,31 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Too Large to Upload" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             If you keep seeing "file too large to upload," your camera is probably not doing anything wrong - the tools on the other end are. Modern mirrorless cameras produce 13MB to 50MB photos as a matter of routine, while most free compression tools cap uploads at 5MB to 20MB, and most destinations (marketplaces, email, portals) cap them again at 10MB to 25MB. This guide names the wall: exactly how big today's camera files are, exactly where the free-tool limits sit, why those limits exist, and the fastest honest path to files that upload everywhere.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published July 23, 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published July 23, 2026 by the Mochify Engineering Team.</strong>
                 Written for the moment an upload form says no: real file sizes from current camera bodies, the caps that reject them, and which fix fits which file.
             </p>
         </div>
@@ -203,12 +203,12 @@
             <SectionHeading>The Free-Tool Wall: Where the Size Limits Sit</SectionHeading>
             <p>Most free compression tiers cap input files at 5MB to 20MB, which means they reject typical pro-camera output before compression even starts. The caps as of July 2026:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">TinyPNG (free web tool): 5MB per image.</strong> A respected tool, but its free cap is smaller than nearly every file in the A7R V table above, and smaller than plenty of phone photos. Tinify's paid Web Pro raises it to 75MB.</li>
-                <li><strong class="text-[#4A2C2C]">Compressor.io (free): commonly reported at 10MB.</strong></li>
-                <li><strong class="text-[#4A2C2C]">Mochify (Free tier): 20MB.</strong> Covers a Canon R5 Fine Large JPEG or <code>.HIF</code> (about 13.5MB), most HEIFs, and effectively all phone photos - but not a 61MP Extra Fine JPEG.</li>
-                <li><strong class="text-[#4A2C2C]">Mochify (Seller and Pro): 75MB.</strong> Covers everything in the stills table above except uncompressed RAW.</li>
+                <li><strong class="text-cocoa-ink">TinyPNG (free web tool): 5MB per image.</strong> A respected tool, but its free cap is smaller than nearly every file in the A7R V table above, and smaller than plenty of phone photos. Tinify's paid Web Pro raises it to 75MB.</li>
+                <li><strong class="text-cocoa-ink">Compressor.io (free): commonly reported at 10MB.</strong></li>
+                <li><strong class="text-cocoa-ink">Mochify (Free tier): 20MB.</strong> Covers a Canon R5 Fine Large JPEG or <code>.HIF</code> (about 13.5MB), most HEIFs, and effectively all phone photos - but not a 61MP Extra Fine JPEG.</li>
+                <li><strong class="text-cocoa-ink">Mochify (Seller and Pro): 75MB.</strong> Covers everything in the stills table above except uncompressed RAW.</li>
             </ul>
-            <p>Stated plainly, because this is the article's honest core: our free cap is 4x TinyPNG's, and there is still a class of file it rejects. A Sony A7R V or similar 61MP body producing 35-52MB Extra Fine JPEGs needs the 75MB ceiling of a paid tier - ours ($7.99/month Seller) or someone else's. And <strong class="text-[#4A2C2C]">no tier of any web compressor is the right home for a 125MB uncompressed RAW</strong> - more on that below. Prices are USD; the <a href="/pricing">pricing page</a> shows your local currency.</p>
+            <p>Stated plainly, because this is the article's honest core: our free cap is 4x TinyPNG's, and there is still a class of file it rejects. A Sony A7R V or similar 61MP body producing 35-52MB Extra Fine JPEGs needs the 75MB ceiling of a paid tier - ours ($7.99/month Seller) or someone else's. And <strong class="text-cocoa-ink">no tier of any web compressor is the right home for a 125MB uncompressed RAW</strong> - more on that below. Prices are USD; the <a href="/pricing">pricing page</a> shows your local currency.</p>
             <p>Competitor numbers are dated for a reason: caps change. These were verified in July 2026; check the tool's own pricing page if you are reading this much later.</p>
         </section>
 
@@ -222,10 +222,10 @@
             <SectionHeading>The Other Wall: Upload Limits at the Destination</SectionHeading>
             <p>Even after you find a compressor that accepts your file, the destination has its own cap - and those caps are much lower than camera output. The ones sellers and photographers hit most, as of July 2026:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">eBay: 12MB per photo</strong> (<a href="https://www.ebay.com/help/selling/listings/adding-pictures-listings?id=4148" target="_blank" rel="noopener noreferrer">eBay's picture guidelines</a>), up to 24 photos per listing.</li>
-                <li><strong class="text-[#4A2C2C]">Vinted: 10MB per photo</strong>, up to 20 photos.</li>
-                <li><strong class="text-[#4A2C2C]">Gmail: 25MB per message</strong> including all attachments (<a href="https://support.google.com/mail/answer/6584" target="_blank" rel="noopener noreferrer">Google's attachment limits</a>) - two full-quality R5 JPEGs and you are done.</li>
-                <li><strong class="text-[#4A2C2C]">Client galleries, portals, forms:</strong> commonly 10-25MB, often unstated until the error.</li>
+                <li><strong class="text-cocoa-ink">eBay: 12MB per photo</strong> (<a href="https://www.ebay.com/help/selling/listings/adding-pictures-listings?id=4148" target="_blank" rel="noopener noreferrer">eBay's picture guidelines</a>), up to 24 photos per listing.</li>
+                <li><strong class="text-cocoa-ink">Vinted: 10MB per photo</strong>, up to 20 photos.</li>
+                <li><strong class="text-cocoa-ink">Gmail: 25MB per message</strong> including all attachments (<a href="https://support.google.com/mail/answer/6584" target="_blank" rel="noopener noreferrer">Google's attachment limits</a>) - two full-quality R5 JPEGs and you are done.</li>
+                <li><strong class="text-cocoa-ink">Client galleries, portals, forms:</strong> commonly 10-25MB, often unstated until the error.</li>
             </ul>
             <p>So the real target is not "under my compressor's cap" - it is "under the destination's cap, at the destination's ideal resolution." A 45MP, 8192px-wide image is wasted on a marketplace that displays 1600px; resizing to the display size is where the giant savings come from, with compression doing the rest. A 40MB Extra Fine JPEG resized to 2000px and re-encoded lands around 1-2MB with no visible loss at display size - a 95%+ reduction, most of it from resolution nobody would ever see.</p>
         </section>
@@ -234,55 +234,55 @@
             <SectionHeading>The Right Fix for Each File Type</SectionHeading>
             <p>Match the fix to what the file actually is - the answer differs by extension:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Oversized JPEG (10-52MB):</strong> resize to the destination's display resolution and re-encode with a modern encoder. This is the everyday case and any capable compressor handles it, size cap permitting. Mochify re-encodes JPEGs with Google's jpegli encoder, which delivers roughly 35% better compression than legacy encoders at the same visual quality - our <a href="/guides/jpeg-in-2026-jpegli">Jpegli guide</a> has the numbers.</li>
-                <li><strong class="text-[#4A2C2C]">HIF/HEIF from a pro body (10-27MB):</strong> convert to JPEG for compatibility (the <a href="/solutions/hif-to-jpg">HIF to JPG converter</a> handles Canon, Sony, and Fujifilm files), or go to <a href="/solutions/hif-to-avif">AVIF to keep the 10-bit quality</a> in a smaller file. The full decision tree is in our <a href="/guides/heif-to-jpg-complete-guide">complete HEIF to JPG conversion guide</a>.</li>
-                <li><strong class="text-[#4A2C2C]">RAW (45-134MB):</strong> stop - a web compressor is the wrong tool, including ours. RAW is unprocessed sensor data; it needs demosaicing in your raw converter (Lightroom, Capture One, the maker's own software), which then exports a JPEG or HEIF. Compress <em>that</em> export. Any web service claiming to "compress RAW" is quietly converting it first, with a generic rendering of your carefully shot file.</li>
-                <li><strong class="text-[#4A2C2C]">Scans and TIFF exports (often 50-500MB):</strong> flatten and export to JPEG or PNG at the needed resolution first; then compress.</li>
+                <li><strong class="text-cocoa-ink">Oversized JPEG (10-52MB):</strong> resize to the destination's display resolution and re-encode with a modern encoder. This is the everyday case and any capable compressor handles it, size cap permitting. Mochify re-encodes JPEGs with Google's jpegli encoder, which delivers roughly 35% better compression than legacy encoders at the same visual quality - our <a href="/guides/jpeg-in-2026-jpegli">Jpegli guide</a> has the numbers.</li>
+                <li><strong class="text-cocoa-ink">HIF/HEIF from a pro body (10-27MB):</strong> convert to JPEG for compatibility (the <a href="/solutions/hif-to-jpg">HIF to JPG converter</a> handles Canon, Sony, and Fujifilm files), or go to <a href="/solutions/hif-to-avif">AVIF to keep the 10-bit quality</a> in a smaller file. The full decision tree is in our <a href="/guides/heif-to-jpg-complete-guide">complete HEIF to JPG conversion guide</a>.</li>
+                <li><strong class="text-cocoa-ink">RAW (45-134MB):</strong> stop - a web compressor is the wrong tool, including ours. RAW is unprocessed sensor data; it needs demosaicing in your raw converter (Lightroom, Capture One, the maker's own software), which then exports a JPEG or HEIF. Compress <em>that</em> export. Any web service claiming to "compress RAW" is quietly converting it first, with a generic rendering of your carefully shot file.</li>
+                <li><strong class="text-cocoa-ink">Scans and TIFF exports (often 50-500MB):</strong> flatten and export to JPEG or PNG at the needed resolution first; then compress.</li>
             </ul>
         </section>
 
         <!-- Workflow card -->
-        <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: Getting Oversized Photos Web-Ready</h2>
+        <section id="mochify-workflow" class="scroll-mt-24 bg-mochi-blush rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
+            <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mt-0 mb-4">Mochify Workflow: Getting Oversized Photos Web-Ready</h2>
             <p class="text-base mb-7">One check, one upload, one prompt takes a camera file from "too large" to accepted anywhere:</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Check the file type first</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Check the file type first</strong>
                         <p class="text-base m-0">RAW goes through your raw converter; JPEG and HIF/HEIF continue to step 2.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Load your files into Mochify</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Load your files into Mochify</strong>
                         <p class="text-base m-0">Free takes files up to 20MB, 3 per batch, 25 per month. Seller and Pro take up to 75MB per file, 25 per batch, 300 or 1,200 per month, with a priority queue - the tier for 61MP bodies and weekly shoot volume. If an upload still stops with an error, <a href="/guides/why-did-my-upload-fail">find the message you saw in our upload error guide</a>.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">One plain-English prompt does the whole transformation</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">One plain-English prompt does the whole transformation</strong>
                         <p class="text-base m-0">Prompt <em>"resize these to 2000px on the long edge, convert to JPEG, keep each under 10MB, and strip all metadata"</em>. Magic Flow parses the prompt with a language model, then our C++ engine executes it.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Delivering HDR or high-bit-depth work?</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Delivering HDR or high-bit-depth work?</strong>
                         <p class="text-base m-0">Prompt <em>"convert to AVIF, preserve 10-bit"</em> instead of JPEG.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">5</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">5</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Download the batch</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Download the batch</strong>
                         <p class="text-base m-0">Now at a size every marketplace, gallery, and inbox accepts.</p>
                     </div>
                 </li>
             </ol>
-            <p class="text-base text-[#875F42] mt-7 mb-0">Two notes worth being precise about. State the metadata handling explicitly in your prompt (as above): camera files carry EXIF including GPS coordinates, and you should decide deliberately whether it travels with your photos. And the privacy model, stated exactly: your images travel to <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">api.mochify.app</code> over HTTPS, are processed in RAM, and are wiped immediately after encoding - no disk writes, no logs containing file data, zero retention. Your photos must leave your machine for the encoding; they are never kept.</p>
+            <p class="text-base text-cocoa-milk mt-7 mb-0">Two notes worth being precise about. State the metadata handling explicitly in your prompt (as above): camera files carry EXIF including GPS coordinates, and you should decide deliberately whether it travels with your photos. And the privacy model, stated exactly: your images travel to <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">api.mochify.app</code> over HTTPS, are processed in RAM, and are wiped immediately after encoding - no disk writes, no logs containing file data, zero retention. Your photos must leave your machine for the encoding; they are never kept.</p>
         </section>
 
         <section id="cheat-sheet" class="scroll-mt-24">

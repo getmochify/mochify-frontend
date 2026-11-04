@@ -174,25 +174,25 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
 	<header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category} · Guide
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
-			<span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">Lossless Image Formats</span>: Which One to Use, and When Lossless Is the Wrong Choice
+			<span class="bg-gradient-to-r from-mochi-pink to-[#EC407A] bg-clip-text text-transparent">Lossless Image Formats</span>: Which One to Use, and When Lossless Is the Wrong Choice
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
 			A lossless image format stores every pixel exactly, so the decoded image is bit-for-bit
 			identical to what went in. In 2026 there are four that matter for everyday work: PNG, lossless
 			WebP, lossless JPEG XL and lossless AVIF, with TIFF for print workflows. Which one to pick
@@ -206,9 +206,9 @@
 			image, and shows the traps that quietly turn a lossless file lossy.
 		</p>
 
-		<div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-			<p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-				<strong class="text-[#4A2C2C]"
+		<div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+			<p class="m-0 text-base leading-relaxed text-cocoa-deep">
+				<strong class="text-cocoa-ink"
 					>Published {metadata.date} by the Mochify Engineering Team.</strong
 				>
 				Six test images run through Mochify's API with lossless=1 and verified pixel-for-pixel, so every
@@ -767,7 +767,7 @@
 			<GlassPanel>
 				<StepList steps={workflowSteps} />
 			</GlassPanel>
-			<p class="mt-6 mb-0 text-base leading-relaxed text-[#875F42]">
+			<p class="mt-6 mb-0 text-base leading-relaxed text-cocoa-milk">
 				<strong>Privacy note for images.</strong> Whichever surface you use, the image travels over
 				HTTPS to <code>api.mochify.app</code>, is encoded in memory, and is wiped immediately: no
 				disk writes, no logs containing file data, and never used to train AI. The CLI and local MCP

@@ -131,34 +131,34 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
     
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title="WebP vs AVIF vs JPEG XL (JXL): The 2026 Comparison Guide" accent="WebP vs AVIF vs JPEG XL (JXL)" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             <strong>WebP vs JPEG XL (JXL) in one paragraph, October 2026:</strong> JPEG XL makes the smaller file on photographs (472KB against WebP's 700KB from the same 990KB JPEG in our test) and scores higher on perceptual quality, while WebP encodes faster (1.2 seconds against 2.9 for a 5MP photograph) and still wins on reach: it decodes in 96% of browsers, where JPEG XL decodes by default only in Chrome 155+ and Firefox 158+, as still images in Safari, and not yet in Edge or Samsung Internet. Serve JPEG XL as the first source in a picture element and keep AVIF and WebP beneath it. On flat-color logos WebP was the smaller file (4KB against 6KB) at default encoder settings.
         </p>
 
-        <p class="article-intro mt-5 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-5 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Your 2MB JPEG homepage hero is killing your LCP score. Google's PageSpeed Insights keeps screaming "Serve images in next-gen formats," but which one should you actually use?
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-cocoa-deep">
                 WebP has been around since 2010, AVIF promises 50% better compression, and JPEG XL, after three years outside Chrome, is back: Chrome 155 (October 6, 2026) and Firefox 158 (October 13) decode it by default. This isn't another surface-level format comparison. We're diving into encoder efficiency, chroma subsampling trade-offs, and what Safari's "partial" JPEG XL support, and the October 2026 Chrome and Firefox releases, mean for production workflows.
             </p>
         </div>
@@ -176,104 +176,104 @@
             <!-- Mobile: Card Layout -->
             <div class="my-8 md:hidden space-y-4">
                 <div class="bg-white rounded-2xl border border-pink-50 shadow-sm p-5 hover:shadow-md transition-shadow">
-                    <h4 class="font-bold text-[#4A2C2C] text-lg mb-4">WebP</h4>
-                    <div class="space-y-3 text-[#6C3F31]">
+                    <h4 class="font-bold text-cocoa-ink text-lg mb-4">WebP</h4>
+                    <div class="space-y-3 text-cocoa-deep">
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Browser Support (2026)</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Browser Support (2026)</span>
                             <span class="text-base">96% (universal)</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Compression vs JPEG</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Compression vs JPEG</span>
                             <span class="text-base">25-35% smaller</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Quality</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Quality</span>
                             <span class="text-base">Excellent</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Best Use Case</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Best Use Case</span>
                             <span class="text-base">Broad compatibility priority</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Animation Support</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Animation Support</span>
                             <span class="text-base">Yes</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-2xl border border-pink-50 shadow-sm p-5 hover:shadow-md transition-shadow">
-                    <h4 class="font-bold text-[#4A2C2C] text-lg mb-4">AVIF</h4>
-                    <div class="space-y-3 text-[#6C3F31]">
+                    <h4 class="font-bold text-cocoa-ink text-lg mb-4">AVIF</h4>
+                    <div class="space-y-3 text-cocoa-deep">
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Browser Support (2026)</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Browser Support (2026)</span>
                             <span class="text-base">95% (Chrome, Edge, Safari, Firefox)</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Compression vs JPEG</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Compression vs JPEG</span>
                             <span class="text-base">20-50% smaller than WebP</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Quality</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Quality</span>
                             <span class="text-base">Superior at low bitrates</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Best Use Case</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Best Use Case</span>
                             <span class="text-base">Maximum compression needs</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Animation Support</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Animation Support</span>
                             <span class="text-base">Yes</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-2xl border border-pink-50 shadow-sm p-5 hover:shadow-md transition-shadow">
-                    <h4 class="font-bold text-[#4A2C2C] text-lg mb-4">JPEG XL</h4>
-                    <div class="space-y-3 text-[#6C3F31]">
+                    <h4 class="font-bold text-cocoa-ink text-lg mb-4">JPEG XL</h4>
+                    <div class="space-y-3 text-cocoa-deep">
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Browser Support (2026)</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Browser Support (2026)</span>
                             <span class="text-base">Chrome 155+, Firefox 158+; Safari stills only</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Compression vs JPEG</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Compression vs JPEG</span>
                             <span class="text-base">10-30% smaller than AVIF</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Quality</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Quality</span>
                             <span class="text-base">Exceptional, lossless recompression</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Best Use Case</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Best Use Case</span>
                             <span class="text-base">First picture source; lossless and archival work</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Animation Support</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Animation Support</span>
                             <span class="text-base">Yes</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-2xl border border-pink-50 shadow-sm p-5 hover:shadow-md transition-shadow">
-                    <h4 class="font-bold text-[#4A2C2C] text-lg mb-4">HEIC</h4>
-                    <div class="space-y-3 text-[#6C3F31]">
+                    <h4 class="font-bold text-cocoa-ink text-lg mb-4">HEIC</h4>
+                    <div class="space-y-3 text-cocoa-deep">
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Browser Support (2026)</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Browser Support (2026)</span>
                             <span class="text-base">iOS/macOS native (not web)</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Compression vs JPEG</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Compression vs JPEG</span>
                             <span class="text-base">Similar to AVIF</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Quality</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Quality</span>
                             <span class="text-base">Excellent</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Best Use Case</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Best Use Case</span>
                             <span class="text-base">Mobile capture - web conversion</span>
                         </div>
                         <div>
-                            <span class="text-xs font-black text-[#4A2C2C] uppercase tracking-wider block mb-1">Animation Support</span>
+                            <span class="text-xs font-black text-cocoa-ink uppercase tracking-wider block mb-1">Animation Support</span>
                             <span class="text-base">Limited</span>
                         </div>
                     </div>
@@ -342,7 +342,7 @@
                 The web ran on JPEG and PNG for 30 years. Both are now legacy formats - inefficient relics that bloat your payload and tank your Lighthouse scores.
             </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">WebP: The Established Standard</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">WebP: The Established Standard</h3>
             <p class="mb-4">
                 Google released WebP in 2010, built on the VP8 video codec. It supports both lossy and lossless compression, alpha transparency, and animation (though animated WebP never caught on like we thought it would). The lossless mode is the one most people overlook: on screenshots, diagrams and logos it produced the smallest file of any lossless format in our tests, and <a href="/guides/lossless-image-formats">our lossless image formats guide</a> shows when to reach for it.
             </p>
@@ -357,7 +357,7 @@
                 WebP uses predictive coding for lossless images and block-based transform coding for lossy. The encoder offers quality settings from 0-100, but sweet spots typically land between 75-85 for photography.
             </GlassInfoBox>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">AVIF: Maximum Compression for Modern Browsers</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">AVIF: Maximum Compression for Modern Browsers</h3>
             <p class="mb-4">
                 AVIF (AV1 Image File Format) emerged from the Alliance for Open Media in 2019. Built on the AV1 video codec - the same tech powering Netflix's 4K streams - AVIF delivers compression efficiency that WebP simply can't match.
             </p>
@@ -381,7 +381,7 @@
                 Compatibility is the one place AVIF still trips people up - a handful of older tools and apps still can't open it. When a recipient can't open one, <a href="/avif-to-jpg">converting AVIF back to JPG</a> takes seconds, and the <a href="/guides/avif-to-jpg">full conversion guide</a> covers the native routes.
             </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">JPEG XL: The Future-Forward Format (Now in Chrome and Firefox)</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">JPEG XL: The Future-Forward Format (Now in Chrome and Firefox)</h3>
             <p class="mb-4">
                 JPEG XL emerged from a 2018 standards competition, combining Google's PIK and Cloudinary's FUIF proposals. Finalized in 2022, it promised to replace JPEG, PNG, GIF, and even WebP with a single unified format.
             </p>
@@ -400,7 +400,7 @@
                 Serve JPEG XL in production only through a picture element with AVIF and WebP sources beneath it. Chrome 155 and Firefox 158 decode it by default; Safari's partial implementation is still images only, and Edge and Samsung Internet have not shipped it yet.
             </GlassInfoBox>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">HEIC: Mobile-First Considerations</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">HEIC: Mobile-First Considerations</h3>
             <p class="mb-4">
                 HEIC (High Efficiency Image Container) is Apple's default capture format on iPhones since iOS 11. It's based on HEVC (H.265) video compression and delivers file sizes similar to AVIF.
             </p>
@@ -412,7 +412,7 @@
                 This friction is exactly why we built dedicated HEIC-to-JPEG converters - the "Unsupported File" error on marketplaces is a daily pain point for mobile-first sellers.
             </GlassInfoBox>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">            JPEGLI: Smarter JPEG, Same Compatibility</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">            JPEGLI: Smarter JPEG, Same Compatibility</h3>
             <p class="mb-4">
                 Modern JPEG encoders like JPEGLI give you a surprising amount of extra headroom before you even touch WebP or AVIF. JPEGLI keeps the standard .jpg extension and full viewer compatibility but uses more advanced psychovisual tricks to squeeze up to ~30-35% extra compression at high quality compared to traditional encoders such as libjpeg-turbo or MozJPEG.
             </p>
@@ -429,7 +429,7 @@
                 Theory is cheap. Let's measure actual compression with identical source images across formats.
             </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">Methodology</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-6 mb-4">Methodology</h3>
             <p class="mb-4">We tested four image types using consistent quality settings:</p>
             <ul class="list-disc pl-6 mb-4 space-y-1">
         <li><strong>Photograph:</strong> 990KB JPEG, high-detail landscape (Unsplash source)</li>
@@ -439,7 +439,7 @@
             </ul>
             <p class="mb-6">All conversions used Cloudinary's default settings (quality ~80-85 equivalent) except where noted. SSIM (Structural Similarity Index) scores measure perceptual quality - higher is better (1.0 = identical).</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">File Size Comparison</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-6 mb-4">File Size Comparison</h3>
                 <GuideTable class="my-6">
                     <table>
                         <thead>
@@ -491,7 +491,7 @@
         <li><strong>Transparency winner:</strong> AVIF again at 18KB (92% reduction). PNG was never designed for compression; it's a lossless archival format that web developers hijacked for transparency support. Both WebP and AVIF carry a full alpha channel of their own, so a cut-out rarely needs to stay a PNG: here is <a href="/guides/webp-avif-transparency">how each format stores transparency, and why cut-outs sometimes come back black</a>.</li>
             </ul>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">Quality Comparison: SSIM Scores</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-6 mb-4">Quality Comparison: SSIM Scores</h3>
             <p class="mb-4">File size means nothing if images look terrible. SSIM scores (scale 0-1, higher = better):</p>
             
                 <GuideTable class="my-6">
@@ -537,7 +537,7 @@
                 AVIF consistently delivers higher perceptual quality at smaller file sizes than WebP. JPEG XL edges out AVIF in photographic content but struggles with flat-color graphics (the logo test).
             </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Encoding/Decoding Speed</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">Encoding/Decoding Speed</h3>
             <p class="mb-4">
                 Speed matters for workflow efficiency and server load (though if you're optimizing externally before upload - which you should be - encoding happens once, decoding happens millions of times).
             </p>
@@ -582,7 +582,7 @@
             
             <p class="mb-4">This is where theory meets production reality.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">Desktop Browser Support</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-6 mb-4">Desktop Browser Support</h3>
                 <GuideTable class="my-6">
                     <table>
                         <thead>
@@ -635,7 +635,7 @@
         JPEG XL left the experimental column on October 6, 2026, when Chrome 155 shipped decoding by default; Firefox 158 followed on October 13. Safari's "partial support" still means still images only - no animation, no progressive decoding. The caniuse share, about 17% on October 7, is a snapshot of installed browsers taken the day after Chrome's release and before Firefox's; expect it to climb through the autumn and to stall below AVIF's until Edge and Samsung Internet ship the change.
     </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Mobile Browser Considerations</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">Mobile Browser Considerations</h3>
                 <GuideTable class="my-6">
                     <table>
                         <thead>
@@ -673,7 +673,7 @@
                     </table>
                 </GuideTable>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Fallback Strategies</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">Fallback Strategies</h3>
             <p class="mb-4">Production-grade implementation requires <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> elements with format cascades:</p>
 
             <CodeCard filename="picture.html" code={`<picture>
@@ -708,7 +708,7 @@
             
             <p class="mb-6">Decision fatigue is real. Here's the practical breakdown.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">WebP: Choose When Compatibility is Non-Negotiable</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-6 mb-4">WebP: Choose When Compatibility is Non-Negotiable</h3>
             <ul class="list-disc pl-6 mb-4 space-y-1">
         <li>You need near-universal support without fallback complexity</li>
         <li>You're targeting older Android devices (pre-2021 models with outdated Chrome)</li>
@@ -719,7 +719,7 @@
                 Real-world scenario: E-commerce product galleries with 200+ SKU images. WebP converts fast, serves universally, and delivers 25-35% savings over JPEG - good enough for most workflows.
             </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">AVIF: Choose When Performance is Priority</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-6 mb-4">AVIF: Choose When Performance is Priority</h3>
             <ul class="list-disc pl-6 mb-4 space-y-1">
         <li>You're optimizing for Core Web Vitals (LCP, CLS) and every kilobyte matters</li>
         <li>Your content includes hero images, above-the-fold graphics, or high-resolution photography</li>
@@ -730,7 +730,7 @@
                 Real-world scenario: Marketing landing pages with full-viewport hero images. A 2MB JPEG hero kills your LCP. A 400KB AVIF version (with WebP fallback) keeps you under budget and improves your Lighthouse score from 60 to 90+.
             </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">JPEG XL: Choose for Lossless, Archival and High-Fidelity Work</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-6 mb-4">JPEG XL: Choose for Lossless, Archival and High-Fidelity Work</h3>
             <ul class="list-disc pl-6 mb-4 space-y-1">
         <li>You serve high-quality photography, where JPEG XL's file size and SSIM edge over AVIF shows</li>
         <li>You're implementing multi-format cascades anyway (JXL at top, AVIF/WebP fallbacks)</li>
@@ -745,7 +745,7 @@
                 Chrome shipped stable JPEG XL support in Q4 2026 (Chrome 155, October 6), with Firefox 158 a week later. Add it at the top of your picture cascade; AVIF still delivers most of the benefit on the 95% of browsers that decode it, so keep the AVIF and WebP sources until Edge and Samsung Internet catch up.
             </GlassInfoBox>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">HEIC: Don't Use for Web (Convert Instead)</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-6 mb-4">HEIC: Don't Use for Web (Convert Instead)</h3>
             <p class="mb-4">
                 HEIC isn't a web format. Period. If you're shooting on iPhone, convert to JPEG or AVIF before uploading to <a href="/guides/next-gen-image-formats-wordpress">WordPress</a>, Shopify, Etsy, or eBay. Most platforms reject HEIC uploads with "Unsupported File" errors - a daily frustration for mobile-first sellers.
             </p>
@@ -762,7 +762,7 @@
                 Format choice directly affects your search rankings through Core Web Vitals, particularly Largest Contentful Paint (LCP).
             </p>
             
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">LCP Improvements from Format Choice</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-6 mb-4">LCP Improvements from Format Choice</h3>
             <p class="mb-4">
                 Google measures LCP as the render time of the largest above-the-fold element - usually a hero image. Threshold targets for 2026:
             </p>
@@ -816,12 +816,12 @@
                 Switching from JPEG to AVIF can move you from "Needs Improvement" to "Good" without changing anything else. That's a direct SEO benefit - Google's ranking algorithm weights Core Web Vitals scores for mobile search results.
             </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Google's Next-Gen Format Recommendation</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">Google's Next-Gen Format Recommendation</h3>
             <p class="mb-6">
                 PageSpeed Insights used to flag images with "Serve images in next-gen formats" when it detected JPEG or PNG; since Lighthouse 13 (October 2025) the same check lives inside the "Improve image delivery" insight (<a href="/guides/next-gen-image-formats-wordpress">how to clear it in WordPress without a plugin</a>). The recommendation explicitly calls out WebP and AVIF as preferred formats. Translation: Google wants you using modern compression. They're not subtle about it. Sites serving legacy formats get dinged in performance audits, which influences rankings.
             </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Real LCP Score Examples</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">Real LCP Score Examples</h3>
             <p class="mb-4">
                 We tested three landing page configurations: Test site: E-commerce homepage, hero image (1920x1080), 6 product thumbnails, standard text/CSS/JS payload.
             </p>
@@ -875,14 +875,14 @@
             
             <p class="mb-6">Format knowledge means nothing if your tools can't deliver. Here's the production workflow.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-6 mb-4">Step 1: Choose Your Target Format</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-6 mb-4">Step 1: Choose Your Target Format</h3>
             <ul class="list-disc pl-6 mb-4">
         <li>Need universal support? → <strong>WebP</strong></li>
         <li>Optimizing for performance? → <strong>AVIF</strong> (with WebP fallback)</li>
                 <li>Future-proofing experiments? → <strong>JPEG XL</strong> (with AVIF/WebP fallbacks)</li>
             </ul>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Step 2: Optimize Before Upload</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">Step 2: Optimize Before Upload</h3>
             <p class="mb-4">
                 External optimization before hitting your CMS avoids plugin bloat. Upload optimized images directly to WordPress, Shopify, Webflow - wherever.
             </p>
@@ -895,12 +895,12 @@
                 When you do need JPEG (marketplaces, email, legacy apps), use a modern encoder instead of the default export in Photoshop or your CMS. Our converters use Google's JPEGLI library to produce JPEGs that are noticeably smaller at the same visual quality, so your JPEG fallbacks and marketplace uploads carry less weight without sacrificing clarity.
             </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Step 3: Implement Fallbacks</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">Step 3: Implement Fallbacks</h3>
             <p class="mb-4">
                 Use <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;picture&gt;</code> elements for critical images (heroes, product photos). For non-critical images (blog thumbnails, footer icons), WebP-only is acceptable.
             </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Step 4: Validate Core Web Vitals</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">Step 4: Validate Core Web Vitals</h3>
             <p class="mb-2">Run PageSpeed Insights (mobile and desktop) after converting. Verify LCP improvements and confirm no regressions in CLS or FID. Target metrics for 2026:</p>
             <ul class="list-disc pl-6 mb-4">
         <li>LCP: Under 2.5s (under 1.8s for competitive niches)</li>
@@ -908,12 +908,12 @@
                 <li>FID/INP: Under 100ms (less affected by images, but interactions can trigger lazy-load jank)</li>
             </ul>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Batch Processing Considerations</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">Batch Processing Considerations</h3>
             <p class="mb-6">
                 Single-image conversion works for one-off projects. Bulk workflows need automation. For 50-100 images, manual batch tools suffice. For 500+, you want API-driven automation. Mochify Pro is built exactly for this - process entire folders via the API with zero-retention guarantees intact, available now for high-volume merchants. The command-line and script version, including how to convert only the images that are new since the last run, is in our guide to <a href="/guides/convert-website-images-to-webp-and-avif">converting a website's images to WebP and AVIF</a>.
             </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Format Selection Strategy</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">Format Selection Strategy</h3>
             <p class="mb-4">Stop overthinking this. Here's the 2026 playbook:</p>
 
             <ul class="list-disc pl-6 mb-8 space-y-4">
@@ -945,23 +945,23 @@
         </div>
 
         
-        <div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
+        <div class="my-12 bg-mochi-blush p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
             
             <div class="relative z-10 mb-6">
-                <span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">
+                <span class="inline-block px-3 py-1 rounded-full bg-white text-mochi-pink text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">
                     Free Tool
                 </span>
             </div>
 
-            <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
+            <h3 class="text-2xl md:text-3xl font-extrabold text-cocoa-ink relative z-10 mb-3 flex items-center justify-center gap-3">
                 Ready to convert your images?
             </h3>
 
-            <p class="text-[#6C3F31] text-lg max-w-2xl mx-auto relative z-10 mb-8 leading-relaxed">
+            <p class="text-cocoa-deep text-lg max-w-2xl mx-auto relative z-10 mb-8 leading-relaxed">
 Try Mochify's zero-retention WebP and AVIF converters - no accounts, no plugins, no stored files. Process in-memory with C++ engine speed, then upload directly to your site or marketplace.            </p>
 
-            <a href="https://mochify.app" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
+            <a href="https://mochify.app" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
                 <span>Start Optimizing</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             </a>

@@ -82,30 +82,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Client Gallery Platforms" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             HEIF and HEIC files do not work reliably with most client gallery platforms in 2026. Some platforms accept HEIC uploads but immediately convert them to JPEG on ingest - discarding the original and applying their own compression settings without your input. Others reject HEIF outright. In either case, you lose control over output quality, color profile, and dimensions unless you pre-convert before uploading.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
                 This guide covers how major gallery platforms handle HEIF on ingest, and how to pre-convert as a deliberate step so you stay in control of quality and metadata.
             </p>
         </div>
@@ -125,9 +125,9 @@
             <SectionHeading>Why Pre-Converting Is the Right Approach</SectionHeading>
             <p>Pre-converting your HEIF or HIF files to JPEG before upload gives you direct control over three things the platform cannot decide for you:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Output quality</strong> - set a specific quality level that matches your visual standard, not the platform's default.</li>
-                <li><strong class="text-[#4A2C2C]">Color profile</strong> - convert to sRGB explicitly so gallery previews and client downloads display correctly on all screens.</li>
-                <li><strong class="text-[#4A2C2C]">Long-edge dimension</strong> - set a consistent target (for example, 3,600 px for Pixieset proofs) across an entire batch, rather than letting each platform apply its own resizing logic.</li>
+                <li><strong class="text-cocoa-ink">Output quality</strong> - set a specific quality level that matches your visual standard, not the platform's default.</li>
+                <li><strong class="text-cocoa-ink">Color profile</strong> - convert to sRGB explicitly so gallery previews and client downloads display correctly on all screens.</li>
+                <li><strong class="text-cocoa-ink">Long-edge dimension</strong> - set a consistent target (for example, 3,600 px for Pixieset proofs) across an entire batch, rather than letting each platform apply its own resizing logic.</li>
             </ul>
             <p>With Mochify, you can describe this entire conversion in one plain-English prompt using Magic Flow:</p>
 

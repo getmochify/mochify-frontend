@@ -54,7 +54,7 @@
     {@html `<script type="application/ld+json">${faqLd}<\/script>`}
 </svelte:head>
 
-<div class="flex-1 bg-[#FDFBF7] min-h-screen flex flex-col">
+<div class="flex-1 bg-mochi-bg min-h-screen flex flex-col">
     <Navigation />
 
     <!-- Hero -->
@@ -71,18 +71,18 @@
             </span>
         </div>
 
-        <h1 class="text-4xl sm:text-6xl font-black text-[#4A2C2C] tracking-tight leading-tight mb-6">
+        <h1 class="text-4xl sm:text-6xl font-black text-cocoa-ink tracking-tight leading-tight mb-6">
             Your closet deserves<br>
-            <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
+            <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
                 photos that sell.
             </span>
         </h1>
 
-        <p class="text-xl text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed mb-10 text-balance">
+        <p class="text-xl text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed mb-10 text-balance">
             Vinted is a scroll. Buyers decide in a glance. Mochify turns your casual phone shots into clean, portrait-cropped listing photos at the size Vinted's layout actually rewards, so your items get clicked, not skipped.
         </p>
 
-        <a href="/auth/register" class="inline-flex items-center gap-2 bg-[#F06292] hover:bg-[#E91E8C] text-white font-bold px-8 py-4 rounded-2xl text-lg shadow-lg hover:shadow-xl transition-all duration-200">
+        <a href="/auth/register" class="inline-flex items-center gap-2 bg-mochi-pink hover:bg-[#E91E8C] text-white font-bold px-8 py-4 rounded-2xl text-lg shadow-lg hover:shadow-xl transition-all duration-200">
             Try it free, no card needed
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
@@ -93,16 +93,16 @@
 
     <!-- Benefits grid -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#4A2C2C] text-center mb-10">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-cocoa-ink text-center mb-10">
             What makes a Vinted photo work.<br>
-            <span class="text-[#F06292]">And what makes buyers scroll past.</span>
+            <span class="text-mochi-pink">And what makes buyers scroll past.</span>
         </h2>
 
         <div class="grid sm:grid-cols-3 gap-6">
             {#each [
                 {
                     icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/></svg>`,
-                    color: 'bg-[#FFF5F7] border-pink-100 text-[#F06292]',
+                    color: 'bg-mochi-blush border-pink-100 text-mochi-pink',
                     title: 'Smart 3:4 Portrait Crop',
                     body: "Vinted publishes no photo spec, but its layout is built for portrait, and 3:4 at 1080×1440px is what fills it cleanly. Photos that don't match get letterboxed or awkwardly cut. Our AI detects where your item is and crops tight around it, centered, portrait, and ready to fill the frame the way Vinted's layout expects."
                 },
@@ -123,8 +123,8 @@
                     <div class="w-12 h-12 rounded-2xl {benefit.color} border flex items-center justify-center">
                         {@html benefit.icon}
                     </div>
-                    <h3 class="font-bold text-[#4A2C2C] text-lg">{benefit.title}</h3>
-                    <p class="text-[#6C3F31] text-sm leading-relaxed">{benefit.body}</p>
+                    <h3 class="font-bold text-cocoa-ink text-lg">{benefit.title}</h3>
+                    <p class="text-cocoa-deep text-sm leading-relaxed">{benefit.body}</p>
                 </div>
             {/each}
         </div>
@@ -132,11 +132,11 @@
 
     <!-- Conversion angle -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
-        <div class="bg-gradient-to-br from-[#FFF0F3] to-[#FFF5F7] rounded-3xl border border-pink-100 p-10 text-center space-y-6">
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-[#4A2C2C]">
+        <div class="bg-gradient-to-br from-mochi-strawberry to-mochi-blush rounded-3xl border border-pink-100 p-10 text-center space-y-6">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-cocoa-ink">
                 The Vinted feed rewards good photos.
             </h2>
-            <p class="text-[#6C3F31] max-w-2xl mx-auto leading-relaxed">
+            <p class="text-cocoa-deep max-w-2xl mx-auto leading-relaxed">
                 When a buyer searches for a hoodie or a pair of trainers, they see a grid of portrait thumbnails. The listings with clean, bright, correctly-proportioned photos get favorited first. The ones with dark, cropped-off, or cluttered shots get ignored, even if the item is identical. Your photo is your shop window.
             </p>
             <div class="grid sm:grid-cols-3 gap-6 pt-4">
@@ -146,8 +146,8 @@
                     { stat: 'Optimized', label: "Small enough for any upload, without visible quality loss" }
                 ] as item}
                     <div class="bg-white rounded-2xl border border-pink-100 p-6 space-y-2">
-                        <div class="text-3xl font-black text-[#F06292]">{item.stat}</div>
-                        <div class="text-sm text-[#6C3F31] leading-snug">{item.label}</div>
+                        <div class="text-3xl font-black text-mochi-pink">{item.stat}</div>
+                        <div class="text-sm text-cocoa-deep leading-snug">{item.label}</div>
                     </div>
                 {/each}
             </div>
@@ -157,7 +157,7 @@
     <!-- How it works -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
         <div class="bg-white rounded-2xl border border-pink-50 shadow-sm p-8">
-            <h2 class="text-xl font-extrabold text-[#4A2C2C] mb-8 text-center">From phone photo to Vinted listing in seconds</h2>
+            <h2 class="text-xl font-extrabold text-cocoa-ink mb-8 text-center">From phone photo to Vinted listing in seconds</h2>
             <div class="grid sm:grid-cols-3 gap-8 relative">
                 {#each [
                     { n: 1, title: 'Upload', body: 'Drop in your photos straight from your camera roll, 3 at a time on Free and up to 25 at once on Seller and Pro. JPEG, HEIC from iPhone, PNG, all supported.' },
@@ -165,11 +165,11 @@
                     { n: 3, title: 'List', body: 'Download your optimized photos and upload to your Vinted listing. The whole batch takes seconds.' }
                 ] as step}
                     <div class="text-center relative z-10">
-                        <div class="w-10 h-10 mx-auto mb-4 rounded-full bg-[#FFF0F3] border border-pink-100 text-[#F06292] flex items-center justify-center font-black text-sm">
+                        <div class="w-10 h-10 mx-auto mb-4 rounded-full bg-mochi-strawberry border border-pink-100 text-mochi-pink flex items-center justify-center font-black text-sm">
                             {step.n}
                         </div>
-                        <h3 class="font-bold text-[#4A2C2C] text-sm uppercase tracking-widest mb-2">{step.title}</h3>
-                        <p class="text-[#6C3F31] text-sm leading-relaxed opacity-90">{step.body}</p>
+                        <h3 class="font-bold text-cocoa-ink text-sm uppercase tracking-widest mb-2">{step.title}</h3>
+                        <p class="text-cocoa-deep text-sm leading-relaxed opacity-90">{step.body}</p>
                     </div>
                 {/each}
                 <div class="hidden sm:block absolute top-5 left-[16.66%] right-[16.66%] h-px bg-pink-100 -z-0"></div>
@@ -179,17 +179,17 @@
 
     <!-- FAQ -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
-        <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6 text-center">Vinted Photo Questions, Answered</h2>
+        <h2 class="text-2xl font-extrabold text-cocoa-ink mb-6 text-center">Vinted Photo Questions, Answered</h2>
         <div class="space-y-3 max-w-3xl mx-auto">
             {#each faqs as faq}
                 <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md transition-all">
-                    <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-[#4A2C2C] list-none select-none">
-                        <h3 class="m-0 text-base font-bold text-[#4A2C2C]">{faq.q}</h3>
+                    <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-cocoa-ink list-none select-none">
+                        <h3 class="m-0 text-base font-bold text-cocoa-ink">{faq.q}</h3>
                         <span class="text-[#7E685E] transition-transform duration-300 group-open:rotate-180 flex-shrink-0 ml-4">
                             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
                         </span>
                     </summary>
-                    <div class="px-6 pb-6 text-sm text-[#6C3F31] leading-relaxed">{#each faqParts(faq.a) as part}{#if typeof part === 'string'}{part}{:else}<a href={part.href} class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">{part.label}</a>{/if}{/each}</div>
+                    <div class="px-6 pb-6 text-sm text-cocoa-deep leading-relaxed">{#each faqParts(faq.a) as part}{#if typeof part === 'string'}{part}{:else}<a href={part.href} class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">{part.label}</a>{/if}{/each}</div>
                 </details>
             {/each}
         </div>
@@ -197,7 +197,7 @@
 
     <!-- Final CTA -->
     <section class="relative max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8 w-full text-center">
-        <div class="bg-gradient-to-br from-[#F06292] to-[#E91E8C] rounded-3xl p-12 space-y-6 shadow-xl">
+        <div class="bg-gradient-to-br from-mochi-pink to-[#E91E8C] rounded-3xl p-12 space-y-6 shadow-xl">
             <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
                 Start selling more on Vinted.
             </h2>
@@ -205,7 +205,7 @@
                 Get 25 optimizations a month free with an account, or try 3 with no signup at all. No credit card, just better photos and faster sales.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/auth/register" class="inline-flex items-center justify-center gap-2 bg-white text-[#F06292] font-black px-8 py-4 rounded-2xl text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200">
+                <a href="/auth/register" class="inline-flex items-center justify-center gap-2 bg-white text-mochi-pink font-black px-8 py-4 rounded-2xl text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200">
                     Start optimizing free
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>

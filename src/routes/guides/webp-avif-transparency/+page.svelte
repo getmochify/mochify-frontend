@@ -193,26 +193,26 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
 	<header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category} · Guide
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
-			Do WebP and AVIF Support <span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">Transparency</span>? Why Cut-Outs Come Back Black or White (and How to Fix
+			Do WebP and AVIF Support <span class="bg-gradient-to-r from-mochi-pink to-[#EC407A] bg-clip-text text-transparent">Transparency</span>? Why Cut-Outs Come Back Black or White (and How to Fix
 			It)
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
 			Yes. WebP and AVIF both carry a full alpha channel, so a cut-out product shot, logo or sticker
 			can stay transparent in either format, usually at a fraction of the PNG's size. When a
 			transparent WebP or AVIF comes back with a black or white background, the format is almost
@@ -369,7 +369,7 @@
 				for each, so it is worth identifying which one you have before re-exporting anything.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">
+			<h3 class="mt-8 mb-3 text-xl font-bold text-cocoa-ink">
 				1. The destination re-encoded it as a JPEG
 			</h3>
 			<p class="mb-4">
@@ -381,7 +381,7 @@
 				converted to progressive JPEG with black backgrounds on roughly one product image in ten.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">
+			<h3 class="mt-8 mb-3 text-xl font-bold text-cocoa-ink">
 				2. The app that opened it cannot read the alpha channel
 			</h3>
 			<p class="mb-4">
@@ -406,7 +406,7 @@
 				>, May 2023). In each case the same file opened correctly elsewhere.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">
+			<h3 class="mt-8 mb-3 text-xl font-bold text-cocoa-ink">
 				3. The export never wrote an alpha channel
 			</h3>
 			<p class="mb-4">
@@ -426,7 +426,7 @@
 				October 2023).
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">4. It is the page, not the file</h3>
+			<h3 class="mt-8 mb-3 text-xl font-bold text-cocoa-ink">4. It is the page, not the file</h3>
 			<p class="mb-4">
 				Two of the three Shopify "transparent product images show a black background" threads we
 				read (April and June 2023) turned out to be theme CSS: the Dawn theme's product-media
@@ -435,7 +435,7 @@
 				its own; if it is transparent alone and black in the layout, the layout is the problem.
 			</p>
 
-			<h3 class="mt-8 mb-3 text-xl font-bold text-[#4A2C2C]">
+			<h3 class="mt-8 mb-3 text-xl font-bold text-cocoa-ink">
 				5. Animation and premultiplied alpha edge cases
 			</h3>
 			<p class="mb-4">

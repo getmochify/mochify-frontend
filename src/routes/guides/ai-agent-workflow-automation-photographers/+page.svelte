@@ -151,30 +151,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="AI Agent Workflow Automation" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Most photographers have optimized the shoot. The real time sink is what happens after: converting exports, resizing for each platform, stripping EXIF, and dropping files into the right delivery folders.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
                 This guide shows you how to build an AI agent pipeline on Claude, Dispatch, and Mochify's MCP server that eliminates all of that manual work. Files arrive in upload-ready folders while you're still in the car.
             </p>
         </div>
@@ -222,7 +222,7 @@
                                 output: '/processed/wire/editorial-[date]/'
                             },
                         ] as row, i}
-                            <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
+                            <tr class={i % 2 === 0 ? 'bg-white' : 'bg-mochi-bg'}>
                                 <td>{row.trigger}</td>
                                 <td>{row.action}</td>
                                 <td>{row.mcp}</td>
@@ -240,14 +240,14 @@
             <p>The export is not the finish line. After Lightroom or Capture One finishes, you still need to generate platform-specific derivative sets, strip location data, confirm file sizes are within each platform's limits, and move files to the right delivery folders.</p>
 
             <div class="bg-[#FFF9F5] rounded-2xl border border-[#FFE4D6] p-6 my-6">
-                <p class="m-0">That process, manual export plus EXIF strip plus resize, typically takes <strong class="text-[#4A2C2C]">8–15 minutes per job</strong>, and it scales linearly with the number of platforms you deliver to. For a wedding photographer delivering to Pixieset, a commercial photographer serving Shopify and Etsy, and an editorial photographer uploading to a wire service, that window compounds fast.</p>
+                <p class="m-0">That process, manual export plus EXIF strip plus resize, typically takes <strong class="text-cocoa-ink">8–15 minutes per job</strong>, and it scales linearly with the number of platforms you deliver to. For a wedding photographer delivering to Pixieset, a commercial photographer serving Shopify and Etsy, and an editorial photographer uploading to a wire service, that window compounds fast.</p>
             </div>
 
             <p>You're not sitting idle; you're travelling between locations, meeting clients, or trying to sleep, but the work is still waiting.</p>
-            <p>When an agent handles this, the window collapses to <strong class="text-[#4A2C2C]">under 60 seconds for a 25-image batch at Pro tier</strong>. You configure the agent's instruction set once, and it fires automatically every time a new export lands. You get a notification when the files are ready. Nothing else required.</p>
+            <p>When an agent handles this, the window collapses to <strong class="text-cocoa-ink">under 60 seconds for a 25-image batch at Pro tier</strong>. You configure the agent's instruction set once, and it fires automatically every time a new export lands. You get a notification when the files are ready. Nothing else required.</p>
 
             <GlassInfoBox type="tip" title="Ready to try Mochify's MCP server?">
-                Connect at <a href="/" class="text-[#D81B60] underline">mochify.app</a>. MCP access is included on all tiers.
+                Connect at <a href="/" class="text-mochi-pink-deep underline">mochify.app</a>. MCP access is included on all tiers.
             </GlassInfoBox>
         </section>
 
@@ -255,9 +255,9 @@
         <section id="how-the-stack-works" class="scroll-mt-24">
             <SectionHeading>How the Stack Works: Claude, Dispatch, and Mochify MCP</SectionHeading>
             <p>The three-layer architecture is straightforward: an AI agent runtime handles orchestration, a scheduler handles triggers, and Mochify's MCP server is the image processing engine the agent calls. The agent handles the logic; Mochify handles the actual pixel work.</p>
-            <p><strong class="text-[#4A2C2C]">Claude</strong> (via Claude Desktop or a compatible client) is where you define instruction sets: essentially, pre-written tasks the agent executes when triggered. For this workflow, you write the instruction set once: detect the shoot type from the folder name, call Mochify MCP with the appropriate conversion parameters, and send a confirmation when done. <a href="https://docs.anthropic.com/en/docs/build-with-claude/mcp" rel="noopener noreferrer" class="text-[#D81B60] underline">Anthropic's MCP documentation</a> covers the protocol spec in detail for developers who want to go deeper.</p>
-            <p><strong class="text-[#4A2C2C]">Dispatch</strong> is the scheduling and trigger layer. It runs a file watcher on your <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">/exports/raw-jpegs/</code> directory and fires the agent job when a new folder appears. This is what makes the workflow genuinely hands-off: the export from Lightroom is the only action you take. Dispatch handles everything after.</p>
-            <p><strong class="text-[#4A2C2C]">Mochify's MCP server</strong> exposes the same C++ compression engine and zero-retention pipeline as the web interface, but callable by an AI agent in natural language. The agent describes the task: format, size constraints, color profile, EXIF handling. Mochify resolves the parameters and returns the processed files. No settings UI, no format dropdowns.</p>
+            <p><strong class="text-cocoa-ink">Claude</strong> (via Claude Desktop or a compatible client) is where you define instruction sets: essentially, pre-written tasks the agent executes when triggered. For this workflow, you write the instruction set once: detect the shoot type from the folder name, call Mochify MCP with the appropriate conversion parameters, and send a confirmation when done. <a href="https://docs.anthropic.com/en/docs/build-with-claude/mcp" rel="noopener noreferrer" class="text-mochi-pink-deep underline">Anthropic's MCP documentation</a> covers the protocol spec in detail for developers who want to go deeper.</p>
+            <p><strong class="text-cocoa-ink">Dispatch</strong> is the scheduling and trigger layer. It runs a file watcher on your <code class="bg-mochi-blush text-mochi-pink-deep px-1.5 py-px rounded text-sm font-mono">/exports/raw-jpegs/</code> directory and fires the agent job when a new folder appears. This is what makes the workflow genuinely hands-off: the export from Lightroom is the only action you take. Dispatch handles everything after.</p>
+            <p><strong class="text-cocoa-ink">Mochify's MCP server</strong> exposes the same C++ compression engine and zero-retention pipeline as the web interface, but callable by an AI agent in natural language. The agent describes the task: format, size constraints, color profile, EXIF handling. Mochify resolves the parameters and returns the processed files. No settings UI, no format dropdowns.</p>
 
             <GlassInfoBox type="note" title="MCP access on all tiers">
                 There is no developer paywall. After installing the binary, run <code>mochify auth login</code> once. It opens your browser, you sign in, and credentials are saved to <code>~/.config/mochify/credentials.toml</code>, which both the CLI and the <code>mochify serve</code> MCP server pick up automatically. (<code>MOCHIFY_API_KEY</code> still works as an optional environment-variable override.) Free, Seller, and Pro all include MCP access.
@@ -280,11 +280,11 @@
     wire/
   archive/</code></pre>
 
-            <p>The naming convention for the <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">raw-jpegs/</code> subfolders is critical. Use a consistent prefix that maps to a shoot type:</p>
+            <p>The naming convention for the <code class="bg-mochi-blush text-mochi-pink-deep px-1.5 py-px rounded text-sm font-mono">raw-jpegs/</code> subfolders is critical. Use a consistent prefix that maps to a shoot type:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">wedding-YYYY-MM-DD-clientname/</code> triggers the wedding instruction set (Pixieset delivery)</li>
-                <li><code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">commercial-YYYY-MM-DD-clientname/</code> triggers the commercial instruction set (Shopify + Etsy)</li>
-                <li><code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">editorial-YYYY-MM-DD-outlet/</code> triggers the editorial instruction set (wire delivery)</li>
+                <li><code class="bg-mochi-blush text-mochi-pink-deep px-1.5 py-px rounded text-sm font-mono">wedding-YYYY-MM-DD-clientname/</code> triggers the wedding instruction set (Pixieset delivery)</li>
+                <li><code class="bg-mochi-blush text-mochi-pink-deep px-1.5 py-px rounded text-sm font-mono">commercial-YYYY-MM-DD-clientname/</code> triggers the commercial instruction set (Shopify + Etsy)</li>
+                <li><code class="bg-mochi-blush text-mochi-pink-deep px-1.5 py-px rounded text-sm font-mono">editorial-YYYY-MM-DD-outlet/</code> triggers the editorial instruction set (wire delivery)</li>
             </ul>
 
             <p>Lightroom's post-export action setting (under the Export dialog's "Post-Processing" panel) lets you specify a shell script to run when an export completes. Point this at a lightweight script that calls Dispatch with the folder path as an argument:</p>
@@ -306,8 +306,8 @@ dispatch trigger mochify-agent --param folder="$FOLDER_PATH"</code></pre>
             <SectionHeading>The Worked Example: Wedding Shoot, Agent Running, Photographer in the Field</SectionHeading>
             <p>Here's a complete, concrete run-through. It's a Saturday in May 2026. You've just finished the ceremony set. You're in the car park, tablet in hand, and you trigger a Lightroom export over your studio's remote connection.</p>
 
-            <div class="bg-gradient-to-b from-[#FFF5F7] to-[#FDFBF7] rounded-2xl border border-pink-100 p-6 md:p-8 mt-4">
-                <h3 class="text-lg font-bold text-[#4A2C2C] mb-4 mt-0">Step by step</h3>
+            <div class="bg-gradient-to-b from-mochi-blush to-mochi-bg rounded-2xl border border-pink-100 p-6 md:p-8 mt-4">
+                <h3 class="text-lg font-bold text-cocoa-ink mb-4 mt-0">Step by step</h3>
                 <ol class="list-none p-0 space-y-4">
                     {#each [
                         { n: 1, title: 'Export triggered.', body: 'Lightroom exports 80 HIF files from the ceremony set to /studio/exports/raw-jpegs/wedding-2026-05-03-hartley/. The folder name contains wedding-, which maps to the Pixieset instruction set.' },
@@ -320,16 +320,16 @@ dispatch trigger mochify-agent --param folder="$FOLDER_PATH"</code></pre>
                         { n: 8, title: 'Agent sends confirmation.', body: 'A Slack message (or desktop notification, depending on your Dispatch config) reads: "80 files processed. Ready to upload to Pixieset."' },
                     ] as step}
                         <li class="flex gap-4 items-start m-0">
-                            <span class="w-8 h-8 bg-[#F06292] text-white font-black rounded-full flex items-center justify-center text-sm flex-shrink-0 mt-0.5">{step.n}</span>
+                            <span class="w-8 h-8 bg-mochi-pink text-white font-black rounded-full flex items-center justify-center text-sm flex-shrink-0 mt-0.5">{step.n}</span>
                             <div>
-                                <strong class="text-[#4A2C2C]">{step.title}</strong>
+                                <strong class="text-cocoa-ink">{step.title}</strong>
                                 <span class="ml-1">{step.body}</span>
                             </div>
                         </li>
                     {/each}
                 </ol>
 
-                <div class="mt-6 pt-5 border-t border-pink-100 text-sm text-[#875F42] leading-relaxed">
+                <div class="mt-6 pt-5 border-t border-pink-100 text-sm text-cocoa-milk leading-relaxed">
                     You didn't touch a keyboard after step 1. Your originals are streamed to api.mochify.app, encoded in RAM, and discarded immediately: no disk writes of the source, and nothing retained after the compressed output is returned to your local folder.
                 </div>
             </div>
@@ -340,7 +340,7 @@ dispatch trigger mochify-agent --param folder="$FOLDER_PATH"</code></pre>
   ./exports/raw-jpegs/wedding-2026-05-03-hartley/*.jpg \
   --out ./processed/pixieset/wedding-2026-05-03-hartley/</code></pre>
 
-            <p>The <code class="bg-[#FFF5F7] text-[#D81B60] px-1.5 py-px rounded text-sm font-mono">--prompt</code> flag accepts the same natural language instruction as the MCP call. This is useful for one-off runs, debugging, or verifying output before you trust the agent to run unsupervised.</p>
+            <p>The <code class="bg-mochi-blush text-mochi-pink-deep px-1.5 py-px rounded text-sm font-mono">--prompt</code> flag accepts the same natural language instruction as the MCP call. This is useful for one-off runs, debugging, or verifying output before you trust the agent to run unsupervised.</p>
 
             <!-- CTA -->
             <GlassCTA
@@ -359,24 +359,24 @@ dispatch trigger mochify-agent --param folder="$FOLDER_PATH"</code></pre>
             <p>For a commercial shoot, you're not delivering to one platform; you're delivering to several with different specs. The agent handles all of them in a single pass, running the instruction sets sequentially.</p>
             <p>Here's the prompt sequence the agent runs for a commercial product shoot:</p>
 
-            <p><strong class="text-[#4A2C2C]">Pixieset gallery (client proofs)</strong></p>
+            <p><strong class="text-cocoa-ink">Pixieset gallery (client proofs)</strong></p>
             <pre class="bg-[#1e1e2e] text-[#cdd6f4] rounded-2xl p-6 overflow-x-auto font-mono text-sm leading-relaxed my-3"><code>"Convert everything in /studio/exports/raw-jpegs/commercial-2026-05-03-brand/
 to sRGB JPEG, 3,600px long edge, under 2MB, strip all EXIF"</code></pre>
-            <p class="text-sm text-[#875F42]">Output: <code class="font-mono">/studio/processed/pixieset/commercial-2026-05-03-brand/</code></p>
+            <p class="text-sm text-cocoa-milk">Output: <code class="font-mono">/studio/processed/pixieset/commercial-2026-05-03-brand/</code></p>
 
-            <p><strong class="text-[#4A2C2C]">Shopify product images</strong></p>
+            <p><strong class="text-cocoa-ink">Shopify product images</strong></p>
             <pre class="bg-[#1e1e2e] text-[#cdd6f4] rounded-2xl p-6 overflow-x-auto font-mono text-sm leading-relaxed my-3"><code>"Generate Shopify derivatives from shoot folder - sRGB JPEG, 2,048px square,
 under 500KB, strip EXIF"</code></pre>
-            <p class="text-sm text-[#875F42]">Output: <code class="font-mono">/studio/processed/shopify/commercial-2026-05-03-brand/</code></p>
+            <p class="text-sm text-cocoa-milk">Output: <code class="font-mono">/studio/processed/shopify/commercial-2026-05-03-brand/</code></p>
 
-            <p><strong class="text-[#4A2C2C]">Etsy listings</strong></p>
+            <p><strong class="text-cocoa-ink">Etsy listings</strong></p>
             <pre class="bg-[#1e1e2e] text-[#cdd6f4] rounded-2xl p-6 overflow-x-auto font-mono text-sm leading-relaxed my-3"><code>"Batch process and strip EXIF - sRGB JPEG, 2,000px long edge, under 1MB,
 strip all metadata"</code></pre>
-            <p class="text-sm text-[#875F42]">Output: <code class="font-mono">/studio/processed/etsy/commercial-2026-05-03-brand/</code></p>
+            <p class="text-sm text-cocoa-milk">Output: <code class="font-mono">/studio/processed/etsy/commercial-2026-05-03-brand/</code></p>
 
-            <p><strong class="text-[#4A2C2C]">Brand website (modern format)</strong></p>
+            <p><strong class="text-cocoa-ink">Brand website (modern format)</strong></p>
             <pre class="bg-[#1e1e2e] text-[#cdd6f4] rounded-2xl p-6 overflow-x-auto font-mono text-sm leading-relaxed my-3"><code>"Convert everything in this folder to sRGB AVIF, under 300KB, strip EXIF"</code></pre>
-            <p class="text-sm text-[#875F42]">Output: <code class="font-mono">/studio/processed/web/commercial-2026-05-03-brand/</code></p>
+            <p class="text-sm text-cocoa-milk">Output: <code class="font-mono">/studio/processed/web/commercial-2026-05-03-brand/</code></p>
 
             <p>For a 25-image commercial batch at Pro tier, all four derivative sets complete in under four minutes total. The agent coordinates the sequence, but each Mochify call is independent; if one fails, the others continue.</p>
 
@@ -388,7 +388,7 @@ strip all metadata"</code></pre>
         <!-- 07 Privacy -->
         <section id="privacy" class="scroll-mt-24">
             <SectionHeading>Privacy in an Automated Pipeline</SectionHeading>
-            <p>Privacy matters more in an agent workflow, not less, because files are being processed without you watching. Mochify's in-memory, zero-retention pipeline means your originals are streamed to api.mochify.app, encoded in RAM, and discarded immediately, with no disk writes of the source, no logs containing image data, and nothing retained after processing. The agent passes the task to Mochify, the bytes are encoded on Mochify's API, and the local binary writes the compressed output straight back to your folder, with no pickup store and no intermediary cloud storage. Your image bytes do travel to Mochify's API for the encoding step itself (that is where the C++ engine runs); if you need them never to leave your machine at all, self-host the engine via our <a href="/guides/self-hosting-image-optimization-docker" class="text-[#D81B60] underline">Docker self-hosting guide</a>.</p>
+            <p>Privacy matters more in an agent workflow, not less, because files are being processed without you watching. Mochify's in-memory, zero-retention pipeline means your originals are streamed to api.mochify.app, encoded in RAM, and discarded immediately, with no disk writes of the source, no logs containing image data, and nothing retained after processing. The agent passes the task to Mochify, the bytes are encoded on Mochify's API, and the local binary writes the compressed output straight back to your folder, with no pickup store and no intermediary cloud storage. Your image bytes do travel to Mochify's API for the encoding step itself (that is where the C++ engine runs); if you need them never to leave your machine at all, self-host the engine via our <a href="/guides/self-hosting-image-optimization-docker" class="text-mochi-pink-deep underline">Docker self-hosting guide</a>.</p>
             <p>EXIF stripping is specified as intent in the Magic Flow prompt, not configured as a separate tool step. You write "strip all EXIF including embedded thumbnails" in the same sentence as your format and size requirements, and Mochify resolves and applies all of it in a single pass. This matters for client privacy: wedding and portrait files contain GPS coordinates, device metadata, and sometimes embedded contact information from your camera profile.</p>
             <p>For editorial work, the rule is different. Wire services require IPTC caption and copyright fields to travel with the file for attribution. In that case, use a selective instruction:</p>
 
@@ -403,10 +403,10 @@ strip GPS and device metadata, 2,400px long edge, JPEG"</code></pre>
             <SectionHeading>What to Validate and What Can Go Wrong</SectionHeading>
             <p>An automated pipeline is only trustworthy if it validates its own output. Here's what to configure the agent to check before marking a batch complete.</p>
 
-            <p><strong class="text-[#4A2C2C]">File size validation.</strong> The agent should confirm that every output file is within the target platform's size limit before sending the confirmation notification. If any file exceeds the limit, it should re-run that file with a slightly lower quality setting and re-check. Mochify's Magic Flow handles this gracefully: the prompt can specify "under 2MB" as a hard constraint, and the encoder will find the quality level that satisfies it.</p>
-            <p><strong class="text-[#4A2C2C]">Mixed file types.</strong> If a folder contains HIF, JPEG, and occasional RAW files (from a second shooter, for example), Mochify processes the formats it supports and skips unsupported types. The agent's instruction set should flag skipped files in the confirmation message rather than silently omitting them.</p>
-            <p><strong class="text-[#4A2C2C]">Batches larger than 25 files.</strong> The 25-file batch limit applies to Seller and Pro tiers via MCP. If you're processing 80 files, the CLI handles this automatically by splitting internally across multiple batches; you pass the full folder and Mochify manages the chunking. Via MCP, the agent should split the folder glob into chunks of 25 and call Mochify sequentially, collecting confirmations before marking the job done.</p>
-            <p><strong class="text-[#4A2C2C]">Format rejection.</strong> If Lightroom exports a file with an unusual color profile or embedded ICC profile that causes a processing error, Mochify will return an error for that file. Configure the agent to log errors with filenames and re-queue them for manual review rather than failing silently.</p>
+            <p><strong class="text-cocoa-ink">File size validation.</strong> The agent should confirm that every output file is within the target platform's size limit before sending the confirmation notification. If any file exceeds the limit, it should re-run that file with a slightly lower quality setting and re-check. Mochify's Magic Flow handles this gracefully: the prompt can specify "under 2MB" as a hard constraint, and the encoder will find the quality level that satisfies it.</p>
+            <p><strong class="text-cocoa-ink">Mixed file types.</strong> If a folder contains HIF, JPEG, and occasional RAW files (from a second shooter, for example), Mochify processes the formats it supports and skips unsupported types. The agent's instruction set should flag skipped files in the confirmation message rather than silently omitting them.</p>
+            <p><strong class="text-cocoa-ink">Batches larger than 25 files.</strong> The 25-file batch limit applies to Seller and Pro tiers via MCP. If you're processing 80 files, the CLI handles this automatically by splitting internally across multiple batches; you pass the full folder and Mochify manages the chunking. Via MCP, the agent should split the folder glob into chunks of 25 and call Mochify sequentially, collecting confirmations before marking the job done.</p>
+            <p><strong class="text-cocoa-ink">Format rejection.</strong> If Lightroom exports a file with an unusual color profile or embedded ICC profile that causes a processing error, Mochify will return an error for that file. Configure the agent to log errors with filenames and re-queue them for manual review rather than failing silently.</p>
         </section>
 
         <!-- Final CTA -->

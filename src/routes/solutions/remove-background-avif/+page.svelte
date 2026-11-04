@@ -120,8 +120,8 @@
                 </span>
             </div>
 
-            <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
-                <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
+            <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
+                <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
                     AVIF
                 </span>
                 <span class="bg-gradient-to-r from-[#C4B5FD] to-[#7C3AED] bg-clip-text text-transparent">
@@ -130,7 +130,7 @@
                 Remover
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
+            <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Remove the background from a photo and download the cut-out as a transparent AVIF in one step. It takes AVIF files as they are, along with JPG, PNG, WebP, HEIC, HEIF and HIF, and writes the subject on a full alpha channel in the format that usually produces the smallest transparent file. Three images with no signup, 25 a month with a free account, processed in memory and never saved to disk.
             </p>
         </div>
@@ -140,24 +140,24 @@
         </div>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">How to remove the background from an AVIF image</h2>
+            <h2 class="text-2xl font-bold text-cocoa-ink mb-6">How to remove the background from an AVIF image</h2>
             <ol class="space-y-4">
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">1</span>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Drop the file in</strong> as it is: an .avif, or a JPG, PNG, WebP, HEIC, HEIF or HIF. Up to 3 per batch with no signup or a free account, 25 on Seller and Pro.
+                    <p class="leading-relaxed text-cocoa-deep">
+                        <strong class="text-cocoa-ink">Drop the file in</strong> as it is: an .avif, or a JPG, PNG, WebP, HEIC, HEIF or HIF. Up to 3 per batch with no signup or a free account, 25 on Seller and Pro.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">2</span>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">The background is removed</strong> from each image and the subject is written out as an AVIF with a full alpha channel. There are no settings: one output, a transparent AVIF.
+                    <p class="leading-relaxed text-cocoa-deep">
+                        <strong class="text-cocoa-ink">The background is removed</strong> from each image and the subject is written out as an AVIF with a full alpha channel. There are no settings: one output, a transparent AVIF.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">3</span>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Download the cut-outs.</strong> Nothing was converted to PNG along the way, so there is no second step.
+                    <p class="leading-relaxed text-cocoa-deep">
+                        <strong class="text-cocoa-ink">Download the cut-outs.</strong> Nothing was converted to PNG along the way, so there is no second step.
                     </p>
                 </li>
             </ol>
@@ -166,17 +166,17 @@
         <section class="mt-20 max-w-4xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-start">
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-bold text-[#4A2C2C]">Got an AVIF you cannot edit?</h2>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        AVIF often arrives by accident. More sites serve it, saving an image from the browser then gives you an .avif, and plenty of software still will not open one. Windows 11 needs a Microsoft Store extension for AVIF previews in some setups, and many background removers either refuse the file or hand back a PNG. This page reads the .avif directly and returns an .avif. If what you actually need is a JPG copy, <a href="/avif-to-jpg" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">AVIF to JPG</a> does that, and <a href="/guides/what-is-an-avif-file" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">What is an AVIF file?</a> explains where they come from.
+                    <h2 class="text-2xl font-bold text-cocoa-ink">Got an AVIF you cannot edit?</h2>
+                    <p class="leading-relaxed text-cocoa-deep">
+                        AVIF often arrives by accident. More sites serve it, saving an image from the browser then gives you an .avif, and plenty of software still will not open one. Windows 11 needs a Microsoft Store extension for AVIF previews in some setups, and many background removers either refuse the file or hand back a PNG. This page reads the .avif directly and returns an .avif. If what you actually need is a JPG copy, <a href="/avif-to-jpg" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">AVIF to JPG</a> does that, and <a href="/guides/what-is-an-avif-file" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">What is an AVIF file?</a> explains where they come from.
                     </p>
                 </div>
 
                 <div class="bg-white p-8 rounded-2xl border border-pink-50 shadow-sm">
-                    <h3 class="font-bold text-[#4A2C2C] mb-5 text-sm uppercase tracking-widest opacity-70">Common Use Cases</h3>
+                    <h3 class="font-bold text-cocoa-ink mb-5 text-sm uppercase tracking-widest opacity-70">Common Use Cases</h3>
                     <ul class="space-y-3">
                         {#each useCases as item}
-                            <li class="flex items-center gap-3 text-sm font-semibold text-[#6C3F31]">
+                            <li class="flex items-center gap-3 text-sm font-semibold text-cocoa-deep">
                                 <span class="w-2 h-2 rounded-full bg-[#C4B5FD] flex-shrink-0"></span> {item}
                             </li>
                         {/each}
@@ -188,48 +188,48 @@
         <section class="mt-20 max-w-4xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-start">
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-bold text-[#4A2C2C]">Why AVIF for a cut-out</h2>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        AVIF stores transparency as a second, grayscale AV1 image inside the same file (<a href="https://aomediacodec.github.io/av1-avif/v1.2.0.html" target="_blank" rel="noopener noreferrer" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">AVIF specification</a>), so the transparency is compressed with the same tools as the picture itself. On cut-outs with large transparent or soft-edged areas, that usually makes AVIF the smallest transparent option, smaller than WebP and far smaller than PNG. The gain depends on the image, so read it as usually, not always. The trade is reach: AVIF works in every current major browser, but older apps and some image libraries still show a transparent AVIF on black.
+                    <h2 class="text-2xl font-bold text-cocoa-ink">Why AVIF for a cut-out</h2>
+                    <p class="leading-relaxed text-cocoa-deep">
+                        AVIF stores transparency as a second, grayscale AV1 image inside the same file (<a href="https://aomediacodec.github.io/av1-avif/v1.2.0.html" target="_blank" rel="noopener noreferrer" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">AVIF specification</a>), so the transparency is compressed with the same tools as the picture itself. On cut-outs with large transparent or soft-edged areas, that usually makes AVIF the smallest transparent option, smaller than WebP and far smaller than PNG. The gain depends on the image, so read it as usually, not always. The trade is reach: AVIF works in every current major browser, but older apps and some image libraries still show a transparent AVIF on black.
                     </p>
                 </div>
 
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-bold text-[#4A2C2C]">Where a transparent AVIF works</h2>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        On the web, serve it inside a <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">&lt;picture&gt;</code> element with a WebP or PNG fallback, and every current browser picks the smallest file it can display (<a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">browser support</a>). Outside the browser, support is thinner: some viewers and thumbnail generators do not read the alpha channel, and marketplaces generally re-encode uploads as JPEG, which flattens any transparency. For a listing, use the <a href="/solutions/remove-background-webp" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">WebP background remover</a> or ask Magic Flow in the <a href="/flow" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">web app</a> to "remove the background and put it on a white background". If a cut-out turns black or white somewhere, <a href="/guides/webp-avif-transparency" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Do WebP and AVIF support transparency?</a> covers the causes.
+                    <h2 class="text-2xl font-bold text-cocoa-ink">Where a transparent AVIF works</h2>
+                    <p class="leading-relaxed text-cocoa-deep">
+                        On the web, serve it inside a <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">&lt;picture&gt;</code> element with a WebP or PNG fallback, and every current browser picks the smallest file it can display (<a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">browser support</a>). Outside the browser, support is thinner: some viewers and thumbnail generators do not read the alpha channel, and marketplaces generally re-encode uploads as JPEG, which flattens any transparency. For a listing, use the <a href="/solutions/remove-background-webp" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">WebP background remover</a> or ask Magic Flow in the <a href="/flow" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">web app</a> to "remove the background and put it on a white background". If a cut-out turns black or white somewhere, <a href="/guides/webp-avif-transparency" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Do WebP and AVIF support transparency?</a> covers the causes.
                     </p>
                 </div>
             </div>
         </section>
 
         <section class="mt-20 max-w-3xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Removing a background on Windows, Mac or iPhone</h2>
-            <p class="leading-relaxed text-[#6C3F31]">
+            <h2 class="text-2xl font-bold text-cocoa-ink">Removing a background on Windows, Mac or iPhone</h2>
+            <p class="leading-relaxed text-cocoa-deep">
                 The built-in tools work on one image at a time and none of them writes a transparent AVIF: Paint's Remove background on Windows 11 saves the cut-out as PNG, Preview's Remove Background on a Mac converts the image to PNG, and lifting a subject in iPhone Photos gives you a copied cut-out. Turning any of those into an AVIF is a separate conversion. This page does it in one step, for a batch, and accepts the AVIF those tools may not open.
             </p>
         </section>
 
         <!-- Format comparison -->
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">Transparent cutout: choosing the right format</h2>
+            <h2 class="text-2xl font-bold text-cocoa-ink mb-6">Transparent cutout: choosing the right format</h2>
             <div class="overflow-x-auto rounded-2xl border border-pink-50 shadow-sm">
                 <table class="w-full border-collapse text-sm">
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Format</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Transparency</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">File size</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Best for</th>
+                        <tr class="bg-mochi-blush">
+                            <th class="text-left px-5 py-4 text-cocoa-milk font-black text-xs uppercase tracking-wider border-b border-pink-50">Format</th>
+                            <th class="text-left px-5 py-4 text-cocoa-milk font-black text-xs uppercase tracking-wider border-b border-pink-50">Transparency</th>
+                            <th class="text-left px-5 py-4 text-cocoa-milk font-black text-xs uppercase tracking-wider border-b border-pink-50">File size</th>
+                            <th class="text-left px-5 py-4 text-cocoa-milk font-black text-xs uppercase tracking-wider border-b border-pink-50">Best for</th>
                         </tr>
                     </thead>
                     <tbody>
                         {#each formatRows as row, i}
-                            <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
-                                <td class="px-5 py-3.5 font-black text-[#4A2C2C] border-b border-pink-50">{row.fmt}</td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.alpha}</td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.size}</td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.best}</td>
+                            <tr class={i % 2 === 0 ? 'bg-white' : 'bg-mochi-bg'}>
+                                <td class="px-5 py-3.5 font-black text-cocoa-ink border-b border-pink-50">{row.fmt}</td>
+                                <td class="px-5 py-3.5 text-cocoa-deep border-b border-pink-50">{row.alpha}</td>
+                                <td class="px-5 py-3.5 text-cocoa-deep border-b border-pink-50">{row.size}</td>
+                                <td class="px-5 py-3.5 text-cocoa-deep border-b border-pink-50">{row.best}</td>
                             </tr>
                         {/each}
                     </tbody>
@@ -239,35 +239,35 @@
 
         <!-- Bulk / automation -->
         <section class="mt-20 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Bulk and automated background removal</h2>
-            <p class="leading-relaxed text-[#6C3F31]">
-                Background removal is included on every plan, Free and the Day Pass too. Seller and Pro accounts process up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. From an AI agent, use the hosted or local MCP server; from code, the REST API:
+            <h2 class="text-2xl font-bold text-cocoa-ink">Bulk and automated background removal</h2>
+            <p class="leading-relaxed text-cocoa-deep">
+                Background removal is included on every plan, Free and the Day Pass too. Seller and Pro accounts process up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. From an AI agent, use the hosted or local MCP server; from code, the REST API:
             </p>
             <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?removeBackground=true&amp;type=avif" \
   -H "Authorization: Bearer $MOCHIFY_KEY" \
   --data-binary @product.avif \
   -o product-cutout.avif</code></pre>
-            <p class="leading-relaxed text-[#6C3F31]">
-                Files travel over HTTPS to api.mochify.app, are processed in memory and discarded. Full parameter reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>.
+            <p class="leading-relaxed text-cocoa-deep">
+                Files travel over HTTPS to api.mochify.app, are processed in memory and discarded. Full parameter reference in the <a href="/docs" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">API documentation</a>.
             </p>
         </section>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">Frequently asked questions</h2>
+            <h2 class="text-2xl font-bold text-cocoa-ink mb-6">Frequently asked questions</h2>
             <FaqAccordion {faqs} class="grid md:grid-cols-2 gap-4 items-start" />
         </section>
 
         <!-- Also available -->
         <section class="mt-16 max-w-4xl mx-auto">
-            <p class="text-xs font-black text-[#875F42] uppercase tracking-widest mb-4">Also available</p>
+            <p class="text-xs font-black text-cocoa-milk uppercase tracking-widest mb-4">Also available</p>
             <div class="grid sm:grid-cols-3 gap-4">
                 <a href="/solutions/remove-background-webp" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">WebP Background Remover →</p>
-                        <p class="text-xs text-[#875F42]">Same cut-out as a transparent WebP</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">WebP Background Remover →</p>
+                        <p class="text-xs text-cocoa-milk">Same cut-out as a transparent WebP</p>
                     </div>
                 </a>
                 <a href="/solutions/svg-to-avif" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -275,8 +275,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">SVG to AVIF →</p>
-                        <p class="text-xs text-[#875F42]">Rasterize vector assets to AVIF with transparency</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">SVG to AVIF →</p>
+                        <p class="text-xs text-cocoa-milk">Rasterize vector assets to AVIF with transparency</p>
                     </div>
                 </a>
                 <a href="/guides/webp-avif-transparency" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -284,8 +284,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">Do WebP and AVIF support transparency? →</p>
-                        <p class="text-xs text-[#875F42]">Why a cut-out sometimes turns up on white</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">Do WebP and AVIF support transparency? →</p>
+                        <p class="text-xs text-cocoa-milk">Why a cut-out sometimes turns up on white</p>
                     </div>
                 </a>
             </div>

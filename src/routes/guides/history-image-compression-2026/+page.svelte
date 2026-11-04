@@ -89,30 +89,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
     
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="History of Image Compression" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Once computers could display pictures, the next problem arrived instantly: storage. A single 24-bit, 1024×768 pixel image weighs 2.4 MB uncompressed. That was massive in the 1980s when a 10 MB hard drive cost hundreds of dollars, and it's still massive today when that same image needs to travel over a cellular connection in rural Iowa.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-cocoa-deep">
                 The history of image compression is the history of solving constraints. From disk space to dial-up, and now Core Web Vitals. Every format we use today emerged because someone hit a wall and built a workaround.
             </p>
         </div>
@@ -201,21 +201,21 @@
         <section id="next-gen" class="scroll-mt-24">
              <SectionHeading>Next-Gen Formats: WebP, AVIF, and JPEG XL</SectionHeading>
              
-             <h3 class="text-xl font-bold text-[#4A2C2C] mt-7 mb-3">WebP: The safe baseline</h3>
+             <h3 class="text-xl font-bold text-cocoa-ink mt-7 mb-3">WebP: The safe baseline</h3>
              <p class="mb-4">Google released WebP in 2010 with a clear goal: create a format that delivers both lossy and lossless compression, supports transparency and animation (replacing both JPEG and PNG in one format), and achieves 25-35% smaller file sizes than JPEG or PNG at similar perceived quality.</p>
              <p class="mb-4">WebP uses predictive coding (guessing the next pixel block based on the previous one) and achieves its compression gains through better encoding efficiency. By 2026, WebP has 96% browser support and has become the safe default for many CDNs, platforms, and developers who want to serve images in next-gen formats without worrying about compatibility.</p>
              <p class="mb-4">If you're still serving legacy JPEGs and PNGs in 2026, you're leaving significant file size savings on the table. WebP is old enough now (14 years) that "next-gen" feels like a misnomer. It's the current generation.</p>
 
-             <h3 class="text-xl font-bold text-[#4A2C2C] mt-7 mb-3">AVIF: Maximum compression</h3>
+             <h3 class="text-xl font-bold text-cocoa-ink mt-7 mb-3">AVIF: Maximum compression</h3>
              <p class="mb-4">AVIF (AV1 Image File Format) launched around 2019, built on the AV1 video codec that Netflix and other streaming platforms developed for better video compression. AVIF often achieves 20-50% smaller file sizes than WebP at the same quality level, especially at lower bitrates.</p>
              <p class="mb-4">AVIF also supports 10-bit color depth, which matters for photographers and high-end e-commerce imagery because it eliminates the banding artifacts you see in 8-bit gradients (think sunset skies or product shots with subtle color transitions).</p>
              <p class="mb-4">The catch: AVIF encoding is computationally expensive. Scripts and interpreted-language tools often choke on AVIF conversion, which is why we built Mochify's engine in C++ with hardware acceleration to make AVIF conversion instant and practical.</p>
 
-             <h3 class="text-xl font-bold text-[#4A2C2C] mt-7 mb-3">JPEG XL: The future (maybe)</h3>
+             <h3 class="text-xl font-bold text-cocoa-ink mt-7 mb-3">JPEG XL: The future (maybe)</h3>
              <p class="mb-4">JPEG XL is technically fascinating. It supports lossless recompression of existing JPEGs (you can convert a JPEG to JPEG XL and back to JPEG without any additional quality loss), progressive decoding, and better compression than AVIF in many cases.</p>
              <p class="mb-4">For three years the problem was browser support: Chrome removed its flag-gated decoder in early 2023, and until October 2026 JPEG XL's installed base was Safari, roughly 12-17% of global browsing. Chrome 155 (October 6, 2026) and Firefox 158 (October 13) reversed that, decoding JPEG XL by default with a new Rust decoder. It is now a first source in a picture element for public websites, with AVIF and WebP beneath it for Edge, older installs and email, and it remains the strongest format for archival workflows.</p>
              
-             <h3 class="text-xl font-bold text-[#4A2C2C] mt-7 mb-3">HEIC: The iOS problem</h3>
+             <h3 class="text-xl font-bold text-cocoa-ink mt-7 mb-3">HEIC: The iOS problem</h3>
              <p class="mb-4">HEIC (High Efficiency Image Container) is the default capture format on iPhones and uses the HEVC (H.265) video codec for compression. It's efficient and delivers quality similar to AVIF, but browser support is essentially zero.</p>
              <p class="mb-4">If you try to upload a HEIC file to eBay, Etsy, Shopify, or most CMSs, you'll get an "unsupported file" error. The practical reality for most iPhone users in 2026: shoot HEIC on the device, but convert HEIC to JPEG or WebP before uploading to the web. That's one of the most common use cases we see at Mochify.</p>
         </section>
@@ -231,7 +231,7 @@
         <section id="lighthouse" class="scroll-mt-24">
              <SectionHeading>How This History Shows Up in Lighthouse Today</SectionHeading>
              <p class="mb-4">If you've run a Lighthouse audit on a website in 2026, you've probably seen two specific warnings that connect directly to this history:</p>
-             <ol class="list-decimal pl-6 mb-6 space-y-2 marker:text-[#F06292] marker:font-bold">
+             <ol class="list-decimal pl-6 mb-6 space-y-2 marker:text-mochi-pink marker:font-bold">
                 <li><strong>"Serve images in next-gen formats"</strong> - This audit flags JPEGs and PNGs that could be replaced with WebP or AVIF to reduce file size and improve load time.</li>
                 <li><strong>"Efficiently encode images"</strong> - This flags JPEGs that are saved at needlessly high quality (like quality 95 or 100) when quality 85 would be visually identical but 50% smaller.</li>
              </ol>

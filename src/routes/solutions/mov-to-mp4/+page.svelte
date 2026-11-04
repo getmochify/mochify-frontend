@@ -100,18 +100,18 @@
                 </span>
             </div>
 
-            <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
+            <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
                 Convert
                 <span class="bg-gradient-to-r from-[#C4B5FD] to-[#7C3AED] bg-clip-text text-transparent">
                     MOV
                 </span>
                 to
-                <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
+                <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
                     MP4
                 </span>
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
+            <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Convert MOV videos from your iPhone, Mac or camera to an MP4 that plays on Windows and Android and opens in mainstream video editors and upload forms. It is free and needs no account, and the conversion runs entirely in your browser, so your video never leaves your device.
             </p>
         </div>
@@ -121,70 +121,70 @@
         </div>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">How to convert MOV to MP4</h2>
-            <ol class="list-decimal space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+            <h2 class="text-2xl font-bold text-cocoa-ink">How to convert MOV to MP4</h2>
+            <ol class="list-decimal space-y-2 pl-6 text-cocoa-deep leading-relaxed">
                 <li>Drop up to 10 MOV files on the box above, or click to choose them. Nothing is uploaded.</li>
                 <li>Your browser converts them one after another, with a progress readout for each file.</li>
                 <li>Each MP4 downloads as soon as it is ready, with the same name as the original.</li>
             </ol>
-            <p class="leading-relaxed text-[#6C3F31]">You do not need an account, and converting video does not use any of your monthly image allowance.</p>
+            <p class="leading-relaxed text-cocoa-deep">You do not need an account, and converting video does not use any of your monthly image allowance.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Why convert MOV to MP4?</h2>
-            <p class="leading-relaxed text-[#6C3F31]">MOV is Apple's QuickTime format, and it is what iPhones, Macs and many cameras save video as. Apple devices play it without a second thought, but plenty of other places do not: some Windows and Android players, editing apps, learning platforms and website upload forms only accept MP4. MP4 with H.264 video and AAC audio is the combination almost everything accepts.</p>
-            <p class="leading-relaxed text-[#6C3F31]">There is a second catch with iPhone video. Since iOS 11, iPhones record in HEVC (H.265) by default, which saves space but needs a paid extension to play on some Windows PCs. Converting to H.264 MP4 solves both problems at once.</p>
+            <h2 class="text-2xl font-bold text-cocoa-ink">Why convert MOV to MP4?</h2>
+            <p class="leading-relaxed text-cocoa-deep">MOV is Apple's QuickTime format, and it is what iPhones, Macs and many cameras save video as. Apple devices play it without a second thought, but plenty of other places do not: some Windows and Android players, editing apps, learning platforms and website upload forms only accept MP4. MP4 with H.264 video and AAC audio is the combination almost everything accepts.</p>
+            <p class="leading-relaxed text-cocoa-deep">There is a second catch with iPhone video. Since iOS 11, iPhones record in HEVC (H.265) by default, which saves space but needs a paid extension to play on some Windows PCs. Converting to H.264 MP4 solves both problems at once.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">What the converter does to your video</h2>
-            <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
-                <li><strong class="text-[#4A2C2C]">H.264 video</strong> (iPhone on Most Compatible, Mac screen recordings, many cameras): copied into the MP4 without re-encoding. The picture is identical to the original and even long clips convert in seconds.</li>
-                <li><strong class="text-[#4A2C2C]">HEVC video</strong> (iPhone default): re-encoded to H.264 at the same bitrate as the original. If your browser cannot read HEVC, the video is kept as HEVC inside the MP4 instead, and the page tells you.</li>
-                <li><strong class="text-[#4A2C2C]">HDR video:</strong> the HDR color information is kept, so iPhone HDR clips still look right on HDR screens.</li>
-                <li><strong class="text-[#4A2C2C]">Audio:</strong> AAC audio is copied as it is. Other audio is re-encoded to AAC, or kept as it is if your browser cannot encode AAC.</li>
-                <li><strong class="text-[#4A2C2C]">Orientation, size and length:</strong> portrait clips stay portrait, with the same resolution and running time as the MOV.</li>
-                <li><strong class="text-[#4A2C2C]">File size:</strong> about the same as your MOV.</li>
+            <h2 class="text-2xl font-bold text-cocoa-ink">What the converter does to your video</h2>
+            <ul class="list-disc space-y-2 pl-6 text-cocoa-deep leading-relaxed">
+                <li><strong class="text-cocoa-ink">H.264 video</strong> (iPhone on Most Compatible, Mac screen recordings, many cameras): copied into the MP4 without re-encoding. The picture is identical to the original and even long clips convert in seconds.</li>
+                <li><strong class="text-cocoa-ink">HEVC video</strong> (iPhone default): re-encoded to H.264 at the same bitrate as the original. If your browser cannot read HEVC, the video is kept as HEVC inside the MP4 instead, and the page tells you.</li>
+                <li><strong class="text-cocoa-ink">HDR video:</strong> the HDR color information is kept, so iPhone HDR clips still look right on HDR screens.</li>
+                <li><strong class="text-cocoa-ink">Audio:</strong> AAC audio is copied as it is. Other audio is re-encoded to AAC, or kept as it is if your browser cannot encode AAC.</li>
+                <li><strong class="text-cocoa-ink">Orientation, size and length:</strong> portrait clips stay portrait, with the same resolution and running time as the MOV.</li>
+                <li><strong class="text-cocoa-ink">File size:</strong> about the same as your MOV.</li>
             </ul>
-            <p class="leading-relaxed text-[#6C3F31]">H.264 needs more bits than HEVC for the same picture, so at the same bitrate very detailed or fast-moving HEVC footage can look slightly softer after conversion. For most phone clips the difference is hard to see.</p>
+            <p class="leading-relaxed text-cocoa-deep">H.264 needs more bits than HEVC for the same picture, so at the same bitrate very detailed or fast-moving HEVC footage can look slightly softer after conversion. For most phone clips the difference is hard to see.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Why your video never leaves your device</h2>
-            <p class="leading-relaxed text-[#6C3F31]">The conversion runs in your browser tab, using the video encoder built into the browser (the WebCodecs API). Your file is read from your disk, converted in the tab and saved back to your downloads. It is never sent to Mochify or anyone else. Most online converters upload your file to a server first; for family videos, client footage or anything private, that difference matters.</p>
+            <h2 class="text-2xl font-bold text-cocoa-ink">Why your video never leaves your device</h2>
+            <p class="leading-relaxed text-cocoa-deep">The conversion runs in your browser tab, using the video encoder built into the browser (the WebCodecs API). Your file is read from your disk, converted in the tab and saved back to your downloads. It is never sent to Mochify or anyone else. Most online converters upload your file to a server first; for family videos, client footage or anything private, that difference matters.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Which browsers can convert</h2>
-            <p class="leading-relaxed text-[#6C3F31]">Desktop Chrome and Edge convert reliably. Safari (version 26 and later) and Firefox (version 130 and later on desktop) also include the browser video engine this page uses. Firefox on Android does not. If your browser cannot convert the file, the page tells you instead of failing silently.</p>
-            <p class="leading-relaxed text-[#6C3F31]">For iPhone HEVC video, Safari and Chrome on a Mac give the best result, because they can re-encode HEVC to H.264. Chrome and Edge on Windows can too on most computers made in the last several years.</p>
-            <p class="leading-relaxed text-[#6C3F31]">Long or high-resolution clips use a lot of memory, because the whole file is held in the tab while it converts. A desktop or laptop handles large files best.</p>
+            <h2 class="text-2xl font-bold text-cocoa-ink">Which browsers can convert</h2>
+            <p class="leading-relaxed text-cocoa-deep">Desktop Chrome and Edge convert reliably. Safari (version 26 and later) and Firefox (version 130 and later on desktop) also include the browser video engine this page uses. Firefox on Android does not. If your browser cannot convert the file, the page tells you instead of failing silently.</p>
+            <p class="leading-relaxed text-cocoa-deep">For iPhone HEVC video, Safari and Chrome on a Mac give the best result, because they can re-encode HEVC to H.264. Chrome and Edge on Windows can too on most computers made in the last several years.</p>
+            <p class="leading-relaxed text-cocoa-deep">Long or high-resolution clips use a lot of memory, because the whole file is held in the tab while it converts. A desktop or laptop handles large files best.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Converting MOV to MP4 without a converter</h2>
-            <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
-                <li><strong class="text-[#4A2C2C]">FFmpeg</strong> (free, Windows, Mac and Linux): <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">ffmpeg -i input.mov -c:v libx264 -crf 20 -c:a aac -movflags +faststart output.mp4</code>. If the MOV is already H.264, <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">ffmpeg -i input.mov -c copy output.mp4</code> changes the container without re-encoding. This also handles ProRes.</li>
-                <li><strong class="text-[#4A2C2C]">HandBrake</strong> (free, Windows, Mac and Linux): open the MOV and choose a preset from the General category, which writes MP4 with H.264 video.</li>            </ul>
-            <p class="leading-relaxed text-[#6C3F31]">Have a WebM instead? The <a href="/solutions/webm-to-mp4" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">WebM to MP4 converter</a> handles those. iPhone photos rather than videos? The <a href="/solutions/heif-to-jpg" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">HEIF to JPG converter</a> turns HEIC photos into JPGs.</p>
+            <h2 class="text-2xl font-bold text-cocoa-ink">Converting MOV to MP4 without a converter</h2>
+            <ul class="list-disc space-y-2 pl-6 text-cocoa-deep leading-relaxed">
+                <li><strong class="text-cocoa-ink">FFmpeg</strong> (free, Windows, Mac and Linux): <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">ffmpeg -i input.mov -c:v libx264 -crf 20 -c:a aac -movflags +faststart output.mp4</code>. If the MOV is already H.264, <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">ffmpeg -i input.mov -c copy output.mp4</code> changes the container without re-encoding. This also handles ProRes.</li>
+                <li><strong class="text-cocoa-ink">HandBrake</strong> (free, Windows, Mac and Linux): open the MOV and choose a preset from the General category, which writes MP4 with H.264 video.</li>            </ul>
+            <p class="leading-relaxed text-cocoa-deep">Have a WebM instead? The <a href="/solutions/webm-to-mp4" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">WebM to MP4 converter</a> handles those. iPhone photos rather than videos? The <a href="/solutions/heif-to-jpg" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">HEIF to JPG converter</a> turns HEIC photos into JPGs.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-4">Frequently asked questions</h2>
+            <h2 class="text-2xl font-bold text-cocoa-ink mb-4">Frequently asked questions</h2>
             <FaqAccordion {faqs} />
         </section>
 
         <!-- Also available -->
         <section class="mt-16 max-w-4xl mx-auto">
-            <p class="text-xs font-black text-[#875F42] uppercase tracking-widest mb-4">Also available</p>
+            <p class="text-xs font-black text-cocoa-milk uppercase tracking-widest mb-4">Also available</p>
             <div class="grid sm:grid-cols-2 gap-4">
                 <a href="/solutions/heif-to-jpg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">HEIF to JPG →</p>
-                        <p class="text-xs text-[#875F42]">Convert iPhone photos to JPG in bulk</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">HEIF to JPG →</p>
+                        <p class="text-xs text-cocoa-milk">Convert iPhone photos to JPG in bulk</p>
                     </div>
                 </a>
                 <a href="/solutions" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -192,8 +192,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">All tools →</p>
-                        <p class="text-xs text-[#875F42]">Browse every image and video converter</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">All tools →</p>
+                        <p class="text-xs text-cocoa-milk">Browse every image and video converter</p>
                     </div>
                 </a>
             </div>

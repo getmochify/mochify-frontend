@@ -81,30 +81,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="JPEG XL" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             JPEG XL (JXL) is still not usable on a live Shopify store, and the reason has changed. Browsers are no longer the blocker: Chrome 155 (October 6, 2026) and Firefox 158 (October 13) decode JPEG XL by default, and Safari has for still images since version 17. Shopify is the blocker: it does not accept JXL uploads, and its image CDN serves JPG, PNG and WebP. Keep uploading JPEG or PNG and let Shopify serve WebP where it can; keep your masters as lossless JXL if you want the archive benefit.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-cocoa-deep">
                 <strong>Published April 2026 by the Mochify Engineering Team.</strong> This guide covers JXL browser support status, Shopify upload compatibility, and the right format stack to use while the standard matures.
             </p>
         </div>
@@ -114,7 +114,7 @@
 
         <section id="where-jxl-support-actually-stands" class="scroll-mt-24">
             <SectionHeading>Where JXL support actually stands</SectionHeading>
-            <p class="mb-4">Chrome 145, released in February 2026, reintroduced JPEG XL decoding via a new Rust-based decoder called <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">jxl-rs</code> behind a browser flag, and Chrome 155, released on October 6, 2026, turned it on by default. Firefox 158 does the same on October 13. Safari 17+ on macOS and iOS decodes still images. Edge had not shipped it as of October 7, 2026, and installed Chrome and Firefox versions take weeks to update, so a fallback still matters on the open web.</p>
+            <p class="mb-4">Chrome 145, released in February 2026, reintroduced JPEG XL decoding via a new Rust-based decoder called <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">jxl-rs</code> behind a browser flag, and Chrome 155, released on October 6, 2026, turned it on by default. Firefox 158 does the same on October 13. Safari 17+ on macOS and iOS decodes still images. Edge had not shipped it as of October 7, 2026, and installed Chrome and Firefox versions take weeks to update, so a fallback still matters on the open web.</p>
             <p class="mb-4">For a Shopify store none of that matters yet, because the platform never serves a JXL in the first place. In e-commerce, a broken product photo is a lost conversion, so the only safe path is the one Shopify controls.</p>
 
             <GuideTable class="my-6">
@@ -143,7 +143,7 @@
         <section id="shopify-doesnt-accept-jxl-uploads" class="scroll-mt-24">
             <SectionHeading>Shopify doesn't accept JXL uploads</SectionHeading>
             <p class="mb-4">Shopify accepts JPEG, progressive JPEG, PNG, GIF, HEIC and WebP as upload formats, with a 20 megapixel and 20 MB limit. JPEG XL is not on that list. If you try to upload a JXL file, Shopify will reject it - there is no native JXL serving pipeline, and no CDN-level fallback to WebP for unsupported browsers. Shopify automatically converts uploaded images and serves WebP where browsers support it, but that mechanism only applies to its accepted formats.</p>
-            <p class="mb-4">The safest test workflow: export a JXL file, attempt to upload it via your Shopify admin (<code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">Products &gt; Images</code>), then inspect the CDN response headers via browser devtools. You will almost certainly see an error or a recompressed JPEG substitute - neither of which preserves the compression benefit JXL was meant to deliver.</p>
+            <p class="mb-4">The safest test workflow: export a JXL file, attempt to upload it via your Shopify admin (<code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">Products &gt; Images</code>), then inspect the CDN response headers via browser devtools. You will almost certainly see an error or a recompressed JPEG substitute - neither of which preserves the compression benefit JXL was meant to deliver.</p>
         </section>
 
         <section id="compression-pros-and-one-very-large-con" class="scroll-mt-24">
@@ -201,12 +201,12 @@
             </GlassInfoBox>
         </section>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
-            <h3 class="text-lg font-bold text-[#4A2C2C] mb-3">For live Shopify delivery today, use AVIF</h3>
-            <p class="text-[#6C3F31] leading-relaxed mb-4">
+        <div class="bg-mochi-blush rounded-3xl p-6 md:p-8 border border-pink-100">
+            <h3 class="text-lg font-bold text-cocoa-ink mb-3">For live Shopify delivery today, use AVIF</h3>
+            <p class="text-cocoa-deep leading-relaxed mb-4">
                 Type <em>"convert my product images to AVIF with a WebP fallback and strip all metadata"</em> into Magic Flow and Mochify handles the batch - no account, no plugins, no data retention.
             </p>
-            <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
+            <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
                 Try it free
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             </a>

@@ -92,18 +92,18 @@
                 </span>
             </div>
 
-            <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
+            <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
                 Convert
                 <span class="bg-gradient-to-r from-[#C4B5FD] to-[#7C3AED] bg-clip-text text-transparent">
                     WebM
                 </span>
                 to
-                <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
+                <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
                     MP4
                 </span>
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
+            <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Convert WebM to an MP4 that plays on iPhone, Mac and Windows and opens in mainstream video editors. It is free and needs no account, and the conversion runs entirely in your browser, so your video never leaves your device.
             </p>
         </div>
@@ -113,67 +113,67 @@
         </div>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">How to convert WebM to MP4</h2>
-            <ol class="list-decimal space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+            <h2 class="text-2xl font-bold text-cocoa-ink">How to convert WebM to MP4</h2>
+            <ol class="list-decimal space-y-2 pl-6 text-cocoa-deep leading-relaxed">
                 <li>Drop up to 10 WebM files on the box above, or click to choose them. Nothing is uploaded.</li>
                 <li>Your browser converts them one after another, with a progress readout for each file.</li>
                 <li>Each MP4 downloads as soon as it is ready, with the same name as the original.</li>
             </ol>
-            <p class="leading-relaxed text-[#6C3F31]">You do not need an account, and converting video does not use any of your monthly image allowance.</p>
+            <p class="leading-relaxed text-cocoa-deep">You do not need an account, and converting video does not use any of your monthly image allowance.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Why convert WebM to MP4?</h2>
-            <p class="leading-relaxed text-[#6C3F31]">WebM is built for the web, and browsers play it well. Outside the browser it is a different story: QuickTime Player on a Mac and many video editors and upload forms will not take a WebM file. MP4 with H.264 video and AAC audio is the combination almost everything accepts, from iPhone to Windows to editing apps.</p>
+            <h2 class="text-2xl font-bold text-cocoa-ink">Why convert WebM to MP4?</h2>
+            <p class="leading-relaxed text-cocoa-deep">WebM is built for the web, and browsers play it well. Outside the browser it is a different story: QuickTime Player on a Mac and many video editors and upload forms will not take a WebM file. MP4 with H.264 video and AAC audio is the combination almost everything accepts, from iPhone to Windows to editing apps.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">What the converter does to your video</h2>
-            <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
-                <li><strong class="text-[#4A2C2C]">Video:</strong> re-encoded from VP9 or VP8 to H.264, the most widely supported video codec.</li>
-                <li><strong class="text-[#4A2C2C]">Audio:</strong> re-encoded to AAC, the audio iPhone, Mac and Windows play natively. If your browser cannot encode AAC, the original audio track is kept inside the MP4 instead, and not every player supports that.</li>
-                <li><strong class="text-[#4A2C2C]">Size and length:</strong> the same resolution and running time as the WebM.</li>
-                <li><strong class="text-[#4A2C2C]">File size:</strong> about the same as your WebM. The converter aims for the same video bitrate, and in our tests the MP4 came out between 2% and 8% larger.</li>
+            <h2 class="text-2xl font-bold text-cocoa-ink">What the converter does to your video</h2>
+            <ul class="list-disc space-y-2 pl-6 text-cocoa-deep leading-relaxed">
+                <li><strong class="text-cocoa-ink">Video:</strong> re-encoded from VP9 or VP8 to H.264, the most widely supported video codec.</li>
+                <li><strong class="text-cocoa-ink">Audio:</strong> re-encoded to AAC, the audio iPhone, Mac and Windows play natively. If your browser cannot encode AAC, the original audio track is kept inside the MP4 instead, and not every player supports that.</li>
+                <li><strong class="text-cocoa-ink">Size and length:</strong> the same resolution and running time as the WebM.</li>
+                <li><strong class="text-cocoa-ink">File size:</strong> about the same as your WebM. The converter aims for the same video bitrate, and in our tests the MP4 came out between 2% and 8% larger.</li>
             </ul>
-            <p class="leading-relaxed text-[#6C3F31]">H.264 needs more bits than VP9 for the same picture, so at the same bitrate very detailed or fast-moving footage can look slightly softer. For most screen recordings and clips the difference is hard to see.</p>
+            <p class="leading-relaxed text-cocoa-deep">H.264 needs more bits than VP9 for the same picture, so at the same bitrate very detailed or fast-moving footage can look slightly softer. For most screen recordings and clips the difference is hard to see.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Why your video never leaves your device</h2>
-            <p class="leading-relaxed text-[#6C3F31]">The conversion runs in your browser tab, using the video encoder built into the browser (the WebCodecs API). Your file is read from your disk, converted in the tab and saved back to your downloads. It is never sent to Mochify or anyone else. Most online converters upload your file to a server first; for client footage, meeting recordings or anything private, that difference matters.</p>
+            <h2 class="text-2xl font-bold text-cocoa-ink">Why your video never leaves your device</h2>
+            <p class="leading-relaxed text-cocoa-deep">The conversion runs in your browser tab, using the video encoder built into the browser (the WebCodecs API). Your file is read from your disk, converted in the tab and saved back to your downloads. It is never sent to Mochify or anyone else. Most online converters upload your file to a server first; for client footage, meeting recordings or anything private, that difference matters.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Which browsers can convert</h2>
-            <p class="leading-relaxed text-[#6C3F31]">Desktop Chrome and Edge convert reliably. Firefox (version 130 and later on desktop) and Safari (version 26 and later) also include the browser video engine this page uses. Firefox on Android does not. If your browser cannot convert the file, the page tells you instead of failing silently.</p>
-            <p class="leading-relaxed text-[#6C3F31]">Long or high-resolution clips use a lot of memory, because the whole file is held in the tab while it converts. A desktop or laptop handles large files best.</p>
+            <h2 class="text-2xl font-bold text-cocoa-ink">Which browsers can convert</h2>
+            <p class="leading-relaxed text-cocoa-deep">Desktop Chrome and Edge convert reliably. Firefox (version 130 and later on desktop) and Safari (version 26 and later) also include the browser video engine this page uses. Firefox on Android does not. If your browser cannot convert the file, the page tells you instead of failing silently.</p>
+            <p class="leading-relaxed text-cocoa-deep">Long or high-resolution clips use a lot of memory, because the whole file is held in the tab while it converts. A desktop or laptop handles large files best.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Converting WebM to MP4 without a converter</h2>
-            <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
-                <li><strong class="text-[#4A2C2C]">FFmpeg</strong> (free, Windows, Mac and Linux): <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">ffmpeg -i input.webm -c:v libx264 -crf 23 -c:a aac -movflags +faststart output.mp4</code>. A lower <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">-crf</code> gives higher quality and a bigger file.</li>
-                <li><strong class="text-[#4A2C2C]">HandBrake</strong> (free, Windows, Mac and Linux): open the WebM and choose a preset from the Web category, which writes MP4 with H.264 video.</li>
+            <h2 class="text-2xl font-bold text-cocoa-ink">Converting WebM to MP4 without a converter</h2>
+            <ul class="list-disc space-y-2 pl-6 text-cocoa-deep leading-relaxed">
+                <li><strong class="text-cocoa-ink">FFmpeg</strong> (free, Windows, Mac and Linux): <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">ffmpeg -i input.webm -c:v libx264 -crf 23 -c:a aac -movflags +faststart output.mp4</code>. A lower <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">-crf</code> gives higher quality and a bigger file.</li>
+                <li><strong class="text-cocoa-ink">HandBrake</strong> (free, Windows, Mac and Linux): open the WebM and choose a preset from the Web category, which writes MP4 with H.264 video.</li>
             </ul>
-            <p class="leading-relaxed text-[#6C3F31]">Going the other way? The <a href="/solutions/mp4-to-webm" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">MP4 to WebM converter</a> makes WebM files for self-hosted web video.</p>
+            <p class="leading-relaxed text-cocoa-deep">Going the other way? The <a href="/solutions/mp4-to-webm" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">MP4 to WebM converter</a> makes WebM files for self-hosted web video.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-4">Frequently asked questions</h2>
+            <h2 class="text-2xl font-bold text-cocoa-ink mb-4">Frequently asked questions</h2>
             <FaqAccordion {faqs} />
         </section>
 
         <!-- Also available -->
         <section class="mt-16 max-w-4xl mx-auto">
-            <p class="text-xs font-black text-[#875F42] uppercase tracking-widest mb-4">Also available</p>
+            <p class="text-xs font-black text-cocoa-milk uppercase tracking-widest mb-4">Also available</p>
             <div class="grid sm:grid-cols-2 gap-4">
                 <a href="/guides/mp4-to-webm-web-video-guide" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">Web video guide →</p>
-                        <p class="text-xs text-[#875F42]">WebM vs MP4, browser support and the fallback pattern</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">Web video guide →</p>
+                        <p class="text-xs text-cocoa-milk">WebM vs MP4, browser support and the fallback pattern</p>
                     </div>
                 </a>
                 <a href="/solutions" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -181,8 +181,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">All tools →</p>
-                        <p class="text-xs text-[#875F42]">Browse every image and video converter</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">All tools →</p>
+                        <p class="text-xs text-cocoa-milk">Browse every image and video converter</p>
                     </div>
                 </a>
             </div>

@@ -39,8 +39,8 @@
     <main class="relative z-10 flex-grow flex items-start justify-center px-4 pt-16 pb-12">
         <div class="w-full max-w-sm">
             <div class="text-center mb-8">
-                <h1 class="text-3xl font-black text-[#4A2C2C] tracking-tight mb-1">Reset password</h1>
-                <p class="text-sm text-[#875F42]/70">We'll send you a link to reset your password</p>
+                <h1 class="text-3xl font-black text-cocoa-ink tracking-tight mb-1">Reset password</h1>
+                <p class="text-sm text-cocoa-milk/70">We'll send you a link to reset your password</p>
             </div>
 
             <div class="bg-white/60 backdrop-blur-sm rounded-3xl border border-white/80 shadow-[0_8px_32px_rgba(240,98,146,0.1)] p-8">
@@ -57,7 +57,7 @@
 
                     <form onsubmit={handleSubmit} class="flex flex-col gap-4">
                         <div class="flex flex-col gap-1.5">
-                            <label for="email" class="text-xs font-bold text-[#6C3F31] tracking-wide uppercase">Email</label>
+                            <label for="email" class="text-xs font-bold text-cocoa-deep tracking-wide uppercase">Email</label>
                             <input
                                 id="email"
                                 type="email"
@@ -65,14 +65,14 @@
                                 required
                                 autocomplete="email"
                                 placeholder="you@example.com"
-                                class="w-full px-4 py-3 rounded-2xl border border-[#875F42]/15 bg-white/80 text-[#4A2C2C] placeholder-[#875F42]/30 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#F06292]/30 focus:border-[#F06292]/40 transition-all"
+                                class="w-full px-4 py-3 rounded-2xl border border-cocoa-milk/15 bg-white/80 text-cocoa-ink placeholder-cocoa-milk/30 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-mochi-pink/30 focus:border-mochi-pink/40 transition-all"
                             />
                         </div>
 
                         <button
                             type="submit"
                             disabled={loading}
-                            class="mt-2 w-full py-3 rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white font-black text-sm tracking-wide shadow-[0_4px_16px_rgba(240,98,146,0.35)] hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+                            class="mt-2 w-full py-3 rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink text-white font-black text-sm tracking-wide shadow-[0_4px_16px_rgba(240,98,146,0.35)] hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
                         >
                             {loading ? 'Sending…' : 'Send reset link'}
                         </button>
@@ -80,9 +80,9 @@
                 {/if}
             </div>
 
-            <p class="text-center text-sm text-[#875F42]/60 mt-6">
+            <p class="text-center text-sm text-cocoa-milk/60 mt-6">
                 Remember your password?
-                <a href="/auth/login" class="text-[#F06292] font-bold hover:underline">Sign in</a>
+                <a href="/auth/login" class="text-mochi-pink font-bold hover:underline">Sign in</a>
             </p>
         </div>
     </main>

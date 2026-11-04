@@ -124,7 +124,7 @@
         'Add drop shadows and generated backgrounds (paid plans and the Day Pass)'
     ];
 
-    const linkClass = 'font-bold text-[#F06292] hover:text-[#D81B60] transition-colors';
+    const linkClass = 'font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors';
 </script>
 
 <svelte:head>
@@ -157,12 +157,12 @@
             </span>
         </div>
 
-        <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
+        <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
             Convert any image in
-            <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">one right-click</span>
+            <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">one right-click</span>
         </h1>
 
-        <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
+        <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">
             The Mochify Chrome extension adds two options to the right-click menu on every image you see on the web. Convert to gives you a one-click format change. Send to Mochify... lets you describe the edit you want in plain English. Either way, the result lands in your Downloads folder, or in Google Drive on a paid plan.
         </p>
 
@@ -175,7 +175,7 @@
             </a>
         </div>
 
-        <p class="text-sm text-[#875F42] max-w-xl mx-auto leading-relaxed">
+        <p class="text-sm text-cocoa-milk max-w-xl mx-auto leading-relaxed">
             Free to start: 3 images with no account, 25 a month with a free one. Open source under the MIT license. Processed in memory and wiped as soon as the job finishes.
         </p>
     </div>
@@ -192,8 +192,8 @@
     </div>
 
     <section class="mt-16 max-w-4xl mx-auto space-y-4">
-        <h2 class="text-2xl font-bold text-[#4A2C2C]">See it in action</h2>
-        <p class="leading-relaxed text-[#6C3F31]">One right-click and one sentence: crop a web image to 1:1 and 4:5 at two sizes each, and get four ready-to-use JPGs back.</p>
+        <h2 class="text-2xl font-bold text-cocoa-ink">See it in action</h2>
+        <p class="leading-relaxed text-cocoa-deep">One right-click and one sentence: crop a web image to 1:1 and 4:5 at two sizes each, and get four ready-to-use JPGs back.</p>
         <video
             bind:this={demoVideo}
             data-src="/videos/chrome-extension-demo.mp4"
@@ -207,16 +207,16 @@
             controls={reduceMotion}
             disablepictureinpicture
             aria-label="Demo: right-clicking a web image, choosing Send to Mochify, typing a crop prompt, and four cropped JPGs appearing in the Downloads folder."
-            class="w-full h-auto rounded-2xl shadow-sm border border-pink-50 bg-[#FFF5F7]"
+            class="w-full h-auto rounded-2xl shadow-sm border border-pink-50 bg-mochi-blush"
         ></video>
     </section>
 
     <section class="mt-16 max-w-4xl mx-auto space-y-6">
-        <h2 class="text-2xl font-bold text-[#4A2C2C]">Two ways to use it</h2>
+        <h2 class="text-2xl font-bold text-cocoa-ink">Two ways to use it</h2>
 
         <div class="space-y-4">
-            <h3 class="text-xl font-bold text-[#4A2C2C]">Convert to: one click, no typing</h3>
-            <p class="leading-relaxed text-[#6C3F31]">Right-click an image, choose Convert to and pick a format: JPG, WebP, AVIF, JPEG XL or PNG, or a one-page PDF of the image. The format is the whole instruction, so nothing is parsed and nothing is asked. Quality stays on auto and nothing is resized. The file saves straight to your Downloads folder with the same name and the new extension.</p>
+            <h3 class="text-xl font-bold text-cocoa-ink">Convert to: one click, no typing</h3>
+            <p class="leading-relaxed text-cocoa-deep">Right-click an image, choose Convert to and pick a format: JPG, WebP, AVIF, JPEG XL or PNG, or a one-page PDF of the image. The format is the whole instruction, so nothing is parsed and nothing is asked. Quality stays on auto and nothing is resized. The file saves straight to your Downloads folder with the same name and the new extension.</p>
             <img
                 src="/img/chrome-extension/store-01-convert-to-1280x800.webp"
                 width="1280"
@@ -229,14 +229,14 @@
         </div>
 
         <div class="space-y-4 pt-4">
-            <h3 class="text-xl font-bold text-[#4A2C2C]">Send to Mochify: describe the edit you want</h3>
-            <p class="leading-relaxed text-[#6C3F31]">Need more than a format change? Choose Send to Mochify... and a small panel opens on the page. Type what you want in plain English:</p>
-            <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+            <h3 class="text-xl font-bold text-cocoa-ink">Send to Mochify: describe the edit you want</h3>
+            <p class="leading-relaxed text-cocoa-deep">Need more than a format change? Choose Send to Mochify... and a small panel opens on the page. Type what you want in plain English:</p>
+            <ul class="list-disc space-y-2 pl-6 text-cocoa-deep leading-relaxed">
                 {#each prompts as prompt}
                     <li>"{prompt}"</li>
                 {/each}
             </ul>
-            <p class="leading-relaxed text-[#6C3F31]">Magic Flow reads the request and does it in one pass. There are no settings panels and no quality sliders to work through. Ask for more than one output, for example "AVIF, WebP and JPG", and the files come back together in a zip.</p>
+            <p class="leading-relaxed text-cocoa-deep">Magic Flow reads the request and does it in one pass. There are no settings panels and no quality sliders to work through. Ask for more than one output, for example "AVIF, WebP and JPG", and the files come back together in a zip.</p>
             <img
                 src="/img/chrome-extension/store-02-magic-flow-1280x800.webp"
                 width="1280"
@@ -250,14 +250,14 @@
     </section>
 
     <section class="mt-16 max-w-4xl mx-auto space-y-4">
-        <h2 class="text-2xl font-bold text-[#4A2C2C]">What it can do</h2>
-        <p class="leading-relaxed text-[#6C3F31]">Everything Magic Flow does on the web app, on the image you right-click:</p>
-        <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+        <h2 class="text-2xl font-bold text-cocoa-ink">What it can do</h2>
+        <p class="leading-relaxed text-cocoa-deep">Everything Magic Flow does on the web app, on the image you right-click:</p>
+        <ul class="list-disc space-y-2 pl-6 text-cocoa-deep leading-relaxed">
             {#each capabilities as item}
                 <li>{item}</li>
             {/each}
         </ul>
-        <p class="leading-relaxed text-[#6C3F31]">The extension works on one image at a time. For a batch, drop the files into the <a href="/flow" class={linkClass}>web app</a> and describe the result once for all of them.</p>
+        <p class="leading-relaxed text-cocoa-deep">The extension works on one image at a time. For a batch, drop the files into the <a href="/flow" class={linkClass}>web app</a> and describe the result once for all of them.</p>
         <img
             src="/img/chrome-extension/store-03-background-removal-1280x800.webp"
             width="1280"
@@ -270,30 +270,30 @@
     </section>
 
     <section class="mt-16 max-w-4xl mx-auto space-y-4">
-        <h2 class="text-2xl font-bold text-[#4A2C2C]">Save to Google Drive</h2>
-        <p class="leading-relaxed text-[#6C3F31]">On the Seller, Pro and Growth plans, the panel gains a Save to Drive toggle. Switch it on and results from either path, Convert to or Send to Mochify, go to your Google Drive instead of your Downloads folder. The extension never talks to Google itself: it uses the Drive connection already on your Mochify account, so it asks for no Google permission of its own.</p>
+        <h2 class="text-2xl font-bold text-cocoa-ink">Save to Google Drive</h2>
+        <p class="leading-relaxed text-cocoa-deep">On the Seller, Pro and Growth plans, the panel gains a Save to Drive toggle. Switch it on and results from either path, Convert to or Send to Mochify, go to your Google Drive instead of your Downloads folder. The extension never talks to Google itself: it uses the Drive connection already on your Mochify account, so it asks for no Google permission of its own.</p>
     </section>
 
     <section class="mt-16 max-w-4xl mx-auto space-y-4">
-        <h2 class="text-2xl font-bold text-[#4A2C2C]">Free to start</h2>
-        <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+        <h2 class="text-2xl font-bold text-cocoa-ink">Free to start</h2>
+        <ul class="list-disc space-y-2 pl-6 text-cocoa-deep leading-relaxed">
             <li>3 images a month with no account at all</li>
             <li>25 images a month with a free account, no card needed</li>
             <li>Paid plans use their normal monthly allowance</li>
             <li>A $2 Day Pass (100 uploads in 24 hours) works in the extension too</li>
         </ul>
-        <p class="leading-relaxed text-[#6C3F31]">Each file you get back counts as one image, so a prompt that asks for three formats uses three. When you reach the limit, the panel tells you and offers a free sign-in. Monthly plans are on the <a href="/pricing" class={linkClass}>pricing page</a>.</p>
+        <p class="leading-relaxed text-cocoa-deep">Each file you get back counts as one image, so a prompt that asks for three formats uses three. When you reach the limit, the panel tells you and offers a free sign-in. Monthly plans are on the <a href="/pricing" class={linkClass}>pricing page</a>.</p>
     </section>
 
     <section class="mt-16 max-w-4xl mx-auto space-y-4">
-        <h2 class="text-2xl font-bold text-[#4A2C2C]">How your images are handled</h2>
-        <p class="leading-relaxed text-[#6C3F31]">The image you right-click travels over HTTPS to api.mochify.app, is processed in memory and is wiped as soon as the job finishes. Nothing is written to disk, nothing containing your image is logged, and nothing is used to train AI. That is zero retention. It is not local processing, and we would rather tell you exactly which one it is. Prompt parsing and allowance checks go to id.mochify.app.</p>
-        <p class="leading-relaxed text-[#6C3F31]">The extension asks for access to all websites because that is what lets it fetch the image you right-click on whichever site you are on. It also asks for the context menu, the active tab, scripting (to open the panel on the page) and storage (to remember your sign-in and your Save to Drive setting). It sends nothing until you choose a format or press send. The code is public under the MIT license at <a href={REPO_URL} target="_blank" rel="noopener noreferrer" class={linkClass}>github.com/getmochify/mochify-chrome</a>, so you can read exactly what it does with the access it asks for.</p>
+        <h2 class="text-2xl font-bold text-cocoa-ink">How your images are handled</h2>
+        <p class="leading-relaxed text-cocoa-deep">The image you right-click travels over HTTPS to api.mochify.app, is processed in memory and is wiped as soon as the job finishes. Nothing is written to disk, nothing containing your image is logged, and nothing is used to train AI. That is zero retention. It is not local processing, and we would rather tell you exactly which one it is. Prompt parsing and allowance checks go to id.mochify.app.</p>
+        <p class="leading-relaxed text-cocoa-deep">The extension asks for access to all websites because that is what lets it fetch the image you right-click on whichever site you are on. It also asks for the context menu, the active tab, scripting (to open the panel on the page) and storage (to remember your sign-in and your Save to Drive setting). It sends nothing until you choose a format or press send. The code is public under the MIT license at <a href={REPO_URL} target="_blank" rel="noopener noreferrer" class={linkClass}>github.com/getmochify/mochify-chrome</a>, so you can read exactly what it does with the access it asks for.</p>
     </section>
 
     <section class="mt-16 max-w-4xl mx-auto space-y-4">
-        <h2 class="text-2xl font-bold text-[#4A2C2C]">Install</h2>
-        <ol class="list-decimal space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+        <h2 class="text-2xl font-bold text-cocoa-ink">Install</h2>
+        <ol class="list-decimal space-y-2 pl-6 text-cocoa-deep leading-relaxed">
             <li>Add it from the <a href={STORE_URL} target="_blank" rel="noopener noreferrer" class={linkClass}>Chrome Web Store</a>.</li>
             <li>Right-click any image on any web page.</li>
             <li>Choose Convert to and a format, or Send to Mochify... and describe what you want.</li>
@@ -302,15 +302,15 @@
     </section>
 
     <section class="mt-16 max-w-4xl mx-auto space-y-4">
-        <h2 class="text-2xl font-bold text-[#4A2C2C]">Guides</h2>
-        <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+        <h2 class="text-2xl font-bold text-cocoa-ink">Guides</h2>
+        <ul class="list-disc space-y-2 pl-6 text-cocoa-deep leading-relaxed">
             <li><a href="/guides/save-webp-as-jpg-chrome" class={linkClass}>How to Save a WebP as JPG in Chrome: Every Route That Actually Works</a> - why Chrome hands you WebP, and the fastest ways out, extension or not.</li>
             <li><a href="/guides/save-image-as-type-alternative" class={linkClass}>Save Image as Type Is Gone: How to Replace It Safely</a> - what to check before you trust any right-click image extension, ours included.</li>
         </ul>
     </section>
 
     <section class="mt-16 max-w-4xl mx-auto">
-        <h2 class="text-2xl font-bold text-[#4A2C2C] mb-4">Frequently asked questions</h2>
+        <h2 class="text-2xl font-bold text-cocoa-ink mb-4">Frequently asked questions</h2>
         <FaqAccordion {faqs} />
     </section>
 

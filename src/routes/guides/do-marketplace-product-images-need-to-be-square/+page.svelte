@@ -112,32 +112,32 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <!-- Header -->
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Need to Be Square" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             No marketplace universally requires square product images, but most display listings in square or near-square thumbnail grids - which means a portrait or landscape image that has not been pre-cropped will be auto-cropped by the platform, often poorly. The practical rule for any seller with a mixed catalog: standardize on a consistent aspect ratio before uploading, with square (1:1) or horizontal (4:3) as the safest choices for grid-based browsing.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published June 29, 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published June 29, 2026 by the Mochify Engineering Team.</strong>
                 Platform guidelines sourced from official help centers and checked against live documentation as of June 2026.
             </p>
         </div>
@@ -152,9 +152,9 @@
 
             <div class="flex flex-col gap-4">
                 {#each platforms as platform}
-                    <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 px-6 py-5">
-                        <strong class="block text-[#4A2C2C] font-bold mb-2">{platform.name}</strong>
-                        <p class="text-[#6C3F31] text-base leading-relaxed m-0">{@html platform.body}</p>
+                    <div class="bg-mochi-blush rounded-2xl border border-pink-100 px-6 py-5">
+                        <strong class="block text-cocoa-ink font-bold mb-2">{platform.name}</strong>
+                        <p class="text-cocoa-deep text-base leading-relaxed m-0">{@html platform.body}</p>
                     </div>
                 {/each}
             </div>

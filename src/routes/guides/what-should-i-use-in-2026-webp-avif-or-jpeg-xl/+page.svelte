@@ -88,30 +88,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="WebP, AVIF, or JPEG XL" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             For most web projects in 2026, use AVIF as your primary format and WebP as your fallback. AVIF now sits at 95%+ global browser support and delivers 20–50% smaller files than WebP at comparable quality. JPEG XL decodes by default in Chrome 155 (October 6, 2026) and Firefox 158 (October 13), and in Safari 17 and later for still images; add it as the first source where it is smaller or where you need lossless or progressive loading, and keep the AVIF and WebP fallbacks while installed browsers, Edge and email clients catch up.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-cocoa-deep">
                 <strong>Published April 2026 by the Mochify Engineering Team.</strong> This guide reflects browser support data and format recommendations current as of April 2026, based on caniuse.com tracking.
             </p>
         </div>
@@ -119,14 +119,14 @@
 
     <div class="space-y-12">
 
-        <p>A reliable <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> element covers all three in a sensible order:</p>
+        <p>A reliable <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> element covers all three in a sensible order:</p>
 
         <div class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm">
-            <div class="bg-[#4A2C2C] px-5 py-3 flex items-center justify-between">
+            <div class="bg-cocoa-ink px-5 py-3 flex items-center justify-between">
                 <span class="text-pink-200 text-xs font-black uppercase tracking-widest">HTML</span>
                 <span class="text-pink-300 text-xs font-mono opacity-60">picture element</span>
             </div>
-            <pre class="bg-[#2D1B1B] text-[#FFF0F3] text-sm p-6 overflow-x-auto leading-relaxed"><code>&lt;picture&gt;
+            <pre class="bg-cocoa-night text-mochi-strawberry text-sm p-6 overflow-x-auto leading-relaxed"><code>&lt;picture&gt;
   &lt;source srcset="image.avif" type="image/avif"&gt;
   &lt;source srcset="image.webp" type="image/webp"&gt;
   &lt;img src="image.jpg" alt="..."&gt;
@@ -168,7 +168,7 @@
                     </tbody>
                 </table>
             </GuideTable>
-            <p class="text-sm text-[#875F42]">
+            <p class="text-sm text-cocoa-milk">
                 Sources: <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">caniuse.com/avif</a>, <a href="https://caniuse.com/jpegxl" target="_blank" rel="noopener noreferrer">caniuse.com/jpegxl</a> (read October 7, 2026)
             </p>
         </section>
@@ -184,7 +184,7 @@
 
         <section id="avif-vs-webp" class="scroll-mt-24">
             <SectionHeading>AVIF vs WebP: the trade-off that matters</SectionHeading>
-            <p class="mb-4">AVIF delivers superior quality at low bitrates - it is the right choice for hero images, product photography, and any asset where visual fidelity matters. WebP encodes faster and has wider legacy support, which makes it the right fallback in the <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> stack rather than a primary target. For the vast majority of web workflows in 2026, the pattern above handles both automatically.</p>
+            <p class="mb-4">AVIF delivers superior quality at low bitrates - it is the right choice for hero images, product photography, and any asset where visual fidelity matters. WebP encodes faster and has wider legacy support, which makes it the right fallback in the <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">&lt;picture&gt;</code> stack rather than a primary target. For the vast majority of web workflows in 2026, the pattern above handles both automatically.</p>
 
             <p class="mb-4">Product photography is the one case where the answer can be "neither, manually". On a hosted storefront the CDN already negotiates the format per browser, so converting by hand duplicates work the platform does for you. For that decision, see <a href="/guides/should-my-product-images-be-avif-or-webp-in-2026">the product-image version of this question</a>.</p>
 
@@ -195,12 +195,12 @@
             </GlassInfoBox>
         </section>
 
-        <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
-            <h3 class="text-lg font-bold text-[#4A2C2C] mb-3">Try Mochify for free</h3>
-            <p class="text-[#6C3F31] leading-relaxed mb-4">
+        <div class="bg-mochi-blush rounded-3xl p-6 md:p-8 border border-pink-100">
+            <h3 class="text-lg font-bold text-cocoa-ink mb-3">Try Mochify for free</h3>
+            <p class="text-cocoa-deep leading-relaxed mb-4">
                 Upload your images and preview file sizes side by side before downloading. Mochify is zero-retention - no files stored, no data retained. Try it at <a href="https://mochify.app">mochify.app</a>.
             </p>
-            <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
+            <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
                 Try it free
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             </a>

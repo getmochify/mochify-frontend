@@ -150,25 +150,27 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
 	<header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category} · Guide
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Vinted Photo Backgrounds" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div
+			class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"
+		></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Mochify Engineering Team
 		</p>
 
-		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
 			If you searched for a Vinted background remover, you have probably also read that "Vinted
 			bots" ban sellers for using one. Both halves of that are half right, and Vinted has now
 			settled it in its own words. Its Catalog Rules say listing photos "have to represent the item
@@ -177,7 +179,7 @@
 			prohibited in itself, the photo must remain an accurate representation of the item", and that
 			"Vinted members are required to upload real photos of their items."
 		</p>
-		<p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+		<p class="mt-5 mb-0 text-lg leading-relaxed text-cocoa-deep">
 			Put together, that is a rule you can follow: real photos of the item, enhancement that leaves
 			the item exactly as it is, nothing that misrepresents it. This guide quotes what Vinted
 			publishes, reads it against what sellers report getting hidden, tables what eBay, Amazon,
@@ -187,9 +189,9 @@
 			October 28, 2026, and the timings are below.
 		</p>
 
-		<div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-			<p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-				<strong class="text-[#4A2C2C]"
+		<div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+			<p class="m-0 text-base leading-relaxed text-cocoa-deep">
+				<strong class="text-cocoa-ink"
 					>Published {metadata.date} by the Mochify Engineering Team.</strong
 				>
 				{metadata.bylineNote}
@@ -583,7 +585,7 @@
 					</tbody>
 				</table>
 			</GuideTable>
-			<p class="mb-4 text-sm leading-relaxed text-[#875F42]">
+			<p class="mb-4 text-sm leading-relaxed text-cocoa-milk">
 				Sources: <a
 					href="https://www.ebay.com/help/selling/listings/adding-pictures-listings?id=4148"
 					target="_blank"
@@ -760,7 +762,7 @@
 					</li>
 				</ol>
 			</GlassPanel>
-			<p class="mt-6 mb-4 text-base leading-relaxed text-[#875F42]">
+			<p class="mt-6 mb-4 text-base leading-relaxed text-cocoa-milk">
 				<strong>Where your photos go.</strong> Images are streamed into memory at
 				<code>api.mochify.app</code>, encoded, and wiped immediately: no disk write, no log
 				containing the file, no training on your pictures. That holds for the web app, the CLI, the

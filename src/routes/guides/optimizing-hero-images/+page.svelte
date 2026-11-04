@@ -171,26 +171,26 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
 	<header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category} · Guide
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Hero Image Size" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering
 			Team
 		</p>
 
-		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
 			The right hero image size for a website is <strong>1920 pixels wide</strong>: the hero image,
 			the big picture at the top of the page (your platform may call it a banner, a header image or
 			a cover), should be uploaded at that width for a full-width desktop layout, at the aspect
@@ -203,7 +203,7 @@
 			the section will crop the edges on some screens whatever you do. Go bigger only for a specific reason:
 			2560 wide is the sensible ceiling, and nothing above it is ever shown.
 		</p>
-		<p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+		<p class="mt-5 mb-0 text-lg leading-relaxed text-cocoa-deep">
 			That is the short answer, and it is the one most guides and the AI summary at the top of the
 			search results give you. It is also where the trouble starts, because "size" means three
 			different things, and the figure that matters for a slow page is not the one in pixels. If you
@@ -213,7 +213,7 @@
 			Archive's 2024 census an image was the largest element on 73% of mobile pages. Fix the file
 			and you fix the metric Google scores the page on.
 		</p>
-		<p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+		<p class="mt-5 mb-0 text-lg leading-relaxed text-cocoa-deep">
 			This guide is written for two readers at once. If you run a site on WordPress, Shopify,
 			Squarespace, Wix or Webflow and have never opened a code editor, the first three sections give
 			you the numbers, the reason the platform keeps cropping your banner, and the file size that
@@ -224,9 +224,9 @@
 			want the cheat sheet near the end.
 		</p>
 
-		<div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-			<p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-				<strong class="text-[#4A2C2C]"
+		<div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+			<p class="m-0 text-base leading-relaxed text-cocoa-deep">
+				<strong class="text-cocoa-ink"
 					>Published {metadata.date} by the Mochify Engineering Team.</strong
 				>
 				{metadata.bylineNote}
@@ -951,7 +951,7 @@
 					>EXIF data and the risks of leaving it in</a
 				> has the detail.
 			</p>
-			<p class="mt-6 mb-4 text-base leading-relaxed text-[#875F42]">
+			<p class="mt-6 mb-4 text-base leading-relaxed text-cocoa-milk">
 				<strong>Privacy, for this workflow.</strong> Images travel to <code>api.mochify.app</code> over
 				HTTPS, are streamed into the encoder in memory, and are wiped the moment the encode finishes:
 				no disk writes, no logs containing file data, and never used to train AI. That holds for the web

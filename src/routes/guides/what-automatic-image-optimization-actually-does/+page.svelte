@@ -187,31 +187,31 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Automatic Image Optimization" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Automatic image optimization is now built into almost everything you publish through. WordPress 7.1 compresses and resizes uploads in your browser, Shopify's CDN re-formats product photos per visitor, Instagram re-encodes whatever you post, and marketplaces run your listing photos through pipelines you never see. That layer is real progress, and you should let it work. But here is the part the release notes skip: automatic optimization applies the platform's defaults, not your decisions, and the defaults are identical for everyone. The same quality setting, the same size caps, the same crop-nothing, judge-nothing processing that every one of your competitors gets. This guide walks through what the automatic layer actually does on each major platform, where its ceiling sits, and how taking control of your images before upload is what makes them faster, cleaner, and visibly better than the baseline everyone else settles for.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published August 25, 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published August 25, 2026 by the Mochify Engineering Team.</strong>
                 Written for the moment automatic optimization feels like it's already handled: what each platform's default actually does, where it stops, and the pre-upload pipeline that closes the gap.
             </p>
         </div>
@@ -226,8 +226,8 @@
         <!-- 01 -->
         <section id="the-short-answer" class="scroll-mt-24">
             <SectionHeading>The short answer</SectionHeading>
-            <div class="bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
-                <p class="text-[#6C3F31] leading-relaxed m-0">
+            <div class="bg-mochi-blush rounded-3xl p-6 md:p-8 border border-pink-100 max-w-3xl">
+                <p class="text-cocoa-deep leading-relaxed m-0">
                     Automatic image optimization handles delivery well and originals not at all: platforms compress, resize, and re-format what they serve, using one fixed set of defaults for every user, with no control surface for you and no view into what happened. That is a floor, not a ceiling. It will keep an unoptimized upload from wrecking your page speed, but it cannot make your images better than anyone else's, because everyone else's images go through the exact same pipe. The work that differentiates - your framing, your backgrounds, your format strategy, your metadata decisions, your consistency across every channel - only exists if you do it before upload, and in 2026 that work can be described in a sentence and automated.
                 </p>
             </div>
@@ -259,7 +259,7 @@
         <section id="what-no-pipeline-will-do" class="scroll-mt-24">
             <SectionHeading>What no platform pipeline will do for you</SectionHeading>
             <p class="mb-4">Everything a platform's automatic optimization skips is, by definition, a place your images can be better than everyone else's. The list is consistent across platforms:</p>
-            <ul class="list-disc pl-6 space-y-3 marker:text-[#F06292] my-6">
+            <ul class="list-disc pl-6 space-y-3 marker:text-mochi-pink my-6">
                 <li><strong>Framing and cropping.</strong> No pipeline decides what the subject is or crops to flatter it. Consistent, well-framed images across a store or feed are a human (or AI-assisted) decision made before upload.</li>
                 <li><strong>Backgrounds.</strong> A clean or removed background is the single most visible difference between amateur and professional product images, and no platform does it for you.</li>
                 <li><strong>Format strategy for your masters.</strong> Platforms re-format deliveries; they do not tell you what to keep. Whether your archive should be JPEG, or 10-bit AVIF, or JPEG XL is your call, and it determines what quality you can serve everywhere else forever.</li>
@@ -274,7 +274,7 @@
         <section id="taking-control" class="scroll-mt-24">
             <SectionHeading>Taking control: the pre-upload pipeline</SectionHeading>
             <p class="mb-4">Taking control means owning one step: between your master file and every destination sits a pipeline you define, so that what each platform receives is already sized, formatted, framed, and cleaned to your standard, and the automatic layer downstream has nothing left to break. Four principles make it work:</p>
-            <ol class="list-decimal pl-6 space-y-3 marker:text-[#F06292] marker:font-black my-6">
+            <ol class="list-decimal pl-6 space-y-3 marker:text-mochi-pink marker:font-black my-6">
                 <li><strong>Keep masters, ship copies.</strong> Archive the full-resolution original; generate per-destination copies at each platform's display size. Resolution nobody displays is bytes nobody needs: <a href="/guides/photo-file-too-large-to-upload">we measured a 40MB camera JPEG landing at 1-2MB</a> once resized to display resolution and re-encoded, with nothing visible lost.</li>
                 <li><strong>Use better encoders than the defaults.</strong> The encoder is where quality-per-byte lives. Google's jpegli, the encoder Mochify uses for JPEG output, delivers a <a href="https://opensource.googleblog.com/2024/04/introducing-jpegli-new-jpeg-coding-library.html" target="_blank" rel="noopener noreferrer">35% compression improvement at high quality settings</a> over legacy JPEG encoding, in a file every browser and marketplace already accepts. Platform pipelines meet a compatibility budget; your pipeline can simply be better.</li>
                 <li><strong>Make the invisible visible.</strong> Decide metadata explicitly, per destination. Check results yourself instead of trusting the pipe: our <a href="/comparison">before/after comparison tool</a> exists because "looks fine at a glance" is how gray whites ship.</li>
@@ -289,33 +289,33 @@
             <SectionHeading>Mochify Workflow: automating your own pipeline</SectionHeading>
             <p class="mb-4">This is the workflow we built Mochify around: one plain-English instruction, applied consistently, on every surface you work from. Magic Flow parses your prompt with a language model, then our C++ engine executes it.</p>
 
-            <div class="bg-gradient-to-b from-[#FFF5F7] to-[#FDFBF7] rounded-3xl border border-pink-100 p-6 md:p-8 my-6">
+            <div class="bg-gradient-to-b from-mochi-blush to-mochi-bg rounded-3xl border border-pink-100 p-6 md:p-8 my-6">
                 <ol class="space-y-8">
                     <li class="flex gap-4 items-start">
-                        <span class="w-10 h-10 rounded-full bg-[#F06292] flex items-center justify-center text-white font-black text-base flex-shrink-0">1</span>
+                        <span class="w-10 h-10 rounded-full bg-mochi-pink flex items-center justify-center text-white font-black text-base flex-shrink-0">1</span>
                         <div>
-                            <p class="font-black text-[#4A2C2C] mb-2">Start from your masters, not from platform re-downloads</p>
+                            <p class="font-black text-cocoa-ink mb-2">Start from your masters, not from platform re-downloads</p>
                             <p class="m-0">Free accounts process 25 images a month (3 a month with no signup, 20MB per file); Seller and Pro raise the limits to 75MB files and 25-file batches.</p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">
-                        <span class="w-10 h-10 rounded-full bg-[#F06292] flex items-center justify-center text-white font-black text-base flex-shrink-0">2</span>
+                        <span class="w-10 h-10 rounded-full bg-mochi-pink flex items-center justify-center text-white font-black text-base flex-shrink-0">2</span>
                         <div>
-                            <p class="font-black text-[#4A2C2C] mb-2">Describe the whole job in one prompt</p>
+                            <p class="font-black text-cocoa-ink mb-2">Describe the whole job in one prompt</p>
                             <p class="m-0">For a store batch: "resize to 2000px on the long edge, convert to WebP, keep each under 500KB, and strip location data." For listings: "remove the background and crop square." One sentence replaces a settings panel, and the same sentence produces the same result next week.</p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">
-                        <span class="w-10 h-10 rounded-full bg-[#F06292] flex items-center justify-center text-white font-black text-base flex-shrink-0">3</span>
+                        <span class="w-10 h-10 rounded-full bg-mochi-pink flex items-center justify-center text-white font-black text-base flex-shrink-0">3</span>
                         <div>
-                            <p class="font-black text-[#4A2C2C] mb-2">Let the operations you would never do by hand run in the same pass</p>
+                            <p class="font-black text-cocoa-ink mb-2">Let the operations you would never do by hand run in the same pass</p>
                             <p class="m-0">Background removal is available on every tier, including Free, and smart cropping picks the subject with AI saliency: the <a href="/solutions/bulk-ai-square-cropper">Bulk Square Cropper</a> is the batch version for marketplace grids, and <a href="/solutions/remove-background-webp">background removal to transparent WebP</a> covers the clean-background look on product shots.</p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">
-                        <span class="w-10 h-10 rounded-full bg-[#F06292] flex items-center justify-center text-white font-black text-base flex-shrink-0">4</span>
+                        <span class="w-10 h-10 rounded-full bg-mochi-pink flex items-center justify-center text-white font-black text-base flex-shrink-0">4</span>
                         <div>
-                            <p class="font-black text-[#4A2C2C] mb-2">Scale it into your tools when you outgrow the browser</p>
+                            <p class="font-black text-cocoa-ink mb-2">Scale it into your tools when you outgrow the browser</p>
                             <p class="m-0">The same engine is scriptable: the <code>mochify</code> CLI takes the identical plain-English prompt with the <code>-p</code> flag, and the local MCP server (<code>mochify serve</code>) lets AI agents run your image pipeline for you inside tools like Claude Code, returning file paths rather than dumping image bytes into the agent's context. Our guide to <a href="/guides/image-compression-claude-code-cli-mcp">image compression inside Claude Code</a> shows the full setup. Images and PDFs are what the CLI, MCP, and API surfaces automate; video processing lives in the web app, where it runs in your browser.</p>
                         </div>
                     </li>

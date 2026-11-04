@@ -94,7 +94,7 @@
 		type="button"
 		onclick={squish}
 		aria-label="Squish the mochi"
-		class="block cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#F06292]"
+		class="block cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-mochi-pink"
 	>
 		<!-- overflow visible: the squish spreads the body to 130% of its width,
 		     past the viewBox edges, and an SVG clips to its viewport by default. -->

@@ -92,31 +92,31 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
     
 <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title="Fuji HIF Files Explained: How to Convert X‑T5 / X‑H2 / X100VI HIF to JPEG" accent="Fuji HIF Files" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''} · Mochify Engineering Team
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
         HIF/HEIF is a highly efficient 10-bit image format, but it's not supported everywhere. Here is the definitive workflow for Windows and Mac.
     </p>
 
     <div class="flex flex-wrap gap-2">
         {#each ['X-T5', 'X-H2', 'X100VI', 'X-T50'] as model}
-            <span class="px-2.5 py-1 rounded-md bg-[#FDFBF7] border border-[#E0D0C0] text-[#6C3F31] text-xs font-bold">
+            <span class="px-2.5 py-1 rounded-md bg-mochi-bg border border-[#E0D0C0] text-cocoa-deep text-xs font-bold">
                 {model}
             </span>
         {/each}
@@ -132,15 +132,15 @@
             </p>
             <ul class="space-y-4 mt-6 ml-2">
                 <li class="flex gap-3">
-                    <span class="text-[#F06292] font-bold">·</span>
+                    <span class="text-mochi-pink font-bold">·</span>
                     <span>Smoother gradients in skies and skin tones.</span>
                 </li>
                 <li class="flex gap-3">
-                    <span class="text-[#F06292] font-bold">·</span>
+                    <span class="text-mochi-pink font-bold">·</span>
                     <span>More room before you see banding or posterisation.</span>
                 </li>
                 <li class="flex gap-3">
-                    <span class="text-[#F06292] font-bold">·</span>
+                    <span class="text-mochi-pink font-bold">·</span>
                     <span>Similar or smaller file sizes compared to JPEG for the same perceived quality.</span>
                 </li>
             </ul>
@@ -150,18 +150,18 @@
     <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-orange-100 rounded-full blur-2xl opacity-50"></div>
 
     <div class="relative z-10">
-        <h3 class="text-[#4A2C2C] font-bold text-xl mb-4 flex items-center gap-2">
+        <h3 class="text-cocoa-ink font-bold text-xl mb-4 flex items-center gap-2">
             <span class="text-orange-400 text-2xl">⚡</span> 
             A Note on "Clarity" &amp; Speed
         </h3>
         
-        <p class="text-[#6C3F31] text-base mb-4 leading-relaxed">
+        <p class="text-cocoa-deep text-base mb-4 leading-relaxed">
             Many photographers using the <strong>X-T5</strong> or <strong>X100VI</strong> notice a slight delay (saving...) after taking a photo. This is usually due to the <strong>Clarity</strong> setting being non-zero.
         </p> 
         
         <div class="flex gap-3 items-start bg-white/60 p-4 rounded-2xl border border-orange-50/50">
             <span class="text-orange-400 font-bold mt-0.5">💡</span>
-            <p class="text-[#6C3F31] text-sm font-medium leading-relaxed">
+            <p class="text-cocoa-deep text-sm font-medium leading-relaxed">
                 <strong>The HIF Benefit:</strong> Because .HIF files are 10-bit, they preserve transitions in high-clarity shots much better than standard JPEGs, avoiding the "blooming" artifacts often seen in 8-bit files.
             </p>
         </div>
@@ -183,7 +183,7 @@
             <div class="bg-slate-900 text-slate-300 p-6 rounded-xl font-mono text-sm shadow-inner border border-slate-700">
                 1. Right-click your .HIF file<br/>
                 2. Select "Rename"<br/>
-                3. Change extension to <span class="text-[#F06292]">.HEIC</span><br/>
+                3. Change extension to <span class="text-mochi-pink">.HEIC</span><br/>
                 4. Confirm the change
             </div>
             <p class="text-sm mt-4 opacity-80">
@@ -191,25 +191,25 @@
             </p>
         </section>
 
-        <div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
+        <div class="my-12 bg-mochi-blush p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
     <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
     
     <div class="relative z-10 mb-6">
-        <span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">
+        <span class="inline-block px-3 py-1 rounded-full bg-white text-mochi-pink text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">
             Free & Private Tool
         </span>
     </div>
 
-    <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-4 flex flex-col md:flex-row items-center justify-center gap-2">
+    <h3 class="text-2xl md:text-3xl font-extrabold text-cocoa-ink relative z-10 mb-4 flex flex-col md:flex-row items-center justify-center gap-2">
         <span class="text-3xl">📂</span>
         Don't want to rename 100 files?
     </h3>
 
-    <p class="text-[#6C3F31] text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">
+    <p class="text-cocoa-deep text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">
         Stop fighting with file extensions. Convert your batch of Fuji <strong>.HIF</strong> photos to standard <strong>JPEG</strong> instantly with our C++ engine.
     </p>
 
-    <a href="/solutions/hif-to-jpg" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
+    <a href="/solutions/hif-to-jpg" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
         <span>Convert HIF Images</span>
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
     </a>

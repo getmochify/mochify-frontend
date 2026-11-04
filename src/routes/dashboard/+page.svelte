@@ -406,11 +406,11 @@
 			     either way. Deliberately above the fold and deliberately small: it is
 			     research, so it must never look like something blocking the account. -->
 			<div
-				class="mb-8 flex flex-col gap-3 rounded-2xl border border-pink-100 bg-[#FFF5F7] px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between"
+				class="mb-8 flex flex-col gap-3 rounded-2xl border border-pink-100 bg-mochi-blush px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between"
 			>
 				<div class="min-w-0">
-					<p class="text-sm font-bold text-[#4A2C2C]">What will you mainly use Mochify for?</p>
-					<p class="mt-0.5 text-xs text-[#875F42]/70">
+					<p class="text-sm font-bold text-cocoa-ink">What will you mainly use Mochify for?</p>
+					<p class="mt-0.5 text-xs text-cocoa-milk/70">
 						One question, and it helps us decide what to build next.
 					</p>
 				</div>
@@ -436,7 +436,7 @@
 						bind:value={useCaseChoice}
 						required
 						aria-label="What will you mainly use Mochify for?"
-						class="cursor-pointer rounded-xl border border-[#875F42]/15 bg-white px-3 py-2 text-sm font-medium text-[#4A2C2C] focus:border-[#F06292]/40 focus:ring-2 focus:ring-[#F06292]/30 focus:outline-none"
+						class="cursor-pointer rounded-xl border border-cocoa-milk/15 bg-white px-3 py-2 text-sm font-medium text-cocoa-ink focus:border-mochi-pink/40 focus:ring-2 focus:ring-mochi-pink/30 focus:outline-none"
 					>
 						<option value="" disabled>Choose one…</option>
 						{#each USE_CASES as option (option.slug)}
@@ -454,7 +454,7 @@
 						type="button"
 						onclick={dismissUseCase}
 						aria-label="Dismiss"
-						class="rounded-xl px-2 py-2 text-sm text-[#875F42]/50 transition-colors hover:text-[#F06292]"
+						class="rounded-xl px-2 py-2 text-sm text-cocoa-milk/50 transition-colors hover:text-mochi-pink"
 					>
 						✕
 					</button>
@@ -464,13 +464,13 @@
 
 		<div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 			<div class="min-w-0">
-				<h1 class="text-3xl font-black tracking-tight text-[#4A2C2C]">Dashboard</h1>
-				<p class="mt-1 truncate text-sm text-[#875F42]/60">{data.user?.email}</p>
+				<h1 class="text-3xl font-black tracking-tight text-cocoa-ink">Dashboard</h1>
+				<p class="mt-1 truncate text-sm text-cocoa-milk/60">{data.user?.email}</p>
 			</div>
 			<div class="flex items-center gap-2">
 				<a
 					href="/flow"
-					class="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-4 py-2 text-sm font-bold text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] sm:flex-none"
+					class="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-4 py-2 text-sm font-bold text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] sm:flex-none"
 				>
 					<svg
 						class="h-4 w-4"
@@ -488,7 +488,7 @@
 				</a>
 				<button
 					onclick={handleSignOut}
-					class="flex-1 cursor-pointer rounded-xl border border-[#875F42]/15 px-4 py-2 text-sm font-bold text-[#875F42]/70 transition-all hover:border-[#F06292]/30 hover:bg-[#FFF5F7] hover:text-[#F06292] sm:flex-none"
+					class="flex-1 cursor-pointer rounded-xl border border-cocoa-milk/15 px-4 py-2 text-sm font-bold text-cocoa-milk/70 transition-all hover:border-mochi-pink/30 hover:bg-mochi-blush hover:text-mochi-pink sm:flex-none"
 				>
 					Sign out
 				</button>
@@ -497,7 +497,7 @@
 
 		{#if recentTools.length > 0}
 			<div class="mb-6">
-				<p class="mb-2 text-xs font-bold tracking-widest text-[#875F42]/50 uppercase">
+				<p class="mb-2 text-xs font-bold tracking-widest text-cocoa-milk/50 uppercase">
 					Recently used
 				</p>
 				<div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -508,7 +508,7 @@
 							class="dash-glass flex items-center gap-3 rounded-2xl px-4 py-3 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
 						>
 							<span
-								class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-[#F06292]/10 text-[#F06292]"
+								class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-mochi-pink/10 text-mochi-pink"
 							>
 								<svg
 									class="h-5 w-5"
@@ -523,7 +523,7 @@
 									{/each}
 								</svg>
 							</span>
-							<span class="min-w-0 truncate text-sm font-bold text-[#4A2C2C]"
+							<span class="min-w-0 truncate text-sm font-bold text-cocoa-ink"
 								>{tool.name.replace(/ Converter$/, '')}</span
 							>
 						</a>
@@ -532,7 +532,9 @@
 			</div>
 		{:else if recentToolsRead}
 			<div class="mb-6">
-				<p class="mb-2 text-xs font-bold tracking-widest text-[#875F42]/50 uppercase">Start here</p>
+				<p class="mb-2 text-xs font-bold tracking-widest text-cocoa-milk/50 uppercase">
+					Start here
+				</p>
 				<div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
 					{#each startTiles as tile (tile.key)}
 						<a
@@ -547,7 +549,7 @@
 							class="dash-glass flex items-center gap-3 rounded-2xl px-4 py-3 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
 						>
 							<span
-								class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-[#F06292]/10 text-[#F06292]"
+								class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-mochi-pink/10 text-mochi-pink"
 							>
 								<svg
 									class="h-5 w-5"
@@ -562,7 +564,7 @@
 									{/each}
 								</svg>
 							</span>
-							<span class="min-w-0 truncate text-sm font-bold text-[#4A2C2C]">{tile.name}</span>
+							<span class="min-w-0 truncate text-sm font-bold text-cocoa-ink">{tile.name}</span>
 						</a>
 					{/each}
 				</div>
@@ -572,7 +574,7 @@
 		<!-- Post-checkout success banner -->
 		{#if justUpgraded}
 			<div
-				class="mb-6 flex items-center gap-3 rounded-2xl border border-[#66BB6A]/30 bg-[#A5D6A7]/20 p-4"
+				class="mb-6 flex items-center gap-3 rounded-2xl border border-[#66BB6A]/30 bg-matcha-green/20 p-4"
 			>
 				<span class="text-sm font-black text-[#2E5C31]"
 					>You're on {isSeller ? 'Seller' : 'Pro'}!</span
@@ -587,11 +589,11 @@
 		<!-- Stats row -->
 		<div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
 			<div class="dash-glass rounded-3xl p-6 shadow-sm">
-				<p class="mb-1 text-xs font-bold tracking-widest text-[#875F42]/50 uppercase">Plan</p>
+				<p class="mb-1 text-xs font-bold tracking-widest text-cocoa-milk/50 uppercase">Plan</p>
 				{#if isPro}
-					<p class="text-2xl font-black text-[#4A2C2C]">Pro</p>
+					<p class="text-2xl font-black text-cocoa-ink">Pro</p>
 					{#if data.profile?.quota_period_end}
-						<p class="mt-1 text-xs text-[#875F42]/50">
+						<p class="mt-1 text-xs text-cocoa-milk/50">
 							Renews {new Date(data.profile.quota_period_end).toLocaleDateString(undefined, {
 								month: 'short',
 								day: 'numeric',
@@ -600,9 +602,9 @@
 						</p>
 					{/if}
 				{:else if isSeller}
-					<p class="text-2xl font-black text-[#4A2C2C]">Seller</p>
+					<p class="text-2xl font-black text-cocoa-ink">Seller</p>
 					{#if data.profile?.quota_period_end}
-						<p class="mt-1 text-xs text-[#875F42]/50">
+						<p class="mt-1 text-xs text-cocoa-milk/50">
 							Renews {new Date(data.profile.quota_period_end).toLocaleDateString(undefined, {
 								month: 'short',
 								day: 'numeric',
@@ -614,36 +616,36 @@
 						href="/api/checkout?plan=pro&billing=monthly"
 						data-sveltekit-reload
 						onclick={startPlanCheckout}
-						class="mt-2 inline-block text-xs font-bold text-[#F06292] hover:underline"
+						class="mt-2 inline-block text-xs font-bold text-mochi-pink hover:underline"
 						>Upgrade to Pro →</a
 					>
 				{:else}
-					<p class="text-2xl font-black text-[#4A2C2C]">Free</p>
+					<p class="text-2xl font-black text-cocoa-ink">Free</p>
 					<a
 						href="/api/checkout?plan=seller&billing=monthly"
 						data-sveltekit-reload
 						onclick={startPlanCheckout}
-						class="mt-2 inline-block text-xs font-bold text-[#F06292] hover:underline">Upgrade →</a
+						class="mt-2 inline-block text-xs font-bold text-mochi-pink hover:underline">Upgrade →</a
 					>
 				{/if}
 			</div>
 			<div class="dash-glass rounded-3xl p-6 shadow-sm">
-				<p class="mb-2 text-xs font-bold tracking-widest text-[#875F42]/50 uppercase">
+				<p class="mb-2 text-xs font-bold tracking-widest text-cocoa-milk/50 uppercase">
 					Images this month
 				</p>
 				{#if usageLoaded}
-					<p class="mb-3 text-2xl font-black text-[#4A2C2C]">
-						{usedOps} <span class="text-base font-semibold text-[#875F42]/50">/ {quotaOps}</span>
+					<p class="mb-3 text-2xl font-black text-cocoa-ink">
+						{usedOps} <span class="text-base font-semibold text-cocoa-milk/50">/ {quotaOps}</span>
 					</p>
-					<div class="h-2 overflow-hidden rounded-full bg-[#875F42]/10">
+					<div class="h-2 overflow-hidden rounded-full bg-cocoa-milk/10">
 						<div
 							class="h-full rounded-full transition-all duration-700 {usagePercent >= 90
 								? 'bg-gradient-to-r from-orange-400 to-red-400'
-								: 'bg-gradient-to-r from-[#A5D6A7] to-[#66BB6A]'}"
+								: 'bg-gradient-to-r from-matcha-green to-[#66BB6A]'}"
 							style="width: {usagePercent}%"
 						></div>
 					</div>
-					<p class="mt-2 text-xs text-[#875F42]/50">
+					<p class="mt-2 text-xs text-cocoa-milk/50">
 						{#if data.profile?.quota_period_end}
 							Resets {new Date(data.profile.quota_period_end).toLocaleDateString(undefined, {
 								month: 'short',
@@ -655,8 +657,8 @@
 						{/if}
 					</p>
 				{:else}
-					<p class="text-2xl font-black text-[#4A2C2C]">—</p>
-					<p class="mt-1 text-xs text-[#875F42]/50">Usage is unavailable right now</p>
+					<p class="text-2xl font-black text-cocoa-ink">—</p>
+					<p class="mt-1 text-xs text-cocoa-milk/50">Usage is unavailable right now</p>
 				{/if}
 			</div>
 		</div>
@@ -664,10 +666,10 @@
 		<!-- Upgrade CTA for free/lite users -->
 		{#if !isPaid}
 			<div
-				class="mb-6 rounded-3xl border border-[#F06292]/15 bg-gradient-to-br from-[#FFF0F5] to-[#FFF8F0] p-6 shadow-sm"
+				class="mb-6 rounded-3xl border border-mochi-pink/15 bg-gradient-to-br from-[#FFF0F5] to-[#FFF8F0] p-6 shadow-sm"
 			>
-				<p class="mb-1 text-base font-black text-[#4A2C2C]">Upgrade your plan</p>
-				<p class="mb-4 text-sm text-[#875F42]/60">
+				<p class="mb-1 text-base font-black text-cocoa-ink">Upgrade your plan</p>
+				<p class="mb-4 text-sm text-cocoa-milk/60">
 					More images, bigger batches, larger files, and a priority queue.
 				</p>
 				<div class="flex flex-wrap gap-3">
@@ -675,16 +677,16 @@
 						href="/api/checkout?plan=seller&billing=monthly"
 						data-sveltekit-reload
 						onclick={startPlanCheckout}
-						class="rounded-2xl border border-[#875F42]/20 px-5 py-2.5 text-sm font-black text-[#4A2C2C] transition-all hover:border-[#F06292]/40 hover:bg-white/60 hover:text-[#F06292]"
+						class="rounded-2xl border border-cocoa-milk/20 px-5 py-2.5 text-sm font-black text-cocoa-ink transition-all hover:border-mochi-pink/40 hover:bg-white/60 hover:text-mochi-pink"
 					>
 						Seller — {formatPrice(amounts.sellerMonthly, currency)}/mo
-						<span class="font-normal text-[#875F42]/50">· 300 images</span>
+						<span class="font-normal text-cocoa-milk/50">· 300 images</span>
 					</a>
 					<a
 						href="/api/checkout?plan=pro&billing=monthly"
 						data-sveltekit-reload
 						onclick={startPlanCheckout}
-						class="rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-5 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
+						class="rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-5 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 					>
 						Pro — {formatPrice(amounts.proMonthly, currency)}/mo
 						<span class="font-normal opacity-80">· 1,200 images</span>
@@ -693,17 +695,17 @@
 			</div>
 		{:else if isSeller}
 			<div
-				class="mb-6 flex flex-col gap-4 rounded-3xl border border-[#F06292]/15 bg-gradient-to-br from-[#FFF0F5] to-[#FFF8F0] p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between"
+				class="mb-6 flex flex-col gap-4 rounded-3xl border border-mochi-pink/15 bg-gradient-to-br from-[#FFF0F5] to-[#FFF8F0] p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between"
 			>
 				<div>
-					<p class="text-base font-black text-[#4A2C2C]">Upgrade to Pro, 1,200 images a month</p>
-					<p class="mt-0.5 text-sm text-[#875F42]/60">4× the images, top priority queue.</p>
+					<p class="text-base font-black text-cocoa-ink">Upgrade to Pro, 1,200 images a month</p>
+					<p class="mt-0.5 text-sm text-cocoa-milk/60">4× the images, top priority queue.</p>
 				</div>
 				<a
 					href="/api/checkout?plan=pro&billing=monthly"
 					data-sveltekit-reload
 					onclick={startPlanCheckout}
-					class="flex-shrink-0 self-start rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-5 py-2.5 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] sm:self-auto"
+					class="flex-shrink-0 self-start rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-5 py-2.5 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] sm:self-auto"
 				>
 					Upgrade to Pro
 				</a>
@@ -715,19 +717,19 @@
 			<div class="flex items-start justify-between gap-4">
 				<div class="min-w-0">
 					<div class="flex items-center gap-2">
-						<h2 class="font-extrabold text-[#4A2C2C]">Third-party AI features</h2>
+						<h2 class="font-extrabold text-cocoa-ink">Third-party AI features</h2>
 						<span
 							class="rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase {aiOptin
-								? 'bg-[#A5D6A7]/30 text-[#2E5C31]'
+								? 'bg-matcha-green/30 text-[#2E5C31]'
 								: 'bg-[#FFF0F5] text-mochi-pink'}"
 						>
 							{aiOptin ? 'Enabled' : 'Off'}
 						</span>
 					</div>
-					<p class="mt-1 text-sm text-[#875F42]/60">
+					<p class="mt-1 text-sm text-cocoa-milk/60">
 						Lets Mochify send your images to third-party AI providers for upcoming generative
 						features (e.g. AI-generated backgrounds).
-						<strong class="font-bold text-[#875F42]/80">Off by default</strong> — your images are never
+						<strong class="font-bold text-cocoa-milk/80">Off by default</strong> — your images are never
 						sent to a third party without this, and you can revoke it anytime.
 					</p>
 				</div>
@@ -756,7 +758,7 @@
 						disabled={aiSaving}
 						class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors disabled:opacity-50 {aiOptin
 							? 'bg-[#66BB6A]'
-							: 'bg-[#875F42]/20'}"
+							: 'bg-cocoa-milk/20'}"
 					>
 						<span
 							class="inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform {aiOptin
@@ -766,7 +768,7 @@
 					</button>
 				</form>
 			</div>
-			<p class="mt-3 text-xs text-[#875F42]/40">
+			<p class="mt-3 text-xs text-cocoa-milk/40">
 				{aiOptin
 					? 'Generative features may process your images via third parties.'
 					: "All processing stays on Mochify's own in-memory pipeline — nothing leaves to a third party."}
@@ -778,19 +780,19 @@
 			<div class="flex items-start justify-between gap-4">
 				<div class="min-w-0">
 					<div class="flex items-center gap-2">
-						<h2 class="font-extrabold text-[#4A2C2C]">Offers and reminders</h2>
+						<h2 class="font-extrabold text-cocoa-ink">Offers and reminders</h2>
 						<span
 							class="rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase {marketingOn
-								? 'bg-[#A5D6A7]/30 text-[#2E5C31]'
+								? 'bg-matcha-green/30 text-[#2E5C31]'
 								: 'bg-[#FFF0F5] text-mochi-pink'}"
 						>
 							{marketingOn ? 'On' : 'Off'}
 						</span>
 					</div>
-					<p class="mt-1 text-sm text-[#875F42]/60">
+					<p class="mt-1 text-sm text-cocoa-milk/60">
 						Occasional email about upgrades and discounts, such as a reminder if you start setting
 						up a plan and do not finish.
-						<strong class="font-bold text-[#875F42]/80">Never more than a couple a month.</strong>
+						<strong class="font-bold text-cocoa-milk/80">Never more than a couple a month.</strong>
 						Turning this off never affects account email like sign-in links and receipts.
 					</p>
 				</div>
@@ -819,7 +821,7 @@
 						disabled={marketingSaving}
 						class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors disabled:opacity-50 {marketingOn
 							? 'bg-[#66BB6A]'
-							: 'bg-[#875F42]/20'}"
+							: 'bg-cocoa-milk/20'}"
 					>
 						<span
 							class="inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform {marketingOn
@@ -829,7 +831,7 @@
 					</button>
 				</form>
 			</div>
-			<p class="mt-3 text-xs text-[#875F42]/40">
+			<p class="mt-3 text-xs text-cocoa-milk/40">
 				{marketingOn
 					? 'You can also unsubscribe from the link in any of these emails.'
 					: 'You will not receive offers or reminders. Sign-in links and receipts still arrive.'}
@@ -840,7 +842,7 @@
 		<div class="dash-card mb-6 rounded-3xl border border-[rgba(0,0,0,0.06)] p-6 shadow-sm">
 			<div class="mb-4 flex items-center justify-between">
 				<div>
-					<h2 class="font-extrabold text-[#4A2C2C]">Connections</h2>
+					<h2 class="font-extrabold text-cocoa-ink">Connections</h2>
 					<p class="mt-0.5 text-xs text-cocoa-milk/60">
 						Connect external services to your workflow
 					</p>
@@ -892,7 +894,7 @@
 
 					<div class="min-w-0 flex-1">
 						<div class="flex items-center gap-2">
-							<p class="text-sm font-black text-[#4A2C2C]">Google Drive</p>
+							<p class="text-sm font-black text-cocoa-ink">Google Drive</p>
 							{#if drive.connected}
 								<span
 									class="inline-block h-1.5 w-1.5 rounded-full {drive.status === 'ok'
@@ -920,9 +922,9 @@
 
 						{#if drive.connected}
 							<p class="mt-0.5 truncate text-xs text-cocoa-milk/60">
-								<span class="font-bold text-[#4A2C2C]">{drive.email ?? 'Google account'}</span>
+								<span class="font-bold text-cocoa-ink">{drive.email ?? 'Google account'}</span>
 								· saves to
-								<span class="font-bold text-[#4A2C2C]">{drive.folderName ?? 'Mochify'}</span>
+								<span class="font-bold text-cocoa-ink">{drive.folderName ?? 'Mochify'}</span>
 							</p>
 							{#if drive.status === 'error' && drive.statusDetail}
 								<p class="mt-1 text-xs font-medium text-red-600/80">{drive.statusDetail}</p>
@@ -958,13 +960,13 @@
 						href="/api/drive/connect"
 						data-sveltekit-reload
 						onclick={() => posthog.capture('drive_connect_started')}
-						class="shrink-0 cursor-pointer self-start rounded-xl border border-cocoa-milk/15 px-4 py-2 text-xs font-bold text-[#4A2C2C] transition-all hover:border-mochi-pink/40 hover:text-mochi-pink sm:self-auto"
+						class="shrink-0 cursor-pointer self-start rounded-xl border border-cocoa-milk/15 px-4 py-2 text-xs font-bold text-cocoa-ink transition-all hover:border-mochi-pink/40 hover:text-mochi-pink sm:self-auto"
 					>
 						Connect
 					</a>
 				{:else if showDriveDisconnect}
 					<div class="flex shrink-0 flex-wrap items-center gap-2 self-start sm:self-auto">
-						<span class="text-xs font-bold text-[#4A2C2C]">Revoke access?</span>
+						<span class="text-xs font-bold text-cocoa-ink">Revoke access?</span>
 						<form
 							method="POST"
 							action="?/disconnectDrive"
@@ -994,7 +996,7 @@
 						</form>
 						<button
 							onclick={() => (showDriveDisconnect = false)}
-							class="cursor-pointer text-xs font-bold text-cocoa-milk/50 transition-colors hover:text-[#4A2C2C]"
+							class="cursor-pointer text-xs font-bold text-cocoa-milk/50 transition-colors hover:text-cocoa-ink"
 						>
 							Keep
 						</button>
@@ -1023,7 +1025,7 @@
 							<button
 								type="submit"
 								disabled={driveBusy}
-								class="cursor-pointer rounded-xl border border-cocoa-milk/15 px-3 py-2 text-xs font-bold text-[#4A2C2C] transition-all hover:border-mochi-pink/40 hover:text-mochi-pink disabled:opacity-40"
+								class="cursor-pointer rounded-xl border border-cocoa-milk/15 px-3 py-2 text-xs font-bold text-cocoa-ink transition-all hover:border-mochi-pink/40 hover:text-mochi-pink disabled:opacity-40"
 							>
 								{driveVerifying ? 'Testing…' : 'Test'}
 							</button>
@@ -1034,7 +1036,7 @@
 						<a
 							href="/api/drive/connect"
 							data-sveltekit-reload
-							class="cursor-pointer rounded-xl border border-cocoa-milk/15 px-3 py-2 text-xs font-bold text-[#4A2C2C] transition-all hover:border-mochi-pink/40 hover:text-mochi-pink"
+							class="cursor-pointer rounded-xl border border-cocoa-milk/15 px-3 py-2 text-xs font-bold text-cocoa-ink transition-all hover:border-mochi-pink/40 hover:text-mochi-pink"
 						>
 							Reconnect
 						</a>
@@ -1093,7 +1095,7 @@
 
 					<div class="min-w-0 flex-1">
 						<div class="flex items-center gap-2">
-							<p class="text-sm font-black text-[#4A2C2C]">Bring your own bucket</p>
+							<p class="text-sm font-black text-cocoa-ink">Bring your own bucket</p>
 							{#if bucket.connected}
 								<span
 									class="h-2 w-2 shrink-0 rounded-full {bucket.status === 'ok'
@@ -1121,7 +1123,7 @@
 
 						{#if bucket.connected}
 							<p class="mt-0.5 truncate text-xs text-cocoa-milk/60">
-								<span class="font-bold text-[#4A2C2C]">{bucket.bucket}</span>{bucket.prefix
+								<span class="font-bold text-cocoa-ink">{bucket.bucket}</span>{bucket.prefix
 									? `/${bucket.prefix}`
 									: ''} · <span class="font-mono">{bucket.accessKeyIdMasked}</span>
 							</p>
@@ -1156,13 +1158,13 @@
 					<button
 						onclick={openBucketForm}
 						disabled={showBucketForm}
-						class="shrink-0 cursor-pointer self-start rounded-xl border border-cocoa-milk/15 px-4 py-2 text-xs font-bold text-[#4A2C2C] transition-all hover:border-mochi-pink/40 hover:text-mochi-pink disabled:opacity-40 sm:self-auto"
+						class="shrink-0 cursor-pointer self-start rounded-xl border border-cocoa-milk/15 px-4 py-2 text-xs font-bold text-cocoa-ink transition-all hover:border-mochi-pink/40 hover:text-mochi-pink disabled:opacity-40 sm:self-auto"
 					>
 						Connect
 					</button>
 				{:else if showBucketDisconnect}
 					<div class="flex shrink-0 flex-wrap items-center gap-2 self-start sm:self-auto">
-						<span class="text-xs font-bold text-[#4A2C2C]">Remove credentials?</span>
+						<span class="text-xs font-bold text-cocoa-ink">Remove credentials?</span>
 						<form
 							method="POST"
 							action="?/disconnectBucket"
@@ -1193,7 +1195,7 @@
 						</form>
 						<button
 							onclick={() => (showBucketDisconnect = false)}
-							class="cursor-pointer text-xs font-bold text-cocoa-milk/50 transition-colors hover:text-[#4A2C2C]"
+							class="cursor-pointer text-xs font-bold text-cocoa-milk/50 transition-colors hover:text-cocoa-ink"
 						>
 							Keep
 						</button>
@@ -1227,7 +1229,7 @@
 							<button
 								type="submit"
 								disabled={bucketBusy}
-								class="cursor-pointer rounded-xl border border-cocoa-milk/15 px-3 py-2 text-xs font-bold text-[#4A2C2C] transition-all hover:border-mochi-pink/40 hover:text-mochi-pink disabled:opacity-40"
+								class="cursor-pointer rounded-xl border border-cocoa-milk/15 px-3 py-2 text-xs font-bold text-cocoa-ink transition-all hover:border-mochi-pink/40 hover:text-mochi-pink disabled:opacity-40"
 							>
 								{bucketVerifying ? 'Testing…' : 'Test'}
 							</button>
@@ -1235,7 +1237,7 @@
 						<button
 							onclick={openBucketForm}
 							disabled={bucketBusy || showBucketForm}
-							class="cursor-pointer rounded-xl border border-cocoa-milk/15 px-3 py-2 text-xs font-bold text-[#4A2C2C] transition-all hover:border-mochi-pink/40 hover:text-mochi-pink disabled:opacity-40"
+							class="cursor-pointer rounded-xl border border-cocoa-milk/15 px-3 py-2 text-xs font-bold text-cocoa-ink transition-all hover:border-mochi-pink/40 hover:text-mochi-pink disabled:opacity-40"
 						>
 							Edit
 						</button>
@@ -1296,7 +1298,7 @@
 							<select
 								name="provider"
 								bind:value={bucketProvider}
-								class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-[#4A2C2C] focus:border-mochi-pink/40 focus:ring-2 focus:ring-[#F06292]/15 focus:outline-none"
+								class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-cocoa-ink focus:border-mochi-pink/40 focus:ring-2 focus:ring-mochi-pink/15 focus:outline-none"
 							>
 								<option value="s3">Amazon S3</option>
 								<option value="r2">Cloudflare R2</option>
@@ -1315,7 +1317,7 @@
 								required
 								value={bucket.bucket ?? ''}
 								placeholder="my-store-images"
-								class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-[#4A2C2C] placeholder:text-[#875F42]/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-[#F06292]/15 focus:outline-none"
+								class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-cocoa-ink placeholder:text-cocoa-milk/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-mochi-pink/15 focus:outline-none"
 							/>
 						</label>
 
@@ -1331,7 +1333,7 @@
 									required
 									value={bucket.region ?? ''}
 									placeholder="eu-west-2"
-									class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-[#4A2C2C] placeholder:text-[#875F42]/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-[#F06292]/15 focus:outline-none"
+									class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-cocoa-ink placeholder:text-cocoa-milk/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-mochi-pink/15 focus:outline-none"
 								/>
 							</label>
 						{:else}
@@ -1348,7 +1350,7 @@
 									placeholder={bucketProvider === 'r2'
 										? 'https://abc123.r2.cloudflarestorage.com'
 										: 'https://s3.example.com'}
-									class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-[#4A2C2C] placeholder:text-[#875F42]/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-[#F06292]/15 focus:outline-none"
+									class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-cocoa-ink placeholder:text-cocoa-milk/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-mochi-pink/15 focus:outline-none"
 								/>
 							</label>
 						{/if}
@@ -1363,7 +1365,7 @@
 								name="prefix"
 								value={bucket.prefix ?? ''}
 								placeholder="product-photos/"
-								class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-[#4A2C2C] placeholder:text-[#875F42]/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-[#F06292]/15 focus:outline-none"
+								class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 text-sm text-cocoa-ink placeholder:text-cocoa-milk/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-mochi-pink/15 focus:outline-none"
 							/>
 						</label>
 
@@ -1380,7 +1382,7 @@
 								placeholder={bucket.connected
 									? `Leave blank to keep ${bucket.accessKeyIdMasked}`
 									: 'AKIA…'}
-								class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 font-mono text-sm text-[#4A2C2C] placeholder:text-[#875F42]/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-[#F06292]/15 focus:outline-none"
+								class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 font-mono text-sm text-cocoa-ink placeholder:text-cocoa-milk/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-mochi-pink/15 focus:outline-none"
 							/>
 						</label>
 
@@ -1396,7 +1398,7 @@
 								autocomplete="off"
 								required={!bucket.connected}
 								placeholder={bucket.connected ? 'Leave blank to keep current' : '••••••••••••'}
-								class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 font-mono text-sm text-[#4A2C2C] placeholder:text-[#875F42]/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-[#F06292]/15 focus:outline-none"
+								class="w-full rounded-xl border border-cocoa-milk/15 bg-white/70 px-3 py-2 font-mono text-sm text-cocoa-ink placeholder:text-cocoa-milk/30 focus:border-mochi-pink/40 focus:ring-2 focus:ring-mochi-pink/15 focus:outline-none"
 							/>
 						</label>
 					</div>
@@ -1407,7 +1409,7 @@
 								name="forcePathStyle"
 								type="checkbox"
 								checked={bucket.forcePathStyle ?? false}
-								class="h-4 w-4 rounded border-cocoa-milk/20 accent-[#F06292]"
+								class="h-4 w-4 rounded border-cocoa-milk/20 accent-mochi-pink"
 							/>
 							<span class="text-xs text-cocoa-milk/60">
 								Use path-style addressing (needed by MinIO and some self-hosted setups)
@@ -1427,7 +1429,7 @@
 						<button
 							type="submit"
 							disabled={bucketSaving}
-							class="cursor-pointer rounded-xl bg-[#A5D6A7] px-4 py-2 text-xs font-black text-[#2E5C31] transition-all hover:bg-[#94cc96] disabled:opacity-50"
+							class="cursor-pointer rounded-xl bg-matcha-green px-4 py-2 text-xs font-black text-[#2E5C31] transition-all hover:bg-[#94cc96] disabled:opacity-50"
 						>
 							{bucketSaving ? 'Testing connection…' : 'Save and test'}
 						</button>
@@ -1437,7 +1439,7 @@
 								showBucketForm = false;
 								bucketError = null;
 							}}
-							class="cursor-pointer text-xs font-bold text-cocoa-milk/50 transition-colors hover:text-[#4A2C2C]"
+							class="cursor-pointer text-xs font-bold text-cocoa-milk/50 transition-colors hover:text-cocoa-ink"
 						>
 							Cancel
 						</button>
@@ -1464,11 +1466,11 @@
 				class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-3xl p-6 [&::-webkit-details-marker]:hidden"
 			>
 				<div>
-					<h2 class="font-extrabold text-[#4A2C2C]">Developer</h2>
-					<p class="mt-0.5 text-xs text-[#875F42]/60">API key, CLI, and integrations</p>
+					<h2 class="font-extrabold text-cocoa-ink">Developer</h2>
+					<p class="mt-0.5 text-xs text-cocoa-milk/60">API key, CLI, and integrations</p>
 				</div>
 				<svg
-					class="h-4 w-4 flex-shrink-0 text-[#875F42]/40 transition-transform group-open:rotate-90"
+					class="h-4 w-4 flex-shrink-0 text-cocoa-milk/40 transition-transform group-open:rotate-90"
 					viewBox="0 0 20 20"
 					fill="currentColor"
 					aria-hidden="true"
@@ -1480,11 +1482,11 @@
 					/>
 				</svg>
 			</summary>
-			<div class="border-t border-[#875F42]/8 px-6 pt-5 pb-6">
+			<div class="border-t border-cocoa-milk/8 px-6 pt-5 pb-6">
 				<div class="mb-4 flex items-start justify-between">
 					<div>
-						<h3 class="font-extrabold text-[#4A2C2C]">API key</h3>
-						<p class="mt-0.5 text-xs text-[#875F42]/60">
+						<h3 class="font-extrabold text-cocoa-ink">API key</h3>
+						<p class="mt-0.5 text-xs text-cocoa-milk/60">
 							Use this key from the web app, CLI, or curl
 						</p>
 					</div>
@@ -1512,7 +1514,7 @@
 							<button
 								type="submit"
 								disabled={keyLoading}
-								class="text-xs font-bold text-[#875F42]/60 transition-colors hover:text-[#F06292] disabled:opacity-40"
+								class="text-xs font-bold text-cocoa-milk/60 transition-colors hover:text-mochi-pink disabled:opacity-40"
 							>
 								{keyLoading ? 'Regenerating…' : 'Regenerate'}
 							</button>
@@ -1527,14 +1529,14 @@
 						</p>
 						<div class="flex items-center gap-2">
 							<code
-								class="min-w-0 flex-1 overflow-x-auto rounded-xl border border-amber-200/60 bg-white/70 px-3 py-2 font-mono text-xs break-all text-[#4A2C2C]"
+								class="min-w-0 flex-1 overflow-x-auto rounded-xl border border-amber-200/60 bg-white/70 px-3 py-2 font-mono text-xs break-all text-cocoa-ink"
 								>{newKeyPlaintext}</code
 							>
 							<button
 								onclick={copyKey}
 								class="flex-shrink-0 rounded-xl px-3 py-2 text-xs font-bold transition-all {copied
-									? 'bg-[#A5D6A7]/30 text-[#2E5C31]'
-									: 'bg-white/70 text-[#875F42]/70 hover:bg-[#FFF5F7] hover:text-[#F06292]'} border border-white/60"
+									? 'bg-matcha-green/30 text-[#2E5C31]'
+									: 'bg-white/70 text-cocoa-milk/70 hover:bg-mochi-blush hover:text-mochi-pink'} border border-white/60"
 							>
 								{copied ? 'Copied!' : 'Copy'}
 							</button>
@@ -1544,18 +1546,18 @@
 					<div
 						class="flex flex-col gap-1 rounded-2xl border border-white/60 bg-white/40 p-4 sm:flex-row sm:items-center sm:gap-3"
 					>
-						<code class="min-w-0 flex-1 truncate font-mono text-sm text-[#875F42]/60"
+						<code class="min-w-0 flex-1 truncate font-mono text-sm text-cocoa-milk/60"
 							>••••••••••••••••••••••••••••••••</code
 						>
 						{#if keyCreatedAt}
-							<span class="flex-shrink-0 text-xs text-[#875F42]/40"
+							<span class="flex-shrink-0 text-xs text-cocoa-milk/40"
 								>Created {new Date(keyCreatedAt).toLocaleDateString()}</span
 							>
 						{/if}
 					</div>
 				{:else}
 					<div class="py-4 text-center">
-						<p class="mb-4 text-sm text-[#875F42]/60">
+						<p class="mb-4 text-sm text-cocoa-milk/60">
 							No API key yet. Generate one to start using authenticated processing.
 						</p>
 						<form
@@ -1583,7 +1585,7 @@
 							<button
 								type="submit"
 								disabled={keyLoading}
-								class="cursor-pointer rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] disabled:transform-none disabled:opacity-60"
+								class="cursor-pointer rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-6 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] disabled:transform-none disabled:opacity-60"
 							>
 								{keyLoading ? 'Generating…' : 'Generate API key'}
 							</button>
@@ -1591,23 +1593,23 @@
 					</div>
 				{/if}
 
-				<div class="mt-4 border-t border-[#875F42]/8 pt-4">
-					<p class="font-mono text-xs break-all text-[#875F42]/50">
+				<div class="mt-4 border-t border-cocoa-milk/8 pt-4">
+					<p class="font-mono text-xs break-all text-cocoa-milk/50">
 						curl -H "Authorization: Bearer &lt;key&gt;" -X POST https://api.mochify.app/v1/squish
 						...
 					</p>
 				</div>
 
 				{#if signedInApps.length > 0}
-					<div class="mt-4 border-t border-[#875F42]/8 pt-4">
-						<p class="mb-2 text-xs font-bold text-[#875F42]/60">
+					<div class="mt-4 border-t border-cocoa-milk/8 pt-4">
+						<p class="mb-2 text-xs font-bold text-cocoa-milk/60">
 							Signed in apps (separate from this key)
 						</p>
 						{#each signedInApps as app (app.client)}
 							<div class="flex items-center justify-between gap-3 py-1.5">
-								<span class="text-sm text-[#4A2C2C]">
+								<span class="text-sm text-cocoa-ink">
 									{APP_NAMES[app.client] ?? app.client}
-									<span class="ml-1 text-xs text-[#875F42]/40"
+									<span class="ml-1 text-xs text-cocoa-milk/40"
 										>since {new Date(app.created_at + 'Z').toLocaleDateString()}</span
 									>
 								</span>
@@ -1629,7 +1631,7 @@
 									<button
 										type="submit"
 										disabled={signingOut === app.client}
-										class="text-xs font-bold text-[#875F42]/60 transition-colors hover:text-[#F06292] disabled:opacity-40"
+										class="text-xs font-bold text-cocoa-milk/60 transition-colors hover:text-mochi-pink disabled:opacity-40"
 									>
 										{signingOut === app.client ? 'Signing out…' : 'Sign out'}
 									</button>
@@ -1651,13 +1653,13 @@
 		     account-utility tone rather than competing with the cards above. -->
 		<div class="border-t border-[rgba(0,0,0,0.06)] pt-6">
 			{#if !showDeleteConfirm}
-				<p class="text-sm text-[#875F42]/50">
+				<p class="text-sm text-cocoa-milk/50">
 					Want to leave?
 					<button
 						onclick={() => {
 							showDeleteConfirm = true;
 						}}
-						class="cursor-pointer font-semibold text-[#875F42]/70 underline decoration-[#875F42]/30 underline-offset-2 transition-colors hover:text-[#4A2C2C]"
+						class="cursor-pointer font-semibold text-cocoa-milk/70 underline decoration-cocoa-milk/30 underline-offset-2 transition-colors hover:text-cocoa-ink"
 					>
 						Delete your account
 					</button>
@@ -1666,7 +1668,7 @@
 			{:else}
 				<div class="dash-card space-y-3 rounded-3xl border border-red-200/60 p-6">
 					<h2 class="font-extrabold text-red-700/80">Delete account</h2>
-					<p class="text-sm text-[#875F42]/60">
+					<p class="text-sm text-cocoa-milk/60">
 						Your account is deactivated immediately and permanently deleted after 14 days — signing
 						in again within that window cancels the deletion.
 					</p>
@@ -1677,7 +1679,7 @@
 						type="text"
 						bind:value={deleteConfirmText}
 						placeholder="delete my account"
-						class="w-full max-w-sm rounded-xl border border-red-200 bg-white/70 px-4 py-2.5 text-sm text-[#4A2C2C] placeholder:text-[#875F42]/30 focus:border-red-400 focus:ring-2 focus:ring-red-200/50 focus:outline-none"
+						class="w-full max-w-sm rounded-xl border border-red-200 bg-white/70 px-4 py-2.5 text-sm text-cocoa-ink placeholder:text-cocoa-milk/30 focus:border-red-400 focus:ring-2 focus:ring-red-200/50 focus:outline-none"
 					/>
 					<div class="flex gap-3">
 						<form
@@ -1703,7 +1705,7 @@
 								showDeleteConfirm = false;
 								deleteConfirmText = '';
 							}}
-							class="cursor-pointer rounded-xl border border-[#875F42]/15 px-4 py-2 text-sm font-bold text-[#875F42]/60 transition-all hover:border-[#875F42]/30 hover:text-[#4A2C2C]"
+							class="cursor-pointer rounded-xl border border-cocoa-milk/15 px-4 py-2 text-sm font-bold text-cocoa-milk/60 transition-all hover:border-cocoa-milk/30 hover:text-cocoa-ink"
 						>
 							Cancel
 						</button>

@@ -89,30 +89,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Not Supported" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             eBay rejects images its upload tool cannot read, most commonly RAW files and the .HIF files professional cameras write, files over its 12MB limit, and, for some sellers, iPhone HEIC photos, even though eBay now lists HEIC as accepted. Converting to JPEG before uploading fixes the error in almost every case.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">Published {metadata.datePublished} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong></p>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">Published {metadata.datePublished} by the <strong class="text-cocoa-deep">Mochify Engineering Team</strong></p>
         </div>
     </header>
 
@@ -121,7 +121,7 @@
         <section id="what-formats-does-ebay-accept" class="scroll-mt-24">
             <SectionHeading>What formats does eBay actually accept?</SectionHeading>
             <p class="mb-4">eBay's help page lists JPEG, PNG, GIF, TIFF, BMP, WebP, HEIC and AVIF as accepted formats, at up to 12MB per photo (<a href="https://www.ebay.com/help/selling/listings/adding-pictures-listings?id=4148" target="_blank" rel="noopener noreferrer">eBay: Adding pictures to your listings</a>). In practice, sellers still report HEIC uploads failing on eBay's community forums, so JPEG remains the safest choice for main product photos.</p>
-            <p class="mb-4">RAW files from cameras (CR3, ARW, NEF, and similar) and HIF files from professional mirrorless cameras are never accepted. Renaming a HEIC or RAW file with a <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">.jpg</code> extension does not work. eBay checks the actual file data, not just the extension. Mochify's uploader does the same, and when it refuses a file the cause is often not the format at all: <a href="/guides/why-did-my-upload-fail">the upload error guide</a> covers the sidecar and placeholder files behind many of those rejections.</p>
+            <p class="mb-4">RAW files from cameras (CR3, ARW, NEF, and similar) and HIF files from professional mirrorless cameras are never accepted. Renaming a HEIC or RAW file with a <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-sm">.jpg</code> extension does not work. eBay checks the actual file data, not just the extension. Mochify's uploader does the same, and when it refuses a file the cause is often not the format at all: <a href="/guides/why-did-my-upload-fail">the upload error guide</a> covers the sidecar and placeholder files behind many of those rejections.</p>
 
             <GlassInfoBox type="tip" title="Good to know">
                 eBay's list of accepted formats has grown to include WebP, HEIC and AVIF, but the list is not the whole story: a camera's .HIF file is still not on it, and HEIC uploads still fail for some sellers. When in doubt, export as JPEG.
@@ -139,7 +139,7 @@
             <p class="mb-4">Mochify's <a href="/solutions/ebay-image-converter">eBay image resizer and converter</a> does both in one step: it resizes each photo to eBay's recommended 1600 pixels on the long edge and converts HEIC, HIF, WebP, AVIF and PNG files to high-quality JPEG, with GPS location stripped by default and nothing to type. For anything more specific, ask Magic Flow in the <a href="/flow">web app</a> in plain English, for example:</p>
 
             <div class="bg-[#FFF8F9] border border-pink-100 rounded-2xl px-6 py-5 my-6">
-                <p class="font-mono text-sm text-[#4A2C2C] leading-relaxed">Convert to JPEG, resize to 1600px on the longest side, and keep quality around 85</p>
+                <p class="font-mono text-sm text-cocoa-ink leading-relaxed">Convert to JPEG, resize to 1600px on the longest side, and keep quality around 85</p>
             </div>
 
             <p class="mb-4">The <a href="/ebay-seller">eBay photo size and rules page</a> puts eBay's current limits and the one-prompt workflow on a single page.</p>

@@ -123,8 +123,8 @@
                 </span>
             </div>
 
-            <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
-                <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
+            <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
+                <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
                     HIF
                 </span> 
                 to 
@@ -134,7 +134,7 @@
                 Converter
             </h1>
             
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
+            <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Convert 10-bit Fuji, Canon & Sony HIF photos into universally compatible JPEGs instantly.
             </p>
         </div>
@@ -149,24 +149,24 @@
         </div>
 
         <section class="mt-10 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">How to convert HIF to JPG</h2>
+            <h2 class="text-2xl font-extrabold text-cocoa-ink mb-6">How to convert HIF to JPG</h2>
             <ol class="space-y-4">
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">1</span>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Drop your .HIF files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. Got a whole shoot to convert? A <a href="/pricing" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours, no account needed.
+                    <p class="leading-relaxed text-cocoa-deep">
+                        <strong class="text-cocoa-ink">Drop your .HIF files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. Got a whole shoot to convert? A <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours, no account needed.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">2</span>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Decide what happens to the metadata.</strong> Once your files are in, a Strip EXIF switch appears; that is the only choice on this page. It starts off here, so your camera data (ISO, shutter, lens, GPS) stays in the JPG unless you switch it on. Each file is then decoded and re-encoded as a JPG with Google's jpegli encoder.
+                    <p class="leading-relaxed text-cocoa-deep">
+                        <strong class="text-cocoa-ink">Decide what happens to the metadata.</strong> Once your files are in, a Strip EXIF switch appears; that is the only choice on this page. It starts off here, so your camera data (ISO, shutter, lens, GPS) stays in the JPG unless you switch it on. Each file is then decoded and re-encoded as a JPG with Google's jpegli encoder.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">3</span>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Download your JPGs.</strong> They open in Lightroom, Photoshop, Windows Photos, Preview, every browser and every upload form, none of which need to know what HIF is.
+                    <p class="leading-relaxed text-cocoa-deep">
+                        <strong class="text-cocoa-ink">Download your JPGs.</strong> They open in Lightroom, Photoshop, Windows Photos, Preview, every browser and every upload form, none of which need to know what HIF is.
                     </p>
                 </li>
             </ol>
@@ -174,18 +174,18 @@
 
         <section class="mt-20 mb-20 max-w-2xl mx-auto">
             <div class="liquid-glass rounded-[2rem] px-7 py-6 flex flex-col sm:flex-row items-center gap-5">
-                <div class="flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FFD6E5] to-[#F06292]/20">
-                    <svg class="h-6 w-6 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <div class="flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FFD6E5] to-mochi-pink/20">
+                    <svg class="h-6 w-6 text-mochi-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                     </svg>
                 </div>
                 <div class="flex-1 text-center sm:text-left">
-                    <p class="font-black text-[#4A2C2C] text-base leading-snug">Need to resize as well?</p>
-                    <p class="text-sm text-[#6C3F31]/70 mt-1 leading-relaxed">In the Mochify web app you can type a request such as <span class="font-semibold text-[#6C3F31]">"convert to JPG and resize to 1200px"</span> and Magic Flow does the rest.</p>
+                    <p class="font-black text-cocoa-ink text-base leading-snug">Need to resize as well?</p>
+                    <p class="text-sm text-cocoa-deep/70 mt-1 leading-relaxed">In the Mochify web app you can type a request such as <span class="font-semibold text-cocoa-deep">"convert to JPG and resize to 1200px"</span> and Magic Flow does the rest.</p>
                 </div>
                 <a
                     href="/auth/register"
-                    class="flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-black text-white bg-[#F06292] hover:bg-[#E91E8C] shadow-sm hover:shadow-md transition-all active:scale-95 whitespace-nowrap"
+                    class="flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-black text-white bg-mochi-pink hover:bg-[#E91E8C] shadow-sm hover:shadow-md transition-all active:scale-95 whitespace-nowrap"
                 >
                     Try it free
                 </a>
@@ -197,21 +197,21 @@
             
             <div class="space-y-8">
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-bold text-[#4A2C2C]">Why convert HIF to JPG?</h2>
-                    <p class="leading-relaxed text-[#6C3F31]">
+                    <h2 class="text-2xl font-bold text-cocoa-ink">Why convert HIF to JPG?</h2>
+                    <p class="leading-relaxed text-cocoa-deep">
                         HIF is a modern container used by professional cameras to store <strong class="text-[#7E685E]">10-bit HDR photos</strong>. While they offer better color depth, they often fail to open on web browsers or older editing software.
                     </p>
-                    <p class="leading-relaxed text-[#6C3F31]">
+                    <p class="leading-relaxed text-cocoa-deep">
                         Mochify converts these into standard 8-bit JPEGs using the advanced <strong class="text-[#7E685E]">Google Jpegli encoder</strong>. This ensures that while the file becomes 8-bit, the 10-bit dynamic range is visually preserved through advanced psychovisual quantization.
                     </p>
                 </div>
 
                 <div class="bg-white p-8 rounded-2xl border border-pink-50 shadow-sm">
-                    <h3 class="font-bold text-[#4A2C2C] mb-5 text-sm uppercase tracking-widest opacity-70">Supported Camera Models</h3>
+                    <h3 class="font-bold text-cocoa-ink mb-5 text-sm uppercase tracking-widest opacity-70">Supported Camera Models</h3>
                     <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {#each ['Fuji X-T5 / X-H2', 'Fuji X100VI', 'Canon EOS R5 / R6', 'Canon R3 / 1D X', 'Sony A7 IV / RV', 'Sony Alpha 1'] as camera}
-                            <li class="flex items-center gap-3 text-sm font-semibold text-[#6C3F31]">
-                                <span class="w-2 h-2 rounded-full bg-[#81C784]"></span> {camera}
+                            <li class="flex items-center gap-3 text-sm font-semibold text-cocoa-deep">
+                                <span class="w-2 h-2 rounded-full bg-matcha-dark"></span> {camera}
                             </li>
                         {/each}
                     </ul>
@@ -224,15 +224,15 @@
 
         <!-- Also available -->
         <section class="mt-16 max-w-4xl mx-auto">
-            <p class="text-xs font-black text-[#875F42] uppercase tracking-widest mb-4">Also available</p>
+            <p class="text-xs font-black text-cocoa-milk uppercase tracking-widest mb-4">Also available</p>
             <div class="grid sm:grid-cols-3 gap-4">
                 <a href="/solutions/heif-to-jpg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">HEIF to JPG →</p>
-                        <p class="text-xs text-[#875F42]">Any .heif, .heic or .hif file</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">HEIF to JPG →</p>
+                        <p class="text-xs text-cocoa-milk">Any .heif, .heic or .hif file</p>
                     </div>
                 </a>
                 <a href="/heic-to-jpeg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -240,8 +240,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 9l1.5 1.5 3-3.75" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">HEIC to JPG →</p>
-                        <p class="text-xs text-[#875F42]">The iPhone and iPad lane</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">HEIC to JPG →</p>
+                        <p class="text-xs text-cocoa-milk">The iPhone and iPad lane</p>
                     </div>
                 </a>
                 <a href="/solutions/hif-to-avif" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -249,8 +249,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">HIF to AVIF →</p>
-                        <p class="text-xs text-[#875F42]">Same photos, 10-bit preserved</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">HIF to AVIF →</p>
+                        <p class="text-xs text-cocoa-milk">Same photos, 10-bit preserved</p>
                     </div>
                 </a>
             </div>

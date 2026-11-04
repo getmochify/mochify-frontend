@@ -48,7 +48,7 @@ export const ES_PRICING: PricingStrings = {
 	everythingInPro: 'Todo lo de Pro, y además:',
 	sellerFeatures: [
 		'<strong>300 imágenes</strong> al mes',
-		'<strong>Borrar y recolorear</strong> objetos <span class="text-[#6C3F31]/50">(beta)</span>',
+		'<strong>Borrar y recolorear</strong> objetos <span class="text-cocoa-deep/50">(beta)</span>',
 		'<strong>Herramientas PDF completas:</strong> comprimir, extraer, dividir',
 		'Guarda directamente en <strong>Google Drive</strong> o en tu propio bucket',
 		'Archivos de <strong>75 MB</strong>, <strong>25</strong> por lote',
@@ -62,8 +62,8 @@ export const ES_PRICING: PricingStrings = {
 	],
 	growthFeatures: [
 		'<strong>5000 imágenes</strong> al mes',
-		'<strong>PDF de hasta 200 páginas</strong> <span class="text-[#6C3F31]/50">(10 como máximo en el resto de planes)</span>',
-		'<strong>PDF creados con 200 imágenes</strong> <span class="text-[#6C3F31]/50">(10 como máximo en el resto de planes)</span>'
+		'<strong>PDF de hasta 200 páginas</strong> <span class="text-cocoa-deep/50">(10 como máximo en el resto de planes)</span>',
+		'<strong>PDF creados con 200 imágenes</strong> <span class="text-cocoa-deep/50">(10 como máximo en el resto de planes)</span>'
 	],
 	freeFeatures: [
 		'<strong>25 imágenes</strong> al mes',
@@ -111,9 +111,9 @@ export const ES_PRICING: PricingStrings = {
 	tblBatchUpload: 'Subida por lotes',
 	tblQueue: 'Cola de procesamiento',
 	tblPdfTools:
-		'Herramientas PDF <span class="text-[#6C3F31]/50 text-xs">(comprimir, extraer, rasterizar, dividir, imágenes→PDF)</span>',
+		'Herramientas PDF <span class="text-cocoa-deep/50 text-xs">(comprimir, extraer, rasterizar, dividir, imágenes→PDF)</span>',
 	tblOwnStorage:
-		'Guardar en tu propio almacenamiento <span class="text-[#6C3F31]/50 text-xs">(Google Drive, o S3 / R2 / compatible con S3)</span>',
+		'Guardar en tu propio almacenamiento <span class="text-cocoa-deep/50 text-xs">(Google Drive, o S3 / R2 / compatible con S3)</span>',
 	tblPerMonth: (n) => `${n.toLocaleString('es')} / mes`,
 	tblFiles: (n) => `${n} archivos`,
 	tblQueueStandard: 'Estándar',

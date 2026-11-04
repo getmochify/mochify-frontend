@@ -171,17 +171,19 @@
                  it up as an h2 would put an h2 before the h1 in document order: screen
                  readers announce it first and the page's real heading reads as
                  subordinate to it. Same styling as ProseDocument's eyebrow. -->
-			<p class="mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+			<p class="mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 				{t.eyebrow}
 			</p>
-			<h1 class="mb-4 text-4xl font-black tracking-tight text-[#4A2C2C] md:text-5xl">
+			<h1 class="mb-4 text-4xl font-black tracking-tight text-cocoa-ink md:text-5xl">
 				{t.h1Before}
-				<span class="bg-gradient-to-r from-[#F06292] to-[#FF9EBB] bg-clip-text text-transparent">
+				<span
+					class="bg-gradient-to-r from-mochi-pink to-mochi-pink-light bg-clip-text text-transparent"
+				>
 					{t.h1Accent}
 				</span>
 				{t.h1After}
 			</h1>
-			<p class="mx-auto max-w-xl text-lg text-[#6C3F31]">
+			<p class="mx-auto max-w-xl text-lg text-cocoa-deep">
 				{t.heroSub}
 			</p>
 			<!-- Surface list: this is the proof of the eyebrow's claim, so it reads
@@ -191,7 +193,7 @@
                  just fixed in the footer. Plain text wraps like prose instead. -->
 			<div class="mt-6 flex justify-center">
 				<p
-					class="inline-block rounded-2xl border border-pink-100 bg-[#FFF0F3]/70 px-5 py-2.5 text-sm font-bold tracking-tight text-[#6C3F31] shadow-sm md:text-base"
+					class="inline-block rounded-2xl border border-pink-100 bg-mochi-strawberry/70 px-5 py-2.5 text-sm font-bold tracking-tight text-cocoa-deep shadow-sm md:text-base"
 				>
 					{t.surfaces}
 				</p>
@@ -246,23 +248,23 @@
                  and Free follows immediately after. DOM order stays Free, Seller,
                  Pro, which is the reading order at every width from md up. -->
 			<div
-				class="relative order-first flex flex-col rounded-3xl border-2 border-[#F06292]/30 bg-white p-8 shadow-md md:order-none"
+				class="relative order-first flex flex-col rounded-3xl border-2 border-mochi-pink/30 bg-white p-8 shadow-md md:order-none"
 			>
 				<span
-					class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#F06292] px-3 py-1 text-[10px] font-black tracking-wider whitespace-nowrap text-white uppercase shadow-sm"
+					class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-mochi-pink px-3 py-1 text-[10px] font-black tracking-wider whitespace-nowrap text-white uppercase shadow-sm"
 				>
 					{t.mostPopular}
 				</span>
 				<div class="mb-6">
 					<span
-						class="mb-4 inline-block rounded-full bg-[#FFF5F7] px-3 py-1 text-xs font-black tracking-wider text-[#F06292] uppercase"
+						class="mb-4 inline-block rounded-full bg-mochi-blush px-3 py-1 text-xs font-black tracking-wider text-mochi-pink uppercase"
 						>Seller</span
 					>
 					<div class="flex items-end gap-1">
-						<span class="text-4xl font-black text-[#4A2C2C]"
+						<span class="text-4xl font-black text-cocoa-ink"
 							>{billing === 'monthly' ? price('sellerMonthly') : price('sellerYearly')}</span
 						>
-						<span class="mb-2 text-sm text-[#6C3F31]/50"
+						<span class="mb-2 text-sm text-cocoa-deep/50"
 							>{billing === 'monthly' ? t.perMonth : t.perYear}</span
 						>
 					</div>
@@ -286,8 +288,8 @@
 
 				<ul class="mb-8 flex-grow space-y-3">
 					{#each t.sellerFeatures as feature}
-						<li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-							<span class="mt-0.5 font-black text-[#A5D6A7]">✓</span>
+						<li class="flex items-start gap-3 text-sm text-cocoa-deep">
+							<span class="mt-0.5 font-black text-matcha-green">✓</span>
 							<span>{@html feature}</span>
 						</li>
 					{/each}
@@ -305,23 +307,23 @@
 
 			<!-- Pro tier -->
 			<div
-				class="relative flex flex-col overflow-hidden rounded-3xl border border-[#F06292]/20 bg-gradient-to-br from-[#FFF0F5] to-white p-8 shadow-md"
+				class="relative flex flex-col overflow-hidden rounded-3xl border border-mochi-pink/20 bg-gradient-to-br from-[#FFF0F5] to-white p-8 shadow-md"
 			>
 				<!-- Decorative blob -->
 				<div
-					class="pointer-events-none absolute -top-6 -right-6 h-32 w-32 rounded-full bg-[#F06292]/10 blur-2xl"
+					class="pointer-events-none absolute -top-6 -right-6 h-32 w-32 rounded-full bg-mochi-pink/10 blur-2xl"
 				></div>
 
 				<div class="relative mb-6">
 					<span
-						class="mb-4 inline-block rounded-full bg-[#F06292] px-3 py-1 text-xs font-black tracking-wider text-white uppercase"
+						class="mb-4 inline-block rounded-full bg-mochi-pink px-3 py-1 text-xs font-black tracking-wider text-white uppercase"
 						>Pro</span
 					>
 					<div class="flex items-end gap-1">
-						<span class="text-4xl font-black text-[#4A2C2C]"
+						<span class="text-4xl font-black text-cocoa-ink"
 							>{billing === 'monthly' ? price('proMonthly') : price('proYearly')}</span
 						>
-						<span class="mb-2 text-sm text-[#6C3F31]/50"
+						<span class="mb-2 text-sm text-cocoa-deep/50"
 							>{billing === 'monthly' ? t.perMonth : t.perYear}</span
 						>
 					</div>
@@ -342,14 +344,14 @@
 					</p>
 				</div>
 
-				<p class="relative mb-3 text-xs font-black tracking-wider text-[#6C3F31]/50 uppercase">
+				<p class="relative mb-3 text-xs font-black tracking-wider text-cocoa-deep/50 uppercase">
 					{t.everythingInSeller}
 				</p>
 
 				<ul class="relative mb-8 flex-grow space-y-3">
 					{#each t.proFeatures as feature}
-						<li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-							<span class="mt-0.5 font-black text-[#F06292]">✓</span>
+						<li class="flex items-start gap-3 text-sm text-cocoa-deep">
+							<span class="mt-0.5 font-black text-mochi-pink">✓</span>
 							<span>{@html feature}</span>
 						</li>
 					{/each}
@@ -359,7 +361,7 @@
 					href="/api/checkout?plan=pro&billing={billing}"
 					data-sveltekit-reload
 					onclick={startPlanCheckout}
-					class="block rounded-2xl bg-[#F06292] px-6 py-3 text-center text-sm font-black text-white shadow-sm transition-all hover:bg-[#E0527F] hover:shadow-md active:scale-95"
+					class="block rounded-2xl bg-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-sm transition-all hover:bg-[#E0527F] hover:shadow-md active:scale-95"
 				>
 					{t.ctaPro}
 				</a>
@@ -378,20 +380,20 @@
                  card with non-differentiators. -->
 			{#if showGrowth}
 				<div
-					class="relative flex flex-col overflow-hidden rounded-3xl border border-[#F06292]/20 bg-white p-8 shadow-md"
+					class="relative flex flex-col overflow-hidden rounded-3xl border border-mochi-pink/20 bg-white p-8 shadow-md"
 				>
 					<div class="mb-6">
 						<div class="mb-4 flex items-center gap-2">
 							<span
-								class="inline-block rounded-full bg-[#FFF5F7] px-3 py-1 text-xs font-black tracking-wider text-[#F06292] uppercase"
+								class="inline-block rounded-full bg-mochi-blush px-3 py-1 text-xs font-black tracking-wider text-mochi-pink uppercase"
 								>Growth</span
 							>
 						</div>
 						<div class="flex items-end gap-1">
-							<span class="text-4xl font-black text-[#4A2C2C]"
+							<span class="text-4xl font-black text-cocoa-ink"
 								>{billing === 'monthly' ? price('growthMonthly') : price('growthYearly')}</span
 							>
-							<span class="mb-2 text-sm text-[#6C3F31]/50"
+							<span class="mb-2 text-sm text-cocoa-deep/50"
 								>{billing === 'monthly' ? t.perMonth : t.perYear}</span
 							>
 						</div>
@@ -410,14 +412,14 @@
 						</p>
 					</div>
 
-					<p class="mb-3 text-xs font-black tracking-wider text-[#6C3F31]/50 uppercase">
+					<p class="mb-3 text-xs font-black tracking-wider text-cocoa-deep/50 uppercase">
 						{t.everythingInPro}
 					</p>
 
 					<ul class="mb-8 flex-grow space-y-3">
 						{#each t.growthFeatures as feature}
-							<li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-								<span class="mt-0.5 font-black text-[#F06292]">✓</span>
+							<li class="flex items-start gap-3 text-sm text-cocoa-deep">
+								<span class="mt-0.5 font-black text-mochi-pink">✓</span>
 								<span>{@html feature}</span>
 							</li>
 						{/each}
@@ -427,7 +429,7 @@
 						href="/api/checkout?plan=growth&billing={billing}"
 						data-sveltekit-reload
 						onclick={startPlanCheckout}
-						class="block rounded-2xl border border-[#F06292]/40 px-6 py-3 text-center text-sm font-black text-[#F06292] shadow-sm transition-all hover:bg-[#FFF5F7] hover:shadow-md active:scale-95"
+						class="block rounded-2xl border border-mochi-pink/40 px-6 py-3 text-center text-sm font-black text-mochi-pink shadow-sm transition-all hover:bg-mochi-blush hover:shadow-md active:scale-95"
 					>
 						{t.ctaGrowth}
 					</a>
@@ -443,25 +445,25 @@
              three cards. -->
 		<div class="mx-auto mt-6 max-w-5xl">
 			<div
-				class="flex flex-col gap-6 rounded-3xl border border-[#875F42]/15 bg-white p-6 shadow-sm sm:p-8 md:flex-row md:items-center"
+				class="flex flex-col gap-6 rounded-3xl border border-cocoa-milk/15 bg-white p-6 shadow-sm sm:p-8 md:flex-row md:items-center"
 			>
 				<div class="flex-shrink-0 md:w-1/4">
 					<span
-						class="mb-3 inline-block rounded-full bg-[#F5F0E8] px-3 py-1 text-xs font-black tracking-wider text-[#6C3F31] uppercase"
+						class="mb-3 inline-block rounded-full bg-[#F5F0E8] px-3 py-1 text-xs font-black tracking-wider text-cocoa-deep uppercase"
 						>Free</span
 					>
 					<div class="flex items-end gap-1">
-						<span class="text-3xl font-black text-[#4A2C2C]"
+						<span class="text-3xl font-black text-cocoa-ink"
 							>{formatPrice(0, currency, priceLocale)}</span
 						>
-						<span class="mb-1 text-sm text-[#6C3F31]/50">{t.perForever}</span>
+						<span class="mb-1 text-sm text-cocoa-deep/50">{t.perForever}</span>
 					</div>
 				</div>
 
 				<ul class="grid flex-grow gap-x-6 gap-y-3 sm:grid-cols-2">
 					{#each t.freeFeatures as feature}
-						<li class="flex items-start gap-3 text-sm text-[#6C3F31]">
-							<span class="mt-0.5 font-black text-[#A5D6A7]">✓</span>
+						<li class="flex items-start gap-3 text-sm text-cocoa-deep">
+							<span class="mt-0.5 font-black text-matcha-green">✓</span>
 							<span>{@html feature}</span>
 						</li>
 					{/each}
@@ -470,15 +472,15 @@
 				<div class="flex-shrink-0 md:w-1/5">
 					<a
 						href="/auth/register"
-						class="block rounded-2xl border border-[#875F42]/25 px-6 py-3 text-center text-sm font-black text-[#6C3F31] transition-all hover:border-[#F06292]/40 hover:bg-[#FFF5F7] hover:text-[#F06292]"
+						class="block rounded-2xl border border-cocoa-milk/25 px-6 py-3 text-center text-sm font-black text-cocoa-deep transition-all hover:border-mochi-pink/40 hover:bg-mochi-blush hover:text-mochi-pink"
 					>
 						{t.ctaFree}
 					</a>
 					<!-- Describes the no-account path, not the Free plan, so it
                          stays outside the feature list exactly as it did before. -->
-					<p class="mt-3 text-center text-xs text-[#6C3F31]/50">
+					<p class="mt-3 text-center text-xs text-cocoa-deep/50">
 						{t.or}
-						<a href={t.flowHref} class="font-semibold text-[#F06292] hover:underline"
+						<a href={t.flowHref} class="font-semibold text-mochi-pink hover:underline"
 							>{t.noSignupLink}</a
 						>
 					</p>
@@ -488,7 +490,7 @@
 
 		<!-- What an "image" is. The first FAQ says it at length; this is the
              one-line version where people are comparing allowances. -->
-		<p class="mx-auto mt-8 max-w-4xl text-center text-sm text-[#6C3F31]/70">{t.opsNote}</p>
+		<p class="mx-auto mt-8 max-w-4xl text-center text-sm text-cocoa-deep/70">{t.opsNote}</p>
 
 		<!-- Privacy trust strip — applies to every plan, so it spans all tiers
              rather than repeating per card. Wording matches /privacy: uploads
@@ -499,7 +501,7 @@
 				class="flex items-center gap-4 rounded-3xl border border-pink-100 bg-[#FFF9FB] px-6 py-5 shadow-sm"
 			>
 				<span
-					class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#FFF0F5] text-[#F06292]"
+					class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#FFF0F5] text-mochi-pink"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -516,12 +518,12 @@
 						<path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
 					</svg>
 				</span>
-				<p class="text-sm leading-relaxed text-[#6C3F31]">
-					<strong class="text-[#4A2C2C]">{t.privacyLead}</strong>
+				<p class="text-sm leading-relaxed text-cocoa-deep">
+					<strong class="text-cocoa-ink">{t.privacyLead}</strong>
 					{t.privacyBody}
 					<a
 						href={t.privacyHref}
-						class="font-semibold whitespace-nowrap text-[#F06292] hover:underline">{t.learnMore}</a
+						class="font-semibold whitespace-nowrap text-mochi-pink hover:underline">{t.learnMore}</a
 					>
 				</p>
 			</div>
@@ -536,7 +538,7 @@
 						class="h-px flex-grow bg-gradient-to-r from-transparent via-pink-100 to-transparent"
 					></div>
 					<span
-						class="text-xs font-bold tracking-widest whitespace-nowrap text-[#6C3F31]/40 uppercase"
+						class="text-xs font-bold tracking-widest whitespace-nowrap text-cocoa-deep/40 uppercase"
 						>{t.orNoSubscription}</span
 					>
 					<div
@@ -549,12 +551,12 @@
 				>
 					<div class="flex-shrink-0">
 						<span
-							class="mb-3 inline-block rounded-full bg-[#FFF5F7] px-3 py-1 text-xs font-black tracking-wider text-[#F06292] uppercase"
+							class="mb-3 inline-block rounded-full bg-mochi-blush px-3 py-1 text-xs font-black tracking-wider text-mochi-pink uppercase"
 							>{pass.name}</span
 						>
 						<div class="flex items-end gap-1">
-							<span class="text-3xl font-black text-[#4A2C2C]">{price(pass.plan)}</span>
-							<span class="mb-1.5 text-sm text-[#6C3F31]/50">{t.oneTime}</span>
+							<span class="text-3xl font-black text-cocoa-ink">{price(pass.plan)}</span>
+							<span class="mb-1.5 text-sm text-cocoa-deep/50">{t.oneTime}</span>
 						</div>
 					</div>
 
@@ -582,13 +584,13 @@
 							{/each}
 						</div>
 						<ul class="flex flex-wrap gap-x-6 gap-y-2">
-							<li class="flex items-center gap-2 text-sm text-[#6C3F31]">
-								<span class="font-black text-[#A5D6A7]">✓</span>
+							<li class="flex items-center gap-2 text-sm text-cocoa-deep">
+								<span class="font-black text-matcha-green">✓</span>
 								<span>{@html t.dayPassImages(pass.ops)}</span>
 							</li>
 							{#each t.dayPassFeatures as feature}
-								<li class="flex items-center gap-2 text-sm text-[#6C3F31]">
-									<span class="font-black text-[#A5D6A7]">✓</span>
+								<li class="flex items-center gap-2 text-sm text-cocoa-deep">
+									<span class="font-black text-matcha-green">✓</span>
 									<span>{@html feature}</span>
 								</li>
 							{/each}
@@ -602,7 +604,7 @@
 							trigger="pricing_page"
 							plus={dayPassPlus}
 							next="/"
-							class="block rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
+							class="block rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 						>
 							{t.ctaDayPass(price(pass.plan), pass.name)}
 						</DayPassButton>
@@ -613,156 +615,157 @@
 
 		<!-- Feature comparison table -->
 		<div class="mx-auto mt-16 max-w-4xl">
-			<h2 class="mb-8 text-center text-xl font-extrabold text-[#4A2C2C]">{t.fullComparison}</h2>
+			<h2 class="mb-8 text-center text-xl font-extrabold text-cocoa-ink">{t.fullComparison}</h2>
 
 			<div class="overflow-hidden rounded-3xl border border-pink-100 bg-white shadow-sm">
 				<div class="overflow-x-auto">
 					<table class="w-full text-sm">
 						<thead>
 							<tr class="border-b border-pink-50">
-								<th class="w-2/5 px-6 py-4 text-left font-medium text-[#6C3F31]/50"
+								<th class="w-2/5 px-6 py-4 text-left font-medium text-cocoa-deep/50"
 									>{t.tblFeature}</th
 								>
-								<th class="px-6 py-4 text-center font-black text-[#6C3F31]">Free</th>
-								<th class="px-6 py-4 text-center font-black text-[#6C3F31]">Seller</th>
-								<th class="px-6 py-4 text-center font-black text-[#F06292]">Pro</th>
-								<th class="px-6 py-4 text-center font-black text-[#F06292]">Growth</th>
+								<th class="px-6 py-4 text-center font-black text-cocoa-deep">Free</th>
+								<th class="px-6 py-4 text-center font-black text-cocoa-deep">Seller</th>
+								<th class="px-6 py-4 text-center font-black text-mochi-pink">Pro</th>
+								<th class="px-6 py-4 text-center font-black text-mochi-pink">Growth</th>
 							</tr>
 						</thead>
 						<tbody class="divide-y divide-pink-50">
 							<tr>
-								<td class="px-6 py-4 text-[#6C3F31]">{t.tblMonthlyImages}</td>
-								<td class="px-6 py-4 text-center whitespace-nowrap text-[#6C3F31]"
+								<td class="px-6 py-4 text-cocoa-deep">{t.tblMonthlyImages}</td>
+								<td class="px-6 py-4 text-center whitespace-nowrap text-cocoa-deep"
 									>{t.tblPerMonth(25)}</td
 								>
-								<td class="px-6 py-4 text-center whitespace-nowrap text-[#6C3F31]"
+								<td class="px-6 py-4 text-center whitespace-nowrap text-cocoa-deep"
 									>{t.tblPerMonth(300)}</td
 								>
-								<td class="px-6 py-4 text-center whitespace-nowrap text-[#6C3F31]"
+								<td class="px-6 py-4 text-center whitespace-nowrap text-cocoa-deep"
 									>{t.tblPerMonth(1200)}</td
 								>
-								<td class="px-6 py-4 text-center whitespace-nowrap text-[#6C3F31]"
+								<td class="px-6 py-4 text-center whitespace-nowrap text-cocoa-deep"
 									>{t.tblPerMonth(5000)}</td
 								>
 							</tr>
 							<tr>
-								<td class="px-6 py-4 text-[#6C3F31]">{t.tblMaxFileSize}</td>
-								<td class="px-6 py-4 text-center text-[#6C3F31]">{t.tblSizeFree}</td>
-								<td class="px-6 py-4 text-center font-bold text-[#6C3F31]">{t.tblSizePaid}</td>
-								<td class="px-6 py-4 text-center font-bold text-[#6C3F31]">{t.tblSizePaid}</td>
-								<td class="px-6 py-4 text-center font-bold text-[#6C3F31]">{t.tblSizePaid}</td>
+								<td class="px-6 py-4 text-cocoa-deep">{t.tblMaxFileSize}</td>
+								<td class="px-6 py-4 text-center text-cocoa-deep">{t.tblSizeFree}</td>
+								<td class="px-6 py-4 text-center font-bold text-cocoa-deep">{t.tblSizePaid}</td>
+								<td class="px-6 py-4 text-center font-bold text-cocoa-deep">{t.tblSizePaid}</td>
+								<td class="px-6 py-4 text-center font-bold text-cocoa-deep">{t.tblSizePaid}</td>
 							</tr>
 							<tr>
-								<td class="px-6 py-4 text-[#6C3F31]">JPG, WEBP, AVIF, PNG, JXL</td>
-								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
+								<td class="px-6 py-4 text-cocoa-deep">JPG, WEBP, AVIF, PNG, JXL</td>
+								<td class="px-6 py-4 text-center font-black text-matcha-green">✓</td>
+								<td class="px-6 py-4 text-center font-black text-matcha-green">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
 							</tr>
 							<tr>
-								<td class="px-6 py-4 text-[#6C3F31]">{t.tblHeicUpload}</td>
-								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
+								<td class="px-6 py-4 text-cocoa-deep">{t.tblHeicUpload}</td>
+								<td class="px-6 py-4 text-center font-black text-matcha-green">✓</td>
+								<td class="px-6 py-4 text-center font-black text-matcha-green">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
 							</tr>
 							<tr>
-								<td class="px-6 py-4 text-[#6C3F31]">{t.tblResizeRotateCrop}</td>
-								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
+								<td class="px-6 py-4 text-cocoa-deep">{t.tblResizeRotateCrop}</td>
+								<td class="px-6 py-4 text-center font-black text-matcha-green">✓</td>
+								<td class="px-6 py-4 text-center font-black text-matcha-green">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
 							</tr>
 							<tr>
-								<td class="px-6 py-4 text-[#6C3F31]">{t.tblBackgroundRemoval}</td>
-								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
+								<td class="px-6 py-4 text-cocoa-deep">{t.tblBackgroundRemoval}</td>
+								<td class="px-6 py-4 text-center font-black text-matcha-green">✓</td>
+								<td class="px-6 py-4 text-center font-black text-matcha-green">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
 							</tr>
 							<tr>
-								<td class="px-6 py-4 text-[#6C3F31]">{t.tblMagicFlow}</td>
-								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
+								<td class="px-6 py-4 text-cocoa-deep">{t.tblMagicFlow}</td>
+								<td class="px-6 py-4 text-center font-black text-matcha-green">✓</td>
+								<td class="px-6 py-4 text-center font-black text-matcha-green">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
 							</tr>
 							<tr>
-								<td class="px-6 py-4 text-[#6C3F31]">{t.tblEraseRecolor}</td>
-								<td class="px-6 py-4 text-center font-black text-[#6C3F31]/30"
+								<td class="px-6 py-4 text-cocoa-deep">{t.tblEraseRecolor}</td>
+								<td class="px-6 py-4 text-center font-black text-cocoa-deep/30"
 									>{t.tblNotIncluded}</td
 								>
-								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
+								<td class="px-6 py-4 text-center font-black text-matcha-green">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
 							</tr>
 							<tr>
-								<td class="px-6 py-4 text-[#6C3F31]">{t.tblAiBackgrounds}</td>
-								<td class="px-6 py-4 text-center font-black text-[#6C3F31]/30"
+								<td class="px-6 py-4 text-cocoa-deep">{t.tblAiBackgrounds}</td>
+								<td class="px-6 py-4 text-center font-black text-cocoa-deep/30"
 									>{t.tblNotIncluded}</td
 								>
 								<td
-									class="px-6 py-4 text-center text-[11px] font-bold tracking-wide text-[#F06292]/70 uppercase"
+									class="px-6 py-4 text-center text-[11px] font-bold tracking-wide text-mochi-pink/70 uppercase"
 									>{t.tblSoon}</td
 								>
 								<td
-									class="px-6 py-4 text-center text-[11px] font-bold tracking-wide text-[#F06292]/70 uppercase"
+									class="px-6 py-4 text-center text-[11px] font-bold tracking-wide text-mochi-pink/70 uppercase"
 									>{t.tblSoon}</td
 								>
 								<td
-									class="px-6 py-4 text-center text-[11px] font-bold tracking-wide text-[#F06292]/70 uppercase"
+									class="px-6 py-4 text-center text-[11px] font-bold tracking-wide text-mochi-pink/70 uppercase"
 									>{t.tblSoon}</td
 								>
 							</tr>
 							<tr>
-								<td class="px-6 py-4 text-[#6C3F31]">{t.tblMcpApi}</td>
-								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
+								<td class="px-6 py-4 text-cocoa-deep">{t.tblMcpApi}</td>
+								<td class="px-6 py-4 text-center font-black text-matcha-green">✓</td>
+								<td class="px-6 py-4 text-center font-black text-matcha-green">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
 							</tr>
 							<tr>
-								<td class="px-6 py-4 text-[#6C3F31]">{t.tblBatchUpload}</td>
-								<td class="px-6 py-4 text-center text-xs text-[#6C3F31]/50">{t.tblFiles(3)}</td>
-								<td class="px-6 py-4 text-center text-xs font-semibold text-[#6C3F31]"
+								<td class="px-6 py-4 text-cocoa-deep">{t.tblBatchUpload}</td>
+								<td class="px-6 py-4 text-center text-xs text-cocoa-deep/50">{t.tblFiles(3)}</td>
+								<td class="px-6 py-4 text-center text-xs font-semibold text-cocoa-deep"
 									>{t.tblFiles(25)}</td
 								>
-								<td class="px-6 py-4 text-center text-xs font-bold text-[#F06292]"
+								<td class="px-6 py-4 text-center text-xs font-bold text-mochi-pink"
 									>{t.tblFiles(25)}</td
 								>
-								<td class="px-6 py-4 text-center text-xs font-bold text-[#F06292]"
+								<td class="px-6 py-4 text-center text-xs font-bold text-mochi-pink"
 									>{t.tblFiles(25)}</td
 								>
 							</tr>
 							<tr>
-								<td class="px-6 py-4 text-[#6C3F31]">{@html t.tblPdfTools}</td>
-								<td class="px-6 py-4 text-center text-xs text-[#6C3F31]/50">{t.tblPdfFree}</td>
-								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
-								<td class="px-6 py-4 text-center text-xs font-bold text-[#F06292]"
+								<td class="px-6 py-4 text-cocoa-deep">{@html t.tblPdfTools}</td>
+								<td class="px-6 py-4 text-center text-xs text-cocoa-deep/50">{t.tblPdfFree}</td>
+								<td class="px-6 py-4 text-center font-black text-matcha-green">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
+								<td class="px-6 py-4 text-center text-xs font-bold text-mochi-pink"
 									>{t.tblPdfUnlimited}</td
 								>
 							</tr>
 							<tr>
-								<td class="px-6 py-4 text-[#6C3F31]">{@html t.tblOwnStorage}</td>
-								<td class="px-6 py-4 text-center font-black text-[#6C3F31]/30"
+								<td class="px-6 py-4 text-cocoa-deep">{@html t.tblOwnStorage}</td>
+								<td class="px-6 py-4 text-center font-black text-cocoa-deep/30"
 									>{t.tblNotIncluded}</td
 								>
-								<td class="px-6 py-4 text-center font-black text-[#A5D6A7]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
-								<td class="px-6 py-4 text-center font-black text-[#F06292]">✓</td>
+								<td class="px-6 py-4 text-center font-black text-matcha-green">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
+								<td class="px-6 py-4 text-center font-black text-mochi-pink">✓</td>
 							</tr>
 							<tr>
-								<td class="px-6 py-4 text-[#6C3F31]">{t.tblQueue}</td>
-								<td class="px-6 py-4 text-center text-xs text-[#6C3F31]/50">{t.tblQueueStandard}</td
+								<td class="px-6 py-4 text-cocoa-deep">{t.tblQueue}</td>
+								<td class="px-6 py-4 text-center text-xs text-cocoa-deep/50"
+									>{t.tblQueueStandard}</td
 								>
-								<td class="px-6 py-4 text-center text-xs font-semibold text-[#6C3F31]"
+								<td class="px-6 py-4 text-center text-xs font-semibold text-cocoa-deep"
 									>{t.tblQueuePriority}</td
 								>
-								<td class="px-6 py-4 text-center text-xs font-bold text-[#F06292]"
+								<td class="px-6 py-4 text-center text-xs font-bold text-mochi-pink"
 									>{t.tblQueueTop}</td
 								>
-								<td class="px-6 py-4 text-center text-xs font-bold text-[#F06292]"
+								<td class="px-6 py-4 text-center text-xs font-bold text-mochi-pink"
 									>{t.tblQueueTop}</td
 								>
 							</tr>
@@ -777,22 +780,22 @@
              reference list. -->
 		<div class="mx-auto mt-16 max-w-3xl">
 			<h2
-				class="mb-3 text-center font-heading text-3xl leading-[1.1] font-extrabold text-[#4A2C2C] md:text-[2.5rem]"
+				class="mb-3 text-center font-heading text-3xl leading-[1.1] font-extrabold text-cocoa-ink md:text-[2.5rem]"
 			>
 				{t.faqHeading}
 			</h2>
-			<p class="mb-8 text-center text-[#875F42]">{t.faqSub}</p>
+			<p class="mb-8 text-center text-cocoa-milk">{t.faqSub}</p>
 			<div
 				class="divide-y divide-pink-100 overflow-hidden rounded-3xl border border-pink-100 bg-white shadow-sm"
 			>
 				{#each faqs as faq}
 					<details class="group transition-colors open:bg-[#FFFAFB]">
 						<summary
-							class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-[#4A2C2C] transition-colors select-none hover:text-[#D81B60]"
+							class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-cocoa-ink transition-colors select-none hover:text-mochi-pink-deep"
 						>
 							{faq.q}
 							<svg
-								class="h-5 w-5 shrink-0 text-[#F06292] transition-transform duration-200 group-open:rotate-180"
+								class="h-5 w-5 shrink-0 text-mochi-pink transition-transform duration-200 group-open:rotate-180"
 								fill="none"
 								stroke="currentColor"
 								stroke-width="2"
@@ -802,7 +805,7 @@
 								aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg
 							>
 						</summary>
-						<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-[#6C3F31]">
+						<p class="-mt-1 px-6 pb-5 text-sm leading-relaxed text-cocoa-deep">
 							{@html faq.a}
 						</p>
 					</details>
@@ -814,33 +817,33 @@
              pages end on the same note. -->
 		<div class="mx-auto mt-14 max-w-3xl md:mt-16">
 			<div
-				class="rounded-3xl border border-pink-100 bg-gradient-to-b from-[#FFF0F3]/70 to-white px-6 py-10 text-center shadow-sm md:px-12 md:py-12"
+				class="rounded-3xl border border-pink-100 bg-gradient-to-b from-mochi-strawberry/70 to-white px-6 py-10 text-center shadow-sm md:px-12 md:py-12"
 			>
 				<h2
-					class="mb-3 font-heading text-2xl leading-[1.15] font-extrabold text-[#4A2C2C] md:text-3xl"
+					class="mb-3 font-heading text-2xl leading-[1.15] font-extrabold text-cocoa-ink md:text-3xl"
 				>
 					{t.ctaHeading}
 				</h2>
-				<p class="mx-auto mb-8 max-w-md leading-relaxed text-[#6C3F31]">
+				<p class="mx-auto mb-8 max-w-md leading-relaxed text-cocoa-deep">
 					{t.ctaBody}
 				</p>
 				<div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
 					<a
 						href="/auth/register"
-						class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#F06292] px-7 py-4 font-black text-white no-underline shadow-lg transition-all hover:-translate-y-0.5 hover:bg-[#D81B60] sm:w-auto"
+						class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-mochi-pink px-7 py-4 font-black text-white no-underline shadow-lg transition-all hover:-translate-y-0.5 hover:bg-mochi-pink-deep sm:w-auto"
 					>
 						{t.ctaCreateAccount}
 					</a>
 					<a
 						href="/flow"
-						class="inline-flex w-full items-center justify-center rounded-2xl border border-[#875F42]/25 px-7 py-4 font-black text-[#6C3F31] no-underline transition-all hover:border-[#F06292]/40 hover:bg-[#FFF5F7] hover:text-[#F06292] sm:w-auto"
+						class="inline-flex w-full items-center justify-center rounded-2xl border border-cocoa-milk/25 px-7 py-4 font-black text-cocoa-deep no-underline transition-all hover:border-mochi-pink/40 hover:bg-mochi-blush hover:text-mochi-pink sm:w-auto"
 					>
 						{t.ctaTryFree}
 					</a>
 				</div>
-				<p class="mt-6 text-xs text-[#6C3F31]/60">
+				<p class="mt-6 text-xs text-cocoa-deep/60">
 					{t.ctaContactBefore}
-					<a href="mailto:hello@mochify.app" class="font-semibold text-[#F06292] hover:underline"
+					<a href="mailto:hello@mochify.app" class="font-semibold text-mochi-pink hover:underline"
 						>hello@mochify.app</a
 					>{t.ctaContactAfter}
 				</p>

@@ -18,12 +18,12 @@
 	class="back-to-top group fixed right-8 bottom-8 z-[9999] flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border-2 border-pink-100 bg-white/90 no-underline shadow-lg shadow-pink-100/50 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-pink-200 active:scale-95"
 >
 	<div
-		class="absolute inset-0 rounded-full bg-[#FFF0F3] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+		class="absolute inset-0 rounded-full bg-mochi-strawberry opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 		aria-hidden="true"
 	></div>
 
 	<svg
-		class="relative z-10 h-6 w-6 text-[#8B5E51] transition-colors duration-300 group-hover:text-[#D81B60]"
+		class="relative z-10 h-6 w-6 text-[#8B5E51] transition-colors duration-300 group-hover:text-mochi-pink-deep"
 		fill="none"
 		stroke="currentColor"
 		viewBox="0 0 24 24"

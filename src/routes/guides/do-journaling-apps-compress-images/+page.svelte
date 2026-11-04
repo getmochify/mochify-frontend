@@ -86,30 +86,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Journaling Apps" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · {metadata.date}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Most journaling apps do little to nothing useful with your images. Some resize slightly, some convert formats in ways that actually increase file size, and none give you real control over compression. Your journal grows - and your storage shrinks.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-cocoa-deep">
                 <strong>Published May 2026 by the Mochify Engineering Team.</strong> This guide covers how Day One, Apple Journal, GoodNotes, and others handle photo storage - and how to compress before you attach.
             </p>
         </div>
@@ -174,7 +174,7 @@
 
             <p class="mb-4">The pattern is consistent: apps either skip compression or apply it in ways that backfire. Day One's HEIC-to-JPEG conversion is a textbook example of a format "fix" that doubles your file sizes instead of shrinking them.</p>
 
-            <div class="bg-[#FFF5F7] rounded-2xl border border-pink-100 p-6 flex gap-4 items-start">
+            <div class="bg-mochi-blush rounded-2xl border border-pink-100 p-6 flex gap-4 items-start">
                 <div class="w-10 h-10 shrink-0 bg-pink-100 rounded-xl border border-pink-200 flex items-center justify-center text-lg">💡</div>
                 <div>
                     <p class="text-xs font-bold uppercase tracking-wider text-mochi-pink mb-2">Worth knowing</p>
@@ -232,9 +232,9 @@
             </ol>
 
             <!-- CTA -->
-            <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-8">
+            <div class="bg-mochi-blush rounded-3xl border border-pink-100 p-8">
                 <p class="text-cocoa-deep leading-relaxed mb-6">Compress now - keep journaling forever. Drag your journal photos into Mochify and type <em>"convert to WebP at 80% quality, strip EXIF data"</em>. In-memory processing, zero retention, no account required.</p>
-                <a href="https://mochify.app" class="inline-block bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white font-black text-sm rounded-2xl px-6 py-3 shadow-[0_4px_16px_rgba(240,98,146,0.3)] hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] hover:-translate-y-0.5 transition-all no-underline">
+                <a href="https://mochify.app" class="inline-block bg-gradient-to-br from-mochi-pink-light to-mochi-pink text-white font-black text-sm rounded-2xl px-6 py-3 shadow-[0_4px_16px_rgba(240,98,146,0.3)] hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)] hover:-translate-y-0.5 transition-all no-underline">
                     Try it free at mochify.app
                 </a>
             </div>

@@ -22,22 +22,22 @@
             
             <div class="mb-6 flex flex-col items-center">
                 <Mochi class="mb-4 w-36 md:w-44" />
-                <span class="text-[#F06292] font-bold tracking-widest uppercase text-sm mb-2">Error {$page.status}</span>
-                <h1 class="text-3xl md:text-5xl font-extrabold text-[#4A2C2C]">
+                <span class="text-mochi-pink font-bold tracking-widest uppercase text-sm mb-2">Error {$page.status}</span>
+                <h1 class="text-3xl md:text-5xl font-extrabold text-cocoa-ink">
                     Oops! squished it.
                 </h1>
             </div>
 
-            <p class="text-xl text-[#875F42] leading-relaxed mb-10 max-w-md mx-auto">
+            <p class="text-xl text-cocoa-milk leading-relaxed mb-10 max-w-md mx-auto">
                 We couldn't find the page you're looking for. It might have been compressed into oblivion (or just moved).
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#F06292] hover:bg-[#ec407a] text-white font-black rounded-2xl shadow-lg hover:-translate-y-1 transition-all duration-300 no-underline">
+                <a href="/" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-mochi-pink hover:bg-[#ec407a] text-white font-black rounded-2xl shadow-lg hover:-translate-y-1 transition-all duration-300 no-underline">
                     Back to Optimizer
                 </a>
                 
-                <a href="/guides" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#FFF0F3] hover:bg-[#FFE5EC] text-[#BE185D] font-bold rounded-2xl border border-pink-100 transition-all duration-300 no-underline">
+                <a href="/guides" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-mochi-strawberry hover:bg-[#FFE5EC] text-mochi-pink-ink font-bold rounded-2xl border border-pink-100 transition-all duration-300 no-underline">
                     Read Our Guides
                 </a>
             </div>

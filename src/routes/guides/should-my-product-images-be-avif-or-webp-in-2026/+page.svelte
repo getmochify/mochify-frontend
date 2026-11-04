@@ -78,31 +78,31 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="AVIF or WebP" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · {metadata.date}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             If you're running a standard Shopify storefront, the answer is neither, manually. Shopify's CDN has negotiated image format automatically since 2022, detecting what each visitor's browser supports and serving AVIF, WebP, or JPEG per request. Upload the best master image you have and let Shopify handle delivery. Manual AVIF/WebP conversion earns its keep once you step outside Shopify's native delivery path.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published August 14, 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published August 14, 2026 by the Mochify Engineering Team.</strong>
                 A quick answer for sellers deciding whether to pre-convert product photos, or simply upload a good master and let the platform handle format delivery.
             </p>
         </div>
@@ -123,9 +123,9 @@
         <section id="when-to-convert-manually" class="scroll-mt-24">
             <SectionHeading>When to convert manually</SectionHeading>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Headless or custom storefronts</strong>, where Shopify's automatic CDN negotiation isn't the delivery mechanism.</li>
-                <li><strong class="text-[#4A2C2C]">Off-Shopify channels</strong>: external CDNs, marketplaces, and marketing assets that never touch Shopify's image pipeline.</li>
-                <li><strong class="text-[#4A2C2C]">Email and social exports</strong>, where the receiving client won't negotiate AVIF/WebP the way a browser does.</li>
+                <li><strong class="text-cocoa-ink">Headless or custom storefronts</strong>, where Shopify's automatic CDN negotiation isn't the delivery mechanism.</li>
+                <li><strong class="text-cocoa-ink">Off-Shopify channels</strong>: external CDNs, marketplaces, and marketing assets that never touch Shopify's image pipeline.</li>
+                <li><strong class="text-cocoa-ink">Email and social exports</strong>, where the receiving client won't negotiate AVIF/WebP the way a browser does.</li>
             </ul>
             <p>For any of these, you don't need to pick settings by hand. In Mochify's Magic Flow, you'd type something like "convert these product photos to AVIF, with a WebP fallback for older browsers," and the two-step pipeline (a language model reads the prompt, the C++ engine executes it) handles the pairing.</p>
 

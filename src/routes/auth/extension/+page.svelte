@@ -39,7 +39,7 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="flex min-h-screen flex-col bg-[#FDFBF7]">
+<div class="flex min-h-screen flex-col bg-mochi-bg">
 	<Navigation />
 
 	<main class="flex flex-grow items-start justify-center px-4 pt-16 pb-12">
@@ -47,16 +47,16 @@
 			{#if sent}
 				<!-- Success: key delivered to extension -->
 				<div class="text-center">
-					<div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#A5D6A7]/30">
+					<div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-matcha-green/30">
 						<svg class="h-8 w-8 text-[#2E5C31]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
 							<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 						</svg>
 					</div>
-					<h1 class="mb-2 text-3xl font-black tracking-tight text-[#4A2C2C]">You're in</h1>
-					<p class="text-sm text-[#875F42]/70">
+					<h1 class="mb-2 text-3xl font-black tracking-tight text-cocoa-ink">You're in</h1>
+					<p class="text-sm text-cocoa-milk/70">
 						The extension is authorized. You can close this tab and start right-clicking images.
 					</p>
-					<p class="mt-6 text-xs text-[#875F42]/40">You can close this tab.</p>
+					<p class="mt-6 text-xs text-cocoa-milk/40">You can close this tab.</p>
 				</div>
 
 			{:else if sendError}
@@ -67,20 +67,20 @@
 							<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126z" />
 						</svg>
 					</div>
-					<h1 class="mb-2 text-2xl font-black tracking-tight text-[#4A2C2C]">Extension not found</h1>
-					<p class="mb-4 text-sm text-[#875F42]/70">
+					<h1 class="mb-2 text-2xl font-black tracking-tight text-cocoa-ink">Extension not found</h1>
+					<p class="mb-4 text-sm text-cocoa-milk/70">
 						Your API key was generated but couldn't be sent to the extension automatically. Make sure the
 						Mochify extension is installed in this browser, then try again.
 					</p>
 					<a href="/auth/extension?ext={data.extId}"
-						class="text-sm font-bold text-[#F06292] hover:underline">Try again →</a>
+						class="text-sm font-bold text-mochi-pink hover:underline">Try again →</a>
 				</div>
 
 			{:else}
 				<div class="mb-8 text-center">
-					<h1 class="mb-1 text-3xl font-black tracking-tight text-[#4A2C2C]">Authorize Extension</h1>
-					<p class="text-sm text-[#875F42]/70">
-						Signed in as <span class="font-semibold text-[#4A2C2C]">{data.user.email}</span>
+					<h1 class="mb-1 text-3xl font-black tracking-tight text-cocoa-ink">Authorize Extension</h1>
+					<p class="text-sm text-cocoa-milk/70">
+						Signed in as <span class="font-semibold text-cocoa-ink">{data.user.email}</span>
 					</p>
 				</div>
 
@@ -91,7 +91,7 @@
 						</div>
 					{/if}
 
-					<p class="mb-5 text-sm text-[#875F42]/80">
+					<p class="mb-5 text-sm text-cocoa-milk/80">
 						This will grant the Mochify Chrome extension access to your account so you can compress images by right-clicking them on any page.
 					</p>
 
@@ -116,16 +116,16 @@
 						<button
 							type="submit"
 							disabled={loading}
-							class="w-full rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] py-3 text-sm font-black tracking-wide text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
+							class="w-full rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink py-3 text-sm font-black tracking-wide text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
 						>
 							{loading ? 'Authorizing…' : 'Authorize Mochify Extension'}
 						</button>
 					</form>
 
-					<p class="mt-5 text-center text-xs text-[#875F42]/50">
+					<p class="mt-5 text-center text-xs text-cocoa-milk/50">
 						Not you?
 						<a href="/auth/login?next={encodeURIComponent('/auth/extension?ext=' + data.extId)}"
-							class="font-bold text-[#F06292] hover:underline">Sign in with a different account</a>
+							class="font-bold text-mochi-pink hover:underline">Sign in with a different account</a>
 					</p>
 				</div>
 			{/if}

@@ -118,34 +118,34 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Mochify vs TinyPNG" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
 		</p>
 
-        <div class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90 space-y-4">
-            <p><strong class="text-[#4A2C2C]">TinyPNG is the most recognizable name in image compression, and if all you need is dragging a few PNGs onto a page, it's genuinely good at that.</strong> Mochify is the better fit when you need larger files on a free plan, format conversion beyond the basics, natural-language control, background removal, video, PDFs, or an official CLI and MCP server for automated and AI-agent workflows.</p>
+        <div class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90 space-y-4">
+            <p><strong class="text-cocoa-ink">TinyPNG is the most recognizable name in image compression, and if all you need is dragging a few PNGs onto a page, it's genuinely good at that.</strong> Mochify is the better fit when you need larger files on a free plan, format conversion beyond the basics, natural-language control, background removal, video, PDFs, or an official CLI and MCP server for automated and AI-agent workflows.</p>
             <p>The deeper difference is generational: TinyPNG was built for the pre-AI web and does one thing automatically, while Mochify was built in the age of AI, and its defining features (plain-English control, AI background removal, saliency-guided cropping, agent-native surfaces) only exist because of it.</p>
             <p>The two products also treat your files differently after upload: TinyPNG stores them for up to 48 hours; Mochify wipes them from memory the moment encoding finishes.</p>
             <p>This comparison covers all of it, with every TinyPNG claim checked against Tinify's own live pages in July 2026. Where TinyPNG wins, we say so.</p>
         </div>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published July 21, 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published July 21, 2026 by the Mochify Engineering Team.</strong>
             </p>
         </div>
     </header>
@@ -170,11 +170,11 @@
             <SectionHeading>Where TinyPNG wins</SectionHeading>
             <p>Credit where due. TinyPNG has real advantages, and pretending otherwise would make everything else on this page less believable.</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Brand trust and scale.</strong> <a href="https://tinify.com/developers" target="_blank" rel="noopener noreferrer">Tinify's live counter</a> shows more than 6.5 billion images compressed, and its customer wall includes Airbnb, Microsoft, and Samsung. When you recommend TinyPNG to a client, nobody asks what it is.</li>
-                <li><strong class="text-[#4A2C2C]">Frictionless free sessions.</strong> The free tool takes 20 images per session with no signup. Mochify allows 3 images a month with no signup (25 per month with a free account). For batch-compressing small web assets without an account, TinyPNG is more generous.</li>
-                <li><strong class="text-[#4A2C2C]">Cheapest unlimited web compression.</strong> Tinify has published pricing of roughly $39 per year for Web Pro, which removes compression limits entirely and raises the file cap to 75MB. If your only need is high-volume web compression in a browser tab, that undercuts Mochify's Seller tier, and we're not going to pretend otherwise. Web Ultra (~$149/yr) goes to 150MB files, above Mochify's 75MB ceiling.</li>
-                <li><strong class="text-[#4A2C2C]">A big, mature ecosystem.</strong> Official WordPress and Figma plugins, six official API client libraries, direct save to Amazon S3 and Google Cloud Storage, around 50 community integrations, and a separate image CDN product. (One caveat: the well-known Photoshop plugin is officially deprecated, per Tinify's own notice.)</li>
-                <li><strong class="text-[#4A2C2C]">A generous API free tier.</strong> 500 free compressions per month, no payment method required.</li>
+                <li><strong class="text-cocoa-ink">Brand trust and scale.</strong> <a href="https://tinify.com/developers" target="_blank" rel="noopener noreferrer">Tinify's live counter</a> shows more than 6.5 billion images compressed, and its customer wall includes Airbnb, Microsoft, and Samsung. When you recommend TinyPNG to a client, nobody asks what it is.</li>
+                <li><strong class="text-cocoa-ink">Frictionless free sessions.</strong> The free tool takes 20 images per session with no signup. Mochify allows 3 images a month with no signup (25 per month with a free account). For batch-compressing small web assets without an account, TinyPNG is more generous.</li>
+                <li><strong class="text-cocoa-ink">Cheapest unlimited web compression.</strong> Tinify has published pricing of roughly $39 per year for Web Pro, which removes compression limits entirely and raises the file cap to 75MB. If your only need is high-volume web compression in a browser tab, that undercuts Mochify's Seller tier, and we're not going to pretend otherwise. Web Ultra (~$149/yr) goes to 150MB files, above Mochify's 75MB ceiling.</li>
+                <li><strong class="text-cocoa-ink">A big, mature ecosystem.</strong> Official WordPress and Figma plugins, six official API client libraries, direct save to Amazon S3 and Google Cloud Storage, around 50 community integrations, and a separate image CDN product. (One caveat: the well-known Photoshop plugin is officially deprecated, per Tinify's own notice.)</li>
+                <li><strong class="text-cocoa-ink">A generous API free tier.</strong> 500 free compressions per month, no payment method required.</li>
             </ul>
         </section>
 
@@ -182,11 +182,11 @@
             <SectionHeading>Where Mochify wins</SectionHeading>
             <p>One thread runs through this list: Mochify was built in the age of AI, and most of what separates it from TinyPNG is AI doing work that settings panels and manual editing used to do. A language model interpreting your intent, saliency models deciding where to crop, AI background removal on every tier, and surfaces designed for AI agents to call directly. Worth saying plainly: what AI can usefully do inside an image pipeline is still in its early days, and this list is the tip of the iceberg, not the finished shape of the product.</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Free tier handles real photos.</strong> TinyPNG's free tool caps files at 5MB; a modern phone photo or any camera JPEG regularly exceeds that. Mochify's free tier accepts files up to 20MB (75MB on paid tiers) - see <a href="/guides/photo-file-too-large-to-upload">why free-tier file-size caps reject camera files</a> for how those numbers stack up against actual camera output.</li>
-                <li><strong class="text-[#4A2C2C]">You control the result.</strong> TinyPNG exposes no quality settings anywhere; the web tool and API are fully automatic (we verified the complete API reference: there is no quality parameter). That's a feature for simplicity and a limitation the moment you need something specific. Mochify's primary interface is Magic Flow: describe the outcome ("convert these to AVIF, keep them under 300KB, strip all metadata") and a language model parses the request before the C++ engine executes it.</li>
-                <li><strong class="text-[#4A2C2C]">Broader format and capability coverage.</strong> TinyPNG compresses and converts AVIF, WebP, JPEG, and PNG, with JPEG XL available only in its in-browser converter, not the API. Mochify treats JPEG XL as a first-class format on every surface, outputs JPEG through Google's jpegli encoder for better quality-per-byte, and accepts HEIC uploads. Beyond images: background removal is included on every Mochify tier including Free (TinyPNG has none), Mochify's web app converts and compresses video entirely in the browser (TinyPNG has no video tooling), and Mochify's PDF utility extracts pages as images and splits multi-page PDFs (no TinyPNG equivalent). Our <a href="https://mochify.app/guides/converting-images-to-jpeg-xl">JPEG XL conversion guide</a> and <a href="https://mochify.app/guides/jpeg-in-2026-jpegli">jpegli deep-dive</a> cover the format side in detail.</li>
-                <li><strong class="text-[#4A2C2C]">Metadata control on every surface.</strong> TinyPNG strips metadata by default and lets you preserve copyright, creation date, or location only through the API, opt-in, JPEG only. With Mochify you state metadata handling in the prompt on any surface ("compress these and strip all metadata"), which makes the behavior explicit where you can see it.</li>
-                <li><strong class="text-[#4A2C2C]">An official CLI and MCP server.</strong> For automation and AI-agent workflows, this is the structural difference; the <a href="#developers-and-ai-agents">developer section below</a> covers it.</li>
+                <li><strong class="text-cocoa-ink">Free tier handles real photos.</strong> TinyPNG's free tool caps files at 5MB; a modern phone photo or any camera JPEG regularly exceeds that. Mochify's free tier accepts files up to 20MB (75MB on paid tiers) - see <a href="/guides/photo-file-too-large-to-upload">why free-tier file-size caps reject camera files</a> for how those numbers stack up against actual camera output.</li>
+                <li><strong class="text-cocoa-ink">You control the result.</strong> TinyPNG exposes no quality settings anywhere; the web tool and API are fully automatic (we verified the complete API reference: there is no quality parameter). That's a feature for simplicity and a limitation the moment you need something specific. Mochify's primary interface is Magic Flow: describe the outcome ("convert these to AVIF, keep them under 300KB, strip all metadata") and a language model parses the request before the C++ engine executes it.</li>
+                <li><strong class="text-cocoa-ink">Broader format and capability coverage.</strong> TinyPNG compresses and converts AVIF, WebP, JPEG, and PNG, with JPEG XL available only in its in-browser converter, not the API. Mochify treats JPEG XL as a first-class format on every surface, outputs JPEG through Google's jpegli encoder for better quality-per-byte, and accepts HEIC uploads. Beyond images: background removal is included on every Mochify tier including Free (TinyPNG has none), Mochify's web app converts and compresses video entirely in the browser (TinyPNG has no video tooling), and Mochify's PDF utility extracts pages as images and splits multi-page PDFs (no TinyPNG equivalent). Our <a href="https://mochify.app/guides/converting-images-to-jpeg-xl">JPEG XL conversion guide</a> and <a href="https://mochify.app/guides/jpeg-in-2026-jpegli">jpegli deep-dive</a> cover the format side in detail.</li>
+                <li><strong class="text-cocoa-ink">Metadata control on every surface.</strong> TinyPNG strips metadata by default and lets you preserve copyright, creation date, or location only through the API, opt-in, JPEG only. With Mochify you state metadata handling in the prompt on any surface ("compress these and strip all metadata"), which makes the behavior explicit where you can see it.</li>
+                <li><strong class="text-cocoa-ink">An official CLI and MCP server.</strong> For automation and AI-agent workflows, this is the structural difference; the <a href="#developers-and-ai-agents">developer section below</a> covers it.</li>
             </ul>
         </section>
 
@@ -242,7 +242,7 @@
                     </tbody>
                 </table>
             </GuideTable>
-            <p class="text-sm text-[#875F42]">Prices are USD; the <a href="/pricing">pricing page</a> shows your local currency.</p>
+            <p class="text-sm text-cocoa-milk">Prices are USD; the <a href="/pricing">pricing page</a> shows your local currency.</p>
             <p>Read that table both ways. If you compress hundreds of sub-5MB images a month in a browser and need nothing else, TinyPNG Web Pro is the better deal, full stop. Mochify's tiers price in the capabilities rather than raw compression volume: every tier, including Free, carries Magic Flow, background removal, MCP and API access, and the full format set. TinyPNG meters its API per compression ($0.009 each after the free 500, with resize and convert each counting as an extra compression); Mochify's API and MCP draw from the same monthly quota as everything else, with no per-operation billing.</p>
             <p>TinyPNG's published prices were checked against Tinify's own pages in July 2026 but are theirs to change; verify current figures on their site before deciding on price alone.</p>
         </section>
@@ -333,40 +333,40 @@
         </section>
 
         <!-- Workflow card -->
-        <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: test both on your own images</h2>
+        <section id="mochify-workflow" class="scroll-mt-24 bg-mochi-blush rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
+            <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mt-0 mb-4">Mochify Workflow: test both on your own images</h2>
             <p class="text-base mb-7">Benchmarks on other people's images prove little. The honest test takes five minutes with your own.</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Pick a representative batch</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Pick a representative batch</strong>
                         <p class="text-base m-0">A few real files from your actual workflow, ideally including one over 5MB, one PNG with fine detail, and one photo where quality matters.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Run them through TinyPNG</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Run them through TinyPNG</strong>
                         <p class="text-base m-0">Note what comes back: file sizes, visual quality, and what happened with the over-5MB file on the free tool.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Run the same files through Mochify</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Run the same files through Mochify</strong>
                         <p class="text-base m-0">At <a href="https://mochify.app">mochify.app</a>, prompt: "Compress these for the web, keep visible quality, strip all metadata." Compare sizes and quality side by side; our <a href="https://mochify.app/comparison">quality comparison tool</a> shows the before/after at pixel level.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Test the thing TinyPNG can't do</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Test the thing TinyPNG can't do</strong>
                         <p class="text-base m-0">Try "remove the background and export as transparent WebP" on a product shot, or drop in a HEIC straight off a phone.</p>
                     </div>
                 </li>
             </ol>
-            <p class="text-base text-[#875F42] mt-7 mb-0">Privacy note for the test and everything after: images and PDFs travel over HTTPS to <code class={inlineCode}>api.mochify.app</code>, are processed in RAM, and are wiped immediately after encoding, with no disk writes and no logs containing file data. Video runs entirely in your browser and never leaves your device.</p>
+            <p class="text-base text-cocoa-milk mt-7 mb-0">Privacy note for the test and everything after: images and PDFs travel over HTTPS to <code class={inlineCode}>api.mochify.app</code>, are processed in RAM, and are wiped immediately after encoding, with no disk writes and no logs containing file data. Video runs entirely in your browser and never leaves your device.</p>
         </section>
 
         <!-- FAQ -->

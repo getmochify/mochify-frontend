@@ -164,25 +164,25 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
 	<header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category} · Guide
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Remove Objects" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
 			The quickest way to remove a small object from a photo you took, the bin behind the bike you
 			are selling, a cable across a wall, a stranger at the edge of a vacation photo, is to ask the
 			AI assistant you already have open: <em>"remove the cone on the curb and fill in the background"</em>.
@@ -192,7 +192,7 @@
 			file. The same route changes an object's color while keeping every fold and highlight:
 			<em>"make the cushion navy and keep the shading"</em>.
 		</p>
-		<p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+		<p class="mt-5 mb-0 text-lg leading-relaxed text-cocoa-deep">
 			Why not just ask the chatbot to do the whole job? Because the photo a chatbot edits is not the
 			photo you attached: its upload step has already thrown away most of the pixels and all of the
 			metadata, and whatever comes back comes out of its own image model. The MCP route splits the
@@ -200,7 +200,7 @@
 			full size, inside the box and nowhere else. The measurements are in
 			<a href="#why-not-the-chatbot">Why not let the assistant do the whole thing?</a>.
 		</p>
-		<p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+		<p class="mt-5 mb-0 text-lg leading-relaxed text-cocoa-deep">
 			This guide shows erase and recolor with real runs made on October 19, 2026, including the two
 			that did not come out clean, because the honest version of object removal is more useful than
 			the demo version. It covers what erase is for and what it must never be used for, how to brief
@@ -208,9 +208,9 @@
 			anyone doing this in bulk.
 		</p>
 
-		<div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-			<p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-				<strong class="text-[#4A2C2C]"
+		<div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+			<p class="m-0 text-base leading-relaxed text-cocoa-deep">
+				<strong class="text-cocoa-ink"
 					>Published {metadata.date} by the Mochify Engineering Team.</strong
 				>
 				{metadata.bylineNote}
@@ -848,7 +848,7 @@
 					</li>
 				</ol>
 			</GlassPanel>
-			<p class="mt-6 mb-4 text-base leading-relaxed text-[#875F42]">
+			<p class="mt-6 mb-4 text-base leading-relaxed text-cocoa-milk">
 				Privacy note for this workflow: the photo travels to <code>api.mochify.app</code> for the edit and
 				the encode, is processed in RAM and wiped immediately, and the finished file sits in the hosted MCP
 				pickup store for about five minutes; the assistant only ever receives the download URL. The

@@ -73,25 +73,25 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
     
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title="Self-Hosting Image Optimization: A Guide to Mochify-Lite on Docker" accent="Self-Hosting Image Optimization" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Want to do your own image compression without relying on third-party services? This guide walks you through setting up Mochify-Lite, a powerful open-source image optimization tool, on Docker. Perfect for developers and privacy-conscious users who want full control over their image processing. 
         </p>
     </header>
@@ -105,22 +105,22 @@
         <section id="docker-pull" class="scroll-mt-24">
             <SectionHeading>Pulling the Image from Docker Hub</SectionHeading>
             <p class="mb-6">
-                Setting up Mochify-Lite is straightforward because it is containerized. Since it is hosted on <a href="https://hub.docker.com/r/mochify/mochify-lite" class="text-[#F06292] font-bold underline decoration-2 decoration-[#FFB3C6] underline-offset-4 hover:text-[#ec407a] hover:decoration-[#F06292] hover:bg-[#FFF0F3] hover:rounded transition-colors">Docker Hub</a>, you can pull the image and have the engine running in seconds.
+                Setting up Mochify-Lite is straightforward because it is containerized. Since it is hosted on <a href="https://hub.docker.com/r/mochify/mochify-lite" class="text-mochi-pink font-bold underline decoration-2 decoration-mochi-pink-soft underline-offset-4 hover:text-[#ec407a] hover:decoration-mochi-pink hover:bg-mochi-strawberry hover:rounded transition-colors">Docker Hub</a>, you can pull the image and have the engine running in seconds.
             </p>
             <p class="mb-6">
                 To run the engine with optimal security and performance settings, use the following command. This configuration runs the container in the background, maps the necessary ports, and secures the environment:
             </p>
             <CodeCard filename="docker" code={`docker run -d --name mochify-lite -p 5555:5555 --read-only --tmpfs /app/temp_ram_buffer:rw,size=64m,mode=1777 --security-opt=no-new-privileges mochify/mochify-lite:latest`} />
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Understanding the Configuration</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">Understanding the Configuration</h3>
             <p class="mb-6">If you are new to Docker, here is a quick breakdown of what these flags are doing:</p>
-            <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
+            <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-mochi-pink">
                 <li><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">-d:</code> Runs the container in "detached" mode (in the background).</li>
                 <li><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">-p 5555:5555:</code> Maps port 5555 of the container to port 5555 on your local machine. This is the gateway to the compression API.</li>
                 <li><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">--read-only:</code> A security best practice that makes the container's root filesystem immutable, preventing accidental or malicious changes.</li>
                 <li><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">--tmpfs:</code> Since the filesystem is read-only, this creates a small, fast 64MB buffer in RAM for the engine to process images temporarily.</li>
                 <li><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">--security-opt=no-new-privileges:</code> Prevents the container processes from gaining additional privileges, adding an extra layer of security.</li>
             </ul>
-            <p>Once the command finishes, your local image compression engine is live and ready to receive requests at <code>http://localhost:5555</code>. Further example configuration can be found on <a href="https://github.com/tliesnham/mochify-docker" class="text-[#F06292] font-bold underline decoration-2 decoration-[#FFB3C6] underline-offset-4 hover:text-[#ec407a] hover:decoration-[#F06292] hover:bg-[#FFF0F3] hover:rounded transition-colors">GitHub</a>.</p>
+            <p>Once the command finishes, your local image compression engine is live and ready to receive requests at <code>http://localhost:5555</code>. Further example configuration can be found on <a href="https://github.com/tliesnham/mochify-docker" class="text-mochi-pink font-bold underline decoration-2 decoration-mochi-pink-soft underline-offset-4 hover:text-[#ec407a] hover:decoration-mochi-pink hover:bg-mochi-strawberry hover:rounded transition-colors">GitHub</a>.</p>
         </section>
 
         <section id="using-the-api" class="scroll-mt-24">
@@ -132,7 +132,7 @@
                 The engine uses libjpeg-turbo and libpng under the hood, industry-standard libraries known for their balance of high speed and surgical precision.
             </p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">How to "Squish" an Image</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">How to "Squish" an Image</h3>
 
             <p class="mb-6">
                 The primary endpoint is <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">/v1/squish</code>. It accepts standard image formats (JPEG and PNG) up to 10MB in size. To optimize an image, you simply POST the binary data to your local endpoint:
@@ -198,7 +198,7 @@
                         </table>
                     </GuideTable>
 
-                <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-4">Why the Full Engine Matters: Jpegli and JXL</h3>
+                <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-4">Why the Full Engine Matters: Jpegli and JXL</h3>
 
                 <p class="mb-6">
                     The most significant difference in the full version is the switch to Jpegli. Developed by Google, Jpegli is a newer library that produces JPEGs that are significantly more compressed (often 30% smaller) than standard libraries while remaining 100% compatible with existing browsers and viewers.
@@ -209,7 +209,7 @@
             </div>
         </section>
             
-        <div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow"><div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div> <div class="relative z-10 mb-6"><span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">Free Tool</span></div> <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">Ready to convert your images?</h3> <p class="text-[#6C3F31] text-lg max-w-2xl mx-auto relative z-10 mb-8 leading-relaxed">Try Mochify's zero-retention WebP and AVIF converters - no accounts, no plugins, no stored files. Process in-memory with C++ engine speed, then upload directly to your site or marketplace.</p> <a href="https://mochify.app" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline"><span>Start Optimizing</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg></a></div>
+        <div class="my-12 bg-mochi-blush p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow"><div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div> <div class="relative z-10 mb-6"><span class="inline-block px-3 py-1 rounded-full bg-white text-mochi-pink text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">Free Tool</span></div> <h3 class="text-2xl md:text-3xl font-extrabold text-cocoa-ink relative z-10 mb-3 flex items-center justify-center gap-3">Ready to convert your images?</h3> <p class="text-cocoa-deep text-lg max-w-2xl mx-auto relative z-10 mb-8 leading-relaxed">Try Mochify's zero-retention WebP and AVIF converters - no accounts, no plugins, no stored files. Process in-memory with C++ engine speed, then upload directly to your site or marketplace.</p> <a href="https://mochify.app" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline"><span>Start Optimizing</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg></a></div>
 
         <RelatedGuidesGrid guides={related} />
 

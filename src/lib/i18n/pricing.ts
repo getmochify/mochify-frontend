@@ -150,7 +150,7 @@ export const EN_PRICING: PricingStrings = {
 	everythingInPro: 'Everything in Pro, plus:',
 	sellerFeatures: [
 		'<strong>300 images</strong> per month',
-		'<strong>Erase &amp; recolor</strong> objects <span class="text-[#6C3F31]/50">(beta)</span>',
+		'<strong>Erase &amp; recolor</strong> objects <span class="text-cocoa-deep/50">(beta)</span>',
 		'<strong>Full PDF toolkit:</strong> compress, extract, split',
 		'Save straight to <strong>Google Drive</strong> or your own bucket',
 		'<strong>75MB</strong> files, <strong>25</strong> per batch',
@@ -164,8 +164,8 @@ export const EN_PRICING: PricingStrings = {
 	],
 	growthFeatures: [
 		'<strong>5,000 images</strong> per month',
-		'<strong>PDFs up to 200 pages</strong> <span class="text-[#6C3F31]/50">(others cap at 10)</span>',
-		'<strong>Build PDFs from 200 images</strong> <span class="text-[#6C3F31]/50">(others cap at 10)</span>'
+		'<strong>PDFs up to 200 pages</strong> <span class="text-cocoa-deep/50">(others cap at 10)</span>',
+		'<strong>Build PDFs from 200 images</strong> <span class="text-cocoa-deep/50">(others cap at 10)</span>'
 	],
 	freeFeatures: [
 		'<strong>25 images</strong> per month',
@@ -212,9 +212,9 @@ export const EN_PRICING: PricingStrings = {
 	tblBatchUpload: 'Batch upload',
 	tblQueue: 'Processing queue',
 	tblPdfTools:
-		'PDF tools <span class="text-[#6C3F31]/50 text-xs">(compress, extract, rasterize, split, images→PDF)</span>',
+		'PDF tools <span class="text-cocoa-deep/50 text-xs">(compress, extract, rasterize, split, images→PDF)</span>',
 	tblOwnStorage:
-		'Save to your own storage <span class="text-[#6C3F31]/50 text-xs">(Google Drive, or S3 / R2 / S3-compatible)</span>',
+		'Save to your own storage <span class="text-cocoa-deep/50 text-xs">(Google Drive, or S3 / R2 / S3-compatible)</span>',
 	tblPerMonth: (n) => `${n.toLocaleString('en-US')} / month`,
 	tblFiles: (n) => `${n} files`,
 	tblQueueStandard: 'Standard',

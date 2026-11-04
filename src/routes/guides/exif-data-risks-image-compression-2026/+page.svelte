@@ -130,30 +130,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
     
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="EXIF Data Risks" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             A photographer's geotag led to a significant <a href="https://www.dsgvo-portal.de/gdpr-fines/gdpr-fine-against-digital-photo-image-2024-12-05-ES-4031.php">GDPR fine in Germany</a>. The culprit? EXIF metadata leaking GPS coordinates in a routine property photo. This isn't an edge case anymore.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-cocoa-deep">
                 We've built Mochify's compression engine to strip EXIF data by default during every batch process, protecting you from privacy leaks that persist even after aggressive file-size reduction.
             </p>
         </div>
@@ -166,10 +166,10 @@
         </section>
 
         <section id="understanding-exif" class="scroll-mt-24">
-             <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">Understanding EXIF Metadata</h2>
+             <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mb-4">Understanding EXIF Metadata</h2>
              <p class="mb-4">EXIF (Exchangeable Image File Format) data is invisible metadata your camera or phone embeds in every photo. Think of it as a digital fingerprint that travels with your image file.</p>
              <p class="mb-4">Most smartphone photos carry these metadata fields:</p>
-             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
+             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-mochi-pink">
                 <li><strong>GPS coordinates:</strong> Latitude, longitude, and altitude pinpointing exactly where you took the shot accurate within a few meters.</li>
                 <li><strong>Timestamps:</strong> Precise date and time of capture, down to the second.</li>
                 <li><strong>Device identifiers:</strong> Camera make/model, serial numbers, lens specifications.</li>
@@ -181,7 +181,7 @@
         </section>
 
         <section id="why-compression-fails" class="scroll-mt-24">
-             <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">Why Compression Doesn't Remove Privacy Risks</h2>
+             <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mb-4">Why Compression Doesn't Remove Privacy Risks</h2>
              <p class="mb-4">You might assume that running an image through a compressor automatically sanitizes metadata. It doesn't.</p>
              <p class="mb-4">Standard image compression - whether <a href="/">JPEG</a>, <a href="/">WebP</a>, or <a href="/">AVIF</a> - targets pixel data and color information to reduce file size. EXIF metadata lives in a separate data structure within the file container. Most compression tools optimize the image payload but copy the EXIF block unchanged from input to output.</p>
              <p class="mb-4"><strong>Result:</strong> Your 5MB photo becomes 400KB, but the GPS coordinates revealing your home address remain intact.</p>
@@ -189,10 +189,10 @@
         </section>
 
         <section id="privacy-impacts" class="scroll-mt-24">
-             <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">EXIF Privacy Impacts: GDPR & ICO Compliance - Global Compliance Benefits</h2>
+             <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mb-4">EXIF Privacy Impacts: GDPR & ICO Compliance - Global Compliance Benefits</h2>
              <p class="mb-4">The <a href="https://gdpr.eu/">General Data Protection Regulation (GDPR)</a> treats EXIF as personal data when it can directly or indirectly identify individuals.</p>
              <p class="mb-4">Under GDPR Article 4, these EXIF fields qualify as protected information:</p>
-             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
+             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-mochi-pink">
                 <li><strong>GPS metadata:</strong> Special category data when revealing racial/ethnic origin, religious beliefs, or political opinions (think photos from places of worship or political rallies).</li>
                 <li><strong>Device serial numbers:</strong> Personal data when linked to owner accounts.</li>
                 <li><strong>Facial recognition coordinates:</strong> Biometric data protections apply if your camera firmware tags faces.</li>
@@ -201,7 +201,7 @@
              <p class="mb-4">Mochify compression tool is hosted in Germany to uphold <a href="https://gdpr.eu">EUGDPR</a> standards, delivering these high-level safeguards to every user worldwide by default. UK users enjoy matching protections via the UK GDPR, which aligns closely with EU rules. Essentially, adhering to these strict standards and with a core philosophy surrounding privacy, benefits all our users worldwide.</p>
              <p class="mb-4">Translation for photographers and agencies: If you're handling client images or user-generated content, failing to strip EXIF creates data residency liability. Mochify's in-memory processing guarantees zero disk retention and automatic metadata removal, keeping you compliant without extra steps.</p>
              <p class="mb-4">Beyond fines, EXIF leaks enable tangible harm:</p>
-             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
+             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-mochi-pink">
                 <li><strong>Stalking/doxxing:</strong> A 2015 report documented domestic violence victims tracked through photo metadata shared on social media.</li>
                 <li><strong>Burglary targeting:</strong> Real estate photographers reported break-ins at properties they'd photographed, with thieves using GPS data to identify vacant homes during staging.</li>
                 <li><strong>Source protection failures:</strong> In 2014, news outlets inadvertently published photos with GPS data revealing confidential meeting locations in conflict zones.</li>
@@ -209,7 +209,7 @@
         </section>
 
         <section id="cheat-sheet" class="scroll-mt-24">
-             <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">EXIF Stripping Cheat Sheet</h2>
+             <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mb-4">EXIF Stripping Cheat Sheet</h2>
              <GuideTable class="my-6">
                 <table>
                     <thead>
@@ -239,10 +239,10 @@
         </section>
 
         <section id="how-mochify-handles" class="scroll-mt-24">
-             <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">How Mochify Handles EXIF During Compression</h2>
+             <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mb-4">How Mochify Handles EXIF During Compression</h2>
              <p class="mb-4">We strip EXIF metadata by default during compression. This isn't a premium feature - it's core to our privacy-first architecture.</p>
              <p class="mb-4">When you upload images to Mochify - whether HEIF, HEIC, JPEG, PNG, WebP, or AVIF - our C++ engine processes them in RAM and outputs clean files with:</p>
-             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
+             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-mochi-pink">
                 <li>All GPS coordinates removed.</li>
                 <li>Device identifiers purged.</li>
                 <li>Timestamps cleared.</li>
@@ -252,14 +252,14 @@
              <p class="mb-4">Your compressed JPEG (encoded with <a href="/guides/jpeg-in-2026-jpegli">Google's jpegli</a> for better efficiency at high quality) or AVIF file contains zero residual metadata. The only data structure left is the optimized pixel information.</p>
              <p class="mb-4">We recognize that professional photographers sometimes need to preserve copyright tags or color profiles for client workflows. That's why our <a href="/solutions/hif-to-jpg">HEIF-to-JPG tool</a> includes an optional "Retain EXIF" checkbox.</p>
              <p class="mb-4 font-bold">How it works:</p>
-             <ol class="list-decimal pl-6 mb-6 space-y-2 marker:text-[#F06292] marker:font-bold">
+             <ol class="list-decimal pl-6 mb-6 space-y-2 marker:text-mochi-pink marker:font-bold">
                 <li>Upload your batch (up to 25 files at once).</li>
                 <li>Check the "Retain EXIF" box if you need metadata preserved.</li>
              </ol>
              <p class="mb-4">This gives you surgical control. Default is still strip - you have to consciously opt in to retain.</p>
              <p class="mb-4">Mochify outputs standard JPEG/JPG files using Google's jpegli encoder. This matters for EXIF handling because jpegli delivers the familiar JPEG result with fewer wasted bytes-up to 35% better compression at high quality - while maintaining 100% interoperability.</p>
              <p class="mb-4">When we strip EXIF from a jpegli-encoded JPEG, you're getting:</p>
-             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
+             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-mochi-pink">
                 <li>Smaller file size from both metadata removal and efficient encoding.</li>
                 <li>Universal compatibility - every device/platform reads standard JPEG.</li>
                 <li>Zero new-format headaches.</li>
@@ -268,17 +268,17 @@
         </section>
 
          <section id="use-cases" class="scroll-mt-24">
-             <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">Use Cases: When to Retain vs. Strip</h2>
+             <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mb-4">Use Cases: When to Retain vs. Strip</h2>
              <p class="mb-4">If you're listing products on eBay, Etsy, or Vinted, strip EXIF before upload. Marketplace platforms often re-compress images server-side, and you don't want your home address from product photos shot in your garage leaking through their CDN.</p>
              <p class="mb-4 font-bold">Workflow:</p>
-             <ol class="list-decimal pl-6 mb-6 space-y-2 marker:text-[#F06292] marker:font-bold">
+             <ol class="list-decimal pl-6 mb-6 space-y-2 marker:text-mochi-pink marker:font-bold">
                 <li>Convert iPhone HEIC to JPEG via <a href="/heic-to-jpeg">Mochify's HEIC-to-JPEG tool</a> - EXIF stripped by default.</li>
                 <li>Batch-compress 25 product shots at once.</li>
                 <li>Upload to marketplace with confidence.</li>
              </ol>
              <p class="mb-4">Instagram, TikTok, and YouTube don't need to know where you live. Social media photos with GPS tags create trackable patterns - someone analyzing your uploads can map your daily routine (home, work, gym, kids' school). Strip EXIF before posting. Your audience cares about the visual, not the metadata.</p>
              <p class="mb-4">You're handling two asset classes:</p>
-             <ol class="list-decimal pl-6 mb-6 space-y-2 marker:text-[#F06292] marker:font-bold">
+             <ol class="list-decimal pl-6 mb-6 space-y-2 marker:text-mochi-pink marker:font-bold">
                 <li><strong>Client deliverables:</strong> Strip everything. GDPR treats your clients' pre-release product photos as their personal data. Leaking location metadata creates liability.</li>
                 <li><strong>Internal archive:</strong> Retain EXIF in your private RAW library for future reference.</li>
              </ol>
@@ -287,10 +287,10 @@
          </section>
 
         <section id="metrics" class="scroll-mt-24">
-             <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">Technical Proof: Metrics</h2>
+             <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mb-4">Technical Proof: Metrics</h2>
              <p class="mb-4">We ran a batch test with 10 iPhone HEIC vacation photos (average 2.8MB each) to measure EXIF's size impact.</p>
              <p class="mb-4 font-bold">Test Conditions:</p>
-              <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
+              <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-mochi-pink">
                 <li><strong>Source:</strong> iPhone 15 Pro Max HEIC files with full GPS/timestamp/device metadata.</li>
                 <li><strong>Tool:</strong> Mochify HEIF-to-JPG converter.</li>
                 <li><strong>Output:</strong> Standard JPEG (jpegli encoder, quality 90).</li>
@@ -321,7 +321,7 @@
             
             <p class="mb-4"><strong>Takeaway:</strong> Stripping EXIF saved 35KB per image on average - enough to matter when you're processing 500 product photos for a catalog. And that's before accounting for the privacy benefit.</p>
             <p class="mb-4">The same batch compressed via jpegli (EXIF stripped) delivered:</p>
-             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-[#F06292]">
+             <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-mochi-pink">
                 <li>Before: 2.8MB HEIC with EXIF.</li>
                 <li>After: 385KB JPEG without EXIF.</li>
                 <li>Total reduction: 86%.</li>
@@ -334,24 +334,24 @@
         </section>
 
         
-<div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
+<div class="my-12 bg-mochi-blush p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
     <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
     
     <div class="relative z-10 mb-6">
-        <span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">
+        <span class="inline-block px-3 py-1 rounded-full bg-white text-mochi-pink text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">
             Zero-Retention Verified
         </span>
     </div>
 
-    <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
+    <h3 class="text-2xl md:text-3xl font-extrabold text-cocoa-ink relative z-10 mb-3 flex items-center justify-center gap-3">
         Ready to secure your images?
     </h3>
 
-    <p class="text-[#6C3F31] text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">
+    <p class="text-cocoa-deep text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">
         Don't risk data leaks. Optimize your first batch now with our <strong>100% private</strong>, in-memory engine.
     </p>
 
-    <a href="/" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
+    <a href="/" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
         <span>Start Optimizing Free</span>
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
     </a>

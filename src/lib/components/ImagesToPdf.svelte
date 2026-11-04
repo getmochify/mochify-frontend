@@ -212,8 +212,8 @@
     <!-- Drop zone -->
     <label
         class="flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-6 py-10 text-center cursor-pointer transition-colors {isDragging
-            ? 'border-[#F06292] bg-[#FFF5F7]'
-            : 'border-pink-200 hover:border-[#F06292] hover:bg-[#FFF9FB]'}"
+            ? 'border-mochi-pink bg-mochi-blush'
+            : 'border-pink-200 hover:border-mochi-pink hover:bg-[#FFF9FB]'}"
         ondragover={(e) => {
             e.preventDefault();
             isDragging = true;
@@ -221,13 +221,13 @@
         ondragleave={() => (isDragging = false)}
         ondrop={onDrop}
     >
-        <span class="w-12 h-12 rounded-2xl bg-[#FFF0F3] flex items-center justify-center mb-1">
-            <svg class="w-6 h-6 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <span class="w-12 h-12 rounded-2xl bg-mochi-strawberry flex items-center justify-center mb-1">
+            <svg class="w-6 h-6 text-mochi-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
             </svg>
         </span>
-        <span class="font-black text-[#4A2C2C]">Drop images here, or click to choose</span>
-        <span class="text-xs text-[#875F42]">One page per image · up to {planLimit} files · processed in memory, never stored</span>
+        <span class="font-black text-cocoa-ink">Drop images here, or click to choose</span>
+        <span class="text-xs text-cocoa-milk">One page per image · up to {planLimit} files · processed in memory, never stored</span>
         <input
             bind:this={fileInputEl}
             type="file"
@@ -242,15 +242,15 @@
         <!-- Selected files -->
         <ul class="mt-5 space-y-2">
             {#each files as f, i}
-                <li class="flex items-center gap-3 rounded-xl border border-pink-50 bg-[#FDFBF7] px-4 py-2.5">
-                    <span class="flex items-center justify-center w-6 h-6 rounded-lg bg-[#FFF0F3] text-[#F06292] text-xs font-black flex-shrink-0">{i + 1}</span>
-                    <span class="flex-1 truncate text-sm font-semibold text-[#4A2C2C]">{f.name}</span>
-                    <span class="text-xs text-[#875F42] flex-shrink-0">{fmtBytes(f.size)}</span>
+                <li class="flex items-center gap-3 rounded-xl border border-pink-50 bg-mochi-bg px-4 py-2.5">
+                    <span class="flex items-center justify-center w-6 h-6 rounded-lg bg-mochi-strawberry text-mochi-pink text-xs font-black flex-shrink-0">{i + 1}</span>
+                    <span class="flex-1 truncate text-sm font-semibold text-cocoa-ink">{f.name}</span>
+                    <span class="text-xs text-cocoa-milk flex-shrink-0">{fmtBytes(f.size)}</span>
                     <button
                         type="button"
                         onclick={() => removeFile(i)}
                         disabled={isProcessing}
-                        class="flex-shrink-0 text-[#875F42]/50 hover:text-red-500 transition-colors disabled:opacity-40"
+                        class="flex-shrink-0 text-cocoa-milk/50 hover:text-red-500 transition-colors disabled:opacity-40"
                         aria-label="Remove {f.name}"
                     >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -261,7 +261,7 @@
 
         <!-- Page size -->
         <div class="mt-6 flex flex-wrap items-center gap-3">
-            <span class="text-xs font-black uppercase tracking-widest text-[#875F42]">Page size</span>
+            <span class="text-xs font-black uppercase tracking-widest text-cocoa-milk">Page size</span>
             <div class="flex flex-wrap gap-2">
                 {#each pageOptions as opt}
                     <button
@@ -269,7 +269,7 @@
                         onclick={() => (pageSize = opt.value)}
                         disabled={isProcessing}
                         class="rounded-full px-3.5 py-1.5 text-xs font-bold transition-all disabled:opacity-40 {pageSize === opt.value
-                            ? 'bg-[#F06292] text-white shadow-sm'
+                            ? 'bg-mochi-pink text-white shadow-sm'
                             : 'bg-pink-50 text-pink-500 hover:bg-pink-100'}"
                     >
                         {opt.label}
@@ -283,7 +283,7 @@
             type="button"
             onclick={createPdf}
             disabled={isProcessing}
-            class="mt-6 w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-[#F06292] hover:bg-[#D81B60] text-white font-black shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-60 disabled:hover:translate-y-0"
+            class="mt-6 w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-60 disabled:hover:translate-y-0"
         >
             {#if isProcessing}
                 {phase === 'uploading' ? `Uploading… ${uploadPercent}%` : phase === 'processing' ? 'Building your PDF…' : 'Downloading…'}

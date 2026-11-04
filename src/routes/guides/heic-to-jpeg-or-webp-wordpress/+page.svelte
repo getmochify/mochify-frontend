@@ -87,30 +87,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="JPEG or WebP" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · {metadata.datePublished} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             JPEG works everywhere and is the safest default for WordPress uploads. WebP is the better choice when file size matters and you don't need to support very old browsers: it's typically 25–35% smaller than an equivalent JPEG, and global browser support is now above 97%. Either way, never upload HEIC directly for public display. Browsers don't support it natively, and your visitors will either see nothing or trigger a server-side fallback that may or may not work depending on your host.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">Published {metadata.datePublished} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong>. This guide covers WordPress's built-in HEIC handling, what it gets wrong, and why converting before upload gives you more control over the result.</p>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">Published {metadata.datePublished} by the <strong class="text-cocoa-deep">Mochify Engineering Team</strong>. This guide covers WordPress's built-in HEIC handling, what it gets wrong, and why converting before upload gives you more control over the result.</p>
         </div>
     </header>
 
@@ -134,16 +134,16 @@
 
             <ul class="mb-6 space-y-3">
                 <li class="flex gap-3 items-start">
-                    <span class="mt-2 w-2 h-2 rounded-full bg-[#F06292] flex-shrink-0"></span>
-                    <span><strong class="text-[#4A2C2C]">Format choice.</strong> You decide whether the output is JPEG or WebP, rather than accepting whatever fallback fires.</span>
+                    <span class="mt-2 w-2 h-2 rounded-full bg-mochi-pink flex-shrink-0"></span>
+                    <span><strong class="text-cocoa-ink">Format choice.</strong> You decide whether the output is JPEG or WebP, rather than accepting whatever fallback fires.</span>
                 </li>
                 <li class="flex gap-3 items-start">
-                    <span class="mt-2 w-2 h-2 rounded-full bg-[#F06292] flex-shrink-0"></span>
-                    <span><strong class="text-[#4A2C2C]">Quality control.</strong> Automatic HEIC-to-JPEG conversions often produce large files. JPEG files converted from HEIC can run nearly double the size of the original because the conversion doesn't re-compress aggressively.</span>
+                    <span class="mt-2 w-2 h-2 rounded-full bg-mochi-pink flex-shrink-0"></span>
+                    <span><strong class="text-cocoa-ink">Quality control.</strong> Automatic HEIC-to-JPEG conversions often produce large files. JPEG files converted from HEIC can run nearly double the size of the original because the conversion doesn't re-compress aggressively.</span>
                 </li>
                 <li class="flex gap-3 items-start">
-                    <span class="mt-2 w-2 h-2 rounded-full bg-[#F06292] flex-shrink-0"></span>
-                    <span><strong class="text-[#4A2C2C]">Batch efficiency.</strong> On paid plans, Mochify processes up to 25 images at once rather than triggering server-side conversion one upload at a time.</span>
+                    <span class="mt-2 w-2 h-2 rounded-full bg-mochi-pink flex-shrink-0"></span>
+                    <span><strong class="text-cocoa-ink">Batch efficiency.</strong> On paid plans, Mochify processes up to 25 images at once rather than triggering server-side conversion one upload at a time.</span>
                 </li>
             </ul>
 

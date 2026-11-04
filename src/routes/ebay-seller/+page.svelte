@@ -53,7 +53,7 @@
     {@html `<script type="application/ld+json">${faqLd}<\/script>`}
 </svelte:head>
 
-<div class="flex-1 bg-[#FDFBF7] min-h-screen flex flex-col">
+<div class="flex-1 bg-mochi-bg min-h-screen flex flex-col">
     <Navigation />
 
     <!-- Hero -->
@@ -70,18 +70,18 @@
             </span>
         </div>
 
-        <h1 class="text-4xl sm:text-6xl font-black text-[#4A2C2C] tracking-tight leading-tight mb-6">
+        <h1 class="text-4xl sm:text-6xl font-black text-cocoa-ink tracking-tight leading-tight mb-6">
             eBay photo size and rules,<br>
-            <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
+            <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
                 handled in one prompt.
             </span>
         </h1>
 
-        <p class="text-xl text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed mb-10 text-balance">
-            eBay recommends about 1600 by 1600 pixels, a white background, no watermarks, and JPEG, PNG, WebP, HEIC or AVIF under 12MB. Drop your phone photos into <a href="/flow" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Mochify</a>, type "resize to 1600px, white background, JPEG", and every photo comes back listing-ready.
+        <p class="text-xl text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed mb-10 text-balance">
+            eBay recommends about 1600 by 1600 pixels, a white background, no watermarks, and JPEG, PNG, WebP, HEIC or AVIF under 12MB. Drop your phone photos into <a href="/flow" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Mochify</a>, type "resize to 1600px, white background, JPEG", and every photo comes back listing-ready.
         </p>
 
-        <a href="/auth/register" class="inline-flex items-center gap-2 bg-[#F06292] hover:bg-[#E91E8C] text-white font-bold px-8 py-4 rounded-2xl text-lg shadow-lg hover:shadow-xl transition-all duration-200">
+        <a href="/auth/register" class="inline-flex items-center gap-2 bg-mochi-pink hover:bg-[#E91E8C] text-white font-bold px-8 py-4 rounded-2xl text-lg shadow-lg hover:shadow-xl transition-all duration-200">
             Try it free, no card needed
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
@@ -99,9 +99,9 @@
                     <div class="w-2.5 h-2.5 rounded-full bg-[#FFE0B2]"></div>
                     <div class="w-2.5 h-2.5 rounded-full bg-[#F1F8E9]"></div>
                 </div>
-                <span class="text-xs text-[#875F42]/50 font-medium ml-1">Mochify: eBay photo optimizer</span>
+                <span class="text-xs text-cocoa-milk/50 font-medium ml-1">Mochify: eBay photo optimizer</span>
             </div>
-            <div class="aspect-[16/10] bg-[#FFF5F7]">
+            <div class="aspect-[16/10] bg-mochi-blush">
                 <!-- svelte-ignore a11y_media_has_caption -->
                 <video class="w-full h-full object-cover" autoplay loop muted playsinline>
                     <source src="https://assets.mochify.xyz/mochi.webm" type="video/webm" />
@@ -113,16 +113,16 @@
 
     <!-- Benefits grid -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#4A2C2C] text-center mb-10">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-cocoa-ink text-center mb-10">
             What eBay asks for,<br>
-            <span class="text-[#F06292]">and what buyers respond to.</span>
+            <span class="text-mochi-pink">and what buyers respond to.</span>
         </h2>
 
         <div class="grid sm:grid-cols-3 gap-6">
             {#each [
                 {
                     icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/></svg>`,
-                    color: 'bg-[#FFF5F7] border-pink-100 text-[#F06292]',
+                    color: 'bg-mochi-blush border-pink-100 text-mochi-pink',
                     title: '1600px, the size eBay recommends',
                     body: "eBay's minimum is 500 by 500 pixels and it recommends about 1600 by 1600, with 1:1 or 16:9 framing looking best. Ask Mochify for 1600px and it resizes to fit; ask for a square crop too and its AI finds your item and crops around it."
                 },
@@ -143,8 +143,8 @@
                     <div class="w-12 h-12 rounded-2xl {benefit.color} border flex items-center justify-center">
                         {@html benefit.icon}
                     </div>
-                    <h3 class="font-bold text-[#4A2C2C] text-lg">{benefit.title}</h3>
-                    <p class="text-[#6C3F31] text-sm leading-relaxed">{benefit.body}</p>
+                    <h3 class="font-bold text-cocoa-ink text-lg">{benefit.title}</h3>
+                    <p class="text-cocoa-deep text-sm leading-relaxed">{benefit.body}</p>
                 </div>
             {/each}
         </div>
@@ -152,11 +152,11 @@
 
     <!-- Social proof / conversion angle -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
-        <div class="bg-gradient-to-br from-[#FFF0F3] to-[#FFF5F7] rounded-3xl border border-pink-100 p-10 text-center space-y-6">
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-[#4A2C2C]">
+        <div class="bg-gradient-to-br from-mochi-strawberry to-mochi-blush rounded-3xl border border-pink-100 p-10 text-center space-y-6">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-cocoa-ink">
                 Your main photo is competing with hundreds of others.
             </h2>
-            <p class="text-[#6C3F31] max-w-2xl mx-auto leading-relaxed">
+            <p class="text-cocoa-deep max-w-2xl mx-auto leading-relaxed">
                 In eBay search results the gallery photo does the selling. A bright, correctly sized photo with the item centered on a plain background gets the click; a dark, blurry or badly cropped one gets scrolled past, however good the item is. eBay's own guidance says the same: fill the frame, keep the background plain, no badges or watermarks.
             </p>
             <div class="grid sm:grid-cols-3 gap-6 pt-4">
@@ -166,8 +166,8 @@
                     { stat: '24 photos', label: 'Per eBay listing, every angle, one prompt' }
                 ] as item}
                     <div class="bg-white rounded-2xl border border-pink-100 p-6 space-y-2">
-                        <div class="text-3xl font-black text-[#F06292]">{item.stat}</div>
-                        <div class="text-sm text-[#6C3F31] leading-snug">{item.label}</div>
+                        <div class="text-3xl font-black text-mochi-pink">{item.stat}</div>
+                        <div class="text-sm text-cocoa-deep leading-snug">{item.label}</div>
                     </div>
                 {/each}
             </div>
@@ -177,19 +177,19 @@
     <!-- How it works -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
         <div class="bg-white rounded-2xl border border-pink-50 shadow-sm p-8">
-            <h2 class="text-xl font-extrabold text-[#4A2C2C] mb-8 text-center">From phone to listing in three steps</h2>
+            <h2 class="text-xl font-extrabold text-cocoa-ink mb-8 text-center">From phone to listing in three steps</h2>
             <div class="grid sm:grid-cols-3 gap-8 relative">
                 {#each [
                     { n: 1, title: 'Upload', body: 'Drop in your photos, straight from your camera roll: 3 at a time on Free, up to 25 at once on Seller, Pro and Growth. JPEG, HEIC from iPhone, HIF from a camera, PNG, WebP and AVIF all work.' },
-                    { n: 2, title: 'Optimize', body: 'Type what you want in <a href="/flow" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Magic Flow</a>: "resize to 1600px, white background, JPEG" covers most listings; add "square crop" if you want 1:1. Mochify\'s engine resizes to fit (never upscales), finds your item for the crop, removes the background and encodes a high-quality JPEG. No settings to learn.' },
-                    { n: 3, title: 'List', body: 'Download the photos, or the ZIP for a batch, and add them to your eBay listing. If you would rather not type anything, the <a href="/solutions/ebay-image-converter" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">eBay Image Resizer and Converter</a> does the 1600px JPEG step with one click.' }
+                    { n: 2, title: 'Optimize', body: 'Type what you want in <a href="/flow" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Magic Flow</a>: "resize to 1600px, white background, JPEG" covers most listings; add "square crop" if you want 1:1. Mochify\'s engine resizes to fit (never upscales), finds your item for the crop, removes the background and encodes a high-quality JPEG. No settings to learn.' },
+                    { n: 3, title: 'List', body: 'Download the photos, or the ZIP for a batch, and add them to your eBay listing. If you would rather not type anything, the <a href="/solutions/ebay-image-converter" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">eBay Image Resizer and Converter</a> does the 1600px JPEG step with one click.' }
                 ] as step}
                     <div class="text-center relative z-10">
-                        <div class="w-10 h-10 mx-auto mb-4 rounded-full bg-[#FFF0F3] border border-pink-100 text-[#F06292] flex items-center justify-center font-black text-sm">
+                        <div class="w-10 h-10 mx-auto mb-4 rounded-full bg-mochi-strawberry border border-pink-100 text-mochi-pink flex items-center justify-center font-black text-sm">
                             {step.n}
                         </div>
-                        <h3 class="font-bold text-[#4A2C2C] text-sm uppercase tracking-widest mb-2">{step.title}</h3>
-                        <p class="text-[#6C3F31] text-sm leading-relaxed opacity-90">{@html step.body}</p>
+                        <h3 class="font-bold text-cocoa-ink text-sm uppercase tracking-widest mb-2">{step.title}</h3>
+                        <p class="text-cocoa-deep text-sm leading-relaxed opacity-90">{@html step.body}</p>
                     </div>
                 {/each}
                 <div class="hidden sm:block absolute top-5 left-[16.66%] right-[16.66%] h-px bg-pink-100 -z-0"></div>
@@ -199,17 +199,17 @@
 
     <!-- FAQ (keyword-rich) -->
     <section class="relative max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full">
-        <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6 text-center">eBay photo questions, answered</h2>
+        <h2 class="text-2xl font-extrabold text-cocoa-ink mb-6 text-center">eBay photo questions, answered</h2>
         <div class="space-y-3 max-w-3xl mx-auto">
             {#each faqs as faq}
                 <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md transition-all">
-                    <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-[#4A2C2C] list-none select-none">
-                        <h3 class="m-0 text-base font-bold text-[#4A2C2C]">{faq.q}</h3>
+                    <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-cocoa-ink list-none select-none">
+                        <h3 class="m-0 text-base font-bold text-cocoa-ink">{faq.q}</h3>
                         <span class="text-[#7E685E] transition-transform duration-300 group-open:rotate-180 flex-shrink-0 ml-4">
                             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
                         </span>
                     </summary>
-                    <div class="px-6 pb-6 text-sm text-[#6C3F31] leading-relaxed">{faq.a}</div>
+                    <div class="px-6 pb-6 text-sm text-cocoa-deep leading-relaxed">{faq.a}</div>
                 </details>
             {/each}
         </div>
@@ -217,7 +217,7 @@
 
     <!-- Final CTA -->
     <section class="relative max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8 w-full text-center">
-        <div class="bg-gradient-to-br from-[#F06292] to-[#E91E8C] rounded-3xl p-12 space-y-6 shadow-xl">
+        <div class="bg-gradient-to-br from-mochi-pink to-[#E91E8C] rounded-3xl p-12 space-y-6 shadow-xl">
             <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
                 Ready to list faster on eBay?
             </h2>
@@ -225,7 +225,7 @@
                 Get 25 optimizations a month free with an account, or try 3 with no signup at all. No credit card, no setup: just type what you need.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/auth/register" class="inline-flex items-center justify-center gap-2 bg-white text-[#F06292] font-black px-8 py-4 rounded-2xl text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200">
+                <a href="/auth/register" class="inline-flex items-center justify-center gap-2 bg-white text-mochi-pink font-black px-8 py-4 rounded-2xl text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200">
                     Start optimizing free
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>

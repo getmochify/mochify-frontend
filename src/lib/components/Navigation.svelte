@@ -133,7 +133,7 @@
 		>
 			<span class="text-xl font-black text-white">M</span>
 		</div>
-		<span class="text-xl font-black tracking-tight text-[#4A2C2C]">Mochify</span>
+		<span class="text-xl font-black tracking-tight text-cocoa-ink">Mochify</span>
 	</a>
 
 	<!-- Desktop Menu -->
@@ -166,7 +166,7 @@
 				<a
 					href="/flow"
 					data-sveltekit-preload-data="hover"
-					class="ml-2 cursor-pointer rounded-full bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-5 py-2 text-sm font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] active:scale-95"
+					class="ml-2 cursor-pointer rounded-full bg-linear-to-br from-mochi-pink-light to-mochi-pink px-5 py-2 text-sm font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] active:scale-95"
 				>
 					Launch app
 				</a>
@@ -174,7 +174,7 @@
 			<div class="relative {hideLaunch ? 'ml-2' : ''}">
 				<button
 					onclick={() => (userMenuOpen = !userMenuOpen)}
-					class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink text-sm font-black text-white shadow-sm transition-all hover:shadow-md"
+					class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl bg-linear-to-br from-mochi-pink-light to-mochi-pink text-sm font-black text-white shadow-sm transition-all hover:shadow-md"
 					aria-label="User menu"
 				>
 					{initials}
@@ -189,7 +189,7 @@
 							<a
 								href="/dashboard"
 								data-sveltekit-preload-data="hover"
-								class="block px-4 py-3 text-sm font-medium text-cocoa-deep transition-colors hover:bg-[#FFF5F7]"
+								class="block px-4 py-3 text-sm font-medium text-cocoa-deep transition-colors hover:bg-mochi-blush"
 								role="menuitem"
 							>
 								Dashboard
@@ -202,7 +202,7 @@
 						<button
 							onclick={signOut}
 							disabled={signingOut}
-							class="w-full px-4 py-3 text-left text-sm font-medium text-cocoa-milk/70 transition-colors hover:bg-[#FFF5F7] hover:text-mochi-pink disabled:cursor-wait disabled:opacity-50 {onDashboard
+							class="w-full px-4 py-3 text-left text-sm font-medium text-cocoa-milk/70 transition-colors hover:bg-mochi-blush hover:text-mochi-pink disabled:cursor-wait disabled:opacity-50 {onDashboard
 								? ''
 								: 'border-t border-pink-50'}"
 							role="menuitem"
@@ -229,7 +229,7 @@
 			{#if showGetStarted}
 				<a
 					href={registerHref}
-					class="cursor-pointer rounded-full bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-5 py-2 text-sm font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] active:scale-95"
+					class="cursor-pointer rounded-full bg-linear-to-br from-mochi-pink-light to-mochi-pink px-5 py-2 text-sm font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] active:scale-95"
 				>
 					Get started
 				</a>
@@ -245,7 +245,7 @@
 		popovertarget="mobile-nav-menu"
 		aria-expanded={mobileMenuOpen}
 		aria-controls="mobile-nav-menu"
-		class="flex h-10 w-10 items-center justify-center rounded-xl border border-pink-100 bg-[#FFF5F7] transition-all active:scale-95 sm:hidden"
+		class="flex h-10 w-10 items-center justify-center rounded-xl border border-pink-100 bg-mochi-blush transition-all active:scale-95 sm:hidden"
 		aria-label="Toggle menu"
 	>
 		<div class="flex h-4 w-5 flex-col justify-between">
@@ -288,25 +288,25 @@
 	<div class="flex flex-col gap-2 p-4">
 		<a
 			href="/solutions"
-			class="rounded-2xl px-6 py-4 font-medium text-cocoa-deep transition-all hover:bg-[#FFF5F7] active:scale-95"
+			class="rounded-2xl px-6 py-4 font-medium text-cocoa-deep transition-all hover:bg-mochi-blush active:scale-95"
 		>
 			Solutions
 		</a>
 		<a
 			href="/guides"
-			class="rounded-2xl px-6 py-4 font-medium text-cocoa-deep transition-all hover:bg-[#FFF5F7] active:scale-95"
+			class="rounded-2xl px-6 py-4 font-medium text-cocoa-deep transition-all hover:bg-mochi-blush active:scale-95"
 		>
 			Guides
 		</a>
 		<a
 			href="/docs"
-			class="rounded-2xl px-6 py-4 font-medium text-cocoa-deep transition-all hover:bg-[#FFF5F7] active:scale-95"
+			class="rounded-2xl px-6 py-4 font-medium text-cocoa-deep transition-all hover:bg-mochi-blush active:scale-95"
 		>
 			Docs
 		</a>
 		<a
 			href={pricingHref}
-			class="rounded-2xl px-6 py-4 font-medium text-cocoa-deep transition-all hover:bg-[#FFF5F7] active:scale-95"
+			class="rounded-2xl px-6 py-4 font-medium text-cocoa-deep transition-all hover:bg-mochi-blush active:scale-95"
 		>
 			{pricingLabel}
 		</a>
@@ -314,7 +314,7 @@
 			{#if !hideLaunch}
 				<a
 					href="/flow"
-					class="mx-2 mt-2 rounded-2xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-6 py-4 text-center font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] active:scale-95"
+					class="mx-2 mt-2 rounded-2xl bg-linear-to-br from-mochi-pink-light to-mochi-pink px-6 py-4 text-center font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] active:scale-95"
 				>
 					Launch app
 				</a>
@@ -323,7 +323,7 @@
 				<a
 					href="/dashboard"
 					data-sveltekit-preload-data="hover"
-					class="rounded-2xl border-t border-pink-50 px-6 py-4 font-medium text-cocoa-deep transition-all hover:bg-[#FFF5F7] active:scale-95"
+					class="rounded-2xl border-t border-pink-50 px-6 py-4 font-medium text-cocoa-deep transition-all hover:bg-mochi-blush active:scale-95"
 				>
 					Dashboard
 				</a>
@@ -336,7 +336,7 @@
 			<button
 				onclick={signOut}
 				disabled={signingOut}
-				class="rounded-2xl px-6 py-4 text-left font-medium text-cocoa-milk/70 transition-all hover:bg-[#FFF5F7] hover:text-mochi-pink active:scale-95 disabled:cursor-wait disabled:opacity-50 {onDashboard
+				class="rounded-2xl px-6 py-4 text-left font-medium text-cocoa-milk/70 transition-all hover:bg-mochi-blush hover:text-mochi-pink active:scale-95 disabled:cursor-wait disabled:opacity-50 {onDashboard
 					? 'border-t border-pink-50'
 					: ''}"
 			>
@@ -345,7 +345,7 @@
 		{:else}
 			<a
 				href="/auth/login"
-				class="rounded-2xl border-t border-pink-50 px-6 py-4 font-medium text-cocoa-deep transition-all hover:bg-[#FFF5F7] active:scale-95"
+				class="rounded-2xl border-t border-pink-50 px-6 py-4 font-medium text-cocoa-deep transition-all hover:bg-mochi-blush active:scale-95"
 			>
 				Sign in
 			</a>
@@ -382,7 +382,7 @@
 			{#if showGetStarted}
 				<a
 					href={registerHref}
-					class="mx-2 mb-2 rounded-2xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-6 py-4 text-center font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] active:scale-95"
+					class="mx-2 mb-2 rounded-2xl bg-linear-to-br from-mochi-pink-light to-mochi-pink px-6 py-4 text-center font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] active:scale-95"
 				>
 					Get started
 				</a>
@@ -409,7 +409,7 @@
 		max-height: none;
 	}
 
-	/* Replaces the old manual bg-[#4A2C2C]/20 backdrop-blur-sm overlay div —
+	/* Replaces the old manual bg-cocoa-ink/20 backdrop-blur-sm overlay div —
        ::backdrop is the only way to style a popover's dimming layer, and
        Tailwind utility classes can't be applied to a pseudo-element. */
 	#mobile-nav-menu::backdrop {

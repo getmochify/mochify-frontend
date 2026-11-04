@@ -283,11 +283,11 @@
              cards off a phone screen, so it stays one paragraph and the hero
              spacing is tighter than the tool pages'. -->
         <div class="text-center mb-8 space-y-4">
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-[#4A2C2C] tracking-tight">
-                Image Converters and <span class="text-[#F06292]">Tools</span>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-cocoa-ink tracking-tight">
+                Image Converters and <span class="text-mochi-pink">Tools</span>
             </h1>
-            <p class="text-base sm:text-lg text-[#6C3F31] font-medium max-w-3xl mx-auto leading-relaxed text-balance">
-                Each tool here does one job. Drop your files in and download the result: HEIC, HIF or AVIF to JPG, a JPEG XL encode, a transparent cutout, a square crop, a PDF. There is no prompt to write, and most pages have nothing to set. Three images a month need no signup, a free account gives you 25, and images and PDFs are processed in memory, never saved to disk. Need something that is not listed? Describe it in <a href="/flow" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Magic Flow</a>.
+            <p class="text-base sm:text-lg text-cocoa-deep font-medium max-w-3xl mx-auto leading-relaxed text-balance">
+                Each tool here does one job. Drop your files in and download the result: HEIC, HIF or AVIF to JPG, a JPEG XL encode, a transparent cutout, a square crop, a PDF. There is no prompt to write, and most pages have nothing to set. Three images a month need no signup, a free account gives you 25, and images and PDFs are processed in memory, never saved to disk. Need something that is not listed? Describe it in <a href="/flow" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">Magic Flow</a>.
             </p>
         </div>
 
@@ -297,8 +297,8 @@
                 class="group bg-white p-8 rounded-2xl border border-pink-50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
             >
                 <div class="flex justify-between items-start mb-6">
-                    <div class="w-10 h-10 rounded-xl bg-[#FFF0F3] flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                        <svg class="w-5 h-5 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <div class="w-10 h-10 rounded-xl bg-mochi-strawberry flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                        <svg class="w-5 h-5 text-mochi-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                             {#each tool.iconPaths as d}
                                 <path stroke-linecap="round" stroke-linejoin="round" {d} />
                             {/each}
@@ -309,14 +309,14 @@
                     </span>
                 </div>
 
-                <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 group-hover:text-[#F06292] transition-colors">
+                <h3 class="text-xl font-bold text-cocoa-ink mb-3 group-hover:text-mochi-pink transition-colors">
                     {tool.name}
                 </h3>
-                <p class="text-sm text-[#6C3F31] leading-relaxed mb-6 opacity-90">
+                <p class="text-sm text-cocoa-deep leading-relaxed mb-6 opacity-90">
                     {tool.desc}
                 </p>
 
-                <div class="mt-auto flex items-center gap-2 text-xs font-black text-[#F06292] uppercase tracking-wider">
+                <div class="mt-auto flex items-center gap-2 text-xs font-black text-mochi-pink uppercase tracking-wider">
                     Open Tool
                     <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
                         <path d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -336,16 +336,16 @@
         </div>
 
         {#if shownCount === 0}
-            <div class="mb-16 text-center text-sm text-[#875F42]">
-                <p class="mb-2 font-bold text-[#4A2C2C]">No tool page for "{query.trim()}" yet.</p>
+            <div class="mb-16 text-center text-sm text-cocoa-milk">
+                <p class="mb-2 font-bold text-cocoa-ink">No tool page for "{query.trim()}" yet.</p>
                 <p class="m-0">
-                    <a href="/flow" class="font-bold text-[#F06292]">Magic Flow</a> handles most conversions from a plain sentence, like "convert to JPG under 1MB".
+                    <a href="/flow" class="font-bold text-mochi-pink">Magic Flow</a> handles most conversions from a plain sentence, like "convert to JPG under 1MB".
                 </p>
             </div>
         {/if}
 
         {#each shown as group (group.category)}
-            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">{group.category}</h2>
+            <h2 class="text-2xl font-extrabold text-cocoa-ink mb-6">{group.category}</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
                 {#each group.tools as tool (tool.slug)}
                     {@render toolCard(tool)}
@@ -354,19 +354,19 @@
         {/each}
 
         <section class="mt-8">
-            <h2 class="text-3xl font-extrabold text-[#4A2C2C] mb-8">Which tool do I need?</h2>
+            <h2 class="text-3xl font-extrabold text-cocoa-ink mb-8">Which tool do I need?</h2>
             <div class="grid md:grid-cols-2 gap-6 items-start">
                 {#each chooser as block (block.heading)}
                     <div class="bg-white p-7 rounded-2xl border border-pink-50 shadow-sm">
-                        <h3 class="font-bold text-[#4A2C2C] mb-4">{block.heading}</h3>
+                        <h3 class="font-bold text-cocoa-ink mb-4">{block.heading}</h3>
                         <ul class="space-y-3">
                             {#each block.items as item}
-                                <li class="flex gap-3 text-sm text-[#6C3F31] leading-relaxed">
-                                    <span class="mt-2 w-1.5 h-1.5 rounded-full bg-[#F06292] shrink-0"></span>
+                                <li class="flex gap-3 text-sm text-cocoa-deep leading-relaxed">
+                                    <span class="mt-2 w-1.5 h-1.5 rounded-full bg-mochi-pink shrink-0"></span>
                                     <span
                                         >{#each runs(item.text) as run, i}{run}{#if item.links[i]}<a
                                                     href={item.links[i].href}
-                                                    class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors"
+                                                    class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors"
                                                     >{item.links[i].label}</a
                                                 >{/if}{/each}</span
                                     >
@@ -379,26 +379,26 @@
         </section>
 
         <section class="mt-20 max-w-3xl space-y-4">
-            <h2 class="text-2xl font-extrabold text-[#4A2C2C]">Tool pages, Magic Flow or the API?</h2>
-            <p class="leading-relaxed text-[#6C3F31]">
-                A tool page is the quickest route when the job matches it: one fixed conversion, nothing to learn. For anything else, <a href="/flow" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Magic Flow</a> takes a plain-English instruction such as "Remove the background, transparent PNG" or "Square crop and optimize for eBay" and does the job in one pass. In Chrome, the <a href="/chrome-extension" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Mochify extension</a> adds a right-click "Convert to" menu for any image on a web page. For folders and automation, the Mochify CLI, the <a href="https://mochify.app/mcp" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">hosted and local MCP servers</a> and the REST API run the same encoder; the <a href="/docs" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a> has every parameter.
+            <h2 class="text-2xl font-extrabold text-cocoa-ink">Tool pages, Magic Flow or the API?</h2>
+            <p class="leading-relaxed text-cocoa-deep">
+                A tool page is the quickest route when the job matches it: one fixed conversion, nothing to learn. For anything else, <a href="/flow" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">Magic Flow</a> takes a plain-English instruction such as "Remove the background, transparent PNG" or "Square crop and optimize for eBay" and does the job in one pass. In Chrome, the <a href="/chrome-extension" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">Mochify extension</a> adds a right-click "Convert to" menu for any image on a web page. For folders and automation, the Mochify CLI, the <a href="https://mochify.app/mcp" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">hosted and local MCP servers</a> and the REST API run the same encoder; the <a href="/docs" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">API documentation</a> has every parameter.
             </p>
         </section>
 
         <section class="mt-16 max-w-3xl space-y-4">
-            <h2 class="text-2xl font-extrabold text-[#4A2C2C]">What happens to your files</h2>
-            <p class="leading-relaxed text-[#6C3F31]">
-                Images and PDFs travel over HTTPS to api.mochify.app, are processed in memory and discarded as soon as the job finishes. Nothing is written to disk, nothing containing your files is logged, and nothing is used to train AI. Metadata, including GPS location, is stripped by default. Video conversion runs in your browser, so the video never leaves your device. The <a href="/architecture" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">architecture page</a> has the detail.
+            <h2 class="text-2xl font-extrabold text-cocoa-ink">What happens to your files</h2>
+            <p class="leading-relaxed text-cocoa-deep">
+                Images and PDFs travel over HTTPS to api.mochify.app, are processed in memory and discarded as soon as the job finishes. Nothing is written to disk, nothing containing your files is logged, and nothing is used to train AI. Metadata, including GPS location, is stripped by default. Video conversion runs in your browser, so the video never leaves your device. The <a href="/architecture" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">architecture page</a> has the detail.
             </p>
         </section>
 
         <section class="mt-20">
-            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">Frequently asked questions</h2>
+            <h2 class="text-2xl font-extrabold text-cocoa-ink mb-6">Frequently asked questions</h2>
             <FaqAccordion {faqs} class="grid md:grid-cols-2 gap-4 items-start" />
         </section>
 
         <div class="mt-16 text-center">
-            <a href="/flow" class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#FFF5F7] text-[#F06292] font-black hover:bg-pink-50 transition-all active:scale-95 border border-pink-100 shadow-sm">
+            <a href="/flow" class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-mochi-blush text-mochi-pink font-black hover:bg-pink-50 transition-all active:scale-95 border border-pink-100 shadow-sm">
                 Open Magic Flow
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </a>

@@ -8,7 +8,7 @@
     import SectionHeading from '$lib/components/SectionHeading.svelte';
     import GuideSchema from '$lib/components/GuideSchema.svelte';
 
-    const inlineCode = "bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm";
+    const inlineCode = "bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-sm";
 
     const faqs = [
         {
@@ -182,30 +182,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title="How to Use Mochify via MCP: AI Agent Image Compression (2026)" accent="Mochify via MCP" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastEdited}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Connect Mochify to Claude Desktop, Cursor, or any MCP-compatible assistant and compress images directly from a conversation. No browser tab, no manual settings - just describe what you want.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-cocoa-deep">
                 <strong>Published March 2026 by the Mochify Engineering Team.</strong> The Mochify MCP server exposes our squish engine as a callable tool for AI assistants. Same compression quality, zero-retention privacy - now accessible from inside your AI workflow.
             </p>
         </div>
@@ -217,8 +217,8 @@
             <GuideTOC items={toc} heading="What's in This Guide" />
         </section>
 
-        <section class="my-8 bg-[#FFF5F7] rounded-3xl p-6 md:p-8 border border-pink-100">
-            <h2 class="text-xl font-extrabold text-[#4A2C2C] mb-3">30-second summary</h2>
+        <section class="my-8 bg-mochi-blush rounded-3xl p-6 md:p-8 border border-pink-100">
+            <h2 class="text-xl font-extrabold text-cocoa-ink mb-3">30-second summary</h2>
             <p>The Mochify MCP server lets any MCP-compatible AI assistant - Claude, Cursor, or similar - compress and optimize images directly from a conversation. Describe what you want, and the assistant calls Mochify's squish engine with the right flags. No browser tab, no manual settings, no file management overhead.</p>
         </section>
 
@@ -234,7 +234,7 @@
 
             <p class="mb-4">The flow looks like this:</p>
 
-            <ol class="list-decimal pl-6 mb-6 space-y-3 marker:text-[#F06292] marker:font-bold">
+            <ol class="list-decimal pl-6 mb-6 space-y-3 marker:text-mochi-pink marker:font-bold">
                 <li>You describe the task in natural language to your AI assistant</li>
                 <li>The assistant identifies it as an image compression job</li>
                 <li>It calls the Mochify MCP tool with the right parameters</li>
@@ -251,17 +251,17 @@
 
             <div class="space-y-6 mb-6">
                 <div>
-                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-2">Output format</h3>
+                    <h3 class="text-xl font-bold text-cocoa-ink mb-2">Output format</h3>
                     <p>Based on your described use case, the model picks from WebP, AVIF, JPEG XL, or JPEG (jpegli). "Best for the web" leans WebP. "Smallest possible" picks AVIF, which at quality 60 produces files roughly 45% smaller than JPEG at quality 80. "Lossless" picks JPEG XL.</p>
                 </div>
 
                 <div>
-                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-2">Resize and cropping</h3>
-                    <p>Dimension context ("Instagram square," "thumbnail banner," "half the size") maps to explicit <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">--resize</code> and crop flags. The model understands common publishing formats and translates them to pixel dimensions without you specifying numbers.</p>
+                    <h3 class="text-xl font-bold text-cocoa-ink mb-2">Resize and cropping</h3>
+                    <p>Dimension context ("Instagram square," "thumbnail banner," "half the size") maps to explicit <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">--resize</code> and crop flags. The model understands common publishing formats and translates them to pixel dimensions without you specifying numbers.</p>
                 </div>
 
                 <div>
-                    <h3 class="text-xl font-bold text-[#4A2C2C] mb-2">EXIF metadata stripping</h3>
+                    <h3 class="text-xl font-bold text-cocoa-ink mb-2">EXIF metadata stripping</h3>
                     <p>Privacy-aware prompts ("strip location," "clean for public upload") enable metadata removal. Camera data, GPS coordinates, and device info are wiped before the file comes back.</p>
                 </div>
             </div>
@@ -275,14 +275,14 @@
             <SectionHeading>How to connect Mochify via MCP</SectionHeading>
             <p class="mb-6">The Mochify CLI includes the MCP server. Install it, then point your client at it.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">1. Install the CLI</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mb-3">1. Install the CLI</h3>
 
-            <p class="mb-2 font-semibold text-[#4A2C2C]">macOS (Homebrew):</p>
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>brew tap getmochify/mochify
+            <p class="mb-2 font-semibold text-cocoa-ink">macOS (Homebrew):</p>
+            <pre class="bg-cocoa-night text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>brew tap getmochify/mochify
 brew install mochify</code></pre>
 
-            <p class="mb-2 font-semibold text-[#4A2C2C]">Linux / WSL:</p>
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code># x86_64 (most Linux / WSL)
+            <p class="mb-2 font-semibold text-cocoa-ink">Linux / WSL:</p>
+            <pre class="bg-cocoa-night text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code># x86_64 (most Linux / WSL)
 curl -L https://github.com/getmochify/mochify-cli/releases/latest/download/mochify-linux-x86_64 -o mochify
 chmod +x mochify && sudo mv mochify /usr/local/bin/
 
@@ -292,10 +292,10 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
             <p class="mb-6">All binaries are statically linked - no dependencies needed. Also available on the <a href="https://github.com/getmochify/mochify-cli/releases">GitHub releases page</a>.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">2. Add to your MCP client config</h3>
-            <p class="mb-3">For <strong>Claude Desktop</strong>, edit <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">~/Library/Application Support/Claude/claude_desktop_config.json</code>:</p>
+            <h3 class="text-xl font-bold text-cocoa-ink mb-3">2. Add to your MCP client config</h3>
+            <p class="mb-3">For <strong>Claude Desktop</strong>, edit <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-sm">~/Library/Application Support/Claude/claude_desktop_config.json</code>:</p>
 
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`{
+            <pre class="bg-cocoa-night text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`{
   "mcpServers": {
     "mochify": {
       "command": "mochify",
@@ -306,22 +306,22 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
             <p class="mb-6">To unlock your plan's limits, authenticate once with a browser login:</p>
 
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify auth login</code></pre>
+            <pre class="bg-cocoa-night text-pink-100 rounded-2xl p-5 mb-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify auth login</code></pre>
 
-            <p class="mb-6">This opens your browser, you sign in, and credentials are saved to <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">~/.config/mochify/credentials.toml</code>. Both the CLI and the <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">mochify serve</code> MCP server pick them up automatically - no key to paste into your config. (<code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">MOCHIFY_API_KEY</code> still works as an optional environment-variable override, but <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">mochify auth login</code> is the standard path.)</p>
+            <p class="mb-6">This opens your browser, you sign in, and credentials are saved to <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-sm">~/.config/mochify/credentials.toml</code>. Both the CLI and the <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-sm">mochify serve</code> MCP server pick them up automatically - no key to paste into your config. (<code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-sm">MOCHIFY_API_KEY</code> still works as an optional environment-variable override, but <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-sm">mochify auth login</code> is the standard path.)</p>
 
-            <p class="mb-4">Restart Claude Desktop after saving. The Mochify <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">squish</code> tool will appear in your assistant's available functions - test it with: <em>"Compress this image as a WebP for the web."</em></p>
+            <p class="mb-4">Restart Claude Desktop after saving. The Mochify <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-sm">squish</code> tool will appear in your assistant's available functions - test it with: <em>"Compress this image as a WebP for the web."</em></p>
 
             <GlassInfoBox type="tip" title="No API key needed to start">
-                Without a key, requests run on the free tier - 25 images per month, or 3 images a month with no signup (tracked by IP address). To use your plan's higher limits (Seller 300/month, Pro 1,200/month), run <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">mochify auth login</code> once to authenticate against your Mochify account.
+                Without a key, requests run on the free tier - 25 images per month, or 3 images a month with no signup (tracked by IP address). To use your plan's higher limits (Seller 300/month, Pro 1,200/month), run <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-sm">mochify auth login</code> once to authenticate against your Mochify account.
             </GlassInfoBox>
         </section>
 
         <section id="hosted-mcp" class="scroll-mt-24">
             <SectionHeading>Hosted MCP: zero-install, any AI client</SectionHeading>
-            <p class="mb-6">The Mochify MCP server is also available as a hosted HTTP endpoint at <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code>. No binary to install, no Rust toolchain, no config file - paste the URL, authorize your account, and the <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">squish</code> tool appears in your AI assistant instantly.</p>
+            <p class="mb-6">The Mochify MCP server is also available as a hosted HTTP endpoint at <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app</code>. No binary to install, no Rust toolchain, no config file - paste the URL, authorize your account, and the <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-sm">squish</code> tool appears in your AI assistant instantly.</p>
 
-            <p class="mb-6">One behavioral note specific to the hosted server: it returns the compressed image as a short-lived download URL on <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">files.mochify.app</code> (about a five-minute window), not as inline binary. Your original is still processed in RAM and discarded immediately; only the compressed output sits briefly in a pickup store so the link can resolve. The local CLI never uses that pickup store - it writes results straight to disk.</p>
+            <p class="mb-6">One behavioral note specific to the hosted server: it returns the compressed image as a short-lived download URL on <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-sm">files.mochify.app</code> (about a five-minute window), not as inline binary. Your original is still processed in RAM and discarded immediately; only the compressed output sits briefly in a pickup store so the link can resolve. The local CLI never uses that pickup store - it writes results straight to disk.</p>
 
             <GuideTable class="my-6">
                 <table>
@@ -344,14 +344,14 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
                 </table>
             </GuideTable>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Claude.ai web (claude.ai)</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mb-3">Claude.ai web (claude.ai)</h3>
             <p class="mb-4">In Claude.ai, go to <strong>Settings → Integrations</strong> and add a new integration with the URL:</p>
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>https://mcp.mochify.app</code></pre>
-            <p class="mb-6">Claude will redirect you to Mochify to sign in and authorize. After that, just tell Claude to compress an image by URL and it will call the <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">squish</code> tool automatically.</p>
+            <pre class="bg-cocoa-night text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>https://mcp.mochify.app</code></pre>
+            <p class="mb-6">Claude will redirect you to Mochify to sign in and authorize. After that, just tell Claude to compress an image by URL and it will call the <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-sm">squish</code> tool automatically.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Claude Desktop (remote server)</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mb-3">Claude Desktop (remote server)</h3>
             <p class="mb-4">Add a remote entry to your Claude Desktop config alongside any local servers you already have:</p>
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`{
+            <pre class="bg-cocoa-night text-pink-100 rounded-2xl p-5 mb-6 overflow-x-auto font-mono text-sm leading-relaxed"><code>{`{
   "mcpServers": {
     "mochify-hosted": {
       "type": "http",
@@ -359,12 +359,12 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
     }
   }
 }`}</code></pre>
-            <p class="mb-6">Claude Desktop will walk you through the OAuth flow the first time it connects. You can run both this remote entry and the local <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">mochify serve</code> entry at the same time - they use independent tokens.</p>
+            <p class="mb-6">Claude Desktop will walk you through the OAuth flow the first time it connects. You can run both this remote entry and the local <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-sm">mochify serve</code> entry at the same time - they use independent tokens.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Gemini, Cursor, Windsurf, and other MCP clients</h3>
-            <p class="mb-6">Any client that supports remote MCP servers (HTTP+SSE or Streamable HTTP transport) works with the hosted endpoint. Add <code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app/mcp</code> as the server URL and follow the client's OAuth prompt.</p>
+            <h3 class="text-xl font-bold text-cocoa-ink mb-3">Gemini, Cursor, Windsurf, and other MCP clients</h3>
+            <p class="mb-6">Any client that supports remote MCP servers (HTTP+SSE or Streamable HTTP transport) works with the hosted endpoint. Add <code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-sm">https://mcp.mochify.app/mcp</code> as the server URL and follow the client's OAuth prompt.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3">Smithery &amp; Glama</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mb-3">Smithery &amp; Glama</h3>
             <p class="mb-4">Mochify is listed on <strong>Smithery</strong> and <strong>Glama</strong> - MCP registries and marketplaces where you can discover and install MCP tools with a single click. Search for "Mochify" to add the hosted server directly from the registry without touching any config file.</p>
 
             <GlassInfoBox type="tip" title="Agentic workflows with multiple MCPs">
@@ -376,23 +376,23 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
             <SectionHeading>Example: compressing images from a prompt</SectionHeading>
             <p class="mb-4">Say you're working in Claude Desktop and you say:</p>
 
-            <blockquote class="border-l-4 border-[#F06292] pl-6 py-2 mb-6 bg-[#FFF5F7] rounded-r-2xl">
-                <p class="text-[#4A2C2C] font-bold italic">"Can you compress this product photo as an Instagram-ready WebP and strip the EXIF data?"</p>
+            <blockquote class="border-l-4 border-mochi-pink pl-6 py-2 mb-6 bg-mochi-blush rounded-r-2xl">
+                <p class="text-cocoa-ink font-bold italic">"Can you compress this product photo as an Instagram-ready WebP and strip the EXIF data?"</p>
             </blockquote>
 
             <p class="mb-4">Behind the scenes, the assistant calls Mochify's MCP server with roughly:</p>
 
             <ul class="space-y-2 mb-6 pl-4">
-                <li><code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">--type webp</code></li>
-                <li><code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">--resize 1080x1080</code></li>
-                <li><code class="bg-pink-50 text-[#F06292] px-2 py-px rounded font-mono text-base">--strip-exif</code></li>
+                <li><code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">--type webp</code></li>
+                <li><code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">--resize 1080x1080</code></li>
+                <li><code class="bg-pink-50 text-mochi-pink px-2 py-px rounded font-mono text-base">--strip-exif</code></li>
             </ul>
 
             <p class="mb-6">The result comes back in seconds - a web-optimized 1080×1080 WebP with no metadata attached. You didn't touch a settings panel or look up Instagram's recommended dimensions. The agent handled the full decision chain.</p>
 
             <figure class="rounded-2xl overflow-hidden border border-pink-100 shadow-sm">
                 <img src="/claude_mochified.webp" alt="Claude Desktop compressing an image via Mochify MCP - the assistant calls the squish tool and returns an optimized WebP" class="w-full" loading="lazy" />
-                <figcaption class="bg-[#FFF5F7] px-5 py-3 text-sm text-[#875F42] text-center border-t border-pink-100">
+                <figcaption class="bg-mochi-blush px-5 py-3 text-sm text-cocoa-milk text-center border-t border-pink-100">
                     Mochify in action: Here, Claude is using the Mochify MCP server to optimize a desktop screenshot. Total reduction: 96%. All handled locally via natural language.
                 </figcaption>
             </figure>
@@ -458,13 +458,13 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
             <div class="space-y-4 mt-4">
                 {#each faqs as faq}
                     <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md open:shadow-md transition-all">
-                        <summary class="flex justify-between items-center gap-4 font-bold cursor-pointer list-none p-5 text-[#4A2C2C]">
+                        <summary class="flex justify-between items-center gap-4 font-bold cursor-pointer list-none p-5 text-cocoa-ink">
                             <span>{faq.q}</span>
-                            <span class="transition group-open:rotate-180 shrink-0 text-[#F06292]">
+                            <span class="transition group-open:rotate-180 shrink-0 text-mochi-pink">
                                 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="22"><path d="M6 9l6 6 6-6"></path></svg>
                             </span>
                         </summary>
-                        <div class="px-5 pb-5 text-base text-[#6C3F31] leading-relaxed opacity-90">
+                        <div class="px-5 pb-5 text-base text-cocoa-deep leading-relaxed opacity-90">
                             {@html faq.a}
                         </div>
                     </details>
@@ -474,24 +474,24 @@ chmod +x mochify && sudo mv mochify /usr/local/bin/</code></pre>
 
         <RelatedGuidesGrid guides={related} />
 
-        <div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
+        <div class="my-12 bg-mochi-blush p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
 
             <div class="relative z-10 mb-6">
-                <span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">
+                <span class="inline-block px-3 py-1 rounded-full bg-white text-mochi-pink text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">
                     Free Tool
                 </span>
             </div>
 
-            <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
+            <h3 class="text-2xl md:text-3xl font-extrabold text-cocoa-ink relative z-10 mb-3 flex items-center justify-center gap-3">
                 Try it without MCP - just describe what you need
             </h3>
 
-            <p class="text-[#6C3F31] text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">
+            <p class="text-cocoa-deep text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">
                 No account. No dropdowns. The natural language feature on the web tool works the same way - type your goal, upload your image, done.
             </p>
 
-            <a href="/" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
+            <a href="/" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
                 <span>Start Optimizing Free</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             </a>

@@ -76,7 +76,7 @@
     {@html `<script type="application/ld+json">${breadcrumbLd}<\/script>`}
 </svelte:head>
 
-<div class="flex-1 bg-[#FDFBF7] min-h-screen flex flex-col">
+<div class="flex-1 bg-mochi-bg min-h-screen flex flex-col">
     <Navigation />
     <LocaleBanner
         offers={[

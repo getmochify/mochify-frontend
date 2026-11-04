@@ -120,7 +120,7 @@
     </script>
 </svelte:head>
 
-<div class="flex-1 bg-[#FDFBF7] min-h-screen flex flex-col">
+<div class="flex-1 bg-mochi-bg min-h-screen flex flex-col">
     <Navigation />
 
     <div class="max-w-5xl mx-auto w-full pt-6 md:px-4">
@@ -136,9 +136,9 @@
                 Works on iPhone, Android, Mac & Windows
             </div>
 
-            <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
+            <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
                 Convert
-                <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
+                <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
                     AVIF
                 </span>
                 to
@@ -147,7 +147,7 @@
                 </span>
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
+            <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Drop in an .avif file and get a JPEG that opens in every app, on every device. Up to 3 files with no signup (3 a month without an account, 25 a month with a free one), encoded with Google's jpegli for better quality per byte, processed in memory and never saved to disk.
             </p>
         </div>
@@ -157,24 +157,24 @@
         </div>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">How to convert AVIF to JPG</h2>
+            <h2 class="text-2xl font-extrabold text-cocoa-ink mb-6">How to convert AVIF to JPG</h2>
             <ol class="space-y-4">
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">1</span>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Drop your .avif files above</strong>, or click browse. Up to 3 a month with no account, 25 a month with a free account.
+                    <p class="leading-relaxed text-cocoa-deep">
+                        <strong class="text-cocoa-ink">Drop your .avif files above</strong>, or click browse. Up to 3 a month with no account, 25 a month with a free account.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">2</span>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Let it run.</strong> There is nothing to type and nothing to set: this page does one job, an AVIF to JPG conversion tuned for quality, and starts it as soon as the files land.
+                    <p class="leading-relaxed text-cocoa-deep">
+                        <strong class="text-cocoa-ink">Let it run.</strong> There is nothing to type and nothing to set: this page does one job, an AVIF to JPG conversion tuned for quality, and starts it as soon as the files land.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">3</span>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Download your JPGs.</strong> They open in Photos, Paint, Preview, Photoshop, email clients and upload forms, none of which need to know what AVIF is.
+                    <p class="leading-relaxed text-cocoa-deep">
+                        <strong class="text-cocoa-ink">Download your JPGs.</strong> They open in Photos, Paint, Preview, Photoshop, email clients and upload forms, none of which need to know what AVIF is.
                     </p>
                 </li>
             </ol>
@@ -183,21 +183,21 @@
         <section class="mt-20 max-w-4xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-start">
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-extrabold text-[#4A2C2C]">Why your computer will not open an AVIF file</h2>
-                    <p class="leading-relaxed text-[#6C3F31]">
+                    <h2 class="text-2xl font-extrabold text-cocoa-ink">Why your computer will not open an AVIF file</h2>
+                    <p class="leading-relaxed text-cocoa-deep">
                         AVIF is the format websites now serve because it makes pages faster: the same picture at a fraction of a JPEG's size. Every current browser renders it, so when you right-click and save an image from a site, you increasingly get an .avif file whether or not anything else on your computer can open it.
                     </p>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        That is where it stops. Windows Photos and Paint only open AVIF after you install the free AV1 Video Extension from the Microsoft Store; on a Mac, Preview needs Ventura or later; older photo editors, most email clients and many upload forms reject the file outright. Converting to JPG is the fix that works everywhere, and the <a href="/guides/what-is-an-avif-file" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">guide to AVIF files</a> explains the format if you want the background.
+                    <p class="leading-relaxed text-cocoa-deep">
+                        That is where it stops. Windows Photos and Paint only open AVIF after you install the free AV1 Video Extension from the Microsoft Store; on a Mac, Preview needs Ventura or later; older photo editors, most email clients and many upload forms reject the file outright. Converting to JPG is the fix that works everywhere, and the <a href="/guides/what-is-an-avif-file" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">guide to AVIF files</a> explains the format if you want the background.
                     </p>
                 </div>
 
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-extrabold text-[#4A2C2C]">Will converting AVIF to JPG lose quality?</h2>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        Not visibly, with a good encoder. Almost every AVIF you meet is already lossy, and converting it to JPEG is a second lossy encode, so the encoder decides how much survives. Mochify writes every JPEG through Google's jpegli, which in published testing was preferred over libjpeg-turbo and MozJPEG output while using fewer bits per pixel. The <a href="/guides/jpeg-in-2026-jpegli" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">jpegli guide</a> has the numbers.
+                    <h2 class="text-2xl font-extrabold text-cocoa-ink">Will converting AVIF to JPG lose quality?</h2>
+                    <p class="leading-relaxed text-cocoa-deep">
+                        Not visibly, with a good encoder. Almost every AVIF you meet is already lossy, and converting it to JPEG is a second lossy encode, so the encoder decides how much survives. Mochify writes every JPEG through Google's jpegli, which in published testing was preferred over libjpeg-turbo and MozJPEG output while using fewer bits per pixel. The <a href="/guides/jpeg-in-2026-jpegli" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">jpegli guide</a> has the numbers.
                     </p>
-                    <p class="leading-relaxed text-[#6C3F31]">
+                    <p class="leading-relaxed text-cocoa-deep">
                         Two things do not survive the trip, whatever the encoder. JPEG has no transparency, so an AVIF with a transparent background is flattened onto a solid one; if you need the alpha channel, convert to PNG or WebP in the Mochify app instead. And JPEG is 8-bit standard range, so a 10-bit or HDR AVIF is tone-mapped down, which changes the look more than the compression does. Expect the JPG to be bigger than the AVIF was: you are trading bytes for compatibility.
                     </p>
                 </div>
@@ -205,16 +205,16 @@
         </section>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-4">Convert AVIF to JPG on Windows 11 or Mac without a converter</h2>
-            <p class="leading-relaxed text-[#6C3F31] max-w-3xl">
-                You can do it natively, one file at a time. On Windows 10 or 11, install the AV1 Video Extension from the Microsoft Store, open the .avif in Paint, then File, Save as, JPEG picture. On macOS Ventura or later, open it in Preview, then File, Export, and set the format to JPEG. Both use the system encoder with no control over quality or metadata, and neither handles a folder. The <a href="/guides/avif-to-jpg" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">full AVIF to JPG guide</a> walks through every route, including the command line.
+            <h2 class="text-2xl font-extrabold text-cocoa-ink mb-4">Convert AVIF to JPG on Windows 11 or Mac without a converter</h2>
+            <p class="leading-relaxed text-cocoa-deep max-w-3xl">
+                You can do it natively, one file at a time. On Windows 10 or 11, install the AV1 Video Extension from the Microsoft Store, open the .avif in Paint, then File, Save as, JPEG picture. On macOS Ventura or later, open it in Preview, then File, Export, and set the format to JPEG. Both use the system encoder with no control over quality or metadata, and neither handles a folder. The <a href="/guides/avif-to-jpg" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">full AVIF to JPG guide</a> walks through every route, including the command line.
             </p>
         </section>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-4">Bulk, batch and automated AVIF to JPG</h2>
-            <p class="leading-relaxed text-[#6C3F31] max-w-3xl mb-6">
-                A folder of AVIFs is the usual case: a scraped product catalog, a client handoff, a batch of downloads. Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. The same conversion runs from the terminal with the Mochify CLI (<span class="font-mono font-bold text-[#4A2C2C]">mochify</span>, one plain-English prompt for a whole directory, sign in once with <span class="font-mono font-bold text-[#4A2C2C]">mochify auth login</span>), from an AI agent through the hosted or local MCP server, and from the REST API:
+            <h2 class="text-2xl font-extrabold text-cocoa-ink mb-4">Bulk, batch and automated AVIF to JPG</h2>
+            <p class="leading-relaxed text-cocoa-deep max-w-3xl mb-6">
+                A folder of AVIFs is the usual case: a scraped product catalog, a client handoff, a batch of downloads. Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. The same conversion runs from the terminal with the Mochify CLI (<span class="font-mono font-bold text-cocoa-ink">mochify</span>, one plain-English prompt for a whole directory, sign in once with <span class="font-mono font-bold text-cocoa-ink">mochify auth login</span>), from an AI agent through the hosted or local MCP server, and from the REST API:
             </p>
 
             <div class="bg-[#2D2320] rounded-2xl px-6 py-5 overflow-x-auto shadow-sm">
@@ -224,26 +224,26 @@
   -o photo.jpg</code></pre>
             </div>
 
-            <p class="text-sm text-[#875F42] leading-relaxed mt-4 max-w-3xl">
-                The CLI, MCP and API are clients over the same encoder as this page: files travel over HTTPS to api.mochify.app, are converted in memory and discarded. Full parameter reference in the <a href="/docs" class="font-black text-[#875F42] hover:text-[#F06292] transition-colors">API documentation</a>.
+            <p class="text-sm text-cocoa-milk leading-relaxed mt-4 max-w-3xl">
+                The CLI, MCP and API are clients over the same encoder as this page: files travel over HTTPS to api.mochify.app, are converted in memory and discarded. Full parameter reference in the <a href="/docs" class="font-black text-cocoa-milk hover:text-mochi-pink transition-colors">API documentation</a>.
             </p>
         </section>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">FAQ</h2>
+            <h2 class="text-2xl font-extrabold text-cocoa-ink mb-6">FAQ</h2>
             <FaqAccordion {faqs} class="grid md:grid-cols-2 gap-4 items-start" />
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto">
-            <p class="text-xs font-black text-[#875F42] uppercase tracking-widest mb-4">Also available</p>
+            <p class="text-xs font-black text-cocoa-milk uppercase tracking-widest mb-4">Also available</p>
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <a href="/heic-to-jpeg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">HEIC to JPG&nbsp;→</p>
-                        <p class="text-xs text-[#875F42]">Every iPhone photo, one converter</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">HEIC to JPG&nbsp;→</p>
+                        <p class="text-xs text-cocoa-milk">Every iPhone photo, one converter</p>
                     </div>
                 </a>
                 <a href="/solutions/hif-to-jpg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -251,8 +251,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">HIF to JPG&nbsp;→</p>
-                        <p class="text-xs text-[#875F42]">Fuji, Canon and Sony bodies</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">HIF to JPG&nbsp;→</p>
+                        <p class="text-xs text-cocoa-milk">Fuji, Canon and Sony bodies</p>
                     </div>
                 </a>
                 <a href="/avif-to-jpegxl" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -260,8 +260,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">AVIF to JPEG XL&nbsp;→</p>
-                        <p class="text-xs text-[#875F42]">Keep the small file, gain compatibility</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">AVIF to JPEG XL&nbsp;→</p>
+                        <p class="text-xs text-cocoa-milk">Keep the small file, gain compatibility</p>
                     </div>
                 </a>
                 <a href="/guides/avif-to-jpg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -269,8 +269,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">AVIF to JPG guide&nbsp;→</p>
-                        <p class="text-xs text-[#875F42]">Windows 11, Mac or the command line</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">AVIF to JPG guide&nbsp;→</p>
+                        <p class="text-xs text-cocoa-milk">Windows 11, Mac or the command line</p>
                     </div>
                 </a>
             </div>

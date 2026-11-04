@@ -122,35 +122,35 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="HEIF to JPG" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Your camera writes HEIF because it is the technically better format: 10-bit color, HDR-ready, roughly half the file size of an equivalent JPEG. Then you try to deliver the shoot and discover that browsers, client galleries, and print labs mostly cannot read it. Converting HEIF to JPG is the step that turns a superior capture format into a file the rest of the world can open. This guide covers every reliable conversion route, what you give up in the process, and how to keep the quality you paid for.
         </p>
 
-        <p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+        <p class="mt-5 mb-0 text-lg leading-relaxed text-cocoa-deep">
             One scope note before we start. This guide is about HEIF stills from professional mirrorless cameras - the <code class={inlineCode}>.HIF</code> files that Canon, Sony, and Fujifilm bodies write. If your file is a <code class={inlineCode}>.HEIC</code> from an iPhone, that is the same format family but a different hardware world and a different workflow: head to our <a href="https://mochify.app/heic-to-jpeg">HEIC to JPEG converter</a> instead.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published July 15, 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published July 15, 2026 by the Mochify Engineering Team.</strong>
                 This guide covers HEIF stills from professional mirrorless cameras - the .HIF files that Canon, Sony, and Fujifilm bodies write. If your file is a .HEIC from an iPhone, that is the same format family but a different workflow: head to our HEIC to JPEG converter instead.
             </p>
         </div>
@@ -167,7 +167,7 @@
             <p>HEIF (High Efficiency Image File Format) is a still-image container standardized as ISO/IEC 23008-12, storing pictures compressed with the HEVC video codec. Professional mirrorless cameras save HEIF stills with the <code class={inlineCode}>.HIF</code> extension, and they do it for two reasons: the files are dramatically smaller than JPEG at the same quality, and they hold 10-bit color instead of JPEG's 8-bit ceiling.</p>
             <p>The efficiency numbers are not marketing. <a href="https://nokiatech.github.io/heif/technical.html" target="_blank" rel="noopener noreferrer">Nokia's HEIF technical documentation</a> - Nokia co-developed the format - measured that JPEG needs on average 139% more bitrate than HEVC still coding to hit the same objective quality. In other words, an equivalent JPEG runs about 2.4x the size. <a href="https://support.d-imaging.sony.co.jp/support/ilc/heif/01/en/index.html" target="_blank" rel="noopener noreferrer">Sony's own HEIF documentation</a> puts it more simply: compression efficiency roughly twice that of JPEG, with "rich 10-bit color depth gradation."</p>
             <p>That bit depth matters more than it sounds. An 8-bit JPEG stores 256 tonal values per channel, around 16.7 million colors. A 10-bit HEIF stores 1,024 values per channel, over a billion colors. The practical difference shows up in smooth gradients - skies, studio backdrops, skin - which band and posterize sooner in 8-bit when you push them in post.</p>
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Which cameras write HEIF</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">Which cameras write HEIF</h3>
             <p><strong>Canon</strong> enables HEIF through the HDR PQ setting on most current EOS R bodies (R5, R5 Mark II, R6 Mark II, R3, R1, R7, R8, R10, plus the EOS-1D X Mark III). Canon's HEIF stills conform to the PQ HDR specification in ITU-R BT.2100.</p>
             <p><strong>Sony</strong> added HEIF with the a7S III and now offers it across the Alpha line (a1, a7 IV, a7R V, a7C II, a9 III and others) via the JPEG/HEIF Switch menu, with a choice of 4:2:0 or 4:2:2 color sampling and optional HLG HDR stills.</p>
             <p><strong>Fujifilm</strong> offers 10-bit HEIF on the X-H2S, X-H2, X-T5, and X100VI through the SELECT JPEG/HEIF image quality setting, with film simulations baked in at capture.</p>
@@ -192,31 +192,31 @@
             <SectionHeading>How to convert HEIF to JPG: every method</SectionHeading>
             <p>The best HEIF to JPG method depends on where you are standing: at the camera, at a desktop with manufacturer software, or in a browser. Here is every reliable route.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">In-camera (Canon)</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">In-camera (Canon)</h3>
             <p>Canon bodies convert without touching a computer. In Playback, select an image (or "Select range" for a batch), choose <strong>HEIF to JPEG conversion</strong>, and the camera writes JPEG copies using its own tone-mapping engine. Canon's manual carries one honest caveat: "some scenes may look different after conversion," and the option is unavailable for cropped images and 4K/8K frame grabs. There is no quality setting - you get the camera's default.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Canon Digital Photo Professional (DPP)</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">Canon Digital Photo Professional (DPP)</h3>
             <p>DPP batch-converts HEIF to JPEG or TIFF, with a setup step: you must activate the HEVC codec first (Help menu, "Activate HEVC codec"; EOS R, Ra, and 5D Mark IV files need a separate codec download from Canon). Two limitations worth knowing from <a href="https://cam.start.canon/en/S002/manual/html/UG-12_HDRPQ_0070.html" target="_blank" rel="noopener noreferrer">Canon's own DPP documentation</a>: converted files are saved as SDR images with the color space locked to sRGB, and you cannot select the JPEG compression level when saving from HEIF.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Sony Imaging Edge Desktop</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">Sony Imaging Edge Desktop</h3>
             <p>Sony's free desktop suite converts HEIF to JPEG or TIFF and is the manufacturer-recommended route for Alpha shooters. Sony's guidance is specific and worth following: export JPEG (8-bit) for delivery and playback compatibility, but export 16-bit TIFF when you plan further editing, because TIFF preserves the 10-bit gradation data that JPEG cannot hold. HLG (HDR) stills converted to TIFF should then be handled in color-managed software.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Fujifilm: the USB rename trick</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">Fujifilm: the USB rename trick</h3>
             <GlassInfoBox type="tip" title="Fujifilm's USB rename trick">
                 <p>Fujifilm ships no dedicated HEIF converter, but the <a href="https://fujifilm-dsc.com/en/manual/x-t5/menu_shooting/image_quality_setting/" target="_blank" rel="noopener noreferrer">X-T5 manual</a> documents a genuinely useful quirk: when HEIF pictures are uploaded from the camera to a computer over USB, the <code class={inlineCode}>.HIF</code> extension is changed to <code class={inlineCode}>.HEIC</code> automatically, which lets any HEIF-aware app open them.</p>
             </GlassInfoBox>
             <p>From there, macOS or Adobe tools handle the JPEG export. Fujifilm-specific depth, including film simulation handling, is in our <a href="https://mochify.app/guides/fujifilm-hif-to-jpg">Fuji HIF guide</a>.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">macOS: Preview and Photos</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">macOS: Preview and Photos</h3>
             <p>HEIF support has been built into macOS since High Sierra. Open the file in Preview or Photos, choose File, then Export, pick JPEG, set quality, save. Preview's "Export Selected Images" handles small batches. Note that Canon HDR PQ files come out as SDR JPEGs with automatic tone mapping - expect the exported file to look flatter than the HDR original did on an HDR display.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Windows: codecs first, then Photos</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">Windows: codecs first, then Photos</h3>
             <p>Install the free HEIF Image Extension from the Microsoft Store plus the $0.99 HEVC Video Extensions, and the Photos app can open <code class={inlineCode}>.HIF</code> files and save them as JPEG. Skip the codecs and you get "we can't open this file." For batches, IrfanView or ImageMagick built with libheif support remain the reliable free options. If the codecs are installed and a 10-bit <code class={inlineCode}>.HIF</code> still will not open - a common failure on pro-camera files - our <a href="https://mochify.app/guides/open-heif-files-on-windows">Windows HEIF troubleshooting guide</a> covers every route that works.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Lightroom and Camera Raw</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">Lightroom and Camera Raw</h3>
             <p><a href="https://helpx.adobe.com/lightroom-cc/kb/heic-files-support.html" target="_blank" rel="noopener noreferrer">Adobe's support matrix</a> confirms Lightroom Classic, Lightroom, and Camera Raw read HEIF files including the <code class={inlineCode}>.HIF</code> extension directly (macOS 10.13+, Windows 10+; Windows needs the Microsoft codecs installed). Import, edit, export as JPEG - the standard workflow, with full quality control. Photoshop on Windows likewise requires both Microsoft codecs.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Online converters</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">Online converters</h3>
             <p>Generic upload-and-convert sites work for one-off files, but check two things before trusting them with client work: what encoder produces the JPEG (quality varies widely), and what happens to your upload afterward (retention policies range from clear to nonexistent). For a converter built around a stated zero-retention model and a modern JPEG encoder, see the <a href="#mochify-workflow">Mochify workflow below</a>; for a plain .heif from a desktop editor or an Android phone, the <a href="/solutions/heif-to-jpg">HEIF to JPG converter</a> takes every variant in one batch.</p>
         </section>
 
@@ -242,35 +242,35 @@
         </section>
 
         <!-- Workflow card -->
-        <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: HEIF to JPG in one prompt</h2>
+        <section id="mochify-workflow" class="scroll-mt-24 bg-mochi-blush rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
+            <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mt-0 mb-4">Mochify Workflow: HEIF to JPG in one prompt</h2>
             <p class="text-base mb-7">Mochify converts HEIF files from Canon, Sony, and Fujifilm bodies to JPG in a single natural-language step, using jpegli for the encoding. No settings to decode - you describe the outcome.</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Open the converter</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Open the converter</strong>
                         <p class="text-base m-0">Go to <a href="https://mochify.app/solutions/hif-to-jpg">mochify.app/solutions/hif-to-jpg</a> - it accepts <code class={inlineCode}>.HIF</code> HEIF files directly.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Drop in your files</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Drop in your files</strong>
                         <p class="text-base m-0">Drop in your files. Up to 3 a month free with no signup, 25 per month with a free account, or 25-file batches with 75MB per file on Seller and Pro.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Describe what you want</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Describe what you want</strong>
                         <p class="text-base m-0">Type what you want in the Magic Flow prompt: <em>"Convert these to JPG"</em>, <em>"Convert to JPG, max 2048px on the long edge"</em>, <em>"Convert to JPG and strip all metadata"</em>, or <em>"Convert to JPG under 800KB each, keep copyright info but remove GPS"</em>.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Download your JPEGs</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Download your JPEGs</strong>
                         <p class="text-base m-0">Download your JPEGs.</p>
                     </div>
                 </li>
@@ -278,8 +278,8 @@
             <p class="text-base mt-7 mb-0">HEIF originals from a full-frame or medium-format body can run well past what a free upload form or a generic web tool will accept. If a converted JPEG is still getting rejected on size, see <a href="/guides/photo-file-too-large-to-upload">why upload forms and free tools reject camera files</a>.</p>
             <p class="text-base mt-7 mb-0">Magic Flow runs a two-step pipeline: a language model (currently Mistral Small 4) parses the instruction, then the C++ engine executes it. Be explicit about metadata in the prompt - "strip all metadata" or "remove GPS" - so the output matches your privacy intent exactly.</p>
             <p class="text-base mt-4 mb-0">For batch and automated workflows, the same conversion runs from the CLI (<code class={inlineCode}>brew install getmochify/mochify/mochify</code>) or from the local MCP server (<code class={inlineCode}>mochify serve</code>) inside an AI agent setup. Both are clients over the same API with no pickup store: outputs return straight to your machine, zero retention end to end. Tethered-to-deadline sports and event shooters can script an entire card dump this way.</p>
-            <pre class="bg-[#2D1B1B] text-pink-100 rounded-2xl p-5 my-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify -p "convert to jpg and strip GPS" *.HIF</code></pre>
-            <p class="text-base text-[#875F42] mt-7 mb-0"><strong>Privacy, stated precisely:</strong> your files travel to <code class={inlineCode}>api.mochify.app</code> over HTTPS, are streamed into RAM for encoding, and are wiped immediately - no disk writes, no logs containing file data. Video is the only Mochify capability that runs entirely in the browser; images like HEIF are processed server-side under that zero-retention model.</p>
+            <pre class="bg-cocoa-night text-pink-100 rounded-2xl p-5 my-4 overflow-x-auto font-mono text-sm leading-relaxed"><code>mochify -p "convert to jpg and strip GPS" *.HIF</code></pre>
+            <p class="text-base text-cocoa-milk mt-7 mb-0"><strong>Privacy, stated precisely:</strong> your files travel to <code class={inlineCode}>api.mochify.app</code> over HTTPS, are streamed into RAM for encoding, and are wiped immediately - no disk writes, no logs containing file data. Video is the only Mochify capability that runs entirely in the browser; images like HEIF are processed server-side under that zero-retention model.</p>
         </section>
 
         <section id="cheat-sheet" class="scroll-mt-24">

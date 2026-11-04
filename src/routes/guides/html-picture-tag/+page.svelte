@@ -204,26 +204,26 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
 	<header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category} · Guide
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			The HTML <code>&lt;picture&gt;</code> Tag (Picture Element): Format Fallbacks, Art Direction and
 			the 2026 Source Order
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
 			The HTML picture tag (the <code>&lt;picture&gt;</code> element) lets you offer a browser several
 			versions of the same image and have it pick the first one it can use. That is the whole mechanism.
 			It is how a page serves a small AVIF file to the browsers that can open it, a WebP to the ones that
@@ -232,7 +232,7 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 			phone, or a dark logo to visitors in dark mode, without any JavaScript.
 		</p>
 
-		<p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+		<p class="mt-5 mb-0 text-lg leading-relaxed text-cocoa-deep">
 			If you are here because a speed test (PageSpeed Insights, Lighthouse, GTmetrix) told you to
 			"Serve images in modern formats", the warning means your page is sending visitors the same
 			JPEG or PNG you uploaded, when a file a fraction of the size would show the same picture. The
@@ -250,7 +250,7 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 			two extra files beside the one you already have, and a converter that makes them in one go.
 		</p>
 
-		<p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+		<p class="mt-5 mb-0 text-lg leading-relaxed text-cocoa-deep">
 			Most explanations of the picture tag in HTML are written as reference entries: here are the
 			attributes, good luck. This guide starts where the questions actually start. It gives you the
 			snippet that clears the warning, walks through what a visitor on a 2026 iPhone and a visitor
@@ -261,9 +261,9 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 			only those.
 		</p>
 
-		<div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-			<p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-				<strong class="text-[#4A2C2C]"
+		<div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+			<p class="m-0 text-base leading-relaxed text-cocoa-deep">
+				<strong class="text-cocoa-ink"
 					>Published {metadata.date} by the Mochify Engineering Team.</strong
 				>
 				{metadata.bylineNote}
@@ -1194,7 +1194,7 @@ mochify ./images/*.jpg -t avif -w 1200 -o ./avif-1200   # resized variants`;
 					</li>
 				</ol>
 			</GlassPanel>
-			<p class="mt-6 mb-4 text-base leading-relaxed text-[#875F42]">
+			<p class="mt-6 mb-4 text-base leading-relaxed text-cocoa-milk">
 				<strong>Privacy, for this workflow.</strong> Images travel to <code>api.mochify.app</code> over
 				HTTPS, are streamed into the encoder in memory, and are wiped the moment the encode finishes:
 				no disk writes, no logs containing file data, and never used to train AI. That holds for the web

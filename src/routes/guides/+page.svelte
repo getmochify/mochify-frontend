@@ -83,14 +83,14 @@
      index and the articles read as one product, and lines up with the
      left-aligned sections below. -->
 <header class="mb-14">
-    <p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+    <p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
         Guides · {guides.length} articles
     </p>
-    <h1 class="mb-0 text-4xl md:text-[3.25rem] font-black tracking-tight leading-[1.1] text-[#4A2C2C]">
-        Image Optimization <span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">Guides</span>
+    <h1 class="mb-0 text-4xl md:text-[3.25rem] font-black tracking-tight leading-[1.1] text-cocoa-ink">
+        Image Optimization <span class="bg-gradient-to-r from-mochi-pink to-[#EC407A] bg-clip-text text-transparent">Guides</span>
     </h1>
-    <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-    <p class="mt-5 mb-0 text-lg md:text-xl leading-relaxed text-[#6C3F31] max-w-2xl">
+    <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+    <p class="mt-5 mb-0 text-lg md:text-xl leading-relaxed text-cocoa-deep max-w-2xl">
         In-depth articles about modern image formats, compression techniques, and best practices for web performance.
     </p>
 </header>
@@ -98,18 +98,18 @@
 {#if featuredGuides.length > 0}
 <section class="mb-14" aria-label="Featured guides">
     <div class="mb-7">
-        <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-3">Featured</h2>
+        <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mb-3">Featured</h2>
         <div class="featured-heading-bar"></div>
     </div>
 
     <!-- Primary featured guide -->
     <a href={featuredGuides[0].url} class="group block relative overflow-hidden bg-gradient-to-br from-[#3D2020] via-[#5C2E2E] to-[#7A3F3F] rounded-3xl p-8 md:p-10 border border-white/10 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 no-underline mb-5">
         <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjEiIGZpbGw9InJnYmEoMjQwLDk4LDE0NiwwLjA4KSIvPjwvZz48L3N2Zz4=')] opacity-40"></div>
-        <div class="absolute top-0 right-0 w-72 h-72 bg-[#F06292]/10 rounded-full blur-3xl -mt-20 -mr-20 group-hover:bg-[#F06292]/15 transition-colors duration-500"></div>
+        <div class="absolute top-0 right-0 w-72 h-72 bg-mochi-pink/10 rounded-full blur-3xl -mt-20 -mr-20 group-hover:bg-mochi-pink/15 transition-colors duration-500"></div>
         <div class="relative z-10">
             <div class="flex flex-wrap items-center gap-2 mb-6">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F06292]/20 text-[#F06292] text-xs font-black uppercase tracking-wider border border-[#F06292]/30">
-                    <span class="w-1.5 h-1.5 rounded-full bg-[#F06292] animate-pulse"></span>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-mochi-pink/20 text-mochi-pink text-xs font-black uppercase tracking-wider border border-mochi-pink/30">
+                    <span class="w-1.5 h-1.5 rounded-full bg-mochi-pink animate-pulse"></span>
                     Featured
                 </span>
                 <span class="inline-block px-3 py-1 rounded-full bg-white/10 text-white/60 text-xs font-bold uppercase tracking-wider">
@@ -117,7 +117,7 @@
                 </span>
                 <span class="text-white/40 text-xs font-semibold">{featuredGuides[0].readTime}</span>
             </div>
-            <h3 class="text-2xl md:text-4xl font-extrabold text-white group-hover:text-[#F06292] transition-colors duration-200 mb-4 leading-tight max-w-3xl">
+            <h3 class="text-2xl md:text-4xl font-extrabold text-white group-hover:text-mochi-pink transition-colors duration-200 mb-4 leading-tight max-w-3xl">
                 {featuredGuides[0].title}
             </h3>
             <p class="text-white/60 text-base md:text-lg leading-relaxed mb-8 max-w-2xl">
@@ -125,7 +125,7 @@
             </p>
             <div class="flex items-center justify-between">
                 <span class="text-white/30 text-xs font-bold">{featuredGuides[0].date}</span>
-                <span class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F06292] hover:bg-[#E91E63] text-white text-sm font-black rounded-xl shadow-lg shadow-[#F06292]/30 group-hover:translate-x-1 transition-all duration-200">
+                <span class="inline-flex items-center gap-2 px-5 py-2.5 bg-mochi-pink hover:bg-[#E91E63] text-white text-sm font-black rounded-xl shadow-lg shadow-mochi-pink/30 group-hover:translate-x-1 transition-all duration-200">
                     Read Guide
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
                 </span>
@@ -137,22 +137,22 @@
     {#if featuredGuides.length > 1}
     <div class="grid md:grid-cols-2 gap-5">
         {#each featuredGuides.slice(1) as guide}
-        <a href={guide.url} class="group block bg-gradient-to-br from-[#FFF5F7] to-white rounded-3xl p-6 border border-pink-100 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 no-underline">
+        <a href={guide.url} class="group block bg-gradient-to-br from-mochi-blush to-white rounded-3xl p-6 border border-pink-100 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 no-underline">
             <div class="flex flex-wrap items-center gap-2 mb-4">
-                <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#F06292]/10 text-[#F06292] text-[10px] font-black uppercase tracking-wider border border-[#F06292]/20">
+                <span class="inline-block px-2.5 py-0.5 rounded-full bg-mochi-pink/10 text-mochi-pink text-[10px] font-black uppercase tracking-wider border border-mochi-pink/20">
                     Featured
                 </span>
-                <span class="text-[10px] font-bold text-[#875F42] uppercase tracking-wider">{guide.category}</span>
+                <span class="text-[10px] font-bold text-cocoa-milk uppercase tracking-wider">{guide.category}</span>
             </div>
-            <h3 class="text-lg md:text-xl font-bold text-[#4A2C2C] group-hover:text-[#F06292] transition-colors mb-3 leading-snug">
+            <h3 class="text-lg md:text-xl font-bold text-cocoa-ink group-hover:text-mochi-pink transition-colors mb-3 leading-snug">
                 {guide.title}
             </h3>
-            <p class="text-[#875F42] text-sm leading-relaxed mb-4 opacity-80 line-clamp-3">
+            <p class="text-cocoa-milk text-sm leading-relaxed mb-4 opacity-80 line-clamp-3">
                 {guide.description}
             </p>
-            <div class="flex items-center justify-between text-xs font-bold text-[#875F42]/60 pt-4 border-t border-pink-50">
+            <div class="flex items-center justify-between text-xs font-bold text-cocoa-milk/60 pt-4 border-t border-pink-50">
                 <span>{guide.date} · {guide.readTime}</span>
-                <span class="text-[#F06292] group-hover:translate-x-1 transition-transform">→</span>
+                <span class="text-mochi-pink group-hover:translate-x-1 transition-transform">→</span>
             </div>
         </a>
         {/each}
@@ -187,7 +187,7 @@
         <a
             href={guide.url}
             id="guide-card-{i}"
-            class="group flex flex-col bg-white rounded-3xl p-6 border border-pink-50 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F06292]"
+            class="group flex flex-col bg-white rounded-3xl p-6 border border-pink-50 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mochi-pink"
             class:hidden={collapsed && i >= INITIAL_VISIBLE}
         >
             <div class="flex flex-wrap items-center gap-2 mb-3">
@@ -195,33 +195,33 @@
                     {guide.category}
                 </span>
                 {#if guide.featured}
-                <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#F06292]/10 text-[#F06292] text-[10px] font-black uppercase tracking-wider border border-[#F06292]/20">
+                <span class="inline-block px-2.5 py-0.5 rounded-full bg-mochi-pink/10 text-mochi-pink text-[10px] font-black uppercase tracking-wider border border-mochi-pink/20">
                     Featured
                 </span>
                 {/if}
             </div>
 
-            <h2 class="text-lg md:text-xl font-extrabold leading-snug text-[#4A2C2C] group-hover:text-[#F06292] transition-colors mb-2">
+            <h2 class="text-lg md:text-xl font-extrabold leading-snug text-cocoa-ink group-hover:text-mochi-pink transition-colors mb-2">
                 {guide.title}
             </h2>
 
-            <p class="text-sm text-[#875F42] leading-relaxed mb-5 opacity-80 line-clamp-2">
+            <p class="text-sm text-cocoa-milk leading-relaxed mb-5 opacity-80 line-clamp-2">
                 {guide.description}
             </p>
 
-            <div class="mt-auto flex items-center justify-between gap-3 text-xs font-bold text-[#875F42]/60 pt-4 border-t border-pink-50">
+            <div class="mt-auto flex items-center justify-between gap-3 text-xs font-bold text-cocoa-milk/60 pt-4 border-t border-pink-50">
                 <span>{guide.lastUpdated ? `Updated ${guide.lastUpdated}` : guide.date} · {guide.readTime}</span>
-                <span class="text-[#F06292] group-hover:translate-x-1 transition-transform" aria-hidden="true">→</span>
+                <span class="text-mochi-pink group-hover:translate-x-1 transition-transform" aria-hidden="true">→</span>
             </div>
         </a>
     {/each}
 </div>
 
 {#if filteredGuides.length === 0}
-<div class="mb-24 text-center text-sm text-[#875F42]">
-    <p class="mb-2 font-bold text-[#4A2C2C]">No guides match "{query.trim()}"{selectedCategory !== 'All' ? ` in ${selectedCategory}` : ''}.</p>
+<div class="mb-24 text-center text-sm text-cocoa-milk">
+    <p class="mb-2 font-bold text-cocoa-ink">No guides match "{query.trim()}"{selectedCategory !== 'All' ? ` in ${selectedCategory}` : ''}.</p>
     <p class="m-0">
-        {#if selectedCategory !== 'All'}<button type="button" onclick={() => selectedCategory = 'All'} class="cursor-pointer font-bold text-[#F06292] underline underline-offset-2">Search all guides</button>, browse the <a href="/solutions" class="font-bold text-[#F06292]">tools</a>{:else}Try a shorter word, browse the <a href="/solutions" class="font-bold text-[#F06292]">tools</a>{/if}, or describe the job in <a href="/flow" class="font-bold text-[#F06292]">Magic Flow</a>.
+        {#if selectedCategory !== 'All'}<button type="button" onclick={() => selectedCategory = 'All'} class="cursor-pointer font-bold text-mochi-pink underline underline-offset-2">Search all guides</button>, browse the <a href="/solutions" class="font-bold text-mochi-pink">tools</a>{:else}Try a shorter word, browse the <a href="/solutions" class="font-bold text-mochi-pink">tools</a>{/if}, or describe the job in <a href="/flow" class="font-bold text-mochi-pink">Magic Flow</a>.
     </p>
 </div>
 {/if}
@@ -231,31 +231,31 @@
     <button
         type="button"
         onclick={revealAll}
-        class="cursor-pointer px-6 py-3 rounded-2xl bg-white border border-pink-100 text-sm font-black text-[#F06292] shadow-sm hover:shadow-md hover:bg-[#FFF5F7] transition-all duration-200"
+        class="cursor-pointer px-6 py-3 rounded-2xl bg-white border border-pink-100 text-sm font-black text-mochi-pink shadow-sm hover:shadow-md hover:bg-mochi-blush transition-all duration-200"
     >
         Show {filteredGuides.length - INITIAL_VISIBLE} more guides
     </button>
 </div>
 {/if}
 
-<div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
+<div class="my-12 bg-mochi-blush p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
     <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
 
     <div class="relative z-10 mb-6">
-        <span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">
+        <span class="inline-block px-3 py-1 rounded-full bg-white text-mochi-pink text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">
             Free Tool
         </span>
     </div>
 
-    <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
+    <h3 class="text-2xl md:text-3xl font-extrabold text-cocoa-ink relative z-10 mb-3 flex items-center justify-center gap-3">
         Ready to squish some images?
     </h3>
 
-    <p class="text-[#6C3F31] text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">
+    <p class="text-cocoa-deep text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">
         Try our native C++ engine for instant Jpegli, AVIF, and WebP compression.
     </p>
 
-    <a href="/" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
+    <a href="/" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
         <span>Start Optimizing Now</span>
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
     </a>

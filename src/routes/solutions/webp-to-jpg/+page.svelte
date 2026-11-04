@@ -97,8 +97,8 @@
                 </span>
             </div>
 
-            <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
-                <span class="bg-gradient-to-r from-[#A5D6A7] to-[#43A047] bg-clip-text text-transparent">
+            <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
+                <span class="bg-gradient-to-r from-matcha-green to-[#43A047] bg-clip-text text-transparent">
                     WebP
                 </span>
                 to
@@ -108,7 +108,7 @@
                 Converter
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
+            <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Saved an image and got a .webp that nothing will accept? Drop it here and get a JPG back that works in every app, form and print service. No signup, nothing to install.
             </p>
         </div>
@@ -121,24 +121,24 @@
         </div>
 
         <section class="mt-10 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-6">How to convert WebP to JPG</h2>
+            <h2 class="text-2xl font-extrabold text-cocoa-ink mb-6">How to convert WebP to JPG</h2>
             <ol class="space-y-4">
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">1</span>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Drop your .webp files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. A whole folder to convert? A <a href="/pricing" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours, no account needed.
+                    <p class="leading-relaxed text-cocoa-deep">
+                        <strong class="text-cocoa-ink">Drop your .webp files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. A whole folder to convert? A <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours, no account needed.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">2</span>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Decide what happens to the metadata.</strong> Once your files are in, a Strip EXIF switch appears. It is on by default, so any embedded data is removed unless you switch it off. Each file is then decoded and re-encoded as a JPG with Google's jpegli encoder.
+                    <p class="leading-relaxed text-cocoa-deep">
+                        <strong class="text-cocoa-ink">Decide what happens to the metadata.</strong> Once your files are in, a Strip EXIF switch appears. It is on by default, so any embedded data is removed unless you switch it off. Each file is then decoded and re-encoded as a JPG with Google's jpegli encoder.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">3</span>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        <strong class="text-[#4A2C2C]">Download your JPGs.</strong> More than one file comes back as a single zip. They open in every editor, upload form, print kiosk and email client.
+                    <p class="leading-relaxed text-cocoa-deep">
+                        <strong class="text-cocoa-ink">Download your JPGs.</strong> More than one file comes back as a single zip. They open in every editor, upload form, print kiosk and email client.
                     </p>
                 </li>
             </ol>
@@ -149,28 +149,28 @@
 
                 <div class="space-y-8">
                     <div class="space-y-4">
-                        <h2 class="text-2xl font-bold text-[#4A2C2C]">Why is everything WebP now?</h2>
-                        <p class="leading-relaxed text-[#6C3F31]">
+                        <h2 class="text-2xl font-bold text-cocoa-ink">Why is everything WebP now?</h2>
+                        <p class="leading-relaxed text-cocoa-deep">
                             WebP makes images noticeably smaller than JPG at the same quality, so websites, shops and image search serve it to make pages load faster. That is good for the site and awkward for you: right-click and save, and the photo you wanted arrives as a .webp that an older editor, a print service or a form that asks for "JPG or PNG" will refuse. Our short explainer, <a href="/guides/what-is-a-webp-file">what a WebP file is and how to open one</a>, covers the format and which apps open it on Windows, Mac and phone before you decide whether to convert at all.
                         </p>
-                        <p class="leading-relaxed text-[#6C3F31]">
+                        <p class="leading-relaxed text-cocoa-deep">
                             Converting gives you a standard JPEG. Mochify encodes it with <strong class="text-[#7E685E]">Google's jpegli</strong>, so it works with all existing tools, with fewer wasted bytes than a typical encoder at the same quality.
                         </p>
-                        <p class="leading-relaxed text-[#6C3F31]">
-                            Doing this often? The <a href="/chrome-extension" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Mochify Chrome extension</a> lets you right-click any image on a page and save it straight as a JPG, so you never end up with the .webp in the first place. Every other route, including the ones with nothing to install, is in our guide to <a href="/guides/save-webp-as-jpg-chrome" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">saving a WebP as JPG in Chrome</a>.
+                        <p class="leading-relaxed text-cocoa-deep">
+                            Doing this often? The <a href="/chrome-extension" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Mochify Chrome extension</a> lets you right-click any image on a page and save it straight as a JPG, so you never end up with the .webp in the first place. Every other route, including the ones with nothing to install, is in our guide to <a href="/guides/save-webp-as-jpg-chrome" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">saving a WebP as JPG in Chrome</a>.
                         </p>
                     </div>
 
                     <div class="space-y-4">
-                        <h2 class="text-2xl font-bold text-[#4A2C2C]">JPG or PNG?</h2>
-                        <p class="leading-relaxed text-[#6C3F31]">
-                            JPG for photos: smaller files that open everywhere. PNG for logos, icons, screenshots and anything with a transparent background, since JPG fills transparency with white. For those, use <a href="/solutions/webp-to-png" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">WebP to PNG</a>. Need the images in one document? <a href="/solutions/webp-to-pdf" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">WebP to PDF</a> puts them on pages.
+                        <h2 class="text-2xl font-bold text-cocoa-ink">JPG or PNG?</h2>
+                        <p class="leading-relaxed text-cocoa-deep">
+                            JPG for photos: smaller files that open everywhere. PNG for logos, icons, screenshots and anything with a transparent background, since JPG fills transparency with white. For those, use <a href="/solutions/webp-to-png" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">WebP to PNG</a>. Need the images in one document? <a href="/solutions/webp-to-pdf" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">WebP to PDF</a> puts them on pages.
                         </p>
                     </div>
                 </div>
 
                 <div>
-                    <h2 class="text-2xl font-bold text-[#4A2C2C] mb-4">Frequently asked questions</h2>
+                    <h2 class="text-2xl font-bold text-cocoa-ink mb-4">Frequently asked questions</h2>
                     <FaqAccordion {faqs} />
                 </div>
             </div>
@@ -178,30 +178,30 @@
 
         <!-- Bulk / automation -->
         <section class="mt-20 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Bulk and automated WebP to JPG</h2>
-            <p class="leading-relaxed text-[#6C3F31]">
-                Seller and Pro accounts convert up to 25 files per batch at up to 75MB each. The same conversion runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify *.webp -p "convert to jpg"</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
+            <h2 class="text-2xl font-bold text-cocoa-ink">Bulk and automated WebP to JPG</h2>
+            <p class="leading-relaxed text-cocoa-deep">
+                Seller and Pro accounts convert up to 25 files per batch at up to 75MB each. The same conversion runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify *.webp -p "convert to jpg"</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
             </p>
             <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=jpg&amp;quality=85" \
   -H "Authorization: Bearer $MOCHIFY_KEY" \
   --data-binary @image.webp \
   -o image.jpg</code></pre>
-            <p class="leading-relaxed text-[#6C3F31]">
-                Full parameter reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>.
+            <p class="leading-relaxed text-cocoa-deep">
+                Full parameter reference in the <a href="/docs" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">API documentation</a>.
             </p>
         </section>
 
         <!-- Also available -->
         <section class="mt-16 max-w-4xl mx-auto">
-            <p class="text-xs font-black text-[#875F42] uppercase tracking-widest mb-4">Also available</p>
+            <p class="text-xs font-black text-cocoa-milk uppercase tracking-widest mb-4">Also available</p>
             <div class="grid sm:grid-cols-3 gap-4">
                 <a href="/solutions/webp-to-png" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">WebP to PNG →</p>
-                        <p class="text-xs text-[#875F42]">Keeps transparency</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">WebP to PNG →</p>
+                        <p class="text-xs text-cocoa-milk">Keeps transparency</p>
                     </div>
                 </a>
                 <a href="/avif-to-jpg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -209,8 +209,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">AVIF to JPG →</p>
-                        <p class="text-xs text-[#875F42]">The other web format that will not open</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">AVIF to JPG →</p>
+                        <p class="text-xs text-cocoa-milk">The other web format that will not open</p>
                     </div>
                 </a>
                 <a href="/solutions/webp-to-pdf" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -218,8 +218,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">WebP to PDF →</p>
-                        <p class="text-xs text-[#875F42]">Put WebP images on pages</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">WebP to PDF →</p>
+                        <p class="text-xs text-cocoa-milk">Put WebP images on pages</p>
                     </div>
                 </a>
             </div>

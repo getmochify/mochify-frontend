@@ -226,25 +226,27 @@ Never commit an original photo or a file over 300 KB.`;
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
 	<header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category} · Guide
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Make Its Images Fast" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div
+			class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"
+		></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Mochify Engineering Team
 		</p>
 
-		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
 			If an AI agent built your website, there is a good chance nobody has looked at the images. Not
 			you, because you asked for a site and got one. Not the agent, because you did not ask it to.
 			The photos went into the repo at whatever size they arrived, the agent wrote <code
@@ -259,7 +261,7 @@ Never commit an original photo or a file over 300 KB.`;
 			avatar images are 1MB+ PNGs! And there are 170 of them." He fixed it the same way he built it, by
 			asking the agent.
 		</p>
-		<p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+		<p class="mt-5 mb-0 text-lg leading-relaxed text-cocoa-deep">
 			That is the whole shape of this guide. An agent-built site has heavy images because image work
 			was never on the list, and the same agent will do that work well if you know what to ask for.
 			The difference from a site builder is that your agent controls the markup, so it can do more
@@ -267,7 +269,7 @@ Never commit an original photo or a file over 300 KB.`;
 			height, decide what loads first, and keep doing all of it on every image you add later, because
 			you can write the rule into the file it reads at the start of every session.
 		</p>
-		<p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+		<p class="mt-5 mb-0 text-lg leading-relaxed text-cocoa-deep">
 			Two things make the job urgent rather than nice-to-have. The first is speed. Images are the
 			biggest thing on most pages (<a
 				href="https://almanac.httparchive.org/en/2024/page-weight"
@@ -284,7 +286,7 @@ Never commit an original photo or a file over 300 KB.`;
 			latitude and longitude of where it was taken. A site that publishes supplied photos as they
 			arrived publishes where they were taken, and anyone can read it.
 		</p>
-		<p class="mt-5 mb-0 text-lg leading-relaxed text-[#6C3F31]">
+		<p class="mt-5 mb-0 text-lg leading-relaxed text-cocoa-deep">
 			The guide is written as prompts. You paste them into the agent you already use, in whichever
 			seat you sit in: a chat assistant with the hosted Mochify MCP server, Claude Code or Cursor
 			with the local one, or a script that calls the API. If you have never opened a terminal, start
@@ -292,9 +294,9 @@ Never commit an original photo or a file over 300 KB.`;
 			words.
 		</p>
 
-		<div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-			<p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-				<strong class="text-[#4A2C2C]"
+		<div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+			<p class="m-0 text-base leading-relaxed text-cocoa-deep">
+				<strong class="text-cocoa-ink"
 					>Published {metadata.date} by the Mochify Engineering Team.</strong
 				>
 				{metadata.bylineNote}
@@ -883,7 +885,7 @@ Never commit an original photo or a file over 300 KB.`;
 					</li>
 				</ol>
 			</GlassPanel>
-			<p class="mt-6 mb-4 text-base leading-relaxed text-[#875F42]">
+			<p class="mt-6 mb-4 text-base leading-relaxed text-cocoa-milk">
 				Privacy, stated for each surface because they differ: on the local server, the CLI and the
 				API, the image is streamed into memory at <code>api.mochify.app</code>, encoded, wiped, and
 				the result comes straight back to your disk with nothing held; on the hosted server the

@@ -142,7 +142,7 @@
 
 <!-- Single max-w-3xl reading column: header, prose, and every card share the
      same container edges. -->
-<article class="relative mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-0 pt-6 md:pt-0 text-lg text-[#6C3F31] leading-relaxed">
+<article class="relative mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-0 pt-6 md:pt-0 text-lg text-cocoa-deep leading-relaxed">
 
     <!-- Top-only mochi wash: absolute (scrolls away with the page, unlike the
          fixed BlobBackground), full-bleed via the 100vw trick, and faded out
@@ -150,24 +150,24 @@
     <div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-        <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#F06292] mb-3 mt-0">
+        <p class="text-xs font-bold uppercase tracking-[0.18em] text-mochi-pink mb-3 mt-0">
             {metadata.category} · Guide
         </p>
-        <h1 class="text-3xl md:text-[2.75rem] font-black text-[#4A2C2C] tracking-tight leading-[1.1] mb-0">
-            <span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">Bring Your Own Bucket</span>: Send Processed Images Straight to Your Own S3 or R2
+        <h1 class="text-3xl md:text-[2.75rem] font-black text-cocoa-ink tracking-tight leading-[1.1] mb-0">
+            <span class="bg-gradient-to-r from-mochi-pink to-[#EC407A] bg-clip-text text-transparent">Bring Your Own Bucket</span>: Send Processed Images Straight to Your Own S3 or R2
         </h1>
-        <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-        <p class="mt-5 text-sm font-bold text-[#875F42] mb-0">
+        <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+        <p class="mt-5 text-sm font-bold text-cocoa-milk mb-0">
             {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
         </p>
 
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed mt-8 mb-0">
+        <p class="article-intro text-xl text-cocoa-deep opacity-90 leading-relaxed mt-8 mb-0">
             Bring your own bucket lets accounts on any paid plan have every processed image written straight into an Amazon S3, Cloudflare R2, or S3-compatible bucket they already own, so the optimized file lands in the storage it was always headed for instead of coming back to your device as a download to file away. Nothing changes on Mochify's side, because Mochify never stores image data in either case: the file is processed in memory and discarded. The pipeline never holds your credential either: for each result it is handed a pre-signed URL that is good for one object and a few minutes, and nothing else. This guide explains what that means in plain terms, who holds which key, why it sits inside our zero-retention model rather than beside it, how the output fits a bucket that already has a CDN in front of it, what it costs on your side, and where the edges are.
         </p>
 
         <GlassPanel>
             <p>
-                <strong class="text-[#4A2C2C]">Published September 3, 2026 by the Mochify Engineering Team.</strong>
+                <strong class="text-cocoa-ink">Published September 3, 2026 by the Mochify Engineering Team.</strong>
                 A plain-language explainer of the Bring your own bucket feature for stores and agencies, written from the live architecture page and verified against the product ledger.
             </p>
         </GlassPanel>
@@ -194,13 +194,13 @@
             <SectionHeading>What Bring your own bucket does (and does not do)</SectionHeading>
             <p class="mb-4">Bring your own bucket is an output destination, not a sync tool. You point Mochify at a bucket from <strong>Dashboard → Connections</strong>, and from then on processed results are written into that bucket instead of coming back to you as a download to file away.</p>
             <p class="mb-4">What it does:</p>
-            <ul class="list-disc pl-6 space-y-3 marker:text-[#F06292] my-6">
+            <ul class="list-disc pl-6 space-y-3 marker:text-mochi-pink my-6">
                 <li><strong>Writes results into storage you own.</strong> Amazon S3, Cloudflare R2, or any bucket that speaks the S3 API. Backblaze B2, Wasabi, DigitalOcean Spaces, MinIO, Tigris, and Hetzner all document S3-compatible endpoints, and the pattern is the same for each.</li>
                 <li><strong>Keeps the input path unchanged.</strong> Files still upload from your browser to <code>api.mochify.app</code> over HTTPS and are processed in memory. The bucket is where the answer goes, not where the question comes from.</li>
                 <li><strong>Stays write-only.</strong> The connection exists to put objects. It is not used to read your existing images, enumerate the bucket, or delete anything.</li>
             </ul>
             <p class="mb-4">What it does not do, at launch:</p>
-            <ul class="list-disc pl-6 space-y-3 marker:text-[#F06292] my-6">
+            <ul class="list-disc pl-6 space-y-3 marker:text-mochi-pink my-6">
                 <li><strong>It is a web app feature.</strong> The REST API, the CLI, and both MCP servers return results to the caller the way they always have. Do not build a script on the assumption that an API call will land a file in your bucket; that is not how the feature ships today.</li>
                 <li><strong>It is not a Free or Day Pass feature.</strong> Bucket output is on every paid plan, from Seller ($7.99/month) up. A Day Pass is a $2, 24-hour unlock with no signup, not a plan, and bucket output is a plan feature. Prices are USD; the pricing page shows your local currency.</li>
                 <li><strong>It is not a file manager.</strong> Mochify does not browse, organize, or clean up your bucket. Your storage stays your business.</li>
@@ -213,7 +213,7 @@
             <p class="mb-4">The safest way for a service to write into your bucket is for the service to never touch your bucket credential at all, and that is how this works: one isolated component holds your encrypted key, and the processing pipeline only ever receives a short-lived, single-object URL derived from it. Every write-your-own-bucket feature on the market has to answer "who holds my key," and most vendor pages skip the question. Here is the honest version.</p>
             <p class="mb-4">A pre-signed URL is a standard object-storage mechanism. Amazon's own documentation puts it simply: "A presigned URL gives you access to the object identified in the URL, provided that the creator of the presigned URL has permissions to access that object," and "the capabilities of a presigned URL are limited by the permissions of the user who created it" (<a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html" target="_blank" rel="noopener noreferrer">AWS S3 User Guide</a>). Cloudflare R2 implements the same idea through its S3-compatible API and describes it as "granting temporary access to objects without exposing your API credentials" (<a href="https://developers.cloudflare.com/r2/api/s3/presigned-urls/" target="_blank" rel="noopener noreferrer">Cloudflare R2 docs</a>). The URL names one object, one operation, and one expiry. Whoever holds it can do that one thing until the clock runs out, and nothing else. This URL is plumbing between our services and your bucket; you never see it, and it is unrelated to the download link the hosted MCP server returns.</p>
             <p class="mb-4">Our <a href="https://mochify.app/architecture">architecture and data handling page</a> states how Mochify uses it, and it is worth quoting because this is the one feature where we hold a credential on your behalf:</p>
-            <ul class="list-disc pl-6 space-y-3 marker:text-[#F06292] my-6">
+            <ul class="list-disc pl-6 space-y-3 marker:text-mochi-pink my-6">
                 <li>"Your keys are encrypted and isolated. The secret is sealed with AES-256-GCM under a key held by a single service. The dashboard cannot decrypt it, and the image pipeline never sees it at all."</li>
                 <li>"The pipeline receives a capability, not a credential. When a result is written to your bucket, the processing service is handed a pre-signed URL valid for one object and a few minutes. It cannot choose the destination, list your bucket, or read anything from it."</li>
             </ul>
@@ -233,7 +233,7 @@
             <SectionHeading>Where the output goes next: buckets, CDNs, and your storefront</SectionHeading>
             <p class="mb-4">Once the file is in your bucket, the CDN you already have in front of that bucket serves it, and nothing new has to be hosted. This is the step every tutorial on "image processing with S3" stops short of, and it is the step the forum threads keep asking about ("how can we show the processed images from the AWS S3 bucket as product pictures?").</p>
             <p class="mb-4">The two mainstream patterns:</p>
-            <ul class="list-disc pl-6 space-y-3 marker:text-[#F06292] my-6">
+            <ul class="list-disc pl-6 space-y-3 marker:text-mochi-pink my-6">
                 <li><strong>Cloudflare R2 behind a custom domain.</strong> Cloudflare's documentation notes that "domain access through a custom domain allows you to use Cloudflare Cache to accelerate access to your R2 bucket" (<a href="https://developers.cloudflare.com/r2/buckets/public-buckets/" target="_blank" rel="noopener noreferrer">R2 public buckets</a>). A processed <code>hero.webp</code> written to the bucket is a cacheable <code>https://img.yourdomain.com/hero.webp</code> a moment later.</li>
                 <li><strong>Amazon S3 behind CloudFront with origin access control.</strong> The bucket stays private; CloudFront is the only principal allowed to read from it (<a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html" target="_blank" rel="noopener noreferrer">CloudFront developer guide</a>). The same object, served from the edge, with S3 Block Public Access still on.</li>
             </ul>
@@ -244,7 +244,7 @@
         <section id="costs" class="scroll-mt-24">
             <SectionHeading>What it costs on your side</SectionHeading>
             <p class="mb-4">Bring your own bucket is included in every paid plan; the only new line item is your own bucket's storage and requests, which for most stores and agencies is small change next to the plan. The numbers depend on the provider:</p>
-            <ul class="list-disc pl-6 space-y-3 marker:text-[#F06292] my-6">
+            <ul class="list-disc pl-6 space-y-3 marker:text-mochi-pink my-6">
                 <li><strong>Cloudflare R2</strong> publishes $0.015 per GB-month for Standard storage, $4.50 per million Class A operations (writes), $0.36 per million Class B operations (reads), and no egress charge: "egressing directly from R2 ... does not incur data transfer (egress) charges and is free" (<a href="https://developers.cloudflare.com/r2/pricing/" target="_blank" rel="noopener noreferrer">R2 pricing</a>). Each processed image is one write, so a 10,000-image catalog refresh costs a few cents in operations.</li>
                 <li><strong>Amazon S3</strong> publishes per-region storage and request rates on its pricing page, with the first 100 GB per month of data transfer out to the internet free across AWS services. Beyond that allowance, egress is the number to watch on AWS; it is the reason many image-heavy sites put CloudFront or a third-party CDN in front of S3 rather than serving from the bucket.</li>
                 <li><strong>S3-compatible providers</strong> each publish their own rates. Several compete on egress; check the provider's page rather than assuming S3's model.</li>
@@ -255,7 +255,7 @@
         <section id="scoping-the-key" class="scroll-mt-24">
             <SectionHeading>Scoping the key on your side</SectionHeading>
             <p class="mb-4">Whatever service you connect to a bucket, the right posture on your side is a key that can only do what the feature needs, on only the bucket it needs, and Bring your own bucket is write-only by design, so a narrowly scoped key lines up with how it is used. This section is general object-storage hygiene rather than a Mochify setup manual; the Connections screen tells you what it asks for.</p>
-            <ul class="list-disc pl-6 space-y-3 marker:text-[#F06292] my-6">
+            <ul class="list-disc pl-6 space-y-3 marker:text-mochi-pink my-6">
                 <li><strong>Dedicated bucket or prefix.</strong> Give processed output its own bucket, or its own prefix in an existing one. It keeps the blast radius small and makes the lifecycle rules simple.</li>
                 <li><strong>Least privilege.</strong> AWS's own guidance is to "grant only the permissions that are required to perform a task" (<a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html" target="_blank" rel="noopener noreferrer">S3 security best practices</a>), and its example bucket policies include an <code>s3:PutObject</code>-only grant for a third party (<a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies.html" target="_blank" rel="noopener noreferrer">example bucket policies</a>). On R2, API tokens can be scoped to specific buckets with read-only or read-and-write permission (<a href="https://developers.cloudflare.com/r2/api/s3/tokens/" target="_blank" rel="noopener noreferrer">R2 tokens</a>).</li>
                 <li><strong>Keep the bucket private.</strong> Block Public Access on S3, and serve through the CDN. Encryption at rest is on by default: since January 2023 every new S3 object is encrypted with SSE-S3 unless you choose another option.</li>

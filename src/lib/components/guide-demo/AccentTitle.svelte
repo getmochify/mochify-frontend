@@ -10,7 +10,7 @@
 
 {#if i >= 0}
 	{title.slice(0, i)}<span
-		class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent"
+		class="bg-gradient-to-r from-mochi-pink to-[#EC407A] bg-clip-text text-transparent"
 		>{accent}</span
 	>{title.slice(i + accent.length)}
 {:else}

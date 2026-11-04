@@ -101,24 +101,24 @@
 
 <!-- Single max-w-3xl reading column: header, prose, and every card share the
      same container edges. -->
-<article class="relative mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-0 pt-6 md:pt-0 text-lg text-[#6C3F31] leading-relaxed">
+<article class="relative mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-0 pt-6 md:pt-0 text-lg text-cocoa-deep leading-relaxed">
 
     <!-- Top-only mochi wash, faded out by a mask before the body text starts. -->
     <div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-        <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#F06292] mb-3 mt-0">
+        <p class="text-xs font-bold uppercase tracking-[0.18em] text-mochi-pink mb-3 mt-0">
             {metadata.category} · Guide
         </p>
-        <h1 class="text-3xl md:text-[2.75rem] font-black text-[#4A2C2C] tracking-tight leading-[1.1] mb-0">
+        <h1 class="text-3xl md:text-[2.75rem] font-black text-cocoa-ink tracking-tight leading-[1.1] mb-0">
             Does JPEG Support HDR?
         </h1>
-        <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-        <p class="mt-5 text-sm font-bold text-[#875F42] mb-0">
+        <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+        <p class="mt-5 text-sm font-bold text-cocoa-milk mb-0">
             {metadata.readTime} · {metadata.date} · Mochify Engineering Team
         </p>
 
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed mt-8 mb-0">
+        <p class="article-intro text-xl text-cocoa-deep opacity-90 leading-relaxed mt-8 mb-0">
             Yes. A JPEG can carry HDR through a gain map: a small second image stored inside the same file that tells an HDR display how much brighter each region may go than the normal picture. Google calls the result Ultra HDR, Apple calls it Adaptive HDR, and since July 2025 the mechanism is an international standard, ISO 21496-1. The file is still an ordinary JPEG, so it opens in every app and browser; only screens and software that understand the map show the extra brightness, and everything else shows the standard photo underneath.
         </p>
     </header>

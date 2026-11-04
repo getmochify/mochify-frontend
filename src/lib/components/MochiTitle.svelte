@@ -3,9 +3,9 @@
     export let to: string;
 </script>
 
-<h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
+<h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
     Convert 
-    <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
+    <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
         {from}
     </span> 
     to 

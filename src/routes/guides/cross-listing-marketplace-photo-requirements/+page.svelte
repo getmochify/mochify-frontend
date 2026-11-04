@@ -199,31 +199,31 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Cross-Listing" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Cross-listing is how serious resellers grow: the same item, listed on eBay, Poshmark, Mercari, Depop, and Vinted at once, so it sells wherever the buyer happens to be. Cross-listing apps have made the text side of this nearly effortless. The photo side is another story. Every marketplace wants a different shape, a different size, and a different file format, and the apps mostly copy your photos as-is and hope for the best. This guide covers what cross-listing actually involves, what the apps do and don't handle, the current photo requirements for six marketplaces, and a batch workflow that preps one photo set for all of them in minutes.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published August 5, 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published August 5, 2026 by the Mochify Engineering Team.</strong>
                 Written for resellers who list everywhere: what the cross-listing apps handle, what they leave to you, and the fastest way to close the gap.
             </p>
         </div>
@@ -298,9 +298,9 @@
             <p>Here's the honest version: cross-listing apps move your photos between platforms, but none of them optimizes photos for each platform. The most any of them does is force a square. Crosslist <a href="https://docs.crosslist.com/knowledge-base/image-management/cropping-strategy" target="_blank" rel="noopener noreferrer">documents its approach openly</a>: rectangular images going to a square-format marketplace get black letterbox borders, with a setting to zoom-crop instead. List Perfectly similarly adjusts non-square images for marketplaces that require 1:1. That's the ceiling.</p>
             <p>What none of them does:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Re-crop for portrait platforms.</strong> Poshmark moved its entire display layer to 3:4 portrait in March 2026 (<a href="https://blog.poshmark.com/2026/03/25/your-guide-to-portrait-photos/" target="_blank" rel="noopener noreferrer">Poshmark's own guide</a> covers the change), and Vinted, which publishes no photo spec at all, lays its grid out for portrait. A square-letterboxed photo is now the wrong shape on both.</li>
-                <li><strong class="text-[#4A2C2C]">Convert formats.</strong> iPhone cameras shoot HEIC by default. eBay officially accepts HEIC, but its community forums carry years of threads from sellers whose <a href="https://community.ebay.com/t5/Report-eBay-Technical-Issues/Allowing-HEIC-format-image-files-to-be-compatible-and-posted-on/td-p/33375274" target="_blank" rel="noopener noreferrer">HEIC uploads fail anyway</a>; the standard workaround is converting to JPEG before upload. Depop and Vinted publish no accepted-format list at all, so JPEG is the safe upload there too.</li>
-                <li><strong class="text-[#4A2C2C]">Hit resolution and file-size targets.</strong> eBay wants at least 500x500px and caps files at 12MB. <a href="/guides/etsy-listing-photo-size-guide">Etsy wants 2000px and files under 1MB</a>. One photo cannot be both unless something re-encodes it.</li>
+                <li><strong class="text-cocoa-ink">Re-crop for portrait platforms.</strong> Poshmark moved its entire display layer to 3:4 portrait in March 2026 (<a href="https://blog.poshmark.com/2026/03/25/your-guide-to-portrait-photos/" target="_blank" rel="noopener noreferrer">Poshmark's own guide</a> covers the change), and Vinted, which publishes no photo spec at all, lays its grid out for portrait. A square-letterboxed photo is now the wrong shape on both.</li>
+                <li><strong class="text-cocoa-ink">Convert formats.</strong> iPhone cameras shoot HEIC by default. eBay officially accepts HEIC, but its community forums carry years of threads from sellers whose <a href="https://community.ebay.com/t5/Report-eBay-Technical-Issues/Allowing-HEIC-format-image-files-to-be-compatible-and-posted-on/td-p/33375274" target="_blank" rel="noopener noreferrer">HEIC uploads fail anyway</a>; the standard workaround is converting to JPEG before upload. Depop and Vinted publish no accepted-format list at all, so JPEG is the safe upload there too.</li>
+                <li><strong class="text-cocoa-ink">Hit resolution and file-size targets.</strong> eBay wants at least 500x500px and caps files at 12MB. <a href="/guides/etsy-listing-photo-size-guide">Etsy wants 2000px and files under 1MB</a>. One photo cannot be both unless something re-encodes it.</li>
             </ul>
             <p>The result is familiar to anyone who cross-lists at volume: listings that look sharp on the platform you photographed for and mediocre everywhere else. eBay's own research on 6.8 million listings found that better photo quality made items measurably more likely to sell (the widely cited figure is 4.5%; it dates from an older eBay study, so treat it as directional). Photo quality is not cosmetic. It's conversion.</p>
             <p>If your photos start life as iPhone HEIC files, fix that first: the <a href="https://mochify.app/heic-to-jpeg">HEIC to JPEG converter</a> turns them into universally accepted JPEGs in one step.</p>
@@ -380,10 +380,10 @@
             <div class="space-y-4 my-6">
                 {#each steps as step}
                     <div class="flex items-start gap-4 rounded-2xl border border-pink-100 bg-white p-5">
-                        <span class="w-9 h-9 shrink-0 rounded-full bg-pink-50 flex items-center justify-center text-sm font-black text-[#F06292] border border-pink-100">{step.n}</span>
+                        <span class="w-9 h-9 shrink-0 rounded-full bg-pink-50 flex items-center justify-center text-sm font-black text-mochi-pink border border-pink-100">{step.n}</span>
                         <div>
-                            <h3 class="font-bold text-[#4A2C2C] text-lg mb-1 mt-0">{step.h}</h3>
-                            <p class="text-base text-[#6C3F31] m-0">{@html step.body}</p>
+                            <h3 class="font-bold text-cocoa-ink text-lg mb-1 mt-0">{step.h}</h3>
+                            <p class="text-base text-cocoa-deep m-0">{@html step.body}</p>
                         </div>
                     </div>
                 {/each}
@@ -393,7 +393,7 @@
                 Note the "strip all metadata" line in the prompts: it's stated explicitly because you should always be deliberate about EXIF. Your phone embeds GPS coordinates in every photo, and your home address has no business in a marketplace listing.
             </GlassInfoBox>
 
-            <p class="text-sm text-[#875F42]">A privacy note on how this works: image processing happens on Mochify's servers. Your photos travel over HTTPS to api.mochify.app, are processed in RAM, and are wiped immediately after encoding, with no disk writes and no logs containing file data. Batch sizes run up to 25 files on the Seller and Pro tiers (3 per batch on Free), which fits a full listing's photo set for every platform in one pass.</p>
+            <p class="text-sm text-cocoa-milk">A privacy note on how this works: image processing happens on Mochify's servers. Your photos travel over HTTPS to api.mochify.app, are processed in RAM, and are wiped immediately after encoding, with no disk writes and no logs containing file data. Batch sizes run up to 25 files on the Seller and Pro tiers (3 per batch on Free), which fits a full listing's photo set for every platform in one pass.</p>
         </section>
 
         <!-- FAQ -->

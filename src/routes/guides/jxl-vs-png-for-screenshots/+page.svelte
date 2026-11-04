@@ -172,29 +172,29 @@
 
 <!-- Single max-w-3xl reading column: header, prose, and every card share the
      same container edges. -->
-<article class="relative mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-0 pt-6 md:pt-0 text-lg text-[#6C3F31] leading-relaxed">
+<article class="relative mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-0 pt-6 md:pt-0 text-lg text-cocoa-deep leading-relaxed">
 
     <div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-        <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#F06292] mb-3 mt-0">
+        <p class="text-xs font-bold uppercase tracking-[0.18em] text-mochi-pink mb-3 mt-0">
             {metadata.category} · Guide
         </p>
-        <h1 class="text-3xl md:text-[2.75rem] font-black text-[#4A2C2C] tracking-tight leading-[1.1] mb-0">
-            <span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">JPEG XL vs PNG</span> for Screenshots: Half the Size, Same Pixels
+        <h1 class="text-3xl md:text-[2.75rem] font-black text-cocoa-ink tracking-tight leading-[1.1] mb-0">
+            <span class="bg-gradient-to-r from-mochi-pink to-[#EC407A] bg-clip-text text-transparent">JPEG XL vs PNG</span> for Screenshots: Half the Size, Same Pixels
         </h1>
-        <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-        <p class="mt-5 text-sm font-bold text-[#875F42] mb-0">
+        <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+        <p class="mt-5 text-sm font-bold text-cocoa-milk mb-0">
             {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
         </p>
 
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed mt-8 mb-0">
+        <p class="article-intro text-xl text-cocoa-deep opacity-90 leading-relaxed mt-8 mb-0">
             Screenshots are the one image type almost everybody produces every day, and almost nobody optimizes. Your operating system saves them as PNG, PNG is lossless, and there the thinking usually stops. But lossless is a property of the result, not of the format, and PNG is not the only way to get there. This guide takes a single real macOS screenshot, re-encodes it as lossless JPEG XL, and reports what actually happened: the sizes, the pixels, and the one piece of metadata that changed in a way worth knowing about.
         </p>
 
         <GlassPanel>
             <p>
-                <strong class="text-[#4A2C2C]">Published September 12, 2026 by the Mochify Engineering Team.</strong>
+                <strong class="text-cocoa-ink">Published September 12, 2026 by the Mochify Engineering Team.</strong>
                 Every figure below comes from one measured pair of files rather than a published benchmark, and the pixel-identity claim was verified by decoding both files and diffing them channel by channel.
             </p>
         </GlassPanel>
@@ -214,7 +214,7 @@
             </VerdictPill>
 
             <p class="mt-6">
-                One macOS screenshot, 3056x1982, saved by the system as PNG came to <strong class="text-[#4A2C2C]">1,924,519 bytes</strong>. Re-encoded to lossless JPEG XL it came to <strong class="text-[#4A2C2C]">1,034,300 bytes</strong>. That is 890,219 bytes saved, a 46% reduction, for a file that decodes back to the same image.
+                One macOS screenshot, 3056x1982, saved by the system as PNG came to <strong class="text-cocoa-ink">1,924,519 bytes</strong>. Re-encoded to lossless JPEG XL it came to <strong class="text-cocoa-ink">1,034,300 bytes</strong>. That is 890,219 bytes saved, a 46% reduction, for a file that decodes back to the same image.
             </p>
             <p>
                 The catch is not quality, it is compatibility. JXL opens natively on current macOS, in Safari 17 and later, and since October 2026 in Chrome 155 and Firefox 158 by default; it still does not open in most chat apps, bug trackers, email clients or Windows viewers. So the recommendation is unchanged: JXL is an excellent format for a screenshot you are <em>keeping</em>, and a poor format for one you are about to <em>paste or send</em>.
@@ -310,10 +310,10 @@
                 Lossless guarantees the pixel values, not the color profile: here every pixel value survived the round trip and only the profile changed, from Display P3 to sRGB. We did not take the word "lossless" on trust. Both files were decoded to raw pixels and compared channel by channel, and the comparison is worth reporting carefully, because the first result looks alarming and the explanation is the interesting part.
             </p>
             <p>
-                Compared directly, 12.8% of the color channel values differed, some by as much as 87 levels out of 255. That is not compression loss. That is the color profile row in the table above: the PNG is tagged <strong class="text-[#4A2C2C]">Display P3</strong> and the JXL is tagged <strong class="text-[#4A2C2C]">sRGB</strong>, and converting between two color spaces changes the numbers stored for a pixel even when the color it represents stays as close as the smaller space allows. Saturated colors move the most, which is exactly where the large differences landed.
+                Compared directly, 12.8% of the color channel values differed, some by as much as 87 levels out of 255. That is not compression loss. That is the color profile row in the table above: the PNG is tagged <strong class="text-cocoa-ink">Display P3</strong> and the JXL is tagged <strong class="text-cocoa-ink">sRGB</strong>, and converting between two color spaces changes the numbers stored for a pixel even when the color it represents stays as close as the smaller space allows. Saturated colors move the most, which is exactly where the large differences landed.
             </p>
             <p>
-                Convert the original to sRGB first, so both files are in the same space, and the comparison changes completely: <strong class="text-[#4A2C2C]">99.2% of values are bit-identical, and the maximum difference anywhere in the image is 1 level out of 255</strong>. A maximum delta of one is the signature of rounding between two implementations of the same color conversion, not of a lossy encoder. Lossy compression at any useful quality produces errors many times larger than that, concentrated exactly on the text edges a screenshot is full of.
+                Convert the original to sRGB first, so both files are in the same space, and the comparison changes completely: <strong class="text-cocoa-ink">99.2% of values are bit-identical, and the maximum difference anywhere in the image is 1 level out of 255</strong>. A maximum delta of one is the signature of rounding between two implementations of the same color conversion, not of a lossy encoder. Lossy compression at any useful quality produces errors many times larger than that, concentrated exactly on the text edges a screenshot is full of.
             </p>
             <p>
                 So the encode is genuinely lossless. The pixels went through unharmed. What changed was the color space they are described in.

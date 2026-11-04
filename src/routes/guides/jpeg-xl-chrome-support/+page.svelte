@@ -173,25 +173,25 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
 	<header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category} · Guide
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
-			<span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">JPEG XL</span> Is in Chrome: What Changes for Your Images, and What Does Not Yet
+			<span class="bg-gradient-to-r from-mochi-pink to-[#EC407A] bg-clip-text text-transparent">JPEG XL</span> Is in Chrome: What Changes for Your Images, and What Does Not Yet
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
 			Chrome supports JPEG XL. As of Chrome 155, released on October 6, 2026, the browser decodes
 			<code>.jxl</code> images by default on every platform it ships on, with no flag, using a new
 			decoder written in Rust. Firefox 158 switches its own JPEG XL decoder on by default a week
@@ -206,9 +206,9 @@
 			this month or next quarter.
 		</p>
 
-		<div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-			<p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-				<strong class="text-[#4A2C2C]"
+		<div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+			<p class="m-0 text-base leading-relaxed text-cocoa-deep">
+				<strong class="text-cocoa-ink"
 					>Published {metadata.date} by the Mochify Engineering Team.</strong
 				>
 				{metadata.bylineNote}
@@ -647,7 +647,7 @@
 				and use Mochify for the web variants. And Mochify's JXL output is standard dynamic range:
 				the HDR gain-map path exists for JPG output only.
 			</p>
-			<p class="mb-0 text-base leading-relaxed text-[#875F42]">
+			<p class="mb-0 text-base leading-relaxed text-cocoa-milk">
 				<strong>Privacy, for this workflow:</strong> images travel to <code>api.mochify.app</code>
 				over HTTPS, are encoded in RAM, and are wiped immediately with no disk writes, no logs
 				containing file data, and no use for AI training. That holds for the web app, the CLI, the

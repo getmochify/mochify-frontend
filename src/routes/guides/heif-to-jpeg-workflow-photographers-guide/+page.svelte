@@ -126,30 +126,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Professional Photographers" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · {metadata.date} · Mochify Engineering Team
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Canon, Nikon, Fuji, and Sony mirrorless cameras now shoot native 10-bit HEIF files. The delivery world has not caught up. Here is how to bridge that gap without leaking client data or wasting hours in export queues.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
                 This guide maps the friction points photographers hit converting HIF and HEIF to gallery-ready, marketplace-ready, or wire-ready JPEG in 2026, and provides repeatable workflow blueprints for wedding, commercial, and editorial shooters. EXIF privacy, batch efficiency, and zero-retention processing throughout.
             </p>
         </div>
@@ -159,7 +159,7 @@
 
         <!-- TOC -->
         <nav aria-label="Table of contents">
-            <div class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-7 mb-4">
+            <div class="bg-mochi-blush rounded-3xl border border-pink-100 p-7 mb-4">
                 <SectionHeading>What's in This Guide</SectionHeading>
                 <ol class="flex flex-col gap-2.5 mt-5 list-none p-0 m-0">
                     {#each [
@@ -175,10 +175,10 @@
                         { n: '10', label: 'FAQ', id: '#faq' },
                     ] as item}
                         <li class="m-0 p-0">
-                            <a href={item.id} class="flex items-center gap-3 bg-white border border-pink-100 rounded-xl px-4 py-3 no-underline text-[#4A2C2C] font-semibold text-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
-                                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-[#FFF0F5] border border-pink-100 text-[#F06292] font-black text-xs flex items-center justify-center">{item.n}</span>
+                            <a href={item.id} class="flex items-center gap-3 bg-white border border-pink-100 rounded-xl px-4 py-3 no-underline text-cocoa-ink font-semibold text-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
+                                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-[#FFF0F5] border border-pink-100 text-mochi-pink font-black text-xs flex items-center justify-center">{item.n}</span>
                                 <span class="flex-1">{item.label}</span>
-                                <span class="text-[#F06292] ml-auto">→</span>
+                                <span class="text-mochi-pink ml-auto">→</span>
                             </a>
                         </li>
                     {/each}
@@ -220,7 +220,7 @@
                             { fmt: 'AVIF', bit: '10-bit', use: 'Web delivery, portfolio, product galleries', support: '~90% of browsers', risk: 'Medium' },
                             { fmt: 'JPEG XL', bit: 'Up to 32-bit', use: 'Archive, future-proofing', support: 'Experimental', risk: 'Medium' },
                         ] as row, i}
-                            <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
+                            <tr class={i % 2 === 0 ? 'bg-white' : 'bg-mochi-bg'}>
                                 <td>{row.fmt}</td>
                                 <td>{row.bit}</td>
                                 <td>{row.use}</td>
@@ -242,27 +242,27 @@
             <SectionHeading>The five pain points that break real workflows</SectionHeading>
             <p>Most photographers hit the same five walls. Understanding them precisely is the first step to routing around them.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">1. HIF/HEIF rejection and silent gallery conversions</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">1. HIF/HEIF rejection and silent gallery conversions</h3>
             <p>Gallery platforms and CMSes handle HEIF inconsistently, and often silently. SmugMug accepts HEIC uploads but immediately converts them to JPEG on ingest, dropping the original file. Platforms running older software reject HEIF outright with generic errors. Either way, photographers are forced to pre-convert - with the platform deciding compression settings, color profile, and dimensions.</p>
             <p>The fix is to own the conversion step yourself, before upload, with a known quality setting, a defined color profile (sRGB for web/gallery delivery), and a long-edge dimension you chose.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">2. File size limits on galleries, marketplaces, and email</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">2. File size limits on galleries, marketplaces, and email</h3>
             <p>Email attachments hit limits around 20–25 MB. Etsy, eBay, and Shopify product pages have their own per-image recommended sizes - typically 1,600–2,000 px on the long edge and well under 1 MB for fast page loads. High-resolution HIF/HEIF files from modern mirrorless bodies can easily exceed these limits, causing photographers to scramble with whatever tool is nearest and producing inconsistent compression across a set.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">3. Privacy and EXIF leakage</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">3. Privacy and EXIF leakage</h3>
             <p>EXIF metadata is not just technical noise. It can include GPS coordinates precise enough to pinpoint a shoot location, timestamps, device serial numbers, and an embedded thumbnail of the uncropped original frame. That thumbnail often shows content that was deliberately cropped out of the final image. For wedding photographers, this means client home addresses sitting in gallery metadata. For commercial and editorial shooters, it means shoot locations and unreleased products readable by anyone who downloads a file.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">4. Batch inefficiency across multiple destinations</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">4. Batch inefficiency across multiple destinations</h3>
             <p>A typical commercial shoot produces multiple derivative sets: full-resolution JPEG for archive, smaller proofs for the client gallery, AVIF for the brand website, and specifically sized variants per marketplace. Managing this with separate Lightroom presets, manual folder structures, and ad-hoc compression tools is slow and error-prone. Pro photographers in busy periods report spending several hours per week on export tasks that should be automated.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">5. Plugin bloat and cloud lock-in</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">5. Plugin bloat and cloud lock-in</h3>
             <p>Tools like ShortPixel solve part of the problem by installing plugins into your CMS, but they tie your optimization pipeline to a specific hosting provider. Switching hosts means rebuilding your entire setup. External pre-processing - optimizing files before they touch any CMS or gallery - avoids all of this. Files arrive already optimized, any gallery or CMS accepts them, and your pipeline is fully portable.</p>
 
-            <div class="my-10 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
+            <div class="my-10 bg-mochi-blush p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
                 <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-                <h3 class="text-[1.75rem] font-bold text-[#4A2C2C] relative z-10 mb-3">Process your first batch for free</h3>
-                <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6">No account needed. Drag your HIF or HEIF files, describe your output in plain English, download gallery-ready JPEGs in seconds.</p>
-                <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
+                <h3 class="text-[1.75rem] font-bold text-cocoa-ink relative z-10 mb-3">Process your first batch for free</h3>
+                <p class="text-cocoa-deep max-w-md mx-auto relative z-10 mb-6">No account needed. Drag your HIF or HEIF files, describe your output in plain English, download gallery-ready JPEGs in seconds.</p>
+                <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                     Try Mochify free →
                 </a>
             </div>
@@ -273,7 +273,7 @@
             <SectionHeading>Workflow blueprint: wedding and portrait shooters</SectionHeading>
             <p>Wedding and portrait photographers deliver hundreds of images per job through galleries like Pixieset, SmugMug, or Pic-Time. The goal is a gallery-ready JPEG set that meets each platform's size guidelines, looks sharp at preview scale, and contains no sensitive EXIF data.</p>
 
-            <div class="bg-gradient-to-br from-[#FFF5F7] to-[#FDFBF7] rounded-3xl border border-pink-100 p-7 my-6">
+            <div class="bg-gradient-to-br from-mochi-blush to-mochi-bg rounded-3xl border border-pink-100 p-7 my-6">
                 <ol class="flex flex-col gap-5 list-none p-0 m-0">
                     {#each [
                         { n: 1, title: 'Capture and ingest', body: 'Shoot RAW + HIF/HEIF on Canon EOS R-series, Nikon Z, or Sony Alpha bodies. Use the HIF/HEIF as an immediately usable 10-bit preview during culling; rely on RAW for serious color grading and exposure recovery. Ingest into Lightroom Classic or Capture One.' },
@@ -282,21 +282,21 @@
                         { n: 4, title: 'Upload to gallery and archive', body: 'Upload the Mochify-processed set directly to Pixieset or SmugMug. Files are already compatible, properly sized, and privacy-clean. Keep full-res JPEGs and RAW files in your studio archive.' },
                     ] as step}
                         <li class="flex gap-4 items-start m-0 p-0">
-                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center">{step.n}</span>
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center">{step.n}</span>
                             <div class="flex-1 pt-0.5">
-                                <strong class="block text-[#4A2C2C] font-black mb-1">{step.title}</strong>
+                                <strong class="block text-cocoa-ink font-black mb-1">{step.title}</strong>
                                 {#if step.body}
-                                    <p class="text-[#6C3F31] text-base m-0">{step.body}</p>
+                                    <p class="text-cocoa-deep text-base m-0">{step.body}</p>
                                 {:else}
-                                    <p class="text-[#6C3F31] text-base mb-2">Drag your exported full-res JPEGs (or the HIF/HEIF exports directly) into Mochify and describe the task using Magic Flow:</p>
-                                    <blockquote class="border-l-4 border-[#F06292] bg-[#FFF0F5] rounded-r-xl px-4 py-3 italic text-[#4A2C2C] text-sm my-2">"Batch convert these wedding selects to sRGB JPEGs for Pixieset, 3,600 px long edge, under 2 MB each, strip GPS and all EXIF."</blockquote>
-                                    <blockquote class="border-l-4 border-[#F06292] bg-[#FFF0F5] rounded-r-xl px-4 py-3 italic text-[#4A2C2C] text-sm my-2">"Convert these wedding JPEGs for SmugMug upload, 4,000 px long edge, under 3 MB, sRGB, strip all EXIF including thumbnails."</blockquote>
+                                    <p class="text-cocoa-deep text-base mb-2">Drag your exported full-res JPEGs (or the HIF/HEIF exports directly) into Mochify and describe the task using Magic Flow:</p>
+                                    <blockquote class="border-l-4 border-mochi-pink bg-[#FFF0F5] rounded-r-xl px-4 py-3 italic text-cocoa-ink text-sm my-2">"Batch convert these wedding selects to sRGB JPEGs for Pixieset, 3,600 px long edge, under 2 MB each, strip GPS and all EXIF."</blockquote>
+                                    <blockquote class="border-l-4 border-mochi-pink bg-[#FFF0F5] rounded-r-xl px-4 py-3 italic text-cocoa-ink text-sm my-2">"Convert these wedding JPEGs for SmugMug upload, 4,000 px long edge, under 3 MB, sRGB, strip all EXIF including thumbnails."</blockquote>
                                 {/if}
                             </div>
                         </li>
                     {/each}
                 </ol>
-                <p class="mt-6 pt-5 border-t border-pink-100 text-sm text-[#875F42]">🔒 Mochify processes all files in-memory. Nothing is written to disk, nothing is retained after your download completes, and your client imagery is never used for AI training or stored in any database.</p>
+                <p class="mt-6 pt-5 border-t border-pink-100 text-sm text-cocoa-milk">🔒 Mochify processes all files in-memory. Nothing is written to disk, nothing is retained after your download completes, and your client imagery is never used for AI training or stored in any database.</p>
             </div>
         </section>
 
@@ -305,7 +305,7 @@
             <SectionHeading>Workflow blueprint: commercial and product photographers</SectionHeading>
             <p>Commercial shooters supplying assets to Shopify, WooCommerce, Etsy, Amazon, and similar platforms need to balance visual quality against strict file size and dimension requirements, while keeping derivative management clean across multiple platforms.</p>
 
-            <div class="bg-gradient-to-br from-[#FFF5F7] to-[#FDFBF7] rounded-3xl border border-pink-100 p-7 my-6">
+            <div class="bg-gradient-to-br from-mochi-blush to-mochi-bg rounded-3xl border border-pink-100 p-7 my-6">
                 <ol class="flex flex-col gap-5 list-none p-0 m-0">
                     {#each [
                         { n: 1, title: 'Capture and color pipeline', body: 'Shoot tethered or to card in RAW + HEIF. Use HEIF for quick on-set review while RAW feeds the calibrated color workflow. Edit in Lightroom or Capture One, export a master "web base" JPEG at high quality with appropriate crop ratios.' },
@@ -318,25 +318,25 @@
                         { n: 4, title: 'Integrate into CMS and DAM', body: 'Upload pre-processed files directly to Shopify or WooCommerce without installing image optimization apps. Maintain a folder structure that groups derivatives by platform so teams know exactly which files belong to which templates.' },
                     ] as step}
                         <li class="flex gap-4 items-start m-0 p-0">
-                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center">{step.n}</span>
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center">{step.n}</span>
                             <div class="flex-1 pt-0.5">
-                                <strong class="block text-[#4A2C2C] font-black mb-1">{step.title}</strong>
+                                <strong class="block text-cocoa-ink font-black mb-1">{step.title}</strong>
                                 {#if step.body}
-                                    <p class="text-[#6C3F31] text-base m-0">{step.body}</p>
+                                    <p class="text-cocoa-deep text-base m-0">{step.body}</p>
                                 {:else if step.prompts}
-                                    <p class="text-[#6C3F31] text-base mb-2">Use separate Magic Flow prompts per platform:</p>
+                                    <p class="text-cocoa-deep text-base mb-2">Use separate Magic Flow prompts per platform:</p>
                                     {#each step.prompts as prompt}
-                                        <blockquote class="border-l-4 border-[#F06292] bg-[#FFF0F5] rounded-r-xl px-4 py-3 italic text-[#4A2C2C] text-sm my-2">{prompt}</blockquote>
+                                        <blockquote class="border-l-4 border-mochi-pink bg-[#FFF0F5] rounded-r-xl px-4 py-3 italic text-cocoa-ink text-sm my-2">{prompt}</blockquote>
                                     {/each}
                                 {:else if step.code}
-                                    <p class="text-[#6C3F31] text-base mb-2">If you work with the Mochify CLI, encode these as repeatable scripts:</p>
+                                    <p class="text-cocoa-deep text-base mb-2">If you work with the Mochify CLI, encode these as repeatable scripts:</p>
                                     <div class="bg-slate-900 text-slate-300 p-5 rounded-xl font-mono text-sm shadow-inner border border-slate-700 overflow-x-auto">{step.code}</div>
                                 {/if}
                             </div>
                         </li>
                     {/each}
                 </ol>
-                <p class="mt-6 pt-5 border-t border-pink-100 text-sm text-[#875F42]">🔒 In-memory processing, zero retention. Your embargoed product imagery never touches a persistent third-party server.</p>
+                <p class="mt-6 pt-5 border-t border-pink-100 text-sm text-cocoa-milk">🔒 In-memory processing, zero retention. Your embargoed product imagery never touches a persistent third-party server.</p>
             </div>
         </section>
 
@@ -345,7 +345,7 @@
             <SectionHeading>Workflow blueprint: editorial and press photographers</SectionHeading>
             <p>Press and editorial photographers file on tight deadlines. Wire services and newsroom systems expect JPEG with specific color profiles, size constraints, and controlled metadata. You need to keep caption IPTC data intact while removing GPS coordinates that could compromise sources or reveal sensitive locations.</p>
 
-            <div class="bg-gradient-to-br from-[#FFF5F7] to-[#FDFBF7] rounded-3xl border border-pink-100 p-7 my-6">
+            <div class="bg-gradient-to-br from-mochi-blush to-mochi-bg rounded-3xl border border-pink-100 p-7 my-6">
                 <ol class="flex flex-col gap-5 list-none p-0 m-0">
                     {#each [
                         { n: 1, title: 'On-device HEIF capture', body: 'Shoot in HEIF on compatible camera bodies or phones for smaller file sizes and 10-bit HDR capture. In the field, use camera-native or mobile app JPEG export for immediate filing when connectivity is marginal and speed is the only priority.' },
@@ -353,21 +353,21 @@
                         { n: 3, title: 'Delivery via FTP or newsroom CMS', body: 'File the resulting JPEGs through FTP or the newsroom CMS. Files meet size and color requirements and carry only the necessary metadata.' },
                     ] as step}
                         <li class="flex gap-4 items-start m-0 p-0">
-                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center">{step.n}</span>
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center">{step.n}</span>
                             <div class="flex-1 pt-0.5">
-                                <strong class="block text-[#4A2C2C] font-black mb-1">{step.title}</strong>
+                                <strong class="block text-cocoa-ink font-black mb-1">{step.title}</strong>
                                 {#if step.body}
-                                    <p class="text-[#6C3F31] text-base m-0">{step.body}</p>
+                                    <p class="text-cocoa-deep text-base m-0">{step.body}</p>
                                 {:else}
-                                    <p class="text-[#6C3F31] text-base mb-2">From a laptop or tablet, run a quick batch through Mochify before submission:</p>
-                                    <blockquote class="border-l-4 border-[#F06292] bg-[#FFF0F5] rounded-r-xl px-4 py-3 italic text-[#4A2C2C] text-sm my-2">{step.prompt}</blockquote>
-                                    <p class="text-[#6C3F31] text-sm mt-2">This keeps the captioning metadata that wire services require while removing location data. The in-memory pipeline means no source imagery touches a third-party server persistently.</p>
+                                    <p class="text-cocoa-deep text-base mb-2">From a laptop or tablet, run a quick batch through Mochify before submission:</p>
+                                    <blockquote class="border-l-4 border-mochi-pink bg-[#FFF0F5] rounded-r-xl px-4 py-3 italic text-cocoa-ink text-sm my-2">{step.prompt}</blockquote>
+                                    <p class="text-cocoa-deep text-sm mt-2">This keeps the captioning metadata that wire services require while removing location data. The in-memory pipeline means no source imagery touches a third-party server persistently.</p>
                                 {/if}
                             </div>
                         </li>
                     {/each}
                 </ol>
-                <p class="mt-6 pt-5 border-t border-pink-100 text-sm text-[#875F42]">🔒 Selective EXIF stripping via Magic Flow - remove GPS while preserving caption and copyright IPTC in a single prompt.</p>
+                <p class="mt-6 pt-5 border-t border-pink-100 text-sm text-cocoa-milk">🔒 Selective EXIF stripping via Magic Flow - remove GPS while preserving caption and copyright IPTC in a single prompt.</p>
             </div>
         </section>
 
@@ -409,7 +409,7 @@
                             { plan: 'Lite - $7.99/month', images: '300', size: '75 MB', for: 'Part-time and emerging pros' },
                             { plan: 'Pro - $24.99/month', images: '1,200', size: '75 MB', for: 'Working pros, multi-shoot weeks' },
                         ] as row, i}
-                            <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
+                            <tr class={i % 2 === 0 ? 'bg-white' : 'bg-mochi-bg'}>
                                 <td>{row.plan}</td>
                                 <td>{row.images}</td>
                                 <td>{row.size}</td>
@@ -419,13 +419,13 @@
                     </tbody>
                 </table>
             </GuideTable>
-            <p class="text-sm text-[#875F42] italic">Annual plans (Lite and Pro) save 17% vs monthly. All tiers include Magic Flow, API, MCP, and all supported formats.</p>
+            <p class="text-sm text-cocoa-milk italic">Annual plans (Lite and Pro) save 17% vs monthly. All tiers include Magic Flow, API, MCP, and all supported formats.</p>
 
-            <div class="my-10 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
+            <div class="my-10 bg-mochi-blush p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
                 <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
-                <h3 class="text-[1.75rem] font-bold text-[#4A2C2C] relative z-10 mb-3">Try Mochify free - no account needed</h3>
-                <p class="text-[#6C3F31] max-w-md mx-auto relative z-10 mb-6">Process your first files instantly. No signup, no data retained.</p>
-                <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
+                <h3 class="text-[1.75rem] font-bold text-cocoa-ink relative z-10 mb-3">Try Mochify free - no account needed</h3>
+                <p class="text-cocoa-deep max-w-md mx-auto relative z-10 mb-6">Process your first files instantly. No signup, no data retained.</p>
+                <a href="/" class="relative z-10 inline-flex items-center gap-3 px-7 py-3.5 bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black rounded-2xl shadow-lg hover:-translate-y-0.5 transition-all no-underline">
                     Start at mochify.app →
                 </a>
             </div>
@@ -436,7 +436,7 @@
             <SectionHeading>Technical proof: file size, quality, and time savings</SectionHeading>
             <p>These are the numbers that matter for your actual workflow decisions.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Encoder efficiency</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">Encoder efficiency</h3>
             <p>Mochify uses jpegli for JPEG output. Google's published benchmarks show jpegli at 2.8 bits per pixel (BPP) matching libjpeg-turbo at 3.7 BPP on subjective quality - a roughly 24% file size reduction at equivalent visual quality.</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
@@ -446,14 +446,14 @@
                     { label: 'Batch time (25 files)', value: '<60s', desc: 'Canon HIF to sRGB JPEG at 3,600 px via Pro queue' },
                 ] as stat}
                     <div class="bg-[#FFF9F5] rounded-2xl border border-[#FFE4D6] p-5">
-                        <div class="text-xs font-black uppercase tracking-wider text-[#875F42] mb-2">{stat.label}</div>
-                        <div class="text-3xl font-black text-[#4A2C2C] leading-none">{stat.value}</div>
-                        <div class="text-xs text-[#875F42] mt-2">{stat.desc}</div>
+                        <div class="text-xs font-black uppercase tracking-wider text-cocoa-milk mb-2">{stat.label}</div>
+                        <div class="text-3xl font-black text-cocoa-ink leading-none">{stat.value}</div>
+                        <div class="text-xs text-cocoa-milk mt-2">{stat.desc}</div>
                     </div>
                 {/each}
             </div>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Modern format savings</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">Modern format savings</h3>
             <p>A representative conversion for a commercial product shoot - 25 hero images at 3,200 px wide from Nikon Z HEIF originals:</p>
 
             <GuideTable class="my-6">
@@ -472,7 +472,7 @@
                             { fmt: 'WebP (quality 80)', size: '1.1 MB', diff: '-39%', color: 'text-green-700 font-black' },
                             { fmt: 'AVIF (quality 60)', size: '0.9 MB', diff: '-50%', color: 'text-green-700 font-black' },
                         ] as row, i}
-                            <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
+                            <tr class={i % 2 === 0 ? 'bg-white' : 'bg-mochi-bg'}>
                                 <td>{row.fmt}</td>
                                 <td>{row.size}</td>
                                 <td>{row.diff}</td>
@@ -482,7 +482,7 @@
                 </table>
             </GuideTable>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mt-8 mb-3">Batch time</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mt-8 mb-3">Batch time</h3>
             <p>A 25-image batch of Canon or Fuji HIF files converted to sRGB JPEG at 3,600 px long edge via Mochify's Pro tier typically completes in under 60 seconds from upload to download. The same job handled via manual Lightroom export presets plus a separate EXIF-stripping tool plus a manual resize pass typically takes 8–15 minutes.</p>
 
             <GlassInfoBox type="tip" title="Pro tip: time savings compound">

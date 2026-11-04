@@ -182,31 +182,31 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Etsy Listing Photo Size" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             The right Etsy listing photo size is at least 2000 pixels in both width and height, with a file size under 1MB. That single sentence resolves most of the confusion, but it hides the details that actually cost sellers sales: why photos turn blurry after upload, how Etsy crops your first photo three different ways, and which of the numbers floating around the internet are years out of date. This guide covers every current Etsy image spec, sourced from Etsy's own documentation, plus a batch workflow that gets an entire shop's photos to spec in one prompt.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published August 3, 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published August 3, 2026 by the Mochify Engineering Team.</strong>
                 Every number in this guide comes from Etsy's live documentation, not the recycled specs most size guides still publish.
             </p>
         </div>
@@ -223,10 +223,10 @@
             <SectionHeading>What size should Etsy listing photos be?</SectionHeading>
             <p>Etsy recommends listing photos with a width and height of at least 2000 pixels, and warns that images over 1MB in file size may not finish uploading. Those are the two numbers that matter, straight from <a href="https://help.etsy.com/hc/en-us/articles/115015663347-Requirements-and-Best-Practices-for-Images-in-Your-Etsy-Shop" target="_blank" rel="noopener noreferrer">Etsy's image requirements</a>. Everything else is detail:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Minimum for your first photo: 635px</strong> in width and height. Below that, Etsy says listings can show up lower in search. This is the floor, not the target.</li>
-                <li><strong class="text-[#4A2C2C]">Formats: JPG, PNG, GIF, SVG, and HEIC</strong> - the only file types Etsy supports. Animated GIFs aren't supported, and PNG transparency renders as black, so flatten transparent images onto a background before upload.</li>
-                <li><strong class="text-[#4A2C2C]">Color: sRGB.</strong> Etsy converts everything to sRGB anyway; converting before upload avoids surprise color shifts. CMYK is for print, not listings.</li>
-                <li><strong class="text-[#4A2C2C]">Per listing: up to 20 photos and 2 videos</strong>, per <a href="https://help.etsy.com/hc/en-us/articles/115015628707-How-to-Create-a-Listing" target="_blank" rel="noopener noreferrer">Etsy's listing documentation</a>.</li>
+                <li><strong class="text-cocoa-ink">Minimum for your first photo: 635px</strong> in width and height. Below that, Etsy says listings can show up lower in search. This is the floor, not the target.</li>
+                <li><strong class="text-cocoa-ink">Formats: JPG, PNG, GIF, SVG, and HEIC</strong> - the only file types Etsy supports. Animated GIFs aren't supported, and PNG transparency renders as black, so flatten transparent images onto a background before upload.</li>
+                <li><strong class="text-cocoa-ink">Color: sRGB.</strong> Etsy converts everything to sRGB anyway; converting before upload avoids surprise color shifts. CMYK is for print, not listings.</li>
+                <li><strong class="text-cocoa-ink">Per listing: up to 20 photos and 2 videos</strong>, per <a href="https://help.etsy.com/hc/en-us/articles/115015628707-How-to-Create-a-Listing" target="_blank" rel="noopener noreferrer">Etsy's listing documentation</a>.</li>
             </ul>
             <GlassInfoBox type="note" title="Retired specs still circulating">
                 Worth flagging what's not in Etsy's current documentation, because outdated numbers dominate the search results: there is no 72 PPI requirement (PPI is irrelevant for screen display), no 570x456 "thumbnail size" (a legacy figure that appears on no live Etsy page), and no rule that photos must be 4:3. If a guide quotes those, it's recycling specs from years ago.
@@ -240,8 +240,8 @@
             <p>Etsy recompresses every photo you upload, and that recompression is usually what makes crisp photos turn soft. This isn't speculation; it's in Etsy's own documentation: "Images may appear less sharp after being uploaded due to compression of the image files. We do this in order to improve the overall performance of the page."</p>
             <p>Two upload habits make the recompression visibly worse:</p>
             <ol class="list-decimal pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Uploading too small.</strong> Anything under 2000px gets displayed at sizes it can't support, especially once zoom is involved. Etsy notes that downsizing a large image is safe, but enlarging a small one causes pixelation. There's no fix for missing pixels; re-shoot or re-export from the original.</li>
-                <li><strong class="text-[#4A2C2C]">Uploading an already heavily compressed JPEG.</strong> Compression stacks. A JPEG exported at aggressive quality settings, or saved repeatedly through messaging apps, goes through Etsy's compressor a second time, and the artifacts compound. Sellers report this constantly as "my photos looked fine until I uploaded them."</li>
+                <li><strong class="text-cocoa-ink">Uploading too small.</strong> Anything under 2000px gets displayed at sizes it can't support, especially once zoom is involved. Etsy notes that downsizing a large image is safe, but enlarging a small one causes pixelation. There's no fix for missing pixels; re-shoot or re-export from the original.</li>
+                <li><strong class="text-cocoa-ink">Uploading an already heavily compressed JPEG.</strong> Compression stacks. A JPEG exported at aggressive quality settings, or saved repeatedly through messaging apps, goes through Etsy's compressor a second time, and the artifacts compound. Sellers report this constantly as "my photos looked fine until I uploaded them."</li>
             </ol>
             <p>The fix for the second problem is quality-per-byte: deliver a file that's small and clean, so Etsy's pass has good material to work with. This is exactly the trade the jpegli encoder is built for; our <a href="https://mochify.app/guides/jpeg-in-2026-jpegli">Jpegli quality-per-byte guide</a> covers why it produces roughly 35% smaller files than older JPEG encoders with no visible quality loss. A 2000-3000px photo, encoded well, lands comfortably under Etsy's 1MB threshold without looking like it was squeezed there. The broader principle - optimize before you upload rather than trusting a platform's compressor - applies to <a href="https://mochify.app/guides/should-i-optimize-images-before-upload">every upload destination</a>, not just Etsy.</p>
         </section>
@@ -252,9 +252,9 @@
             <p>Etsy doesn't show your photo at one shape. The same first image gets cropped to square, portrait, and landscape thumbnails in different parts of the site and app, which is why Etsy's guidance is to shoot with negative space around your product and check the listing preview tool, which shows all three crops before you publish.</p>
             <p>Practical implications:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">A 2000x2000 square master is the most crop-resistant upload.</strong> Whatever Etsy trims for a portrait or landscape context, a centered subject with breathing room survives.</li>
-                <li><strong class="text-[#4A2C2C]">First photo sets the tone.</strong> Etsy recommends the first photo be landscape or square, and it dictates how your other photos display on the listing.</li>
-                <li><strong class="text-[#4A2C2C]">Don't crop tight in-camera.</strong> Tight crops look decisive in the editor and lose product edges in Etsy's thumbnails. Leave margin; crop happens at display time whether you like it or not.</li>
+                <li><strong class="text-cocoa-ink">A 2000x2000 square master is the most crop-resistant upload.</strong> Whatever Etsy trims for a portrait or landscape context, a centered subject with breathing room survives.</li>
+                <li><strong class="text-cocoa-ink">First photo sets the tone.</strong> Etsy recommends the first photo be landscape or square, and it dictates how your other photos display on the listing.</li>
+                <li><strong class="text-cocoa-ink">Don't crop tight in-camera.</strong> Tight crops look decisive in the editor and lose product edges in Etsy's thumbnails. Leave margin; crop happens at display time whether you like it or not.</li>
             </ul>
             <p>If you <a href="/guides/cross-listing-marketplace-photo-requirements">sell across marketplaces</a>, this multi-crop behavior is Etsy's version of a problem every platform has: our quick answer on <a href="https://mochify.app/guides/do-marketplace-product-images-need-to-be-square">whether marketplace product images need to be square</a> covers the cross-platform default.</p>
         </section>
@@ -285,7 +285,7 @@
                 </table>
             </GuideTable>
 
-            <p><strong class="text-[#4A2C2C]">Listing videos</strong>, per <a href="https://help.etsy.com/hc/en-us/articles/360053206073-How-to-Add-Listing-Videos" target="_blank" rel="noopener noreferrer">Etsy's video documentation</a>: 3-15 seconds, up to 100MB, minimum 500px resolution with at least 1080px recommended, up to 2 per listing. Etsy strips the audio on upload, so shoot for silent playback.</p>
+            <p><strong class="text-cocoa-ink">Listing videos</strong>, per <a href="https://help.etsy.com/hc/en-us/articles/360053206073-How-to-Add-Listing-Videos" target="_blank" rel="noopener noreferrer">Etsy's video documentation</a>: 3-15 seconds, up to 100MB, minimum 500px resolution with at least 1080px recommended, up to 2 per listing. Etsy strips the audio on upload, so shoot for silent playback.</p>
         </section>
 
         <!-- 05 Cheat sheet -->
@@ -344,10 +344,10 @@
                     },
                 ] as step}
                     <div class="flex items-start gap-4 rounded-2xl border border-pink-100 bg-white p-5">
-                        <span class="w-9 h-9 shrink-0 rounded-full bg-pink-50 flex items-center justify-center text-sm font-black text-[#F06292] border border-pink-100">{step.n}</span>
+                        <span class="w-9 h-9 shrink-0 rounded-full bg-pink-50 flex items-center justify-center text-sm font-black text-mochi-pink border border-pink-100">{step.n}</span>
                         <div>
-                            <h3 class="font-bold text-[#4A2C2C] text-lg mb-1 mt-0">{step.h}</h3>
-                            <p class="text-base text-[#6C3F31] m-0">{@html step.body}</p>
+                            <h3 class="font-bold text-cocoa-ink text-lg mb-1 mt-0">{step.h}</h3>
+                            <p class="text-base text-cocoa-deep m-0">{@html step.body}</p>
                         </div>
                     </div>
                 {/each}
@@ -357,7 +357,7 @@
                 The metadata line in that prompt is deliberate: camera EXIF can include GPS coordinates, and for anyone photographing products at home, stripping location data before a public listing is basic hygiene. Stating it in the prompt makes the behavior explicit rather than assumed.
             </GlassInfoBox>
 
-            <p class="text-sm text-[#875F42]">Privacy note: your photos travel over HTTPS to api.mochify.app, are processed in RAM, and are wiped immediately after encoding - no disk writes, no logs containing file data. Batches run up to 25 files on the Seller and Pro tiers (3 per batch on Free), so a 20-photo listing preps in a single pass.</p>
+            <p class="text-sm text-cocoa-milk">Privacy note: your photos travel over HTTPS to api.mochify.app, are processed in RAM, and are wiped immediately after encoding - no disk writes, no logs containing file data. Batches run up to 25 files on the Seller and Pro tiers (3 per batch on Free), so a 20-photo listing preps in a single pass.</p>
             <p>Prepping a whole shop's worth of listings is as much a time question as a formatting one. If Etsy is one of several places you sell, <a href="/guides/is-reselling-worth-it">the reseller volume math</a> covers when a paid photo workflow starts paying for itself.</p>
         </section>
 

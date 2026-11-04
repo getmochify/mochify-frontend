@@ -278,7 +278,7 @@
         <div class="px-5 py-3 rounded-2xl backdrop-blur-md border shadow-xl flex items-center gap-3 transition-all duration-300
             {statusMessage.type === 'error'
                 ? 'bg-red-50/90 border-red-200 text-red-800 shadow-red-500/10'
-                : 'bg-[#F4FBF2]/90 border-[#A5D6A7]/50 text-[#2E5C31] shadow-green-500/10'}">
+                : 'bg-[#F4FBF2]/90 border-matcha-green/50 text-[#2E5C31] shadow-green-500/10'}">
 
             {#if statusMessage.type === 'error'}
                 <svg class="w-5 h-5 flex-shrink-0 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
@@ -311,11 +311,11 @@
             {#if isDragging}
                 <div class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-white/40 backdrop-blur-md pointer-events-none rounded-[2rem]">
                     <div class="w-14 h-14 rounded-2xl bg-white/90 shadow-xl shadow-pink-200/50 flex items-center justify-center mb-3 animate-bounce">
-                        <svg class="w-6 h-6 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <svg class="w-6 h-6 text-mochi-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/>
                         </svg>
                     </div>
-                    <p class="text-[#4A2C2C] font-bold text-lg tracking-tight shadow-white drop-shadow-md">Drop it like it's hot</p>
+                    <p class="text-cocoa-ink font-bold text-lg tracking-tight shadow-white drop-shadow-md">Drop it like it's hot</p>
                 </div>
             {/if}
 
@@ -332,7 +332,7 @@
                             </div>
                             <button
                                 onclick={() => removeFile(i)}
-                                class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-white/90 text-[#F06292] hover:text-red-500 hover:bg-white flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all shadow-md sm:hover:scale-110 cursor-pointer backdrop-blur-sm"
+                                class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-white/90 text-mochi-pink hover:text-red-500 hover:bg-white flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all shadow-md sm:hover:scale-110 cursor-pointer backdrop-blur-sm"
                                 aria-label="Remove {file.name}"
                             >
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
@@ -343,7 +343,7 @@
                     {/each}
                     <button
                         onclick={() => fileInputEl?.click()}
-                        class="liquid-bubble flex-shrink-0 w-16 h-16 rounded-2xl border border-dashed border-[#F06292]/30 hover:bg-white/60 transition-all flex items-center justify-center text-[#F06292]/60 hover:text-[#F06292] hover:scale-105 cursor-pointer shadow-sm"
+                        class="liquid-bubble flex-shrink-0 w-16 h-16 rounded-2xl border border-dashed border-mochi-pink/30 hover:bg-white/60 transition-all flex items-center justify-center text-mochi-pink/60 hover:text-mochi-pink hover:scale-105 cursor-pointer shadow-sm"
                         aria-label="Add more images"
                     >
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
@@ -352,7 +352,7 @@
                     </button>
 
                     <div class="absolute bottom-0 left-8 right-8">
-                        <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-[#875F42]/15 to-transparent"></div>
+                        <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-cocoa-milk/15 to-transparent"></div>
                         <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
                     </div>
                 </div>
@@ -362,7 +362,7 @@
 
                 <div class="order-2 sm:order-1 flex items-center gap-2 sm:gap-3 flex-shrink-0 bg-white/20 p-1.5 rounded-2xl backdrop-blur-sm shadow-inner border border-white/30">
 
-                    <button onclick={() => fileInputEl?.click()} class="p-2 rounded-xl text-[#875F42]/80 hover:text-[#F06292] hover:bg-white/60 transition-all cursor-pointer" aria-label="Attach images">
+                    <button onclick={() => fileInputEl?.click()} class="p-2 rounded-xl text-cocoa-milk/80 hover:text-mochi-pink hover:bg-white/60 transition-all cursor-pointer" aria-label="Attach images">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"/>
                         </svg>
@@ -376,7 +376,7 @@
                             <div class="block w-8 h-4 rounded-full transition-all duration-300 border {downloadAsZip ? 'bg-[#C8E6C9] border-[#C8E6C9] shadow-[0_0_8px_rgba(200,230,201,0.8)]' : 'bg-[#e8f5e9] border-[#C8E6C9]/40 shadow-inner'}"></div>
                             <div class="dot absolute left-0.5 top-0.5 bg-white w-3 h-3 rounded-full transition-transform duration-300 shadow-sm {downloadAsZip ? 'transform translate-x-4' : ''}"></div>
                         </div>
-                        <span class="text-[10px] font-extrabold tracking-widest uppercase transition-colors duration-300 {downloadAsZip ? 'text-[#2E5C31]' : 'text-[#875F42]/60'}">ZIP</span>
+                        <span class="text-[10px] font-extrabold tracking-widest uppercase transition-colors duration-300 {downloadAsZip ? 'text-[#2E5C31]' : 'text-cocoa-milk/60'}">ZIP</span>
                     </label>
                 </div>
 
@@ -389,7 +389,7 @@
                     onkeydown={handleKeydown}
                     placeholder="Describe what you want…"
                     rows="1"
-                    class="order-1 sm:order-2 w-full sm:flex-1 resize-none border-0 bg-transparent text-[#4A2C2C] placeholder-[#875F42]/40 text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[48px] max-h-[200px] overflow-y-auto py-2.5 [appearance:none]"
+                    class="order-1 sm:order-2 w-full sm:flex-1 resize-none border-0 bg-transparent text-cocoa-ink placeholder-cocoa-milk/40 text-base sm:text-lg leading-relaxed focus:outline-none focus:ring-0 font-medium min-h-[48px] max-h-[200px] overflow-y-auto py-2.5 [appearance:none]"
                 ></textarea>
 
                 <button
@@ -397,8 +397,8 @@
                     disabled={!prompt.trim() || files.length === 0 || isProcessing}
                     class="order-3 ml-auto sm:ml-0 flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-bold transition-all duration-300
                     {prompt.trim() && files.length > 0 && !isProcessing
-                        ? 'bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_4px_16px_rgba(240,98,146,0.4)] hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),_0_8px_24px_rgba(240,98,146,0.6)] hover:-translate-y-0.5 cursor-pointer'
-                        : 'bg-white/50 text-[#F06292]/30 border border-white/60 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] cursor-not-allowed'}"
+                        ? 'bg-gradient-to-br from-mochi-pink-light to-mochi-pink text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_4px_16px_rgba(240,98,146,0.4)] hover:shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),_0_8px_24px_rgba(240,98,146,0.6)] hover:-translate-y-0.5 cursor-pointer'
+                        : 'bg-white/50 text-mochi-pink/30 border border-white/60 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] cursor-not-allowed'}"
                 >
                     {#if isProcessing}
                         <svg class="w-5 h-5 animate-spin drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
@@ -416,15 +416,15 @@
                 {#if isProcessing}
                     <div class="h-1.5 bg-white/20 overflow-hidden relative">
                         {#if processPhase === 'thinking'}
-                            <div class="absolute inset-0 bg-gradient-to-r from-[#F06292] to-[#e040a0] opacity-60 animate-pulse"></div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-mochi-pink to-[#e040a0] opacity-60 animate-pulse"></div>
                         {:else}
-                            <div class="h-full bg-gradient-to-r from-[#F06292] to-[#e040a0] transition-all duration-300 ease-out shadow-[0_0_10px_rgba(240,98,146,0.5)]" style="width: {uploadProgress}%"></div>
+                            <div class="h-full bg-gradient-to-r from-mochi-pink to-[#e040a0] transition-all duration-300 ease-out shadow-[0_0_10px_rgba(240,98,146,0.5)]" style="width: {uploadProgress}%"></div>
                         {/if}
                     </div>
                 {/if}
 
                 <div class="flex items-center justify-between px-4 sm:px-6 py-3">
-                    <span class="text-sm text-[#875F42]/70 font-medium tracking-wide flex items-center gap-2">
+                    <span class="text-sm text-cocoa-milk/70 font-medium tracking-wide flex items-center gap-2">
                         {#if isProcessing}
                             {#if processPhase === 'thinking'}
                                 <span class="animate-pulse">✨</span>

@@ -121,7 +121,7 @@ grep X-Mochify-HDR headers.txt
 <!-- Single max-w-3xl reading column: header, prose, and every card share the
      same container edges. At rollout this constraint moves to the guides
      layout's <main> so the breadcrumb shares it too. -->
-<article class="relative mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-0 pt-6 md:pt-0 text-lg text-[#6C3F31] leading-relaxed">
+<article class="relative mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-0 pt-6 md:pt-0 text-lg text-cocoa-deep leading-relaxed">
 
     <!-- Top-only mochi wash: absolute (scrolls away with the page, unlike the
          fixed BlobBackground), full-bleed via the 100vw trick, and faded out
@@ -131,18 +131,18 @@ grep X-Mochify-HDR headers.txt
 
 
     <header class="mb-12 md:mb-14">
-        <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#F06292] mb-3 mt-0">
+        <p class="text-xs font-bold uppercase tracking-[0.18em] text-mochi-pink mb-3 mt-0">
             {metadata.category} · Guide
         </p>
-        <h1 class="text-3xl md:text-[2.75rem] font-black text-[#4A2C2C] tracking-tight leading-[1.1] mb-0">
+        <h1 class="text-3xl md:text-[2.75rem] font-black text-cocoa-ink tracking-tight leading-[1.1] mb-0">
             Why HDR Photos Look Flat When You Share Them (and How Gain Maps Fix It)
         </h1>
-        <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-        <p class="mt-5 text-sm font-bold text-[#875F42] mb-0">
+        <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+        <p class="mt-5 text-sm font-bold text-cocoa-milk mb-0">
             {metadata.readTime} · {metadata.date} · Mochify Engineering Team
         </p>
 
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed mt-8 mb-0">
+        <p class="article-intro text-xl text-cocoa-deep opacity-90 leading-relaxed mt-8 mb-0">
             HDR photos look flat when you share them because the extra brightness lives in a separate layer, called a gain map, that only some screens and apps know how to use. Everything else silently shows the standard-range base image underneath, and a photo that glowed on your phone turns dull on a client's laptop, in a browser, or after an export. The base image is what it always was. What changed is that nothing is applying the map. This guide explains the mechanism in plain English, walks through each place the map gets lost, and shows how to get a file that keeps it, or a plausible one when the original never had it.
         </p>
     </header>
@@ -171,7 +171,7 @@ grep X-Mochify-HDR headers.txt
             <p class="mb-4">A gain map is a low-resolution brightness multiplier stored next to a normal image, and it is how one file can look correct on both an SDR screen and an HDR one. Android's Ultra HDR specification describes it as "a logarithmic map indicating how much to brighten each pixel in the SDR rendition to produce the target HDR rendition," and recommends storing it at a quarter of the primary image's resolution per dimension, so a 1920 by 1080 photo carries a 480 by 270 map (<a href="https://developer.android.com/media/platform/hdr-image-format" target="_blank" rel="noopener noreferrer">Android Ultra HDR Image Format v1.1</a>).</p>
             <p class="mb-4">An HDR-aware display reads the base image, reads the map, and multiplies one by the other. Because the map is keyed to the display's own capability, a phone that can push highlights three times brighter than white applies more of the map than a laptop that can push them one and a half times. Anything that does not understand the map, which was every viewer in the world until 2023, simply shows the base image. The specification calls this out as the design goal: no clipping, no crushed shadows, no local contrast changes in the fallback. It is a clean degrade, not a broken one.</p>
             <p class="mb-4">Three names describe the same idea, and the naming is where most confusion starts:</p>
-            <ul class="list-disc pl-6 space-y-3 marker:text-[#F06292] my-6">
+            <ul class="list-disc pl-6 space-y-3 marker:text-mochi-pink my-6">
                 <li><strong>Ultra HDR</strong> is Google's name. It shipped with Android 14, Pixel cameras write it by default, and the container is an ordinary JPEG with the gain map tucked into a multi-picture structure and described in XMP metadata. Google's open-source <a href="https://github.com/google/libultrahdr" target="_blank" rel="noopener noreferrer">libultrahdr</a> library is the reference implementation.</li>
                 <li><strong>Adaptive HDR</strong> is Apple's name for its adoption of the ISO standard, added with iOS 18, iPadOS 18, and macOS Sequoia in September 2024. iPhones had been writing an earlier, Apple-specific gain map for years before that; the standardized one is what makes those files readable elsewhere.</li>
                 <li><strong>ISO 21496-1</strong> is the standard both now share. ISO published it in July 2025 as "Gain map metadata for image conversion, Part 1: Dynamic range conversion" (<a href="https://www.iso.org/standard/86775.html" target="_blank" rel="noopener noreferrer">ISO 21496-1:2025</a>), and Android 15 writes both its own metadata and the ISO metadata into the same file so a Pixel photo opens correctly on an iPhone and vice versa.</li>
@@ -212,7 +212,7 @@ grep X-Mochify-HDR headers.txt
         <section id="which-formats" class="scroll-mt-24">
             <SectionHeading>Which formats can carry HDR (and which cannot)</SectionHeading>
             <p class="mb-4">Only two mainstream formats carry a gain map in a way that falls back cleanly: JPEG (as Ultra HDR) and HEIC, with AVIF and JPEG XL taking a different route by storing HDR in the pixels themselves, and WebP and PNG unable to represent HDR at all in common use. Which one you choose decides whether the photo survives the trip.</p>
-            <ul class="list-disc pl-6 space-y-3 marker:text-[#F06292] my-6">
+            <ul class="list-disc pl-6 space-y-3 marker:text-mochi-pink my-6">
                 <li><strong>JPEG with a gain map (Ultra HDR).</strong> The safest choice for sharing, because the fallback is an ordinary JPEG. Lightroom's own documentation describes a JPEG export from an HDR edit as saving "an SDR image with HDR details preserved with a Gain map" (<a href="https://helpx.adobe.com/lightroom-cc/using/hdr-output.html" target="_blank" rel="noopener noreferrer">Adobe, HDR output</a>). The map adds a few percent to file size because it is stored at reduced resolution and compressed hard.</li>
                 <li><strong>HEIC / HEIF.</strong> What iPhones and many cameras write natively, with the gain map inside the container. Excellent on Apple hardware; support elsewhere is patchier, which is why so many workflows convert to JPEG for delivery. If you are converting camera HEIF files, our <a href="/guides/heif-to-jpg-complete-guide">HEIF to JPG conversion guide</a> covers the general path.</li>
                 <li><strong>AVIF.</strong> Can hold true 10-bit HDR in PQ or HLG, and Adobe recommends it for HDR export because of the higher bit depth and smaller files. But that is HDR in the pixels, not a gain map over an SDR base: a viewer that does not do HDR does not get a clean fallback. AVIF also carries an ISO gain map in newer encoders, but that path is still uncommon. Our explainer on <a href="/guides/what-is-an-avif-file">what an AVIF file is</a> covers the format's wider tradeoffs.</li>

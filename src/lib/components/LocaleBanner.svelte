@@ -75,19 +75,19 @@
 {#if shown}
 	<div class="flex justify-center px-4 pt-3">
 		<div
-			class="flex w-full max-w-5xl items-center justify-between gap-3 rounded-2xl border border-pink-100 bg-[#FFF5F7] px-4 py-2.5 text-sm text-[#6C3F31]"
+			class="flex w-full max-w-5xl items-center justify-between gap-3 rounded-2xl border border-pink-100 bg-mochi-blush px-4 py-2.5 text-sm text-cocoa-deep"
 		>
 			<a
 				href={shown.href}
 				hreflang={shown.lang}
 				lang={shown.lang}
-				class="font-bold text-[#F06292] hover:underline">{shown.label}</a
+				class="font-bold text-mochi-pink hover:underline">{shown.label}</a
 			>
 			<button
 				type="button"
 				onclick={dismiss}
 				aria-label={shown.label}
-				class="shrink-0 cursor-pointer rounded-full p-1 text-[#875F42]/60 transition-colors hover:text-[#F06292]"
+				class="shrink-0 cursor-pointer rounded-full p-1 text-cocoa-milk/60 transition-colors hover:text-mochi-pink"
 			>
 				<svg
 					class="h-4 w-4"

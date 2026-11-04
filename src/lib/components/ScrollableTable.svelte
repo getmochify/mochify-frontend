@@ -46,7 +46,7 @@
 
     <!-- Swipe nudge: shown until the user begins scrolling -->
     <div
-        class="pointer-events-none absolute bottom-2 right-2 flex items-center gap-1 rounded-full bg-[#4A2C2C]/75 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-sm transition-opacity duration-200"
+        class="pointer-events-none absolute bottom-2 right-2 flex items-center gap-1 rounded-full bg-cocoa-ink/75 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-sm transition-opacity duration-200"
         class:opacity-0={!canScroll || scrolled}
         aria-hidden="true"
     >

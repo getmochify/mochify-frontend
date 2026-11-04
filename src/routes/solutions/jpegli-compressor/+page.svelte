@@ -130,14 +130,14 @@
                 </span>
             </div>
 
-            <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
+            <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
                 Compress JPEG with
-                <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
+                <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
                     jpegli
                 </span>
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
+            <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Drop JPEG photos here and get smaller JPEGs back, re-encoded at quality 85 with Google's <strong class="text-[#7E685E]">jpegli</strong> encoder. The output is still a standard .jpg, so it works in every app, marketplace and upload form that took the original. Up to 3 files a month with no signup and 20MB per file, or 25 a month with a free account. Files are processed in memory at api.mochify.app and wiped the moment your download is ready.
             </p>
         </div>
@@ -155,7 +155,7 @@
         </div>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">How to compress a JPEG with jpegli</h2>
+            <h2 class="text-2xl font-bold text-cocoa-ink mb-6">How to compress a JPEG with jpegli</h2>
             <div class="grid sm:grid-cols-3 gap-4">
                 {#each [
                     { n: '1', t: 'Drop your JPEGs', d: 'Drag up to 3 files onto the box, or click it to choose them. No account is needed for your first files.' },
@@ -164,8 +164,8 @@
                 ] as step}
                     <div class="bg-white p-6 rounded-2xl border border-pink-50 shadow-sm">
                         <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-[#F1F8F1] text-[#2E7D32] font-black text-sm mb-4">{step.n}</span>
-                        <h3 class="font-bold text-[#4A2C2C] text-sm mb-1.5">{step.t}</h3>
-                        <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">{step.d}</p>
+                        <h3 class="font-bold text-cocoa-ink text-sm mb-1.5">{step.t}</h3>
+                        <p class="text-sm text-cocoa-deep leading-relaxed opacity-90">{step.d}</p>
                     </div>
                 {/each}
             </div>
@@ -176,28 +176,28 @@
 
                 <div class="space-y-8">
                     <div class="space-y-4">
-                        <h2 class="text-2xl font-bold text-[#4A2C2C]">Smaller JPEGs without changing format</h2>
-                        <p class="leading-relaxed text-[#6C3F31]">
+                        <h2 class="text-2xl font-bold text-cocoa-ink">Smaller JPEGs without changing format</h2>
+                        <p class="leading-relaxed text-cocoa-deep">
                             Plenty of places only take JPEG: eBay and Etsy listings, older content management systems, print portals, job and government forms. Switching to WebP or AVIF is not an option there, so the only way to a smaller file is a better JPEG encoder. Jpegli is that encoder. It applies adaptive quantization from JPEG XL to put bits where they show, and writes a file fully compliant with the JPEG standard.
                         </p>
-                        <p class="leading-relaxed text-[#6C3F31]">
+                        <p class="leading-relaxed text-cocoa-deep">
                             Mochify outputs standard JPEG files, encoded with Google's jpegli library for better efficiency at high quality settings, so you get the same interoperable JPEG format with fewer wasted bytes. Nobody downstream needs new software, and nothing about how the file is opened, uploaded or printed changes.
                         </p>
                     </div>
 
                     <div class="space-y-4">
-                        <h2 class="text-2xl font-bold text-[#4A2C2C]">When recompressing helps, and when it does not</h2>
-                        <p class="leading-relaxed text-[#6C3F31]">
+                        <h2 class="text-2xl font-bold text-cocoa-ink">When recompressing helps, and when it does not</h2>
+                        <p class="leading-relaxed text-cocoa-deep">
                             The biggest savings come from JPEGs saved at high quality: straight out of a camera or phone, or exported from Lightroom or Photoshop at 90 and above. Those files carry bytes that a quality-85 jpegli encode can drop without a visible change. A JPEG that was already heavily compressed has little left to give, and may come back about the same size or slightly larger; keep the original when that happens.
                         </p>
-                        <p class="leading-relaxed text-[#6C3F31]">
-                            Recompressing is a new lossy encode, so run each photo through once rather than repeatedly, and keep your originals if you might edit them later. Our <a href="/guides/jpeg-in-2026-jpegli" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">jpegli vs MozJPEG guide</a> covers the numbers and the trade-offs, and <a href="/guides/jpegli-shopify-product-images" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">jpegli for Shopify product images</a> applies them to a store.
+                        <p class="leading-relaxed text-cocoa-deep">
+                            Recompressing is a new lossy encode, so run each photo through once rather than repeatedly, and keep your originals if you might edit them later. Our <a href="/guides/jpeg-in-2026-jpegli" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">jpegli vs MozJPEG guide</a> covers the numbers and the trade-offs, and <a href="/guides/jpegli-shopify-product-images" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">jpegli for Shopify product images</a> applies them to a store.
                         </p>
                     </div>
                 </div>
 
                 <div>
-                    <h2 class="text-2xl font-bold text-[#4A2C2C] mb-4">Frequently asked questions</h2>
+                    <h2 class="text-2xl font-bold text-cocoa-ink mb-4">Frequently asked questions</h2>
                     <FaqAccordion {faqs} />
                 </div>
             </div>
@@ -205,60 +205,60 @@
 
         <!-- Encoder comparison -->
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">jpegli, MozJPEG or libjpeg-turbo?</h2>
+            <h2 class="text-2xl font-bold text-cocoa-ink mb-6">jpegli, MozJPEG or libjpeg-turbo?</h2>
             <div class="overflow-x-auto rounded-2xl border border-pink-50 shadow-sm">
                 <table class="w-full border-collapse text-sm">
                     <thead>
-                        <tr class="bg-[#FFF5F7]">
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Encoder</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Quality per byte</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Opens in</th>
-                            <th class="text-left px-5 py-4 text-[#875F42] font-black text-xs uppercase tracking-wider border-b border-pink-50">Best for</th>
+                        <tr class="bg-mochi-blush">
+                            <th class="text-left px-5 py-4 text-cocoa-milk font-black text-xs uppercase tracking-wider border-b border-pink-50">Encoder</th>
+                            <th class="text-left px-5 py-4 text-cocoa-milk font-black text-xs uppercase tracking-wider border-b border-pink-50">Quality per byte</th>
+                            <th class="text-left px-5 py-4 text-cocoa-milk font-black text-xs uppercase tracking-wider border-b border-pink-50">Opens in</th>
+                            <th class="text-left px-5 py-4 text-cocoa-milk font-black text-xs uppercase tracking-wider border-b border-pink-50">Best for</th>
                         </tr>
                     </thead>
                     <tbody>
                         {#each encoderRows as row, i}
-                            <tr class={row.highlight ? 'bg-[#F1F8F1]' : i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]'}>
-                                <td class="px-5 py-3.5 font-black text-[#4A2C2C] border-b border-pink-50">{row.enc}</td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.bytes}</td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.compat}</td>
-                                <td class="px-5 py-3.5 text-[#6C3F31] border-b border-pink-50">{row.best}</td>
+                            <tr class={row.highlight ? 'bg-[#F1F8F1]' : i % 2 === 0 ? 'bg-white' : 'bg-mochi-bg'}>
+                                <td class="px-5 py-3.5 font-black text-cocoa-ink border-b border-pink-50">{row.enc}</td>
+                                <td class="px-5 py-3.5 text-cocoa-deep border-b border-pink-50">{row.bytes}</td>
+                                <td class="px-5 py-3.5 text-cocoa-deep border-b border-pink-50">{row.compat}</td>
+                                <td class="px-5 py-3.5 text-cocoa-deep border-b border-pink-50">{row.best}</td>
                             </tr>
                         {/each}
                     </tbody>
                 </table>
             </div>
-            <p class="mt-4 text-sm text-[#875F42]">
+            <p class="mt-4 text-sm text-cocoa-milk">
                 Figures from Google's rater study at high quality on photographs. At medium quality the encoders are close and MozJPEG wins on some images.
             </p>
         </section>
 
         <!-- Bulk / automation -->
         <section class="mt-20 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Bulk, batch and automated JPEG compression</h2>
-            <p class="leading-relaxed text-[#6C3F31]">
-                Seller and Pro accounts compress up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. The same encode runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify auth login</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
+            <h2 class="text-2xl font-bold text-cocoa-ink">Bulk, batch and automated JPEG compression</h2>
+            <p class="leading-relaxed text-cocoa-deep">
+                Seller and Pro accounts compress up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. The same encode runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify auth login</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
             </p>
             <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=jpg&amp;quality=85" \
   -H "Authorization: Bearer $MOCHIFY_KEY" \
   --data-binary @photo.jpg \
   -o photo-small.jpg</code></pre>
-            <p class="leading-relaxed text-[#6C3F31]">
-                Every route encodes at api.mochify.app in memory and keeps nothing. Full parameter reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>. Need the file under a size limit rather than at a quality? Add <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">&amp;targetBytes=</code> with a ceiling in bytes and the API measures its way under it.
+            <p class="leading-relaxed text-cocoa-deep">
+                Every route encodes at api.mochify.app in memory and keeps nothing. Full parameter reference in the <a href="/docs" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">API documentation</a>. Need the file under a size limit rather than at a quality? Add <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">&amp;targetBytes=</code> with a ceiling in bytes and the API measures its way under it.
             </p>
         </section>
 
         <!-- Also available -->
         <section class="mt-16 max-w-4xl mx-auto">
-            <p class="text-xs font-black text-[#875F42] uppercase tracking-widest mb-4">Also available</p>
+            <p class="text-xs font-black text-cocoa-milk uppercase tracking-widest mb-4">Also available</p>
             <div class="grid sm:grid-cols-3 gap-4">
                 <a href="/jpg-to-jpegxl" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">JPG to JXL →</p>
-                        <p class="text-xs text-[#875F42]">Smaller still, if the viewer reads JPEG XL</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">JPG to JXL →</p>
+                        <p class="text-xs text-cocoa-milk">Smaller still, if the viewer reads JPEG XL</p>
                     </div>
                 </a>
                 <a href="/solutions/webp-to-jpg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -266,8 +266,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">WebP to JPG →</p>
-                        <p class="text-xs text-[#875F42]">Turn saved .webp images into jpegli JPEGs</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">WebP to JPG →</p>
+                        <p class="text-xs text-cocoa-milk">Turn saved .webp images into jpegli JPEGs</p>
                     </div>
                 </a>
                 <a href="/solutions/ebay-image-converter" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -275,8 +275,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">eBay Image Converter →</p>
-                        <p class="text-xs text-[#875F42]">Resize and convert for eBay listings</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">eBay Image Converter →</p>
+                        <p class="text-xs text-cocoa-milk">Resize and convert for eBay listings</p>
                     </div>
                 </a>
             </div>

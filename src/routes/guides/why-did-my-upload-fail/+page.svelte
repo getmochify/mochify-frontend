@@ -163,23 +163,23 @@
 
 <!-- Single max-w-3xl reading column: header, prose, and every card share the
      same container edges. -->
-<article class="relative mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-0 pt-6 md:pt-0 text-lg text-[#6C3F31] leading-relaxed">
+<article class="relative mx-auto w-full max-w-3xl px-5 sm:px-6 md:px-0 pt-6 md:pt-0 text-lg text-cocoa-deep leading-relaxed">
 
     <div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-        <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#F06292] mb-3 mt-0">
+        <p class="text-xs font-bold uppercase tracking-[0.18em] text-mochi-pink mb-3 mt-0">
             {metadata.category} · Guide
         </p>
-        <h1 class="text-3xl md:text-[2.75rem] font-black text-[#4A2C2C] tracking-tight leading-[1.1] mb-0">
-            Why Did My <span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">Upload Fail</span>? Every Mochify Error, Explained
+        <h1 class="text-3xl md:text-[2.75rem] font-black text-cocoa-ink tracking-tight leading-[1.1] mb-0">
+            Why Did My <span class="bg-gradient-to-r from-mochi-pink to-[#EC407A] bg-clip-text text-transparent">Upload Fail</span>? Every Mochify Error, Explained
         </h1>
-        <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-        <p class="mt-5 text-sm font-bold text-[#875F42] mb-0">
+        <div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+        <p class="mt-5 text-sm font-bold text-cocoa-milk mb-0">
             {metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
         </p>
 
-        <p class="article-intro text-xl text-[#6C3F31] opacity-90 leading-relaxed mt-8 mb-0">
+        <p class="article-intro text-xl text-cocoa-deep opacity-90 leading-relaxed mt-8 mb-0">
             If Mochify just showed you an error and sent you here, you are in the right place. This guide covers every message the web app can show when an upload or conversion fails: what it means, what we already did automatically before you saw it, and the one or two things worth trying next. We wrote it from the code and from a month of failure logs, so the advice is ordered by what actually fixes each problem, not by guesswork.
         </p>
 
@@ -275,7 +275,7 @@
             <p class="mb-4">This message means the bytes that reached our server could not be read as a complete image: the file arrived, but it was shorter than a real photo, or its header was there and the picture data was not. The most common cause is a file that is still arriving on your machine, or has not fully downloaded from cloud storage, at the moment you added it.</p>
             <p class="mb-4">Modern cloud storage is designed to show you a file before it is really on your disk. iCloud's Optimize Mac Storage, OneDrive's Files On-Demand and Google Drive's streaming mode all keep a small placeholder locally and fetch the full-size original when something opens it. Most of the time the browser triggers that fetch and everything works. Sometimes it gets a partial file instead, and that partial file is what we receive. The same thing happens with a photo you have just AirDropped or copied from a phone or camera while the copy is still finishing.</p>
             <p class="mb-4">What to try, in order of how often it works:</p>
-            <ol class="list-decimal pl-6 space-y-3 marker:text-[#F06292] marker:font-bold my-6">
+            <ol class="list-decimal pl-6 space-y-3 marker:text-mochi-pink marker:font-bold my-6">
                 <li><strong>Open the photo once on your computer</strong> (Photos, Preview, the Windows Photos app, anything) so the full-resolution original downloads, then add it to Mochify again. On iCloud this is the whole fix. See Apple's note on <a href="https://support.apple.com/en-us/HT204264" target="_blank" rel="noopener noreferrer">downloading originals from iCloud Photos</a>.</li>
                 <li><strong>On Windows with OneDrive, right-click the file and choose "Always keep on this device"</strong>, or copy it to your desktop first. Microsoft documents the placeholder behavior in its <a href="https://support.microsoft.com/en-us/office/save-disk-space-with-onedrive-files-on-demand-for-windows-0e6860d3-d9f3-4971-b321-7092438fb38e" target="_blank" rel="noopener noreferrer">Files On-Demand guide</a>.</li>
                 <li><strong>If the file came from a phone or camera in the last minute, wait for the copy to finish</strong> and try again.</li>
@@ -290,7 +290,7 @@
             <p class="mb-4">Here is what already happened before you saw the message. Every upload gets up to three attempts on a transport drop, with a short back-off between attempts (about a second, then about two), so the whole cycle finishes within a few seconds. For files over 5MB we do more than retry: the upload goes up in pieces, each piece is confirmed by the server before the next is sent, and a dropped connection costs at most the piece in flight. If you go offline partway through one of these larger uploads, we pause rather than fail, wait up to five minutes for the browser to come back, and then pick up where we stopped. Leave it stalled for much longer than about twelve minutes and the upload starts over from the beginning, once, automatically, before we show you anything.</p>
             <p class="mb-4">On files over 5MB you may have seen an amber "Unstable connection detected. Pausing and retrying..." strip while this was going on. On a small file in manual mode the retries are silent, which is why the message can seem to arrive out of nowhere.</p>
             <p class="mb-4">What to try:</p>
-            <ol class="list-decimal pl-6 space-y-3 marker:text-[#F06292] marker:font-bold my-6">
+            <ol class="list-decimal pl-6 space-y-3 marker:text-mochi-pink marker:font-bold my-6">
                 <li><strong>Press convert again.</strong> A momentary drop is the usual cause and the second run normally succeeds.</li>
                 <li><strong>On a phone, switch to Wi-Fi for anything large.</strong> Mobile data with a weak signal is where most of these come from.</li>
                 <li><strong>Upload fewer files at once.</strong> Manual conversion sends one file at a time, so a shorter batch shortens the window in which a drop can bite.</li>
@@ -312,7 +312,7 @@
             <p class="mb-4"><strong>What we refuse, with a specific message:</strong> TIFF and BMP ("TIFF images aren't supported yet - export as PNG or JPEG and try again", and the same for BMP) and PDF, which has its own tools rather than the image path.</p>
             <p class="mb-4"><strong>What falls into the generic message:</strong> camera RAW (<code>.CR3</code>, <code>.ARW</code>, <code>.RAF</code>, <code>.NEF</code>) and Photoshop <code>.PSD</code>. RAW is a real gap, not a mistake on your part: export a JPEG or HEIF from your camera software first.</p>
             <p class="mb-4">The three traps to check before anything else:</p>
-            <ol class="list-decimal pl-6 space-y-3 marker:text-[#F06292] marker:font-bold my-6">
+            <ol class="list-decimal pl-6 space-y-3 marker:text-mochi-pink marker:font-bold my-6">
                 <li><strong>Files that start with <code>._</code>.</strong> If you unzipped a folder that was created on a Mac, Windows shows a shadow file next to every photo: <code>._DSC1234.JPG</code> beside <code>DSC1234.JPG</code>. They are metadata sidecars, not images, and "select all" picks them up. Skip anything with the <code>._</code> prefix.</li>
                 <li><strong>Anything dragged out of an app's library or cache folder.</strong> Photo managers keep derivative files that carry image names and are not images. Export from the app instead of dragging from its folder.</li>
                 <li><strong>iCloud Drive stubs.</strong> A file called <code>photo.jpg.icloud</code> is a placeholder. Open the real file once so it downloads, then add that.</li>

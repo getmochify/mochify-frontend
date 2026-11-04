@@ -92,18 +92,18 @@
                 </span>
             </div>
 
-            <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
+            <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
                 Convert 
-                <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
+                <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
                     HIF
                 </span> 
                 to 
-                <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
+                <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
                     AVIF
                 </span>
             </h1>
             
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
+            <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Turn 10-bit Fuji, Canon and Sony HIF photos into 10-bit AVIFs that open in every current browser.
             </p>
         </div>
@@ -122,21 +122,21 @@
         <section class="mt-20 max-w-4xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-start">
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-bold text-[#4A2C2C]">Why convert HIF to AVIF?</h2>
-                    <p class="leading-relaxed text-[#6C3F31]">
+                    <h2 class="text-2xl font-bold text-cocoa-ink">Why convert HIF to AVIF?</h2>
+                    <p class="leading-relaxed text-cocoa-deep">
                         HIF is the HEIF file that Canon, Sony and Fujifilm cameras write, with 10 bits per color channel. The files are small and detailed, but most web browsers and a lot of editing software will not open them.
                     </p>
-                    <p class="leading-relaxed text-[#6C3F31]">
+                    <p class="leading-relaxed text-cocoa-deep">
                         AVIF compresses about as well as HEIF and opens in every current major browser, so it is a natural format for photos on your own website. Mochify keeps the 10 bits per channel, which gives finer tonal steps in skies and other smooth gradients than an 8-bit JPEG. The AVIF is a standard-range image: if your camera saved the HIF in an HDR mode (HLG or PQ), that HDR signal is not carried over.
                     </p>
                 </div>
 
                 <div class="bg-white p-8 rounded-2xl border border-pink-50 shadow-sm">
-                    <h3 class="font-bold text-[#4A2C2C] mb-5 text-sm uppercase tracking-widest opacity-70">Supported Camera Models</h3>
+                    <h3 class="font-bold text-cocoa-ink mb-5 text-sm uppercase tracking-widest opacity-70">Supported Camera Models</h3>
                     <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {#each ['Fuji X-T5 / X-H2', 'Fuji X100VI', 'Canon EOS R5 / R6', 'Canon R3 / 1D X', 'Sony A7 IV / RV', 'Sony Alpha 1'] as camera}
-                            <li class="flex items-center gap-3 text-sm font-semibold text-[#6C3F31]">
-                                <span class="w-2 h-2 rounded-full bg-[#81C784]"></span> {camera}
+                            <li class="flex items-center gap-3 text-sm font-semibold text-cocoa-deep">
+                                <span class="w-2 h-2 rounded-full bg-matcha-dark"></span> {camera}
                             </li>
                         {/each}
                     </ul>
@@ -145,63 +145,63 @@
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">How to convert HIF to AVIF</h2>
-            <ol class="list-decimal space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
+            <h2 class="text-2xl font-bold text-cocoa-ink">How to convert HIF to AVIF</h2>
+            <ol class="list-decimal space-y-2 pl-6 text-cocoa-deep leading-relaxed">
                 <li>Drop your .HIF or .HEIF files on the box above, or click to choose them.</li>
                 <li>Leave Strip EXIF off to keep your camera settings in the file, or switch it on to remove them (location included).</li>
                 <li>Convert, then download your AVIFs.</li>
             </ol>
-            <p class="leading-relaxed text-[#6C3F31]">The free plan converts up to 3 photos at a time, 20MB each.</p>
+            <p class="leading-relaxed text-cocoa-deep">The free plan converts up to 3 photos at a time, 20MB each.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">What you get</h2>
-            <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
-                <li><strong class="text-[#4A2C2C]">10-bit AVIF</strong> at the same pixel dimensions as your HIF. Nothing is cropped or resized.</li>
-                <li><strong class="text-[#4A2C2C]">Your camera metadata</strong> (ISO, shutter speed, lens, GPS) is kept by default. Switch on Strip EXIF before converting to remove it.</li>
-                <li><strong class="text-[#4A2C2C]">Standard dynamic range.</strong> The AVIF is tagged as a standard sRGB image. HIF files recorded in an HDR mode (for example Canon's HDR PQ setting, or HLG stills on Sony cameras) do not come out as HDR AVIFs, and they may not look exactly as they did on the camera's screen.</li>
-                <li><strong class="text-[#4A2C2C]">Your film look.</strong> A Fujifilm film simulation is part of the picture the camera saved, so it carries over like the rest of the image. Mochify does not add or remove a look.</li>
+            <h2 class="text-2xl font-bold text-cocoa-ink">What you get</h2>
+            <ul class="list-disc space-y-2 pl-6 text-cocoa-deep leading-relaxed">
+                <li><strong class="text-cocoa-ink">10-bit AVIF</strong> at the same pixel dimensions as your HIF. Nothing is cropped or resized.</li>
+                <li><strong class="text-cocoa-ink">Your camera metadata</strong> (ISO, shutter speed, lens, GPS) is kept by default. Switch on Strip EXIF before converting to remove it.</li>
+                <li><strong class="text-cocoa-ink">Standard dynamic range.</strong> The AVIF is tagged as a standard sRGB image. HIF files recorded in an HDR mode (for example Canon's HDR PQ setting, or HLG stills on Sony cameras) do not come out as HDR AVIFs, and they may not look exactly as they did on the camera's screen.</li>
+                <li><strong class="text-cocoa-ink">Your film look.</strong> A Fujifilm film simulation is part of the picture the camera saved, so it carries over like the rest of the image. Mochify does not add or remove a look.</li>
             </ul>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">AVIF or JPG?</h2>
-            <p class="leading-relaxed text-[#6C3F31]">Choose AVIF for photos on your own website or portfolio: smaller files than JPEG at the same visual quality, in every current major browser. Choose JPG when the photo is leaving your hands: clients, email, print labs, social uploads and older software all take JPEG without question. For those, use the <a href="/solutions/hif-to-jpg" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">HIF to JPG converter</a>.</p>
+            <h2 class="text-2xl font-bold text-cocoa-ink">AVIF or JPG?</h2>
+            <p class="leading-relaxed text-cocoa-deep">Choose AVIF for photos on your own website or portfolio: smaller files than JPEG at the same visual quality, in every current major browser. Choose JPG when the photo is leaving your hands: clients, email, print labs, social uploads and older software all take JPEG without question. For those, use the <a href="/solutions/hif-to-jpg" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">HIF to JPG converter</a>.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Converting HIF to AVIF without a converter</h2>
-            <p class="leading-relaxed text-[#6C3F31]">Neither Windows Photos nor Preview on a Mac exports AVIF. GIMP (version 2.10.22 or later) opens HEIF files and exports AVIF. In bulk, libheif's <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">heif-dec</code> turns HIF into 16-bit PNGs and libavif's <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">avifenc</code> encodes those as AVIF.</p>
+            <h2 class="text-2xl font-bold text-cocoa-ink">Converting HIF to AVIF without a converter</h2>
+            <p class="leading-relaxed text-cocoa-deep">Neither Windows Photos nor Preview on a Mac exports AVIF. GIMP (version 2.10.22 or later) opens HEIF files and exports AVIF. In bulk, libheif's <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">heif-dec</code> turns HIF into 16-bit PNGs and libavif's <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">avifenc</code> encodes those as AVIF.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Limits, bulk and automation</h2>
-            <p class="leading-relaxed text-[#6C3F31]">Without an account you can convert 3 photos a month; a free account gives you 25 a month, up to 3 at a time, 20MB each. Paid plans (Seller, Pro and Growth) take batches of 25 and files up to 75MB, and a $2 Day Pass gives 100 uploads over 24 hours with no account. The <a href="/pricing" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">pricing page</a> has the plans.</p>
-            <p class="leading-relaxed text-[#6C3F31]">The same conversion works through the REST API on every plan, Free included. Send the raw HIF to <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">POST /v1/squish</code>; full reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>:</p>
+            <h2 class="text-2xl font-bold text-cocoa-ink">Limits, bulk and automation</h2>
+            <p class="leading-relaxed text-cocoa-deep">Without an account you can convert 3 photos a month; a free account gives you 25 a month, up to 3 at a time, 20MB each. Paid plans (Seller, Pro and Growth) take batches of 25 and files up to 75MB, and a $2 Day Pass gives 100 uploads over 24 hours with no account. The <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">pricing page</a> has the plans.</p>
+            <p class="leading-relaxed text-cocoa-deep">The same conversion works through the REST API on every plan, Free included. Send the raw HIF to <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">POST /v1/squish</code>; full reference in the <a href="/docs" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">API documentation</a>:</p>
             <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=avif&amp;stripExif=false" \
   -H "Content-Type: image/heif" \
   -H "Authorization: Bearer $MOCHIFY_API_KEY" \
   --data-binary @DSCF0001.HIF \
   --output DSCF0001.avif</code></pre>
-            <p class="leading-relaxed text-[#6C3F31]"><code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">stripExif=false</code> keeps the camera metadata, as the page does by default. Add <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">&amp;width=2400</code> to resize for the web in the same call.</p>
+            <p class="leading-relaxed text-cocoa-deep"><code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">stripExif=false</code> keeps the camera metadata, as the page does by default. Add <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">&amp;width=2400</code> to resize for the web in the same call.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-4">Frequently asked questions</h2>
+            <h2 class="text-2xl font-bold text-cocoa-ink mb-4">Frequently asked questions</h2>
             <FaqAccordion {faqs} />
         </section>
 
         <!-- Also available -->
         <section class="mt-16 max-w-4xl mx-auto">
-            <p class="text-xs font-black text-[#875F42] uppercase tracking-widest mb-4">Also available</p>
+            <p class="text-xs font-black text-cocoa-milk uppercase tracking-widest mb-4">Also available</p>
             <div class="grid sm:grid-cols-3 gap-4">
                 <a href="/solutions/hif-to-jpg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">HIF to JPG →</p>
-                        <p class="text-xs text-[#875F42]">Same photos, maximum compatibility</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">HIF to JPG →</p>
+                        <p class="text-xs text-cocoa-milk">Same photos, maximum compatibility</p>
                     </div>
                 </a>
                 <a href="/solutions/heif-to-jpg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -209,8 +209,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">HEIF to JPG →</p>
-                        <p class="text-xs text-[#875F42]">Any .heif, .heic or .hif file</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">HEIF to JPG →</p>
+                        <p class="text-xs text-cocoa-milk">Any .heif, .heic or .hif file</p>
                     </div>
                 </a>
                 <a href="/heic-to-jpeg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -218,8 +218,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 9l1.5 1.5 3-3.75" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">HEIC to JPG →</p>
-                        <p class="text-xs text-[#875F42]">The iPhone and iPad lane</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">HEIC to JPG →</p>
+                        <p class="text-xs text-cocoa-milk">The iPhone and iPad lane</p>
                     </div>
                 </a>
             </div>

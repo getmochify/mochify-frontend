@@ -98,34 +98,34 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
     
 <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title="Privacy &amp; Image Optimization: A Comprehensive Guide (2026)" accent="Image Optimization" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             In an era where "free" web tools are often front-ends for data harvesting, the infrastructure behind your image optimization matters as much as the compression ratio itself.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-lg leading-relaxed text-[#6C3F31]">
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-lg leading-relaxed text-cocoa-deep">
                 Most legacy optimizers write your assets to a temporary disk on a remote server for 24-48 hours, creating a vulnerability window for data leaks and unauthorized AI training. (If you want the engine off third-party infrastructure entirely, see our <a href="/guides/self-hosting-image-optimization-docker">Docker self-hosting guide</a>.) 
                 
                 <span class="block mt-4">
-                    This guide explores why <strong class="text-[#D81B60] font-black">Zero-Retention Architecture</strong> is the non-negotiable standard for professional asset security in 2026.
+                    This guide explores why <strong class="text-mochi-pink-deep font-black">Zero-Retention Architecture</strong> is the non-negotiable standard for professional asset security in 2026.
                 </span>
             </p>
         </div>
@@ -154,21 +154,21 @@
             </p>
             <ul class="space-y-4 mt-6 ml-2">
                 <li class="flex gap-3">
-                    <span class="text-[#F06292] font-bold">·</span>
+                    <span class="text-mochi-pink font-bold">·</span>
                     <span><strong>In-memory execution: </strong> Assets are processed in the server's volatile memory (RAM) and purged the millisecond the asset is sent back to the user. On Seller and Pro the result can instead be written straight into your own S3, R2, or S3-compatible bucket; see <a href="https://mochify.app/guides/bring-your-own-bucket-s3-r2">how Bring your own bucket writes results without ever holding your key</a>.</span>
                 </li>
                 <li class="flex gap-3">
-                    <span class="text-[#F06292] font-bold">·</span>
+                    <span class="text-mochi-pink font-bold">·</span>
                     <span><strong>No Residual Data: </strong> Because no temporary files are created, there is no "digital footprint" for bad actors to intercept.</span>
                 </li>
                 <li class="flex gap-3">
-                    <span class="text-[#F06292] font-bold">·</span>
+                    <span class="text-mochi-pink font-bold">·</span>
                     <span><strong>Chroma Subsampling &amp; Expert Control<sup>*</sup>: </strong> Beyond privacy, our engine allows for surgical precision in compression, such as adjusting chrome subsampling to maintain edge detail while slashing payload size by up to 80%.</span>
                 </li>
             </ul>
 
-            <div class="mt-4 px-2 text-xs font-medium text-[#875F42] opacity-70 flex items-center gap-1.5">
-                <span class="text-[#F06292] font-black">*</span>
+            <div class="mt-4 px-2 text-xs font-medium text-cocoa-milk opacity-70 flex items-center gap-1.5">
+                <span class="text-mochi-pink font-black">*</span>
                 <span>Chroma Subsampling available on Mochify Pro.</span>
             </div>
             
@@ -191,7 +191,7 @@
                         <th>Standard Access</th>
                         <th>
                             Mochify Pro
-                            <sup class="text-[#F06292] text-[10px] ml-0.5">*</sup>
+                            <sup class="text-mochi-pink text-[10px] ml-0.5">*</sup>
                         </th>
                     </tr>
                 </thead>
@@ -232,9 +232,9 @@
             </table>
         </GuideTable>
 
-    <div class="mt-4 px-2 text-xs font-medium text-[#875F42] opacity-70 flex items-center gap-1.5">
-        <span class="text-[#F06292] font-black">*</span>
-        <span>Mochify Pro and the Mochify API are now live. <a href="/pricing" class="underline hover:text-[#F06292] transition-colors">See plans.</a></span>
+    <div class="mt-4 px-2 text-xs font-medium text-cocoa-milk opacity-70 flex items-center gap-1.5">
+        <span class="text-mochi-pink font-black">*</span>
+        <span>Mochify Pro and the Mochify API are now live. <a href="/pricing" class="underline hover:text-mochi-pink transition-colors">See plans.</a></span>
     </div>
 </div>
         </section>
@@ -246,15 +246,15 @@
             </p>
             <ul class="space-y-4 mt-6 ml-2">
                 <li class="flex gap-3">
-                    <span class="text-[#F06292] font-bold">·</span>
+                    <span class="text-mochi-pink font-bold">·</span>
                     <span><strong>Zero-Disk Policy: </strong> Does the tool use in-memory processing or local browser-side execution?</span>
                 </li>
                 <li class="flex gap-3">
-                    <span class="text-[#F06292] font-bold">·</span>
+                    <span class="text-mochi-pink font-bold">·</span>
                     <span><strong>No Identity Linkage: </strong> Can you use the core service without providing an email address?</span>
                 </li>
                 <li class="flex gap-3">
-                    <span class="text-[#F06292] font-bold">·</span>
+                    <span class="text-mochi-pink font-bold">·</span>
                     <span><strong>Explicit AI Protection: </strong> Does the terms of service guarantee your assets won't be used for machine learning training?</span>
                 </li>
             </ul>
@@ -268,25 +268,25 @@
             </p>
         </section>
 
-<div class="my-12 bg-[#FFF5F7] p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
+<div class="my-12 bg-mochi-blush p-8 md:p-10 rounded-3xl border border-pink-100 text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
     <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-pink-100 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
     
     <div class="relative z-10 mb-6">
-        <span class="inline-block px-3 py-1 rounded-full bg-white text-[#F06292] text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">
+        <span class="inline-block px-3 py-1 rounded-full bg-white text-mochi-pink text-[10px] font-black uppercase tracking-widest border border-pink-100 shadow-sm">
             Zero-Retention Verified
         </span>
     </div>
 
-    <h3 class="text-2xl md:text-3xl font-extrabold text-[#4A2C2C] relative z-10 mb-3 flex items-center justify-center gap-3">
+    <h3 class="text-2xl md:text-3xl font-extrabold text-cocoa-ink relative z-10 mb-3 flex items-center justify-center gap-3">
         <span class="text-3xl">🛡️</span>
         Ready to secure your images?
     </h3>
 
-    <p class="text-[#6C3F31] text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">
+    <p class="text-cocoa-deep text-lg max-w-lg mx-auto relative z-10 mb-8 leading-relaxed">
         Don't risk data leaks. Optimize your first batch now with our <strong>100% private</strong>, in-memory engine.
     </p>
 
-    <a href="/" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-[#F06292] hover:bg-[#D81B60] text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
+    <a href="/" class="relative z-10 inline-flex items-center gap-3 px-8 py-4 bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-pink-300/50 hover:-translate-y-1 transition-all duration-300 no-underline">
         <span>Start Optimizing Free</span>
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
     </a>

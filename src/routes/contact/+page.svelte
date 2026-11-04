@@ -9,8 +9,8 @@
 	let loading = $state(false);
 
 	const inputClass =
-		'w-full px-4 py-3 rounded-2xl border border-[#875F42]/15 bg-white/80 text-[#4A2C2C] placeholder-[#875F42]/30 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#F06292]/30 focus:border-[#F06292]/40 transition-all';
-	const labelClass = 'text-xs font-bold text-[#6C3F31] tracking-wide uppercase';
+		'w-full px-4 py-3 rounded-2xl border border-cocoa-milk/15 bg-white/80 text-cocoa-ink placeholder-cocoa-milk/30 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-mochi-pink/30 focus:border-mochi-pink/40 transition-all';
+	const labelClass = 'text-xs font-bold text-cocoa-deep tracking-wide uppercase';
 
 	// Cloudflare Turnstile — public sitekey (safe to expose); secret lives in env.
 	const TURNSTILE_SITE_KEY = '0x4AAAAAAD9Ccvbui6jzOPT2';
@@ -151,18 +151,18 @@
 	<main class="relative z-10 flex flex-grow items-start justify-center px-4 pt-6 pb-12 sm:pt-16">
 		<div class="w-full max-w-md">
 			<div class="mb-5 text-center sm:mb-8">
-				<h1 class="mb-1 text-3xl font-black tracking-tight text-[#4A2C2C] md:text-4xl">
+				<h1 class="mb-1 text-3xl font-black tracking-tight text-cocoa-ink md:text-4xl">
 					Get in touch
 				</h1>
-				<p class="text-sm text-[#875F42]/70">
+				<p class="text-sm text-cocoa-milk/70">
 					We usually reply within a day. Prefer email?
-					<a href="mailto:hello@mochify.app" class="font-bold text-[#F06292] hover:underline"
+					<a href="mailto:hello@mochify.app" class="font-bold text-mochi-pink hover:underline"
 						>hello@mochify.app</a
 					>
 				</p>
-				<p class="mt-2 text-sm text-[#875F42]/70">
+				<p class="mt-2 text-sm text-cocoa-milk/70">
 					Using the CLI, API or MCP server? Ask in
-					<a href="/community" class="font-bold text-[#F06292] hover:underline">GitHub Discussions</a
+					<a href="/community" class="font-bold text-mochi-pink hover:underline">GitHub Discussions</a
 					> so the answer stays searchable for the next person.
 				</p>
 			</div>
@@ -177,7 +177,7 @@
 				{#if form?.success}
 					<div class="py-4 text-center">
 						<div
-							class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#A5D6A7]/30"
+							class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-matcha-green/30"
 						>
 							<svg
 								class="h-8 w-8 text-[#2E5C31]"
@@ -189,8 +189,8 @@
 								<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 							</svg>
 						</div>
-						<h2 class="mb-2 text-2xl font-extrabold tracking-tight text-[#4A2C2C]">Message sent</h2>
-						<p class="text-sm text-[#875F42]/70">
+						<h2 class="mb-2 text-2xl font-extrabold tracking-tight text-cocoa-ink">Message sent</h2>
+						<p class="text-sm text-cocoa-milk/70">
 							Thanks for reaching out. We'll get back to you at the email you provided.
 						</p>
 					</div>
@@ -304,7 +304,7 @@
 						<button
 							type="submit"
 							disabled={loading}
-							class="mt-2 w-full rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] py-3 text-sm font-black tracking-wide text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] disabled:transform-none disabled:cursor-not-allowed disabled:opacity-60"
+							class="mt-2 w-full rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink py-3 text-sm font-black tracking-wide text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.5)] disabled:transform-none disabled:cursor-not-allowed disabled:opacity-60"
 						>
 							{loading ? 'Sending…' : 'Send message'}
 						</button>

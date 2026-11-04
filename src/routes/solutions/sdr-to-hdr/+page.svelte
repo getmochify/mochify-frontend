@@ -26,7 +26,7 @@
     ];
 
     const formatSupport = [
-        { fmt: 'JPG', verdict: 'yes', note: 'Ultra HDR: an ordinary JPEG with a gain map attached. The only output here that can carry one. Not sure JPEG can do HDR at all? See <a href="/guides/does-jpeg-support-hdr" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">does JPEG support HDR</a>.' },
+        { fmt: 'JPG', verdict: 'yes', note: 'Ultra HDR: an ordinary JPEG with a gain map attached. The only output here that can carry one. Not sure JPEG can do HDR at all? See <a href="/guides/does-jpeg-support-hdr" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">does JPEG support HDR</a>.' },
         { fmt: 'JXL', verdict: 'partial', note: 'No gain map concept. HDR lives in the pixels as linear float, so it works from a real HDR source but there is nothing to synthesize into.' },
         { fmt: 'AVIF', verdict: 'no', note: 'Our encoder path flattens to 8-bit sRGB before AVIF is written, which clips every highlight above white. Claiming HDR here would be a lie.' },
         { fmt: 'WebP', verdict: 'no', note: 'The format cannot represent HDR in any form.' },
@@ -180,19 +180,19 @@
             </span>
         </div>
 
-        <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
+        <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
             Convert
             <span class="bg-gradient-to-r from-[#B0BEC5] to-[#78909C] bg-clip-text text-transparent">
                 SDR photos
             </span>
             to
-            <span class="bg-gradient-to-r from-[#FBBF24] to-[#F06292] bg-clip-text text-transparent">
+            <span class="bg-gradient-to-r from-[#FBBF24] to-mochi-pink bg-clip-text text-transparent">
                 HDR
             </span>
         </h1>
 
-        <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
-            Give any photo a <strong class="text-[#4A2C2C]">gain map</strong> so highlights can go brighter than white on an HDR display. If your camera already captured one, we carry it through untouched. If it did not, we build a plausible one. The result is still an ordinary JPEG that opens everywhere.
+        <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">
+            Give any photo a <strong class="text-cocoa-ink">gain map</strong> so highlights can go brighter than white on an HDR display. If your camera already captured one, we carry it through untouched. If it did not, we build a plausible one. The result is still an ordinary JPEG that opens everywhere.
         </p>
     </div>
 
@@ -216,8 +216,8 @@
          served byte-for-byte as Mochify produced them: no <picture>, no srcset,
          no CDN transform, nothing that would strip the embedded gain map. -->
     <section class="hdr-compare mt-10 max-w-4xl mx-auto" aria-labelledby="hdr-compare-h">
-        <h2 id="hdr-compare-h" class="text-2xl font-extrabold text-[#4A2C2C] mb-2 text-center">See the difference (and find out if your screen can show it)</h2>
-        <p class="text-[#6C3F31] leading-relaxed mb-7 max-w-2xl mx-auto text-center">
+        <h2 id="hdr-compare-h" class="text-2xl font-extrabold text-cocoa-ink mb-2 text-center">See the difference (and find out if your screen can show it)</h2>
+        <p class="text-cocoa-deep leading-relaxed mb-7 max-w-2xl mx-auto text-center">
             Both images are the same photo of a sunlit lobby. The one on the right carries a gain map that Mochify generated from the highlights already in the frame: the patch of sun on the wall, the rippling shadows beside it, and the glowing light tubes are where to look.
         </p>
 
@@ -233,7 +233,7 @@
                     fetchpriority="low"
                     class="block w-full h-auto rounded-2xl border border-pink-50 shadow-sm"
                 />
-                <figcaption class="mt-3 text-sm font-bold text-[#4A2C2C] text-center">Standard JPEG (SDR)</figcaption>
+                <figcaption class="mt-3 text-sm font-bold text-cocoa-ink text-center">Standard JPEG (SDR)</figcaption>
             </figure>
             <figure class="m-0">
                 <img
@@ -246,22 +246,22 @@
                     fetchpriority="low"
                     class="block w-full h-auto rounded-2xl border border-pink-50 shadow-sm"
                 />
-                <figcaption class="mt-3 text-sm font-bold text-[#4A2C2C] text-center">Ultra HDR JPEG (gain map added by Mochify)</figcaption>
+                <figcaption class="mt-3 text-sm font-bold text-cocoa-ink text-center">Ultra HDR JPEG (gain map added by Mochify)</figcaption>
             </figure>
         </div>
 
         <div class="mt-7 max-w-2xl mx-auto space-y-4">
-            <p class="text-[#6C3F31] leading-relaxed">
-                <strong class="text-[#4A2C2C]">If the right-hand image looks brighter in the highlights, your screen and browser are showing HDR.</strong> A phone from the last few years, a recent Mac or iPad, or an HDR monitor in Safari 26 or a Chromium browser (Chrome, Edge, Brave, Opera) will show it.
+            <p class="text-cocoa-deep leading-relaxed">
+                <strong class="text-cocoa-ink">If the right-hand image looks brighter in the highlights, your screen and browser are showing HDR.</strong> A phone from the last few years, a recent Mac or iPad, or an HDR monitor in Safari 26 or a Chromium browser (Chrome, Edge, Brave, Opera) will show it.
             </p>
-            <p class="text-[#6C3F31] leading-relaxed">
-                <strong class="text-[#4A2C2C]">If the two images look identical, you are looking at the standard-range version of both.</strong> That is not a fault in the file. Either the display has no headroom above white, or the browser does not read gain maps yet (Firefox does not, as of this writing, and neither do most desktop image viewers). Open this page on a recent phone and the difference appears. For the full list of where HDR photos display and why they go flat elsewhere, read <a href="/guides/why-hdr-photos-look-flat-when-shared" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">why HDR photos look flat when you share them</a>. For the steps on your own phone or in Lightroom before you get here, see <a href="/guides/how-to-make-any-photo-ultra-hdr" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">how to make any photo Ultra HDR on Google Photos, Samsung, iPhone or Lightroom</a>.
+            <p class="text-cocoa-deep leading-relaxed">
+                <strong class="text-cocoa-ink">If the two images look identical, you are looking at the standard-range version of both.</strong> That is not a fault in the file. Either the display has no headroom above white, or the browser does not read gain maps yet (Firefox does not, as of this writing, and neither do most desktop image viewers). Open this page on a recent phone and the difference appears. For the full list of where HDR photos display and why they go flat elsewhere, read <a href="/guides/why-hdr-photos-look-flat-when-shared" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">why HDR photos look flat when you share them</a>. For the steps on your own phone or in Lightroom before you get here, see <a href="/guides/how-to-make-any-photo-ultra-hdr" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">how to make any photo Ultra HDR on Google Photos, Samsung, iPhone or Lightroom</a>.
             </p>
-            <p class="text-[#6C3F31] leading-relaxed">
+            <p class="text-cocoa-deep leading-relaxed">
                 This is also why the effect matters for anyone selling online: a product photo with a gain map looks like an ordinary photo to every customer, and noticeably more vivid to the growing share viewing on a phone that renders HDR. Nobody sees a worse image.
             </p>
-            <p class="text-xs text-[#875F42]/70 leading-relaxed pt-1">
-                Test photo by <a href="https://unsplash.com/@axcreativeagency" target="_blank" rel="noopener noreferrer" class="font-bold text-[#875F42] hover:text-[#F06292] transition-colors">Christian</a> on <a href="https://unsplash.com/photos/modern-lounge-with-stone-fireplace-VCP-nypY4as" target="_blank" rel="noopener noreferrer" class="font-bold text-[#875F42] hover:text-[#F06292] transition-colors">Unsplash</a>.
+            <p class="text-xs text-cocoa-milk/70 leading-relaxed pt-1">
+                Test photo by <a href="https://unsplash.com/@axcreativeagency" target="_blank" rel="noopener noreferrer" class="font-bold text-cocoa-milk hover:text-mochi-pink transition-colors">Christian</a> on <a href="https://unsplash.com/photos/modern-lounge-with-stone-fireplace-VCP-nypY4as" target="_blank" rel="noopener noreferrer" class="font-bold text-cocoa-milk hover:text-mochi-pink transition-colors">Unsplash</a>.
             </p>
         </div>
     </section>
@@ -273,18 +273,18 @@
          send people down a path that silently returns a standard-range file. -->
     <section class="mt-10 mb-20 max-w-2xl mx-auto">
         <div class="liquid-glass rounded-[2rem] px-7 py-6 flex flex-col sm:flex-row items-center gap-5">
-            <div class="flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FFD6E5] to-[#F06292]/20">
-                <svg class="h-6 w-6 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <div class="flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FFD6E5] to-mochi-pink/20">
+                <svg class="h-6 w-6 text-mochi-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                 </svg>
             </div>
             <div class="flex-1 text-center sm:text-left">
-                <p class="font-black text-[#4A2C2C] text-base leading-snug">Need to resize too? Just say so.</p>
-                <p class="text-sm text-[#6C3F31]/70 mt-1 leading-relaxed">Type something like <span class="font-semibold text-[#6C3F31]">"add HDR and resize to 2000px"</span> and our prompt form handles the rest.</p>
+                <p class="font-black text-cocoa-ink text-base leading-snug">Need to resize too? Just say so.</p>
+                <p class="text-sm text-cocoa-deep/70 mt-1 leading-relaxed">Type something like <span class="font-semibold text-cocoa-deep">"add HDR and resize to 2000px"</span> and our prompt form handles the rest.</p>
             </div>
             <a
                 href="/auth/register"
-                class="flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-black text-white bg-[#F06292] hover:bg-[#E91E8C] shadow-sm hover:shadow-md transition-all active:scale-95 whitespace-nowrap"
+                class="flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-black text-white bg-mochi-pink hover:bg-[#E91E8C] shadow-sm hover:shadow-md transition-all active:scale-95 whitespace-nowrap"
             >
                 Try it free
             </a>
@@ -294,8 +294,8 @@
     <!-- Preserve vs generate. The distinction core is careful to report separately,
          so it gets the most prominent position on the page rather than a footnote. -->
     <section class="mt-10 max-w-4xl mx-auto">
-        <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-2">Two ways a photo comes back HDR</h2>
-        <p class="text-[#6C3F31] leading-relaxed mb-7 max-w-2xl">
+        <h2 class="text-2xl font-extrabold text-cocoa-ink mb-2">Two ways a photo comes back HDR</h2>
+        <p class="text-cocoa-deep leading-relaxed mb-7 max-w-2xl">
             Which lane your file takes is decided by the file itself, not by a setting. Drop it in and Mochify checks whether a gain map is already there.
         </p>
 
@@ -303,12 +303,12 @@
             {#each lanes as lane (lane.label)}
                 <div class="bg-white border border-pink-50 rounded-2xl px-6 py-6 shadow-sm flex flex-col gap-3">
                     <div class="flex items-center gap-2.5">
-                        <span class="w-2.5 h-2.5 rounded-full {lane.tone === 'green' ? 'bg-[#81C784]' : 'bg-[#FBBF24]'}"></span>
-                        <span class="font-black text-[#4A2C2C] text-sm uppercase tracking-widest">{lane.label}</span>
+                        <span class="w-2.5 h-2.5 rounded-full {lane.tone === 'green' ? 'bg-matcha-dark' : 'bg-[#FBBF24]'}"></span>
+                        <span class="font-black text-cocoa-ink text-sm uppercase tracking-widest">{lane.label}</span>
                     </div>
-                    <p class="font-bold text-[#4A2C2C] text-base leading-snug">{lane.when}</p>
-                    <p class="text-sm text-[#875F42] leading-relaxed">{lane.sources}</p>
-                    <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90 mt-1">{lane.detail}</p>
+                    <p class="font-bold text-cocoa-ink text-base leading-snug">{lane.when}</p>
+                    <p class="text-sm text-cocoa-milk leading-relaxed">{lane.sources}</p>
+                    <p class="text-sm text-cocoa-deep leading-relaxed opacity-90 mt-1">{lane.detail}</p>
                 </div>
             {/each}
         </div>
@@ -325,37 +325,37 @@
         <div class="grid md:grid-cols-2 gap-12 items-start">
             <div class="space-y-8">
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-extrabold text-[#4A2C2C]">What a gain map actually is</h2>
-                    <p class="leading-relaxed text-[#6C3F31]">
+                    <h2 class="text-2xl font-extrabold text-cocoa-ink">What a gain map actually is</h2>
+                    <p class="leading-relaxed text-cocoa-deep">
                         An ordinary photo tops out at white. A phone screen can go several times brighter than that, and a gain map is how a single file uses the extra range: a small, smooth, half-resolution <strong class="text-[#7E685E]">brightness multiplier</strong> stored next to the normal picture.
                     </p>
-                    <p class="leading-relaxed text-[#6C3F31]">
+                    <p class="leading-relaxed text-cocoa-deep">
                         An HDR display multiplies one by the other and gets a brighter rendition. Everything else ignores the map entirely and shows the plain image. That is why the output here is still a JPEG that opens anywhere, and why there is no second file to keep track of.
                     </p>
                 </div>
 
                 <div class="bg-white p-7 rounded-2xl border border-pink-50 shadow-sm space-y-3">
-                    <h3 class="font-bold text-[#4A2C2C] text-sm uppercase tracking-widest opacity-70">How the generated map is built</h3>
-                    <p class="text-sm text-[#6C3F31] leading-relaxed">
+                    <h3 class="font-bold text-cocoa-ink text-sm uppercase tracking-widest opacity-70">How the generated map is built</h3>
+                    <p class="text-sm text-cocoa-deep leading-relaxed">
                         Brightness alone cannot distinguish a specular highlight from a blown sky from a white shirt, so a curve on brightness alone lifts all three equally and the result looks flat and artificial. The map here starts from a smooth ramp above roughly three-quarters brightness, climbing to about 1.5 stops, then corrects it by local contrast so isolated bright detail lifts more than a broad pale region.
                     </p>
-                    <p class="text-sm text-[#6C3F31] leading-relaxed">
+                    <p class="text-sm text-cocoa-deep leading-relaxed">
                         We deliberately do not run a neural model. A gain map gets low-passed to half resolution and compressed hard before it reaches the file, and the invented structure a model contributes does not survive that. A curve produces the same surviving result without the cost.
                     </p>
                 </div>
 
                 <div class="bg-white p-7 rounded-2xl border border-pink-50 shadow-sm space-y-3">
-                    <h3 class="font-bold text-[#4A2C2C] text-sm uppercase tracking-widest opacity-70">Encoded with jpegli</h3>
-                    <p class="text-sm text-[#6C3F31] leading-relaxed">
+                    <h3 class="font-bold text-cocoa-ink text-sm uppercase tracking-widest opacity-70">Encoded with jpegli</h3>
+                    <p class="text-sm text-cocoa-deep leading-relaxed">
                         An Ultra HDR file is two pictures in one wrapper: the standard-range base everything sees, and the gain map on top of it. That makes the JPEG encoder matter more here than it does for an ordinary photo, because you are paying for the extra layer out of the same byte budget.
                     </p>
-                    <p class="text-sm text-[#6C3F31] leading-relaxed">
-                        Mochify swaps the system JPEG library for Google's <a href="/guides/jpeg-in-2026-jpegli" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">jpegli</a> across the whole encoder, so the HDR path writes through it too. Better quality-per-byte on the base image is what keeps the gain map close to free: the map itself is stored at half resolution and compressed hard, so the extra usually lands in the low single-digit percentages.
+                    <p class="text-sm text-cocoa-deep leading-relaxed">
+                        Mochify swaps the system JPEG library for Google's <a href="/guides/jpeg-in-2026-jpegli" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">jpegli</a> across the whole encoder, so the HDR path writes through it too. Better quality-per-byte on the base image is what keeps the gain map close to free: the map itself is stored at half resolution and compressed hard, so the extra usually lands in the low single-digit percentages.
                     </p>
                 </div>
 
                 <div class="space-y-3">
-                    <h3 class="text-lg font-bold text-[#4A2C2C]">Which output formats can carry it</h3>
+                    <h3 class="text-lg font-bold text-cocoa-ink">Which output formats can carry it</h3>
                     {#each formatSupport as f (f.fmt)}
                         <div class="bg-white p-5 rounded-2xl border border-pink-50 shadow-sm flex gap-4 items-start">
                             <span class="shrink-0 inline-flex items-center justify-center px-2.5 py-1 rounded-lg font-mono font-black text-xs w-16 text-center
@@ -365,7 +365,7 @@
                                 {f.fmt}
                             </span>
                             <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-                            <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">{@html f.note}</p>
+                            <p class="text-sm text-cocoa-deep leading-relaxed opacity-90">{@html f.note}</p>
                         </div>
                     {/each}
                 </div>
@@ -376,24 +376,24 @@
     </section>
 
     <section class="mt-20 max-w-4xl mx-auto">
-        <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-2">Edits that switch HDR off</h2>
-        <p class="text-[#6C3F31] leading-relaxed mb-7 max-w-2xl">
+        <h2 class="text-2xl font-extrabold text-cocoa-ink mb-2">Edits that switch HDR off</h2>
+        <p class="text-cocoa-deep leading-relaxed mb-7 max-w-2xl">
             A gain map is a ratio to the image underneath it. Change that image and the ratio stops meaning what it meant, so these operations return a clean standard-range file instead of one labeled HDR that no longer is.
         </p>
         <div class="grid sm:grid-cols-2 gap-3">
             {#each disqualifiers as d (d.op)}
                 <div class="bg-white p-5 rounded-2xl border border-pink-50 shadow-sm">
-                    <h3 class="font-bold text-[#4A2C2C] text-sm mb-1.5">{d.op}</h3>
-                    <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">{d.why}</p>
+                    <h3 class="font-bold text-cocoa-ink text-sm mb-1.5">{d.op}</h3>
+                    <p class="text-sm text-cocoa-deep leading-relaxed opacity-90">{d.why}</p>
                 </div>
             {/each}
         </div>
     </section>
 
     <section class="mt-20 max-w-4xl mx-auto">
-        <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-2">Same thing from the API</h2>
-        <p class="text-[#6C3F31] leading-relaxed mb-6 max-w-2xl">
-            One parameter. Use <span class="font-mono font-bold text-[#4A2C2C]">hdr=true</span> to preserve only, or <span class="font-mono font-bold text-[#4A2C2C]">hdr=generate</span> to preserve and synthesize, which is what this page sends.
+        <h2 class="text-2xl font-extrabold text-cocoa-ink mb-2">Same thing from the API</h2>
+        <p class="text-cocoa-deep leading-relaxed mb-6 max-w-2xl">
+            One parameter. Use <span class="font-mono font-bold text-cocoa-ink">hdr=true</span> to preserve only, or <span class="font-mono font-bold text-cocoa-ink">hdr=generate</span> to preserve and synthesize, which is what this page sends.
         </p>
         <div class="bg-[#2D2320] rounded-2xl px-6 py-5 overflow-x-auto shadow-sm">
             <pre class="text-sm font-mono text-[#F5E9E2] leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=jpg&hdr=generate" \
@@ -404,21 +404,21 @@
 grep X-Mochify-HDR headers.txt
 # X-Mochify-HDR: generated</code></pre>
         </div>
-        <p class="text-sm text-[#875F42] leading-relaxed mt-4">
-            One caveat worth knowing if you script this: on the HDR path only <span class="font-mono font-bold">quality</span> reaches the encoder. <span class="font-mono font-bold">optimizeForWeb</span> is accepted but has no effect, because progressive scan and 4:2:0 chroma belong to the plain JPEG writer that an Ultra HDR request does not go through. Full parameter reference lives in the <a href="/docs" class="font-black text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>.
+        <p class="text-sm text-cocoa-milk leading-relaxed mt-4">
+            One caveat worth knowing if you script this: on the HDR path only <span class="font-mono font-bold">quality</span> reaches the encoder. <span class="font-mono font-bold">optimizeForWeb</span> is accepted but has no effect, because progressive scan and 4:2:0 chroma belong to the plain JPEG writer that an Ultra HDR request does not go through. Full parameter reference lives in the <a href="/docs" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">API documentation</a>.
         </p>
     </section>
 
     <section class="mt-16 max-w-4xl mx-auto">
-        <p class="text-xs font-black text-[#875F42] uppercase tracking-widest mb-4">Also available</p>
+        <p class="text-xs font-black text-cocoa-milk uppercase tracking-widest mb-4">Also available</p>
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <a href="/solutions/heif-to-jpg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                 <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                     <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5z" /></svg>
                 </span>
                 <div>
-                    <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">HEIF to JPG →</p>
-                    <p class="text-xs text-[#875F42]">Every HEIF variant, one converter</p>
+                    <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">HEIF to JPG →</p>
+                    <p class="text-xs text-cocoa-milk">Every HEIF variant, one converter</p>
                 </div>
             </a>
             <a href="/solutions/hif-to-jpg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -426,8 +426,8 @@ grep X-Mochify-HDR headers.txt
                     <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 </span>
                 <div>
-                    <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">HIF to JPG →</p>
-                    <p class="text-xs text-[#875F42]">Fuji, Canon and Sony bodies</p>
+                    <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">HIF to JPG →</p>
+                    <p class="text-xs text-cocoa-milk">Fuji, Canon and Sony bodies</p>
                 </div>
             </a>
             <a href="/docs" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -435,8 +435,8 @@ grep X-Mochify-HDR headers.txt
                     <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" /></svg>
                 </span>
                 <div>
-                    <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">API docs →</p>
-                    <p class="text-xs text-[#875F42]">Every parameter and header</p>
+                    <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">API docs →</p>
+                    <p class="text-xs text-cocoa-milk">Every parameter and header</p>
                 </div>
             </a>
             <a href="/guides/why-hdr-photos-look-flat-when-shared" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -444,8 +444,8 @@ grep X-Mochify-HDR headers.txt
                     <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
                 </span>
                 <div>
-                    <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">Why HDR photos look flat when shared →</p>
-                    <p class="text-xs text-[#875F42]">The guide to gain maps, and where they get lost</p>
+                    <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">Why HDR photos look flat when shared →</p>
+                    <p class="text-xs text-cocoa-milk">The guide to gain maps, and where they get lost</p>
                 </div>
             </a>
         </div>

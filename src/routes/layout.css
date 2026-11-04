@@ -68,12 +68,22 @@ html {
   --font-sans: "Nunito Variable", "Nunito Fallback Arial", "Nunito Fallback Roboto", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "Outfit Variable", "Outfit Fallback Arial", "Outfit Fallback Roboto", ui-sans-serif, system-ui, sans-serif;
   
-  /* Optional: Map your colors here if you want to use them like 'bg-mochi-pink' */
+  /* The palette. Use these (`text-cocoa-ink`, `bg-mochi-blush/60`), not
+     hard-coded hex classes (`text-[#4A2C2C]`); `npm run lint` rejects a hex
+     class for any color listed here. A one-off color can stay a hex class. */
   --color-mochi-bg: #FDFBF7;
   --color-mochi-card: #FFFFFF;
-  --color-cocoa-deep: #6C3F31;
-  --color-cocoa-milk: #875F42;
+  --color-mochi-blush: #FFF5F7;
+  --color-mochi-strawberry: #FFF0F3;
+  --color-mochi-pink-soft: #FFB3C6;
+  --color-mochi-pink-light: #FF9EBB;
   --color-mochi-pink: #F06292;
+  --color-mochi-pink-deep: #D81B60;
+  --color-mochi-pink-ink: #BE185D;
+  --color-cocoa-milk: #875F42;
+  --color-cocoa-deep: #6C3F31;
+  --color-cocoa-ink: #4A2C2C;
+  --color-cocoa-night: #2D1B1B;
   --color-matcha-green: #A5D6A7;
   --color-matcha-dark: #81C784;
 }

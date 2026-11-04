@@ -15,25 +15,25 @@
     {#snippet lead()}
         <!-- Intro card -->
         <div class="bg-white rounded-3xl border border-pink-50 shadow-sm p-8 md:p-10">
-            <p class="text-[#6C3F31] text-lg leading-relaxed mb-6">
+            <p class="text-cocoa-deep text-lg leading-relaxed mb-6">
                 At Mochify, data privacy isn't an afterthought — it's built into how our service works. Image files are processed entirely in-memory and are not retained after processing. The one exception is our Model Context Protocol (MCP) integration, where a processed result is stored for up to approximately five minutes solely to deliver it via a short-lived download link, then automatically deleted (see Schedule 2).
             </p>
-            <p class="text-[#6C3F31] text-lg leading-relaxed mb-8">
+            <p class="text-cocoa-deep text-lg leading-relaxed mb-8">
                 For businesses that require a formal Data Processing Agreement (DPA) as part of their GDPR compliance obligations, we have prepared the following template in accordance with UK GDPR and Article 28 requirements.
             </p>
 
-            <h2 class="text-2xl font-extrabold text-[#4A2C2C] mb-4">How this works</h2>
+            <h2 class="text-2xl font-extrabold text-cocoa-ink mb-4">How this works</h2>
             <ul class="space-y-3 mb-8">
-                <li class="flex gap-3 text-[#6C3F31]">
-                    <span class="text-[#F06292] font-bold mt-0.5">•</span>
-                    <span>This document sets out the terms under which Mochify (as <strong class="text-[#4A2C2C]">Supplier / Data Processor</strong>) processes image data on behalf of your business (as <strong class="text-[#4A2C2C]">Customer / Data Controller</strong>)</span>
+                <li class="flex gap-3 text-cocoa-deep">
+                    <span class="text-mochi-pink font-bold mt-0.5">•</span>
+                    <span>This document sets out the terms under which Mochify (as <strong class="text-cocoa-ink">Supplier / Data Processor</strong>) processes image data on behalf of your business (as <strong class="text-cocoa-ink">Customer / Data Controller</strong>)</span>
                 </li>
-                <li class="flex gap-3 text-[#6C3F31]">
-                    <span class="text-[#F06292] font-bold mt-0.5">•</span>
-                    <span>To enter into this agreement, download the PDF, complete your company details in the Customer section, sign it, and return a countersigned copy to us at <strong class="text-[#4A2C2C]">legal@mochify.app</strong></span>
+                <li class="flex gap-3 text-cocoa-deep">
+                    <span class="text-mochi-pink font-bold mt-0.5">•</span>
+                    <span>To enter into this agreement, download the PDF, complete your company details in the Customer section, sign it, and return a countersigned copy to us at <strong class="text-cocoa-ink">legal@mochify.app</strong></span>
                 </li>
-                <li class="flex gap-3 text-[#6C3F31]">
-                    <span class="text-[#F06292] font-bold mt-0.5">•</span>
+                <li class="flex gap-3 text-cocoa-deep">
+                    <span class="text-mochi-pink font-bold mt-0.5">•</span>
                     <span>We will countersign and return a copy for your records within 5 working days</span>
                 </li>
             </ul>
@@ -41,7 +41,7 @@
             <a
                 href="/dpa/mochify-dpa.pdf"
                 download
-                class="inline-flex items-center gap-2 bg-[#A5D6A7] hover:bg-[#81C784] text-[#2E7D32] font-bold px-6 py-3 rounded-2xl transition-colors shadow-sm"
+                class="inline-flex items-center gap-2 bg-matcha-green hover:bg-matcha-dark text-[#2E7D32] font-bold px-6 py-3 rounded-2xl transition-colors shadow-sm"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>

@@ -279,7 +279,7 @@
     </script>
 </svelte:head>
 
-<div class="min-h-screen bg-[#FDFBF7] flex flex-col relative">
+<div class="min-h-screen bg-mochi-bg flex flex-col relative">
 
     <!-- Ambient background orbs -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
@@ -294,25 +294,25 @@
 
         <!-- ── Header ─────────────────────────────────────────────── -->
         <header class="text-center mb-12">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFE5F0] shadow-sm text-[#BE185D] text-sm font-bold border border-pink-100 mb-5">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFE5F0] shadow-sm text-mochi-pink-ink text-sm font-bold border border-pink-100 mb-5">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 9l-4 3 4 3M16 9l4 3-4 3"/>
                 </svg>
                 Quality Comparison
             </div>
 
-            <h1 class="text-5xl md:text-6xl font-black text-[#4A2C2C] leading-tight mb-4">
+            <h1 class="text-5xl md:text-6xl font-black text-cocoa-ink leading-tight mb-4">
                 See the
-                <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">difference</span>
+                <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">difference</span>
                 for yourself
             </h1>
-            <p class="text-[#6C3F31] text-base md:text-lg max-w-2xl mx-auto leading-relaxed text-balance">
+            <p class="text-cocoa-deep text-base md:text-lg max-w-2xl mx-auto leading-relaxed text-balance">
                 Upload an image, pick your format, then drag the slider to compare original vs. compressed side‑by‑side.
             </p>
         </header>
 
         <!-- ── Glass card wrapping the whole tool ───────────────── -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-[#FFF0F3] overflow-hidden">
+        <div class="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-mochi-strawberry overflow-hidden">
             <div class="p-8 lg:p-12">
 
                 <!-- ── Drop zone (no file loaded) ─────────────────── -->
@@ -327,17 +327,17 @@
                         onchange={handleFileSelect}
                     />
                     <div
-                        class="border-[4px] border-dashed {isDragOver ? 'border-[#F06292] bg-[#FFF0F3]' : 'border-[#FFE5EC] hover:border-[#FFD6E0]'} rounded-2xl p-16 text-center transition-all duration-300 bg-[#FFF5F7] group"
+                        class="border-[4px] border-dashed {isDragOver ? 'border-mochi-pink bg-mochi-strawberry' : 'border-[#FFE5EC] hover:border-[#FFD6E0]'} rounded-2xl p-16 text-center transition-all duration-300 bg-mochi-blush group"
                         role="presentation"
                         ondragover={(e) => { e.preventDefault(); isDragOver = true; }}
                         ondragleave={() => isDragOver = false}
                         ondrop={handleDrop}
                     >
-                        <svg class="w-16 h-16 mx-auto mb-4 text-[#FFB3C6] group-hover:text-[#F06292] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-mochi-pink-soft group-hover:text-mochi-pink transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
-                        <p class="text-lg text-[#6C3F31] font-semibold mb-1">Drop your image here or click to browse</p>
+                        <p class="text-lg text-cocoa-deep font-semibold mb-1">Drop your image here or click to browse</p>
                         <p class="text-sm text-[#B38B91]">JPG · PNG · WebP · AVIF · HEIC / HEIF · up to 20 MB</p>
                     </div>
                 </label>
@@ -354,8 +354,8 @@
                             {#each formats as fmt}
                             <button
                                 class="px-4 py-2 rounded-xl text-sm font-bold transition-all {imageType === fmt.value
-                                    ? 'bg-gradient-to-r from-[#F06292] to-[#E91E63] text-white shadow-sm'
-                                    : 'bg-[#FFF5F7] text-[#6C3F31] border border-[#FFE5EC] hover:border-[#FFD6E0] hover:bg-[#FFF0F3]'}"
+                                    ? 'bg-gradient-to-r from-mochi-pink to-[#E91E63] text-white shadow-sm'
+                                    : 'bg-mochi-blush text-cocoa-deep border border-[#FFE5EC] hover:border-[#FFD6E0] hover:bg-mochi-strawberry'}"
                                 onclick={() => { imageType = fmt.value; compressedUrl = null; compressedSize = 0; compressedRenderFailed = false; }}
                             >
                                 {fmt.label}
@@ -368,10 +368,10 @@
                         <label class="flex items-center gap-3 cursor-pointer select-none shrink-0">
                             <div class="relative">
                                 <input type="checkbox" bind:checked={smartCompress} class="sr-only" />
-                                <div class="w-10 h-5 rounded-full transition-colors {smartCompress ? 'bg-[#F06292]' : 'bg-[#FFD6E0]'}"></div>
+                                <div class="w-10 h-5 rounded-full transition-colors {smartCompress ? 'bg-mochi-pink' : 'bg-[#FFD6E0]'}"></div>
                                 <div class="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform {smartCompress ? 'translate-x-5' : ''}"></div>
                             </div>
-                            <span class="text-sm font-semibold text-[#6C3F31]">Smart Compress</span>
+                            <span class="text-sm font-semibold text-cocoa-deep">Smart Compress</span>
                         </label>
                     </div>
 
@@ -412,7 +412,7 @@
                         <img
                             src={originalUrl}
                             alt="Uploaded"
-                            class="block w-full max-h-[55vh] object-contain bg-[#FFF5F7]"
+                            class="block w-full max-h-[55vh] object-contain bg-mochi-blush"
                             draggable="false"
                         />
                         <div class="absolute top-3 left-3">
@@ -435,7 +435,7 @@
                     <!-- Compress button -->
                     {#if !compressedUrl}
                     <button
-                        class="w-full py-4 rounded-2xl font-black text-lg text-white bg-gradient-to-r from-[#F06292] to-[#E91E63] hover:from-[#E91E63] hover:to-[#C2185B] transition-all shadow-md hover:shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="w-full py-4 rounded-2xl font-black text-lg text-white bg-gradient-to-r from-mochi-pink to-[#E91E63] hover:from-[#E91E63] hover:to-[#C2185B] transition-all shadow-md hover:shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                         onclick={processImage}
                         disabled={isProcessing || jxlPolyfillActive}
                     >
@@ -467,22 +467,22 @@
 
                         <!-- Stats row -->
                         <div class="grid grid-cols-3 gap-3 text-center">
-                            <div class="bg-[#FFF5F7] border border-[#FFE5EC] rounded-2xl p-4">
+                            <div class="bg-mochi-blush border border-[#FFE5EC] rounded-2xl p-4">
                                 <p class="text-xs font-bold text-[#B38B91] uppercase tracking-wide mb-1">Original</p>
-                                <p class="text-xl font-black text-[#4A2C2C]">{formatSize(originalSize)}</p>
+                                <p class="text-xl font-black text-cocoa-ink">{formatSize(originalSize)}</p>
                             </div>
-                            <div class="bg-gradient-to-br from-[#FFF0F3] to-[#FFE5EC] border border-[#FFD6E0] rounded-2xl p-4">
-                                <p class="text-xs font-bold text-[#F06292] uppercase tracking-wide mb-1">Saved</p>
-                                <p class="text-xl font-black {savedPercent >= 0 ? 'text-[#F06292]' : 'text-amber-500'}">
+                            <div class="bg-gradient-to-br from-mochi-strawberry to-[#FFE5EC] border border-[#FFD6E0] rounded-2xl p-4">
+                                <p class="text-xs font-bold text-mochi-pink uppercase tracking-wide mb-1">Saved</p>
+                                <p class="text-xl font-black {savedPercent >= 0 ? 'text-mochi-pink' : 'text-amber-500'}">
                                     {savedPercent >= 0 ? `${savedPercent}%` : `+${Math.abs(savedPercent)}%`}
                                 </p>
                                 <p class="text-xs text-[#B38B91] mt-0.5">
                                     {savedPercent >= 0 ? `−${formatSize(savedBytes)}` : `+${formatSize(-savedBytes)}`}
                                 </p>
                             </div>
-                            <div class="bg-[#FFF5F7] border border-[#FFE5EC] rounded-2xl p-4">
+                            <div class="bg-mochi-blush border border-[#FFE5EC] rounded-2xl p-4">
                                 <p class="text-xs font-bold text-[#B38B91] uppercase tracking-wide mb-1">{imageType.toUpperCase()}</p>
-                                <p class="text-xl font-black text-[#4A2C2C]">{formatSize(compressedSize)}</p>
+                                <p class="text-xl font-black text-cocoa-ink">{formatSize(compressedSize)}</p>
                             </div>
                         </div>
 
@@ -510,7 +510,7 @@
                             <img
                                 src={originalUrl}
                                 alt="Original"
-                                class="block w-full max-h-[68vh] object-contain bg-[#FFF5F7]"
+                                class="block w-full max-h-[68vh] object-contain bg-mochi-blush"
                                 draggable="false"
                             />
 
@@ -520,7 +520,7 @@
                                 <img
                                     src={compressedUrl}
                                     alt="Compressed {imageType.toUpperCase()}"
-                                    class="w-full h-full object-contain bg-[#FFF5F7]"
+                                    class="w-full h-full object-contain bg-mochi-blush"
                                     draggable="false"
                                     onerror={() => compressedRenderFailed = true}
                                 />
@@ -548,7 +548,7 @@
                                 <span class="px-3 py-1.5 bg-black/50 text-white text-xs font-bold rounded-full backdrop-blur-sm">Original</span>
                             </div>
                             <div class="absolute top-3 right-3 pointer-events-none">
-                                <span class="px-3 py-1.5 bg-[#F06292]/80 text-white text-xs font-bold rounded-full backdrop-blur-sm">{imageType.toUpperCase()}</span>
+                                <span class="px-3 py-1.5 bg-mochi-pink/80 text-white text-xs font-bold rounded-full backdrop-blur-sm">{imageType.toUpperCase()}</span>
                             </div>
 
                             <!-- Divider + handle -->
@@ -556,8 +556,8 @@
                                 class="absolute inset-y-0 w-0.5 bg-white/90 pointer-events-none"
                                 style="left: {sliderPosition}%; transform: translateX(-50%); box-shadow: 0 0 8px rgba(0,0,0,0.25);"
                             >
-                                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-lg border-2 border-[#F06292] flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-lg border-2 border-mochi-pink flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-mochi-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 9l-4 3 4 3M16 9l4 3-4 3"/>
                                     </svg>
                                 </div>
@@ -569,19 +569,19 @@
                         <!-- Action buttons -->
                         <div class="flex flex-col sm:flex-row gap-3 pt-1">
                             <button
-                                class="flex-1 py-3 rounded-2xl font-bold text-white bg-gradient-to-r from-[#F06292] to-[#E91E63] hover:from-[#E91E63] hover:to-[#C2185B] transition-all shadow-md hover:shadow-lg active:scale-[0.98]"
+                                class="flex-1 py-3 rounded-2xl font-bold text-white bg-gradient-to-r from-mochi-pink to-[#E91E63] hover:from-[#E91E63] hover:to-[#C2185B] transition-all shadow-md hover:shadow-lg active:scale-[0.98]"
                                 onclick={downloadCompressed}
                             >
                                 Download {imageType.toUpperCase()}
                             </button>
                             <button
-                                class="py-3 px-6 rounded-2xl font-semibold text-[#6C3F31] bg-[#FFF5F7] border border-[#FFE5EC] hover:bg-[#FFF0F3] hover:border-[#FFD6E0] transition-all active:scale-[0.98]"
+                                class="py-3 px-6 rounded-2xl font-semibold text-cocoa-deep bg-mochi-blush border border-[#FFE5EC] hover:bg-mochi-strawberry hover:border-[#FFD6E0] transition-all active:scale-[0.98]"
                                 onclick={() => { compressedUrl = null; compressedSize = 0; compressedRenderFailed = false; }}
                             >
                                 Change settings
                             </button>
                             <button
-                                class="py-3 px-6 rounded-2xl font-semibold text-[#6C3F31] bg-[#FFF5F7] border border-[#FFE5EC] hover:bg-[#FFF0F3] hover:border-[#FFD6E0] transition-all active:scale-[0.98]"
+                                class="py-3 px-6 rounded-2xl font-semibold text-cocoa-deep bg-mochi-blush border border-[#FFE5EC] hover:bg-mochi-strawberry hover:border-[#FFD6E0] transition-all active:scale-[0.98]"
                                 onclick={resetTool}
                             >
                                 New image
@@ -590,10 +590,10 @@
 
                         <!-- Upsell CTA -->
                         <div class="mt-2 pt-5 border-t border-[#FFE5EC] text-center">
-                            <p class="text-sm text-[#875F42]/70 mb-3">Ready to compress in bulk?</p>
+                            <p class="text-sm text-cocoa-milk/70 mb-3">Ready to compress in bulk?</p>
                             <a
                                 href="/"
-                                class="inline-flex items-center gap-2 px-6 py-2.5 rounded-2xl bg-white border border-[#FFE5EC] hover:border-[#F06292]/40 hover:bg-[#FFF5F7] text-[#F06292] font-bold text-sm transition-all hover:-translate-y-0.5 shadow-sm hover:shadow-md"
+                                class="inline-flex items-center gap-2 px-6 py-2.5 rounded-2xl bg-white border border-[#FFE5EC] hover:border-mochi-pink/40 hover:bg-mochi-blush text-mochi-pink font-bold text-sm transition-all hover:-translate-y-0.5 shadow-sm hover:shadow-md"
                             >
                                 Compress up to 25 images at once
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">

@@ -238,8 +238,8 @@
 	<!-- Drop zone -->
 	<label
 		class="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-6 py-10 text-center transition-colors {isDragging
-			? 'border-[#F06292] bg-[#FFF5F7]'
-			: 'border-pink-200 hover:border-[#F06292] hover:bg-[#FFF9FB]'}"
+			? 'border-mochi-pink bg-mochi-blush'
+			: 'border-pink-200 hover:border-mochi-pink hover:bg-[#FFF9FB]'}"
 		ondragover={(e) => {
 			e.preventDefault();
 			isDragging = true;
@@ -247,9 +247,9 @@
 		ondragleave={() => (isDragging = false)}
 		ondrop={onDrop}
 	>
-		<span class="mb-1 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFF0F3]">
+		<span class="mb-1 flex h-12 w-12 items-center justify-center rounded-2xl bg-mochi-strawberry">
 			<svg
-				class="h-6 w-6 text-[#F06292]"
+				class="h-6 w-6 text-mochi-pink"
 				fill="none"
 				stroke="currentColor"
 				viewBox="0 0 24 24"
@@ -262,8 +262,8 @@
 				/>
 			</svg>
 		</span>
-		<span class="font-black text-[#4A2C2C]">Drop videos here, or click to choose</span>
-		<span class="text-xs text-[#875F42]"
+		<span class="font-black text-cocoa-ink">Drop videos here, or click to choose</span>
+		<span class="text-xs text-cocoa-milk"
 			>Converted to {outLabel} in your browser · up to {maxFiles} files · never uploaded</span
 		>
 		<input
@@ -280,19 +280,19 @@
 		<ul class="mt-5 space-y-2">
 			{#each files as f, i}
 				<li
-					class="flex items-center gap-3 rounded-xl border border-pink-50 bg-[#FDFBF7] px-4 py-2.5"
+					class="flex items-center gap-3 rounded-xl border border-pink-50 bg-mochi-bg px-4 py-2.5"
 				>
 					<span
-						class="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-lg bg-[#FFF0F3] text-xs font-black text-[#F06292]"
+						class="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-lg bg-mochi-strawberry text-xs font-black text-mochi-pink"
 						>{i + 1}</span
 					>
-					<span class="flex-1 truncate text-sm font-semibold text-[#4A2C2C]">{f.name}</span>
-					<span class="flex-shrink-0 text-xs text-[#875F42]">{fmtBytes(f.size)}</span>
+					<span class="flex-1 truncate text-sm font-semibold text-cocoa-ink">{f.name}</span>
+					<span class="flex-shrink-0 text-xs text-cocoa-milk">{fmtBytes(f.size)}</span>
 					<button
 						type="button"
 						onclick={() => removeFile(i)}
 						disabled={isProcessing}
-						class="flex-shrink-0 text-[#875F42]/50 transition-colors hover:text-red-500 disabled:opacity-40"
+						class="flex-shrink-0 text-cocoa-milk/50 transition-colors hover:text-red-500 disabled:opacity-40"
 						aria-label="Remove {f.name}"
 					>
 						<svg
@@ -312,7 +312,7 @@
 			type="button"
 			onclick={convert}
 			disabled={isProcessing}
-			class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#F06292] px-6 py-3.5 font-black text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#D81B60] hover:shadow-pink-300/50 disabled:opacity-60 disabled:hover:translate-y-0"
+			class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-mochi-pink px-6 py-3.5 font-black text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-mochi-pink-deep hover:shadow-pink-300/50 disabled:opacity-60 disabled:hover:translate-y-0"
 		>
 			{#if isProcessing}
 				Converting {current}/{files.length}… {percent}%

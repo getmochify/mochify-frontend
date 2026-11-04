@@ -125,31 +125,31 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="AVIF File" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             An AVIF file is an image saved in the AV1 Image File Format, a modern format that stores pictures using the open-source AV1 video codec. Websites use it because AVIF files can be up to 50% smaller than equivalent JPEGs at the same visual quality, which makes pages load faster. Every modern browser opens AVIF - 93.42% of global browser traffic supports it as of May 2026, per <a href="https://caniuse.com/avif" target="_blank" rel="noopener noreferrer">caniuse.com</a> - but plenty of desktop apps still do not, which is why the file that saved from a website refuses to open on your computer.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published July 14, 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published July 14, 2026 by the Mochify Engineering Team.</strong>
                 Part of Mochify's Quick Guides series, answering fast, practical questions about the image formats reshaping how the modern web loads pictures.
             </p>
         </div>
@@ -167,9 +167,9 @@
             <SectionHeading>How to Open an AVIF File</SectionHeading>
             <p>The quickest way to view one is to drag it into any modern browser tab - Chrome, Firefox, Safari, and Edge all render AVIF natively. Beyond that, it depends on your system:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Windows 10/11:</strong> install the free AV1 Video Extension from the Microsoft Store, and Photos, Paint, and File Explorer thumbnails all start working.</li>
-                <li><strong class="text-[#4A2C2C]">macOS:</strong> Preview and Quick Look open AVIF natively on Ventura (macOS 13) and later. Older versions have no built-in support.</li>
-                <li><strong class="text-[#4A2C2C]">Everything else:</strong> if an app, upload form, or workflow rejects the file, convert it to JPG - the format that works everywhere.</li>
+                <li><strong class="text-cocoa-ink">Windows 10/11:</strong> install the free AV1 Video Extension from the Microsoft Store, and Photos, Paint, and File Explorer thumbnails all start working.</li>
+                <li><strong class="text-cocoa-ink">macOS:</strong> Preview and Quick Look open AVIF natively on Ventura (macOS 13) and later. Older versions have no built-in support.</li>
+                <li><strong class="text-cocoa-ink">Everything else:</strong> if an app, upload form, or workflow rejects the file, convert it to JPG - the format that works everywhere.</li>
             </ul>
             <p>Converting takes seconds: drop the file on Mochify's <a href="/avif-to-jpg">AVIF to JPG converter</a> and type what you want in plain English, for example "convert to JPG and strip all metadata". No signup is needed for up to 3 images a month, and your file is processed in memory and wiped immediately after conversion.</p>
 

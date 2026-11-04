@@ -15,11 +15,11 @@
                 {#if item.href}
                     <a
                         href={item.href}
-                        class="text-xs font-semibold text-[#875F42] hover:text-[#F06292] transition-colors whitespace-nowrap no-underline"
+                        class="text-xs font-semibold text-cocoa-milk hover:text-mochi-pink transition-colors whitespace-nowrap no-underline"
                     >{item.name}</a>
                 {:else}
                     <span
-                        class="text-xs font-semibold text-[#4A2C2C] truncate max-w-[200px] sm:max-w-lg"
+                        class="text-xs font-semibold text-cocoa-ink truncate max-w-[200px] sm:max-w-lg"
                         aria-current="page"
                         title={item.name}
                     >{item.name}</span>

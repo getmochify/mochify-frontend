@@ -76,9 +76,9 @@
     <main class="relative z-10 flex-grow w-full max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
 
         <header class="text-center mb-10">
-            <p class="text-xs font-bold tracking-[0.18em] uppercase text-[#F06292]/80 mb-4">Images · Video · PDFs</p>
-            <h1 class="font-heading text-4xl md:text-6xl font-black text-[#4A2C2C] leading-tight tracking-tight text-balance max-w-3xl mx-auto mb-3">Drop your files<span class="text-[#F06292]">.</span> <span class="text-[#F06292]">Tell us what you need<span class="text-[#6C3F31]">.</span></span></h1>
-            <p class="text-base md:text-lg text-[#875F42] max-w-2xl mx-auto leading-relaxed text-pretty">Convert, resize, crop, remove backgrounds, rasterize PDF pages or pull the audio out of a video. Just describe it. No format pickers, no quality sliders.</p>
+            <p class="text-xs font-bold tracking-[0.18em] uppercase text-mochi-pink/80 mb-4">Images · Video · PDFs</p>
+            <h1 class="font-heading text-4xl md:text-6xl font-black text-cocoa-ink leading-tight tracking-tight text-balance max-w-3xl mx-auto mb-3">Drop your files<span class="text-mochi-pink">.</span> <span class="text-mochi-pink">Tell us what you need<span class="text-cocoa-deep">.</span></span></h1>
+            <p class="text-base md:text-lg text-cocoa-milk max-w-2xl mx-auto leading-relaxed text-pretty">Convert, resize, crop, remove backgrounds, rasterize PDF pages or pull the audio out of a video. Just describe it. No format pickers, no quality sliders.</p>
             <!-- Next to the tool, and in the HTML for every visitor. The locale
                  banner above renders only for a French browser preference, which
                  Googlebot does not send, so until this link existed /fr/flow had
@@ -86,24 +86,24 @@
                  2026-09-24, Change 1). The footer carries the same switch
                  sitewide; this one is for the person already looking at the tool. -->
             <p class="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-                <a href="/fr/flow" hreflang="fr" lang="fr" class="text-sm font-bold text-[#F06292] hover:underline">&laquo;&nbsp;En français&nbsp;&raquo;</a>
-                <a href="/es/flow" hreflang="es" lang="es" class="text-sm font-bold text-[#F06292] hover:underline">&laquo;&nbsp;En español&nbsp;&raquo;</a>
-                <a href="/ja/flow" hreflang="ja" lang="ja" class="text-sm font-bold text-[#F06292] hover:underline">「日本語で見る」</a>
-                <a href="/pt-br/flow" hreflang="pt-BR" lang="pt-BR" class="text-sm font-bold text-[#F06292] hover:underline">“Em português”</a>
+                <a href="/fr/flow" hreflang="fr" lang="fr" class="text-sm font-bold text-mochi-pink hover:underline">&laquo;&nbsp;En français&nbsp;&raquo;</a>
+                <a href="/es/flow" hreflang="es" lang="es" class="text-sm font-bold text-mochi-pink hover:underline">&laquo;&nbsp;En español&nbsp;&raquo;</a>
+                <a href="/ja/flow" hreflang="ja" lang="ja" class="text-sm font-bold text-mochi-pink hover:underline">「日本語で見る」</a>
+                <a href="/pt-br/flow" hreflang="pt-BR" lang="pt-BR" class="text-sm font-bold text-mochi-pink hover:underline">“Em português”</a>
             </p>
         </header>
 
         <PromptFormApp bind:this={form} rememberPrompts />
 
         <!-- Capability / trust strip -->
-        <div class="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2.5 text-sm text-[#6C3F31]">
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2.5 text-sm text-cocoa-deep">
             <span class="flex items-center gap-1.5">
-                <svg class="w-4 h-4 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+                <svg class="w-4 h-4 text-mochi-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
                 <span class="font-bold">Zero-retention</span>
             </span>
             <span class="text-pink-200" aria-hidden="true">·</span>
             <span class="flex items-center gap-1.5">
-                <svg class="w-4 h-4 text-[#F06292]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+                <svg class="w-4 h-4 text-mochi-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
                 <span class="font-bold">25 free / month</span>
             </span>
             <span class="text-pink-200" aria-hidden="true">·</span>
@@ -123,8 +123,8 @@
              same height. Wrapping rows no longer leave dead space under the
              shorter cards, and the rows line up across all three. -->
         <section class="mt-16 w-full max-w-4xl">
-            <h2 class="text-center font-heading font-extrabold text-2xl md:text-3xl leading-tight text-[#4A2C2C] mb-2">Compression is just one thing you can ask for</h2>
-            <p class="text-center text-[#875F42] mb-8 max-w-xl mx-auto">Type it the way you would say it. Mochify works out the formats, sizes and settings. Tap any example to load it.</p>
+            <h2 class="text-center font-heading font-extrabold text-2xl md:text-3xl leading-tight text-cocoa-ink mb-2">Compression is just one thing you can ask for</h2>
+            <p class="text-center text-cocoa-milk mb-8 max-w-xl mx-auto">Type it the way you would say it. Mochify works out the formats, sizes and settings. Tap any example to load it.</p>
             <div class="grid sm:grid-cols-3 gap-5">
                 {#each exampleCards as card (card.title)}
                     <div class="mochi-card flex h-full flex-col rounded-3xl bg-white p-6">
@@ -132,7 +132,7 @@
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                                 <svg class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d={card.icon} /></svg>
                             </span>
-                            <h3 class="font-heading font-bold text-lg text-[#4A2C2C]">{card.title}</h3>
+                            <h3 class="font-heading font-bold text-lg text-cocoa-ink">{card.title}</h3>
                         </div>
                         <ul class="grid flex-1 auto-rows-fr list-none gap-2 p-0">
                             {#each card.examples as example (example)}
@@ -141,7 +141,7 @@
                                         type="button"
                                         onclick={() => form?.useExample(example)}
                                         aria-label="Use this example: {example}"
-                                        class="mochi-row flex h-full w-full cursor-pointer items-center rounded-2xl px-4 py-2.5 text-left text-sm font-medium leading-snug text-balance text-[#6C3F31]"
+                                        class="mochi-row flex h-full w-full cursor-pointer items-center rounded-2xl px-4 py-2.5 text-left text-sm font-medium leading-snug text-balance text-cocoa-deep"
                                     >{example}</button>
                                 </li>
                             {/each}
@@ -149,8 +149,8 @@
                     </div>
                 {/each}
             </div>
-            <p class="text-center text-sm text-[#6C3F31]/75 mt-6">
-                All of it works on the free plan. <a href="/pricing" class="text-[#F06292] font-semibold hover:underline">Paid plans</a> raise the monthly allowance, file size and batch size.
+            <p class="text-center text-sm text-cocoa-deep/75 mt-6">
+                All of it works on the free plan. <a href="/pricing" class="text-mochi-pink font-semibold hover:underline">Paid plans</a> raise the monthly allowance, file size and batch size.
             </p>
         </section>
 

@@ -18,11 +18,11 @@
 	<button
 		type="button"
 		onclick={ask}
-		class="cursor-pointer text-xs font-semibold whitespace-nowrap text-[#F06292]/80 underline decoration-dotted underline-offset-2 transition-colors hover:text-[#F06292] {className}"
+		class="cursor-pointer text-xs font-semibold whitespace-nowrap text-mochi-pink/80 underline decoration-dotted underline-offset-2 transition-colors hover:text-mochi-pink {className}"
 		>Notify me when it's done</button
 	>
 {:else if mode === 'on'}
-	<span class="text-xs font-medium whitespace-nowrap text-[#6C3F31]/60 {className}"
+	<span class="text-xs font-medium whitespace-nowrap text-cocoa-deep/60 {className}"
 		>We'll let you know</span
 	>
 {/if}

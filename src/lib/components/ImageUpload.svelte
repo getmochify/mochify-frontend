@@ -2002,7 +2002,7 @@
 </script>
 
 <div
-	class={`relative w-full overflow-hidden rounded-3xl border bg-white shadow-sm transition-all duration-300 ${isDragging ? 'border-[#F06292] ring-2 ring-[#F06292]/25' : 'border-pink-50'} ${className}`.trim()}
+	class={`relative w-full overflow-hidden rounded-3xl border bg-white shadow-sm transition-all duration-300 ${isDragging ? 'border-mochi-pink ring-2 ring-mochi-pink/25' : 'border-pink-50'} ${className}`.trim()}
 	ondragover={handleDragOver}
 	ondragleave={handleDragLeave}
 	ondrop={handleDrop}
@@ -2048,7 +2048,7 @@
 				class="mb-3 flex h-14 w-14 animate-bounce items-center justify-center rounded-2xl bg-white/90 shadow-xl shadow-pink-200/50"
 			>
 				<svg
-					class="h-6 w-6 text-[#F06292]"
+					class="h-6 w-6 text-mochi-pink"
 					fill="none"
 					stroke="currentColor"
 					viewBox="0 0 24 24"
@@ -2061,7 +2061,7 @@
 					/>
 				</svg>
 			</div>
-			<p class="text-lg font-bold tracking-tight text-[#4A2C2C] drop-shadow-md">
+			<p class="text-lg font-bold tracking-tight text-cocoa-ink drop-shadow-md">
 				Drop it like it's hot
 			</p>
 		</div>
@@ -2077,9 +2077,9 @@
          scarcity count is most likely to lose. By the time they have committed
          files, the same number is answering a question they are actually asking. -->
 	{#if hasCheckedTokens && tierResolved && (isAuthed || stagedCount > 0)}
-		<div class="flex items-center gap-2 border-b border-pink-50 bg-[#FDFBF7] px-4 py-2 sm:px-6">
+		<div class="flex items-center gap-2 border-b border-pink-50 bg-mochi-bg px-4 py-2 sm:px-6">
 			<span
-				class="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-xs font-bold text-[#6C3F31] shadow-[0_0_0_1px_rgba(135,95,66,0.12)]"
+				class="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-xs font-bold text-cocoa-deep shadow-[0_0_0_1px_rgba(135,95,66,0.12)]"
 			>
 				<span
 					class="h-1.5 w-1.5 rounded-full {monthlyUploadsRemaining > 0
@@ -2096,7 +2096,7 @@
 					onblur={() => (showUsageHint = false)}
 					aria-expanded={showUsageHint}
 					aria-label="How the upload limits work"
-					class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-full text-[#875F42]/50 transition-colors hover:bg-white hover:text-[#F06292]"
+					class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-full text-cocoa-milk/50 transition-colors hover:bg-white hover:text-mochi-pink"
 				>
 					<svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
 						<path
@@ -2109,7 +2109,7 @@
 
 				{#if showUsageHint}
 					<div
-						class="absolute top-full left-0 z-30 mt-2 w-64 rounded-2xl border border-pink-100 bg-white p-3 text-xs leading-relaxed font-medium text-[#6C3F31] shadow-[0_8px_24px_rgba(74,44,44,0.14)]"
+						class="absolute top-full left-0 z-30 mt-2 w-64 rounded-2xl border border-pink-100 bg-white p-3 text-xs leading-relaxed font-medium text-cocoa-deep shadow-[0_8px_24px_rgba(74,44,44,0.14)]"
 						role="tooltip"
 					>
 						{usageHint}
@@ -2121,36 +2121,36 @@
 
 	{#if dayPassSuccess}
 		<div
-			class="m-4 flex items-start gap-3 rounded-2xl border border-[#F06292]/20 bg-[#FFF5F7] px-4 py-4 sm:m-6"
+			class="m-4 flex items-start gap-3 rounded-2xl border border-mochi-pink/20 bg-mochi-blush px-4 py-4 sm:m-6"
 		>
 			<div
-				class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-[#F06292]/10"
+				class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-mochi-pink/10"
 			>
-				<svg class="h-4 w-4 text-[#F06292]" fill="currentColor" viewBox="0 0 20 20">
+				<svg class="h-4 w-4 text-mochi-pink" fill="currentColor" viewBox="0 0 20 20">
 					<path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
 					<path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
 				</svg>
 			</div>
 			<div class="min-w-0 flex-1">
 				{#if dayPassPaidAuthed}
-					<p class="text-sm font-black text-[#4A2C2C]">Payment received</p>
-					<p class="mt-0.5 text-xs text-[#6C3F31]/70">
+					<p class="text-sm font-black text-cocoa-ink">Payment received</p>
+					<p class="mt-0.5 text-xs text-cocoa-deep/70">
 						Your Day Pass switches on in a few seconds: 100 image ops for 24 hours.
 					</p>
 				{:else if dayPassNeedsSignIn}
-					<p class="text-sm font-black text-[#4A2C2C]">Payment received. Sign in to use it</p>
-					<p class="mt-0.5 text-xs text-[#6C3F31]/70">
+					<p class="text-sm font-black text-cocoa-ink">Payment received. Sign in to use it</p>
+					<p class="mt-0.5 text-xs text-cocoa-deep/70">
 						That email already has a Mochify account, and your Day Pass is on it.
 						<a
 							href={dayPassSignIn()}
 							target="_blank"
-							class="font-extrabold text-[#F06292] underline underline-offset-2">Sign in</a
+							class="font-extrabold text-mochi-pink underline underline-offset-2">Sign in</a
 						>{#if stagedCount + queuedFiles.length > 0}, then come back to this tab and your files
 							pick up here{/if}.
 					</p>
 				{:else}
-					<p class="text-sm font-black text-[#4A2C2C]">Payment received. Check your email</p>
-					<p class="mt-0.5 text-xs text-[#6C3F31]/70">
+					<p class="text-sm font-black text-cocoa-ink">Payment received. Check your email</p>
+					<p class="mt-0.5 text-xs text-cocoa-deep/70">
 						We've sent a magic link to activate your Day Pass. Click it to unlock 100 image ops for
 						24 hours.{#if stagedCount + queuedFiles.length > 0}
 							Your files stay here and pick up when you come back to this tab.{/if}
@@ -2160,7 +2160,7 @@
 							type="button"
 							onclick={resendLink}
 							disabled={resending || (resendState !== null && !resendState.again)}
-							class="mt-1.5 text-xs font-extrabold text-[#F06292] underline underline-offset-2 disabled:cursor-default disabled:no-underline disabled:opacity-80"
+							class="mt-1.5 text-xs font-extrabold text-mochi-pink underline underline-offset-2 disabled:cursor-default disabled:no-underline disabled:opacity-80"
 						>
 							{resending ? 'Sending…' : (resendState?.text ?? 'Resend the link')}
 						</button>
@@ -2170,7 +2170,7 @@
 			<button
 				onclick={() => (dayPassSuccess = false)}
 				aria-label="Dismiss"
-				class="flex-shrink-0 text-[#875F42]/40 transition-colors hover:text-[#875F42]"
+				class="flex-shrink-0 text-cocoa-milk/40 transition-colors hover:text-cocoa-milk"
 			>
 				<svg
 					class="h-4 w-4"
@@ -2191,7 +2191,7 @@
 			role="radiogroup"
 			aria-label={resizeOptionsLabel}
 		>
-			<span class="mr-1 text-xs font-semibold text-[#6C3F31]">{resizeOptionsLabel}</span>
+			<span class="mr-1 text-xs font-semibold text-cocoa-deep">{resizeOptionsLabel}</span>
 			{#each [0, ...resizeOptions] as opt (opt)}
 				<label class="cursor-pointer">
 					<input
@@ -2203,7 +2203,7 @@
 						class="peer sr-only"
 					/>
 					<span
-						class="inline-block rounded-full border border-pink-100 px-3 py-1 text-xs font-bold text-[#6C3F31] transition-colors peer-checked:border-[#F06292] peer-checked:bg-[#F06292] peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-[#F06292]/40 peer-disabled:opacity-60 hover:border-[#F06292]/50"
+						class="inline-block rounded-full border border-pink-100 px-3 py-1 text-xs font-bold text-cocoa-deep transition-colors peer-checked:border-mochi-pink peer-checked:bg-mochi-pink peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-mochi-pink/40 peer-disabled:opacity-60 hover:border-mochi-pink/50"
 						>{opt === 0 ? 'Original' : opt}</span
 					>
 				</label>
@@ -2224,7 +2224,7 @@
 	>
 		{#each fileProgress as fp, index}
 			<div class="group relative flex-shrink-0">
-				<div class="h-16 w-16 overflow-hidden rounded-2xl border border-pink-100 bg-[#FDFBF7] p-1">
+				<div class="h-16 w-16 overflow-hidden rounded-2xl border border-pink-100 bg-mochi-bg p-1">
 					{#if fp.thumbnailUrl}
 						<img
 							src={fp.thumbnailUrl}
@@ -2243,7 +2243,7 @@
 							class="flex h-full w-full flex-col items-center justify-center gap-0.5 rounded-xl bg-white/40"
 						>
 							<svg
-								class="h-5 w-5 text-[#FFB3C6]"
+								class="h-5 w-5 text-mochi-pink-soft"
 								fill="none"
 								stroke="currentColor"
 								stroke-width="1.5"
@@ -2255,7 +2255,7 @@
 									d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
 								/>
 							</svg>
-							<span class="text-[7px] font-bold tracking-wide text-[#FFB3C6] uppercase">
+							<span class="text-[7px] font-bold tracking-wide text-mochi-pink-soft uppercase">
 								{fp.file.name.split('.').pop()}
 							</span>
 						</div>
@@ -2265,7 +2265,7 @@
 				<!-- Status badge -->
 				{#if fp.status === 'complete'}
 					<div
-						class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-[#81C784] shadow-sm"
+						class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-matcha-dark shadow-sm"
 					>
 						<svg class="h-3 w-3 text-white" fill="currentColor" viewBox="0 0 20 20">
 							<path
@@ -2289,7 +2289,7 @@
 					</div>
 				{:else if fp.status === 'processing'}
 					<div
-						class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-[#F06292] shadow-sm"
+						class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-mochi-pink shadow-sm"
 					>
 						<svg class="h-3 w-3 animate-spin text-white" fill="none" viewBox="0 0 24 24">
 							<circle
@@ -2314,7 +2314,7 @@
 				{#if !isLoading}
 					<button
 						onclick={() => removeFile(index)}
-						class="absolute -top-2 -right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white/90 text-[#F06292] shadow-md backdrop-blur-sm transition-all hover:scale-110 hover:bg-white hover:text-red-500"
+						class="absolute -top-2 -right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white/90 text-mochi-pink shadow-md backdrop-blur-sm transition-all hover:scale-110 hover:bg-white hover:text-red-500"
 						title="Remove file"
 					>
 						<svg
@@ -2337,7 +2337,7 @@
 		{#each queuedFiles.slice(0, QUEUE_VISIBLE) as queued (queued.file)}
 			<div class="group relative flex-shrink-0" title="{queued.file.name} (next batch)">
 				<div
-					class="relative h-16 w-16 overflow-hidden rounded-2xl border border-dashed border-pink-200 bg-[#FDFBF7] p-1"
+					class="relative h-16 w-16 overflow-hidden rounded-2xl border border-dashed border-pink-200 bg-mochi-bg p-1"
 				>
 					{#if queued.thumbnailUrl}
 						<img
@@ -2353,7 +2353,7 @@
 					{/if}
 					<div class="absolute inset-0 flex items-center justify-center">
 						<svg
-							class="h-5 w-5 text-[#F06292]/80 drop-shadow-sm"
+							class="h-5 w-5 text-mochi-pink/80 drop-shadow-sm"
 							fill="none"
 							stroke="currentColor"
 							stroke-width="2"
@@ -2370,7 +2370,7 @@
 				</div>
 				<button
 					onclick={() => removeQueued(queued.file)}
-					class="absolute -top-2 -right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white/90 text-[#F06292] opacity-0 shadow-md backdrop-blur-sm transition-all group-hover:opacity-100 hover:scale-110 hover:bg-white hover:text-red-500 focus-visible:opacity-100"
+					class="absolute -top-2 -right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white/90 text-mochi-pink opacity-0 shadow-md backdrop-blur-sm transition-all group-hover:opacity-100 hover:scale-110 hover:bg-white hover:text-red-500 focus-visible:opacity-100"
 					title="Remove file"
 					aria-label="Remove {queued.file.name}"
 				>
@@ -2388,7 +2388,7 @@
 		{/each}
 		{#if queuedFiles.length > QUEUE_VISIBLE}
 			<div
-				class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl border border-dashed border-pink-200 bg-[#FFF9FB] text-sm font-black text-[#F06292]/80"
+				class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl border border-dashed border-pink-200 bg-[#FFF9FB] text-sm font-black text-mochi-pink/80"
 				title="{queuedFiles.length - QUEUE_VISIBLE} more waiting for the next batch"
 			>
 				+{queuedFiles.length - QUEUE_VISIBLE}
@@ -2398,7 +2398,7 @@
 		<!-- Add more -->
 		<label
 			for="file-input"
-			class="flex h-16 w-16 flex-shrink-0 cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-pink-200 bg-[#FFF9FB] text-[#F06292]/70 transition-all hover:scale-105 hover:border-[#F06292] hover:text-[#F06292]"
+			class="flex h-16 w-16 flex-shrink-0 cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-pink-200 bg-[#FFF9FB] text-mochi-pink/70 transition-all hover:scale-105 hover:border-mochi-pink hover:text-mochi-pink"
 			aria-label="Add more images"
 		>
 			<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
@@ -2408,7 +2408,7 @@
 
 		<div class="absolute right-8 bottom-0 left-8">
 			<div
-				class="h-[1px] w-full bg-gradient-to-r from-transparent via-[#875F42]/15 to-transparent"
+				class="h-[1px] w-full bg-gradient-to-r from-transparent via-cocoa-milk/15 to-transparent"
 			></div>
 			<div
 				class="h-[1px] w-full bg-gradient-to-r from-transparent via-white/60 to-transparent"
@@ -2418,14 +2418,14 @@
 	<!-- Empty state -->
 	<label
 		for="file-input"
-		class="group m-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-pink-200 px-6 py-10 text-center transition-colors hover:border-[#F06292] hover:bg-[#FFF9FB] sm:m-6"
+		class="group m-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-pink-200 px-6 py-10 text-center transition-colors hover:border-mochi-pink hover:bg-[#FFF9FB] sm:m-6"
 		class:hidden={selectedFiles.length > 0 || queuedFiles.length > 0}
 	>
 		<div
-			class="mb-1 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFF0F3] transition-transform duration-200 group-hover:scale-105"
+			class="mb-1 flex h-12 w-12 items-center justify-center rounded-2xl bg-mochi-strawberry transition-transform duration-200 group-hover:scale-105"
 		>
 			<svg
-				class="h-6 w-6 text-[#F06292]/70"
+				class="h-6 w-6 text-mochi-pink/70"
 				fill="none"
 				stroke="currentColor"
 				viewBox="0 0 24 24"
@@ -2438,10 +2438,10 @@
 				/>
 			</svg>
 		</div>
-		<p class="text-sm font-semibold text-[#4A2C2C]">
-			Drop images here or <span class="text-[#F06292]">browse</span>
+		<p class="text-sm font-semibold text-cocoa-ink">
+			Drop images here or <span class="text-mochi-pink">browse</span>
 		</p>
-		<p class="text-xs text-[#6C3F31]/60">
+		<p class="text-xs text-cocoa-deep/60">
 			{types} · max {batchLimit} files per batch, {maxFileSizeMb}MB each
 		</p>
 	</label>
@@ -2502,12 +2502,12 @@
 	{#snippet capRouteBlock(n: number, buttons: boolean)}
 		{@const route = capRoute(n)}
 		{@const primary = buttons
-			? 'rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]'
+			? 'rounded-full bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]'
 			: 'cursor-pointer text-left text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]'}
 		{@const arrow = buttons ? '' : ' ›'}
 		{@const link =
 			'cursor-pointer text-left text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]'}
-		{@const facts = 'text-xs font-medium text-[#6C3F31]/70'}
+		{@const facts = 'text-xs font-medium text-cocoa-deep/70'}
 		{@const freshFree =
 			limitTier === 'free' ? ` When it ends, your free ${FREE_PLAN_QUOTA} starts fresh.` : ''}
 		{@const noSignup = limitTier === 'guest' ? 'No signup needed. ' : ''}
@@ -2671,7 +2671,7 @@
 					>
 						{@render blockedThumb(blocked)}
 						<div class="min-w-0 flex-1">
-							<p class="truncate text-xs font-bold text-[#4A2C2C]">{blocked.file.name}</p>
+							<p class="truncate text-xs font-bold text-cocoa-ink">{blocked.file.name}</p>
 							<div class="mt-0.5 text-xs font-bold text-red-700">
 								Over the {maxFileSizeMb}MB free limit ({sizeMb(blocked.size)}).
 								{@render sizeRoute()}
@@ -2688,7 +2688,7 @@
 				>
 					{@render blockedThumb(blocked)}
 					<div class="min-w-0 flex-1">
-						<p class="truncate text-xs font-bold text-[#4A2C2C]">{blocked.file.name}</p>
+						<p class="truncate text-xs font-bold text-cocoa-ink">{blocked.file.name}</p>
 						<div class="mt-0.5 text-xs font-bold text-red-700">
 							This file is {sizeMb(blocked.size)}. No plan takes files over {paidFileSizeMb}MB;
 							resize or compress it on your computer first.
@@ -2701,7 +2701,7 @@
 			{#if sizeRouteOffered}
 				<!-- Once under the rows, not per row: what the pass is, then the
                      subscription for anyone who will hit this every month. -->
-				<p class="px-1 text-xs font-medium text-[#6C3F31]/70">
+				<p class="px-1 text-xs font-medium text-cocoa-deep/70">
 					{limitTier === 'guest'
 						? 'The Day Pass needs no signup.'
 						: `When the Day Pass ends, your free ${FREE_PLAN_QUOTA} starts fresh.`}
@@ -2729,8 +2729,8 @@
 					<input type="checkbox" bind:checked={resizeLongEdgeOn} class="sr-only" />
 					<div
 						class="relative h-5 w-10 rounded-full transition-all duration-300 {resizeLongEdgeOn
-							? 'bg-[#F06292] shadow-[0_0_0_1px_#F06292]'
-							: 'bg-[#875F42]/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.15),0_0_0_1px_rgba(135,95,66,0.25)]'}"
+							? 'bg-mochi-pink shadow-[0_0_0_1px_#F06292]'
+							: 'bg-cocoa-milk/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.15),0_0_0_1px_rgba(135,95,66,0.25)]'}"
 					>
 						<div
 							class="absolute top-[3px] left-[3px] h-3.5 w-3.5 rounded-full bg-white shadow-md transition-transform duration-300 {resizeLongEdgeOn
@@ -2739,7 +2739,7 @@
 						></div>
 					</div>
 					<span
-						class="text-xs font-semibold text-[#6C3F31] transition-colors group-hover:text-[#4A2C2C]"
+						class="text-xs font-semibold text-cocoa-deep transition-colors group-hover:text-cocoa-ink"
 						>{resizeLabel}</span
 					>
 				</label>
@@ -2749,8 +2749,8 @@
 					<input type="checkbox" bind:checked={stripExif} class="sr-only" />
 					<div
 						class="relative h-5 w-10 rounded-full transition-all duration-300 {stripExif
-							? 'bg-[#F06292] shadow-[0_0_0_1px_#F06292]'
-							: 'bg-[#875F42]/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.15),0_0_0_1px_rgba(135,95,66,0.25)]'}"
+							? 'bg-mochi-pink shadow-[0_0_0_1px_#F06292]'
+							: 'bg-cocoa-milk/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.15),0_0_0_1px_rgba(135,95,66,0.25)]'}"
 					>
 						<div
 							class="absolute top-[3px] left-[3px] h-3.5 w-3.5 rounded-full bg-white shadow-md transition-transform duration-300 {stripExif
@@ -2759,7 +2759,7 @@
 						></div>
 					</div>
 					<span
-						class="text-xs font-semibold text-[#6C3F31] transition-colors group-hover:text-[#4A2C2C]"
+						class="text-xs font-semibold text-cocoa-deep transition-colors group-hover:text-cocoa-ink"
 						>Strip EXIF</span
 					>
 				</label>
@@ -2769,8 +2769,8 @@
 					<input type="checkbox" bind:checked={lossless} class="sr-only" />
 					<div
 						class="relative h-5 w-10 rounded-full transition-all duration-300 {lossless
-							? 'bg-[#F06292] shadow-[0_0_0_1px_#F06292]'
-							: 'bg-[#875F42]/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.15),0_0_0_1px_rgba(135,95,66,0.25)]'}"
+							? 'bg-mochi-pink shadow-[0_0_0_1px_#F06292]'
+							: 'bg-cocoa-milk/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.15),0_0_0_1px_rgba(135,95,66,0.25)]'}"
 					>
 						<div
 							class="absolute top-[3px] left-[3px] h-3.5 w-3.5 rounded-full bg-white shadow-md transition-transform duration-300 {lossless
@@ -2779,7 +2779,7 @@
 						></div>
 					</div>
 					<span
-						class="text-xs font-semibold text-[#6C3F31] transition-colors group-hover:text-[#4A2C2C]"
+						class="text-xs font-semibold text-cocoa-deep transition-colors group-hover:text-cocoa-ink"
 						>Lossless</span
 					>
 				</label>
@@ -2790,7 +2790,7 @@
 					<div
 						class="relative h-5 w-10 rounded-full transition-all duration-300 {smartCompress
 							? 'bg-[#66BB6A] shadow-[0_0_0_1px_#66BB6A]'
-							: 'bg-[#875F42]/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.15),0_0_0_1px_rgba(135,95,66,0.25)]'}"
+							: 'bg-cocoa-milk/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.15),0_0_0_1px_rgba(135,95,66,0.25)]'}"
 					>
 						<div
 							class="absolute top-[3px] left-[3px] h-3.5 w-3.5 rounded-full bg-white shadow-md transition-transform duration-300 {smartCompress
@@ -2799,7 +2799,7 @@
 						></div>
 					</div>
 					<span
-						class="text-xs font-semibold text-[#6C3F31] transition-colors group-hover:text-[#4A2C2C]"
+						class="text-xs font-semibold text-cocoa-deep transition-colors group-hover:text-cocoa-ink"
 						>Smart Mode</span
 					>
 				</label>
@@ -2950,7 +2950,7 @@
 						{#if limitTier === 'guest' || limitTier === 'free'}
 							{@render capRouteBlock(n, false)}
 						{:else if limitTier === 'day' && hasCheckedTokens && n > monthlyUploadsRemaining}
-							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+							<p class="mt-1 text-xs font-medium text-cocoa-deep/70">
 								More than your pass covers?
 								<a
 									href="/pricing"
@@ -2983,7 +2983,7 @@
 						</p>
 						{#if limitTier === 'guest' || limitTier === 'free'}
 							{@render capRouteBlock(n, true)}
-							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+							<p class="mt-1 text-xs font-medium text-cocoa-deep/70">
 								{#if legacyTrim}
 									{limitTier === 'guest'
 										? `Or convert ${k === 1 ? 'this one' : `these ${k}`} now and come back with an account or a Day Pass for the rest.`
@@ -2995,7 +2995,7 @@
 								{/if}
 							</p>
 						{:else}
-							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+							<p class="mt-1 text-xs font-medium text-cocoa-deep/70">
 								{#if legacyTrim}
 									Convert {k === 1 ? 'this one' : `these ${k}`}, then drop the rest.
 								{:else}
@@ -3003,7 +3003,7 @@
 								{/if}
 							</p>
 							{#if limitTier === 'day' && hasCheckedTokens && n > monthlyUploadsRemaining}
-								<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+								<p class="mt-1 text-xs font-medium text-cocoa-deep/70">
 									More than your pass covers?
 									<a
 										href="/pricing"
@@ -3050,11 +3050,11 @@
 								trigger="token_wall_banner"
 								source="allowance_box"
 								plus={pass.plus}
-								class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+								class="rounded-full bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
 							>
 								Convert {passCovers(filesLeft)} now: {pass.name} ({pass.price})
 							</DayPassButton>
-							<p class="text-xs font-medium text-[#6C3F31]/70">
+							<p class="text-xs font-medium text-cocoa-deep/70">
 								No signup needed. {pass.ops} uploads today, {BATCH_LIMIT_PAID} at a time, files up to
 								{paidFileSizeMb}MB.
 							</p>
@@ -3069,7 +3069,7 @@
 							>
 								Or sign up free: {FREE_PLAN_QUOTA} uploads a month, {BATCH_LIMIT_STANDARD} at a time
 							</a>
-							<p class="text-xs font-medium text-[#6C3F31]/70">
+							<p class="text-xs font-medium text-cocoa-deep/70">
 								Your {filesLeft} file{filesLeft !== 1 ? 's' : ''} stay here while you do either.
 							</p>
 						</div>
@@ -3123,7 +3123,7 @@
 									onPaid={handleDayPassPaid}
 									trigger="token_wall_banner"
 									source="allowance_box"
-									class="rounded-full bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+									class="rounded-full bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
 								>
 									{limitTier === 'guest'
 										? `Day Pass (${dayPassPrice}): ${DAY_PASS_OPS} uploads today, no signup needed`
@@ -3163,15 +3163,15 @@
 							{/if}
 						</div>
 						{#if limitTier === 'day' && k === 0}
-							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+							<p class="mt-1 text-xs font-medium text-cocoa-deep/70">
 								Or your free {FREE_PLAN_QUOTA} starts fresh when this pass ends.
 							</p>
 						{:else if k === 0 && limitTier === 'guest'}
-							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+							<p class="mt-1 text-xs font-medium text-cocoa-deep/70">
 								Or wait for the monthly reset.
 							</p>
 						{:else if k > 0}
-							<p class="mt-1 text-xs font-medium text-[#6C3F31]/70">
+							<p class="mt-1 text-xs font-medium text-cocoa-deep/70">
 								{#if stagedCount > k}
 									Or
 									<button
@@ -3234,12 +3234,12 @@
 				class="group flex w-full items-center justify-center gap-2 rounded-2xl px-6 py-3.5 font-bold transition-all duration-300
                 {shaking ? 'animate-shake' : ''}
                 {isLoading
-					? 'cursor-wait border border-[#875F42]/15 bg-white/40 text-[#875F42]/60'
+					? 'cursor-wait border border-cocoa-milk/15 bg-white/40 text-cocoa-milk/60'
 					: insufficientTokens || blockedByFileSize
 						? 'cursor-pointer bg-gradient-to-br from-[#FFD54F] to-[#FFCA28] text-[#5D4037] shadow-[0_4px_16px_rgba(255,202,40,0.35)] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(255,202,40,0.5)]'
 						: stagedCount > 0
-							? 'cursor-pointer bg-gradient-to-br from-[#FF9EBB] to-[#F06292] text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(240,98,146,0.5)]'
-							: 'cursor-not-allowed border border-[#875F42]/15 bg-white/40 text-[#875F42]/60'}"
+							? 'cursor-pointer bg-gradient-to-br from-mochi-pink-light to-mochi-pink text-white shadow-[0_4px_16px_rgba(240,98,146,0.35)] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(240,98,146,0.5)]'
+							: 'cursor-not-allowed border border-cocoa-milk/15 bg-white/40 text-cocoa-milk/60'}"
 			>
 				{#if isLoading}
 					<svg class="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -3341,23 +3341,23 @@
 				<div class="relative h-1 overflow-hidden bg-pink-50">
 					{#if processPhase === 'uploading'}
 						<div
-							class="h-full bg-gradient-to-r from-[#F06292] to-[#e040a0] shadow-[0_0_10px_rgba(240,98,146,0.5)] transition-all duration-300 ease-out"
+							class="h-full bg-gradient-to-r from-mochi-pink to-[#e040a0] shadow-[0_0_10px_rgba(240,98,146,0.5)] transition-all duration-300 ease-out"
 							style="width: {uploadPercent}%"
 						></div>
 					{:else if processPhase === 'processing'}
 						<div
-							class="animate-shimmer absolute inset-0 bg-gradient-to-r from-[#A5D6A7] via-[#66BB6A] to-[#A5D6A7] bg-[length:200%_100%] opacity-80"
+							class="animate-shimmer absolute inset-0 bg-gradient-to-r from-matcha-green via-[#66BB6A] to-matcha-green bg-[length:200%_100%] opacity-80"
 						></div>
 					{:else if processPhase === 'downloading'}
 						<div
-							class="h-full bg-gradient-to-r from-[#A5D6A7] to-[#66BB6A] shadow-[0_0_10px_rgba(165,214,167,0.5)] transition-all duration-300 ease-out"
+							class="h-full bg-gradient-to-r from-matcha-green to-[#66BB6A] shadow-[0_0_10px_rgba(165,214,167,0.5)] transition-all duration-300 ease-out"
 							style="width: {downloadPercent}%"
 						></div>
 					{/if}
 				</div>
 			{/if}
 			<div
-				class="flex items-center justify-between gap-3 border-t border-pink-50 bg-[#FDFBF7] px-4 py-2.5 sm:px-6"
+				class="flex items-center justify-between gap-3 border-t border-pink-50 bg-mochi-bg px-4 py-2.5 sm:px-6"
 			>
 				{#if showTypes && !hasOutputOverride}
 					<div class="flex flex-wrap items-center gap-1.5">
@@ -3366,8 +3366,8 @@
 								onclick={() => (imageType = fmt.value)}
 								class="cursor-pointer rounded-full px-2.5 py-1 text-xs font-bold tracking-wide transition-all duration-200 {imageType ===
 								fmt.value
-									? 'bg-[#F06292] text-white shadow-sm'
-									: 'border border-[#875F42]/20 bg-white/50 text-[#6C3F31] hover:bg-white/70 hover:text-[#F06292]'}"
+									? 'bg-mochi-pink text-white shadow-sm'
+									: 'border border-cocoa-milk/20 bg-white/50 text-cocoa-deep hover:bg-white/70 hover:text-mochi-pink'}"
 							>
 								{fmt.label}
 							</button>
@@ -3377,7 +3377,7 @@
 					<span></span>
 				{/if}
 
-				<span class="flex-shrink-0 text-xs font-medium whitespace-nowrap text-[#6C3F31]/70">
+				<span class="flex-shrink-0 text-xs font-medium whitespace-nowrap text-cocoa-deep/70">
 					{#if isLoading}
 						{#if processPhase === 'uploading'}
 							Uploading… ({uploadPercent}%)
@@ -3408,7 +3408,7 @@
 						{#if stagedCount > 1 || hasOversized || queuedFiles.length > 0}
 							· <button
 								onclick={resetForm}
-								class="cursor-pointer text-[#F06292]/70 transition-colors hover:text-[#F06292]"
+								class="cursor-pointer text-mochi-pink/70 transition-colors hover:text-mochi-pink"
 								>clear all</button
 							>
 						{/if}
@@ -3437,7 +3437,7 @@
 			<button
 				onclick={() => (showUpgradeCta = false)}
 				aria-label="Close"
-				class="absolute top-4 right-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-[#875F42]/50 transition-all hover:bg-[#FFF5F7] hover:text-[#875F42]"
+				class="absolute top-4 right-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-cocoa-milk/50 transition-all hover:bg-mochi-blush hover:text-cocoa-milk"
 			>
 				<svg
 					class="h-4 w-4"
@@ -3454,7 +3454,7 @@
 					class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFF0F5]"
 				>
 					<svg
-						class="h-6 w-6 text-[#F06292]"
+						class="h-6 w-6 text-mochi-pink"
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
@@ -3464,7 +3464,7 @@
 					</svg>
 				</div>
 				{#if hasOversized}
-					<h3 class="mb-2 text-lg font-bold text-[#4A2C2C]">File too large</h3>
+					<h3 class="mb-2 text-lg font-bold text-cocoa-ink">File too large</h3>
 					<p class="mb-6 text-sm leading-relaxed text-cocoa-milk/70">
 						Your plan supports files up to {maxFileSizeMb}MB. Every paid plan handles up to {paidFileSizeMb}MB,
 						from {cheapestPlanPrice}/mo, or a {dayPassPrice} Day Pass covers it for 24 hours.
@@ -3474,7 +3474,7 @@
 							<DayPassButton
 								onPaid={handleDayPassPaid}
 								trigger="upgrade_modal_file_size"
-								class="block w-full rounded-2xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
+								class="block w-full rounded-2xl bg-linear-to-br from-mochi-pink-light to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 							>
 								Day Pass ({dayPassPrice}): files up to {paidFileSizeMb}MB
 							</DayPassButton>
@@ -3482,20 +3482,20 @@
 						<a
 							href="/pricing"
 							class="block rounded-2xl {dayPassOffered
-								? 'border border-cocoa-milk/15 text-cocoa-deep hover:border-mochi-pink/30 hover:bg-[#FFF5F7] hover:text-mochi-pink'
-								: 'bg-linear-to-br from-[#FF9EBB] to-mochi-pink text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]'} px-6 py-3 text-center text-sm font-black transition-all"
+								? 'border border-cocoa-milk/15 text-cocoa-deep hover:border-mochi-pink/30 hover:bg-mochi-blush hover:text-mochi-pink'
+								: 'bg-linear-to-br from-mochi-pink-light to-mochi-pink text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]'} px-6 py-3 text-center text-sm font-black transition-all"
 						>
 							Upgrade plan
 						</a>
 						<button
 							onclick={() => (showUpgradeCta = false)}
-							class="cursor-pointer rounded-2xl border border-cocoa-milk/15 px-6 py-3 text-center text-sm font-bold text-cocoa-deep transition-all hover:border-mochi-pink/30 hover:bg-[#FFF5F7] hover:text-mochi-pink"
+							class="cursor-pointer rounded-2xl border border-cocoa-milk/15 px-6 py-3 text-center text-sm font-bold text-cocoa-deep transition-all hover:border-mochi-pink/30 hover:bg-mochi-blush hover:text-mochi-pink"
 						>
 							Dismiss
 						</button>
 					</div>
 				{:else}
-					<h3 class="mb-2 text-lg font-bold text-[#4A2C2C]">Monthly limit reached</h3>
+					<h3 class="mb-2 text-lg font-bold text-cocoa-ink">Monthly limit reached</h3>
 					<p class="mb-6 text-sm leading-relaxed text-cocoa-milk/70">
 						You've used your full image quota for this month. Upgrade for a higher limit, or wait
 						for your monthly reset.
@@ -3503,13 +3503,13 @@
 					<div class="flex flex-col gap-3">
 						<a
 							href="/pricing"
-							class="block rounded-2xl bg-linear-to-br from-[#FF9EBB] to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
+							class="block rounded-2xl bg-linear-to-br from-mochi-pink-light to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 						>
 							Upgrade plan
 						</a>
 						<button
 							onclick={() => (showUpgradeCta = false)}
-							class="cursor-pointer rounded-2xl border border-cocoa-milk/15 px-6 py-3 text-center text-sm font-bold text-cocoa-deep transition-all hover:border-mochi-pink/30 hover:bg-[#FFF5F7] hover:text-mochi-pink"
+							class="cursor-pointer rounded-2xl border border-cocoa-milk/15 px-6 py-3 text-center text-sm font-bold text-cocoa-deep transition-all hover:border-mochi-pink/30 hover:bg-mochi-blush hover:text-mochi-pink"
 						>
 							Dismiss
 						</button>
@@ -3538,7 +3538,7 @@
 			<button
 				onclick={() => (showSignupCta = false)}
 				aria-label="Close"
-				class="absolute top-4 right-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-[#875F42]/50 transition-all hover:bg-[#FFF5F7] hover:text-[#875F42]"
+				class="absolute top-4 right-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-cocoa-milk/50 transition-all hover:bg-mochi-blush hover:text-cocoa-milk"
 			>
 				<svg
 					class="h-4 w-4"
@@ -3555,7 +3555,7 @@
 					class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFF0F5]"
 				>
 					<svg
-						class="h-6 w-6 text-[#F06292]"
+						class="h-6 w-6 text-mochi-pink"
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
@@ -3564,7 +3564,7 @@
 						<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
 					</svg>
 				</div>
-				<h3 class="mb-2 text-lg font-bold text-[#4A2C2C]">Limit reached</h3>
+				<h3 class="mb-2 text-lg font-bold text-cocoa-ink">Limit reached</h3>
 
 				{#if dayPassOffered}
 					<!-- Reached now only by a 429 or by a click that beat the token
@@ -3572,7 +3572,7 @@
                          the count: this used to sell "75MB files and larger batches",
                          which are real Day Pass benefits but answer a limit this user
                          did not hit. Order matches the banner, free account first. -->
-					<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
+					<p class="mb-6 text-sm leading-relaxed text-cocoa-milk/70">
 						You've used your {GUEST_QUOTA} guest uploads for this month. A free account gives you {FREE_PLAN_QUOTA}
 						a month. Or a Day Pass is {DAY_PASS_OPS} conversions in 24 hours for {dayPassPrice},
 						with no subscription and no signup needed.
@@ -3580,33 +3580,33 @@
 					<div class="flex flex-col gap-3">
 						<a
 							href={registerHref}
-							class="block rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
+							class="block rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 						>
 							Create free account for {FREE_PLAN_QUOTA}/mo
 						</a>
 						<DayPassButton
 							onPaid={handleDayPassPaid}
 							trigger="limit_reached_modal"
-							class="block w-full rounded-2xl border border-[#875F42]/15 px-6 py-3 text-center text-sm font-bold text-[#6C3F31] transition-all hover:border-[#F06292]/30 hover:bg-[#FFF5F7] hover:text-[#F06292]"
+							class="block w-full rounded-2xl border border-cocoa-milk/15 px-6 py-3 text-center text-sm font-bold text-cocoa-deep transition-all hover:border-mochi-pink/30 hover:bg-mochi-blush hover:text-mochi-pink"
 						>
 							Day Pass ({dayPassPrice}): {DAY_PASS_OPS} uploads today
 						</DayPassButton>
 					</div>
 				{:else}
-					<p class="mb-6 text-sm leading-relaxed text-[#875F42]/70">
+					<p class="mb-6 text-sm leading-relaxed text-cocoa-milk/70">
 						Without an account you get 3 free images per month. Create a free account for 25
 						images/month, or upgrade for even more.
 					</p>
 					<div class="flex flex-col gap-3">
 						<a
 							href={registerHref}
-							class="block rounded-2xl bg-gradient-to-br from-[#FF9EBB] to-[#F06292] px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
+							class="block rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 						>
 							Create free account
 						</a>
 						<a
 							href="/pricing"
-							class="block rounded-2xl border border-[#875F42]/15 px-6 py-3 text-center text-sm font-bold text-[#6C3F31] transition-all hover:border-[#F06292]/30 hover:bg-[#FFF5F7] hover:text-[#F06292]"
+							class="block rounded-2xl border border-cocoa-milk/15 px-6 py-3 text-center text-sm font-bold text-cocoa-deep transition-all hover:border-mochi-pink/30 hover:bg-mochi-blush hover:text-mochi-pink"
 						>
 							See plans
 						</a>

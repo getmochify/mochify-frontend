@@ -46,7 +46,7 @@
 </button>
 {#if open}
 	<span
-		class="mt-1.5 block w-full basis-full rounded-xl border border-[#875F42]/10 bg-white/80 px-3 py-2 text-left text-xs leading-relaxed font-medium text-[#6C3F31]"
+		class="mt-1.5 block w-full basis-full rounded-xl border border-cocoa-milk/10 bg-white/80 px-3 py-2 text-left text-xs leading-relaxed font-medium text-cocoa-deep"
 	>
 		Free plans, with or without an account, convert 3 files per batch at up to 20MB each. The Day
 		Pass and the paid plans convert 25 per batch at up to 75MB each. No plan takes a file over 75MB.

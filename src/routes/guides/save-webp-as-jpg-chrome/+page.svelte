@@ -198,25 +198,25 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
 	<header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category} · Guide
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
-			How to <span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">Save a WebP as JPG</span> in Chrome: Every Route That Actually Works
+			How to <span class="bg-gradient-to-r from-mochi-pink to-[#EC407A] bg-clip-text text-transparent">Save a WebP as JPG</span> in Chrome: Every Route That Actually Works
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
 			You right-clicked an image, chose Save image as, and got a <code>.webp</code> file that half
 			your software refuses to open. Here is the short version: Chrome did not do this to you, there
 			is no Chrome setting that fixes it, and renaming the file to <code>.jpg</code> does not convert
@@ -537,7 +537,7 @@
 				produces it. For a straight format change you don't need the prompt at all: the same menu
 				has a Convert to list (JPG, WebP, AVIF, JPEG XL, PNG or PDF) that saves the file straight to
 				your Downloads folder. To put several saved WebP images into one PDF instead, use the
-				<a href="/solutions/webp-to-pdf" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">WebP to PDF converter</a>.
+				<a href="/solutions/webp-to-pdf" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">WebP to PDF converter</a>.
 			</p>
 
 			<GlassPanel>
@@ -597,8 +597,8 @@
 						aria-label="Screen recording: converting a WebP to JPG from Chrome's right-click menu with the Mochify extension"
 					></video>
 				</div>
-				<figcaption class="mt-3 text-base leading-relaxed text-[#875F42]">
-					<strong class="text-[#4A2C2C]">What the recording shows.</strong> A BBC News article with
+				<figcaption class="mt-3 text-base leading-relaxed text-cocoa-milk">
+					<strong class="text-cocoa-ink">What the recording shows.</strong> A BBC News article with
 					a photograph served as WebP. Right-clicking the image opens Chrome's usual menu, with
 					<em>Save Image As...</em> near the top and a Mochify entry added below it. Choosing the
 					Mochify entry opens a small panel over the page showing the source domain and a prompt

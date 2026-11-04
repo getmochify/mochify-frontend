@@ -93,9 +93,9 @@
                 </span>
             </div>
 
-            <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
+            <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
                 Convert
-                <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
+                <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
                     WebP
                 </span>
                 to
@@ -104,7 +104,7 @@
                 </span>
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
+            <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Drop WebP images here and get one PDF back, a page per image in the order you added them, up to 20 files at a time on a paid plan or Day Pass (3 on the free plan). Each image is stored in the PDF as a standard JPEG, so the document opens in any PDF reader, mail client or print shop, including the ones that will not open a .webp file. The PDF is built in memory at api.mochify.app and wiped as soon as your download is ready.
             </p>
         </div>
@@ -114,7 +114,7 @@
         </div>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">How to convert WebP to PDF</h2>
+            <h2 class="text-2xl font-bold text-cocoa-ink mb-6">How to convert WebP to PDF</h2>
             <div class="grid sm:grid-cols-3 gap-4">
                 {#each [
                     { n: '1', t: 'Add your images', d: 'Drop in WebP files, or mix in PNG, JPG, AVIF, HEIC or JXL; each becomes one page, in the order you add them.' },
@@ -123,8 +123,8 @@
                 ] as step}
                     <div class="bg-white p-6 rounded-2xl border border-pink-50 shadow-sm">
                         <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-[#F3F0FF] text-[#6D28D9] font-black text-sm mb-4">{step.n}</span>
-                        <h3 class="font-bold text-[#4A2C2C] text-sm mb-1.5">{step.t}</h3>
-                        <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">{step.d}</p>
+                        <h3 class="font-bold text-cocoa-ink text-sm mb-1.5">{step.t}</h3>
+                        <p class="text-sm text-cocoa-deep leading-relaxed opacity-90">{step.d}</p>
                     </div>
                 {/each}
             </div>
@@ -133,64 +133,64 @@
         <section class="mt-20 max-w-4xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-start">
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-bold text-[#4A2C2C]">What is in the PDF</h2>
-                    <p class="leading-relaxed text-[#6C3F31]">
+                    <h2 class="text-2xl font-bold text-cocoa-ink">What is in the PDF</h2>
+                    <p class="leading-relaxed text-cocoa-deep">
                         A PDF cannot hold WebP data, so each image is decoded and re-encoded as a high-quality JPEG with jpegli, then placed on its own page. The pages look the same on screen and print cleanly, but they are not the original WebP pixels, and two things change:
                     </p>
                     <ul class="space-y-3">
-                        <li class="flex gap-3 text-[#6C3F31] leading-relaxed">
+                        <li class="flex gap-3 text-cocoa-deep leading-relaxed">
                             <span class="mt-2.5 w-1.5 h-1.5 rounded-full bg-[#C4B5FD] shrink-0"></span>
-                            <span><strong class="text-[#4A2C2C]">Transparency turns white.</strong> JPEG has no alpha channel, so the transparent parts of a logo, sticker or cut-out come out white. If that matters, send the WebP or a PNG alongside the PDF; <a href="/guides/webp-avif-transparency" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Do WebP and AVIF support transparency?</a> explains where a cut-out survives.</span>
+                            <span><strong class="text-cocoa-ink">Transparency turns white.</strong> JPEG has no alpha channel, so the transparent parts of a logo, sticker or cut-out come out white. If that matters, send the WebP or a PNG alongside the PDF; <a href="/guides/webp-avif-transparency" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Do WebP and AVIF support transparency?</a> explains where a cut-out survives.</span>
                         </li>
-                        <li class="flex gap-3 text-[#6C3F31] leading-relaxed">
+                        <li class="flex gap-3 text-cocoa-deep leading-relaxed">
                             <span class="mt-2.5 w-1.5 h-1.5 rounded-full bg-[#C4B5FD] shrink-0"></span>
-                            <span><strong class="text-[#4A2C2C]">Page size follows the image.</strong> Every pixel is kept, so by default a large screenshot makes a large page. Choose A4 or Letter for a document meant for paper.</span>
+                            <span><strong class="text-cocoa-ink">Page size follows the image.</strong> Every pixel is kept, so by default a large screenshot makes a large page. Choose A4 or Letter for a document meant for paper.</span>
                         </li>
                     </ul>
-                    <p class="leading-relaxed text-[#6C3F31]">
+                    <p class="leading-relaxed text-cocoa-deep">
                         The PDF carries the pictures only, with no WebP data and no metadata, so keep the originals if you need them.
                     </p>
                 </div>
 
                 <div class="space-y-4">
-                    <h2 class="text-2xl font-bold text-[#4A2C2C]">When WebP to PDF is the right move</h2>
-                    <p class="leading-relaxed text-[#6C3F31]">
-                        WebP is built for web pages and travels badly: plenty of mail clients, print shops and upload forms still refuse a .webp. A PDF opens anywhere and holds a set of images as one file in a fixed order: screenshots for a document, designs for a client, receipts, printer proofs, a portfolio. If you only need one image that opens anywhere, a JPG is lighter: <a href="/guides/save-webp-as-jpg-chrome" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">How to save WebP as JPG in Chrome</a> covers every route.
+                    <h2 class="text-2xl font-bold text-cocoa-ink">When WebP to PDF is the right move</h2>
+                    <p class="leading-relaxed text-cocoa-deep">
+                        WebP is built for web pages and travels badly: plenty of mail clients, print shops and upload forms still refuse a .webp. A PDF opens anywhere and holds a set of images as one file in a fixed order: screenshots for a document, designs for a client, receipts, printer proofs, a portfolio. If you only need one image that opens anywhere, a JPG is lighter: <a href="/guides/save-webp-as-jpg-chrome" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">How to save WebP as JPG in Chrome</a> covers every route.
                     </p>
                 </div>
             </div>
         </section>
 
         <section class="mt-20 max-w-3xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Converting WebP to PDF on Windows, Mac or iPhone</h2>
-            <p class="leading-relaxed text-[#6C3F31]">For a single image, the tools already on your device will do it:</p>
+            <h2 class="text-2xl font-bold text-cocoa-ink">Converting WebP to PDF on Windows, Mac or iPhone</h2>
+            <p class="leading-relaxed text-cocoa-deep">For a single image, the tools already on your device will do it:</p>
             <ul class="space-y-3">
                 {#each [
                     { p: 'Windows:', d: 'open the WebP in your browser or the Photos app, press Ctrl+P and choose Microsoft Print to PDF.' },
                     { p: 'Mac:', d: 'open the WebP in Preview, then File, Print, and Save as PDF.' },
                     { p: 'iPhone or iPad:', d: 'in the Files app, select the images, tap More and choose Create PDF.' },
                 ] as route}
-                    <li class="flex gap-3 text-[#6C3F31] leading-relaxed">
+                    <li class="flex gap-3 text-cocoa-deep leading-relaxed">
                         <span class="mt-2.5 w-1.5 h-1.5 rounded-full bg-[#C4B5FD] shrink-0"></span>
-                        <span><strong class="text-[#4A2C2C]">{route.p}</strong> {route.d}</span>
+                        <span><strong class="text-cocoa-ink">{route.p}</strong> {route.d}</span>
                     </li>
                 {/each}
             </ul>
-            <p class="leading-relaxed text-[#6C3F31]">
+            <p class="leading-relaxed text-cocoa-deep">
                 For a batch, a mix of formats, or a computer where you cannot install anything, drop the lot here and get one PDF in any browser.
             </p>
         </section>
 
         <section class="mt-20 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Limits, bulk and automation</h2>
-            <p class="leading-relaxed text-[#6C3F31]">
+            <h2 class="text-2xl font-bold text-cocoa-ink">Limits, bulk and automation</h2>
+            <p class="leading-relaxed text-cocoa-deep">
                 Your first PDF needs no account. Without an account or on a free account, a PDF can hold up to 3 images; every paid plan, Growth included, and the Day Pass take up to 20 images per PDF on this page.
             </p>
-            <p class="leading-relaxed text-[#6C3F31]">
-                Building a PDF from images is also available on the hosted MCP server and the REST API, through <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">POST /v1/pdf</code>; full reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>. Through the API, Growth builds PDFs from up to 200 images. Every route builds the PDF at api.mochify.app in memory, keeps nothing on disk and writes no logs containing your data.
+            <p class="leading-relaxed text-cocoa-deep">
+                Building a PDF from images is also available on the hosted MCP server and the REST API, through <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">POST /v1/pdf</code>; full reference in the <a href="/docs" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">API documentation</a>. Through the API, Growth builds PDFs from up to 200 images. Every route builds the PDF at api.mochify.app in memory, keeps nothing on disk and writes no logs containing your data.
             </p>
-            <p class="leading-relaxed text-[#6C3F31]">
-                To build the same PDF from a script, send the images with <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">op=create</code>; each image becomes one page, in the order you send them:
+            <p class="leading-relaxed text-cocoa-deep">
+                To build the same PDF from a script, send the images with <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">op=create</code>; each image becomes one page, in the order you send them:
             </p>
             <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/pdf?op=create" \
   -H "Authorization: Bearer $MOCHIFY_KEY" \
@@ -198,27 +198,27 @@
   -F "images=@page2.webp" \
   -F "images=@page3.webp" \
   --output pages.pdf</code></pre>
-            <p class="leading-relaxed text-[#6C3F31]">
-                Add <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">page=a4</code> or <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">page=letter</code> for a standard sheet. Building a PDF from images works on every plan, including Free.
+            <p class="leading-relaxed text-cocoa-deep">
+                Add <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">page=a4</code> or <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">page=letter</code> for a standard sheet. Building a PDF from images works on every plan, including Free.
             </p>
         </section>
 
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">Frequently asked questions</h2>
+            <h2 class="text-2xl font-bold text-cocoa-ink mb-6">Frequently asked questions</h2>
             <FaqAccordion {faqs} class="grid md:grid-cols-2 gap-4 items-start" />
         </section>
 
         <!-- Also available -->
         <section class="mt-16 max-w-4xl mx-auto">
-            <p class="text-xs font-black text-[#875F42] uppercase tracking-widest mb-4">Also available</p>
+            <p class="text-xs font-black text-cocoa-milk uppercase tracking-widest mb-4">Also available</p>
             <div class="grid sm:grid-cols-2 gap-4">
                 <a href="/solutions/remove-background-webp" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">WebP Background Remover →</p>
-                        <p class="text-xs text-[#875F42]">AI cutouts with a transparent WebP output</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">WebP Background Remover →</p>
+                        <p class="text-xs text-cocoa-milk">AI cutouts with a transparent WebP output</p>
                     </div>
                 </a>
                 <a href="/solutions/svg-to-webp" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -226,8 +226,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">SVG to WebP →</p>
-                        <p class="text-xs text-[#875F42]">Rasterize vector assets to WebP with transparency</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">SVG to WebP →</p>
+                        <p class="text-xs text-cocoa-milk">Rasterize vector assets to WebP with transparency</p>
                     </div>
                 </a>
                 <a href="/solutions/heif-to-pdf" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -235,8 +235,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">HEIC and HEIF to PDF →</p>
-                        <p class="text-xs text-[#875F42]">Bundle iPhone photos into a single multi-page PDF</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">HEIC and HEIF to PDF →</p>
+                        <p class="text-xs text-cocoa-milk">Bundle iPhone photos into a single multi-page PDF</p>
                     </div>
                 </a>
                 <a href="/solutions/jxl-to-pdf" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -244,8 +244,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">JPEG XL to PDF →</p>
-                        <p class="text-xs text-[#875F42]">Combine JPEG XL images into a single multi-page PDF</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">JPEG XL to PDF →</p>
+                        <p class="text-xs text-cocoa-milk">Combine JPEG XL images into a single multi-page PDF</p>
                     </div>
                 </a>
             </div>

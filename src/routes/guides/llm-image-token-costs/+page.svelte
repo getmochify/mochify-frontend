@@ -86,31 +86,31 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="LLM Image Token Costs" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · {metadata.lastUpdated ? 'Published ' : ''}{metadata.date}{metadata.lastUpdated ? ` · Updated ${metadata.lastUpdated}` : ''}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             There is no single answer to how many tokens an image uses in an LLM; it depends on the provider, the model, and the image's pixel dimensions, never its file size. As of October 2026: Anthropic's Claude counts 28×28 px visual patches, so a 1-megapixel (1000×1000 px) image costs 1,296 tokens, capped at 1,568 on standard models and 4,784 on Claude 4.7 and later. OpenAI's current models (GPT-5.4 through GPT-6) count 32×32 px patches with a 1.2× multiplier, so the same image costs 1,229 tokens; the older GPT-4o and GPT-4.1 use 85 base tokens plus 170 per 512 px tile (765 tokens). Google's Gemini charges 258 tokens per 768×768 px tile, so a 1-megapixel image is 1,032 tokens. Generating an image is billed separately as output tokens: 196 to 7,024 per 1024×1024 image on GPT Image 2.5 depending on quality, and 1,120 per 1K image on Gemini 3.1 Flash Image. The practical takeaway for anyone building agents is the same everywhere: inline image bytes burn through a context window fast, so the established fix is to pass file paths or URIs into the model, not the raw bytes.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published June 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published June 2026 by the Mochify Engineering Team.</strong>
                 The per-image figures below are drawn from each provider's current vision documentation; tokenization rules change with model releases, so dates are noted throughout.
             </p>
         </div>
@@ -186,7 +186,7 @@
                     </tbody>
                 </table>
             </GuideTable>
-            <p class="text-sm text-[#875F42]">Sources: <a href="https://docs.claude.com/en/docs/build-with-claude/vision" target="_blank" rel="noopener noreferrer">Anthropic Claude vision docs</a>, <a href="https://platform.openai.com/docs/guides/vision" target="_blank" rel="noopener noreferrer">OpenAI vision docs</a>, and <a href="https://ai.google.dev/gemini-api/docs/tokens" target="_blank" rel="noopener noreferrer">Google Gemini token docs</a>, all re-read October 9, 2026 (Google's token page last updated September 23, 2026). The 1920×1080 figures assume no downscaling except where the provider documents it (Claude's standard tier); Google documents the per-tile cost but not its scaling rule, so the Gemini figures are tile counts at native size.</p>
+            <p class="text-sm text-cocoa-milk">Sources: <a href="https://docs.claude.com/en/docs/build-with-claude/vision" target="_blank" rel="noopener noreferrer">Anthropic Claude vision docs</a>, <a href="https://platform.openai.com/docs/guides/vision" target="_blank" rel="noopener noreferrer">OpenAI vision docs</a>, and <a href="https://ai.google.dev/gemini-api/docs/tokens" target="_blank" rel="noopener noreferrer">Google Gemini token docs</a>, all re-read October 9, 2026 (Google's token page last updated September 23, 2026). The 1920×1080 figures assume no downscaling except where the provider documents it (Claude's standard tier); Google documents the per-tile cost but not its scaling rule, so the Gemini figures are tile counts at native size.</p>
         </section>
 
         <section id="image-generation-tokens" class="scroll-mt-24">
@@ -228,7 +228,7 @@
             </GuideTable>
 
             <p>Two things follow for agent builders. First, "how many tokens does an image use" has two answers, and the output one is the expensive one: reading a 1-megapixel photo costs about 1,000 to 1,300 input tokens on every current model, while generating a high-quality image can cost five times that in output tokens priced six to ten times higher. Second, the image you generate is a file the moment it lands on disk, and sending it back into the conversation as bytes pays the input price all over again; pass its path instead, which is the pattern the rest of this guide is about.</p>
-            <p class="text-sm text-[#875F42]">Sources: OpenAI image generation guide and API pricing, Google Gemini API pricing, all read October 9, 2026. Prices are USD list rates and change with model releases; re-check before relying on a number.</p>
+            <p class="text-sm text-cocoa-milk">Sources: OpenAI image generation guide and API pricing, Google Gemini API pricing, all read October 9, 2026. Prices are USD list rates and change with model releases; re-check before relying on a number.</p>
         </section>
 
         <section id="why-this-matters" class="scroll-mt-24">

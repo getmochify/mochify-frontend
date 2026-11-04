@@ -132,40 +132,40 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Vinted Photos" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Good photos are the single biggest lever a Vinted seller controls. The feed is a grid of portrait thumbnails, buyers decide in a glance, and two identical hoodies at the same price will sell at very different speeds depending on which one looks like a shop listing and which one looks like a pile on a bed. This guide covers how to take good photos for Vinted from the ground up: what Vinted's own rules ask for, how to shoot with a phone and daylight, the real technical facts about sizes and cropping (which almost every blog post gets wrong), and how to batch-fix an entire wardrobe clear-out in one plain-English prompt.
         </p>
 
         <GlassInfoBox type="technical" title="The short answers">
             <p class="mb-3">If that is all you came for:</p>
             <ul class="list-disc pl-6 space-y-2 m-0">
-                <li><strong class="text-[#4A2C2C]">Vinted photo size and aspect ratio:</strong> portrait, about 3:4, 1080px wide or more (for example 1080x1440), item centered. Vinted sets no official spec; this is what its image pipeline actually rewards. <a href="#technical-facts">The real numbers</a>.</li>
-                <li><strong class="text-[#4A2C2C]">Vinted photo rules:</strong> up to 20 photos, the first must show the whole item, and every photo must be your own. No stock, catalog or watermarked images. <a href="#vinted-rules">The rules Vinted actually sets</a>.</li>
-                <li><strong class="text-[#4A2C2C]">Why Vinted crops your photos:</strong> the search grid crops every first photo to a fixed portrait thumbnail, so landscape or off-center shots lose their edges. <a href="#faq">More in the FAQ</a>.</li>
+                <li><strong class="text-cocoa-ink">Vinted photo size and aspect ratio:</strong> portrait, about 3:4, 1080px wide or more (for example 1080x1440), item centered. Vinted sets no official spec; this is what its image pipeline actually rewards. <a href="#technical-facts">The real numbers</a>.</li>
+                <li><strong class="text-cocoa-ink">Vinted photo rules:</strong> up to 20 photos, the first must show the whole item, and every photo must be your own. No stock, catalog or watermarked images. <a href="#vinted-rules">The rules Vinted actually sets</a>.</li>
+                <li><strong class="text-cocoa-ink">Why Vinted crops your photos:</strong> the search grid crops every first photo to a fixed portrait thumbnail, so landscape or off-center shots lose their edges. <a href="#faq">More in the FAQ</a>.</li>
             </ul>
         </GlassInfoBox>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published July 19, 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published July 19, 2026 by the Mochify Engineering Team.</strong>
                 Written after checking what Vinted's help pages and image pipeline actually do in July 2026, since most photo-requirements posts invent their numbers.
             </p>
         </div>
@@ -188,12 +188,12 @@
             <SectionHeading>The Rules Vinted Actually Sets</SectionHeading>
             <p>Vinted's official photo rules are about content, not pixels: up to 20 photos per listing, the first photo must show the entire item, and every photo must be your own. The full list, from <a href="https://www.vinted.co.uk/help/48-what-photos-you-should-upload" target="_blank" rel="noopener noreferrer">Vinted's help center</a>, is worth internalizing because listings that break it can be hidden or removed:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">First photo: the whole item, no collages.</strong> This is the thumbnail buyers see in search.</li>
-                <li><strong class="text-[#4A2C2C]">Your own photos only.</strong> No stock images, no watermarked pictures, nothing saved from the internet. Stock photos are both against the rules and a known scam signal buyers actively avoid.</li>
-                <li><strong class="text-[#4A2C2C]">Natural daylight, no flash, no filters.</strong> Vinted asks for true colors; a filtered photo that misrepresents color is grounds for a return.</li>
-                <li><strong class="text-[#4A2C2C]">Several angles, plus close-ups.</strong> Labels, logos, stitching, care tags. For branded items, close-up detail shots are how Vinted (and buyers) judge authenticity, and Vinted asks for at least three detail photos on designer listings.</li>
-                <li><strong class="text-[#4A2C2C]">Show every defect.</strong> A bobbled cuff or small stain photographed honestly protects you: if a flaw is not shown and mentioned, the buyer can return the item as not as described.</li>
-                <li><strong class="text-[#4A2C2C]">Keep yourself out of frame.</strong> Vinted's own guidance suggests avoiding your face and identifiable features, and using a hanger, mannequin, or flat lay instead of modeling.</li>
+                <li><strong class="text-cocoa-ink">First photo: the whole item, no collages.</strong> This is the thumbnail buyers see in search.</li>
+                <li><strong class="text-cocoa-ink">Your own photos only.</strong> No stock images, no watermarked pictures, nothing saved from the internet. Stock photos are both against the rules and a known scam signal buyers actively avoid.</li>
+                <li><strong class="text-cocoa-ink">Natural daylight, no flash, no filters.</strong> Vinted asks for true colors; a filtered photo that misrepresents color is grounds for a return.</li>
+                <li><strong class="text-cocoa-ink">Several angles, plus close-ups.</strong> Labels, logos, stitching, care tags. For branded items, close-up detail shots are how Vinted (and buyers) judge authenticity, and Vinted asks for at least three detail photos on designer listings.</li>
+                <li><strong class="text-cocoa-ink">Show every defect.</strong> A bobbled cuff or small stain photographed honestly protects you: if a flaw is not shown and mentioned, the buyer can return the item as not as described.</li>
+                <li><strong class="text-cocoa-ink">Keep yourself out of frame.</strong> Vinted's own guidance suggests avoiding your face and identifiable features, and using a hanger, mannequin, or flat lay instead of modeling.</li>
             </ul>
             <p>Use all 20 slots when the item deserves it. A full set of angles and details answers questions before they are asked, which means fewer messages and faster offers.</p>
         </section>
@@ -201,10 +201,10 @@
         <section id="how-to-shoot" class="scroll-mt-24">
             <SectionHeading>How to Shoot: Light, Background, Framing</SectionHeading>
             <p>Daylight, a plain background, and a tight portrait frame will do more for your Vinted photos than any editing app. The practical setup:</p>
-            <p><strong class="text-[#4A2C2C]">Light.</strong> Shoot near a window in daytime, with the light falling on the item rather than behind it. Overcast light is even better than direct sun, which throws harsh shadows and blows out whites. Never use flash: it flattens texture and shifts colors, and Vinted's guidance explicitly asks for natural daylight.</p>
-            <p><strong class="text-[#4A2C2C]">Background.</strong> A plain wall, a wooden floor, or an ironed white sheet. The background's job is to disappear. A cluttered bedroom floor is the fastest way to make a €40 item look like a €4 item, and busy patterns confuse the feed's small thumbnails.</p>
-            <p><strong class="text-[#4A2C2C]">Framing.</strong> Shoot portrait (vertical), item centered, filling most of the frame. This matters more on Vinted than on almost any other marketplace because of how the grid crops thumbnails - covered in the numbers section below. Leave a little margin around the item so the crop cannot amputate a sleeve.</p>
-            <p><strong class="text-[#4A2C2C]">Sharpness.</strong> Wipe the lens, hold still or brace your elbows, and tap to focus on the item. Vinted downscales your upload substantially, and downscaling is kind to sharp photos and cruel to blurry ones.</p>
+            <p><strong class="text-cocoa-ink">Light.</strong> Shoot near a window in daytime, with the light falling on the item rather than behind it. Overcast light is even better than direct sun, which throws harsh shadows and blows out whites. Never use flash: it flattens texture and shifts colors, and Vinted's guidance explicitly asks for natural daylight.</p>
+            <p><strong class="text-cocoa-ink">Background.</strong> A plain wall, a wooden floor, or an ironed white sheet. The background's job is to disappear. A cluttered bedroom floor is the fastest way to make a €40 item look like a €4 item, and busy patterns confuse the feed's small thumbnails.</p>
+            <p><strong class="text-cocoa-ink">Framing.</strong> Shoot portrait (vertical), item centered, filling most of the frame. This matters more on Vinted than on almost any other marketplace because of how the grid crops thumbnails - covered in the numbers section below. Leave a little margin around the item so the crop cannot amputate a sleeve.</p>
+            <p><strong class="text-cocoa-ink">Sharpness.</strong> Wipe the lens, hold still or brace your elbows, and tap to focus on the item. Vinted downscales your upload substantially, and downscaling is kind to sharp photos and cruel to blurry ones.</p>
             <p>Shoot the set in one pass per item: full front, full back, label, fabric close-up, any flaws. Five to eight photos covers most items; use more of the 20 for branded pieces.</p>
         </section>
 
@@ -212,9 +212,9 @@
             <SectionHeading>Flat Lay, Hanger, or Worn?</SectionHeading>
             <p>There is no single right style: flat lay is fastest and most consistent, hangers show drape, and worn shots show fit, but Vinted itself points sellers toward the first two if they prefer not to appear in photos. The honest trade-offs:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Flat lay</strong> (item laid flat, shot from above): fast, repeatable, great for tops, knitwear, and kids' clothes. Smooth the garment and square it to the frame. Its weakness is drape: heavy or structured pieces can look shapeless.</li>
-                <li><strong class="text-[#4A2C2C]">Hanger</strong> (against a plain wall or door): shows how the garment hangs, takes seconds, and photographs jackets and dresses far better than flat lay.</li>
-                <li><strong class="text-[#4A2C2C]">Worn</strong>: best for fit and styling, and buyers do respond to seeing shape on a body. But it is optional: Vinted's own privacy guidance suggests hiding your face or cropping identifiable features, and a headless mirror shot or a mannequin gets most of the benefit.</li>
+                <li><strong class="text-cocoa-ink">Flat lay</strong> (item laid flat, shot from above): fast, repeatable, great for tops, knitwear, and kids' clothes. Smooth the garment and square it to the frame. Its weakness is drape: heavy or structured pieces can look shapeless.</li>
+                <li><strong class="text-cocoa-ink">Hanger</strong> (against a plain wall or door): shows how the garment hangs, takes seconds, and photographs jackets and dresses far better than flat lay.</li>
+                <li><strong class="text-cocoa-ink">Worn</strong>: best for fit and styling, and buyers do respond to seeing shape on a body. But it is optional: Vinted's own privacy guidance suggests hiding your face or cropping identifiable features, and a headless mirror shot or a mannequin gets most of the benefit.</li>
             </ul>
             <p>Whichever you choose, keep it consistent across a listing. A flat-lay front and a worn back photo of the same item reads as two different garments in the thumbnail strip.</p>
             <p>Ready to make a batch of mixed phone shots look consistent? That is a one-prompt job - <a href="/vinted-seller">try Mochify's Vinted photo optimizer</a>.</p>
@@ -224,16 +224,16 @@
             <SectionHeading>Vinted Photo Size and Aspect Ratio: The Real Numbers</SectionHeading>
             <p>Vinted publishes no official photo size, aspect ratio, or file-size requirement; the numbers that matter are the ones its image pipeline actually produces, and those favor a centered, portrait, roughly 3:4 shot at 1080px wide or more. This is the part nearly every "Vinted photo requirements" blog post invents, so here is what we actually verified in July 2026:</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Vinted's help center sets no technical spec.</strong> No dimensions, no ratio, no file size, no format list appears anywhere in the official photo guidance. Claims like "Vinted requires 4:5 at 1080x1350" are third-party guesses.</li>
-                <li><strong class="text-[#4A2C2C]">The search grid crops your first photo to a fixed portrait window.</strong> We inspected the live catalog: grid thumbnails are served as 310x430 pixel portrait crops of your first photo, regardless of the shape you uploaded. A landscape photo loses its left and right edges in exactly the view where buyers decide whether to tap.</li>
-                <li><strong class="text-[#4A2C2C]">Item pages preserve your ratio but downscale hard.</strong> Full listing photos are re-encoded to WebP and served at roughly 800 pixels on the long side. Uploading a 4000px export gains you nothing; a sharp 1080-1600px photo is already more than Vinted will ever show.</li>
+                <li><strong class="text-cocoa-ink">Vinted's help center sets no technical spec.</strong> No dimensions, no ratio, no file size, no format list appears anywhere in the official photo guidance. Claims like "Vinted requires 4:5 at 1080x1350" are third-party guesses.</li>
+                <li><strong class="text-cocoa-ink">The search grid crops your first photo to a fixed portrait window.</strong> We inspected the live catalog: grid thumbnails are served as 310x430 pixel portrait crops of your first photo, regardless of the shape you uploaded. A landscape photo loses its left and right edges in exactly the view where buyers decide whether to tap.</li>
+                <li><strong class="text-cocoa-ink">Item pages preserve your ratio but downscale hard.</strong> Full listing photos are re-encoded to WebP and served at roughly 800 pixels on the long side. Uploading a 4000px export gains you nothing; a sharp 1080-1600px photo is already more than Vinted will ever show.</li>
             </ul>
-            <p>The practical spec, based on how the pipeline behaves: <strong class="text-[#4A2C2C]">portrait, 3:4 ratio (the default on most phone cameras), around 1080x1440 pixels, item centered, saved as JPEG or PNG.</strong></p>
+            <p>The practical spec, based on how the pipeline behaves: <strong class="text-cocoa-ink">portrait, 3:4 ratio (the default on most phone cameras), around 1080x1440 pixels, item centered, saved as JPEG or PNG.</strong></p>
 
             <h3>Why Vinted photos look blurry after upload</h3>
             <p>Vinted re-encodes every photo you upload: listing images are served as WebP at roughly 800 pixels on the long side, and the search thumbnail at 310x430 (re-checked October 9, 2026). That pipeline cannot add detail, so anything soft going in comes out softer. The usual causes are a screenshot or a hard crop (a crop from a 12-megapixel frame can be well under 800 pixels wide), digital zoom, low light that pushed the phone into a slow shutter or heavy noise reduction, and a smudged lens.</p>
             <p>Fix the source, not the upload: shoot in daylight, wipe the lens, tap to focus, step closer instead of zooming, and give Vinted an original of 1,080 to 1,600 pixels on the long side. If a batch is already shot at mixed sizes, resize the lot to 1440 pixels tall and export as JPEG before uploading; <a href="https://mochify.app/vinted-seller">the Vinted seller tool</a> does that in one prompt. Sellers also report listings being hidden for low-quality photos. Vinted publishes no such threshold, so a sharp, well-lit original is the safe side of whatever the filter is.</p>
-            <p><strong class="text-[#4A2C2C]">Profile picture.</strong> Vinted publishes no size for it either. The avatar is served as a 100x100 square and shown as a small circle (48 pixels wide in the web catalog, October 2026), so upload a square image with your face or logo centered. Anything from about 400 pixels up looks identical once shrunk, and the corners are lost to the circle.</p>
+            <p><strong class="text-cocoa-ink">Profile picture.</strong> Vinted publishes no size for it either. The avatar is served as a 100x100 square and shown as a small circle (48 pixels wide in the web catalog, October 2026), so upload a square image with your face or logo centered. Anything from about 400 pixels up looks identical once shrunk, and the corners are lost to the circle.</p>
 
             <GlassInfoBox type="note" title="iPhone sellers: convert HEIC first">
                 Your camera saves .HEIC files. The Vinted app handles them, but browsers and desktop editing tools often do not. If you organize or edit listing photos on a computer, convert them first with our <a href="/heic-to-jpeg">HEIC to JPEG converter</a> - and see <a href="/guides/heic-to-jpeg-or-webp-wordpress">Should I convert HEIC to JPEG or WebP for WordPress uploads?</a> if you also sell on your own site.
@@ -251,42 +251,42 @@
         </section>
 
         <!-- Workflow card -->
-        <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: Fix a Whole Clear-Out in One Prompt</h2>
+        <section id="mochify-workflow" class="scroll-mt-24 bg-mochi-blush rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
+            <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mt-0 mb-4">Mochify Workflow: Fix a Whole Clear-Out in One Prompt</h2>
             <p class="text-base mb-7">You can turn a camera roll of casual phone shots into a consistent, portrait-cropped, metadata-free Vinted listing set with one plain-English instruction. Mochify's Magic Flow takes a described outcome and applies the right crop, size, format, and cleanup automatically:</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Shoot everything first</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Shoot everything first</strong>
                         <p class="text-base m-0">One pass per item: front, back, label, fabric, flaws. Do not worry about exact framing; leave margin around each item.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Open Mochify</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Open Mochify</strong>
                         <p class="text-base m-0">Go to <a href="/vinted-seller">mochify.app/vinted-seller</a> in your browser. No install needed. Without an account you can process up to 3 images a month; a free account covers 25 images per month, with a 3-file batch size and 20MB per file.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Describe the result</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Describe the result</strong>
                         <p class="text-base m-0">Type a prompt such as: "crop these to 3:4 portrait, center the item, resize to 1440px tall, convert to JPEG, and strip all metadata". Magic Flow parses the instruction, then Mochify's C++ engine executes it: smart cropping detects the item and keeps it centered in the new portrait frame, and the explicit "strip all metadata" removes EXIF, including GPS.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">4</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Download and list</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Download and list</strong>
                         <p class="text-base m-0">You get web-ready JPEGs at a consistent size and ratio, safe for the grid crop and free of location data. Upload straight to your Vinted listing.</p>
                     </div>
                 </li>
             </ol>
             <p class="text-base mt-7 mb-0">Two upgrades worth knowing about. High-volume sellers on the Seller or Pro plan get 25-file batches and 75MB files, which turns a 60-photo clear-out from a session-by-session job into three drag-and-drops. And background removal, placing your item on a clean white background, is part of the standard toolkit on every plan, including Free; on Vinted use it behind a real first photo, as <a href="/guides/vinted-background-removal-rules">our guide to Vinted's background rules</a> explains.</p>
             <p class="text-base mt-4 mb-0">Selling the same pieces elsewhere too? Vinted's portrait crop is not what eBay, Poshmark, or Depop want, so <a href="/guides/cross-listing-marketplace-photo-requirements">cross-listing your Vinted photos to other marketplaces</a> means re-exporting each set to the right shape, the same batch prompt with one line changed per platform.</p>
-            <p class="text-base text-[#875F42] mt-4 mb-0">A note on privacy, because clothes photographed in your home are personal data in every sense: images sent to Mochify are streamed into server memory at <code class={inlineCode}>api.mochify.app</code>, processed, and wiped immediately. No disk writes, no logs containing your files, zero retention. Our <a href="/guides/privacy-image-optimization">privacy and image optimization guide</a> explains the model in depth.</p>
+            <p class="text-base text-cocoa-milk mt-4 mb-0">A note on privacy, because clothes photographed in your home are personal data in every sense: images sent to Mochify are streamed into server memory at <code class={inlineCode}>api.mochify.app</code>, processed, and wiped immediately. No disk writes, no logs containing your files, zero retention. Our <a href="/guides/privacy-image-optimization">privacy and image optimization guide</a> explains the model in depth.</p>
         </section>
 
         <section id="cheat-sheet" class="scroll-mt-24">

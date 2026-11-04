@@ -37,7 +37,7 @@
 
 <div class="relative">
 	<svg
-		class="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-[#875F42]/50"
+		class="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-cocoa-milk/50"
 		fill="none"
 		stroke="currentColor"
 		viewBox="0 0 24 24"
@@ -59,6 +59,6 @@
 		{placeholder}
 		autocomplete="off"
 		spellcheck="false"
-		class="w-full rounded-2xl border border-pink-100 bg-white py-3 pr-4 pl-11 text-sm font-medium text-[#4A2C2C] placeholder-[#875F42]/40 shadow-sm transition-all focus:border-[#F06292]/40 focus:ring-2 focus:ring-[#F06292]/30 focus:outline-none"
+		class="w-full rounded-2xl border border-pink-100 bg-white py-3 pr-4 pl-11 text-sm font-medium text-cocoa-ink placeholder-cocoa-milk/40 shadow-sm transition-all focus:border-mochi-pink/40 focus:ring-2 focus:ring-mochi-pink/30 focus:outline-none"
 	/>
 </div>

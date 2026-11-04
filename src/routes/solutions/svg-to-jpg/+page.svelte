@@ -63,8 +63,8 @@
         mainEntity: faqSchema(faqs)
     };
 
-    const linkClass = 'font-bold text-[#F06292] hover:text-[#D81B60] transition-colors';
-    const codeClass = 'px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm';
+    const linkClass = 'font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors';
+    const codeClass = 'px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm';
 </script>
 
 <svelte:head>
@@ -95,18 +95,18 @@
                 </span>
             </div>
 
-            <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
+            <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
                 Convert
                 <span class="bg-gradient-to-r from-[#C4B5FD] to-[#7C3AED] bg-clip-text text-transparent">
                     SVG
                 </span>
                 to
-                <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
+                <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
                     JPG
                 </span>
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
+            <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Rasterize SVG files to JPG at the size you need, ready for anywhere that only takes a JPEG.
             </p>
         </div>
@@ -118,87 +118,87 @@
         </div>
 
         <section class="mt-4 max-w-4xl mx-auto space-y-4">
-            <p class="leading-relaxed text-[#6C3F31]">Drop SVG files here and get JPG images back. Keep the size your SVG declares or pick a long edge from 512 to 4096 pixels: the vector is drawn at that size, so edges stay sharp however large you go. JPG has no transparency, so any transparent areas come out white. The conversion runs in memory at api.mochify.app and nothing is saved to disk.</p>
+            <p class="leading-relaxed text-cocoa-deep">Drop SVG files here and get JPG images back. Keep the size your SVG declares or pick a long edge from 512 to 4096 pixels: the vector is drawn at that size, so edges stay sharp however large you go. JPG has no transparency, so any transparent areas come out white. The conversion runs in memory at api.mochify.app and nothing is saved to disk.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">How to convert SVG to JPG</h2>
-            <ol class="list-decimal space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
-                <li><strong class="text-[#4A2C2C]">Pick a size.</strong> Original keeps the size your SVG declares: its width and height, or its viewBox when those are missing. Or choose a long edge of 512, 1024, 1200, 2048 or 4096 pixels, and the other side follows the SVG's proportions.</li>
-                <li><strong class="text-[#4A2C2C]">Drop your SVGs.</strong> Up to 3 at a time on the free plan, 25 on a paid plan.</li>
-                <li><strong class="text-[#4A2C2C]">Download your JPG files.</strong> Anything transparent in the SVG is filled white, which suits a logo on a white page, email or document.</li>
+            <h2 class="text-2xl font-bold text-cocoa-ink">How to convert SVG to JPG</h2>
+            <ol class="list-decimal space-y-2 pl-6 text-cocoa-deep leading-relaxed">
+                <li><strong class="text-cocoa-ink">Pick a size.</strong> Original keeps the size your SVG declares: its width and height, or its viewBox when those are missing. Or choose a long edge of 512, 1024, 1200, 2048 or 4096 pixels, and the other side follows the SVG's proportions.</li>
+                <li><strong class="text-cocoa-ink">Drop your SVGs.</strong> Up to 3 at a time on the free plan, 25 on a paid plan.</li>
+                <li><strong class="text-cocoa-ink">Download your JPG files.</strong> Anything transparent in the SVG is filled white, which suits a logo on a white page, email or document.</li>
             </ol>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Which size to pick</h2>
-            <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
-                <li><strong class="text-[#4A2C2C]">Original:</strong> you already set the size in your editor.</li>
-                <li><strong class="text-[#4A2C2C]">512 px:</strong> app icons, favicons and avatars.</li>
-                <li><strong class="text-[#4A2C2C]">1024 px:</strong> logos and graphics on web pages, sharp on high-density screens.</li>
-                <li><strong class="text-[#4A2C2C]">1200 px:</strong> social link previews; 1200 pixels is the usual width for an Open Graph image.</li>
-                <li><strong class="text-[#4A2C2C]">2048 px:</strong> hero graphics and slides.</li>
-                <li><strong class="text-[#4A2C2C]">4096 px:</strong> print and high-resolution masters.</li>
+            <h2 class="text-2xl font-bold text-cocoa-ink">Which size to pick</h2>
+            <ul class="list-disc space-y-2 pl-6 text-cocoa-deep leading-relaxed">
+                <li><strong class="text-cocoa-ink">Original:</strong> you already set the size in your editor.</li>
+                <li><strong class="text-cocoa-ink">512 px:</strong> app icons, favicons and avatars.</li>
+                <li><strong class="text-cocoa-ink">1024 px:</strong> logos and graphics on web pages, sharp on high-density screens.</li>
+                <li><strong class="text-cocoa-ink">1200 px:</strong> social link previews; 1200 pixels is the usual width for an Open Graph image.</li>
+                <li><strong class="text-cocoa-ink">2048 px:</strong> hero graphics and slides.</li>
+                <li><strong class="text-cocoa-ink">4096 px:</strong> print and high-resolution masters.</li>
             </ul>
-            <p class="leading-relaxed text-[#6C3F31]">Because the vector is redrawn at the size you pick, nothing is stretched from a smaller image, and 4096 is as crisp as 512. A JPG cannot be enlarged later without going soft, so pick the largest size you will need.</p>
+            <p class="leading-relaxed text-cocoa-deep">Because the vector is redrawn at the size you pick, nothing is stretched from a smaller image, and 4096 is as crisp as 512. A JPG cannot be enlarged later without going soft, so pick the largest size you will need.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">What happens to your SVG</h2>
-            <p class="leading-relaxed text-[#6C3F31]">An SVG is a set of drawing instructions; a JPG is a grid of pixels. Turning one into the other fixes the size and flattens anything that depended on a browser at display time:</p>
-            <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
-                <li><strong class="text-[#4A2C2C]">Size:</strong> the long edge you pick, or with Original the SVG's width and height (or its viewBox when those are missing). A file with none of the three has no size to work from, so add a viewBox or a width and height first.</li>
-                <li><strong class="text-[#4A2C2C]">Transparency:</strong> filled white. JPG cannot store transparency, so transparent areas become white and semi-transparent edges blend into white.</li>
-                <li><strong class="text-[#4A2C2C]">Quality:</strong> encoded with jpegli at quality 90, the same as <code class={codeClass}>quality=90</code> through the API. JPG is lossy, so on flat color and hard edges a close look can show faint artifacts; PNG keeps every pixel exact.</li>
-                <li><strong class="text-[#4A2C2C]">Text:</strong> rendered, but web fonts linked by URL are not fetched, so live text falls back to a default font. Convert text to outlines before you export if the typeface matters, which for a logo it always does.</li>
-                <li><strong class="text-[#4A2C2C]">Linked images:</strong> an image the SVG loads from a URL is dropped without warning. Images embedded in the file render.</li>
-                <li><strong class="text-[#4A2C2C]">Animation:</strong> ignored. You get the SVG as it looks before anything moves.</li>
+            <h2 class="text-2xl font-bold text-cocoa-ink">What happens to your SVG</h2>
+            <p class="leading-relaxed text-cocoa-deep">An SVG is a set of drawing instructions; a JPG is a grid of pixels. Turning one into the other fixes the size and flattens anything that depended on a browser at display time:</p>
+            <ul class="list-disc space-y-2 pl-6 text-cocoa-deep leading-relaxed">
+                <li><strong class="text-cocoa-ink">Size:</strong> the long edge you pick, or with Original the SVG's width and height (or its viewBox when those are missing). A file with none of the three has no size to work from, so add a viewBox or a width and height first.</li>
+                <li><strong class="text-cocoa-ink">Transparency:</strong> filled white. JPG cannot store transparency, so transparent areas become white and semi-transparent edges blend into white.</li>
+                <li><strong class="text-cocoa-ink">Quality:</strong> encoded with jpegli at quality 90, the same as <code class={codeClass}>quality=90</code> through the API. JPG is lossy, so on flat color and hard edges a close look can show faint artifacts; PNG keeps every pixel exact.</li>
+                <li><strong class="text-cocoa-ink">Text:</strong> rendered, but web fonts linked by URL are not fetched, so live text falls back to a default font. Convert text to outlines before you export if the typeface matters, which for a logo it always does.</li>
+                <li><strong class="text-cocoa-ink">Linked images:</strong> an image the SVG loads from a URL is dropped without warning. Images embedded in the file render.</li>
+                <li><strong class="text-cocoa-ink">Animation:</strong> ignored. You get the SVG as it looks before anything moves.</li>
             </ul>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">When a JPG copy of an SVG is the right call</h2>
-            <p class="leading-relaxed text-[#6C3F31]">Keep the SVG wherever it is accepted: on your own site it stays sharp at every size and is usually the smaller file. Make a raster copy for the places that refuse or strip SVG. Our <a href="/guides/svg-conversion-guide-vector-vs-raster" class={linkClass}>SVG conversion guide</a> walks through the decision platform by platform.</p>
-            <p class="leading-relaxed text-[#6C3F31]">Pick JPG when the destination accepts nothing else: some upload forms, marketplaces, print services and older software take JPEG only. If the logo needs to sit on a colored background, keep its transparency with <a href="/solutions/svg-to-png" class={linkClass}>SVG to PNG</a>; for a page on your own site, <a href="/solutions/svg-to-webp" class={linkClass}>SVG to WebP</a> keeps transparency in a smaller file.</p>
+            <h2 class="text-2xl font-bold text-cocoa-ink">When a JPG copy of an SVG is the right call</h2>
+            <p class="leading-relaxed text-cocoa-deep">Keep the SVG wherever it is accepted: on your own site it stays sharp at every size and is usually the smaller file. Make a raster copy for the places that refuse or strip SVG. Our <a href="/guides/svg-conversion-guide-vector-vs-raster" class={linkClass}>SVG conversion guide</a> walks through the decision platform by platform.</p>
+            <p class="leading-relaxed text-cocoa-deep">Pick JPG when the destination accepts nothing else: some upload forms, marketplaces, print services and older software take JPEG only. If the logo needs to sit on a colored background, keep its transparency with <a href="/solutions/svg-to-png" class={linkClass}>SVG to PNG</a>; for a page on your own site, <a href="/solutions/svg-to-webp" class={linkClass}>SVG to WebP</a> keeps transparency in a smaller file.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Converting SVG to JPG without a converter</h2>
-            <ul class="list-disc space-y-2 pl-6 text-[#6C3F31] leading-relaxed">
-                <li><strong class="text-[#4A2C2C]">Inkscape</strong> (free, Windows, Mac and Linux, version 1.2 or later): File > Export, choose JPG in the Export dialog, set the DPI or pixel size and the background color, and export.</li>
-                <li><strong class="text-[#4A2C2C]">Figma:</strong> select the frame or layer, add a JPG export in the Export panel at the scale you need, and export. Give the frame a fill first, or transparent areas come out white.</li>
+            <h2 class="text-2xl font-bold text-cocoa-ink">Converting SVG to JPG without a converter</h2>
+            <ul class="list-disc space-y-2 pl-6 text-cocoa-deep leading-relaxed">
+                <li><strong class="text-cocoa-ink">Inkscape</strong> (free, Windows, Mac and Linux, version 1.2 or later): File > Export, choose JPG in the Export dialog, set the DPI or pixel size and the background color, and export.</li>
+                <li><strong class="text-cocoa-ink">Figma:</strong> select the frame or layer, add a JPG export in the Export panel at the scale you need, and export. Give the frame a fill first, or transparent areas come out white.</li>
                 <li>A browser screenshot is not a route: it captures the screen at display resolution and bakes in the background.</li>
             </ul>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Limits, bulk and automation</h2>
-            <p class="leading-relaxed text-[#6C3F31]">Without an account you can convert 3 images a month; a free account gives you 25 a month, up to 3 at a time, 20MB each. Paid plans (Seller, Pro and Growth) take batches of 25 and files up to 75MB, and a $2 Day Pass gives 100 uploads over 24 hours with no account. The <a href="/pricing" class={linkClass}>pricing page</a> has the plans.</p>
-            <p class="leading-relaxed text-[#6C3F31]">The same conversion works through the REST API on every plan, Free included. Send the raw SVG to <code class={codeClass}>POST /v1/squish</code>; full reference in the <a href="/docs" class={linkClass}>API documentation</a>:</p>
+            <h2 class="text-2xl font-bold text-cocoa-ink">Limits, bulk and automation</h2>
+            <p class="leading-relaxed text-cocoa-deep">Without an account you can convert 3 images a month; a free account gives you 25 a month, up to 3 at a time, 20MB each. Paid plans (Seller, Pro and Growth) take batches of 25 and files up to 75MB, and a $2 Day Pass gives 100 uploads over 24 hours with no account. The <a href="/pricing" class={linkClass}>pricing page</a> has the plans.</p>
+            <p class="leading-relaxed text-cocoa-deep">The same conversion works through the REST API on every plan, Free included. Send the raw SVG to <code class={codeClass}>POST /v1/squish</code>; full reference in the <a href="/docs" class={linkClass}>API documentation</a>:</p>
             <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=jpg&amp;width=1200" \
   -H "Content-Type: image/svg+xml" \
   -H "Authorization: Bearer $MOCHIFY_API_KEY" \
   --data-binary @logo.svg \
   --output logo.jpg</code></pre>
-            <p class="leading-relaxed text-[#6C3F31]"><code class={codeClass}>width</code> sets the output width in pixels and the vector is drawn at that width; leave it out to keep the SVG's own size. Transparent areas are filled white; add <code class={codeClass}>&amp;background=black</code>, or a hex color such as <code class={codeClass}>&amp;background=%23F5F5F5</code> (<code class={codeClass}>#F5F5F5</code>, with the <code class={codeClass}>#</code> written as <code class={codeClass}>%23</code>), to fill with something else.</p>
+            <p class="leading-relaxed text-cocoa-deep"><code class={codeClass}>width</code> sets the output width in pixels and the vector is drawn at that width; leave it out to keep the SVG's own size. Transparent areas are filled white; add <code class={codeClass}>&amp;background=black</code>, or a hex color such as <code class={codeClass}>&amp;background=%23F5F5F5</code> (<code class={codeClass}>#F5F5F5</code>, with the <code class={codeClass}>#</code> written as <code class={codeClass}>%23</code>), to fill with something else.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-4">Frequently asked questions</h2>
+            <h2 class="text-2xl font-bold text-cocoa-ink mb-4">Frequently asked questions</h2>
             <FaqAccordion {faqs} />
         </section>
 
         <!-- Also available -->
         <section class="mt-16 max-w-4xl mx-auto">
-            <p class="text-xs font-black text-[#875F42] uppercase tracking-widest mb-4">Also available</p>
+            <p class="text-xs font-black text-cocoa-milk uppercase tracking-widest mb-4">Also available</p>
             <div class="grid sm:grid-cols-2 gap-4">
                 <a href="/solutions/svg-to-png" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">SVG to PNG →</p>
-                        <p class="text-xs text-[#875F42]">Pixel-exact, with transparency kept</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">SVG to PNG →</p>
+                        <p class="text-xs text-cocoa-milk">Pixel-exact, with transparency kept</p>
                     </div>
                 </a>
                 <a href="/solutions/svg-to-webp" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -206,8 +206,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">SVG to WebP →</p>
-                        <p class="text-xs text-[#875F42]">Transparency kept in a much smaller file, for websites</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">SVG to WebP →</p>
+                        <p class="text-xs text-cocoa-milk">Transparency kept in a much smaller file, for websites</p>
                     </div>
                 </a>
             </div>

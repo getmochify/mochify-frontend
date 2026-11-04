@@ -47,7 +47,7 @@ export const JA_PRICING: PricingStrings = {
 	everythingInPro: 'Proのすべてに加えて：',
 	sellerFeatures: [
 		'1か月<strong>300枚</strong>',
-		'<strong>オブジェクトの消去・色変更</strong> <span class="text-[#6C3F31]/50">（ベータ）</span>',
+		'<strong>オブジェクトの消去・色変更</strong> <span class="text-cocoa-deep/50">（ベータ）</span>',
 		'<strong>PDFツール一式:</strong> 圧縮・画像抽出・分割',
 		'<strong>Google Drive</strong>や自分のバケットに直接保存',
 		'1ファイル<strong>75MB</strong>、1回に<strong>25ファイル</strong>',
@@ -61,8 +61,8 @@ export const JA_PRICING: PricingStrings = {
 	],
 	growthFeatures: [
 		'1か月<strong>5,000枚</strong>',
-		'<strong>最大200ページ</strong>のPDFに対応 <span class="text-[#6C3F31]/50">（他のプランは10ページまで）</span>',
-		'<strong>最大200枚の画像</strong>からPDFを作成 <span class="text-[#6C3F31]/50">（他のプランは10枚まで）</span>'
+		'<strong>最大200ページ</strong>のPDFに対応 <span class="text-cocoa-deep/50">（他のプランは10ページまで）</span>',
+		'<strong>最大200枚の画像</strong>からPDFを作成 <span class="text-cocoa-deep/50">（他のプランは10枚まで）</span>'
 	],
 	freeFeatures: [
 		'1か月<strong>25枚</strong>',
@@ -110,9 +110,9 @@ export const JA_PRICING: PricingStrings = {
 	tblBatchUpload: 'まとめてアップロード',
 	tblQueue: '処理キュー',
 	tblPdfTools:
-		'PDFツール <span class="text-[#6C3F31]/50 text-xs">（圧縮、画像抽出、ラスタライズ、分割、画像→PDF）</span>',
+		'PDFツール <span class="text-cocoa-deep/50 text-xs">（圧縮、画像抽出、ラスタライズ、分割、画像→PDF）</span>',
 	tblOwnStorage:
-		'自分のストレージに保存 <span class="text-[#6C3F31]/50 text-xs">（Google Drive、S3 / R2 / S3互換）</span>',
+		'自分のストレージに保存 <span class="text-cocoa-deep/50 text-xs">（Google Drive、S3 / R2 / S3互換）</span>',
 	tblPerMonth: (n) => `${n.toLocaleString('ja')} / 月`,
 	tblFiles: (n) => `${n}ファイル`,
 	tblQueueStandard: '標準',

@@ -91,11 +91,11 @@
 	>
 		<header class="mb-10 text-center">
 			<h1
-				class="mx-auto mb-3 max-w-3xl font-heading text-3xl leading-tight font-black tracking-tight text-balance text-[#4A2C2C] md:text-5xl"
+				class="mx-auto mb-3 max-w-3xl font-heading text-3xl leading-tight font-black tracking-tight text-balance text-cocoa-ink md:text-5xl"
 			>
 				{frFlowTool.h1}
 			</h1>
-			<p class="mx-auto max-w-2xl text-base leading-relaxed text-pretty text-[#875F42] md:text-lg">
+			<p class="mx-auto max-w-2xl text-base leading-relaxed text-pretty text-cocoa-milk md:text-lg">
 				{frFlowTool.subtitle}
 			</p>
 		</header>
@@ -110,7 +110,7 @@
 
 		<!-- Badge line, from the sheet. Rendered as one string rather than split
 		     into the English page's icon row: the separators are part of the copy. -->
-		<p class="mt-10 text-center text-sm font-bold text-[#6C3F31]">{frFlowTool.badgeLine}</p>
+		<p class="mt-10 text-center text-sm font-bold text-cocoa-deep">{frFlowTool.badgeLine}</p>
 
 		<!-- The seven examples. Tap to load, exactly like the English page's
 		     example cards, which is the only way a prompt-driven page shows a
@@ -122,7 +122,7 @@
 						<button
 							type="button"
 							onclick={() => form?.useExample(example)}
-							class="mochi-row flex h-full w-full cursor-pointer items-center rounded-2xl px-4 py-2.5 text-left text-sm font-medium leading-snug text-balance text-[#6C3F31]"
+							class="mochi-row flex h-full w-full cursor-pointer items-center rounded-2xl px-4 py-2.5 text-left text-sm font-medium leading-snug text-balance text-cocoa-deep"
 							>{example}</button
 						>
 					</li>
@@ -132,11 +132,11 @@
 
 		<!-- Body. Seven sections, each ending in the prompt it describes; the
 		     prompts load into the compose bar like the examples above. -->
-		<article class="mt-16 w-full max-w-3xl space-y-12 text-lg leading-relaxed text-[#6C3F31]">
+		<article class="mt-16 w-full max-w-3xl space-y-12 text-lg leading-relaxed text-cocoa-deep">
 			{#each frFlowSections as section (section.id)}
 				<section id={section.id} class="scroll-mt-24">
 					<h2
-						class="mb-4 border-b-2 border-[#F06292]/30 pb-2 font-heading text-2xl font-extrabold text-[#4A2C2C] md:text-3xl"
+						class="mb-4 border-b-2 border-mochi-pink/30 pb-2 font-heading text-2xl font-extrabold text-cocoa-ink md:text-3xl"
 					>
 						{section.heading}
 					</h2>
@@ -147,7 +147,7 @@
 							<button
 								type="button"
 								onclick={() => form?.useExample(block.text)}
-								class="mochi-row mb-4 block w-full cursor-pointer rounded-2xl px-4 py-3 text-left font-mono text-sm text-[#6C3F31]"
+								class="mochi-row mb-4 block w-full cursor-pointer rounded-2xl px-4 py-3 text-left font-mono text-sm text-cocoa-deep"
 								>{block.text}</button
 							>
 						{/if}
@@ -157,14 +157,14 @@
 		</article>
 
 		<section class="mt-16 w-full max-w-3xl">
-			<h2 class="mb-6 text-center font-heading text-2xl font-extrabold text-[#4A2C2C] md:text-3xl">
+			<h2 class="mb-6 text-center font-heading text-2xl font-extrabold text-cocoa-ink md:text-3xl">
 				FAQ
 			</h2>
 			<FaqAccordion {faqs} class="space-y-3" />
 		</section>
 
-		<p class="mt-12 text-center text-sm text-[#6C3F31]/75">
-			<a href="/fr/pricing" class="font-semibold text-[#F06292] hover:underline">Tarifs</a>
+		<p class="mt-12 text-center text-sm text-cocoa-deep/75">
+			<a href="/fr/pricing" class="font-semibold text-mochi-pink hover:underline">Tarifs</a>
 		</p>
 	</main>
 

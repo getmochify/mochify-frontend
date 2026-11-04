@@ -172,25 +172,25 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
 	<header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category} · Guide
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
-			Should I Shoot <span class="bg-gradient-to-r from-[#F06292] to-[#EC407A] bg-clip-text text-transparent">HEIF or JPEG</span> on My Mirrorless Camera?
+			Should I Shoot <span class="bg-gradient-to-r from-mochi-pink to-[#EC407A] bg-clip-text text-transparent">HEIF or JPEG</span> on My Mirrorless Camera?
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
-		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
 			Shoot HEIF if your camera, your editor and your deliverables all handle it, and shoot JPEG if
 			any one of them does not. That is the short answer, and it is less useful than it sounds,
 			because "HEIF" is not one setting. Canon's HEIF is always an HDR PQ file. Nikon's HEIF only
@@ -203,9 +203,9 @@
 			capture and still deliver a JPEG that opens everywhere.
 		</p>
 
-		<div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-			<p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-				<strong class="text-[#4A2C2C]"
+		<div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+			<p class="m-0 text-base leading-relaxed text-cocoa-deep">
+				<strong class="text-cocoa-ink"
 					>Published {metadata.date} by the Mochify Engineering Team.</strong
 				>
 				{metadata.bylineNote}
@@ -897,7 +897,7 @@
 				already carries a gain map keeps it through a Mochify resize or crop when you ask for the
 				HDR path (<code>--hdr</code> on the CLI, <code>hdr=true</code> on the API).
 			</p>
-			<p class="mb-4 text-base leading-relaxed text-[#875F42]">
+			<p class="mb-4 text-base leading-relaxed text-cocoa-milk">
 				<strong>Privacy note for images.</strong> On every surface, the image travels over HTTPS to
 				<code>api.mochify.app</code>, is converted in memory, and is wiped immediately: no disk
 				writes, no logs containing file data, and never used to train AI. The CLI and local MCP

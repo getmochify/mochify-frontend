@@ -86,31 +86,31 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="Product Image Requirements" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.datePublished} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Getting rejected from Amazon because your background isn't quite white enough is annoying. Getting demoted in Etsy search because your first photo is 600 pixels wide is worse - it can cost you sales for months before you even notice. Every major marketplace has its own image rules, and they disagree with each other in ways that matter: what Amazon calls mandatory, eBay treats as optional; what Shopify leaves to your theme, WooCommerce bakes into its thumbnail pipeline. This guide pulls the official technical requirements for seven major selling platforms into one place, with honest notes about where the "rules" are actually vendor-sourced estimates rather than documented specs. By the end, you'll have a clear picture of what each platform demands, where to invest your image-editing time, and how to run a batch through a consistent prep workflow before uploading. A bit of context on why this is worth taking seriously: Amazon links image zoom directly to revenue, stating in its own Seller Central documentation that "zoom has been proven to enhance sales" - and zoom requires images of at least 1,000 pixels on the longest side. Etsy is more explicit still, tying the resolution of your primary photo to where your listing shows up in search. These aren't soft suggestions.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published August 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published August 2026 by the Mochify Engineering Team.</strong>
                 Platform specs checked against each marketplace's official help and developer documentation June 2026; third-party estimates are clearly labeled throughout.
             </p>
         </div>
@@ -306,14 +306,14 @@
         </section>
 
         <!-- Workflow card -->
-        <section id="mochify-workflow" class="scroll-mt-24 bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
-            <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mt-0 mb-4">Mochify Workflow: Prep Images for Any Marketplace</h2>
+        <section id="mochify-workflow" class="scroll-mt-24 bg-mochi-blush rounded-3xl border border-pink-100 p-6 md:p-9 not-prose">
+            <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mt-0 mb-4">Mochify Workflow: Prep Images for Any Marketplace</h2>
             <p class="text-base mb-7">Getting images to spec across multiple platforms involves the same few operations repeatedly: resize to the right dimensions, compress to meet file size limits, convert to an accepted format, and remove backgrounds where needed. A single plain-English prompt handles all of this in one pass.</p>
             <ol class="space-y-4 list-none p-0 m-0">
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">1</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Describe what you need</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Describe what you need</strong>
                         <p class="text-base m-0">Open <a href="https://mochify.app">mochify.app</a> and type the task in plain English. Magic Flow interprets the intent and applies the right combination of resize, format conversion, and compression settings. For marketplace prep, prompts like these work directly:</p>
                         <ul class="list-disc pl-6 space-y-2 my-4 text-base">
                             <li><strong>"Resize to 2000x2000 JPEG, keep quality high"</strong> (Etsy primary images)</li>
@@ -325,21 +325,21 @@
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">2</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Process in batches</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Process in batches</strong>
                         <p class="text-base m-0">If you're preparing images for multiple SKUs in one session, Mochify processes up to 25 files at once on Seller and Pro plans, or 3 at a time on Free. Upload your batch, describe the transformation once, and download the full set.</p>
                     </div>
                 </li>
                 <li class="flex gap-4 items-start">
-                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#F06292] text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
+                    <span class="shrink-0 w-8 h-8 rounded-full bg-mochi-pink text-white font-black text-sm flex items-center justify-center mt-0.5">3</span>
                     <div class="min-w-0 flex-1">
-                        <strong class="block text-[#4A2C2C] text-lg mb-1.5">Background removal</strong>
+                        <strong class="block text-cocoa-ink text-lg mb-1.5">Background removal</strong>
                         <p class="text-base m-0">For Amazon MAIN images and other white-background requirements, background removal is available on every plan, including Free. Run a natural-language prompt like <strong>"remove background and export as JPEG on white"</strong> to get an image that meets the RGB 255,255,255 rule cleanly.</p>
                     </div>
                 </li>
             </ol>
-            <p class="text-base text-[#875F42] mt-7 mb-0">Privacy note: images you upload to Mochify are streamed into the encoder in RAM, processed, and wiped immediately - no disk writes of your source files, no logs containing file data. If you're working with product images that carry location metadata or other EXIF data you'd rather not expose, say so in the prompt - for example <strong>"resize to 2000x2000 JPEG and strip all metadata"</strong> - and the output matches the instruction.</p>
+            <p class="text-base text-cocoa-milk mt-7 mb-0">Privacy note: images you upload to Mochify are streamed into the encoder in RAM, processed, and wiped immediately - no disk writes of your source files, no logs containing file data. If you're working with product images that carry location metadata or other EXIF data you'd rather not expose, say so in the prompt - for example <strong>"resize to 2000x2000 JPEG and strip all metadata"</strong> - and the output matches the instruction.</p>
         </section>
 
         <!-- FAQ -->

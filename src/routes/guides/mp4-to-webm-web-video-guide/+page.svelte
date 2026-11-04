@@ -159,30 +159,30 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="MP4 to WebM" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             Converting an MP4 hero video to WebM using VP9 typically cuts file size by 30–50% with no visible quality difference. This guide covers the codec landscape, the exact size savings you can expect, the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> fallback pattern that keeps Safari and legacy browsers covered, and how to convert without uploading your footage to a third-party server.
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">Published {metadata.date} by the <strong class="text-[#6C3F31]">Mochify Engineering Team</strong>. For web developers and performance-focused teams who need to reduce video payload for LCP-critical pages without compromising compatibility or privacy.</p>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">Published {metadata.date} by the <strong class="text-cocoa-deep">Mochify Engineering Team</strong>. For web developers and performance-focused teams who need to reduce video payload for LCP-critical pages without compromising compatibility or privacy.</p>
         </div>
     </header>
 
@@ -200,9 +200,9 @@
             <SectionHeading>WebM vs MP4: What's Actually Different?</SectionHeading>
             <p class="mb-4">WebM is a royalty-free container built specifically for web delivery. MP4 is a general-purpose container designed for broad compatibility. The practical difference is not really about containers: it is about the codecs they carry.</p>
             <ul class="list-disc pl-6 mb-4 space-y-2">
-                <li><strong class="text-[#4A2C2C]">MP4</strong> typically carries H.264 (AVC) video and AAC audio. H.264 is the universal fallback: every browser on every platform plays it, which is exactly why it is the right choice for email attachments, social uploads, and anywhere you do not control the player.</li>
-                <li><strong class="text-[#4A2C2C]">WebM</strong> carries VP8, VP9, or AV1 video alongside Opus or Vorbis audio. VP9 is the practical choice for most web projects today: near-universal modern browser support, roughly 30–50% smaller files than H.264 at similar perceived quality, and encode times measured in seconds for typical web clips.</li>
-                <li><strong class="text-[#4A2C2C]">AV1</strong> in WebM pushes compression further still - typically 40–55% smaller than H.264 - but encode times are 5–10x longer than VP9, and hardware decoder support on pre-2020 mobile devices is inconsistent.</li>
+                <li><strong class="text-cocoa-ink">MP4</strong> typically carries H.264 (AVC) video and AAC audio. H.264 is the universal fallback: every browser on every platform plays it, which is exactly why it is the right choice for email attachments, social uploads, and anywhere you do not control the player.</li>
+                <li><strong class="text-cocoa-ink">WebM</strong> carries VP8, VP9, or AV1 video alongside Opus or Vorbis audio. VP9 is the practical choice for most web projects today: near-universal modern browser support, roughly 30–50% smaller files than H.264 at similar perceived quality, and encode times measured in seconds for typical web clips.</li>
+                <li><strong class="text-cocoa-ink">AV1</strong> in WebM pushes compression further still - typically 40–55% smaller than H.264 - but encode times are 5–10x longer than VP9, and hardware decoder support on pre-2020 mobile devices is inconsistent.</li>
             </ul>
             <p>The reason web developers care about this split: H.264 is royalty-bearing, which means tooling and distribution can carry licensing costs and complications. VP9 and AV1 are royalty-free, which is why they are the codecs of choice when you are serving video you control directly.</p>
         </section>
@@ -225,7 +225,7 @@
             <SectionHeading>How Much Smaller? VP9 and AV1 File Size Benchmarks</SectionHeading>
             <p class="mb-4">The numbers here come from several independent benchmarks and are consistent enough to use as planning figures.</p>
 
-            <p class="mb-3 font-bold text-[#4A2C2C]">1080p 60-second clip, comparative output sizes:</p>
+            <p class="mb-3 font-bold text-cocoa-ink">1080p 60-second clip, comparative output sizes:</p>
             <GuideTable class="my-6">
                 <table>
                     <thead>
@@ -259,7 +259,7 @@
                 </table>
             </GuideTable>
 
-            <p class="mb-3 font-bold text-[#4A2C2C]">720p 60-second clip:</p>
+            <p class="mb-3 font-bold text-cocoa-ink">720p 60-second clip:</p>
             <GuideTable class="my-6">
                 <table>
                     <thead>
@@ -310,19 +310,19 @@
 
             <p class="mb-4">A few implementation notes worth keeping in mind:</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8">Order matters</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mb-3 mt-8">Order matters</h3>
             <p class="mb-4">Put the WebM source first. Browsers that support VP9 will take it and download the smaller file. Browsers that do not will fall through to the MP4. <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Performance/video" target="_blank" rel="noopener noreferrer">MDN explicitly recommends listing the smaller resource first</a> so capable browsers pay the lower bandwidth cost.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8">Include the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">type</code> attribute with codec hints</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mb-3 mt-8">Include the <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">type</code> attribute with codec hints</h3>
             <p class="mb-4">The browser uses this to skip sources it cannot play without attempting to download them. <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">video/webm; codecs="vp9, opus"</code> and <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">video/mp4; codecs="avc1.42E01E, mp4a.40.2"</code> are the correct type strings for VP9 WebM and H.264 MP4 respectively.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="metadata"</code> instead of <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="auto"</code></h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="metadata"</code> instead of <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">preload="auto"</code></h3>
             <p class="mb-4">This tells the browser to fetch only enough to know the video's duration and dimensions, not the full file, on initial load. For hero videos especially, this is the difference between video content dominating your LCP or staying out of the critical path.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">muted</code> is required for <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">autoplay</code></h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">muted</code> is required for <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">autoplay</code></h3>
             <p class="mb-4">Browsers block autoplay of unmuted video. If you want a background loop to start automatically, it must be muted.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">playsinline</code> for iOS Safari</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mb-3 mt-8"><code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">playsinline</code> for iOS Safari</h3>
             <p>Without this, iOS Safari will try to play the video fullscreen rather than inline in the page.</p>
         </section>
 
@@ -349,13 +349,13 @@
             <p class="mb-4">The obvious tool for converting MP4 to WebM is a search away - dozens of sites offer free browser-based conversion. But what most of them actually do is upload your file to a remote server, run FFmpeg, and hand you back the result. That means your footage leaves your machine.</p>
             <p class="mb-4">The implications range from inconvenient to serious.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8">Retention windows vary wildly</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mb-3 mt-8">Retention windows vary wildly</h3>
             <p class="mb-4">Some services delete files after conversion; others hold them for 24 hours or longer. Convertio's policy, for example, states that output files are held for 24 hours before deletion, with IP addresses and conversion metadata kept for significantly longer. If you are converting client footage, demo reels, unreleased product videos, or anything under NDA, "deleted after 24 hours" is not the same as "never left your device."</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8">Logs persist even when files do not</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mb-3 mt-8">Logs persist even when files do not</h3>
             <p class="mb-4">Even services that delete files promptly tend to log IP addresses, file types, conversion timestamps, and success flags. This data can be retained for weeks or months, and it is exactly the kind of data that appears in breach reports.</p>
 
-            <h3 class="text-xl font-bold text-[#4A2C2C] mb-3 mt-8">Real incidents have happened</h3>
+            <h3 class="text-xl font-bold text-cocoa-ink mb-3 mt-8">Real incidents have happened</h3>
             <p class="mb-4">A 2024 report documented a breach at TuneFab, a media converter, where a misconfigured database exposed around 280 GB of user data including IP addresses and account identifiers. A separate incident involved Dirpy, an online video downloader, leaking 15.7 million records including user activity logs and the URLs of downloaded content.</p>
 
             <GlassInfoBox type="warning" title="FBI advisory">
@@ -369,9 +369,9 @@
     </div>
 
     <!-- Mochify Workflow -->
-    <section id="mochify-workflow" class="scroll-mt-24 mt-12 bg-gradient-to-b from-[#FFF5F7] to-white border border-pink-100 rounded-3xl p-8">
-        <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-4">Mochify Workflow: Convert MP4 to WebM in Your Browser</h2>
-        <p class="text-[#6C3F31] text-lg mb-8 leading-relaxed">Mochify's video engine runs entirely client-side. Open the tool, drop in your MP4, and the conversion runs in your browser tab. No account required to start; no upload to a remote server; no waiting on a queue.</p>
+    <section id="mochify-workflow" class="scroll-mt-24 mt-12 bg-gradient-to-b from-mochi-blush to-white border border-pink-100 rounded-3xl p-8">
+        <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mb-4">Mochify Workflow: Convert MP4 to WebM in Your Browser</h2>
+        <p class="text-cocoa-deep text-lg mb-8 leading-relaxed">Mochify's video engine runs entirely client-side. Open the tool, drop in your MP4, and the conversion runs in your browser tab. No account required to start; no upload to a remote server; no waiting on a queue.</p>
 
         <ol class="space-y-5" aria-label="Conversion steps">
             {#each [
@@ -382,8 +382,8 @@
                 { n: '5', title: 'Add both to your <video> element.', body: 'Use the fallback pattern from Section 4 - WebM first, MP4 second. Keep both files; you need both for full browser coverage. Only have the WebM? The <a href="/solutions/webm-to-mp4">WebM to MP4 converter</a> makes the MP4 fallback in your browser.' },
             ] as step}
                 <li class="flex gap-4 items-start">
-                    <span class="w-8 h-8 shrink-0 rounded-full bg-[#F06292] text-white flex items-center justify-center font-black text-sm mt-0.5">{step.n}</span>
-                    <p class="text-[#6C3F31] leading-relaxed"><strong class="text-[#4A2C2C]">{step.title}</strong> {@html step.body}</p>
+                    <span class="w-8 h-8 shrink-0 rounded-full bg-mochi-pink text-white flex items-center justify-center font-black text-sm mt-0.5">{step.n}</span>
+                    <p class="text-cocoa-deep leading-relaxed"><strong class="text-cocoa-ink">{step.title}</strong> {@html step.body}</p>
                 </li>
             {/each}
         </ol>
@@ -392,14 +392,14 @@
             If your source video is longer than a short loop, trim it to the minimum necessary length before converting. For background videos especially, a 6–10 second seamless loop delivers the same visual effect at a fraction of the file size.
         </GlassInfoBox>
 
-        <div class="border-t border-pink-100 mt-8 pt-6 text-[#875F42] text-base leading-relaxed">
-            <strong class="text-[#6C3F31]">Privacy note:</strong> Because processing is entirely in-browser, there are no retention concerns. The video bytes never leave your device - not to Mochify's servers, not to any third party. This is the fundamental architectural difference from server-side online converters.
+        <div class="border-t border-pink-100 mt-8 pt-6 text-cocoa-milk text-base leading-relaxed">
+            <strong class="text-cocoa-deep">Privacy note:</strong> Because processing is entirely in-browser, there are no retention concerns. The video bytes never leave your device - not to Mochify's servers, not to any third party. This is the fundamental architectural difference from server-side online converters.
         </div>
     </section>
 
     <!-- Cheat Sheet -->
-    <section id="cheat-sheet" class="scroll-mt-24 mt-12 bg-[#FFF5F7] border border-pink-100 rounded-3xl p-8">
-        <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-6">MP4 to WebM Cheat Sheet</h2>
+    <section id="cheat-sheet" class="scroll-mt-24 mt-12 bg-mochi-blush border border-pink-100 rounded-3xl p-8">
+        <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mb-6">MP4 to WebM Cheat Sheet</h2>
         <GuideTable class="my-6">
             <table>
                 <thead>
@@ -435,9 +435,9 @@
 
     <!-- FAQ -->
     <section id="faq" class="scroll-mt-24 mt-12">
-        <h2 class="text-[1.75rem] font-extrabold text-[#4A2C2C] mb-10">
+        <h2 class="text-[1.75rem] font-extrabold text-cocoa-ink mb-10">
             FAQ
-            <span class="block h-[5px] rounded-full bg-gradient-to-r from-[#F06292] to-[#F06292]/25 mt-3"></span>
+            <span class="block h-[5px] rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink/25 mt-3"></span>
         </h2>
 
         <div class="space-y-2">
@@ -476,11 +476,11 @@
                 },
             ] as item}
                 <details class="group border border-pink-100 rounded-2xl overflow-hidden">
-                    <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none bg-white hover:bg-[#FFF5F7] transition-colors">
-                        <span class="font-bold text-[#4A2C2C] text-base">{item.q}</span>
+                    <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none bg-white hover:bg-mochi-blush transition-colors">
+                        <span class="font-bold text-cocoa-ink text-base">{item.q}</span>
                         <svg class="w-5 h-5 text-pink-400 shrink-0 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                     </summary>
-                    <div class="px-6 pb-5 pt-2 text-[#6C3F31] leading-relaxed text-base bg-white border-t border-pink-50">
+                    <div class="px-6 pb-5 pt-2 text-cocoa-deep leading-relaxed text-base bg-white border-t border-pink-50">
                         {item.a}
                     </div>
                 </details>
@@ -489,9 +489,9 @@
     </section>
 
     <!-- CTA -->
-    <aside class="bg-[#FFF5F7] rounded-3xl border border-pink-100 p-6 md:p-8 mt-12">
-        <p class="text-[#6C3F31] leading-relaxed mb-5">Convert your MP4 to WebM right now - no account needed, nothing uploaded. Mochify's video engine runs entirely in your browser, so your footage stays on your machine while you get a web-optimized WebM file ready to drop into your <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> element.</p>
-        <a href="/solutions/mp4-to-webm" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F06292] hover:bg-[#D81B60] text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
+    <aside class="bg-mochi-blush rounded-3xl border border-pink-100 p-6 md:p-8 mt-12">
+        <p class="text-cocoa-deep leading-relaxed mb-5">Convert your MP4 to WebM right now - no account needed, nothing uploaded. Mochify's video engine runs entirely in your browser, so your footage stays on your machine while you get a web-optimized WebM file ready to drop into your <code class="bg-pink-50 text-pink-600 px-1.5 py-px rounded text-sm font-bold border border-pink-100">&lt;video&gt;</code> element.</p>
+        <a href="/solutions/mp4-to-webm" class="inline-flex items-center gap-2 px-6 py-3 bg-mochi-pink hover:bg-mochi-pink-deep text-white font-black rounded-2xl shadow-md hover:shadow-pink-300/50 hover:-translate-y-0.5 transition-all duration-200 no-underline text-base">
             Convert MP4 to WebM free
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
         </a>

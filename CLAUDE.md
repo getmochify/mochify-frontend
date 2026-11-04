@@ -69,10 +69,20 @@ Defined in `src/routes/layout.css` (imported via `+layout.svelte`). Tailwind v4 
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--mochi-bg` | `#FDFBF7` | Page background |
-| `--mochi-pink` | `#F06292` | Primary accent / CTA |
-| `--cocoa-deep` | `#6C3F31` | Body text |
-| `--matcha-green` | `#A5D6A7` | Submit/action buttons |
+| `mochi-bg` | `#FDFBF7` | Page background |
+| `mochi-blush` | `#FFF5F7` | Soft pink surfaces, inline code background |
+| `mochi-strawberry` | `#FFF0F3` | Link hover pill, pale pink fills |
+| `mochi-pink-soft` / `-light` | `#FFB3C6` / `#FF9EBB` | Gradient ends, decorative pink |
+| `mochi-pink` | `#F06292` | Primary accent / CTA / links |
+| `mochi-pink-deep` | `#D81B60` | Link and accent hover |
+| `mochi-pink-ink` | `#BE185D` | Inline code text |
+| `cocoa-milk` | `#875F42` | Secondary text |
+| `cocoa-deep` | `#6C3F31` | Body text |
+| `cocoa-ink` | `#4A2C2C` | Headings, guide body text |
+| `cocoa-night` | `#2D1B1B` | Darkest text |
+| `matcha-green` / `-dark` | `#A5D6A7` / `#81C784` | Submit/action buttons |
+
+**Write colors as tokens** (`text-cocoa-ink`, `bg-mochi-blush/60`), never as hex classes (`text-[#4A2C2C]`) for a color in this table. `npm run lint` starts with `scripts/check-palette.mjs`, which fails on such a class. A one-off color not in the table may stay a hex class. Adding a palette color means a `--color-*` line in the `@theme` block of `layout.css` **and** an entry in `scripts/palette.mjs`; the check fails if the two disagree. Colors are named by palette, not by role, so a future dark mode would still need role tokens on top.
 
 Body font: **Nunito**. Heading font: **Outfit**. Both are the variable builds (`@fontsource-variable/*`, one file per face for every weight) with metric-matched Arial/Roboto fallbacks in `layout.css`, and neither is preloaded (preloads raced the render-blocking stylesheet). The static `@fontsource/*` packages remain for `scripts/generate-og.js`.
 

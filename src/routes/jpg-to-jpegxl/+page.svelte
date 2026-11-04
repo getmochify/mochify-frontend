@@ -107,7 +107,7 @@
     {@html `<script type="application/ld+json">${JSON.stringify(faqLd)}<\/script>`}
 </svelte:head>
 
-<div class="flex-1 bg-[#FDFBF7] min-h-screen flex flex-col">
+<div class="flex-1 bg-mochi-bg min-h-screen flex flex-col">
     <Navigation />
 
     <div class="max-w-5xl mx-auto w-full pt-6 md:px-4">
@@ -123,9 +123,9 @@
                 Works on iPhone, Mac &amp; Windows
             </div>
 
-            <h1 class="text-4xl sm:text-5xl font-black text-[#4A2C2C] tracking-tight">
+            <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
                 Convert
-                <span class="bg-gradient-to-r from-[#FFB3C6] to-[#F06292] bg-clip-text text-transparent">
+                <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
                     JPG
                 </span>
                 to
@@ -134,7 +134,7 @@
                 </span>
             </h1>
 
-            <p class="text-lg text-[#6C3F31] font-medium max-w-2xl mx-auto leading-relaxed text-balance">
+            <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">
                 Drop JPEG photos here and get JPEG XL (JXL) files back: one high-quality re-encode per photo, with nothing to set. Up to 3 files a month with no signup and 20MB per file, or 25 a month with a free account. Files are processed in memory at api.mochify.app and wiped the moment your download is ready.
             </p>
         </div>
@@ -145,7 +145,7 @@
 
         <!-- How it works -->
         <section class="mt-20 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#4A2C2C] mb-6">How to convert JPG to JXL</h2>
+            <h2 class="text-2xl font-bold text-cocoa-ink mb-6">How to convert JPG to JXL</h2>
             <div class="grid sm:grid-cols-3 gap-4">
                 {#each [
                     { n: '1', t: 'Drop your JPEGs', d: 'Up to 3 per batch to start, no account needed.' },
@@ -154,8 +154,8 @@
                 ] as step}
                     <div class="bg-white p-6 rounded-2xl border border-pink-50 shadow-sm">
                         <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-[#F3F0FF] text-[#6D28D9] font-black text-sm mb-4">{step.n}</span>
-                        <h3 class="font-bold text-[#4A2C2C] text-sm mb-1.5">{step.t}</h3>
-                        <p class="text-sm text-[#6C3F31] leading-relaxed opacity-90">{step.d}</p>
+                        <h3 class="font-bold text-cocoa-ink text-sm mb-1.5">{step.t}</h3>
+                        <p class="text-sm text-cocoa-deep leading-relaxed opacity-90">{step.d}</p>
                     </div>
                 {/each}
             </div>
@@ -166,32 +166,32 @@
 
                 <div class="space-y-8">
                     <div class="space-y-4">
-                        <h2 class="text-2xl font-bold text-[#4A2C2C]">This is a re-encode, not the lossless JPEG transcode</h2>
-                        <p class="leading-relaxed text-[#6C3F31]">
+                        <h2 class="text-2xl font-bold text-cocoa-ink">This is a re-encode, not the lossless JPEG transcode</h2>
+                        <p class="leading-relaxed text-cocoa-deep">
                             JPEG XL is known for a trick: it can repack an existing JPEG losslessly, smaller, and give the exact original JPEG back later. <strong class="text-[#7E685E]">This page does not do that.</strong> It decodes your JPEG to pixels and encodes them as JPEG XL with one high-quality setting. The result looks the same on screen and is usually smaller, but it is a second generation of a lossy file and it cannot be turned back into your original JPEG byte for byte. If you are archiving a photo library and want the reversible transcode, keep your JPEG masters and use a desktop tool that offers it; if you want a smaller, good-looking JXL for a pipeline or viewer that reads the format, this page is the quick way.
                         </p>
-                        <p class="leading-relaxed text-[#6C3F31]">
+                        <p class="leading-relaxed text-cocoa-deep">
                             Metadata is stripped by default, GPS included, with nothing to set on this page. If you need the camera data kept, the Mochify web app has a Strip EXIF switch and the API takes stripExif=false.
                         </p>
                     </div>
 
                     <div class="space-y-4">
-                        <h2 class="text-2xl font-bold text-[#4A2C2C]">Is JXL better than JPG?</h2>
-                        <p class="leading-relaxed text-[#6C3F31]">
-                            As a format, JPEG XL compresses photographs more efficiently than JPEG at the same visual quality and supports things JPEG cannot, such as transparency, higher bit depth and progressive decoding. As a file on the web, JPEG still wins on one thing: it opens everywhere, including email clients, chat apps and browsers that have not updated since Chrome 155 and Firefox 158 began decoding JXL in October 2026. So the answer is "better format, narrower compatibility, closing fast". Our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">JPEG XL in Chrome and what changes now</a> has the dated state of browser support, <a href="/guides/what-is-a-jxl-file" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">What is a JXL file?</a> covers which apps open one, and the <a href="/guides/converting-images-to-jpeg-xl#jpeg-to-jxl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">practical JPEG XL guide</a> walks through the JPEG path and the fallback pattern. If what you actually need is a smaller JPEG rather than a new format, the <a href="/guides/jpeg-in-2026-jpegli" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">jpegli guide</a> explains how Mochify's JPEG encoder gets more quality per byte while staying a plain .jpg.
+                        <h2 class="text-2xl font-bold text-cocoa-ink">Is JXL better than JPG?</h2>
+                        <p class="leading-relaxed text-cocoa-deep">
+                            As a format, JPEG XL compresses photographs more efficiently than JPEG at the same visual quality and supports things JPEG cannot, such as transparency, higher bit depth and progressive decoding. As a file on the web, JPEG still wins on one thing: it opens everywhere, including email clients, chat apps and browsers that have not updated since Chrome 155 and Firefox 158 began decoding JXL in October 2026. So the answer is "better format, narrower compatibility, closing fast". Our guide to <a href="https://mochify.app/guides/jpeg-xl-chrome-support" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">JPEG XL in Chrome and what changes now</a> has the dated state of browser support, <a href="/guides/what-is-a-jxl-file" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">What is a JXL file?</a> covers which apps open one, and the <a href="/guides/converting-images-to-jpeg-xl#jpeg-to-jxl" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">practical JPEG XL guide</a> walks through the JPEG path and the fallback pattern. If what you actually need is a smaller JPEG rather than a new format, the <a href="/guides/jpeg-in-2026-jpegli" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">jpegli guide</a> explains how Mochify's JPEG encoder gets more quality per byte while staying a plain .jpg.
                         </p>
                     </div>
 
                     <div class="space-y-4">
-                        <h2 class="text-2xl font-bold text-[#4A2C2C]">HDR and what does not carry across</h2>
-                        <p class="leading-relaxed text-[#6C3F31]">
-                            A JXL from this page is standard-range. On Mochify only JPG output carries an HDR gain map, so a phone photo with a gain map comes back as a normal-range JXL; use the <a href="/solutions/sdr-to-hdr" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">SDR to HDR page</a> if the HDR version is what you need.
+                        <h2 class="text-2xl font-bold text-cocoa-ink">HDR and what does not carry across</h2>
+                        <p class="leading-relaxed text-cocoa-deep">
+                            A JXL from this page is standard-range. On Mochify only JPG output carries an HDR gain map, so a phone photo with a gain map comes back as a normal-range JXL; use the <a href="/solutions/sdr-to-hdr" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">SDR to HDR page</a> if the HDR version is what you need.
                         </p>
                     </div>
                 </div>
 
                 <div>
-                    <h2 class="text-2xl font-bold text-[#4A2C2C] mb-4">Frequently asked questions</h2>
+                    <h2 class="text-2xl font-bold text-cocoa-ink mb-4">Frequently asked questions</h2>
                     <FaqAccordion {faqs} />
                 </div>
             </div>
@@ -199,30 +199,30 @@
 
         <!-- Bulk / automation -->
         <section class="mt-20 max-w-4xl mx-auto space-y-4">
-            <h2 class="text-2xl font-bold text-[#4A2C2C]">Bulk, batch and automated JPG to JXL</h2>
-            <p class="leading-relaxed text-[#6C3F31]">
-                Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. The same conversion runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-[#FFF5F7] text-[#BE185D] text-sm">mochify auth login</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
+            <h2 class="text-2xl font-bold text-cocoa-ink">Bulk, batch and automated JPG to JXL</h2>
+            <p class="leading-relaxed text-cocoa-deep">
+                Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. The same conversion runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify auth login</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
             </p>
             <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=jxl" \
   -H "Authorization: Bearer $MOCHIFY_KEY" \
   --data-binary @IMG_0001.jpg \
   -o IMG_0001.jxl</code></pre>
-            <p class="leading-relaxed text-[#6C3F31]">
-                Every route converts at api.mochify.app in memory and keeps nothing. Full parameter reference in the <a href="/docs" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">API documentation</a>. Have PNGs or AVIFs instead? <a href="/solutions/png-to-jxl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">PNG to JXL</a> and <a href="/avif-to-jpegxl" class="font-bold text-[#F06292] hover:text-[#D81B60] transition-colors">AVIF to JXL</a> each use a path chosen for their input.
+            <p class="leading-relaxed text-cocoa-deep">
+                Every route converts at api.mochify.app in memory and keeps nothing. Full parameter reference in the <a href="/docs" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">API documentation</a>. Have PNGs or AVIFs instead? <a href="/solutions/png-to-jxl" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">PNG to JXL</a> and <a href="/avif-to-jpegxl" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">AVIF to JXL</a> each use a path chosen for their input.
             </p>
         </section>
 
         <!-- Also available -->
         <section class="mt-16 max-w-4xl mx-auto">
-            <p class="text-xs font-black text-[#875F42] uppercase tracking-widest mb-4">Also available</p>
+            <p class="text-xs font-black text-cocoa-milk uppercase tracking-widest mb-4">Also available</p>
             <div class="grid sm:grid-cols-3 gap-4">
                 <a href="/solutions/png-to-jxl" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">PNG to JXL →</p>
-                        <p class="text-xs text-[#875F42]">One high-quality JPEG XL encode per PNG</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">PNG to JXL →</p>
+                        <p class="text-xs text-cocoa-milk">One high-quality JPEG XL encode per PNG</p>
                     </div>
                 </a>
                 <a href="/avif-to-jpegxl" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -230,8 +230,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">AVIF to JXL →</p>
-                        <p class="text-xs text-[#875F42]">Transcode AVIF to JPEG XL</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">AVIF to JXL →</p>
+                        <p class="text-xs text-cocoa-milk">Transcode AVIF to JPEG XL</p>
                     </div>
                 </a>
                 <a href="/solutions/jxl-to-pdf" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
@@ -239,8 +239,8 @@
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-[#4A2C2C] text-sm mb-0.5 group-hover:text-[#F06292] transition-colors">JXL to PDF →</p>
-                        <p class="text-xs text-[#875F42]">Bundle JXL images into one PDF</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">JXL to PDF →</p>
+                        <p class="text-xs text-cocoa-milk">Bundle JXL images into one PDF</p>
                     </div>
                 </a>
             </div>

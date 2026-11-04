@@ -251,7 +251,7 @@
                 target="_blank"
                 rel="nofollow noopener noreferrer"
                 onclick={() => trackAskAi(askAiLinks[0].id)}
-                class="font-bold text-mochi-pink hover:text-[#D81B60] hover:underline transition-colors"
+                class="font-bold text-mochi-pink hover:text-mochi-pink-deep hover:underline transition-colors"
             >
                 Ask AI about Mochify
             </a>

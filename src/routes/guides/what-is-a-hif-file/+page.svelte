@@ -82,31 +82,31 @@
 </svelte:head>
 
 <article
-	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-[#6C3F31] sm:px-6 md:px-0 md:pt-0"
+	class="relative mx-auto w-full max-w-3xl px-5 pt-6 text-lg leading-relaxed text-cocoa-deep sm:px-6 md:px-0 md:pt-0"
 >
 	<div class="hero-wash" aria-hidden="true"></div>
 
     <header class="mb-12 md:mb-14">
-		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-[#F06292] uppercase">
+		<p class="mt-0 mb-3 text-xs font-bold tracking-[0.18em] text-mochi-pink uppercase">
 			{metadata.category}
 		</p>
 		<h1
-			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-[#4A2C2C] md:text-[2.75rem]"
+			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
 			<AccentTitle title={metadata.title} accent="HIF File" />
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-[#F06292] to-[#FFB3C6]"></div>
-		<p class="mt-5 mb-0 text-sm font-bold text-[#875F42]">
+		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
 			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated}
 		</p>
 
-        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-[#6C3F31] opacity-90">
+        <p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
             A HIF file is a still photo saved in the HEIF (High Efficiency Image File Format) container by professional mirrorless cameras from Canon, Sony, and Fujifilm, using the same HEVC (H.265) compression that video uses. To open one, the short answer is: on a Mac it works with no setup, on Windows you install two Microsoft Store codecs, and on Linux you need a libheif-based viewer. Cameras write <code class={inlineCode}>.HIF</code> instead of JPEG because it records 10-bit color, about 1.07 billion shades against JPEG's roughly 16.8 million, at a similar or smaller file size (<a href="https://www.canon.co.uk/pro/infobank/image-file-types/" target="_blank" rel="noopener noreferrer">Canon UK Pro Infobank</a>).
         </p>
 
-        <div class="mt-8 rounded-2xl border border-pink-100 bg-[#FFF5F7]/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-[#6C3F31]">
-                <strong class="text-[#4A2C2C]">Published June 13, 2026 by the Mochify Engineering Team.</strong>
+        <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">
+                <strong class="text-cocoa-ink">Published June 13, 2026 by the Mochify Engineering Team.</strong>
                 This answer covers what a <code class={inlineCode}>.HIF</code> file is, why it so often refuses to open, and the exact way to view one on macOS, Windows, iOS, and Linux.
             </p>
         </div>
@@ -118,9 +118,9 @@
             <SectionHeading>Why a HIF file won't open</SectionHeading>
             <p>A <code class={inlineCode}>.HIF</code> almost always fails for one reason: the app or operating system has no HEIF/HEVC decoder.</p>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">Windows</strong> does not ship with HEIF support, so the Photos app rejects the file until you add the right extensions.</li>
-                <li><strong class="text-[#4A2C2C]">Browsers</strong> do not display HEIF except Safari, so dropping a <code class={inlineCode}>.HIF</code> into most web apps fails (<a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">caniuse.com/heif</a>).</li>
-                <li><strong class="text-[#4A2C2C]">Older apps and upload forms</strong> often accept <code class={inlineCode}>.HEIC</code> but not the <code class={inlineCode}>.HIF</code> extension, even when the codec is installed.</li>
+                <li><strong class="text-cocoa-ink">Windows</strong> does not ship with HEIF support, so the Photos app rejects the file until you add the right extensions.</li>
+                <li><strong class="text-cocoa-ink">Browsers</strong> do not display HEIF except Safari, so dropping a <code class={inlineCode}>.HIF</code> into most web apps fails (<a href="https://caniuse.com/heif" target="_blank" rel="noopener noreferrer">caniuse.com/heif</a>).</li>
+                <li><strong class="text-cocoa-ink">Older apps and upload forms</strong> often accept <code class={inlineCode}>.HEIC</code> but not the <code class={inlineCode}>.HIF</code> extension, even when the codec is installed.</li>
             </ul>
             <p>This is why a file can preview perfectly on a Mac yet get rejected when you upload it elsewhere. macOS has a system-level HEIF codec; the upload destination decodes with its own stack, which may have none. The file is not corrupt, the other end simply cannot read it.</p>
         </section>
@@ -128,10 +128,10 @@
         <section id="how-to-open-hif" class="scroll-mt-24">
             <SectionHeading>How to open a HIF file, by platform</SectionHeading>
             <ul class="list-disc pl-6 space-y-2 my-4">
-                <li><strong class="text-[#4A2C2C]">macOS:</strong> No setup needed. Finder, Preview, and Photos have opened HEIF natively since High Sierra (10.13, 2017). Select the file and press spacebar to preview, or double-click to open (<a href="https://support.apple.com/en-us/116944" target="_blank" rel="noopener noreferrer">Apple Support</a>).</li>
-                <li><strong class="text-[#4A2C2C]">iOS / iPadOS:</strong> Transfer the file by AirDrop, cable, or SD card reader. Photos and Files open it with no extras.</li>
-                <li><strong class="text-[#4A2C2C]">Windows 10 and 11:</strong> Install "HEIF Image Extensions" (free) and "HEVC Video Extensions" from the Microsoft Store. With both in place, the Photos app opens <code class={inlineCode}>.HIF</code> files. If they refuse to open even with both installed, see <a href="https://mochify.app/guides/open-heif-files-on-windows">how to open HEIF files on Windows</a> for the fixes that work on 10-bit camera files.</li>
-                <li><strong class="text-[#4A2C2C]">Linux:</strong> Install libheif. It provides command-line viewers, and image apps such as Eye of GNOME and Geeqie can then display <code class={inlineCode}>.HIF</code>.</li>
+                <li><strong class="text-cocoa-ink">macOS:</strong> No setup needed. Finder, Preview, and Photos have opened HEIF natively since High Sierra (10.13, 2017). Select the file and press spacebar to preview, or double-click to open (<a href="https://support.apple.com/en-us/116944" target="_blank" rel="noopener noreferrer">Apple Support</a>).</li>
+                <li><strong class="text-cocoa-ink">iOS / iPadOS:</strong> Transfer the file by AirDrop, cable, or SD card reader. Photos and Files open it with no extras.</li>
+                <li><strong class="text-cocoa-ink">Windows 10 and 11:</strong> Install "HEIF Image Extensions" (free) and "HEVC Video Extensions" from the Microsoft Store. With both in place, the Photos app opens <code class={inlineCode}>.HIF</code> files. If they refuse to open even with both installed, see <a href="https://mochify.app/guides/open-heif-files-on-windows">how to open HEIF files on Windows</a> for the fixes that work on 10-bit camera files.</li>
+                <li><strong class="text-cocoa-ink">Linux:</strong> Install libheif. It provides command-line viewers, and image apps such as Eye of GNOME and Geeqie can then display <code class={inlineCode}>.HIF</code>.</li>
             </ul>
 
             <GlassInfoBox type="tip" title="HIF is not HEIC">
