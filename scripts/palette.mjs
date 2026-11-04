@@ -18,6 +18,8 @@ export const PALETTE = {
 	'81C784': 'matcha-dark'
 };
 
-// `text-[#4A2C2C]`, `hover:bg-[#fff5f7]/60`: a utility prefix, then a bracketed
-// six-digit hex. Group 1 is the hex.
+// A utility prefix (`text-`, `hover:bg-`), then a bracketed six-digit hex
+// (`[#4A2C2C]`, optionally followed by `/60`). Group 1 is the hex. Examples are
+// split like this because Tailwind scans this file and would build any whole
+// class written here.
 export const HEX_CLASS = /(?<=[a-z0-9]-)\[#([0-9A-Fa-f]{6})\](?![\w-])/g;

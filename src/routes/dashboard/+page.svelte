@@ -729,7 +729,7 @@
 					<p class="mt-1 text-sm text-cocoa-milk/60">
 						Lets Mochify send your images to third-party AI providers for upcoming generative
 						features (e.g. AI-generated backgrounds).
-						<strong class="font-bold text-cocoa-milk/80">Off by default</strong> — your images are never
+						<strong class="font-bold text-cocoa-milk/80">Off by default.</strong> Your images are never
 						sent to a third party without this, and you can revoke it anytime.
 					</p>
 				</div>

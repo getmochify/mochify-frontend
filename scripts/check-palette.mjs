@@ -3,7 +3,7 @@
  * Keeps palette colors spelled as tokens.
  *
  * Until Nov 2026 nearly every color was a hard-coded Tailwind class
- * (`text-[#4A2C2C]`, about 6,100 of them) while the tokens in
+ * (`text-` plus `[#4A2C2C]`, about 6,100 of them) while the tokens in
  * src/routes/layout.css went mostly unused. They were migrated to tokens
  * (`text-cocoa-ink`); this stops new ones creeping back in.
  *

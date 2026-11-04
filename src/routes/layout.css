@@ -68,8 +68,8 @@ html {
   --font-sans: "Nunito Variable", "Nunito Fallback Arial", "Nunito Fallback Roboto", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "Outfit Variable", "Outfit Fallback Arial", "Outfit Fallback Roboto", ui-sans-serif, system-ui, sans-serif;
   
-  /* The palette. Use these (`text-cocoa-ink`, `bg-mochi-blush/60`), not
-     hard-coded hex classes (`text-[#4A2C2C]`); `npm run lint` rejects a hex
+  /* The palette. Use these (`text-cocoa-ink`, `text-cocoa-milk/80`), not
+     hard-coded hex classes (`text-` plus `[#4A2C2C]`); `npm run lint` rejects a hex
      class for any color listed here. A one-off color can stay a hex class. */
   --color-mochi-bg: #FDFBF7;
   --color-mochi-card: #FFFFFF;
