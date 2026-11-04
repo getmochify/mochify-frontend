@@ -37,6 +37,24 @@ function loadMediabunny() {
 	return mediabunnyPromise;
 }
 
+// No browser ships a WebCodecs MP3 encoder, so MP3 output needs mediabunny's
+// LAME build. Loaded only for an MP3 request, and registered only where there
+// is no native encoder, as its docs advise.
+let mp3EncoderPromise: Promise<void> | null = null;
+
+function ensureMp3Encoder(mediabunny: typeof import('mediabunny')) {
+	if (!mp3EncoderPromise) {
+		mp3EncoderPromise = (async () => {
+			if (await mediabunny.canEncodeAudio('mp3')) return;
+			const { registerMp3Encoder } = await import('@mediabunny/mp3-encoder');
+			registerMp3Encoder();
+		})();
+		// A failed load shouldn't stick for the rest of the worker's life.
+		mp3EncoderPromise.catch(() => (mp3EncoderPromise = null));
+	}
+	return mp3EncoderPromise;
+}
+
 function post(message: WorkerResponse, transfer?: Transferable[]) {
 	if (transfer) {
 		self.postMessage(message, { transfer });
@@ -59,6 +77,7 @@ self.onmessage = async (event: MessageEvent) => {
 	let mediabunny: typeof import('mediabunny');
 	try {
 		mediabunny = await loadMediabunny();
+		if (output === 'mp3') await ensureMp3Encoder(mediabunny);
 	} catch (e) {
 		post({
 			type: 'error',

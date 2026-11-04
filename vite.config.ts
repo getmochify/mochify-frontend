@@ -41,6 +41,11 @@ export default defineConfig({
 					// attaches a PDF that needs one (JBIG2 scans, JPEG 2000), so they
 					// have no business in the offline shell.
 					'pdfjs/**',
+					// Libraries only the workers import, fetched on first use:
+					// mediabunny and the LAME MP3 encoder. They share code, so Rollup
+					// splits them into pieces, and a piece under the size cap below
+					// would otherwise slip into the precache.
+					'_app/immutable/workers/chunks/**',
 					// Non-latin @fontsource subsets: unicode-range means the
 					// browser only pulls these if matching glyphs render.
 					'**/*cyrillic*',
@@ -49,9 +54,9 @@ export default defineConfig({
 				],
 				// Precache the app shell, not the heavy optional libraries. Every first
 				// visit downloads the whole precache in the background, and files
-				// this size are only for some users: the video converter's
-				// mediabunny (main and worker chunks, ~690 KB raw each) and the
-				// 1280x800 share image that only crawlers read. They are still
+				// this size are only for some users, such as the 1280x800 share
+				// image that only crawlers read (the video converter's libraries are
+				// excluded by path above). They are still
 				// served with a year-long immutable cache header when needed.
 				maximumFileSizeToCacheInBytes: 400 * 1024,
 				runtimeCaching: [
