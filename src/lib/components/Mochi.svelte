@@ -4,7 +4,10 @@
 	// page that uses it is. Built for the 404 page, where it is "lost", so it
 	// glances around when left alone and now and then wonders aloud ("?").
 
-	let { class: className = '' }: { class?: string } = $props();
+	import type { MochiTheme } from '$lib/seasonal';
+
+	let { class: className = '', theme = 'default' }: { class?: string; theme?: MochiTheme } =
+		$props();
 
 	let svgEl: SVGSVGElement | undefined = $state();
 	// Eye offset in SVG units, clamped so the pupils stay on the face.
@@ -13,13 +16,34 @@
 	let squishes = $state(0);
 	let said = $state('');
 
-	const LINES = [
-		'Hey!',
-		'That tickles',
-		"I'm lost too",
-		'Still not the page',
-		'Squishier than a JPEG',
-		"OK, I'm flat now"
+	const LINES: Record<MochiTheme, string[]> = {
+		default: [
+			'Hey!',
+			'That tickles',
+			"I'm lost too",
+			'Still not the page',
+			'Squishier than a JPEG',
+			"OK, I'm flat now"
+		],
+		diwali: [
+			'Happy Diwali!',
+			'Careful, the diyas!',
+			"I'm lost, but festive",
+			'Still not the page',
+			'Brighter than a JPEG',
+			"OK, I'm flat now"
+		]
+	};
+
+	// One diya either side of the base, drawn over the body so a squish
+	// spreads behind them rather than knocking them over.
+	const DIYAS = [4, 196];
+	// Gold twinkles around the head, kept clear of the "?" at (150, 40).
+	const SPARKLES = [
+		{ x: 38, y: 34, s: 1, d: 0 },
+		{ x: 182, y: 78, s: 0.8, d: 1.1 },
+		{ x: 16, y: 92, s: 0.7, d: 2.2 },
+		{ x: 108, y: 22, s: 0.6, d: 1.6 }
 	];
 
 	const MAX_LOOK = 6;
@@ -76,7 +100,8 @@
 		clearTimeout(squishTimer);
 		squishTimer = setTimeout(() => (squishing = false), 650);
 
-		said = LINES[squishes % LINES.length];
+		const lines = LINES[theme];
+		said = lines[squishes % lines.length];
 		squishes += 1;
 		clearTimeout(sayTimer);
 		sayTimer = setTimeout(() => (said = ''), 1800);
@@ -112,7 +137,11 @@
 					<stop offset="86%" stop-color="#FCDCE6" />
 					<stop offset="100%" stop-color="#F7C9D8" />
 				</radialGradient>
-				<clipPath id="mochi-clip"><path d="M12 142 C8 104 40 46 100 46 C160 46 192 104 188 142 C186 162 160 166 100 166 C40 166 14 162 12 142 Z" /></clipPath>
+				<clipPath id="mochi-clip"
+					><path
+						d="M12 142 C8 104 40 46 100 46 C160 46 192 104 188 142 C186 162 160 166 100 166 C40 166 14 162 12 142 Z"
+					/></clipPath
+				>
 				<!-- Blur does the softening: no hard edge anywhere on the body. -->
 				<filter id="mochi-blur-1" x="-50%" y="-50%" width="200%" height="200%">
 					<feGaussianBlur stdDeviation="1.2" />
@@ -154,7 +183,10 @@
 			<g class="body" class:squish={squishing}>
 				<!-- A slumped daifuku rather than a dome: the base bulges past the
 				     shoulders, which is most of what makes it read as soft. -->
-				<path d="M12 142 C8 104 40 46 100 46 C160 46 192 104 188 142 C186 162 160 166 100 166 C40 166 14 162 12 142 Z" fill="url(#mochi-body)" />
+				<path
+					d="M12 142 C8 104 40 46 100 46 C160 46 192 104 188 142 C186 162 160 166 100 166 C40 166 14 162 12 142 Z"
+					fill="url(#mochi-body)"
+				/>
 				<!-- Shading inside the body instead of an outline: a blurred blush
 				     pooled at the base and a soft inner rim, both clipped to the
 				     silhouette so they fade into the edge rather than draw one. -->
@@ -246,6 +278,40 @@
 					/>
 				{/if}
 			</g>
+
+			{#if theme === 'diwali'}
+				{#each SPARKLES as sp (sp.x)}
+					<path
+						class="sparkle"
+						style="animation-delay: {sp.d}s"
+						transform="translate({sp.x} {sp.y}) scale({sp.s})"
+						d="M0 -8 Q1.2 -1.2 8 0 Q1.2 1.2 0 8 Q-1.2 1.2 -8 0 Q-1.2 -1.2 0 -8 Z"
+						fill="#FFC107"
+					/>
+				{/each}
+				{#each DIYAS as x, i (x)}
+					<g transform="translate({x} 160)">
+						<circle
+							cx="0"
+							cy="-14"
+							r="14"
+							fill="#FFD54F"
+							opacity="0.35"
+							filter="url(#mochi-blur-5)"
+						/>
+						<!-- Clay bowl with a painted rim and dots. -->
+						<path d="M-15 -2 Q0 -5 15 -2 Q12 10 0 10 Q-12 10 -15 -2 Z" fill="#C1652F" />
+						<ellipse cx="0" cy="-2" rx="15" ry="3" fill="#E08A4A" />
+						<circle cx="-7" cy="4" r="1.4" fill="#FFD54F" />
+						<circle cx="0" cy="5.5" r="1.4" fill="#FFD54F" />
+						<circle cx="7" cy="4" r="1.4" fill="#FFD54F" />
+						<g class="flame" style="animation-delay: {i * 0.37}s">
+							<path d="M0 -3 C-6 -9 -3 -17 0 -25 C3 -17 6 -9 0 -3 Z" fill="#FFA000" />
+							<path d="M0 -4 C-3 -8 -1.5 -12 0 -16 C1.5 -12 3 -8 0 -4 Z" fill="#FFF3C4" />
+						</g>
+					</g>
+				{/each}
+			{/if}
 		</svg>
 	</button>
 </div>
@@ -274,6 +340,17 @@
 		transform-box: fill-box;
 		transform-origin: 50% 50%;
 		animation: blink 4.6s infinite;
+	}
+	.flame {
+		transform-box: fill-box;
+		transform-origin: 50% 100%;
+		animation: flicker 1.4s ease-in-out infinite;
+	}
+	.sparkle {
+		transform-box: fill-box;
+		transform-origin: 50% 50%;
+		opacity: 0;
+		animation: twinkle 3.3s ease-in-out infinite;
 	}
 	.huh {
 		opacity: 0;
@@ -350,6 +427,29 @@
 			transform: scale(1, 1);
 		}
 	}
+	@keyframes flicker {
+		0%,
+		100% {
+			transform: scale(1, 1) rotate(0deg);
+		}
+		30% {
+			transform: scale(0.92, 1.08) rotate(-3deg);
+		}
+		60% {
+			transform: scale(1.05, 0.94) rotate(2deg);
+		}
+	}
+	@keyframes twinkle {
+		0%,
+		100% {
+			opacity: 0;
+			transform: scale(0.4);
+		}
+		50% {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
 	@keyframes blink {
 		0%,
 		92%,
@@ -396,8 +496,14 @@
 		.shadow.squish,
 		.blink,
 		.huh,
-		.bubble {
+		.bubble,
+		.flame {
 			animation: none;
+		}
+		/* Still sparkles, rather than none: they start invisible. */
+		.sparkle {
+			animation: none;
+			opacity: 0.8;
 		}
 		.eyes {
 			transition: none;

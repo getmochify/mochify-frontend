@@ -3,6 +3,7 @@
     import Navigation from '$lib/components/Navigation.svelte';
     import Footer from '$lib/components/Footer.svelte';
     import Mochi from '$lib/components/Mochi.svelte';
+    import { MOCHI_THEME } from '$lib/seasonal';
 </script>
 
 <svelte:head>
@@ -21,7 +22,7 @@
         <div class="bg-white p-12 md:p-16 rounded-[3rem] border border-pink-50 shadow-sm text-center max-w-2xl mx-auto animate-fade-in-up">
             
             <div class="mb-6 flex flex-col items-center">
-                <Mochi class="mb-4 w-36 md:w-44" />
+                <Mochi class="mb-4 w-36 md:w-44" theme={MOCHI_THEME} />
                 <span class="text-mochi-pink font-bold tracking-widest uppercase text-sm mb-2">Error {$page.status}</span>
                 <h1 class="text-3xl md:text-5xl font-extrabold text-cocoa-ink">
                     Oops! squished it.
