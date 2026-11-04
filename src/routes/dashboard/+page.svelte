@@ -387,7 +387,7 @@
 </script>
 
 <svelte:head>
-	<title>Dashboard — Mochify</title>
+	<title>Dashboard | Mochify</title>
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
@@ -580,8 +580,8 @@
 					>You're on {isSeller ? 'Seller' : 'Pro'}!</span
 				>
 				<span class="text-sm text-[#2E5C31]/70"
-					>Your new limits are being applied — your usage numbers may take a minute or two to
-					reflect the change.</span
+					>Your new limits are being applied. Your usage numbers may take a minute or two to reflect
+					the change.</span
 				>
 			</div>
 		{/if}
@@ -679,7 +679,7 @@
 						onclick={startPlanCheckout}
 						class="rounded-2xl border border-cocoa-milk/20 px-5 py-2.5 text-sm font-black text-cocoa-ink transition-all hover:border-mochi-pink/40 hover:bg-white/60 hover:text-mochi-pink"
 					>
-						Seller — {formatPrice(amounts.sellerMonthly, currency)}/mo
+						Seller: {formatPrice(amounts.sellerMonthly, currency)}/mo
 						<span class="font-normal text-cocoa-milk/50">· 300 images</span>
 					</a>
 					<a
@@ -688,7 +688,7 @@
 						onclick={startPlanCheckout}
 						class="rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-5 py-2.5 text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 					>
-						Pro — {formatPrice(amounts.proMonthly, currency)}/mo
+						Pro: {formatPrice(amounts.proMonthly, currency)}/mo
 						<span class="font-normal opacity-80">· 1,200 images</span>
 					</a>
 				</div>
@@ -771,7 +771,7 @@
 			<p class="mt-3 text-xs text-cocoa-milk/40">
 				{aiOptin
 					? 'Generative features may process your images via third parties.'
-					: "All processing stays on Mochify's own in-memory pipeline — nothing leaves to a third party."}
+					: "All processing stays on Mochify's own in-memory pipeline. Nothing leaves to a third party."}
 			</p>
 		</div>
 
@@ -1669,7 +1669,7 @@
 				<div class="dash-card space-y-3 rounded-3xl border border-red-200/60 p-6">
 					<h2 class="font-extrabold text-red-700/80">Delete account</h2>
 					<p class="text-sm text-cocoa-milk/60">
-						Your account is deactivated immediately and permanently deleted after 14 days — signing
+						Your account is deactivated immediately and permanently deleted after 14 days. Signing
 						in again within that window cancels the deletion.
 					</p>
 					<p class="text-sm font-bold text-red-700/80">
