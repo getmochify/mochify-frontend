@@ -993,6 +993,18 @@
 		oversizedFiles = oversizedFiles.filter((b) => !drop.has(b.file));
 	}
 
+	// Blocked files the plan now takes (a Day Pass or upgrade just landed) go
+	// through processFiles like a fresh drop, so they stage, overflow into the
+	// queue and count against the allowance. Their cached thumbnails carry over.
+	async function releaseOversized(): Promise<number> {
+		const fits = oversizedFiles.filter((b) => b.size <= maxFileSize);
+		if (fits.length === 0) return 0;
+		const moving = new Set(fits.map((b) => b.file));
+		oversizedFiles = oversizedFiles.filter((b) => !moving.has(b.file));
+		await processFiles([...moving]);
+		return fits.length;
+	}
+
 	const hasOversized = $derived(oversizedFiles.length > 0);
 	// Over this tier's limit but within 75MB: a Day Pass or a paid plan takes
 	// these. Only a guest or free account can have any.
@@ -1872,11 +1884,16 @@
 	// So when the visitor comes back with files waiting and something to
 	// unlock, the tier is read again: a signup lifts the allowance (the press
 	// per batch stays), a Day Pass or plan lifts the cap and starts the run.
+	//
+	// Files over the size limit are held the same way in both arms of
+	// `batch-queue`, so their release is not gated on the variant, and a tray
+	// holding nothing but those still has something to unlock.
 	let recheckingTier = false;
 	async function recheckTier() {
-		if (!queueEnabled || recheckingTier || isLoading) return;
-		if (stagedCount === 0 && queuedFiles.length === 0) return;
-		if (userTier === 'pro' && !insufficientTokens) return;
+		const heldBySize = inBandFiles.length > 0;
+		if ((!queueEnabled && !heldBySize) || recheckingTier || isLoading) return;
+		if (stagedCount === 0 && queuedFiles.length === 0 && !heldBySize) return;
+		if (userTier === 'pro' && !insufficientTokens && !heldBySize) return;
 		recheckingTier = true;
 		try {
 			const before = userTier;
@@ -1890,11 +1907,16 @@
 			// topped up with a pass stays 'pro' but is no longer blocked.
 			await checkTokenLimit();
 			const upgraded = userTier !== before && (before === 'guest' || userTier === 'pro');
-			if (!upgraded && !(wasBlocked && !insufficientTokens)) return;
+			const sizeLifted = oversizedFiles.some((b) => b.size <= maxFileSize);
+			if (!upgraded && !(wasBlocked && !insufficientTokens) && !sizeLifted) return;
 			if (isLoading) return;
 			allowanceTrim = null;
 			legacyTrim = null;
 			refillFromQueue();
+			// After the refill, so what was already waiting keeps its place and the
+			// released files stage (or queue) behind it.
+			const released = await releaseOversized();
+			if (isLoading) return;
 			const here = selectedFiles.length + queuedFiles.length;
 			const files = `${here} file${here !== 1 ? 's' : ''}`;
 			if (limitTier === 'day' && !insufficientTokens)
@@ -1905,7 +1927,8 @@
 				from: before,
 				to: userTier,
 				staged: selectedFiles.length,
-				queued: queuedFiles.length
+				queued: queuedFiles.length,
+				released_oversize: released
 			});
 			if (userTier === 'pro' && selectedFiles.length > 0 && !insufficientTokens) {
 				void compressImage(true);
