@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import { posthog } from '$lib/analytics';
+	import { saveBlob } from '$lib/saveBlob';
 	import { isChunkLoadError, recoverFromStaleChunk } from '$lib/chunkRecovery';
 	import { convertInWorker, createVideoWorker, type ConvertError } from '$lib/videoWorker';
 	import type { AudioCodec, VideoCodec } from 'mediabunny';
@@ -95,20 +96,6 @@
 		files = files.filter((_, idx) => idx !== i);
 	}
 
-	function downloadBlob(blob: Blob, name: string) {
-		const url = URL.createObjectURL(blob);
-		const a = document.createElement('a');
-		a.style.display = 'none';
-		a.href = url;
-		a.download = name;
-		document.body.appendChild(a);
-		a.click();
-		setTimeout(() => {
-			URL.revokeObjectURL(url);
-			document.body.removeChild(a);
-		}, 100);
-	}
-
 	async function convert() {
 		if (files.length === 0 || isProcessing) return;
 		isProcessing = true;
@@ -152,7 +139,7 @@
 					type: FORMAT_MIME[output] ?? 'application/octet-stream'
 				});
 				const base = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-				downloadBlob(blob, `${base}.${output}`);
+				saveBlob(blob, `${base}.${output}`);
 				done++;
 				inputBytes += file.size;
 				outputBytes += buffer.byteLength;

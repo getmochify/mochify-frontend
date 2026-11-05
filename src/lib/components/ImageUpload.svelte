@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { zipBlobs } from '$lib/zipWorker';
+	import { saveBlob } from '$lib/saveBlob';
 	import { env } from '$env/dynamic/public';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
@@ -1962,19 +1963,11 @@
 	});
 
 	function downloadBlob(blob: Blob, filename: string) {
-		const url = URL.createObjectURL(blob);
-		const a = document.createElement('a');
-		a.href = url;
 		if (!filename.includes('.')) {
 			const extension = imageType === 'jpeg' ? 'jpg' : imageType;
-			a.download = `${filename}.${extension}`;
-		} else {
-			a.download = filename;
+			filename = `${filename}.${extension}`;
 		}
-		document.body.appendChild(a);
-		a.click();
-		document.body.removeChild(a);
-		URL.revokeObjectURL(url);
+		saveBlob(blob, filename);
 	}
 
 	function resetForm() {

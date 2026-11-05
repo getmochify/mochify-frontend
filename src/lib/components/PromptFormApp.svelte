@@ -3,6 +3,7 @@
 	import { page } from '$app/state';
 	import { unzipSync } from 'fflate';
 	import { zipBlobs } from '$lib/zipWorker';
+	import { saveBlob } from '$lib/saveBlob';
 	import { getImagePreview, releaseImagePreview } from '$lib/imagePreview';
 	import {
 		getPdfPreview,
@@ -181,6 +182,17 @@
 		if (isProcessing) batchTitle.progress(completedFiles, totalFiles);
 	});
 	let downloadAsZip: boolean = $state(false);
+	// Set when the auto-ZIP threshold, not the user, turned the toggle on. That
+	// choice belongs to one batch: once the batch's files are cleared the toggle
+	// goes back off, so a later two-file run is not zipped by a setting the user
+	// never chose. A toggle the user switched on themselves is left alone.
+	let zipAutoEnabled = false;
+	$effect(() => {
+		if (files.length === 0 && zipAutoEnabled) {
+			zipAutoEnabled = false;
+			downloadAsZip = false;
+		}
+	});
 
 	// Output destination — results are written straight to the user's own storage
 	// by core instead of coming back as downloads.
@@ -1175,16 +1187,7 @@
 
 	function downloadAllGen() {
 		if (!generatedZipBlob) return;
-		const url = URL.createObjectURL(generatedZipBlob);
-		const a = document.createElement('a');
-		a.href = url;
-		a.download = 'mochify_generated.zip';
-		document.body.appendChild(a);
-		a.click();
-		setTimeout(() => {
-			URL.revokeObjectURL(url);
-			document.body.removeChild(a);
-		}, 100);
+		saveBlob(generatedZipBlob, 'mochify_generated.zip');
 	}
 
 	// Re-run the same create job (another N tokens) without re-parsing the prompt.
@@ -1852,17 +1855,7 @@
 
 					// Separate PDFs come back as a ZIP; a combined document as a single PDF.
 					const isZip = blob.type.includes('zip');
-					const url = URL.createObjectURL(blob);
-					const a = document.createElement('a');
-					a.style.display = 'none';
-					a.href = url;
-					a.download = isZip ? 'mochified-pdfs.zip' : 'mochified.pdf';
-					document.body.appendChild(a);
-					a.click();
-					setTimeout(() => {
-						URL.revokeObjectURL(url);
-						document.body.removeChild(a);
-					}, 100);
+					saveBlob(blob, isZip ? 'mochified-pdfs.zip' : 'mochified.pdf');
 
 					completedFiles = totalImages;
 					prompt = '';
@@ -2173,17 +2166,7 @@
 									? 'images'
 									: 'rasterized';
 						const zipName = singlePdfOut ? pdfName : `${baseName}_${opSuffix}.zip`;
-						const url = URL.createObjectURL(blob);
-						const a = document.createElement('a');
-						a.style.display = 'none';
-						a.href = url;
-						a.download = zipName;
-						document.body.appendChild(a);
-						a.click();
-						setTimeout(() => {
-							URL.revokeObjectURL(url);
-							document.body.removeChild(a);
-						}, 100);
+						saveBlob(blob, zipName);
 
 						processedPdfs++;
 						completedFiles = processedPdfs;
@@ -2401,17 +2384,7 @@
 									const fmtSuffix = multiFormat ? `_${fmt}` : '';
 									const outputName = `${baseName}_mochified${sizeSuffix}${fmtSuffix}.${outputExt}`;
 
-									const url = URL.createObjectURL(blob);
-									const a = document.createElement('a');
-									a.style.display = 'none';
-									a.href = url;
-									a.download = outputName;
-									document.body.appendChild(a);
-									a.click();
-									setTimeout(() => {
-										URL.revokeObjectURL(url);
-										document.body.removeChild(a);
-									}, 100);
+									saveBlob(blob, outputName);
 								} catch (e: any) {
 									if ((e as ConvertError).fatal) throw e;
 									const variantLabel = [
@@ -2529,8 +2502,9 @@
 			// Auto-ZIP exists to stop browsers blocking a barrage of downloads.
 			// When results go to the bucket there are no downloads to block, and
 			// a ZIP would just be a second, unwanted artefact.
-			if (totalFiles >= AUTO_ZIP_THRESHOLD && !bucketDest) {
+			if (totalFiles >= AUTO_ZIP_THRESHOLD && !bucketDest && !downloadAsZip) {
 				downloadAsZip = true;
+				zipAutoEnabled = true;
 			}
 			// Normally each file uploads exactly once — multi-variant fan-out happens
 			// server-side (types/sizes params → ZIP response) — so upload progress
@@ -3040,19 +3014,7 @@
 								return;
 							}
 							const dlBlob = new Blob([bytes as Uint8Array<ArrayBuffer>], { type: mime });
-							const downloadUrl = window.URL.createObjectURL(dlBlob);
-							setTimeout(() => {
-								const a = document.createElement('a');
-								a.style.display = 'none';
-								a.href = downloadUrl;
-								a.download = finalName;
-								document.body.appendChild(a);
-								a.click();
-								setTimeout(() => {
-									window.URL.revokeObjectURL(downloadUrl);
-									document.body.removeChild(a);
-								}, 100);
-							}, downloadSlot++ * 300);
+							setTimeout(() => saveBlob(dlBlob, finalName), downloadSlot++ * 300);
 						};
 
 						try {
@@ -3185,17 +3147,7 @@
 									const arrayBuffer = await blob.arrayBuffer();
 									zipContents[finalName] = new Uint8Array(arrayBuffer as ArrayBuffer);
 								} else {
-									const downloadUrl = window.URL.createObjectURL(blob);
-									const a = document.createElement('a');
-									a.style.display = 'none';
-									a.href = downloadUrl;
-									a.download = finalName;
-									document.body.appendChild(a);
-									a.click();
-									setTimeout(() => {
-										window.URL.revokeObjectURL(downloadUrl);
-										document.body.removeChild(a);
-									}, 100);
+									saveBlob(blob, finalName);
 								}
 							} catch (e: any) {
 								console.error(
@@ -3255,19 +3207,7 @@
 						blob: new Blob([bytes as Uint8Array<ArrayBuffer>])
 					}))
 				);
-				const url = URL.createObjectURL(zipBlob);
-				const a = document.createElement('a');
-				a.href = url;
-				a.download = 'mochified_batch.zip';
-				document.body.appendChild(a);
-				a.click();
-				await new Promise<void>((resolve) => {
-					setTimeout(() => {
-						URL.revokeObjectURL(url);
-						document.body.removeChild(a);
-						resolve();
-					}, 100);
-				});
+				saveBlob(zipBlob, 'mochified_batch.zip');
 			}
 
 			prompt = '';
