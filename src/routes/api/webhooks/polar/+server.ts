@@ -428,12 +428,16 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			// free, so a Seller, Pro or Growth customer who bought one was on
 			// the free tier a day later. Checked before the magic link: they
 			// already have an account, and a Polar retry would resend it.
+			// Case-insensitive, like every other lookup of a Polar email: an
+			// exact match let a subscriber whose Polar address differed only in
+			// case fall through to the path below and lose their plan. The same
+			// row serves the grant below, so one lookup covers both.
 			const existing = await db
 				.prepare(
-					'SELECT u.id AS id, p.plan AS plan FROM user u LEFT JOIN profile p ON p.user_id = u.id WHERE u.email = ? LIMIT 1'
+					'SELECT u.id AS id, u.email AS email, p.plan AS plan FROM user u LEFT JOIN profile p ON p.user_id = u.id WHERE lower(u.email) = lower(?) LIMIT 1'
 				)
 				.bind(email)
-				.first<{ id: string; plan: string | null }>();
+				.first<{ id: string; email: string; plan: string | null }>();
 			if (existing?.plan && SUBSCRIPTION_PLANS.has(existing.plan)) {
 				const status = await creditBucket(existing.id, passOps, order.id);
 				if (status === 'ok') {
@@ -460,13 +464,8 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			// look the email up, find nobody and stop, and first-time buyers paid
 			// for a pass they never received. Parked before the link goes out, so
 			// even an instant click finds the row.
-			const userRow = await db
-				.prepare('SELECT id, email FROM user WHERE lower(email) = lower(?) LIMIT 1')
-				.bind(email)
-				.first<{ id: string; email: string }>();
-
-			if (userRow) {
-				await grantDayPass(db, platform?.env?.RESEND_API_KEY, userRow, order.id, passOps);
+			if (existing) {
+				await grantDayPass(db, platform?.env?.RESEND_API_KEY, existing, order.id, passOps);
 			} else {
 				// Thrown on purpose if it fails (e.g. migration 0005 not applied):
 				// Polar retries a 500, and a dropped row is a paid pass lost.
