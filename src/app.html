@@ -8,6 +8,18 @@
 		<meta name="color-scheme" content="only light" />
 		<link rel="manifest" href="/site.webmanifest" />
 		<script defer src="/register-sw.js"></script>
+		<!-- Signed-in hint for prerendered pages, applied before first paint so the
+		     nav does not flip from "Sign in" to the avatar. See $lib/authHint.ts,
+		     which owns the key and keeps it in step with the live session. -->
+		<script>
+			try {
+				var i = localStorage.getItem('mochify:auth');
+				if (i) {
+					document.documentElement.dataset.auth = 'in';
+					document.documentElement.style.setProperty('--auth-initial', JSON.stringify(i));
+				}
+			} catch (e) {}
+		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

@@ -4,6 +4,7 @@
 	import { beforeNavigate } from '$app/navigation';
 	import { authClient } from '$lib/auth-client';
 	import { posthog } from '$lib/analytics';
+	import { setAuthHint } from '$lib/authHint';
 
 	// Pages that ARE the sign-up destination (e.g. /auth/register) opt out of the
 	// "Get started" CTA: it links to the page you're already on and competes with
@@ -63,6 +64,7 @@
 		signingOut = true;
 		try {
 			await authClient.signOut();
+			setAuthHint(null);
 			posthog.reset();
 		} finally {
 			// Full-page navigation, matching the dashboard's sign-out. An SPA
@@ -86,6 +88,16 @@
 	let session = $derived($sessionStore.data?.session ?? page.data.session ?? null);
 	let user = $derived($sessionStore.data?.user ?? page.data.user ?? null);
 	let initials = $derived(user?.email?.slice(0, 1).toUpperCase() ?? '');
+
+	// Keep the pre-paint hint (app.html, $lib/authHint) in step with the live
+	// session, so the next prerendered page paints the right nav at once. Only
+	// a settled answer moves it: the store starts pending, and a failed request
+	// (offline) says nothing about whether the user is still signed in.
+	$effect(() => {
+		const s = $sessionStore;
+		if (s.isPending || s.error) return;
+		setAuthHint(s.data?.user ? s.data.user.email?.slice(0, 1).toUpperCase() || '·' : null);
+	});
 
 	// Paths where the "Launch app" CTA is suppressed, for two different reasons.
 	//
@@ -222,18 +234,39 @@
 		{:else}
 			<a
 				href="/auth/login"
-				class="ml-2 cursor-pointer text-sm font-semibold text-cocoa-deep/60 transition-colors hover:text-mochi-pink"
+				class="auth-out ml-2 cursor-pointer text-sm font-semibold text-cocoa-deep/60 transition-colors hover:text-mochi-pink"
 			>
 				Sign in
 			</a>
 			{#if showGetStarted}
 				<a
 					href={registerHref}
-					class="cursor-pointer rounded-full bg-linear-to-br from-mochi-pink-light to-mochi-pink px-5 py-2 text-sm font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] active:scale-95"
+					class="auth-out cursor-pointer rounded-full bg-linear-to-br from-mochi-pink-light to-mochi-pink px-5 py-2 text-sm font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] active:scale-95"
 				>
 					Get started
 				</a>
 			{/if}
+			<!-- Stand-in for the signed-in controls above, shown only when the
+			     pre-paint hint says this visitor was signed in (html[data-auth]).
+			     Prerendered pages carry no session, so without it the nav painted
+			     "Sign in" and flipped once useSession() resolved. The live branch
+			     replaces it as soon as the session lands. -->
+			<span class="auth-in-hint items-center gap-2" aria-hidden="true">
+				{#if !hideLaunch}
+					<a
+						href="/flow"
+						tabindex="-1"
+						class="ml-2 cursor-pointer rounded-full bg-linear-to-br from-mochi-pink-light to-mochi-pink px-5 py-2 text-sm font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.4)] transition-all hover:shadow-[0_4px_16px_rgba(240,98,146,0.6)] active:scale-95"
+					>
+						Launch app
+					</a>
+				{/if}
+				<span
+					class="auth-initial flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-mochi-pink-light to-mochi-pink text-sm font-black text-white shadow-sm {hideLaunch
+						? 'ml-2'
+						: ''}"
+				></span>
+			</span>
 		{/if}
 	</div>
 
@@ -392,6 +425,19 @@
 </div>
 
 <style>
+	/* Pre-paint signed-in hint: see the auth-in-hint markup and $lib/authHint. */
+	.auth-in-hint {
+		display: none;
+	}
+	:global(html[data-auth='in']) .auth-in-hint {
+		display: flex;
+	}
+	:global(html[data-auth='in']) .auth-out {
+		display: none;
+	}
+	.auth-initial::before {
+		content: var(--auth-initial, '');
+	}
 	/* The [popover] UA stylesheet defaults to `position: fixed; inset: 0;
        margin: auto; width/height: fit-content`, which shrink-wraps and centers
        the box. Override with the drawer's original top-20/right-4/left-4

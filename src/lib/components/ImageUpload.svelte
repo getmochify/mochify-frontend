@@ -2,6 +2,7 @@
 	import { zipBlobs } from '$lib/zipWorker';
 	import { saveBlob } from '$lib/saveBlob';
 	import { SvelteSet } from 'svelte/reactivity';
+	import { readUsageBadge, writeUsageBadge, type UsageBadge } from '$lib/authHint';
 	import { env } from '$env/dynamic/public';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
@@ -457,6 +458,9 @@
 	// first drop for everyone else — see the tier effect above.
 	let availableTokens: number = $state(0);
 	let hasCheckedTokens: boolean = $state(false);
+	// Set once any usage check has finished, success or not: the cached badge
+	// below must not outlive a failed check and sit there as a stale number.
+	let tokenCheckSettled: boolean = $state(false);
 
 	function handleFileSelect() {
 		if (!fileInputElement?.files?.length) return;
@@ -508,6 +512,8 @@
 		} catch (error) {
 			console.error('Token check failed:', error);
 			hasCheckedTokens = false;
+		} finally {
+			tokenCheckSettled = true;
 		}
 	}
 
@@ -931,6 +937,29 @@
 	});
 
 	const stagedCount = $derived(selectedFiles.length);
+
+	// The badge as this signed-in user last saw it, shown from first paint after
+	// hydration until the live count lands, so it no longer pops in a couple of
+	// round trips late on prerendered pages ($lib/authHint). Read after mount,
+	// not during hydration, so the server HTML and the first client render
+	// agree. Gone the moment the live answer settles either way: the count
+	// arrives, the visitor turns out to be a guest, or the check fails.
+	let cachedBadge = $state<UsageBadge | null>(null);
+	$effect(() => {
+		cachedBadge = readUsageBadge();
+	});
+	const liveBadgeVisible = $derived(
+		hasCheckedTokens && tierResolved && (isAuthed || stagedCount > 0)
+	);
+	const showCachedBadge = $derived(
+		!!cachedBadge && !liveBadgeVisible && !(tierResolved && (!isAuthed || tokenCheckSettled))
+	);
+	$effect(() => {
+		if (!tierResolved) return;
+		if (!isAuthed) writeUsageBadge(null);
+		else if (hasCheckedTokens)
+			writeUsageBadge({ label: usageLabel, ok: monthlyUploadsRemaining > 0 });
+	});
 
 	// Uploads left in the current calendar month. Falls back to the tier's full
 	// quota on first visit, before the bucket is seeded (availableTokens = Infinity).
@@ -2116,7 +2145,19 @@
          guests: a guest who has not tried the converter yet is the one visitor a
          scarcity count is most likely to lose. By the time they have committed
          files, the same number is answering a question they are actually asking. -->
-	{#if hasCheckedTokens && tierResolved && (isAuthed || stagedCount > 0)}
+	{#if showCachedBadge && cachedBadge}
+		<!-- Last-known count while the live one loads; see cachedBadge. -->
+		<div class="flex items-center gap-2 border-b border-pink-50 bg-mochi-bg px-4 py-2 sm:px-6">
+			<span
+				class="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-xs font-bold text-cocoa-deep shadow-[0_0_0_1px_rgba(135,95,66,0.12)]"
+			>
+				<span class="h-1.5 w-1.5 rounded-full {cachedBadge.ok ? 'bg-[#66BB6A]' : 'bg-[#EF5350]'}"
+				></span>
+				{cachedBadge.label}
+			</span>
+		</div>
+	{/if}
+	{#if liveBadgeVisible}
 		<div class="flex items-center gap-2 border-b border-pink-50 bg-mochi-bg px-4 py-2 sm:px-6">
 			<span
 				class="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-xs font-bold text-cocoa-deep shadow-[0_0_0_1px_rgba(135,95,66,0.12)]"
