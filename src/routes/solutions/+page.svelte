@@ -69,6 +69,13 @@
                         { href: '/solutions/webp-to-jpg', label: 'WebP to JPG' },
                         { href: '/solutions/webp-to-png', label: 'WebP to PNG' }
                     ]
+                },
+                {
+                    text: 'A .jfif that a form will not accept: {0}, or {1} when it has to be a PNG.',
+                    links: [
+                        { href: '/solutions/jfif-to-jpg', label: 'JFIF to JPG' },
+                        { href: '/solutions/jfif-to-png', label: 'JFIF to PNG' }
+                    ]
                 }
             ]
         },

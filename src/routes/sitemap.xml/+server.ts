@@ -51,6 +51,8 @@ export async function GET() {
 		'/solutions/jxl-to-jpg',
 		'/solutions/webp-to-jpg',
 		'/solutions/webp-to-png',
+		'/solutions/jfif-to-jpg',
+		'/solutions/jfif-to-png',
 		'/solutions/remove-background-webp',
 		'/solutions/remove-background-avif',
 		'/solutions/webp-to-pdf',

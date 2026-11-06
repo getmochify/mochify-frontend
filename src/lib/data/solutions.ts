@@ -201,6 +201,26 @@ export const imageTools: SolutionTool[] = [
 		category: 'Convert photos'
 	},
 	{
+		name: 'JFIF to JPG Converter',
+		slug: 'solutions/jfif-to-jpg',
+		desc: 'Turn .jfif images saved from the web into standard .jpg files that every form and upload box accepts.',
+		iconPaths: [
+			'M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z'
+		],
+		tag: 'Web',
+		category: 'Convert photos'
+	},
+	{
+		name: 'JFIF to PNG Converter',
+		slug: 'solutions/jfif-to-png',
+		desc: 'Convert .jfif images to lossless PNGs for apps and forms that ask for PNG, or for editing without adding compression.',
+		iconPaths: [
+			'M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z'
+		],
+		tag: 'Web',
+		category: 'Convert photos'
+	},
+	{
 		name: 'HIF to AVIF Converter',
 		slug: 'solutions/hif-to-avif',
 		desc: 'Convert Fuji, Canon & Sony HIF photos to AVIF while preserving 10-bit quality.',

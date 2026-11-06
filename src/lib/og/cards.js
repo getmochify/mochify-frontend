@@ -618,6 +618,18 @@ export const cards = [
 		alt: 'Mochify WebP to PNG converter'
 	},
 	{
+		path: '/solutions/jfif-to-jpg',
+		eyebrow: 'TOOL',
+		title: 'JFIF to JPG Converter',
+		alt: 'Mochify JFIF to JPG converter'
+	},
+	{
+		path: '/solutions/jfif-to-png',
+		eyebrow: 'TOOL',
+		title: 'JFIF to PNG Converter - Lossless',
+		alt: 'Mochify JFIF to PNG converter'
+	},
+	{
 		path: '/solutions/jxl-to-jpg',
 		eyebrow: 'TOOL',
 		title: 'JXL to JPG Converter',

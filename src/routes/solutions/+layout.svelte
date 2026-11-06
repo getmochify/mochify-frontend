@@ -21,6 +21,8 @@
         'jxl-to-jpg': 'JXL to JPG',
         'webp-to-jpg': 'WebP to JPG',
         'webp-to-png': 'WebP to PNG',
+        'jfif-to-jpg': 'JFIF to JPG',
+        'jfif-to-png': 'JFIF to PNG',
         'svg-to-avif': 'SVG to AVIF',
         'svg-to-webp': 'SVG to WebP',
         'svg-to-jxl': 'SVG to JXL',
