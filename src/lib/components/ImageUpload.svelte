@@ -677,14 +677,24 @@
 	}
 
 	async function processFiles(allFiles: File[]) {
-		// Await both before applying any limit, so paid-user ceilings (25 files,
-		// 75MB) are in force immediately rather than after files have already
-		// been sliced to standard-tier defaults. userTier/batchLimit/maxFileSize
-		// are derived, so they re-read correctly the moment these land.
-		const [snapshot, resolvedJwt] = await Promise.all([getPlanSnapshot(), getSessionToken()]);
-		plan = snapshot.plan;
-		planQuota = snapshot.quota;
-		isAuthed = !!resolvedJwt;
+		// Limits must be in force before anything is sliced, so paid-user
+		// ceilings (25 files, 75MB) apply to this drop rather than standard-tier
+		// defaults. Once the mount-time lookup has settled, its tier is used and
+		// the refresh runs alongside: waiting on it cost a fresh
+		// /api/auth/get-session round trip before the tray showed anything, on
+		// every drop. The plan is from a 5-minute cache either way, so the
+		// mount-time tier is no staler than what this used to wait for. A drop
+		// before mount settles still waits. userTier/batchLimit/maxFileSize are
+		// derived, so they re-read the moment the refresh lands.
+		const tierRefresh = Promise.all([getPlanSnapshot(), getSessionToken()]).then(
+			([snapshot, jwt]) => {
+				plan = snapshot.plan;
+				planQuota = snapshot.quota;
+				isAuthed = !!jwt;
+				return jwt;
+			}
+		);
+		if (!tierResolved) await tierRefresh;
 
 		// A fresh ingest supersedes the previous one's trim notice.
 		allowanceTrim = null;
@@ -881,7 +891,7 @@
 		// actually staged (capped at batchLimit), never the raw dropped count, so
 		// a 5-file drop on a 3-file plan asks for 3 operations and not 5. The
 		// token fetched at the top of this ingest is reused, not fetched again.
-		await checkTokenLimit(resolvedJwt);
+		await checkTokenLimit(await tierRefresh);
 
 		// Some uploads left but fewer than staged: stage what the allowance
 		// covers, the way the batch cap does, and let the allowance box say so.
@@ -2253,7 +2263,7 @@
 		class:hidden={selectedFiles.length === 0 && queuedFiles.length === 0}
 	>
 		{#each fileProgress as fp, index}
-			<div class="group relative flex-shrink-0">
+			<div class="group tile-fade-in relative flex-shrink-0">
 				<div class="h-16 w-16 overflow-hidden rounded-2xl border border-pink-100 bg-mochi-bg p-1">
 					{#if fp.thumbnailUrl}
 						<img
@@ -3660,6 +3670,26 @@
 {/if}
 
 <style>
+	/* Same entrance as the /flow tray's tiles (PromptFormApp's animate-fade-in). */
+	@keyframes tile-fade-in {
+		from {
+			opacity: 0;
+			transform: translateY(4px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+	.tile-fade-in {
+		animation: tile-fade-in 0.3s ease-out forwards;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.tile-fade-in {
+			animation: none;
+		}
+	}
+
 	@keyframes shake {
 		0%,
 		100% {
