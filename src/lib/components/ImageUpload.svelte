@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { zipBlobs } from '$lib/zipWorker';
 	import { saveBlob } from '$lib/saveBlob';
+	import { SvelteSet } from 'svelte/reactivity';
 	import { env } from '$env/dynamic/public';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
@@ -559,8 +560,18 @@
 	// Both no-op for files already carrying a URL, so re-running processFiles()
 	// on an unchanged file (e.g. re-ingesting an already-staged batch) doesn't
 	// kick off a redundant decode.
+	// Files whose thumbnail is being made right now, so their placeholder can
+	// pulse; a placeholder that is not in here has no thumbnail coming (HEIC
+	// outside Safari). Entries leave as soon as the preview settles, so this
+	// never keeps a File alive. getImagePreview never rejects.
+	const previewInFlight = new SvelteSet<File>();
+	function trackedPreview(file: File) {
+		previewInFlight.add(file);
+		return getImagePreview(file).finally(() => previewInFlight.delete(file));
+	}
+
 	function attachFileProgressThumbnail(file: File) {
-		getImagePreview(file).then((preview) => {
+		trackedPreview(file).then((preview) => {
 			if (!preview.thumbUrl) return;
 			const fp = fileProgress.find((x) => x.file === file);
 			if (fp && !fp.thumbnailUrl) fp.thumbnailUrl = preview.thumbUrl;
@@ -568,7 +579,7 @@
 	}
 
 	function attachBlockedThumbnail(file: File) {
-		getImagePreview(file).then((preview) => {
+		trackedPreview(file).then((preview) => {
 			if (!preview.thumbUrl) return;
 			const blocked = oversizedFiles.find((x) => x.file === file);
 			if (blocked && !blocked.thumbnailUrl) blocked.thumbnailUrl = preview.thumbUrl;
@@ -580,7 +591,7 @@
 	function attachQueuedThumbnails() {
 		queuedFiles.slice(0, QUEUE_VISIBLE).forEach(({ file, thumbnailUrl }) => {
 			if (thumbnailUrl) return;
-			getImagePreview(file).then((preview) => {
+			trackedPreview(file).then((preview) => {
 				if (!preview.thumbUrl) return;
 				const held = queuedFiles.find((q) => q.file === file);
 				if (held && !held.thumbnailUrl) held.thumbnailUrl = preview.thumbUrl;
@@ -2259,7 +2270,11 @@
 						/>
 					{:else}
 						<div
-							class="flex h-full w-full flex-col items-center justify-center gap-0.5 rounded-xl bg-white/40"
+							class="flex h-full w-full flex-col items-center justify-center gap-0.5 rounded-xl bg-white/40 {previewInFlight.has(
+								fp.file
+							)
+								? 'motion-safe:animate-pulse'
+								: ''}"
 						>
 							<svg
 								class="h-5 w-5 text-mochi-pink-soft"
@@ -2368,7 +2383,11 @@
 							class="h-full w-full scale-110 rounded-xl object-cover opacity-60 blur-[3px]"
 						/>
 					{:else}
-						<div class="h-full w-full rounded-xl bg-pink-50"></div>
+						<div
+							class="h-full w-full rounded-xl bg-pink-50 {previewInFlight.has(queued.file)
+								? 'motion-safe:animate-pulse'
+								: ''}"
+						></div>
 					{/if}
 					<div class="absolute inset-0 flex items-center justify-center">
 						<svg
@@ -2490,7 +2509,11 @@
 				/>
 			{:else}
 				<div
-					class="flex h-full w-full items-center justify-center rounded-lg text-[7px] font-bold tracking-wide text-[#EF5350] uppercase"
+					class="flex h-full w-full items-center justify-center rounded-lg text-[7px] font-bold tracking-wide text-[#EF5350] uppercase {previewInFlight.has(
+						blocked.file
+					)
+						? 'motion-safe:animate-pulse'
+						: ''}"
 				>
 					{blocked.file.name.split('.').pop()}
 				</div>

@@ -554,6 +554,13 @@
 	// removal cannot leave them misaligned). null = not a PDF, not readable, or
 	// not rendered yet.
 	let filePageCounts = $state<(number | null)[]>([]);
+	// true while a slot's thumbnail is still being made, so the placeholder can
+	// pulse; false once it has one or never will (HEIC outside Safari, video).
+	let previewPending = $state<boolean[]>([]);
+	// Resolved previews by file, so a tray change (adding one file) restores
+	// every finished tile at once instead of blanking it for a re-await. Not
+	// $state: the effect writes it, and reading it there must not re-trigger it.
+	const previewByFile = new Map<File, { url: string; pages: number | null }>();
 	// Files this tray currently has a preview slot for (whether resolved yet or
 	// not) — a plain array, not $state, purely so the effect below can diff
 	// against it without becoming its own dependency. Thumbnails come from the
@@ -566,32 +573,39 @@
 		const currentSet = new Set(currentFiles);
 		for (const f of previewedFiles) {
 			if (currentSet.has(f)) continue;
+			previewByFile.delete(f);
 			if (isPdf(f)) releasePdfPreview(f);
 			else releaseImagePreview(f);
 		}
 		previewedFiles = currentFiles;
 
 		let cancelled = false;
-		(async () => {
-			const previews = await Promise.all(
-				currentFiles.map(async (f) => {
-					// PDFs render page one through pdf.js, which is downloaded on
-					// first use — the page count rides along with that render, and
-					// is what the plan gate at submit reads.
-					if (isPdf(f)) {
-						const pdf = await getPdfPreview(f);
-						return { url: pdf.thumbUrl ?? '', pages: pdf.pages };
-					}
-					if (isVideoOrAudio(f)) return { url: '', pages: null };
-					const preview = await getImagePreview(f);
-					return { url: preview.thumbUrl ?? '', pages: null };
-				})
-			);
+		filePreviews = currentFiles.map((f) => previewByFile.get(f)?.url ?? '');
+		filePageCounts = currentFiles.map((f) => previewByFile.get(f)?.pages ?? null);
+		previewPending = currentFiles.map((f) => !previewByFile.has(f) && !isVideoOrAudio(f));
+		// Each tile fills in as its own preview lands. These used to be assigned
+		// together after Promise.all, so one slow HEIC decode (Safari, several
+		// seconds at 24MP+) held back every JPEG thumbnail in the same drop.
+		const loads = currentFiles.map(async (f, i) => {
+			if (previewByFile.has(f) || isVideoOrAudio(f)) return;
+			// PDFs render page one through pdf.js, which is downloaded on first
+			// use; the page count rides along with that render, and is what the
+			// plan gate at submit reads.
+			const result = isPdf(f)
+				? await getPdfPreview(f).then((pdf) => ({ url: pdf.thumbUrl ?? '', pages: pdf.pages }))
+				: await getImagePreview(f).then((preview) => ({
+						url: preview.thumbUrl ?? '',
+						pages: null
+					}));
 			if (cancelled) return;
-			filePreviews = previews.map((p) => p.url);
-			filePageCounts = previews.map((p) => p.pages);
-			warnOnLongPdfs(currentFiles, filePageCounts);
-		})();
+			previewByFile.set(f, result);
+			filePreviews[i] = result.url;
+			filePageCounts[i] = result.pages;
+			previewPending[i] = false;
+		});
+		void Promise.all(loads).then(() => {
+			if (!cancelled) warnOnLongPdfs(currentFiles, filePageCounts);
+		});
 		return () => {
 			cancelled = true;
 		};
@@ -3430,6 +3444,7 @@
 										class="h-full w-full rounded-xl bg-white object-cover object-top"
 										onerror={() => {
 											releasePdfPreview(file);
+											previewByFile.set(file, { url: '', pages: filePageCounts[i] ?? null });
 											filePreviews[i] = '';
 										}}
 									/>
@@ -3443,7 +3458,13 @@
 									{/if}
 								</div>
 							{:else if isPdf(file)}
-								<div class="flex h-full w-full items-center justify-center rounded-xl bg-red-50/80">
+								<div
+									class="flex h-full w-full items-center justify-center rounded-xl bg-red-50/80 {previewPending[
+										i
+									]
+										? 'motion-safe:animate-pulse'
+										: ''}"
+								>
 									<svg
 										class="h-7 w-7 text-red-400"
 										fill="none"
@@ -3486,12 +3507,17 @@
 									class="h-full w-full rounded-xl object-cover"
 									onerror={() => {
 										releaseImagePreview(file);
+										previewByFile.set(file, { url: '', pages: null });
 										filePreviews[i] = '';
 									}}
 								/>
 							{:else}
 								<div
-									class="flex h-full w-full flex-col items-center justify-center gap-0.5 rounded-xl bg-mochi-strawberry"
+									class="flex h-full w-full flex-col items-center justify-center gap-0.5 rounded-xl bg-mochi-strawberry {previewPending[
+										i
+									]
+										? 'motion-safe:animate-pulse'
+										: ''}"
 								>
 									<svg
 										class="h-6 w-6 text-mochi-pink/70"
