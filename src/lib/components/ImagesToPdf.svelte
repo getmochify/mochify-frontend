@@ -10,7 +10,7 @@
     type PageSize = 'fit' | 'a4' | 'letter';
 
     let {
-        accept = '.webp,.png,.jpg,.jpeg,.avif,.heic,.heif,.hif,.jxl,image/webp,image/png,image/jpeg,image/avif,image/heic,image/heif,image/jxl',
+        accept = '.webp,.png,.jpg,.jpeg,.jfif,.pjpeg,.pjp,.avif,.heic,.heif,.hif,.jxl,image/webp,image/png,image/jpeg,image/avif,image/heic,image/heif,image/jxl',
         formatLabel = 'image',
         maxFiles = 20,
         downloadName = 'mochified.pdf'
@@ -53,7 +53,7 @@
     let fileInputEl: HTMLInputElement | null = $state(null);
 
     const isImage = (f: File) =>
-        f.type.startsWith('image/') || /\.(png|jpe?g|webp|avif|heic|heif|hif|jxl)$/i.test(f.name);
+        f.type.startsWith('image/') || /\.(png|jpe?g|jfif|pjpeg|pjp|webp|avif|heic|heif|hif|jxl)$/i.test(f.name);
 
     const fmtBytes = (n: number) =>
         n < 1024 * 1024 ? `${Math.max(1, Math.round(n / 1024))} KB` : `${(n / (1024 * 1024)).toFixed(1)} MB`;

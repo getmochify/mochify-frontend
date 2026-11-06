@@ -392,8 +392,8 @@
 			: uploadMode === 'video'
 				? '.mp4,.webm,.mkv,.mov,.avi,.m4v,.mp3,.wav,.aac,.flac,.ogg,.m4a,.opus,video/*,audio/*'
 				: uploadMode === 'image'
-					? '.jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.gif,.svg,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/gif,image/svg+xml'
-					: '.jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.gif,.svg,.pdf,.mp4,.webm,.mkv,.mov,.mp3,.wav,.aac,.flac,.ogg,.m4a,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/gif,image/svg+xml,application/pdf,video/*,audio/*'
+					? '.jpg,.jpeg,.jfif,.pjpeg,.pjp,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.gif,.svg,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/gif,image/svg+xml'
+					: '.jpg,.jpeg,.jfif,.pjpeg,.pjp,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.gif,.svg,.pdf,.mp4,.webm,.mkv,.mov,.mp3,.wav,.aac,.flac,.ogg,.m4a,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/gif,image/svg+xml,application/pdf,video/*,audio/*'
 	);
 
 	const imagePlaceholders = $derived(
@@ -725,6 +725,11 @@
 	const ACCEPTED_EXTENSIONS = new Set([
 		'jpg',
 		'jpeg',
+		// JFIF is a JPEG under another extension (Windows and Edge save web
+		// images as .jfif); core detects it as JPEG by its bytes.
+		'jfif',
+		'pjpeg',
+		'pjp',
 		'heic',
 		'heif',
 		'hif',
@@ -746,6 +751,9 @@
 			hif: 'image/heif',
 			jpg: 'image/jpeg',
 			jpeg: 'image/jpeg',
+			jfif: 'image/jpeg',
+			pjpeg: 'image/jpeg',
+			pjp: 'image/jpeg',
 			png: 'image/png',
 			webp: 'image/webp',
 			avif: 'image/avif',

@@ -129,7 +129,7 @@
 
         <div class="mb-16">
             <ImagesToPdf
-                accept=".jxl,.jpg,.jpeg,.png,.webp,.avif,.heic,.heif,.hif,image/jxl,image/jpeg,image/png,image/webp,image/avif,image/heic,image/heif"
+                accept=".jxl,.jpg,.jpeg,.jfif,.pjpeg,.pjp,.png,.webp,.avif,.heic,.heif,.hif,image/jxl,image/jpeg,image/png,image/webp,image/avif,image/heic,image/heif"
                 formatLabel="JPEG XL"
                 downloadName="mochified.pdf"
             />

@@ -535,6 +535,11 @@
 	const ACCEPTED_EXTENSIONS = new Set([
 		'jpg',
 		'jpeg',
+		// JFIF is a JPEG under another extension (Windows and Edge save web
+		// images as .jfif); core detects it as JPEG by its bytes.
+		'jfif',
+		'pjpeg',
+		'pjp',
 		'heic',
 		'heif',
 		'hif',
@@ -736,7 +741,7 @@
 		});
 		if (invalidFiles.length > 0) {
 			rejections.push({
-				text: `${invalidFiles.length} file(s) not supported. Accepted: JPG, PNG, WebP, AVIF, HEIC, HEIF, HIF, JXL, GIF, SVG.`,
+				text: `${invalidFiles.length} file(s) not supported. Accepted: JPG, JFIF, PNG, WebP, AVIF, HEIC, HEIF, HIF, JXL, GIF, SVG.`,
 				key: 'unsupported_format'
 			});
 			allFiles = allFiles.filter((f) => {
@@ -1310,6 +1315,9 @@
 			hif: 'image/heif',
 			jpg: 'image/jpeg',
 			jpeg: 'image/jpeg',
+			jfif: 'image/jpeg',
+			pjpeg: 'image/jpeg',
+			pjp: 'image/jpeg',
 			png: 'image/png',
 			webp: 'image/webp',
 			avif: 'image/avif',
@@ -2102,7 +2110,7 @@
 		bind:this={fileInputElement}
 		id="file-input"
 		type="file"
-		accept=".jpg,.jpeg,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.gif,.svg,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/gif,image/svg+xml"
+		accept=".jpg,.jpeg,.jfif,.pjpeg,.pjp,.heic,.heif,.hif,.avif,.png,.jxl,.webp,.gif,.svg,image/jpeg,image/heic,image/heif,image/avif,image/png,image/jxl,image/webp,image/gif,image/svg+xml"
 		multiple
 		onchange={handleFileSelect}
 		class="sr-only"
