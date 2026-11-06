@@ -16,6 +16,8 @@
 // the dimensions at submit-time gets the second value for free — zero extra
 // decodes for the common case.
 
+import type { ThumbWorkerRequest, ThumbWorkerResponse } from './workers/thumb.worker';
+
 export type ImagePreviewResult = {
 	/**
 	 * Object URL for a small (downscaled) preview blob, ready to hand straight
@@ -211,6 +213,68 @@ function downscale(bitmap: ImageBitmap, outW: number, outH: number): HTMLCanvasE
 	return canvas;
 }
 
+// The halving downscale runs in a worker where the browser has OffscreenCanvas,
+// because on the main thread it was the slow part of a drop: about 80ms of
+// synchronous drawImage per 24MP photo (the decode itself is already
+// off-thread). The bitmap is transferred, so once handed over only the worker
+// can use it; a worker that fails sends everything after it down the
+// main-thread path instead. One worker, created on first use, kept for the
+// session.
+let thumbWorker: Worker | null = null;
+let thumbWorkerBroken = false;
+let thumbRequestId = 0;
+const thumbPending = new Map<number, (blob: Blob | null) => void>();
+
+function canUseThumbWorker(): boolean {
+	return (
+		!thumbWorkerBroken &&
+		typeof Worker !== 'undefined' &&
+		typeof OffscreenCanvas !== 'undefined' &&
+		'convertToBlob' in OffscreenCanvas.prototype
+	);
+}
+
+function failThumbWorker() {
+	thumbWorkerBroken = true;
+	thumbWorker?.terminate();
+	thumbWorker = null;
+	for (const resolve of thumbPending.values()) resolve(null);
+	thumbPending.clear();
+}
+
+function getThumbWorker(): Worker | null {
+	if (thumbWorker) return thumbWorker;
+	try {
+		thumbWorker = new Worker(new URL('./workers/thumb.worker.ts', import.meta.url), {
+			type: 'module'
+		});
+	} catch {
+		failThumbWorker();
+		return null;
+	}
+	thumbWorker.onmessage = (event: MessageEvent<ThumbWorkerResponse>) => {
+		const resolve = thumbPending.get(event.data.id);
+		thumbPending.delete(event.data.id);
+		resolve?.(event.data.blob);
+	};
+	thumbWorker.onerror = failThumbWorker;
+	return thumbWorker;
+}
+
+/** Resolves null when the worker could not produce a thumbnail. */
+function downscaleInWorker(bitmap: ImageBitmap, outW: number, outH: number): Promise<Blob | null> {
+	const worker = getThumbWorker();
+	if (!worker) return Promise.resolve(null);
+	const id = ++thumbRequestId;
+	return new Promise((resolve) => {
+		thumbPending.set(id, resolve);
+		worker.postMessage(
+			{ id, bitmap, outW, outH, quality: THUMB_QUALITY } satisfies ThumbWorkerRequest,
+			[bitmap]
+		);
+	});
+}
+
 async function decode(file: File, targetPx: number): Promise<ImagePreviewResult> {
 	const heif = isHeif(file);
 	// Already proved this browser cannot decode the HEIF family, so skip both the
@@ -264,6 +328,13 @@ async function decode(file: File, targetPx: number): Promise<ImagePreviewResult>
 			}
 			const outW = Math.max(1, Math.round(width * scale));
 			const outH = Math.max(1, Math.round(height * scale));
+			if (canUseThumbWorker()) {
+				const blob = await withTimeout(downscaleInWorker(bitmap, outW, outH), 8000).catch(
+					() => null
+				);
+				if (!blob) return { thumbUrl: safeObjectUrl(file), width, height };
+				return { thumbUrl: URL.createObjectURL(blob), width, height };
+			}
 			const canvas = downscale(bitmap, outW, outH);
 			if (!canvas) return { thumbUrl: safeObjectUrl(file), width, height };
 			// An unsupported type makes toBlob fall back to PNG rather than fail,
@@ -277,6 +348,7 @@ async function decode(file: File, targetPx: number): Promise<ImagePreviewResult>
 			// Frees the decoded bitmap immediately rather than waiting on GC — this
 			// is the whole point: peak decoded memory is transient (one bitmap in
 			// flight per concurrency slot) instead of resident per tray item.
+			// A no-op for a bitmap transferred to the thumb worker, which closes it.
 			bitmap.close();
 		}
 	} finally {

@@ -490,9 +490,11 @@
 		}
 	}
 
-	async function checkTokenLimit(): Promise<void> {
+	// `token` lets a caller that already holds the session token skip a second
+	// /api/auth/get-session round trip; omitted, it is fetched here.
+	async function checkTokenLimit(token?: string | null): Promise<void> {
 		try {
-			const jwt = await getSessionToken();
+			const jwt = token === undefined ? await getSessionToken() : token;
 			const response = await fetch(`${WORKER_URL}/v1/usage`, {
 				headers: jwt ? { Authorization: `Bearer ${jwt}` } : {}
 			});
@@ -866,8 +868,9 @@
 
 		// Deliberately after truncation: sufficiency is judged against what is
 		// actually staged (capped at batchLimit), never the raw dropped count, so
-		// a 5-file drop on a 3-file plan asks for 3 operations and not 5.
-		await checkTokenLimit();
+		// a 5-file drop on a 3-file plan asks for 3 operations and not 5. The
+		// token fetched at the top of this ingest is reused, not fetched again.
+		await checkTokenLimit(resolvedJwt);
 
 		// Some uploads left but fewer than staged: stage what the allowance
 		// covers, the way the batch cap does, and let the allowance box say so.
