@@ -43,7 +43,7 @@
   // path is unreachable in production, not dead code. "service" must match the
   // tokens worker's wrangler `name` — a wrong name fails `wrangler deploy`.
   "services": [
-    { "binding": "TOKENS", "service": "mochify-tokens" }
+    { "binding": "TOKENS", "service": "mochify-id" }
   ],
   // Non-secret vars belong here so they survive wrangler deploy (which
   // replaces the worker's plain vars with exactly what's in this file).
