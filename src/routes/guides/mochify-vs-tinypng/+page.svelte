@@ -16,7 +16,7 @@
         category: "Image Optimization",
         readTime: "13 min read",
         date: "July 21, 2026",
-        lastUpdated: "September 23, 2026"
+        lastUpdated: "November 6, 2026"
     };
 
     const inlineCode = "bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded text-sm font-bold border border-pink-100";
@@ -92,7 +92,7 @@
         url="https://mochify.app/guides/mochify-vs-tinypng"
         description={metadata.description}
         datePublished="2026-07-21"
-        dateModified="2026-09-23"
+        dateModified="2026-11-06"
         article={{
             about: ['TinyPNG', 'Tinify', 'image compression', 'AVIF', 'JPEG XL', 'MCP', 'image privacy'],
             keywords:
@@ -184,7 +184,7 @@
             <ul class="list-disc pl-6 space-y-2 my-4">
                 <li><strong class="text-cocoa-ink">Free tier handles real photos.</strong> TinyPNG's free tool caps files at 5MB; a modern phone photo or any camera JPEG regularly exceeds that. Mochify's free tier accepts files up to 20MB (75MB on paid tiers) - see <a href="/guides/photo-file-too-large-to-upload">why free-tier file-size caps reject camera files</a> for how those numbers stack up against actual camera output.</li>
                 <li><strong class="text-cocoa-ink">You control the result.</strong> TinyPNG exposes no quality settings anywhere; the web tool and API are fully automatic (we verified the complete API reference: there is no quality parameter). That's a feature for simplicity and a limitation the moment you need something specific. Mochify's primary interface is Magic Flow: describe the outcome ("convert these to AVIF, keep them under 300KB, strip all metadata") and a language model parses the request before the C++ engine executes it.</li>
-                <li><strong class="text-cocoa-ink">Broader format and capability coverage.</strong> TinyPNG compresses and converts AVIF, WebP, JPEG, and PNG, with JPEG XL available only in its in-browser converter, not the API. Mochify treats JPEG XL as a first-class format on every surface, outputs JPEG through Google's jpegli encoder for better quality-per-byte, and accepts HEIC uploads. Beyond images: background removal is included on every Mochify tier including Free (TinyPNG has none), Mochify's web app converts and compresses video entirely in the browser (TinyPNG has no video tooling), and Mochify's PDF utility extracts pages as images and splits multi-page PDFs (no TinyPNG equivalent). Our <a href="https://mochify.app/guides/converting-images-to-jpeg-xl">JPEG XL conversion guide</a> and <a href="https://mochify.app/guides/jpeg-in-2026-jpegli">jpegli deep-dive</a> cover the format side in detail.</li>
+                <li><strong class="text-cocoa-ink">Broader format and capability coverage.</strong> TinyPNG compresses and converts AVIF, WebP, JPEG, and PNG, with JPEG XL available only in its in-browser converter, not the API. Mochify treats JPEG XL as a first-class format on every surface, outputs JPEG through <a href="/solutions/jpegli-compressor">Google's jpegli encoder</a> for better quality-per-byte, and accepts HEIC uploads. Beyond images: background removal is included on every Mochify tier including Free (TinyPNG has none), Mochify's web app converts and compresses video entirely in the browser (TinyPNG has no video tooling), and Mochify's PDF utility extracts pages as images and splits multi-page PDFs (no TinyPNG equivalent). Our <a href="https://mochify.app/guides/converting-images-to-jpeg-xl">JPEG XL conversion guide</a> and <a href="https://mochify.app/guides/jpeg-in-2026-jpegli">jpegli deep-dive</a> cover the format side in detail.</li>
                 <li><strong class="text-cocoa-ink">Metadata control on every surface.</strong> TinyPNG strips metadata by default and lets you preserve copyright, creation date, or location only through the API, opt-in, JPEG only. With Mochify you state metadata handling in the prompt on any surface ("compress these and strip all metadata"), which makes the behavior explicit where you can see it.</li>
                 <li><strong class="text-cocoa-ink">An official CLI and MCP server.</strong> For automation and AI-agent workflows, this is the structural difference; the <a href="#developers-and-ai-agents">developer section below</a> covers it.</li>
             </ul>

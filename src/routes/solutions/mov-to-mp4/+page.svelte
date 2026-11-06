@@ -4,7 +4,7 @@
     import { faqSchema, type FaqItem } from '$lib/faq';
 
     const metaDescription =
-        "Convert MOV to MP4 in your browser, including iPhone videos: H.264 MP4 that plays on Windows, Android and in video editors. Free, no account, never uploaded.";
+        "Convert MOV to MP4 in your browser, including iPhone videos: H.264 MP4 that plays on Windows, Android and in editors. Free, no signup, never uploaded.";
 
     const faqs: FaqItem[] = [
         {
@@ -166,7 +166,7 @@
             <ul class="list-disc space-y-2 pl-6 text-cocoa-deep leading-relaxed">
                 <li><strong class="text-cocoa-ink">FFmpeg</strong> (free, Windows, Mac and Linux): <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">ffmpeg -i input.mov -c:v libx264 -crf 20 -c:a aac -movflags +faststart output.mp4</code>. If the MOV is already H.264, <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">ffmpeg -i input.mov -c copy output.mp4</code> changes the container without re-encoding. This also handles ProRes.</li>
                 <li><strong class="text-cocoa-ink">HandBrake</strong> (free, Windows, Mac and Linux): open the MOV and choose a preset from the General category, which writes MP4 with H.264 video.</li>            </ul>
-            <p class="leading-relaxed text-cocoa-deep">Have a WebM instead? The <a href="/solutions/webm-to-mp4" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">WebM to MP4 converter</a> handles those. iPhone photos rather than videos? The <a href="/solutions/heif-to-jpg" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">HEIF to JPG converter</a> turns HEIC photos into JPGs.</p>
+            <p class="leading-relaxed text-cocoa-deep">Have a WebM instead? The <a href="/solutions/webm-to-mp4" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">WebM to MP4 converter</a> handles those. iPhone photos rather than videos? The <a href="/heic-to-jpeg" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">HEIC to JPG converter</a> turns iPhone HEIC photos into JPGs.</p>
         </section>
 
         <section class="mt-16 max-w-4xl mx-auto">
@@ -178,13 +178,13 @@
         <section class="mt-16 max-w-4xl mx-auto">
             <p class="text-xs font-black text-cocoa-milk uppercase tracking-widest mb-4">Also available</p>
             <div class="grid sm:grid-cols-2 gap-4">
-                <a href="/solutions/heif-to-jpg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
+                <a href="/heic-to-jpeg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" /></svg>
                     </span>
                     <div>
-                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">HEIF to JPG →</p>
-                        <p class="text-xs text-cocoa-milk">Convert iPhone photos to JPG in bulk</p>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">HEIC to JPG →</p>
+                        <p class="text-xs text-cocoa-milk">Convert iPhone photos to JPG</p>
                     </div>
                 </a>
                 <a href="/solutions" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">

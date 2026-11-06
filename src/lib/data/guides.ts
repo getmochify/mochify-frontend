@@ -505,7 +505,7 @@ export const guides: Guide[] = [
 		category: 'Image Optimization',
 		readTime: '20 min read',
 		date: 'February 9, 2026',
-		lastUpdated: 'October 22, 2026'
+		lastUpdated: 'November 6, 2026'
 	},
 	{
 		title: 'The Risks of EXIF Data in Image Compression (2026 Guide)',
@@ -535,7 +535,7 @@ export const guides: Guide[] = [
 		category: 'Image Optimization',
 		readTime: '15 min read',
 		date: 'February 17, 2026',
-		lastUpdated: 'October 22, 2026'
+		lastUpdated: 'November 6, 2026'
 	},
 	{
 		title: 'How to Self-Host an Image Optimization API with Docker',
@@ -839,7 +839,7 @@ export const guides: Guide[] = [
 		category: 'Image Optimization',
 		readTime: '13 min read',
 		date: 'July 21, 2026',
-		lastUpdated: 'September 23, 2026'
+		lastUpdated: 'November 6, 2026'
 	},
 	{
 		title: 'Is Reselling Worth It in 2026? The Honest Math',

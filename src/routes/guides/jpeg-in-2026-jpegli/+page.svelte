@@ -12,7 +12,7 @@
         category: "Image Optimization",
         readTime: "20 min read",
         date: "February 09, 2026",
-        lastUpdated: "October 22, 2026"
+        lastUpdated: "November 6, 2026"
     };
 
     const related = [
@@ -88,7 +88,7 @@
         ],
         "image": "https://mochify.app/og/guides-jpeg-in-2026-jpegli.png",
         "datePublished": "2026-02-09T12:00:00+00:00",
-        "dateModified": "2026-10-22T12:00:00+00:00"
+        "dateModified": "2026-11-06T12:00:00+00:00"
         }
     </script>
     <script type="application/ld+json">
@@ -192,7 +192,7 @@
         url="https://mochify.app/guides/jpeg-in-2026-jpegli"
         description="Jpegli vs MozJPEG and libjpeg-turbo: how much smaller Google's jpegli makes a JPEG at the same quality, where MozJPEG still holds, and when to switch."
         datePublished="2026-02-09"
-        dateModified="2026-10-22"
+        dateModified="2026-11-06"
     />
 </svelte:head>
 
@@ -801,7 +801,7 @@ time cjpeg -quality 85 input.png > output_mozjpeg.jpg</pre>
                     When you're exporting product photography for a new Shopify drop, or preparing 200 listings for eBay, you're handling unreleased inventory. A leaked product photo 48 hours before launch can cost thousands in competitive advantage. Zero-retention architecture eliminates that risk entirely.
                 </p>
                 <p class="text-cocoa-deep leading-relaxed">
-                    Mochify supports jpegli output, which means you can compress to smaller file sizes at higher visual quality compared to tools still using libjpeg-turbo-without storing your images on someone else's server.
+                    Mochify supports jpegli output through the <a href="/solutions/jpegli-compressor">jpegli JPEG compressor</a>, which means you can compress to smaller file sizes at higher visual quality compared to tools still using libjpeg-turbo-without storing your images on someone else's server.
                 </p>
             </div>
         </section>
