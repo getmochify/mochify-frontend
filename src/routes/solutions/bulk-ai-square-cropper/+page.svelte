@@ -58,7 +58,7 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is the bulk square cropper free?',
-            a: 'Yes. Crop up to 3 images with no signup, or 25 a month with a free account, at up to 20MB per file and 3 per batch. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours with no account, and Seller and Pro plans batch 25 files at a time at up to 75MB each.'
+            a: 'Yes. Crop up to 3 images with no signup, or 25 a month with a free account, at up to 20MB per file and 3 per batch. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours with no signup, and Seller, Pro and Growth plans batch 25 files at a time at up to 75MB each.'
         },
         {
             q: 'How does it know where to crop?',
@@ -280,7 +280,7 @@
         <section class="mt-20 max-w-4xl mx-auto">
             <h2 class="text-2xl font-extrabold text-cocoa-ink mb-4">Bulk, batch and automated square cropping</h2>
             <p class="text-cocoa-deep leading-relaxed mb-6 max-w-3xl">
-                A catalog, a client shoot or a whole marketplace inventory is the usual case. Seller and Pro accounts crop up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. The same saliency crop runs from the terminal with the Mochify CLI (<span class="font-mono font-bold text-cocoa-ink">mochify</span>, one plain-English prompt for a whole folder, sign in once with <span class="font-mono font-bold text-cocoa-ink">mochify auth login</span>), from an AI agent through the hosted or local MCP server, and from the REST API, where <span class="font-mono font-bold text-cocoa-ink">smartCrop</span> with equal width and height is the square crop:
+                A catalog, a client shoot or a whole marketplace inventory is the usual case. Seller and Pro accounts crop up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no signup. The same saliency crop runs from the terminal with the Mochify CLI (<span class="font-mono font-bold text-cocoa-ink">mochify</span>, one plain-English prompt for a whole folder, sign in once with <span class="font-mono font-bold text-cocoa-ink">mochify auth login</span>), from an AI agent through the hosted or local MCP server, and from the REST API, where <span class="font-mono font-bold text-cocoa-ink">smartCrop</span> with equal width and height is the square crop:
             </p>
             <div class="bg-[#2D2320] rounded-2xl px-6 py-5 overflow-x-auto shadow-sm">
                 <pre class="text-sm font-mono text-[#F5E9E2] leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?smartCrop=true&width=1000&height=1000&type=jpg" \

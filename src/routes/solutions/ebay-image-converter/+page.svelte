@@ -13,7 +13,7 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is the eBay image resizer free?',
-            a: 'Yes. Resize and convert 3 images a month with no signup, or 25 a month with a free account, at up to 20MB per file and 3 per batch. A $2 Day Pass covers 100 uploads in 24 hours with no account, and Seller and Pro plans take 25 files per batch at up to 75MB each.'
+            a: 'Yes. Resize and convert 3 images a month with no signup, or 25 a month with a free account, at up to 20MB per file and 3 per batch. A $2 Day Pass covers 100 uploads in 24 hours with no signup, and Seller, Pro and Growth plans take 25 files per batch at up to 75MB each.'
         },
         {
             q: 'What size should photos be for eBay?',
@@ -200,7 +200,7 @@
         <section class="mt-20 max-w-4xl mx-auto space-y-4">
             <h2 class="text-2xl font-extrabold text-cocoa-ink">Bulk and automated resizing</h2>
             <p class="leading-relaxed text-cocoa-deep">
-                Seller and Pro accounts process up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no account. For a whole inventory, the same job runs from the Mochify CLI (<code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify auth login</code>), from an AI agent through the hosted or local MCP server, and from the REST API, where <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">width</code> and <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">height</code> together keep the long edge at 1600 pixels:
+                Seller and Pro accounts process up to 25 files per batch at up to 75MB each, and a <a href="/pricing" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no signup. For a whole inventory, the same job runs from the Mochify CLI (<code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify auth login</code>), from an AI agent through the hosted or local MCP server, and from the REST API, where <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">width</code> and <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">height</code> together keep the long edge at 1600 pixels:
             </p>
             <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=jpg&amp;width=1600&amp;height=1600" \
   -H "Authorization: Bearer $MOCHIFY_KEY" \

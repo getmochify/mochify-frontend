@@ -9,7 +9,7 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is this JXL to JPG converter free?',
-            a: 'Yes. Convert up to 3 files at a time with no signup, or 25 a month with a free account, at up to 20MB per file. For a bigger folder, a $2 Day Pass covers 100 uploads in 24 hours with no account, and Seller and Pro plans convert 25 files per batch.'
+            a: 'Yes. Convert up to 3 files at a time with no signup, or 25 a month with a free account, at up to 20MB per file. For a bigger folder, a $2 Day Pass covers 100 uploads in 24 hours with no signup, and Seller, Pro and Growth plans convert 25 files per batch.'
         },
         {
             q: "Why won't my JXL file open?",
@@ -128,7 +128,7 @@
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">1</span>
                     <p class="leading-relaxed text-cocoa-deep">
-                        <strong class="text-cocoa-ink">Drop your .jxl files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. A whole folder to convert? A <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours, no account needed.
+                        <strong class="text-cocoa-ink">Drop your .jxl files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. A whole folder to convert? A <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours with no signup.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">

@@ -4,7 +4,7 @@
     import { faqSchema, type FaqItem } from '$lib/faq';
 
     const metaDescription =
-        'Convert JFIF to PNG online: turn .jfif images into lossless PNGs for apps and forms that ask for PNG, or for editing without adding compression. Free, no signup.';
+        'Convert JFIF to PNG online, free: a high-quality PNG of your .jfif for apps and forms that ask for PNG, or for editing without recompression. No signup.';
 
     const faqs: FaqItem[] = [
         {
@@ -70,7 +70,7 @@
 </script>
 
 <svelte:head>
-    <title>JFIF to PNG Converter - Lossless, Free, No Signup | Mochify</title>
+    <title>JFIF to PNG Converter - Free Online, High Quality | Mochify</title>
     <meta name="description" content={metaDescription}>
     <meta property="og:description" content={metaDescription} />
 
@@ -183,7 +183,7 @@
         <!-- Also available -->
         <section class="mt-16 max-w-4xl mx-auto">
             <p class="text-xs font-black text-cocoa-milk uppercase tracking-widest mb-4">Also available</p>
-            <div class="grid sm:grid-cols-3 gap-4">
+            <div class="grid sm:grid-cols-2 gap-4">
                 <a href="/solutions/jfif-to-jpg" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
                         <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5z" /></svg>
@@ -209,6 +209,15 @@
                     <div>
                         <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">JPEG Compressor →</p>
                         <p class="text-xs text-cocoa-milk">Smaller JPEGs with jpegli</p>
+                    </div>
+                </a>
+                <a href="/solutions/jfif-to-pdf" class="flex items-center gap-4 bg-white border border-pink-50 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
+                    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl deep-tile">
+                        <svg aria-hidden="true" class="h-[18px] w-[18px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+                    </span>
+                    <div>
+                        <p class="font-black text-cocoa-ink text-sm mb-0.5 group-hover:text-mochi-pink transition-colors">JFIF to PDF →</p>
+                        <p class="text-xs text-cocoa-milk">Merge .jfif images into one PDF</p>
                     </div>
                 </a>
             </div>

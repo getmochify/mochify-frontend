@@ -10,7 +10,7 @@
         {
             q: 'Is this JXL to PDF converter free?',
             a: [
-                'Yes. Without an account or on a free account, you can build a PDF from up to 3 images. A paid plan, or a $2 Day Pass with no account, takes up to 20 images per PDF; the ',
+                'Yes. Without an account or on a free account, you can build a PDF from up to 3 images. A paid plan, or a $2 Day Pass with no signup, takes up to 20 images per PDF; the ',
                 { href: '/pricing', label: 'pricing page' },
                 ' has the plans.'
             ]

@@ -4,7 +4,7 @@
     import { faqSchema, type FaqItem } from '$lib/faq';
 
     const metaDescription =
-        'Combine JFIF images into one PDF, a page per image in the order you add them. Mix in JPG, PNG, WebP or HEIC. Free, no signup, never saved to disk.';
+        'Merge JFIF images into one PDF online, a page per image in the order you add them. Mix in JPG, PNG, WebP or HEIC. Free, no signup, never saved to disk.';
 
     const faqs: FaqItem[] = [
         {
@@ -53,8 +53,7 @@
         '@context': 'https://schema.org',
         '@type': 'SoftwareApplication',
         name: 'JFIF to PDF Converter',
-        description:
-            'Combine JFIF images into one multi-page PDF, one JPEG page per image, with fit, A4 or Letter pages. Free, no signup, processed in memory.',
+        description: metaDescription,
         url: 'https://mochify.app/solutions/jfif-to-pdf',
         applicationCategory: 'MultimediaApplication',
         operatingSystem: 'Web',
@@ -70,7 +69,7 @@
 </script>
 
 <svelte:head>
-    <title>JFIF to PDF Converter - Combine JFIF Into One PDF | Mochify</title>
+    <title>JFIF to PDF Converter - Free Online, No Signup | Mochify</title>
     <meta name="description" content={metaDescription}>
     <meta property="og:description" content={metaDescription} />
     <meta name="twitter:description" content={metaDescription} />
@@ -98,7 +97,6 @@
             </div>
 
             <h1 class="text-4xl sm:text-5xl font-black text-cocoa-ink tracking-tight">
-                Convert
                 <span class="bg-gradient-to-r from-mochi-pink-soft to-mochi-pink bg-clip-text text-transparent">
                     JFIF
                 </span>
@@ -106,6 +104,7 @@
                 <span class="bg-gradient-to-r from-[#C4B5FD] to-[#7C3AED] bg-clip-text text-transparent">
                     PDF
                 </span>
+                Converter
             </h1>
 
             <p class="text-lg text-cocoa-deep font-medium max-w-2xl mx-auto leading-relaxed text-balance">

@@ -171,7 +171,7 @@
 
         <section class="mt-16 max-w-4xl mx-auto space-y-4">
             <h2 class="text-2xl font-bold text-cocoa-ink">Limits, bulk and automation</h2>
-            <p class="leading-relaxed text-cocoa-deep">Without an account you can convert 3 images a month; a free account gives you 25 a month, up to 3 at a time, 20MB each. Paid plans (Seller, Pro and Growth) take batches of 25 and files up to 75MB, and a $2 Day Pass gives 100 uploads over 24 hours with no account. The <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">pricing page</a> has the plans.</p>
+            <p class="leading-relaxed text-cocoa-deep">Without an account you can convert 3 images a month; a free account gives you 25 a month, up to 3 at a time, 20MB each. Paid plans (Seller, Pro and Growth) take batches of 25 and files up to 75MB, and a $2 Day Pass gives 100 uploads over 24 hours with no signup. The <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">pricing page</a> has the plans.</p>
             <p class="leading-relaxed text-cocoa-deep">The same conversion works through the REST API on every plan, Free included. Send the raw SVG to <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">POST /v1/squish</code>; full reference in the <a href="/docs" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">API documentation</a>:</p>
             <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=webp&amp;width=1200" \
   -H "Content-Type: image/svg+xml" \

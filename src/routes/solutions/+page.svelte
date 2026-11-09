@@ -175,7 +175,7 @@
         {
             q: 'Are these image converters free?',
             a: [
-                'Yes, within the free allowance: 3 images a month with no signup and 25 a month with a free account, up to 20MB each and 3 files per batch. A Day Pass gives you 100 uploads in 24 hours for $2 with no account, and the paid plans raise the monthly allowance, file size and batch size; the ',
+                'Yes, within the free allowance: 3 images a month with no signup and 25 a month with a free account, up to 20MB each and 3 files per batch. A Day Pass gives you 100 uploads in 24 hours for $2 with no signup, and the paid plans raise the monthly allowance, file size and batch size; the ',
                 { href: '/pricing', label: 'pricing page' },
                 ' has the details in your currency.'
             ]
