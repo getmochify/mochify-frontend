@@ -29,7 +29,7 @@
         },
         {
             q: 'How do I stop Windows saving images as .jfif?',
-            a: 'Windows picks the extension from one registry entry. Open Registry Editor, go to HKEY_CLASSES_ROOT\\MIME\\Database\\Content Type\\image/jpeg, and change the Extension value from .jfif to .jpg. New downloads use .jpg from then on, with no restart. Back up the registry first, and leave it alone on a work machine you do not administer. Files already saved as .jfif stay as they are: rename or convert those.'
+            a: 'Windows picks the extension from one registry entry. Open Registry Editor, go to HKEY_CLASSES_ROOT\\MIME\\Database\\Content Type\\image/jpeg, and change the Extension value from .jfif to .jpg. New downloads use .jpg from then on; restart your browser if the first one still says .jfif. Back up the registry first, and leave it alone on a work machine you do not administer. Files already saved as .jfif stay as they are: rename or convert those.'
         },
         {
             q: 'Will I lose quality converting JFIF to JPG?',
