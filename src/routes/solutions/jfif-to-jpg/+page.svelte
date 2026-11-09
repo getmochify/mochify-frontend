@@ -9,7 +9,7 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is this JFIF to JPG converter free?',
-            a: 'Yes. Convert up to 3 files at a time with no signup, or 25 a month with a free account, at up to 20MB per file. For a bigger folder, a $2 Day Pass covers 100 uploads in 24 hours with no account, and Seller and Pro plans convert 25 files per batch.'
+            a: 'Yes. Convert up to 3 files at a time with no signup, or 25 a month with a free account, at up to 20MB per file. For a bigger folder, a $2 Day Pass covers 100 uploads in 24 hours with no signup, and Seller, Pro and Growth plans convert 25 files per batch.'
         },
         {
             q: 'What is a JFIF file?',
@@ -22,6 +22,14 @@
         {
             q: 'Can I just rename .jfif to .jpg?',
             a: 'Yes, and it loses nothing: the file is already a JPEG, so changing the extension is enough for most apps. Converting here is the better route when you have several files, when you cannot rename them (some phones and work machines hide extensions), or when you also want the metadata stripped.'
+        },
+        {
+            q: 'How do I convert JFIF to JPG on Windows or a Mac without a converter?',
+            a: 'On Windows, show file name extensions (File Explorer > View), right-click the file, choose Rename and change .jfif to .jpg; or open it in Paint and use Save as > JPEG picture. On a Mac, rename it in Finder, or open it in Preview and use File > Export with JPEG as the format. Renaming loses nothing, because the file is already a JPEG. The converter above is for a batch, or for a machine that hides extensions.'
+        },
+        {
+            q: 'How do I stop Windows saving images as .jfif?',
+            a: 'Windows picks the extension from one registry entry. Open Registry Editor, go to HKEY_CLASSES_ROOT\\MIME\\Database\\Content Type\\image/jpeg, and change the Extension value from .jfif to .jpg. New downloads use .jpg from then on, with no restart. Back up the registry first, and leave it alone on a work machine you do not administer. Files already saved as .jfif stay as they are: rename or convert those.'
         },
         {
             q: 'Will I lose quality converting JFIF to JPG?',
@@ -122,7 +130,7 @@
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">1</span>
                     <p class="leading-relaxed text-cocoa-deep">
-                        <strong class="text-cocoa-ink">Drop your .jfif files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. A whole folder to convert? A <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours, no account needed.
+                        <strong class="text-cocoa-ink">Drop your .jfif files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. A whole folder to convert? A <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours with no signup.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
@@ -176,7 +184,7 @@
         <section class="mt-20 max-w-4xl mx-auto space-y-4">
             <h2 class="text-2xl font-bold text-cocoa-ink">Bulk and automated JFIF to JPG</h2>
             <p class="leading-relaxed text-cocoa-deep">
-                Seller and Pro accounts convert up to 25 files per batch at up to 75MB each. The same conversion runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify *.jfif -p "convert to jpg"</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
+                Seller, Pro and Growth accounts convert up to 25 files per batch at up to 75MB each. The same conversion runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify *.jfif -p "convert to jpg"</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
             </p>
             <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=jpg&amp;quality=85" \
   -H "Authorization: Bearer $MOCHIFY_KEY" \

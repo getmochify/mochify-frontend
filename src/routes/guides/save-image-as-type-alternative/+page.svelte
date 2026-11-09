@@ -18,7 +18,7 @@
 		category: 'Image Formats',
 		readTime: '18 min read',
 		date: 'September 23, 2026',
-		lastUpdated: 'October 26, 2026'
+		lastUpdated: 'November 9, 2026'
 	};
 
 	const toc = [
@@ -167,7 +167,7 @@
 			},
 			"image": "https://mochify.app/og/guides-save-image-as-type-alternative.png",
 			"datePublished": "2026-09-23T12:00:00+00:00",
-			"dateModified": "2026-10-26T12:00:00+00:00",
+			"dateModified": "2026-11-09T12:00:00+00:00",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -204,7 +204,7 @@
 		url="https://mochify.app/guides/save-image-as-type-alternative"
 		description={metadata.description}
 		datePublished="2026-09-23"
-		dateModified="2026-10-26"
+		dateModified="2026-11-09"
 	/>
 </svelte:head>
 
@@ -421,7 +421,11 @@
 				can produce either includes its own encoder or quietly gives you a PNG with the wrong file
 				extension. That's the
 				<a href="/guides/save-webp-as-jpg-chrome#the-rename-trap">rename trap from our last guide</a
-				>, done automatically.
+				>, done automatically. The reverse also happens: Windows often labels a JPEG saved from a
+				browser .jfif, and because the picture inside is already a JPEG,
+				<a href="/solutions/jfif-to-jpg">JFIF to JPG</a> is a relabel with nothing lost, and
+				<a href="/solutions/jfif-to-png">JFIF to PNG</a> is there when a form insists on PNG. Our
+				<a href="/guides/what-is-a-jfif-file">JFIF explainer</a> covers why Windows writes the extension.
 			</p>
 			<p class="mb-4">
 				Local conversion has a real advantage: the image never leaves your machine. It also has a

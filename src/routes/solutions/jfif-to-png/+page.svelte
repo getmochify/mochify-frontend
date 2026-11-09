@@ -9,11 +9,19 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is this JFIF to PNG converter free?',
-            a: 'Yes. Convert up to 3 files at a time with no signup, or 25 a month with a free account, at up to 20MB per file. For a bigger folder, a $2 Day Pass covers 100 uploads in 24 hours with no account, and Seller and Pro plans convert 25 files per batch.'
+            a: 'Yes. Convert up to 3 files at a time with no signup, or 25 a month with a free account, at up to 20MB per file. For a bigger folder, a $2 Day Pass covers 100 uploads in 24 hours with no signup, and Seller, Pro and Growth plans convert 25 files per batch.'
         },
         {
             q: 'What is a JFIF file?',
             a: 'A JPEG. JFIF (JPEG File Interchange Format) is the standard layout most JPEG files have always used, and Windows often gives JPEGs saved from a browser the .jfif extension. The picture inside is an ordinary JPEG.'
+        },
+        {
+            q: 'How do I turn a JFIF into a PNG on Windows or a Mac?',
+            a: 'On Windows, open the file in Paint and use Save as > PNG picture. On a Mac, open it in Preview and use File > Export with PNG as the format. Both write the same decoded pixels this converter does, one file at a time. Renaming .jfif to .png does not work: the file inside is a JPEG, and the extension does not change that.'
+        },
+        {
+            q: 'Is a JFIF the same as a PNG?',
+            a: "No. A JFIF is a JPEG: lossy, small and with no transparency. A PNG is lossless and can carry transparency. Converting gives you a PNG that holds the JFIF's pixels exactly, so it opens wherever PNG is required, but it is still a photo with a solid background, and the detail JPEG compression already removed does not come back."
         },
         {
             q: 'Is the conversion lossless?',
@@ -29,7 +37,11 @@
         },
         {
             q: 'Will the PNG have a transparent background?',
-            a: 'No. A JFIF has no transparency, so the PNG keeps the same solid background the image already had. Converting to PNG does not cut anything out.'
+            a: [
+                'No. A JFIF has no transparency, so the PNG keeps the same solid background the image already had. Converting to PNG does not cut anything out. If you want the background removed, open the ',
+                { href: '/flow', label: 'Mochify web app' },
+                ' and type "remove the background and convert to PNG"; background removal is on every plan, including Free.'
+            ]
         },
         {
             q: 'What happens to my files?',
@@ -118,7 +130,7 @@
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">1</span>
                     <p class="leading-relaxed text-cocoa-deep">
-                        <strong class="text-cocoa-ink">Drop your .jfif files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. A whole folder to convert? A <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours, no account needed.
+                        <strong class="text-cocoa-ink">Drop your .jfif files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. A whole folder to convert? A <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours with no signup.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
@@ -143,7 +155,7 @@
                     <div class="space-y-4">
                         <h2 class="text-2xl font-bold text-cocoa-ink">When PNG is the right choice</h2>
                         <p class="leading-relaxed text-cocoa-deep">
-                            A JFIF is already a JPEG, so most of the time all it needs is a .jpg extension: <a href="/solutions/jfif-to-jpg" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">JFIF to JPG</a> does that and keeps the file small. Pick PNG when an app, template or upload form asks for PNG specifically, or when you will edit and save the image several times: a JPEG adds a little compression each time it is saved, and a PNG adds none.
+                            A JFIF is already a JPEG, so most of the time all it needs is a .jpg extension: <a href="/solutions/jfif-to-jpg" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">JFIF to JPG</a> does that and keeps the file small. Pick PNG when an app, template or upload form asks for PNG specifically, or when you will edit and save the image several times: a JPEG adds a little compression each time it is saved, and a PNG adds none. Our <a href="/guides/lossless-image-formats" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">guide to lossless image formats</a> covers when that matters.
                         </p>
                         <p class="leading-relaxed text-cocoa-deep">
                             Expect the PNG to be several times larger than the JFIF for a photo. That is the cost of storing every pixel exactly, and it is why the web serves photos as JPEG in the first place. Screenshots and graphics with flat color grow much less.
@@ -169,7 +181,7 @@
         <section class="mt-20 max-w-4xl mx-auto space-y-4">
             <h2 class="text-2xl font-bold text-cocoa-ink">Bulk and automated JFIF to PNG</h2>
             <p class="leading-relaxed text-cocoa-deep">
-                Seller and Pro accounts convert up to 25 files per batch at up to 75MB each. The same conversion runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify *.jfif -p "convert to png"</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
+                Seller, Pro and Growth accounts convert up to 25 files per batch at up to 75MB each. The same conversion runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify *.jfif -p "convert to png"</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
             </p>
             <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=png" \
   -H "Authorization: Bearer $MOCHIFY_KEY" \

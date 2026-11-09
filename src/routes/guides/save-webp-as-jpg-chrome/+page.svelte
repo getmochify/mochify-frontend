@@ -18,7 +18,7 @@
 		category: 'Image Formats',
 		readTime: '19 min read',
 		date: 'September 22, 2026',
-		lastUpdated: 'October 27, 2026'
+		lastUpdated: 'November 9, 2026'
 	};
 
 	const toc = [
@@ -158,7 +158,7 @@
 			},
 			"image": "https://mochify.app/og/guides-save-webp-as-jpg-chrome.png",
 			"datePublished": "2026-09-22T12:00:00+00:00",
-			"dateModified": "2026-10-27T12:00:00+00:00",
+			"dateModified": "2026-11-09T12:00:00+00:00",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -193,7 +193,7 @@
 		url="https://mochify.app/guides/save-webp-as-jpg-chrome"
 		description={metadata.description}
 		datePublished="2026-09-22"
-		dateModified="2026-10-27"
+		dateModified="2026-11-09"
 	/>
 </svelte:head>
 
@@ -370,7 +370,11 @@
 				The reason this advice persists is that outcome one happens often enough to look like
 				success. It is the single most repeated piece of bad guidance on this topic, and at time of
 				writing it appears in the top editorial result Google serves for the question. If someone
-				tells you to rename the file, they have not converted anything.
+				tells you to rename the file, they have not converted anything. The one honest exception is a
+				.jfif: that file is already a JPEG under a different label, so renaming it to .jpg changes
+				nothing inside, and our <a href="/solutions/jfif-to-jpg">JFIF to JPG converter</a> does the
+				same for a batch. Our <a href="/guides/what-is-a-jfif-file">JFIF explainer</a> covers why
+				Windows writes the extension.
 			</p>
 		</section>
 

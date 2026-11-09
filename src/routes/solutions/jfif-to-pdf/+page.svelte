@@ -10,7 +10,7 @@
         {
             q: 'Is this JFIF to PDF converter free?',
             a: [
-                'Yes. Without an account or on a free account, you can build a PDF from up to 3 images. A paid plan, or a $2 Day Pass with no account, takes up to 20 images per PDF; the ',
+                'Yes. Without an account or on a free account, you can build a PDF from up to 3 images. A paid plan, or a $2 Day Pass with no signup, takes up to 20 images per PDF; the ',
                 { href: '/pricing', label: 'pricing page' },
                 ' has the plans.'
             ]
@@ -25,6 +25,14 @@
                 'A JPEG. JFIF (JPEG File Interchange Format) is the layout most JPEG files have always used, and Windows often gives the .jfif extension to JPEGs saved from a browser. Only the extension differs from a .jpg; if you need a single image rather than a PDF, ',
                 { href: '/solutions/jfif-to-jpg', label: 'JFIF to JPG' },
                 ' fixes the extension.'
+            ]
+        },
+        {
+            q: 'Why is my file saving as JFIF?',
+            a: [
+                'Windows keeps one registry value that maps image/jpeg to a file extension, and on many machines it reads .jfif. When a browser saves an image whose address has no extension, it asks Windows and gets .jfif. The picture is a normal JPEG. Our ',
+                { href: '/guides/what-is-a-jfif-file', label: 'guide to what a JFIF file is' },
+                ' explains the cause and the fix that stops it.'
             ]
         },
         {
