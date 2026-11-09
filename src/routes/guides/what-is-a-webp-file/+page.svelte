@@ -18,6 +18,7 @@
 		category: 'Quick Guides',
 		readTime: '3 min read',
 		date: 'October 27, 2026',
+		lastUpdated: 'November 9, 2026',
 		bylineNote:
 			"Based on Google's WebP documentation, Apple, Microsoft and Adobe support pages, MDN and caniuse.com data current to October 2026."
 	};
@@ -70,6 +71,7 @@
 		url={pageUrl}
 		description={metadata.description}
 		datePublished="2026-10-27"
+		dateModified="2026-11-09"
 		article={{
 			about: ['WebP', 'WebP file format', 'image formats', 'browser support', 'image conversion'],
 			keywords
@@ -93,7 +95,7 @@
 		</h1>
 		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
-			{metadata.readTime} · {metadata.date} · Mochify Engineering Team
+			{metadata.readTime} · {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
@@ -140,7 +142,7 @@
 					target="_blank"
 					rel="noopener noreferrer">MDN</a
 				>), so the server sends the WebP even when the address ends in <code>.jpg</code>.
-				Right-click, Save image as, and you keep the file that arrived. That is fine for browsers,
+				Right-click, Save image as, and you keep the file that arrived. The other surprise at the same step is a JPEG saved as .jfif; that one is Windows naming the file, not the website, and our <a href="/guides/what-is-a-jfif-file">guide to what a JFIF file is</a> explains it. That is fine for browsers,
 				where 97% of traffic can show WebP as of September 2026 (<a
 					href="https://caniuse.com/webp"
 					target="_blank"

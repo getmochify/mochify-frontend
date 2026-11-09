@@ -515,6 +515,11 @@ export const cards = [
 		title: 'What Is a JXL File? How to Open, Convert, and Share JPEG XL'
 	},
 	{
+		path: '/guides/what-is-a-jfif-file',
+		eyebrow: 'GUIDE',
+		title: 'What Is a JFIF File? Why Windows Saves .jfif and the Fix'
+	},
+	{
 		path: '/guides/what-is-a-webp-file',
 		eyebrow: 'GUIDE',
 		title: 'What Is a WebP File? (And How to Open One)'

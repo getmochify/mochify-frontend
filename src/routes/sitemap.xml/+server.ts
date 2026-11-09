@@ -147,6 +147,7 @@ export async function GET() {
 		'/guides/vinted-photos-that-sell',
 		'/guides/vinted-background-removal-rules',
 		'/guides/agent-built-website-image-optimization',
+		'/guides/what-is-a-jfif-file',
 		'/guides/mochify-vs-tinypng',
 		'/guides/is-reselling-worth-it',
 		'/guides/photo-file-too-large-to-upload',

@@ -12,7 +12,7 @@
         category: "Image Optimization",
         readTime: "20 min read",
         date: "February 09, 2026",
-        lastUpdated: "November 6, 2026"
+        lastUpdated: "November 9, 2026"
     };
 
     const related = [
@@ -88,7 +88,7 @@
         ],
         "image": "https://mochify.app/og/guides-jpeg-in-2026-jpegli.png",
         "datePublished": "2026-02-09T12:00:00+00:00",
-        "dateModified": "2026-11-06T12:00:00+00:00"
+        "dateModified": "2026-11-09T12:00:00+00:00"
         }
     </script>
     <script type="application/ld+json">
@@ -192,7 +192,7 @@
         url="https://mochify.app/guides/jpeg-in-2026-jpegli"
         description="Jpegli vs MozJPEG and libjpeg-turbo: how much smaller Google's jpegli makes a JPEG at the same quality, where MozJPEG still holds, and when to switch."
         datePublished="2026-02-09"
-        dateModified="2026-11-06"
+        dateModified="2026-11-09"
     />
 </svelte:head>
 
@@ -406,7 +406,7 @@
                 <div>
                     <h3 class="text-xl font-bold text-cocoa-ink mb-3">Metadata and ICC Profiles</h3>
                     
-                    <p class="mb-4">JPEG files can carry EXIF metadata (camera settings, GPS, timestamps) and ICC color profiles (how to interpret the RGB values). Stripping metadata reduces file size by a few KB-sometimes 10-20KB for a RAW-exported JPEG with embedded previews. ICC profiles are usually a few KB but essential for print workflows. For web delivery, sRGB is assumed, so stripping non-sRGB profiles is safe.</p>
+                    <p class="mb-4">JPEG files can carry EXIF metadata (camera settings, GPS, timestamps) and ICC color profiles (how to interpret the RGB values). Where that metadata sits is a matter of file layout: JFIF and Exif are the two common ones, explained in our <a href="/guides/what-is-a-jfif-file">guide to what a JFIF file is</a>. Stripping metadata reduces file size by a few KB-sometimes 10-20KB for a RAW-exported JPEG with embedded previews. ICC profiles are usually a few KB but essential for print workflows. For web delivery, sRGB is assumed, so stripping non-sRGB profiles is safe.</p>
                 </div>
 
                 <div>

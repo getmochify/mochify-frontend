@@ -168,7 +168,7 @@ export const guides: Guide[] = [
 		category: 'Quick Guides',
 		readTime: '2 min read',
 		date: 'August 12, 2026',
-		lastUpdated: 'October 7, 2026'
+		lastUpdated: 'November 9, 2026'
 	},
 	{
 		title: 'Does Stripping EXIF Data Improve WordPress Image SEO?',
@@ -220,6 +220,15 @@ export const guides: Guide[] = [
 		lastUpdated: 'September 26, 2026'
 	},
 	{
+		title: 'What Is a JFIF File? Why Windows Saves .jfif, and How to Get a JPG or PNG Back',
+		description:
+			'A JFIF is a JPEG with another name. Why Windows and your browser save .jfif, what renaming loses (nothing), the registry fix, and the Mac and phone routes.',
+		url: '/guides/what-is-a-jfif-file',
+		category: 'Image Formats',
+		readTime: '24 min read',
+		date: 'November 9, 2026'
+	},
+	{
 		title:
 			'Your AI Agent Built Your Website. Here Is How to Make Its Images Fast (and Strip the GPS)',
 		description:
@@ -246,7 +255,8 @@ export const guides: Guide[] = [
 		url: '/guides/what-is-a-webp-file',
 		category: 'Quick Guides',
 		readTime: '3 min read',
-		date: 'October 27, 2026'
+		date: 'October 27, 2026',
+		lastUpdated: 'November 9, 2026'
 	},
 	{
 		title: 'What Is an AVIF File? (And How to Open One)',
@@ -505,7 +515,7 @@ export const guides: Guide[] = [
 		category: 'Image Optimization',
 		readTime: '20 min read',
 		date: 'February 9, 2026',
-		lastUpdated: 'November 6, 2026'
+		lastUpdated: 'November 9, 2026'
 	},
 	{
 		title: 'The Risks of EXIF Data in Image Compression (2026 Guide)',
