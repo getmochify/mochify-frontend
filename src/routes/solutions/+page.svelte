@@ -143,11 +143,12 @@
             heading: 'PDFs',
             items: [
                 {
-                    text: 'Turn images into one PDF: {0}, {1} or {2}. The free plan builds a PDF from up to 3 images, and every paid plan and the Day Pass take up to 20.',
+                    text: 'Turn images into one PDF: {0}, {1}, {2} or {3}. The free plan builds a PDF from up to 3 images, and every paid plan and the Day Pass take up to 20.',
                     links: [
                         { href: '/solutions/webp-to-pdf', label: 'WebP to PDF' },
                         { href: '/solutions/jxl-to-pdf', label: 'JXL to PDF' },
-                        { href: '/solutions/heif-to-pdf', label: 'HEIC and HEIF to PDF' }
+                        { href: '/solutions/heif-to-pdf', label: 'HEIC and HEIF to PDF' },
+                        { href: '/solutions/jfif-to-pdf', label: 'JFIF to PDF' }
                     ]
                 }
             ]

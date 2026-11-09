@@ -16,6 +16,7 @@
         'heif-to-pdf': 'HEIC and HEIF to PDF',
         'jxl-to-pdf': 'JXL to PDF',
         'webp-to-pdf': 'WebP to PDF',
+        'jfif-to-pdf': 'JFIF to PDF',
         'png-to-jxl': 'PNG to JXL',
         'jpegli-compressor': 'jpegli JPEG Compressor',
         'jxl-to-jpg': 'JXL to JPG',

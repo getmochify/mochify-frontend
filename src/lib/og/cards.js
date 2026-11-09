@@ -624,6 +624,12 @@ export const cards = [
 		alt: 'Mochify JFIF to JPG converter'
 	},
 	{
+		path: '/solutions/jfif-to-pdf',
+		eyebrow: 'TOOL',
+		title: 'JFIF to PDF Converter - Combine JFIF Images Into One PDF',
+		alt: 'Mochify JFIF to PDF converter'
+	},
+	{
 		path: '/solutions/jfif-to-png',
 		eyebrow: 'TOOL',
 		title: 'JFIF to PNG Converter - Lossless',
