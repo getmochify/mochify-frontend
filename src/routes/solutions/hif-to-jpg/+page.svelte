@@ -18,7 +18,7 @@
         },
         {
             q: 'Does this keep Fuji film sims?',
-            a: 'Yes, Mochify preserves Fuji film simulations (Velvia, Classic Chrome, etc.) so your intended look stays intact.'
+            a: 'Yes. A HIF is a developed picture, not a RAW file, so the film simulation (Velvia, Classic Chrome and the rest) is already in its pixels, and the converted JPG carries the same look. Nothing is reinterpreted on the way through.'
         },
         {
             q: 'What about EXIF metadata?',
@@ -154,7 +154,7 @@
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">1</span>
                     <p class="leading-relaxed text-cocoa-deep">
-                        <strong class="text-cocoa-ink">Drop your .HIF files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. Got a whole shoot to convert? A <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours, no account needed.
+                        <strong class="text-cocoa-ink">Drop your .HIF files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. Got a whole shoot to convert? A <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours, no signup.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
@@ -194,15 +194,13 @@
 
         <section class="mt-20 max-w-4xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-start">
-            
-            <div class="space-y-8">
                 <div class="space-y-4">
                     <h2 class="text-2xl font-bold text-cocoa-ink">Why convert HIF to JPG?</h2>
                     <p class="leading-relaxed text-cocoa-deep">
                         HIF is a modern container used by professional cameras to store <strong class="text-[#7E685E]">10-bit HDR photos</strong>. While they offer better color depth, they often fail to open on web browsers or older editing software.
                     </p>
                     <p class="leading-relaxed text-cocoa-deep">
-                        Mochify converts these into standard 8-bit JPEGs using the advanced <strong class="text-[#7E685E]">Google Jpegli encoder</strong>. This ensures that while the file becomes 8-bit, the 10-bit dynamic range is visually preserved through advanced psychovisual quantization.
+                        Mochify converts them into standard 8-bit JPEGs with Google's jpegli encoder. The JPG is a standard-range file that every screen, app and upload form can show; the extra highlight headroom of an HDR capture and the 10-bit precision are not carried across. If you want to keep 10-bit color, <a href="/solutions/hif-to-avif" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">convert to AVIF</a> instead.
                     </p>
                 </div>
 
@@ -217,9 +215,56 @@
                     </ul>
                 </div>
             </div>
+        </section>
 
-            <FaqAccordion {faqs} />
-        </div>
+        <section class="mt-20 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-extrabold text-cocoa-ink">What the converter does to your HIF</h2>
+            <p class="leading-relaxed text-cocoa-deep">
+                HIF is the HEIF container as Canon, Sony and Fujifilm write it: a 10-bit, HEVC-encoded still, often with an HDR PQ tone curve, in a file that most browsers, upload forms and older editors will not open. This page decodes it and re-encodes the picture as an 8-bit JPG with Google's jpegli encoder, so what you download opens in Lightroom, Photoshop, Windows Photos, Preview, every browser and every upload form.
+            </p>
+            <p class="leading-relaxed text-cocoa-deep">
+                What you get is the picture as it looks, in a standard-range JPG. The HDR headroom and the 10-bit precision are not carried; if you need them, <a href="/solutions/hif-to-avif" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">convert to AVIF</a> instead, which keeps 10-bit color.
+            </p>
+            <p class="leading-relaxed text-cocoa-deep">
+                Metadata is up to you. On this page the Strip EXIF switch starts off, so ISO, shutter, lens and GPS stay in the JPG unless you switch it on before converting. Your files travel over HTTPS to our encoder, are converted in memory and discarded the moment the conversion finishes. Nothing is written to disk and nothing containing your files is logged.
+            </p>
+        </section>
+
+        <section class="mt-20 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-extrabold text-cocoa-ink">Converting HIF to JPG without a converter</h2>
+            <p class="leading-relaxed text-cocoa-deep">
+                Canon: the camera does it. In the Playback menu, a HEIF shot can be converted to JPEG on the card. On a computer, Canon's Digital Photo Professional opens .HIF files from its own bodies and exports JPEG.
+            </p>
+            <p class="leading-relaxed text-cocoa-deep">
+                Sony: Imaging Edge Desktop. Open the Viewer, drag in the .HIF files, select them and use File, Export to save JPEGs. The full walkthrough is in <a href="/guides/sony-hif-to-jpg" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">how to convert Sony HIF files to JPG</a>.
+            </p>
+            <p class="leading-relaxed text-cocoa-deep">
+                Mac: Preview and Photos open a .HIF with no setup. In Preview, File, Export, choose JPEG. One file at a time; for a whole card, the box at the top of this page or the CLI below is quicker.
+            </p>
+            <p class="leading-relaxed text-cocoa-deep">
+                Windows: Windows 11 and 10 open a .HIF in Photos once the HEIF Image Extension and the HEVC Video Extensions ($0.99) are installed from the Microsoft Store; without the second one you get an error. Opening is not converting, though: a marketplace, CMS or print service that wants JPEG still needs a converted file. Every Windows fix is in <a href="/guides/open-heif-files-on-windows" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">how to open HEIF files on Windows</a>, and the camera-by-camera routes are in the <a href="/guides/hif-to-jpg-canon-sony-fujifilm" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">HIF to JPG guide for Canon, Sony and Fujifilm</a>.
+            </p>
+        </section>
+
+        <section class="mt-20 max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-extrabold text-cocoa-ink">Limits, bulk and automation</h2>
+            <p class="leading-relaxed text-cocoa-deep">
+                Up to 3 files per batch at 20MB each with no signup (3 a month as a guest) or on a free account (25 a month). Seller, Pro and Growth accounts convert 25 per batch at up to 75MB each, and a $2 <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> takes 100 uploads in 24 hours with no signup.
+            </p>
+            <p class="leading-relaxed text-cocoa-deep">
+                The same conversion runs from the terminal with the <a href="/mcp" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Mochify CLI</a> (sign in once with <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify auth login</code>, then <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify DSC00123.HIF -t jpg</code>), from an AI assistant through the hosted or local MCP server, and from the REST API:
+            </p>
+            <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=jpg&stripExif=false" \
+  -H "Authorization: Bearer $MOCHIFY_KEY" \
+  --data-binary @DSC00123.HIF \
+  -o DSC00123.jpg</code></pre>
+            <p class="leading-relaxed text-cocoa-deep">
+                The CLI, MCP and API are clients over the same encoder as this page: files travel over HTTPS to api.mochify.app, are converted in memory and discarded. Drop <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">stripExif=false</code> to strip metadata, GPS included. Full parameter reference in the <a href="/docs" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">API documentation</a>.
+            </p>
+        </section>
+
+        <section class="mt-20 max-w-4xl mx-auto">
+            <FaqAccordion {faqs} class="grid md:grid-cols-2 gap-4 items-start" />
         </section>
 
         <!-- Also available -->
