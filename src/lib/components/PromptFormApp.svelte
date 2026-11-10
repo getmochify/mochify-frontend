@@ -181,18 +181,6 @@
 	$effect(() => {
 		if (isProcessing) batchTitle.progress(completedFiles, totalFiles);
 	});
-	let downloadAsZip: boolean = $state(false);
-	// Set when the auto-ZIP threshold, not the user, turned the toggle on. That
-	// choice belongs to one batch: once the batch's files are cleared the toggle
-	// goes back off, so a later two-file run is not zipped by a setting the user
-	// never chose. A toggle the user switched on themselves is left alone.
-	let zipAutoEnabled = false;
-	$effect(() => {
-		if (files.length === 0 && zipAutoEnabled) {
-			zipAutoEnabled = false;
-			downloadAsZip = false;
-		}
-	});
 
 	// Output destination — results are written straight to the user's own storage
 	// by core instead of coming back as downloads.
@@ -229,9 +217,6 @@
 	// off after a deploy.
 	const DEST_PREF_KEY = 'mochify:saveTo';
 	const LEGACY_BUCKET_PREF_KEY = 'mochify:saveToBucket';
-	// When a job fans out into many outputs, auto-enable ZIP so the user gets one
-	// archive instead of a barrage of separate downloads (which browsers block).
-	const AUTO_ZIP_THRESHOLD = 4;
 
 	// Text-to-image ("create") results: a file-less prompt generates a new image.
 	// Core generates once and returns a ZIP of the original + format/size variants,
@@ -2519,15 +2504,15 @@
 			// change where half a batch lands.
 			const remoteDest = canSaveRemote && destination !== 'download' ? destination : null;
 			const bucketDest = remoteDest !== null;
-			// Past the threshold, switch ZIP on — the bound toggle animates on so the
-			// user sees why they're getting an archive instead of many downloads.
-			// Auto-ZIP exists to stop browsers blocking a barrage of downloads.
-			// When results go to the bucket there are no downloads to block, and
-			// a ZIP would just be a second, unwanted artefact.
-			if (totalFiles >= AUTO_ZIP_THRESHOLD && !bucketDest && !downloadAsZip) {
-				downloadAsZip = true;
-				zipAutoEnabled = true;
-			}
+			// More than one output is always one ZIP. Separate downloads fired after
+			// async work trip the browser's "download multiple files" prompt, and a
+			// visitor who blocks it (Chrome remembers that per site) silently loses
+			// every file after the first while the page reports success. This used
+			// to start at 4 outputs with a manual toggle below that, but 2-3 output
+			// runs are ~40% of Magic Flow and the toggle was redundant once auto-ZIP
+			// overrode it. Bucket runs are exempt: there are no downloads to block,
+			// and a ZIP would just be a second, unwanted artefact.
+			const downloadAsZip = totalFiles > 1 && !bucketDest;
 			// Normally each file uploads exactly once — multi-variant fan-out happens
 			// server-side (types/sizes params → ZIP response) — so upload progress
 			// counts each file's bytes once, regardless of variant count. Bucket
@@ -4026,32 +4011,6 @@
 							/>
 						</svg>
 					</label>
-					{#if files.length > 0 && uploadMode !== 'pdf' && uploadMode !== 'video'}
-						<div class="h-4 w-px flex-shrink-0 bg-white/40"></div>
-						<label
-							class="flex flex-shrink-0 cursor-pointer items-center gap-1.5"
-							title="Download as ZIP"
-						>
-							<div class="relative">
-								<input type="checkbox" bind:checked={downloadAsZip} class="sr-only" />
-								<div
-									class="block h-3.5 w-7 rounded-full border transition-all duration-300 {downloadAsZip
-										? 'border-[#C8E6C9] bg-[#C8E6C9]'
-										: 'border-[#C8E6C9]/40 bg-[#e8f5e9] shadow-inner'}"
-								></div>
-								<div
-									class="dot absolute top-0.5 left-0.5 h-2.5 w-2.5 rounded-full bg-white shadow-sm transition-transform duration-300 {downloadAsZip
-										? 'translate-x-3.5 transform'
-										: ''}"
-								></div>
-							</div>
-							<span
-								class="text-[10px] font-extrabold tracking-widest uppercase transition-colors duration-300 {downloadAsZip
-									? 'text-[#2E5C31]'
-									: 'text-cocoa-milk/50'}">ZIP</span
-							>
-						</label>
-					{/if}
 					{#if canSaveRemote && files.length > 0}
 						<div class="h-4 w-px flex-shrink-0 bg-white/40"></div>
 						<label
