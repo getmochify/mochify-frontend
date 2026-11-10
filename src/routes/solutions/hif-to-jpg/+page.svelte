@@ -96,7 +96,7 @@
                 "availability": "https://schema.org/InStock"
             },
             "featureList": [
-                "Preserves 10-bit dynamic range via Jpegli psychovisual quantization",
+                "Encodes JPGs with Google's jpegli encoder",
                 "Converts professional HDR containers to standard 8-bit JPEGs",
                 "Files streamed into memory on the encoder, never written to disk",
                 "Supports 10-bit HEIF/HIF formats from Fuji X-T5, Sony A7 IV, Canon R5"
