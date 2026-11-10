@@ -219,6 +219,12 @@
 	// allowance explainer after the run has finished.
 	let quotaExhausted: boolean = $state(false);
 	let successMessage: string = $state('');
+	// The run's one download, kept so the success banner can name it and offer
+	// it again: we can't see where the browser put it (silent save, a save-as
+	// prompt the visitor dismissed, a custom folder, iOS Files). Only a run that
+	// produced a single file or zip keeps it; a multi-part run would hold every
+	// part in memory. Raw so Svelte doesn't try to proxy the Blob.
+	let lastDownload: { blob: Blob; name: string } | null = $state.raw(null);
 	let totalOriginalSize: number = $state(0);
 	let fileInputElement: HTMLInputElement;
 	// Two at once, so the next file uploads while core processes the previous
@@ -725,6 +731,7 @@
 			// two different grounds is rare, and one link beats two competing ones.
 			errorKey = rejections.find((r) => r.key)?.key;
 			successMessage = '';
+			lastDownload = null;
 		}
 
 		const { kept, skipped: metadataSkipped } = withoutMacMetadata(allFiles);
@@ -1396,6 +1403,7 @@
 		errorKey = undefined;
 		errorDecoder = undefined;
 		successMessage = '';
+		lastDownload = null;
 		allowanceTrim = null;
 		legacyTrim = null;
 		processPhase = 'uploading';
@@ -1911,8 +1919,12 @@
 			if (final) zipPart = 0;
 			return;
 		}
+		// A final flush after numbered parts is just the last part.
+		const keep = final && zipPart === 0;
+		lastDownload = null;
 		if (final && zipPart === 0 && entries.length === 1) {
-			downloadBlob(entries[0].blob, entries[0].name);
+			const name = downloadBlob(entries[0].blob, entries[0].name);
+			if (keep) lastDownload = { blob: entries[0].blob, name };
 		} else {
 			// Runs from compressImage's finally, so it must not throw: a throw
 			// there would leave isLoading latched and the button dead.
@@ -1923,6 +1935,7 @@
 						? 'compressed-images.zip'
 						: `compressed-images-part-${++zipPart}.zip`;
 				downloadBlob(zipBlob, name);
+				if (keep) lastDownload = { blob: zipBlob, name };
 			} catch (error) {
 				posthog.captureException(error);
 				errorMessage = 'Your images converted, but the zip could not be built. Please try again.';
@@ -2023,12 +2036,22 @@
 		return () => window.removeEventListener('beforeunload', warn);
 	});
 
-	function downloadBlob(blob: Blob, filename: string) {
+	function downloadBlob(blob: Blob, filename: string): string {
 		if (!filename.includes('.')) {
 			const extension = imageType === 'jpeg' ? 'jpg' : imageType;
 			filename = `${filename}.${extension}`;
 		}
 		saveBlob(blob, filename);
+		return filename;
+	}
+
+	function downloadAgain() {
+		if (!lastDownload) return;
+		posthog.capture('download_again_clicked', {
+			zip: lastDownload.name.endsWith('.zip'),
+			source: 'manual'
+		});
+		saveBlob(lastDownload.blob, lastDownload.name);
 	}
 
 	function resetForm() {
@@ -2046,6 +2069,7 @@
 		allowanceTrim = null;
 		legacyTrim = null;
 		successMessage = '';
+		lastDownload = null;
 		unlockNote = '';
 		doneThisVisit = 0;
 		imageType = output;
@@ -2938,6 +2962,19 @@
 			</svg>
 			<div class="flex flex-col gap-1">
 				<p class="text-xs font-bold text-[#33691E]">{successMessage}</p>
+				{#if lastDownload}
+					<p class="text-xs text-[#33691E]">
+						<span class="font-bold break-all">{lastDownload.name}</span> has been downloaded. Can't
+						find it?
+						<button
+							type="button"
+							onclick={downloadAgain}
+							class="font-bold underline underline-offset-2 hover:text-[#1B5E20]"
+						>
+							Download again
+						</button>
+					</p>
+				{/if}
 				{#if quotaExhausted}
 					<UploadHelpLink
 						errorKey="quota_exhausted"
