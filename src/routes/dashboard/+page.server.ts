@@ -564,6 +564,13 @@ export const actions = {
 			),
 			callWorker(platform, `/user/${locals.user.id}/drive`, { method: 'DELETE' }).catch((e) =>
 				console.error('[dashboard] drive credential wipe on delete failed:', e)
+			),
+			// Every API key, on every client. Deleting the sessions below signs
+			// the browser out; the CLI and the extension hold keys instead, and
+			// those kept working for the 14 days until the purge. Signing back
+			// in restores the account, not the keys: each client signs in again.
+			callWorker(platform, `/user/${locals.user.id}/apikey`, { method: 'DELETE' }).catch((e) =>
+				console.error('[dashboard] API key revoke on delete failed:', e)
 			)
 		]);
 
