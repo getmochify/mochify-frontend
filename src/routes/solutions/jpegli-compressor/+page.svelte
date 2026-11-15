@@ -237,7 +237,7 @@
         <section class="mt-20 max-w-4xl mx-auto space-y-4">
             <h2 class="text-2xl font-bold text-cocoa-ink">Bulk, batch and automated JPEG compression</h2>
             <p class="leading-relaxed text-cocoa-deep">
-                Seller, Pro and Growth accounts compress up to 25 files per batch at up to 75MB each, and a $2 <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours with no signup. The same encode runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify auth login</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
+                Seller, Pro and Growth accounts compress up to 25 files per batch at up to 75MB each, and a $2 <a href="/pricing#day-pass" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours with no signup. The same encode runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify auth login</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
             </p>
             <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=jpg&amp;quality=85" \
   -H "Authorization: Bearer $MOCHIFY_KEY" \

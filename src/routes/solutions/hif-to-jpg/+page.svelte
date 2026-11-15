@@ -154,7 +154,7 @@
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
                     <span class="shrink-0 w-8 h-8 rounded-xl deep-tile font-black text-sm flex items-center justify-center">1</span>
                     <p class="leading-relaxed text-cocoa-deep">
-                        <strong class="text-cocoa-ink">Drop your .HIF files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. Got a whole shoot to convert? A <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours, no signup.
+                        <strong class="text-cocoa-ink">Drop your .HIF files</strong> in the box above, or click browse. Up to 3 files per batch with no signup or on a free account, and 25 per batch on a Day Pass or any paid plan. Got a whole shoot to convert? A <a href="/pricing#day-pass" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">$2 Day Pass</a> covers 100 uploads in 24 hours, no signup.
                     </p>
                 </li>
                 <li class="bg-white border border-pink-50 rounded-2xl px-6 py-5 shadow-sm flex gap-4 items-center">
@@ -249,7 +249,7 @@
         <section class="mt-20 max-w-4xl mx-auto space-y-4">
             <h2 class="text-2xl font-extrabold text-cocoa-ink">Limits, bulk and automation</h2>
             <p class="leading-relaxed text-cocoa-deep">
-                Up to 3 files per batch at 20MB each with no signup (3 a month as a guest) or on a free account (25 a month). Seller, Pro and Growth accounts convert 25 per batch at up to 75MB each, and a $2 <a href="/pricing" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> takes 100 uploads in 24 hours with no signup.
+                Up to 3 files per batch at 20MB each with no signup (3 a month as a guest) or on a free account (25 a month). Seller, Pro and Growth accounts convert 25 per batch at up to 75MB each, and a $2 <a href="/pricing#day-pass" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> takes 100 uploads in 24 hours with no signup.
             </p>
             <p class="leading-relaxed text-cocoa-deep">
                 The same conversion runs from the terminal with the <a href="/mcp" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Mochify CLI</a> (sign in once with <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify auth login</code>, then <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify DSC00123.HIF -t jpg</code>), from an AI assistant through the hosted or local MCP server, and from the REST API:
