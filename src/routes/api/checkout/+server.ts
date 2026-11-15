@@ -1,13 +1,14 @@
 import { Polar } from '@polar-sh/sdk';
 import { AddressInputCountryAlpha2Input } from '@polar-sh/sdk/models/components/addressinput.js';
 import { env } from '$env/dynamic/private';
-import { PUBLIC_POSTHOG_PROJECT_TOKEN } from '$env/static/public';
-import { json, redirect, type Cookies } from '@sveltejs/kit';
+import { json, redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getPostHogClient } from '$lib/server/posthog';
+import { captureDayPassInitiated } from '$lib/server/dayPassCheckout';
 import { discountIdForCode } from '$lib/server/abandonedCart';
 import { countryFromRequest, type Currency } from '$lib/server/currency';
-import { currencyForCheckout } from '$lib/server/prices';
+import { currencyForCheckout, getPriceTable } from '$lib/server/prices';
+import { USD_PRICES, formatPrice } from '$lib/currency';
 
 const POLAR_TIMEOUT_MS = 8000;
 
@@ -132,26 +133,6 @@ function dayPassReturnPath(successUrl: string): Record<string, string> | undefin
 	target.searchParams.delete('day_pass_success');
 	const path = target.pathname + target.search;
 	return path.length <= 500 ? { return_path: path } : undefined;
-}
-
-/**
- * The browser's PostHog id, so an anonymous Day Pass purchase stitches onto the
- * session that led to it. posthog-js keeps it in its own cookie; reading it is
- * the only way to attribute a server-side event for a caller with no account.
- * Falls back to `anonymous`, matching the webhook's own unresolved-buyer events.
- */
-function posthogDistinctId(cookies: Cookies, userId?: string): string {
-	if (userId) return userId;
-	const raw = cookies.get(`ph_${PUBLIC_POSTHOG_PROJECT_TOKEN}_posthog`);
-	if (raw) {
-		try {
-			const id = (JSON.parse(raw) as { distinct_id?: string }).distinct_id;
-			if (id) return id;
-		} catch {
-			/* fall through */
-		}
-	}
-	return 'anonymous';
 }
 
 type SubscriptionCheckout =
@@ -317,7 +298,7 @@ export const GET: RequestHandler = async (event) => {
  * See `startDayPassCheckout` in `$lib/dayPass`.
  */
 export const POST: RequestHandler = async (event) => {
-	const { locals, url, platform, request, cookies } = event;
+	const { locals, url, platform, request } = event;
 	const plan = url.searchParams.get('plan') ?? 'day';
 	const productId = dayPassProduct(plan);
 	if (productId === undefined) {
@@ -352,15 +333,22 @@ export const POST: RequestHandler = async (event) => {
 	// overlay on this page (see `startDayPassCheckout`). The no-JS form never
 	// does: it lands on the hosted page in a new tab, as before.
 	let embed = false;
+	// Created ahead of the click, while a limit box offers the pass, so the
+	// overlay is already loaded when the buyer opens it (see `prewarmDayPass`).
+	// Not a checkout anyone started yet: `checkout_initiated` waits for the
+	// click, which reports it through `api/checkout/initiated`.
+	let prewarm = false;
 	if (wantsJson) {
 		const body = (await request.json().catch(() => null)) as {
 			next?: unknown;
 			trigger?: unknown;
 			embed?: unknown;
+			prewarm?: unknown;
 		} | null;
 		next = typeof body?.next === 'string' ? body.next : null;
 		trigger = typeof body?.trigger === 'string' ? body.trigger : null;
 		embed = body?.embed === true;
+		prewarm = embed && body?.prewarm === true;
 	} else {
 		const form = await request.formData().catch(() => null);
 		const rawNext = form?.get('next');
@@ -390,7 +378,7 @@ export const POST: RequestHandler = async (event) => {
 			country: countryFromRequest(request, platform),
 			userId: user?.id,
 			email: user?.email ?? undefined,
-			metadata: dayPassReturnPath(successUrl),
+			metadata: { ...dayPassReturnPath(successUrl), ...(prewarm ? { prewarm: '1' } : {}) },
 			embedOrigin: embed ? url.origin : undefined
 		});
 	} catch (err) {
@@ -405,23 +393,39 @@ export const POST: RequestHandler = async (event) => {
 		throw redirect(303, errorUrl);
 	}
 
-	const posthog = getPostHogClient();
-	posthog.capture({
-		distinctId: posthogDistinctId(cookies, user?.id),
-		event: 'checkout_initiated',
-		properties: {
-			plan,
-			billing: 'one_time',
-			currency: currency ?? 'default',
-			authed: !!user,
-			trigger,
-			embed,
-			...(user?.email ? { $set: { email: user.email } } : {})
-		}
-	});
-	const flushPromise = posthog.flush().catch(() => {});
-	platform?.context?.waitUntil?.(flushPromise);
+	if (!prewarm) {
+		captureDayPassInitiated(event, { plan, currency: currency ?? 'default', trigger, embed });
+	}
 
-	if (wantsJson) return json({ url: checkoutUrl });
+	// The price goes on the overlay's loading card, so the buyer sees what they
+	// are paying for while Polar's frame loads.
+	if (wantsJson) {
+		return json({
+			url: checkoutUrl,
+			currency: currency ?? 'default',
+			price: await dayPassPrice(polar, platform?.env?.USAGE_KV, plan, productId, currency)
+		});
+	}
 	throw redirect(303, checkoutUrl);
 };
+
+/**
+ * The pass's price as the checkout will charge it ("$2", "₹170"), or undefined
+ * when the price table is unavailable: the card then names the pass without a
+ * price rather than quoting one Polar may not charge.
+ */
+async function dayPassPrice(
+	polar: Polar,
+	kv: KVNamespace | undefined,
+	plan: string,
+	productId: string,
+	currency: Currency | null
+): Promise<string | undefined> {
+	const target = currency ?? 'usd';
+	if (target === 'usd') {
+		const cents = USD_PRICES[plan === 'dayplus' ? 'dayPassPlus' : 'dayPass'];
+		return cents === undefined ? undefined : formatPrice(cents, 'usd');
+	}
+	const amount = (await getPriceTable(polar, kv).catch(() => null))?.[productId]?.[target];
+	return amount === undefined ? undefined : formatPrice(amount, target);
+}

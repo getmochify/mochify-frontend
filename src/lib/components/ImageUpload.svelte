@@ -65,11 +65,11 @@
 		dayPassNext,
 		dayPassSignIn,
 		passForDrop,
+		prewarmDayPass,
 		resendDayPassLink,
 		startDayPassCheckout,
 		type DayPassActivation
 	} from '$lib/dayPass';
-	import { warmCheckout } from '$lib/embedCheckout';
 
 	const API_URL = env.PUBLIC_API_URL || 'https://api.mochify.app';
 	const WORKER_URL = env.PUBLIC_WORKER_URL || 'https://id.mochify.app';
@@ -1219,16 +1219,20 @@
 			filesLeft > 0
 	);
 
-	// The main button sells the Day Pass in these two states; get the checkout
-	// ready while it does (see `warmCheckout`).
+	// The main button sells the Day Pass in these two states; load the
+	// checkout while it does, so the click only has to show it (see
+	// `prewarmDayPass`). Mirrors the pass handleButtonClick opens.
 	const buttonSellsDayPass = $derived(
 		(blockedByFileSize && sizeRouteOffered) || (insufficientTokens && allowanceDayPass)
 	);
+	const buttonSellsPlus = $derived(
+		!blockedByFileSize && guestWallWithQueue && passForDrop(filesLeft).plus
+	);
 	$effect(() => {
-		if (buttonSellsDayPass) warmCheckout();
+		if (buttonSellsDayPass) prewarmDayPass({ next: dayPassReturnTo, plus: buttonSellsPlus });
 	});
 	function warmIfSelling() {
-		if (buttonSellsDayPass) warmCheckout();
+		if (buttonSellsDayPass) prewarmDayPass({ next: dayPassReturnTo, plus: buttonSellsPlus });
 	}
 
 	function handleButtonClick() {
@@ -2668,6 +2672,7 @@
 				{#if dayPassOffered}
 					{@const pass = passOffer(n)}
 					<DayPassButton
+						prewarm
 						onPaid={handleDayPassPaid}
 						trigger="batch_cap_banner"
 						source="batch_cap_box"
@@ -2734,6 +2739,7 @@
 				     300 is pass_plus), so the pass that covers the most of them. -->
 				{#if dayPassOffered}
 					<DayPassButton
+						prewarm
 						onPaid={handleDayPassPaid}
 						trigger="batch_cap_banner"
 						source="batch_cap_box"
@@ -2752,6 +2758,7 @@
 	{#snippet sizeRoute()}
 		{#if sizeRouteOffered}
 			<DayPassButton
+				prewarm
 				onPaid={handleDayPassPaid}
 				trigger="file_size_card"
 				source="size_row"
@@ -3184,6 +3191,7 @@
 						</p>
 						<div class="mt-1.5 flex flex-col items-start gap-1">
 							<DayPassButton
+								prewarm
 								onPaid={handleDayPassPaid}
 								trigger="token_wall_banner"
 								source="allowance_box"
@@ -3258,6 +3266,7 @@
 						<div class="mt-1.5 flex flex-wrap items-start gap-x-3 gap-y-2">
 							{#if allowanceDayPass}
 								<DayPassButton
+									prewarm
 									onPaid={handleDayPassPaid}
 									trigger="token_wall_banner"
 									source="allowance_box"
@@ -3610,6 +3619,7 @@
 					<div class="flex flex-col gap-3">
 						{#if dayPassOffered}
 							<DayPassButton
+								prewarm
 								onPaid={handleDayPassPaid}
 								trigger="upgrade_modal_file_size"
 								class="block w-full rounded-2xl bg-linear-to-br from-mochi-pink-light to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
@@ -3723,6 +3733,7 @@
 							Create free account for {FREE_PLAN_QUOTA}/mo
 						</a>
 						<DayPassButton
+							prewarm
 							onPaid={handleDayPassPaid}
 							trigger="limit_reached_modal"
 							class="block w-full rounded-2xl border border-cocoa-milk/15 px-6 py-3 text-center text-sm font-bold text-cocoa-deep transition-all hover:border-mochi-pink/30 hover:bg-mochi-blush hover:text-mochi-pink"

@@ -1,5 +1,13 @@
 import { invalidateAll } from '$app/navigation';
-import { openEmbeddedCheckout, showNotice } from '$lib/embedCheckout';
+import {
+	createCheckoutFrame,
+	openEmbeddedCheckout,
+	showCheckoutCard,
+	showNotice,
+	warmCheckout,
+	type CheckoutFrame,
+	type PrewarmStage
+} from '$lib/embedCheckout';
 import { resetUserCaches } from '$lib/user';
 import { posthog } from '$lib/analytics';
 
@@ -99,41 +107,75 @@ export async function startDayPassCheckout(opts: {
 	 */
 	onPaid?: (checkoutUrl: string, activation: DayPassActivation) => void;
 }): Promise<void> {
-	const pass = opts.plus
+	const clickedAt = performance.now();
+	const plus = !!opts.plus;
+	const plan = plus ? 'dayplus' : 'day';
+	const pass = plus
 		? { name: 'Day Pass+', ops: DAY_PASS_PLUS_OPS }
 		: { name: 'Day Pass', ops: DAY_PASS_OPS };
-	let checkoutUrl: string;
-	const sessionStart = performance.now();
-	try {
-		const res = await fetch(opts.plus ? DAY_PASS_PLUS_ACTION : DAY_PASS_ACTION, {
+	const warm = takePrewarm(plus, opts.next);
+	const prewarm: PrewarmStage = !warm
+		? 'none'
+		: !warm.frame
+			? 'session'
+			: warm.frame.loadMs === undefined
+				? 'loading'
+				: 'ready';
+	const card = showCheckoutCard(
+		{
+			name: pass.name,
+			detail: `${pass.ops} image ops for 24 hours`,
+			price: warm?.ready?.price ?? lastPrice.get(plus)
+		},
+		{ plan, trigger: opts.trigger }
+	);
+
+	let session = warm ? await warm.session : null;
+	if (session) {
+		// The early request left `checkout_initiated` to the click; send it now,
+		// alongside the overlay rather than ahead of it.
+		void fetch('/api/checkout/initiated', {
 			method: 'POST',
 			headers: { 'content-type': 'application/json', accept: 'application/json' },
-			body: JSON.stringify({ next: opts.next, trigger: opts.trigger, embed: true })
-		});
-		if (res.status === 502) {
-			showNotice('error');
+			body: JSON.stringify({
+				plan,
+				url: session.url,
+				currency: session.currency,
+				trigger: opts.trigger
+			}),
+			keepalive: true
+		}).catch(() => {});
+	} else {
+		try {
+			session = await requestSession({ next: opts.next, trigger: opts.trigger, plus });
+		} catch (err) {
+			card.remove();
+			if (err instanceof PolarUnavailable) {
+				showNotice('error');
+				return;
+			}
+			// `submit()` rather than `requestSubmit()`: it skips the submit handler
+			// that called us, so the fallback cannot loop back into this function.
+			opts.fallbackForm?.submit();
 			return;
 		}
-		const target = res.ok ? ((await res.json()) as { url?: string }).url : undefined;
-		if (!target) throw new Error(`day pass checkout failed: ${res.status}`);
-		checkoutUrl = target;
-	} catch {
-		// `submit()` rather than `requestSubmit()`: it skips the submit handler
-		// that called us, so the fallback cannot loop back into this function.
-		opts.fallbackForm?.submit();
-		return;
 	}
+	card.setPrice(session.price ?? lastPrice.get(plus));
 
-	await openEmbeddedCheckout(checkoutUrl, {
-		plan: opts.plus ? 'dayplus' : 'day',
+	await openEmbeddedCheckout(session.url, {
+		plan,
 		trigger: opts.trigger,
-		sessionMs: Math.round(performance.now() - sessionStart),
+		sessionMs: Math.round(performance.now() - clickedAt),
+		clickedAt,
+		card,
+		frame: warm?.frame,
+		prewarm,
 		onPaid: async (url) => {
 			const activation = await activateDayPass(url);
 			posthog.capture('day_pass_tab_activation', {
 				status: activation,
 				trigger: opts.trigger,
-				pass: opts.plus ? 'plus' : 'day'
+				pass: plus ? 'plus' : 'day'
 			});
 			if (activation === 'signed_in') {
 				resetUserCaches();
@@ -158,6 +200,138 @@ export async function startDayPassCheckout(opts: {
 			}
 		}
 	});
+}
+
+type DayPassSession = { url: string; price?: string; currency?: string };
+
+/** Polar refused or timed out (our 502): the card says so, no form fallback. */
+class PolarUnavailable extends Error {}
+
+/** The last price the server quoted for each pass, for the next card. */
+const lastPrice = new Map<boolean, string>();
+
+/**
+ * Create a Day Pass checkout for the overlay. Sent as JSON, not as the form:
+ * see `startDayPassCheckout` on SvelteKit's CSRF guard.
+ */
+async function requestSession(body: {
+	next: string;
+	trigger?: string;
+	plus: boolean;
+	prewarm?: boolean;
+}): Promise<DayPassSession> {
+	const res = await fetch(body.plus ? DAY_PASS_PLUS_ACTION : DAY_PASS_ACTION, {
+		method: 'POST',
+		headers: { 'content-type': 'application/json', accept: 'application/json' },
+		body: JSON.stringify({
+			next: body.next,
+			trigger: body.trigger,
+			embed: true,
+			...(body.prewarm ? { prewarm: true } : {})
+		})
+	});
+	if (res.status === 502) throw new PolarUnavailable();
+	const data = res.ok ? ((await res.json()) as Partial<DayPassSession>) : undefined;
+	if (!data?.url) throw new Error(`day pass checkout failed: ${res.status}`);
+	if (data.price) lastPrice.set(body.plus, data.price);
+	return { url: data.url, price: data.price, currency: data.currency };
+}
+
+/**
+ * A Day Pass checkout made ahead of the click, with Polar's frame loading
+ * (then waiting) hidden on the page. Opening it is then a matter of showing
+ * the frame: Polar's frame was the slow half of the checkout (Nov 2026: p90
+ * 5.1s in India, 3.1s elsewhere, against ~1s to create the session).
+ */
+type Prewarm = {
+	plus: boolean;
+	next: string;
+	createdAt: number;
+	session: Promise<DayPassSession | null>;
+	/** The session, once it has arrived. */
+	ready?: DayPassSession;
+	frame?: CheckoutFrame;
+	discarded: boolean;
+};
+
+const prewarms = new Map<boolean, Prewarm>();
+/** Polar holds an open checkout for an hour; leave margin for the purchase. */
+const PREWARM_MAX_AGE_MS = 30 * 60_000;
+/**
+ * Early checkouts one page may create per pass. A limit box re-rendering, or a
+ * buyer cancelling and coming back, must not turn into a stream of sessions.
+ */
+const PREWARM_BUDGET = 3;
+const prewarmsMade = new Map<boolean, number>();
+
+/**
+ * Create the pass's checkout and load Polar's frame now, so the click only
+ * has to show it. For the limit boxes alone: a visitor there has run out and
+ * the pass is the offer in front of them. Never for subscriptions, whose
+ * expired checkouts send abandoned-cart emails; and the early checkout is
+ * marked `prewarm`, so it sends no `checkout_initiated` until it is clicked.
+ *
+ * Idempotent: a fresh checkout for this pass and return path is kept.
+ */
+export function prewarmDayPass(opts: { next: string; plus?: boolean }): void {
+	if (typeof window === 'undefined') return;
+	warmCheckout();
+	const plus = !!opts.plus;
+	const current = prewarms.get(plus);
+	if (
+		current &&
+		current.next === opts.next &&
+		performance.now() - current.createdAt < PREWARM_MAX_AGE_MS
+	) {
+		return;
+	}
+	const made = prewarmsMade.get(plus) ?? 0;
+	if (made >= PREWARM_BUDGET) return;
+	prewarmsMade.set(plus, made + 1);
+	if (current) discard(current);
+
+	const entry: Prewarm = {
+		plus,
+		next: opts.next,
+		createdAt: performance.now(),
+		session: Promise.resolve(null),
+		discarded: false
+	};
+	entry.session = requestSession({ next: opts.next, plus, prewarm: true }).then(
+		(session) => {
+			if (entry.discarded) return null;
+			entry.ready = session;
+			entry.frame = createCheckoutFrame(session.url);
+			return session;
+		},
+		() => {
+			// Nothing to clean up; the next show or hover may try again.
+			if (prewarms.get(plus) === entry) prewarms.delete(plus);
+			return null;
+		}
+	);
+	prewarms.set(plus, entry);
+}
+
+function discard(entry: Prewarm): void {
+	entry.discarded = true;
+	entry.frame?.remove();
+	if (prewarms.get(entry.plus) === entry) prewarms.delete(entry.plus);
+}
+
+/**
+ * Hand the click this pass's early checkout, if it has a usable one. Taken off
+ * the shelf either way: an overlay owns its frame, and a stale one is dropped.
+ */
+function takePrewarm(plus: boolean, next: string): Prewarm | undefined {
+	const entry = prewarms.get(plus);
+	if (!entry) return undefined;
+	prewarms.delete(plus);
+	if (entry.next !== next || performance.now() - entry.createdAt >= PREWARM_MAX_AGE_MS) {
+		discard(entry);
+		return undefined;
+	}
+	return entry;
 }
 
 /**

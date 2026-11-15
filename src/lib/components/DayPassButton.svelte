@@ -6,6 +6,7 @@
 		DAY_PASS_ACTION,
 		DAY_PASS_PLUS_ACTION,
 		dayPassNext,
+		prewarmDayPass,
 		startDayPassCheckout,
 		type DayPassActivation
 	} from '$lib/dayPass';
@@ -19,6 +20,7 @@
 		onPaid = undefined,
 		properties = undefined,
 		plus = false,
+		prewarm = false,
 		children
 	}: {
 		/** PostHog `day_pass_cta_clicked` trigger label for this surface. */
@@ -35,15 +37,26 @@
 		properties?: Record<string, unknown>;
 		/** Sell Day Pass+ (300 uploads) instead of the Day Pass. */
 		plus?: boolean;
+		/**
+		 * Create the checkout and load Polar's frame while this button is on
+		 * screen, so a click opens it at once. Only where the visitor has hit a
+		 * limit: each one is a real (if unclaimed) Polar checkout. See `prewarmDayPass`.
+		 */
+		prewarm?: boolean;
 		children?: Snippet;
 	} = $props();
 
 	const returnTo = $derived(next ?? dayPassNext(page.url));
 
-	// Fetch the overlay's script and connect to Polar while the offer is on
-	// screen, and connect again on hover/focus/press: a preconnect lapses after
-	// about ten seconds unused. See `warmCheckout`.
-	$effect(() => warmCheckout());
+	// Connect to Polar while the offer is on screen, and again on
+	// hover/focus/press: a preconnect lapses after about ten seconds unused.
+	// With `prewarm`, load the whole checkout instead; the intent handlers then
+	// replace one a cancelled overlay used up.
+	function warm() {
+		if (prewarm) prewarmDayPass({ next: returnTo, plus });
+		else warmCheckout();
+	}
+	$effect(warm);
 
 	function handleSubmit(event: SubmitEvent) {
 		posthog.capture('day_pass_cta_clicked', {
@@ -84,8 +97,8 @@
 	<button
 		type="submit"
 		class="cursor-pointer {className}"
-		onpointerenter={warmCheckout}
-		onpointerdown={warmCheckout}
-		onfocus={warmCheckout}>{@render children?.()}</button
+		onpointerenter={warm}
+		onpointerdown={warm}
+		onfocus={warm}>{@render children?.()}</button
 	>
 </form>

@@ -3616,6 +3616,7 @@
 									{@const pass = passForDrop(n)}
 									<div class="flex flex-col items-start gap-1 sm:max-w-xs">
 										<DayPassButton
+											prewarm
 											trigger="magic_flow_batch_cap"
 											source="batch_cap_box"
 											plus={pass.plus}
@@ -3739,6 +3740,7 @@
 					<div class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-2">
 						{#if dayPassEnabled()}
 							<DayPassButton
+								prewarm
 								trigger="magic_flow_pdf_gate"
 								source="pdf_gate_box"
 								class="rounded-full bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"

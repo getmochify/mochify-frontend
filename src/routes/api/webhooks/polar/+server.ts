@@ -247,7 +247,10 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				posthog.capture({
 					distinctId: userId ?? email ?? 'anonymous',
 					event: 'abandoned_cart_detected',
-					properties: { qualified: false, reason: skip }
+					// `prewarm`: a Day Pass checkout created ahead of a click that
+					// may never have come (see `prewarmDayPass`), so most of these
+					// were never opened. Filter on it before reading the count.
+					properties: { qualified: false, reason: skip, prewarm: co.metadata?.prewarm === '1' }
 				});
 				await posthog.flush();
 				break;
