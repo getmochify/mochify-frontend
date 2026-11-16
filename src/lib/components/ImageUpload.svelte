@@ -1075,6 +1075,15 @@
 	// Over this tier's limit but within 75MB: a Day Pass or a paid plan takes
 	// these. Only a guest or free account can have any.
 	const inBandFiles = $derived(oversizedFiles.filter((b) => !b.overMax));
+
+	// Signup opens beside this tab, not over it, when this tab holds files and
+	// will re-check the tier on return (see recheckTier). Otherwise it navigates
+	// in place, as the control arm of `batch-queue` always has.
+	const registerInNewTab = $derived(
+		(stagedCount + queuedFiles.length > 0 || inBandFiles.length > 0) &&
+			(queueEnabled || inBandFiles.length > 0)
+	);
+
 	// Over 75MB: nothing takes these, so their rows carry no route and the
 	// unlock button does not count them.
 	const overMaxFiles = $derived(oversizedFiles.filter((b) => b.overMax));
@@ -1303,7 +1312,8 @@
 					trigger: 'button_click_no_tokens',
 					source: 'allowance_box'
 				});
-				void goto(registerHref);
+				if (registerInNewTab) window.open(registerHref, '_blank');
+				else void goto(registerHref);
 			} else {
 				posthog.capture('upgrade_cta_clicked', {
 					trigger: 'button_click_no_tokens',
@@ -2714,6 +2724,7 @@
 				{#if limitTier === 'guest'}
 					<a
 						href={registerHref}
+						target={registerInNewTab ? '_blank' : undefined}
 						onclick={() => posthog.capture('signup_cta_clicked', capClick(n, 'signup'))}
 						class={link}
 					>
@@ -3206,6 +3217,7 @@
 							</p>
 							<a
 								href={registerHref}
+								target={registerInNewTab ? '_blank' : undefined}
 								onclick={() =>
 									posthog.capture('signup_cta_clicked', {
 										trigger: 'token_wall_banner',
@@ -3282,6 +3294,7 @@
 							{#if limitTier === 'guest'}
 								<a
 									href={registerHref}
+									target={registerInNewTab ? '_blank' : undefined}
 									onclick={() =>
 										posthog.capture('signup_cta_clicked', {
 											trigger: 'token_wall_banner',
@@ -3728,6 +3741,7 @@
 					<div class="flex flex-col gap-3">
 						<a
 							href={registerHref}
+							target={registerInNewTab ? '_blank' : undefined}
 							class="block rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 						>
 							Create free account for {FREE_PLAN_QUOTA}/mo
@@ -3749,6 +3763,7 @@
 					<div class="flex flex-col gap-3">
 						<a
 							href={registerHref}
+							target={registerInNewTab ? '_blank' : undefined}
 							class="block rounded-2xl bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-6 py-3 text-center text-sm font-black text-white shadow-[0_4px_16px_rgba(240,98,146,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(240,98,146,0.45)]"
 						>
 							Create free account
