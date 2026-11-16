@@ -543,7 +543,7 @@ export function showNotice(
  * for a plan this table does not know, so a new plan shows up as missing
  * rather than as a wrong number.
  */
-function listPriceUsd(plan: string, billing?: 'monthly' | 'yearly'): number | undefined {
+export function listPriceUsd(plan: string, billing?: 'monthly' | 'yearly'): number | undefined {
 	const key =
 		plan === 'day'
 			? 'dayPass'

@@ -1,6 +1,7 @@
 import { invalidateAll } from '$app/navigation';
 import {
 	createCheckoutFrame,
+	listPriceUsd,
 	openEmbeddedCheckout,
 	showCheckoutCard,
 	showNotice,
@@ -161,6 +162,7 @@ export async function startDayPassCheckout(opts: {
 		}
 	}
 	card.setPrice(session.price ?? lastPrice.get(plus));
+	rememberCheckout({ url: session.url, plus, trigger: opts.trigger });
 
 	await openEmbeddedCheckout(session.url, {
 		plan,
@@ -171,16 +173,12 @@ export async function startDayPassCheckout(opts: {
 		frame: warm?.frame,
 		prewarm,
 		onPaid: async (url) => {
-			const activation = await activateDayPass(url);
-			posthog.capture('day_pass_tab_activation', {
-				status: activation,
+			forgetCheckout();
+			const { activation } = await settleDayPass(url, {
+				plus,
 				trigger: opts.trigger,
-				pass: plus ? 'plus' : 'day'
+				via: 'overlay'
 			});
-			if (activation === 'signed_in') {
-				resetUserCaches();
-				void invalidateAll();
-			}
 			if (opts.onPaid) {
 				opts.onPaid(url, activation);
 			} else if (activation === 'signed_in') {
@@ -200,6 +198,119 @@ export async function startDayPassCheckout(opts: {
 			}
 		}
 	});
+}
+
+/**
+ * Activate the pass for a paid checkout and bring this tab's session up to
+ * date. `paid` is whether Polar confirmed the payment, as opposed to
+ * activation giving up on a checkout that never read as paid.
+ */
+async function settleDayPass(
+	checkoutUrl: string,
+	opts: {
+		plus: boolean;
+		trigger: string;
+		via: 'overlay' | 'redirect' | 'revisit';
+		attempts?: number;
+	}
+): Promise<{ activation: DayPassActivation; paid: boolean }> {
+	const result = await activateDayPass(checkoutUrl, opts.attempts);
+	// A revisit asks about every checkout left open; only a paid one is news.
+	if (opts.via === 'revisit' && !result.paid) return result;
+	posthog.capture('day_pass_tab_activation', {
+		status: result.activation,
+		trigger: opts.trigger,
+		pass: opts.plus ? 'plus' : 'day',
+		via: opts.via
+	});
+	if (result.activation === 'signed_in') {
+		resetUserCaches();
+		void invalidateAll();
+	}
+	return result;
+}
+
+/**
+ * The checkout this browser last opened, kept so a payment that leaves the
+ * page can still be activated when the buyer lands back on it.
+ *
+ * Some payments finish away from the page: the whole tab goes to the provider
+ * and returns through the success URL, so the overlay's success handler never
+ * runs and the buyer was left with the emailed link alone (2026-11-16: paid,
+ * never opened it, clicked the Day Pass three more times). In `localStorage`,
+ * not `sessionStorage`, so the loading card's "Continue in a new tab" is
+ * covered too.
+ */
+type RememberedCheckout = { url: string; plus: boolean; trigger: string; at: number };
+const RETURN_KEY = 'mochi:day-pass-checkout';
+/** Polar holds an open checkout for an hour. */
+const RETURN_MAX_AGE_MS = 60 * 60_000;
+
+function rememberCheckout(checkout: Omit<RememberedCheckout, 'at'>): void {
+	try {
+		localStorage.setItem(RETURN_KEY, JSON.stringify({ ...checkout, at: Date.now() }));
+	} catch {
+		/* storage blocked: the emailed link still activates the pass */
+	}
+}
+
+function forgetCheckout(): void {
+	try {
+		localStorage.removeItem(RETURN_KEY);
+	} catch {
+		/* nothing to forget */
+	}
+}
+
+/**
+ * Finish a Day Pass that was paid for away from the overlay: activate it in
+ * this tab, as the overlay would have. `returned` is a landing on the success
+ * URL (`day_pass_success=1`), where Polar may still be settling the payment,
+ * so activation retries; any other page load asks once, which covers a buyer
+ * who came back by the back button or a fresh visit. Resolves to `null` when
+ * this browser holds no recent checkout or Polar does not report it paid,
+ * which leaves the buyer with the emailed link, as before.
+ */
+export async function resumeDayPassReturn(returned: boolean): Promise<{
+	checkoutUrl: string;
+	activation: DayPassActivation;
+} | null> {
+	let saved: Partial<RememberedCheckout> | null = null;
+	try {
+		saved = JSON.parse(localStorage.getItem(RETURN_KEY) ?? 'null');
+	} catch {
+		/* unreadable: treated as none */
+	}
+	if (!saved) return null;
+	if (
+		typeof saved.url !== 'string' ||
+		typeof saved.at !== 'number' ||
+		Date.now() - saved.at > RETURN_MAX_AGE_MS
+	) {
+		forgetCheckout();
+		return null;
+	}
+	const plus = saved.plus === true;
+	const trigger = typeof saved.trigger === 'string' ? saved.trigger : 'unknown';
+	const via = returned ? 'redirect' : 'revisit';
+	const { activation, paid } = await settleDayPass(saved.url, {
+		plus,
+		trigger,
+		via,
+		attempts: returned ? undefined : 1
+	});
+	// An unpaid checkout stays remembered on a revisit: it may yet be paid.
+	if (paid || returned) forgetCheckout();
+	if (!paid) return null;
+	// The overlay never saw this payment, so it never reported it.
+	const plan = plus ? 'dayplus' : 'day';
+	posthog.capture('checkout_overlay_paid', {
+		plan,
+		trigger,
+		amount_usd: listPriceUsd(plan),
+		via
+	});
+	return { checkoutUrl: saved.url, activation };
 }
 
 type DayPassSession = { url: string; price?: string; currency?: string };
@@ -353,8 +464,11 @@ export function dayPassSignIn(): string {
  * the overlay's success event. Falls back to `email` on anything else, which
  * leaves the buyer exactly where they were before this existed.
  */
-async function activateDayPass(checkoutUrl: string): Promise<DayPassActivation> {
-	for (let attempt = 0; attempt < 5; attempt++) {
+async function activateDayPass(
+	checkoutUrl: string,
+	attempts = 5
+): Promise<{ activation: DayPassActivation; paid: boolean }> {
+	for (let attempt = 0; attempt < attempts; attempt++) {
 		try {
 			const res = await fetch('/api/auth/day-pass/activate', {
 				method: 'POST',
@@ -363,15 +477,19 @@ async function activateDayPass(checkoutUrl: string): Promise<DayPassActivation> 
 			});
 			if (res.ok) {
 				const { status } = (await res.json()) as { status?: DayPassActivation };
-				return status === 'signed_in' || status === 'sign_in' ? status : 'email';
+				return {
+					activation: status === 'signed_in' || status === 'sign_in' ? status : 'email',
+					paid: true
+				};
 			}
 			if (res.status !== 409) break;
 		} catch {
 			break;
 		}
+		if (attempt + 1 === attempts) break;
 		await new Promise((r) => setTimeout(r, 1500));
 	}
-	return 'email';
+	return { activation: 'email', paid: false };
 }
 
 /**

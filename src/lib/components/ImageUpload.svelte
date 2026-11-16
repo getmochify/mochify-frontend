@@ -67,6 +67,7 @@
 		passForDrop,
 		prewarmDayPass,
 		resendDayPassLink,
+		resumeDayPassReturn,
 		startDayPassCheckout,
 		type DayPassActivation
 	} from '$lib/dayPass';
@@ -408,13 +409,24 @@
 	const dayPassOffered = $derived(!!showDayPass && dayPassEnabled());
 
 	let dayPassSuccess = $state(false);
+	let dayPassResumeTried = false;
 	$effect(() => {
-		if (page.url.searchParams.has('day_pass_success')) {
+		const returned = page.url.searchParams.has('day_pass_success');
+		if (returned) {
 			dayPassSuccess = true;
 			const clean = new URL(page.url.href);
 			clean.searchParams.delete('day_pass_success');
 			history.replaceState({}, '', clean.toString());
 		}
+		// A payment that left the page was never activated by the overlay. Do
+		// that now, whether the buyer landed back through the success URL or
+		// found their own way; with nothing to resume, the toast keeps pointing
+		// at the emailed link.
+		if (dayPassResumeTried) return;
+		dayPassResumeTried = true;
+		void resumeDayPassReturn(returned).then((resumed) => {
+			if (resumed) handleDayPassPaid(resumed.checkoutUrl, resumed.activation);
+		});
 	});
 
 	// Payment completed in the checkout overlay, so this page (and any files on
