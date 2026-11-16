@@ -682,11 +682,12 @@ export async function openEmbeddedCheckout(
 		const onLeave = () => reportClose('navigated');
 		window.addEventListener('pagehide', onLeave);
 
-		let paid = false;
 		checkout.on('success', () => {
 			// Handled here rather than by following Polar's success URL, which
-			// would redirect the whole page and drop what was on it.
-			paid = true;
+			// would redirect the whole page and drop what was on it. The close is
+			// reported now: `remove()` drops the message listener, so Polar's own
+			// `close` can no longer arrive, and `onPaid` may navigate away.
+			reportClose('paid');
 			checkout.remove();
 			posthog.capture('checkout_overlay_paid', {
 				plan: opts.plan,
@@ -695,7 +696,7 @@ export async function openEmbeddedCheckout(
 			});
 			opts.onPaid(checkoutUrl);
 		});
-		checkout.on('close', () => reportClose(paid ? 'paid' : 'user_dismissed'));
+		checkout.on('close', () => reportClose('user_dismissed'));
 	} catch (err) {
 		timers.forEach(clearTimeout);
 		frame?.remove();
