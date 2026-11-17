@@ -14,9 +14,9 @@
         title: "Converting Images to JPEG XL: The Practical Guide for 2026",
         description: "JPEG XL benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), browser support after Chrome 155, and how to serve JXL with picture fallbacks.",
         category: "Image Formats",
-        readTime: "11 min read",
+        readTime: "16 min read",
         datePublished: "June 26, 2026",
-        lastUpdated: "October 26, 2026"
+        lastUpdated: "November 17, 2026"
     };
 
     const related = [
@@ -58,14 +58,15 @@
                     { n: '01', id: 'what-is-jpeg-xl', label: 'What JPEG XL actually is (and why the name is confusing)' },
                     { n: '02', id: 'browser-support', label: 'Browser and ecosystem support in 2026' },
                     { n: '03', id: 'compression-benchmarks', label: 'Compression benchmarks: how much smaller?' },
-                    { n: '04', id: 'jpeg-to-jxl', label: 'Converting JPEG to JPEG XL' },
-                    { n: '05', id: 'png-to-jxl', label: 'Converting PNG to JPEG XL' },
-                    { n: '06', id: 'avif-to-jxl', label: 'Converting AVIF to JPEG XL' },
-                    { n: '07', id: 'fallback-pattern', label: 'The fallback pattern: serving JXL safely on the web' },
-                    { n: '08', id: 'when-not-to-use', label: 'When not to use JPEG XL' },
-                    { n: '09', id: 'mochify-workflow', label: 'Mochify Workflow: convert to JPEG XL in one prompt' },
-                    { n: '10', id: 'cheat-sheet', label: 'JPEG XL Quick-Reference Cheat Sheet' },
-                    { n: '11', id: 'faq', label: 'FAQ' },
+                    { n: '04', id: 'encoder-settings', label: 'Which encoder and settings? What we measured' },
+                    { n: '05', id: 'jpeg-to-jxl', label: 'Converting JPEG to JPEG XL' },
+                    { n: '06', id: 'png-to-jxl', label: 'Converting PNG to JPEG XL' },
+                    { n: '07', id: 'avif-to-jxl', label: 'Converting AVIF to JPEG XL' },
+                    { n: '08', id: 'fallback-pattern', label: 'The fallback pattern: serving JXL safely on the web' },
+                    { n: '09', id: 'when-not-to-use', label: 'When not to use JPEG XL' },
+                    { n: '10', id: 'mochify-workflow', label: 'Mochify Workflow: convert to JPEG XL in one prompt' },
+                    { n: '11', id: 'cheat-sheet', label: 'JPEG XL Quick-Reference Cheat Sheet' },
+                    { n: '12', id: 'faq', label: 'FAQ' },
                 ];
 </script>
 
@@ -91,7 +92,7 @@
         },
         "image": "https://mochify.app/og/guides-converting-images-to-jpeg-xl.png",
         "datePublished": "2026-06-26T12:00:00+00:00",
-        "dateModified": "2026-10-26T12:00:00+00:00",
+        "dateModified": "2026-11-17T12:00:00+00:00",
         "inLanguage": "en",
         "author": { "@type": "Organization", "name": "Mochify Engineering Team", "url": "https://mochify.app" },
         "publisher": {
@@ -154,6 +155,11 @@
                 "@type": "Question",
                 "name": "Is JPEG XL good for archiving photos?",
                 "acceptedAnswer": { "@type": "Answer", "text": "It is arguably the best format for long-term photographic archival right now. 32-bit depth, HDR support, lossless JPEG transcoding, and strong compression make a compelling combination. For large archives of existing JPEGs, the lossless transcode mode alone saves 20–30% with exact reconstruction preserved." }
+            },
+            {
+                "@type": "Question",
+                "name": "Which JPEG XL encoder and settings should I use?",
+                "acceptedAnswer": { "@type": "Answer", "text": "For your own pipeline with libjxl, keep the default effort of 7 and set quality with distance, where 1.0 is meant to look identical to the original. In our 44-image test, effort 9 came out within 1% overall and encoded five times slower. A newer Rust encoder, jixel, made files 21% smaller at the same measured quality on its Medium setting, with the biggest gains on screenshots and graphics, but its default Fast setting made screenshots larger. If you convert with a tool rather than a pipeline, the tool picks the settings for you." }
             }
         ]
     }
@@ -163,7 +169,7 @@
         url="https://mochify.app/guides/converting-images-to-jpeg-xl"
         description={metadata.description}
         datePublished="2026-06-26"
-        dateModified="2026-10-26"
+        dateModified="2026-11-17"
     />
 </svelte:head>
 
@@ -191,7 +197,7 @@
         </p>
 
         <div class="mt-8 rounded-2xl border border-pink-100 bg-mochi-blush/70 p-6">
-            <p class="m-0 text-base leading-relaxed text-cocoa-deep">Published {metadata.datePublished} by the <strong class="text-cocoa-deep">Mochify Engineering Team</strong>. Covers JPEG, PNG, and AVIF-to-JXL workflows, with compression data from Google's image coding benchmarks and practical guidance on when JXL is and isn't production-ready.</p>
+            <p class="m-0 text-base leading-relaxed text-cocoa-deep">Published {metadata.datePublished} by the <strong class="text-cocoa-deep">Mochify Engineering Team</strong>. Covers JPEG, PNG, and AVIF-to-JXL workflows, with compression data from Google's image coding benchmarks and our own 44-image encoder test, and practical guidance on when JXL is and isn't production-ready.</p>
         </div>
     </header>
 
@@ -235,6 +241,86 @@
             <h3 class="font-bold text-cocoa-ink text-xl mt-8 mb-3">Lossless JPEG archiving</h3>
             <p class="mb-4">This is JPEG XL's most distinctive feature. Existing JPEG files can be transcoded into a JXL container that allows exact byte-for-byte reconstruction of the original JPEG. The <a href="https://doi.org/10.1117/12.2556264" target="_blank" rel="noopener noreferrer">EPFL/Google benchmarking paper</a> puts the average storage reduction for this reversible transcoding at <strong class="text-cocoa-ink">22%</strong> across broad test sets, with Apple's WWDC documentation noting up to 60% reduction on some photographic datasets at higher settings.</p>
             <p>For large JPEG archives - e-commerce product catalogs, photo libraries, stock collections - converting JPEG to JXL in lossless-transcode mode gives you 20–40% storage savings while preserving the ability to reconstruct the original JPEG exactly. That is a hard-to-argue-with value proposition for archival pipelines, independent of browser support.</p>
+        </section>
+
+        <section id="encoder-settings" class="scroll-mt-24">
+            <SectionHeading>Which Encoder and Settings? What We Measured</SectionHeading>
+            <p class="mb-4">The encoder you use, and how hard you let it work, changes JPEG XL file sizes almost as much as the format choice does. In our November 2026 run on 44 images, libjxl's default (effort 7) was the right baseline, effort 9 saved nothing on photos, and a newer Rust encoder, jixel, made files 21% smaller at the same measured quality on its Medium setting while taking about 45% longer to encode.</p>
+            <p class="mb-4">Most people never see these settings, because a converter picks them. They matter once you run your own pipeline, or when two tools give you very different file sizes for "the same" JPEG XL.</p>
+
+            <h3 class="font-bold text-cocoa-ink text-xl mt-8 mb-3">Three words this section uses</h3>
+            <ul class="list-disc pl-6 mb-4 space-y-3">
+                <li><strong class="text-cocoa-ink">Encoder:</strong> the program that turns pixels into a .jxl file. Any conforming decoder reads every JPEG XL file the same way, but two encoders can make very different files from the same picture. <a href="https://github.com/libjxl/libjxl" target="_blank" rel="noopener noreferrer">libjxl</a> is the reference encoder (its command-line tool is <code class="bg-pink-50 text-mochi-pink px-1.5 py-px rounded font-mono text-sm border border-pink-100">cjxl</code>); <a href="https://crates.io/crates/jixel" target="_blank" rel="noopener noreferrer">jixel</a> is a newer encoder written in Rust, used as a library from code.</li>
+                <li><strong class="text-cocoa-ink">Effort:</strong> how long the encoder searches for a smaller file. In libjxl it runs from 1 (fastest) to 10, and the default is 7. More effort costs encoding time; it does not lower quality.</li>
+                <li><strong class="text-cocoa-ink">Distance:</strong> the quality target. 0 is lossless, 1.0 is meant to look identical to the original, and higher numbers give smaller, softer files. Two encoders do not mean the same thing by the same number, which is why we compared files at equal measured quality, never at equal settings.</li>
+            </ul>
+
+            <h3 class="font-bold text-cocoa-ink text-xl mt-8 mb-3">How we tested</h3>
+            <p class="mb-4">We encoded 44 images with libjxl 0.13.0 at efforts 1, 3, 7 and 9, with libjxl 0.11.2 at effort 7 for comparison, and with jixel 0.5.10 at its Fast (default), Medium and Slow speeds: 24 photos from the Kodak test set, 9 UI screenshots, 6 charts and line drawings, and 5 images with transparency. Each image went through six quality levels, was decoded with libjxl's <code class="bg-pink-50 text-mochi-pink px-1.5 py-px rounded font-mono text-sm border border-pink-100">djxl</code>, and was scored against the original with three quality metrics: SSIMULACRA2, Butteraugli and <a href="https://kornel.ski/dssim" target="_blank" rel="noopener noreferrer">DSSIM</a>. For every image we then compared file sizes at the same score across the range both encoders reached.</p>
+            <p class="mb-4">The metric matters. jixel tunes its output against SSIMULACRA2, and libjxl's distance scale is built on Butteraugli, so the figures below use DSSIM, which belongs to neither project. All three metrics pointed the same way. Everything ran on one CPU thread on a two-core cloud machine, with transparency kept lossless on both encoders. The screenshots, charts and transparent images are small sets made for this test (the nine screenshots are six pages, three of them also captured at double resolution), so read their percentages as a direction, not a precise figure. The 24 photos are the firmer result.</p>
+
+            <h3 class="font-bold text-cocoa-ink text-xl mt-8 mb-3">The results: file size at equal quality</h3>
+            <p class="mb-4">Each figure is the file size against libjxl 0.13.0 at effort 7 for the same DSSIM score. Negative means smaller.</p>
+            <GuideTable class="my-6">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Setting</th>
+                            <th>Photos</th>
+                            <th>Screenshots</th>
+                            <th>Charts and line art</th>
+                            <th>Transparent</th>
+                            <th>All 44</th>
+                            <th>Encode speed (MP/s, one thread)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {#each [
+                            ['libjxl effort 1', '+9%', '+98%', '+22%', '+49%', '+30%', '15.9'],
+                            ['libjxl effort 3', '0%', '+63%', '0%', '+28%', '+14%', '14.5'],
+                            ['libjxl effort 7 (default)', 'baseline', 'baseline', 'baseline', 'baseline', 'baseline', '2.1'],
+                            ['libjxl effort 9', '0%', '+11%', '0%', '-10%', '+1%', '0.43'],
+                            ['jixel Fast (default)', '-13%', '+40%', '-39%', '+14%', '-6%', '3.3'],
+                            ['jixel Medium', '-14%', '-13%', '-57%', '-15%', '-21%', '1.45'],
+                            ['jixel Slow', '-17%', '-58%', '-63%', '-32%', '-36%', '0.14'],
+                        ] as row}
+                            <tr>
+                                {#each row as cell}
+                                    <td>{cell}</td>
+                                {/each}
+                            </tr>
+                        {/each}
+                    </tbody>
+                </table>
+            </GuideTable>
+            <p class="mb-4">What the table says, in order of how much it should change what you do:</p>
+            <ul class="list-disc pl-6 mb-4 space-y-3">
+                <li><strong class="text-cocoa-ink">Keep libjxl at effort 7.</strong> Effort 9 encoded five times slower (0.43 against 2.1 megapixels a second) and came out within 1% overall; on our screenshots it made files 11% larger. Efforts 1 and 3 are seven times faster but cost 14% to 30% overall and up to double on screenshots.</li>
+                <li><strong class="text-cocoa-ink">The encoder matters more than the effort.</strong> jixel Medium made files 21% smaller than libjxl's default while taking about 45% longer to encode (1.45 against 2.1 megapixels a second). jixel Slow made them 36% smaller, but at 15 times the time, which only pays for images you encode once and serve for years.</li>
+                <li><strong class="text-cocoa-ink">Check the defaults before you trust a headline.</strong> jixel's default speed, Fast, made screenshots 40% larger than libjxl did. The gains above come from its slower settings.</li>
+                <li><strong class="text-cocoa-ink">Photos gain least, screenshots and graphics most.</strong> On photos jixel's saving was 13% to 17% on DSSIM and 6% to 10% on Butteraugli; on charts and screenshots its Medium and Slow settings saved 13% to 63%.</li>
+                <li><strong class="text-cocoa-ink">Re-test after an upgrade.</strong> On our nine screenshots, libjxl 0.11.2 at effort 7 made files 13% smaller than 0.13.0 at the same quality; photos did not change. Nine images is a small set, so measure your own before and after.</li>
+            </ul>
+
+            <h3 class="font-bold text-cocoa-ink text-xl mt-8 mb-3">A worked example: one dashboard screenshot</h3>
+            <p class="mb-4">Take a 1280 x 800 screenshot of a web dashboard: dark sidebar, white cards, large numbers, small gray labels. Encoded with libjxl 0.13.0 at distance 1.0 and effort 7, it came out at 61,135 bytes with a SSIMULACRA2 score of 89.5. jixel Slow at distance 1.0 produced 26,298 bytes scoring 89.7, and its DSSIM score was better too: the same picture to both metrics, 57% smaller.</p>
+            <p class="mb-4">Now the trap. On one of the Kodak photos (768 x 512, two parrots), the same distance 1.0 gave 56,733 bytes from libjxl scoring 87.6, and 37,214 bytes from jixel scoring 84.9. That smaller file is also a lower-quality one. Comparing encoders by their settings instead of by a measured score is how most "encoder X is 30% better" claims go wrong.</p>
+
+            <h3 class="font-bold text-cocoa-ink text-xl mt-8 mb-3">Lossless and JPEG recompression</h3>
+            <p class="mb-4">For lossless output, libjxl at effort 9 was 7% smaller than effort 7 for three times the encoding time, jixel Medium was 17% smaller and jixel Slow 25% smaller (55% on screenshots), while jixel Fast was 33% larger. Every one of the 308 lossless files decoded back to the exact original pixels.</p>
+            <p class="mb-4">Lossless JPEG recompression, the reversible mode described in the next section, was a tie. Both encoders shrank 24 photos saved as quality-85 JPEGs by 14% and 9 screenshot JPEGs by 31% to 34%, and every file rebuilt the original JPEG byte for byte. Your saving depends on the JPEG you start from: ours were written with optimized Huffman tables, which leaves less to win than the 22% average from the EPFL and Google study above.</p>
+
+            <h3 class="font-bold text-cocoa-ink text-xl mt-8 mb-3">Do the files open everywhere?</h3>
+            <p class="mb-4">Every file from both encoders decoded to the same image, within a few levels of rounding, in libjxl's <code class="bg-pink-50 text-mochi-pink px-1.5 py-px rounded font-mono text-sm border border-pink-100">djxl</code> and in <a href="https://github.com/libjxl/jxl-rs" target="_blank" rel="noopener noreferrer">jxl-rs</a>, the Rust decoder that ships in Chrome. A third decoder, jxl-oxide, showed visible errors on 5 of the 264 jixel files we checked, and on none of libjxl's. It is not settled whether jxl-oxide or jixel is at fault; if the apps your audience uses are built on jxl-oxide, test before you switch encoders.</p>
+
+            <h3 class="font-bold text-cocoa-ink text-xl mt-8 mb-3">Which should you use?</h3>
+            <ul class="list-disc pl-6 mb-4 space-y-3">
+                <li><strong class="text-cocoa-ink">Converting a handful of files:</strong> you do not need to choose. A converter picks the encoder and settings for you; the <a href="/solutions/png-to-jxl">PNG to JXL converter</a> uses one high-quality setting with nothing to set, or a pixel-exact copy if you switch Lossless on after uploading.</li>
+                <li><strong class="text-cocoa-ink">Your own pipeline with libjxl:</strong> leave effort at 7 and set quality with distance, for example <code class="bg-pink-50 text-mochi-pink px-1.5 py-px rounded font-mono text-sm border border-pink-100">cjxl input.png output.jxl -d 1 -e 7</code>. For lossless, use <code class="bg-pink-50 text-mochi-pink px-1.5 py-px rounded font-mono text-sm border border-pink-100">-d 0</code>. For a JPEG you might need back, <code class="bg-pink-50 text-mochi-pink px-1.5 py-px rounded font-mono text-sm border border-pink-100">cjxl photo.jpg photo.jxl</code> transcodes reversibly by default, and <code class="bg-pink-50 text-mochi-pink px-1.5 py-px rounded font-mono text-sm border border-pink-100">djxl photo.jxl photo-restored.jpg</code> returns the original file.</li>
+                <li><strong class="text-cocoa-ink">Screenshots, UI and graphics you encode once:</strong> jixel Medium or Slow is worth a trial if you build in Rust, with a check in the decoders your audience uses.</li>
+                <li><strong class="text-cocoa-ink">When none of this is needed:</strong> if browser support, not bytes, is what holds JPEG XL back on your site, a better encoder changes nothing. Get the fallback right first.</li>
+            </ul>
+            <p>To check a result yourself rather than trust a setting: decode it with <code class="bg-pink-50 text-mochi-pink px-1.5 py-px rounded font-mono text-sm border border-pink-100">djxl output.jxl check.png</code>, then run <code class="bg-pink-50 text-mochi-pink px-1.5 py-px rounded font-mono text-sm border border-pink-100">dssim original.png check.png</code>. A score of 0 means identical, and smaller is better. Compare two encoders at the same score, then look at the file sizes.</p>
         </section>
 
         <section id="jpeg-to-jxl" class="scroll-mt-24">
@@ -348,9 +434,11 @@
                             ['PNG graphics / UI / logos', 'Lossless JXL', '19–50% smaller than PNG', 'Transparency supported'],
                             ['Photographic PNGs', 'Lossy JXL', '60–80% smaller than PNG', 'Only if quality loss is acceptable'],
                             ['AVIF archives (HDR)', 'Lossless JXL', 'Comparable size', 'Use for long-term masters; serve AVIF for web'],
+                            ['Choosing libjxl effort', 'Effort 7, the default', 'Effort 9 within 1%, 5x slower', 'Efforts 1–3 cost 14–30% overall (our 44-image test)'],
+                            ['Screenshots and graphics, encoded once', 'Lossy JXL from a slower encoder (jixel Medium or Slow)', '13–63% smaller than libjxl effort 7 at equal quality', 'Test in the decoders your audience uses'],
                             ['WordPress / Shopify delivery', 'Avoid JXL as primary', 'n/a', 'Platform stacks optimized for WebP/AVIF'],
                             ['Safari-primary audience', 'JXL as first source', 'Best quality per byte', 'Always include AVIF/WebP/JPEG fallback'],
-                            ['Chrome/Firefox general delivery', 'JXL behind picture, not primary', 'n/a', 'Not default-on in Chrome or Firefox mid-2026'],
+                            ['Chrome/Firefox general delivery', 'JXL as first source in picture', 'Best quality per byte', 'Default-on in Chrome 155+ and Firefox 158+; keep an AVIF/WebP/JPEG fallback'],
                         ] as row}
                             <tr>
                                 {#each row as cell}
@@ -362,7 +450,7 @@
                 </table>
             </GuideTable>
 
-            <h3 class="font-bold text-cocoa-ink text-lg mt-10 mb-4">Browser support summary (mid-2026)</h3>
+            <h3 class="font-bold text-cocoa-ink text-lg mt-10 mb-4">Browser support summary (late 2026)</h3>
             <GuideTable class="my-6">
                 <table>
                     <thead>
@@ -425,6 +513,10 @@
                     {
                         q: "Is JPEG XL good for archiving photos?",
                         a: "It is arguably the best format for long-term photographic archival right now. 32-bit depth, HDR support, lossless JPEG transcoding, and strong compression make a compelling combination. For large archives of existing JPEGs, the lossless transcode mode alone - 20–30% smaller with exact reconstruction - is reason enough to run a conversion."
+                    },
+                    {
+                        q: "Which JPEG XL encoder and settings should I use?",
+                        a: "For your own pipeline with libjxl, keep the default effort of 7 and set quality with distance, where 1.0 is meant to look identical to the original. In our 44-image test, effort 9 came out within 1% overall and encoded five times slower. A newer Rust encoder, jixel, made files 21% smaller at the same measured quality on its Medium setting, with the biggest gains on screenshots and graphics, but its default Fast setting made screenshots larger. If you convert with a tool rather than a pipeline, the tool picks the settings for you."
                     },
                 ] as faq}
                     <details class="group bg-white border border-pink-50 rounded-2xl shadow-sm hover:shadow-md transition-all">

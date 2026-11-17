@@ -335,9 +335,9 @@ export const guides: Guide[] = [
 			'Compression benchmarks, every conversion path (JPEG, PNG, AVIF to JXL), browser support after Chrome 155, and how to serve JXL safely with picture fallbacks.',
 		url: '/guides/converting-images-to-jpeg-xl',
 		category: 'Image Formats',
-		readTime: '11 min read',
+		readTime: '16 min read',
 		date: 'June 26, 2026',
-		lastUpdated: 'October 14, 2026'
+		lastUpdated: 'November 17, 2026'
 	},
 	{
 		title: 'Should I convert HEIC to JPEG or WebP for WordPress uploads?',
