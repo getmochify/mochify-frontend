@@ -148,6 +148,7 @@ export async function GET() {
 		'/guides/vinted-background-removal-rules',
 		'/guides/agent-built-website-image-optimization',
 		'/guides/what-is-a-jfif-file',
+		'/guides/remove-metadata-from-photo',
 		'/guides/mochify-vs-tinypng',
 		'/guides/is-reselling-worth-it',
 		'/guides/photo-file-too-large-to-upload',

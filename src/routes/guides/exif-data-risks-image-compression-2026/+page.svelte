@@ -14,7 +14,7 @@
         category: "Data Privacy",
         readTime: "15 min read",
         date: "February 13, 2026",
-        lastUpdated: "October 16, 2026"
+        lastUpdated: "November 17, 2026"
     };
 
     const related = [
@@ -117,7 +117,7 @@
         ],
         "image": "https://mochify.app/og/guides-exif-data-risks-image-compression-2026.png",
         "datePublished": "2026-02-13T12:00:00+00:00",
-        "dateModified": "2026-10-16T12:00:00+00:00"
+        "dateModified": "2026-11-17T12:00:00+00:00"
         }
     </script>
     <GuideSchema
@@ -125,7 +125,7 @@
         url="https://mochify.app/guides/exif-data-risks-image-compression-2026"
         description={metadata.description}
         datePublished="2026-02-13"
-        dateModified="2026-10-16"
+        dateModified="2026-11-17"
     />
 </svelte:head>
 
@@ -276,7 +276,7 @@
                 <li>Batch-compress 25 product shots at once.</li>
                 <li>Upload to marketplace with confidence.</li>
              </ol>
-             <p class="mb-4">Instagram, TikTok, and YouTube don't need to know where you live. Social media photos with GPS tags create trackable patterns - someone analyzing your uploads can map your daily routine (home, work, gym, kids' school). Strip EXIF before posting. Your audience cares about the visual, not the metadata.</p>
+             <p class="mb-4">Instagram, TikTok, and YouTube don't need to know where you live. Social media photos with GPS tags create trackable patterns - someone analyzing your uploads can map your daily routine (home, work, gym, kids' school). Strip EXIF before posting. Your audience cares about the visual, not the metadata. For the click-by-click on each device, and what the built-in Windows, Mac, iPhone and Android routes leave behind, see <a href="/guides/remove-metadata-from-photo">how to remove metadata from a photo</a>.</p>
              <p class="mb-4">You're handling two asset classes:</p>
              <ol class="list-decimal pl-6 mb-6 space-y-2 marker:text-mochi-pink marker:font-bold">
                 <li><strong>Client deliverables:</strong> Strip everything. GDPR treats your clients' pre-release product photos as their personal data. Leaking location metadata creates liability.</li>

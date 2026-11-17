@@ -220,6 +220,15 @@ export const guides: Guide[] = [
 		lastUpdated: 'September 26, 2026'
 	},
 	{
+		title: 'How to Remove Metadata (EXIF and GPS) From a Photo on Windows, Mac, iPhone and Android',
+		description:
+			'Strip EXIF and GPS from a photo on Windows, Mac, iPhone and Android: what each built-in tool leaves behind, what a re-encode removes, how to check.',
+		url: '/guides/remove-metadata-from-photo',
+		category: 'Data Privacy',
+		readTime: '28 min read',
+		date: 'November 17, 2026'
+	},
+	{
 		title: 'What Is a JFIF File? Why Windows Saves .jfif, and How to Get a JPG or PNG Back',
 		description:
 			'A JFIF is a JPEG with another name. Why Windows and your browser save .jfif, what renaming loses (nothing), the registry fix, and the Mac and phone routes.',
@@ -236,7 +245,8 @@ export const guides: Guide[] = [
 		url: '/guides/agent-built-website-image-optimization',
 		category: 'AI & Automation',
 		readTime: '33 min read',
-		date: 'October 31, 2026'
+		date: 'October 31, 2026',
+		lastUpdated: 'November 17, 2026'
 	},
 	{
 		title:
@@ -485,7 +495,7 @@ export const guides: Guide[] = [
 		category: 'Data Privacy',
 		readTime: '6 min read',
 		date: 'February 5, 2026',
-		lastUpdated: 'June 24, 2026'
+		lastUpdated: 'November 17, 2026'
 	},
 	{
 		title: 'How to Fix "Improve Image Delivery" in WordPress Without a Plugin',
@@ -525,7 +535,7 @@ export const guides: Guide[] = [
 		category: 'Data Privacy',
 		readTime: '15 min read',
 		date: 'February 13, 2026',
-		lastUpdated: 'October 16, 2026'
+		lastUpdated: 'November 17, 2026'
 	},
 	{
 		title: 'The History of Image Compression: From BMP to AVIF & Jpegli (2026 Guide)',

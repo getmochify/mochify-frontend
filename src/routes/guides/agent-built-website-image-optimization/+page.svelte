@@ -24,6 +24,7 @@
 		category: 'AI & Automation',
 		readTime: '33 min read',
 		date: 'October 31, 2026',
+		lastUpdated: 'November 17, 2026',
 		bylineNote:
 			'Written as six prompts for the person whose site an agent built, with every number from our own six-photo run on October 29, 2026.'
 	};
@@ -204,6 +205,7 @@ Never commit an original photo or a file over 300 KB.`;
 		url={pageUrl}
 		description={metadata.description}
 		datePublished="2026-10-31"
+		dateModified="2026-11-17"
 		article={{
 			about: [
 				'AI coding agents',
@@ -243,7 +245,7 @@ Never commit an original photo or a file over 300 KB.`;
 			class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"
 		></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
-			{metadata.readTime} · Published {metadata.date} · Mochify Engineering Team
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering Team
 		</p>
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
@@ -585,7 +587,8 @@ Never commit an original photo or a file over 300 KB.`;
 			</p>
 			<p class="mb-4">
 				<strong>Every output came back with no metadata at all.</strong> We did not ask for that; it is
-				the default. Every one of the source photos carried the full iPhone block, including the GPS coordinates
+				the default. (What "no metadata" means segment by segment, and how to strip a photo by hand on
+				each platform, is in our <a href="/guides/remove-metadata-from-photo">guide to removing metadata from a photo</a>.) Every one of the source photos carried the full iPhone block, including the GPS coordinates
 				of a real location. The outputs carried none, and they still came back the right way up: the resize
 				applies the orientation stored in the metadata before discarding it, so a portrait phone photo
 				stays portrait.

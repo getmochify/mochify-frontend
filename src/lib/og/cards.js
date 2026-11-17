@@ -515,6 +515,11 @@ export const cards = [
 		title: 'What Is a JXL File? How to Open, Convert, and Share JPEG XL'
 	},
 	{
+		path: '/guides/remove-metadata-from-photo',
+		eyebrow: 'GUIDE',
+		title: 'Remove Metadata From a Photo: Windows, Mac, iPhone, Android'
+	},
+	{
 		path: '/guides/what-is-a-jfif-file',
 		eyebrow: 'GUIDE',
 		title: 'What Is a JFIF File? Why Windows Saves .jfif and the Fix'
