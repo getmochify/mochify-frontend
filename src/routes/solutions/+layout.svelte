@@ -35,6 +35,11 @@
         'ebay-image-converter': 'eBay Image Resizer and Converter',
         'bulk-ai-square-cropper': 'Bulk Square Cropper',
         'sdr-to-hdr': 'SDR to HDR',
+        'reduce-image-size-in-kb': 'Reduce Image Size in KB',
+        'compress-image-to-20kb': 'Compress Image to 20KB',
+        'compress-image-to-50kb': 'Compress Image to 50KB',
+        'compress-image-to-100kb': 'Compress Image to 100KB',
+        'compress-image-to-200kb': 'Compress Image to 200KB',
     };
 
     function formatSlug(slug: string): string {

@@ -702,6 +702,15 @@ export const cards = [
 		title: 'SVG to JPG Converter - Free, Any Size'
 	},
 	{
+		path: '/solutions/reduce-image-size-in-kb',
+		eyebrow: 'TOOL',
+		title: 'Reduce Image Size in KB - Free'
+	},
+	{ path: '/solutions/compress-image-to-20kb', eyebrow: 'TOOL', title: 'Compress Image to 20KB - Free' },
+	{ path: '/solutions/compress-image-to-50kb', eyebrow: 'TOOL', title: 'Compress Image to 50KB - Free' },
+	{ path: '/solutions/compress-image-to-100kb', eyebrow: 'TOOL', title: 'Compress Image to 100KB - Free' },
+	{ path: '/solutions/compress-image-to-200kb', eyebrow: 'TOOL', title: 'Compress Image to 200KB - Free' },
+	{
 		path: '/solutions/svg-to-webp',
 		eyebrow: 'TOOL',
 		title: 'Convert SVG to WebP - Free, Private & Instant'

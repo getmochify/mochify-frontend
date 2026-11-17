@@ -310,6 +310,16 @@ export const imageTools: SolutionTool[] = [
 		],
 		tag: 'JPEG',
 		category: 'Web formats'
+	},
+	{
+		name: 'Reduce Image Size in KB',
+		slug: 'solutions/reduce-image-size-in-kb',
+		desc: 'Enter a limit such as 50KB and get back a JPG at or under it, for forms and upload limits.',
+		iconPaths: [
+			'M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25'
+		],
+		tag: 'KB',
+		category: 'Convert photos'
 	}
 ];
 

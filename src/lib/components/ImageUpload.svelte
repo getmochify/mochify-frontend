@@ -30,6 +30,7 @@
 		type ChunkedUploadParams
 	} from '$lib/uploadChunked';
 	import { wsAvailable } from '$lib/uploadWs';
+	import { readTargetScale } from '$lib/targetOutcome';
 	import { resolveUploadSize, effectiveSize, uploadBodyOf } from '$lib/uploadSize';
 	import { checkTruncation, truncationVerdictOf } from '$lib/truncationCheck';
 	import {
@@ -132,7 +133,16 @@
 		// because the SVG pages' how-to has the visitor pick a size first. Uses
 		// the same equal width/height box as the switch; set one or the other.
 		resizeOptions = [] as number[],
-		resizeOptionsLabel = 'Size'
+		resizeOptionsLabel = 'Size',
+		// A byte ceiling on every output (core's `targetBytes`), for the
+		// compress-to-KB pages. Core lowers quality first and scales down only if
+		// that is not enough, and the result line reports the final size, the
+		// final pixel size and whether it was scaled. Decimal: 50 KB is 50,000
+		// bytes, which passes a form that counts 1,024 to the KB as well.
+		targetBytes = 0,
+		// A number box with a KB / MB choice instead of a preset ceiling, for the
+		// general page. Overrides targetBytes.
+		showTargetInput = false
 	} = props;
 	const uid = $props.id();
 	const resizeGroupName = `resize-${uid}`;
@@ -148,6 +158,31 @@
 			? resizeChoice > 0
 			: showResizeOption && resizeLongEdgeOn && resizeLongEdge > 0
 	);
+	// Core 400s a ceiling under 1,024 bytes; 2 KB is the smallest whole number
+	// of KB above that, and nothing real fits in less anyway.
+	const TARGET_MIN_BYTES = 2000;
+	let targetAmount: number | null = $state(100);
+	let targetUnit = $state<'KB' | 'MB'>('KB');
+	const targetCeiling = $derived(
+		showTargetInput
+			? targetAmount && targetAmount > 0
+				? Math.floor(targetAmount * (targetUnit === 'MB' ? 1_000_000 : 1000))
+				: 0
+			: targetBytes
+	);
+	const targetInvalid = $derived(showTargetInput && targetCeiling < TARGET_MIN_BYTES);
+	// One line per output of the last run when a ceiling was set. `bytes` is
+	// the image itself (ImageUpload never asks for a ZIP or a bucket write), so
+	// it, not X-Mochify-Target, decides whether the limit was met.
+	type TargetResult = {
+		name: string;
+		bytes: number;
+		ceiling: number;
+		width?: number;
+		height?: number;
+		scale?: number;
+	};
+	let targetResults: TargetResult[] = $state([]);
 	let smartCompress: boolean = $state(false);
 	let lossless: boolean = $state(losslessDefault);
 	let isDragging: boolean = $state(false);
@@ -479,6 +514,44 @@
 	// Set once any usage check has finished, success or not: the cached badge
 	// below must not outlive a failed check and sit there as a stale number.
 	let tokenCheckSettled: boolean = $state(false);
+
+	// Decimal and rounded DOWN to a tenth, so a file just under its ceiling never
+	// reads as over it (49,960 bytes is "49.9 KB", not "50 KB").
+	function formatKb(n: number): string {
+		if (n >= 1_000_000) return `${Math.floor(n / 10_000) / 100} MB`;
+		return `${Math.floor(n / 100) / 10} KB`;
+	}
+
+	// The ceiling as the visitor typed it: "50 KB", "1.5 MB".
+	function formatLimit(n: number): string {
+		return n >= 1_000_000 ? `${n / 1_000_000} MB` : `${n / 1000} KB`;
+	}
+
+	// Pixel size of a finished output. Decoded rather than worked out from the
+	// input and X-Mochify-Target-Scale: HEIC rotation and core's rounding both
+	// make the arithmetic drift by a pixel or a quarter turn.
+	async function outputDimensions(
+		blob: Blob
+	): Promise<{ width: number; height: number } | undefined> {
+		try {
+			const bitmap = await createImageBitmap(blob);
+			const size = { width: bitmap.width, height: bitmap.height };
+			bitmap.close();
+			return size;
+		} catch {
+			return undefined;
+		}
+	}
+
+	function targetLine(r: TargetResult): string {
+		const pixels = r.width ? `, ${r.width} x ${r.height} pixels` : '';
+		if (r.bytes > r.ceiling)
+			return `“${r.name}” could not be brought under ${formatLimit(r.ceiling)}. This is the smallest version that could be made: ${formatKb(r.bytes)}${pixels}.`;
+		const scaled = r.scale
+			? `Scaled down to ${Math.round(r.scale * 100)}% of its width and height to fit.`
+			: 'Full width and height kept.';
+		return `“${r.name}”: ${formatKb(r.bytes)}, within the ${formatLimit(r.ceiling)} limit${pixels}. ${scaled}`;
+	}
 
 	function handleFileSelect() {
 		if (!fileInputElement?.files?.length) return;
@@ -1374,6 +1447,10 @@
 			errorMessage = 'Please select at least one image';
 			return;
 		}
+		if (targetInvalid) {
+			errorMessage = 'Enter a target size of 2 KB or more.';
+			return;
+		}
 
 		// Latch before any await so no second activation can slip through the gap.
 		// Cleared in the finally below and on the guest-quota early-return path.
@@ -1430,6 +1507,7 @@
 		errorDecoder = undefined;
 		successMessage = '';
 		lastDownload = null;
+		if (!auto) targetResults = [];
 		allowanceTrim = null;
 		legacyTrim = null;
 		processPhase = 'uploading';
@@ -1448,6 +1526,7 @@
 		try {
 			let totalCompressedSize = 0;
 			const compressedBlobs: Blob[] = new Array(selectedFiles.length);
+			const runTargets: TargetResult[] = [];
 			let hitRateLimit = false;
 			quotaExhausted = false;
 			const totalBytes = selectedFiles.reduce((sum, f) => sum + effectiveSize(f), 0);
@@ -1483,6 +1562,8 @@
 					const safeType = ALLOWED_FORMATS.has(imageType) ? imageType : 'jpg';
 
 					let blob: Blob;
+					// X-Mochify-Target-Scale, from whichever route answered.
+					let targetScale: number | undefined;
 					// With WebSocket available every file takes the resumable path,
 					// as on /flow: the bytes go over the socket (a drop costs one
 					// 64 KB frame, not the file), and core holds the result until
@@ -1497,11 +1578,14 @@
 							stripExif: stripExif ? '1' : '0'
 						};
 						if (smartCompress) chunkedParams.smartCompress = '1';
-						if (lossless && LOSSLESS_FORMATS.includes(safeType)) chunkedParams.lossless = '1';
+						// Core 400s lossless with a byte ceiling, so the ceiling wins.
+						if (lossless && LOSSLESS_FORMATS.includes(safeType) && !targetCeiling)
+							chunkedParams.lossless = '1';
 						if (resizeApplies) {
 							chunkedParams.width = String(resizeTarget);
 							chunkedParams.height = String(resizeTarget);
 						}
+						if (targetCeiling) chunkedParams.targetBytes = String(targetCeiling);
 						if (queryParams)
 							new URLSearchParams(queryParams).forEach((v, k) => (chunkedParams[k] = v));
 
@@ -1510,6 +1594,9 @@
 							client: TOOL_CLIENT,
 							transport: 'ws',
 							holdResult: true,
+							onTargetOutcome: (_, scale) => {
+								targetScale = scale;
+							},
 							onUploadProgress: (loaded) => {
 								const delta = loaded - lastLoaded;
 								lastLoaded = loaded;
@@ -1567,6 +1654,7 @@
 
 									xhr.addEventListener('load', () => {
 										if (xhr.status >= 200 && xhr.status < 300) {
+											targetScale = readTargetScale(xhr);
 											resolve(xhr.response);
 										} else {
 											rollback();
@@ -1643,12 +1731,13 @@
 										stripExif: stripExif ? '1' : '0'
 									});
 									if (smartCompress) squishParams.append('smartCompress', '1');
-									if (lossless && LOSSLESS_FORMATS.includes(safeType))
+									if (lossless && LOSSLESS_FORMATS.includes(safeType) && !targetCeiling)
 										squishParams.append('lossless', '1');
 									if (resizeApplies) {
 										squishParams.set('width', String(resizeTarget));
 										squishParams.set('height', String(resizeTarget));
 									}
+									if (targetCeiling) squishParams.set('targetBytes', String(targetCeiling));
 									if (queryParams)
 										new URLSearchParams(queryParams).forEach((v, k) => squishParams.append(k, v));
 									xhr.open('POST', `${API_URL}/v1/squish?${squishParams}&${TOOL_CLIENT}`);
@@ -1663,6 +1752,14 @@
 
 					compressedBlobs[index] = blob;
 					totalCompressedSize += blob.size;
+					if (targetCeiling)
+						runTargets[index] = {
+							name: file.name,
+							bytes: blob.size,
+							ceiling: targetCeiling,
+							scale: targetScale,
+							...(await outputDimensions(blob))
+						};
 					fileProgress[index].status = 'complete';
 				} catch (error: any) {
 					fileProgress[index].status = 'error';
@@ -1710,6 +1807,10 @@
 			await Promise.all(
 				Array.from({ length: Math.min(CONCURRENT_UPLOADS, selectedFiles.length) }, worker)
 			);
+
+			// Appended, so a paid drain that runs the queue in several passes
+			// reports every file it converted, not just the last pass.
+			if (runTargets.length) targetResults = [...targetResults, ...runTargets.filter(Boolean)];
 
 			const successfulFiles = selectedFiles.filter((_, i) => fileProgress[i].status === 'complete');
 			const failedFiles = selectedFiles.filter((_, i) => fileProgress[i].status === 'error');
@@ -1808,7 +1909,14 @@
 						successfulOriginalSize ? ((delta / successfulOriginalSize) * 100).toFixed(1) : '0.0'
 					),
 					format: imageType,
-					space_saved_bytes: totalOriginalSize - totalCompressedSize
+					space_saved_bytes: totalOriginalSize - totalCompressedSize,
+					...(targetCeiling
+						? {
+								target_bytes: targetCeiling,
+								target_missed: runTargets.filter((r) => r && r.bytes > r.ceiling).length,
+								target_scaled: runTargets.filter((r) => r?.scale).length
+							}
+						: {})
 				});
 				const single = selectedFiles.length === 1;
 				if (delta === 0) {
@@ -2096,6 +2204,7 @@
 		legacyTrim = null;
 		successMessage = '';
 		lastDownload = null;
+		targetResults = [];
 		unlockNote = '';
 		doneThisVisit = 0;
 		imageType = output;
@@ -2321,6 +2430,57 @@
 					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
 				</svg>
 			</button>
+		</div>
+	{/if}
+
+	<!-- The ceiling is the whole point of the compress-to-KB pages, so it sits
+	     above the dropzone where the visitor sees it before dropping anything:
+	     a fixed chip on a size page, a number box on the general page. -->
+	{#if showTargetInput}
+		<div class="flex flex-wrap items-center gap-2 border-b border-pink-50 px-4 py-3 sm:px-6">
+			<label for="target-{uid}" class="mr-1 text-xs font-semibold text-cocoa-deep"
+				>Target size</label
+			>
+			<input
+				id="target-{uid}"
+				type="number"
+				inputmode="decimal"
+				min="0"
+				step="any"
+				bind:value={targetAmount}
+				disabled={isLoading}
+				aria-invalid={targetInvalid}
+				class="w-24 rounded-full border border-pink-100 px-3 py-1 text-sm font-bold text-cocoa-ink focus:border-mochi-pink focus:ring-2 focus:ring-mochi-pink/40 focus:outline-none disabled:opacity-60"
+			/>
+			<div class="flex gap-1" role="radiogroup" aria-label="Unit">
+				{#each ['KB', 'MB'] as unit (unit)}
+					<label class="cursor-pointer">
+						<input
+							type="radio"
+							name="target-unit-{uid}"
+							value={unit}
+							bind:group={targetUnit}
+							disabled={isLoading}
+							class="peer sr-only"
+						/>
+						<span
+							class="inline-block rounded-full border border-pink-100 px-3 py-1 text-xs font-bold text-cocoa-deep transition-colors peer-checked:border-mochi-pink peer-checked:bg-mochi-pink peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-mochi-pink/40 peer-disabled:opacity-60 hover:border-mochi-pink/50"
+							>{unit}</span
+						>
+					</label>
+				{/each}
+			</div>
+			<span class="text-xs text-cocoa-milk">
+				{targetInvalid ? 'Enter 2 KB or more.' : `or less, as ${imageType.toUpperCase()}`}
+			</span>
+		</div>
+	{:else if targetCeiling}
+		<div class="flex flex-wrap items-center gap-2 border-b border-pink-50 px-4 py-3 sm:px-6">
+			<span class="mr-1 text-xs font-semibold text-cocoa-deep">Target size</span>
+			<span
+				class="inline-block rounded-full border border-mochi-pink bg-mochi-pink px-3 py-1 text-xs font-bold text-white"
+				>{formatLimit(targetCeiling)} or less</span
+			>
 		</div>
 	{/if}
 
@@ -2992,6 +3152,11 @@
 			</svg>
 			<div class="flex flex-col gap-1">
 				<p class="text-xs font-bold text-[#33691E]">{successMessage}</p>
+				{#each targetResults as r, i (i)}
+					<p class="text-xs text-[#33691E]" class:font-bold={r.bytes > r.ceiling}>
+						{targetLine(r)}
+					</p>
+				{/each}
 				{#if lastDownload}
 					<p class="text-xs text-[#33691E]">
 						<span class="font-bold break-all">{lastDownload.name}</span> has been downloaded. Can't
