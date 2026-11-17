@@ -40,11 +40,20 @@ export function dayPassActivation(db: D1Database, resendKey: string | undefined)
 				async (ctx) => {
 					const body = ctx.body as { checkoutUrl?: unknown } | undefined;
 					const checkout = await paidDayPassCheckout(body?.checkoutUrl);
-					if (checkout === 'invalid') return ctx.json({ error: checkout }, { status: 400 });
-					if (checkout === 'not_found') return ctx.json({ error: checkout }, { status: 404 });
+					// `setStatus`, not `ctx.json(body, { status })`: Better Auth runs
+					// plugin endpoints with asResponse off, so the status passed to
+					// `ctx.json` is dropped and the error went out as a 200, which the
+					// client read as paid (2026-11-17: three unpaid checkouts reported
+					// as `checkout_overlay_paid` on a revisit).
+					const fail = (status: 400 | 404 | 409) => {
+						ctx.setStatus(status);
+						return ctx.json({ error: checkout });
+					};
+					if (checkout === 'invalid') return fail(400);
+					if (checkout === 'not_found') return fail(404);
 					// Polar can report the overlay's success a moment before the
 					// checkout reads as succeeded; the client retries a 409.
-					if (checkout === 'not_paid') return ctx.json({ error: checkout }, { status: 409 });
+					if (checkout === 'not_paid') return fail(409);
 
 					const adapter = ctx.context.internalAdapter;
 					const email = checkout.email.toLowerCase();

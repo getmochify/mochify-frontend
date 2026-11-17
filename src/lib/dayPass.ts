@@ -477,10 +477,12 @@ async function activateDayPass(
 			});
 			if (res.ok) {
 				const { status } = (await res.json()) as { status?: DayPassActivation };
-				return {
-					activation: status === 'signed_in' || status === 'sign_in' ? status : 'email',
-					paid: true
-				};
+				// Only an activation answer means paid. An error body that slipped
+				// through as a 200 (see `dayPassActivation`) carries no status.
+				if (status === 'signed_in' || status === 'sign_in' || status === 'email') {
+					return { activation: status, paid: true };
+				}
+				break;
 			}
 			if (res.status !== 409) break;
 		} catch {
