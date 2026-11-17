@@ -17,7 +17,7 @@
 	const url = $derived(`https://mochify.app/solutions/${size.slug}`);
 
 	const metaDescription = $derived(
-		`Compress an image to ${n} or less for a form or upload limit. Drop in a JPG, PNG, HEIC or WebP photo and download a JPG that fits. Free, no signup.`
+		`Compress or resize an image to ${n} or less online. Drop in a JPG, JPEG, PNG or HEIC photo and get a JPG that fits your form's limit. Free, no signup.`
 	);
 
 	const cannotReachEnd = $derived(
@@ -34,7 +34,7 @@
 
 	const faqs: FaqItem[] = $derived([
 		{
-			q: `How do I compress an image to ${n}?`,
+			q: `How do I compress or resize an image to ${n}?`,
 			a: `Drop it on the box at the top of this page. It comes back as a JPG of ${n} or less, with the final size and dimensions shown.`
 		},
 		{
@@ -54,15 +54,15 @@
 			a: textReadable
 		},
 		{
-			q: `Can I compress a PNG or an iPhone photo to ${n}?`,
-			a: 'Yes. PNG, WebP, AVIF and iPhone HEIC files go in as they are and a JPG comes out.'
+			q: `Can I compress a JPEG, PNG or iPhone photo to ${n}?`,
+			a: 'Yes. JPG, JPEG, PNG, WebP, AVIF and iPhone HEIC files go in as they are and a JPG comes out.'
 		},
 		{
 			q: `Is ${n} the same as ${size.mb}?`,
 			a: `Yes. This page counts 1,000 bytes to the KB, so ${n} means ${bytes.toLocaleString('en-US')} bytes or less. A form that counts 1,024 bytes to the KB will accept it too.`
 		},
 		{
-			q: 'Is it free?',
+			q: `Is the ${n} image compressor free?`,
 			a: 'Yes, for 3 images a month with no signup, or 25 a month with a free account. A $2 Day Pass covers 100 images in 24 hours with no signup.'
 		},
 		{
@@ -94,7 +94,7 @@
 </script>
 
 <svelte:head>
-	<title>Compress Image to {n} - Resize JPG or Photo Free | Mochify</title>
+	<title>Compress Image to {n} Online - {size.titleTail} | Mochify</title>
 	<meta name="description" content={metaDescription} />
 	<meta property="og:description" content={metaDescription} />
 	<meta name="twitter:description" content={metaDescription} />
@@ -114,9 +114,9 @@
 		</h1>
 
 		<p class="mx-auto max-w-2xl text-lg leading-relaxed font-medium text-balance text-cocoa-deep">
-			Drop in a photo and get back a JPG of {n} or less, ready for a form or an upload limit. JPG, PNG,
-			WebP, AVIF and iPhone HEIC photos all go in as they are. The page shows the final size in KB and
-			the final width and height, so you know what you are uploading.
+			Compress an image to {n} or less online: drop in a photo and get back a JPG that fits a form or
+			an upload limit. JPG, JPEG, PNG, WebP, AVIF and iPhone HEIC files all go in as they are. The page
+			shows the final size in KB and the final width and height, so you know what you are uploading.
 		</p>
 	</div>
 
@@ -137,7 +137,7 @@
 	</section>
 
 	<section class="mx-auto mt-16 max-w-4xl space-y-4">
-		<h2 class="text-2xl font-bold text-cocoa-ink">What a photo looks like at {n}</h2>
+		<h2 class="text-2xl font-bold text-cocoa-ink">{n} photo size: what the picture looks like</h2>
 		<p class="leading-relaxed text-cocoa-deep">
 			These are our own results from this page's engine. Yours will differ a little: a detailed
 			picture comes out smaller than a plain one.
@@ -173,7 +173,9 @@
 	</section>
 
 	<section class="mx-auto mt-16 max-w-4xl space-y-4">
-		<h2 class="text-2xl font-bold text-cocoa-ink">Will the width and height change?</h2>
+		<h2 class="text-2xl font-bold text-cocoa-ink">
+			Resizing an image to {n}: will the width and height change?
+		</h2>
 		<p class="leading-relaxed text-cocoa-deep">
 			Usually, yes. The quality is lowered first, and if the file is still over {n} the picture is scaled
 			down, keeping its shape. In our tests a phone photo ended up at {size.scale} of its original width
@@ -209,7 +211,14 @@
 		<p class="leading-relaxed text-cocoa-deep">
 			HEIC photos from an iPhone, PNG screenshots, WebP and AVIF images go in without converting
 			them first. What comes back is a JPG, the format most upload forms ask for. Hidden camera
-			data, including location, is removed.
+			data, including location, is removed; our guide to
+			<a href="/guides/remove-metadata-from-photo" class={linkClass}
+				>removing metadata from a photo</a
+			>
+			explains what that covers. Starting from an iPhone? See
+			<a href="/guides/reduce-photo-file-size-iphone" class={linkClass}
+				>how to reduce photo file size on iPhone</a
+			>.
 		</p>
 	</section>
 

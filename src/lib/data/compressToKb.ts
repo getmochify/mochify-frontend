@@ -9,6 +9,9 @@
 export type KbSize = {
 	kb: number;
 	slug: string;
+	/** Title words after "Compress Image to {N}KB Online - ", following each
+	 *  size's own search demand (content-ops SEO sweep 2026-11-17). */
+	titleTail: string;
 	/** 12 MP iPhone photo (about 4032 x 3024) at this size. */
 	photo12: string;
 	/** 24 MP iPhone photo (5712 x 4284) at this size. */
@@ -36,6 +39,7 @@ export const kbSizes: KbSize[] = [
 	{
 		kb: 20,
 		slug: 'compress-image-to-20kb',
+		titleTail: 'Resize Photo Free',
 		photo12: '626 x 470',
 		photo24: '655 x 490',
 		printed: '680 x 900',
@@ -52,6 +56,7 @@ export const kbSizes: KbSize[] = [
 	{
 		kb: 50,
 		slug: 'compress-image-to-50kb',
+		titleTail: 'Resize JPG Free',
 		photo12: '1095 x 821',
 		photo24: '1150 x 860',
 		printed: '1100 x 1470',
@@ -68,6 +73,7 @@ export const kbSizes: KbSize[] = [
 	{
 		kb: 100,
 		slug: 'compress-image-to-100kb',
+		titleTail: 'Resize Photo Free',
 		photo12: '1668 x 1251',
 		photo24: '1700 x 1275',
 		printed: '1730 x 2300',
@@ -84,6 +90,7 @@ export const kbSizes: KbSize[] = [
 	{
 		kb: 200,
 		slug: 'compress-image-to-200kb',
+		titleTail: 'Resize JPG Free',
 		photo12: '2722 x 2042',
 		photo24: '2560 x 1920',
 		printed: '2620 x 3500',

@@ -11,11 +11,11 @@
 	// 50 KB page (CompressToKbPage.svelte) with "the size you enter" for "50KB".
 
 	const metaDescription =
-		'Reduce image size in KB: enter the limit, drop in a JPG, PNG, HEIC or WebP photo and download a JPG that fits your form. Free, no signup.';
+		'Reduce image size in KB or MB online: enter the limit, drop in a JPG, PNG or HEIC photo, and get a JPG that fits. Free photo resizer, no signup.';
 
 	const faqs: FaqItem[] = [
 		{
-			q: 'How do I reduce an image size in KB?',
+			q: 'How do I reduce or resize an image in KB?',
 			a: 'Enter the limit in KB or MB, then drop the image on the box at the top of this page. It comes back as a JPG of that size or less, with the final size and dimensions shown.'
 		},
 		{
@@ -75,7 +75,7 @@
 </script>
 
 <svelte:head>
-	<title>Reduce Image Size in KB - Resize Photo to KB, Free | Mochify</title>
+	<title>Reduce Image Size in KB - Photo Resizer Online | Mochify</title>
 	<meta name="description" content={metaDescription} />
 	<meta property="og:description" content={metaDescription} />
 	<meta name="twitter:description" content={metaDescription} />
@@ -95,10 +95,10 @@
 		</h1>
 
 		<p class="mx-auto max-w-2xl text-lg leading-relaxed font-medium text-balance text-cocoa-deep">
-			Enter the size you need in KB or MB, drop in a photo and get back a JPG of that size or less,
-			ready for a form or an upload limit. JPG, PNG, WebP, AVIF and iPhone HEIC photos all go in as
-			they are. The page shows the final size in KB and the final width and height, so you know what
-			you are uploading.
+			Reduce an image's size in KB: enter the limit in KB or MB, drop in a photo, and it is
+			compressed and resized into a JPG of that size or less, ready for a form or an upload limit.
+			JPG, PNG, WebP, AVIF and iPhone HEIC photos all go in as they are. The page shows the final
+			size in KB and the final width and height, so you know what you are uploading.
 		</p>
 	</div>
 
@@ -187,7 +187,14 @@
 		<p class="leading-relaxed text-cocoa-deep">
 			HEIC photos from an iPhone, PNG screenshots, WebP and AVIF images go in without converting
 			them first. What comes back is a JPG, the format most upload forms ask for. Hidden camera
-			data, including location, is removed.
+			data, including location, is removed; our guide to
+			<a href="/guides/remove-metadata-from-photo" class={linkClass}
+				>removing metadata from a photo</a
+			>
+			explains what that covers. Starting from an iPhone? See
+			<a href="/guides/reduce-photo-file-size-iphone" class={linkClass}
+				>how to reduce photo file size on iPhone</a
+			>.
 		</p>
 	</section>
 

@@ -18,7 +18,7 @@
 		category: 'Image Formats',
 		readTime: '21 min read',
 		date: 'September 25, 2026',
-		lastUpdated: 'October 19, 2026'
+		lastUpdated: 'November 17, 2026'
 	};
 
 	const toc = [
@@ -167,7 +167,7 @@
 			},
 			"image": "https://mochify.app/og/guides-reduce-photo-file-size-iphone.png",
 			"datePublished": "2026-09-25T12:00:00+00:00",
-			"dateModified": "2026-10-19T12:00:00+00:00",
+			"dateModified": "2026-11-17T12:00:00+00:00",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -204,7 +204,7 @@
 		url="https://mochify.app/guides/reduce-photo-file-size-iphone"
 		description={metadata.description}
 		datePublished="2026-09-25"
-		dateModified="2026-10-19"
+		dateModified="2026-11-17"
 	/>
 </svelte:head>
 
@@ -787,7 +787,13 @@
 			<p class="mb-4">
 				Aim for the destination's stated limit with some headroom, and compress before you resize,
 				because compression keeps every pixel. Upload forms, job portals and government sites
-				usually state a maximum in megabytes, and occasionally a pixel range. Where they do not, a
+				usually state a maximum in megabytes, and occasionally a pixel range. Where the limit is in
+				kilobytes, the <a href="/solutions/reduce-image-size-in-kb">Reduce Image Size in KB</a> tool
+				takes the number directly, and there are ready-made pages for the common limits:
+				<a href="/solutions/compress-image-to-20kb">20KB</a>,
+				<a href="/solutions/compress-image-to-50kb">50KB</a>,
+				<a href="/solutions/compress-image-to-100kb">100KB</a> and
+				<a href="/solutions/compress-image-to-200kb">200KB</a>. Where they do not, a
 				JPEG around 2048 pixels on the long side is a safe default: sharp on any screen, and a
 				fraction of the original's pixels.
 			</p>

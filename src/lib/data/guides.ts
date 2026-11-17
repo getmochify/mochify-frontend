@@ -24,7 +24,7 @@ export const guides: Guide[] = [
 		category: 'Image Formats',
 		readTime: '21 min read',
 		date: 'September 25, 2026',
-		lastUpdated: 'October 19, 2026'
+		lastUpdated: 'November 17, 2026'
 	},
 	{
 		title: 'Save Image as Type Is Gone: How to Replace It Safely',

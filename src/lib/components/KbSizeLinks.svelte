@@ -9,8 +9,8 @@
 	const links = $derived([
 		...kbSizes
 			.filter((s) => s.kb !== current)
-			.map((s) => ({ href: `/solutions/${s.slug}`, label: `${s.kb}KB` })),
-		...(current ? [{ href: `/solutions/${GENERAL_SLUG}`, label: 'Any size' }] : [])
+			.map((s) => ({ href: `/solutions/${s.slug}`, label: `Compress image to ${s.kb}KB` })),
+		...(current ? [{ href: `/solutions/${GENERAL_SLUG}`, label: 'Reduce image size in KB' }] : [])
 	]);
 </script>
 

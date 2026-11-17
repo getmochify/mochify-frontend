@@ -3151,11 +3151,14 @@
 				/>
 			</svg>
 			<div class="flex flex-col gap-1">
+				<!-- A missed size limit leads: "Squished! Saved ..." above it would read
+				     as success to a visitor whose form is about to reject the file. -->
+				{#each targetResults.filter((r) => r.bytes > r.ceiling) as r, i (i)}
+					<p class="text-xs font-bold text-[#33691E]">{targetLine(r)}</p>
+				{/each}
 				<p class="text-xs font-bold text-[#33691E]">{successMessage}</p>
-				{#each targetResults as r, i (i)}
-					<p class="text-xs text-[#33691E]" class:font-bold={r.bytes > r.ceiling}>
-						{targetLine(r)}
-					</p>
+				{#each targetResults.filter((r) => r.bytes <= r.ceiling) as r, i (i)}
+					<p class="text-xs text-[#33691E]">{targetLine(r)}</p>
 				{/each}
 				{#if lastDownload}
 					<p class="text-xs text-[#33691E]">
