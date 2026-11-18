@@ -241,6 +241,16 @@
 	const LOSSLESS_FORMATS = ['jxl', 'webp', 'png'];
 	const losslessApplies = $derived(LOSSLESS_FORMATS.includes(imageType));
 	let isLoading: boolean = $state(false);
+	// The /flow compose card's green flash (PromptFormApp's victoryGlow), on a
+	// run where every file worked and every target was met, so green always
+	// means "all done". Partial, rate-limited and missed-target runs skip it.
+	let victoryGlow: boolean = $state(false);
+	let victoryTimer: ReturnType<typeof setTimeout> | undefined;
+	function triggerVictoryGlow() {
+		if (victoryTimer) clearTimeout(victoryTimer);
+		victoryGlow = true;
+		victoryTimer = setTimeout(() => (victoryGlow = false), 1800);
+	}
 	// Hard rejections only: unsupported type, unreadable, or a failed run.
 	// Batch truncation and oversize both have their own dedicated UI (the
 	// batch-cap banner and the per-file error card), so neither lands here.
@@ -1919,6 +1929,7 @@
 						: {})
 				});
 				const single = selectedFiles.length === 1;
+				if (!runTargets.some((r) => r && r.bytes > r.ceiling)) triggerVictoryGlow();
 				if (delta === 0) {
 					successMessage = single
 						? `Done! Size unchanged (${finalSize}).`
@@ -2238,7 +2249,7 @@
 </script>
 
 <div
-	class={`relative w-full overflow-hidden rounded-3xl border bg-white shadow-sm transition-all duration-300 ${isDragging ? 'border-mochi-pink ring-2 ring-mochi-pink/25' : 'border-pink-50'} ${className}`.trim()}
+	class={`relative w-full overflow-hidden rounded-3xl border bg-white shadow-sm transition-all duration-300 ${isDragging ? 'border-mochi-pink ring-2 ring-mochi-pink/25' : 'border-pink-50'} ${isLoading ? 'card-working' : ''} ${victoryGlow ? 'victory-glow' : ''} ${className}`.trim()}
 	ondragover={handleDragOver}
 	ondragleave={handleDragLeave}
 	ondrop={handleDrop}
@@ -4014,5 +4025,58 @@
 	}
 	.animate-shimmer {
 		animation: shimmer 1.8s ease-in-out infinite;
+	}
+
+	/* While a run is converting: a slow pink breath on the card's edge. */
+	.card-working {
+		animation: card-working 2.4s ease-in-out infinite;
+	}
+	@keyframes card-working {
+		0%,
+		100% {
+			box-shadow:
+				0 1px 2px 0 rgba(0, 0, 0, 0.05),
+				0 0 0 0 rgba(240, 98, 146, 0);
+		}
+		50% {
+			box-shadow:
+				0 1px 2px 0 rgba(0, 0, 0, 0.05),
+				0 0 0 4px rgba(240, 98, 146, 0.16),
+				0 0 32px 4px rgba(240, 98, 146, 0.18);
+		}
+	}
+
+	/* On a fully successful run: PromptFormApp's victory-pulse, matcha green. */
+	.victory-glow {
+		animation: victory-pulse 1.8s ease-out forwards;
+	}
+	@keyframes victory-pulse {
+		0% {
+			box-shadow:
+				0 1px 2px 0 rgba(0, 0, 0, 0.05),
+				0 0 0 0 rgba(165, 214, 167, 0);
+		}
+		20% {
+			box-shadow:
+				0 8px 32px 0 rgba(165, 214, 167, 0.5),
+				0 0 60px 12px rgba(165, 214, 167, 0.35);
+		}
+		60% {
+			box-shadow:
+				0 8px 32px 0 rgba(165, 214, 167, 0.3),
+				0 0 40px 8px rgba(165, 214, 167, 0.2);
+		}
+		100% {
+			box-shadow:
+				0 1px 2px 0 rgba(0, 0, 0, 0.05),
+				0 0 0 0 rgba(165, 214, 167, 0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.card-working,
+		.victory-glow {
+			animation: none;
+		}
 	}
 </style>
