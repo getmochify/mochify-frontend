@@ -5,10 +5,10 @@
 	import { SECTIONS, REASONS } from '$lib/exif/sections';
 
 	// Phase 1 of content-ops' build brief 2026-11-18 (EXIF remover and viewer):
-	// the viewer, read-only. It is noindex and kept out of the sitemap and the
-	// solutions hub until "Remove selected" and the after view land, because
-	// the brief's title and description promise removal. The copy here is the
-	// dev placeholder the brief allows; content-ops writes the real sheet.
+	// the viewer, read-only. Its title and copy promise viewing only, so it is
+	// indexed as it stands; "Remove selected" and the after view come next, with
+	// the brief's own title. The copy is the dev placeholder the brief allows;
+	// content-ops writes the real sheet.
 
 	const metaDescription =
 		'See the EXIF data hidden in a photo: location, camera, dates, AI labels and more. Read in your browser, so the photo is never uploaded. Free, no signup.';
@@ -62,7 +62,6 @@
 
 <svelte:head>
 	<title>EXIF Viewer - View Photo Metadata Online | Mochify</title>
-	<meta name="robots" content="noindex" />
 	<meta name="description" content={metaDescription} />
 	<meta property="og:description" content={metaDescription} />
 	<meta name="twitter:description" content={metaDescription} />

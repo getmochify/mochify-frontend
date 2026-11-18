@@ -710,6 +710,7 @@ export const cards = [
 	{ path: '/solutions/compress-image-to-50kb', eyebrow: 'TOOL', title: 'Compress Image to 50KB - Free' },
 	{ path: '/solutions/compress-image-to-100kb', eyebrow: 'TOOL', title: 'Compress Image to 100KB - Free' },
 	{ path: '/solutions/compress-image-to-200kb', eyebrow: 'TOOL', title: 'Compress Image to 200KB - Free' },
+	{ path: '/solutions/exif-viewer', eyebrow: 'TOOL', title: 'EXIF Viewer - See Photo Metadata, No Upload' },
 	{
 		path: '/solutions/svg-to-webp',
 		eyebrow: 'TOOL',

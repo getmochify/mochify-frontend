@@ -320,6 +320,14 @@ export const imageTools: SolutionTool[] = [
 		],
 		tag: 'KB',
 		category: 'Convert photos'
+	},
+	{
+		name: 'EXIF Viewer',
+		slug: 'solutions/exif-viewer',
+		desc: 'See the location, camera, dates and AI labels stored in a photo, read in your browser.',
+		iconPaths: ['M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'],
+		tag: 'EXIF',
+		category: 'Convert photos'
 	}
 ];
 
