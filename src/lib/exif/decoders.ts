@@ -3,9 +3,26 @@
 // written rather than DOMParser-based so they behave the same in a worker,
 // in tests under Node and in every browser.
 
-export type XmpProp = { ns: string; prefix: string; name: string; value: string };
+/** `start`/`end`: where the property sits in the packet text, for removal. */
+export type XmpProp = {
+	ns: string;
+	prefix: string;
+	name: string;
+	value: string;
+	start: number;
+	end: number;
+};
 
-type XmlNode = { name: string; attrs: Record<string, string>; children: XmlNode[]; text: string };
+type XmlNode = {
+	name: string;
+	attrs: Record<string, string>;
+	/** Each attribute's span in the source, leading whitespace included. */
+	attrSpans: Record<string, [number, number]>;
+	children: XmlNode[];
+	text: string;
+	start: number;
+	end: number;
+};
 
 const ENTITIES: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" };
 
@@ -22,7 +39,15 @@ function decodeEntities(s: string): string {
 
 /** A tolerant XML reader: enough for XMP packets, which carry no DTDs. */
 function parseXml(src: string): XmlNode {
-	const root: XmlNode = { name: '#root', attrs: {}, children: [], text: '' };
+	const root: XmlNode = {
+		name: '#root',
+		attrs: {},
+		attrSpans: {},
+		children: [],
+		text: '',
+		start: 0,
+		end: src.length
+	};
 	const stack = [root];
 	const re =
 		/<!--[\s\S]*?-->|<\?[\s\S]*?\?>|<!\[CDATA\[([\s\S]*?)\]\]>|<!(?:[^>]*)>|<\/([^\s>]+)\s*>|<([^\s/>]+)((?:\s+[^\s=/>]+\s*=\s*(?:"[^"]*"|'[^']*'))*)\s*(\/?)>|([^<]+)/g;
@@ -31,13 +56,27 @@ function parseXml(src: string): XmlNode {
 		const top = stack[stack.length - 1];
 		if (m[1] !== undefined) top.text += m[1];
 		else if (m[2]) {
-			if (stack.length > 1) stack.pop();
+			if (stack.length > 1) stack.pop()!.end = m.index + m[0].length;
 		} else if (m[3]) {
 			const attrs: Record<string, string> = {};
-			const ar = /([^\s=]+)\s*=\s*("([^"]*)"|'([^']*)')/g;
+			const attrSpans: Record<string, [number, number]> = {};
+			const base = m.index + 1 + m[3].length;
+			const ar = /(\s+)([^\s=]+)\s*=\s*("([^"]*)"|'([^']*)')/g;
 			let a: RegExpExecArray | null;
-			while ((a = ar.exec(m[4]))) attrs[a[1]] = decodeEntities(a[3] ?? a[4] ?? '');
-			const node: XmlNode = { name: m[3], attrs, children: [], text: '' };
+			while ((a = ar.exec(m[4]))) {
+				attrs[a[2]] = decodeEntities(a[4] ?? a[5] ?? '');
+				attrSpans[a[2]] = [base + a.index, base + a.index + a[0].length];
+			}
+			const end = m.index + m[0].length;
+			const node: XmlNode = {
+				name: m[3],
+				attrs,
+				attrSpans,
+				children: [],
+				text: '',
+				start: m.index,
+				end
+			};
 			top.children.push(node);
 			if (!m[5]) stack.push(node);
 		} else if (m[6] !== undefined) top.text += decodeEntities(m[6]);
@@ -115,12 +154,20 @@ export function parseXmp(text: string): XmpProp[] {
 			if (k.startsWith('xmlns') || k.startsWith('xml:')) continue;
 			const q = resolve(k, ns);
 			if (q.uri === RDF) continue;
-			out.push({ ns: q.uri, prefix: q.prefix, name: q.name, value: v });
+			const [start, end] = d.attrSpans[k];
+			out.push({ ns: q.uri, prefix: q.prefix, name: q.name, value: v, start, end });
 		}
 		for (const c of d.children) {
 			const q = resolve(c.name, ns);
 			if (q.uri === RDF) continue;
-			out.push({ ns: q.uri, prefix: q.prefix, name: q.name, value: valueOf(c, ns) });
+			out.push({
+				ns: q.uri,
+				prefix: q.prefix,
+				name: q.name,
+				value: valueOf(c, ns),
+				start: c.start,
+				end: c.end
+			});
 		}
 	};
 
@@ -234,4 +281,12 @@ export function iccDescription(b: Uint8Array): string {
 		}
 	}
 	return '';
+}
+
+/** The packet with the given properties cut out, everything else byte for byte. */
+export function removeXmpProps(text: string, props: XmpProp[]): string {
+	const spans = props.map((p) => [p.start, p.end] as const).sort((a, b) => b[0] - a[0]);
+	let out = text;
+	for (const [start, end] of spans) out = out.slice(0, start) + out.slice(end);
+	return out;
 }

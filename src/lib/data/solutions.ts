@@ -305,9 +305,7 @@ export const imageTools: SolutionTool[] = [
 		name: 'jpegli JPEG Compressor',
 		slug: 'solutions/jpegli-compressor',
 		desc: "Shrink JPEGs with Google's jpegli encoder and keep them standard .jpg files that open everywhere.",
-		iconPaths: [
-			'M13 10V3L4 14h7v7l9-11h-7z'
-		],
+		iconPaths: ['M13 10V3L4 14h7v7l9-11h-7z'],
 		tag: 'JPEG',
 		category: 'Web formats'
 	},
@@ -315,16 +313,14 @@ export const imageTools: SolutionTool[] = [
 		name: 'Reduce Image Size in KB',
 		slug: 'solutions/reduce-image-size-in-kb',
 		desc: 'Enter a limit such as 50KB and get back a JPG at or under it, for forms and upload limits.',
-		iconPaths: [
-			'M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25'
-		],
+		iconPaths: ['M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25'],
 		tag: 'KB',
 		category: 'Convert photos'
 	},
 	{
 		name: 'EXIF Viewer',
 		slug: 'solutions/exif-viewer',
-		desc: 'See the location, camera, dates and AI labels stored in a photo, read in your browser.',
+		desc: 'See and remove the location, camera, dates and AI labels stored in a photo, in your browser.',
 		iconPaths: ['M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'],
 		tag: 'EXIF',
 		category: 'Convert photos'

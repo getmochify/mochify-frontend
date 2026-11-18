@@ -4,19 +4,25 @@
 	import { faqSchema, type FaqItem } from '$lib/faq';
 	import { SECTIONS, REASONS } from '$lib/exif/sections';
 
-	// Phase 1 of content-ops' build brief 2026-11-18 (EXIF remover and viewer):
-	// the viewer, read-only. Its title and copy promise viewing only, so it is
-	// indexed as it stands; "Remove selected" and the after view come next, with
-	// the brief's own title. The copy is the dev placeholder the brief allows;
-	// content-ops writes the real sheet.
+	// The viewer of content-ops' build brief 2026-11-18 (EXIF remover and
+	// viewer), with removal by section and the after view: phase 2. Title and
+	// description are the brief's provisional key elements; the rest is the dev
+	// placeholder copy the brief allows, until content-ops writes the sheet.
+	// Copy rules (brief section 8): never "removes all metadata" (the essentials
+	// stay), never "removes AI watermarks" (a watermark in the pixels is not
+	// metadata), and "in your browser" belongs on these pages only.
 
 	const metaDescription =
-		'See the EXIF data hidden in a photo: location, camera, dates, AI labels and more. Read in your browser, so the photo is never uploaded. Free, no signup.';
+		'See the EXIF data hidden in a photo: location, camera, dates and more. Remove the parts you choose in your browser. Nothing is uploaded. Free, no signup.';
 
 	const faqs: FaqItem[] = [
 		{
 			q: 'Is my photo uploaded?',
 			a: 'No. The photo is read in your browser, on your device. No part of the file and nothing read from it is sent to Mochify or anywhere else.'
+		},
+		{
+			q: 'Can I remove the metadata as well?',
+			a: 'Yes. Every section is ticked to start with: untick the ones you want to keep and choose Remove selected, or choose Remove everything in red. The page then reads the cleaned file back and shows what is left before you download it. The essentials the photo needs to look right are always kept, and the picture itself is copied as it is, not recompressed.'
 		},
 		{
 			q: 'Which files can I check?',
@@ -65,7 +71,7 @@
 </script>
 
 <svelte:head>
-	<title>EXIF Viewer - View Photo Metadata Online | Mochify</title>
+	<title>EXIF Viewer - View & Remove Photo Metadata Online | Mochify</title>
 	<meta name="description" content={metaDescription} />
 	<meta property="og:description" content={metaDescription} />
 	<meta name="twitter:description" content={metaDescription} />
@@ -85,8 +91,9 @@
 		</h1>
 		<p class="mx-auto max-w-2xl text-lg leading-relaxed font-medium text-balance text-cocoa-deep">
 			See the metadata hidden in a photo: where it was taken, the camera and its settings, the
-			dates, who made it and any AI labels, grouped in plain sections. The photo is read in your
-			browser and never uploaded.
+			dates, who made it and any AI labels, grouped in plain sections. Remove the sections you
+			choose and download a clean copy. Everything happens in your browser: the photo is never
+			uploaded and the picture itself is not recompressed.
 		</p>
 	</div>
 
@@ -95,13 +102,16 @@
 	</div>
 
 	<section class="mx-auto mt-16 max-w-4xl space-y-4">
-		<h2 class="text-2xl font-bold text-cocoa-ink">How to read a photo's metadata</h2>
+		<h2 class="text-2xl font-bold text-cocoa-ink">How to read and remove a photo's metadata</h2>
 		<ol class="list-decimal space-y-2 pl-6 leading-relaxed text-cocoa-deep">
 			<li>Drop a photo on the box above, or tap it to pick one from your phone.</li>
-			<li>Read the summary line: it lists each kind of metadata the photo holds.</li>
 			<li>
-				Open a section to see its values in plain words, and the essentials the photo needs to look
-				right.
+				Read the summary line and the sections: each value is shown in plain words and marked red,
+				amber or green.
+			</li>
+			<li>
+				Untick any section you want to keep, then choose Remove selected, or Remove everything in
+				red. Check what is left, then download the clean copy.
 			</li>
 		</ol>
 	</section>

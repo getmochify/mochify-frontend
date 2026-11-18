@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { posthog } from '$lib/analytics';
-	import type { Report, Field } from '$lib/exif/report';
+	import { saveBlob } from '$lib/saveBlob';
+	import type { Report, Field, SectionId } from '$lib/exif/report';
 	import { verdict, LEVEL_LABELS, LEVEL_ORDER, type Level } from '$lib/exif/levels';
 
 	// The EXIF viewer: one photo, read in this tab. Rule 2 of the build brief
@@ -10,6 +11,10 @@
 	// Chrome shows an icon instead), analytics carry formats and counts only,
 	// and the results sit inside `ph-no-capture` so autocapture cannot lift a
 	// value, a file name or the Maps link's coordinates from a click.
+	//
+	// Removal (remove.ts) works on the same bytes in the tab. The after view is
+	// the cleaned file read back by the same reader, so what it lists is what
+	// the download holds.
 
 	const MAX_BYTES = 200 * 1024 * 1024;
 	const ACCEPT =
@@ -25,17 +30,31 @@
 	let previewFailed = $state(false);
 	let thumbUrl = $state('');
 	let fileInputEl: HTMLInputElement | null = $state(null);
+	/** The original file's bytes, kept for removal. Not reactive: never rendered. */
+	let sourceBytes: Uint8Array | null = null;
+	/** Which sections "Remove selected" takes; all ticked by default (brief 5.3). */
+	let checked = $state<Partial<Record<SectionId, boolean>>>({});
+	let isRemoving = $state(false);
+	let cleaned = $state<{
+		bytes: Uint8Array;
+		report: Report;
+		mode: 'selected' | 'red';
+	} | null>(null);
+
+	/** What is on screen: the original, or after removal the cleaned file. */
+	const view = $derived(cleaned ? cleaned.report : report);
+	const selectedIds = $derived((Object.keys(checked) as SectionId[]).filter((id) => checked[id]));
 
 	// Red sections first, then amber, then green; the brief's order within a
 	// level (sort is stable).
 	const found = $derived(
-		report
-			? report.sections
+		view
+			? view.sections
 					.filter((s) => s.fields.length)
 					.sort((a, b) => LEVEL_ORDER.indexOf(a.level!) - LEVEL_ORDER.indexOf(b.level!))
 			: []
 	);
-	const outcome = $derived(report ? verdict(report.sections) : null);
+	const outcome = $derived(view ? verdict(view.sections) : null);
 
 	// Text on these tints clears WCAG AA (4.5 to 1) with room to spare.
 	// Icons are graphics, so they need 3 to 1; amber-600 on white clears it.
@@ -65,7 +84,7 @@
 			edge: 'border-l-green-400'
 		}
 	};
-	const missing = $derived(report ? report.sections.filter((s) => !s.fields.length) : []);
+	const missing = $derived(view ? view.sections.filter((s) => !s.fields.length) : []);
 
 	onMount(() => posthog.capture('exif_viewer_opened'));
 	onDestroy(clearUrls);
@@ -80,6 +99,9 @@
 	function reset() {
 		clearUrls();
 		report = null;
+		cleaned = null;
+		sourceBytes = null;
+		checked = {};
 		fileName = '';
 		fileSize = 0;
 		errorMessage = '';
@@ -105,8 +127,13 @@
 		fileSize = file.size;
 		try {
 			const { buildReport } = await import('$lib/exif/report');
-			const r = await buildReport(new Uint8Array(await file.arrayBuffer()));
+			const bytes = new Uint8Array(await file.arrayBuffer());
+			const r = await buildReport(bytes);
+			sourceBytes = bytes;
 			report = r;
+			checked = Object.fromEntries(
+				r.sections.filter((s) => s.fields.length).map((s) => [s.id, true])
+			);
 			previewUrl = URL.createObjectURL(file);
 			if (r.thumbnailJpeg) {
 				thumbUrl = URL.createObjectURL(new Blob([r.thumbnailJpeg.slice()], { type: 'image/jpeg' }));
@@ -135,6 +162,61 @@
 		} finally {
 			isReading = false;
 		}
+	}
+
+	async function remove(mode: 'selected' | 'red') {
+		if (!sourceBytes || !report || isRemoving) return;
+		if (mode === 'selected' && !selectedIds.length) return;
+		isRemoving = true;
+		errorMessage = '';
+		const before = verdict(report.sections).counts;
+		try {
+			const [{ removeMetadata, pickSections, pickRed }, { buildReport }] = await Promise.all([
+				import('$lib/exif/remove'),
+				import('$lib/exif/report')
+			]);
+			const bytes = removeMetadata(
+				sourceBytes,
+				mode === 'red' ? pickRed : pickSections(selectedIds)
+			);
+			const after = await buildReport(bytes);
+			cleaned = { bytes, report: after, mode };
+			const counts = verdict(after.sections).counts;
+			posthog.capture('exif_viewer_removed', {
+				format: report.format,
+				mode,
+				sections: mode === 'red' ? 'red' : selectedIds.join(','),
+				red_before: before.red,
+				amber_before: before.amber,
+				red_after: counts.red,
+				amber_after: counts.amber,
+				saved_kb: Math.round((sourceBytes.length - bytes.length) / 1024)
+			});
+		} catch {
+			errorMessage = 'The metadata could not be removed from this file. Nothing was changed.';
+			posthog.capture('exif_viewer_remove_failed', { format: report.format, mode });
+		} finally {
+			isRemoving = false;
+		}
+	}
+
+	const MIME: Record<string, string> = {
+		jpeg: 'image/jpeg',
+		png: 'image/png',
+		webp: 'image/webp',
+		heif: 'image/heic',
+		avif: 'image/avif'
+	};
+
+	const cleanName = $derived.by(() => {
+		const dot = fileName.lastIndexOf('.');
+		return dot > 0 ? `${fileName.slice(0, dot)}-clean${fileName.slice(dot)}` : `${fileName}-clean`;
+	});
+
+	function download() {
+		if (!cleaned || !report) return;
+		saveBlob(new Blob([cleaned.bytes.slice()], { type: MIME[report.format] }), cleanName);
+		posthog.capture('exif_viewer_downloaded', { format: report.format, mode: cleaned.mode });
 	}
 
 	function onDrop(e: DragEvent) {
@@ -329,7 +411,8 @@
 					<p class="text-sm text-cocoa-milk">
 						{report.format === 'heif' ? 'HEIC' : report.format.toUpperCase()}
 						{#if report.width && report.height}· {report.width} x {report.height}{/if}
-						· {fmtBytes(fileSize)}
+						· {fmtBytes(fileSize)}{#if cleaned}
+							→ {fmtBytes(cleaned.bytes.length)} cleaned{/if}
 					</p>
 				</div>
 				<button
@@ -366,6 +449,66 @@
 				</div>
 			{/if}
 
+			{#if cleaned}
+				<div class="space-y-3 rounded-2xl border border-pink-100 bg-mochi-blush p-4">
+					<p class="text-sm font-bold text-cocoa-ink">
+						Done. Below is what is left in the cleaned file, read back from it. The picture itself
+						was not changed: same pixels, same dimensions.
+					</p>
+					<div class="flex flex-wrap gap-2">
+						<button
+							type="button"
+							onclick={download}
+							class="rounded-full bg-mochi-pink px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-mochi-pink-deep"
+							>Download {cleanName}</button
+						>
+						<button
+							type="button"
+							onclick={() => (cleaned = null)}
+							class="rounded-full border border-pink-100 bg-white px-4 py-2.5 text-sm font-bold text-cocoa-ink shadow-sm transition-all hover:border-mochi-pink hover:text-mochi-pink"
+							>Back to the original</button
+						>
+					</div>
+				</div>
+			{:else if found.length}
+				<div class="space-y-3 rounded-2xl border border-pink-100 bg-mochi-blush p-4">
+					<div class="flex flex-wrap gap-2">
+						<button
+							type="button"
+							onclick={() => remove('selected')}
+							disabled={isRemoving || !selectedIds.length}
+							class="rounded-full bg-mochi-pink px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-mochi-pink-deep disabled:cursor-not-allowed disabled:opacity-50"
+							>{isRemoving ? 'Removing…' : 'Remove selected'}</button
+						>
+						{#if outcome?.level === 'red'}
+							<button
+								type="button"
+								onclick={() => remove('red')}
+								disabled={isRemoving}
+								class="inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-white px-4 py-2.5 text-sm font-bold text-red-800 shadow-sm transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+							>
+								{@render levelIcon('red', 'h-4 w-4')}
+								Remove everything in red
+							</button>
+						{/if}
+					</div>
+					<p class="text-xs text-cocoa-deep">
+						{selectedIds.length === found.length
+							? 'All sections are ticked.'
+							: `${selectedIds.length} of ${found.length} sections ticked.`}
+						The essentials at the bottom are always kept, and the picture itself is not changed.
+					</p>
+				</div>
+			{/if}
+			{#if errorMessage}
+				<p
+					class="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
+					role="alert"
+				>
+					{errorMessage}
+				</p>
+			{/if}
+
 			{#each found as section (section.id)}
 				<section
 					class="rounded-2xl border border-l-4 border-pink-50 p-4 sm:p-5 {section.level
@@ -373,7 +516,15 @@
 						: ''}"
 				>
 					<div class="flex flex-wrap items-center justify-between gap-2">
-						<h3 class="text-lg font-bold text-cocoa-ink">
+						<h3 class="flex items-center gap-2.5 text-lg font-bold text-cocoa-ink">
+							{#if !cleaned}
+								<input
+									type="checkbox"
+									bind:checked={checked[section.id]}
+									aria-label="Remove {section.title}"
+									class="h-4 w-4 flex-shrink-0 accent-mochi-pink"
+								/>
+							{/if}
 							{section.title}
 							<span class="text-sm font-medium text-cocoa-milk"
 								>· {section.fields.length} {section.fields.length === 1 ? 'field' : 'fields'}</span
@@ -382,7 +533,7 @@
 						{#if section.level}{@render levelPill(section.level)}{/if}
 					</div>
 					<p class="mt-1 text-sm text-cocoa-milk">{section.blurb}</p>
-					{#if section.id === 'thumbnail' && thumbUrl}
+					{#if section.id === 'thumbnail' && thumbUrl && !cleaned}
 						<figure class="mt-3 flex items-center gap-3">
 							<img
 								src={thumbUrl}
@@ -410,12 +561,14 @@
 
 			{#if missing.length}
 				<p class="text-sm text-cocoa-milk">
-					<span class="font-bold text-cocoa-deep">Not in this photo:</span>
+					<span class="font-bold text-cocoa-deep"
+						>{cleaned ? 'Not in the cleaned file:' : 'Not in this photo:'}</span
+					>
 					{missing.map((s) => s.title).join(', ')}.
 				</p>
 			{/if}
 
-			{#if report.essentials.length}
+			{#if view && view.essentials.length}
 				<section class="rounded-2xl border border-green-100 bg-[#F0FDF4] p-4 sm:p-5">
 					<div class="flex flex-wrap items-center justify-between gap-2">
 						<h3 class="text-lg font-bold text-cocoa-ink">Essential, kept</h3>
@@ -425,7 +578,7 @@
 						The photo needs these to look right. They say nothing about you.
 					</p>
 					<dl class="mt-2 divide-y divide-green-100">
-						{#each report.essentials as e (e.label)}
+						{#each view.essentials as e (e.label)}
 							<div class="grid gap-1 py-2.5 sm:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] sm:gap-4">
 								<dt class="text-sm font-bold text-cocoa-ink">{e.label}</dt>
 								<dd class="text-sm text-cocoa-deep">
@@ -435,9 +588,9 @@
 							</div>
 						{/each}
 					</dl>
-					{#if report.pictureData.length}
+					{#if view.pictureData.length}
 						<p class="mt-2 text-xs text-cocoa-milk">
-							Also stored in the file: {report.pictureData.join(', ')}. That is picture data, not
+							Also stored in the file: {view.pictureData.join(', ')}. That is picture data, not
 							metadata.
 						</p>
 					{/if}

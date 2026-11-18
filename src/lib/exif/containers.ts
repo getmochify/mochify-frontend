@@ -43,17 +43,17 @@ const MAIN = '';
 const latin1 = new TextDecoder('latin1');
 const utf8 = new TextDecoder('utf-8');
 
-function ascii(b: Uint8Array, start: number, len: number): string {
+export function ascii(b: Uint8Array, start: number, len: number): string {
 	return latin1.decode(b.subarray(start, start + len));
 }
 
-function startsWith(b: Uint8Array, at: number, sig: string): boolean {
+export function startsWith(b: Uint8Array, at: number, sig: string): boolean {
 	if (at + sig.length > b.length) return false;
 	for (let i = 0; i < sig.length; i++) if (b[at + i] !== sig.charCodeAt(i)) return false;
 	return true;
 }
 
-function indexOfAscii(b: Uint8Array, needle: string, from = 0): number {
+export function indexOfAscii(b: Uint8Array, needle: string, from = 0): number {
 	const first = needle.charCodeAt(0);
 	outer: for (let i = from; i <= b.length - needle.length; i++) {
 		if (b[i] !== first) continue;
@@ -63,21 +63,21 @@ function indexOfAscii(b: Uint8Array, needle: string, from = 0): number {
 	return -1;
 }
 
-const u16be = (b: Uint8Array, i: number) => (b[i] << 8) | b[i + 1];
-const u32be = (b: Uint8Array, i: number) =>
+export const u16be = (b: Uint8Array, i: number) => (b[i] << 8) | b[i + 1];
+export const u32be = (b: Uint8Array, i: number) =>
 	((b[i] << 24) | (b[i + 1] << 16) | (b[i + 2] << 8) | b[i + 3]) >>> 0;
-const u16le = (b: Uint8Array, i: number) => b[i] | (b[i + 1] << 8);
+export const u16le = (b: Uint8Array, i: number) => b[i] | (b[i + 1] << 8);
 const u24le = (b: Uint8Array, i: number) => b[i] | (b[i + 1] << 8) | (b[i + 2] << 16);
-const u32le = (b: Uint8Array, i: number) =>
+export const u32le = (b: Uint8Array, i: number) =>
 	(b[i] | (b[i + 1] << 8) | (b[i + 2] << 16) | (b[i + 3] << 24)) >>> 0;
 
 /** A Content Credentials manifest that declares the picture AI-made or AI-edited. */
-function declaresAi(b: Uint8Array): boolean {
+export function declaresAi(b: Uint8Array): boolean {
 	return indexOfAscii(b, 'trainedAlgorithmicMedia') >= 0;
 }
 
 /** A manifest with a CAWG identity assertion or a schema.org author names someone. */
-function namesPerson(b: Uint8Array): boolean {
+export function namesPerson(b: Uint8Array): boolean {
 	return (
 		indexOfAscii(b, 'cawg.identity') >= 0 || indexOfAscii(b, 'stds.schema-org.CreativeWork') >= 0
 	);
@@ -328,7 +328,7 @@ function walkPhotoshop(p: Uint8Array, meta: RawMeta, where: Where): void {
 // ---------------------------------------------------------------- PNG
 
 // iDOT is Apple's hint for decoding a screenshot in parallel: picture data.
-const PNG_PICTURE = new Set([
+export const PNG_PICTURE = new Set([
 	'IHDR',
 	'PLTE',
 	'IDAT',
@@ -342,9 +342,9 @@ const PNG_PICTURE = new Set([
 	'gdAT',
 	'iDOT'
 ]);
-const PNG_COLOR = new Set(['sRGB', 'gAMA', 'cHRM', 'cICP', 'mDCV', 'cLLI']);
+export const PNG_COLOR = new Set(['sRGB', 'gAMA', 'cHRM', 'cICP', 'mDCV', 'cLLI']);
 
-function inflate(data: Uint8Array): Uint8Array | null {
+export function inflate(data: Uint8Array): Uint8Array | null {
 	try {
 		return unzlibSync(data);
 	} catch {
@@ -353,7 +353,7 @@ function inflate(data: Uint8Array): Uint8Array | null {
 }
 
 /** ImageMagick's "Raw profile type ..." text: a hex dump after a length line. */
-function rawProfile(text: string): Uint8Array | null {
+export function rawProfile(text: string): Uint8Array | null {
 	const lines = text.trim().split('\n');
 	if (lines.length < 3) return null;
 	const hex = lines.slice(2).join('').replace(/\s+/g, '');
@@ -510,9 +510,9 @@ function walkWebp(b: Uint8Array, meta: RawMeta): void {
 
 // ---------------------------------------------------------------- HEIF / AVIF
 
-type Box = { type: string; start: number; body: number; end: number };
+export type Box = { type: string; start: number; body: number; end: number };
 
-function readBoxes(b: Uint8Array, from: number, to: number): Box[] {
+export function readBoxes(b: Uint8Array, from: number, to: number): Box[] {
 	const out: Box[] = [];
 	let i = from;
 	while (i + 8 <= to) {
@@ -531,10 +531,10 @@ function readBoxes(b: Uint8Array, from: number, to: number): Box[] {
 	return out;
 }
 
-const C2PA_UUID = 'd8fec3d61b0e483c92975828877ec481';
+export const C2PA_UUID = 'd8fec3d61b0e483c92975828877ec481';
 
 type Item = { id: number; type: string; contentType?: string };
-type Loc = { method: number; extents: { offset: number; length: number }[] };
+export type Loc = { method: number; extents: { offset: number; length: number }[] };
 
 function walkHeif(b: Uint8Array, meta: RawMeta): void {
 	const top = readBoxes(b, 0, b.length);
@@ -710,7 +710,7 @@ function walkHeif(b: Uint8Array, meta: RawMeta): void {
 	}
 }
 
-function readIloc(b: Uint8Array, k: Box, locs: Map<number, Loc>): void {
+export function readIloc(b: Uint8Array, k: Box, locs: Map<number, Loc>): void {
 	const v = b[k.body];
 	let p = k.body + 4;
 	const offSize = b[p] >> 4;

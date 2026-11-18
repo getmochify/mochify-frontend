@@ -172,6 +172,9 @@ function formatValue(key: string, v: unknown): string {
 	}
 	if (v instanceof Uint8Array || v instanceof ArrayBuffer) return `${kb(v.byteLength)} of data`;
 	if (v instanceof Date) return formatDate(v.toISOString()) ?? v.toISOString();
+	if (Array.isArray(v) && key === 'GPSTimeStamp' && v.length === 3) {
+		return v.map((x) => String(Math.floor(Number(x))).padStart(2, '0')).join(':');
+	}
 	if (Array.isArray(v)) return v.map((x) => formatValue('', x)).join(', ');
 	if (typeof v === 'object')
 		return Object.values(v as Record<string, unknown>)
@@ -246,8 +249,13 @@ const OTHER_KEYS = new Set([
 	'Rating',
 	'RatingPercent'
 ]);
-const ESSENTIAL_KEYS = new Set(['Orientation', 'XResolution', 'YResolution', 'ResolutionUnit']);
-const TECH_KEYS = new Set([
+export const ESSENTIAL_KEYS = new Set([
+	'Orientation',
+	'XResolution',
+	'YResolution',
+	'ResolutionUnit'
+]);
+export const TECH_KEYS = new Set([
 	'ImageWidth',
 	'ImageHeight',
 	'BitsPerSample',
@@ -336,7 +344,7 @@ const SKIP_KEYS = new Set([
 	'MakerNote'
 ]);
 
-function tiffTarget(key: string, group: 'ifd0' | 'exif' | 'interop' | 'gps'): Target {
+export function tiffTarget(key: string, group: 'ifd0' | 'exif' | 'interop' | 'gps'): Target {
 	if (group === 'gps' || key.startsWith('GPS')) return TECH_KEYS.has(key) ? 'tech' : 'location';
 	if (DATE_KEYS.has(key)) return 'datetime';
 	if (AUTHOR_KEYS.has(key)) return 'author';
@@ -349,7 +357,7 @@ function tiffTarget(key: string, group: 'ifd0' | 'exif' | 'interop' | 'gps'): Ta
 }
 
 /** PNG's registered text keywords; ImageMagick also copies EXIF in as "exif:Tag". */
-function pngTextTarget(key: string): Target {
+export function pngTextTarget(key: string): Target {
 	const exif = /^exif:(.+)$/.exec(key);
 	if (exif) return tiffTarget(exif[1], 'exif');
 	if (/^date:/.test(key) || key === 'Creation Time') return 'datetime';
@@ -361,12 +369,12 @@ function pngTextTarget(key: string): Target {
 }
 
 /** A1111, ComfyUI, InvokeAI and NovelAI write their prompts as PNG text or EXIF comments. */
-const AI_TEXT_KEYS =
+export const AI_TEXT_KEYS =
 	/^(parameters|prompt|negative_prompt|workflow|dream|sd-metadata|invokeai_\w+|generation_data|ai_metadata|aesthetic_score)$/i;
-const looksLikePrompt = (t: string) =>
+export const looksLikePrompt = (t: string) =>
 	/Negative prompt:|\bSteps: \d+, Sampler:|"prompt"\s*:/.test(t);
 
-const NS = {
+export const NS = {
 	exif: 'http://ns.adobe.com/exif/1.0/',
 	exifEX: 'http://cipa.jp/exif/1.0/',
 	tiff: 'http://ns.adobe.com/tiff/1.0/',
@@ -401,9 +409,9 @@ const SOURCE_TYPES: Record<string, string> = {
 	minorHumanEdits: 'Camera capture with minor edits'
 };
 
-type Target = SectionId | 'essential' | 'tech' | 'skip';
+export type Target = SectionId | 'essential' | 'tech' | 'skip';
 
-function classifyXmp(p: XmpProp): Target {
+export function classifyXmp(p: XmpProp): Target {
 	const n = p.name;
 	switch (p.ns) {
 		case NS.hdrgm:
@@ -469,7 +477,7 @@ function classifyXmp(p: XmpProp): Target {
 	}
 }
 
-const IPTC_SECTIONS: Record<string, Target> = {
+export const IPTC_SECTIONS: Record<string, Target> = {
 	City: 'location',
 	'Sub-location': 'location',
 	'Province-State': 'location',
