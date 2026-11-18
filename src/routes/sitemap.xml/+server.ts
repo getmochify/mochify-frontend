@@ -64,6 +64,7 @@ export async function GET() {
 		'/solutions/compress-image-to-100kb',
 		'/solutions/compress-image-to-200kb',
 		'/solutions/exif-viewer',
+		'/solutions/exif-remover',
 		'/solutions/jfif-to-pdf',
 		'/solutions/bulk-ai-square-cropper',
 		'/solutions/mov-to-mp4',

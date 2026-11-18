@@ -732,6 +732,11 @@ export const cards = [
 		title: 'EXIF Viewer - View & Remove Photo Metadata'
 	},
 	{
+		path: '/solutions/exif-remover',
+		eyebrow: 'TOOL',
+		title: 'EXIF Remover - Remove Photo Metadata, No Upload'
+	},
+	{
 		path: '/solutions/svg-to-webp',
 		eyebrow: 'TOOL',
 		title: 'Convert SVG to WebP - Free, Private & Instant'

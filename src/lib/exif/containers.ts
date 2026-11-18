@@ -144,6 +144,7 @@ function walkJpeg(b: Uint8Array, start: number, meta: RawMeta, where: Where): vo
 	let c2paAi = false;
 	let c2paPerson = false;
 	let mpf: { base: number; seg: Uint8Array } | null = null;
+	let reachedScan = false;
 
 	let i = start + 2;
 	while (i + 4 <= b.length) {
@@ -161,7 +162,10 @@ function walkJpeg(b: Uint8Array, start: number, meta: RawMeta, where: Where): vo
 		const len = u16be(b, i + 2);
 		if (len < 2 || i + 2 + len > b.length) break;
 		const seg = b.subarray(i + 4, i + 2 + len);
-		if (m === 0xda) break;
+		if (m === 0xda) {
+			reachedScan = true;
+			break;
+		}
 
 		if (m >= 0xc0 && m <= 0xcf && m !== 0xc4 && m !== 0xc8 && m !== 0xcc) {
 			if (where === MAIN && meta.width === undefined) {
@@ -225,6 +229,11 @@ function walkJpeg(b: Uint8Array, start: number, meta: RawMeta, where: Where): vo
 		}
 		i += 2 + len;
 	}
+	// A main image whose segments stop before the picture data (cut short, or
+	// garbage between segments) may hold metadata past the break. Reporting it
+	// as clean would be a false promise, so it is unreadable. An extra image
+	// is left to the MPF walk's own checks.
+	if (where === MAIN && !reachedScan) throw new Error('unreadable');
 
 	if (iccChunks.length && where === MAIN) {
 		iccChunks.sort((a, z) => a.seq - z.seq);
@@ -368,7 +377,8 @@ function walkPng(b: Uint8Array, meta: RawMeta): void {
 	while (i + 12 <= b.length) {
 		const len = u32be(b, i);
 		const type = ascii(b, i + 4, 4);
-		if (i + 12 + len > b.length) break;
+		// Cut short: what was past the cut cannot be checked (see walkJpeg).
+		if (i + 12 + len > b.length) throw new Error('unreadable');
 		const d = b.subarray(i + 8, i + 8 + len);
 		if (type === 'IHDR') {
 			meta.width = u32be(d, 0);
@@ -476,7 +486,7 @@ function walkWebp(b: Uint8Array, meta: RawMeta): void {
 	while (i + 8 <= b.length) {
 		const type = ascii(b, i, 4);
 		const len = u32le(b, i + 4);
-		if (i + 8 + len > b.length) break;
+		if (i + 8 + len > b.length) throw new Error('unreadable');
 		const d = b.subarray(i + 8, i + 8 + len);
 		if (type === 'VP8X') {
 			meta.width = u24le(d, 4) + 1;

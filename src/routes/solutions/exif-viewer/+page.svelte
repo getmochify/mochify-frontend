@@ -93,13 +93,19 @@
 			See the metadata hidden in a photo: where it was taken, the camera and its settings, the
 			dates, who made it and any AI labels, grouped in plain sections. Remove the sections you
 			choose and download a clean copy. Everything happens in your browser: the photo is never
-			uploaded and the picture itself is not recompressed.
+			uploaded and the picture itself is not recompressed. For many photos at once, use the
+			<a href="/solutions/exif-remover" class={linkClass}>EXIF remover</a>.
 		</p>
 	</div>
 
-	<div class="mb-12">
+	<div class="mb-4">
 		<ExifViewer />
 	</div>
+	<p class="mb-12 text-center text-sm text-cocoa-milk">
+		More than one photo?
+		<a href="/solutions/exif-remover" class={linkClass}>Clean a whole batch with the EXIF remover</a
+		>.
+	</p>
 
 	<section class="mx-auto mt-16 max-w-4xl space-y-4">
 		<h2 class="text-2xl font-bold text-cocoa-ink">How to read and remove a photo's metadata</h2>
@@ -158,6 +164,15 @@
 			explains what each kind of metadata can reveal. For a smaller file or a different format, try the
 			<a href="/solutions/reduce-image-size-in-kb" class={linkClass}>image size reducer</a> or the
 			<a href="/solutions/heif-to-jpg" class={linkClass}>HEIC to JPG converter</a>.
+		</p>
+	</section>
+
+	<section class="mx-auto mt-16 max-w-4xl space-y-4">
+		<h2 class="text-2xl font-bold text-cocoa-ink">Many photos at once</h2>
+		<p class="leading-relaxed text-cocoa-deep">
+			The <a href="/solutions/exif-remover" class={linkClass}>EXIF remover</a> takes up to 200 photos
+			in one drop, removes their metadata in one step, keeps the same essentials, and gives you the cleaned
+			photos one by one or as a ZIP. It runs in your browser too.
 		</p>
 	</section>
 
