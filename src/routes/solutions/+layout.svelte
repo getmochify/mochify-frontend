@@ -40,6 +40,7 @@
         'compress-image-to-50kb': 'Compress Image to 50KB',
         'compress-image-to-100kb': 'Compress Image to 100KB',
         'compress-image-to-200kb': 'Compress Image to 200KB',
+        'exif-viewer': 'EXIF Viewer',
     };
 
     function formatSlug(slug: string): string {
