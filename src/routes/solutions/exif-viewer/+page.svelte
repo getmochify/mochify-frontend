@@ -27,6 +27,10 @@
 			a: 'A few items are needed for the picture to look right: its orientation, its color profile, an HDR gain map and its pixel density. None of them says anything about you or where the photo was taken.'
 		},
 		{
+			q: 'What do red, amber and green mean in the EXIF viewer?',
+			a: 'Red marks values that identify you or your location on their own, such as GPS coordinates, a camera serial number or your name. Amber marks values that could help identify you in combination, such as the date and your phone model, and anything the viewer cannot read. Green marks technical values that are not personal on their own, such as exposure settings.'
+		},
+		{
 			q: 'What is the embedded thumbnail?',
 			a: 'A small preview the camera or an app stored inside the file. Editors do not always update it, so it can still show the photo as it was before a crop or an edit.'
 		}
@@ -112,6 +116,19 @@
 				</div>
 			{/each}
 		</dl>
+	</section>
+
+	<section class="mx-auto mt-16 max-w-4xl space-y-4">
+		<h2 class="text-2xl font-bold text-cocoa-ink">What the colors mean</h2>
+		<p class="leading-relaxed text-cocoa-deep">
+			Each value is marked by how much it says about you. Red identifies you or your location on its
+			own: GPS coordinates, a camera serial number, your name, or an embedded preview that can show
+			what you cropped out. Amber could help identify you when combined with something else, such as
+			the date, your phone model or an editing history, and it also marks anything this viewer
+			cannot read. Green is technical detail that is not personal on its own, such as shutter speed
+			or image size. The colors describe each value. They are not a verdict on whether the photo is
+			safe to share: what is in the picture matters too.
+		</p>
 	</section>
 
 	<section class="mx-auto mt-16 max-w-4xl space-y-4">

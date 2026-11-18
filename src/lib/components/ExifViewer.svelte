@@ -2,6 +2,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { posthog } from '$lib/analytics';
 	import type { Report, Field } from '$lib/exif/report';
+	import { verdict, LEVEL_LABELS, LEVEL_ORDER, type Level } from '$lib/exif/levels';
 
 	// The EXIF viewer: one photo, read in this tab. Rule 2 of the build brief
 	// (content-ops 2026-11-18): no byte of the file and no value read from it
@@ -25,7 +26,45 @@
 	let thumbUrl = $state('');
 	let fileInputEl: HTMLInputElement | null = $state(null);
 
-	const found = $derived(report ? report.sections.filter((s) => s.fields.length) : []);
+	// Red sections first, then amber, then green; the brief's order within a
+	// level (sort is stable).
+	const found = $derived(
+		report
+			? report.sections
+					.filter((s) => s.fields.length)
+					.sort((a, b) => LEVEL_ORDER.indexOf(a.level!) - LEVEL_ORDER.indexOf(b.level!))
+			: []
+	);
+	const outcome = $derived(report ? verdict(report.sections) : null);
+
+	// Text on these tints clears WCAG AA (4.5 to 1) with room to spare.
+	// Icons are graphics, so they need 3 to 1; amber-600 on white clears it.
+	const LEVEL_STYLE: Record<
+		Level,
+		{ pill: string; icon: string; text: string; box: string; edge: string }
+	> = {
+		red: {
+			pill: 'border-red-200 bg-red-50 text-red-800',
+			icon: 'text-red-700',
+			text: 'text-red-800',
+			box: 'border-red-200 bg-red-50 text-red-900',
+			edge: 'border-l-red-400'
+		},
+		amber: {
+			pill: 'border-amber-200 bg-amber-50 text-amber-900',
+			icon: 'text-amber-600',
+			text: 'text-amber-900',
+			box: 'border-amber-200 bg-amber-50 text-amber-950',
+			edge: 'border-l-amber-400'
+		},
+		green: {
+			pill: 'border-green-200 bg-green-50 text-green-800',
+			icon: 'text-green-700',
+			text: 'text-green-800',
+			box: 'border-green-200 bg-green-50 text-green-900',
+			edge: 'border-l-green-400'
+		}
+	};
 	const missing = $derived(report ? report.sections.filter((s) => !s.fields.length) : []);
 
 	onMount(() => posthog.capture('exif_viewer_opened'));
@@ -72,8 +111,12 @@
 			if (r.thumbnailJpeg) {
 				thumbUrl = URL.createObjectURL(new Blob([r.thumbnailJpeg.slice()], { type: 'image/jpeg' }));
 			}
+			const counts = verdict(r.sections).counts;
 			posthog.capture('exif_viewer_file_read', {
 				format: r.format,
+				items_red: counts.red,
+				items_amber: counts.amber,
+				items_green: counts.green,
 				size_mb: Math.round(file.size / (1024 * 1024)),
 				...Object.fromEntries(r.sections.map((s) => [`fields_${s.id}`, s.fields.length])),
 				essentials: r.essentials.map((e) => e.label).join(','),
@@ -106,15 +149,73 @@
 		if (f) read(f);
 	}
 
-	const major = (fields: Field[]) => fields.filter((f) => !f.minor);
-	const minor = (fields: Field[]) => fields.filter((f) => f.minor);
+	// Only green bookkeeping is folded away: a red or amber value always shows.
+	const folded = (f: Field) => !!f.minor && f.level === 'green';
+	const major = (fields: Field[]) => fields.filter((f) => !folded(f));
+	const minor = (fields: Field[]) => fields.filter(folded);
+
+	/** Each explanation once per list, on its first red or amber row. */
+	const whyShown = (fields: Field[]) => {
+		const seen: string[] = [];
+		return fields.map((f) => {
+			if (!f.why || f.level === 'green' || seen.includes(f.why)) return false;
+			seen.push(f.why);
+			return true;
+		});
+	};
 </script>
 
+<!-- One shape per level, so the levels read in grayscale and for red-green
+     color blindness: an octagon, a triangle and a circle. -->
+{#snippet levelIcon(level: Level, cls: string)}
+	<svg class="{cls} {LEVEL_STYLE[level].icon} flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+		{#if level === 'red'}
+			<path fill="currentColor" d="M8 2h8l6 6v8l-6 6H8l-6-6V8z" />
+			<path stroke="white" stroke-width="2.5" stroke-linecap="round" d="M12 7v6m0 4v.01" />
+		{:else if level === 'amber'}
+			<path fill="currentColor" d="M12 2.5 22.5 21h-21z" />
+			<path stroke="white" stroke-width="2.5" stroke-linecap="round" d="M12 9.5v5m0 3v.01" />
+		{:else}
+			<circle fill="currentColor" cx="12" cy="12" r="10" />
+			<path
+				fill="none"
+				stroke="white"
+				stroke-width="2.5"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				d="m7.5 12.5 3 3 6-6.5"
+			/>
+		{/if}
+	</svg>
+{/snippet}
+
+{#snippet levelPill(level: Level)}
+	<span
+		class="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-bold {LEVEL_STYLE[
+			level
+		].pill}"
+	>
+		{@render levelIcon(level, 'h-3.5 w-3.5')}
+		{LEVEL_LABELS[level]}
+	</span>
+{/snippet}
+
 {#snippet fieldRows(fields: Field[])}
+	{@const shown = whyShown(fields)}
 	<dl class="divide-y divide-pink-50">
 		{#each fields as f, i (i)}
 			<div class="grid gap-1 py-2.5 sm:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] sm:gap-4">
-				<dt class="text-sm font-bold text-cocoa-ink">{f.label}</dt>
+				<dt class="flex items-start gap-2 text-sm font-bold text-cocoa-ink">
+					<span
+						role="img"
+						aria-label={LEVEL_LABELS[f.level]}
+						title={LEVEL_LABELS[f.level]}
+						class="mt-0.5"
+					>
+						{@render levelIcon(f.level, 'h-3.5 w-3.5')}
+					</span>
+					<span class="min-w-0">{f.label}</span>
+				</dt>
 				<dd class="flex min-w-0 flex-wrap items-baseline gap-x-2 text-sm text-cocoa-deep">
 					<span class="min-w-0 break-words whitespace-pre-wrap">{f.value}</span>
 					{#if f.href}
@@ -129,11 +230,20 @@
 					<span class="text-[10px] font-bold tracking-wide text-cocoa-milk/60 uppercase"
 						>{f.source}</span
 					>
+					{#if shown[i]}
+						<span class="basis-full text-xs font-medium {LEVEL_STYLE[f.level].text}">{f.why}</span>
+					{/if}
 				</dd>
 			</div>
 		{/each}
 	</dl>
 {/snippet}
+
+<!-- Announces the verdict once a photo has been read. Kept outside the
+     results so the live region exists before its text changes. -->
+<p class="sr-only" aria-live="polite">
+	{outcome ? `${outcome.headline}${outcome.detail ? ' ' + outcome.detail + '.' : ''}` : ''}
+</p>
 
 <div class="rounded-3xl border border-pink-50 bg-white p-5 shadow-sm sm:p-8">
 	{#if !report}
@@ -230,27 +340,46 @@
 				>
 			</div>
 
-			<p class="rounded-2xl bg-mochi-blush px-4 py-3 text-sm font-bold text-cocoa-ink">
-				{#if found.length === 0}
-					No removable metadata found in this photo.
-				{:else}
-					Found: {found.map((s) => `${s.title} (${s.fields.length})`).join(', ')}.
-					{#if found.some((s) => s.id === 'location')}
-						<span class="block pt-1 font-medium text-cocoa-deep"
-							>This photo records where it was taken.</span
-						>
-					{/if}
-				{/if}
-			</p>
+			{#if outcome}
+				{@const lvl = outcome.level ?? 'green'}
+				<div class="space-y-2">
+					<div class="rounded-2xl border px-4 py-3 {LEVEL_STYLE[lvl].box}">
+						<p class="flex items-start gap-2 font-bold">
+							{@render levelIcon(lvl, 'mt-0.5 h-5 w-5')}
+							<span>{outcome.headline}</span>
+						</p>
+						{#if outcome.detail}
+							<p class="mt-1 pl-7 text-sm">{outcome.detail}.</p>
+						{/if}
+					</div>
+					<ul
+						class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-bold text-cocoa-deep"
+						aria-label="Key"
+					>
+						{#each LEVEL_ORDER as l (l)}
+							<li class="inline-flex items-center gap-1.5">
+								{@render levelIcon(l, 'h-3.5 w-3.5')}
+								{LEVEL_LABELS[l]}
+							</li>
+						{/each}
+					</ul>
+				</div>
+			{/if}
 
 			{#each found as section (section.id)}
-				<section class="rounded-2xl border border-pink-50 p-4 sm:p-5">
-					<div class="flex items-baseline justify-between gap-3">
-						<h3 class="text-lg font-bold text-cocoa-ink">{section.title}</h3>
-						<span
-							class="rounded-full bg-mochi-strawberry px-2.5 py-0.5 text-xs font-bold text-mochi-pink-ink"
-							>{section.fields.length} {section.fields.length === 1 ? 'field' : 'fields'}</span
-						>
+				<section
+					class="rounded-2xl border border-l-4 border-pink-50 p-4 sm:p-5 {section.level
+						? LEVEL_STYLE[section.level].edge
+						: ''}"
+				>
+					<div class="flex flex-wrap items-center justify-between gap-2">
+						<h3 class="text-lg font-bold text-cocoa-ink">
+							{section.title}
+							<span class="text-sm font-medium text-cocoa-milk"
+								>· {section.fields.length} {section.fields.length === 1 ? 'field' : 'fields'}</span
+							>
+						</h3>
+						{#if section.level}{@render levelPill(section.level)}{/if}
 					</div>
 					<p class="mt-1 text-sm text-cocoa-milk">{section.blurb}</p>
 					{#if section.id === 'thumbnail' && thumbUrl}
@@ -288,7 +417,10 @@
 
 			{#if report.essentials.length}
 				<section class="rounded-2xl border border-green-100 bg-[#F0FDF4] p-4 sm:p-5">
-					<h3 class="text-lg font-bold text-cocoa-ink">Essential, kept</h3>
+					<div class="flex flex-wrap items-center justify-between gap-2">
+						<h3 class="text-lg font-bold text-cocoa-ink">Essential, kept</h3>
+						{@render levelPill('green')}
+					</div>
 					<p class="mt-1 text-sm text-cocoa-milk">
 						The photo needs these to look right. They say nothing about you.
 					</p>

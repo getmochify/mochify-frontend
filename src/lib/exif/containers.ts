@@ -24,7 +24,8 @@ export type RawMeta = {
 	/** Color descriptions that are not an ICC profile: PNG sRGB/gAMA/cHRM, and
 	 *  `cicp:<primaries>/<transfer>` for PNG cICP and HEIF nclx. */
 	colorTags: string[];
-	c2pa: { bytes: number; aiSource: boolean; where: Where }[];
+	/** `namesPerson`: the manifest carries an identity or author assertion. */
+	c2pa: { bytes: number; aiSource: boolean; namesPerson: boolean; where: Where }[];
 	/** PNG text chunks and JPEG comments. */
 	texts: { key: string; text: string; where: Where }[];
 	density?: { x: number; y: number; unit: 'in' | 'cm' | '' };
@@ -73,6 +74,13 @@ const u32le = (b: Uint8Array, i: number) =>
 /** A Content Credentials manifest that declares the picture AI-made or AI-edited. */
 function declaresAi(b: Uint8Array): boolean {
 	return indexOfAscii(b, 'trainedAlgorithmicMedia') >= 0;
+}
+
+/** A manifest with a CAWG identity assertion or a schema.org author names someone. */
+function namesPerson(b: Uint8Array): boolean {
+	return (
+		indexOfAscii(b, 'cawg.identity') >= 0 || indexOfAscii(b, 'stds.schema-org.CreativeWork') >= 0
+	);
 }
 
 export function detectFormat(b: Uint8Array): ImageFormat | null {
@@ -134,6 +142,7 @@ function walkJpeg(b: Uint8Array, start: number, meta: RawMeta, where: Where): vo
 	const extXmp = new Map<string, { total: number; parts: { off: number; data: Uint8Array }[] }>();
 	let c2paBytes = 0;
 	let c2paAi = false;
+	let c2paPerson = false;
 	let mpf: { base: number; seg: Uint8Array } | null = null;
 
 	let i = start + 2;
@@ -198,6 +207,7 @@ function walkJpeg(b: Uint8Array, start: number, meta: RawMeta, where: Where): vo
 		} else if (m === 0xeb && (indexOfAscii(seg, 'c2pa') >= 0 || indexOfAscii(seg, 'jumb') >= 0)) {
 			c2paBytes += seg.length;
 			if (declaresAi(seg)) c2paAi = true;
+			if (namesPerson(seg)) c2paPerson = true;
 		} else if (m === 0xed && startsWith(seg, 0, 'Photoshop 3.0\0')) {
 			walkPhotoshop(seg.subarray(14), meta, where);
 		} else if (m === 0xee && startsWith(seg, 0, 'Adobe')) {
@@ -232,7 +242,8 @@ function walkJpeg(b: Uint8Array, start: number, meta: RawMeta, where: Where): vo
 		for (const p of parts) if (p.off + p.data.length <= total) whole.set(p.data, p.off);
 		meta.xmp.push({ text: utf8.decode(whole), where });
 	}
-	if (c2paBytes) meta.c2pa.push({ bytes: c2paBytes, aiSource: c2paAi, where });
+	if (c2paBytes)
+		meta.c2pa.push({ bytes: c2paBytes, aiSource: c2paAi, namesPerson: c2paPerson, where });
 	if (mpf && where === MAIN) walkMpf(b, mpf.base, mpf.seg, meta);
 }
 
@@ -316,6 +327,7 @@ function walkPhotoshop(p: Uint8Array, meta: RawMeta, where: Where): void {
 
 // ---------------------------------------------------------------- PNG
 
+// iDOT is Apple's hint for decoding a screenshot in parallel: picture data.
 const PNG_PICTURE = new Set([
 	'IHDR',
 	'PLTE',
@@ -327,7 +339,8 @@ const PNG_PICTURE = new Set([
 	'acTL',
 	'fcTL',
 	'fdAT',
-	'gdAT'
+	'gdAT',
+	'iDOT'
 ]);
 const PNG_COLOR = new Set(['sRGB', 'gAMA', 'cHRM', 'cICP', 'mDCV', 'cLLI']);
 
@@ -399,7 +412,12 @@ function walkPng(b: Uint8Array, meta: RawMeta): void {
 				where: MAIN
 			});
 		} else if (type === 'caBX') {
-			meta.c2pa.push({ bytes: len, aiSource: declaresAi(d), where: MAIN });
+			meta.c2pa.push({
+				bytes: len,
+				aiSource: declaresAi(d),
+				namesPerson: namesPerson(d),
+				where: MAIN
+			});
 		} else if (!PNG_PICTURE.has(type)) {
 			meta.unknown.push({ name: `PNG chunk ${type}`, bytes: len, where: MAIN });
 		}
@@ -477,7 +495,12 @@ function walkWebp(b: Uint8Array, meta: RawMeta): void {
 		} else if (type === 'XMP ') {
 			meta.xmp.push({ text: utf8.decode(d), where: MAIN });
 		} else if (type === 'C2PA') {
-			meta.c2pa.push({ bytes: len, aiSource: declaresAi(d), where: MAIN });
+			meta.c2pa.push({
+				bytes: len,
+				aiSource: declaresAi(d),
+				namesPerson: namesPerson(d),
+				where: MAIN
+			});
 		} else if (!/^(VP8 |VP8L|ALPH|ANIM|ANMF)$/.test(type)) {
 			meta.unknown.push({ name: `WebP chunk ${type.trim()}`, bytes: len, where: MAIN });
 		}
@@ -524,6 +547,7 @@ function walkHeif(b: Uint8Array, meta: RawMeta): void {
 				meta.c2pa.push({
 					bytes: box.end - box.start,
 					aiSource: declaresAi(b.subarray(box.body, box.end)),
+					namesPerson: namesPerson(b.subarray(box.body, box.end)),
 					where: MAIN
 				});
 			else
@@ -658,7 +682,12 @@ function walkHeif(b: Uint8Array, meta: RawMeta): void {
 			if (d) meta.xmp.push({ text: utf8.decode(d), where: whereFor(item.id) });
 		} else if (item.type === 'mime' && /c2pa/.test(item.contentType ?? '')) {
 			const d = itemBytes(item.id);
-			meta.c2pa.push({ bytes: d?.length ?? 0, aiSource: d ? declaresAi(d) : false, where: MAIN });
+			meta.c2pa.push({
+				bytes: d?.length ?? 0,
+				aiSource: d ? declaresAi(d) : false,
+				namesPerson: d ? namesPerson(d) : false,
+				where: MAIN
+			});
 		} else if (item.type === 'tmap') {
 			meta.gainMap = true;
 		}

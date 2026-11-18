@@ -5,10 +5,13 @@ import exifr from 'exifr';
 import { readContainer, type RawMeta, type Where } from './containers';
 import { parseXmp, parseIptc, iccDescription, type XmpProp } from './decoders';
 import { SECTIONS, REASONS, type SectionId } from './sections';
+import { levelOf, highest, type Level } from './levels';
 
-export type { SectionId };
+export type { SectionId, Level };
 
 export type Field = {
+	/** What levels.ts rates it by: tag, property or dataset name, or a viewer key. */
+	key: string;
 	label: string;
 	value: string;
 	/** Which block it came from: EXIF, XMP, IPTC, PNG, ... */
@@ -16,9 +19,21 @@ export type Field = {
 	/** Format bookkeeping (EXIF version, pixel counts...): listed folded. */
 	minor?: boolean;
 	href?: string;
+	level: Level;
+	/** One line on why it is red or amber. */
+	why?: string;
 };
 
-export type Section = { id: SectionId; title: string; blurb: string; fields: Field[] };
+type FieldIn = Omit<Field, 'level' | 'why'>;
+
+export type Section = {
+	id: SectionId;
+	title: string;
+	blurb: string;
+	fields: Field[];
+	/** The highest level among its fields; null when it is empty. */
+	level: Level | null;
+};
 export type Essential = { label: string; value: string; reason: string };
 
 export type Report = {
@@ -563,11 +578,15 @@ function makerNoteSize(t: Uint8Array): number {
 export async function buildReport(bytes: Uint8Array): Promise<Report> {
 	const raw = readContainer(bytes);
 	const sections = new Map<SectionId, Field[]>(SECTIONS.map((s) => [s.id, []]));
-	const add = (id: SectionId, f: Field, where: Where = '') => {
+	const add = (id: SectionId, f: FieldIn, where: Where = '') => {
 		if (!f.value) return;
-		sections.get(id)!.push(where ? { ...f, label: `${f.label} (${where})` } : f);
+		// Only format bookkeeping counts as technical: a folded copy of a date
+		// or a software name is as telling as the original.
+		const technical = !!f.minor && (id === 'other' || id === 'camera');
+		const rated = { ...f, ...levelOf(id, f.key, f.value, technical) };
+		sections.get(id)!.push(where ? { ...rated, label: `${f.label} (${where})` } : rated);
 	};
-	const route = (t: Target, f: Field, where: Where) => {
+	const route = (t: Target, f: FieldIn, where: Where) => {
 		if (t === 'skip' || t === 'essential') return;
 		if (t === 'tech') add('other', { ...f, minor: true }, where);
 		else add(t, f, where);
@@ -587,7 +606,12 @@ export async function buildReport(bytes: Uint8Array): Promise<Report> {
 		} catch {
 			add(
 				'other',
-				{ label: 'EXIF block that could not be read', value: kb(tiff.length), source: 'EXIF' },
+				{
+					key: 'Unknown',
+					label: 'EXIF block that could not be read',
+					value: kb(tiff.length),
+					source: 'EXIF'
+				},
 				where
 			);
 			continue;
@@ -614,6 +638,7 @@ export async function buildReport(bytes: Uint8Array): Promise<Report> {
 			add(
 				'location',
 				{
+					key: 'Coordinates',
 					label: 'Coordinates',
 					value: `${lat}, ${lon}`,
 					source: 'EXIF',
@@ -640,7 +665,7 @@ export async function buildReport(bytes: Uint8Array): Promise<Report> {
 			if (key === 'GPSDestBearing') v += north[String(gps.GPSDestBearingRef)] ?? '';
 			route(
 				TECH_KEYS.has(key) ? 'tech' : 'location',
-				{ label: humanize(key), value: v, source: 'EXIF' },
+				{ key, label: humanize(key), value: v, source: 'EXIF' },
 				where
 			);
 		}
@@ -655,11 +680,18 @@ export async function buildReport(bytes: Uint8Array): Promise<Report> {
 				let target = tiffTarget(key, group);
 
 				const v = formatValue(key, value);
-				if (key === 'UserComment' && looksLikePrompt(v)) target = 'ai';
+				const prompt = key === 'UserComment' && looksLikePrompt(v);
+				if (prompt) target = 'ai';
 				const minor = target === 'camera' && CAMERA_MINOR.has(key);
 				route(
 					target,
-					{ label: humanize(key), value: v, source: 'EXIF', minor: minor || undefined },
+					{
+						key: prompt ? 'AIText' : key,
+						label: humanize(key),
+						value: v,
+						source: 'EXIF',
+						minor: minor || undefined
+					},
 					where
 				);
 			}
@@ -671,7 +703,12 @@ export async function buildReport(bytes: Uint8Array): Promise<Report> {
 		if (makerNote)
 			add(
 				'camera',
-				{ label: humanize('MakerNote'), value: `Present, ${kb(makerNote)}`, source: 'EXIF' },
+				{
+					key: 'MakerNote',
+					label: humanize('MakerNote'),
+					value: `Present, ${kb(makerNote)}`,
+					source: 'EXIF'
+				},
 				where
 			);
 
@@ -684,11 +721,20 @@ export async function buildReport(bytes: Uint8Array): Promise<Report> {
 			if (where === '' && dims) thumbnailJpeg = jpeg;
 			add(
 				'thumbnail',
-				{ label: 'EXIF thumbnail', value: `${dims ? dims + ', ' : ''}${kb(len)}`, source: 'EXIF' },
+				{
+					key: 'Thumbnail',
+					label: 'EXIF thumbnail',
+					value: `${dims ? dims + ', ' : ''}${kb(len)}`,
+					source: 'EXIF'
+				},
 				where
 			);
 		} else if (Object.keys(ifd1).length) {
-			add('thumbnail', { label: 'EXIF thumbnail', value: 'Present', source: 'EXIF' }, where);
+			add(
+				'thumbnail',
+				{ key: 'Thumbnail', label: 'EXIF thumbnail', value: 'Present', source: 'EXIF' },
+				where
+			);
 		}
 	}
 
@@ -700,7 +746,12 @@ export async function buildReport(bytes: Uint8Array): Promise<Report> {
 		} catch {
 			add(
 				'other',
-				{ label: 'XMP block that could not be read', value: kb(text.length), source: 'XMP' },
+				{
+					key: 'Unknown',
+					label: 'XMP block that could not be read',
+					value: kb(text.length),
+					source: 'XMP'
+				},
 				where
 			);
 			continue;
@@ -726,7 +777,8 @@ export async function buildReport(bytes: Uint8Array): Promise<Report> {
 			}
 			const label = p.ns === NS.mwgRs ? 'Tagged faces and regions' : humanize(p.name);
 			const minor = t === 'tech' || p.ns === NS.crs || (p.ns === NS.xmpMM && p.name !== 'History');
-			route(t, { label, value, source: 'XMP', minor: minor || undefined }, where);
+			const key = p.ns === NS.mwgRs ? 'FaceRegions' : p.ns === NS.crs ? `crs:${p.name}` : p.name;
+			route(t, { key, label, value, source: 'XMP', minor: minor || undefined }, where);
 		}
 	}
 
@@ -736,6 +788,7 @@ export async function buildReport(bytes: Uint8Array): Promise<Report> {
 			route(
 				IPTC_SECTIONS[name] ?? 'other',
 				{
+					key: name,
 					label: humanize(name.replace(/-/g, '')),
 					value: formatValue(name, value),
 					source: 'IPTC'
@@ -749,13 +802,25 @@ export async function buildReport(bytes: Uint8Array): Promise<Report> {
 	for (const c of raw.c2pa) {
 		add(
 			'ai',
-			{ label: 'Content Credentials (C2PA)', value: `Present, ${kb(c.bytes)}`, source: 'C2PA' },
+			{
+				key: c.namesPerson ? 'C2PA-person' : 'C2PA',
+				label: c.namesPerson
+					? 'Content Credentials (C2PA), naming a person or account'
+					: 'Content Credentials (C2PA)',
+				value: `Present, ${kb(c.bytes)}`,
+				source: 'C2PA'
+			},
 			c.where
 		);
 		if (c.aiSource)
 			add(
 				'ai',
-				{ label: 'The credentials say', value: 'Made or edited with AI', source: 'C2PA' },
+				{
+					key: 'DigitalSourceType',
+					label: 'The credentials say',
+					value: 'Made or edited with AI',
+					source: 'C2PA'
+				},
 				c.where
 			);
 	}
@@ -766,7 +831,12 @@ export async function buildReport(bytes: Uint8Array): Promise<Report> {
 		if (raw.format === 'jpeg') {
 			add(
 				ai ? 'ai' : 'other',
-				{ label: 'Comment', value: formatValue('', t.text), source: 'JPEG' },
+				{
+					key: ai ? 'AIText' : 'Comment',
+					label: 'Comment',
+					value: formatValue('', t.text),
+					source: 'JPEG'
+				},
 				t.where
 			);
 			continue;
@@ -784,6 +854,7 @@ export async function buildReport(bytes: Uint8Array): Promise<Report> {
 		route(
 			target === 'essential' ? 'tech' : target,
 			{
+				key: ai ? 'AIText' : (exifKey ?? (/^date:/.test(t.key) ? 'FileDate' : 'Text')),
 				label,
 				value: formatValue(exifKey ?? '', t.text),
 				source: 'PNG text',
@@ -793,12 +864,16 @@ export async function buildReport(bytes: Uint8Array): Promise<Report> {
 		);
 	}
 	for (const d of raw.dates)
-		add('datetime', { label: d.label, value: formatValue('', d.value), source: 'PNG' }, d.where);
+		add(
+			'datetime',
+			{ key: 'FileDate', label: d.label, value: formatValue('', d.value), source: 'PNG' },
+			d.where
+		);
 
 	for (const t of raw.thumbs)
 		add(
 			'thumbnail',
-			{ label: t.label, value: kb(t.bytes), source: raw.format.toUpperCase() },
+			{ key: 'Thumbnail', label: t.label, value: kb(t.bytes), source: raw.format.toUpperCase() },
 			t.where
 		);
 	if (!thumbnailJpeg) thumbnailJpeg = raw.thumbs.find((t) => t.jpeg && t.where === '')?.jpeg;
@@ -806,7 +881,12 @@ export async function buildReport(bytes: Uint8Array): Promise<Report> {
 	for (const u of raw.unknown)
 		add(
 			'other',
-			{ label: `Unrecognized block: ${u.name}`, value: kb(u.bytes), source: 'File' },
+			{
+				key: 'Unknown',
+				label: `Unrecognized block: ${u.name}`,
+				value: kb(u.bytes),
+				source: 'File'
+			},
 			u.where
 		);
 
@@ -836,7 +916,10 @@ export async function buildReport(bytes: Uint8Array): Promise<Report> {
 		format: raw.format,
 		width: raw.width,
 		height: raw.height,
-		sections: SECTIONS.map((s) => ({ ...s, fields: sections.get(s.id)! })),
+		sections: SECTIONS.map((s) => {
+			const fields = sections.get(s.id)!;
+			return { ...s, fields, level: highest(fields.map((f) => f.level)) };
+		}),
 		essentials,
 		pictureData: [...pictureData],
 		thumbnailJpeg
