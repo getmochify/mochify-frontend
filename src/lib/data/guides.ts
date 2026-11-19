@@ -226,7 +226,8 @@ export const guides: Guide[] = [
 		url: '/guides/remove-metadata-from-photo',
 		category: 'Data Privacy',
 		readTime: '28 min read',
-		date: 'November 17, 2026'
+		date: 'November 17, 2026',
+		lastUpdated: 'November 19, 2026'
 	},
 	{
 		title: 'What Is a JFIF File? Why Windows Saves .jfif, and How to Get a JPG or PNG Back',
@@ -495,7 +496,7 @@ export const guides: Guide[] = [
 		category: 'Data Privacy',
 		readTime: '6 min read',
 		date: 'February 5, 2026',
-		lastUpdated: 'November 17, 2026'
+		lastUpdated: 'November 19, 2026'
 	},
 	{
 		title: 'How to Fix "Improve Image Delivery" in WordPress Without a Plugin',
@@ -535,7 +536,7 @@ export const guides: Guide[] = [
 		category: 'Data Privacy',
 		readTime: '15 min read',
 		date: 'February 13, 2026',
-		lastUpdated: 'November 17, 2026'
+		lastUpdated: 'November 19, 2026'
 	},
 	{
 		title: 'The History of Image Compression: From BMP to AVIF & Jpegli (2026 Guide)',
@@ -712,7 +713,7 @@ export const guides: Guide[] = [
 		category: 'AI & Automation',
 		readTime: '22 min read',
 		date: 'October 16, 2026',
-		lastUpdated: 'October 20, 2026'
+		lastUpdated: 'November 19, 2026'
 	},
 	{
 		title: 'Can ChatGPT Compress a Photo? We Measured What Comes Back',
@@ -734,7 +735,8 @@ export const guides: Guide[] = [
 		lastUpdated: 'October 31, 2026'
 	},
 	{
-		title: 'The HTML <picture> Tag (Picture Element): Format Fallbacks, Art Direction and the 2026 Source Order',
+		title:
+			'The HTML <picture> Tag (Picture Element): Format Fallbacks, Art Direction and the 2026 Source Order',
 		description:
 			'The HTML picture tag, explained: AVIF, WebP and JPEG fallbacks in the right order, art direction, dark mode, and the four rules that make it render.',
 		url: '/guides/html-picture-tag',

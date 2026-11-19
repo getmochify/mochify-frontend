@@ -23,7 +23,7 @@
 		category: 'AI & Automation',
 		readTime: '22 min read',
 		date: 'October 16, 2026',
-		lastUpdated: 'October 20, 2026',
+		lastUpdated: 'November 19, 2026',
 		bylineNote:
 			'Written from two real redaction runs on October 16, 2026: a parked car with two plates, and a fifteen-person group photo where the detector found twelve.'
 	};
@@ -157,7 +157,7 @@
 		url={pageUrl}
 		description={metadata.description}
 		datePublished="2026-10-16"
-		dateModified="2026-10-20"
+		dateModified="2026-11-19"
 		article={{
 			about: ['image redaction', 'face blurring', 'license plates', 'EXIF metadata', 'MCP server', 'Mochify API'],
 			keywords
@@ -256,7 +256,7 @@
 				>). JPEGs have a quieter version of the same problem: the EXIF block usually holds a
 				thumbnail of the picture as it was when the camera saved it, and an editor that blurs the
 				main image and leaves the thumbnail alone has hidden nothing from anyone who opens the file
-				in a metadata viewer.
+				in <a href="/solutions/exif-viewer">a metadata viewer</a>.
 			</p>
 			<p class="mb-4">
 				So "hide this" has three parts: replace the pixels with something that carries no

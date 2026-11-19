@@ -13,9 +13,25 @@
 	// metadata), and "in your browser" belongs on these pages only.
 
 	const metaDescription =
-		'See the EXIF data hidden in a photo: location, camera, dates and more. Remove the parts you choose in your browser. Nothing is uploaded. Free, no signup.';
+		'View EXIF data online: see the location, camera, dates and AI labels hidden in a photo, then remove what you choose. Nothing is uploaded. Free, no signup.';
 
 	const faqs: FaqItem[] = [
+		{
+			q: 'How can I view the EXIF data of a photo?',
+			a: 'Drop the photo on the box at the top of this page, or tap it to pick one from your phone. The viewer lists everything the file holds, grouped into location, camera, dates, author, software, AI labels and the embedded thumbnail, with each value in plain words. Nothing is uploaded.'
+		},
+		{
+			q: 'How do I find the date a photo was taken?',
+			a: 'Open the Date and time section. It shows when the photo was taken, when it was digitized and when the file was last changed. If the section is missing, the file carries no date, which is usual for screenshots and for photos saved from social networks. A date stored in metadata can be edited, so treat it as a clue, not as proof.'
+		},
+		{
+			q: 'Can I see where a photo was taken?',
+			a: 'Yes, if the camera or phone saved a location. The Location section shows the coordinates, with a link to open them in a map. The viewer does not load a map itself, so the location is not sent to anyone unless you click that link.'
+		},
+		{
+			q: 'Can I edit EXIF data with this tool?',
+			a: 'No. The viewer reads metadata and removes the sections you choose. It does not change a date, add a copyright line or rewrite any value.'
+		},
 		{
 			q: 'Is my photo uploaded?',
 			a: 'No. The photo is read in your browser, on your device. No part of the file and nothing read from it is sent to Mochify or anywhere else.'
@@ -71,7 +87,7 @@
 </script>
 
 <svelte:head>
-	<title>EXIF Viewer - View & Remove Photo Metadata Online | Mochify</title>
+	<title>EXIF Viewer - Photo Metadata Viewer, Free Online | Mochify</title>
 	<meta name="description" content={metaDescription} />
 	<meta property="og:description" content={metaDescription} />
 	<meta name="twitter:description" content={metaDescription} />
@@ -90,10 +106,10 @@
 			>
 		</h1>
 		<p class="mx-auto max-w-2xl text-lg leading-relaxed font-medium text-balance text-cocoa-deep">
-			See the metadata hidden in a photo: where it was taken, the camera and its settings, the
-			dates, who made it and any AI labels, grouped in plain sections. Remove the sections you
-			choose and download a clean copy. Everything happens in your browser: the photo is never
-			uploaded and the picture itself is not recompressed. For many photos at once, use the
+			View the EXIF data and other metadata hidden in a photo: where it was taken, the camera and
+			its settings, the dates, who made it and any AI labels, grouped in plain sections. Remove the
+			sections you choose and download a clean copy. Everything happens in your browser: the photo
+			is never uploaded and the picture itself is not recompressed. For many photos at once, use the
 			<a href="/solutions/exif-remover" class={linkClass}>EXIF remover</a>.
 		</p>
 	</div>
@@ -108,7 +124,7 @@
 	</p>
 
 	<section class="mx-auto mt-16 max-w-4xl space-y-4">
-		<h2 class="text-2xl font-bold text-cocoa-ink">How to read and remove a photo's metadata</h2>
+		<h2 class="text-2xl font-bold text-cocoa-ink">How to view EXIF data in a photo</h2>
 		<ol class="list-decimal space-y-2 pl-6 leading-relaxed text-cocoa-deep">
 			<li>Drop a photo on the box above, or tap it to pick one from your phone.</li>
 			<li>
@@ -123,7 +139,7 @@
 	</section>
 
 	<section class="mx-auto mt-16 max-w-4xl space-y-4">
-		<h2 class="text-2xl font-bold text-cocoa-ink">What each section means</h2>
+		<h2 class="text-2xl font-bold text-cocoa-ink">What metadata a photo holds</h2>
 		<dl class="space-y-3">
 			{#each SECTIONS as s (s.id)}
 				<div>
@@ -168,7 +184,7 @@
 	</section>
 
 	<section class="mx-auto mt-16 max-w-4xl space-y-4">
-		<h2 class="text-2xl font-bold text-cocoa-ink">Many photos at once</h2>
+		<h2 class="text-2xl font-bold text-cocoa-ink">Remove EXIF data from many photos at once</h2>
 		<p class="leading-relaxed text-cocoa-deep">
 			The <a href="/solutions/exif-remover" class={linkClass}>EXIF remover</a> takes up to 200 photos
 			in one drop, removes their metadata in one step, keeps the same essentials, and gives you the cleaned

@@ -13,12 +13,24 @@
 	// these two pages only, and the batch ceiling is stated, not "no limits".
 
 	const metaDescription =
-		'Remove EXIF data, GPS location and AI labels from your photos, right in your browser. Nothing is uploaded and nothing is recompressed. Free, no signup.';
+		'Free online EXIF remover: strip metadata, GPS location and AI labels from your photos in your browser. Nothing is uploaded or recompressed. No signup.';
 
 	const faqs: FaqItem[] = [
 		{
 			q: 'Are my photos uploaded?',
-			a: 'No. The photos are read and cleaned in your browser, on your device. No part of a file and nothing read from it is sent to Mochify or anywhere else, which is also why there is no account and no allowance.'
+			a: 'No. The photos are read and cleaned in your browser, on your device. No part of a file and nothing read from it is sent to Mochify or anywhere else, which is also why there is no signup and no monthly allowance.'
+		},
+		{
+			q: 'Is this EXIF remover safe to use?',
+			a: 'Your photos never leave your device. The page reads and cleans them in your browser and sends no part of a file anywhere. The picture itself is not changed, and your original files stay as they are: you download cleaned copies with "-clean" added to the name.'
+		},
+		{
+			q: 'Is the EXIF remover free?',
+			a: 'Yes. It is free with no signup, and because nothing is uploaded there is no monthly allowance to use up. You can clean up to 200 photos or 2 GB in one batch and run as many batches as you like.'
+		},
+		{
+			q: 'Should I remove EXIF data before sharing a photo?',
+			a: 'Remove it when the photo is going anywhere public, or to someone you would not give your address to. A phone photo usually records where it was taken, when, and on which device. Some apps strip this when you post and some do not, so cleaning the file first is the only way to be sure. Keep the metadata on your own archive copies: dates and locations are what let you search them later.'
 		},
 		{
 			q: 'Does removing EXIF data reduce the quality?',
@@ -75,7 +87,7 @@
 </script>
 
 <svelte:head>
-	<title>EXIF Remover - Remove Photo Metadata, No Upload | Mochify</title>
+	<title>EXIF Remover - Photo Metadata Remover, No Upload | Mochify</title>
 	<meta name="description" content={metaDescription} />
 	<meta property="og:description" content={metaDescription} />
 	<meta name="twitter:description" content={metaDescription} />
@@ -94,9 +106,10 @@
 			>
 		</h1>
 		<p class="mx-auto max-w-2xl text-lg leading-relaxed font-medium text-balance text-cocoa-deep">
-			Remove the location, camera details, dates, names and AI labels stored in your photos, many at
-			a time. Everything happens in your browser: your photos are never uploaded and the picture
-			itself is not recompressed. To see what one photo holds first, use the
+			This EXIF remover strips the metadata from your photos, one or 200 at a time: the EXIF data,
+			GPS location, camera details, dates, names and AI labels. Everything happens in your browser:
+			your photos are never uploaded and the picture itself is not recompressed. To see what one
+			photo holds first, use the
 			<a href="/solutions/exif-viewer" class={linkClass}>EXIF viewer</a>.
 		</p>
 	</div>
@@ -122,7 +135,7 @@
 	</section>
 
 	<section class="mx-auto mt-16 max-w-4xl space-y-4">
-		<h2 class="text-2xl font-bold text-cocoa-ink">What gets removed</h2>
+		<h2 class="text-2xl font-bold text-cocoa-ink">What metadata the EXIF remover takes out</h2>
 		<dl class="space-y-3">
 			{#each SECTIONS as s (s.id)}
 				<div>
@@ -150,7 +163,7 @@
 	</section>
 
 	<section class="mx-auto mt-16 max-w-4xl space-y-4">
-		<h2 class="text-2xl font-bold text-cocoa-ink">AI labels and Content Credentials</h2>
+		<h2 class="text-2xl font-bold text-cocoa-ink">Remove AI metadata and Content Credentials</h2>
 		<p class="leading-relaxed text-cocoa-deep">
 			Many AI image tools record how a picture was made: Content Credentials (C2PA) manifests,
 			AI-generation fields in XMP, and in PNG files the prompt and settings as text. These are
@@ -160,7 +173,9 @@
 	</section>
 
 	<section class="mx-auto mt-16 max-w-4xl space-y-4">
-		<h2 class="text-2xl font-bold text-cocoa-ink">iPhone, HEIC and camera files</h2>
+		<h2 class="text-2xl font-bold text-cocoa-ink">
+			Remove EXIF data from iPhone HEIC and camera HIF files
+		</h2>
 		<p class="leading-relaxed text-cocoa-deep">
 			iPhone HEIC photos and HIF files from Fujifilm, Canon and Sony cameras are cleaned in place:
 			the metadata is blanked where it sits, so the photo stays a HEIC or HIF, opens in the same
@@ -170,7 +185,7 @@
 	</section>
 
 	<section class="mx-auto mt-16 max-w-4xl space-y-4">
-		<h2 class="text-2xl font-bold text-cocoa-ink">One photo at a time</h2>
+		<h2 class="text-2xl font-bold text-cocoa-ink">View a photo's EXIF data first</h2>
 		<p class="leading-relaxed text-cocoa-deep">
 			The <a href="/solutions/exif-viewer" class={linkClass}>EXIF viewer</a> shows every value in a
 			single photo, marks each one by how much it says about you, and lets you remove only the

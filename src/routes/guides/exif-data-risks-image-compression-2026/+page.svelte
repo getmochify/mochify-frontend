@@ -14,7 +14,7 @@
         category: "Data Privacy",
         readTime: "15 min read",
         date: "February 13, 2026",
-        lastUpdated: "November 17, 2026"
+        lastUpdated: "November 19, 2026"
     };
 
     const related = [
@@ -117,7 +117,7 @@
         ],
         "image": "https://mochify.app/og/guides-exif-data-risks-image-compression-2026.png",
         "datePublished": "2026-02-13T12:00:00+00:00",
-        "dateModified": "2026-11-17T12:00:00+00:00"
+        "dateModified": "2026-11-19T12:00:00+00:00"
         }
     </script>
     <GuideSchema
@@ -125,7 +125,7 @@
         url="https://mochify.app/guides/exif-data-risks-image-compression-2026"
         description={metadata.description}
         datePublished="2026-02-13"
-        dateModified="2026-11-17"
+        dateModified="2026-11-19"
     />
 </svelte:head>
 
@@ -199,7 +199,7 @@
              </ul>
              <p class="mb-4">German courts have fined real estate photographers for sharing property photos containing precise GPS coordinates. The ruling made clear accidental leaks count as non-compliance.</p>
              <p class="mb-4">Mochify compression tool is hosted in Germany to uphold <a href="https://gdpr.eu">EUGDPR</a> standards, delivering these high-level safeguards to every user worldwide by default. UK users enjoy matching protections via the UK GDPR, which aligns closely with EU rules. Essentially, adhering to these strict standards and with a core philosophy surrounding privacy, benefits all our users worldwide.</p>
-             <p class="mb-4">Translation for photographers and agencies: If you're handling client images or user-generated content, failing to strip EXIF creates data residency liability. Mochify's in-memory processing guarantees zero disk retention and automatic metadata removal, keeping you compliant without extra steps.</p>
+             <p class="mb-4">Translation for photographers and agencies: If you're handling client images or user-generated content, failing to strip EXIF creates data residency liability. Mochify's in-memory processing guarantees zero disk retention and automatic metadata removal, keeping you compliant without extra steps. To strip the metadata without recompressing the photo at all, the <a href="/solutions/exif-remover">EXIF remover</a> does it in your browser.</p>
              <p class="mb-4">Beyond fines, EXIF leaks enable tangible harm:</p>
              <ul class="list-disc pl-6 mb-6 space-y-2 marker:text-mochi-pink">
                 <li><strong>Stalking/doxxing:</strong> A 2015 report documented domestic violence victims tracked through photo metadata shared on social media.</li>

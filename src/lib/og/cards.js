@@ -729,12 +729,12 @@ export const cards = [
 	{
 		path: '/solutions/exif-viewer',
 		eyebrow: 'TOOL',
-		title: 'EXIF Viewer - View & Remove Photo Metadata'
+		title: 'EXIF Viewer - Photo Metadata Viewer, Free Online'
 	},
 	{
 		path: '/solutions/exif-remover',
 		eyebrow: 'TOOL',
-		title: 'EXIF Remover - Remove Photo Metadata, No Upload'
+		title: 'EXIF Remover - Photo Metadata Remover, No Upload'
 	},
 	{
 		path: '/solutions/svg-to-webp',

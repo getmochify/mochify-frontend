@@ -23,6 +23,7 @@
 		category: 'Data Privacy',
 		readTime: '28 min read',
 		date: 'November 17, 2026',
+		lastUpdated: 'November 19, 2026',
 		bylineNote:
 			'Figures come from six live API calls and an exiftool 12.76 run on November 9, 2026: what each built-in route leaves behind, and what a re-encode removes.'
 	};
@@ -150,6 +151,7 @@
 		url={pageUrl}
 		description={metadata.description}
 		datePublished="2026-11-17"
+		dateModified="2026-11-19"
 		article={{
 			about: [
 				'EXIF',
@@ -185,7 +187,8 @@
 			class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"
 		></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
-			{metadata.readTime} · Published {metadata.date} · Mochify Engineering Team
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering
+			Team
 		</p>
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
@@ -335,6 +338,11 @@
 					none, worked out from landmarks and your other photos; the info panel labels it as estimated.
 				</li>
 				<li>
+					<strong>Everything, in a browser:</strong> the Mochify
+					<a href="/solutions/exif-viewer">EXIF viewer</a> lists every block a photo holds, grouped in
+					plain sections, and reads the file on your device without uploading it.
+				</li>
+				<li>
 					<strong>Everything, on any computer:</strong>
 					<a href="https://exiftool.org/" target="_blank" rel="noopener noreferrer">exiftool</a> is
 					the reference reader. <code>exiftool -a -G1 -s photo.jpg</code> lists every tag with the
@@ -424,8 +432,8 @@
 				tells you Photos keeps the original data inside your library, so export a copy and check
 				that copy before you share it. Export with
 				<strong>File &gt; Export &gt; Export [N] Photos</strong>
-				to get a new JPEG, HEIC, TIFF or PNG (the export dialog in the macOS Tahoe 26 Photos guide
-				offers Photo Kind, JPEG Quality, Color Profile and Size).
+				to get a new JPEG, HEIC, TIFF or PNG (the export dialog in the macOS Tahoe 26 Photos guide offers
+				Photo Kind, JPEG Quality, Color Profile and Size).
 				<strong>File &gt; Export &gt; Export Unmodified Original</strong> does the opposite: it hands
 				you the original bytes with everything in them, so do not use it for a copy you mean to share
 				clean.
@@ -582,8 +590,10 @@
 			<p class="mb-4">
 				Writing a new file from the pixels is the one method that removes every block at once: EXIF,
 				GPS, maker note, thumbnail, XMP, IPTC, comments and Content Credentials. exiftool does it
-				without touching the pixels; a converter does it while compressing or resizing. Here is what
-				happens, measured.
+				without touching the pixels, and so does the Mochify
+				<a href="/solutions/exif-remover">EXIF remover</a>, which runs in your browser, uploads
+				nothing and keeps only what the photo needs to display correctly; a converter does it while
+				compressing or resizing. Here is what happens, measured.
 			</p>
 			<h3>What a re-encode removes</h3>
 			<p class="mb-4">

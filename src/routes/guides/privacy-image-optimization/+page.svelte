@@ -11,7 +11,7 @@
         category: "Data Privacy",
         readTime: "6 min read",
         datePublished: "February 5, 2026",
-        lastUpdated: "November 17, 2026"
+        lastUpdated: "November 19, 2026"
     };
 
     const related = [
@@ -85,7 +85,7 @@
         ],
         "image": "https://mochify.app/og/guides-privacy-image-optimization.png",
         "datePublished": "2026-02-05T12:00:00+00:00",
-        "dateModified": "2026-11-17T12:00:00+00:00"
+        "dateModified": "2026-11-19T12:00:00+00:00"
         }
     </script>
     <GuideSchema
@@ -93,7 +93,7 @@
         url="https://mochify.app/guides/privacy-image-optimization"
         description="Secure your images with Zero-Retention optimization. The only way to ensure 100% data privacy in 2026. Fast, private, and storage-free image processing."
         datePublished="2026-02-05"
-        dateModified="2026-11-17"
+        dateModified="2026-11-19"
     />
 </svelte:head>
 
@@ -259,7 +259,7 @@
                 </li>
                 <li class="flex gap-3">
                     <span class="text-mochi-pink font-bold">·</span>
-                    <span><strong>Metadata Removal: </strong> Does the output drop the EXIF block, GPS included, by default? Our guide to <a href="/guides/remove-metadata-from-photo">removing metadata from a photo</a> shows what each device's built-in route leaves behind.</span>
+                    <span><strong>Metadata Removal: </strong> Does the output drop the EXIF block, GPS included, by default? Our guide to <a href="/guides/remove-metadata-from-photo">removing metadata from a photo</a> shows what each device's built-in route leaves behind. To check a file yourself, the <a href="/solutions/exif-viewer">EXIF viewer</a> shows everything a photo holds without uploading it.</span>
                 </li>
             </ul>
         </section>

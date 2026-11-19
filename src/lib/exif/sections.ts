@@ -45,7 +45,7 @@ export const SECTIONS: { id: SectionId; title: string; blurb: string }[] = [
 	{
 		id: 'other',
 		title: 'Other',
-		blurb: 'Comments, captions, keywords and any block this viewer does not recognize.'
+		blurb: 'Comments, captions, keywords and any block this tool does not recognize.'
 	}
 ];
 
