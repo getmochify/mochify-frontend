@@ -100,7 +100,7 @@
 		},
 		{
 			q: 'Can I compress several photos at once on iPhone?',
-			a: 'Built-in, the practical option is a Shortcuts shortcut that resizes and converts every photo you share to it; Preview works one photo at a time. In Mochify, a free account processes 3 photos per batch and paid plans or a $2 Day Pass handle 25 at a time. For cropping a whole set to square, see our batch cropping guide.'
+			a: 'Built-in, the practical option is a Shortcuts shortcut that resizes and converts every photo you share to it; Preview works one photo at a time. In Mochify, a free account processes 3 photos per batch and paid plans or a $2.99 Day Pass handle 25 at a time. For cropping a whole set to square, see our batch cropping guide.'
 		},
 		{
 			q: 'Does Optimize iPhone Storage reduce photo file size?',
@@ -306,7 +306,7 @@
 			<p class="mb-4">
 				<strong>Limits worth knowing.</strong> Without an account you get 3 images a month; a free
 				account gets 25 a month, up to 20MB per file and 3 photos per batch. For a one-off pile of
-				photos, a Day Pass is $2 for 100 uploads within 24 hours, up to 75MB each and 25 at a time,
+				photos, a Day Pass is $2.99 for 100 uploads within 24 hours, up to 75MB each and 25 at a time,
 				with no subscription. Camera RAW files, including iPhone ProRAW <code>.DNG</code>, are not
 				accepted; edit or share a RAW shot as a JPG first. Plans and limits are on the
 				<a href="https://mochify.app/pricing">pricing page</a>.

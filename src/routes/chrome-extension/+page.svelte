@@ -15,7 +15,7 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is the Mochify Chrome extension free?',
-            a: 'Free to start. You get 3 images a month with no account and 25 a month with a free account. Paid plans use their normal allowance, and a $2 Day Pass works in the extension too. Each file you get back counts as one image.'
+            a: 'Free to start. You get 3 images a month with no account and 25 a month with a free account. Paid plans use their normal allowance, and a $2.99 Day Pass works in the extension too. Each file you get back counts as one image.'
         },
         {
             q: 'Does it convert images on my computer?',
@@ -280,7 +280,7 @@
             <li>3 images a month with no account at all</li>
             <li>25 images a month with a free account, no card needed</li>
             <li>Paid plans use their normal monthly allowance</li>
-            <li>A $2 Day Pass (100 uploads in 24 hours) works in the extension too</li>
+            <li>A $2.99 Day Pass (100 uploads in 24 hours) works in the extension too</li>
         </ul>
         <p class="leading-relaxed text-cocoa-deep">Each file you get back counts as one image, so a prompt that asks for three formats uses three. When you reach the limit, the panel tells you and offers a free sign-in. Monthly plans are on the <a href="/pricing" class={linkClass}>pricing page</a>.</p>
     </section>

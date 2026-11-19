@@ -5,7 +5,7 @@
 // A Day Pass is the only plan with an end date, and nothing ever took it away:
 // `profile.plan` stayed 'day' and `ops_limit` stayed 100 indefinitely, while
 // `quota_period_end` only shortened the token bucket's TTL. Once it lapsed the
-// bucket reseeded at the stored 100 ops on the 30-day default, so a $2 one-time
+// bucket reseeded at the stored 100 ops on the 30-day default, so a one-time
 // purchase quietly became 100 images a month in perpetuity.
 //
 // Enforced at read time rather than by a cron: every reader applies the same

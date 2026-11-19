@@ -18,7 +18,7 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is this JPG to JXL converter free?',
-            a: 'Yes. Convert up to 3 files a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time.'
+            a: 'Yes. Convert up to 3 files a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2.99 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time.'
         },
         {
             q: 'Is the conversion lossless? Can I get my original JPEG back?',
@@ -201,7 +201,7 @@
         <section class="mt-20 max-w-4xl mx-auto space-y-4">
             <h2 class="text-2xl font-bold text-cocoa-ink">Bulk, batch and automated JPG to JXL</h2>
             <p class="leading-relaxed text-cocoa-deep">
-                Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing#day-pass" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no signup. The same conversion runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify auth login</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
+                Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing#day-pass" class="font-bold text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2.99 with no signup. The same conversion runs from the terminal with the Mochify CLI (<code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify</code>, sign in once with <code class="px-1.5 py-px rounded bg-mochi-blush text-mochi-pink-ink text-sm">mochify auth login</code>), from an AI agent through the hosted or local MCP server, and from the REST API:
             </p>
             <pre class="overflow-x-auto rounded-2xl bg-[#2F2320] text-[#F6EDE8] text-sm p-5 leading-relaxed"><code>curl -X POST "https://api.mochify.app/v1/squish?type=jxl" \
   -H "Authorization: Bearer $MOCHIFY_KEY" \

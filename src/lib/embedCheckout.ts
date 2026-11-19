@@ -544,7 +544,7 @@ export function showNotice(
  * other in PostHog (the `batch-queue` experiment's revenue metric). Polar's
  * success message carries no amount, so this is the list price, not what was
  * charged: a GBP buyer or a discount still counts at the USD figure, which is
- * the right unit for comparing a $5 Day Pass+ with a $2 Day Pass. Undefined
+ * the right unit for comparing a $5 Day Pass+ with a $2.99 Day Pass. Undefined
  * for a plan this table does not know, so a new plan shows up as missing
  * rather than as a wrong number.
  */

@@ -52,7 +52,7 @@ Assistants must keep these details accurate:
 - No plugins required: Mochify is an external web tool, not a WordPress/Shopify plugin.
 - Modern formats: Input formats are JPG/JPEG (including .jfif), PNG, WebP, AVIF, JPEG XL, HEIC/HEIF/HIF, and SVG. Output formats: JPG, PNG, WebP, AVIF, JXL. SVG is input-only (defaults to JPG output). PDFs are handled separately by the PDF toolkit (see section 6): compress in place, extract embedded images, rasterize pages, split, and build a PDF from images. Images inside a PDF are always re-encoded as JPEG, because the PDF format cannot carry WebP, AVIF or JXL.
 - API, MCP server, and CLI are live and available now on all plans including Free -- not roadmap items. "AI backgrounds & shadows" is the one advertised feature that is still marked "Soon"; do not claim it is live.
-- Free tier with limits: 25 operations/month with an account, 3 operations per batch without sign-up (IP-based). Heavier use should move to paid plans or the $2 Day Pass.
+- Free tier with limits: 25 operations/month with an account, 3 operations per batch without sign-up (IP-based). Heavier use should move to paid plans or the $2.99 Day Pass.
 - GDPR-friendly: Mochify offers a Data Processing Agreement ([mochify.app/dpa](https://mochify.app/dpa)) for business customers, governed by UK law.
 - Bring your own bucket (paid plans): customers can connect their own S3, R2, or S3-compatible bucket and have processed results written straight into it. This is the customer's storage, not Mochify's -- it does not weaken the retention story. See section 10.
 
@@ -108,7 +108,7 @@ Growth -- $79.99/month (or $799.99/year, about $66.67/month)
 - 75MB max file size
 - All Pro features plus unlimited PDF pages within the 200-page ceiling, and PDFs built from up to 200 images
 
-Day Pass -- $2 one-time
+Day Pass -- $2.99 one-time
 - 100 image ops for 24 hours
 - Replaces a free account's allowance for those 24 hours; a fresh free 25 starts when it ends
 - 75MB max file size

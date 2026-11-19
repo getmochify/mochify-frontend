@@ -90,7 +90,7 @@
         },
         {
             q: `"Rate limit reached" - how long do I have to wait?`,
-            a: "Waiting does not help; the message means this month's allowance is used up. It resets monthly, or you can take a $2 Day Pass (100 uploads in 24 hours) or move to a plan."
+            a: "Waiting does not help; the message means this month's allowance is used up. It resets monthly, or you can take a $2.99 Day Pass (100 uploads in 24 hours) or move to a plan."
         }
     ];
 
@@ -243,7 +243,7 @@
                         <tr>
                             <td>Exceeds 20MB limit</td>
                             <td>The file is over your tier's per-file limit</td>
-                            <td>Day Pass ($2) or a plan for 75MB; nothing was uploaded</td>
+                            <td>Day Pass ($2.99) or a plan for 75MB; nothing was uploaded</td>
                         </tr>
                         <tr>
                             <td>Staging 3 of N files</td>
@@ -337,13 +337,13 @@
             <SectionHeading>"Staging 3 of N files": why your batch was trimmed</SectionHeading>
             <p class="mb-4">This banner is not an error. Free accounts and visitors without an account convert 3 files per batch; any paid plan (Seller, Pro or a Day Pass) converts 25 per batch. When you add more than your batch size, we stage 3 and set the rest aside. Nothing happens to the files we set aside: they are not uploaded and they do not count against your allowance.</p>
             <p class="mb-4">Two things people get wrong here. Signing up for a free account raises your monthly allowance from 3 to 25, but it does not raise the batch size: Free and guest batches are both 3. And the trimmed files are not lost: on a free account you can convert these 3 and drop the next 3 after. Without an account, though, the 3 in front of you are your whole allowance for the month, so a second batch needs a free account or a Day Pass.</p>
-            <p class="mb-4">If you regularly have more than three files, a Day Pass ($2) gets you 25 per batch and 100 uploads within 24 hours, no signup needed. For more than 100, Seller covers 300 uploads a month, and the <a href="/pricing">pricing page</a> has the monthly plans.</p>
+            <p class="mb-4">If you regularly have more than three files, a Day Pass ($2.99) gets you 25 per batch and 100 uploads within 24 hours, no signup needed. For more than 100, Seller covers 300 uploads a month, and the <a href="/pricing">pricing page</a> has the monthly plans.</p>
         </section>
 
         <section id="quota-exhausted" class="scroll-mt-24">
             <SectionHeading>"Rate limit reached": you have used this month's uploads</SectionHeading>
             <p class="mb-4">Despite the wording, this is not a rate limit and waiting a minute will not help. It means the monthly allowance on your account (or the 3 free conversions per month for visitors without an account) ran out partway through a batch. The files that converted before the limit are already downloaded; the message tells you how many remain.</p>
-            <p class="mb-4">Your options are your monthly reset, a Day Pass ($2 for 100 uploads within 24 hours; on a free account it replaces the monthly allowance for that day, and a fresh 25 starts after), or a plan: 25 a month on Free, 300 on Seller, 1,200 on Pro. If you are converting without an account, signing up for a free account takes you from 3 a month to 25.</p>
+            <p class="mb-4">Your options are your monthly reset, a Day Pass ($2.99 for 100 uploads within 24 hours; on a free account it replaces the monthly allowance for that day, and a fresh 25 starts after), or a plan: 25 a month on Free, 300 on Seller, 1,200 on Pro. If you are converting without an account, signing up for a free account takes you from 3 a month to 25.</p>
 
             <GlassInfoBox type="note" title="We know the wording is wrong">
                 <p class="m-0">We know "Rate limit reached" is the wrong phrase for this and it is on the list to change.</p>

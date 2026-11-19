@@ -141,7 +141,7 @@ Never commit an original photo or a file over 300 KB.`;
 		},
 		{
 			q: 'How many operations will a whole site take, and which plan covers it?',
-			a: `Count the images you will process and multiply by the formats you want: 40 photos in AVIF, WebP and JPEG is 120 operations. A free account has 25 a month; a Day Pass is 100 in 24 hours for $2 with no signup; Seller is 300 a month, Pro 1,200, Growth 5,000, and all three include the MCP servers and the API. Prompt 6 has the agent read the remaining allowance with <code>check_usage</code> before it starts, so a sweep never stops halfway.`
+			a: `Count the images you will process and multiply by the formats you want: 40 photos in AVIF, WebP and JPEG is 120 operations. A free account has 25 a month; a Day Pass is 100 in 24 hours for $2.99 with no signup; Seller is 300 a month, Pro 1,200, Growth 5,000, and all three include the MCP servers and the API. Prompt 6 has the agent read the remaining allowance with <code>check_usage</code> before it starts, so a sweep never stops halfway.`
 		},
 		{
 			q: 'Does the agent see my photos, and does Mochify keep them?',
@@ -794,7 +794,7 @@ Never commit an original photo or a file over 300 KB.`;
 				a month with a batch of 3 and a 20 MB file limit, enough to test on the hero and a handful
 				of photos. Seller gives 300 a month, Pro 1,200 and Growth 5,000, all with 75 MB files and
 				batches of 25, and all three include the MCP servers and the API; Seller is the right size
-				for one site that gets new photos every week. A Day Pass is $2 for 100 operations in 24
+				for one site that gets new photos every week. A Day Pass is $2.99 for 100 operations in 24
 				hours with no signup, which covers a one-off pass over a small site from the web app; used
 				from an assistant it needs a free account you are signed in with, and for those 24 hours it
 				replaces the account's monthly 25 rather than adding to it. The agent reports the number; a

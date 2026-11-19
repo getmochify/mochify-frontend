@@ -19,7 +19,7 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is this AVIF to JPG converter free?',
-            a: 'Yes. Convert up to 3 images a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time.'
+            a: 'Yes. Convert up to 3 images a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2.99 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time.'
         },
         {
             q: 'Will my photos lose quality?',
@@ -106,7 +106,7 @@
             "@context": "https://schema.org",
             "@type": "FAQPage",
             "mainEntity": [
-                { "@type": "Question", "name": "Is this AVIF to JPG converter free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Convert up to 3 images a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time." } },
+                { "@type": "Question", "name": "Is this AVIF to JPG converter free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Convert up to 3 images a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2.99 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time." } },
                 { "@type": "Question", "name": "Will my photos lose quality?", "acceptedAnswer": { "@type": "Answer", "text": "Slightly in principle, because both formats are lossy, but in practice a good encoder makes the difference invisible. Mochify encodes with jpegli, which was preferred over standard JPEG encoders in published testing at a lower bitrate. HDR AVIFs are the exception: tone-mapping to 8-bit changes the look." } },
                 { "@type": "Question", "name": "Is there a file size limit?", "acceptedAnswer": { "@type": "Answer", "text": "20MB per file and 3 files per batch with no signup or a free account; 75MB per file and 25 per batch on Seller, Pro and the Day Pass." } },
                 { "@type": "Question", "name": "What happens to my files?", "acceptedAnswer": { "@type": "Answer", "text": "They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, with nothing to set on this page. If you need the camera data kept, the Mochify web app has a Strip EXIF switch and the API takes stripExif=false." } },
@@ -214,7 +214,7 @@
         <section class="mt-20 max-w-4xl mx-auto">
             <h2 class="text-2xl font-extrabold text-cocoa-ink mb-4">Bulk, batch and automated AVIF to JPG</h2>
             <p class="leading-relaxed text-cocoa-deep max-w-3xl mb-6">
-                A folder of AVIFs is the usual case: a scraped product catalog, a client handoff, a batch of downloads. Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing#day-pass" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no signup. The same conversion runs from the terminal with the Mochify CLI (<span class="font-mono font-bold text-cocoa-ink">mochify</span>, one plain-English prompt for a whole directory, sign in once with <span class="font-mono font-bold text-cocoa-ink">mochify auth login</span>), from an AI agent through the hosted or local MCP server, and from the REST API:
+                A folder of AVIFs is the usual case: a scraped product catalog, a client handoff, a batch of downloads. Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing#day-pass" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2.99 with no signup. The same conversion runs from the terminal with the Mochify CLI (<span class="font-mono font-bold text-cocoa-ink">mochify</span>, one plain-English prompt for a whole directory, sign in once with <span class="font-mono font-bold text-cocoa-ink">mochify auth login</span>), from an AI agent through the hosted or local MCP server, and from the REST API:
             </p>
 
             <div class="bg-[#2D2320] rounded-2xl px-6 py-5 overflow-x-auto shadow-sm">

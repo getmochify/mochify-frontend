@@ -299,7 +299,7 @@
 	// get a (frosted) thumbnail decoded for them.
 	const QUEUE_HOLD_LIMIT = 500;
 	const QUEUE_VISIBLE = 4;
-	// What $2 actually buys (DAY_PASS_OPS), and Day Pass+'s $5
+	// What the Day Pass actually buys (DAY_PASS_OPS), and Day Pass+'s
 	// (DAY_PASS_PLUS_OPS), in the unit the count walls are denominated in.
 	// Named because the pass has to be explained wherever it is offered: "Day
 	// Pass" tells a first-time visitor nothing, "100 conversions in 24 hours"
@@ -317,8 +317,8 @@
 	// unless Polar holds a price in the visitor's own currency: this component
 	// renders on prerendered pages, so the country is only knowable after
 	// hydration (see /api/prices).
-	const DAY_PASS_USD = 200;
-	const DAY_PASS_PLUS_USD = 500;
+	const DAY_PASS_USD = USD_PRICES.dayPass;
+	const DAY_PASS_PLUS_USD = USD_PRICES.dayPassPlus;
 	const CHEAPEST_PAID_MONTHLY_USD = 799;
 
 	type LocalPrices = { currency: string; prices: Record<string, number> };

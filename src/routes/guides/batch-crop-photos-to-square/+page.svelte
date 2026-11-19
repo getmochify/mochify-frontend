@@ -726,7 +726,7 @@
 			<p class="mt-6 mb-4">
 				<strong>Allowances.</strong> Three images a month with no account at all, 25 a month with a free
 				account, 3 files per batch, 20MB per file. Seller and Pro raise that to 25 files per batch at
-				75MB each. A Day Pass is $2 for 100 uploads within 24 hours with no account, which is the honest
+				75MB each. A Day Pass is $2.99 for 100 uploads within 24 hours with no account, which is the honest
 				answer for a one-off catalog. Current numbers are on
 				<a href="https://mochify.app/pricing">the pricing page</a>.
 			</p>

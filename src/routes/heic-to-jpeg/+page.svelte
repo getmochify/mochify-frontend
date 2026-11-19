@@ -20,7 +20,7 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is this HEIC to JPG converter free?',
-            a: 'Yes. Convert up to 3 images a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time.'
+            a: 'Yes. Convert up to 3 images a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2.99 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time.'
         },
         {
             q: 'Do you see my photos?',
@@ -108,7 +108,7 @@
             "@context": "https://schema.org",
             "@type": "FAQPage",
             "mainEntity": [
-                { "@type": "Question", "name": "Is this HEIC to JPG converter free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Convert up to 3 images a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time." } },
+                { "@type": "Question", "name": "Is this HEIC to JPG converter free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Convert up to 3 images a month with no signup, or 25 a month with a free account, at up to 20MB per file. For bigger jobs, a $2.99 Day Pass covers 100 uploads in 24 hours, and Seller and Pro plans batch 25 files at a time." } },
                 { "@type": "Question", "name": "Do you see my photos?", "acceptedAnswer": { "@type": "Answer", "text": "No. They travel to our encoder over HTTPS, are streamed into memory, converted, and discarded. Nothing is written to disk and nothing is logged. Metadata is stripped by default, GPS included, with nothing to set on this page. If you need it kept, the Mochify web app has a Strip EXIF switch and the API takes stripExif=false." } },
                 { "@type": "Question", "name": "Why do my iPhone photos save as HEIC instead of JPG?", "acceptedAnswer": { "@type": "Answer", "text": "Because HEIC has been the iPhone's default since iOS 11: the same picture at about half the size of a JPEG. Settings, Camera, Formats, Most Compatible switches new photos to JPEG; photos you already have need converting." } },
                 { "@type": "Question", "name": "Why can't I save a HEIC file as a JPG?", "acceptedAnswer": { "@type": "Answer", "text": "Usually because the app cannot decode it in the first place. On Windows, Photos and Paint need the HEIF Image Extension and the paid HEVC Video Extensions from the Microsoft Store before Save as offers JPG. This page needs neither." } },
@@ -231,7 +231,7 @@
         <section class="mt-20 max-w-4xl mx-auto">
             <h2 class="text-2xl font-extrabold text-cocoa-ink mb-4">Bulk, batch and automated HEIC to JPG</h2>
             <p class="leading-relaxed text-cocoa-deep max-w-3xl mb-6">
-                A camera roll is the usual case: a client's phone photos, a marketplace listing shot on an iPhone, a whole trip. Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing#day-pass" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2 with no signup. The same conversion runs from the terminal with the Mochify CLI (<span class="font-mono font-bold text-cocoa-ink">mochify</span>, one plain-English prompt for a whole directory, sign in once with <span class="font-mono font-bold text-cocoa-ink">mochify auth login</span>), from an AI agent through the hosted or local MCP server, and from the REST API:
+                A camera roll is the usual case: a client's phone photos, a marketplace listing shot on an iPhone, a whole trip. Seller and Pro accounts convert up to 25 files per batch at up to 75MB each, and a <a href="/pricing#day-pass" class="font-black text-mochi-pink hover:text-mochi-pink-deep transition-colors">Day Pass</a> gives you 100 uploads in 24 hours for $2.99 with no signup. The same conversion runs from the terminal with the Mochify CLI (<span class="font-mono font-bold text-cocoa-ink">mochify</span>, one plain-English prompt for a whole directory, sign in once with <span class="font-mono font-bold text-cocoa-ink">mochify auth login</span>), from an AI agent through the hosted or local MCP server, and from the REST API:
             </p>
 
             <div class="bg-[#2D2320] rounded-2xl px-6 py-5 overflow-x-auto shadow-sm">

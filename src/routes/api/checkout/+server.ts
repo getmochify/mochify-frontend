@@ -410,7 +410,7 @@ export const POST: RequestHandler = async (event) => {
 };
 
 /**
- * The pass's price as the checkout will charge it ("$2", "₹170"), or undefined
+ * The pass's price as the checkout will charge it ("$2.99", "₹199"), or undefined
  * when the price table is unavailable: the card then names the pass without a
  * price rather than quoting one Polar may not charge.
  */

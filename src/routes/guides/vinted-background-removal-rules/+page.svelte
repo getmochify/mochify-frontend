@@ -725,7 +725,7 @@
 							images a month, three at a time, up to 20MB each; without an account, 3 images a
 							month. Seller (300 images a month), Pro (1,200) and Growth (5,000) take 25 at a time
 							at up to 75MB, and can save results straight to Google Drive. For a one-off clear-out,
-							the Day Pass is $2 (GBP 2 in the UK) for 100 uploads in 24 hours, 25 at a time, with
+							the Day Pass is $2.99 (GBP 2.49 in the UK) for 100 uploads in 24 hours, 25 at a time, with
 							no signup; on a free account it replaces your monthly allowance for those 24 hours
 							rather than adding to it.
 						</p>
@@ -854,7 +854,7 @@
 						<tr>
 							<td>Batch limits</td>
 							<td
-								>Free 25 a month, 3 at a time, 20MB; paid plans 25 at a time, 75MB; Day Pass $2 for
+								>Free 25 a month, 3 at a time, 20MB; paid plans 25 at a time, 75MB; Day Pass $2.99 for
 								100 uploads in 24 hours</td
 							>
 						</tr>

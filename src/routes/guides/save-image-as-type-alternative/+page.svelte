@@ -68,7 +68,7 @@
 		},
 		{
 			title: 'Know what it costs',
-			html: `<p>You get 3 images without an account, then 25 a month with a free account and no card. Every file you get back counts as one image, so the three-format zip above uses three. A $2 Day Pass (100 images within 24 hours) works in the extension too, and the <a href="/pricing">pricing page</a> has the monthly plans.</p>`
+			html: `<p>You get 3 images without an account, then 25 a month with a free account and no card. Every file you get back counts as one image, so the three-format zip above uses three. A $2.99 Day Pass (100 images within 24 hours) works in the extension too, and the <a href="/pricing">pricing page</a> has the monthly plans.</p>`
 		}
 	];
 
@@ -95,7 +95,7 @@
 		},
 		{
 			q: 'Is the Mochify extension free?',
-			a: 'You get 3 images without an account and 25 a month with a free account, no card needed. A $2 Day Pass gives you 100 images within 24 hours, and paid plans raise the monthly allowance. Each file you get back counts as one image.'
+			a: 'You get 3 images without an account and 25 a month with a free account, no card needed. A $2.99 Day Pass gives you 100 images within 24 hours, and paid plans raise the monthly allowance. Each file you get back counts as one image.'
 		},
 		{
 			q: 'Is the Mochify Chrome extension open source?',

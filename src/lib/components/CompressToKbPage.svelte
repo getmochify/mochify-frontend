@@ -63,7 +63,7 @@
 		},
 		{
 			q: `Is the ${n} image compressor free?`,
-			a: 'Yes, for 3 images a month with no signup, or 25 a month with a free account. A $2 Day Pass covers 100 images in 24 hours with no signup.'
+			a: 'Yes, for 3 images a month with no signup, or 25 a month with a free account. A $2.99 Day Pass covers 100 images in 24 hours with no signup.'
 		},
 		{
 			q: 'What happens to my photo?',
@@ -231,7 +231,7 @@
 		<h2 class="text-2xl font-bold text-cocoa-ink">Limits and automation</h2>
 		<p class="leading-relaxed text-cocoa-deep">
 			Free: 3 images a month with no signup, or 25 a month with a free account, at up to 20MB per
-			file. A $2 <a href="/pricing#day-pass" class={linkClass}>Day Pass</a> covers 100 images in 24
+			file. A $2.99 <a href="/pricing#day-pass" class={linkClass}>Day Pass</a> covers 100 images in 24
 			hours, 25 at a time, with no signup, and Seller, Pro and Growth plans take 25 per batch at up
 			to 75MB each. For a whole folder, the <a href="/docs" class={linkClass}>API</a> takes the same target:
 		</p>

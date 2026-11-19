@@ -47,7 +47,7 @@
 	const t: PricingStrings = $derived({ ...EN_PRICING, ...strings });
 
 	let billing = $state<'monthly' | 'yearly'>('monthly');
-	// The Day Pass card sells both sizes. Starts on the $2 pass: the uploader
+	// The Day Pass card sells both sizes. Starts on the $2.99 pass: the uploader
 	// already offers Day Pass+ to anyone who drops more than 100 files, so here
 	// it is there for the visitor who knows their job is big.
 	let dayPassPlus = $state(false);

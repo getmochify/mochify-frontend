@@ -671,7 +671,7 @@
 							counts as one image against your plan's monthly allowance. Check that number before
 							you start: it is more than a Seller month (300) and fits inside a Pro month (1,200) or
 							a Growth month (5,000); a free account has 25 a month, 3 without an account; and a Day
-							Pass ($2) covers 100 uploads in 24 hours with no account for a site in between.
+							Pass ($2.99) covers 100 uploads in 24 hours with no account for a site in between.
 						</p>
 					</li>
 					<li>
@@ -1183,7 +1183,7 @@
 						><tr
 							><td>Allowance</td><td
 								>One per output file: 400 images in two formats is 800; 25 a month free with an
-								account, 3 without; Day Pass $2 for 100 in 24 hours</td
+								account, 3 without; Day Pass $2.99 for 100 in 24 hours</td
 							></tr
 						></tbody
 					>

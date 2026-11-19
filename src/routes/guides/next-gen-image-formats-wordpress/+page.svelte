@@ -1092,7 +1092,7 @@
 				returned; nothing is written to disk, no log holds file data, and nothing is used to train
 				AI. That is true of the web app, the extension, the CLI and the API alike. (It is the video
 				tools that never leave your browser at all; images and PDFs make the round trip.) A one-off
-				library clean-up that outgrows the free allowance fits a $2 Day Pass: 100 uploads within 24
+				library clean-up that outgrows the free allowance fits a $2.99 Day Pass: 100 uploads within 24
 				hours, 25 at a time, files up to 75 MB, no account needed.
 			</p>
 		</section>

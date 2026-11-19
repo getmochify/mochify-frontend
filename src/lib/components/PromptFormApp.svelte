@@ -67,7 +67,7 @@
 	import DayPassButton from '$lib/components/DayPassButton.svelte';
 	import LimitsWhy from '$lib/components/LimitsWhy.svelte';
 	import { DAY_PASS_OPS, dayPassEnabled, passForDrop } from '$lib/dayPass';
-	import { formatPrice } from '$lib/currency';
+	import { formatPrice, USD_PRICES } from '$lib/currency';
 	import { portal } from '$lib/portal';
 	import { withoutMacMetadata, MAC_METADATA_ONLY_MESSAGE } from '$lib/macMetadata';
 	import {
@@ -444,7 +444,7 @@
 	// there for why each line says what it says. It replaced a red toast that
 	// read "Limited to 3 files. Upgrade to Seller or Growth", which treated a
 	// working trim as an error, never said how many files were left behind, and
-	// offered a subscription to a guest a $2 Day Pass or a free account would do.
+	// offered a subscription to a guest a $2.99 Day Pass or a free account would do.
 	const BATCH_LIMIT_PAID = 25;
 	const SELLER_OPS = 300; // keep in step with /pricing
 	let batchTrim: { staged: number; offered: number } | null = $state(null);
@@ -478,9 +478,9 @@
 	// caught here. userPlan is 'free' for guests too; null (still loading)
 	// passes, and core's 403 remains the backstop.
 	const pdfGated = $derived(uploadMode === 'pdf' && userPlan === 'free');
-	const dayPassPrice = $derived(formatPrice(localPrices?.prices?.dayPass ?? 200, priceCurrency));
+	const dayPassPrice = $derived(formatPrice(localPrices?.prices?.dayPass ?? USD_PRICES.dayPass, priceCurrency));
 	const dayPassPlusPrice = $derived(
-		formatPrice(localPrices?.prices?.dayPassPlus ?? 500, priceCurrency)
+		formatPrice(localPrices?.prices?.dayPassPlus ?? USD_PRICES.dayPassPlus, priceCurrency)
 	);
 	const cheapestPlanPrice = $derived(
 		formatPrice(localPrices?.prices?.sellerMonthly ?? 799, priceCurrency)

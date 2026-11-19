@@ -20,7 +20,7 @@ export type DayPassActivation = 'signed_in' | 'sign_in' | 'email';
  * - no account for the checkout email: one is created and signed in here, and
  *   the parked pass claimed. The address is NOT marked verified, since the buyer
  *   only typed it; the magic link still goes out and verifies it when clicked.
- * - an account exists: never signed in from here, or $2 and someone else's
+ * - an account exists: never signed in from here, or the price of a pass and someone else's
  *   address would open their account. The webhook grants that account the pass
  *   by email, and the page asks the buyer to sign in, or, for an account with
  *   no password or Google login, to use the emailed link. The one exception is

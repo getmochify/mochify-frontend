@@ -94,8 +94,8 @@ function price(key: string | null | undefined): string {
 	const amount = USD_PRICES[key];
 	if (amount === undefined) return '';
 	const major = toMajorUnits(amount, 'usd');
-	// Whole dollars read as whole dollars: the Day Pass is "$2 one-time"
-	// everywhere else it is quoted, not "$2.00".
+	// Whole dollars read as whole dollars: Day Pass+ is "$5 one-time"
+	// everywhere else it is quoted, not "$5.00".
 	return `$${Number.isInteger(major) ? major : major.toFixed(2)}`;
 }
 

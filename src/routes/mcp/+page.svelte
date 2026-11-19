@@ -16,7 +16,7 @@
     const faqs: FaqItem[] = [
         {
             q: 'Is the Mochify MCP server free?',
-            a: 'Yes, on every plan, with a free account giving 25 images a month. Compressing, converting, cropping, hiding faces and areas, building a PDF from images and checking your usage are on every plan. Erasing an object, recoloring an object and the PDF-in operations (compress, extract, rasterize, split) need a paid plan or the $2 Day Pass (a Day Pass is used here on the free account you sign in with).'
+            a: 'Yes, on every plan, with a free account giving 25 images a month. Compressing, converting, cropping, hiding faces and areas, building a PDF from images and checking your usage are on every plan. Erasing an object, recoloring an object and the PDF-in operations (compress, extract, rasterize, split) need a paid plan or the $2.99 Day Pass (a Day Pass is used here on the free account you sign in with).'
         },
         {
             q: 'Which assistants can I use it with?',

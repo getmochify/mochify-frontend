@@ -56,7 +56,7 @@
 	const workflowSteps = [
 		{
 			title: 'Open mochify.app/flow',
-			html: `<p>Open <a href="https://mochify.app/flow">mochify.app/flow</a> and sign in, or pick up a Day Pass ($2 / £2, 100 uploads in 24 hours, no signup needed) if you have a one-off batch.</p>`
+			html: `<p>Open <a href="https://mochify.app/flow">mochify.app/flow</a> and sign in, or pick up a Day Pass ($2.99 / £2.49, 100 uploads in 24 hours, no signup needed) if you have a one-off batch.</p>`
 		},
 		{
 			title: 'Add the PDF',

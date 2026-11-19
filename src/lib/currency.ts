@@ -52,7 +52,10 @@ export const USD_PRICES: Record<string, number> = {
 	// for ~3x the price" stays true at every rung rather than only Pro's.
 	growthMonthly: 7999,
 	growthYearly: 79999,
-	dayPass: 200,
+	// $2.99 from 2026-11 (was $2): a quarter of western clickers paid at $2,
+	// so price was not what held the pass back. Polar holds the other
+	// currencies; this is the USD display and the fallback.
+	dayPass: 299,
 	dayPassPlus: 500
 };
 
@@ -93,8 +96,8 @@ export function toMajorUnits(amount: number, currency: string): number {
 /**
  * "$7.99", "£6.99", "₹1,499", "¥1,000".
  *
- * Round amounts lose their decimals, so the Day Pass reads "$2" the way it
- * always has rather than "$2.00". Falls back to a plain code-prefixed number
+ * Round amounts lose their decimals, so Day Pass+ reads "$5" rather than
+ * "$5.00". Falls back to a plain code-prefixed number
  * if the runtime can't format the currency.
  */
 export function formatPrice(amount: number, currency: string, locale?: string): string {
