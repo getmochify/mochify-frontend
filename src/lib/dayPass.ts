@@ -453,7 +453,8 @@ function takePrewarm(plus: boolean, next: string): Prewarm | undefined {
  * What the paying tab ended up as (see `api/auth/day-pass/activate`):
  * `signed_in` with the pass on its way, `sign_in` when the email already has an
  * account, and `email` when only the emailed link can activate it (this
- * browser is signed in as someone else, or activation failed).
+ * browser is signed in as someone else, the account has no password or Google
+ * login, or activation failed).
  */
 export type DayPassActivation = 'signed_in' | 'sign_in' | 'email';
 

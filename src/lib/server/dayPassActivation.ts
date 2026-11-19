@@ -22,8 +22,9 @@ export type DayPassActivation = 'signed_in' | 'sign_in' | 'email';
  *   only typed it; the magic link still goes out and verifies it when clicked.
  * - an account exists: never signed in from here, or $2 and someone else's
  *   address would open their account. The webhook grants that account the pass
- *   by email, and the page asks the buyer to sign in. The one exception is the
- *   account this same checkout created a moment ago (a retry, a second tab).
+ *   by email, and the page asks the buyer to sign in, or, for an account with
+ *   no password or Google login, to use the emailed link. The one exception is
+ *   the account this same checkout created a moment ago (a retry, a second tab).
  * - this browser is signed in as someone else: left alone; the pass follows the
  *   checkout email by the usual emailed route.
  *
@@ -72,7 +73,15 @@ export function dayPassActivation(db: D1Database, resendKey: string | undefined)
 					if (user) {
 						const made = await adapter.findVerificationValue(marker);
 						const ours = made && made.value === user.id && made.expiresAt.getTime() > Date.now();
-						if (!ours) return reply('sign_in');
+						if (!ours) {
+							// An account with no password and no Google login (one an
+							// earlier pass created, by this endpoint or a magic link)
+							// cannot use the sign-in page: the emailed link is its only
+							// way in, and the webhook sends it with the grant. Sending
+							// that buyer to /auth/login was a dead end (2026-11-19).
+							const accounts = await adapter.findAccounts(user.id);
+							return reply(accounts.length ? 'sign_in' : 'email');
+						}
 					} else {
 						try {
 							user = await adapter.createUser({ email, name: '', emailVerified: false });
