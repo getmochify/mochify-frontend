@@ -1,7 +1,10 @@
 <script lang="ts">
     import { env } from '$env/dynamic/public';
-    import { getSessionToken, getPlan } from '$lib/user';
+    import { getSessionToken, getPlan, invalidatePlanCache } from '$lib/user';
     import { posthog } from '$lib/analytics';
+    import DayPassButton from '$lib/components/DayPassButton.svelte';
+    import { dayPassEnabled } from '$lib/dayPass';
+    import { formatPrice, USD_PRICES } from '$lib/currency';
     import { clientQuery } from '$lib/apiClient';
     import { withRetry } from '$lib/uploadRetry';
 
@@ -52,6 +55,35 @@
     let successMessage = $state('');
     let fileInputEl: HTMLInputElement | null = $state(null);
 
+    // A free visitor who hits the image cap or runs out of tokens is offered
+    // the Day Pass right there, as ImageUpload does, instead of a sentence
+    // naming it with nothing to click. `offer` records which wall it was, for
+    // the CTA's trigger. The price is fetched only once the offer shows (see
+    // /api/prices); USD is on screen until then and stays if it fails.
+    let offer: 'file_cap' | 'quota' | null = $state(null);
+    let isGuest = $state(true);
+    let localPrices = $state<{ currency: string; prices: Record<string, number> } | null>(null);
+    let pricesRequested = false;
+    const dayPassPrice = $derived(
+        formatPrice(localPrices?.prices?.dayPass ?? USD_PRICES.dayPass, localPrices?.currency ?? 'usd')
+    );
+
+    async function showOffer(kind: 'file_cap' | 'quota', guest: boolean) {
+        if (!dayPassEnabled()) return;
+        offer = kind;
+        isGuest = guest;
+        if (pricesRequested) return;
+        pricesRequested = true;
+        try {
+            const res = await fetch('/api/prices');
+            if (!res.ok) return;
+            const body = (await res.json()) as { pricing: typeof localPrices };
+            if (body.pricing) localPrices = body.pricing;
+        } catch {
+            /* stay on USD */
+        }
+    }
+
     const isImage = (f: File) =>
         f.type.startsWith('image/') || /\.(png|jpe?g|jfif|pjpeg|pjp|webp|avif|heic|heif|hif|jxl)$/i.test(f.name);
 
@@ -68,6 +100,10 @@
         errorMessage = '';
         successMessage = '';
         const incoming = Array.from(list).filter(isImage);
+        // After an offer, the visitor may have just bought a pass: ask again
+        // rather than trust the cached free plan, so the wider cap applies.
+        if (offer) invalidatePlanCache();
+        offer = null;
         if (incoming.length === 0) {
             errorMessage = 'Please add image files.';
             return;
@@ -79,10 +115,12 @@
         planLimit = (await getPlan()) === 'free' ? FREE_MAX_FILES : maxFiles;
         const next = [...files, ...incoming];
         if (next.length > planLimit) {
-            errorMessage =
-                planLimit === FREE_MAX_FILES
-                    ? `You can add up to ${planLimit} images per PDF on the free plan. A paid plan or a Day Pass takes ${maxFiles}.`
-                    : `You can add up to ${planLimit} images at once.`;
+            if (planLimit === FREE_MAX_FILES) {
+                errorMessage = `You can add up to ${planLimit} images per PDF on the free plan. A paid plan or a Day Pass takes ${maxFiles}.`;
+                void showOffer('file_cap', !(await getSessionToken()));
+            } else {
+                errorMessage = `You can add up to ${planLimit} images at once.`;
+            }
         }
         files = next.slice(0, planLimit);
     }
@@ -128,7 +166,7 @@
                         const xhr = new XMLHttpRequest();
                         xhr.open('POST', `${API_URL}/v1/pdf?${params}&${clientQuery('tool_page')}`);
                         if (jwt) xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
-                        // No Content-Type — the browser sets the multipart boundary.
+                        // No Content-Type: the browser sets the multipart boundary.
                         xhr.responseType = 'blob';
                         xhr.upload.onprogress = (e) => {
                             if (totalBytes > 0)
@@ -195,10 +233,12 @@
         } catch (e: any) {
             if (e?.status === 429) {
                 errorMessage = jwt
-                    ? "You're out of tokens for now — they refill, or upgrade for more."
-                    : "You've hit the free limit — sign up for a free account to get more.";
+                    ? "You're out of tokens for now. They refill, or upgrade for more."
+                    : "You've hit the free limit. Sign up for a free account to get more.";
+                // A subscriber out of tokens is not the Day Pass's buyer.
+                if (!jwt || (await getPlan()) === 'free') void showOffer('quota', !jwt);
             } else {
-                errorMessage = e instanceof Error ? e.message : 'PDF creation failed — please try again.';
+                errorMessage = e instanceof Error ? e.message : 'PDF creation failed. Please try again.';
             }
             posthog.capture('imgpdf_solution_failed', { images: files.length, status: e?.status ?? 0 });
         } finally {
@@ -300,6 +340,22 @@
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
             </svg>
             <p class="text-xs font-bold text-red-700">{errorMessage}</p>
+        </div>
+    {/if}
+    {#if offer}
+        <div class="mt-3 flex flex-col items-start gap-1">
+            <DayPassButton
+                prewarm
+                trigger={offer === 'file_cap' ? 'pdf_file_cap' : 'pdf_quota'}
+                source="pdf_tool"
+                properties={{ format: formatLabel }}
+                class="rounded-full bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]"
+            >
+                Get a Day Pass ({dayPassPrice})
+            </DayPassButton>
+            <p class="text-xs font-medium text-cocoa-deep/70">
+                {isGuest ? 'No signup needed. ' : ''}Up to {maxFiles} images per PDF for 24 hours. No subscription.
+            </p>
         </div>
     {/if}
     {#if successMessage}
