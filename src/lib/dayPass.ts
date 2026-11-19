@@ -219,6 +219,10 @@ async function settleDayPass(
 	if (opts.via === 'revisit' && !result.paid) return result;
 	posthog.capture('day_pass_tab_activation', {
 		status: result.activation,
+		// `email` is both a real answer (signed in as someone else) and the
+		// fallback when every attempt failed; these tell the two apart.
+		paid: result.paid,
+		...(result.failure ? { failure: result.failure } : {}),
 		trigger: opts.trigger,
 		pass: opts.plus ? 'plus' : 'day',
 		via: opts.via
@@ -461,13 +465,21 @@ export function dayPassSignIn(): string {
 /**
  * Start the pass in this tab, for the checkout it just paid for. Retries while
  * Polar still reports the checkout as unpaid, which it can for a moment after
- * the overlay's success event. Falls back to `email` on anything else, which
- * leaves the buyer exactly where they were before this existed.
+ * the overlay's success event, and after a server error or a dropped request.
+ * Falls back to `email` on anything else, which leaves the buyer exactly where
+ * they were before this existed.
+ *
+ * The server error retry matters: a call that dies partway can already have
+ * created this checkout's account (2026-11-19: account and session made, the
+ * pass not claimed, a 100-upload pass parked while the buyer paid again). The
+ * endpoint signs back in to the account its own checkout created, so a second
+ * call finishes the job rather than meeting an existing account.
  */
 async function activateDayPass(
 	checkoutUrl: string,
 	attempts = 5
-): Promise<{ activation: DayPassActivation; paid: boolean }> {
+): Promise<{ activation: DayPassActivation; paid: boolean; failure?: string }> {
+	let failure = 'unknown';
 	for (let attempt = 0; attempt < attempts; attempt++) {
 		try {
 			const res = await fetch('/api/auth/day-pass/activate', {
@@ -482,16 +494,18 @@ async function activateDayPass(
 				if (status === 'signed_in' || status === 'sign_in' || status === 'email') {
 					return { activation: status, paid: true };
 				}
+				failure = 'no_status';
 				break;
 			}
-			if (res.status !== 409) break;
+			failure = `http_${res.status}`;
+			if (res.status !== 409 && res.status < 500) break;
 		} catch {
-			break;
+			failure = 'network';
 		}
 		if (attempt + 1 === attempts) break;
 		await new Promise((r) => setTimeout(r, 1500));
 	}
-	return { activation: 'email', paid: false };
+	return { activation: 'email', paid: false, failure };
 }
 
 /**
