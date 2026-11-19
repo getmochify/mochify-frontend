@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { magicLink } from "better-auth/plugins";
 import { createEmailVerificationToken } from "better-auth/api";
 import { kyselyAdapter } from "@better-auth/kysely-adapter";
-import { Kysely } from "kysely";
+import { Kysely, sql } from "kysely";
 import { D1Dialect } from "kysely-d1";
 import { Resend } from "resend";
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET } from "$env/static/private";
@@ -13,7 +13,7 @@ import { syncContactFromProfile, needsContactBackstop } from "$lib/server/resend
 import { setUseCase } from "$lib/server/useCase";
 import { isUseCase } from "$lib/useCases";
 import { startOnboarding } from "$lib/server/emails/onboarding";
-import { claimPendingDayPass } from "$lib/server/dayPassGrant";
+import { claimPendingDayPass, DAY_PASS_OPS, DAY_PASS_PLUS_OPS } from "$lib/server/dayPassGrant";
 import { dayPassActivation } from "$lib/server/dayPassActivation";
 import { setMarketingPreference } from "$lib/server/unsubscribe";
 
@@ -480,16 +480,41 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                 expiresIn: 3600,
                 sendMagicLink: async ({ email, url }) => {
                     if (!resend) return;
+                    // Which pass was bought. The link carries no order, but the
+                    // webhook parks (new buyer) or grants (existing account) the
+                    // pass before sending, so the count is already in D1. The
+                    // email said "100 images" to Day Pass+ buyers too.
+                    let ops = DAY_PASS_OPS;
+                    try {
+                        const parked = await kysely
+                            .selectFrom("pending_day_pass")
+                            .select("ops_limit")
+                            .where("email", "=", email.toLowerCase())
+                            .executeTakeFirst();
+                        const granted = parked
+                            ? undefined
+                            : await kysely
+                                  .selectFrom("profile")
+                                  .innerJoin("user", "user.id", "profile.user_id")
+                                  .select("profile.ops_limit")
+                                  .where("profile.plan", "=", "day")
+                                  .where(sql`lower(user.email)`, "=", email.toLowerCase())
+                                  .executeTakeFirst();
+                        if ((parked ?? granted)?.ops_limit === DAY_PASS_PLUS_OPS) ops = DAY_PASS_PLUS_OPS;
+                    } catch (e) {
+                        console.error("[auth] magic link pass lookup failed:", e);
+                    }
+                    const passName = ops === DAY_PASS_PLUS_OPS ? "Day Pass+" : "Day Pass";
                     try {
                         await resend.emails.send({
                             from: "Mochify <hello@mochify.app>",
                             to: email,
-                            subject: "Your Mochify Day Pass is ready",
+                            subject: `Your Mochify ${passName} is ready`,
                             // A plain-text part alongside the HTML: HTML-only mail scores
                             // worse with spam filters, and a buyer who never finds this
                             // email has paid for nothing.
                             text: [
-                                "Your Day Pass is ready: 100 images over 24 hours, 25 at a time, files up to 75MB.",
+                                `Your ${passName} is ready: ${ops} images over 24 hours, 25 at a time, files up to 75MB.`,
                                 "",
                                 "If it's already working in the tab where you paid, you're all set and don't need this email.",
                                 "",
@@ -510,10 +535,10 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                             // from 14 emailed buyers), so the email is the receipt and
                             // the way back in, not the step everyone must take.
                             html: `
-                                <p style="font-family:sans-serif;color:#4A2C2C">Your Day Pass is ready: 100 images over 24 hours, 25 at a time, files up to 75MB.</p>
+                                <p style="font-family:sans-serif;color:#4A2C2C">Your ${passName} is ready: ${ops} images over 24 hours, 25 at a time, files up to 75MB.</p>
                                 <p style="font-family:sans-serif;color:#4A2C2C">If it's already working in the tab where you paid, you're all set and don't need this email.</p>
                                 <p style="font-family:sans-serif;color:#4A2C2C">If it isn't, or you want it on another device, click below to sign in and start. Signing in with Google on the same address works too.</p>
-                                <p><a href="${url}" style="display:inline-block;padding:12px 28px;background:#F06292;color:white;border-radius:10px;text-decoration:none;font-family:sans-serif;font-weight:bold">Start my Day Pass →</a></p>
+                                <p><a href="${url}" style="display:inline-block;padding:12px 28px;background:#F06292;color:white;border-radius:10px;text-decoration:none;font-family:sans-serif;font-weight:bold">Start my ${passName} →</a></p>
                                 <p style="font-family:sans-serif;color:#4A2C2C">Were you converting files when you bought it? They're still waiting in that tab. Switch back to it after clicking and they'll start converting.</p>
                                 <p style="font-family:sans-serif;font-size:12px;color:#875F42">This link expires in 1 hour. If it has expired, use "Resend the link" on the page where you paid, or reply to this email. If you didn't buy a Day Pass, you can ignore this email.</p>
                             `,
