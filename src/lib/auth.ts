@@ -489,9 +489,11 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                             // worse with spam filters, and a buyer who never finds this
                             // email has paid for nothing.
                             text: [
-                                "Your Day Pass is ready.",
+                                "Your Day Pass is ready: 100 images over 24 hours, 25 at a time, files up to 75MB.",
                                 "",
-                                "Open this link to sign in and start: 100 images over 24 hours, 25 at a time, files up to 75MB.",
+                                "If it's already working in the tab where you paid, you're all set and don't need this email.",
+                                "",
+                                "If it isn't, or you want it on another device, open this link to sign in and start. Signing in with Google on the same address works too.",
                                 url,
                                 "",
                                 "Were you converting files when you bought it? They're still waiting in that tab. Switch back to it after opening the link and they'll start converting.",
@@ -502,9 +504,15 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                             // holder's pass is granted by the webhook before this arrives,
                             // so for them the link only signs in. A new buyer's pass starts
                             // on the click. This wording is true for both.
+                            //
+                            // Led by "already working in the tab": the paying tab
+                            // activates almost every pass (Oct-Nov 2026: 1 link click
+                            // from 14 emailed buyers), so the email is the receipt and
+                            // the way back in, not the step everyone must take.
                             html: `
-                                <p style="font-family:sans-serif;color:#4A2C2C">Your Day Pass is ready.</p>
-                                <p style="font-family:sans-serif;color:#4A2C2C">Click below to sign in and start: 100 images over 24 hours, 25 at a time, files up to 75MB.</p>
+                                <p style="font-family:sans-serif;color:#4A2C2C">Your Day Pass is ready: 100 images over 24 hours, 25 at a time, files up to 75MB.</p>
+                                <p style="font-family:sans-serif;color:#4A2C2C">If it's already working in the tab where you paid, you're all set and don't need this email.</p>
+                                <p style="font-family:sans-serif;color:#4A2C2C">If it isn't, or you want it on another device, click below to sign in and start. Signing in with Google on the same address works too.</p>
                                 <p><a href="${url}" style="display:inline-block;padding:12px 28px;background:#F06292;color:white;border-radius:10px;text-decoration:none;font-family:sans-serif;font-weight:bold">Start my Day Pass →</a></p>
                                 <p style="font-family:sans-serif;color:#4A2C2C">Were you converting files when you bought it? They're still waiting in that tab. Switch back to it after clicking and they'll start converting.</p>
                                 <p style="font-family:sans-serif;font-size:12px;color:#875F42">This link expires in 1 hour. If it has expired, use "Resend the link" on the page where you paid, or reply to this email. If you didn't buy a Day Pass, you can ignore this email.</p>

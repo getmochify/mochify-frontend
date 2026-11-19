@@ -422,7 +422,7 @@ export function showCheckoutCard(
 	return card;
 }
 
-type NoticeKind = 'paid' | 'active' | 'sign_in' | 'fallback' | 'error';
+type NoticeKind = 'paid' | 'activating' | 'active' | 'sign_in' | 'fallback' | 'error';
 
 /**
  * A small status card pinned to the bottom of the page, built with plain DOM
@@ -439,7 +439,7 @@ export function showNotice(
 	 * its label, and whether it can be pressed again.
 	 */
 	action?: { label: string; run: () => Promise<{ text: string; again?: boolean }> },
-	/** Which pass was bought, for the 'paid', 'active' and 'sign_in' copy. */
+	/** Which pass was bought, for the 'paid', 'activating', 'active' and 'sign_in' copy. */
 	pass: { name: string; ops: number } = { name: 'Day Pass', ops: 100 },
 	/** Runs when the card goes away by the visitor's hand: its link or its ×. */
 	onLeave?: () => void
@@ -466,6 +466,11 @@ export function showNotice(
 	if (kind === 'paid') {
 		title.textContent = 'Payment received. Check your email';
 		body.textContent = `We've sent a magic link to activate your ${pass.name}. Click it to unlock ${pass.ops} image ops for 24 hours.`;
+	} else if (kind === 'activating') {
+		// Paid, but activation failed: say so plainly, so the limit wall
+		// underneath does not read as an invitation to pay again.
+		title.textContent = 'Payment received. Your pass is still activating';
+		body.textContent = `Your ${pass.name} is paid for, so there is no need to buy it again. If it does not switch on in a moment, try again, or use the link we emailed you.`;
 	} else if (kind === 'active') {
 		title.textContent = `${pass.name} active`;
 		body.textContent = `${pass.ops} image ops for the next 24 hours. A sign-in link is in your email for later.`;

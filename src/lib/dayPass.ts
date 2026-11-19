@@ -104,10 +104,31 @@ export async function startDayPassCheckout(opts: {
 	/**
 	 * Called once payment completes and activation has been tried, in place of
 	 * the default notice, with the paid checkout's URL (for `resendDayPassLink`).
-	 * The overlay is already closed by then.
+	 * The overlay is already closed by then. `paid` is false when activation
+	 * failed outright; the checkout stays remembered for `retryPaidCheckout`.
 	 */
-	onPaid?: (checkoutUrl: string, activation: DayPassActivation) => void;
+	onPaid?: (checkoutUrl: string, activation: DayPassActivation, paid: boolean) => void;
 }): Promise<void> {
+	// This browser already paid for a pass that never activated: finish that
+	// one instead of selling a second. On 2026-11-19 a buyer whose activation
+	// failed still saw the limit wall and its Day Pass button, and paid again.
+	const owed = paidCheckout();
+	if (owed) {
+		posthog.capture('day_pass_rebuy_redirected', { trigger: opts.trigger });
+		const owedPass = owed.plus
+			? { name: 'Day Pass+', ops: DAY_PASS_PLUS_OPS }
+			: { name: 'Day Pass', ops: DAY_PASS_OPS };
+		const result = await settleDayPass(owed.url, {
+			plus: owed.plus,
+			trigger: owed.trigger,
+			via: 'retry',
+			attempts: 2
+		});
+		if (result.paid) forgetCheckout();
+		announcePaid(owed.url, result, owedPass, opts.onPaid);
+		return;
+	}
+
 	const clickedAt = performance.now();
 	const plus = !!opts.plus;
 	const plan = plus ? 'dayplus' : 'day';
@@ -173,31 +194,64 @@ export async function startDayPassCheckout(opts: {
 		frame: warm?.frame,
 		prewarm,
 		onPaid: async (url) => {
-			forgetCheckout();
-			const { activation } = await settleDayPass(url, {
+			// Kept, and marked paid, until activation answers: a call that fails
+			// is retried on the next load, focus or Day Pass click rather than
+			// lost (2026-11-19: the buyer reloaded two seconds after a failed
+			// activation, with the checkout already forgotten).
+			markCheckoutPaid();
+			const result = await settleDayPass(url, {
 				plus,
 				trigger: opts.trigger,
 				via: 'overlay'
 			});
-			if (opts.onPaid) {
-				opts.onPaid(url, activation);
-			} else if (activation === 'signed_in') {
-				showNotice('active', undefined, undefined, pass);
-			} else if (activation === 'sign_in') {
-				showNotice('sign_in', dayPassSignIn(), undefined, pass);
-			} else {
-				showNotice(
-					'paid',
-					url,
-					{
-						label: 'Resend the link',
-						run: () => resendDayPassLink(url)
-					},
-					pass
-				);
-			}
+			if (result.paid) forgetCheckout();
+			announcePaid(url, result, pass, opts.onPaid);
 		}
 	});
+}
+
+/** Tell the page how a paid checkout ended: its own handler, or a notice card. */
+function announcePaid(
+	url: string,
+	{ activation, paid }: { activation: DayPassActivation; paid: boolean },
+	pass: { name: string; ops: number },
+	onPaid?: (checkoutUrl: string, activation: DayPassActivation, paid: boolean) => void
+): void {
+	if (onPaid) {
+		onPaid(url, activation, paid);
+	} else if (activation === 'signed_in') {
+		showNotice('active', undefined, undefined, pass);
+	} else if (activation === 'sign_in') {
+		showNotice('sign_in', dayPassSignIn(), undefined, pass);
+	} else if (!paid) {
+		showNotice(
+			'activating',
+			undefined,
+			{
+				label: 'Try again',
+				run: async () => {
+					const retried = await retryPaidCheckout();
+					if (!retried) return { text: 'Your pass is ready. Reload the page.' };
+					if (retried.paid) {
+						announcePaid(retried.checkoutUrl, retried, pass);
+						return { text: 'Done' };
+					}
+					return { text: 'Still not through. Use the emailed link.', again: true };
+				}
+			},
+			pass
+		);
+	} else {
+		showNotice(
+			'paid',
+			url,
+			{
+				label: 'Resend the link',
+				run: () => resendDayPassLink(url)
+			},
+			pass
+		);
+	}
 }
 
 /**
@@ -210,7 +264,7 @@ async function settleDayPass(
 	opts: {
 		plus: boolean;
 		trigger: string;
-		via: 'overlay' | 'redirect' | 'revisit';
+		via: 'overlay' | 'redirect' | 'revisit' | 'retry';
 		attempts?: number;
 	}
 ): Promise<{ activation: DayPassActivation; paid: boolean }> {
@@ -245,10 +299,88 @@ async function settleDayPass(
  * not `sessionStorage`, so the loading card's "Continue in a new tab" is
  * covered too.
  */
-type RememberedCheckout = { url: string; plus: boolean; trigger: string; at: number };
+type RememberedCheckout = {
+	url: string;
+	plus: boolean;
+	trigger: string;
+	at: number;
+	/** The overlay saw it paid, but activation has not answered yet. */
+	paid?: boolean;
+};
 const RETURN_KEY = 'mochi:day-pass-checkout';
 /** Polar holds an open checkout for an hour. */
 const RETURN_MAX_AGE_MS = 60 * 60_000;
+/** A paid one is owed a pass for as long as the pass would have run. */
+const PAID_MAX_AGE_MS = 24 * 60 * 60_000;
+
+function readCheckout(): RememberedCheckout | null {
+	let saved: Partial<RememberedCheckout> | null = null;
+	try {
+		saved = JSON.parse(localStorage.getItem(RETURN_KEY) ?? 'null');
+	} catch {
+		/* unreadable: treated as none */
+	}
+	if (!saved) return null;
+	const maxAge = saved.paid === true ? PAID_MAX_AGE_MS : RETURN_MAX_AGE_MS;
+	if (
+		typeof saved.url !== 'string' ||
+		typeof saved.at !== 'number' ||
+		Date.now() - saved.at > maxAge
+	) {
+		forgetCheckout();
+		return null;
+	}
+	return {
+		url: saved.url,
+		plus: saved.plus === true,
+		trigger: typeof saved.trigger === 'string' ? saved.trigger : 'unknown',
+		at: saved.at,
+		paid: saved.paid === true
+	};
+}
+
+function markCheckoutPaid(): void {
+	const saved = readCheckout();
+	if (!saved) return;
+	try {
+		localStorage.setItem(RETURN_KEY, JSON.stringify({ ...saved, paid: true }));
+	} catch {
+		/* storage blocked: the emailed link still activates the pass */
+	}
+}
+
+/** A checkout this browser paid for whose activation never answered. */
+function paidCheckout(): RememberedCheckout | null {
+	const saved = readCheckout();
+	return saved?.paid ? saved : null;
+}
+
+/** Whether this browser holds a paid pass still waiting to activate. */
+export function dayPassOwed(): boolean {
+	return paidCheckout() !== null;
+}
+
+/**
+ * Try again to activate a pass this browser paid for, after the first try
+ * failed. For a tab regaining focus and the "Try again" buttons. Resolves to
+ * `null` when nothing is owed.
+ */
+export async function retryPaidCheckout(): Promise<{
+	checkoutUrl: string;
+	activation: DayPassActivation;
+	paid: boolean;
+} | null> {
+	const owed = paidCheckout();
+	if (!owed) return null;
+	const result = await settleDayPass(owed.url, {
+		plus: owed.plus,
+		trigger: owed.trigger,
+		via: 'retry',
+		attempts: 2
+	});
+	if (result.paid) forgetCheckout();
+	return { checkoutUrl: owed.url, ...result };
+}
 
 function rememberCheckout(checkout: Omit<RememberedCheckout, 'at'>): void {
 	try {
@@ -279,33 +411,24 @@ export async function resumeDayPassReturn(returned: boolean): Promise<{
 	checkoutUrl: string;
 	activation: DayPassActivation;
 } | null> {
-	let saved: Partial<RememberedCheckout> | null = null;
-	try {
-		saved = JSON.parse(localStorage.getItem(RETURN_KEY) ?? 'null');
-	} catch {
-		/* unreadable: treated as none */
-	}
+	const saved = readCheckout();
 	if (!saved) return null;
-	if (
-		typeof saved.url !== 'string' ||
-		typeof saved.at !== 'number' ||
-		Date.now() - saved.at > RETURN_MAX_AGE_MS
-	) {
-		forgetCheckout();
-		return null;
-	}
-	const plus = saved.plus === true;
-	const trigger = typeof saved.trigger === 'string' ? saved.trigger : 'unknown';
-	const via = returned ? 'redirect' : 'revisit';
+	const { plus, trigger } = saved;
+	// A paid one is the overlay's own payment whose activation failed; anything
+	// else is a payment the overlay never saw.
+	const via = saved.paid ? 'retry' : returned ? 'redirect' : 'revisit';
 	const { activation, paid } = await settleDayPass(saved.url, {
 		plus,
 		trigger,
 		via,
-		attempts: returned ? undefined : 1
+		attempts: returned || saved.paid ? undefined : 1
 	});
-	// An unpaid checkout stays remembered on a revisit: it may yet be paid.
-	if (paid || returned) forgetCheckout();
+	// An unpaid checkout stays remembered on a revisit: it may yet be paid. So
+	// does a paid one whose activation failed again: it is still owed.
+	if (paid || (returned && !saved.paid)) forgetCheckout();
 	if (!paid) return null;
+	// Already reported when the overlay saw it paid.
+	if (saved.paid) return { checkoutUrl: saved.url, activation };
 	// The overlay never saw this payment, so it never reported it.
 	const plan = plus ? 'dayplus' : 'day';
 	posthog.capture('checkout_overlay_paid', {

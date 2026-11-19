@@ -32,7 +32,7 @@
 		/** Override the return path; defaults to the page the CTA sits on. */
 		next?: string;
 		/** Called when payment completes in the overlay; the default is a notice card. */
-		onPaid?: (checkoutUrl: string, activation: DayPassActivation) => void;
+		onPaid?: (checkoutUrl: string, activation: DayPassActivation, paid: boolean) => void;
 		/** Extra properties for `day_pass_cta_clicked` (the batch-cap box sends its drop size). */
 		properties?: Record<string, unknown>;
 		/** Sell Day Pass+ (300 uploads) instead of the Day Pass. */

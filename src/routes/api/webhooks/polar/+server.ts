@@ -426,6 +426,20 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			const email = order.customer.email;
 			if (!email) break;
 
+			// One per Polar order, whichever path below grants it: the count of
+			// paid passes, rather than summing day_pass_pending and
+			// day_pass_activated or trusting the client's checkout_overlay_paid.
+			// Polar can retry a webhook, so count distinct polar_order_id.
+			{
+				const posthog = getPostHogClient();
+				posthog.capture({
+					distinctId: email,
+					event: 'day_pass_order_paid',
+					properties: { polar_order_id: order.id, ops: passOps }
+				});
+				await posthog.flush();
+			}
+
 			// A subscriber gets the pass as a top-up. The path below writes
 			// plan 'day' over whatever they had, and a lapsed pass reads as
 			// free, so a Seller, Pro or Growth customer who bought one was on

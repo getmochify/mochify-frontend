@@ -69,6 +69,8 @@
 		prewarmDayPass,
 		resendDayPassLink,
 		resumeDayPassReturn,
+		retryPaidCheckout,
+		dayPassOwed,
 		startDayPassCheckout,
 		type DayPassActivation
 	} from '$lib/dayPass';
@@ -471,6 +473,9 @@
 		dayPassResumeTried = true;
 		void resumeDayPassReturn(returned).then((resumed) => {
 			if (resumed) handleDayPassPaid(resumed.checkoutUrl, resumed.activation);
+			// Paid here earlier and still not activated: say so, rather than
+			// leave the limit wall reading as an invitation to pay again.
+			else if (dayPassOwed()) dayPassSuccess = dayPassActivating = true;
 		});
 	});
 
@@ -493,8 +498,23 @@
 		resendState = await resendDayPassLink(paidCheckoutUrl);
 		resending = false;
 	}
-	function handleDayPassPaid(checkoutUrl: string, activation: DayPassActivation) {
+	// Paid, but activation never answered (see `retryPaidCheckout`).
+	let dayPassActivating = $state(false);
+	let retryingOwed = $state(false);
+	async function retryOwedPass() {
+		if (retryingOwed) return;
+		retryingOwed = true;
+		try {
+			const retried = await retryPaidCheckout();
+			if (retried) handleDayPassPaid(retried.checkoutUrl, retried.activation, retried.paid);
+			else dayPassActivating = false;
+		} finally {
+			retryingOwed = false;
+		}
+	}
+	function handleDayPassPaid(checkoutUrl: string, activation: DayPassActivation, paid = true) {
 		dayPassSuccess = true;
+		dayPassActivating = !paid;
 		if (activation === 'signed_in') isAuthed = true;
 		dayPassPaidAuthed = isAuthed;
 		dayPassNeedsSignIn = !isAuthed && activation === 'sign_in';
@@ -2160,7 +2180,11 @@
 
 	$effect(() => {
 		const onReturn = () => {
-			if (document.visibilityState === 'visible') void recheckTier();
+			if (document.visibilityState !== 'visible') return;
+			void recheckTier();
+			// A pass this browser paid for whose activation failed: try again
+			// whenever the buyer comes back to the tab.
+			if (dayPassOwed()) void retryOwedPass();
 		};
 		document.addEventListener('visibilitychange', onReturn);
 		window.addEventListener('focus', onReturn);
@@ -2396,6 +2420,22 @@
 					<p class="mt-0.5 text-xs text-cocoa-deep/70">
 						Your Day Pass switches on in a few seconds: 100 image ops for 24 hours.
 					</p>
+				{:else if dayPassActivating}
+					<p class="text-sm font-black text-cocoa-ink">
+						Payment received. Your pass is still activating
+					</p>
+					<p class="mt-0.5 text-xs text-cocoa-deep/70">
+						It is paid for, so there is no need to buy it again. If it does not switch on in a
+						moment, try again, or use the link we emailed you.
+					</p>
+					<button
+						type="button"
+						onclick={retryOwedPass}
+						disabled={retryingOwed}
+						class="mt-1.5 text-xs font-extrabold text-mochi-pink underline underline-offset-2 disabled:cursor-default disabled:no-underline disabled:opacity-80"
+					>
+						{retryingOwed ? 'Activating…' : 'Try again'}
+					</button>
 				{:else if dayPassNeedsSignIn}
 					<p class="text-sm font-black text-cocoa-ink">Payment received. Sign in to use it</p>
 					<p class="mt-0.5 text-xs text-cocoa-deep/70">
