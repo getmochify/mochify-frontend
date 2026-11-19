@@ -276,8 +276,78 @@ export function createAuth(db: D1Database, resendKey: string | undefined) {
                         } catch (e) {
                             console.error("[auth] contact backstop failed:", e);
                         }
+
+                        // A parked Day Pass for an address this sign-in has now
+                        // proven. The create hook and afterEmailVerification cover
+                        // the activation link and the password flow; this covers
+                        // Google linked onto a Day Pass account, which Better Auth
+                        // marks verified without running either. One D1 read, and
+                        // claimPendingDayPass swallows its own errors.
+                        try {
+                            const row = await kysely
+                                .selectFrom("user")
+                                .select(["email", "emailVerified"])
+                                .where("id", "=", session.userId)
+                                .executeTakeFirst();
+                            if (row?.emailVerified) {
+                                await claimPendingDayPass(db, resendKey, {
+                                    id: session.userId,
+                                    email: row.email,
+                                });
+                            }
+                        } catch (e) {
+                            console.error("[auth] sign-in day pass claim failed:", e);
+                        }
                     },
                 },
+            },
+            account: {
+                create: {
+                    // Google linked onto an account whose address nobody has
+                    // proven (a Day Pass buyer's, or a password sign-up never
+                    // verified). Linking is allowed for those (see
+                    // accountLinking below), so close the known hole: anyone
+                    // could have registered this address with a password and
+                    // waited for the owner to sign in with Google. Drop that
+                    // password and every session made before the owner proved
+                    // the address. Runs before Better Auth marks the user
+                    // verified, which is how the link is told apart.
+                    after: async (account) => {
+                        if (account.providerId === "credential") return;
+                        try {
+                            const row = await kysely
+                                .selectFrom("user")
+                                .select("emailVerified")
+                                .where("id", "=", account.userId)
+                                .executeTakeFirst();
+                            if (!row || row.emailVerified) return;
+                            await kysely
+                                .deleteFrom("account")
+                                .where("userId", "=", account.userId)
+                                .where("providerId", "=", "credential")
+                                .execute();
+                            await kysely
+                                .deleteFrom("session")
+                                .where("userId", "=", account.userId)
+                                .execute();
+                        } catch (e) {
+                            console.error("[auth] unverified link cleanup failed:", e);
+                        }
+                    },
+                },
+            },
+        },
+        account: {
+            accountLinking: {
+                // Better Auth refuses to link Google onto an account whose own
+                // email is unverified, and every Day Pass buyer's account is
+                // created unverified by the paying tab. Buyers then chose
+                // "Sign in with Google" and got account_not_linked
+                // (2026-11-19, twice, before buying a second pass). Google
+                // must still report the address verified for a link to
+                // happen; the account create hook above removes what an
+                // unproven address could have planted.
+                requireLocalEmailVerified: false,
             },
         },
         emailAndPassword: {
