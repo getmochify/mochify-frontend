@@ -7,4 +7,4 @@
  */
 export type MochiTheme = 'default' | 'diwali';
 
-export const MOCHI_THEME: MochiTheme = 'diwali';
+export const MOCHI_THEME: MochiTheme = 'default';
