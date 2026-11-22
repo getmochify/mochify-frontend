@@ -4652,6 +4652,25 @@
 			inset 0 -1px 0 0 rgba(255, 255, 255, 0.35);
 	}
 
+	/* /flow's dark trial (see the dark block in layout.css): the white glass
+	   becomes a warm dark pane with the same pink hairline and glow. */
+	:global(html[data-flow-theme='dark'] .flow-root) .liquid-glass {
+		background: linear-gradient(135deg, rgba(48, 37, 41, 0.86) 0%, rgba(35, 28, 30, 0.72) 100%);
+		border-color: rgba(240, 98, 146, 0.22);
+		box-shadow:
+			0 2px 6px -2px rgba(0, 0, 0, 0.4),
+			0 18px 48px -12px rgba(240, 98, 146, 0.16),
+			0 40px 80px -32px rgba(0, 0, 0, 0.5),
+			inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+	}
+	:global(html[data-flow-theme='dark'] .flow-root) .liquid-bubble {
+		background: rgba(255, 255, 255, 0.05);
+		border-color: rgba(255, 255, 255, 0.1);
+		box-shadow:
+			inset 0 1px 2px rgba(255, 255, 255, 0.06),
+			0 4px 12px rgba(0, 0, 0, 0.3);
+	}
+
 	.liquid-bubble {
 		background: rgba(255, 255, 255, 0.25);
 		backdrop-filter: blur(8px);

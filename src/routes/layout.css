@@ -389,3 +389,80 @@ html[lang='ja'] {
   }
 
 }
+/* Dark mode, /flow only for now: the trial before any role tokens. The page
+   marks its wrapper `.flow-root`, and its toggle sets `data-flow-theme` on
+   <html>. Every palette class reads a `--color-*` variable, so redefining the
+   variables on that wrapper turns the whole tree dark (shared Navigation and
+   Footer included) without touching a class. The attribute can outlive a
+   client-side navigation away from /flow, which is why every rule is scoped
+   to `.flow-root` rather than to the attribute alone.
+
+   The pinks stay as they are: white on `mochi-pink` is no worse than in light
+   mode, and the pink reads at 6:1 as text on the dark background. `white` is
+   the card surface here, so `text-white` is pinned back to real white. */
+html[data-flow-theme='dark'] .flow-root {
+  color-scheme: dark;
+  --color-mochi-bg: #181314;
+  --color-mochi-card: #2a2124;
+  --color-white: #2a2124;
+  --color-mochi-blush: #2a2024;
+  --color-mochi-strawberry: #35252b;
+  --color-mochi-pink-ink: #ff9ebb;
+  --color-cocoa-milk: #b8a8a5;
+  --color-cocoa-deep: #e6dad5;
+  --color-cocoa-ink: #f7efea;
+  --color-cocoa-night: #fbf6f3;
+  --color-pink-50: #2a2024;
+  --color-pink-100: #35252b;
+  --color-pink-200: #4a3b3f;
+  --color-pink-300: #6b4a55;
+  --color-red-50: #3a1e22;
+  --color-red-100: #5a2a30;
+  --color-red-200: #6e3036;
+  --color-red-700: #ffb4b4;
+  --color-red-800: #ffc9c9;
+  --color-amber-50: #33281a;
+  --color-amber-100: #4a3a20;
+  --color-amber-200: #5c4724;
+  --color-amber-700: #f5d08a;
+  --color-amber-800: #f8dca6;
+  --color-green-100: #1f3322;
+  --color-blue-50: #1c2530;
+  background-color: var(--color-mochi-bg);
+  color: var(--color-cocoa-deep);
+}
+html[data-flow-theme='dark'] .flow-root .text-white {
+  color: #fff;
+}
+html[data-flow-theme='dark']:has(.flow-root) body {
+  background-color: #181314;
+}
+/* The few hex classes in the /flow tree (results, success toast, modals),
+   which no variable reaches. */
+html[data-flow-theme='dark'] .flow-root .text-\[\#2E5C31\] {
+  color: #a5d6a7;
+}
+html[data-flow-theme='dark'] .flow-root .bg-\[\#F4FBF2\]\/90 {
+  background-color: rgb(31 51 34 / 0.9);
+}
+html[data-flow-theme='dark'] .flow-root .text-\[\#8D6E63\] {
+  color: #b8a8a5;
+}
+html[data-flow-theme='dark'] .flow-root .text-\[\#AD1457\] {
+  color: #ff9ebb;
+}
+html[data-flow-theme='dark'] .flow-root .bg-\[\#FFF0F5\] {
+  background-color: #35252b;
+}
+html[data-flow-theme='dark'] .flow-root .border-\[\#F8BBD0\]\/40 {
+  border-color: rgb(240 98 146 / 0.25);
+}
+html[data-flow-theme='dark'] .flow-root .from-\[\#F1F8E9\] {
+  --tw-gradient-from: #1f3322;
+}
+html[data-flow-theme='dark'] .flow-root .from-\[\#FFF0F5\] {
+  --tw-gradient-from: #35252b;
+}
+html[data-flow-theme='dark'] .flow-root .from-\[\#FFD6E5\] {
+  --tw-gradient-from: #4a2a36;
+}
