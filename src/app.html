@@ -20,6 +20,14 @@
 				}
 			} catch (e) {}
 		</script>
+		<!-- Dark-mode choice, before first paint. Only pages with a .theme-root
+		     wrapper respond to it. See $lib/theme.ts, which owns the keys. -->
+		<script>
+			try {
+				var t = localStorage.getItem('mochify:theme') || localStorage.getItem('mochi:flow-theme');
+				if (t === 'dark') document.documentElement.dataset.theme = 'dark';
+			} catch (e) {}
+		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

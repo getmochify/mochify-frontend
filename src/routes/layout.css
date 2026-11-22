@@ -389,18 +389,18 @@ html[lang='ja'] {
   }
 
 }
-/* Dark mode, /flow only for now: the trial before any role tokens. The page
-   marks its wrapper `.flow-root`, and its toggle sets `data-flow-theme` on
-   <html>. Every palette class reads a `--color-*` variable, so redefining the
-   variables on that wrapper turns the whole tree dark (shared Navigation and
-   Footer included) without touching a class. The attribute can outlive a
-   client-side navigation away from /flow, which is why every rule is scoped
-   to `.flow-root` rather than to the attribute alone.
+/* Dark mode trial, on the pages that opt in (see $lib/theme.ts for how a
+   page does, and how the choice is kept). Every palette class reads a
+   `--color-*` variable, so redefining the variables on the page's
+   `.theme-root` wrapper turns the whole tree dark (shared Navigation and
+   Footer included) without touching a class. `data-theme` can outlive a
+   client-side navigation to a page without the trial, which is why every rule
+   is scoped to `.theme-root` rather than to the attribute alone.
 
    The pinks stay as they are: white on `mochi-pink` is no worse than in light
    mode, and the pink reads at 6:1 as text on the dark background. `white` is
    the card surface here, so `text-white` is pinned back to real white. */
-html[data-flow-theme='dark'] .flow-root {
+html[data-theme='dark'] .theme-root {
   color-scheme: dark;
   --color-mochi-bg: #181314;
   --color-mochi-card: #2a2124;
@@ -431,44 +431,64 @@ html[data-flow-theme='dark'] .flow-root {
   background-color: var(--color-mochi-bg);
   color: var(--color-cocoa-deep);
 }
-html[data-flow-theme='dark'] .flow-root .text-white {
+html[data-theme='dark'] .theme-root .text-white {
   color: #fff;
 }
-html[data-flow-theme='dark']:has(.flow-root) body {
+html[data-theme='dark']:has(.theme-root) body {
   background-color: #181314;
 }
-/* The few hex classes in the /flow tree (results, success toast, modals),
+/* The few hex classes in the Magic Flow tree (results, success toast, modals),
    which no variable reaches. */
-html[data-flow-theme='dark'] .flow-root .text-\[\#2E5C31\] {
+html[data-theme='dark'] .theme-root .text-\[\#2E5C31\] {
   color: #a5d6a7;
 }
-html[data-flow-theme='dark'] .flow-root .bg-\[\#F4FBF2\]\/90 {
+html[data-theme='dark'] .theme-root .bg-\[\#F4FBF2\]\/90 {
   background-color: rgb(31 51 34 / 0.9);
 }
-html[data-flow-theme='dark'] .flow-root .text-\[\#8D6E63\] {
+html[data-theme='dark'] .theme-root .text-\[\#8D6E63\] {
   color: #b8a8a5;
 }
-html[data-flow-theme='dark'] .flow-root .text-\[\#AD1457\] {
+html[data-theme='dark'] .theme-root .text-\[\#AD1457\] {
   color: #ff9ebb;
 }
-html[data-flow-theme='dark'] .flow-root .bg-\[\#FFF0F5\] {
+html[data-theme='dark'] .theme-root .bg-\[\#FFF0F5\] {
   background-color: #35252b;
 }
-html[data-flow-theme='dark'] .flow-root .border-\[\#F8BBD0\]\/40 {
+html[data-theme='dark'] .theme-root .border-\[\#F8BBD0\]\/40 {
   border-color: rgb(240 98 146 / 0.25);
 }
-html[data-flow-theme='dark'] .flow-root .from-\[\#F1F8E9\] {
+html[data-theme='dark'] .theme-root .from-\[\#F1F8E9\] {
   --tw-gradient-from: #1f3322;
 }
-html[data-flow-theme='dark'] .flow-root .from-\[\#FFF0F5\] {
+html[data-theme='dark'] .theme-root .from-\[\#FFF0F5\] {
   --tw-gradient-from: #35252b;
 }
-html[data-flow-theme='dark'] .flow-root .from-\[\#FFD6E5\] {
+html[data-theme='dark'] .theme-root .from-\[\#FFD6E5\] {
   --tw-gradient-from: #4a2a36;
 }
 /* The faintest helper text (the prompt placeholder, the tray's status line) is
    cocoa-milk at 50-55%, under 3:1 on the dark glass. 80% clears AA (4.8:1). */
-html[data-flow-theme='dark'] .flow-root .text-cocoa-milk\/50,
-html[data-flow-theme='dark'] .flow-root .text-cocoa-milk\/55 {
+html[data-theme='dark'] .theme-root .text-cocoa-milk\/50,
+html[data-theme='dark'] .theme-root .text-cocoa-milk\/55 {
   color: color-mix(in oklab, var(--color-cocoa-milk) 80%, transparent);
+}
+/* The example rows and cards on the /flow pages (each page's own scoped
+   styles; the element keeps its plain class, so these reach it): same shape
+   and pink lift, on the dark surfaces. */
+html[data-theme='dark'] .theme-root .mochi-row {
+  background: linear-gradient(160deg, #2e2327 0%, #281e22 100%);
+  border-color: rgb(240 98 146 / 0.16);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.05),
+    0 1px 2px rgb(0 0 0 / 0.3);
+}
+html[data-theme='dark'] .theme-root .mochi-row:hover {
+  background: linear-gradient(160deg, #36282d 0%, #2e2327 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.07),
+    0 8px 18px -6px rgb(240 98 146 / 0.2);
+}
+html[data-theme='dark'] .theme-root .mochi-card {
+  border-color: rgb(240 98 146 / 0.18);
+  box-shadow: 0 14px 32px -14px rgb(0 0 0 / 0.6);
 }

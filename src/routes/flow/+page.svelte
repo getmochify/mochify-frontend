@@ -4,34 +4,6 @@
     import Footer from '$lib/components/Footer.svelte';
     import LocaleBanner from '$lib/components/LocaleBanner.svelte';
     import Hreflang from '$lib/components/Hreflang.svelte';
-    import { onMount } from 'svelte';
-    import { posthog } from '$lib/analytics';
-
-    // Dark mode is a trial on this page only (see the dark block in
-    // layout.css): opt-in, remembered per browser. The head script applies a
-    // saved choice before first paint; this keeps the toggle in step and
-    // re-applies it after a client-side navigation, where that script does
-    // not run.
-    const THEME_KEY = 'mochi:flow-theme';
-    let dark = $state(false);
-    onMount(() => {
-        try {
-            dark = localStorage.getItem(THEME_KEY) === 'dark';
-        } catch {
-            /* storage blocked: light */
-        }
-        document.documentElement.dataset.flowTheme = dark ? 'dark' : 'light';
-    });
-    function toggleTheme() {
-        dark = !dark;
-        document.documentElement.dataset.flowTheme = dark ? 'dark' : 'light';
-        try {
-            localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light');
-        } catch {
-            /* storage blocked: this visit only */
-        }
-        posthog.capture('flow_theme_toggled', { theme: dark ? 'dark' : 'light' });
-    }
 
     // Bound so the example rows below can load themselves into the compose bar
     // instead of just sitting there looking like buttons that do nothing.
@@ -81,8 +53,6 @@
     <meta property="og:url" content="https://mochify.app/flow" />
     <meta property="og:description" content="Say what you need in plain English and Mochify does it: convert, resize, smart crop, remove backgrounds, rasterize PDF pages. No format pickers, no sliders." />
 
-    {@html `<script>try{if(localStorage.getItem('mochi:flow-theme')==='dark')document.documentElement.dataset.flowTheme='dark'}catch(e){}<\/script>`}
-
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:description" content="Say what you need in plain English and Mochify does it: convert, resize, smart crop, remove backgrounds, rasterize PDF pages. No format pickers, no sliders." />
 
@@ -90,25 +60,9 @@
 
 <Hreflang base="/flow" />
 
-<div class="flow-root min-h-screen flex flex-col relative">
+<div class="theme-root min-h-screen flex flex-col relative">
 
-    {#snippet themeToggle()}
-        <button
-            type="button"
-            onclick={toggleTheme}
-            aria-pressed={dark}
-            aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
-            title={dark ? 'Light mode' : 'Dark mode'}
-            class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-pink-100 bg-mochi-blush text-cocoa-milk transition-colors hover:text-mochi-pink"
-        >
-            {#if dark}
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32 1.41-1.41" /></svg>
-            {:else}
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
-            {/if}
-        </button>
-    {/snippet}
-    <Navigation extra={themeToggle} />
+    <Navigation themeToggle />
 
     <LocaleBanner
         offers={[
@@ -256,26 +210,6 @@
         box-shadow:
             0 2px 4px -2px rgba(108, 63, 49, 0.05),
             0 14px 32px -14px rgba(240, 98, 146, 0.24);
-    }
-
-    /* Dark trial: the rows and cards keep their shape and pink lift, on the
-       dark surfaces. */
-    :global(html[data-flow-theme='dark']) .mochi-row {
-        background: linear-gradient(160deg, #2e2327 0%, #281e22 100%);
-        border-color: rgba(240, 98, 146, 0.16);
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.05),
-            0 1px 2px rgba(0, 0, 0, 0.3);
-    }
-    :global(html[data-flow-theme='dark']) .mochi-row:hover {
-        background: linear-gradient(160deg, #36282d 0%, #2e2327 100%);
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.07),
-            0 8px 18px -6px rgba(240, 98, 146, 0.2);
-    }
-    :global(html[data-flow-theme='dark']) .mochi-card {
-        border-color: rgba(240, 98, 146, 0.18);
-        box-shadow: 0 14px 32px -14px rgba(0, 0, 0, 0.6);
     }
 
     @media (prefers-reduced-motion: reduce) {

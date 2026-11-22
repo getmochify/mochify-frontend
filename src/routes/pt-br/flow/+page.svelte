@@ -91,8 +91,8 @@
 
 <Hreflang base="/flow" />
 
-<div class="relative flex min-h-screen flex-col">
-	<Navigation />
+<div class="theme-root relative flex min-h-screen flex-col">
+	<Navigation themeToggle />
 
 	<LocaleBanner offers={[{ href: '/flow', label: 'View in English', lang: 'en' }]} />
 
