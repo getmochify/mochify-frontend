@@ -439,8 +439,27 @@ html[data-theme='dark']:has(.theme-root) body {
 }
 /* The few hex classes in the Magic Flow tree (results, success toast, modals),
    which no variable reaches. */
-html[data-theme='dark'] .theme-root .text-\[\#2E5C31\] {
+/* Not on a solid matcha fill (the dashboard's Save buttons): that stays light,
+   and so does its dark-green label. */
+html[data-theme='dark'] .theme-root .text-\[\#2E5C31\]:not(.bg-matcha-green) {
   color: #a5d6a7;
+}
+html[data-theme='dark'] .theme-root .text-\[\#2E5C31\]\/70 {
+  color: rgb(165 214 167 / 0.8);
+}
+html[data-theme='dark'] .theme-root .to-\[\#FFF8F0\] {
+  --tw-gradient-to: #2e2420;
+}
+/* Error text in red-600 (the dashboard's danger zone and form errors). The
+   variable stays, since red-600 is also a button fill under white text. */
+html[data-theme='dark'] .theme-root .text-red-600\/80 {
+  color: rgb(255 154 154 / 0.9);
+}
+html[data-theme='dark'] .theme-root .text-red-600\/50 {
+  color: rgb(255 154 154 / 0.65);
+}
+html[data-theme='dark'] .theme-root .border-red-300\/60 {
+  border-color: rgb(138 58 66 / 0.8);
 }
 html[data-theme='dark'] .theme-root .bg-\[\#F4FBF2\]\/90 {
   background-color: rgb(31 51 34 / 0.9);

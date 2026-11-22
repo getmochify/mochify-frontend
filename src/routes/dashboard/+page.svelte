@@ -396,9 +396,9 @@
      follows every scroll position reads as noise once you're past the stat
      cards. The wash fades out before the API Key card; everything below that
      sits on plain --mochi-bg, same as the guide pages. -->
-<div class="relative flex min-h-screen flex-col">
+<div class="theme-root relative flex min-h-screen flex-col">
 	<div class="dash-wash" aria-hidden="true"></div>
-	<Navigation />
+	<Navigation themeToggle />
 
 	<main class="relative z-10 mx-auto w-full max-w-4xl grow px-4 py-12 sm:px-6">
 		{#if !useCaseAnswered && !useCaseDismissed}
@@ -1790,5 +1790,24 @@
 	   silently override the danger zone's red border if it tried. */
 	.dash-card {
 		background-color: #ffffff;
+	}
+
+	/* The dark-mode trial (see $lib/theme.ts): a fainter wash, and both card
+	   tiers on the dark surfaces. Borders stay with the Tailwind utilities, as
+	   above. */
+	:global(html[data-theme='dark'] .theme-root) .dash-wash {
+		background:
+			radial-gradient(ellipse 60% 45% at 12% 8%, rgba(240, 98, 146, 0.12) 0%, transparent 70%),
+			radial-gradient(ellipse 50% 40% at 90% 18%, rgba(190, 120, 180, 0.08) 0%, transparent 70%);
+	}
+	:global(html[data-theme='dark'] .theme-root) .dash-glass {
+		background: linear-gradient(135deg, rgba(48, 37, 41, 0.86) 0%, rgba(35, 28, 30, 0.72) 100%);
+		border-color: rgba(240, 98, 146, 0.18);
+		box-shadow:
+			0 8px 32px 0 rgba(0, 0, 0, 0.35),
+			inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+	}
+	:global(html[data-theme='dark'] .theme-root) .dash-card {
+		background-color: #2a2124;
 	}
 </style>
