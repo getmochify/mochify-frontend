@@ -5,14 +5,21 @@
 	import { authClient } from '$lib/auth-client';
 	import { posthog } from '$lib/analytics';
 	import { setAuthHint } from '$lib/authHint';
+	import type { Snippet } from 'svelte';
 
 	// Pages that ARE the sign-up destination (e.g. /auth/register) opt out of the
 	// "Get started" CTA: it links to the page you're already on and competes with
 	// the primary form. "Sign in" stays, since it's a real escape hatch for existing users.
 	// `wide` matches pages whose sections use max-w-6xl px-4 sm:px-6 (the
 	// homepage), so the logo and the CTA line up with the content edges.
-	let { showGetStarted = true, wide = false }: { showGetStarted?: boolean; wide?: boolean } =
-		$props();
+	// `extra` is a page's own control for the bar (the /flow theme toggle): shown
+	// after the links on desktop and beside the menu button on a phone, so a
+	// page never has to reach into the nav's markup with its own CSS.
+	let {
+		showGetStarted = true,
+		wide = false,
+		extra
+	}: { showGetStarted?: boolean; wide?: boolean; extra?: Snippet } = $props();
 
 	// The header's Pricing link follows the page's language (handoff 2026-09-24
 	// E4). On /fr/flow it used to read "Pricing" and go to the English page, which
@@ -172,6 +179,7 @@
 			class="text-sm font-medium text-cocoa-deep transition-colors hover:text-mochi-pink"
 			>{pricingLabel}</a
 		>
+		{@render extra?.()}
 
 		{#if session}
 			{#if !hideLaunch}
@@ -274,6 +282,9 @@
          JS: the browser opens/closes the drawer natively, so this works even on
          guide pages (`csr = false`, no hydration). aria-expanded/mobileMenuOpen
          (icon morph) only update once hydrated, via the popover's ontoggle below. -->
+	{#if extra}
+		<div class="mr-2 ml-auto flex sm:hidden">{@render extra()}</div>
+	{/if}
 	<button
 		popovertarget="mobile-nav-menu"
 		aria-expanded={mobileMenuOpen}

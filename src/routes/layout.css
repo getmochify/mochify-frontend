@@ -466,3 +466,9 @@ html[data-flow-theme='dark'] .flow-root .from-\[\#FFF0F5\] {
 html[data-flow-theme='dark'] .flow-root .from-\[\#FFD6E5\] {
   --tw-gradient-from: #4a2a36;
 }
+/* The faintest helper text (the prompt placeholder, the tray's status line) is
+   cocoa-milk at 50-55%, under 3:1 on the dark glass. 80% clears AA (4.8:1). */
+html[data-flow-theme='dark'] .flow-root .text-cocoa-milk\/50,
+html[data-flow-theme='dark'] .flow-root .text-cocoa-milk\/55 {
+  color: color-mix(in oklab, var(--color-cocoa-milk) 80%, transparent);
+}

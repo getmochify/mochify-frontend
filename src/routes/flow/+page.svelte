@@ -92,7 +92,23 @@
 
 <div class="flow-root min-h-screen flex flex-col relative">
 
-    <Navigation />
+    {#snippet themeToggle()}
+        <button
+            type="button"
+            onclick={toggleTheme}
+            aria-pressed={dark}
+            aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={dark ? 'Light mode' : 'Dark mode'}
+            class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-pink-100 bg-mochi-blush text-cocoa-milk transition-colors hover:text-mochi-pink"
+        >
+            {#if dark}
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32 1.41-1.41" /></svg>
+            {:else}
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
+            {/if}
+        </button>
+    {/snippet}
+    <Navigation extra={themeToggle} />
 
     <LocaleBanner
         offers={[
@@ -104,21 +120,6 @@
     />
 
     <main class="relative z-10 flex-grow w-full max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
-
-        <button
-            type="button"
-            onclick={toggleTheme}
-            aria-pressed={dark}
-            class="mb-6 inline-flex items-center gap-1.5 rounded-full border border-pink-100 bg-white/70 px-3 py-1 text-xs font-bold text-cocoa-milk transition-colors hover:text-mochi-pink"
-        >
-            {#if dark}
-                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32 1.41-1.41" /></svg>
-                Light mode
-            {:else}
-                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
-                Dark mode
-            {/if}
-        </button>
 
         <header class="text-center mb-10">
             <p class="text-xs font-bold tracking-[0.18em] uppercase text-mochi-pink/80 mb-4">Images · Video · PDFs</p>
