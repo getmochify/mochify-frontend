@@ -1,5 +1,6 @@
 import { posthog } from '$lib/analytics';
 import { USD_PRICES } from '$lib/currency';
+import { darkPage } from '$lib/theme';
 
 // Polar's embedded checkout, shared by the Day Pass (`$lib/dayPass`) and the
 // subscription plans (`startPlanCheckout` below). The overlay keeps the page
@@ -239,6 +240,15 @@ const CARD_CSS = `
 #mochi-checkout-card .cc-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:16px 0 0;padding:12px 0 0;border-top:1px solid rgba(240,98,146,0.15);font-size:12px;color:rgba(135,95,66,0.7)}
 #mochi-checkout-card .cc-cancel{padding:4px 0;border:0;background:none;cursor:pointer;font:inherit;font-weight:800;color:#875F42}
 #mochi-checkout-card .cc-cancel:hover{color:#D81B60}
+#mochi-checkout-card.cc-dark{background:rgba(0,0,0,0.6);color:#F7EFEA}
+#mochi-checkout-card.cc-dark .cc-panel{background:#2A2124;box-shadow:0 20px 50px rgba(0,0,0,0.6)}
+#mochi-checkout-card.cc-dark .cc-eyebrow,#mochi-checkout-card.cc-dark .cc-cancel{color:#B8A8A5}
+#mochi-checkout-card.cc-dark .cc-name,#mochi-checkout-card.cc-dark .cc-price{color:#FBF6F3}
+#mochi-checkout-card.cc-dark .cc-detail,#mochi-checkout-card.cc-dark .cc-hint{color:rgba(230,218,213,0.8)}
+#mochi-checkout-card.cc-dark .cc-status{color:#E6DAD5}
+#mochi-checkout-card.cc-dark .cc-track{background:#35252B}
+#mochi-checkout-card.cc-dark .cc-foot{color:rgba(184,168,165,0.8);border-top-color:rgba(240,98,146,0.2)}
+#mochi-checkout-card.cc-dark .cc-cancel:hover{color:#FF8FB1}
 @keyframes mochi-cc-slide{to{left:100%}}
 @keyframes mochi-cc-fade{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){#mochi-checkout-card,#mochi-checkout-card .cc-bar{animation:none}#mochi-checkout-card .cc-bar{left:0;width:100%;opacity:.5}}
@@ -272,6 +282,8 @@ export function showCheckoutCard(
 
 	const root = document.createElement('div');
 	root.id = 'mochi-checkout-card';
+	// Appended to <body>, outside the page's dark scope, so it asks itself.
+	if (darkPage()) root.classList.add('cc-dark');
 	const panel = document.createElement('div');
 	panel.className = 'cc-panel';
 	panel.setAttribute('role', 'dialog');
@@ -451,17 +463,23 @@ export function showNotice(
 	// Polar's frame sits at the maximum z-index. The 'fallback' card takes the
 	// same z-index so nothing a page layers up can cover the way out; every
 	// other card stays under a checkout.
+	// Appended to <body>, outside the page's dark scope, so it asks itself
+	// (see $lib/theme). The pinks are the same in both.
+	const dark = darkPage();
 	card.style.cssText =
 		'position:fixed;left:50%;bottom:16px;transform:translateX(-50%);' +
 		`z-index:${kind === 'fallback' ? 2147483647 : 2147483646};` +
 		'width:min(420px,calc(100vw - 32px));box-sizing:border-box;padding:14px 40px 14px 16px;' +
-		'background:#FFF5F7;border:1px solid rgba(240,98,146,0.25);border-radius:16px;' +
-		'box-shadow:0 8px 24px rgba(108,63,49,0.15);font:14px/1.4 Nunito,system-ui,sans-serif;color:#4A2C2C';
+		(dark
+			? 'background:#2A2124;border:1px solid rgba(240,98,146,0.3);border-radius:16px;' +
+				'box-shadow:0 8px 24px rgba(0,0,0,0.5);font:14px/1.4 Nunito,system-ui,sans-serif;color:#F7EFEA'
+			: 'background:#FFF5F7;border:1px solid rgba(240,98,146,0.25);border-radius:16px;' +
+				'box-shadow:0 8px 24px rgba(108,63,49,0.15);font:14px/1.4 Nunito,system-ui,sans-serif;color:#4A2C2C');
 
 	const title = document.createElement('p');
 	title.style.cssText = 'margin:0;font-weight:900';
 	const body = document.createElement('p');
-	body.style.cssText = 'margin:2px 0 0;font-size:12px;color:rgba(108,63,49,0.75)';
+	body.style.cssText = `margin:2px 0 0;font-size:12px;color:${dark ? 'rgba(230,218,213,0.8)' : 'rgba(108,63,49,0.75)'}`;
 
 	if (kind === 'paid') {
 		title.textContent = 'Payment received. Check your email';
@@ -513,7 +531,7 @@ export function showNotice(
 	close.textContent = '\u00d7';
 	close.style.cssText =
 		'position:absolute;top:8px;right:10px;border:0;background:none;cursor:pointer;' +
-		'font-size:20px;line-height:1;color:rgba(135,95,66,0.5)';
+		`font-size:20px;line-height:1;color:${dark ? 'rgba(184,168,165,0.7)' : 'rgba(135,95,66,0.5)'}`;
 	close.addEventListener('click', () => {
 		card.remove();
 		onLeave?.();

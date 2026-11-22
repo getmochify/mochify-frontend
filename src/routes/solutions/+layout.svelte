@@ -1,6 +1,7 @@
 <script lang="ts">
     import { page } from '$app/state';
     import Navigation from '$lib/components/Navigation.svelte';
+    import { THEME_SOLUTIONS } from '$lib/theme';
     import Footer from '$lib/components/Footer.svelte';
     import Breadcrumb from '$lib/components/Breadcrumb.svelte';
     import LocaleBanner from '$lib/components/LocaleBanner.svelte';
@@ -80,14 +81,16 @@
             ],
         })
     );
+    // The dark-mode trial, page by page (see $lib/theme).
+    const themed = $derived(THEME_SOLUTIONS.has(page.url.pathname.replace(/\/$/, '')));
 </script>
 
 <svelte:head>
     {@html `<script type="application/ld+json">${breadcrumbLd}<\/script>`}
 </svelte:head>
 
-<div class="flex-1 bg-mochi-bg min-h-screen flex flex-col">
-    <Navigation />
+<div class="flex-1 bg-mochi-bg min-h-screen flex flex-col" class:theme-root={themed}>
+    <Navigation themeToggle={themed} />
     <LocaleBanner
         offers={[
             { href: '/fr/flow', label: 'Voir cette page en français', lang: 'fr', when: 'fr' },

@@ -419,6 +419,11 @@ html[data-theme='dark'] .theme-root {
   --color-mochi-strawberry: #35252b;
   --color-mochi-rose: #35252b;
   --color-mochi-petal: #2a2024;
+  --color-mochi-pink-hot: #ff7ab8;
+  --color-cocoa-latte: #c4b0aa;
+  --color-matcha-cream: #1f3322;
+  --color-matcha-ink: #a5d6a7;
+  --color-red-900: #ffd6d6;
   --color-mochi-pink-ink: #ff9ebb;
   --color-cocoa-milk: #b8a8a5;
   --color-cocoa-deep: #e6dad5;
@@ -527,4 +532,8 @@ html[data-theme='dark'] .theme-root .text-cocoa-milk\/40 {
 html[data-theme='dark'] .theme-root .text-\[\#C2185B\],
 html[data-theme='dark'] .theme-root .hover\:text-mochi-pink-deep:hover {
   color: #ff8fb1;
+}
+/* ImageUpload's one-off hover green (the success toast's link). */
+html[data-theme='dark'] .theme-root .hover\:text-\[\#1B5E20\]:hover {
+  color: #c8e6c9;
 }
