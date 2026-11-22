@@ -574,7 +574,7 @@
 		<!-- Post-checkout success banner -->
 		{#if justUpgraded}
 			<div
-				class="mb-6 flex items-center gap-3 rounded-2xl border border-[#66BB6A]/30 bg-matcha-green/20 p-4"
+				class="mb-6 flex items-center gap-3 rounded-2xl border border-matcha-leaf/30 bg-matcha-green/20 p-4"
 			>
 				<span class="text-sm font-black text-[#2E5C31]"
 					>You're on {isSeller ? 'Seller' : 'Pro'}!</span
@@ -641,7 +641,7 @@
 						<div
 							class="h-full rounded-full transition-all duration-700 {usagePercent >= 90
 								? 'bg-gradient-to-r from-orange-400 to-red-400'
-								: 'bg-gradient-to-r from-matcha-green to-[#66BB6A]'}"
+								: 'bg-gradient-to-r from-matcha-green to-matcha-leaf'}"
 							style="width: {usagePercent}%"
 						></div>
 					</div>
@@ -666,7 +666,7 @@
 		<!-- Upgrade CTA for free/lite users -->
 		{#if !isPaid}
 			<div
-				class="mb-6 rounded-3xl border border-mochi-pink/15 bg-gradient-to-br from-[#FFF0F5] to-[#FFF8F0] p-6 shadow-sm"
+				class="mb-6 rounded-3xl border border-mochi-pink/15 bg-gradient-to-br from-mochi-rose to-[#FFF8F0] p-6 shadow-sm"
 			>
 				<p class="mb-1 text-base font-black text-cocoa-ink">Upgrade your plan</p>
 				<p class="mb-4 text-sm text-cocoa-milk/60">
@@ -695,7 +695,7 @@
 			</div>
 		{:else if isSeller}
 			<div
-				class="mb-6 flex flex-col gap-4 rounded-3xl border border-mochi-pink/15 bg-gradient-to-br from-[#FFF0F5] to-[#FFF8F0] p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between"
+				class="mb-6 flex flex-col gap-4 rounded-3xl border border-mochi-pink/15 bg-gradient-to-br from-mochi-rose to-[#FFF8F0] p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between"
 			>
 				<div>
 					<p class="text-base font-black text-cocoa-ink">Upgrade to Pro, 1,200 images a month</p>
@@ -721,7 +721,7 @@
 						<span
 							class="rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase {aiOptin
 								? 'bg-matcha-green/30 text-[#2E5C31]'
-								: 'bg-[#FFF0F5] text-mochi-pink'}"
+								: 'bg-mochi-rose text-mochi-pink'}"
 						>
 							{aiOptin ? 'Enabled' : 'Off'}
 						</span>
@@ -757,7 +757,7 @@
 						aria-label="Toggle third-party AI features"
 						disabled={aiSaving}
 						class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors disabled:opacity-50 {aiOptin
-							? 'bg-[#66BB6A]'
+							? 'bg-matcha-leaf'
 							: 'bg-cocoa-milk/20'}"
 					>
 						<span
@@ -784,7 +784,7 @@
 						<span
 							class="rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase {marketingOn
 								? 'bg-matcha-green/30 text-[#2E5C31]'
-								: 'bg-[#FFF0F5] text-mochi-pink'}"
+								: 'bg-mochi-rose text-mochi-pink'}"
 						>
 							{marketingOn ? 'On' : 'Off'}
 						</span>
@@ -820,7 +820,7 @@
 						aria-label="Toggle offers and reminders email"
 						disabled={marketingSaving}
 						class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors disabled:opacity-50 {marketingOn
-							? 'bg-[#66BB6A]'
+							? 'bg-matcha-leaf'
 							: 'bg-cocoa-milk/20'}"
 					>
 						<span
@@ -898,7 +898,7 @@
 							{#if drive.connected}
 								<span
 									class="inline-block h-1.5 w-1.5 rounded-full {drive.status === 'ok'
-										? 'bg-[#66BB6A]'
+										? 'bg-matcha-leaf'
 										: drive.status === 'error'
 											? 'bg-red-500'
 											: 'bg-amber-400'}"
@@ -913,7 +913,7 @@
 								</span>
 							{:else if !canUseStorage}
 								<span
-									class="rounded-full bg-[#FFF0F5] px-2 py-0.5 text-[10px] font-bold tracking-wide text-mochi-pink uppercase"
+									class="rounded-full bg-mochi-rose px-2 py-0.5 text-[10px] font-bold tracking-wide text-mochi-pink uppercase"
 								>
 									Seller and Pro
 								</span>
@@ -948,7 +948,7 @@
 				{#if !canUseStorage && !drive.connected}
 					<a
 						href="/pricing"
-						class="shrink-0 self-start rounded-xl border border-mochi-pink/30 px-4 py-2 text-xs font-bold text-mochi-pink transition-all hover:bg-[#FFF0F5] sm:self-auto"
+						class="shrink-0 self-start rounded-xl border border-mochi-pink/30 px-4 py-2 text-xs font-bold text-mochi-pink transition-all hover:bg-mochi-rose sm:self-auto"
 					>
 						Upgrade
 					</a>
@@ -1099,7 +1099,7 @@
 							{#if bucket.connected}
 								<span
 									class="h-2 w-2 shrink-0 rounded-full {bucket.status === 'ok'
-										? 'bg-[#66BB6A]'
+										? 'bg-matcha-leaf'
 										: bucket.status === 'error'
 											? 'bg-red-400'
 											: 'bg-amber-400'}"
@@ -1114,7 +1114,7 @@
 								</span>
 							{:else if !canUseStorage}
 								<span
-									class="rounded-full bg-[#FFF0F5] px-2 py-0.5 text-[10px] font-bold tracking-wide text-mochi-pink uppercase"
+									class="rounded-full bg-mochi-rose px-2 py-0.5 text-[10px] font-bold tracking-wide text-mochi-pink uppercase"
 								>
 									Seller and Pro
 								</span>
@@ -1150,7 +1150,7 @@
 				{#if !canUseStorage && !bucket.connected}
 					<a
 						href="/pricing"
-						class="shrink-0 self-start rounded-xl border border-mochi-pink/30 px-4 py-2 text-xs font-bold text-mochi-pink transition-all hover:bg-[#FFF0F5] sm:self-auto"
+						class="shrink-0 self-start rounded-xl border border-mochi-pink/30 px-4 py-2 text-xs font-bold text-mochi-pink transition-all hover:bg-mochi-rose sm:self-auto"
 					>
 						Upgrade
 					</a>

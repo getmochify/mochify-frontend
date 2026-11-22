@@ -105,7 +105,7 @@ export const EN_PROMPT_FORM_STRINGS: PromptFormStrings = {
 		{
 			label: 'Square crop',
 			prompt: 'Smart-crop to square, centering the main subject',
-			dot: 'bg-[#66BB6A]'
+			dot: 'bg-matcha-leaf'
 		},
 		{
 			label: 'PageSpeed',

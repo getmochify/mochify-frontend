@@ -2353,7 +2353,7 @@
 			<span
 				class="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-xs font-bold text-cocoa-deep shadow-[0_0_0_1px_rgba(135,95,66,0.12)]"
 			>
-				<span class="h-1.5 w-1.5 rounded-full {cachedBadge.ok ? 'bg-[#66BB6A]' : 'bg-[#EF5350]'}"
+				<span class="h-1.5 w-1.5 rounded-full {cachedBadge.ok ? 'bg-matcha-leaf' : 'bg-mochi-cherry'}"
 				></span>
 				{cachedBadge.label}
 			</span>
@@ -2366,8 +2366,8 @@
 			>
 				<span
 					class="h-1.5 w-1.5 rounded-full {monthlyUploadsRemaining > 0
-						? 'bg-[#66BB6A]'
-						: 'bg-[#EF5350]'}"
+						? 'bg-matcha-leaf'
+						: 'bg-mochi-cherry'}"
 				></span>
 				{usageLabel}
 			</span>
@@ -2631,7 +2631,7 @@
 					</div>
 				{:else if fp.status === 'error'}
 					<div
-						class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-[#EF5350] shadow-sm"
+						class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-mochi-cherry shadow-sm"
 					>
 						<svg class="h-3 w-3 text-white" fill="currentColor" viewBox="0 0 20 20">
 							<path
@@ -2746,7 +2746,7 @@
 		{/each}
 		{#if queuedFiles.length > QUEUE_VISIBLE}
 			<div
-				class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl border border-dashed border-pink-200 bg-[#FFF9FB] text-sm font-black text-mochi-pink/80"
+				class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl border border-dashed border-pink-200 bg-mochi-petal text-sm font-black text-mochi-pink/80"
 				title="{queuedFiles.length - QUEUE_VISIBLE} more waiting for the next batch"
 			>
 				+{queuedFiles.length - QUEUE_VISIBLE}
@@ -2756,7 +2756,7 @@
 		<!-- Add more -->
 		<label
 			for="file-input"
-			class="flex h-16 w-16 flex-shrink-0 cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-pink-200 bg-[#FFF9FB] text-mochi-pink/70 transition-all hover:scale-105 hover:border-mochi-pink hover:text-mochi-pink"
+			class="flex h-16 w-16 flex-shrink-0 cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-pink-200 bg-mochi-petal text-mochi-pink/70 transition-all hover:scale-105 hover:border-mochi-pink hover:text-mochi-pink"
 			aria-label="Add more images"
 		>
 			<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
@@ -2776,7 +2776,7 @@
 	<!-- Empty state -->
 	<label
 		for="file-input"
-		class="group m-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-pink-200 px-6 py-10 text-center transition-colors hover:border-mochi-pink hover:bg-[#FFF9FB] sm:m-6"
+		class="group m-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-pink-200 px-6 py-10 text-center transition-colors hover:border-mochi-pink hover:bg-mochi-petal sm:m-6"
 		class:hidden={selectedFiles.length > 0 || queuedFiles.length > 0}
 	>
 		<div
@@ -2829,7 +2829,7 @@
 				/>
 			{:else}
 				<div
-					class="flex h-full w-full items-center justify-center rounded-lg text-[7px] font-bold tracking-wide text-[#EF5350] uppercase {previewInFlight.has(
+					class="flex h-full w-full items-center justify-center rounded-lg text-[7px] font-bold tracking-wide text-mochi-cherry uppercase {previewInFlight.has(
 						blocked.file
 					)
 						? 'motion-safe:animate-pulse'
@@ -2865,10 +2865,10 @@
 		{@const route = capRoute(n)}
 		{@const primary = buttons
 			? 'rounded-full bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]'
-			: 'cursor-pointer text-left text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]'}
+			: 'cursor-pointer text-left text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot'}
 		{@const arrow = buttons ? '' : ' ›'}
 		{@const link =
-			'cursor-pointer text-left text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]'}
+			'cursor-pointer text-left text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot'}
 		{@const facts = 'text-xs font-medium text-cocoa-deep/70'}
 		{@const freshFree =
 			limitTier === 'free' ? ` When it ends, your free ${FREE_PLAN_QUOTA} starts fresh.` : ''}
@@ -3079,7 +3079,7 @@
 								trigger: 'file_size_card',
 								source: 'size_row'
 							})}
-						class="font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+						class="font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot"
 						>Seller and Pro: {paidFileSizeMb}MB files every month.</a
 					>
 				</p>
@@ -3155,7 +3155,7 @@
 					<input type="checkbox" bind:checked={smartCompress} class="sr-only" />
 					<div
 						class="relative h-5 w-10 rounded-full transition-all duration-300 {smartCompress
-							? 'bg-[#66BB6A] shadow-[0_0_0_1px_#66BB6A]'
+							? 'bg-matcha-leaf shadow-[0_0_0_1px_#66BB6A]'
 							: 'bg-cocoa-milk/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.15),0_0_0_1px_rgba(135,95,66,0.25)]'}"
 					>
 						<div
@@ -3177,7 +3177,7 @@
          queue handoff). Gives way to the run's own success message. -->
 	{#if unlockNote && !successMessage}
 		<div
-			class="mx-4 mb-3 rounded-2xl border border-green-100 bg-[#F0FDF4] px-4 py-3 text-xs font-bold text-[#33691E] sm:mx-6"
+			class="mx-4 mb-3 rounded-2xl border border-green-100 bg-matcha-cream px-4 py-3 text-xs font-bold text-matcha-ink sm:mx-6"
 			role="status"
 		>
 			{unlockNote}
@@ -3188,10 +3188,10 @@
          when every ingest-time condition has already been cleared. -->
 	{#if successMessage}
 		<div
-			class="mx-4 mb-3 flex items-start gap-2 rounded-2xl border border-green-100 bg-[#F0FDF4] px-4 py-3 sm:mx-6"
+			class="mx-4 mb-3 flex items-start gap-2 rounded-2xl border border-green-100 bg-matcha-cream px-4 py-3 sm:mx-6"
 		>
 			<svg
-				class="mt-0.5 h-4 w-4 flex-shrink-0 text-[#66BB6A]"
+				class="mt-0.5 h-4 w-4 flex-shrink-0 text-matcha-leaf"
 				fill="currentColor"
 				viewBox="0 0 20 20"
 			>
@@ -3205,14 +3205,14 @@
 				<!-- A missed size limit leads: "Squished! Saved ..." above it would read
 				     as success to a visitor whose form is about to reject the file. -->
 				{#each targetResults.filter((r) => r.bytes > r.ceiling) as r, i (i)}
-					<p class="text-xs font-bold text-[#33691E]">{targetLine(r)}</p>
+					<p class="text-xs font-bold text-matcha-ink">{targetLine(r)}</p>
 				{/each}
-				<p class="text-xs font-bold text-[#33691E]">{successMessage}</p>
+				<p class="text-xs font-bold text-matcha-ink">{successMessage}</p>
 				{#each targetResults.filter((r) => r.bytes <= r.ceiling) as r, i (i)}
-					<p class="text-xs text-[#33691E]">{targetLine(r)}</p>
+					<p class="text-xs text-matcha-ink">{targetLine(r)}</p>
 				{/each}
 				{#if lastDownload}
-					<p class="text-xs text-[#33691E]">
+					<p class="text-xs text-matcha-ink">
 						<span class="font-bold break-all">{lastDownload.name}</span> has been downloaded. Can't
 						find it?
 						<button
@@ -3229,7 +3229,7 @@
 						errorKey="quota_exhausted"
 						surface="rate_limit_notice"
 						label="What does this mean?"
-						class="self-start text-[#33691E]"
+						class="self-start text-matcha-ink"
 					/>
 				{/if}
 			</div>
@@ -3245,11 +3245,11 @@
 			'error'
 				? 'border-red-100 bg-red-50'
 				: activeBanner.kind === 'limits-ok'
-					? 'border-green-100 bg-[#F0FDF4]'
+					? 'border-green-100 bg-matcha-cream'
 					: 'border-amber-100 bg-amber-50'}"
 		>
 			{#if activeBanner.kind === 'error'}
-				<svg class="mt-0.5 h-4 w-4 shrink-0 text-[#EF5350]" fill="currentColor" viewBox="0 0 20 20">
+				<svg class="mt-0.5 h-4 w-4 shrink-0 text-mochi-cherry" fill="currentColor" viewBox="0 0 20 20">
 					<path
 						fill-rule="evenodd"
 						d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
@@ -3257,7 +3257,7 @@
 					/>
 				</svg>
 			{:else if activeBanner.kind === 'limits-ok'}
-				<svg class="mt-0.5 h-4 w-4 shrink-0 text-[#66BB6A]" fill="currentColor" viewBox="0 0 20 20">
+				<svg class="mt-0.5 h-4 w-4 shrink-0 text-matcha-leaf" fill="currentColor" viewBox="0 0 20 20">
 					<path
 						fill-rule="evenodd"
 						d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -3281,17 +3281,17 @@
                          Stating them here, while files are staged, is what stops the
                          batch cap from being discovered by hitting it. -->
 					{#if limitTier === 'guest'}
-						<p class="text-xs font-bold text-[#33691E]">{usageLabel}.</p>
-						<p class="text-xs font-medium text-[#33691E]/80">
+						<p class="text-xs font-bold text-matcha-ink">{usageLabel}.</p>
+						<p class="text-xs font-medium text-matcha-ink/80">
 							Up to {batchLimit} files per batch, {maxFileSizeMb}MB each. This batch uses {stagedCount}
 							of your monthly uploads.
 						</p>
 					{:else}
-						<p class="text-xs font-bold text-[#33691E]">
+						<p class="text-xs font-bold text-matcha-ink">
 							{Math.max(0, monthlyUploadsRemaining - stagedCount)} uploads left
 							{limitTier === 'day' ? 'on your Day Pass' : 'this month'} after this batch.
 						</p>
-						<p class="text-xs font-medium text-[#33691E]/80">
+						<p class="text-xs font-medium text-matcha-ink/80">
 							Up to {batchLimit} files per batch, {maxFileSizeMb}MB each.
 						</p>
 					{/if}
@@ -3346,7 +3346,7 @@
 											trigger: 'batch_cap_banner',
 											source: 'batch_cap_box'
 										})}
-									class="font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+									class="font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot"
 									>Seller is {SELLER_OPS} uploads a month.</a
 								>
 							</p>
@@ -3399,7 +3399,7 @@
 												trigger: 'batch_cap_banner',
 												source: 'batch_cap_box'
 											})}
-										class="font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+										class="font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot"
 										>Seller is {SELLER_OPS} uploads a month.</a
 									>
 								</p>
@@ -3410,7 +3410,7 @@
 						errorKey="batch_trimmed"
 						surface="batch_cap_banner"
 						label={legacyTrim ? 'Why was my batch trimmed?' : `Why ${batchLimit} at a time?`}
-						class="mt-1.5 self-start text-[#8D6E63]"
+						class="mt-1.5 self-start text-cocoa-latte"
 					/>
 				{:else if activeBanner.kind === 'allowance'}
 					<!-- The monthly allowance (or the pass's 100) cannot cover what was
@@ -3454,7 +3454,7 @@
 										trigger: 'token_wall_banner',
 										source: 'allowance_box'
 									})}
-								class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+								class="text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot"
 							>
 								Or sign up free: {FREE_PLAN_QUOTA} uploads a month, {BATCH_LIMIT_STANDARD} at a time
 							</a>
@@ -3531,7 +3531,7 @@
 											trigger: 'token_wall_banner',
 											source: 'allowance_box'
 										})}
-									class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+									class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot"
 								>
 									Sign up free: {FREE_PLAN_QUOTA} uploads a month
 								</a>
@@ -3543,7 +3543,7 @@
 											trigger: 'token_wall_banner',
 											source: 'allowance_box'
 										})}
-									class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+									class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot"
 								>
 									{limitTier === 'free'
 										? `Or Seller: ${SELLER_OPS} a month, ${BATCH_LIMIT_PAID} per batch, ${paidFileSizeMb}MB files.`
@@ -3568,7 +3568,7 @@
 									<button
 										type="button"
 										onclick={trimToAvailable}
-										class="cursor-pointer font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+										class="cursor-pointer font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot"
 										>trim to {k} file{k !== 1 ? 's' : ''}</button
 									>
 									and convert {k === 1 ? 'it' : 'them'} now.
@@ -3580,7 +3580,7 @@
 						<LimitsWhy
 							errorKey="quota_exhausted"
 							surface="token_wall_banner"
-							class="mt-1.5 self-start text-[#8D6E63]"
+							class="mt-1.5 self-start text-cocoa-latte"
 						/>
 					{/if}
 				{:else}
@@ -3737,11 +3737,11 @@
 						></div>
 					{:else if processPhase === 'processing'}
 						<div
-							class="animate-shimmer absolute inset-0 bg-gradient-to-r from-matcha-green via-[#66BB6A] to-matcha-green bg-[length:200%_100%] opacity-80"
+							class="animate-shimmer absolute inset-0 bg-gradient-to-r from-matcha-green via-matcha-leaf to-matcha-green bg-[length:200%_100%] opacity-80"
 						></div>
 					{:else if processPhase === 'downloading'}
 						<div
-							class="h-full bg-gradient-to-r from-matcha-green to-[#66BB6A] shadow-[0_0_10px_rgba(165,214,167,0.5)] transition-all duration-300 ease-out"
+							class="h-full bg-gradient-to-r from-matcha-green to-matcha-leaf shadow-[0_0_10px_rgba(165,214,167,0.5)] transition-all duration-300 ease-out"
 							style="width: {downloadPercent}%"
 						></div>
 					{/if}
@@ -3842,7 +3842,7 @@
 			</button>
 			<div class="text-center">
 				<div
-					class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFF0F5]"
+					class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-mochi-rose"
 				>
 					<svg
 						class="h-6 w-6 text-mochi-pink"
@@ -3944,7 +3944,7 @@
 			</button>
 			<div class="text-center">
 				<div
-					class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFF0F5]"
+					class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-mochi-rose"
 				>
 					<svg
 						class="h-6 w-6 text-mochi-pink"

@@ -225,7 +225,7 @@
                             </a>
                             <p class="text-xs text-cocoa-milk/70 mt-0.5 max-w-[15rem]">{flavour.note}</p>
                         {:else}
-                            <span class="inline-flex items-center gap-1.5 text-sm font-black text-[#33691E]">
+                            <span class="inline-flex items-center gap-1.5 text-sm font-black text-matcha-ink">
                                 <span class="w-2 h-2 rounded-full bg-matcha-dark"></span> {flavour.note}
                             </span>
                         {/if}
@@ -328,7 +328,7 @@
             </div>
             <a
                 href="/guides/heif-to-jpg-complete-guide"
-                class="flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-black text-white bg-mochi-pink hover:bg-[#E91E8C] shadow-sm hover:shadow-md transition-all active:scale-95 whitespace-nowrap no-underline"
+                class="flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-black text-white bg-mochi-pink hover:bg-mochi-pink-hot shadow-sm hover:shadow-md transition-all active:scale-95 whitespace-nowrap no-underline"
             >
                 Read the guide
             </a>

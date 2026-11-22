@@ -81,6 +81,11 @@ Defined in `src/routes/layout.css` (imported via `+layout.svelte`). Tailwind v4 
 | `cocoa-ink` | `#4A2C2C` | Headings, guide body text |
 | `cocoa-night` | `#2D1B1B` | Darkest text |
 | `matcha-green` / `-dark` | `#A5D6A7` / `#81C784` | Submit/action buttons |
+| `mochi-petal` / `mochi-rose` | `#FFF9FB` / `#FFF0F5` | Faint pink surfaces, hovers, gradient starts |
+| `mochi-pink-hot` | `#E91E8C` | Pink link hover |
+| `mochi-cherry` | `#EF5350` | Error icons and accents |
+| `cocoa-latte` | `#8D6E63` | Muted brown text |
+| `matcha-cream` / `-leaf` / `-ink` | `#F0FDF4` / `#66BB6A` / `#33691E` | Success fill, success accent, success text |
 
 **Write colors as tokens** (`text-cocoa-ink`, `text-cocoa-milk/80`), never as hex classes (`text-` plus `[#4A2C2C]`) for a color in this table. `npm run lint` starts with `scripts/check-palette.mjs`, which fails on such a class. A one-off color not in the table may stay a hex class. Adding a palette color means a `--color-*` line in the `@theme` block of `layout.css` **and** an entry in `scripts/palette.mjs`; the check fails if the two disagree. Colors are named by palette, not by role, so a future dark mode would still need role tokens on top.
 

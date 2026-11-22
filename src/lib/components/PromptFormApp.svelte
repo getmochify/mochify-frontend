@@ -3653,7 +3653,7 @@
 												trigger: 'magic_flow_batch_cap',
 												source: 'batch_cap_box'
 											})}
-										class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+										class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot"
 									>
 										Sign up free: {FREE_PLAN_QUOTA} uploads a month, {MAX_FILES} per batch
 									</a>
@@ -3665,7 +3665,7 @@
 												trigger: 'magic_flow_batch_cap',
 												source: 'batch_cap_box'
 											})}
-										class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+										class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot"
 									>
 										Compare plans
 									</a>
@@ -3690,7 +3690,7 @@
 												trigger: 'magic_flow_batch_cap',
 												source: 'batch_cap_box'
 											})}
-										class="font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+										class="font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot"
 										>Seller is {SELLER_OPS} uploads a month.</a
 									>
 								</p>
@@ -3700,7 +3700,7 @@
 							errorKey="batch_trimmed"
 							surface="magic_flow_batch_cap"
 							label="Why was my batch trimmed?"
-							class="mt-1 self-start text-[#8D6E63]"
+							class="mt-1 self-start text-cocoa-latte"
 						/>
 					</div>
 					<button
@@ -3755,7 +3755,7 @@
 									trigger: 'magic_flow_pdf_gate',
 									source: 'pdf_gate_box'
 								})}
-							class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+							class="py-1.5 text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot"
 						>
 							Compare plans
 						</a>
@@ -3985,7 +3985,7 @@
 								></div>
 							{:else}
 								<div
-									class="animate-shimmer absolute inset-0 bg-gradient-to-r from-matcha-green via-[#66BB6A] to-matcha-green bg-[length:200%_100%] opacity-80"
+									class="animate-shimmer absolute inset-0 bg-gradient-to-r from-matcha-green via-matcha-leaf to-matcha-green bg-[length:200%_100%] opacity-80"
 								></div>
 							{/if}
 						{/if}
@@ -4040,7 +4040,7 @@
 								<div
 									class="block h-3.5 w-7 rounded-full border transition-all duration-300 {savingRemote
 										? 'border-[#F8BBD0] bg-[#F8BBD0]'
-										: 'border-[#F8BBD0]/40 bg-[#FFF0F5] shadow-inner'}"
+										: 'border-[#F8BBD0]/40 bg-mochi-rose shadow-inner'}"
 								></div>
 								<div
 									class="dot absolute top-0.5 left-0.5 h-2.5 w-2.5 rounded-full bg-white shadow-sm transition-transform duration-300 {savingRemote
@@ -4106,7 +4106,7 @@
 											? ` (${uploadPercent}%)`
 											: '…'}
 								{:else}
-									<span class="flex-shrink-0 animate-pulse text-[#66BB6A]">⬡</span>
+									<span class="flex-shrink-0 animate-pulse text-matcha-leaf">⬡</span>
 									Processing{totalFiles > 1 ? ` ${completedFiles}/${totalFiles}` : '…'}
 								{/if}
 							{:else if displayPhase === 'packing'}
@@ -4246,14 +4246,14 @@
 			<div
 				class="flex items-start gap-3 rounded-2xl border border-l-[3px] py-3.5 pr-5 pl-4 shadow-sm transition-colors duration-500 {agentOutcome ===
 				'success'
-					? 'border-matcha-green/50 border-l-[#66BB6A] bg-gradient-to-r from-[#F1F8E9] to-mochi-bg shadow-green-100/60'
+					? 'border-matcha-green/50 border-l-matcha-leaf bg-gradient-to-r from-[#F1F8E9] to-mochi-bg shadow-green-100/60'
 					: agentOutcome === 'error'
 						? 'border-amber-200 border-l-amber-400 bg-gradient-to-r from-amber-50 to-mochi-bg shadow-amber-100/60'
-						: 'border-mochi-pink/20 border-l-mochi-pink bg-gradient-to-r from-[#FFF0F5] to-mochi-bg shadow-pink-100/60'}"
+						: 'border-mochi-pink/20 border-l-mochi-pink bg-gradient-to-r from-mochi-rose to-mochi-bg shadow-pink-100/60'}"
 			>
 				{#if agentOutcome === 'success'}
 					<svg
-						class="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-[#66BB6A]"
+						class="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-matcha-leaf"
 						fill="none"
 						stroke="currentColor"
 						stroke-width="3"

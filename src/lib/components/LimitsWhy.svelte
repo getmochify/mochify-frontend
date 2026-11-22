@@ -55,7 +55,7 @@
 		makes it 25.
 		<a
 			href={helpUrlForKey(errorKey)}
-			class="ml-0.5 font-bold whitespace-nowrap text-mochi-pink underline underline-offset-2 hover:text-[#E91E8C]"
+			class="ml-0.5 font-bold whitespace-nowrap text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot"
 			>More in the guide ›</a
 		>
 	</span>

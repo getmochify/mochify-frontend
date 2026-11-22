@@ -176,7 +176,7 @@
                     ] as item}
                         <li class="m-0 p-0">
                             <a href={item.id} class="flex items-center gap-3 bg-white border border-pink-100 rounded-xl px-4 py-3 no-underline text-cocoa-ink font-semibold text-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
-                                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-[#FFF0F5] border border-pink-100 text-mochi-pink font-black text-xs flex items-center justify-center">{item.n}</span>
+                                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-mochi-rose border border-pink-100 text-mochi-pink font-black text-xs flex items-center justify-center">{item.n}</span>
                                 <span class="flex-1">{item.label}</span>
                                 <span class="text-mochi-pink ml-auto">→</span>
                             </a>
@@ -289,8 +289,8 @@
                                     <p class="text-cocoa-deep text-base m-0">{step.body}</p>
                                 {:else}
                                     <p class="text-cocoa-deep text-base mb-2">Drag your exported full-res JPEGs (or the HIF/HEIF exports directly) into Mochify and describe the task using Magic Flow:</p>
-                                    <blockquote class="border-l-4 border-mochi-pink bg-[#FFF0F5] rounded-r-xl px-4 py-3 italic text-cocoa-ink text-sm my-2">"Batch convert these wedding selects to sRGB JPEGs for Pixieset, 3,600 px long edge, under 2 MB each, strip GPS and all EXIF."</blockquote>
-                                    <blockquote class="border-l-4 border-mochi-pink bg-[#FFF0F5] rounded-r-xl px-4 py-3 italic text-cocoa-ink text-sm my-2">"Convert these wedding JPEGs for SmugMug upload, 4,000 px long edge, under 3 MB, sRGB, strip all EXIF including thumbnails."</blockquote>
+                                    <blockquote class="border-l-4 border-mochi-pink bg-mochi-rose rounded-r-xl px-4 py-3 italic text-cocoa-ink text-sm my-2">"Batch convert these wedding selects to sRGB JPEGs for Pixieset, 3,600 px long edge, under 2 MB each, strip GPS and all EXIF."</blockquote>
+                                    <blockquote class="border-l-4 border-mochi-pink bg-mochi-rose rounded-r-xl px-4 py-3 italic text-cocoa-ink text-sm my-2">"Convert these wedding JPEGs for SmugMug upload, 4,000 px long edge, under 3 MB, sRGB, strip all EXIF including thumbnails."</blockquote>
                                 {/if}
                             </div>
                         </li>
@@ -326,7 +326,7 @@
                                 {:else if step.prompts}
                                     <p class="text-cocoa-deep text-base mb-2">Use separate Magic Flow prompts per platform:</p>
                                     {#each step.prompts as prompt}
-                                        <blockquote class="border-l-4 border-mochi-pink bg-[#FFF0F5] rounded-r-xl px-4 py-3 italic text-cocoa-ink text-sm my-2">{prompt}</blockquote>
+                                        <blockquote class="border-l-4 border-mochi-pink bg-mochi-rose rounded-r-xl px-4 py-3 italic text-cocoa-ink text-sm my-2">{prompt}</blockquote>
                                     {/each}
                                 {:else if step.code}
                                     <p class="text-cocoa-deep text-base mb-2">If you work with the Mochify CLI, encode these as repeatable scripts:</p>
@@ -360,7 +360,7 @@
                                     <p class="text-cocoa-deep text-base m-0">{step.body}</p>
                                 {:else}
                                     <p class="text-cocoa-deep text-base mb-2">From a laptop or tablet, run a quick batch through Mochify before submission:</p>
-                                    <blockquote class="border-l-4 border-mochi-pink bg-[#FFF0F5] rounded-r-xl px-4 py-3 italic text-cocoa-ink text-sm my-2">{step.prompt}</blockquote>
+                                    <blockquote class="border-l-4 border-mochi-pink bg-mochi-rose rounded-r-xl px-4 py-3 italic text-cocoa-ink text-sm my-2">{step.prompt}</blockquote>
                                     <p class="text-cocoa-deep text-sm mt-2">This keeps the captioning metadata that wire services require while removing location data. The in-memory pipeline means no source imagery touches a third-party server persistently.</p>
                                 {/if}
                             </div>

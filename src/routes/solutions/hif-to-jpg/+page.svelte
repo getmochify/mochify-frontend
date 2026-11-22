@@ -185,7 +185,7 @@
                 </div>
                 <a
                     href="/auth/register"
-                    class="flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-black text-white bg-mochi-pink hover:bg-[#E91E8C] shadow-sm hover:shadow-md transition-all active:scale-95 whitespace-nowrap"
+                    class="flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-black text-white bg-mochi-pink hover:bg-mochi-pink-hot shadow-sm hover:shadow-md transition-all active:scale-95 whitespace-nowrap"
                 >
                     Try it free
                 </a>

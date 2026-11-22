@@ -86,6 +86,16 @@ html {
   --color-cocoa-night: #2D1B1B;
   --color-matcha-green: #A5D6A7;
   --color-matcha-dark: #81C784;
+  /* Added 2026-11-22 for colors that were repeated hex classes (no visual
+     change: each keeps its exact value). */
+  --color-mochi-petal: #FFF9FB;
+  --color-mochi-rose: #FFF0F5;
+  --color-mochi-pink-hot: #E91E8C;
+  --color-mochi-cherry: #EF5350;
+  --color-cocoa-latte: #8D6E63;
+  --color-matcha-cream: #F0FDF4;
+  --color-matcha-leaf: #66BB6A;
+  --color-matcha-ink: #33691E;
 }
 
 /* --- 2. CSS VARIABLES (Fallback & Usage) --- */
@@ -407,6 +417,8 @@ html[data-theme='dark'] .theme-root {
   --color-white: #2a2124;
   --color-mochi-blush: #2a2024;
   --color-mochi-strawberry: #35252b;
+  --color-mochi-rose: #35252b;
+  --color-mochi-petal: #2a2024;
   --color-mochi-pink-ink: #ff9ebb;
   --color-cocoa-milk: #b8a8a5;
   --color-cocoa-deep: #e6dad5;
@@ -470,17 +482,11 @@ html[data-theme='dark'] .theme-root .text-\[\#8D6E63\] {
 html[data-theme='dark'] .theme-root .text-\[\#AD1457\] {
   color: #ff9ebb;
 }
-html[data-theme='dark'] .theme-root .bg-\[\#FFF0F5\] {
-  background-color: #35252b;
-}
 html[data-theme='dark'] .theme-root .border-\[\#F8BBD0\]\/40 {
   border-color: rgb(240 98 146 / 0.25);
 }
 html[data-theme='dark'] .theme-root .from-\[\#F1F8E9\] {
   --tw-gradient-from: #1f3322;
-}
-html[data-theme='dark'] .theme-root .from-\[\#FFF0F5\] {
-  --tw-gradient-from: #35252b;
 }
 html[data-theme='dark'] .theme-root .from-\[\#FFD6E5\] {
   --tw-gradient-from: #4a2a36;

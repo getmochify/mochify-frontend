@@ -287,7 +287,7 @@
 					{#if success}
 						<div class="py-4 text-center">
 							<div
-								class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFF0F5]"
+								class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-mochi-rose"
 							>
 								<!-- An envelope, not a tick: nothing is finished until the
 								     link is opened, and a tick read as "you're done". -->

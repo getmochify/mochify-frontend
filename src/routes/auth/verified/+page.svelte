@@ -37,7 +37,7 @@
 			>
 				{#if state === 'verified'}
 					<div
-						class="mb-5 rounded-2xl border border-[#66BB6A]/30 bg-matcha-green/20 px-4 py-3 text-sm font-medium text-[#2E5C31]"
+						class="mb-5 rounded-2xl border border-matcha-leaf/30 bg-matcha-green/20 px-4 py-3 text-sm font-medium text-[#2E5C31]"
 					>
 						Your account is ready. Sign in to continue.
 					</div>

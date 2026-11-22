@@ -312,7 +312,7 @@
                             {/each}
                         </svg>
                     </div>
-                    <span class="px-3 py-1 rounded-xl bg-[#F1F8E9] text-[#33691E] text-[10px] font-black uppercase tracking-widest border border-[#DCEDC8]">
+                    <span class="px-3 py-1 rounded-xl bg-[#F1F8E9] text-matcha-ink text-[10px] font-black uppercase tracking-widest border border-[#DCEDC8]">
                         {tool.tag}
                     </span>
                 </div>

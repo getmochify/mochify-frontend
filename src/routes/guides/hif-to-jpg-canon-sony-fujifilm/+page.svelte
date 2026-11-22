@@ -343,7 +343,7 @@
                         <div class="flex-1 pt-0.5">
                             <p class="text-cocoa-deep text-base mb-2">Type your instruction in the Magic Flow prompt. Examples that work:</p>
                             {#each workflowPrompts as prompt}
-                                <blockquote class="border-l-4 border-mochi-pink bg-[#FFF0F5] rounded-r-xl px-4 py-2 italic text-cocoa-ink text-sm my-2">{prompt}</blockquote>
+                                <blockquote class="border-l-4 border-mochi-pink bg-mochi-rose rounded-r-xl px-4 py-2 italic text-cocoa-ink text-sm my-2">{prompt}</blockquote>
                             {/each}
                         </div>
                     </li>

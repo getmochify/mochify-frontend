@@ -37,7 +37,7 @@
         .map((p) => ({ ...p, headlineOps: p.name === 'Free' ? '25' : p.opsPerMonth }));
 
     const statusColor = (tone: string) =>
-        tone === 'ok' ? 'text-matcha-green' : tone === 'warn' ? 'text-[#FFB74D]' : 'text-[#EF5350]';
+        tone === 'ok' ? 'text-matcha-green' : tone === 'warn' ? 'text-[#FFB74D]' : 'text-mochi-cherry';
 
     let activeSection = $state('overview');
 
@@ -500,7 +500,7 @@
 
 
                 <!-- CTA -->
-                <div class="bg-gradient-to-br from-[#FFF0F5] to-white rounded-3xl border border-mochi-pink/20 shadow-sm p-8 text-center">
+                <div class="bg-gradient-to-br from-mochi-rose to-white rounded-3xl border border-mochi-pink/20 shadow-sm p-8 text-center">
                     <h3 class="text-xl font-bold text-cocoa-ink mb-2">Need more operations?</h3>
                     <p class="text-cocoa-deep/70 text-sm mb-6">Upgrade to Pro for 1,200 operations/month and a dedicated API key.</p>
                     <div class="flex flex-col sm:flex-row gap-3 justify-center">

@@ -202,7 +202,7 @@
 
 		<!-- Billing toggle -->
 		<div class="mb-10 flex items-center justify-center">
-			<div class="inline-flex items-center gap-1 rounded-full bg-[#FFF0F5] p-1">
+			<div class="inline-flex items-center gap-1 rounded-full bg-mochi-rose p-1">
 				<button
 					type="button"
 					onclick={() => (billing = 'monthly')}
@@ -307,7 +307,7 @@
 
 			<!-- Pro tier -->
 			<div
-				class="relative flex flex-col overflow-hidden rounded-3xl border border-mochi-pink/20 bg-gradient-to-br from-[#FFF0F5] to-white p-8 shadow-md"
+				class="relative flex flex-col overflow-hidden rounded-3xl border border-mochi-pink/20 bg-gradient-to-br from-mochi-rose to-white p-8 shadow-md"
 			>
 				<!-- Decorative blob -->
 				<div
@@ -498,10 +498,10 @@
              the MCP processed-output exception documented there. -->
 		<div class="mx-auto mt-8 max-w-4xl">
 			<div
-				class="flex items-center gap-4 rounded-3xl border border-pink-100 bg-[#FFF9FB] px-6 py-5 shadow-sm"
+				class="flex items-center gap-4 rounded-3xl border border-pink-100 bg-mochi-petal px-6 py-5 shadow-sm"
 			>
 				<span
-					class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#FFF0F5] text-mochi-pink"
+					class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-mochi-rose text-mochi-pink"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -564,7 +564,7 @@
 						<div
 							role="radiogroup"
 							aria-label={t.dayPassSizeLabel}
-							class="mb-4 inline-flex items-center gap-1 rounded-full bg-[#FFF0F5] p-1"
+							class="mb-4 inline-flex items-center gap-1 rounded-full bg-mochi-rose p-1"
 						>
 							{#each [false, true] as plus (plus)}
 								<button

@@ -284,7 +284,7 @@
             </div>
             <a
                 href="/auth/register"
-                class="flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-black text-white bg-mochi-pink hover:bg-[#E91E8C] shadow-sm hover:shadow-md transition-all active:scale-95 whitespace-nowrap"
+                class="flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-black text-white bg-mochi-pink hover:bg-mochi-pink-hot shadow-sm hover:shadow-md transition-all active:scale-95 whitespace-nowrap"
             >
                 Try it free
             </a>
@@ -359,7 +359,7 @@
                     {#each formatSupport as f (f.fmt)}
                         <div class="bg-white p-5 rounded-2xl border border-pink-50 shadow-sm flex gap-4 items-start">
                             <span class="shrink-0 inline-flex items-center justify-center px-2.5 py-1 rounded-lg font-mono font-black text-xs w-16 text-center
-                                {f.verdict === 'yes' ? 'bg-[#F1F8E9] text-[#33691E] border border-[#DCEDC8]'
+                                {f.verdict === 'yes' ? 'bg-[#F1F8E9] text-matcha-ink border border-[#DCEDC8]'
                                  : f.verdict === 'partial' ? 'bg-[#FFF7E6] text-[#B45309] border border-[#FDE68A]'
                                  : 'bg-[#F5F5F5] text-[#78909C] border border-[#E0E0E0]'}">
                                 {f.fmt}

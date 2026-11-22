@@ -114,7 +114,7 @@ const ES_CHIP_DOTS = [
 	'bg-[#3665F3]',
 	'bg-amber-400',
 	'bg-teal-400',
-	'bg-[#66BB6A]',
+	'bg-matcha-leaf',
 	'bg-[#4285F4]',
 	'bg-rose-400'
 ];

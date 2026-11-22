@@ -296,7 +296,7 @@
 				? 'py-6'
 				: 'py-12'} {isDragging
 				? 'border-mochi-pink bg-mochi-blush'
-				: 'border-pink-200 hover:border-mochi-pink hover:bg-[#FFF9FB]'}"
+				: 'border-pink-200 hover:border-mochi-pink hover:bg-mochi-petal'}"
 			ondragover={(e) => {
 				e.preventDefault();
 				isDragging = true;
@@ -342,7 +342,7 @@
 					>JPG, PNG, WebP, HEIC, HIF and AVIF · up to {MAX_FILES} photos or 2 GB at a time</span
 				>
 			{/if}
-			<span class="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-[#33691E]">
+			<span class="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-matcha-ink">
 				<span class="h-1.5 w-1.5 rounded-full bg-matcha-dark"></span>
 				Cleaned in your browser. Your photos are not uploaded.
 			</span>

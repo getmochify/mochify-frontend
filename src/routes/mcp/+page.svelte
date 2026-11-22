@@ -191,7 +191,7 @@ mochify auth login`;
     const promptClass =
         'inline-block rounded-2xl rounded-bl-md bg-mochi-blush border border-pink-100 px-5 py-3 text-cocoa-ink font-semibold leading-relaxed';
     const freePlan =
-        'inline-flex items-center px-3 py-1 rounded-xl bg-[#F0FDF4] border border-green-100 text-green-700 text-xs font-bold tracking-wide';
+        'inline-flex items-center px-3 py-1 rounded-xl bg-matcha-cream border border-green-100 text-green-700 text-xs font-bold tracking-wide';
     const paidPlan =
         'inline-flex items-center px-3 py-1 rounded-xl bg-[#F3F0FF] border border-[#DDD6FE] text-[#6D28D9] text-xs font-bold tracking-wide';
 </script>

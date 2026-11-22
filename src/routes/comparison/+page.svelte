@@ -385,7 +385,7 @@
                     {#if jxlSelected}
                     <div class="flex items-start gap-3 px-5 py-4 {jxlNativeSupport === false ? 'bg-[#E8F5E9] border-green-200 text-[#1B5E20]' : 'bg-amber-50 border-amber-200 text-amber-800'} border rounded-2xl text-sm leading-relaxed">
                         {#if jxlNativeSupport === false}
-                        <svg class="w-5 h-5 mt-0.5 shrink-0 text-[#66BB6A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 mt-0.5 shrink-0 text-matcha-leaf" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                         <div>

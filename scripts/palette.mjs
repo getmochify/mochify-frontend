@@ -15,7 +15,15 @@ export const PALETTE = {
 	'4A2C2C': 'cocoa-ink',
 	'2D1B1B': 'cocoa-night',
 	A5D6A7: 'matcha-green',
-	'81C784': 'matcha-dark'
+	'81C784': 'matcha-dark',
+	'66BB6A': 'matcha-leaf',
+	'33691E': 'matcha-ink',
+	F0FDF4: 'matcha-cream',
+	E91E8C: 'mochi-pink-hot',
+	EF5350: 'mochi-cherry',
+	FFF9FB: 'mochi-petal',
+	FFF0F5: 'mochi-rose',
+	'8D6E63': 'cocoa-latte'
 };
 
 // A utility prefix (`text-`, `hover:bg-`), then a bracketed six-digit hex

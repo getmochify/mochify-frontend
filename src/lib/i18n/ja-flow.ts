@@ -93,7 +93,7 @@ export const jaFlowExpanders = {
 const JA_CHIP_DOTS = [
 	'bg-purple-400',
 	'bg-amber-400',
-	'bg-[#66BB6A]',
+	'bg-matcha-leaf',
 	'bg-[#4285F4]',
 	'bg-rose-400'
 ];

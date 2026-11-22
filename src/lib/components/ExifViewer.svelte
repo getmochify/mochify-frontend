@@ -332,7 +332,7 @@
 		<label
 			class="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-6 py-12 text-center transition-colors {isDragging
 				? 'border-mochi-pink bg-mochi-blush'
-				: 'border-pink-200 hover:border-mochi-pink hover:bg-[#FFF9FB]'}"
+				: 'border-pink-200 hover:border-mochi-pink hover:bg-mochi-petal'}"
 			ondragover={(e) => {
 				e.preventDefault();
 				isDragging = true;
@@ -375,7 +375,7 @@
 					>JPG, PNG, WebP, HEIC, HIF and AVIF · one photo at a time</span
 				>
 			{/if}
-			<span class="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-[#33691E]">
+			<span class="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-matcha-ink">
 				<span class="h-1.5 w-1.5 rounded-full bg-matcha-dark"></span>
 				Read in your browser. The photo is not uploaded.
 			</span>
@@ -569,7 +569,7 @@
 			{/if}
 
 			{#if view && view.essentials.length}
-				<section class="rounded-2xl border border-green-100 bg-[#F0FDF4] p-4 sm:p-5">
+				<section class="rounded-2xl border border-green-100 bg-matcha-cream p-4 sm:p-5">
 					<div class="flex flex-wrap items-center justify-between gap-2">
 						<h3 class="text-lg font-bold text-cocoa-ink">Essential, kept</h3>
 						{@render levelPill('green')}
