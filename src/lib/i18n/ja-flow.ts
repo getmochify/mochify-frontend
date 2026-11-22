@@ -253,6 +253,7 @@ export const JA_PROMPT_FORM_STRINGS: Partial<PromptFormStrings> = {
 	// dev-side using the sheet's own vocabulary and naming no language: the page
 	// may not say the parser understands Japanese until the parse test has run.
 	noFilesYet: 'ファイルはまだありません',
+	freeBatchHint: '無料は1回3ファイルまで、Day Passなら25ファイル',
 	infoHowLabel: '使い方',
 	infoHowBody:
 		'欲しい結果を一文で書いて、画像を添付して送信するだけです。AIが指示を読み取り、それぞれのファイルを自動的に処理します。',

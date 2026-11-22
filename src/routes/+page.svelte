@@ -70,7 +70,7 @@
 	const heroPoints = [
 		'Plain-English prompts, no settings to learn',
 		'Images, video, and PDFs in one drop zone',
-		'Batch up to 25 files, zipped on the way out',
+		'Batch up to 25 files with a Day Pass or any plan',
 		'3 files free, no account needed'
 	];
 

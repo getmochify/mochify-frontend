@@ -249,6 +249,7 @@ export const PT_BR_PROMPT_FORM_STRINGS: Partial<PromptFormStrings> = {
 	// dev-side like the chip prompts, naming no language: "in plain English"
 	// becomes "numa frase", never "em português". Brazilian vocabulary throughout.
 	noFilesYet: 'Nenhum arquivo ainda',
+	freeBatchHint: '3 por lote grátis, 25 com um Day Pass',
 	infoHowLabel: 'Como funciona',
 	infoHowBody:
 		'Descreva numa frase o resultado que você quer, anexe suas imagens e envie. A IA lê sua instrução e processa cada arquivo automaticamente.',

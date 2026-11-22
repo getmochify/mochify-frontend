@@ -242,6 +242,7 @@ export const ES_PROMPT_FORM_STRINGS: Partial<PromptFormStrings> = {
 	// "Video", not "video" with an accent: the sheet took the Latin American form
 	// for the upload button because Mexico is the larger audience, and this matches.
 	noFilesYet: 'Ningún archivo todavía',
+	freeBatchHint: '3 por lote gratis, 25 con un Day Pass',
 	infoHowLabel: 'Cómo funciona',
 	infoHowBody:
 		'Describe en una frase el resultado que quieres, adjunta tus imágenes y envía. La IA lee tu instrucción y procesa cada archivo automáticamente.',

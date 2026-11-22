@@ -246,6 +246,7 @@ export const FR_PROMPT_FORM_STRINGS: Partial<PromptFormStrings> = {
 	// "en une phrase" rather than "en français", because the page may not say the
 	// parser understands French until the parse test has run.
 	noFilesYet: 'Aucun fichier',
+	freeBatchHint: '3 par lot gratuitement, 25 avec un Day Pass',
 	infoHowLabel: 'Comment ça marche',
 	infoHowBody:
 		"Décrivez le résultat voulu en une phrase, joignez vos images, puis envoyez. L'IA lit votre demande et traite chaque fichier automatiquement.",

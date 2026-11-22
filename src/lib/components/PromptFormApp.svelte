@@ -4078,7 +4078,12 @@
 					<div class="h-4 w-px flex-shrink-0 bg-white/40"></div>
 					<!-- Status text -->
 					<span
-						class="flex min-w-0 flex-1 items-center gap-1.5 truncate text-xs font-medium tracking-wide text-cocoa-milk/50"
+						class="flex min-w-0 flex-1 items-center gap-1.5 text-xs font-medium tracking-wide text-cocoa-milk/50 {userPlan ===
+							'free' &&
+						files.length === 0 &&
+						!isProcessing
+							? 'leading-snug'
+							: 'truncate'}"
 					>
 						{#if isProcessing}
 							{#if displayPhase === 'thinking'}
@@ -4111,7 +4116,14 @@
 							Saved {bucketStored}
 							{bucketStored === 1 ? 'image' : 'images'} to {destinationName}
 						{:else if files.length === 0}
-							{t.noFilesYet}
+							{#if userPlan === 'free'}
+								<!-- "No files yet" gives way on a phone, and the line may wrap
+									there rather than truncate: the cap is the part worth reading. -->
+								<span class="hidden sm:inline">{t.noFilesYet} ·</span>
+								{t.freeBatchHint}
+							{:else}
+								{t.noFilesYet}
+							{/if}
 						{:else if uploadMode === 'pdf'}
 							{files.length} {files.length === 1 ? 'PDF' : 'PDFs'} attached
 						{:else if uploadMode === 'video'}

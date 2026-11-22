@@ -32,6 +32,11 @@ export type PromptFormStrings = {
 	/** The attachment line before anything is attached. */
 	noFilesYet: string;
 	/**
+	 * Follows `noFilesYet` for a guest or free account, so the batch cap is
+	 * known before a whole folder is selected.
+	 */
+	freeBatchHint: string;
+	/**
 	 * The help tooltip behind the `?` beside the send button.
 	 *
 	 * The format lists are NOT in here. JPG, WebP, MP4 and the rest are product
@@ -71,6 +76,7 @@ export const EN_PROMPT_FORM_STRINGS: PromptFormStrings = {
 	errorConnection: (fileName: string) =>
 		`Lost connection while processing ${fileName} — check your internet and try again.`,
 	noFilesYet: 'No files yet',
+	freeBatchHint: '3 per batch free, 25 with a Day Pass',
 	infoHowLabel: 'How it works',
 	infoHowBody:
 		'Describe what you want in plain English, attach your images, then hit send. The AI reads your prompt and processes each file automatically.',
