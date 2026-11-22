@@ -511,3 +511,14 @@ html[data-theme='dark'] .theme-root .mochi-card {
   border-color: rgb(240 98 146 / 0.18);
   box-shadow: 0 14px 32px -14px rgb(0 0 0 / 0.6);
 }
+/* cocoa-milk at 40% carries real text too (the dashboard's footnotes), at
+   about 2:1 on the dark cards. 70% keeps it visibly secondary and readable. */
+html[data-theme='dark'] .theme-root .text-cocoa-milk\/40 {
+  color: color-mix(in oklab, var(--color-cocoa-milk) 70%, transparent);
+}
+/* The deep pinks are hover and link text in light mode; on dark they sink to
+   about 3:1, so as text they go light instead (fills are untouched). */
+html[data-theme='dark'] .theme-root .text-\[\#C2185B\],
+html[data-theme='dark'] .theme-root .hover\:text-mochi-pink-deep:hover {
+  color: #ff8fb1;
+}
