@@ -212,29 +212,13 @@
 	type QueuedFile = { file: File; thumbnailUrl?: string };
 	let queuedFiles: QueuedFile[] = $state([]);
 
-	// The queue ships as the `batch-queue` PostHog experiment, so the copy
-	// review running on these banners keeps a clean control arm. 'control'
-	// gets the pre-queue uploader: overflow discarded (holdInQueue lets go of
-	// it), the old trim notice and copy (legacyTrim), no re-check on return.
-	// Anything else, flags failing to load included, gets the queue. Read on
-	// the first overflow, so exposure is counted only for cap-hit sessions.
-	// $state so the test-arm copy (content-ops handoff 2026-10-23-batch-queue-
-	// messages) re-renders once the variant resolves.
-	let queueEnabled = $state(true);
+	// The queue won the `batch-queue` experiment (2026-10-26 to 11-23: about
+	// twice the paying visitors of the pre-queue uploader, which discarded the
+	// overflow), so every visitor gets it now.
 	let replayStarted = false;
 	$effect(() => () => {
 		if (replayStarted) posthog.stopSessionRecording();
 	});
-	let queueVariant: Promise<void> | null = null;
-	function resolveQueueVariant(): Promise<void> {
-		queueVariant ??= posthog.getFeatureFlag('batch-queue').then((variant) => {
-			queueEnabled = variant !== 'control';
-		});
-		return queueVariant;
-	}
-	// Control arm only: the pre-queue trim notice's two numbers, cleared at the
-	// same points it always was (a new ingest, a removal, a run, a reset).
-	let legacyTrim: { staged: number; offered: number } | null = $state(null);
 	let imageType: string = $state(output);
 	// Only these three encoders can emit pixel-exact bytes — the backend 400s a
 	// lossless request naming jpg or avif. The type selector can move the output
@@ -734,10 +718,6 @@
 	// Front for files sent back out of the tray (they were next in line), back
 	// for a new drop's overflow. Anything past QUEUE_HOLD_LIMIT is let go.
 	function holdInQueue(items: QueuedFile[], end: 'front' | 'back') {
-		if (!queueEnabled) {
-			items.forEach((q) => releaseImagePreview(q.file));
-			return;
-		}
 		const next = end === 'front' ? [...items, ...queuedFiles] : [...queuedFiles, ...items];
 		next.slice(QUEUE_HOLD_LIMIT).forEach((q) => releaseImagePreview(q.file));
 		queuedFiles = next.slice(0, QUEUE_HOLD_LIMIT);
@@ -830,7 +810,6 @@
 
 		// A fresh ingest supersedes the previous one's trim notice.
 		allowanceTrim = null;
-		legacyTrim = null;
 
 		// Rejections raised by THIS ingest, committed in one place at the end.
 		// They used to be written straight to errorMessage and read back later,
@@ -991,17 +970,13 @@
 			// No key: nothing failed, so there is nothing for the guide to explain.
 			rejections.push({ text: 'All selected files are already in the list.' });
 		} else if (overflow.length > 0) {
-			await resolveQueueVariant();
-			// Replay only cap-hit sessions, so the batch-queue experiment's arms
-			// can be watched without recording every visitor. Stopped again when
+			// Replay only cap-hit sessions, so the queue can be watched without
+			// recording every visitor. Stopped again when
 			// this uploader unmounts (the $effect below), so other pages and
 			// their file lists are never recorded.
 			if (!replayStarted) {
 				replayStarted = true;
 				posthog.startSessionRecording();
-			}
-			if (!queueEnabled) {
-				legacyTrim = { staged: combinedFiles.length, offered: eligibleFiles.length };
 			}
 			holdInQueue(
 				overflow.map((file) => ({ file })),
@@ -1014,8 +989,7 @@
 				cap: batchLimit,
 				dropped: overflow.length,
 				queued: queuedFiles.length,
-				tier: userTier,
-				queue: queueEnabled
+				tier: userTier
 			});
 		}
 		commitIngestNotices();
@@ -1043,7 +1017,7 @@
 			availableTokens > 0 &&
 			selectedFiles.length > availableTokens
 		) {
-			const offered = legacyTrim?.offered ?? selectedFiles.length + queuedFiles.length;
+			const offered = selectedFiles.length + queuedFiles.length;
 			trimToAvailable();
 			allowanceTrim = { staged: selectedFiles.length, offered };
 		}
@@ -1193,11 +1167,8 @@
 
 	// Signup opens beside this tab, not over it, when this tab holds files and
 	// will re-check the tier on return (see recheckTier). Otherwise it navigates
-	// in place, as the control arm of `batch-queue` always has.
-	const registerInNewTab = $derived(
-		(stagedCount + queuedFiles.length > 0 || inBandFiles.length > 0) &&
-			(queueEnabled || inBandFiles.length > 0)
-	);
+	// in place.
+	const registerInNewTab = $derived(stagedCount + queuedFiles.length > 0 || inBandFiles.length > 0);
 
 	// Over 75MB: nothing takes these, so their rows carry no route and the
 	// unlock button does not count them.
@@ -1325,7 +1296,7 @@
 				? { kind: 'allowance', k: allowanceTrim.staged, n: allowanceTrim.offered }
 				: insufficientTokens
 					? { kind: 'allowance', k: trimTarget, n: stagedCount }
-					: queuedFiles.length > 0 || legacyTrim
+					: queuedFiles.length > 0
 						? { kind: 'batch-cap' }
 						: hasCheckedTokens && stagedCount > 0 && monthlyUploadsRemaining > 0
 							? { kind: 'limits-ok' }
@@ -1335,8 +1306,7 @@
 	// Change 2: a guest who has converted something, used the month, and still
 	// has files here. The moment with the most intent, so the pass is primary.
 	const guestWallWithQueue = $derived(
-		queueEnabled &&
-			limitTier === 'guest' &&
+		limitTier === 'guest' &&
 			activeBanner?.kind === 'allowance' &&
 			activeBanner.k === 0 &&
 			doneThisVisit > 0 &&
@@ -1539,7 +1509,6 @@
 		lastDownload = null;
 		if (!auto) targetResults = [];
 		allowanceTrim = null;
-		legacyTrim = null;
 		processPhase = 'uploading';
 		uploadPercent = 0;
 		downloadPercent = 0;
@@ -2125,13 +2094,12 @@
 	// unlock, the tier is read again: a signup lifts the allowance (the press
 	// per batch stays), a Day Pass or plan lifts the cap and starts the run.
 	//
-	// Files over the size limit are held the same way in both arms of
-	// `batch-queue`, so their release is not gated on the variant, and a tray
-	// holding nothing but those still has something to unlock.
+	// Files over the size limit are held too, so a tray holding nothing but
+	// those still has something to unlock.
 	let recheckingTier = false;
 	async function recheckTier() {
 		const heldBySize = inBandFiles.length > 0;
-		if ((!queueEnabled && !heldBySize) || recheckingTier || isLoading) return;
+		if (recheckingTier || isLoading) return;
 		if (stagedCount === 0 && queuedFiles.length === 0 && !heldBySize) return;
 		if (userTier === 'pro' && !insufficientTokens && !heldBySize) return;
 		recheckingTier = true;
@@ -2151,8 +2119,7 @@
 			if (!upgraded && !(wasBlocked && !insufficientTokens) && !sizeLifted) return;
 			if (isLoading) return;
 			allowanceTrim = null;
-			legacyTrim = null;
-			refillFromQueue();
+				refillFromQueue();
 			// After the refill, so what was already waiting keeps its place and the
 			// released files stage (or queue) behind it.
 			const released = await releaseOversized();
@@ -2236,7 +2203,6 @@
 		errorKey = undefined;
 		errorDecoder = undefined;
 		allowanceTrim = null;
-		legacyTrim = null;
 		successMessage = '';
 		lastDownload = null;
 		targetResults = [];
@@ -2257,7 +2223,6 @@
 		// insufficientTokens and the CTA counter both derive from stagedCount,
 		// and skip notices refer to files that never entered the tray at all.
 		allowanceTrim = null;
-		legacyTrim = null;
 		// The freed slot goes to the next queued file. Not mid-run: the run
 		// indexes into selectedFiles.
 		if (!isLoading) refillFromQueue();
@@ -2858,15 +2823,13 @@
 		</button>
 	{/snippet}
 	<!-- The batch-cap box's route for a guest or free account, by drop size
-	     (see capRoute). Both batch-queue arms render it: the control as pill
-	     buttons, the test arm as links, because there Convert is the only
+	     (see capRoute). Links rather than buttons: Convert is the box's only
 	     primary action. -->
-	{#snippet capRouteBlock(n: number, buttons: boolean)}
+	{#snippet capRouteBlock(n: number)}
 		{@const route = capRoute(n)}
-		{@const primary = buttons
-			? 'rounded-full bg-gradient-to-br from-mochi-pink-light to-mochi-pink px-3.5 py-1.5 text-xs font-black text-white shadow-[0_2px_8px_rgba(240,98,146,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(240,98,146,0.5)]'
-			: 'cursor-pointer text-left text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot'}
-		{@const arrow = buttons ? '' : ' ›'}
+		{@const primary =
+			'cursor-pointer text-left text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot'}
+		{@const arrow = ' ›'}
 		{@const link =
 			'cursor-pointer text-left text-xs font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot'}
 		{@const facts = 'text-xs font-medium text-cocoa-deep/70'}
@@ -3307,109 +3270,53 @@
                          signing up is offered for what it actually buys (the monthly
                          allowance), never as a way round the cap. Subscribers are
                          never offered a Day Pass. -->
-					{@const k = legacyTrim?.staged ?? stagedCount}
-					{@const n = legacyTrim?.offered ?? stagedCount + queuedFiles.length}
-					{#if !legacyTrim}
-						<!-- Test arm of batch-queue: content-ops handoff
-						     2026-10-23-batch-queue-messages, Changes 1 and 3. Before
-						     anything has converted, Convert is the only primary action,
-						     so routes are links here; after a batch the line counts
-						     what is done and what is left. -->
-						{@const q = queuedFiles.length}
-						{@const afterBatch = doneThisVisit > 0 && limitTier !== 'day' && userTier !== 'pro'}
-						<p class="text-xs font-bold text-cocoa-deep">
-							{#if afterBatch}
-								{doneThisVisit} done, {n} to go. The next {k}
-								{k === 1 ? 'is' : 'are'} ready.
-							{:else}
-								{k} of your {n} files {k === 1 ? 'is' : 'are'} in this batch.
-								{#if limitTier === 'guest'}
-									Convert {k === 1 ? 'it' : 'these'} free now; the other {q} wait here for a free account
-									or a Day Pass.
-								{:else if limitTier === 'free'}
-									The next {BATCH_LIMIT_STANDARD} line up after each one{#if hasCheckedTokens}; you
-										have {monthlyUploadsRemaining} uploads left this month{/if}.
-								{:else}
-									The rest follow on their own, {BATCH_LIMIT_PAID} at a time.
-								{/if}
-							{/if}
-						</p>
-						{#if limitTier === 'guest' || limitTier === 'free'}
-							{@render capRouteBlock(n, false)}
-						{:else if limitTier === 'day' && hasCheckedTokens && n > monthlyUploadsRemaining}
-							<p class="mt-1 text-xs font-medium text-cocoa-deep/70">
-								More than your pass covers?
-								<a
-									href="/pricing"
-									onclick={() =>
-										posthog.capture('upgrade_cta_clicked', {
-											trigger: 'batch_cap_banner',
-											source: 'batch_cap_box'
-										})}
-									class="font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot"
-									>Seller is {SELLER_OPS} uploads a month.</a
-								>
-							</p>
-						{/if}
-					{:else}
-						<p class="text-xs font-bold text-cocoa-deep">
+					{@const k = stagedCount}
+					{@const n = stagedCount + queuedFiles.length}
+					<!-- Content-ops handoff 2026-10-23-batch-queue-messages, Changes 1
+					     and 3 (the arm that won `batch-queue`). Before
+					     anything has converted, Convert is the only primary action,
+					     so routes are links here; after a batch the line counts
+					     what is done and what is left. -->
+					{@const q = queuedFiles.length}
+					{@const afterBatch = doneThisVisit > 0 && limitTier !== 'day' && userTier !== 'pro'}
+					<p class="text-xs font-bold text-cocoa-deep">
+						{#if afterBatch}
+							{doneThisVisit} done, {n} to go. The next {k}
+							{k === 1 ? 'is' : 'are'} ready.
+						{:else}
 							{k} of your {n} files {k === 1 ? 'is' : 'are'} in this batch.
 							{#if limitTier === 'guest'}
-								Free converts {BATCH_LIMIT_STANDARD} at a time. Without an account that's also the monthly
-								total; a free account makes it {FREE_PLAN_QUOTA} a month.
+								Convert {k === 1 ? 'it' : 'these'} free now; the other {q} wait here for a free account
+								or a Day Pass.
 							{:else if limitTier === 'free'}
-								Free converts {BATCH_LIMIT_STANDARD} at a time{#if hasCheckedTokens}; you have {monthlyUploadsRemaining}
-									uploads left this month{/if}.
-							{:else if limitTier === 'day'}
-								The Day Pass converts {BATCH_LIMIT_PAID} at a time{#if hasCheckedTokens}; you have {monthlyUploadsRemaining}
-									uploads left on it{/if}.
+								The next {BATCH_LIMIT_STANDARD} line up after each one{#if hasCheckedTokens}; you
+									have {monthlyUploadsRemaining} uploads left this month{/if}.
 							{:else}
-								Your plan converts {BATCH_LIMIT_PAID} at a time{#if hasCheckedTokens}; you have {monthlyUploadsRemaining}
-									uploads left this month{/if}.
-							{/if}
-						</p>
-						{#if limitTier === 'guest' || limitTier === 'free'}
-							{@render capRouteBlock(n, true)}
-							<p class="mt-1 text-xs font-medium text-cocoa-deep/70">
-								{#if legacyTrim}
-									{limitTier === 'guest'
-										? `Or convert ${k === 1 ? 'this one' : `these ${k}`} now and come back with an account or a Day Pass for the rest.`
-										: `Or convert ${k === 1 ? 'this one' : `these ${k}`} now and drop the next ${BATCH_LIMIT_STANDARD} after.`}
-								{:else}
-									{limitTier === 'guest'
-										? `Or convert ${k === 1 ? 'this one' : `these ${k}`} now. The rest stay here for when you have an account or a Day Pass.`
-										: `Or convert ${k === 1 ? 'this one' : `these ${k}`} now. The next ${BATCH_LIMIT_STANDARD} line up straight after.`}
-								{/if}
-							</p>
-						{:else}
-							<p class="mt-1 text-xs font-medium text-cocoa-deep/70">
-								{#if legacyTrim}
-									Convert {k === 1 ? 'this one' : `these ${k}`}, then drop the rest.
-								{:else}
-									Convert {k === 1 ? 'this one' : `these ${k}`}. The rest line up straight after.
-								{/if}
-							</p>
-							{#if limitTier === 'day' && hasCheckedTokens && n > monthlyUploadsRemaining}
-								<p class="mt-1 text-xs font-medium text-cocoa-deep/70">
-									More than your pass covers?
-									<a
-										href="/pricing"
-										onclick={() =>
-											posthog.capture('upgrade_cta_clicked', {
-												trigger: 'batch_cap_banner',
-												source: 'batch_cap_box'
-											})}
-										class="font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot"
-										>Seller is {SELLER_OPS} uploads a month.</a
-									>
-								</p>
+								The rest follow on their own, {BATCH_LIMIT_PAID} at a time.
 							{/if}
 						{/if}
+					</p>
+					{#if limitTier === 'guest' || limitTier === 'free'}
+						{@render capRouteBlock(n)}
+					{:else if limitTier === 'day' && hasCheckedTokens && n > monthlyUploadsRemaining}
+						<p class="mt-1 text-xs font-medium text-cocoa-deep/70">
+							More than your pass covers?
+							<a
+								href="/pricing"
+								onclick={() =>
+									posthog.capture('upgrade_cta_clicked', {
+										trigger: 'batch_cap_banner',
+										source: 'batch_cap_box'
+									})}
+								class="font-bold text-mochi-pink underline underline-offset-2 hover:text-mochi-pink-hot"
+								>Seller is {SELLER_OPS} uploads a month.</a
+							>
+						</p>
 					{/if}
 					<LimitsWhy
 						errorKey="batch_trimmed"
 						surface="batch_cap_banner"
-						label={legacyTrim ? 'Why was my batch trimmed?' : `Why ${batchLimit} at a time?`}
+						label={`Why ${batchLimit} at a time?`}
 						class="mt-1.5 self-start text-cocoa-latte"
 					/>
 				{:else if activeBanner.kind === 'allowance'}
@@ -3469,7 +3376,7 @@
 									You've used your {GUEST_QUOTA} free uploads for this month without an account. Nothing
 									has been uploaded.
 								{:else if limitTier === 'free'}
-									{#if queueEnabled && doneThisVisit > 0 && filesLeft > 0}
+									{#if doneThisVisit > 0 && filesLeft > 0}
 										{doneThisVisit} done, {filesLeft} to go. You've used your {allowanceTotal} free uploads
 										for this month.
 									{:else}
