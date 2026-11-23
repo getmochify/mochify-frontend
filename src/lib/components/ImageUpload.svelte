@@ -2466,7 +2466,7 @@
 				bind:value={targetAmount}
 				disabled={isLoading}
 				aria-invalid={targetInvalid}
-				class="w-24 rounded-full border border-pink-100 px-3 py-1 text-sm font-bold text-cocoa-ink focus:border-mochi-pink focus:ring-2 focus:ring-mochi-pink/40 focus:outline-none disabled:opacity-60"
+				class="target-size w-24 rounded-full border border-pink-100 px-3 py-1 text-sm font-bold text-cocoa-ink focus:border-mochi-pink focus:ring-2 focus:ring-mochi-pink/40 focus:outline-none disabled:opacity-60"
 			/>
 			<div class="flex gap-1" role="radiogroup" aria-label="Unit">
 				{#each ['KB', 'MB'] as unit (unit)}

@@ -578,3 +578,53 @@ html[data-theme='dark'] .theme-root .drop-card.is-dragging {
     0 0 0 2px rgba(244, 114, 155, 0.45),
     0 0 36px rgba(244, 114, 155, 0.22);
 }
+/* One-off pale fills and dark texts on the solutions pages (step-number
+   tiles, the encoder table's highlight row, sdr-to-hdr's format verdicts and
+   warning box), which no variable reaches. */
+html[data-theme='dark'] .theme-root .bg-\[\#F1F8F1\],
+html[data-theme='dark'] .theme-root .bg-\[\#F1F8E9\] {
+  background-color: #1f3322;
+}
+html[data-theme='dark'] .theme-root .text-\[\#2E7D32\] {
+  color: #a5d6a7;
+}
+html[data-theme='dark'] .theme-root .border-\[\#DCEDC8\] {
+  border-color: rgba(165, 214, 167, 0.3);
+}
+html[data-theme='dark'] .theme-root .bg-\[\#F3F0FF\] {
+  background-color: rgba(196, 181, 253, 0.14);
+}
+html[data-theme='dark'] .theme-root .text-\[\#6D28D9\] {
+  color: #c4b5fd;
+}
+html[data-theme='dark'] .theme-root .bg-\[\#FFF7E6\] {
+  background-color: #33281a;
+}
+html[data-theme='dark'] .theme-root .border-\[\#FDE68A\] {
+  border-color: #5c4724;
+}
+html[data-theme='dark'] .theme-root .text-\[\#7C4A03\],
+html[data-theme='dark'] .theme-root .text-\[\#B45309\] {
+  color: #f5d08a;
+}
+html[data-theme='dark'] .theme-root .bg-\[\#F5F5F5\] {
+  background-color: #2a2526;
+}
+html[data-theme='dark'] .theme-root .border-\[\#E0E0E0\] {
+  border-color: #4a4446;
+}
+html[data-theme='dark'] .theme-root .text-\[\#78909C\] {
+  color: #b0bec5;
+}
+html[data-theme='dark'] .theme-root .text-\[\#7E685E\] {
+  color: var(--color-cocoa-latte);
+}
+/* A checked pill (ImageUpload's resize and KB/MB choices) is white on pink;
+   `white` is the card surface in dark, so its label is pinned like text-white. */
+html[data-theme='dark'] .theme-root .peer:checked ~ .peer-checked\:text-white {
+  color: #fff;
+}
+/* ImageUpload's target-size number box keeps the browser's white field. */
+html[data-theme='dark'] .theme-root input.target-size {
+  background-color: var(--color-mochi-bg);
+}

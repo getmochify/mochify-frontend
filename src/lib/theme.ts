@@ -10,13 +10,6 @@
 
 export type Theme = 'light' | 'dark';
 
-/**
- * Solutions pages in the trial. They share one layout, which opts a page in
- * when its path is listed here. hif-to-jpg first (2026-11-23): the busiest,
- * and the page every uploader state was checked on in dark.
- */
-export const THEME_SOLUTIONS: ReadonlySet<string> = new Set<string>(['/solutions/hif-to-jpg']);
-
 export const THEME_KEY = 'mochify:theme';
 // The first day of the trial stored it here, /flow only (2026-11-22).
 const LEGACY_KEY = 'mochi:flow-theme';
