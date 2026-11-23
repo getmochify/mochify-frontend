@@ -37,7 +37,7 @@ const CHUNK_SIZE_BYTES = 5 * 1024 * 1024;
 // Chunk size when a `transport: 'ws'` upload falls back to HTTP because the
 // WebSocket is blocked. Smaller than CHUNK_SIZE_BYTES because the callers that
 // opt into WebSocket are the ones on patchy links, where a dropped 5 MB chunk
-// is the costliest thing that can happen (/beta/upload: it never finished on a
+// is the costliest thing that can happen (the /beta/upload test page, since removed: it never finished on a
 // link dropping every 2 MB). 1 MB rather than 256 KB: per-request round trips
 // made 256 KB ~4x slower on a good link.
 const WS_FALLBACK_CHUNK_BYTES = 1024 * 1024;

@@ -7,7 +7,7 @@
 // so 5 MB chunks re-send up to 5 MB per drop and a single-POST stage re-sends
 // the whole file. Here the server acknowledges every 64 KB frame, a drop costs
 // only what was in flight, and resuming is reconnecting (the server says where
-// it got to). Measured on /beta/upload (2026-10-21): fastest of the four
+// it got to). Measured on the /beta/upload test page (2026-10-21, since removed): fastest of the four
 // transports on a wired link once 64 frames are allowed in flight, and the only
 // one that never re-sent more than what was in flight on a dropping link.
 //
