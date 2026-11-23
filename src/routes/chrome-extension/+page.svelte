@@ -139,8 +139,8 @@
     {@html `<script type="application/ld+json">${JSON.stringify(faqLd)}<\/script>`}
 </svelte:head>
 
-<div class="relative flex min-h-screen flex-col">
-<Navigation />
+<div class="theme-root relative flex min-h-screen flex-col">
+<Navigation themeToggle />
 
 <main class="relative z-10 max-w-5xl mx-auto px-4 pt-7 pb-12 sm:px-6 lg:px-8 w-full flex-grow">
 

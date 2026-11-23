@@ -109,13 +109,13 @@
     }</script>
 </svelte:head>
 
-<div class="min-h-screen bg-mochi-bg flex flex-col relative">
+<div class="theme-root min-h-screen bg-mochi-bg flex flex-col relative">
 
     <div class="fixed inset-0 pointer-events-none opacity-20"
          style="background-image: radial-gradient(circle at 15% 15%, #F0629212 0%, transparent 50%), radial-gradient(circle at 85% 85%, #A5D6A712 0%, transparent 50%);">
     </div>
 
-    <Navigation />
+    <Navigation themeToggle />
 
     <div class="relative z-10 flex-grow w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 

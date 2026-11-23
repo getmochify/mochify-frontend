@@ -107,8 +107,8 @@
     {@html `<script type="application/ld+json">${JSON.stringify(faqLd)}<\/script>`}
 </svelte:head>
 
-<div class="flex-1 bg-mochi-bg min-h-screen flex flex-col">
-    <Navigation />
+<div class="theme-root flex-1 bg-mochi-bg min-h-screen flex flex-col">
+    <Navigation themeToggle />
 
     <div class="max-w-5xl mx-auto w-full pt-6 md:px-4">
         <Breadcrumb items={breadcrumbItems} />

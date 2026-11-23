@@ -46,8 +46,8 @@
     <meta name="robots" content="noindex">
 </svelte:head>
 
-<div class="relative min-h-screen flex flex-col">
-    <Navigation />
+<div class="theme-root relative min-h-screen flex flex-col">
+    <Navigation themeToggle />
 
     <main class="relative z-10 flex-grow flex items-start justify-center px-4 pt-16 pb-12">
         <div class="w-full max-w-sm">

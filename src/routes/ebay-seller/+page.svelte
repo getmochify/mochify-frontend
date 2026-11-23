@@ -53,8 +53,8 @@
     {@html `<script type="application/ld+json">${faqLd}<\/script>`}
 </svelte:head>
 
-<div class="flex-1 bg-mochi-bg min-h-screen flex flex-col">
-    <Navigation />
+<div class="theme-root flex-1 bg-mochi-bg min-h-screen flex flex-col">
+    <Navigation themeToggle />
 
     <!-- Hero -->
     <section class="relative max-w-5xl mx-auto px-4 pt-16 pb-12 sm:px-6 lg:px-8 w-full text-center">

@@ -15,8 +15,8 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="flex min-h-screen flex-col bg-mochi-bg">
-	<Navigation />
+<div class="theme-root flex min-h-screen flex-col bg-mochi-bg">
+	<Navigation themeToggle />
 
 	<main class="flex flex-grow items-start justify-center px-4 pt-16 pb-12">
 		<div class="w-full max-w-sm">

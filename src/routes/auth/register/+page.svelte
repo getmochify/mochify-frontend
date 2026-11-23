@@ -206,8 +206,8 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="relative flex min-h-screen flex-col">
-	<Navigation showGetStarted={false} />
+<div class="theme-root relative flex min-h-screen flex-col">
+	<Navigation themeToggle showGetStarted={false} />
 
 	<main class="relative z-10 flex flex-grow items-start justify-center px-4 pt-16 pb-12 lg:pt-12">
 		<div

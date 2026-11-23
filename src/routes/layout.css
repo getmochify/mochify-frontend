@@ -465,6 +465,10 @@ html[data-theme='dark'] .theme-root {
   --color-gray-600: #bdb5b5;
   --color-orange-50: #2e2219;
   --color-orange-100: #3a2a1e;
+  --color-purple-100: #3a2a45;
+  /* The comparison page's background blob, a grey haze in dark at the light value. */
+  --color-rose-100: #3a1f2a;
+  --color-purple-600: #d8b4fe;
   --color-orange-600: #fdba74;
   /* The shorthands in :root resolve there, to the light values; restated here
      so they follow (the `.prose` rules in base use them, with !important). */
@@ -713,3 +717,29 @@ html[data-theme='dark'] .theme-root .text-white\/40 { color: rgb(255 255 255 / 0
 html[data-theme='dark'] .theme-root .text-white\/60 { color: rgb(255 255 255 / 0.6); }
 html[data-theme='dark'] .theme-root .text-white\/70 { color: rgb(255 255 255 / 0.7); }
 html[data-theme='dark'] .theme-root .text-white\/90 { color: rgb(255 255 255 / 0.9); }
+/* Sign-up, docs, comparison and the seller pages: pale tinted tiles and cards. */
+html[data-theme='dark'] .theme-root :is(.bg-\[\#FDE7EF\], .bg-\[\#FFE5F0\]) {
+  background-color: rgba(244, 114, 155, 0.14);
+}
+html[data-theme='dark'] .theme-root .bg-\[\#FDF0DC\] {
+  background-color: rgba(245, 208, 138, 0.12);
+}
+html[data-theme='dark'] .theme-root .bg-\[\#F3E5F5\] {
+  background-color: rgba(186, 104, 200, 0.15);
+}
+html[data-theme='dark'] .theme-root .bg-\[\#FFFBF0\] {
+  background-color: #33281a;
+}
+html[data-theme='dark'] .theme-root .from-\[\#FFF4F8\] {
+  --tw-gradient-from: #2a2124;
+}
+html[data-theme='dark'] .theme-root .to-\[\#FFFAF2\] {
+  --tw-gradient-to: #262021;
+}
+/* The comparison page's dashed drop area: rose like ImageUpload's, not near-white. */
+html[data-theme='dark'] .theme-root .border-\[\#FFE5EC\] {
+  border-color: rgba(244, 114, 155, 0.28);
+}
+html[data-theme='dark'] .theme-root .hover\:border-\[\#FFD6E0\]:hover {
+  border-color: rgba(244, 114, 155, 0.55);
+}

@@ -285,7 +285,7 @@
     </script>
 </svelte:head>
 
-<div class="min-h-screen bg-mochi-bg flex flex-col relative">
+<div class="theme-root min-h-screen bg-mochi-bg flex flex-col relative">
 
     <!-- Ambient background orbs -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
@@ -294,7 +294,7 @@
         <div class="animate-float absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full bg-pink-50/20 blur-[70px]"></div>
     </div>
 
-    <Navigation />
+    <Navigation themeToggle />
 
     <main class="relative z-10 flex-grow w-full max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
 
