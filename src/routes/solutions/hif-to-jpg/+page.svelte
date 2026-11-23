@@ -174,7 +174,7 @@
 
         <section class="mt-20 mb-20 max-w-2xl mx-auto">
             <div class="liquid-glass rounded-[2rem] px-7 py-6 flex flex-col sm:flex-row items-center gap-5">
-                <div class="flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FFD6E5] to-mochi-pink/20">
+                <div class="callout-badge flex-shrink-0 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FFD6E5] to-mochi-pink/20">
                     <svg class="h-6 w-6 text-mochi-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                     </svg>
@@ -313,5 +313,17 @@
             0 8px 32px 0 rgba(240, 98, 146, 0.15),
             inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
             inset 0 -1px 0 0 rgba(255, 255, 255, 0.1);
+    }
+
+    /* The dark-mode trial: white glass turns to grey haze on a dark page, so
+       the callout takes the step cards' warm surface and a rose hairline. */
+    :global(html[data-theme='dark'] .theme-root) .liquid-glass {
+        background: linear-gradient(135deg, #2a1e22, #211a1c);
+        border-color: rgba(244, 114, 155, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+    }
+    :global(html[data-theme='dark'] .theme-root) .callout-badge {
+        background-image: none;
+        background-color: rgba(244, 114, 155, 0.14);
     }
 </style>
