@@ -680,6 +680,8 @@ export async function openEmbeddedCheckout(
 			plan: opts.plan,
 			trigger: opts.trigger,
 			mode: 'embed',
+			// The dark-mode trial: dark against light conversion, per page.
+			theme: darkPage() ? 'dark' : 'light',
 			slow,
 			...timing()
 		});
@@ -715,6 +717,7 @@ export async function openEmbeddedCheckout(
 			posthog.capture('checkout_overlay_paid', {
 				plan: opts.plan,
 				trigger: opts.trigger,
+				theme: darkPage() ? 'dark' : 'light',
 				amount_usd: listPriceUsd(opts.plan, opts.billing)
 			});
 			opts.onPaid(checkoutUrl);
@@ -737,6 +740,7 @@ export async function openEmbeddedCheckout(
 			plan: opts.plan,
 			trigger: opts.trigger,
 			mode: 'fallback',
+			theme: darkPage() ? 'dark' : 'light',
 			reason: stalled ? reason : String(err).slice(0, 120)
 		});
 		// The visitor has already chosen (the tab opened, or they cancelled).
