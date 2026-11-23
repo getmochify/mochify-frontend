@@ -776,3 +776,9 @@ html[data-theme='dark'] .theme-root :is(input, textarea, select).focus\:ring-moc
   border-color: rgba(244, 114, 155, 0.75);
   box-shadow: 0 0 0 3px rgba(244, 114, 155, 0.28);
 }
+/* Text selection in dark: the light pink-and-burgundy highlight glares on a
+   dark page, so a translucent sakura wash with the text kept bright. */
+html[data-theme='dark'] .theme-root ::selection {
+  background-color: rgba(244, 114, 155, 0.28);
+  color: #fdf6f8;
+}
