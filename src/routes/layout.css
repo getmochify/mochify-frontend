@@ -782,3 +782,8 @@ html[data-theme='dark'] .theme-root ::selection {
   background-color: rgba(244, 114, 155, 0.28);
   color: #fdf6f8;
 }
+/* An open FAQ row (homepage and pricing) lifts to a near-white blush; in dark
+   that turned the open answer into a bright panel with pale text. */
+html[data-theme='dark'] .theme-root .open\:bg-\[\#FFFAFB\]:is([open], :popover-open) {
+  background-color: #35252b;
+}
