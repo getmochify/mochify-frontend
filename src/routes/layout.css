@@ -697,6 +697,10 @@ html[data-theme='dark'] .theme-root :is([class*='bg-cocoa-night'], [class*='bg-c
   --color-pink-200: #fbcfe8;
   --color-pink-300: #f9a8d4;
   --color-mochi-strawberry: #fff0f3;
+  /* White too: these dark bands draw their cards, borders and dividers as
+     white at a low opacity (border-white/10, bg-white/[0.04]), which vanish
+     when white is the dark card surface. */
+  --color-white: #fff;
 }
 /* One-off warm and blue surfaces on a few guides. */
 html[data-theme='dark'] .theme-root :is(.bg-\[\#FFF9F5\], .bg-\[\#FFF8F9\], .bg-\[\#FFF8F0\]) {
