@@ -481,6 +481,11 @@ html[data-theme='dark'] .theme-root .text-white {
 html[data-theme='dark']:has(.theme-root) body {
   background-color: #181314;
 }
+/* The page's own scrollbar follows the root element's color-scheme, not
+   .theme-root's, so Chromium (Chrome, Brave, Edge) drew it light. */
+html[data-theme='dark']:has(.theme-root) {
+  color-scheme: dark;
+}
 /* The few hex classes in the Magic Flow tree (results, success toast, modals),
    which no variable reaches. */
 /* Not on a solid matcha fill (the dashboard's Save buttons): that stays light,
