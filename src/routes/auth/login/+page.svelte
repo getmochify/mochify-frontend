@@ -87,7 +87,7 @@
 </svelte:head>
 
 <div class="theme-root relative flex min-h-screen flex-col">
-	<Navigation themeToggle showGetStarted={false} showSignIn={false} />
+	<Navigation themeToggle showSignIn={false} />
 
 	<main class="relative z-10 flex flex-grow items-start justify-center px-4 pt-16 pb-12">
 		<div class="w-full max-w-sm">

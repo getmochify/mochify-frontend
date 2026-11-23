@@ -10,8 +10,8 @@
 	// Pages that ARE the sign-up destination (e.g. /auth/register) opt out of the
 	// "Get started" CTA: it links to the page you're already on and competes with
 	// the primary form. `showSignIn` does the same for "Sign in" (and the phone
-	// menu's Google button): login and register hide both, since each form
-	// already links to the other and has its own Google button.
+	// menu's Google button) on /auth/login. Each page hides only the link to
+	// itself, so the other stays as the way across.
 	// `wide` matches pages whose sections use max-w-6xl px-4 sm:px-6 (the
 	// homepage), so the logo and the CTA line up with the content edges.
 	// `themeToggle` is for pages in the dark-mode trial (see $lib/theme): the
