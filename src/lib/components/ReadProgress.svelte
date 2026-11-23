@@ -33,6 +33,12 @@
 		will-change: transform;
 	}
 
+	/* The dark-mode trial (see $lib/theme): the pale track reads as a grey band
+	   on a dark page, so only the pink fill shows. */
+	:global(html[data-theme='dark'] .theme-root) .read-progress-container {
+		background: transparent;
+	}
+
 	@supports (animation-timeline: scroll()) {
 		.read-progress-bar {
 			animation: read-progress-grow auto linear;
