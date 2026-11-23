@@ -765,3 +765,14 @@ html[data-theme='dark'] .theme-root .text-\[\#3A6B3C\] {
 html[data-theme='dark'] .theme-root .text-\[\#A23861\] {
   color: #ff8fb1;
 }
+/* Form fields in the site's input style (sign-in, sign-up, contact,
+   password pages): a resting border that reads on low-contrast screens, and a
+   clear sakura ring on focus. Keyed to the style's focus ring class, so the
+   /flow prompt and other bespoke fields keep their own. */
+html[data-theme='dark'] .theme-root :is(input, textarea, select).focus\:ring-mochi-pink\/30 {
+  border-color: color-mix(in oklab, var(--color-cocoa-milk) 35%, transparent);
+}
+html[data-theme='dark'] .theme-root :is(input, textarea, select).focus\:ring-mochi-pink\/30:focus {
+  border-color: rgba(244, 114, 155, 0.75);
+  box-shadow: 0 0 0 3px rgba(244, 114, 155, 0.28);
+}
