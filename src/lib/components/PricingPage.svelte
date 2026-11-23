@@ -161,8 +161,8 @@
 	{@html `<script type="application/ld+json">${pageLd}<\/script>`}
 </svelte:head>
 
-<div class="relative flex min-h-screen flex-col">
-	<Navigation />
+<div class="theme-root relative flex min-h-screen flex-col">
+	<Navigation themeToggle />
 
 	<main class="relative z-10 mx-auto w-full max-w-5xl flex-grow px-4 py-12 md:py-20">
 		<!-- Header -->

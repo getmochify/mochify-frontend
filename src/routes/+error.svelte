@@ -12,10 +12,10 @@
 
 <!-- No background of its own: the body already paints #FDFBF7, and an opaque
      fill here would cover the layout's blush blobs. -->
-<div class="min-h-screen flex flex-col relative overflow-hidden">
+<div class="theme-root min-h-screen flex flex-col relative overflow-hidden">
     
 
-    <Navigation />
+    <Navigation themeToggle />
 
     <main class="relative z-10 flex-grow flex items-center justify-center w-full px-4 py-12">
         

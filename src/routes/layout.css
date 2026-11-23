@@ -444,6 +444,7 @@ html[data-theme='dark'] .theme-root {
   --color-amber-700: #f5d08a;
   --color-amber-800: #f8dca6;
   --color-green-100: #1f3322;
+  --color-green-700: #a5d6a7;
   --color-blue-50: #1c2530;
   /* The rest of Tailwind's scale that solutions pages and guides use for tips,
      step tiles and tables: pale fills go dark, deep text goes light. */
@@ -566,6 +567,7 @@ html[data-theme='dark'] .theme-root .text-cocoa-milk\/40 {
 /* The deep pinks are hover and link text in light mode; on dark they sink to
    about 3:1, so as text they go light instead (fills are untouched). */
 html[data-theme='dark'] .theme-root .text-\[\#C2185B\],
+html[data-theme='dark'] .theme-root .text-mochi-pink-deep,
 html[data-theme='dark'] .theme-root .hover\:text-mochi-pink-deep:hover {
   color: #ff8fb1;
 }
@@ -742,4 +744,24 @@ html[data-theme='dark'] .theme-root .border-\[\#FFE5EC\] {
 }
 html[data-theme='dark'] .theme-root .hover\:border-\[\#FFD6E0\]:hover {
   border-color: rgba(244, 114, 155, 0.55);
+}
+/* Pricing: the Seller button and Free pill (pale fills), the yearly-price and
+   saving lines; the homepage's surface chips. */
+html[data-theme='dark'] .theme-root .bg-\[\#FBD5E2\] {
+  background-color: rgba(244, 114, 155, 0.18);
+}
+html[data-theme='dark'] .theme-root .hover\:bg-\[\#F8BBD0\]:hover {
+  background-color: rgba(244, 114, 155, 0.28);
+}
+html[data-theme='dark'] .theme-root .bg-\[\#F5F0E8\] {
+  background-color: #2e2829;
+}
+html[data-theme='dark'] .theme-root .text-\[\#7A4A38\] {
+  color: var(--color-cocoa-latte);
+}
+html[data-theme='dark'] .theme-root .text-\[\#3A6B3C\] {
+  color: #a5d6a7;
+}
+html[data-theme='dark'] .theme-root .text-\[\#A23861\] {
+  color: #ff8fb1;
 }
