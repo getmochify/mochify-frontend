@@ -537,3 +537,44 @@ html[data-theme='dark'] .theme-root .hover\:text-mochi-pink-deep:hover {
 html[data-theme='dark'] .theme-root .hover\:text-\[\#1B5E20\]:hover {
   color: #c8e6c9;
 }
+/* Solutions pages in dark (hif-to-jpg first). A faint sakura glow behind the
+   hero, so the page keeps its warmth without the light pastels' haze. */
+html[data-theme='dark'] .theme-root .hero-glow {
+  background-image: radial-gradient(
+    ellipse 60% 55% at 50% 45%,
+    rgba(244, 114, 155, 0.08) 0%,
+    transparent 70%
+  );
+}
+/* The lavender format word (`JPG` beside a pink `HIF`) sinks on dark; lifted
+   to about the pink's luminance. */
+html[data-theme='dark'] .theme-root .from-\[\#E0ACD5\] {
+  --tw-gradient-from: #f4c8ee;
+}
+html[data-theme='dark'] .theme-root .to-\[\#BA68C8\] {
+  --tw-gradient-to: #dc8ff0;
+}
+/* The deep matcha chip reads muddy next to the bright pink one: a translucent
+   matcha surface with bright matcha text instead. */
+html[data-theme='dark'] .theme-root .deep-chip-matcha {
+  background-image: none;
+  background-color: rgba(165, 214, 167, 0.14);
+  border: 1px solid rgba(165, 214, 167, 0.35);
+  box-shadow: 0 0 12px rgba(165, 214, 167, 0.12);
+  color: #c5e8c6;
+}
+/* ImageUpload's dashed drop zone: rose instead of flat grey, brighter with a
+   soft pink glow on hover and drag-over (the card glows too while dragging). */
+html[data-theme='dark'] .theme-root .drop-zone {
+  border-color: rgba(244, 114, 155, 0.28);
+}
+html[data-theme='dark'] .theme-root .drop-zone:hover,
+html[data-theme='dark'] .theme-root .drop-zone.is-dragging {
+  border-color: rgba(244, 114, 155, 0.65);
+  box-shadow: 0 0 24px rgba(244, 114, 155, 0.18);
+}
+html[data-theme='dark'] .theme-root .drop-card.is-dragging {
+  box-shadow:
+    0 0 0 2px rgba(244, 114, 155, 0.45),
+    0 0 36px rgba(244, 114, 155, 0.22);
+}

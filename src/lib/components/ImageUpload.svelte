@@ -2238,7 +2238,7 @@
 </script>
 
 <div
-	class={`relative w-full overflow-hidden rounded-3xl border bg-white shadow-sm transition-all duration-300 ${isDragging ? 'border-mochi-pink ring-2 ring-mochi-pink/25' : 'border-pink-50'} ${isLoading ? 'card-working' : ''} ${victoryGlow ? 'victory-glow' : ''} ${className}`.trim()}
+	class={`drop-card relative w-full overflow-hidden rounded-3xl border bg-white shadow-sm transition-all duration-300 ${isDragging ? 'is-dragging border-mochi-pink ring-2 ring-mochi-pink/25' : 'border-pink-50'} ${isLoading ? 'card-working' : ''} ${victoryGlow ? 'victory-glow' : ''} ${className}`.trim()}
 	ondragover={handleDragOver}
 	ondragleave={handleDragLeave}
 	ondrop={handleDrop}
@@ -2741,7 +2741,8 @@
 	<!-- Empty state -->
 	<label
 		for="file-input"
-		class="group m-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-pink-200 px-6 py-10 text-center transition-colors hover:border-mochi-pink hover:bg-mochi-petal sm:m-6"
+		class="drop-zone group m-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-pink-200 px-6 py-10 text-center transition-all hover:border-mochi-pink hover:bg-mochi-petal sm:m-6"
+		class:is-dragging={isDragging}
 		class:hidden={selectedFiles.length > 0 || queuedFiles.length > 0}
 	>
 		<div
