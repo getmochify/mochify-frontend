@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import Navigation from '$lib/components/Navigation.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import { darkPage } from '$lib/theme';
 
 	let { data, form } = $props();
 
@@ -47,6 +48,9 @@
 				widgetId = window.turnstile?.render(turnstileEl, {
 					sitekey: TURNSTILE_SITE_KEY,
 					action: 'turnstile-spin-v2',
+					// Match the page's theme toggle, not the device setting (the
+					// default 'auto' put a dark widget on the light page and back).
+					theme: darkPage() ? 'dark' : 'light',
 					// Surface failures instead of retrying invisibly forever (the default
 					// is retry: 'auto' on an 8s loop, which hides a broken challenge).
 					retry: 'never',
@@ -145,8 +149,9 @@
 	/>
 </svelte:head>
 
-<div class="relative flex min-h-screen flex-col">
-	<Navigation />
+<!-- In the dark-mode trial (see $lib/theme). -->
+<div class="theme-root relative flex min-h-screen flex-col">
+	<Navigation themeToggle />
 
 	<main class="relative z-10 flex flex-grow items-start justify-center px-4 pt-6 pb-12 sm:pt-16">
 		<div class="w-full max-w-md">

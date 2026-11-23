@@ -445,6 +445,12 @@ html[data-theme='dark'] .theme-root {
   --color-amber-800: #f8dca6;
   --color-green-100: #1f3322;
   --color-blue-50: #1c2530;
+  /* The shorthands in :root resolve there, to the light values; restated here
+     so they follow (the `.prose` rules in base use them, with !important). */
+  --mochi-bg: var(--color-mochi-bg);
+  --mochi-card: var(--color-mochi-card);
+  --cocoa-deep: var(--color-cocoa-deep);
+  --cocoa-milk: var(--color-cocoa-milk);
   background-color: var(--color-mochi-bg);
   color: var(--color-cocoa-deep);
 }
@@ -585,7 +591,7 @@ html[data-theme='dark'] .theme-root .bg-\[\#F1F8F1\],
 html[data-theme='dark'] .theme-root .bg-\[\#F1F8E9\] {
   background-color: #1f3322;
 }
-html[data-theme='dark'] .theme-root .text-\[\#2E7D32\] {
+html[data-theme='dark'] .theme-root .text-\[\#2E7D32\]:not(.bg-matcha-green) {
   color: #a5d6a7;
 }
 html[data-theme='dark'] .theme-root .border-\[\#DCEDC8\] {
@@ -627,4 +633,15 @@ html[data-theme='dark'] .theme-root .peer:checked ~ .peer-checked\:text-white {
 /* ImageUpload's target-size number box keeps the browser's white field. */
 html[data-theme='dark'] .theme-root input.target-size {
   background-color: var(--color-mochi-bg);
+}
+/* The DPA page's divider: a pale pink hairline and its muted-pink label. */
+html[data-theme='dark'] .theme-root .via-\[\#FFE5EC\] {
+  --tw-gradient-via: #3a2c30;
+}
+html[data-theme='dark'] .theme-root .text-\[\#D4A0B5\] {
+  color: #b8909f;
+}
+/* The contact form's placeholders, about 1.6:1 on the dark card at 30%. */
+html[data-theme='dark'] .theme-root .placeholder-cocoa-milk\/30::placeholder {
+  color: color-mix(in oklab, var(--color-cocoa-milk) 60%, transparent);
 }

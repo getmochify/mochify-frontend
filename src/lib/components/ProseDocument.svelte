@@ -16,8 +16,10 @@
     let { title, eyebrow, updated, lead, children }: Props = $props();
 </script>
 
-<div class="min-h-screen bg-mochi-bg flex flex-col">
-    <Navigation />
+<!-- In the dark-mode trial (see $lib/theme): about, architecture, sustainability
+     and the legal pages. -->
+<div class="theme-root min-h-screen bg-mochi-bg flex flex-col">
+    <Navigation themeToggle />
 
     <main class="relative z-10 flex-grow w-full max-w-3xl mx-auto px-5 sm:px-6 py-12 md:py-16">
         <header class="mb-10 md:mb-14">
@@ -54,7 +56,7 @@
        Scoped to .prose-doc so it never leaks into other .prose content. */
 
     :global(.prose-doc) {
-        color: #4a2c2c;
+        color: var(--color-cocoa-ink);
         line-height: 1.8;
     }
 
@@ -67,12 +69,12 @@
     :global(.prose-doc > p:first-of-type) {
         font-size: 1.2rem;
         line-height: 1.7;
-        color: #4a2c2c;
+        color: var(--color-cocoa-ink);
     }
 
     :global(.prose-doc p),
     :global(.prose-doc li) {
-        color: #6c3f31 !important;
+        color: var(--color-cocoa-deep) !important;
     }
 
     :global(.prose-doc p) {
@@ -82,7 +84,7 @@
     :global(.prose-doc h2) {
         font-size: 1.9rem;
         font-weight: 800;
-        color: #4a2c2c !important;
+        color: var(--color-cocoa-ink) !important;
         margin-top: 3.5rem;
         margin-bottom: 1.25rem;
         line-height: 1.3;
@@ -99,7 +101,7 @@
     :global(.prose-doc h3) {
         font-size: 1.5rem;
         font-weight: 800;
-        color: #4a2c2c !important;
+        color: var(--color-cocoa-ink) !important;
         margin-top: 3.25rem;
         margin-bottom: 1.1rem;
         padding-bottom: 0.6rem;
@@ -111,14 +113,14 @@
     :global(.prose-doc h4) {
         font-size: 1.2rem;
         font-weight: 700;
-        color: #6c3f31 !important;
+        color: var(--color-cocoa-deep) !important;
         margin-top: 2.25rem;
         margin-bottom: 0.75rem;
         line-height: 1.3;
     }
 
     :global(.prose-doc strong) {
-        color: #4a2c2c !important;
+        color: var(--color-cocoa-ink) !important;
         font-weight: 800;
     }
 
@@ -146,11 +148,11 @@
         padding-left: 0.35rem;
     }
     :global(.prose-doc ol > li::marker) {
-        color: #f06292;
+        color: var(--color-mochi-pink);
         font-weight: 800;
     }
     :global(.prose-doc ul > li::marker) {
-        color: #f06292;
+        color: var(--color-mochi-pink);
     }
 
     /* Definitions table (Terms of Service). */
@@ -164,19 +166,19 @@
         overflow: hidden;
     }
     :global(.prose-doc thead) {
-        background: linear-gradient(135deg, #fff5f7, #fff0f3);
+        background: linear-gradient(135deg, var(--color-mochi-blush), var(--color-mochi-strawberry));
     }
     :global(.prose-doc th) {
         text-align: left;
         padding: 0.85rem 1rem;
-        color: #4a2c2c !important;
+        color: var(--color-cocoa-ink) !important;
         font-weight: 800;
         border-bottom: 1px solid #ffe5ec;
     }
     :global(.prose-doc td) {
         padding: 0.85rem 1rem;
         vertical-align: top;
-        color: #6c3f31 !important;
+        color: var(--color-cocoa-deep) !important;
         border-bottom: 1px solid #fbeaef;
     }
     :global(.prose-doc tbody tr:last-child td) {
@@ -209,17 +211,17 @@
 
     /* Links — brand pink with a soft underline and a strawberry hover pill. */
     :global(.prose-doc a) {
-        color: #f06292 !important;
+        color: var(--color-mochi-pink) !important;
         font-weight: 700 !important;
         text-decoration: underline !important;
-        text-decoration-color: #ffb3c6 !important;
+        text-decoration-color: var(--color-mochi-pink-soft) !important;
         text-decoration-thickness: 2px !important;
         text-underline-offset: 4px !important;
     }
     :global(.prose-doc a:hover) {
         color: #ec407a !important;
-        text-decoration-color: #f06292 !important;
-        background-color: #fff0f3 !important;
+        text-decoration-color: var(--color-mochi-pink) !important;
+        background-color: var(--color-mochi-strawberry) !important;
         border-radius: 4px;
     }
 
@@ -228,5 +230,27 @@
         height: 1px;
         background: linear-gradient(to right, transparent, #ffe5ec, transparent);
         margin: 3rem 0;
+    }
+
+    /* The dark-mode trial: the colors above that are tokens flip on their own;
+       these are the one-offs (hairlines, the blockquote, the link hover). */
+    :global(html[data-theme='dark'] .theme-root .prose-doc h3),
+    :global(html[data-theme='dark'] .theme-root .prose-doc table),
+    :global(html[data-theme='dark'] .theme-root .prose-doc th) {
+        border-color: #3a2c30;
+    }
+    :global(html[data-theme='dark'] .theme-root .prose-doc td) {
+        border-color: #30252a;
+    }
+    :global(html[data-theme='dark'] .theme-root .prose-doc blockquote) {
+        color: var(--color-cocoa-deep);
+        background: linear-gradient(135deg, #2a1e22, #211a1c);
+        box-shadow: none;
+    }
+    :global(html[data-theme='dark'] .theme-root .prose-doc a:hover) {
+        color: #ff8fb1 !important;
+    }
+    :global(html[data-theme='dark'] .theme-root .prose-doc hr) {
+        background: linear-gradient(to right, transparent, #3a2c30, transparent);
     }
 </style>
