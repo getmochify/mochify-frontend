@@ -56,11 +56,11 @@
 	}
 
 	.infobox.pink {
-		--edge: linear-gradient(180deg, #ffb3c6, #f06292);
+		--edge: linear-gradient(180deg, var(--color-mochi-pink-soft), var(--color-mochi-pink));
 		--accent: #d14d64;
-		--body: #4a2c2c;
+		--body: var(--color-cocoa-ink);
 		--tint: rgba(255, 240, 243, 0.55);
-		background: #fff5f7;
+		background: var(--color-mochi-blush);
 		box-shadow:
 			0 8px 24px 0 rgba(240, 98, 146, 0.1),
 			inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
@@ -127,5 +127,22 @@
 		font-size: 0.875rem;
 		overflow-wrap: break-word;
 		word-break: break-word;
+	}
+
+	/* The dark-mode trial (see $lib/theme): token colors above flip on their
+	   own; these are the light surfaces and one-off colors. */
+	:global(html[data-theme='dark'] .theme-root) .infobox {
+		border-color: rgba(255, 255, 255, 0.06);
+		box-shadow: none;
+	}
+	:global(html[data-theme='dark'] .theme-root) .infobox.pink {
+		--accent: #ff8fa3;
+		--body: var(--color-cocoa-ink);
+		background: rgba(244, 114, 155, 0.08);
+	}
+	:global(html[data-theme='dark'] .theme-root) .infobox.blue {
+		--accent: #90c2f5;
+		--body: #dbe8f7;
+		background: rgba(91, 155, 213, 0.1);
 	}
 </style>

@@ -46,7 +46,7 @@
 		width: 2.5rem;
 		height: 2.5rem;
 		border-radius: 9999px;
-		background: linear-gradient(135deg, #ff8fa3 0%, #f06292 100%);
+		background: linear-gradient(135deg, #ff8fa3 0%, var(--color-mochi-pink) 100%);
 		color: white;
 		font-weight: 900;
 		font-size: 1rem;
@@ -72,7 +72,7 @@
 
 	.step-title {
 		font-weight: 900;
-		color: #4a2c2c;
+		color: var(--color-cocoa-ink);
 		margin: 0 0 0.5rem;
 	}
 

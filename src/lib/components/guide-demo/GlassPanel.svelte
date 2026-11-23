@@ -67,7 +67,7 @@
 		width: 0.5rem;
 		height: 0.5rem;
 		border-radius: 9999px;
-		background: linear-gradient(135deg, #ffb3c6, #f06292);
+		background: linear-gradient(135deg, var(--color-mochi-pink-soft), var(--color-mochi-pink));
 		box-shadow: 0 0 6px rgba(240, 98, 146, 0.5);
 		flex-shrink: 0;
 	}
@@ -77,5 +77,16 @@
 	}
 	.glass-body :global(p:last-child) {
 		margin-bottom: 0;
+	}
+
+	/* The dark-mode trial (see $lib/theme): token colors above flip on their
+	   own; these are the light surfaces and one-off colors. */
+	:global(html[data-theme='dark'] .theme-root) .glass-panel {
+		background: #2a2124;
+		border-color: rgba(255, 255, 255, 0.06);
+		box-shadow: none;
+	}
+	:global(html[data-theme='dark'] .theme-root) .glass-label {
+		color: #ff8fa3;
 	}
 </style>

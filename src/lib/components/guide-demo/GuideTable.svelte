@@ -116,7 +116,7 @@
 	.guide-table :global(td) {
 		padding: 1rem 1.25rem;
 		vertical-align: top;
-		color: #6c3f31;
+		color: var(--color-cocoa-deep);
 		border-bottom: 1px solid #fbeaef;
 	}
 
@@ -126,7 +126,7 @@
 
 	.guide-table :global(td:first-child) {
 		font-weight: 700;
-		color: #4a2c2c;
+		color: var(--color-cocoa-ink);
 	}
 
 	.guide-table :global(tbody tr) {
@@ -135,5 +135,31 @@
 
 	.guide-table :global(tbody tr:hover) {
 		background: rgba(255, 240, 243, 0.45);
+	}
+
+	/* The dark-mode trial (see $lib/theme): token colors above flip on their
+	   own; these are the light surfaces and one-off colors. */
+	:global(html[data-theme='dark'] .theme-root) .guide-table {
+		background: #2a2124;
+		border-color: rgba(255, 255, 255, 0.06);
+		box-shadow: none;
+	}
+	:global(html[data-theme='dark'] .theme-root) .guide-table :global(thead) {
+		background: #35252b;
+	}
+	:global(html[data-theme='dark'] .theme-root) .guide-table :global(th) {
+		color: #ff9ebb;
+		border-bottom-color: #3a2c30;
+	}
+	:global(html[data-theme='dark'] .theme-root) .guide-table :global(td) {
+		border-bottom-color: #3a2c30;
+	}
+	:global(html[data-theme='dark'] .theme-root) .guide-table :global(tbody tr:hover) {
+		background: rgba(244, 114, 155, 0.06);
+	}
+	@container (width < 640px) {
+		:global(html[data-theme='dark'] .theme-root) .guide-table-fade {
+			background: linear-gradient(to left, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0));
+		}
 	}
 </style>

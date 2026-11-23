@@ -40,7 +40,7 @@
         background: #fff5f6;
         border-color: #ffe0e3;
         --accent: #d14d64;
-        --body: #4a2c2c;
+        --body: var(--color-cocoa-ink);
     }
 
     .infobox.blue {
@@ -84,5 +84,20 @@
         font-size: 0.875rem;
         overflow-wrap: break-word;
         word-break: break-word;
+    }
+
+    /* The dark-mode trial (see $lib/theme): token colors above flip on their
+       own; these are the light surfaces and one-off colors. */
+    :global(html[data-theme='dark'] .theme-root) .infobox.pink {
+        --accent: #ff8fa3;
+        --body: var(--color-cocoa-ink);
+        background: rgba(244, 114, 155, 0.08);
+        border-color: rgba(244, 114, 155, 0.2);
+    }
+    :global(html[data-theme='dark'] .theme-root) .infobox.blue {
+        --accent: #90c2f5;
+        --body: #dbe8f7;
+        background: rgba(91, 155, 213, 0.1);
+        border-color: rgba(91, 155, 213, 0.25);
     }
 </style>

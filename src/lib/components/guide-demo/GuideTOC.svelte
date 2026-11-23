@@ -75,7 +75,7 @@
 		width: 0.5rem;
 		height: 0.5rem;
 		border-radius: 9999px;
-		background: linear-gradient(135deg, #ffb3c6, #f06292);
+		background: linear-gradient(135deg, var(--color-mochi-pink-soft), var(--color-mochi-pink));
 		box-shadow: 0 0 6px rgba(240, 98, 146, 0.5);
 	}
 
@@ -132,7 +132,7 @@
 		width: 1.75rem;
 		height: 1.75rem;
 		border-radius: 9999px;
-		background: #fff0f3;
+		background: var(--color-mochi-strawberry);
 		border: 1px solid #ffd6e0;
 		display: flex;
 		align-items: center;
@@ -144,7 +144,7 @@
 		content: counter(toc, decimal-leading-zero);
 		font-size: 10px;
 		font-weight: 900;
-		color: #f06292;
+		color: var(--color-mochi-pink);
 	}
 
 	.toc a:hover .row-num {
@@ -156,12 +156,12 @@
 		font-weight: 700;
 		font-size: 0.95rem;
 		line-height: 1.3;
-		color: #6c3f31;
+		color: var(--color-cocoa-deep);
 		transition: color 0.25s ease;
 	}
 
 	.toc a:hover .row-label {
-		color: #f06292;
+		color: var(--color-mochi-pink);
 	}
 
 	.row-chevron {
@@ -175,7 +175,30 @@
 	}
 
 	.toc a:hover .row-chevron {
-		color: #f06292;
+		color: var(--color-mochi-pink);
 		transform: translateX(4px);
+	}
+
+	/* The dark-mode trial (see $lib/theme): token colors above flip on their
+	   own; these are the light surfaces and one-off colors. */
+	:global(html[data-theme='dark'] .theme-root) .toc {
+		background: #2a2124;
+		border-color: rgba(255, 255, 255, 0.06);
+		box-shadow: none;
+	}
+	:global(html[data-theme='dark'] .theme-root) .toc-heading {
+		color: #ff8fa3;
+	}
+	:global(html[data-theme='dark'] .theme-root) .toc a {
+		background: rgba(255, 255, 255, 0.03);
+		border-color: rgba(255, 255, 255, 0.06);
+		box-shadow: none;
+	}
+	:global(html[data-theme='dark'] .theme-root) .toc a:hover {
+		background: rgba(244, 114, 155, 0.08);
+		box-shadow: none;
+	}
+	:global(html[data-theme='dark'] .theme-root) .row-num {
+		border-color: #4a3b3f;
 	}
 </style>

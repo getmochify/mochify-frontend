@@ -64,7 +64,7 @@
 		font-weight: 800;
 		line-height: 1.15;
 		letter-spacing: -0.02em;
-		color: #4a2c2c;
+		color: var(--color-cocoa-ink);
 		margin: 0 0 0.75rem;
 	}
 
@@ -77,7 +77,7 @@
 	.cta-body {
 		max-width: 32rem;
 		margin: 0 auto 2rem;
-		color: #6c3f31;
+		color: var(--color-cocoa-deep);
 		line-height: 1.7;
 	}
 
@@ -86,5 +86,11 @@
 		font-size: 0.75rem;
 		line-height: 1.5;
 		color: rgba(108, 63, 49, 0.6);
+	}
+
+	/* The dark-mode trial (see $lib/theme): token colors above flip on their
+	   own; these are the light surfaces and one-off colors. */
+	:global(html[data-theme='dark'] .theme-root) .cta-note {
+	    color: var(--color-cocoa-milk);
 	}
 </style>

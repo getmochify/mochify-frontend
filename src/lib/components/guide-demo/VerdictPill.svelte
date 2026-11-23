@@ -84,4 +84,20 @@
 		background: rgba(212, 231, 254, 0.35);
 		border-color: rgba(165, 200, 240, 0.55);
 	}
+
+	/* The dark-mode trial (see $lib/theme): token colors above flip on their
+	   own; these are the light surfaces and one-off colors. */
+	:global(html[data-theme='dark'] .theme-root) .pill.yes {
+		color: #a5d6a7;
+	}
+	:global(html[data-theme='dark'] .theme-root) .pill.no {
+		color: #ff8fb1;
+	}
+	:global(html[data-theme='dark'] .theme-root) .pill.mixed {
+		color: #f5d08a;
+	}
+	:global(html[data-theme='dark'] .theme-root) .pill.note {
+		color: #90c2f5;
+		background: rgba(91, 155, 213, 0.15);
+	}
 </style>

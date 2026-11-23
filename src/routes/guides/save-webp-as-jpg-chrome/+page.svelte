@@ -802,4 +802,9 @@
 		background: #f3ece9;
 	}
 
+	/* The dark-mode trial (see $lib/theme): a dark letterbox. */
+	:global(html[data-theme='dark'] .theme-root) .video-frame,
+	:global(html[data-theme='dark'] .theme-root) .video-frame video {
+		background: #1c1416;
+	}
 </style>

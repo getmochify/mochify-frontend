@@ -46,7 +46,7 @@
 	.related-heading {
 		font-size: 1.5rem;
 		font-weight: 800;
-		color: #4a2c2c;
+		color: var(--color-cocoa-ink);
 		margin: 0 0 2rem;
 	}
 
@@ -55,7 +55,7 @@
 		width: 60px;
 		height: 5px;
 		border-radius: 9999px;
-		background: linear-gradient(90deg, #f06292, rgba(240, 98, 146, 0.25));
+		background: linear-gradient(90deg, var(--color-mochi-pink), rgba(240, 98, 146, 0.25));
 		margin-top: 0.75rem;
 	}
 
@@ -102,19 +102,19 @@
 		font-weight: 800;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
-		color: #f06292;
+		color: var(--color-mochi-pink);
 	}
 
 	.card-title {
 		font-weight: 800;
 		font-size: 1rem;
 		line-height: 1.35;
-		color: #4a2c2c;
+		color: var(--color-cocoa-ink);
 		transition: color 0.25s ease;
 	}
 
 	.related a:hover .card-title {
-		color: #f06292;
+		color: var(--color-mochi-pink);
 	}
 
 	.card-desc {
@@ -146,7 +146,7 @@
 	}
 
 	.related a:hover .card-more {
-		color: #f06292;
+		color: var(--color-mochi-pink);
 	}
 
 	.card-more svg {
@@ -157,5 +157,20 @@
 
 	.related a:hover .card-more svg {
 		transform: translateX(3px);
+	}
+
+	/* The dark-mode trial (see $lib/theme): token colors above flip on their
+	   own; these are the light surfaces and one-off colors. */
+	:global(html[data-theme='dark'] .theme-root) .related a {
+		background: #2a2124;
+		border-color: rgba(255, 255, 255, 0.06);
+		box-shadow: none;
+	}
+	:global(html[data-theme='dark'] .theme-root) .related a:hover {
+		background: #35252b;
+		box-shadow: none;
+	}
+	:global(html[data-theme='dark'] .theme-root) .card-desc {
+		color: var(--color-cocoa-milk);
 	}
 </style>

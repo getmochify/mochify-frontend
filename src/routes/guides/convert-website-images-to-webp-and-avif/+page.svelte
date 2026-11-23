@@ -1427,4 +1427,28 @@
 			display: none;
 		}
 	}
+
+	/* The dark-mode trial (see $lib/theme). */
+	:global(html[data-theme='dark'] .theme-root) .size-chart {
+		background: #2a2124;
+		border-color: #3a2c30;
+		box-shadow: none;
+	}
+	:global(html[data-theme='dark'] .theme-root) .size-chart-title,
+	:global(html[data-theme='dark'] .theme-root) .size-name,
+	:global(html[data-theme='dark'] .theme-root) .size-value {
+		color: var(--color-cocoa-ink);
+	}
+	:global(html[data-theme='dark'] .theme-root) .size-legend {
+		color: var(--color-cocoa-deep);
+	}
+	:global(html[data-theme='dark'] .theme-root) .size-name span,
+	:global(html[data-theme='dark'] .theme-root) .size-label,
+	:global(html[data-theme='dark'] .theme-root) .size-value em,
+	:global(html[data-theme='dark'] .theme-root) .size-note {
+		color: var(--color-cocoa-milk);
+	}
+	:global(html[data-theme='dark'] .theme-root) .size-table summary {
+		color: #ff8fb1;
+	}
 </style>

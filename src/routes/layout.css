@@ -445,6 +445,27 @@ html[data-theme='dark'] .theme-root {
   --color-amber-800: #f8dca6;
   --color-green-100: #1f3322;
   --color-blue-50: #1c2530;
+  /* The rest of Tailwind's scale that solutions pages and guides use for tips,
+     step tiles and tables: pale fills go dark, deep text goes light. */
+  --color-blue-100: #1e2a3a;
+  --color-blue-200: #2c3e55;
+  --color-blue-600: #93c5fd;
+  --color-blue-700: #a7cdfa;
+  --color-blue-800: #bfdbfe;
+  --color-violet-50: #241e33;
+  --color-violet-100: #352a4a;
+  --color-violet-600: #c4b5fd;
+  --color-violet-900: #ede9fe;
+  --color-emerald-50: #16291f;
+  --color-emerald-600: #6ee7b7;
+  --color-gray-50: #241f20;
+  --color-gray-100: #2e2829;
+  --color-gray-200: #3a3334;
+  --color-gray-500: #a8a0a0;
+  --color-gray-600: #bdb5b5;
+  --color-orange-50: #2e2219;
+  --color-orange-100: #3a2a1e;
+  --color-orange-600: #fdba74;
   /* The shorthands in :root resolve there, to the light values; restated here
      so they follow (the `.prose` rules in base use them, with !important). */
   --mochi-bg: var(--color-mochi-bg);
@@ -645,3 +666,45 @@ html[data-theme='dark'] .theme-root .text-\[\#D4A0B5\] {
 html[data-theme='dark'] .theme-root .placeholder-cocoa-milk\/30::placeholder {
   color: color-mix(in oklab, var(--color-cocoa-milk) 60%, transparent);
 }
+/* ThemeToggle shows the sun in dark (to go light) and the moon in light. */
+.theme-icon-sun {
+  display: none;
+}
+html[data-theme='dark'] .theme-icon-sun {
+  display: block;
+}
+html[data-theme='dark'] .theme-icon-moon {
+  display: none;
+}
+/* Dark code blocks written with the palette (`bg-cocoa-night`, `bg-cocoa-ink`,
+   `/75` pills): the dark block turns cocoa light, so inside one the palette is
+   pinned back to its light values and the block stays dark with pink text. */
+html[data-theme='dark'] .theme-root :is([class*='bg-cocoa-night'], [class*='bg-cocoa-ink']) {
+  --color-cocoa-night: #1c1416;
+  --color-cocoa-ink: #241a1c;
+  --color-pink-100: #fce7f3;
+  --color-pink-200: #fbcfe8;
+  --color-pink-300: #f9a8d4;
+  --color-mochi-strawberry: #fff0f3;
+}
+/* One-off warm and blue surfaces on a few guides. */
+html[data-theme='dark'] .theme-root :is(.bg-\[\#FFF9F5\], .bg-\[\#FFF8F9\], .bg-\[\#FFF8F0\]) {
+  background-color: #2a2124;
+}
+html[data-theme='dark'] .theme-root :is(.border-\[\#FFE4D6\], .border-orange-100) {
+  border-color: #3a2c30;
+}
+html[data-theme='dark'] .theme-root .bg-\[\#F5F9FF\] {
+  background-color: rgba(91, 155, 213, 0.1);
+}
+html[data-theme='dark'] .theme-root .border-blue-200 {
+  border-color: rgba(91, 155, 213, 0.3);
+}
+/* White text at an opacity (the /guides featured card): `/NN` mixes
+   var(--color-white), the dark card surface here, so each is pinned to white. */
+html[data-theme='dark'] .theme-root .text-white\/25 { color: rgb(255 255 255 / 0.25); }
+html[data-theme='dark'] .theme-root .text-white\/30 { color: rgb(255 255 255 / 0.3); }
+html[data-theme='dark'] .theme-root .text-white\/40 { color: rgb(255 255 255 / 0.4); }
+html[data-theme='dark'] .theme-root .text-white\/60 { color: rgb(255 255 255 / 0.6); }
+html[data-theme='dark'] .theme-root .text-white\/70 { color: rgb(255 255 255 / 0.7); }
+html[data-theme='dark'] .theme-root .text-white\/90 { color: rgb(255 255 255 / 0.9); }

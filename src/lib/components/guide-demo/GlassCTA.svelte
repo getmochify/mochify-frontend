@@ -120,7 +120,7 @@
 		font-weight: 800;
 		line-height: 1.15;
 		letter-spacing: -0.02em;
-		color: #4a2c2c;
+		color: var(--color-cocoa-ink);
 		margin: 0 0 0.75rem;
 	}
 
@@ -133,7 +133,7 @@
 	.cta-body {
 		max-width: 32rem;
 		margin: 0 auto 2rem;
-		color: #6c3f31;
+		color: var(--color-cocoa-deep);
 		line-height: 1.7;
 	}
 
@@ -158,7 +158,7 @@
 		justify-content: center;
 		gap: 0.5rem;
 		border-radius: 1rem;
-		background: #f06292;
+		background: var(--color-mochi-pink);
 		padding: 1rem 1.75rem;
 		font-weight: 900;
 		color: white;
@@ -174,7 +174,7 @@
 
 	.cta-primary:hover {
 		transform: translateY(-2px);
-		background: #d81b60;
+		background: var(--color-mochi-pink-deep);
 		box-shadow:
 			0 14px 26px -5px rgba(240, 98, 146, 0.5),
 			inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -189,7 +189,7 @@
 		border: 1px solid rgba(135, 95, 66, 0.25);
 		padding: 1rem 1.75rem;
 		font-weight: 900;
-		color: #6c3f31;
+		color: var(--color-cocoa-deep);
 		text-decoration: none;
 		background: rgba(255, 255, 255, 0.5);
 		transition:
@@ -200,8 +200,8 @@
 
 	.cta-secondary:hover {
 		border-color: rgba(240, 98, 146, 0.4);
-		background: #fff5f7;
-		color: #f06292;
+		background: var(--color-mochi-blush);
+		color: var(--color-mochi-pink);
 	}
 
 	@media (min-width: 640px) {
@@ -216,5 +216,23 @@
 		font-size: 0.75rem;
 		line-height: 1.5;
 		color: rgba(108, 63, 49, 0.6);
+	}
+
+	/* The dark-mode trial (see $lib/theme): token colors above flip on their
+	   own; these are the light surfaces and one-off colors. */
+	:global(html[data-theme='dark'] .theme-root) .cta-glow {
+		opacity: 0.25;
+	}
+	:global(html[data-theme='dark'] .theme-root) .cta-card {
+		background: linear-gradient(135deg, #2a1e22, #211a1c);
+		border-color: rgba(244, 114, 155, 0.25);
+		box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+	}
+	:global(html[data-theme='dark'] .theme-root) .cta-secondary {
+		background: transparent;
+		border-color: rgba(255, 255, 255, 0.15);
+	}
+	:global(html[data-theme='dark'] .theme-root) .cta-note {
+		color: var(--color-cocoa-milk);
 	}
 </style>

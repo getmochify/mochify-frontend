@@ -135,19 +135,19 @@
 		font-size: 1.05rem;
 		line-height: 1.35;
 		letter-spacing: 0;
-		color: #4a2c2c;
+		color: var(--color-cocoa-ink);
 		transition: color 0.2s ease;
 	}
 
 	summary:hover .q {
-		color: #d81b60;
+		color: var(--color-mochi-pink-deep);
 	}
 
 	.chev {
 		width: 1.25rem;
 		height: 1.25rem;
 		flex-shrink: 0;
-		color: #f06292;
+		color: var(--color-mochi-pink);
 		transition: transform 0.2s ease;
 	}
 
@@ -160,6 +160,23 @@
 		padding: 0 1.5rem 1.35rem;
 		font-size: 1rem;
 		line-height: 1.65;
-		color: #6c3f31;
+		color: var(--color-cocoa-deep);
+	}
+
+	/* The dark-mode trial (see $lib/theme): token colors above flip on their
+	   own; these are the light surfaces and one-off colors. */
+	:global(html[data-theme='dark'] .theme-root) .faq-card {
+		background: #2a2124;
+		border-color: rgba(255, 255, 255, 0.06);
+		box-shadow: none;
+	}
+	:global(html[data-theme='dark'] .theme-root) details + details {
+		border-top-color: #3a2c30;
+	}
+	:global(html[data-theme='dark'] .theme-root) details[open] {
+		background: rgba(244, 114, 155, 0.05);
+	}
+	:global(html[data-theme='dark'] .theme-root) summary:hover .q {
+		color: #ff8fb1;
 	}
 </style>

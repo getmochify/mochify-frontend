@@ -250,6 +250,9 @@
     :global(html[data-theme='dark'] .theme-root .prose-doc a:hover) {
         color: #ff8fb1 !important;
     }
+    :global(html[data-theme='dark'] .theme-root .prose-doc code) {
+        color: #ff9ebb;
+    }
     :global(html[data-theme='dark'] .theme-root .prose-doc hr) {
         background: linear-gradient(to right, transparent, #3a2c30, transparent);
     }

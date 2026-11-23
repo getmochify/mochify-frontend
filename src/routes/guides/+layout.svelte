@@ -31,6 +31,12 @@
 	const posthogSnippet = `!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once unregister identify reset get_distinct_id captureException opt_in_capturing opt_out_capturing".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
 (window.requestIdleCallback||function(c){setTimeout(c,1500)})(function(){posthog.init(${JSON.stringify(PUBLIC_POSTHOG_PROJECT_TOKEN)},${JSON.stringify({ api_host: PUBLIC_POSTHOG_HOST, ...posthogOptions }).replace(/</g, '\\u003c')})},{timeout:3000});`;
 
+	// The dark-mode toggle on a guide. Guides never hydrate, so ThemeToggle's
+	// own click handler is not there; this does the same job ($lib/theme's
+	// setTheme plus the `theme_toggled` capture) and keeps the button's labels
+	// in step. The icon follows the attribute through CSS.
+	const themeSnippet = `(function(){var h=document.documentElement;function sync(){var d=h.dataset.theme==='dark';document.querySelectorAll('[data-theme-toggle]').forEach(function(b){b.setAttribute('aria-pressed',d);b.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');b.title=d?'Light mode':'Dark mode'})}document.addEventListener('DOMContentLoaded',sync);document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-theme-toggle]');if(!b)return;var t=h.dataset.theme==='dark'?'light':'dark';h.dataset.theme=t;try{localStorage.setItem('mochify:theme',t);localStorage.removeItem('mochi:flow-theme')}catch(_){}sync();if(window.posthog)posthog.capture('theme_toggled',{theme:t,path:location.pathname})})})();`;
+
 	const segments = $derived(page.url.pathname.split('/').filter(Boolean));
 	const slug = $derived(segments[1]);
 	const breadcrumbItems = $derived([
@@ -44,11 +50,14 @@
 	{#if slug}
 		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 		{@html `<script>${posthogSnippet}<\/script>`}
+		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+		{@html `<script>${themeSnippet}<\/script>`}
 	{/if}
 </svelte:head>
 
-<div id="top" class="relative flex min-h-screen flex-col">
-	<Navigation />
+<!-- In the dark-mode trial (see $lib/theme), the index and every guide. -->
+<div id="top" class="theme-root relative flex min-h-screen flex-col">
+	<Navigation themeToggle />
 	<main class="relative z-10 mx-auto w-full max-w-4xl flex-grow px-0 md:px-4 md:py-12">
 		<!-- Articles: the 3xl reading column and its mobile gutter. Index: the
 		     page wrapper's sm:px-6 lg:px-8, so it lines up with the header. -->
@@ -108,14 +117,14 @@
 
 	/* Guide-specific typography styles */
 	:global(article) {
-		color: var(--cocoa-deep); /* #6C3F31 */
+		color: var(--cocoa-deep); /* var(--color-cocoa-deep) */
 		line-height: 1.8;
 	}
 
 	:global(article h2) {
 		font-size: 1.75rem;
 		font-weight: 800;
-		color: #4a2c2c;
+		color: var(--color-cocoa-ink);
 		margin-top: 3.5rem;
 		margin-bottom: 1.25rem;
 		line-height: 1.3;
@@ -140,7 +149,7 @@
 	:global(article h3) {
 		font-size: 1.5rem;
 		font-weight: 700;
-		color: #4a2c2c;
+		color: var(--color-cocoa-ink);
 		margin-top: 2.5rem;
 		margin-bottom: 1rem;
 		line-height: 1.25;
@@ -150,7 +159,7 @@
 	:global(article h4) {
 		font-size: 1.25rem;
 		font-weight: 600;
-		color: #6c3f31;
+		color: var(--color-cocoa-deep);
 		margin-top: 2rem;
 		margin-bottom: 0.75rem;
 		line-height: 1.25;
@@ -158,7 +167,7 @@
 	}
 
 	:global(article p) {
-		color: #4a2c2c;
+		color: var(--color-cocoa-ink);
 		letter-spacing: 0;
 		margin-bottom: 1rem;
 	}
@@ -168,12 +177,12 @@
 	}
 
 	/* List items share the paragraph text colour. Without this they inherit the
-       lighter `--cocoa-deep` (#6C3F31) from `article`, so bullets and numbered
+       lighter `--cocoa-deep` (var(--color-cocoa-deep)) from `article`, so bullets and numbered
        items read visibly warmer than the paragraphs around them - and lighter
-       than their own `<strong>`, which is already #4A2C2C.
+       than their own `<strong>`, which is already var(--color-cocoa-ink).
        Body text only: `marker:text-*` utilities still colour the bullets. */
 	:global(article li) {
-		color: #4a2c2c;
+		color: var(--color-cocoa-ink);
 	}
 
 	/* FAQ rhythm */
@@ -200,7 +209,7 @@
 	:global(article .faq-item h3) {
 		font-size: 1.35rem;
 		font-weight: 700;
-		color: #4a2c2c;
+		color: var(--color-cocoa-ink);
 		margin-top: 0;
 		margin-bottom: 0.75rem;
 		line-height: 1.3;
@@ -209,28 +218,28 @@
 	:global(article .faq-item p) {
 		font-size: 1.05rem;
 		line-height: 1.6;
-		color: #6c3f31;
+		color: var(--color-cocoa-deep);
 		margin-top: 0;
 		margin-bottom: 0;
 	}
 
 	:global(article a:not([class])) {
-		color: #f06292;
+		color: var(--color-mochi-pink);
 		font-weight: 700;
-		text-decoration-color: #ffb3c6;
+		text-decoration-color: var(--color-mochi-pink-soft);
 		text-underline-offset: 4px;
 		text-decoration: underline 2px;
 	}
 
 	:global(article a:not([class]):hover) {
 		color: #ec407a;
-		text-decoration-color: #f06292;
-		background-color: #fff0f3;
+		text-decoration-color: var(--color-mochi-pink);
+		background-color: var(--color-mochi-strawberry);
 		border-radius: 4px;
 	}
 
 	:global(article strong) {
-		color: #4a2c2c; /* Deep Cocoa instead of Black */
+		color: var(--color-cocoa-ink); /* Deep Cocoa instead of Black */
 		font-weight: 800;
 	}
 
@@ -239,8 +248,8 @@
 	}
 
 	:global(article code) {
-		background: linear-gradient(135deg, #fffdf5 0%, #fff5f7 100%);
-		color: #be185d;
+		background: linear-gradient(135deg, #fffdf5 0%, var(--color-mochi-blush) 100%);
+		color: var(--color-mochi-pink-ink);
 		padding: 0.2rem 0.5rem;
 		border-radius: 0.375rem;
 		font-size: 0.9375rem;
@@ -383,7 +392,7 @@
 		top: 0;
 		left: 0;
 		height: 3px;
-		background: linear-gradient(to right, #ffb3c6, #f06292);
+		background: linear-gradient(to right, var(--color-mochi-pink-soft), var(--color-mochi-pink));
 		z-index: 100;
 		transition: width 0.1s ease;
 	}
@@ -400,5 +409,55 @@
 
 	:global(article nav ul li a > svg) {
 		flex-shrink: 0;
+	}
+
+	/* The dark-mode trial (see $lib/theme). The colors above that are tokens
+	   flip on their own; these are the one-offs. */
+	:global(html[data-theme='dark'] .theme-root .hero-wash) {
+		background:
+			radial-gradient(ellipse 60% 45% at 12% 8%, rgba(240, 98, 146, 0.1) 0%, transparent 70%),
+			radial-gradient(ellipse 50% 40% at 90% 18%, rgba(190, 120, 180, 0.06) 0%, transparent 70%);
+	}
+	:global(html[data-theme='dark'] .theme-root article > p:first-of-type) {
+		color: var(--color-cocoa-ink);
+	}
+	:global(html[data-theme='dark'] .theme-root article .text-lg.text-gray-600) {
+		color: var(--color-cocoa-milk);
+	}
+	:global(html[data-theme='dark'] .theme-root article .faq-item:not(:last-child)::after) {
+		background: linear-gradient(90deg, #4a3b3f, #3a2c30, rgba(58, 44, 48, 0));
+	}
+	:global(html[data-theme='dark'] .theme-root article a:not([class]):hover) {
+		color: #ff8fb1;
+	}
+	:global(html[data-theme='dark'] .theme-root article code) {
+		background: var(--color-mochi-blush);
+		border-color: #3a2c30;
+	}
+	:global(html[data-theme='dark'] .theme-root article pre code) {
+		background: transparent;
+	}
+	:global(html[data-theme='dark'] .theme-root article blockquote) {
+		color: var(--color-cocoa-deep);
+		background: linear-gradient(135deg, #2a1e22, #211a1c);
+		box-shadow: none;
+	}
+	:global(html[data-theme='dark'] .theme-root article hr) {
+		background: linear-gradient(to right, transparent, #3a2c30, transparent);
+	}
+	:global(html[data-theme='dark'] .theme-root .guide-callout) {
+		box-shadow: none;
+	}
+	:global(html[data-theme='dark'] .theme-root .guide-callout.info) {
+		background: rgba(96, 165, 250, 0.1);
+	}
+	:global(html[data-theme='dark'] .theme-root .guide-callout.warning) {
+		background: rgba(251, 191, 36, 0.1);
+	}
+	:global(html[data-theme='dark'] .theme-root .guide-callout.success) {
+		background: rgba(52, 211, 153, 0.1);
+	}
+	:global(html[data-theme='dark'] .theme-root .guide-callout.tip) {
+		background: rgba(244, 114, 155, 0.1);
 	}
 </style>
