@@ -647,7 +647,7 @@
                  they stay round instead of squashing with the box. -->
 				<div class="relative mx-auto mb-14 hidden max-w-3xl md:block" style="height: 320px;">
 					<div
-						class="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-br from-white/70 via-transparent to-transparent blur-3xl"
+						class="surface-glow pointer-events-none absolute inset-0 rounded-full bg-gradient-to-br from-white/70 via-transparent to-transparent blur-3xl"
 					></div>
 
 					<p
@@ -1598,6 +1598,12 @@
 	}
 	.animate-slide-up {
 		animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+	}
+
+	/* A white highlight on the blush band. In dark, white is the card color,
+	   so it became a faint dark-on-dark gradient that banded into rings. */
+	:global(html[data-theme='dark']) .surface-glow {
+		display: none;
 	}
 
 	/* SMIL pulses are removed in markup; this covers the CSS-driven core glow
