@@ -551,7 +551,7 @@
 						<div class="mb-4 flex flex-col items-start gap-3">
 							<button
 								onclick={copyInstall}
-								class="group flex w-full cursor-pointer items-center justify-between gap-6 rounded-2xl bg-cocoa-night py-3.5 pr-4 pl-6 font-mono text-xs text-pink-100 shadow-lg transition-all hover:shadow-pink-300/20 sm:w-auto sm:text-base"
+								class="install-copy group flex w-full cursor-pointer items-center justify-between gap-6 rounded-2xl bg-cocoa-night py-3.5 pr-4 pl-6 font-mono text-xs text-pink-100 shadow-lg transition-all hover:shadow-pink-300/20 sm:w-auto sm:text-base"
 							>
 								<span class="flex flex-col gap-1 text-left whitespace-nowrap">
 									<span><span class="mr-2 text-mochi-pink">$</span>brew tap getmochify/mochify</span
@@ -1598,6 +1598,21 @@
 	}
 	.animate-slide-up {
 		animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+	}
+
+	/* The install button is a shade off the dark page, and its pink hover glow
+	   (light pinks are pinned inside dark blocks) read as a haze under a box
+	   that was barely there. In dark it takes an edge, and hover lights the
+	   edge instead. */
+	:global(html[data-theme='dark']) .install-copy {
+		box-shadow:
+			inset 0 0 0 1px rgb(255 255 255 / 0.08),
+			0 10px 15px -3px rgb(0 0 0 / 0.4);
+	}
+	:global(html[data-theme='dark']) .install-copy:hover {
+		box-shadow:
+			inset 0 0 0 1px rgb(240 98 146 / 0.4),
+			0 10px 15px -3px rgb(0 0 0 / 0.4);
 	}
 
 	/* A white highlight on the blush band. In dark, white is the card color,
