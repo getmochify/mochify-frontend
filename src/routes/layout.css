@@ -415,10 +415,13 @@ html[data-theme='dark'] .theme-root {
   --color-mochi-bg: #181314;
   --color-mochi-card: #2a2124;
   --color-white: #2a2124;
-  --color-mochi-blush: #2a2024;
+  /* The pale pinks (blush, petal, pink-50) are sunk between the page and the
+     card: one shade off the card, they vanished as pills, buttons and table
+     heads on it. */
+  --color-mochi-blush: #211a1c;
   --color-mochi-strawberry: #35252b;
   --color-mochi-rose: #35252b;
-  --color-mochi-petal: #2a2024;
+  --color-mochi-petal: #211a1c;
   --color-mochi-pink-hot: #ff7ab8;
   --color-cocoa-latte: #c4b0aa;
   --color-matcha-cream: #1f3322;
@@ -429,7 +432,7 @@ html[data-theme='dark'] .theme-root {
   --color-cocoa-deep: #e6dad5;
   --color-cocoa-ink: #f7efea;
   --color-cocoa-night: #fbf6f3;
-  --color-pink-50: #2a2024;
+  --color-pink-50: #211a1c;
   --color-pink-100: #35252b;
   --color-pink-200: #4a3b3f;
   --color-pink-300: #6b4a55;
@@ -698,7 +701,19 @@ html[data-theme='dark'] .theme-icon-moon {
 /* Dark code blocks written with the palette (`bg-cocoa-night`, `bg-cocoa-ink`,
    `/75` pills): the dark block turns cocoa light, so inside one the palette is
    pinned back to its light values and the block stays dark with pink text. */
-html[data-theme='dark'] .theme-root :is([class*='bg-cocoa-night'], [class*='bg-cocoa-ink']) {
+html[data-theme='dark'] .theme-root
+  :is(
+    [class*='bg-cocoa-night'],
+    [class*='bg-cocoa-ink'],
+    .bg-\[\#2F2320\],
+    .bg-\[\#2D2320\],
+    .bg-\[\#2E1A14\],
+    .bg-\[\#2C1A1A\],
+    .bg-\[\#1e1e2e\],
+    .bg-\[\#282C34\],
+    .bg-\[\#2C2C2E\],
+    .bg-\[\#1C1C1E\]
+  ) {
   --color-cocoa-night: #1c1416;
   --color-cocoa-ink: #241a1c;
   --color-pink-100: #fce7f3;
@@ -709,6 +724,14 @@ html[data-theme='dark'] .theme-root :is([class*='bg-cocoa-night'], [class*='bg-c
      white at a low opacity (border-white/10, bg-white/[0.04]), which vanish
      when white is the dark card surface. */
   --color-white: #fff;
+}
+/* The same dark blocks hand-colored in hex (guide code panels and terminals),
+   which list above so the white dividers and tags inside them come back. A
+   code block in the palette is a shade off the dark page, so it takes a faint
+   edge to keep its shape. */
+html[data-theme='dark'] .theme-root pre:is(.bg-cocoa-night, .bg-cocoa-ink) {
+  outline: 1px solid rgb(255 255 255 / 0.08);
+  outline-offset: -1px;
 }
 /* One-off warm and blue surfaces on a few guides. */
 html[data-theme='dark'] .theme-root :is(.bg-\[\#FFF9F5\], .bg-\[\#FFF8F9\], .bg-\[\#FFF8F0\]) {
