@@ -4102,6 +4102,34 @@
 		}
 	}
 
+	/* In dark the pale matcha at half opacity is a grey-green fog over the
+	   near-black page, so the dark pulse is a crisp green hairline and a
+	   thinner glow in the brighter matcha. */
+	:global(html[data-theme='dark'] .theme-root) .victory-glow {
+		animation-name: victory-pulse-dark;
+	}
+	@keyframes victory-pulse-dark {
+		0%,
+		100% {
+			box-shadow:
+				0 1px 2px 0 rgba(0, 0, 0, 0.05),
+				0 0 0 0 rgba(129, 199, 132, 0),
+				0 0 0 0 rgba(102, 187, 106, 0);
+		}
+		20% {
+			box-shadow:
+				0 1px 2px 0 rgba(0, 0, 0, 0.05),
+				0 0 0 1px rgba(129, 199, 132, 0.55),
+				0 0 44px 6px rgba(102, 187, 106, 0.24);
+		}
+		60% {
+			box-shadow:
+				0 1px 2px 0 rgba(0, 0, 0, 0.05),
+				0 0 0 1px rgba(129, 199, 132, 0.3),
+				0 0 32px 4px rgba(102, 187, 106, 0.14);
+		}
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		.card-working,
 		.victory-glow {

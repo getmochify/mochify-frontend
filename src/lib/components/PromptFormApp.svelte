@@ -4629,6 +4629,38 @@
 		}
 	}
 
+	/* Dark: the same crisp green as ImageUpload's dark pulse (pale matcha at
+	   half opacity is a fog on the dark page), starting and ending on the dark
+	   pane's own shadow so it doesn't jump when the class comes off. Same
+	   four layers in every frame so they interpolate. */
+	:global(html[data-theme='dark'] .theme-root) .victory-glow {
+		animation-name: victory-pulse-dark;
+	}
+	@keyframes victory-pulse-dark {
+		0%,
+		100% {
+			box-shadow:
+				0 2px 6px -2px rgba(0, 0, 0, 0.4),
+				0 18px 48px -12px rgba(240, 98, 146, 0.16),
+				0 40px 80px -32px rgba(0, 0, 0, 0.5),
+				inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+		}
+		20% {
+			box-shadow:
+				0 0 0 1px rgba(129, 199, 132, 0.55),
+				0 0 48px 6px rgba(102, 187, 106, 0.24),
+				0 40px 80px -32px rgba(0, 0, 0, 0.5),
+				inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+		}
+		60% {
+			box-shadow:
+				0 0 0 1px rgba(129, 199, 132, 0.3),
+				0 0 36px 4px rgba(102, 187, 106, 0.14),
+				0 40px 80px -32px rgba(0, 0, 0, 0.5),
+				inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+		}
+	}
+
 	/* The compose bar is the largest object on /flow and the actual product, so
 	   it has to hold its own against the hero type above it. The previous values
 	   (40%/10% white on a white border) dissolved into the page's pink wash: the
