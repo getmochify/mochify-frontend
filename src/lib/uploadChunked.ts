@@ -168,6 +168,8 @@ interface RetryableXhrError extends Error {
 	// pipeline-classified finalize failure (e.g. corrupt-image) so the caller
 	// can drive telemetry/messaging off a stable slug.
 	rejectLabel?: string;
+	// The server's own error body, kept so a 429 can say which limit refused it.
+	serverText?: string;
 	// Which section of the upload-error guide answers this failure. Set
 	// everywhere a user-facing message is produced, so the surface that renders
 	// the message can render the matching help link without re-deriving it.
@@ -384,6 +386,7 @@ function readResult(
 		const error: RetryableXhrError = new Error(message);
 		error.status = xhr.status;
 		error.rejectLabel = rejectLabel;
+		error.serverText = serverText?.slice(0, 200);
 		error.errorKey = key;
 		error.decoder = readDecoderHeader(xhr);
 		throw error;

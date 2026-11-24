@@ -17,8 +17,10 @@ import { truncationVerdictOf } from '$lib/truncationCheck';
 // Names deliberately diverge from the server's X-Mochify-Reject taxonomy in two
 // places: `network_error` is a transport drop while `nlp_unreachable` is the
 // prompt service being unreachable (different causes, different advice), and
-// the 429 is `quota_exhausted` because it is monthly-allowance exhaustion, not
-// a rate limiter — `rate_limited` stays free in case a real one is ever added.
+// a 429 starts as `quota_exhausted`. It is not always: core can answer a
+// signed-in caller from the anonymous IP bucket when session validation blips,
+// and an edge rule can 429 too. So ImageUpload re-checks the balance after a
+// 429 and relabels the file `rate_limited` when ops are still left.
 export type UploadErrorKey =
 	| 'incomplete_image'
 	| 'network_error'
@@ -28,6 +30,7 @@ export type UploadErrorKey =
 	| 'file_too_large'
 	| 'batch_trimmed'
 	| 'quota_exhausted'
+	| 'rate_limited'
 	| 'processing_failed'
 	| 'server_error'
 	| 'session_expired';
@@ -51,6 +54,9 @@ const HELP_ANCHORS: Record<UploadErrorKey, string> = {
 	file_too_large: '#file-too-large',
 	batch_trimmed: '#batch-trimmed',
 	quota_exhausted: '#quota-exhausted',
+	// A refused request with allowance left: the same "try again in a moment"
+	// advice as the busy 503s.
+	rate_limited: '#too-many-uploads',
 	// Both land on the same section: the guide treats a decode failure and a
 	// bare 5xx as one "this is ours, not yours" case.
 	processing_failed: '#processing-failed',

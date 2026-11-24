@@ -1436,6 +1436,7 @@
 
 	// `auto` is a paid run carrying on into the queue (see continueDrain).
 	async function compressImage(auto = false) {
+		if (!auto) transient429Retries = 0;
 		// Hard re-entrancy guard. handleButtonClick already checks isLoading, but
 		// the button was only aria-disabled (still clickable) and isLoading used to
 		// latch late — after the awaits below — leaving a window where a second
@@ -1527,6 +1528,11 @@
 			const compressedBlobs: Blob[] = new Array(selectedFiles.length);
 			const runTargets: TargetResult[] = [];
 			let hitRateLimit = false;
+			// The first 429's body: core's quota text, or something else (an edge
+			// rule) that says the allowance was never the reason.
+			let rateLimitText: string | undefined;
+			// A 429 that arrived with ops still left on the balance.
+			let transient429 = false;
 			quotaExhausted = false;
 			const totalBytes = selectedFiles.reduce((sum, f) => sum + effectiveSize(f), 0);
 			let uploadedBytes = 0;
@@ -1702,6 +1708,7 @@
 												const error: any = new Error(message);
 												error.status = xhr.status;
 												error.errorKey = key;
+												error.serverText = serverText?.trim().slice(0, 200);
 												// The decoder's own sentence splits corrupt-image into a
 												// truly truncated file vs a decode gap on our side; it
 												// rides along on the help-link event for that anchor only.
@@ -1763,17 +1770,13 @@
 				} catch (error: any) {
 					fileProgress[index].status = 'error';
 					if (error.status === 429) {
+						// Whether this is the allowance running out is decided once
+						// the pool stops (see below): a 429 can also arrive with ops
+						// left, and that visitor must not be shown an upgrade prompt.
 						hitRateLimit = true;
-						quotaExhausted = true;
+						rateLimitText ??= error?.serverText ?? '';
 						fileProgress[index].error = 'Rate limit exceeded';
 						fileProgress[index].errorKey = 'quota_exhausted';
-						if (!jwt) {
-							showSignupCta = true;
-							posthog.capture('signup_cta_shown', { trigger: 'rate_limit' });
-						} else {
-							showUpgradeCta = true;
-							posthog.capture('upgrade_cta_shown', { trigger: 'rate_limit' });
-						}
 					} else {
 						fileProgress[index].error = error instanceof Error ? error.message : 'Unknown error';
 						fileProgress[index].errorKey = error?.errorKey;
@@ -1807,6 +1810,43 @@
 				Array.from({ length: Math.min(CONCURRENT_UPLOADS, selectedFiles.length) }, worker)
 			);
 
+			// A 429 is the allowance running out only if the balance agrees. A
+			// Day Pass holder was refused 43 files into 100 (2026-11-24): core
+			// can answer a signed-in request from the anonymous IP bucket when
+			// session validation blips, and an edge rule can 429 as well. With
+			// ops left, the refused files are put back and retried, and nobody
+			// is told to upgrade.
+			if (hitRateLimit) {
+				await checkTokenLimit();
+				transient429 = hasCheckedTokens && availableTokens > 0;
+				posthog.capture('manual_compress_rate_limited', {
+					files: fileProgress.filter((fp) => fp.status === 'complete').length,
+					format: imageType,
+					server_text: rateLimitText || 'none',
+					remaining_after: Number.isFinite(availableTokens) ? availableTokens : 'unseeded',
+					transient: transient429,
+					authed: !!jwt,
+					auto_retry: transient429Retries
+				});
+				if (transient429) {
+					fileProgress.forEach((fp) => {
+						if (fp.errorKey === 'quota_exhausted') {
+							fp.error = 'Not converted yet';
+							fp.errorKey = 'rate_limited';
+						}
+					});
+				} else {
+					quotaExhausted = true;
+					if (!jwt) {
+						showSignupCta = true;
+						posthog.capture('signup_cta_shown', { trigger: 'rate_limit' });
+					} else {
+						showUpgradeCta = true;
+						posthog.capture('upgrade_cta_shown', { trigger: 'rate_limit' });
+					}
+				}
+			}
+
 			// Appended, so a paid drain that runs the queue in several passes
 			// reports every file it converted, not just the last pass.
 			if (runTargets.length) targetResults = [...targetResults, ...runTargets.filter(Boolean)];
@@ -1820,8 +1860,11 @@
 					// than being dropped; the refill re-stages it under the
 					// allowance box once the token check reports zero.
 					returnUnfinishedToQueue();
-					await checkTokenLimit();
-					refillFromQueue();
+					const pulled = refillFromQueue();
+					if (transient429) {
+						continueDrain = await scheduleTransientRetry(pulled);
+						successMessage = continueDrain ? TRANSIENT_429_RETRYING : TRANSIENT_429_MESSAGE;
+					}
 					return;
 				}
 				// Diagnostic: this throw fires only when nothing is marked complete
@@ -1886,12 +1929,10 @@
 
 			if (successfulFiles.length > 0) recordToolUse(page.url.pathname);
 			if (hitRateLimit) {
-				const pendingFiles = fileProgress.filter((fp) => fp.status === 'pending').length;
-				posthog.capture('manual_compress_rate_limited', {
-					files: successfulFiles.length,
-					format: imageType
-				});
-				successMessage = `Rate limit reached! Downloaded ${successfulFiles.length} successful conversion(s). ${pendingFiles} file(s) remain.`;
+				const pendingFiles = fileProgress.filter((fp) => fp.status !== 'complete').length;
+				successMessage = transient429
+					? `${successfulFiles.length} converted. ${pendingFiles} file(s) didn't go through this time. ${TRANSIENT_429_MESSAGE}`
+					: `Rate limit reached! Downloaded ${successfulFiles.length} successful conversion(s). ${pendingFiles} file(s) remain.`;
 			} else if (failedFiles.length > 0) {
 				posthog.capture('manual_compress_completed', {
 					files: successfulFiles.length,
@@ -1968,6 +2009,16 @@
 				failedFiles.length === 0 &&
 				!hitRateLimit &&
 				!insufficientTokens;
+			// A refused-with-ops-left batch carries on too, after a pause and only
+			// a few times, so a limit that keeps refusing stops for the visitor.
+			if (transient429 && !insufficientTokens) {
+				const otherFailures = fileProgress.some(
+					(fp) => fp.status === 'error' && fp.errorKey !== 'rate_limited'
+				);
+				if (!otherFailures) continueDrain = await scheduleTransientRetry(pulled);
+				if (continueDrain)
+					successMessage = successMessage.replace(TRANSIENT_429_MESSAGE, TRANSIENT_429_RETRYING);
+			}
 		} catch (error) {
 			const failureKey: UploadErrorKey | undefined =
 				(error as any)?.errorKey ?? (isNetworkError(error) ? 'network_error' : undefined);
@@ -2017,6 +2068,27 @@
 			isRetrying = false;
 			if (continueDrain) void compressImage(true);
 		}
+	}
+
+	// Retries of a batch refused with ops still left (see the 429 re-check in
+	// compressImage). Reset by every press of Convert.
+	const TRANSIENT_429_RETRIES = 3;
+	const TRANSIENT_429_MESSAGE =
+		'Your allowance is fine. The server turned a few files away for a moment, so press Convert to send them again.';
+	const TRANSIENT_429_RETRYING =
+		'Your allowance is fine. The server turned a few files away for a moment, so they are being sent again.';
+	let transient429Retries = 0;
+
+	// Paid tiers retry the refused files on their own, as they run the queue
+	// on their own; free tiers keep their one press per batch. Waits 5, 10,
+	// then 15 s before saying go, and says no once the budget is spent.
+	async function scheduleTransientRetry(pulled: number): Promise<boolean> {
+		if (userTier !== 'pro' || pulled <= 0 || transient429Retries >= TRANSIENT_429_RETRIES)
+			return false;
+		transient429Retries += 1;
+		isRetrying = true;
+		await new Promise((r) => setTimeout(r, 5000 * transient429Retries));
+		return true;
 	}
 
 	// Converted files waiting to be downloaded. One run of a free tier flushes
@@ -2119,7 +2191,7 @@
 			if (!upgraded && !(wasBlocked && !insufficientTokens) && !sizeLifted) return;
 			if (isLoading) return;
 			allowanceTrim = null;
-				refillFromQueue();
+			refillFromQueue();
 			// After the refill, so what was already waiting keeps its place and the
 			// released files stage (or queue) behind it.
 			const released = await releaseOversized();
@@ -2318,7 +2390,8 @@
 			<span
 				class="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-xs font-bold text-cocoa-deep shadow-[0_0_0_1px_rgba(135,95,66,0.12)]"
 			>
-				<span class="h-1.5 w-1.5 rounded-full {cachedBadge.ok ? 'bg-matcha-leaf' : 'bg-mochi-cherry'}"
+				<span
+					class="h-1.5 w-1.5 rounded-full {cachedBadge.ok ? 'bg-matcha-leaf' : 'bg-mochi-cherry'}"
 				></span>
 				{cachedBadge.label}
 			</span>
@@ -3213,7 +3286,11 @@
 					: 'border-amber-100 bg-amber-50'}"
 		>
 			{#if activeBanner.kind === 'error'}
-				<svg class="mt-0.5 h-4 w-4 shrink-0 text-mochi-cherry" fill="currentColor" viewBox="0 0 20 20">
+				<svg
+					class="mt-0.5 h-4 w-4 shrink-0 text-mochi-cherry"
+					fill="currentColor"
+					viewBox="0 0 20 20"
+				>
 					<path
 						fill-rule="evenodd"
 						d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
@@ -3221,7 +3298,11 @@
 					/>
 				</svg>
 			{:else if activeBanner.kind === 'limits-ok'}
-				<svg class="mt-0.5 h-4 w-4 shrink-0 text-matcha-leaf" fill="currentColor" viewBox="0 0 20 20">
+				<svg
+					class="mt-0.5 h-4 w-4 shrink-0 text-matcha-leaf"
+					fill="currentColor"
+					viewBox="0 0 20 20"
+				>
 					<path
 						fill-rule="evenodd"
 						d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
