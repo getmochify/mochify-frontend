@@ -483,6 +483,14 @@ html[data-theme='dark'] .theme-root {
 html[data-theme='dark'] .theme-root .text-white {
   color: #fff;
 }
+/* pink-50 is a fill as well as a divider, and as a fill it sits a shade off
+   the dark card (white), so as a border inside a card it vanished (the row
+   dividers in ImageUpload's settings). Borders and dividers take a step up;
+   no element pairs border-pink-50 with a hover or focus border color. */
+html[data-theme='dark'] .theme-root .border-pink-50,
+html[data-theme='dark'] .theme-root .divide-pink-50 > :not(:last-child) {
+  border-color: #3d2d33;
+}
 html[data-theme='dark']:has(.theme-root) body {
   background-color: #181314;
 }
