@@ -117,8 +117,15 @@ export function createCheckoutFrame(checkoutUrl: string): CheckoutFrame {
 	// off-screen position: Chrome throttles cross-origin frames in all three,
 	// which would leave a warmed checkout half loaded. `inert` keeps it out of
 	// the tab order and the accessibility tree until it is shown.
+	//
+	// And 1px square until shown, not full-viewport: Safari hit-tests wheel
+	// scrolling against a cross-origin frame without honouring its
+	// `pointer-events:none`, so a hidden full-screen frame swallowed trackpad
+	// scrolls (the page froze mid-gesture until the next one) for as long as a
+	// warmed checkout sat in the tab. 1px is still on screen and non-zero, so
+	// Chrome does not throttle it; Polar relays out to full size on show.
 	iframe.style.cssText =
-		'position:fixed;top:0;left:0;width:100%;height:100%;border:none;' +
+		'position:fixed;top:0;left:0;width:1px;height:1px;border:none;' +
 		'z-index:2147483647;background-color:rgba(0,0,0,0.5);color-scheme:light;' +
 		'opacity:0;pointer-events:none';
 	iframe.setAttribute('inert', '');
@@ -174,6 +181,8 @@ export function createCheckoutFrame(checkoutUrl: string): CheckoutFrame {
 			unlock = lockScroll();
 			iframe.removeAttribute('inert');
 			iframe.removeAttribute('aria-hidden');
+			iframe.style.width = '100%';
+			iframe.style.height = '100%';
 			iframe.style.opacity = '1';
 			iframe.style.pointerEvents = '';
 			iframe.focus();
