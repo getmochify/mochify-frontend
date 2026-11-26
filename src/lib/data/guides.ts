@@ -43,7 +43,8 @@ export const guides: Guide[] = [
 		url: '/guides/batch-crop-photos-to-square',
 		category: 'Workflows',
 		readTime: '24 min read',
-		date: 'September 22, 2026'
+		date: 'September 22, 2026',
+		lastUpdated: 'November 26, 2026'
 	},
 	{
 		title: 'How to Save a WebP as JPG in Chrome',

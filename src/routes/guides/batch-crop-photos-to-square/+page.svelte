@@ -18,7 +18,8 @@
 			'Every batch crop tool applies one rectangle to every photo. How batch cropping to square actually works on Windows, Mac, iPhone and the command line.',
 		category: 'Workflows',
 		readTime: '24 min read',
-		date: 'September 22, 2026'
+		date: 'September 22, 2026',
+		lastUpdated: 'November 26, 2026'
 	};
 
 	const toc = [
@@ -73,11 +74,11 @@
 		},
 		{
 			q: 'Can I batch crop photos on an iPhone?',
-			a: 'Yes, despite what most articles say. Crop your first photo to Square and, while still in the editor, use the three-dot menu to tap Copy Edits. Then select any number of photos in your library and use Paste Edits on the whole selection. The catch is that the pasted crop is always centered, so it ignores where you positioned the original, and Apple does not document the behavior, so verify it after an iOS update.'
+			a: 'Yes, despite what most articles say. Crop your first photo to Square and, while still in the editor, use the three-dot menu to tap Copy Edits, make sure Crop Aspect Ratio is switched on and tap Copy. Then select any number of photos in your library and use Paste Edits on the whole selection. The catch is that the pasted crop is always centered, so it ignores where you positioned the original, and Apple does not document the behavior, so verify it after an iOS update.'
 		},
 		{
 			q: 'Can I batch crop a PDF?',
-			a: "Not as a PDF, but you can turn the pages into images and crop those. Mochify's PDF utility extracts pages as PNG, JPEG or WebP files, which then go through an image crop like any other picture. Full PDF tooling is on the Seller and Pro tiers; the Free tier covers images into a PDF up to 3 pages."
+			a: "Not as a PDF, but you can turn the pages into images and crop those. Mochify's PDF utility extracts pages as PNG, JPEG or WebP files, which then go through an image crop like any other picture. The PDF tools need a paid plan (Seller, Pro or Growth) or a Day Pass; on the free plan you can build a PDF from up to 3 images."
 		},
 		{
 			q: 'Does cropping a batch reduce image quality?',
@@ -140,10 +141,7 @@
 	/>
 	<meta property="og:type" content="article" />
 	<meta property="og:description" content={metadata.description} />
-	<meta
-		property="og:url"
-		content="https://mochify.app/guides/batch-crop-photos-to-square"
-	/>
+	<meta property="og:url" content="https://mochify.app/guides/batch-crop-photos-to-square" />
 	<meta property="og:site_name" content="Mochify" />
 	<meta property="og:locale" content="en" />
 	<meta name="twitter:card" content="summary_large_image" />
@@ -162,7 +160,7 @@
 			},
 			"image": "https://mochify.app/og/guides-batch-crop-photos-to-square.png",
 			"datePublished": "2026-09-22T12:00:00+00:00",
-			"dateModified": "2026-09-22T12:00:00+00:00",
+			"dateModified": "2026-11-26T12:00:00+00:00",
 			"inLanguage": "en",
 			"author": {
 				"@type": "Organization",
@@ -198,7 +196,7 @@
 		url="https://mochify.app/guides/batch-crop-photos-to-square"
 		description={metadata.description}
 		datePublished="2026-09-22"
-		dateModified="2026-09-22"
+		dateModified="2026-11-26"
 	/>
 </svelte:head>
 
@@ -214,11 +212,17 @@
 		<h1
 			class="mb-0 text-3xl leading-[1.1] font-black tracking-tight text-cocoa-ink md:text-[2.75rem]"
 		>
-			How to <span class="bg-gradient-to-r from-mochi-pink to-[#EC407A] bg-clip-text text-transparent">Batch Crop Photos to Square</span> on Windows, Mac, iPhone and the Command Line
+			How to <span
+				class="bg-gradient-to-r from-mochi-pink to-[#EC407A] bg-clip-text text-transparent"
+				>Batch Crop Photos to Square</span
+			> on Windows, Mac, iPhone and the Command Line
 		</h1>
-		<div class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"></div>
+		<div
+			class="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-mochi-pink to-mochi-pink-soft"
+		></div>
 		<p class="mt-5 mb-0 text-sm font-bold text-cocoa-milk">
-			{metadata.readTime} · {metadata.date} · Mochify Engineering Team
+			{metadata.readTime} · Published {metadata.date} · Updated {metadata.lastUpdated} · Mochify Engineering
+			Team
 		</p>
 
 		<p class="article-intro mt-8 mb-0 text-xl leading-relaxed text-cocoa-deep opacity-90">
@@ -278,9 +282,9 @@
 			<SectionHeading>Batch cropping on Windows</SectionHeading>
 			<p class="mb-4">
 				Windows has no built-in multi-image cropper, but it does have a built-in multi-image
-				<strong>aspect-fill</strong> tool, which is the part most articles get wrong. The Photos app
-				crops one image at a time; PowerToys crops a whole folder in Fill mode; IrfanView crops a folder
-				to fixed pixel coordinates.
+				<strong>aspect-fill</strong> tool, which is the part most articles get wrong. The Photos app crops
+				one image at a time; PowerToys crops a whole folder in Fill mode; IrfanView crops a folder to
+				fixed pixel coordinates.
 			</p>
 
 			<h3 class="mt-8 mb-3 text-xl font-bold text-cocoa-ink">The Photos app: one at a time</h3>
@@ -305,8 +309,8 @@
 			</p>
 			<ul class="mb-4 ml-6 list-disc space-y-2">
 				<li>
-					<strong>Fill</strong> "fills the entire specified size with the image," scales
-					proportionally, and "crops the image as needed."
+					<strong>Fill</strong> "fills the entire specified size with the image," scales proportionally,
+					and "crops the image as needed."
 				</li>
 				<li>
 					<strong>Fit</strong> fits the whole image inside the target size and "doesn't crop the image,"
@@ -336,8 +340,8 @@
 				IrfanView's batch conversion can crop, and the setting is buried. You open a representative
 				image, drag a selection box over the area you want, then go to File > Batch
 				Conversion/Rename, enable <strong>Use advanced options</strong>, open
-				<strong>Advanced</strong>, and click <strong>Get current sel.</strong> to capture that
-				selection's pixel coordinates into the crop fields.
+				<strong>Advanced</strong>, and click <strong>Get current sel.</strong> to capture that selection's
+				pixel coordinates into the crop fields.
 			</p>
 			<p class="mb-4">
 				That last step is the tell: IrfanView captures literal pixel coordinates from one reference
@@ -353,8 +357,8 @@
 			<SectionHeading>Batch cropping on a Mac</SectionHeading>
 			<p class="mb-4">
 				macOS will batch <strong>resize</strong> out of the box and will not batch
-				<strong>crop</strong> out of the box, which is a distinction Apple's own documentation makes
-				clearly if you look for it. Automator will crop a batch, with one uniform rectangle.
+				<strong>crop</strong> out of the box, which is a distinction Apple's own documentation makes clearly
+				if you look for it. Automator will crop a batch, with one uniform rectangle.
 			</p>
 
 			<h3 class="mt-8 mb-3 text-xl font-bold text-cocoa-ink">
@@ -411,17 +415,20 @@
 		<section id="batch-cropping-on-an-iphone" class="scroll-mt-24">
 			<SectionHeading>Batch cropping on an iPhone</SectionHeading>
 			<p class="mb-4">
-				Your iPhone can batch crop to square, with no app and no computer. The route is
-				undocumented, it hangs on a menu that disappears if you tap the wrong thing first, and it
-				center-crops every photo rather than reproducing your framing. We tested it on iOS 26.62 in
-				September 2026 rather than repeating what gets published about it, because what gets
-				published about it is mostly wrong.
+				Your iPhone can batch crop to square, with no app and no computer: crop one photo to Square
+				and, before you tap Done, open the three-dot menu, tap Copy Edits, make sure Crop Aspect
+				Ratio is switched on and tap Copy, then paste onto the rest. The route is undocumented, it
+				hangs on a menu that disappears if you tap the wrong thing first, and it center-crops every
+				photo rather than reproducing your framing. We tested it on iOS 26.62 in September 2026 and
+				again on iOS 27.0 in November 2026 rather than repeating what gets published about it,
+				because what gets published about it is mostly wrong.
 			</p>
 			<p class="mb-4">
 				This is the worst-served question in the whole subject. Search it and Google returns an
-				Apple discussion thread from 2012 at the top, some YouTube tutorials, and several articles
-				that carefully explain how to crop one photo. One of the highest-ranking results states
-				flatly that the Photos app does not support cropping multiple photos at once. It does.
+				Apple discussion thread from 2012, some YouTube tutorials, and several articles that
+				carefully explain how to crop one photo. The instruction you will find most often,
+				AI-generated answers included, tells you to tap Done before copying the edit, which is the
+				one step that makes the route fail.
 			</p>
 
 			<h3 class="mt-8 mb-3 text-xl font-bold text-cocoa-ink">The route that works</h3>
@@ -432,7 +439,9 @@
 				</li>
 				<li>
 					<strong>Before you tap Done</strong>, open the three-dot menu at the top right and tap
-					<strong>Copy Edits</strong>.
+					<strong>Copy Edits</strong>. The sheet that opens has a switch for each kind of edit you
+					made: make sure only the ones you want on every photo are switched on,
+					<strong>Crop Aspect Ratio</strong> included, then tap <strong>Copy</strong>.
 				</li>
 				<li>
 					Go back to your library and select the photos you want cropped. This works on a
@@ -447,7 +456,8 @@
 			<p class="mb-4">
 				<strong>Step 2 is the whole trick.</strong> Copy Edits only appears in that menu while you are
 				still inside the editor. Tap Done and the option vanishes, which is why so many write-ups describe
-				reopening the photo afterwards and hunting for a menu item that is not there.
+				reopening the photo afterwards and hunting for a menu item that is not there. The switch is the
+				second trap: leave Crop Aspect Ratio off and tap Copy, and the crop does not copy.
 			</p>
 
 			<h3 class="mt-8 mb-3 text-xl font-bold text-cocoa-ink">What it does not do</h3>
@@ -472,9 +482,10 @@
 					rel="noopener noreferrer">iPhone guide</a
 				> lists "copy and paste edits" among the editing tools but documents editing per-photo and does
 				not describe the multi-select paste or state what a copied edit includes, so treat the behavior
-				above as tested on iOS 26.62 rather than promised, and re-check it after a major iOS update.
-				The Shortcuts app also has a Crop Image action, which is scriptable but undocumented in its parameters,
-				with at least one developer report of it stretching screenshots instead of cropping them.
+				above as tested on iOS 26.62 and iOS 27.0 rather than promised, and re-check it after a major
+				iOS update. The Shortcuts app also has a Crop Image action, which is scriptable but undocumented
+				in its parameters, with at least one developer report of it stretching screenshots instead of
+				cropping them.
 			</p>
 			<p class="mb-4">
 				<strong>If your photos are .HEIC and you also need them converted,</strong> that is a
@@ -536,27 +547,29 @@
 			</h3>
 			<p class="mb-4">
 				Two widely used libraries do try to decide where to cut. libvips exposes
-				<code>vips_smartcrop()</code>, documented as cropping an image "down to a specified width and
-				height by removing boring parts," with an <code>interesting</code> parameter that defaults to
-				an attention-based mode.
+				<code>vips_smartcrop()</code>, documented as cropping an image "down to a specified width
+				and height by removing boring parts," with an <code>interesting</code> parameter that defaults
+				to an attention-based mode.
 			</p>
 			<p class="mb-4">
-				<a href="https://sharp.pixelplumbing.com/api-resize/" target="_blank" rel="noopener noreferrer"
-					>sharp</a
-				>, which is built on libvips and is what a great many Node image pipelines use, documents two
-				strategies. Its entropy strategy focuses on the region with the highest Shannon entropy. Its
-				attention strategy focuses on the region with the highest luminance frequency, color
+				<a
+					href="https://sharp.pixelplumbing.com/api-resize/"
+					target="_blank"
+					rel="noopener noreferrer">sharp</a
+				>, which is built on libvips and is what a great many Node image pipelines use, documents
+				two strategies. Its entropy strategy focuses on the region with the highest Shannon entropy.
+				Its attention strategy focuses on the region with the highest luminance frequency, color
 				saturation and presence of skin tones. The mechanism is described as resizing so one
 				dimension hits the target, then repeatedly ranking edge regions and discarding the
 				lowest-scoring edge. Both apply only when the fit is set to <code>cover</code>.
 			</p>
 			<p class="mb-4">
 				That is genuinely useful and worth knowing about, and it is worth being precise about what
-				it is not. Ranking edges by brightness variance, saturation and skin tone is a heuristic, not
-				object recognition. It will often find a face because faces are saturated and skin-toned; it
-				will also happily find a bright reflection on a countertop. The distinction between a
-				heuristic that trims boring edges and a model that identifies the subject is the whole
-				subject of the next section.
+				it is not. Ranking edges by brightness variance, saturation and skin tone is a heuristic,
+				not object recognition. It will often find a face because faces are saturated and
+				skin-toned; it will also happily find a bright reflection on a countertop. The distinction
+				between a heuristic that trims boring edges and a model that identifies the subject is the
+				whole subject of the next section.
 			</p>
 		</section>
 
@@ -570,10 +583,10 @@
 			</p>
 			<p class="mb-4">
 				<strong>Photoshop: Actions plus Batch.</strong> Record an action that crops and resizes one image,
-				then run File > Automate > Batch over a folder with that action selected. It is the standard
-				route and it is well worn, which is why it turns up as the accepted answer in the Adobe community
-				threads that rank for these searches. Because the action replays recorded steps, expect it to
-				reproduce your crop the same way on every file rather than adapt to each one.
+				then run File > Automate > Batch over a folder with that action selected. It is the standard route
+				and it is well worn, which is why it turns up as the accepted answer in the Adobe community threads
+				that rank for these searches. Because the action replays recorded steps, expect it to reproduce
+				your crop the same way on every file rather than adapt to each one.
 			</p>
 			<p class="mb-4">
 				<strong>Lightroom Classic: crop is a syncable setting, and it syncs proportionally.</strong>
@@ -587,10 +600,10 @@
 			</p>
 			<p class="mb-4">
 				We should flag that this mechanism is described by Lightroom's user community rather than in
-				Adobe's published help pages, which we could not retrieve on this point. The practical advice
-				holds either way: sync the crop, then spot-check a handful of frames, because the same
-				proportional region is still the same framing decision applied to photos that may not deserve
-				it.
+				Adobe's published help pages, which we could not retrieve on this point. The practical
+				advice holds either way: sync the crop, then spot-check a handful of frames, because the
+				same proportional region is still the same framing decision applied to photos that may not
+				deserve it.
 			</p>
 		</section>
 
@@ -638,9 +651,9 @@
 				results, and other placements."
 			</p>
 			<p class="mb-4">
-				<strong>Instagram</strong> processes uploads "at the best quality resolution possible (up to
-				1080x1080 pixels)," and Meta's publishing documentation notes that carousel images are cropped
-				to match the first image in the carousel, defaulting to 1:1.
+				<strong>Instagram</strong> processes uploads "at the best quality resolution possible (up to 1080x1080
+				pixels)," and Meta's publishing documentation notes that carousel images are cropped to match
+				the first image in the carousel, defaulting to 1:1.
 			</p>
 			<p class="mb-4">
 				<strong>Vinted and Depop publish no image dimensions at all.</strong> This is worth stating plainly
@@ -658,9 +671,9 @@
 				you have read for those two platforms is observed app behavior, not a published requirement,
 				and it can change without anyone announcing it. We treat it the same way:
 				<a href="https://mochify.app/guides/vinted-photos-that-sell">our Vinted photo guide</a>
-				recommends a portrait crop of about 3:4 because that is what Vinted's image pipeline visibly
-				rewards, and it says plainly that Vinted sets no official spec. Both platforms display
-				portrait rather than square, so a square master is the wrong shape for them regardless;
+				recommends a portrait crop of about 3:4 because that is what Vinted's image pipeline visibly rewards,
+				and it says plainly that Vinted sets no official spec. Both platforms display portrait rather
+				than square, so a square master is the wrong shape for them regardless;
 				<a href="https://mochify.app/guides/cross-listing-marketplace-photo-requirements"
 					>the cross-listing photo requirements guide</a
 				> covers running one photo set across platforms that disagree about shape.
@@ -714,20 +727,22 @@
 			<GlassInfoBox type="note" title="On privacy, precisely">
 				Images travel over HTTPS to <code>api.mochify.app</code>, are processed in memory, and are
 				wiped immediately, with no disk writes and no logs containing file data. That is true of the
-				web app, the CLI, the API and both MCP surfaces alike, because all of them are clients over
-				the same engine. We say it that way rather than claiming your images never leave your
-				machine, because for image work that would not be true. If you also need metadata stripped,
-				EXIF including GPS is removed by default through the API unless you explicitly opt out;
+				web app, the CLI, the API and the local MCP server, because all of them are clients over the
+				same engine. The hosted MCP server wipes the original the same way and holds the finished
+				file for five minutes on files.mochify.app, so your assistant can give you a download link.
+				We say it that way rather than claiming your images never leave your machine, because for
+				image work that would not be true. If you also need metadata stripped, EXIF including GPS is
+				removed by default through the API unless you explicitly opt out;
 				<a href="https://mochify.app/guides/exif-data-risks-image-compression-2026"
 					>our guide to EXIF risks in image compression</a
 				> covers what is in those fields and why it matters for public listings.
 			</GlassInfoBox>
 
 			<p class="mt-6 mb-4">
-				<strong>Allowances.</strong> Three images a month with no account at all, 25 a month with a free
-				account, 3 files per batch, 20MB per file. Seller and Pro raise that to 25 files per batch at
-				75MB each. A Day Pass is $2.99 for 100 uploads within 24 hours with no account, which is the honest
-				answer for a one-off catalog. Current numbers are on
+				<strong>Allowances.</strong> Three images a month with no account at all, 25 a month with a
+				free account, 3 files per batch, 20MB per file. Seller, Pro and Growth raise that to 25
+				files per batch at 75MB each. A Day Pass gives you 100 uploads within 24 hours with no
+				signup, which is the honest answer for a one-off catalog. Current numbers are on
 				<a href="https://mochify.app/pricing">the pricing page</a>.
 			</p>
 			<p class="mb-4">
@@ -852,9 +867,8 @@
 			href="https://mochify.app"
 			label="Open Mochify →"
 		>
-			Drop them into Mochify and prompt <em>"square crop these to 1000px"</em> to get every file
-			cropped around its own subject in one pass, instead of stamping the same rectangle on all of
-			them.
+			Drop them into Mochify and prompt <em>"square crop these to 1000px"</em> to get every file cropped
+			around its own subject in one pass, instead of stamping the same rectangle on all of them.
 		</GlassCTA>
 
 		<RelatedGuidesGrid guides={related} />
