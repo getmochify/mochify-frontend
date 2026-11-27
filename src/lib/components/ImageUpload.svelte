@@ -525,6 +525,12 @@
 	// first drop for everyone else — see the tier effect above.
 	let availableTokens: number = $state(0);
 	let hasCheckedTokens: boolean = $state(false);
+	// A known zero, not an unknown: an unseeded bucket is Infinity and a failed
+	// check leaves hasCheckedTokens false, so neither empties the batch. The
+	// server's 429 stays the source of truth either way.
+	const allowanceExhausted = $derived(
+		hasCheckedTokens && Number.isFinite(availableTokens) && availableTokens <= 0
+	);
 	// Set once any usage check has finished, success or not: the cached badge
 	// below must not outlive a failed check and sit there as a stale number.
 	let tokenCheckSettled: boolean = $state(false);
@@ -750,8 +756,9 @@
 	//
 	// The allowance rule is the same one processFiles applies to a fresh drop:
 	// some uploads left but fewer than staged trims back to what they cover; at
-	// zero the tray fills anyway, so the allowance box can offer the routes.
+	// zero nothing moves, and the allowance box offers the routes over the queue.
 	function refillFromQueue(): number {
+		if (allowanceExhausted) return 0;
 		const room = batchLimit - selectedFiles.length;
 		if (room <= 0 || queuedFiles.length === 0) return 0;
 		const pulled = queuedFiles.slice(0, room);
@@ -774,7 +781,6 @@
 		if (
 			hasCheckedTokens &&
 			Number.isFinite(availableTokens) &&
-			availableTokens > 0 &&
 			selectedFiles.length > availableTokens
 		) {
 			trimToAvailable();
@@ -1000,10 +1006,10 @@
 		// token fetched at the top of this ingest is reused, not fetched again.
 		await checkTokenLimit(await tierRefresh);
 
-		// Some uploads left but fewer than staged: stage what the allowance
-		// covers, the way the batch cap does, and let the allowance box say so.
-		// At zero there is nothing to stage, so the tray stays as dropped and the
-		// box offers the routes instead.
+		// Fewer uploads left than staged: stage what the allowance covers, the
+		// way the batch cap does, and let the allowance box say so. At zero that
+		// is nothing, so every file waits in the queue: three tiles that looked
+		// ready to convert beside "Nothing has been uploaded" said two things.
 		//
 		// Never during a run: processFile writes results by tray index, so a trim
 		// that lands mid-run (a drop while converting, or this ingest's token
@@ -1014,7 +1020,6 @@
 			!isLoading &&
 			hasCheckedTokens &&
 			Number.isFinite(availableTokens) &&
-			availableTokens > 0 &&
 			selectedFiles.length > availableTokens
 		) {
 			const offered = selectedFiles.length + queuedFiles.length;
@@ -1050,7 +1055,7 @@
 		cachedBadge = readUsageBadge();
 	});
 	const liveBadgeVisible = $derived(
-		hasCheckedTokens && tierResolved && (isAuthed || stagedCount > 0)
+		hasCheckedTokens && tierResolved && (isAuthed || stagedCount + queuedFiles.length > 0)
 	);
 	const showCachedBadge = $derived(
 		!!cachedBadge && !liveBadgeVisible && !(tierResolved && (!isAuthed || tokenCheckSettled))
@@ -1110,11 +1115,16 @@
 	// Safe against false positives by construction: an unseeded bucket resolves
 	// to Infinity (see checkTokenLimit) so Number.isFinite screens it out, and a
 	// failed check leaves hasCheckedTokens false, which fails open.
+	//
+	// At zero the batch is empty and everything waits in the queue (see
+	// allowanceExhausted), so the wall also holds for an empty batch with files
+	// queued behind it.
 	const insufficientTokens = $derived(
 		hasCheckedTokens &&
-			stagedCount > 0 &&
 			Number.isFinite(availableTokens) &&
-			stagedCount > availableTokens
+			(stagedCount > 0
+				? stagedCount > availableTokens
+				: queuedFiles.length > 0 && availableTokens <= 0)
 	);
 
 	// How many staged files the remaining tokens can actually cover. Only
@@ -1180,7 +1190,7 @@
 	// Backstop for the paths that never fire a dragover: the file picker, and
 	// files handed over by a parent surface.
 	$effect(() => {
-		if (stagedCount > 0 || hasOversized) loadLocalPrices();
+		if (stagedCount > 0 || queuedFiles.length > 0 || hasOversized) loadLocalPrices();
 	});
 
 	// Everything the user handed us was oversized — there is nothing to convert,
@@ -1230,6 +1240,9 @@
 	// "{done} done, {N} to go"; {N} is everything still here, batch and queue.
 	let doneThisVisit = $state(0);
 	const filesLeft = $derived(stagedCount + queuedFiles.length);
+	// What the wall button offers to convert: the batch, or with nothing left
+	// to spend (an empty batch), everything waiting.
+	const wallCount = $derived(stagedCount > 0 ? stagedCount : filesLeft);
 	// "all {N}" is only promised when the pass offered for N covers them.
 	const passCovers = (n: number) => {
 		const { ops } = passForDrop(n);
@@ -1295,7 +1308,7 @@
 			: allowanceTrim
 				? { kind: 'allowance', k: allowanceTrim.staged, n: allowanceTrim.offered }
 				: insufficientTokens
-					? { kind: 'allowance', k: trimTarget, n: stagedCount }
+					? { kind: 'allowance', k: trimTarget, n: stagedCount + queuedFiles.length }
 					: queuedFiles.length > 0
 						? { kind: 'batch-cap' }
 						: hasCheckedTokens && stagedCount > 0 && monthlyUploadsRemaining > 0
@@ -1357,8 +1370,9 @@
 			return;
 		}
 
-		// Shake only if they literally haven't added files
-		if (selectedFiles.length === 0) {
+		// Shake only if they literally haven't added files (an empty batch with
+		// files queued behind a used-up allowance is the wall, handled below)
+		if (selectedFiles.length === 0 && !insufficientTokens) {
 			shaking = true;
 			setTimeout(() => (shaking = false), 400);
 			return;
@@ -2727,18 +2741,27 @@
              Frosted so they read as "yours, not yet" rather than as part of this
              batch; the batch box below says what moves them. -->
 		{#each queuedFiles.slice(0, QUEUE_VISIBLE) as queued (queued.file)}
-			<div class="group relative flex-shrink-0" title="{queued.file.name} (next batch)">
+			<!-- With the allowance used up every file waits here, and seeing your
+			     own photos is the point of the wall, so they frost only lightly. -->
+			<div
+				class="group relative flex-shrink-0"
+				title="{queued.file.name} ({allowanceExhausted ? 'waiting' : 'next batch'})"
+			>
 				<div
 					class="relative h-16 w-16 overflow-hidden rounded-2xl border border-dashed border-pink-200 bg-mochi-bg p-1"
 				>
 					{#if queued.thumbnailUrl}
 						<img
 							src={queued.thumbnailUrl}
-							alt="{queued.file.name}, waiting for the next batch"
+							alt="{queued.file.name}, {allowanceExhausted
+								? 'waiting to convert'
+								: 'waiting for the next batch'}"
 							width="64"
 							height="64"
 							draggable="false"
-							class="h-full w-full scale-110 rounded-xl object-cover opacity-60 blur-[3px]"
+							class="h-full w-full scale-110 rounded-xl object-cover {allowanceExhausted
+								? 'opacity-80 blur-[1px]'
+								: 'opacity-60 blur-[3px]'}"
 						/>
 					{:else}
 						<div
@@ -3600,7 +3623,7 @@
 	<!-- Also mounts on a tray of nothing-but-blocked files: that is precisely the
          state whose only way forward is the size upsell, and gating this block on
          selectedFiles alone used to make blockedByFileSize unreachable. -->
-	{#if stagedCount > 0 || hasOversized}
+	{#if stagedCount > 0 || hasOversized || insufficientTokens}
 		<!-- Submit / CTA button. Absent when the tray holds only files over 75MB:
              no plan takes them, so there is no action to offer. -->
 		<div class="px-4 pb-4 sm:px-6" class:hidden={blockedByFileSize && inBandFiles.length === 0}>
@@ -3657,9 +3680,9 @@
 						{guestWallWithQueue
 							? `Convert ${passCovers(filesLeft)} with a ${passOffer(filesLeft).name} (${passOffer(filesLeft).price})`
 							: allowanceDayPass
-								? `Get a Day Pass to convert ${stagedCount} image${stagedCount !== 1 ? 's' : ''}`
+								? `Get a Day Pass to convert ${wallCount} image${wallCount !== 1 ? 's' : ''}`
 								: !isAuthed
-									? `Create free account to convert ${stagedCount} image${stagedCount !== 1 ? 's' : ''}`
+									? `Create free account to convert ${wallCount} image${wallCount !== 1 ? 's' : ''}`
 									: 'See plans to continue'}
 					</span>
 				{:else if blockedByFileSize}
@@ -3769,20 +3792,21 @@
 						{#if fileProgress.length + queuedFiles.length >= NOTIFY_MIN_FILES}
 							· <NotifyMeLink surface="manual" />
 						{/if}
-					{:else if stagedCount > 0 || hasOversized}
+					{:else if stagedCount > 0 || queuedFiles.length > 0 || hasOversized}
 						<!-- "in this batch", not "ready": nothing has been processed. -->
 						{#if stagedCount > 0}
 							{stagedCount} in this batch
 						{/if}
 						{#if queuedFiles.length > 0}
-							· {queuedFiles.length} waiting
+							{#if stagedCount > 0}·{/if}
+							{queuedFiles.length} waiting
 						{/if}
 						{#if inBandFiles.length > 0}
-							{#if stagedCount > 0}·{/if}
+							{#if stagedCount > 0 || queuedFiles.length > 0}·{/if}
 							{inBandFiles.length} over {maxFileSizeMb}MB
 						{/if}
 						{#if overMaxFiles.length > 0}
-							{#if stagedCount > 0 || inBandFiles.length > 0}·{/if}
+							{#if stagedCount > 0 || queuedFiles.length > 0 || inBandFiles.length > 0}·{/if}
 							{overMaxFiles.length} over {paidFileSizeMb}MB
 						{/if}
 						{#if stagedCount > 1 || hasOversized || queuedFiles.length > 0}
