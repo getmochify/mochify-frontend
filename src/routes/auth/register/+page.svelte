@@ -313,7 +313,7 @@
 									: ''}.
 							</p>
 							<p
-								class="mt-4 rounded-2xl bg-[#FFF5F8] px-4 py-3 text-xs leading-relaxed text-cocoa-milk/80"
+								class="mt-4 rounded-2xl bg-mochi-blush px-4 py-3 text-xs leading-relaxed text-cocoa-milk/80"
 							>
 								Not there after a minute? Check your spam or promotions folder. The link works for
 								24 hours.
