@@ -2770,9 +2770,12 @@
 								: ''}"
 						></div>
 					{/if}
+					<!-- On a disc so the clock reads over any photo now that the
+					     thumbnail is only lightly frosted. bg-white is the dark card
+					     in the dark theme, so one disc serves both. -->
 					<div class="absolute inset-0 flex items-center justify-center">
 						<svg
-							class="h-5 w-5 text-mochi-pink/80 drop-shadow-sm"
+							class="h-6 w-6 rounded-full bg-white/90 p-0.5 text-mochi-pink shadow-sm"
 							fill="none"
 							stroke="currentColor"
 							stroke-width="2"
